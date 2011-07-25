@@ -1,0 +1,55 @@
+$(document).ready(function(){
+   generateContents();
+ });
+ 
+ 
+function generateContents() {
+
+	h1iter = 0;
+	h2iter = 0;
+	h3iter = 0;
+	h4iter = 0;
+
+	$('h1[id], h2[id], h3[id], h4[id]').each(function() {
+		
+		if($(this).is('h1')) {
+			h1iter++;
+			h2iter = h3iter = h4iter = 0;
+			
+			clazz = 'h1-title';
+			numberator = h1iter;
+			
+		} else if($(this).is('h2')) {
+			h2iter++;
+			h3iter = h4iter = 0;
+			
+			clazz = 'h2-title';
+			numberator = h1iter + '.' + h2iter;
+			
+		} else if($(this).is('h3')) {
+			h3iter++;
+			h4iter = 0;
+			
+			clazz = 'h3-title';
+			numberator = h1iter + '.' + h2iter + '.' + h3iter;
+			
+		} else if($(this).is('h4')) {
+			h4iter++;
+			
+			clazz = 'h4-title';
+			numberator = h1iter + '.' + h2iter + '.' +  h3iter + '.' + h4iter;
+		}
+		
+        $(this).addClass('haslink');
+        $(this).append(
+            '<a class="anchor" href="#'
+            + $(this).attr("id")
+            + '"></a>'
+        );
+		 $(this).prepend('<span class="numberator">' + numberator + '</span> ');
+		
+		
+		ref = $('nav ul').append('<li class="' + clazz + '"><a href="#' + $(this).attr("id") + '">' + $(this).html() + '</a></li>');
+		ref.children().children().filter('.anchor').remove();
+    });
+}

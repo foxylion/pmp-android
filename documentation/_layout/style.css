@@ -1,0 +1,96 @@
+body, div, nav, span, a, h1, h2, h3, h4 {
+	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
+	font-size: 1em;
+}
+
+div#page-title {
+	font-size: 2.5em;
+	font-weight: bold;
+	border-bottom: 5px solid #000000;
+}
+
+h1, h2, h3, h4 {
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+h1 span.numberator,
+h2 span.numberator,
+h3 span.numberator,
+h4 span.numberator {
+	width: 75px;
+	display: block;
+	float: left;
+}
+
+h1 {
+	font-size: 2em;
+	border-bottom: 2px solid #000000;
+	margin-top: 2em;
+}
+
+h2 {
+	font-size: 1.6em;
+	margin-top: 1.0em;
+}
+
+h3 {
+	font-size: 1.3em;
+	margin-top: 1.0em;
+}
+
+h4 {
+	font-size: 1.2em;
+	margin-top: 1.0em;
+}
+
+p {
+	margin-top: 0;
+	padding-top: 0;
+}
+	
+/* Navigation */
+nav {
+	border-radius: 10px;
+	border: 1px solid #000000;
+	background-color: #999999;
+	color: #ffffff;
+	margin: 10px;
+	padding: 10px;
+}
+
+nav div.title {
+	font-size: 1.5em;
+	font-weight: bold;
+	border-bottom: 2px solid #ffffff;
+}
+
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li a {
+	color: #ffffff;
+}
+
+nav ul li.h1-title {
+	padding-left: 20px;
+}
+nav ul li.h2-title {
+	padding-left: 40px;
+}
+nav ul li.h3-title {
+	padding-left: 60px;
+}
+nav ul li.h4-title {
+	padding-left: 80px;
+}
