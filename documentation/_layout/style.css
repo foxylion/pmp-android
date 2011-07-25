@@ -8,8 +8,7 @@
 div#page-head-title {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #6495ED;
-	margin-top: 10px;
+	color: #3366FF;
 	margin-bottom: 50px;
 	border-bottom: 1px solid #000000;
 }
@@ -17,7 +16,7 @@ div#page-head-title {
 div#page-head-date {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #6495ED;
+	color: #3366FF;
 	text-align: center;
 	float: right;
 }
@@ -78,22 +77,45 @@ p {
 	margin-top: 0;
 	padding-top: 0;
 }
-	
+
+div#wrapper {
+	position: relative;
+	width: 550pt;
+	left: 50%;
+	margin-left: -300px;
+	margin-bottom: 25px;
+	padding: 20pt;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	box-shadow: 5px 5px 5px #555555;
+}
+
 /* Navigation */
 nav {
-	border-radius: 10px;
-	border: 1px solid #000000;
-	background-color: #EEEEEE;
 	color: #000000;
 	margin: 10px;
 	padding: 10px;
 }
 
+nav {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	margin-left: -600px;
+	width: 250px;
+	max-height: 95%;
+	overflow: auto;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	box-shadow: 5px 5px 5px #555555;
+}
+
 nav div.title {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #6495ED;
+	color: #3366FF;
 	border-bottom: 1px solid #000000;
+	padding-top: 10pt;
 }
 
 nav ul {
@@ -107,12 +129,15 @@ nav ul {
 nav ul li {
 	margin: 0;
 	padding: 0;
-	font-size: 1.1em;
 }
 
 nav ul li a {
 	color: #000000;
 	text-decoration: none;
+	display: block;
+}
+nav ul li a:hover {
+	background-color: #dddddd;
 }
 
 nav ul li.h1-title {
