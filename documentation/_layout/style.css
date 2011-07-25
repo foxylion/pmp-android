@@ -1,16 +1,43 @@
 body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+div#page-head-title {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #6495ED;
+	margin-top: 10px;
+	margin-bottom: 50px;
+	border-bottom: 1px solid #000000;
+}
+
+div#page-head-date {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #6495ED;
+	text-align: center;
+	float: right;
 }
 
 div#page-title {
-	font-size: 2.5em;
+	font-size: 3.0em;
 	font-weight: bold;
-	border-bottom: 5px solid #000000;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+div#page-version {
+	font-size: 1.5em;
+	text-align: center;
+	margin-bottom: 80px;
 }
 
 h1, h2, h3, h4 {
 	margin: 0;
+	margin-bottom: 0.3em;
 	padding: 0;
 	font-weight: bold;
 	text-decoration: none;
@@ -20,14 +47,15 @@ h1 span.numberator,
 h2 span.numberator,
 h3 span.numberator,
 h4 span.numberator {
-	width: 75px;
+	width: 60px;
 	display: block;
 	float: left;
 }
 
 h1 {
 	font-size: 2em;
-	border-bottom: 2px solid #000000;
+	color: #000000;
+	border-bottom: 1px solid #000000;
 	margin-top: 2em;
 }
 
@@ -55,8 +83,8 @@ p {
 nav {
 	border-radius: 10px;
 	border: 1px solid #000000;
-	background-color: #999999;
-	color: #ffffff;
+	background-color: #EEEEEE;
+	color: #000000;
 	margin: 10px;
 	padding: 10px;
 }
@@ -64,26 +92,32 @@ nav {
 nav div.title {
 	font-size: 1.5em;
 	font-weight: bold;
-	border-bottom: 2px solid #ffffff;
+	color: #6495ED;
+	border-bottom: 1px solid #000000;
 }
 
 nav ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 nav ul li {
 	margin: 0;
 	padding: 0;
+	font-size: 1.1em;
 }
 
 nav ul li a {
-	color: #ffffff;
+	color: #000000;
+	text-decoration: none;
 }
 
 nav ul li.h1-title {
 	padding-left: 20px;
+	font-weight: bold;
 }
 nav ul li.h2-title {
 	padding-left: 40px;
