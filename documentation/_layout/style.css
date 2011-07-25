@@ -42,6 +42,20 @@ h1, h2, h3, h4 {
 	text-decoration: none;
 }
 
+table { 
+width:100%; 
+border:1px solid #000000; 
+empty-cells:hide
+}
+
+td {
+vertical-align:top; 
+}
+
+td.even {
+background-color: #FF0000;
+}
+
 h1 span.numberator,
 h2 span.numberator,
 h3 span.numberator,
