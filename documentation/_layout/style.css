@@ -8,7 +8,7 @@
 div#page-head-title {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #3366FF;
+	color: #365f91;
 	margin-bottom: 50px;
 	border-bottom: 1px solid #000000;
 }
@@ -16,7 +16,7 @@ div#page-head-title {
 div#page-head-date {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #3366FF;
+	color: #365f91;
 	text-align: center;
 	float: right;
 }
@@ -53,7 +53,7 @@ h4 span.numberator {
 
 h1 {
 	font-size: 2em;
-	color: #000000;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 	margin-top: 2em;
 }
@@ -101,8 +101,8 @@ nav {
 	position: fixed;
 	top: 0;
 	left: 50%;
-	margin-left: -600px;
-	width: 250px;
+	margin-left: -650px;
+	width: 300px;
 	max-height: 95%;
 	overflow: auto;
 	border: 1px solid #cccccc;
@@ -113,7 +113,7 @@ nav {
 nav div.title {
 	font-size: 1.5em;
 	font-weight: bold;
-	color: #3366FF;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 	padding-top: 10pt;
 }
