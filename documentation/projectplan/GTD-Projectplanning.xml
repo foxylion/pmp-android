@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project SYSTEM "gtdmanager.dtd">
+<project vendor-id="Gruppe 5" version="1.3.2">
+<name>PMP</name>
+<property name="view" value="0"/>
+<property name="fontsize" value="10"/>
+<property name="zoomfactor" value="100"/>
+<property name="export-width" value="29.7"/>
+<property name="export-height" value="21.0"/>
+<property name="export-dpi" value="72.0"/>
+<property name="export-standartsize" value="DIN A4 quer"/>
+<instance>
+<name>PMP</name>
+<creation-date date="26" month="7" year="2011"/>
+<start-date date="26" month="7" year="2011"/>
+<end-date date="30" month="11" year="2011"/>
+<activity id="-1785464096">
+<name>Spezifikation</name>
+<short-name>SPEZ</short-name>
+<start-date date="26" month="7" year="2011"/>
+<end-date date="4" month="9" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="645681602" type="begin-begin"/>
+<dependency activity-id="-235390801" type="begin-begin"/>
+<dependency activity-id="-2019284127" type="end-end"/>
+<activity id="645681602">
+<name>Kundenbefragung</name>
+<short-name>BEFR1</short-name>
+<start-date date="26" month="7" year="2011"/>
+<end-date date="27" month="7" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-570588919" type="begin-end"/>
+<dependency activity-id="-1785464096" type="begin-begin"/>
+</activity>
+<activity id="-235390801">
+<name>Projektplan</name>
+<short-name>PPL</short-name>
+<start-date date="26" month="7" year="2011"/>
+<end-date date="4" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-1785464096" type="begin-begin"/>
+</activity>
+<activity id="-570588919">
+<name>Analyse</name>
+<short-name>ANAL</short-name>
+<start-date date="27" month="7" year="2011"/>
+<end-date date="1" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="645681602" type="end-begin"/>
+<dependency activity-id="296954157" type="begin-end"/>
+<dependency activity-id="1699044499" type="begin-end"/>
+<dependency activity-id="1742415670" type="begin-end"/>
+</activity>
+<activity id="1699044499">
+<name>Modellierung</name>
+<short-name>MOD</short-name>
+<start-date date="1" month="8" year="2011"/>
+<end-date date="22" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-570588919" type="end-begin"/>
+</activity>
+<activity id="1742415670">
+<name>Prototyp</name>
+<short-name>PROTO</short-name>
+<start-date date="1" month="8" year="2011"/>
+<end-date date="22" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-570588919" type="end-begin"/>
+</activity>
+<activity id="296954157">
+<name>Spezifikation</name>
+<short-name>SPEZ</short-name>
+<start-date date="1" month="8" year="2011"/>
+<end-date date="28" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-570588919" type="end-begin"/>
+<dependency activity-id="2048032541" type="begin-end"/>
+</activity>
+<activity id="2048032541">
+<name>Spezifikations Review</name>
+<short-name>SPEZR</short-name>
+<start-date date="28" month="8" year="2011"/>
+<end-date date="29" month="8" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="296954157" type="end-begin"/>
+<dependency activity-id="-2019284127" type="begin-end"/>
+</activity>
+<activity id="-2019284127">
+<name>Spezifikations Korrektur</name>
+<short-name>SPEZK</short-name>
+<start-date date="30" month="8" year="2011"/>
+<end-date date="4" month="9" year="2011"/>
+<property name="keep-length" value="false"/>
+<property name="move-dependencies" value="true"/>
+<dependency activity-id="-1785464096" type="end-end"/>
+<dependency activity-id="2048032541" type="end-begin"/>
+</activity>
+</activity>
+</instance>
+</project>
