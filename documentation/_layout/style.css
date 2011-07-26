@@ -1,4 +1,8 @@
-﻿body, div, nav, span, a, h1, h2, h3, h4 {
+﻿body {
+	background-color: #eeeeee;
+}
+
+body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
 	margin-left: 5px;
@@ -97,11 +101,12 @@ div#wrapper {
 	width: 550pt;
 	left: 50%;
 	margin-left: -200px;
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 	padding: 20pt;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	box-shadow: 5px 5px 5px #555555;
+	background-color: #ffffff;
 }
 
 /* Navigation */
@@ -122,6 +127,7 @@ nav {
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	box-shadow: 5px 5px 5px #555555;
+	background-color: #ffffff;
 }
 
 nav div.title {
