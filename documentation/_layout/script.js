@@ -58,4 +58,10 @@ function writeReferences() {
 		$(this).html('<a href="#' + $($(this).attr("title")).attr("id") + '">' + $($(this).attr("title")).html() + '</a>');
 		$(this).children().filter('.anchor').remove();
 	});
+	
+	$('.reference.noIndex').each(function() {
+		$(this).html('<a href="#' + $($(this).attr("title")).attr("id") + '">' + $($(this).attr("title")).html() + '</a>');
+		$(this).children().filter('.anchor').remove();
+		$(this).children().children().filter('.numberator').remove();
+	});
 }
