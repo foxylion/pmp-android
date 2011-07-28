@@ -1,10 +1,10 @@
 $(document).ready(function(){
-   generateContents();
- });
+	generateContents();
+	writeReferences();
+});
  
  
 function generateContents() {
-
 	h1iter = 0;
 	h2iter = 0;
 	h3iter = 0;
@@ -42,9 +42,7 @@ function generateContents() {
 		
         $(this).addClass('haslink');
         $(this).append(
-            '<a class="anchor" href="#'
-            + $(this).attr("id")
-            + '"></a>'
+            '<a class="anchor" href="#' + $(this).attr("id") + '"></a>'
         );
 		 $(this).prepend('<span class="numberator">' + numberator + '</span> ');
 		
@@ -52,4 +50,12 @@ function generateContents() {
 		ref = $('nav ul').append('<li class="' + clazz + '"><a href="#' + $(this).attr("id") + '">' + $(this).html() + '</a></li>');
 		ref.children().children().filter('.anchor').remove();
     });
+}
+
+
+function writeReferences() {
+	$('.reference').each(function() {
+		$(this).html('<a href="#' + $($(this).attr("title")).attr("id") + '">' + $($(this).attr("title")).html() + '</a>');
+		$(this).children().filter('.anchor').remove();
+	});
 }
