@@ -53,17 +53,27 @@
 					
 			<h1 id="entwicklungsprozess">Entwicklungsprozess</h1>
 				<h2 id="strategie_entwicklung_integration">Strategie für die Entwicklung und Integration</h2>
-					<p></p>
+					<p>Für die Entwicklung wird ein iterativer Prozess angestrebt. Dabei soll eine Iteration etwa 2 Monate lang dauern und einen präzise definierten Entwicklungsfortschritt des gesamten Systems umfassen. Innerhalb der Iteration wird dazu ein Wasserfallmodell angewandt, um innerhalb der kurzen Zeitspanne möglichst zügig und dynamisch entwickeln zu können. Dies bedeutet insbesondere, dass die Richtung gegen den normalen Fluss nur im Ausnahmefall beschritten werden und der klare Fokus auf der zügigen Durchführung des Wasserfalls liegen sollte.</p>
+					<p>Um die Integration zu realisieren, soll das stetige Modell der "Continous Integration" eingesetzt werden.</p>
 				<h2 id="projektspez_abweichungen_vom_stdprozess">Projektspezifische Abweichungen vom Standardprozess</h2>
-					<p></p>
+					<p>Muss hier was hin?</p>
 				<h2 id="phasen_der_entwicklung">Phasen der Entwicklung</h2>
-					<p></p>
+					<p>Die Entwicklung wird in mehrere Iterationen gegliedert, die klar abgegrenzte Phasen darstellen. Innerhalb einer Iteration werden dann folgende Phasen durchlaufen, wobei eine Phase durch den Wasserfallprozess unter Umständen mehrfach durchlaufen wird:</p>
+					<ul>
+						<li>Spezifikation, Modellierung & Prototyping</li>
+						<li>Review & Korrektur der Spezifikation</li>
+						<li>Entwurf</li>
+						<li>Implementation & Modultest</li>
+						<li>Integration???</li>
+						<li>Handbuch</li>
+						<li>Systemtest</li>
+						<li>Abnahme</li>
+					</ul>
 				<h2 id="dokumentationsplan">Dokumentationsplan</h2>
-					<p>ALle Dokumente einheitlich in HTML, Layout, bla</p>
+					<p>Alle eigenständig entstehenden Dokumente werden einheitlich in HTML verfasst, da dies sowohl einfach bearbeitbar als auch gut versionierbar ist. Dokumentation im Code soll durch JavaDoc-Kommentare gemäß den entsprechenden Richtlinien ununterbrochen stattfinden.</p>
 				<h2 id="pruefungen">Prüfungen (Reviews und Tests)</h2>
-					<p>Spezifikationsreview in jeder Iteration<br/>
-						Entwurfsreview in der ERSTEN Iteration!
-						</p>
+					<p>Das Spezifikationsreview soll in jeder Iteration stattfinden, um die Fehler der Spezifikation besonders unter Kontrolle zu behalten, da diese sehr gravierende Auswirkungen haben können. Da insbesondere auch in der ersten Iteration mit dem Entwurf das Grundsystem wesentlich modelliert wird und weitere Änderungen nicht unbedingt einfach zu realisieren wären, wird in der ersten Iteration zudem ein Review des Entwurfs stattfinden.</p>
+					<p>Im Laufe der Implementierung sollen kontinuierlich Modultests entstehen, die nicht vom Codierer des Moduls verfasst werden sollen. Dazu wird durch die kontinuierliche Integration auch ein weiterer stetiger Test stattfinden. Dazu soll ein abschließender Systemtest in jeder Iteration stattfinden.</p>
 					
 			<h1 id="risiken">Risiken</h1>
 				<h2 id="risiken_und_ihre_bewertung">Risiken und ihre Bewertung</h2>
