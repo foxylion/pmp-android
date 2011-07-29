@@ -1,6 +1,25 @@
 Notizen zu den Anforderungen
 ============================
 
+Allgemein
+
+- Lauffähig ab Android 2.1.1
+
+- Darf keine Änderungen/Anpassungen an Android erfordern
+
+- Muss ohne Root-Rechte auskommen
+
+- Leicht bedienbar (im Simple-Mode), leichtes Erstellen von Levels und Einbinden von
+  Ressoucren
+  
+- Erstellen des Handbuchs (auf deutsch) entsprechen bis zur aktuellen
+  Iteration implmentierten Funktionen
+
+- Erscheinungsbild muss sich in das System integrieren (Farbschema, Schrift etc)
+
+- Kurze Reaktionszeiten (flüssige Bedienung)
+
+
 1. Iteration
 
 - Prototyp für GUI erstellen
@@ -27,6 +46,12 @@ Notizen zu den Anforderungen
 
 - Einfache Demo-App (z.B. nur ein Button "Aktion ausführen") die auf die 
   Test-Ressource zugreift
+  
+- Einfaches Privacy-Level. Weitere sollen sich leicht (am besten ohne Änderungen am
+  Code) hinzufügen lassen.
+  
+- Einfache Definition der Service-Level (ohne Änderungen am Code hinzufügbar)
+  Definition am Besten als XML -> XML-Scheme entwerfen
 
 
 Spätere Iterationen:
@@ -56,3 +81,9 @@ Spätere Iterationen:
 - "Market" für Ressourcen
 
 - Integration der Hilfe/Handbuch in PMP???
+
+- Implementierung und Integration von Standard-Ressourcen
+
+- Domänespezifisch?
+
+- Server?
