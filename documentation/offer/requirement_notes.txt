@@ -1,33 +1,36 @@
 Notizen zu den Anforderungen
 ============================
 
+Hinweis: 
+Alle Punkte, die mit "[-" beginnen, wurden bereits in die "requirements.html" übernommen
+
+
 Allgemein
 
-- Lauffähig ab Android 2.1.1
+[- Lauffähig ab Android 2.1.1                                                                      
 
-- Darf keine Änderungen/Anpassungen an Android erfordern
+[- Darf keine Änderungen/Anpassungen an Android erfordern
 
-- Muss ohne Root-Rechte auskommen
+[- Muss ohne Root-Rechte auskommen
 
-- Leicht bedienbar (im Simple-Mode), leichtes Erstellen von Levels und Einbinden von
+[- Leicht bedienbar (im Simple-Mode), leichtes Erstellen von Levels und Einbinden von
   Ressoucren
   
-- Erstellen des Handbuchs (auf deutsch) entsprechen bis zur aktuellen
+[- Erstellen des Handbuchs (auf deutsch) entsprechen bis zur aktuellen
   Iteration implmentierten Funktionen
 
-- Erscheinungsbild muss sich in das System integrieren (Farbschema, Schrift etc)
+[- Erscheinungsbild muss sich in das System integrieren (Farbschema, Schrift etc)
 
-- Kurze Reaktionszeiten (flüssige Bedienung)
+[- Kurze Reaktionszeiten (flüssige Bedienung)
 
 
 1. Iteration
 
-- Prototyp für GUI erstellen
 
-- Konfigurations-Dialog im einfachen Modus (Simple-Mode) implementieren.
+[- Konfigurations-Dialog im einfachen Modus (Simple-Mode) implementieren.
   Schaltflächen bis Implementierung der zugehörigen Funktion mit Dummy-Event
 
-- GUI-Architektur so gestalten, das sich die GUI leicht erweitern lässt 
+[- GUI-Architektur so gestalten, das sich die GUI leicht erweitern lässt 
   (z.B. um später Experten-Modus hinzuzufügen)
 
 - GUI-Beschriftungen über I18N Schnittstelle laden
@@ -38,10 +41,10 @@ Allgemein
   (unabhängig von konkreten Ressourcen und Service-Levels)
   und implementieren.
 
-- Architektur des Ressourcen-Managers Modular bzw. offen, so dass sich später Ressourcen
+[- Architektur des Ressourcen-Managers Modular bzw. offen, so dass sich später Ressourcen
   ohne Änderungen am Ressourcen-Manager hinzufügen, entfernen und aktualisieren lassen.
 
-- Einfache Test-Ressource implementieren und in Ressourcen-Manager integrieren
+[- Einfache Test-Ressource implementieren und in Ressourcen-Manager integrieren
   (z.B. Zugriff auf Tel-Buch)
 
 - Einfache Demo-App (z.B. nur ein Button "Aktion ausführen") die auf die 

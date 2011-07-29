@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Privacy Management Platform - Design-Vorlage für Dokumente</title>
+	<script type="text/javascript" language="javascript" src="../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../_layout/script.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../_layout/print.css">
+	<!-- Folgende Zeile habe ich (Patrick) hinzugefügt, damit die Zeichensatz (UTF-8, siehe erstes Protokoll) vom Browser korrekt erkannt wird -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">25. Juli 2011</div>
+		<div id="page-head-title">Privacy Management Platform</div>
+		<div id="page-title">Anforderungen / Angebot</div>
+		<div id="page-version">Version 0.1</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the specification -->
+		<div id="content">
+			
+			<!--<h1 id="myContents1">Test1</h1>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			<h2 id="myContents1-1">SubTest1-1</h2>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			<h2 id="myContents1-2">SubTest1-2</h2>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			<h2 id="myContents1-3">SubTest1-3</h2>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			<h3 id="myContents1-3-1">SubTest1-3-1</h3>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			-->
+			
+			<h1 id="requirements">Anforderungen</h1>
+			<p>In diesem Abschnitt werden alle Anforderungen aufgelistet, die bei der Entwicklung des Systems berücksichtig werden müssen.</p>
+			
+			<h2 id="requirements-funct">Funktionale Anforderungen</h2>
+			<p>Durch den Kunden werden nachfolgende funktionale Anforderungen gestellt.</p>
+			
+			<h3 id="requirements-funct-generic">Allgemeines Anforderungen</h3>
+			<p>Nachfolgend genannte Anforderungen gelten für jede Iteration.</p>
+			<p>
+        Es wird gefordert, dass das System auf den durch den Kunden bereitgestellten Geräten 
+        lauffähig ist. Auf diesen ist Android in der Version 2.1.1 installiert. Daher muss das System 
+        mindesten ab Android in der Version 2.1.1 lauffähig und voll funktionsfähig sein.
+        Desweiteren wird gefordert, dass am Betriebssystem der Geräten keine Änderungen durchgeführt 
+        werden müssen, um das System lauffähig zu machen. Dies bedeutet insbesondere, das die PMP 
+        ohne Root-Rechte arbeiten muss.
+      </p>
+      
+      <p>
+        Der PMP liegt ein auf deutsch verfasstes Handbuch bei. Das Handbuch muss mit der in der 
+        jeweiligen Iteration entstehenden Spezifikation konsistent gehalten weden und alle bis zu dieser
+        Iteration implementierte Funktionen abdecken.
+      </p>
+      
+      
+      <h3 id="requirements-funct-iteration1">Erste Iteration</h3>
+      <p>Folgende Anforderungen werden als Ergebnis der ersten Iteration gefordert.</p>
+      
+      <p>
+        <b>Benutzeroberfläche</b>:<br>
+        Nach der ersten Iteration muss der einfache Modus der Benutzeroberfläche fertiggestellt sein.
+        Es müssen alle für diesen Dialog nötige Elemente (Schaltfläche, Eingabebereiche, etc.) vorhanden
+        sein. Für alle Elemente wird die Implementierung einer mit dem jeweiligen Element verknüpften
+        Aktion jedoch nicht verlangt. Die Aktion sollte jedoch hinzugefügt werden, sobald die 
+        entsprechende Funktionalität implementiert ist.
+        <br>
+        Bei der Gestaltung und Implementierung der Benutzeroberfläche muss darauf geachtet werden,
+        dass sich weitere Elemente, wie etwa der erweiterte Modus, leicht und ohne größere Änderungen
+        hinzufügen lassen.
+        <br>
+        Es wird verlangt, dass die Beschriftung der Elemente der Benutzeroberfläche in englischer
+        Sprache erfolgt. Jedoch ist darauf zu achten, dass sich später jerderzeit eine weitere Sprache
+        hinzufügen lässt, ohne das eine Anpassung des Programmcodes erforderlich ist.
+      </p>
+      
+      <p>
+        <b>Ressourcen-Management</b>:<br>
+        Bis zum Ende der ersten Iteration muss die Grund-Archtitektur des Ressourcen-Managers
+        ausgearbeitet und dessen Grundfunktonen implementiert sein. Hierbei ist auf eine Unabhängigkeit
+        von den später hinzugefügten, konkreten Ressourcen zu achten. Ressourcen müssen sich ohne
+        Anpassung des Programmcodes hinzufügen, entfernen und aktualisieren lassen.
+        <br>
+        Um die Funktionalität des Ressourcen-Managers testen und demonstireren zu können, sollte eine
+        einfache Ressource erstellt werden (etwa zum Zugriff auf einen Eintrag des Telefonbuchs).
+      </p>
+        
+      
+       
+			
+			<h2 id="requirements-nonfunct">Nichtfunktionale Anforderungen</h2>
+			<p>
+        <b>Einfache Bedienbarkeit:</b><br>
+        Das System muss vom Anwender im Einfachen-Modus ohne weitere Einweisungen bedienbar sein. 
+        Programmierern muss es mit Hilfe des Handbuchs möglich sein, eigene eigene Servie-Levels zu 
+        definieren, weitere Ressourcen zu erstellen und diese dem System hinzuzufügen.
+      </p>
+      
+      <p>
+        <b>Erscheinungsbild:</b><br>
+        Die Benutzeroberfläche der PMP muss sich in Android integieren und dessem Schema folgen
+        (gleiches Farbscheme und Schrift).
+      </p>
+      
+      <p>
+        <b>Reaktionszeiten:</b><br>
+        Die Reaktionszeit muss auf einem Niveau liegen, das eine interaktive und flüssige Bedienung
+        ermöglicht. Sollte sich eine länger dauernde Verzögerung nicht vermeiden lassen, muss
+        der Benutzer durch eine entsprechende Meldung (z.B. Ladebalken) hierüber informiert werden.
+      </p>
+			
+      <!--
+			<h1 id="myContents3">Test3</h1>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			
+			<h1 id="myContents4">Test4</h1>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			
+			
+			<h1 id="myContents5">Test5</h1>
+			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+		  -->
+		  
+		  <h1 id="versions">Versionshistorie</h1>
+		  <ul>
+		    <li>Version 0.1: Erste Anforderungen ausgearbeitet 
+    
+    </div>
+		<!-- // end of specification's content -->
+	</div>
+</body>
+</html>
