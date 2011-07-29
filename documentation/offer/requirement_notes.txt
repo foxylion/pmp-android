@@ -1,0 +1,58 @@
+Notizen zu den Anforderungen
+============================
+
+1. Iteration
+
+- Prototyp für GUI erstellen
+
+- Konfigurations-Dialog im einfachen Modus (Simple-Mode) implementieren.
+  Schaltflächen bis Implementierung der zugehörigen Funktion mit Dummy-Event
+
+- GUI-Architektur so gestalten, das sich die GUI leicht erweitern lässt 
+  (z.B. um später Experten-Modus hinzuzufügen)
+
+- GUI-Beschriftungen über I18N Schnittstelle laden
+
+- I18N Funktionalität implementieren oder I18N Schnittstelle als Dummy???
+
+- Grund-Struktur / Architektur des Ressourcen-Managment ausarbeiten 
+  (unabhängig von konkreten Ressourcen und Service-Levels)
+  und implementieren.
+
+- Architektur des Ressourcen-Managers Modular bzw. offen, so dass sich später Ressourcen
+  ohne Änderungen am Ressourcen-Manager hinzufügen, entfernen und aktualisieren lassen.
+
+- Einfache Test-Ressource implementieren und in Ressourcen-Manager integrieren
+  (z.B. Zugriff auf Tel-Buch)
+
+- Einfache Demo-App (z.B. nur ein Button "Aktion ausführen") die auf die 
+  Test-Ressource zugreift
+
+
+Spätere Iterationen:
+
+- Wenn I18N als Dummy, I18N so erweitern, dass es die Beschriftungs-Strings
+  aus Ressourcen-Datei lädt
+
+- GUI zur Auswahl des Service-Levels und Festlegung des Verhältnisses zwischen
+  Ressourcen-Rechte und Diensten durch Benutzer
+
+- Exportieren und Importieren der Einstellungen hinzufügen
+
+- Prüfen, ob XACML als Austausch-Format in Frage kommt (Einarbeitungs- & Integrationsaufwand)
+
+- Experten-Modus für GUI implementieren
+
+- Weitere Ressourcen hinzufügen bzw. erweitern
+
+- Demo-App um Zugriff auf weitere Ressourcen erweitern und weitere Demo-Apps hinzufügen
+
+- Service-Level Editor erstellen
+
+- Editor zur Konfiguration der Ressource (z.B. Erstellen einer XML-Konfig-Datei für die Ressource)
+
+- Anzeige der eingebundenen Ressourcen in GUI
+
+- "Market" für Ressourcen
+
+- Integration der Hilfe/Handbuch in PMP???

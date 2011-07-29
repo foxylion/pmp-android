@@ -5,8 +5,6 @@
 body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
-	margin-left: 5px;
-	margin-right: 5px;
 }
 
 div#page-head-title {
@@ -98,11 +96,11 @@ p {
 
 div#wrapper {
 	position: relative;
-	width: 550pt;
+	width: 530pt;
 	left: 50%;
 	margin-left: -200px;
 	margin-bottom: 15px;
-	padding: 20pt;
+	padding: 30pt;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	box-shadow: 5px 5px 5px #555555;
