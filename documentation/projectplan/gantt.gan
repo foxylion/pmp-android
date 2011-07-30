@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="" company="" webLink="" view-date="2011-09-05" view-index="0" gantt-divider-location="319" resource-divider-location="300" version="2.0">
+    <description/>
+    <view zooming-state="default:5" id="gantt-chart"/>
+    <view id="resource-table">
+        <field id="0" name="Ressource" width="54" order="0"/>
+        <field id="1" name="Rolle" width="45" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <only-show-weekends value="true"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
+        </day-types>
+    </calendars>
+    <tasks color="#8cb7cf">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="12" name="Angebot" color="#8cb7cf" meeting="false" start="2011-08-01" duration="4" complete="0" expand="true">
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="16" name="Anforderungen" color="#8cb7cf" meeting="false" start="2011-07-27" duration="8" complete="0" expand="true">
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="14" name="Metamodell" color="#8cb7cf" meeting="false" start="2011-07-27" duration="8" complete="0" expand="true">
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" name="Projektplan" color="#8cb7cf" meeting="false" start="2011-07-27" duration="8" complete="0" expand="true">
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" name="M0 (Angebot, Projektplan)" color="#ff0000" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2011-08-05" duration="1" complete="0" expand="true"/>
+        <task id="7" name="1. Iteration" color="#838383" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2011-08-05" duration="58" complete="0" expand="true">
+            <task id="15" name="Spezifikation" color="#8cb7cf" meeting="false" start="2011-08-06" duration="10" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="30" name="Modellierung" color="#8cb7cf" meeting="false" start="2011-08-06" duration="9" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="17" name="Prototyp" color="#8cb7cf" meeting="false" start="2011-08-10" duration="5" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="4" name="M1.1 (Spez./Modell./Prototyp)" color="#ff0000" meeting="false" start="2011-08-15" duration="1" complete="0" expand="true"/>
+            <task id="18" name="Spezifikationsreview" color="#8cb7cf" meeting="false" start="2011-08-16" duration="1" complete="0" expand="true">
+                <depend id="19" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="19" name="Spezifikationskorrektur" color="#8cb7cf" meeting="false" start="2011-08-17" duration="3" complete="0" expand="true">
+                <depend id="20" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="11" name="M1.2 (Spez.review/-korrektur)" color="#ff0000" meeting="false" start="2011-08-19" duration="1" complete="0" expand="true"/>
+            <task id="20" name="Entwurf" color="#8cb7cf" meeting="false" start="2011-08-20" duration="9" complete="0" expand="true">
+                <depend id="21" type="2" difference="0" hardness="Strong"/>
+                <depend id="22" type="2" difference="0" hardness="Strong"/>
+                <depend id="23" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="5" name="M1.3 (Entwurf)" color="#ff0000" meeting="false" start="2011-08-28" duration="1" complete="0" expand="true"/>
+            <task id="21" name="Implementierung GUI" color="#8cb7cf" meeting="false" start="2011-08-29" duration="18" complete="0" expand="true"/>
+            <task id="22" name="Implementierung Interne Daten" color="#8cb7cf" meeting="false" start="2011-08-29" duration="18" complete="0" expand="true"/>
+            <task id="23" name="Implementierung Schnittstellen" color="#8cb7cf" meeting="false" start="2011-08-29" duration="18" complete="0" expand="true"/>
+            <task id="24" name="Modultest" color="#8cb7cf" meeting="false" start="2011-09-03" duration="14" complete="0" expand="true"/>
+            <task id="25" name="Integration" color="#8cb7cf" meeting="false" start="2011-09-05" duration="14" complete="0" expand="true">
+                <depend id="27" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="6" name="M1.4 (Impl./Modultest/Integr.)" color="#ff0000" meeting="false" start="2011-09-18" duration="1" complete="0" expand="true"/>
+            <task id="26" name="Handbuch" color="#8cb7cf" meeting="false" start="2011-09-05" duration="15" complete="0" expand="true">
+                <depend id="27" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="8" name="M1.5 (Handbuch)" color="#ff0000" meeting="false" start="2011-09-19" duration="1" complete="0" expand="true"/>
+            <task id="27" name="Systemtest" color="#8cb7cf" meeting="false" start="2011-09-20" duration="4" complete="0" expand="true">
+                <depend id="29" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="29" name="Systemkorrektur" color="#8cb7cf" meeting="false" start="2011-09-24" duration="5" complete="0" expand="true">
+                <depend id="28" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" name="M1.6 (Systemtest)" color="#ff0000" meeting="false" start="2011-09-28" duration="1" complete="0" expand="true"/>
+            <task id="28" name="Abnahme" color="#8cb7cf" meeting="false" start="2011-09-29" duration="2" complete="0" expand="true"/>
+            <task id="32" name="M1.7 (Abnahme)" color="#ff0000" meeting="false" start="2011-09-30" duration="1" complete="0" expand="true"/>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd3" order="0" width="168"/>
+        <displaycolumn property-id="tpd4" order="1" width="54"/>
+        <displaycolumn property-id="tpd5" order="2" width="42"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
