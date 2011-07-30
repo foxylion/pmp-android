@@ -42,101 +42,83 @@
 			-->
 			
 			<h1 id="requirements">Anforderungen</h1>
-			<p>In diesem Abschnitt werden alle Anforderungen aufgelistet, die bei der Entwicklung des Systems berücksichtig werden.</p>
-			    
-			<h2 id="requirements-generic">Allgemeines Anforderungen</h2>
+			<p>In diesem Abschnitt werden alle Anforderungen aufgelistet, die bei der Entwicklung des Systems berücksichtig werden müssen.</p>
+			
+			<h2 id="requirements-funct">Funktionale Anforderungen</h2>
+			<p>Durch den Kunden werden nachfolgende funktionale Anforderungen gestellt.</p>
+			
+			<h3 id="requirements-funct-generic">Allgemeines Anforderungen</h3>
+			<p>Nachfolgend genannte Anforderungen gelten für jede Iteration.</p>
 			<p>
-        Nachfolgend genannte Anforderungen werden bei jeder durchgeführten
-        Iteration bearbeitet.
-      </p>
-			
-			
-			
-			<h3 id="requirements-generic-nonfunct">Nichtfunktionale Anforderungen</h3>
-			<p>
-        <b>Einfache Bedienbarkeit:</b><br>
-        Bei der Auslegung der Benutzeroberfläche wird durch Hinzufügen des einfachen
-        Modus dafür gesorgt, das die PMP von den Anwendern ohne weitere Einweisungen
-        bedienbar ist. Ebenso wird darauf geachtet, dass es Programmierern mit Hilfe
-        des Handbuchs möglich ist, auf einfache Weiße eigene Service-Levels zu definieren
-        und weitere Ressourcen zu erstellen und in die PMP zu integrieren.
+        Es wird gefordert, dass das System auf den durch den Kunden bereitgestellten Geräten 
+        lauffähig ist. Auf diesen ist Android in der Version 2.1.1 installiert. Daher muss das System 
+        mindesten ab Android in der Version 2.1.1 lauffähig und voll funktionsfähig sein.
+        Desweiteren wird gefordert, dass am Betriebssystem der Geräten keine Änderungen durchgeführt 
+        werden müssen, um das System lauffähig zu machen. Dies bedeutet insbesondere, das die PMP 
+        ohne Root-Rechte arbeiten muss.
       </p>
       
       <p>
-        <b>Erscheinungsbild:</b><br>
-        Die Benutzeroberfläche des Systems wird so erstellt, dass es dem Schema
-        der Android-Plattform folgt (d.h. gleiche Farbschemen und Schriften).
-      </p>
-      
-      <p>
-        <b>Reaktionszeiten:</b><br>
-        Bei den Reaktionszeiten wird darauf geachtet, dass sie auf einem Niveau liegen, 
-        das eine interaktive und flüssige Bedienung ermöglicht. Sollte sich eine 
-        länger dauernde Verzögerung nicht vermeiden lassen, so wird der Benutzer 
-        durch eine entsprechende Meldung (z.B. Ladebalken) hierüber informiert werden.
-      </p>
-      
-			<h3 id="requirements-generic-funct">Funktionale Anforderungen</h2>
-			
-			<p>
-			  <b>Betriebssystem:</b><br>
-			  Bei der Entwicklung des Systems wird auf eine Funktkionsfähigkeit
-			  auf den vom Kunden bereitsgestellten Geräten geachtet. Das System wird somit
-			  so entwickelt, dass es auf allen Geräten, auf denen Andorid in der Version
-			  2.1.1 installiert ist, lauffähig ist. 
-			  Es wird großer Wert darauf gelegt, dass für die Installation und Ausführung
-        der PMP keine Änderungen am Betriebssystem der Geräten erforderlich werden.
-      </p>
-          
-      <p>
-        <b>Handbuch:</b><br>
-        Um die Benutzer beim Umgang mit der PMP zu unterstützen, liegt dem System
-        ein auf deutsch verfasstes Handbuch bei. Das Handbuch wird mit den in der 
-        jeweiligen Iteration hinzugefügten Funktionen (d.h. der Spezifikation) 
-        konsistent gehalten um stets den aktuellen Funktionsumfang abzudecken.
-        Auf eine gute Verständlichkeit der Wert gelegt, um sowohl den Laien als 
-        auch den erfahrenen Benutzer oder Programm-Entwickler effektiv zu unterstützen.
-        
+        Der PMP liegt ein auf deutsch verfasstes Handbuch bei. Das Handbuch muss mit der in der 
+        jeweiligen Iteration entstehenden Spezifikation konsistent gehalten weden und alle bis zu dieser
+        Iteration implementierte Funktionen abdecken.
       </p>
       
       
-      <h2 id="requirements-funct-iteration1">Erste Iteration</h2>
-      <p>Nachfolgende Funktionen werden während der ersten Iteration bearbeitet.</p>
+      <h3 id="requirements-funct-iteration1">Erste Iteration</h3>
+      <p>Folgende Anforderungen werden als Ergebnis der ersten Iteration gefordert.</p>
       
       <p>
         <b>Benutzeroberfläche</b>:<br>
-        Innerhalb der ersten Iteration wird der einfache, auf den unerfahrene Benutzer
-        zugeschnittene, Modus erstellt. Um die Verwendbarkeit der Benutzeroberfläche
-        sicherzustellen, werden alle Elemente der Benutzeroberfläche (Schaltfläche, Eingabebereiche, etc.)
-        mit einer Aktion versehen, sobald diese implementiert ist.
+        Nach der ersten Iteration muss der einfache Modus der Benutzeroberfläche fertiggestellt sein.
+        Es müssen alle für diesen Dialog nötige Elemente (Schaltfläche, Eingabebereiche, etc.) vorhanden
+        sein. Für alle Elemente wird die Implementierung einer mit dem jeweiligen Element verknüpften
+        Aktion jedoch nicht verlangt. Die Aktion sollte jedoch hinzugefügt werden, sobald die 
+        entsprechende Funktionalität implementiert ist.
         <br>
-        Bei der Gestaltung und Implementierung der Benutzerobefläche wird 
-        darauf geachtet, dass in folgenden Iterationnen ein Hinzufügen weiterer Elemente 
-        und das ein Erweitern der Benutzeroberfläche (wie etwa das Hinzufügen des 
-        erweiterten Modus) leicht und ohne größere Anpassungen möglich ist.
+        Bei der Gestaltung und Implementierung der Benutzeroberfläche muss darauf geachtet werden,
+        dass sich weitere Elemente, wie etwa der erweiterte Modus, leicht und ohne größere Änderungen
+        hinzufügen lassen.
         <br>
-        Die Beschrieftung der Elemente erfolgt in englischer Sprache. Durch
-        auslagern der Sprach-Daten in externe Ressourcen ist das Berarbeiten
-        und Hinzufügen von Sprachen jederzeit ohne Änderungen am Programmcode möglich.
+        Es wird verlangt, dass die Beschriftung der Elemente der Benutzeroberfläche in englischer
+        Sprache erfolgt. Jedoch ist darauf zu achten, dass sich später jerderzeit eine weitere Sprache
+        hinzufügen lässt, ohne das eine Anpassung des Programmcodes erforderlich ist.
       </p>
       
       <p>
         <b>Ressourcen-Management</b>:<br>
-        Beim Ausarbeiten der Grund-Architektur und der Grundfunktionen des 
-        Ressourcen-Managers während der ersten Iteration wird darauf geachtet,
-        wird sichergestellt, dass sich Ressourcen ohne Anpassungen des Programmcodes
-        hinzufügen, entfernen und aktualisieren lassen. Der Ressourcen-Manager
-        wird also unabhängig von den konkreten Ressourcen gehalten.
+        Bis zum Ende der ersten Iteration muss die Grund-Archtitektur des Ressourcen-Managers
+        ausgearbeitet und dessen Grundfunktonen implementiert sein. Hierbei ist auf eine Unabhängigkeit
+        von den später hinzugefügten, konkreten Ressourcen zu achten. Ressourcen müssen sich ohne
+        Anpassung des Programmcodes hinzufügen, entfernen und aktualisieren lassen.
         <br>
-        Um die Funktionalität des Ressourcen-Managers testen und demonstireren zu 
-        können, wird eine einfache Ressource erstellt werden (etwa zum Zugriff 
-        auf einen Eintrag des Telefonbuchs).
+        Um die Funktionalität des Ressourcen-Managers testen und demonstireren zu können, sollte eine
+        einfache Ressource erstellt werden (etwa zum Zugriff auf einen Eintrag des Telefonbuchs).
       </p>
         
       
        
 			
-			
+			<h2 id="requirements-nonfunct">Nichtfunktionale Anforderungen</h2>
+			<p>
+        <b>Einfache Bedienbarkeit:</b><br>
+        Das System muss vom Anwender im Einfachen-Modus ohne weitere Einweisungen bedienbar sein. 
+        Programmierern muss es mit Hilfe des Handbuchs möglich sein, eigene eigene Servie-Levels zu 
+        definieren, weitere Ressourcen zu erstellen und diese dem System hinzuzufügen.
+      </p>
+      
+      <p>
+        <b>Erscheinungsbild:</b><br>
+        Die Benutzeroberfläche der PMP muss sich in Android integieren und dessem Schema folgen
+        (gleiches Farbscheme und Schrift).
+      </p>
+      
+      <p>
+        <b>Reaktionszeiten:</b><br>
+        Die Reaktionszeit muss auf einem Niveau liegen, das eine interaktive und flüssige Bedienung
+        ermöglicht. Sollte sich eine länger dauernde Verzögerung nicht vermeiden lassen, muss
+        der Benutzer durch eine entsprechende Meldung (z.B. Ladebalken) hierüber informiert werden.
+      </p>
 			
       <!--
 			<h1 id="myContents3">Test3</h1>
