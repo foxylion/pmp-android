@@ -126,3 +126,50 @@ nav ul li.h3-title {
 nav ul li.h4-title {
 	padding-left: 80px;
 }
+
+/* Labels */
+label {
+	width: 100px;
+	float: left;
+}
+
+/* Tables */
+table { 
+	width: 100%; 
+	border: 1px solid #000000; 
+	empty-cells: hide;
+	border-spacing: 2px 1px;
+	margin-top: 5px;
+}
+
+td, th {
+	vertical-align:top;
+	border-bottom: 1px solid #cccccc;
+	margin: 0;
+}
+
+tr:nth-child(2n+1) td {
+	background-color: #dddddd;
+	border-bottom: 1px solid #bbbbbb;
+}
+tr:nth-child(2n) td {
+	background-color: #eeeeee;
+	border-bottom: 1px solid #cccccc;
+}
+tr:nth-last-child(1) td {
+	border-bottom: none;
+}
+
+th {
+	background-color: #cccccc;
+	text-align: left;
+	border-bottom: 2px solid #000000;
+}
+th.left {
+	border-bottom: 1px solid #cccccc;
+	border-right: 2px solid #000000;
+}
+
+td ul {
+	margin: 0;
+}
