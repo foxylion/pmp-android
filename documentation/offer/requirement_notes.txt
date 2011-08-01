@@ -2,7 +2,7 @@ Notizen zu den Anforderungen
 ============================
 
 Hinweis: 
-Alle Punkte, die mit "[-" beginnen, wurden bereits in die "requirements.html" übernommen
+Alle Punkte, die mit "[-" beginnen, wurden bereits in die "offer.html" übernommen
 
 
 Allgemein
