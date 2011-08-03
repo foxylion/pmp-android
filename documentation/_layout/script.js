@@ -64,4 +64,8 @@ function writeReferences() {
 		$(this).children().filter('.anchor').remove();
 		$(this).children().children().filter('.numberator').remove();
 	});
+	
+	$('.reference').each(function() {
+		$(this).attr("title", "Springe zum Absatz");
+	});
 }

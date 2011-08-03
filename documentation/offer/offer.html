@@ -10,10 +10,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">01. August 2011</div>
+		<div id="page-head-date">03. August 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Angebot</div>
-		<div id="page-version">Version 0.1</div>
+		<div id="page-version">Version 0.2</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -23,16 +23,11 @@
 		
 		<div id="content">
 			
-			<h1 id="introduction">Einstieg</h1>
-			
-			<h2 id="motivation">Motivation für das Projekt</h2>
-			<p>Wir sind ein junges motiviertes Team, das Interesse daran hat neue Wege im Bereich "Mobile Computing" zu gehen.</p>
-			
-			<h2 id="entwicklungsstrategien">Entwicklungsstrategien</h2>
+			<h1 id="entwicklungsstrategien">Entwicklungsstrategien</h1>
 			<p>Wir sind ein Team junger Softwareentwickler, die es sich zum Ziel gesetzt haben gute und besonders benutzerfreundliche Software zu entwickeln. Dabei soll die Beziehung mit dem Kunden stark gepflegt werden und dieser aktiv mit in die Entwicklung einbezogen werden.</p>
 			<p>Die Software soll während der Entwicklung in einzelnen Iterationen stückweise entstehen. Dabei soll nach jeder Iteration eine lauffähige Version zur Verfügung stehen, die den aktuellen Fortschritt veranschaulichen soll.</p>
 			<p>Es wird selbstverständlich darauf geachtet nicht nur eine lauffähige Version entsteht, sondern auch eine möglichst fehlerfreie und inutitiv bedienbare Software.</p>
-			<p>Auch für die zukünftigen Entwickler, die mit dem Produkt arbeiten werden, soll eine gute leicht zu verstehende Schnittstelle geschaffen werden.</p>
+			<p>Auch für die zukünftigen Entwickler, die mit dem Produkt arbeiten werden, soll eine gute, leicht zu verstehende Schnittstelle geschaffen werden.</p>
 			
 			
 			<h1 id="zu-entwickelnde-software">Zu entwickelnde Software</h1>
@@ -40,6 +35,9 @@
 				<h2 id="metamodell">Metamodell</h2>
 				<p>Das Metamodell soll die grundlegende Struktur der zu entwickelnden Software veranschaulichen.</p>
 				<img src="../specification/metamodell.svg" alt="Metamodell" style="max-width: 100%;">
+				
+				<p>PMP soll eine Schnittstelle zwischen Ressourcen und Apps, die die Ressourcen benutzen wollen, darstellen.<br>
+				</p>
 			
 				<h2 id="standards">Standards</h2>
 				<ul>
@@ -47,7 +45,7 @@
 					<li>In jeder Iteration entsteht, neben Software und Handbuch, auch eine Spezifikation.</li>
 				</ul>
 			
-				<h2 id="anforderungen-1-iteration">Allgemeine Resultate</h2>
+				<h2 id="allgemeine-resultate">Allgemeine Resultate</h2>
 				<p>
 					Nachfolgend genannte Resultate werden bei jeder durchgeführten
 					Iteration erzielt.
@@ -98,7 +96,7 @@
 						auch den erfahrenen Benutzer oder Programm-Entwickler effektiv zu unterstützen.
 					</p>
 			
-				<h2 id="anforderungen-1-iteration">Resultate der ersten Iteration</h2>
+				<h2 id="resultate-1-iteration">Resultate der ersten Iteration</h2>
 				<p>Nachfolgende Funktionen werden während der ersten Iteration bearbeitet.</p>
 
 				<p>
@@ -139,7 +137,7 @@
           durch Verwendung eines standardisierten Formats).
         </p>
 				
-				<h2 id="anforderungen-spaeterer-iterationen">Resultate späterer Iterationen</h2>
+				<h2 id="resultate-spaeterer-iterationen">Resultate späterer Iterationen</h2>
 				
 				<p>
 				  <b>Experten-Modus:</b><br>
@@ -187,7 +185,7 @@
 			
 			<h1 id="zeitplan-des-projekts">Zeitplan des Projekts</h1>
 			<!--
-				Text aus projectplan.html commit #8a87d74654f3991a943447f6f9fa8817ddc02563
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
 				{projectplan.html->"3.4_Externe Meilensteine"}
 			-->
 			<p>Die Nummer eines Meilenstein setzt sich aus der Nummer der Iteration und einer laufenden Nummer der Meilensteine innerhalb einer Iteration zusammen. Die Vorprojektphase wird als 0. Iteration geführt.<br>
@@ -255,10 +253,90 @@
 				</tr>
 			</table>
 			
+			<h1 id="kosten_zeitplan">Aufwands- und Kostenschätzung</h1>
+			<!--
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
+				{projectplan.html->"9.3_Aufwands- und Kostenplanung"}
+			-->
+			<p>Für das Projekt, aufgeteilt in fünf Iterationen, sind insgesamt 10 Entwickler á 450 Arbeitsstunden vorgesehen.
+			Zusammen ergibt das einen Gesamtaufwand von 4.500 Entwicklerstunden. Eine Entwicklerstunde wird mit € 100,- berechnet.
+			Daraus folgen die Gesamtkosten in Höhe von € 450.000,-.
+			<br><br>
+			Das Vorprojekt wird auf 250 Entwicklerstunden, d.h. € 25.000,- disponiert. Für jede der insgesamt fünf Iterationen
+			stehen 850 Entwicklerstunden, d.h. € 85.000,-, zur Verfügung.
+			<br>
+			<br>
+			<b>Geschätzter Arbeitsanteil der Meilensteine einer Iteration:</b>
+			</p>
+			<table>
+				<tr>
+					<th>Nr.</th>
+					<th>Name des Meilensteins</th>
+					<th>Arbeitsanteil</th>
+					<th>Entwicklerstunden</th>
+					<th>Kosten</th>
+				</tr>
+				<tr>
+					<td>M-x.1</td>
+					<td>Spezifikation, Modelleriung, Prototyp</td>
+					<td>16%</td>
+					<td>136</td>
+					<td>€ 13.600,-</td>
+				</tr>
+				<tr>
+					<td>M-x.2</td>
+					<td>Spezifikationsreview/-korrektur</td>
+					<td>4%</td>
+					<td>34</td>
+					<td>€ 3.400,-</td>
+				</tr>
+				<tr>
+					<td>M-x.3</td>
+					<td>Entwurf</td>
+					<td>10%</td>
+					<td>85</td>
+					<td>€ 8.500,-</td>
+				</tr>
+				<tr>
+					<td>M-x.4</td>
+					<td>Implementierung, Modultest, Integration</td>
+					<td>60%</td>
+					<td>510</td>
+					<td>€ 51.000,-</td>
+				</tr>
+				<tr>
+					<td>M-x.5</td>
+					<td>Handbuch</td>
+					<td>3%</td>
+					<td>25,5</td>
+					<td>€ 2550,-</td>
+				</tr>
+				<tr>
+					<td>M-x.6</td>
+					<td>Systemtest/-korrektur</td>
+					<td>6%</td>
+					<td>51</td>
+					<td>€ 5.100,-</td>
+				</tr>
+				<tr>
+					<td>M-x.7</td>
+					<td>Abnahme</td>
+					<td>1%</td>
+					<td>8,5</td>
+					<td>€ 850,-</td>
+				</tr>
+				<tr>
+					<th colspan="2">Summe:</th>
+					<th>100%</th>
+					<th>850</th>
+					<th>€ 85.000,-</th>
+				</tr>					
+			</table>
+			
 			<h1 id="kontaktpersonen">Kontaktpersonen</h1>
 			<p>Der erste Ansprechpartner für den Auftraggeber ist der Projektleiter. Sollte dieser in Ausnahmefällen nicht verfügbar sein, so tritt der Stellv. Projektleiter an seine Stelle.</p>
 			<!--
-				Text aus projectplan.html commit #8a87d74654f3991a943447f6f9fa8817ddc02563
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
 				{projectplan.html->"8.3.4_Projektleiter"}
 				{projectplan.html->"8.3.5_Stellv. Projektleiter"}
 				{projectplan.html->"8.3.6_Projektteam"}

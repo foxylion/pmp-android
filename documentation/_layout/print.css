@@ -1,8 +1,6 @@
 body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
-	margin-left: 5px;
-	margin-right: 5px;
 }
 
 div#page-head-title {
@@ -10,6 +8,7 @@ div#page-head-title {
 	font-weight: bold;
 	margin-bottom: 1cm;
 	border-bottom: 1px solid #000000;
+	color: #365f91;
 }
 
 div#page-head-date {
@@ -17,6 +16,7 @@ div#page-head-date {
 	font-weight: bold;
 	text-align: center;
 	float: right;
+	color: #365f91;
 }
 
 div#page-title {
@@ -52,7 +52,7 @@ h4 span.numberator {
 
 h1 {
 	font-size: 2em;
-	color: #000000;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 	margin-top: 2em;
 	page-break-before: always;
@@ -92,6 +92,7 @@ nav div.title {
 	font-weight: bold;
 	text-decoration: none;
 	font-size: 2em;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 }
 
@@ -172,4 +173,10 @@ th.left {
 
 td ul {
 	margin: 0;
+}
+
+
+span.reference a {
+	color: #365f91;
+	text-decoration: underline;
 }
