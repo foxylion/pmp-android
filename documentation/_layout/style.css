@@ -36,6 +36,11 @@ div#page-version {
 	margin-bottom: 80px;
 }
 
+div.pagebreak {
+	line-height: 0;
+	font-size: 0;
+}
+
 h1, h2, h3, h4 {
 	margin: 0;
 	margin-bottom: 0.3em;
