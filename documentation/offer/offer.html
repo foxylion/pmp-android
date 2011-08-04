@@ -24,32 +24,32 @@
 		<div id="content">
 			
 			<h1 id="entwicklungsstrategien">Entwicklungsstrategien</h1>
-			<p>Wir sind ein Team junger Softwareentwickler, die es sich zum Ziel gesetzt haben gute und besonders benutzerfreundliche Software zu entwickeln. Dabei soll die Beziehung mit dem Kunden stark gepflegt werden und dieser aktiv mit in die Entwicklung einbezogen werden.</p>
-			<p>Die Software soll während der Entwicklung in einzelnen Iterationen stückweise entstehen. Dabei soll nach jeder Iteration eine lauffähige Version zur Verfügung stehen, die den aktuellen Fortschritt veranschaulichen soll.</p>
+			<p>Wir sind ein Team junger Softwareentwickler, die es sich zum Ziel gesetzt haben gute und besonders benutzerfreundliche Software zu entwickeln. Dabei soll die Beziehung mit dem Kunden stark gepflegt und dieser aktiv in die Entwicklung einbezogen werden.</p>
+			<p>Die Software wird während der Entwicklung in einzelnen Iterationen stückweise entstehen. Dabei wird nach jeder Iteration eine lauffähige Version zur Verfügung stehen, die den aktuellen Fortschritt veranschaulicht.</p>
 			<p>Es wird selbstverständlich darauf geachtet, dass nicht nur eine lauffähige Version entsteht, sondern auch eine möglichst fehlerfreie und intuitiv bedienbare Software.</p>
 			<p>Auch für die zukünftigen Entwickler, die mit dem Produkt arbeiten werden, soll eine gute, leicht zu verstehende Schnittstelle geschaffen werden.</p>
-			
 			
 			<h1 id="zu-entwickelnde-software">Zu entwickelnde Software</h1>
 			
 				<h2 id="metamodell">Metamodell</h2>
-				<p>Das Metamodell soll die grundlegende Struktur der zu entwickelnden Software veranschaulichen.</p>
+				<p>Das folgende Metamodell veranschaulicht die grundlegende Struktur der zu entwickelnden Software.</p><br><br>
 				<img src="../specification/metamodell.svg" alt="Metamodell" style="max-width: 100%;">
-				
-				<p>Die PMP soll eine Schnittstelle zwischen Ressourcen und Apps, die diese Ressourcen benutzen wollen, darstellen. Dabei registrieren sich Ressourcen an der PMP, um dort für andere Apps zur Verfügung zu stehen.<p>
+				<br><br><br><br>
+				<p>Die PMP stellt eine Schnittstelle zwischen Ressourcen und Apps, die diese Ressourcen benutzen wollen, dar. Dabei registrieren sich Ressourcen an der PMP, um dort für andere Apps zur Verfügung zu stehen.<p>
 				<p>Ressourcengruppen bieten zu den angebotenen Daten sogenannte "Privacy Levels", auch Flags genannt. Diese Flags definieren mögliche Detailgrade der Daten oder auch Operationen auf den Daten.<br>Eine Ressourcengruppe kann aus mehreren Ressourcen bestehen, die alle in einer Ressourcengruppe definiert werden. Der Nutzer der PMP bekommt von dieser Gruppierung nichts mit.</p>
-				<p>Apps können Ressourcen benutzen. Dazu müssen sie für die Verwendung einer Ressource zunächst die PMP fragen, ob sie die Ressourcengruppe benutzen dürfen. Die PMP verwaltet somit den Zugriff auf alle Ressourcengruppen.<br>
+				<p>Apps können Ressourcen verwenden. Dazu müssen sie für die Verwendung einer Ressource zunächst die PMP fragen, ob sie die Ressourcengruppe benutzen dürfen. Die PMP verwaltet somit den Zugriff auf alle Ressourcengruppen.<br>
 				Apps definieren sogenannte "Service Level". Eine App bietet für einen Service Level eine definierte Funktionalität, welche sich je nach Service Level unterscheidet.<br> Ein Service Level fordert für bestimmte Ressourcengruppen Mindestanforderungen an die zugehörigen gesetzten Flags.</p>
 				<p>Eine Rolle beinhaltet bestimmte Flags für Ressourcengruppen; solche Rollen werden Apps zugewiesen. Eine App kann beliebig vielen Rollen angehören. Rechte der Rollen werden additiv zusammengefasst, erlaubt also eine Rolle bereits ein Recht, so kann dies keine andere Rolle verbieten.<br>Eine App kann bei der Initalisierung bereits eigene Rollen mitbringen, die der Nutzer auf seinem Gerät installieren kann.</p>
-				<p>Der Nutzer kann selbständig eigene Rollen definieren und diese einer App zuweisen. Dadurch erlangt die App Rechte an Ressourcen und kann somit auch ein bestimmtes Service Level erreichen.<br>Ein nicht versierter Benutzer kann auch einfach den gewünschten Service Level auswählen und automatisch eine passende Rolle erstellen lassen.</p>
-				<p>Eine Rolle kann kontext-sensitiv sein, das bedeutet, dass eine Rolle und damit ihre erlaubten Flags nur aktiv sind, wenn der Kontext, in dem sich das Gerät befindet, mit dem für die Rolle definierten Kontext übereinstimmt.<br>Kontext-senstiv kann sich auch direkt auf ein Flag in einer Rolle beziehen, um so nur Teile einer Rolle kontext-sensitiv zu machen.</p>
-				<p>Die Kontextdaten werden von Ressourcen bezogen, so kann beispielsweise die Ressource "Geschwindigkeit durch GPS-Ortung" mit der Einstellung "beträgt weniger als 100km/h" als Kontext für die Rolle "Routenaufzeichnung" verwendet werden. Das heißt, dass die Rolle "Routenaufzeichnung" nur verwendet werden kann, wenn der Kontext "Geschwindigkeit unter 100km/h" erfüllt wird.</p>
-				<p>Ressourcen sind eine Art von Plugin, sollten sie z.B. eine Art von Flags definieren, die die PMP nicht kennt, so wird der Ressource die Möglichkeit gegeben, diese selber darzustellen. Das Gleiche gilt für neue Kontexte, die der PMP noch nicht bekannt sein müssen.</p>
+				<p>Der Nutzer kann selbständig eigene Rollen definieren und diese einer App zuweisen. Dadurch erlangt die App Rechte an Ressourcen und kann somit auch ein bestimmtes Service Level erreichen.<br>Ein nicht versierter Benutzer kann weiterhin einfach den gewünschten Service Level auswählen und automatisch eine passende Rolle erstellen lassen.</p>
+				<p>Eine Rolle kann kontext-sensitiv sein. Das bedeutet, dass eine Rolle und damit ihre erlaubten Flags nur aktiv sind, wenn der Kontext, in dem sich das Gerät befindet, mit dem für die Rolle definierten Kontext übereinstimmt.<br>Kontext-senstiv kann sich auch direkt auf ein Flag in einer Rolle beziehen, um so nur Teile einer Rolle kontext-sensitiv zu machen.</p>
+				<p>Die Kontextdaten werden von Ressourcen bezogen. So kann beispielsweise die Ressource "Geschwindigkeit durch GPS-Ortung" mit der Einstellung "beträgt weniger als 100km/h" als Kontext für die Rolle "Routenaufzeichnung" verwendet werden. Das heißt, dass die Rolle "Routenaufzeichnung" nur verwendet werden kann, wenn der Kontext "Geschwindigkeit unter 100km/h" erfüllt wird.</p>
+				<p>Ressourcen sind eine Art Plugin. Sollten sie z.B. eine Art von Flags definieren, die die PMP nicht kennt, so wird der Ressource die Möglichkeit gegeben, diese selber darzustellen. Das Gleiche gilt für neue Kontexte, die der PMP noch nicht bekannt sein müssen.</p>
 			
 				<h2 id="standards">Standards</h2>
 				<ul>
-					<li>Es wird bei Java-Code darauf geachtet, den Java-Style-Guide von Sun/Oracle einzuhalten, wofür eigens ein Qualitätssicherungsbeauftragter im Team ernannt wurde.</li>
-					<li>In jeder Iteration entsteht, neben Software und Handbuch, auch eine Spezifikation.</li>
+					<li>Das Projektteam hält in der Implementierungsphase die Richtline "Code Convention for the Java Programming Language" ein. Zur Kontrolle hierfür wurde ein Qualitätssicherungsbeauftragter im Team ernannt.</li>
+					<li>In jeder Iteration entstehen eine große Anzahl an Dokumenten. Diese sind neben den wichtigsten Dokumenten wie Spezifikation, Software, Handbuch und Systemtestprotokoll dem Projektplan zu entnehmen.</li>
+					<li>Weitere Standards und Richtlinien sind im beigefügen Projektplan enthalten.</li>
 				</ul>
 			
 				<h2 id="allgemeine-resultate">Allgemeine Resultate</h2>
@@ -110,7 +110,7 @@
 					<b>Benutzeroberfläche:</b><br>
 					Innerhalb der ersten Iteration wird der einfache, auf den unerfahrenen Benutzer
 					zugeschnittene Modus erstellt. Um die Verwendbarkeit der Benutzeroberfläche
-					sicherzustellen werden alle Elemente der Benutzeroberfläche (Schaltfläche, Eingabebereiche, etc.)
+					sicherzustellen, werden alle Elemente der Benutzeroberfläche (Schaltfläche, Eingabebereiche, etc.)
 					mit einer Aktion versehen, sobald diese implementiert ist.
 					<br>
 					Bei der Gestaltung und Implementierung der Benutzeroberfläche wird 
