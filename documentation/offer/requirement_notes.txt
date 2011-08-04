@@ -53,7 +53,7 @@ Allgemein
 [- Einfache Demo-App (z.B. nur ein Button "Aktion ausführen") die auf die 
   Test-Ressource zugreift
   
-- Einfaches Privacy-Level. Weitere sollen sich leicht (am besten ohne Änderungen am
+[- Einfaches Privacy-Level. Weitere sollen sich leicht (am besten ohne Änderungen am
   Code) hinzufügen lassen.
   
 [~ Einfache Definition der Service-Level (ohne Änderungen am Code hinzufügbar)
