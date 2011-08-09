@@ -87,10 +87,170 @@
 				<p></p>
 			
 					<h3 id="uc-diagramm">Diagramm</h3>
-					<p></p>
+					<img src="usecases.svg" alt="Use-Case Diagramm" style="width:100%;">
 					
 					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
-					<p></p>
+					<p>Im folgenden werden die im Use-Case Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
+					
+						<h4 id="awdf-1">Service-Level von Programm auswählen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#1</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Service-Level einer App einstellen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer will das Service Level einer App einstellen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der normale Modus ist aktiviert</li>
+									<li>Die App fragt nach Rechten</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Das Service Level der App wurde eingstellt.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Es wurden keine Änderungen am Service Level der App vorgenommen.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt in der erscheindenen Eingabemaske das richtige Service Level aus.</li>
+									<li>Dem Benutzer werden Details (benötigte Ressourcen) zum ausgewählten Service Level angezeigt.</li>
+									<li>Der Benuzer akzeptiert diese Anforderungen und weist der App das Service Level dadurch zu.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">1a</span></th>
+								<td><ol>
+									<li>Der Benutzer bricht den Vorgang ab.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">2a</span></th>
+								<td><ol>
+									<li>Der Benutzer will die geforderten Rechte nicht akzeptieren, zurück zu Schritt 1.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-2">Ressourcen anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#2</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Ressourcen anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die verfügbaren Ressourcen anzeigen und Details zu diesen erfahren.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App frisch gestartet und ist noch in keinem Untermenü.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Der Benutzer hat Details zu den verfübaren Ressourcen erfahren.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>-</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Ressourcenübersicht aus.</li>
+									<li>Dem Benutzer werden alle verfügbaren Ressourcen aufgelistet.</li>
+									<li>Der Benutzer wählt eine Ressource aus.</li>
+									<li>Dem Benutzer werden Details über die Ressource angezeigt.</li>
+									<li>Der Benutzer schliest die Detailübersicht</li>
+									<li>Der Benutzer schliest die Ressourcenübersicht.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">5a</span></th>
+								<td><ol>
+									<li>Der Benutzer möchte zu einer weiteren Ressource Details anzeigen, zurück zu Schritt 2.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						
+						
+						<!--
+						
+						
+						<h4 id="awdf-x">...</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#x</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li></li>
+									<li></li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li></li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf"></span></th>
+								<td><ol>
+									<li></li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						-->
 			
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 				<p></p>
