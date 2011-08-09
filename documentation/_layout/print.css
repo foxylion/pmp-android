@@ -1,8 +1,6 @@
 body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
-	margin-left: 5px;
-	margin-right: 5px;
 }
 
 div#page-head-title {
@@ -10,6 +8,7 @@ div#page-head-title {
 	font-weight: bold;
 	margin-bottom: 1cm;
 	border-bottom: 1px solid #000000;
+	color: #365f91;
 }
 
 div#page-head-date {
@@ -17,6 +16,7 @@ div#page-head-date {
 	font-weight: bold;
 	text-align: center;
 	float: right;
+	color: #365f91;
 }
 
 div#page-title {
@@ -31,6 +31,12 @@ div#page-version {
 	font-size: 1.5em;
 	text-align: center;
 	margin-bottom: 2cm;
+}
+
+div.pagebreak {
+	page-break-before: always;
+	line-height: 0;
+	font-size: 0;
 }
 
 h1, h2, h3, h4 {
@@ -52,7 +58,7 @@ h4 span.numberator {
 
 h1 {
 	font-size: 2em;
-	color: #000000;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 	margin-top: 2em;
 	page-break-before: always;
@@ -92,6 +98,7 @@ nav div.title {
 	font-weight: bold;
 	text-decoration: none;
 	font-size: 2em;
+	color: #365f91;
 	border-bottom: 1px solid #000000;
 }
 
@@ -125,4 +132,57 @@ nav ul li.h3-title {
 }
 nav ul li.h4-title {
 	padding-left: 80px;
+}
+
+/* Labels */
+label {
+	width: 100px;
+	float: left;
+}
+
+/* Tables */
+table { 
+	width: 100%; 
+	border: 1px solid #000000; 
+	empty-cells: hide;
+	border-spacing: 2px 1px;
+	margin-top: 5px;
+}
+
+td, th {
+	vertical-align:top;
+	border-bottom: 1px solid #cccccc;
+	margin: 0;
+}
+
+tr:nth-child(2n+1) td {
+	background-color: #dddddd;
+	border-bottom: 1px solid #bbbbbb;
+}
+tr:nth-child(2n) td {
+	background-color: #eeeeee;
+	border-bottom: 1px solid #cccccc;
+}
+tr:nth-last-child(1) td {
+	border-bottom: none;
+}
+
+th {
+	background-color: #cccccc;
+	text-align: left;
+	border-bottom: 2px solid #000000;
+}
+th.left {
+	border-bottom: 1px solid #cccccc;
+	border-right: 2px solid #000000;
+}
+
+td ul {
+	margin: 0;
+}
+
+
+span.reference a {
+	color: #365f91;
+	text-decoration: underline;
 }

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Angebot - Privacy Management Platform</title>
+	<script type="text/javascript" src="../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../_layout/script.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">04. August 2011</div>
+		<div id="page-head-title">Privacy Management Platform</div>
+		<div id="page-title">Angebot</div>
+		<div id="page-version">Version 1.0</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<div id="content">
+			
+			<h1 id="entwicklungsstrategien">Entwicklungsstrategien</h1>
+			<p>Wir sind ein Team junger Softwareentwickler, die es sich zum Ziel gesetzt haben gute und besonders benutzerfreundliche Software zu entwickeln. Dabei soll die Beziehung mit dem Kunden stark gepflegt und dieser aktiv in die Entwicklung einbezogen werden.</p>
+			<p>Die Software wird während der Entwicklung in einzelnen Iterationen stückweise entstehen. Dabei wird nach jeder Iteration eine lauffähige Version zur Verfügung stehen, die den aktuellen Fortschritt veranschaulicht.</p>
+			<p>Es wird selbstverständlich darauf geachtet, dass nicht nur eine lauffähige Version entsteht, sondern auch eine möglichst fehlerfreie und intuitiv bedienbare Software.</p>
+			<p>Auch für die zukünftigen Entwickler, die mit dem Produkt arbeiten werden, soll eine gute, leicht zu verstehende Schnittstelle geschaffen werden.</p>
+			
+			<h1 id="zu-entwickelnde-software">Zu entwickelnde Software</h1>
+			
+				<h2 id="metamodell">Metamodell</h2>
+				<p>Das folgende Metamodell veranschaulicht die grundlegende Struktur der zu entwickelnden Software.</p><br><br>
+				<img src="../specification/metamodell.svg" alt="Metamodell" style="max-width: 100%;">
+				<br><br><br><br>
+				<p>Die PMP stellt eine Schnittstelle zwischen Ressourcen und Apps, die diese Ressourcen benutzen wollen, dar. Dabei registrieren sich Ressourcen an der PMP, um dort für andere Apps zur Verfügung zu stehen.<p>
+				<p>Ressourcengruppen bieten zu den angebotenen Daten sogenannte "Privacy Levels", auch Flags genannt. Diese Flags definieren mögliche Detailgrade der Daten oder auch Operationen auf den Daten.<br>Eine Ressourcengruppe kann aus mehreren Ressourcen bestehen, die alle in einer Ressourcengruppe definiert werden. Der Nutzer der PMP bekommt von dieser Gruppierung nichts mit.</p>
+				<p>Apps können Ressourcen verwenden. Dazu müssen sie für die Verwendung einer Ressource zunächst die PMP fragen, ob sie die Ressourcengruppe benutzen dürfen. Die PMP verwaltet somit den Zugriff auf alle Ressourcengruppen.<br>
+				Apps definieren sogenannte "Service Level". Eine App bietet für einen Service Level eine definierte Funktionalität, welche sich je nach Service Level unterscheidet.<br> Ein Service Level fordert für bestimmte Ressourcengruppen Mindestanforderungen an die zugehörigen gesetzten Flags.</p>
+				<p>Eine Rolle beinhaltet bestimmte Flags für Ressourcengruppen; solche Rollen werden Apps zugewiesen. Eine App kann beliebig vielen Rollen angehören. Rechte der Rollen werden additiv zusammengefasst, erlaubt also eine Rolle bereits ein Recht, so kann dies keine andere Rolle verbieten.<br>Eine App kann bei der Initialisierung bereits eigene Rollen mitbringen, die der Nutzer auf seinem Gerät installieren kann.</p>
+				<p>Der Nutzer kann selbständig eigene Rollen definieren und diese einer App zuweisen. Dadurch erlangt die App Rechte an Ressourcen und kann somit auch ein bestimmtes Service Level erreichen.<br>Ein nicht versierter Benutzer kann weiterhin einfach den gewünschten Service Level auswählen und automatisch eine passende Rolle erstellen lassen.</p>
+				<p>Eine Rolle kann kontext-sensitiv sein. Das bedeutet, dass eine Rolle und damit ihre erlaubten Flags nur aktiv sind, wenn der Kontext, in dem sich das Gerät befindet, mit dem für die Rolle definierten Kontext übereinstimmt.<br>Kontext-sensitiv kann sich auch direkt auf ein Flag in einer Rolle beziehen, um so nur Teile einer Rolle kontext-sensitiv zu machen.</p>
+				<p>Die Kontextdaten werden von Ressourcen bezogen. So kann beispielsweise die Ressource "Geschwindigkeit durch GPS-Ortung" mit der Einstellung "beträgt weniger als 100km/h" als Kontext für die Rolle "Routenaufzeichnung" verwendet werden. Das heißt, dass die Rolle "Routenaufzeichnung" nur verwendet werden kann, wenn der Kontext "Geschwindigkeit unter 100km/h" erfüllt wird.</p>
+				<p>Ressourcen sind eine Art Plugin. Sollten sie z.B. eine Art von Flags definieren, die die PMP nicht kennt, so wird der Ressource die Möglichkeit gegeben, diese selber darzustellen. Das Gleiche gilt für neue Kontexte, die der PMP noch nicht bekannt sein müssen.</p>
+			
+				<h2 id="standards">Standards</h2>
+				<ul>
+					<li>Das Projektteam hält in der Implementierungsphase die Richtlinie "Code Convention for the Java Programming Language" ein. Zur Kontrolle hierfür wurde ein Qualitätssicherungsbeauftragter im Team ernannt.</li>
+					<li>In jeder Iteration entsteht eine große Anzahl an Dokumenten. Diese sind neben den wichtigsten Dokumenten wie Spezifikation, Software, Handbuch und Systemtestprotokoll dem Projektplan zu entnehmen.</li>
+					<li>Weitere Standards und Richtlinien sind im beigefügen Projektplan enthalten.</li>
+				</ul>
+			
+				<h2 id="allgemeine-resultate">Allgemeine Resultate</h2>
+				<p>
+					Nachfolgend genannte Resultate werden bei jeder durchgeführten
+					Iteration erzielt.
+				</p>
+				
+					<h3 id="requirements-generic-nonfunct">Nichtfunktionale Anforderungen</h3>
+					<p>
+						<b>Einfache Bedienbarkeit:</b><br>
+						Bei der Auslegung der Benutzeroberfläche wird durch Hinzufügen des einfachen
+						Modus dafür gesorgt, dass die PMP von den Anwendern ohne weitere Einweisungen
+						bedienbar ist. Ebenso wird darauf geachtet, dass es Programmierern mit Hilfe
+						des Handbuchs möglich ist, auf einfache Weise eigene Service-Levels zu definieren,
+						weitere Ressourcen oder Kontexte zu erstellen und in die PMP zu integrieren.
+					 </p>
+      
+					<p>
+						<b>Erscheinungsbild:</b><br>
+						Die Benutzeroberfläche des Systems wird so erstellt, dass sie dem Schema
+						der Android-Plattform folgt (d.h. gleiche Farbschemen und Schriften).
+					</p>
+      
+					<p>
+						<b>Reaktionszeiten:</b><br>
+						Bei den Reaktionszeiten wird darauf geachtet, dass sie auf einem Niveau liegen, 
+						das eine interaktive und flüssige Bedienung ermöglicht. Sollte sich eine 
+						länger dauernde Verzögerung nicht vermeiden lassen, so wird der Benutzer 
+						durch eine entsprechende Meldung (z.B. Ladebalken) hierüber informiert.
+					</p>
+					
+					<h3 id="requirements-generic-funct">Funktionale Anforderungen</h3>
+					<p>
+						<b>Betriebssystem:</b><br>
+						Bei der Entwicklung des Systems wird auf eine Funktionsfähigkeit
+						auf den vom Kunden bereitgestellten Geräten geachtet. Das System wird somit
+						so entwickelt, dass es auf allen Geräten, auf denen Android in der Version
+						2.1.1 installiert ist, lauffähig ist. 
+						Es wird großer Wert darauf gelegt, dass für die Installation und Ausführung
+						der PMP keine Änderungen am Betriebssystem der Geräte erforderlich werden.
+					</p>
+          
+					<p>
+						<b>Handbuch:</b><br>
+						Um die Benutzer beim Umgang mit der PMP zu unterstützen, liegt dem System
+						ein auf Deutsch verfasstes Handbuch bei. Das Handbuch wird mit den in der 
+						jeweiligen Iteration hinzugefügten Funktionen (d.h. der Spezifikation) 
+						konsistent gehalten, um stets den aktuellen Funktionsumfang abzudecken.
+						Auf eine gute Verständlichkeit wird geachtet, um sowohl den Laien als 
+						auch den erfahrenen Benutzer oder Programm-Entwickler effektiv zu unterstützen.
+					</p>
+			
+				<h2 id="resultate-1-iteration">Resultate der ersten Iteration</h2>
+				<p>Nachfolgende Funktionen werden während der ersten Iteration bearbeitet.</p>
+
+				<p>
+					<b>Benutzeroberfläche:</b><br>
+					Innerhalb der ersten Iteration wird der einfache, auf den unerfahrenen Benutzer
+					zugeschnittene Modus erstellt. Um die Verwendbarkeit der Benutzeroberfläche
+					sicherzustellen, werden alle Elemente der Benutzeroberfläche (Schaltfläche, Eingabebereiche, etc.)
+					mit einer Aktion versehen, sobald diese implementiert ist.
+					<br>
+					Bei der Gestaltung und Implementierung der Benutzeroberfläche wird 
+					darauf geachtet, dass in folgenden Iterationen ein Hinzufügen weiterer Elemente 
+					und ein Erweitern der Benutzeroberfläche (wie etwa das Hinzufügen des 
+					erweiterten Modus) leicht und ohne größere Anpassungen möglich ist.
+					<br>
+					Die Beschriftung der Elemente erfolgt in englischer Sprache. Durch
+					Auslagern der Sprach-Daten in externe Ressourcen ist das Bearbeiten 
+					und Hinzufügen von Sprachen jederzeit ohne Änderungen am Programmcode möglich.
+				</p>
+
+				<p>
+					<b>Ressourcen-Management:</b><br>
+					Innerhalb der ersten Iteration werden die Grund-Architektur und die
+          Grundfunktionen des Ressourcen-Managers ausgearbeitet und implementiert.
+          Hierbei wird darauf geachtet, dass sich Ressourcen ohne Anpassungen 
+          des Programmcodes des Ressourcen-Managers hinzufügen, entfernen und aktualisieren lassen. Der 
+          Ressourcen-Manager wird also unabhängig von den konkreten Ressourcen gehalten.
+					<br>
+					Um die Funktionalität des Ressourcen-Managers testen und demonstrieren zu 
+					können, wird eine einfache Ressource (etwa zum Zugriff auf einen 
+          Eintrag des Telefonbuchs) und eine einfache Demo-App erstellt.
+				</p>
+				
+				<p>
+				  <b>Service-Levels:</b><br>
+				  Das Hinzufügen von Service-Levels zu einer App erfolgt ohne Änderungen 
+          am Programmcode der PMP.
+				  Auf ein einfaches Definieren der Service-Level wird geachtet (etwa
+          durch Verwendung eines standardisierten Formats).
+        </p>
+				<p><b>Privacy-Level:</b><br>
+					Privacy-Level von Ressourcen lassen sich ohne Änderungen am Code von PMP erweitern und verändern.
+				</p>
+				
+				<h2 id="resultate-spaeterer-iterationen">Resultate späterer Iterationen</h2>
+				
+				<p>
+				  <b>Experten-Modus:</b><br>
+				  Der Experten-Modus wird hinzugefügt, um Zugriff auf alle Funktionen der 
+          PMP zu ermöglichen.
+        </p>
+        
+				<p>
+				  <b>Import und Export der Einstellungen:</b><br>
+				  Alle vorgenommenen Einstellungen lassen sich leicht in eine Datei
+				  exportieren, um sie auf ein anderes Gerät (oder später auf dasselbe
+          Gerät) wiederherstellen (importieren) zu können.
+        </p>
+        
+        <p>
+          <b>Ressourcen und Demo-Apps:</b><br>
+          Es werden weitere Ressourcen erstellt und bestehende erweitert. 
+          Dabei wird darauf geachtet Standard-Ressourcen zu erstellen, von denen
+          erwartet wird, dass sie von vielen weiteren Apps
+          benötigt werden. Auf die neuen bzw. erweiterten Ressourcen kann durch zusätzliche Demo-Apps 
+          zugegriffen werden. Bestehende Apps werden erweitert, damit sie von
+          den neuen Funktionen der Ressourcen Gebrauch machen.
+          <br>
+          In einem Abschnitt der Benutzeroberfläche der PMP werden dem Benutzer
+          alle installierten Ressourcen aufgelistet. Mit Hilfe dieser Benutzeroberfläche
+          ist es dem Benutzer auch möglich, Ressourcen zu deinstallieren, also zu entfernen.
+        </p>
+        
+				<p>
+				  <b>Service-Levels:</b><br>
+          Wurde eine App gestartet, die Zugriff auf eine geschützte Ressource
+          verlangt, werden dem Benutzer alle von dieser App angebotenen oder 
+          unterstützten Service-Level auf einer übersichtlichen Benutzeroberfläche 
+          angezeigt. Innerhalb dieser Benutzeroberfläche wird durch eine Funktion
+          angezeigt, auf welche Ressource die App durch Auswahl dieses Service-Levels
+          Zugriff erhält und welche Funktionen sie hierfür anbietet.
+          <br>
+          Dem Benutzer wird ein einfaches Abschätzen des Verhältnisses zwischen
+          dem durch die App angebotenen Dienste (die Services) und den hierfür
+          benötigten Ressourcen ermöglicht.
+          <br>
+          Um die PMP besser demonstrieren und testen zu können werden
+          einige weitere Service-Levels und zugehörige Demo-Apps erstellt.
+        </p>
+			
+			<h1 id="zeitplan-des-projekts">Zeitplan des Projekts (externe Meilensteine)</h1>
+			<!--
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
+				{projectplan.html->"3.4_Externe Meilensteine"}
+			-->
+			<p>Die Nummer eines Meilensteins setzt sich aus der Nummer der Iteration und einer laufenden Nummer der Meilensteine innerhalb einer Iteration zusammen. Die Vorprojektphase wird als 0. Iteration geführt.
+			M-2.3 bezeichnet beispielsweise den dritten Meilenstein in der zweiten Iteration.<br>
+			</p>
+			<p>
+			In der folgenden Tabelle sind alle externen Meilensteine zu finden, die eine direkte Relevanz für den Kunden darstellen. Dem Projektplan ist im Kapitel "9.1 Meilenstein- und Terminplanung" die exakte Meilensteinplanung mit allen, also auch internen Meilensteinen, zu entnehmen.
+			</p>
+			<table>
+				<tr>
+					<th>Nr.</th>
+					<th>Termin</th>
+					<th>Produkte für den Kunden</th>
+				</tr>
+				<tr>
+					<td>M-0.1</td>
+					<td>05.08.2011</td>
+					<td>Angebotsdokument und Projektplan</td>
+				</tr>
+				<tr>
+					<td>M-1.2</td>
+					<td>18.08.2011</td>
+					<td>Spezifikationsdokument</td>
+				</tr>
+				<tr>
+					<td>M-1.7</td>
+					<td>30.09.2011</td>
+					<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+				</tr>
+				<tr>
+					<td>M-2.2</td>
+					<td>KW 43, 2011</td>
+					<td>Spezifikationsdokument</td>
+				</tr>
+				<tr>
+					<td>M-2.7</td>
+					<td>KW 48, 2011</td>
+					<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+				</tr>
+				<tr>
+					<td>M-3.2</td>
+					<td>KW 51, 2011</td>
+					<td>Spezifikationsdokument</td>
+				</tr>
+				<tr>
+					<td>M-3.7</td>
+					<td>KW 04, 2012</td>
+					<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+				</tr>
+				<tr>
+					<td>M-4.2</td>
+					<td>KW 08, 2012</td>
+					<td>Spezifikationsdokument</td>
+				</tr>
+				<tr>
+					<td>M-4.7</td>
+					<td>KW 13, 2012</td>
+					<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+				</tr>
+				<tr>
+					<td>M-5.2</td>
+					<td>KW 16, 2012</td>
+					<td>Spezifikationsdokument</td>
+				</tr>
+				<tr>
+					<td>M-5.7</td>
+					<td>KW 21, 2012</td>
+					<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+				</tr>
+			</table>
+			
+			<h1 id="kosten_zeitplan">Aufwands- und Kostentabelle</h1>
+			<!--
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
+				{projectplan.html->"9.3_Aufwands- und Kostenplanung"}
+				
+				Änderung von "Aufwands- und Kostenschätzung" in "Aufwands- und Kostentabelle"
+			-->
+			<p>Für das Projekt, aufgeteilt in fünf Iterationen, sind insgesamt 10 Entwickler á 450 Arbeitsstunden vorgesehen.
+			Zusammen ergibt das einen Gesamtaufwand von 4.500 Entwicklerstunden. Eine Entwicklerstunde wird mit € 100,- berechnet.
+			Daraus folgen die <b>Gesamtkosten in Höhe von € 450.000,-</b>.
+			<br><br>
+			Das Vorprojekt wird auf 250 Entwicklerstunden, d.h. € 25.000,- disponiert. Für jede der insgesamt fünf Iterationen
+			stehen 850 Entwicklerstunden, d.h. € 85.000,-, zur Verfügung.
+			<br>
+			<br>
+			<b>Geschätzter Arbeitsanteil der Meilensteine einer Iteration:</b>
+			</p>
+			<table>
+				<tr>
+					<th>Nr.</th>
+					<th>Name des Meilensteins</th>
+					<th>Arbeitsanteil</th>
+					<th>Entwicklerstunden</th>
+					<th>Kosten</th>
+				</tr>
+				<tr>
+					<td>M-x.1</td>
+					<td>Spezifikation, Modellierung, Prototyp</td>
+					<td>16%</td>
+					<td>136</td>
+					<td>€ 13.600,-</td>
+				</tr>
+				<tr>
+					<td>M-x.2</td>
+					<td>Spezifikationsreview/-korrektur</td>
+					<td>4%</td>
+					<td>34</td>
+					<td>€ 3.400,-</td>
+				</tr>
+				<tr>
+					<td>M-x.3</td>
+					<td>Entwurf</td>
+					<td>10%</td>
+					<td>85</td>
+					<td>€ 8.500,-</td>
+				</tr>
+				<tr>
+					<td>M-x.4</td>
+					<td>Implementierung, Modultest, Integration</td>
+					<td>60%</td>
+					<td>510</td>
+					<td>€ 51.000,-</td>
+				</tr>
+				<tr>
+					<td>M-x.5</td>
+					<td>Handbuch</td>
+					<td>3%</td>
+					<td>25,5</td>
+					<td>€ 2550,-</td>
+				</tr>
+				<tr>
+					<td>M-x.6</td>
+					<td>Systemtest/-korrektur</td>
+					<td>6%</td>
+					<td>51</td>
+					<td>€ 5.100,-</td>
+				</tr>
+				<tr>
+					<td>M-x.7</td>
+					<td>Abnahme</td>
+					<td>1%</td>
+					<td>8,5</td>
+					<td>€ 850,-</td>
+				</tr>
+				<tr>
+					<th colspan="2">Summe:</th>
+					<th>100%</th>
+					<th>850</th>
+					<th>€ 85.000,-</th>
+				</tr>					
+			</table>
+			
+			<h1 id="kontaktpersonen">Kontaktpersonen</h1>
+			<p>Der erste Ansprechpartner für den Auftraggeber ist der Projektleiter. Sollte dieser in Ausnahmefällen nicht verfügbar sein, so tritt der Stellv. Projektleiter an seine Stelle.</p>
+			<!--
+				Text aus projectplan.html commit #cd56e884781f30c766e2a44e8689efe43007541d
+				{projectplan.html->"8.3.4_Projektleiter"}
+				{projectplan.html->"8.3.5_Stellv. Projektleiter, Qualitätssicherungsbeauftragter, Konfigurationsmanager, Protokollant"}
+				{projectplan.html->"8.3.6_Projektteam"}
+			-->
+				<h2 id="projektleiter">Projektleiter</h3>
+				<table class="peopleList">
+					<tr>
+						<th class="left">Name:</th>
+						<td>Marcus Vetter<br>
+						Narzissenstraße 29<br>
+						D-70771 Leinfelden-Echterdingen</td>
+					</tr>
+					<tr>
+						<th class="left">E-Mail:</th>
+						<td>vetterms@studi.informatik.uni-stutgart.de</td>
+					</tr>
+				</table>
+					
+				<h2 id="stellv_projektleiter">Stellv. Projektleiter, Qualitätssicherungsbeauftragter, Konfigurationsmanager, Protokollant</h3>
+				<table class="peopleList">
+					<tr>
+						<th class="left">Name:</th>
+						<td>Jakob Jarosch<br>
+						Laubengasse 7<br>
+						D-72664 Kohlberg</td>
+					</tr>
+					<tr>
+						<th class="left">E-Mail:</th>
+						<td>jaroscjb@studi.informatik.uni-stuttgart.de</td>
+					</tr>
+				</table>
+					
+				<h2 id="projektteam">Projektteam</h3>
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+					</tr>
+					<tr>
+						<td>Berberich, Thorsten</td>
+						<td>swt77178@studmail.uni-stuttgart.de</td>
+					</tr>
+					<tr>
+						<td>Huynh, Hai Dang</td>
+						<td>huynhhi@studi.informatik.uni-stuttgart.de</td>
+					</tr>
+					<tr>
+						<td>Jarosch, Jakob</td>
+						<td>jaroscjb@studi.informatik.uni-stuttgart.de</td>
+					</tr>
+					<tr>
+						<td>Kuhn, Tobias</td>
+						<td>kuhnts@studi.informatik.uni-stuttgart.de</td>
+					</tr>
+					<tr>
+						<td>Makarov, Anton</td>
+						<td>makaroan@studi.informatik.uni-stuttgart.de</td>
+					</tr>							
+					<tr>
+						<td>Nguyen, Andre Bach</td>
+						<td>swt77060@stud.uni-stuttgart.de</td>
+					</tr>							
+					<tr>
+						<td>Schüler, Frieder</td>
+						<td>schuelfr@studi.informatik.uni-stuttgart.de</td>
+					</tr>		
+					<tr>
+						<td>Strobel, Patrick</td>
+						<td>strobepk@studi.informatik.uni-stuttgart.de</td>
+					</tr>
+					<tr>
+						<td>Vetter, Marcus</td>
+						<td>swt75342@stud.uni-stuttgart.de</td>
+					<tr>
+						<td>Wassiljew, Alexander</td>
+						<td>wassilar@studi.informatik.uni-stuttgart.de</td>
+					</tr>							
+				</table>
+		</div>
+	</div>
+</body>
+</html>

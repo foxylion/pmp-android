@@ -5,8 +5,6 @@
 body, div, nav, span, a, h1, h2, h3, h4 {
 	font-family: Calibri, Helvetica, Verdana, Tahoma, Arial;
 	font-size: 1em;
-	margin-left: 5px;
-	margin-right: 5px;
 }
 
 div#page-head-title {
@@ -38,26 +36,17 @@ div#page-version {
 	margin-bottom: 80px;
 }
 
+div.pagebreak {
+	line-height: 0;
+	font-size: 0;
+}
+
 h1, h2, h3, h4 {
 	margin: 0;
 	margin-bottom: 0.3em;
 	padding: 0;
 	font-weight: bold;
 	text-decoration: none;
-}
-
-table { 
-width:100%; 
-border:1px solid #000000; 
-empty-cells:hide
-}
-
-td {
-vertical-align:top; 
-}
-
-td.even {
-background-color: #FF0000;
 }
 
 h1 span.numberator,
@@ -98,11 +87,11 @@ p {
 
 div#wrapper {
 	position: relative;
-	width: 550pt;
+	width: 530pt;
 	left: 50%;
 	margin-left: -200px;
 	margin-bottom: 15px;
-	padding: 20pt;
+	padding: 30pt;
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 	box-shadow: 5px 5px 5px #555555;
@@ -172,4 +161,58 @@ nav ul li.h3-title {
 }
 nav ul li.h4-title {
 	padding-left: 80px;
+}
+
+/* Labels */
+label {
+	width: 100px;
+	float: left;
+}
+
+/* Tables */
+table { 
+	width: 100%; 
+	border: 1px solid #000000; 
+	empty-cells: hide;
+	border-spacing: 2px 2px;
+	margin-top: 5px;
+}
+
+td, th {
+	vertical-align:top;
+	margin: 0;
+	padding: 2px 5px 2px 5px;
+}
+
+tr:nth-child(2n+1) td {
+	background-color: #dddddd;
+	border-bottom: 1px solid #bbbbbb;
+}
+tr:nth-child(2n) td {
+	background-color: #eeeeee;
+	border-bottom: 1px solid #cccccc;
+}
+tr:nth-last-child(1) td {
+	border-bottom: none;
+}
+
+th {
+	background-color: #cccccc;
+	text-align: left;
+	border-bottom: 2px solid #000000;
+}
+th.left {
+	border-bottom: 1px solid #ffffff;
+	border-right: 2px solid #000000;
+}
+
+td ul {
+	margin: 0;
+	padding-left: 15px;
+}
+
+
+span.reference a {
+	color: #365f91;
+	text-decoration: underline;
 }
