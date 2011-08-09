@@ -1,0 +1,95 @@
+Notizen zu den Anforderungen
+============================
+
+Hinweis: 
+Alle Punkte, die mit "[-" beginnen, wurden bereits in die "offer.html" übernommen.
+
+Alle Punkte, die mit "[~" beginnen, wurden zum Teil oder in anderer Form
+in die "offer.html" übernommen (z.B. weil zu tiefgreifend/zu genau).
+
+
+Allgemein
+
+[- Lauffähig ab Android 2.1.1                                                                      
+
+[- Darf keine Änderungen/Anpassungen an Android erfordern
+
+[- Muss ohne Root-Rechte auskommen
+
+[- Leicht bedienbar (im Simple-Mode), leichtes Erstellen von Levels und Einbinden von
+  Ressoucren
+  
+[- Erstellen des Handbuchs (auf deutsch) entsprechen bis zur aktuellen
+  Iteration implmentierten Funktionen
+
+[- Erscheinungsbild muss sich in das System integrieren (Farbschema, Schrift etc)
+
+[- Kurze Reaktionszeiten (flüssige Bedienung)
+
+
+1. Iteration
+
+
+[- Konfigurations-Dialog im einfachen Modus (Simple-Mode) implementieren.
+  Schaltflächen bis Implementierung der zugehörigen Funktion mit Dummy-Event
+
+[- GUI-Architektur so gestalten, das sich die GUI leicht erweitern lässt 
+  (z.B. um später Experten-Modus hinzuzufügen)
+
+[~ GUI-Beschriftungen über I18N Schnittstelle (Ressourcen-Datei) laden
+
+(- I18N Funktionalität implementieren oder I18N Schnittstelle als Dummy???)
+
+[- Grund-Struktur / Architektur des Ressourcen-Managment ausarbeiten 
+  (unabhängig von konkreten Ressourcen und Service-Levels)
+  und implementieren.
+
+[- Architektur des Ressourcen-Managers Modular bzw. offen, so dass sich später Ressourcen
+  ohne Änderungen am Ressourcen-Manager hinzufügen, entfernen und aktualisieren lassen.
+
+[- Einfache Test-Ressource implementieren und in Ressourcen-Manager integrieren
+  (z.B. Zugriff auf Tel-Buch)
+
+[- Einfache Demo-App (z.B. nur ein Button "Aktion ausführen") die auf die 
+  Test-Ressource zugreift
+  
+[- Einfaches Privacy-Level. Weitere sollen sich leicht (am besten ohne Änderungen am
+  Code) hinzufügen lassen.
+  
+[~ Einfache Definition der Service-Level (ohne Änderungen am Code hinzufügbar)
+  Definition am Besten als XML -> XML-Scheme entwerfen
+
+
+Spätere Iterationen:
+
+- Wenn I18N als Dummy, I18N so erweitern, dass es die Beschriftungs-Strings
+  aus Ressourcen-Datei lädt
+
+[~ GUI zur Auswahl des Service-Levels und Festlegung des Verhältnisses zwischen
+  Ressourcen-Rechte und Diensten durch Benutzer
+
+[- Exportieren und Importieren der Einstellungen hinzufügen
+
+- Prüfen, ob XACML als Austausch-Format in Frage kommt (Einarbeitungs- & Integrationsaufwand)
+
+[- Experten-Modus für GUI implementieren
+
+[- Weitere Ressourcen hinzufügen bzw. erweitern
+
+[- Demo-App um Zugriff auf weitere Ressourcen erweitern und weitere Demo-Apps hinzufügen
+
+- Service-Level Editor erstellen
+
+- Editor zur Konfiguration der Ressource (z.B. Erstellen einer XML-Konfig-Datei für die Ressource)
+
+[- Anzeige der eingebundenen Ressourcen in GUI
+
+- "Market" für Ressourcen
+
+(- Integration der Hilfe/Handbuch in PMP???)
+
+[- Implementierung und Integration von Standard-Ressourcen
+
+- Domänespezifisch?
+
+- Server?
