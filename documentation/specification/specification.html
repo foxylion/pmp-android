@@ -280,25 +280,39 @@
 				<p></p>
 			
 					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
-					<p></p>
+					<p>Die Software soll basierend auf der Android Version 2.1.1 laufen. Alle weiteren Versionen aufwärts (2.2, 2.3, 2.3.3) sollen ebenfalls unterstützt werden.</p>
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p></p>
+					<p>Die Software kann ohne weitere Probleme mind. 30 Apps und mind. 20 Ressourcen verwalten. Die maximale Anzahl kann je nach Gerät variieren.</p>
+					<p>In der 1. Iteration werden fünf Standard-Ressourcen bereitgestellt. Nach jeder Iteration werden nach und nach weitere Standard-Ressourcen verfügbar sein.</p>
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
-					<p></p>
+					<p>Die PMP muss von einfachen Eingaben, wie „erlauben“ und „nicht erlauben“, bis zu komplexeren Eingaben, wie Datum, Uhrzeit und Kilometer verarbeiten können.</p>
+					<p>Je nach Einstellung eines Service Levels, können Flags (Privacy Levels) gesetzt werden. Flags können verschieden Typen enthalten:<br />
+					<ul>
+						<li>Binäre Eingaben, zum Beispiel „An/Aus“, „Ja/Nein“</li>
+						<li>Datum</li>
+						<li>Wochentage</li>
+						<li>Uhrzeit</li>
+						<li>Koordinaten</li>
+						<li>Geschwindigkeit</li>
+						<li>Kilometer</li>
+						<li>…</li>
+					</ul>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p></p>
-				
+				<p>Durch Verwalten mehrerer Ressourcen zur gleichen Zeit, besteht ein gewisses Absturzrisiko. Daher soll die PMP robust entwickelt werden.</p>
+				<p>Bei fehlerhaften Eingaben soll der Benutzer entsprechende Meldungen erhalten, wie zum Beispiel bei der Einstellung der Flags bezüglich falscher Eingaben der Zeit oder des Datums. (Usability Patterns).</p>				
+
 				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
-				<p></p>
+				<p>Die PMP läuft während der Laufzeit des Geräts im Hintergrund, um die Apps und Ressourcen zu verwalten.</p>
+				<p>Falls PMP unerwartet beendet werden sollte, soll sie automatisch neugestartet werden.</p>
 				
 				<h2 id="sicherheit">Sicherheit</h2>
-				<p></p>
+				<p>Bei wichtigen Einstellungsänderungen wird der Benutzer einmalig pro Sitzung nach einem Passwort gefragt. Während der Passworteingabe kann das Passwort angezeigt werden.</p>
 				
-				<h2 id="portabilitaet-kompatibilitaet">Portabilität & Kompatibilität</h2>
-				<p></p>
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>Die App soll auf allen Android–fähigen Smartphones ab der Version 2.1.1 kompatibel sein. Die PMP besitzt keine Einschränkungen bezüglich der Auflösung.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Die Oberfläche von PMP wird zunächst auf Englisch entwickelt werden, soll aber für beliebig viele Sprachen erweiterbar sein. Das Handbuch wird auf Deutsch entstehen, wobei die Screenshots die englische Oberfläche zeigen werden.</p>
@@ -307,13 +321,18 @@
 				<p></p>
 				
 				<h2 id="installation">Installation</h2>
-				<p></p>
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen.</p>
 				
 				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
-				<p></p>
-				
+				<p>Die Software soll hinsichtlich folgender Punkte erweiterbar sein:</p>
+				<ul>
+					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
+					<li>Ressourcen/Ressourcengruppen</li>
+					<li>Rollen</li>
+				</ul>
+
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
-				<p></p>
+				<p>Die Software soll hinsichtlich neuer Android-Versionen angepasst werden.</p>
 				
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
 				<p></p>
