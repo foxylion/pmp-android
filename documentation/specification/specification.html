@@ -165,15 +165,16 @@
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
 									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine Ressource vorhanden, die PMP verwaltet.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat Details zu den verfübaren Ressourcen erfahren.</td>
+								<td>Der Benutzer hat Details zu einer verfübaren Ressource erfahren.</td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>-</td>
+								<td>Der Benutzer hat Details zu mehreren verfübaren Ressourcen erfahren.</</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -193,12 +194,12 @@
 							<tr>
 								<th class="left">Sonderfall <span class="uc-sf">6a</span></th>
 								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren Ressource Details anzeigen, zurück zu Schritt 2.</li>
+									<li>Der Benutzer möchte zu einer weiteren Ressource Details anzeigen, zurück zu Normalablauf Schritt 2.</li>
 								</ol></td>
 							</tr>
 						</table>
 						
-						<h4 id="awdf-x">Berechtigungen anzeigen</h4>
+						<h4 id="awdf-3">Berechtigungen anzeigen</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case ID</th>
@@ -216,15 +217,16 @@
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
 									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen einer App erhalten und befindet sich wieder im Startbildschirm von PMP.</td>
+								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen einer App erhalten und befindet sich im Hauptmenü von PMP.</td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen mehrerer Apps erhalten und befindet sich wieder im Startbildschirm von PMP.</td>
+								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen mehrerer Apps erhalten und befindet sich im Hauptmenü von PMP.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -236,15 +238,69 @@
 									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
 									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
 									<li>Der Benutzer wählt eine App aus.</li>
-									<li>Dem Benutzer werden die Berechtigungen angezeigt, die die App hat.</li>
+									<li>Der Benutzer wählt für diese App aus, dass er die Berechtigungen anzeigen will.</li>
+									<li>Dem Benutzer werden die Berechtigungen angezeigt, die die App besitzt.</li>
 									<li>Der Benutzer schließt die Berechtigungsübersicht.</li>
 									<li>Der Benutzer schließt die Übersicht der Apps.</li>
 								</ol></td>
 							</tr>
 							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">6a</span></th>
+								<th class="left">Sonderfall <span class="uc-sf">7a</span></th>
 								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren App die Berechtigungen anzeigen lassen, zurück zu Schritt 2 Normalablauf</li>
+									<li>Der Benutzer möchte zu einer weiteren App die Berechtigungen anzeigen lassen, zurück zu Normalablauf Schritt 2</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-4">Service-Level Übersicht anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#4</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Service-Level Übersicht anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Service-Level Übersicht einer App anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Der Benutzer hat die gewünschten Informationen über die Service Levels einer App erhalten und befindet sich im Hauptmenü von PMP.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Der Benutzer hat die gewünschten Informationen über die Service Levels mehrerer Apps erhalten und befindet sich im Hauptmenü von PMP.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+								    <li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
+									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
+									<li>Der Benutzer wählt eine App aus.</li>
+									<li>Der Benutzer wählt für diese App aus, dass er die Service-Level Übersicht anzeigen will.</li>
+									<li>Dem Benutzer werden die Service-Levels der App als Übersicht angezeigt.</li>
+									<li>Der Benutzer schließt die Service-Level übersicht.</li>
+									<li>Der Benutzer schließt die Übersicht der Apps.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">7a</span></th>
+								<td><ol>
+									<li>Der Benutzer möchte zu einer weiteren App die Service-Level Übersicht anzeigen lassen, zurück zu Normalablauf Schritt 2</li>
 								</ol></td>
 							</tr>
 						</table>
