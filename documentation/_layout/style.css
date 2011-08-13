@@ -214,7 +214,7 @@ td ul, td ol {
 }
 
 
-span.reference a {
+span.reference a, a {
 	color: #365f91;
 	text-decoration: underline;
 }
