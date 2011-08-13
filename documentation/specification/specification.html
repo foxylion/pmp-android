@@ -92,7 +92,7 @@
 					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
 					<p>Im folgenden werden die im Use-Case Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
 					
-						<h4 id="awdf-1">Service-Level von App auswählen</h4>
+						<h4 id="awdf-1">Service-Level anfragen nach Installation</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case ID</th>
@@ -100,49 +100,34 @@
 							</tr>
 							<tr>
 								<th class="left">Name</th>
-								<td>Service-Level einer App einstellen</td>
+								<td>Service-Level anfragen nach Installation</td>
 							</tr>
 							<tr>
 								<th class="left">Ziel</th>
-								<td>Der Benutzer will das Service Level einer App einstellen.</td>
+								<td>Die App will das Service-Level von PMP erhalten.</td>
 							</tr>
 							<tr>
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
-									<li>Der normale Modus ist aktiviert</li>
-									<li>Die App fragt nach Rechten</li>
+									<li>PMP ist auf dem Gerät installiert.</li>
+									<li>Die App hat die Schnittstellen von PMP implementiert.</li>
+									<li>Die App besitzt mindestens ein Service-Level.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Das Service Level der App wurde eingstellt.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Es wurden keine Änderungen am Service Level der App vorgenommen.</td>
+								<td>Die App hat das Service-Level erhalten.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
-								<td>Benutzer</td>
+								<td>App</td>
 							</tr>
 							<tr>
 								<th class="left">Normalablauf</th>
 								<td><ol>
-									<li>Der Benutzer wählt in der erscheindenen Eingabemaske das richtige Service Level aus.</li>
-									<li>Dem Benutzer werden Details (benötigte Ressourcen) zum ausgewählten Service Level angezeigt.</li>
-									<li>Der Benuzer akzeptiert diese Anforderungen und weist der App das Service Level dadurch zu.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">1a</span></th>
-								<td><ol>
-									<li>Der Benutzer bricht den Vorgang ab.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">2a</span></th>
-								<td><ol>
-									<li>Der Benutzer will die geforderten Rechte nicht akzeptieren, zurück zu Schritt 1.</li>
+									<li>Die App frägt bei PMP an welchen Service-Level sie zugewiesen bekommt.</li>
+									<li>PMP ruft die verfügbaren Service-Level der App ab</li>
+									<li>gehe zu Use Case ID 3 Normalablauf Schritt 5</li>
 								</ol></td>
 							</tr>
 						</table>
@@ -184,9 +169,9 @@
 								<th class="left">Normalablauf</th>
 								<td><ol>
 									<li>Der Benutzer wählt die Ressourcenübersicht aus.</li>
-									<li>Dem Benutzer werden alle verfügbaren Ressourcen aufgelistet.</li>
+									<li>PMP listet alle verfügbaren Ressourcen auf.</li>
 									<li>Der Benutzer wählt eine Ressource aus.</li>
-									<li>Dem Benutzer werden Details über die Ressource angezeigt.</li>
+									<li>PMP zeigt die Details über die Ressource an.</li>
 									<li>Der Benutzer schliest die Detailübersicht</li>
 									<li>Der Benutzer schliest die Ressourcenübersicht.</li>
 								</ol></td>
@@ -199,7 +184,7 @@
 							</tr>
 						</table>
 						
-						<h4 id="awdf-3">Berechtigungen anzeigen</h4>
+						<h4 id="awdf-3">Service Level einer App anzeigen bzw. ändern</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case ID</th>
@@ -207,11 +192,11 @@
 							</tr>
 							<tr>
 								<th class="left">Name</th>
-								<td>Berechtigungen einer App anzeigen</</td>
+								<td>Service Level einer App anzeigen bzw. ändern</td>
 							</tr>
 							<tr>
 								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Berechtigungen, die eine installierte App besitzt, anzeigen.</td>
+								<td>Der Benutzer möchte das Service-Level einer App anzeigen bzw. ändern</td>
 							</tr>
 							<tr>
 								<th class="left">Vorbedingungen</th>
@@ -222,11 +207,15 @@
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen einer App erhalten und befindet sich im Hauptmenü von PMP.</td>
+								<td>Der Benutzer hat das Service-Level einer App angezeigt bzw. geändert.</td>
 							</tr>
 							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Berechtigungen mehrerer Apps erhalten und befindet sich im Hauptmenü von PMP.</td>
+								<th class="left">Nachbedingungen im Sonderfall 1</th>
+								<td>Der Benutzer hat das Service-Level einer App festgelegt bzw. geändert.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall 2</th>
+								<td>Der Benutzer hat das Service-Level einer App nicht festgelegt bzw. nicht geändert.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -236,196 +225,34 @@
 								<th class="left">Normalablauf</th>
 								<td><ol>
 									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
-									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
-									<li>Der Benutzer wählt eine App aus.</li>
-									<li>Der Benutzer wählt für diese App aus, dass er die Berechtigungen anzeigen will.</li>
-									<li>Dem Benutzer werden die Berechtigungen angezeigt, die die App besitzt.</li>
-									<li>Der Benutzer schließt die Berechtigungsübersicht.</li>
-									<li>Der Benutzer schließt die Übersicht der Apps.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">7a</span></th>
-								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren App die Berechtigungen anzeigen lassen, zurück zu Normalablauf Schritt 2</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-4">Service-Level Übersicht anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#4</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Service-Level Übersicht anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Service-Level Übersicht einer App anzeigen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Service Levels einer App erhalten und befindet sich im Hauptmenü von PMP.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Der Benutzer hat die gewünschten Informationen über die Service Levels mehrerer Apps erhalten und befindet sich im Hauptmenü von PMP.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-								    <li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
-									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
+									<li>PMP listet dem Benutzer alle Apps auf.</li>
 									<li>Der Benutzer wählt eine App aus.</li>
 									<li>Der Benutzer wählt für diese App aus, dass er die Service-Level Übersicht anzeigen will.</li>
-									<li>Dem Benutzer werden die Service-Levels der App als Übersicht angezeigt.</li>
+									<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und falls ein Service-Level festgelegt ist, wird dieser hervorgehoben.</li>
 									<li>Der Benutzer schließt die Service-Level übersicht.</li>
 									<li>Der Benutzer schließt die Übersicht der Apps.</li>
 								</ol></td>
 							</tr>
 							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">7a</span></th>
+								<th class="left">Sonderfall 1<span class="uc-sf">5a</span></th>
 								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren App die Service-Level Übersicht anzeigen lassen, zurück zu Normalablauf Schritt 2</li>
+									<li>Der Benutzer wählt ein Service-Level aus.</li>
+									<li>PMP stellt die Details zu diesem Service-Level dar.</li>
+									<li>Der Benutzer bestätigt die Auswahl dieses Service-Levels.</li>
+									<li>zurück zu Normalablauf Schritt 6</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall 2<span class="uc-sf">5b</span></th>
+								<td><ol>
+									<li>Der Benutzer wählt ein Service-Level aus.</li>
+									<li>PMP stellt die Details zu diesem Service-Level dar.</li>
+									<li>Der Benutzer bestätigt die Auswahl dieses Service-Levels nicht.</li>
+									<li>zurück zu Normalablauf Schritt 6</li>
 								</ol></td>
 							</tr>
 						</table>
 						
-						<h4 id="awdf-5">Service-Level einer App ändern</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#5</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Service-Level einer App ändern</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer will das Service-Level einer App ändern</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Das Service-Level der App wurde geändert und der Benutzer befindet sich wieder im Hauptmenü von PMP.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 1</th>
-								<td>Das Service-Level der App wurde nicht geändert und der Benutzer kann einen neuen Service-Level für die App auswählen.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 2</th>
-								<td>Das Service-Level der App wurde nicht geändert und der Benutzer befindet sich wieder im Hauptmenü von PMP.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-								    <li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
-									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
-									<li>Der Benutzer wählt eine App aus.</li>
-									<li>Der Benutzer wählt für diese App aus, dass er die Service-Level Übersicht anzeigen will.</li>
-									<li>Dem Benutzer werden die Service-Levels der App als Übersicht angezeigt.</li>
-									<li>Der Benutzer wählt den neuen gewünschten Service-Level aus.</li>
-									<li>Dem Benutzer werden Details (benötigte Ressourcen) zum ausgewählten Service Level angezeigt.</li>
-									<li>Der Benutzer bestätigt die Auswahl des Service-Levels.</li>
-									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
-									<li>Der Benutzer schließt die Service-Level übersicht.</li>
-									<li>Der Benutzer schließt die Übersicht der Apps.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall 1<span class="uc-sf">8a</span></th>
-								<td><ol>
-									<li>Der Benutzer Bestätigt die Auswahl des Service Levels nicht, zurück zu Normalablauf Schritt 5</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall 2<span class="uc-sf">8b</span></th>
-								<td><ol>
-									<li>Der Benutzer Bestätigt die Auswahl des Service Levels nicht, zurück zu Normalablauf Schritt 9</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-6">Aktueller Service-Level einer App anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#6</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Aktueller Service-Level einer App anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer will das aktuell ausgewählte Service-Level einer App anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat die gewünschten Informationen über den aktuellen Service-Level einer App erhalten und befindet sich im Hauptmenü von PMP.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall </th>
-								<td>Der Benutzer hat die gewünschten Informationen über den aktuellen Service-Level mehrerer Apps erhalten und befindet sich im Hauptmenü von PMP.</td>
-							</tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-								    <li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
-									<li>Dem Benutzer werden alle Apps aufgelistet, die von PMP verwaltet werden.</li>
-									<li>Der Benutzer wählt eine App aus.</li>
-									<li>Der Benutzer wählt für diese App aus, dass er die Service-Level Übersicht anzeigen will.</li>
-									<li>Dem Benutzer werden die Service-Levels der App als Übersicht angezeigt.</li>
-									<li>Der Benutzer wählt den aktuellen Service-Level aus, der hervorgehoben ist.</li>
-									<li>Dem Benutzer werden Informationen zum aktuellen Service-Level als Übersicht angezeigt.</li>
-									<li>Der Benutzer schließt die Übersicht über den aktuellen Service-Level.</li>
-									<li>Der Benutzer schließt die Service-Level übersicht.</li>
-									<li>Der Benutzer schließt die Übersicht der Apps.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall<span class="uc-sf">9a</span></th>
-								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren App den aktuellen Service-Level anzeigen, zurück zu Normalablauf Schritt 3.</li>
-								</ol></td>
-							</tr>
-						</table>
 						
 						<!--
 						
