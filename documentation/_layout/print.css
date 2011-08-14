@@ -175,6 +175,7 @@ th {
 th.left {
 	border-bottom: 1px solid #cccccc;
 	border-right: 2px solid #000000;
+	width: 125px;
 }
 
 td ul, td ol {
@@ -187,4 +188,23 @@ td ul, td ol {
 span.reference a, a {
 	color: #365f91;
 	text-decoration: underline;
+}
+
+/* specification specific layout */
+th.left span.uc-sf {
+	float: right;
+	font-weight: bold;
+}
+
+
+span.up-annotation {
+	border-bottom: 1px solid #ff8c00;
+	font-weight: bold;
+	background-color: #fff;
+	color: #ff8c00;
+	padding: 2px 0.5em;
+	display: block;
+	margin-left: -6px;
+	margin-right: -6px;
+	margin-bottom: 3px;
 }
