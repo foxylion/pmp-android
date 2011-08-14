@@ -90,12 +90,12 @@
 					<img src="usecases.svg" alt="Use-Case Diagramm" style="width:100%;">
 					
 					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
-					<p>Im folgenden werden die im Use-Case Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
+					<p>Im Folgenden werden die im Use-Case-Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
 					
 						<h4 id="awdf-1">Service-Level anfragen nach Installation</h4>
 						<table>
 							<tr>
-								<th class="left">Use-Case ID</th>
+								<th class="left">Use-Case-ID</th>
 								<td>#1</td>
 							</tr>
 							<tr>
@@ -303,7 +303,7 @@
 				<p></p>
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
-					<p>Die Oberfläche von PMP soll sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie nachvollziehbare und möglichst einfach Menüstruktur. Es gelten die Android User Interface Guidelines.</p>
+					<p>Die Oberfläche von PMP soll sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie nachvollziehbare und möglichst einfach Menüstruktur. Es gelten die Android User Interface Guidelines, von denen in begründeten Einzelfällen abgewichen werden kann.</p>
 
 					<h3 id="oberflaeche">Import/Export</h3>
 					<p>Keine Import-/Exportfunktionen in M-1 geplant.</p>
@@ -315,24 +315,24 @@
 			<p></p>
 			
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>PMP-Android soll einfach bedienbar sein. Im einfachen Modus muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern können und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Es ist kein Expertenmodus für M-1 geplant.</p>
+				<p>PMP soll einfach bedienbar sein. Im einfachen Modus muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern können und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, soll PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist kein Expertenmodus für M-1 geplant.</p>
 			
 					<h3 id="nutzungskontext">Nutzungskontext</h3>
 					<p></p>
 			
 						<h4 id="personae">Personae</h4>
 						<p><strong>Der Durchschnittsuser: Joe</strong></p>
-						<p>Joe ist 15 Jahre alt und besitzt sein Android-Gerät erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört dass PMP ihm dabei helfen kann Strom zu sparen und seine Internetkosten zu senken indem er bestimmten Programmen die Nutzung energieintensiver Features oder die Nutzung des Internets verbietet. Von Sicherheitskonzepten, Nutzerrollen oder Ressourcen hat er jedoch keine Ahnung.</p>
+						<p>Joe ist 15 Jahre alt und besitzt sein Android-Gerät erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört, dass PMP ihm dabei helfen kann Strom zu sparen und seine Internetkosten zu senken, indem er bestimmten Programmen die Nutzung energieintensiver Features oder die Nutzung des Internets verbietet. Von Sicherheitskonzepten, Nutzerrollen oder Ressourcen hat er jedoch keine Ahnung.</p>
 						<p>Zugehöriges Nutzungsszenario: N-1</p>
 						<p><strong>Der Poweruser: Matt</strong></p>
-						<p>Matt ist ein Android-User der ersten Stunde, er besitzt mehrere Android-Geräte und nutzt diese Intensiv. Er erledigt sowohl private als auch geschäftliche Aufgaben mit seinem Gerät und hat außerdem gerne die vollständige Kontrolle über seine Anwendungen und Dienste.</p>
+						<p>Matt ist ein Android-User der ersten Stunde, er besitzt mehrere Android-Geräte und nutzt diese intensiv. Er erledigt sowohl private als auch geschäftliche Aufgaben mit seinem Gerät und hat außerdem gerne die vollständige Kontrolle über seine Anwendungen und Dienste.</p>
 						<p>Zugehörige Nutzungsszenarien: Keine Nutzungsszenarien in M-1 geplant.</p>
 						<p><strong>Der Android-Entwickler: Dave</strong></p>
 						<p>Dave ist ein Entwickler für Android-Apps. Er hat von PMP und seinen Möglichkeiten für eine feingranulare Rechteverwaltung gehört und möchte den Nutzern seiner Apps diese nicht vorenthalten.</p>
 						<p>Zugehörige Nutzungsszenarien: Keine Nutzungsszenarien in M-1 geplant.</p>
 						<h4 id="nutzungsszenarien">Nutzungsszenarien</h4>
 						<p><strong>Nutzungsszenario N-1</strong></p>
-						<p>Joe installiert ein neues Programm auf seinem Android-Gerät und möchte diesem den Zugriff ins Internet nicht erlauben. Außerdem möchte er Programm X, Programm Y und Programm Z den Zugriff auf energieintensive Ressourcen wie GPS verbieten.</p>
+						<p>Joe installiert ein neues Programm auf seinem Android-Gerät und möchte diesem den Zugriff ins Internet nicht erlauben. Außerdem möchte er mehreren Apps den Zugriff auf energieintensive Ressourcen wie GPS verbieten.</p>
 			
 				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
 				<p></p>
@@ -341,12 +341,12 @@
 					<p>Die Software soll basierend auf der Android Version 2.1.1 laufen. Alle weiteren Versionen aufwärts (2.2, 2.3, 2.3.3) sollen ebenfalls unterstützt werden.</p>
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p>Die Software kann ohne weitere Probleme mind. 30 Apps und mind. 20 Ressourcen verwalten. Die maximale Anzahl kann je nach Gerät variieren.</p>
+					<p>Die Software kann ohne weitere Probleme mindestens 30 Apps und mindestens 20 Ressourcen verwalten. Die maximale Anzahl kann je nach Gerät variieren.</p>
 					<p>In der 1. Iteration werden fünf Standard-Ressourcen bereitgestellt. Nach jeder Iteration werden nach und nach weitere Standard-Ressourcen verfügbar sein.</p>
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
-					<p>Die PMP muss von einfachen Eingaben, wie „erlauben“ und „nicht erlauben“, bis zu komplexeren Eingaben, wie Datum, Uhrzeit und Kilometer verarbeiten können.</p>
-					<p>Je nach Einstellung eines Service Levels, können Flags (Privacy Levels) gesetzt werden. Flags können verschieden Typen enthalten:<br />
+					<p>Die PMP muss von einfachen Eingaben, wie „erlauben“ und „nicht erlauben“, bis zu komplexeren Eingaben, wie Datum, Uhrzeit und Längen verarbeiten können.</p>
+					<p>Je nach Einstellung eines Service Levels, können Flags (Privacy Levels) gesetzt werden. Flags können verschiedenste Typen enthalten, z.B.<br />
 					<ul>
 						<li>Binäre Eingaben, zum Beispiel „An/Aus“, „Ja/Nein“</li>
 						<li>Datum</li>
@@ -354,13 +354,13 @@
 						<li>Uhrzeit</li>
 						<li>Koordinaten</li>
 						<li>Geschwindigkeit</li>
-						<li>Kilometer</li>
+						<li>Länge</li>
 						<li>…</li>
 					</ul>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p>Durch Verwalten mehrerer Ressourcen zur gleichen Zeit, besteht ein gewisses Absturzrisiko. Daher soll die PMP robust entwickelt werden.</p>
-				<p>Bei fehlerhaften Eingaben soll der Benutzer entsprechende Meldungen erhalten, wie zum Beispiel bei der Einstellung der Flags bezüglich falscher Eingaben der Zeit oder des Datums. (Usability Patterns).</p>				
+				<p>Durch Verwalten mehrerer Ressourcen zur gleichen Zeit besteht ein gewisses Absturzrisiko. Daher soll die PMP robust entwickelt werden.</p>
+				<p>Bei Änderungen, die nur schwer rückgängig zu machen sind, soll der Benutzer entsprechende Warnungen erhalten. Ungewollte Aktionen soll der Benutzer abbrechen können. Bei länger dauernden Aufgaben soll der Benutzer darüber in Kenntnis gesetzt werden.</p>				
 
 				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
 				<p>Die PMP läuft während der Laufzeit des Geräts im Hintergrund, um die Apps und Ressourcen zu verwalten.</p>
@@ -376,10 +376,10 @@
 				<p>Die Oberfläche von PMP wird zunächst auf Englisch entwickelt werden, soll aber für beliebig viele Sprachen erweiterbar sein. Das Handbuch wird auf Deutsch entstehen, wobei die Screenshots die englische Oberfläche zeigen werden.</p>
 				
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p></p>
+				<p>An PMP werden keine gesonderten Anforderung über die Protokollierung von Ereignissen gestellt.</p>
 				
 				<h2 id="installation">Installation</h2>
-				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen.</p>
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
 				
 				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
 				<p>Die Software soll hinsichtlich folgender Punkte erweiterbar sein:</p>
@@ -387,13 +387,15 @@
 					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
 					<li>Ressourcen/Ressourcengruppen</li>
 					<li>Rollen</li>
+					<li>verwaltete Apps</li>
+					<li>Kontexte</li>
 				</ul>
 
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
-				<p>Die Software soll hinsichtlich neuer Android-Versionen angepasst werden.</p>
+				<p>Die Software wird möglichst wartbar für neuere Android-Versionen entwickelt werden.</p>
 				
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-				<p></p>
+				<p>PMP soll möglichst keine externen Abhängigkeiten besitzen, abgesehen vom Android-Betriebssystem.</p>
 				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen.
