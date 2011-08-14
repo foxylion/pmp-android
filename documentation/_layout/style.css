@@ -224,3 +224,11 @@ th.left span.uc-sf {
 	float: right;
 	font-weight: bold;
 }
+
+span.up-annotation {
+	border: 1px dashed orange;
+	font-weight: bold;
+	background-color: #fff;
+	color: orange;
+	padding: 0em 0.3em;
+}
