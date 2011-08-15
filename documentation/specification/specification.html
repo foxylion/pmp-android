@@ -116,7 +116,7 @@
 					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
 					<p>Im Folgenden werden die im Use-Case-Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
 					
-						<h4 id="awdf-1">Service-Level anfragen nach Installation</h4>
+						<h4 id="awdf-1">Service Level anfragen</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case-ID</th>
@@ -124,23 +124,80 @@
 							</tr>
 							<tr>
 								<th class="left">Name</th>
-								<td>Service-Level anfragen nach Installation</td>
+								<td>Service Level anfragen</td>
 							</tr>
 							<tr>
 								<th class="left">Ziel</th>
-								<td>Die App will das Service-Level von PMP erhalten.</td>
+								<td>Die App will das Service Level von PMP erhalten.</td>
 							</tr>
 							<tr>
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
 									<li>PMP ist auf dem Gerät installiert.</li>
-									<li>Die App hat die Schnittstellen von PMP implementiert.</li>
-									<li>Die App besitzt mindestens ein Service-Level.</li>
+									<li>PMP-Service läuft.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Die App hat das Service-Level erhalten.</td>
+								<td>Die App hat das Service Level erhalten.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Die App hat das Service Level erhalten, das keine Rechte erfordert.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td><ul>
+									<li>App (Hauptakteur)</li>
+									<li>Benutzer</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Die App fragt bei PMP an, welches Service Level sie zugewiesen bekommt.</li>
+									<li>PMP ruft die verfügbaren Service Level der App ab.</li>
+									<li>PMP zeigt eine Übersicht über die Service Levels dem Benutzer an.</li>
+									<li>Der Benutzer wählt das gewünschte Service Level aus.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">4a</span></th>
+								<td><ol>
+									<li>Der Benutzer wählt kein Service Level.</li>
+									<li>Der Benutzer schließt die Übersicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-2">Ressource der PMP bekannt machen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#2</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Ressource der PMP bekannt machen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Die App will eine Ressource der PMP bekannt machen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>PMP ist auf dem Gerät installiert.</li>
+									<li>PMP-Service läuft.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Die Ressource ist der PMP bekannt.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Die Ressource ist nicht der PMP bekannt.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -149,18 +206,25 @@
 							<tr>
 								<th class="left">Normalablauf</th>
 								<td><ol>
-									<li>Die App fragt bei PMP an, welchen Service-Level sie zugewiesen bekommt.</li>
-									<li>PMP ruft die verfügbaren Service-Level der App ab.</li>
-									<li>gehe zu <a href="#awdf-3">Use Case #3</a> Normalablauf Schritt 5</li>
+									<li>Die App registriert bei PMP die neue Ressource.</li>
+									<li>PMP akzeptiert die entsprechende Ressource</li>
+									<li>PMP bestätigt die Registrierung.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">2a</span></th>
+								<td><ol>
+									<li>PMP akzeptiert die entsprechende Ressource nicht.</li>
+									<li>PMP bestätigt die Registrierung nicht.</li>
 								</ol></td>
 							</tr>
 						</table>
 						
-						<h4 id="awdf-2">Ressourcen anzeigen</h4>
+						<h4 id="awdf-3">Ressourcen anzeigen</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case ID</th>
-								<td>#2</td>
+								<td>#3</td>
 							</tr>
 							<tr>
 								<th class="left">Name</th>
@@ -168,22 +232,56 @@
 							</tr>
 							<tr>
 								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die verfügbaren Ressourcen anzeigen und Details zu diesen erfahren.</td>
+								<td>Der Benutzer möchte die Ressourcen anzeigen.</td>
 							</tr>
 							<tr>
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
 									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine Ressource vorhanden, die PMP verwaltet.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat Details zu einer verfübaren Ressource erfahren.</td>
+								<td>Der Benutzer hat die gewünschten Informationen über die Ressourcen erfahren.</td>
 							</tr>
 							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Der Benutzer hat Details zu mehreren verfübaren Ressourcen erfahren.</</td>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Ressourcenübersicht aus.</li>
+									<li>PMP listet alle verfügbaren Ressourcen auf.</li>
+									<li>Der Benutzer schließt die Ressourcenübersicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-4">Details zu einer Ressource anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#4</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Details zu einer Ressource anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Details über eine Ressource anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine Ressource verfügbar.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Der Benutzer hat die gewünschten Informationen über die Ressource erfahren.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -195,24 +293,18 @@
 									<li>Der Benutzer wählt die Ressourcenübersicht aus.</li>
 									<li>PMP listet alle verfügbaren Ressourcen auf.</li>
 									<li>Der Benutzer wählt eine Ressource aus.</li>
-									<li>PMP zeigt die Details über die Ressource an.</li>
-									<li>Der Benutzer schließt die Detailübersicht</li>
+									<li>PMP zeigt die Details der Ressource an.</li>
+									<li>Der Benutzer schließt die Detailansicht der Ressource.</li>
 									<li>Der Benutzer schließt die Ressourcenübersicht.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">6a</span></th>
-								<td><ol>
-									<li>Der Benutzer möchte zu einer weiteren Ressource Details anzeigen, zurück zu Normalablauf Schritt 2.</li>
 								</ol></td>
 							</tr>
 						</table>
 						
-						<h4 id="awdf-3">Service Level einer App anzeigen bzw. ändern</h4>
+						<h4 id="awdf-5">Service Level einer App anzeigen bzw. ändern</h4>
 						<table>
 							<tr>
 								<th class="left">Use-Case ID</th>
-								<td>#3</td>
+								<td>#5</td>
 							</tr>
 							<tr>
 								<th class="left">Name</th>
@@ -220,26 +312,22 @@
 							</tr>
 							<tr>
 								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte das Service-Level einer App anzeigen bzw. ändern</td>
+								<td>Der Benutzer möchte das Service Level einer App anzeigen bzw. ändern</td>
 							</tr>
 							<tr>
 								<th class="left">Vorbedingungen</th>
 								<td><ul>
 									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert, die PMP verwaltet.</li>
+									<li>Es ist mindestens eine App installiert.</li>
 								</ul></td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat das Service-Level einer App angezeigt bzw. geändert.</td>
+								<td>Der Benutzer hat das Service Level einer App angezeigt bzw. geändert.</td>
 							</tr>
 							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 1</th>
-								<td>Der Benutzer hat das Service-Level einer App festgelegt bzw. geändert.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 2</th>
-								<td>Der Benutzer hat das Service-Level einer App nicht festgelegt bzw. nicht geändert.</td>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Der Benutzer hat das Service Level einer App festgelegt bzw. geändert.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -248,24 +336,23 @@
 							<tr>
 								<th class="left">Normalablauf</th>
 								<td><ol>
-									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus, die PMP verwaltet.</li>
+									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
 									<li>PMP listet dem Benutzer alle Apps auf.</li>
 									<li>Der Benutzer wählt eine App aus.</li>
-									<li>Der Benutzer wählt für diese App aus, dass er die Service-Level-Übersicht anzeigen will.</li>
-									<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und, falls ein Service-Level festgelegt ist, wird dieser hervorgehoben.</li>
-									<li>Der Benutzer schließt die Service-Level-Übersicht.</li>
+									<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und falls ein Service-Level festgelegt ist, wird dieser hervorgehoben.</li>
+									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
 									<li>Der Benutzer schließt die Übersicht der Apps.</li>
 								</ol></td>
 							</tr>
 							<tr>
-								<th class="left">Sonderfall 1<span class="uc-sf">5a</span></th>
+								<th class="left">Sonderfall<span class="uc-sf">5a</span></th>
 								<td>
 								<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
 								<ol>
-									<li>Der Benutzer wählt ein Service-Level aus.</li>
-									<li>PMP stellt die Details zu diesem Service-Level dar.</li>
-									<li>Der Benutzer bestätigt die Auswahl dieses Service-Levels.</li>
-									<li>zurück zu Normalablauf Schritt 6</li>
+									<li>Der Benutzer wählt ein Service Level aus.</li>
+									<li>PMP stellt die Details zu diesem Service Level dar.</li>
+									<li>Der Benutzer bestätigt die Auswahl dieses Service Levels.</li>
+									<li>zurück zu Normalablauf Schritt 4</li>
 								</ol></td>
 							</tr>
 						</table>
