@@ -13,7 +13,7 @@
 		<div id="page-head-date">04. August 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 1.2</div>
+		<div id="page-version">Version 1.3</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -365,22 +365,11 @@
 					<p>Die Software soll basierend auf der Android Version 2.1.1 laufen. Alle weiteren Versionen aufwärts (2.2, 2.3, 2.3.3) sollen ebenfalls unterstützt werden.</p>
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p>Die Software kann ohne weitere Probleme mindestens 30 Apps und mindestens 20 Ressourcen verwalten. Die maximale Anzahl kann je nach Gerät variieren.</p>
+					<p>Die Software soll ohne weitere Probleme mindestens 100 Apps mit jeweils maximal 25 verschiedenen Servicelevels verwalten.</p>
 					<p>In der 1. Iteration werden fünf Standard-Ressourcen bereitgestellt. Nach jeder Iteration werden nach und nach weitere Standard-Ressourcen verfügbar sein.</p>
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
-					<p>Die PMP muss von einfachen Eingaben, wie „erlauben“ und „nicht erlauben“, bis zu komplexeren Eingaben, wie Datum, Uhrzeit und Längen verarbeiten können.</p>
-					<p>Je nach Einstellung eines Service Levels, können Flags (Privacy Levels) gesetzt werden. Flags können verschiedenste Typen enthalten, z.B.<br />
-					<ul>
-						<li>Binäre Eingaben, zum Beispiel „An/Aus“, „Ja/Nein“</li>
-						<li>Datum</li>
-						<li>Wochentage</li>
-						<li>Uhrzeit</li>
-						<li>Koordinaten</li>
-						<li>Geschwindigkeit</li>
-						<li>Länge</li>
-						<li>…</li>
-					</ul>
+					<p>Es sind keine Benutzereingaben für M-1 vorgesehen. Texte für Ressourcen-/Appbeschreibungen sollen auf eine sinnvolle Länge begrenzt werden, jedoch maximal 1000 Zeichen umfassen können.</p>
 					
 				<h2 id="robustheit">Robustheit</h2>
 				<p>Durch Verwalten mehrerer Ressourcen zur gleichen Zeit besteht ein gewisses Absturzrisiko. Daher soll die PMP robust entwickelt werden.</p>
@@ -391,7 +380,7 @@
 				<p>Falls PMP unerwartet beendet werden sollte, soll sie automatisch neugestartet werden.</p>
 				
 				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Bei wichtigen Einstellungsänderungen wird der Benutzer einmalig pro Sitzung nach einem Passwort gefragt. Während der Passworteingabe kann das Passwort angezeigt werden.</p>
+				<p>Für M-1 sind keine Sicherheitfeatures, wie Passworteingaben oder ähnliches, vorgesehen.</p>
 				
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
 				<p>Die App soll auf allen Android–fähigen Smartphones ab der Version 2.1.1 kompatibel sein. Die PMP besitzt keine Einschränkungen bezüglich der Auflösung.</p>
@@ -400,7 +389,7 @@
 				<p>Die Oberfläche von PMP wird zunächst auf Englisch entwickelt werden, soll aber für beliebig viele Sprachen erweiterbar sein. Das Handbuch wird auf Deutsch entstehen, wobei die Screenshots die englische Oberfläche zeigen werden.</p>
 				
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p>An PMP werden keine gesonderten Anforderung über die Protokollierung von Ereignissen gestellt.</p>
+				<p>Es sollen alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
 				
 				<h2 id="installation">Installation</h2>
 				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
@@ -432,7 +421,7 @@
 			<p></p>
 			
 				<h2 id="auflistung-optionalen-anforderungen">Auflistung der optionalen Anforderungen</h2>
-				<p></p>
+				<p>Keine Optionale Anforderungen für M-1 vorhanden.</p>
 			
 			<h1 id="begriffslexikon">Begriffslexikon</h1>
 				<h2 id="bgl-app">App</h2>
@@ -556,7 +545,8 @@
 			
 			<h1 id="versionshistorie">Versionshistorie</h1>
 			<ul>
-			   <li>14.08.2011: Version 1.2: Hinzufügen des Kapitels "Benutzeroberfläche"</li>
+				<li>15.08.2011: Version 1.3: Reviewkandidat</li>
+				<li>14.08.2011: Version 1.2: Hinzufügen des Kapitels "Benutzeroberfläche"</li>
 			   <li>04.08.2011: Version 1.1: Ausformulierungen einfacher Kapitel nach erstem Spezifikationsmeeting</li>
 			   <li>24.07.2011: Version 0.1: Erstes Gerüst der Spezifikationsvorlage</li>
 			</ul>
