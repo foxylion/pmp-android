@@ -514,19 +514,19 @@
 				<h2 id="bgl-app">App</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>App</th></tr>
-					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Mobilgerät ausgeführt wird. Eine App definiert verschiedene Service Level, die jeweils mehrere Services enthalten können. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen und Rollen in die PMP einfügen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>PMP selbst ist eine App. Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
+					<tr><th class="left">Synonyme</th><td>Applikation</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Smartphone ausgeführt wird. Eine App definiert mindestens ein Service Level, die jeweils mehrere Services enthalten können. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicelevel"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-rolle"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicelevel"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
 				
-				<h2 id="bgl-expertenmodus">Expertenmodus</h2>
+				<h2 id="bgl-expertenmodus">Expert Mode</h2>
 				<table>
-					<tr><th class="left">Begriff</th><th>Expertenmodus</th></tr>
+					<tr><th class="left">Begriff</th><th>Expert Mode</th></tr>
 					<tr><th class="left">Synonyme</th><td>Erweiterter Modus</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Der Expertenmodus ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Levels gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>-</td></tr>
@@ -541,26 +541,26 @@
 				<table>
 					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
 					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Rollen und Privacy Level abhängen.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Level abhängen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-rolle"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
 				</table>
 			
 				<h2 id="bgl-privacylevel">Privacy Level</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Privacy Level</th></tr>
 					<tr><th class="left">Synonyme</th><td>Flag</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Privacy Level ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Level kann kontext-abhängig sein. Ihre konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatssphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die App "Schachspiel" könnte Privacy Flags wie "Lesen" oder "Schreiben" anbieten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Level ist weder ein Service Level noch eine Rolle.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Privacy Level ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Level kann kontext-abhängig sein. Ihre konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Flags wie "Lesen" oder "Schreiben" anbieten.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Level ist weder ein Service Level noch ein Preset.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Privacy Level bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Privacy Level wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicelevel"></span>,  <span class="reference" title="#bgl-rolle"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicelevel"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
 			
 				<h2 id="bgl-ressource">Ressource</h2>
@@ -579,7 +579,7 @@
 				<h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
-					<tr><th class="left">Synonyme</th><td>Kategorie</td></tr>
+					<tr><th class="left">Synonyme</th><td>Ressourcenkategorie</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Eine Ressourcengruppe ist eine sinnverwandte Zusammenfassung einzelner Ressourcen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Es könnte eine Ressourcengruppe zum Zugriff auf das Dateisystem, auf GPS-Empfang oder auf einen Web-Service geben.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
@@ -589,15 +589,15 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 				
-				<h2 id="bgl-rolle">Rolle</h2>
+				<h2 id="bgl-preset">Preset</h2>
 				<table>
-					<tr><th class="left">Begriff</th><th>Rolle</th></tr>
-					<tr><th class="left">Synonyme</th><td>Preset</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine Rolle ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Levels. Eine Rolle kann kontext-abhängig sein. Eine Rolle kann einer App zugewiesen werden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Eine Rolle könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Eine Rolle ist keine Zusammenfassung einer Menge von Privacy Levels. Eine Rolle ist keine feststehende Bezeichnung für eine App.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Die Rolle bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Eine Rolle kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Die Rolle wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
+					<tr><th class="left">Begriff</th><th>Preset</th></tr>
+					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Levels. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Levels. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
@@ -608,7 +608,7 @@
 					<tr><th class="left">Synonyme</th><td>Dienst</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Ein Service ist ein konkreter Funktionalitätsteil einer App, der Zugriff auf Ressourcen benötigen kann.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Ein Service in der App "Prüfungsamt" könnte "Prüfungsnote abfragen" sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App. PMP und die Ressourcen laufen als Service im Hintergrund, sind aber keine Services in dem hier genannten Sinne.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Service bleibt gültig, solange der entsprechende Service Level in PMP aktiviert ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Service wird durch den zugehörigen Service Level, die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
@@ -621,11 +621,11 @@
 					<tr><th class="left">Synonyme</th><td>-</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Ein Service Level ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Levels erfüllt wird.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die App "Navigation" könnte die Service Level "grobe Ortung", "genaue Ortung" und "fortlaufende Ortung" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy-Level der Ortungs-Ressource verlangt, aber dafür auch mehr Services angeboten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Service Level ist weder ein Privacy Level noch eine Rolle.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Service Level ist weder ein Privacy Level noch ein Preset.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Service Level bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Service Level wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-rolle"></span>, <span class="reference" title="#bgl-app"></span></td></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></td></tr>
 				</table>
 			
 						
