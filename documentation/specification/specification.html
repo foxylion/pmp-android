@@ -43,15 +43,16 @@
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.
-                    <p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Konsumenten das sichere Benutzen eines Smartphones erlauben könnte.
+                    <p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Benutzer das sichere Benutzen eines Smartphones erlauben könnte.
                     </p>
                     <p>Der Benutzer soll alle Apps und Ressourcen auf dem Smartphone schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.
                     </p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
-				<p>Diese Spezifikation dient als ein zentrales Dokument für die folgenden Lesergruppen:</p>
+				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>
-				  <li>den Entwicklern von PMP</li>
+				  <li>den Entwicklern von PMP</li>          
+				  <li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
 				  <li>dem Kunden</li>
 				  <li>dem Betreuern des Studienprojekts</li>
 				</ul>
@@ -79,31 +80,68 @@
 			
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 			<p></p>
-			<h2 id="hauptmenu">Hauptmenü</h2>
-			<p>Das Startmenü im Simple-Modus besteht aus zwei Optionen:
+			<h2 id="hauptmenu">Hauptmenü</h2>     
+			<img src="images/S1-Hauptmenue.png" alt="Hauptmenu" style="width:30%;float:right;margin-left:5px;">
+			<p>Das Startmenü im Simple-Mode besteht aus zwei Optionen:
 			<ul>
-			<li>Applikationen(Apps)</li>
-			<li>Ressourcen(Ressources)</li>
+			<li>Applikationen (Apps)</li>
+			<li>Ressourcen (Ressources)</li>
+			<li>Voreinstellungen (Presets)</li>
 			</ul></p>
-			<img src="images/S1-Hauptmenue.png" alt="Hauptmenu" style="width:30%;">
-			<h2 id="applikationen">Applikationen</h2>
-			<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
-			<img src="images/S2-AppscreenSM.png" alt="Applikationen" style="width:30%;">
-			<p>Durch das einfache Draufgehen auf eine App erscheint eine Liste mit den möglichen  Service Levels:</p>
-			<img src="images/S3-ServiceLevel.png" alt="Service Level" style="width:30%;">
-			<p>Beim Auswählen des Levels wird ein Informationsfenster angezeigt. 
-			Dieses beschreibt die Details des eingeschalteten Levels. 
-			Man kann den Dialog entweder bestätigen oder schließen.</p>
-			<img src="images/S4-ServiceLeve Description.png" alt="Service Level Description" style="width:30%;">
-			<h2 id="ressourcen">Ressourcen</h2>
-			<p>Im zweiten Menü kann man Ressourcen ansehen, die mit PMP benützt werden können.</p>
-			<img src="images/S5-ressource.png" alt="Ressource" style="width:30%;">
-			<img src="images/S6-ressourceAbout.png" alt="Ressource Description" style="width:30%;">
+			<!--<p><img src="images/S1-Hauptmenue.png" alt="Hauptmenu" style="width:30%;"></p>-->
 			
-			<h2 id="Installation">Installation</h2>
+			<p><!-- ToDo: Noch prüfen, ob ausführlich genug oder zuviel + ob Inhalt OK -->
+			  Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den 
+			  Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP
+			  und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind
+			  und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.
+			</p>
+			<p>
+			  Da der Expert Mode erst für folgende Iterationen geplant ist, wird auf ihn
+			  in dieser Spezifikation nicht näher eingegangen.
+			  
+			  <!--Gehört hier eigentlich nicht hin. Habe es als Kommentar dringelassen,
+			  falls es in einem anderen Kaptiel benötigt werden sollte:
+			  --------------------------------------------------------------------
+        Allerdings muss beim Entwurf und der Implementierung während der ersten 
+        Iteration darauf geachtet werden, dass das spätere Hinzufügen des 
+        Expert Mode ohne große Änderungen am bisher erstellten Programmcode möglich ist.
+        -->
+      </p> 
+			
+			<h2 id="applikationen" style="clear:right;">Applikationen</h2>
+			<img src="images/S2-AppscreenSM.png" alt="Applikationen" style="width:30%;float:right;margin-left:5px;">
+			<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
+			<!--<img src="images/S2-AppscreenSM.png" alt="Applikationen" style="width:30%;">-->         
+			<p style="clear:right;padding-top:5px;">
+        <img src="images/S3-ServiceLevel.png" alt="Service Level" style="width:30%;float:right;margin-left:5px;">
+        Durch das einfache Draufgehen auf eine App erscheint eine Liste mit den möglichen  Service Levels:
+      </p>
+
+			<!--<img src="images/S3-ServiceLevel.png" alt="Service Level" style="width:30%;">-->
+			<p style="clear:right;padding-top:5px;"> 
+        <img src="images/S4-ServiceLeve Description.png" alt="Service Level Description" style="width:30%;float:right;margin-left:5px;">
+        Beim Auswählen des Levels wird ein Informationsfenster angezeigt. 
+  			Dieses beschreibt die Details des eingeschalteten Levels. 
+  			Man kann den Dialog entweder bestätigen oder schließen.
+      </p>
+			<!--<img src="images/S4-ServiceLeve Description.png" alt="Service Level Description" style="width:30%;">-->
+			<h2 id="ressourcen" style="clear:right;">Ressourcen</h2>
+			<p>
+        <div style="float:right;">
+          <img src="images/S5-ressource.png" alt="Ressource" style="width:30%;">
+			    <img src="images/S6-ressourceAbout.png" alt="Ressource Description" style="width:30%;">
+        </div>
+        Im zweiten Menü kann man Ressourcen ansehen, die mit PMP benützt werden können.</p>
+			<!--<img src="images/S5-ressource.png" alt="Ressource" style="width:30%;">
+			<img src="images/S6-ressourceAbout.png" alt="Ressource Description" style="width:30%;">
+			-->
+			
+			<h2 id="Installation" style="clear:right;">Installation</h2>
 			<p>Beim Installieren neuer mit der PMP kompatiblen Apps, wird man der App gleich einen Service Level zuweisen können.</p>
 			<img src="images/S0-App Installation1.png" alt="Installation" style="width:30%;">
 			<img src="images/S0-App Installation2.png" alt="Installation2" style="width:30%;">
+			
 			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 			<p></p>
 			
