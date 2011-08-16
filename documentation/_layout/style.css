@@ -218,17 +218,14 @@ td ul, td ol {
 	margin-left: 5px;
 }
 
-
 span.reference a, a {
 	color: #365f91;
 	text-decoration: underline;
 }
 
-
 img.right {
 	float: right;
 	margin-left: 10px;
-	margin-bottom: 10px;
 	border: 1px solid #cccccc;
 }
 
@@ -248,4 +245,14 @@ span.up-annotation {
 	margin-left: -6px;
 	margin-right: -6px;
 	margin-bottom: 3px;
+}
+
+/* UserInterfacePrototype-Container */
+div.uip {
+	margin-bottom: 10px;
+	padding: 5px;
+	background-color: #f7f7f7;
+	border: 1px solid #555555;
+	box-shadow: 2px 2px 2px #999999;
+	clear: both;
 }
