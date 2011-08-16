@@ -80,67 +80,112 @@
 			
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 			<p></p>
-			<h2 id="hauptmenu">Hauptmenü</h2>     
-			<img src="images/S1-Hauptmenue.png" alt="Hauptmenu" style="width:30%;float:right;margin-left:5px;">
-			<p>Das Startmenü im Simple-Mode besteht aus zwei Optionen:
-			<ul>
-			<li>Applikationen (Apps)</li>
-			<li>Ressourcen (Ressources)</li>
-			<li>Voreinstellungen (Presets)</li>
-			</ul></p>
-			<!--<p><img src="images/S1-Hauptmenue.png" alt="Hauptmenu" style="width:30%;"></p>-->
-			
-			<p><!-- ToDo: Noch prüfen, ob ausführlich genug oder zuviel + ob Inhalt OK -->
-			  Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den 
-			  Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP
-			  und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind
-			  und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.
-			</p>
-			<p>
-			  Da der Expert Mode erst für folgende Iterationen geplant ist, wird auf ihn
-			  in dieser Spezifikation nicht näher eingegangen.
-			  
-			  <!--Gehört hier eigentlich nicht hin. Habe es als Kommentar dringelassen,
-			  falls es in einem anderen Kaptiel benötigt werden sollte:
-			  --------------------------------------------------------------------
-        Allerdings muss beim Entwurf und der Implementierung während der ersten 
-        Iteration darauf geachtet werden, dass das spätere Hinzufügen des 
-        Expert Mode ohne große Änderungen am bisher erstellten Programmcode möglich ist.
-        -->
-      </p> 
-			
-			<h2 id="applikationen" style="clear:right;">Applikationen</h2>
-			<img src="images/S2-AppscreenSM.png" alt="Applikationen" style="width:30%;float:right;margin-left:5px;">
-			<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
-			<!--<img src="images/S2-AppscreenSM.png" alt="Applikationen" style="width:30%;">-->         
-			<p style="clear:right;padding-top:5px;">
-        <img src="images/S3-ServiceLevel.png" alt="Service Level" style="width:30%;float:right;margin-left:5px;">
-        Durch das einfache Draufgehen auf eine App erscheint eine Liste mit den möglichen  Service Levels:
-      </p>
-
-			<!--<img src="images/S3-ServiceLevel.png" alt="Service Level" style="width:30%;">-->
-			<p style="clear:right;padding-top:5px;"> 
-        <img src="images/S4-ServiceLeve Description.png" alt="Service Level Description" style="width:30%;float:right;margin-left:5px;">
-        Beim Auswählen des Levels wird ein Informationsfenster angezeigt. 
-  			Dieses beschreibt die Details des eingeschalteten Levels. 
-  			Man kann den Dialog entweder bestätigen oder schließen.
-      </p>
-			<!--<img src="images/S4-ServiceLeve Description.png" alt="Service Level Description" style="width:30%;">-->
-			<h2 id="ressourcen" style="clear:right;">Ressourcen</h2>
-			<p>
-        <div style="float:right;">
-          <img src="images/S5-ressource.png" alt="Ressource" style="width:30%;">
-			    <img src="images/S6-ressourceAbout.png" alt="Ressource Description" style="width:30%;">
-        </div>
-        Im zweiten Menü kann man Ressourcen ansehen, die mit PMP benützt werden können.</p>
-			<!--<img src="images/S5-ressource.png" alt="Ressource" style="width:30%;">
-			<img src="images/S6-ressourceAbout.png" alt="Ressource Description" style="width:30%;">
+			<h2 id="hauptmenu">Hauptmenü</h2>
+			<table>
+				<tr class= "left">
+					<td><p>Das Startmenü im Simple-Mode besteht aus zwei Optionen:
+						<ul>
+							<li>Applikationen (Apps)</li>
+							<li>Ressourcen (Ressources)</li>
+							<li>Voreinstellungen (Presets)</li>
+						</ul></p>
+						<p><!-- ToDo: Noch prüfen, ob ausführlich genug oder zuviel + ob Inhalt OK -->
+							Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den 
+							Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP
+							und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind
+							und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.
+						</p>
+						<p>
+							Da der Expert Mode erst für folgende Iterationen geplant ist, wird auf ihn
+							in dieser Spezifikation nicht näher eingegangen.</p>
+							<p>Die Platzhalter für weitere Iterationen sind alle mit einem "E" (Expert Mode) markiert.</p>
+							<!--Gehört hier eigentlich nicht hin. Habe es als Kommentar dringelassen,
+							falls es in einem anderen Kaptiel benötigt werden sollte:
+							--------------------------------------------------------------------
+							Allerdings muss beim Entwurf und der Implementierung während der ersten 
+							Iteration darauf geachtet werden, dass das spätere Hinzufügen des 
+							Expert Mode ohne große Änderungen am bisher erstellten Programmcode möglich ist.
+							-->
+						</p> 
+					</td>
+					<td><img src="images/S1-Hauptmenue.png" alt="Hauptmenu"></td>
+				</tr>
+			</table>
 			-->
 			
-			<h2 id="Installation" style="clear:right;">Installation</h2>
-			<p>Beim Installieren neuer mit der PMP kompatiblen Apps, wird man der App gleich einen Service Level zuweisen können.</p>
-			<img src="images/S0-App Installation1.png" alt="Installation" style="width:30%;">
-			<img src="images/S0-App Installation2.png" alt="Installation2" style="width:30%;">
+			<h2 id="applikationen" style="clear:right;">Applikationen</h2>
+			
+			<table>
+				<tr class= "left">
+					<td><p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
+						<p>Im Experten Mode wird es möglich sein einzelne Apps den Voreinstellungen (Presets) zuzuweisen.
+						Im Bild: "Assign Presets"</p>
+					</td>
+					<td><img src="images/S2-AppscreenSM.png" alt="Applikationen"></td>
+				</tr>
+				<tr class= "left">
+					<td>
+						<p>Über Anwählen einer App ist es möglich Service Level für diese auszuwählen.
+						Bereits ausgewählte Service Level werden als markiert angezeigt.</p>
+					</td>
+					<td><img src="images/S3-ServiceLevel.png"></td>
+				</tr>
+				<tr class= "left">
+					<td>
+						<p>
+							Beim Auswählen des Levels wird ein Informationsfenster angezeigt. 
+							Dieses beschreibt die Details des eingeschalteten Levels.</p> 
+						<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetz.</p> 
+						<p>Durch das Schließen wird der Vorgang abgebrochen.</p>
+					</td>
+					<td><img src="images/S4-ServiceLeve Description.png" alt="Service Level Description"></td>
+				</tr>
+			</table>
+			
+			<h2 id="ressourcen" style="clear:right;">Ressourcen</h2>
+			<table>
+				<tr>
+					<td>
+					<p>Im zweiten Menü werden alle Ressourcen aufgelistet.
+					Beim Auswählen einer Ressource wird ein Informationsfenster angezeigt.</p>
+					
+					</td>
+					<td>
+					<img src="images/S5-ressource.png" alt="Ressource">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
+					<p>Dieses Informationsfenster kann ohne Probleme geschlossen werden.</p>
+					</td>
+					<td>
+					<img src="images/S6-ressourceAbout.png" alt="Ressource Description">
+					</td>
+				</tr>
+			</table>
+
+			<h2 id="app-hinzufügen" style="clear:right;">App hinzufügen</h2>
+			<table>
+				<tr>
+					<td>
+					<p>Beim Starten einer neuen zu PMP kompatiblen App wird es möglich sein 
+					den Service Level zu setzen.</p>
+					</td>
+					<td>
+					<img src="images/S0-App Starting1.png" alt="Installation">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<p>Beschreibung s.o. <span class="reference" title="#applikationen"></span>.</p>
+					</td>
+					<td>
+					<img src="images/S0-App Starting2.png" alt="Installation2">
+					</td>
+				</tr>
+			</table>
+
 			
 			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 			<p></p>
