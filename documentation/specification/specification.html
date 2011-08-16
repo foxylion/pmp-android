@@ -162,15 +162,11 @@
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Die App hat das Service Level erhalten.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 4a</th>
 								<td>Die App hat das Service Level erhalten, das keine Rechte erfordert.</td>
 							</tr>
 							<tr>
-								<th class="left">Nachbedingungen im Sonderfall 6a</th>
-								<td>Die App hat noch kein Service Level erhalten.</td>
+								<th class="left">Nachbedingungen im Sonderfall 4a</th>
+								<td>Die App hat das Service Level erhalten.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -185,24 +181,19 @@
 									<li>Die App fragt bei PMP an, welches Service Level sie zugewiesen bekommt.</li>
 									<li>PMP ruft die verfügbaren Service Level der App ab.</li>
 									<li>PMP zeigt eine Übersicht über die Service Levels dem Benutzer an.</li>
-									<li>Der Benutzer wählt das gewünschte Service Level aus.</li>
-									<li>PMP zeigt die Details des Service Levels an.</li>
-									<li>Der Benutzer bestätigt das Service Level.</li>
-									<li>PMP weist der App das Service Level zu.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall<span class="uc-sf">4a</span></th>
-								<td><ol>
 									<li>Der Benutzer wählt kein Service Level.</li>
 									<li>Der Benutzer schließt die Übersicht.</li>
 								</ol></td>
 							</tr>
 							<tr>
-								<th class="left">Sonderfall<span class="uc-sf">6a</span></th>
-								<td><ol>
-									<li>Der Benutzer bestätigt das Service Level nicht.</li>
-									<li>Zurück zu Normalablauf Schritt 3.</li>
+								<th class="left">Sonderfall<span class="uc-sf">4a</span></th>
+								<td>
+								<span class="up-annotation">Ablauf kann abgebrochen werden.<br/>&rarr; bei Abbruch zu Normalablauf Schritt 3</span>
+								<ol>
+									<li>Der Benutzer wählt das gewünschte Service Level aus.</li>
+									<li>PMP zeigt die Details des Service Levels an.</li>
+									<li>Der Benutzer bestätigt das Service Level.</li>
+									<li>PMP weist der App das Service Level zu.</li>
 								</ol></td>
 							</tr>
 						</table>
@@ -360,11 +351,11 @@
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat das Service Level einer App angezeigt bzw. geändert.</td>
+								<td>Der Benutzer hat das Service Level einer App angezeigt.</td>
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Der Benutzer hat das Service Level einer App festgelegt bzw. geändert.</td>
+								<td>Der Benutzer hat das Service Level einer App geändert.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -384,7 +375,7 @@
 							<tr>
 								<th class="left">Sonderfall<span class="uc-sf">5a</span></th>
 								<td>
-								<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
+								<span class="up-annotation">Ablauf kann abgebrochen werden.<br/>&rarr; bei Abbruch zu Normalablauf Schritt 4</span>
 								<ol>
 									<li>Der Benutzer wählt ein Service Level aus.</li>
 									<li>PMP stellt die Details zu diesem Service Level dar.</li>
