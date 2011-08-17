@@ -43,8 +43,8 @@
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.</p>
-				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Benutzer das sichere Benutzen eines Smartphones erlauben könnte.</p>
-				<p>Der Benutzer soll alle Apps und Ressourcen auf dem Smartphone schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
+				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
+				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
 				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
@@ -63,79 +63,7 @@
 					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
 					<li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
 				</ul>
-			
-			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
-			
-			<h2 id="hauptmenu">Hauptmenü</h2>
-			
-			<div class="uip">
-				<img src="images/S1-Hauptmenue.png" alt="Hauptmenü" class="right">
-				
-				<p>Das Startmenü im Simple-Mode besteht aus zwei Optionen:</p>
-				<ul>
-					<li>Applikationen (Apps)</li>
-					<li>Ressourcen (Ressources)</li>
-					<li>Voreinstellungen (Presets)</li>
-				</ul>
-				
-				<!-- ToDo: Noch prüfen, ob ausführlich genug oder zuviel + ob Inhalt OK -->
-				<p>Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.</p>
-				<p>Da der Expert Mode erst für folgende Iterationen geplant ist, wird auf ihn in dieser Spezifikation nicht näher eingegangen.</p>
-				<p>Die Platzhalter für weitere Iterationen sind alle mit einem "E" (Expert Mode) markiert.</p>
-				<!--
-				Gehört hier eigentlich nicht hin. Habe es als Kommentar dringelassen,
-				falls es in einem anderen Kaptiel benötigt werden sollte:
-				- - - - - - - - - - - - - - - - - - - - 
-				Allerdings muss beim Entwurf und der Implementierung während der ersten 
-				Iteration darauf geachtet werden, dass das spätere Hinzufügen des 
-				Expert Mode ohne große Änderungen am bisher erstellten Programmcode möglich ist.
-				-->
-			<div class="clear"></div></div>
-				
-			<h2 id="applikationen">Applikationen</h2>
-			
-			<div class="uip">
-				<img src="images/S2-AppscreenSM.png" alt="Applikationen" class="right">
-				<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
-				<p>Im Experten Mode wird es möglich sein einzelne Apps den Voreinstellungen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
-			<div class="clear"></div></div>
-			
-			<div class="uip">
-				<img src="images/S3-ServiceLevel.png" alt="Service Level Auswahl" class="right">
-				<p>Über Anwählen einer App ist es möglich Service Level für diese auszuwählen. Bereits ausgewählte Service Level werden als markiert angezeigt.</p>
-			<div class="clear"></div></div>
 
-			<div class="uip">
-				<img src="images/S4-ServiceLeve%20Description.png" alt="Service Level Description" class="right">
-				<p>Beim Auswählen des Levels wird ein Informationsfenster angezeigt. Dieses beschreibt die Details des eingeschalteten Levels.</p> 
-				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetz.</p> 
-				<p>Durch das Schließen wird der Vorgang abgebrochen.</p>
-			<div class="clear"></div></div>
-			
-			<h2 id="ressourcen">Ressourcen</h2>
-			
-			<div class="uip">
-				<img src="images/S5-ressource.png" alt="Ressource" class="right">
-				<p>Im zweiten Menü werden alle Ressourcen aufgelistet. Beim Auswählen einer Ressource wird ein Informationsfenster angezeigt.</p>
-			<div class="clear"></div></div>
-				
-			<div class="uip">
-				<img src="images/S6-ressourceAbout.png" alt="Ressource Description" class="right">
-				<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
-				<p>Dieses Informationsfenster kann ohne Probleme geschlossen werden.</p>
-			<div class="clear"></div></div>
-			
-			<h2 id="app-hinzufügen">App hinzufügen</h2>
-			
-			<div class="uip">
-				<img src="images/S0-App%20Starting1.png" alt="Installation" class="right">
-				<p>Beim Starten einer neuen zu PMP kompatiblen App wird es möglich sein den Service Level zu setzen.</p>
-			<div class="clear"></div></div>
-			
-			<div class="uip">
-				<img src="images/S0-App%20Starting2.png" alt="Installation 2" class="right">
-				<p>Beschreibung s.o. <span class="reference" title="#applikationen"></span>.</p>
-			<div class="clear"></div></div>
 			
 			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 			
@@ -574,77 +502,71 @@
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
-					<p>Die Oberfläche von PMP soll sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie nachvollziehbare und möglichst einfach Menüstruktur. Es gelten die Android User Interface Guidelines, von denen in begründeten Einzelfällen abgewichen werden kann.</p>
+					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
 					<h3 id="import-export">Import/Export</h3>
-					<p>Keine Import-/Exportfunktionen in M-1 geplant.</p>
+					<p>Es ist keine Import-/Exportfunktionen in der ersten Iteration geplant.</p>
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
-					<p>PMP soll ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. </p>
+					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. </p>
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>
 			
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>PMP soll einfach bedienbar sein. Im einfachen Modus muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern können und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, soll PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist kein Expertenmodus für M-1 geplant.</p>
-			
+				<p>PMP wird einfach bedienbar sein. Im einfachen Modus muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern können und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist keine aktivierung des Expertenmodus für die erste Iteration geplant.</p>
+				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können. Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt werden.</p>
 					<h3 id="nutzungskontext">Nutzungskontext</h3>
 			
 						<h4 id="personae">Personae</h4>
 						
 						<p><strong>Der Durchschnittsuser: Joe</strong></p>
-						<p>Joe ist 15 Jahre alt und besitzt sein Android-Gerät erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört, dass PMP ihm dabei helfen kann Strom zu sparen und seine Internetkosten zu senken, indem er bestimmten Programmen die Nutzung energieintensiver Features oder die Nutzung des Internets verbietet. Von Sicherheitskonzepten, Nutzerrollen oder Ressourcen hat er jedoch keine Ahnung.</p>
+						<p>Joe ist 15 Jahre alt und besitzt sein Android Smartphone erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Besonders gerne spielt Klingonenschach. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört dass PMP ihm dabei helfen kann Strom zu sparen und auch Klingonenschach unterstützt seit neuestem PMP. Er benutzt also PMP ohne von Sicherheitskonzepten, Nutzerrollen oder Ressourcen eine Ahnung zu haben.</p>
 						<p>Zugehöriges Nutzungsszenario: N-1</p>
 						
-						<p><strong>Der Poweruser: Matt</strong></p>
-						<p>Matt ist ein Android-User der ersten Stunde, er besitzt mehrere Android-Geräte und nutzt diese intensiv. Er erledigt sowohl private als auch geschäftliche Aufgaben mit seinem Gerät und hat außerdem gerne die vollständige Kontrolle über seine Anwendungen und Dienste.</p>
-						<p>Zugehörige Nutzungsszenarien: Keine Nutzungsszenarien in M-1 geplant.</p>
-						
-						<p><strong>Der Android-Entwickler: Dave</strong></p>
-						<p>Dave ist ein Entwickler für Android-Apps. Er hat von PMP und seinen Möglichkeiten für eine feingranulare Rechteverwaltung gehört und möchte den Nutzern seiner Apps diese nicht vorenthalten.</p>
-						<p>Zugehörige Nutzungsszenarien: Keine Nutzungsszenarien in M-1 geplant.</p>
+						<!-- TODO: Hier dann später die passenden Personen zu den Nutzungsszenarien aus dem Forum einfügen !-->
 						
 						<h4 id="nutzungsszenarien">Nutzungsszenarien</h4>
 						
 						<p><strong>Nutzungsszenario N-1</strong></p>
-						<p>Joe installiert ein neues Programm auf seinem Android-Gerät und möchte diesem den Zugriff ins Internet nicht erlauben. Außerdem möchte er mehreren Apps den Zugriff auf energieintensive Ressourcen wie GPS verbieten.</p>
+						<p>Joe ist im Klingonenschach immer noch viel zu schlecht, er traut sich deshalb nicht seinen Highscore zu veröffentlichen. Beim ersten Starten des Schachprogramms und dem daraus folgendem auswählen der Servicelevels wählt er dass Servicelevel "Klingonenschach (ohne Highscore)" anstatt "Klingonenschach (alle Funktionen)" aus und verhindert so die Speicherung seiner Highscore.</p>
+
+						<!-- TODO: Hier dann später die pssenden Nutzungsszenarien aus dem Forum einfügen !-->
 			
 				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
 			
 					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
-					<p>Die Software soll basierend auf der Android Version 2.1.1 laufen. Alle weiteren Versionen aufwärts (2.2, 2.3, 2.3.3) sollen ebenfalls unterstützt werden.</p>
+					<p>Die Software wird interaktiv bedienbar sein, die Reaktionszeit der Benutzeroberfläche wird dabei so gering wie möglich gehalten. Der PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen.
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p>Die Software soll ohne weitere Probleme mindestens 100 Apps mit jeweils maximal 25 verschiedenen Servicelevels verwalten.</p>
-					<p>In der 1. Iteration werden fünf Standard-Ressourcen bereitgestellt. Nach jeder Iteration werden nach und nach weitere Standard-Ressourcen verfügbar sein.</p>
+					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils maximal 10 verschiedenen Servicelevels verwalten.</p>
+					<p>In der ersten Iteration wird eine Standard-Ressource bereitgestellt.</p>
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
-					<p>Es sind keine Benutzereingaben für M-1 vorgesehen. Texte für Ressourcen-/Appbeschreibungen sollen auf eine sinnvolle Länge begrenzt werden, jedoch maximal 1000 Zeichen umfassen können.</p>
+					<p>Es sind keine Benutzereingaben die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt werden, jedoch maximal 1000 Zeichen umfassen können.</p>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p>Durch Verwalten mehrerer Ressourcen zur gleichen Zeit besteht ein gewisses Absturzrisiko. Daher soll die PMP robust entwickelt werden.</p>
-				<p>Bei Änderungen, die nur schwer rückgängig zu machen sind, soll der Benutzer entsprechende Warnungen erhalten. Ungewollte Aktionen soll der Benutzer abbrechen können. Bei länger dauernden Aufgaben soll der Benutzer darüber in Kenntnis gesetzt werden.</p>				
+				<p>PMP wird so robust entwickelt werden, das Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
 
 				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
-				<p>Die PMP läuft während der Laufzeit des Geräts im Hintergrund, um die Apps und Ressourcen zu verwalten.</p>
-				<p>Falls PMP unerwartet beendet werden sollte, soll sie automatisch neugestartet werden.</p>
-				
+				<p>PMP läuft als Service wärend der gesamten während der gesamten Betriebszeit des Android-Systems.</p>
+								
 				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Für M-1 sind keine Sicherheitfeatures, wie Passworteingaben oder ähnliches, vorgesehen.</p>
+				<p>Für die erste Iteration sind keine speziellen Sicherheitfeatures geplant.</p>
 				
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>Die App soll auf allen Android–fähigen Smartphones ab der Version 2.1.1 kompatibel sein. Die PMP besitzt keine Einschränkungen bezüglich der Auflösung.</p>
+				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
-				<p>Die Oberfläche von PMP wird zunächst auf Englisch entwickelt werden, soll aber für beliebig viele Sprachen erweiterbar sein. Das Handbuch wird auf Deutsch entstehen, wobei die Screenshots die englische Oberfläche zeigen werden.</p>
+				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
 				
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p>Es sollen alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
+				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
 				
 				<h2 id="installation">Installation</h2>
 				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
 				
 				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
-				<p>Die Software soll hinsichtlich folgender Punkte erweiterbar sein:</p>
+				<p>Die Software wird hinsichtlich folgender Punkte erweiterbar sein:</p>
 				<ul>
 					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
 					<li>Ressourcen/Ressourcengruppen</li>
@@ -654,26 +576,99 @@
 				</ul>
 
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
-				<p>Die Software wird möglichst wartbar für neuere Android-Versionen entwickelt werden.</p>
+				<p>Es werden keine speziellen Anforderungen an die Wartbarkeit von PMP gestellt. Folgende allgemeine Anforderungen garantieren jedoch eine hohe Wartbarkeit von PMP:</p>
+				<ul>
+					<li>Es wird eine ausführliche Dokumentation des Sourcecodes in Form von (Javadoc-)Kommentaren erstellt.</li>
+					<li>Die Software wird modular aufgebaut sein.</li>
+					<li>Es werden allgemein bekannte und anerkannte Entwurfsmuster verwendet.</li>
+				</ul>
 				
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-				<p>PMP soll möglichst keine externen Abhängigkeiten besitzen, abgesehen vom Android-Betriebssystem.</p>
+				<p>PMP wird in der ersten Iteration ohne externe Abhängigkeiten entwickelt.</p>
 				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart muss ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Die Lizenzierung der Software an sich ist nicht vorgeschrieben, allerdings muss eine Open-Source-Lizenz verwendet werden.</p>
-			
+				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
+
+			<!-- brauch man eventuell später noch !-->
+			<!-- 
 			<h1 id="optionale-anforderungen">Optionale Anforderungen</h1>
 			<p></p>
 			
 				<h2 id="auflistung-optionalen-anforderungen">Auflistung der optionalen Anforderungen</h2>
-				<p>Keine Optionale Anforderungen für M-1 vorhanden.</p>
-			
+				<p>Keine Optionale Anforderungen für die erste Iteration vorhanden.</p>
+			!-->
+
+			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
+
+			<h2 id="hauptmenu">Hauptmenü</h2>
+
+			<div class="uip">
+				<img src="images/S1-Hauptmenue.png" alt="Hauptmenü" class="right">
+
+				<p>Das Startmenü im einfachen Modus ("Simple Mode") besteht aus zwei Optionen:</p>
+				<ul>
+					<li>Applikationen (Apps)</li>
+					<li>Ressourcen (Ressources)</li>
+					<li>Voreinstellungen (Presets)</li>
+				</ul>
+
+				<p>Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den Expertenmodus zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.</p>
+				<p>Der Expertenmodus ist in der ersten Iteration deaktiviert und die mit einem "E" markierte Schaltfläche wird deshalb nicht angezeigt werden.</p>
+				<div class="clear"></div>
+			</div>
+
+			<h2 id="applikationen">Applikationen</h2>
+
+			<div class="uip">
+				<img src="images/S2-AppscreenSM.png" alt="Applikationen" class="right">
+				<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
+				<p>Im Expertenmodus wird es möglich sein einzelne Apps den Voreinstellungen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
+				<div class="clear"></div>
+			</div>
+
+			<div class="uip">
+				<img src="images/S3-ServiceLevel.png" alt="Service Level Auswahl" class="right">
+				<p>Über Anwählen einer App ist es möglich Service Level für diese auszuwählen. Bereits ausgewählte Service Level werden als markiert angezeigt.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S4-ServiceLeve%20Description.png" alt="Service Level Description" class="right">
+				<p>Beim Auswählen des Levels wird ein Informationsfenster angezeigt. Dieses beschreibt die Details des eingeschalteten Levels.</p>
+				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetz.</p>
+				<p>Durch das Schließen wird der Vorgang abgebrochen.</p>
+			<div class="clear"></div></div>
+
+			<h2 id="ressourcen">Ressourcen</h2>
+
+			<div class="uip">
+				<img src="images/S5-ressource.png" alt="Ressource" class="right">
+				<p>Im zweiten Menü werden alle Ressourcen aufgelistet. Beim Auswählen einer Ressource wird ein Informationsfenster angezeigt.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S6-ressourceAbout.png" alt="Ressource Description" class="right">
+				<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
+				<p>Dieses Informationsfenster kann ohne Probleme geschlossen werden.</p>
+			<div class="clear"></div></div>
+
+			<h2 id="app-hinzufügen">App hinzufügen</h2>
+
+			<div class="uip">
+				<img src="images/S0-App%20Starting1.png" alt="Installation" class="right">
+				<p>Beim Starten einer neuen zu PMP kompatiblen App wird es möglich sein den Service Level zu setzen.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S0-App%20Starting2.png" alt="Installation 2" class="right">
+				<p>Beschreibung s.o. <span class="reference" title="#applikationen"></span>.</p>
+			<div class="clear"></div></div>
+
 			<h1 id="begriffslexikon">Begriffslexikon</h1>
 				<h2 id="bgl-app">App</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>App</th></tr>
 					<tr><th class="left">Synonyme</th><td>Applikation</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Smartphone ausgeführt wird. Eine App definiert mindestens ein Service Level, die jeweils mehrere Services enthalten können. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Android-System ausgeführt wird. Eine App definiert mindestens ein Service Level, die jeweils mehrere Services enthalten können. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
@@ -682,17 +677,30 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicelevel"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
 				
+				<h2 id="bgl-einfachermodus">Simple Mode</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Simple Mode</th></tr>
+					<tr><th class="left">Synonyme</th><td>einfacher Modus</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Der einfache Modus ist die voreingestellte Darstellungsart der Optionen für den Benutzer von PMP. Dabei werden alle nicht benötigten Bedienelemente ausgeblendet und die Konfigurationsmöglichkeiten sind deutlich reduziert.</td></tr>
+					<tr><th class="left">Beispiele</th><td>-</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der einfache Modus ist nicht der Expertenmodus.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>-</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertenmodus"></span>,<span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
+				</table>
+
 				<h2 id="bgl-expertenmodus">Expert Mode</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Expert Mode</th></tr>
-					<tr><th class="left">Synonyme</th><td>Erweiterter Modus</td></tr>
+					<tr><th class="left">Synonyme</th><td>Expertenmodus</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Der Expertenmodus ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Levels gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>-</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Der Expertenmodus ist nicht der "normale", simple Modus.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der Expertenmodus ist nicht der "normale", einfache Modus "Simple Mode".</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Expertenmodus ist einzigartig in der PMP.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-einfachermodus"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
 				</table>
 				
 				<h2 id="bgl-kontext">Kontext</h2>
@@ -786,15 +794,17 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 			
-						
-			
 			<h1 id="versionshistorie">Versionshistorie</h1>
-			<ul>
-				<li>15.08.2011: Version 1.3: Reviewkandidat</li>
-				<li>14.08.2011: Version 1.2: Hinzufügen des Kapitels "Benutzeroberfläche"</li>
-			   <li>04.08.2011: Version 1.1: Ausformulierungen einfacher Kapitel nach erstem Spezifikationsmeeting</li>
-			   <li>24.07.2011: Version 0.1: Erstes Gerüst der Spezifikationsvorlage</li>
-			</ul>
+			<h3>Version 1.4 (17.08.2011)</h3>
+			<ul><li>Verbesserungen nach Review eingearbeitet.</li></ul>
+			<h3>Version 1.3 (15.08.2011)</h3>
+			<ul><li>Reviewkandidat</li></ul>
+			<h3>Version 1.2 (14.08.2011)</h3>
+			<ul><li>Hinzufügen des Kapitels "Benutzeroberfläche"</li></ul>
+			<h3>Version 1.1 (04.08.2011)</h3>
+			<ul><li>Ausformulierungen einfacher Kapitel nach erstem Spezifikationsmeeting</li></ul>
+			<h3>Version 1.0 (24.07.2011)</h3>
+			<ul><li>Erstes Gerüst der Spezifikationsvorlage</li></ul>
 		</div>
 		<!-- // end of specification's content -->
 	</div>
