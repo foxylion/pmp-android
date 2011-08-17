@@ -13,7 +13,7 @@
 		<div id="page-head-date">17. August 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 1.3</div>
+		<div id="page-version">Version 1.4</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -38,12 +38,11 @@
 				Bedeutung von speziellen Begriffen, die in der Arbeitsumgebung verwendet werden. Da
 				auch Begriffe neu definiert werden, um die Software möglichst knapp und für alle eindeutig
 				zu beschreiben, empfiehlt es sich zunächst, einen Blick in das Begriffslexikon zu werfen
-				und die Beschreibung vermeintlich klarer Begriffe dort nachzulesen.
-				</p>
+				und die Beschreibung vermeintlich klarer Begriffe dort nachzulesen.</p>
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.</p>
-				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
+				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
 				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
@@ -68,7 +67,6 @@
 			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 			
 				<h2 id="use-cases">Use-Cases</h2>
-				<p></p>
 			
 					<h3 id="uc-diagramm">Diagramm</h3>
 					<img src="usecases.svg" alt="Use-Case Diagramm" style="width:100%;">
@@ -107,7 +105,7 @@
 							</tr>
 							<tr>
 								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Die App hat noch kein Service Level erhalten.</td>
+								<td>Die App hat noch kein Service Level von PMP erhalten.</td>
 							</tr>
 							<tr>
 								<th class="left">Akteure</th>
@@ -345,7 +343,7 @@
 									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
 									<li>PMP listet dem Benutzer alle Apps auf.</li>
 									<li>Der Benutzer wählt eine App aus.</li>
-									<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service-Level hervor.</li>
+									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
 									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
 									<li>Der Benutzer schließt die Übersicht der Apps.</li>
 								</ol></td>
@@ -387,7 +385,7 @@
 									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
 									<li>PMP listet dem Benutzer alle Apps auf.</li>
 									<li>Der Benutzer wählt eine App aus.</li>
-									<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service-Level hervor.</li>
+									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
 									<li>Der Benutzer wählt ein Service Level aus.</li>
 									<li>PMP stellt die Details zu diesem Service Level dar.</li>
 									<li>Der Benutzer schließt die Detail-Ansicht des Service Levels.</li>
@@ -438,7 +436,7 @@
 										<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
 										<li>PMP listet dem Benutzer alle Apps auf.</li>
 										<li>Der Benutzer wählt eine App aus.</li>
-										<li>PMP listet dem Benutzer die Service-Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service-Level hervor.</li>
+										<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
 										<li>Der Benutzer wählt ein Service Level aus.</li>
 										<li>PMP stellt die Details zu diesem Service Level dar.</li>
 										<li>Der Benutzer bestätigt die Auswahl dieses Service Levels.</li>
@@ -512,13 +510,13 @@
 					<p>Es ist keine Import-/Exportfunktionen in der ersten Iteration geplant.</p>
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
-					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. </p>
+					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>
 			
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>PMP wird einfach bedienbar sein. Im einfachen Modus muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern können und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist keine Aktivierung des Expertenmodus für die erste Iteration geplant.</p>
-				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können. Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt werden.</p>
+				<p>PMP wird einfach bedienbar sein. Im Simple Mode muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist keine Aktivierung des Expert Modes für die erste Iteration geplant.</p>
+				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können. Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt.</p>
 					<h3 id="nutzungskontext">Nutzungskontext</h3>
 			
 						<h4 id="personae">Personae</h4>
@@ -532,9 +530,9 @@
 						<h4 id="nutzungsszenarien">Nutzungsszenarien</h4>
 						
 						<p><strong>Nutzungsszenario N-1</strong></p>
-						<p>Joe ist im Klingonenschach immer noch viel zu schlecht, er traut sich deshalb nicht seinen Highscore zu veröffentlichen. Beim ersten Starten des Schachprogramms und dem daraus folgendem Auswählen der Servicelevels wählt er das Servicelevel "Klingonenschach (ohne Highscore)" anstatt "Klingonenschach (alle Funktionen)" aus und verhindert so die Speicherung seiner Highscore.</p>
+						<p>Joe ist im Klingonenschach immer noch viel zu schlecht, er traut sich deshalb nicht seinen Highscore zu veröffentlichen. Beim ersten Starten des Schachprogramms und dem daraus folgendem Auswählen der Service Levels wählt er das Service Level "Klingonenschach (ohne Highscore)" anstatt "Klingonenschach (alle Funktionen)" aus und verhindert so die Speicherung seiner Highscore.</p>
 
-						<!-- TODO: Hier dann später die pssenden Nutzungsszenarien aus dem Forum einfügen !-->
+						<!-- TODO: Hier dann später die passenden Nutzungsszenarien aus dem Forum einfügen !-->
 			
 				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
 			
@@ -542,11 +540,11 @@
 					<p>Die Software wird interaktiv bedienbar sein, die Reaktionszeit der Benutzeroberfläche wird dabei so gering wie möglich gehalten. Der PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen.
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils maximal 10 verschiedenen Servicelevels verwalten.</p>
+					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils mindestens 10 verschiedenen Service Levels verwalten.</p>
 					<p>In der ersten Iteration wird eine Standard-Ressource bereitgestellt.</p>
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
-					<p>Es sind keine Benutzereingaben für die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt werden, jedoch maximal 1000 Zeichen umfassen können.</p>
+					<p>Es sind keine Benutzereingaben für die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt werden.</p>
 					
 				<h2 id="robustheit">Robustheit</h2>
 				<p>PMP wird so robust entwickelt werden, das Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
@@ -576,7 +574,6 @@
 					<li>Ressourcen/Ressourcengruppen</li>
 					<li>Rollen</li>
 					<li>verwaltete Apps</li>
-					<li>Kontexte</li>
 				</ul>
 
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
@@ -593,14 +590,14 @@
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
 
-			<!-- brauch man eventuell später noch !-->
+			<!-- brauch man eventuell später noch -->
 			<!-- 
 			<h1 id="optionale-anforderungen">Optionale Anforderungen</h1>
 			<p></p>
 			
 				<h2 id="auflistung-optionalen-anforderungen">Auflistung der optionalen Anforderungen</h2>
 				<p>Keine Optionale Anforderungen für die erste Iteration vorhanden.</p>
-			!-->
+			-->
 
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
@@ -609,15 +606,14 @@
 			<div class="uip">
 				<img src="images/S1-Hauptmenue.png" alt="Hauptmenü" class="right">
 
-				<p>Das Startmenü im einfachen Modus ("Simple Mode") besteht aus zwei Optionen:</p>
+				<p>Das Startmenü im Simple Mode besteht aus zwei Optionen:</p>
 				<ul>
 					<li>Applikationen (Apps)</li>
 					<li>Ressourcen (Ressources)</li>
-					<li>Voreinstellungen (Presets)</li>
 				</ul>
 
-				<p>Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den Expertenmodus zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.</p>
-				<p>Der Expertenmodus ist in der ersten Iteration deaktiviert und die mit einem "E" markierte Schaltfläche wird deshalb nicht angezeigt werden.</p>
+				<p>Über die Schaltfläche "Expert Mode" ist es dem Bentzer möglich, in den Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.<br>Im Startmenü erscheint dann zusätzlich die Option "Rollen (Presets)". </p>
+				<p>Der Expert Mode ist in der ersten Iteration deaktiviert und die mit einem "E" markierte Schaltfläche wird deshalb nicht angezeigt.</p>
 				<div class="clear"></div>
 			</div>
 
@@ -626,20 +622,20 @@
 			<div class="uip">
 				<img src="images/S2-AppscreenSM.png" alt="Applikationen" class="right">
 				<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
-				<p>Im Expertenmodus wird es möglich sein einzelne Apps den Voreinstellungen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
+				<p>Im Expert Mode wird es möglich sein einzelne Apps den Rollen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
 				<div class="clear"></div>
 			</div>
 
 			<div class="uip">
 				<img src="images/S3-ServiceLevel.png" alt="Service Level Auswahl" class="right">
-				<p>Über Anwählen einer App ist es möglich Service Level für diese auszuwählen. Bereits ausgewählte Service Level werden als markiert angezeigt.</p>
+				<p>Über das Auswählen einer App werdem dem Benutzer alle Service Levels der App aufgelistet. Das der App momentan zugewiesene Service Level wird hervorgehoben.</p>
 			<div class="clear"></div></div>
 
 			<div class="uip">
 				<img src="images/S4-ServiceLeve%20Description.png" alt="Service Level Description" class="right">
-				<p>Beim Auswählen des Levels wird ein Informationsfenster angezeigt. Dieses beschreibt die Details des eingeschalteten Levels.</p>
-				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetz.</p>
-				<p>Durch das Schließen wird der Vorgang abgebrochen.</p>
+				<p>Beim Auswählen des Service Levels wird ein Informationsfenster angezeigt. Dieses beschreibt die Details des eingeschalteten Service Levels.</p>
+				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetzt.</p>
+				<p>Durch Schließen wird der Vorgang abgebrochen.</p>
 			<div class="clear"></div></div>
 
 			<h2 id="ressourcen">Ressourcen</h2>
@@ -652,7 +648,7 @@
 			<div class="uip">
 				<img src="images/S6-ressourceAbout.png" alt="Ressource Description" class="right">
 				<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
-				<p>Dieses Informationsfenster kann ohne Probleme geschlossen werden.</p>
+				<p>Dieses Informationsfenster kann geschlossen werden.</p>
 			<div class="clear"></div></div>
 
 			<h2 id="app-hinzufügen">App hinzufügen</h2>
@@ -677,34 +673,21 @@
 					<tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicelevel"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
-				
-				<h2 id="bgl-einfachermodus">Simple Mode</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Simple Mode</th></tr>
-					<tr><th class="left">Synonyme</th><td>einfacher Modus</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Der einfache Modus ist die voreingestellte Darstellungsart der Optionen für den Benutzer von PMP. Dabei werden alle nicht benötigten Bedienelemente ausgeblendet und die Konfigurationsmöglichkeiten sind deutlich reduziert.</td></tr>
-					<tr><th class="left">Beispiele</th><td>-</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Der einfache Modus ist nicht der Expertenmodus.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>-</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertenmodus"></span>,<span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
-				</table>
 
-				<h2 id="bgl-expertenmodus">Expert Mode</h2>
+				<h2 id="bgl-expertmode">Expert Mode</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Expert Mode</th></tr>
 					<tr><th class="left">Synonyme</th><td>Expertenmodus</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Der Expertenmodus ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Levels gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Der Expert Mode ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Levels gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
 					<tr><th class="left">Beispiele</th><td>-</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Der Expertenmodus ist nicht der "normale", einfache Modus "Simple Mode".</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der Expert Mode ist nicht der "normale", einfache Modus "Simple Mode".</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Expertenmodus ist einzigartig in der PMP.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-einfachermodus"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Der Expert Mode ist einzigartig in der PMP.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
 				</table>
 				
 				<h2 id="bgl-kontext">Kontext</h2>
@@ -716,8 +699,21 @@
 					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+				</table>
+				
+				<h2 id="bgl-preset">Preset</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Preset</th></tr>
+					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Levels. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Levels. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 			
 				<h2 id="bgl-privacylevel">Privacy Level</h2>
@@ -729,7 +725,7 @@
 					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Level ist weder ein Service Level noch ein Preset.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Privacy Level bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Privacy Level wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicelevel"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
 			
@@ -742,7 +738,7 @@
 					<tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Die Ressource wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
 				</table>
 				
@@ -755,21 +751,8 @@
 					<tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Die Ressourcengruppe bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Die Ressourcengruppe wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
-				</table>
-				
-				<h2 id="bgl-preset">Preset</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Preset</th></tr>
-					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Levels. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Levels. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 				
 				<h2 id="bgl-service">Service</h2>
@@ -781,7 +764,7 @@
 					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App. PMP und die Ressourcen laufen als Service im Hintergrund, sind aber keine Services in dem hier genannten Sinne.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Service bleibt gültig, solange der entsprechende Service Level in PMP aktiviert ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Service wird durch den zugehörigen Service Level, die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-servicelevel"></span></td></tr>
 				</table>
 				
@@ -794,8 +777,21 @@
 					<tr><th class="left">Abgrenzung</th><td>Ein Service Level ist weder ein Privacy Level noch ein Preset.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Der Service Level bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Service Level wird durch die zugehörige App und ihren Namen eindeutig identifizert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>keine</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+				</table>
+				
+				<h2 id="bgl-simplemode">Simple Mode</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Simple Mode</th></tr>
+					<tr><th class="left">Synonyme</th><td>einfacher Modus</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Der einfache Modus ist die voreingestellte Darstellungsart der Optionen für den Benutzer von PMP. Dabei werden alle nicht benötigten Bedienelemente ausgeblendet und die Konfigurationsmöglichkeiten sind deutlich reduziert.</td></tr>
+					<tr><th class="left">Beispiele</th><td>-</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der einfache Modus ist nicht der Expert Mode.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>-</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>,<span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
 				</table>
 			
 			<h1 id="versionshistorie">Versionshistorie</h1>
