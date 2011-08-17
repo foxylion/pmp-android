@@ -242,8 +242,9 @@ span.up-annotation {
 	color: #ff8c00;
 	padding: 2px 0.5em;
 	display: block;
-	margin-left: -6px;
-	margin-right: -6px;
+	margin-top: -1px;
+	margin-left: -5px;
+	margin-right: -5px;
 	margin-bottom: 3px;
 }
 
