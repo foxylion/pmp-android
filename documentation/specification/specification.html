@@ -759,7 +759,7 @@
 					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Levels. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch ihren Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
@@ -773,8 +773,8 @@
 					<tr><th class="left">Bedeutung</th><td>Ein Privacy Level ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Level kann kontext-abhängig sein. Ihre konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Flags wie "Lesen" oder "Schreiben" anbieten.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Level ist weder ein Service Level noch ein Preset.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Privacy Level bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Privacy Level wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Privacy Level bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Privacy Level wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicelevel"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
 				</table>
@@ -783,7 +783,7 @@
 				<table>
 					<tr><th class="left">Begriff</th><th>Ressource</th></tr>
 					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Funktions- oder Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "E-Mail-Zugriff" könnte die Ressourcen "Absender", "Empfänger", "Betreff", "Inhalt" und "Anhang" enthalten.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
@@ -829,8 +829,8 @@
 					<tr><th class="left">Bedeutung</th><td>Ein Service Level ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Levels erfüllt wird.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die App "Navigation" könnte die Service Level "grobe Ortung", "genaue Ortung" und "fortlaufende Ortung" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy-Level der Ortungs-Ressource verlangt, aber dafür auch mehr Services angeboten.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Ein Service Level ist weder ein Privacy Level noch ein Preset.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Service Level bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Service Level wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Service Level bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Service Level wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
