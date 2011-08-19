@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spezifikation - Privacy Management Platform</title>
+	<script type="text/javascript" src="../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../_layout/script.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">18. August 2011</div>
+		<div id="page-head-title">Privacy Management Platform</div>
+		<div id="page-title">Spezifikation</div>
+		<div id="page-version">Version 1.5</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the specification -->
+		<div id="content">
+		
+			<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 1.5 (18.08.2011)</h3>
+					<ul>
+						<li>Korrektur nach Kunden-Review</li>
+					</ul>
+				<h3>Version 1.4 (17.08.2011)</h3>
+					<ul>
+						<li>Verbesserungen nach Review eingearbeitet.</li>
+						<li>Dies ist die erste Version für den Kunden.</li>
+					</ul>
+				<h3>Version 1.3 (15.08.2011)</h3>
+					<ul>
+						<li>Reviewkandidat</li>
+					</ul>
+				<h3>Version 1.2 (14.08.2011)</h3>
+					<ul>
+						<li>Hinzufügen des Kapitels "Benutzeroberfläche"</li>
+					</ul>
+				<h3>Version 1.1 (04.08.2011)</h3>
+					<ul>
+						<li>Ausformulierungen einfacher Kapitel nach erstem Spezifikationsmeeting</li>
+					</ul>
+				<h3>Version 1.0 (24.07.2011)</h3>
+					<ul>
+						<li>Erstes Gerüst der Spezifikationsvorlage</li>
+					</ul>
+			
+			<h1 id="einleitung">Einleitung</h1>
+			<p></p>
+			
+				<h2 id="zweck">Zweck</h2>
+				<p>Dieses Dokument stellt die Spezifikation des Projektes "Privacy Management Platform" dar. Es summiert
+				die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
+				Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
+				Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
+				damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
+				<p>Die Spezifikation definiert dabei einen grafischen Prototypen für die spätere Benutzeroberfläche,
+				beschreibt die gewünschten Funktionsabläufe und definiert im Begriffslexikon die
+				Bedeutung von speziellen Begriffen, die in der Arbeitsumgebung verwendet werden. Da
+				auch Begriffe neu definiert werden, um die Software möglichst knapp und für alle eindeutig
+				zu beschreiben, empfiehlt es sich zunächst, einen Blick in das Begriffslexikon zu werfen
+				und die Beschreibung vermeintlich klarer Begriffe dort nachzulesen.</p>
+			
+				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
+				<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.</p>
+				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
+				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
+
+				<h2 id="leserkreis">Leserkreis</h2>
+				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+				<ul>
+					<li>den Entwicklern von PMP</li>          
+					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
+					<li>dem Kunden</li>
+					<li>dem Betreuern des Studienprojekts</li>
+				</ul>
+			
+				<h2 id="konventionen">Konventionen</h2>
+				<p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+				<ul>
+					<li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+					<li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+				</ul>
+
+			
+			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
+			
+				<h2 id="use-cases">Use-Cases</h2>
+			
+					<h3 id="uc-diagramm">Diagramm</h3>
+					<img src="usecases.svg" alt="Use-Case Diagramm" style="width:100%;">
+					
+					<div class="pagebreak"></div>
+					
+					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
+					<p>Im Folgenden werden die im Use-Case-Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
+					
+						<h4 id="awdf-1">Service Level anfragen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#1</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Service Level anfragen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Die App will das Service Level von PMP erhalten.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>PMP ist auf dem Gerät installiert.</li>
+									<li>PMP-Service läuft.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Die App hat das Service Level von PMP erhalten.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen bei Abbruch</th>
+								<td>Die App hat das Service Level von PMP erhalten, das keine Rechte erfordert.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Die App hat noch kein Service Level von PMP erhalten.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td><ul>
+									<li>App (Hauptakteur)</li>
+									<li>Benutzer</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td>
+									<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
+									<ol>
+										<li>Die App fragt bei PMP an, welches Service Level sie zugewiesen bekommt.</li>
+										<li>PMP ruft die verfügbaren Service Levels der App ab.</li>
+										<li>PMP zeigt eine Übersicht über die Service Levels dem Benutzer an.</li>
+										<li>Der Benutzer wählt das gewünschte Service Level aus.</li>
+										<li>PMP zeigt die Details des Service Levels an.</li>
+										<li>Der Benutzer bestätigt das Service Level.</li>
+										<li>PMP weist der App das Service Level zu.</li>
+									</ol>
+								</td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">6a</span></th>
+								<td>
+									<ol>
+										<li>Der Benutzer schließt die Detailansicht des Service Levels.</li>
+										<li>Weiter mit Normalablauf Schritt 3.</li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-2">Ressource der PMP bekannt machen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#2</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Ressource der PMP bekannt machen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Die App will eine Ressource der PMP bekannt machen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>PMP ist auf dem Gerät installiert.</li>
+									<li>PMP-Service läuft.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Die Ressource ist der PMP bekannt.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td>Die Ressource ist nicht der PMP bekannt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>App</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Die App registriert bei PMP die neue Ressource.</li>
+									<li>PMP akzeptiert die entsprechende Ressource</li>
+									<li>PMP bestätigt die Registrierung.</li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf">2a</span></th>
+								<td><ol>
+									<li>PMP akzeptiert die entsprechende Ressource nicht.</li>
+									<li>PMP bestätigt die Registrierung nicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<div class="pagebreak"></div>
+						
+						<h4 id="awdf-3">Ressourcengruppen anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#3</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Ressourcengruppen anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Ressourcengruppen anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>PMP hat dem Benutzer die Ressourcengruppen angezeigt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Ressourcengruppenübersicht aus.</li>
+									<li>PMP listet alle verfügbaren Ressourcengruppen auf.</li>
+									<li>Der Benutzer schließt die Ressourcengruppenübersicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-4">Details zu einer Ressourcengruppe anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#4</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Details zu einer Ressourcengruppe anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Details über eine Ressourcengruppe anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine Ressourcengruppe verfügbar.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>PMP hat dem Benutzer die Details zu einer Ressourcengruppe angezeigt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Ressourcengruppenübersicht aus.</li>
+									<li>PMP listet alle verfügbaren Ressourcengruppen auf.</li>
+									<li>Der Benutzer wählt eine Ressourcengruppe aus.</li>
+									<li>PMP zeigt die Details der Ressourcengruppe an.</li>
+									<li>Der Benutzer schließt die Detailansicht der Ressourcengruppe.</li>
+									<li>Der Benutzer schließt die Ressourcengruppenübersicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-5">Apps anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#5</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Apps anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Apps anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>PMP hat dem Benutzer die Apps angezeigt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Appübersicht aus.</li>
+									<li>PMP listet alle verfügbaren Apps auf.</li>
+									<li>Der Benutzer schließt die Appübersicht.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<div class="pagebreak"></div>
+						
+						<h4 id="awdf-6">Service Levels einer App anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#6</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Service Levels einer App anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Service Levels einer App anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine App installiert.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>PMP hat dem Benutzer die Service Levels einer App angezeigt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
+									<li>PMP listet dem Benutzer alle Apps auf.</li>
+									<li>Der Benutzer wählt eine App aus.</li>
+									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
+									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
+									<li>Der Benutzer schließt die Übersicht der Apps.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<h4 id="awdf-7">Details zu einem Service Level einer App anzeigen</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#7</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Details zu einem Service Level einer App anzeigen</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte die Details zu einem Service Level einer App anzeigen.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine App installiert.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>PMP hat dem Benutzer die Details eines Service Levels einer App angezeigt.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
+									<li>PMP listet dem Benutzer alle Apps auf.</li>
+									<li>Der Benutzer wählt eine App aus.</li>
+									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
+									<li>Der Benutzer wählt ein Service Level aus.</li>
+									<li>PMP stellt die Details zu diesem Service Level dar.</li>
+									<li>Der Benutzer schließt die Detail-Ansicht des Service Levels.</li>
+									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
+									<li>Der Benutzer schließt die Übersicht der Apps.</li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						<div class="pagebreak"></div>
+						
+						<h4 id="awdf-8">Rechte einer App auf Grundlage der Service Levels ändern</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#8</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td>Rechte einer App auf Grundlage der Service Levels ändern</td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td>Der Benutzer möchte das Service Level einer App ändern.</td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
+									<li>Es ist mindestens eine App installiert.</li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td>Der Benutzer hat das Service Level einer App geändert.</td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen bei Abbruch</th>
+								<td>Der Benutzer hat das Service Level einer App nicht geändert.</td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td>Benutzer</td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td>
+									<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
+									<ol>
+										<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
+										<li>PMP listet dem Benutzer alle Apps auf.</li>
+										<li>Der Benutzer wählt eine App aus.</li>
+										<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
+										<li>Der Benutzer wählt ein Service Level aus.</li>
+										<li>PMP stellt die Details zu diesem Service Level dar.</li>
+										<li>Der Benutzer bestätigt die Auswahl dieses Service Levels.</li>
+										<li>PMP weist der App das Service Level zu.</li>
+										<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
+										<li>Der Benutzer schließt die Übersicht der Apps.</li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+						
+						
+						<!--
+						
+						
+						<h4 id="awdf-x">...</h4>
+						<table>
+							<tr>
+								<th class="left">Use-Case ID</th>
+								<td>#x</td>
+							</tr>
+							<tr>
+								<th class="left">Name</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Ziel</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Vorbedingungen</th>
+								<td><ul>
+									<li></li>
+									<li></li>
+								</ul></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Nachbedingungen im Sonderfall</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Akteure</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="left">Normalablauf</th>
+								<td><ol>
+									<li></li>
+								</ol></td>
+							</tr>
+							<tr>
+								<th class="left">Sonderfall <span class="uc-sf"></span></th>
+								<td><ol>
+									<li></li>
+								</ol></td>
+							</tr>
+						</table>
+						
+						-->
+			
+				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
+			
+					<h3 id="oberflaeche">Oberfläche</h3>
+					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+
+					<h3 id="import-export">Import/Export</h3>
+					<p>Es ist keine Import-/Exportfunktionen in der ersten Iteration geplant.</p>
+			
+					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
+					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
+			
+			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>
+			
+				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
+				<p>PMP wird einfach bedienbar sein. Im Simple Mode muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist keine Aktivierung des Expert Modes für die erste Iteration geplant.</p>
+				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können. Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt.</p>
+					<h3 id="nutzungskontext">Nutzungskontext</h3>
+			
+						<h4 id="personae">Personae</h4>
+						
+						<p><strong>Der Durchschnittsuser: Joe</strong></p>
+						<p>Joe ist 15 Jahre alt und besitzt sein Android Smartphone erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Besonders gerne spielt er Klingonenschach. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört dass PMP ihm dabei helfen kann Strom zu sparen und auch Klingonenschach unterstützt seit neuestem PMP. Er benutzt also PMP ohne von Sicherheitskonzepten, Nutzerrollen oder Ressourcen eine Ahnung zu haben.</p>
+						<p>Zugehöriges Nutzungsszenario: N-1</p>
+						
+						<!-- TODO: Hier dann später die passenden Personen zu den Nutzungsszenarien aus dem Forum einfügen !-->
+						
+						<h4 id="nutzungsszenarien">Nutzungsszenarien</h4>
+						
+						<p><strong>Nutzungsszenario N-1</strong></p>
+						<p>Joe ist im Klingonenschach immer noch viel zu schlecht, er traut sich deshalb nicht seinen Highscore zu veröffentlichen. Beim ersten Starten des Schachprogramms und dem daraus folgendem Auswählen der Service Levels wählt er das Service Level "Klingonenschach (ohne Highscore)" anstatt "Klingonenschach (alle Funktionen)" aus und verhindert so die Speicherung seiner Highscore.</p>
+
+						<!-- TODO: Hier dann später die passenden Nutzungsszenarien aus dem Forum einfügen !-->
+			
+				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
+			
+					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
+					<p>Die Software wird interaktiv bedienbar sein, die Reaktionszeit der Benutzeroberfläche wird dabei so gering wie möglich gehalten. Der PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen.
+					
+					<h3 id="mengengeruest">Mengengerüst</h3>
+					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils 5 verschiedenen Service Levels verwalten.</p>
+					<p>In der ersten Iteration wird eine Standard-Ressource bereitgestellt.</p>
+					
+					<h3 id="eingabelaengen">Eingabelängen</h3>
+					<p>Es sind keine Benutzereingaben für die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt.</p>
+					
+				<h2 id="robustheit">Robustheit</h2>
+				<p>PMP wird so robust entwickelt, dass Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
+
+				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
+				<p>PMP läuft als Service während der gesamten Betriebszeit des Android-Systems.</p>
+								
+				<h2 id="sicherheit">Sicherheit</h2>
+				<p>Für die erste Iteration sind keine speziellen Sicherheitfeatures geplant.</p>
+				
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
+				
+				<h2 id="internationalisierung">Internationalisierung</h2>
+				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
+				
+				<h2 id="protokollierung">Protokollierung</h2>
+				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
+				
+				<h2 id="installation">Installation</h2>
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
+				
+				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
+				<p>Die Software wird hinsichtlich folgender Punkte erweiterbar sein:</p>
+				<ul>
+					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
+					<li>Ressourcen/Ressourcengruppen</li>
+					<li>Rollen</li>
+					<li>verwaltete Apps</li>
+				</ul>
+
+				<h2 id="wartbarkeit">Wartbarkeit</h2>
+				<p>Es werden keine speziellen Anforderungen an die Wartbarkeit von PMP gestellt. Folgende allgemeine Anforderungen garantieren jedoch eine hohe Wartbarkeit von PMP:</p>
+				<ul>
+					<li>Es wird eine ausführliche Dokumentation des Sourcecodes in Form von (Javadoc-)Kommentaren erstellt.</li>
+					<li>Die Software wird modular aufgebaut sein.</li>
+					<li>Es werden allgemein bekannte und anerkannte Entwurfsmuster verwendet.</li>
+				</ul>
+				
+				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+				<p>PMP wird in der ersten Iteration ohne externe Abhängigkeiten entwickelt.</p>
+				
+				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
+
+			<!-- brauch man eventuell später noch -->
+			<!-- 
+			<h1 id="optionale-anforderungen">Optionale Anforderungen</h1>
+			<p></p>
+			
+				<h2 id="auflistung-optionalen-anforderungen">Auflistung der optionalen Anforderungen</h2>
+				<p>Keine Optionale Anforderungen für die erste Iteration vorhanden.</p>
+			-->
+
+			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
+
+			<h2 id="hauptmenu">Hauptmenü</h2>
+
+			<div class="uip">
+				<img src="images/S1-Hauptmenue.png" alt="Hauptmenü" class="right">
+
+				<p>Das Startmenü im Simple Mode besteht aus zwei Optionen:</p>
+				<ul>
+					<li>Applikationen (Apps)</li>
+					<li>Ressourcen (Ressources)</li>
+				</ul>
+
+				<p>Über die Schaltfläche "Expert Mode" ist es dem Benutzer möglich, in den Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.<br>Im Startmenü erscheint dann zusätzlich die Option "Rollen (Presets)". </p>
+				<p>Der Expert Mode ist in der ersten Iteration deaktiviert und die mit einem "E" markierte Schaltfläche wird deshalb nicht angezeigt.</p>
+				<div class="clear"></div>
+			</div>
+
+			<h2 id="applikationen">Applikationen</h2>
+
+			<div class="uip">
+				<img src="images/S2-AppscreenSM.png" alt="Applikationen" class="right">
+				<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
+				<p>Im Expert Mode wird es möglich sein einzelne Apps den Rollen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+
+			<div class="uip">
+				<img src="images/S3-ServiceLevel.png" alt="Service Level Auswahl" class="right">
+				<p>Über das Auswählen einer App werden dem Benutzer alle Service Levels der App aufgelistet. Das der App momentan zugewiesene Service Level wird hervorgehoben.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S4-ServiceLeve%20Description.png" alt="Service Level Description" class="right">
+				<p>Beim Auswählen des Service Levels wird ein Informationsfenster angezeigt. Dieses zeigt die Details des Service Levels.</p>
+				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetzt.</p>
+				<p>Durch Schließen wird der Vorgang abgebrochen.</p>
+			<div class="clear"></div></div>
+
+			<div class="pagebreak"></div>
+			
+			<h2 id="ressourcen">Ressourcen</h2>
+
+			<div class="uip">
+				<img src="images/S5-ressource.png" alt="Ressource" class="right">
+				<p>Im zweiten Menü werden alle Ressourcen aufgelistet. Beim Auswählen einer Ressource wird ein Informationsfenster angezeigt.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S6-ressourceAbout.png" alt="Ressource Description" class="right">
+				<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
+				<p>Dieses Informationsfenster kann geschlossen werden.</p>
+			<div class="clear"></div></div>
+
+			<div class="pagebreak"></div>
+			
+			<h2 id="app-hinzufügen">App hinzufügen</h2>
+
+			<div class="uip">
+				<img src="images/S0-App%20Starting1.png" alt="Installation" class="right">
+				<p>Beim Starten einer neuen zu PMP kompatiblen App wird ein Dialog erscheinen, mit dessen Hilfe man der App ein Service Level zuweisen kann.</p>
+			<div class="clear"></div></div>
+
+			<div class="uip">
+				<img src="images/S0-App%20Starting2.png" alt="Installation 2" class="right">
+				<p>Hier kann ein Service Level ausgesucht und angewählt werden.</p>
+			<div class="clear"></div></div>
+			
+			<div class="pagebreak"></div>
+			
+			<div class="uip">
+				<img src="images/S0-AppStarting3.png" alt="Service Level Description" class="right">
+				<p>Beim Auswählen des Service Levels wird ein Informationsfenster angezeigt. Dieses zeigt die Details des Service Levels.</p>
+				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetzt.</p>
+				<p>Durch Schließen wird der Vorgang abgebrochen.</p>
+			<div class="clear"></div></div>
+
+			<h1 id="begriffslexikon">Begriffslexikon</h1>
+				<h2 id="bgl-app">App</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>App</th></tr>
+					<tr><th class="left">Synonyme</th><td>Applikation</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Android-System ausgeführt wird. Eine App definiert mindestens ein Service Level, die jeweils mehrere Services enthalten können. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicelevel"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
+				</table>
+
+				<h2 id="bgl-expertmode">Expert Mode</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Expert Mode</th></tr>
+					<tr><th class="left">Synonyme</th><td>Expertenmodus</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Der Expert Mode ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Levels gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
+					<tr><th class="left">Beispiele</th><td>-</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der Expert Mode ist nicht der "normale", einfache Modus "Simple Mode".</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Der Expert Mode ist einzigartig in der PMP.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
+				</table>
+				
+				<div class="pagebreak"></div>
+				
+				<h2 id="bgl-kontext">Kontext</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
+					<tr><th class="left">Synonyme</th><td>-</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Level abhängen.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+				</table>
+				
+				<h2 id="bgl-preset">Preset</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Preset</th></tr>
+					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Levels. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Levels. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Level bereits bekannt sind.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+				</table>
+				
+				<div class="pagebreak"></div>
+			
+				<h2 id="bgl-privacylevel">Privacy Level</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Privacy Level</th></tr>
+					<tr><th class="left">Synonyme</th><td>Flag</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Privacy Level ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Level kann kontext-abhängig sein. Ihre konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Flags wie "Lesen" oder "Schreiben" anbieten.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Level ist weder ein Service Level noch ein Preset.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Privacy Level bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Privacy Level wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicelevel"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
+				</table>
+			
+				<h2 id="bgl-ressource">Ressource</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Ressource</th></tr>
+					<tr><th class="left">Synonyme</th><td>-</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Funktions- oder Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "E-Mail-Zugriff" könnte die Ressourcen "Absender", "Empfänger", "Betreff", "Inhalt" und "Anhang" enthalten.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Die Ressource wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+				</table>
+				
+				<div class="pagebreak"></div>
+				
+				<h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
+					<tr><th class="left">Synonyme</th><td>Ressourcenkategorie</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine Ressourcengruppe ist eine sinnverwandte Zusammenfassung einzelner Ressourcen.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Es könnte eine Ressourcengruppe zum Zugriff auf das Dateisystem, auf GPS-Empfang oder auf einen Web-Service geben.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Die Ressourcengruppe bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Die Ressourcengruppe wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+				</table>
+				
+				<h2 id="bgl-service">Service</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Service</th></tr>
+					<tr><th class="left">Synonyme</th><td>Dienst</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Service ist ein konkreter Funktionalitätsteil einer App, der Zugriff auf Ressourcen benötigen kann.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Ein Service in der App "Prüfungsamt" könnte "Prüfungsnote abfragen" sein.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App. PMP und die Ressourcen laufen als Service im Hintergrund, sind aber keine Services in dem hier genannten Sinne.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Der Service bleibt gültig, solange der entsprechende Service Level in PMP aktiviert ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Der Service wird durch den zugehörigen Service Level, die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-servicelevel"></span></td></tr>
+				</table>
+				
+				<div class="pagebreak"></div>
+				
+				<h2 id="bgl-servicelevel">Service Level</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Service Level</th></tr>
+					<tr><th class="left">Synonyme</th><td>-</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Service Level ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Levels erfüllt wird.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Die App "Navigation" könnte die Service Level "grobe Ortung", "genaue Ortung" und "fortlaufende Ortung" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy-Level der Ortungs-Ressource verlangt, aber dafür auch mehr Services angeboten.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Service Level ist weder ein Privacy Level noch ein Preset.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Service Level bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Service Level wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacylevel"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+				</table>
+				
+				<h2 id="bgl-simplemode">Simple Mode</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Simple Mode</th></tr>
+					<tr><th class="left">Synonyme</th><td>einfacher Modus</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Der einfache Modus ist die voreingestellte Darstellungsart der Optionen für den Benutzer von PMP. Dabei werden alle nicht benötigten Bedienelemente ausgeblendet und die Konfigurationsmöglichkeiten sind deutlich reduziert.</td></tr>
+					<tr><th class="left">Beispiele</th><td>-</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Der einfache Modus ist nicht der Expert Mode.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>-</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>,<span class="reference" title="#bgl-privacylevel"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
+				</table>
+		</div>
+		<!-- // end of specification's content -->
+	</div>
+</body>
+</html>

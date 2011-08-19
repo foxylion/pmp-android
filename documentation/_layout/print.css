@@ -39,12 +39,24 @@ div.pagebreak {
 	font-size: 0;
 }
 
+.pagebreak {
+	page-break-before: always;
+}
+
+div.clear {
+	clear: both;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+}
+
 h1, h2, h3, h4 {
 	margin: 0;
 	margin-bottom: 0.3em;
 	padding: 0;
 	font-weight: bold;
 	text-decoration: none;
+	clear: both;
 }
 
 h1 span.numberator,
@@ -175,14 +187,46 @@ th {
 th.left {
 	border-bottom: 1px solid #cccccc;
 	border-right: 2px solid #000000;
+	width: 125px;
 }
 
-td ul {
+td ul, td ol {
 	margin: 0;
+	padding-left: 15px;
+	margin-left: 5px;
 }
 
-
-span.reference a {
+span.reference a, a {
 	color: #365f91;
 	text-decoration: underline;
+}
+
+img.right {
+	float: right;
+	margin-left: 10px;
+	border: 1px solid #cccccc;
+}
+
+/* specification specific layout */
+th.left span.uc-sf {
+	float: right;
+	font-weight: bold;
+}
+
+span.up-annotation {
+	border-bottom: 1px solid #ff8c00;
+	font-weight: bold;
+	background-color: #fff;
+	color: #ff8c00;
+	padding: 2px 0.5em;
+	display: block;
+	margin-bottom: 3px;
+}
+
+/* UserInterfacePrototype-Container */
+div.uip {
+	margin-bottom: 10px;
+	padding: 5px;
+	clear: both;
+	page-break-inside: avoid;
 }
