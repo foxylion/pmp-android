@@ -1,0 +1,57 @@
+Nachfolgend wurden notiert, welche Daten und Funktionen die GUI vom Model der PMP benötigt.
+
+ - Liste aller installierten Apps
+   Für jede App:
+    - Name 
+    - Version
+    - Beschreibung ?
+    - Rolle, in der sich diese App befindet
+    - Funktion, um Rolle der App zuzuweisen
+    - Installations-Datum ?
+    - Deinstallations-Funktion
+
+ - App-Installations-Funktion
+ 
+ - Alle zu einer bestimmten App gehörenden Service-Levels
+   Für jedes SL:
+    - Name
+    - Beschreibung
+    - Version ?
+    - Boolean: Wurde dieses SL gesetzt?
+    - Liste zugehöriger Ressourcen
+    - SL setzen Funktion
+    
+ - Liste aller Rollen
+   Für jede Rolle:
+    - Name
+    - Beschreibung ?
+    - Liste aller Ressourcen dieser Rolle
+    - Apps, die zu dieser Rolle gehören
+    - Funktionen um Rollen...
+       - hinzuzfügen
+       - entfernen
+       - bearbeiten
+       - umbenennen ?
+       
+ - Liste aller Rollen im Mülleimer
+   Für jede Rolle Funktion um Rolle...
+    - wiederherzustellen
+    - entgültig zu löschen
+    
+ - Ressourcen-Installations-Funktion ?
+ 
+ - Liste aller verfügbaren Ressourcen-Gruppen
+   Für jede Gruppe:
+    - Name
+    - Beschreibung ?
+    - Liste mit zugehöriger Ressourcen
+    - Funktion, um Ressource dieser Gruppe hinzuzufügen
+    
+ - Liste aller Ressourcen einer Gruppe
+   Für jede Ressource:
+    - Name
+    - Beschreibung
+    - Version
+    - Liste mit SL, die diese Ressource beinhalten
+    - Deinstallations-Funktion
+   
