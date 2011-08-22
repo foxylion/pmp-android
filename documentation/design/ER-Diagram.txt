@@ -46,10 +46,10 @@ E  - Entity
 	
 - Context_Preset_PrivacyLevels
     [PK,FK] Preset_Name
-	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] PrivacyLevel_ResourceGroup_Identifier
 	[PK,FK] PrivacyLevel_Identifier
-	[PK,FK] ResourceGroup_Identifier
-	[PK,FK] ResourceContext_Name
+	[PK,FK] ResourceContext_ResourceGroup_Identifier
+	[PK,FK] ResourceContext_Identifier
 	[E]     Value
 
 - App
@@ -67,7 +67,7 @@ E  - Entity
 
 - ServiceLevel_PrivacyLevels
     [PK,FK] App_Identifier
-    [PK,FK] ServiceLevel_Name
+    [PK,FK] ServiceLevel_Order
 	[PK,FK] ResourceGroup_Identifier
 	[PK,FK] PrivacyLevel_Identifier
 	[E]     Value
