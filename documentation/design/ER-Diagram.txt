@@ -1,0 +1,73 @@
+PMP-Database
+
+Legende:
+PK - Primary Key
+FK - Foreign Key
+E  - Entity
+{*} Multiplizität
+
+- ResourceGroup
+    [PK]    Identifier
+	[E]     Location
+   ([E]     Name (fetched by Resource-API))
+   ([E]     Icon-Source (fetched by Resource-API))
+   ([E]     Description (fetched by Resource-API))
+
+- PrivacyLevel
+    [PK,FK] ResourceGroup_Identifier
+    [PK]    Identifier
+   ([E]     Name (fetched by Resource-API))
+   ([E]     Description (fetched by Resource-API))
+   
+- ResourceContext
+	[PK,FK] ResourceGroup_Identifier
+	[PK]    Name
+	[E]     Description
+
+- Role
+    [PK]    Name
+	[E]     Description
+
+- Role_PrivacyLevels
+    [PK,FK] Role_Name
+	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] PrivacyLevel_Identifier
+	[E]     Value
+	
+- Role_Apps
+	[PK,FK] Role_Name
+	[PK,FK] App_Identifier
+	
+- Context_Role
+	[PK,FK] Role_Name
+	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] ResourceContext_Name
+	[E]     Value
+	
+- Context_Role_PrivacyLevels
+    [PK,FK] Role_Name
+	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] PrivacyLevel_Identifier
+	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] ResourceContext_Name
+	[E]     Value
+
+- App
+    [PK]    Identifier
+	[E]     Location
+   ([E]     Name (fetched by Resource-API))
+   ([E]     Description (fetched by Resource-API))
+   ([E]     Icon-Source (fetched by Resource-API))
+	
+- ServiceLevel
+    [PK,FK] App_Identifier
+    [PK]    Order
+   ([E]     Name (fetched by Resource-API))
+   ([E]     Description (fetched by App-API))
+
+- ServiceLevel_PrivacyLevels
+    [PK,FK] App_Identifier
+    [PK,FK] ServiceLevel_Name
+	[PK,FK] ResourceGroup_Identifier
+	[PK,FK] PrivacyLevel_Identifier
+	[E]     Value
