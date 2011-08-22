@@ -1,0 +1,35 @@
+PMPService.getAllApps()
+PMPService.getApp(Identifier)
+PMPService.getAllPresets()
+PMPService.getPreset(Name)
+
+App.getDescription(Lang)
+App.getName(Lang)
+App.getAllServiceLevels()
+App.getServiceLevel(Order)
+
+ServiceLevel.getAllPrivacyLevels()
+ServiceLevel.getDescription(Lang)
+ServiceLevel.getName(Lang)
+
+IPrivacyLevel.getRessourceGroup(Identifier)
+IPrivacyLevel.getName(Lang)
+IPrivacyLevel.getDescription(Lang)
+
+IContextPrivacyLevel extends IPrivacyLevel
+IContextPrivacyLevel.getResourceGroupContexts()
+
+IValuedPrivacyLevel extends IPrivacyLevel
+IValuedPrivacyLevel.getValue()                        	
+
+ResourceGroup.getAllPrivacyLevels()
+ResourceGroup.getDescription(Lang)
+ResourceGroup.getName(Lang)
+
+Preset.getDescription()
+Preset.getAllPrivacyLevels()
+Preset.getAssignedApps()
+Preset.getResourceGroupContexts()
+
+
+
