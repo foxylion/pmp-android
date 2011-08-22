@@ -24,28 +24,28 @@ E  - Entity
 	[PK]    Name
 	[E]     Description
 
-- Role
+- Preset
     [PK]    Name
 	[E]     Description
 
-- Role_PrivacyLevels
-    [PK,FK] Role_Name
+- Preset_PrivacyLevels
+    [PK,FK] Preset_Name
 	[PK,FK] ResourceGroup_Identifier
 	[PK,FK] PrivacyLevel_Identifier
 	[E]     Value
 	
-- Role_Apps
-	[PK,FK] Role_Name
+- Preset_Apps
+	[PK,FK] Preset_Name
 	[PK,FK] App_Identifier
 	
-- Context_Role
-	[PK,FK] Role_Name
+- Context_Preset
+	[PK,FK] Preset_Name
 	[PK,FK] ResourceGroup_Identifier
 	[PK,FK] ResourceContext_Name
 	[E]     Value
 	
-- Context_Role_PrivacyLevels
-    [PK,FK] Role_Name
+- Context_Preset_PrivacyLevels
+    [PK,FK] Preset_Name
 	[PK,FK] ResourceGroup_Identifier
 	[PK,FK] PrivacyLevel_Identifier
 	[PK,FK] ResourceGroup_Identifier
