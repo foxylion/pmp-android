@@ -34,9 +34,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.96766303"
+     inkscape:zoom="0.99616123"
      inkscape:cx="490.71579"
-     inkscape:cy="32.492595"
+     inkscape:cy="280.51282"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -151,7 +151,7 @@
          sodipodi:role="line"
          id="tspan5459"
          x="161.10928"
-         y="501.62393">Content Provider</tspan></text>
+         y="501.62393">Resource Group</tspan></text>
     <path
        id="rect5467"
        style="fill:#3771c8;fill-opacity:1"
@@ -238,7 +238,7 @@
          y="501.62393"
          x="481.10928"
          id="tspan5606"
-         sodipodi:role="line">Content Provider</tspan></text>
+         sodipodi:role="line">Resource Group</tspan></text>
     <path
        inkscape:connector-curvature="0"
        d="m 453.83195,512.36218 76.3361,0 c 6.5549,0 11.83195,5.27705 11.83195,11.83195 l 0,6.3361 c 0,6.5549 -5.27705,11.83194 -11.83195,11.83194 l -76.3361,0 C 447.27705,542.36217 442,537.08513 442,530.53023 l 0,-6.3361 c 0,-6.5549 5.27705,-11.83195 11.83195,-11.83195 z"
@@ -315,7 +315,11 @@
          sodipodi:role="line"
          id="tspan5644"
          x="801.10925"
-         y="501.62393">Content Provider</tspan></text>
+         y="501.62393">Resource Group</tspan><tspan
+         sodipodi:role="line"
+         x="801.10925"
+         y="526.6239"
+         id="tspan80" /></text>
     <path
        id="path5648"
        style="fill:#3771c8;fill-opacity:1"
