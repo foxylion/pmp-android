@@ -6,6 +6,11 @@
     <uses-sdk android:minSdkVersion="7" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <service android:name=".service.PMPService" android:exported="true">
+            <intent-filter>
+                <action android:name="de.unistuttgart.ipvs.pmp.PMPService"></action>
+            </intent-filter>
+        </service>
 
 
     </application>
