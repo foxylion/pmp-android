@@ -5,7 +5,7 @@ import java.util.Map;
 
 import android.os.RemoteException;
 
-public class ResourceGroupServiceStubImpl extends IResourceGroupService.Stub {
+public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.Stub {
 
 	@Override
 	public String getName(String locale) throws RemoteException {

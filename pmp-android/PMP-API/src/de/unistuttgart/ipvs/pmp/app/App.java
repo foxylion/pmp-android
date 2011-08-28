@@ -4,10 +4,19 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * <b>Currently unused</b>, but a sample implementation of a {@link Parcelable}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class App implements Parcelable {
 
-	public App() {
-		
+	private String identifier;
+	private String url;
+	
+	public App(String identifier, String url) {
+		this.identifier = identifier;
+		this.url = url;
 	}
 	
 	/**
@@ -19,7 +28,8 @@ public class App implements Parcelable {
 	 *            Parcel-Source
 	 */
 	private App(Parcel source) {
-		
+		this.identifier = source.readString();
+		this.url = source.readString();
 	}
 
 	/**
@@ -29,7 +39,8 @@ public class App implements Parcelable {
 	 */
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// Nothing to write yet.
+		dest.writeString(identifier);
+		dest.writeString(url);
 	}
 	
 	@Override

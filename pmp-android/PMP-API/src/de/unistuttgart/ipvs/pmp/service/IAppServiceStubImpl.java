@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.os.RemoteException;
 
-public class IAppServiceStupImpl extends IAppService.Stub {
+public class IAppServiceStubImpl extends IAppService.Stub {
 
 	@Override
 	public String getName(String locale) throws RemoteException {

@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 
-interface IResourceGroupService {
+interface IResourceGroupServicePMP {
 
 	/**
 	 * @returns the name of the ResourceGroup.
