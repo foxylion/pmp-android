@@ -21,8 +21,9 @@ E  - Entity
    
 - ResourceContext
 	[PK,FK] ResourceGroup_Identifier
-	[PK]    Name
-	[E]     Description
+	[PK]    Identifier
+   ([E]     Name (fetched by Resource-API))
+   ([E]     Description (fetched by Resource-API))
 
 - Preset
     [PK]    Name
@@ -41,7 +42,7 @@ E  - Entity
 - Context_Preset
 	[PK,FK] Preset_Name
 	[PK,FK] ResourceGroup_Identifier
-	[PK,FK] ResourceContext_Name
+	[PK,FK] ResourceContext_Identifier
 	[E]     Value
 	
 - Context_Preset_PrivacyLevels
@@ -61,13 +62,13 @@ E  - Entity
 	
 - ServiceLevel
     [PK,FK] App_Identifier
-    [PK]    Order
+    [PK]    Ordering
    ([E]     Name (fetched by Resource-API))
    ([E]     Description (fetched by App-API))
 
 - ServiceLevel_PrivacyLevels
     [PK,FK] App_Identifier
-    [PK,FK] ServiceLevel_Order
+    [PK,FK] ServiceLevel_Ordering
 	[PK,FK] ResourceGroup_Identifier
 	[PK,FK] PrivacyLevel_Identifier
 	[E]     Value
