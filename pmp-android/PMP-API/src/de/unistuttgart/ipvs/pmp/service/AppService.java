@@ -4,6 +4,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+/**
+ * The {@link AppService} is used to allow PMPService a connection where
+ * informations about the App are served.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppService extends Service {
 
 	/**

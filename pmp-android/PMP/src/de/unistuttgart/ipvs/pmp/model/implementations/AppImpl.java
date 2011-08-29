@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IRole;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
@@ -54,7 +54,7 @@ public class AppImpl implements IApp {
 	}
 
 	@Override
-	public IRole[] getAssignedRoles() {
+	public IPreset[] getAssignedPresets() {
 		// TODO Auto-generated method stub
 		return null;
 	}

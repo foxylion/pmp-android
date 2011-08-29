@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import android.app.Service;
 import android.content.Intent;
@@ -11,9 +12,9 @@ import android.os.IBinder;
  * {@link PMPService}, put as extra into the {@link Intent}.
  * 
  * <pre>
- * intent.putExtraString("identifier", <App/ResourceGroup-Identifier>);
- * intent.putExtraString("type", <APP|RESOURCEGROUP>);
- * intent.putExtraString("token", Generated Token for PMPService);
+ * intent.putExtraString(Constants.INTENT_TYPE, <Constants.TYPE_APP|Constants.TYPE_RESOURCEGROUP>);
+ * intent.putExtraString(Constants.INTENT_IDENTIFIER, <App/ResourceGroup-Identifier>);
+ * intent.putExtraString(Constants.INTENT_TOKEN, Generated Token for PMPService);
  * </pre>
  * 
  * The token is optional, if you do not sent a token, the Service will handle
@@ -61,9 +62,9 @@ public class PMPService extends Service {
 	 */
 	@Override
 	public IBinder onBind(Intent intent) {
-		String type = intent.getStringExtra("type");
-		String identifier = intent.getStringExtra("identifier");
-		String token = intent.getStringExtra("token");
+		String type = intent.getStringExtra(Constants.INTENT_TYPE);
+		String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+		String token = intent.getStringExtra(Constants.INTENT_TOKEN);
 
 		if (identifier == null || type == null) {
 			return null;
@@ -71,14 +72,14 @@ public class PMPService extends Service {
 			return new PMPServiceRegistrationStubImpl(identifier);
 		} else {
 			/* Should be a normal authentification */
-			if(type.toLowerCase().equals("app")) {
+			if(type.equals(Constants.TYPE_APP)) {
 				/* Authentification from an app */
 				if (ModelSingleton.getInstance().checkAppToken(identifier, token)) {
 					return new PMPServiceAppStubImpl(identifier);
 				} else {
 					return null;
 				}
-			} else if (type.toLowerCase().equals("resourcegroup")) {
+			} else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
 				/* Authentification from a resourcegroup */
 				if (ModelSingleton.getInstance().checkResourceGroupToken(identifier, token)) {
 					return new PMPServiceResourceGroupStubImpl(identifier);

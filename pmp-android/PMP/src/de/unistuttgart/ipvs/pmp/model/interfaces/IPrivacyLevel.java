@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.interfaces;
 
 /**
  * The {@link IPrivacyLevel} interface represents a PrivacyLevel of a
- * {@link IResourceGroup}. It can be fetched from an {@link IServiceLevel}, {@link IRole} or
+ * {@link IResourceGroup}. It can be fetched from an {@link IServiceLevel}, {@link IPreset} or
  * {@link IResourceGroup}.
  * 
  * @author Jakob Jarosch

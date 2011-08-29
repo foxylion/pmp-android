@@ -5,18 +5,24 @@ import java.util.Map;
 
 import android.os.RemoteException;
 
-public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.Stub {
+/**
+ * Implementation of the {@link IResourceGroupServicePMP.Stub} stub.
+ * 
+ * @author Jakob Jarosch
+ */
+public class ResourceGroupServicePMPStubImpl extends
+		IResourceGroupServicePMP.Stub {
 
 	@Override
 	public String getName(String locale) throws RemoteException {
-		
+
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public String getDescription(String locale) throws RemoteException {
-		
+
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
@@ -29,7 +35,6 @@ public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.St
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-	
 
 	@Override
 	public String getPrivacyLevelName(String locale, String identifier)
@@ -67,10 +72,17 @@ public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.St
 	}
 
 	@Override
-	public boolean satisfiesPrivacyLevel(String privacyLevel, String reference, String value)
-			throws RemoteException {
-		
+	public boolean satisfiesPrivacyLevel(String privacyLevel, String reference,
+			String value) throws RemoteException {
+
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void changePrivacyLevels(String appIdentifier)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+
 	}
 }

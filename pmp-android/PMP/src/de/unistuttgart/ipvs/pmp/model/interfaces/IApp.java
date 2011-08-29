@@ -49,5 +49,5 @@ public interface IApp {
 	/**
 	 * @return Returns all to the App assigned roles.
 	 */
-	public IRole[] getAssignedRoles();
+	public IPreset[] getAssignedPresets();
 }

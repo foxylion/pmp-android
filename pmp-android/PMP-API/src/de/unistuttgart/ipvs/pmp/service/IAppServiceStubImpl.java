@@ -4,6 +4,11 @@ import java.util.List;
 
 import android.os.RemoteException;
 
+/**
+ * Implementation of the {@link IAppService.Stub} stub.
+ * 
+ * @author Jakob Jarosch
+ */
 public class IAppServiceStubImpl extends IAppService.Stub {
 
 	@Override

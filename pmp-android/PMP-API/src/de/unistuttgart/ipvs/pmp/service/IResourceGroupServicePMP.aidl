@@ -42,4 +42,12 @@ interface IResourceGroupServicePMP {
 	 * @return true if value is equal or better than reference, otherwise false
 	 */
 	boolean satisfiesPrivacyLevel(String privacyLevel, String reference, String value);
+	
+	/**
+	 * Opens the Activity for changing the PrivacyLevels
+	 * and returns the results over the PMPService.
+	 *
+	 * @param appIdentifier The Identifier of the App.
+	 */
+	void changePrivacyLevels(String appIdentifier);
 }

@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.interfaces;
 
 /**
- * The {@link IModel} provides all {@link IApp}s, {@link IRole}s and {@link IResourceGroup}s
+ * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and {@link IResourceGroup}s
  * known by PMP.
  * 
  * @author Jakob Jarosch
@@ -14,9 +14,9 @@ public interface IModel {
 	public IApp[] getApps();
 
 	/**
-	 * @return Returns all {@link IRole}s known by PMP.
+	 * @return Returns all {@link IPreset}s known by PMP.
 	 */
-	public IRole[] getRoles();
+	public IPreset[] getRoles();
 	
 	/**
 	 * @return Returns all {@link IResourceGroup}s known by PMP.

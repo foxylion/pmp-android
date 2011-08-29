@@ -2,14 +2,14 @@ package de.unistuttgart.ipvs.pmp.model.implementations;
 
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IRole;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 
 /**
- * Implementation of the {@link IRole} interface.
+ * Implementation of the {@link IPreset} interface.
  * 
  * @author Jakob Jarosch
  */
-public class RoleImpl implements IRole {
+public class RoleImpl implements IPreset {
 
 	@Override
 	public String getName() {
