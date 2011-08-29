@@ -1,11 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.service.IPMPServiceRegistration;
 
 /**
- * AIDL-Interface implementation of the {@link PMPService}'s {@link IBinder}.
+ * Implementation of the {@link IPMPServiceRegistration.Stub} stub.
  * 
  * @author Jakob Jarosch
  */

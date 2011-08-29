@@ -3,6 +3,11 @@ package de.unistuttgart.ipvs.pmp.model.implementations;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
+/**
+ * Implementation of the {@link IResourceGroup} interface.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ResourceGroupImpl implements IResourceGroup {
 
 	@Override

@@ -5,16 +5,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import de.unistuttgart.ipvs.pmp.Log;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+/**
+ * This is a helper for opening the database used by PMP.<br/>
+ * It automatically creates the required tables in the SQLite database.<br/>
+ * A database instance can be got by calling
+ * {@link DatabaseOpenHelper#getWritableDatabase()}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-	private static final String LOG = "SQLITE";
-
+	/**
+	 * Name of the database.
+	 */
 	private static final String DB_NAME = "pmp-database";
 
 	/**
@@ -36,17 +46,27 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 		super(context, DB_NAME, null, DB_VERSION);
 	}
 
+	/**
+	 * Called when the database is opened first time.
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.d("creating database structure.");
+
 		String sqlQuery = readSqlFile(SQL_FILES[1]);
 
 		if (sqlQuery != null) {
+			Log.d("Successfully read the database from " + SQL_FILES[1]
+					+ ", executing now...");
 			db.beginTransaction();
 			db.execSQL(sqlQuery);
 			db.endTransaction();
 		}
 	}
 
+	/**
+	 * Called when upgrading from a previous version of the database.
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		throw new UnsupportedOperationException(
@@ -85,7 +105,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 			sqlQuery = sb.toString();
 
 		} catch (IOException e) {
-			Log.e(LOG, "Reading the sql file from " + filename + " failed.");
+			Log.e("Reading the sql file from " + filename + " failed.", e);
 		}
 
 		return sqlQuery;

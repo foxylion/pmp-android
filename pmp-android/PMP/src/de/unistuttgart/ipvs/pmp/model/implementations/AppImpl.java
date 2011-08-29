@@ -1,8 +1,14 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IRole;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
+/**
+ * Implementation of the {@link IApp} interface.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppImpl implements IApp {
 
 	@Override
@@ -30,6 +36,12 @@ public class AppImpl implements IApp {
 	}
 
 	@Override
+	public IServiceLevel getServiceLevel(int ordering) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public int getActiveServiceLevel() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -38,7 +50,13 @@ public class AppImpl implements IApp {
 	@Override
 	public void setServiceLevel(int serviceLevel) {
 		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public IRole[] getAssignedRoles() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -72,18 +72,21 @@ public class PMPService extends Service {
 		} else {
 			/* Should be a normal authentification */
 			if(type.toLowerCase().equals("app")) {
+				/* Authentification from an app */
 				if (ModelSingleton.getInstance().checkAppToken(identifier, token)) {
 					return new PMPServiceAppStubImpl(identifier);
 				} else {
 					return null;
 				}
 			} else if (type.toLowerCase().equals("resourcegroup")) {
+				/* Authentification from a resourcegroup */
 				if (ModelSingleton.getInstance().checkResourceGroupToken(identifier, token)) {
 					return new PMPServiceResourceGroupStubImpl(identifier);
 				} else {
 					return null;
 				}
 			}  else {
+				/* no valid type identifier found */
 				return null;
 			}
 		}
