@@ -1,5 +1,11 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+/**
+ * The IAppService is provided by an application, over the interface
+ * it's possible to get name, description and ServiceLevels from the App.
+ *
+ * @author Jakob Jarosch
+ */
 interface IAppService {
 	
 	String getName(String locale);
@@ -8,14 +14,16 @@ interface IAppService {
 	
 	int getServiceLevelCount();
 	
-	String getServiceLevelName(String locale, int serviceLevelId);
+	String getServiceLevelName(String locale, int serviceLevelOrdering);
 	
-	String getServiceLevelDescription(String locale, int serviceLevelId);
+	String getServiceLevelDescription(String locale, int serviceLevelOrdering);
 	
 	/**
 	 * @return Returns a List of {@link AppPrivacyLevel}s
 	 */
-	List getServiceLevelPrivacyLevels(int serviceLevelId);
+	List getServiceLevelPrivacyLevels(int serviceLevelOrdering);
 	
-	void setServiceLevel(int serviceLevel);
+	void setServiceLevel(int serviceLevelOrdering);
+	
+	void setRegistrationSuccessful(boolean success);
 }

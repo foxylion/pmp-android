@@ -1,20 +1,25 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 
+/**
+ * The Service of a ResourceGroup provided for PMP.
+ *
+ * @author Jakob Jarosch
+ */
 interface IResourceGroupServicePMP {
 
 	/**
-	 * @returns the name of the ResourceGroup.
+	 * @return Returns the name of the ResourceGroup.
 	 */
 	String getName(String locale);
 	
 	/**
-	 * @returns the description of the ResourceGroup.
+	 * @return Returns the description of the ResourceGroup.
 	 */
 	String getDescription(String locale);
 	
 	/**
-	 * Returns the privacy levels for the ResourceGroup.
+	 * @return Returns the privacy levels for the ResourceGroup.
 	 */
 	List getPrivacyLevelIdentifiers();
 	
@@ -36,7 +41,7 @@ interface IResourceGroupServicePMP {
 	 * @param reference the original value which should be referenced for testing
 	 * @param value the value which should be compared to reference
 	 *
-	 * @return true if value is equal or better than reference, otherwise false
+	 * @return Returns true if value is equal or better than reference, otherwise false
 	 */
 	boolean satisfiesPrivacyLevel(String privacyLevel, String reference, String value);
 	
@@ -47,4 +52,6 @@ interface IResourceGroupServicePMP {
 	 * @param appIdentifier The Identifier of the App.
 	 */
 	void changePrivacyLevels(String appIdentifier);
+	
+	void setRegistrationSuccessful(boolean success);
 }

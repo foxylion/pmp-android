@@ -23,6 +23,12 @@ public class ModelImpl implements IModel {
     }
 
     @Override
+    public boolean addApp(String identifier, String publicKey) {
+	// TODO Auto-generated method stub
+	return true;
+    }
+
+    @Override
     public IPreset[] getRoles() {
 	// TODO Auto-generated method stub
 	return null;
@@ -32,5 +38,11 @@ public class ModelImpl implements IModel {
     public IResourceGroup[] getResourceGroups() {
 	// TODO Auto-generated method stub
 	return null;
+    }
+
+    @Override
+    public boolean addResourceGroup(String identifier, String publicKey) {
+	// TODO Auto-generated method stub
+	return true;
     }
 }

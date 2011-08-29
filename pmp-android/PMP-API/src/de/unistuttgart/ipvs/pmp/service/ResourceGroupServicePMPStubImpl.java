@@ -86,4 +86,11 @@ public class ResourceGroupServicePMPStubImpl extends
 	// TODO Auto-generated method stub
 
     }
+
+    @Override
+    public void setRegistrationSuccessful(boolean success)
+	    throws RemoteException {
+	// TODO Auto-generated method stub
+	
+    }
 }

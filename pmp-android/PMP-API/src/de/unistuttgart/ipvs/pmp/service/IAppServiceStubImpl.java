@@ -68,4 +68,11 @@ public class IAppServiceStubImpl extends IAppService.Stub {
 	throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void setRegistrationSuccessful(boolean success)
+	    throws RemoteException {
+	// TODO Auto-generated method stub
+	
+    }
+
 }

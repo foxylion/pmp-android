@@ -21,7 +21,8 @@ public class PMPServiceRegistrationStubImpl extends
     public String registerApp(String url) throws RemoteException {
 	/*
 	 * Note: The Identifier of the App can be found in the identifier
-	 * variable.
+	 * variable. Execution should be done in Background and PublicKey should
+	 * be returned immediately.
 	 */
 
 	// TODO IMPLEMENT
@@ -32,7 +33,8 @@ public class PMPServiceRegistrationStubImpl extends
     public String registerResourceGroup(String url) throws RemoteException {
 	/*
 	 * Note: The Identifier of the ResourceGroup can be found in the
-	 * identifier variable.
+	 * identifier variable. Execution should be done in Background and PublicKey should
+	 * be returned immediately.
 	 */
 
 	// TODO IMPLEMENT

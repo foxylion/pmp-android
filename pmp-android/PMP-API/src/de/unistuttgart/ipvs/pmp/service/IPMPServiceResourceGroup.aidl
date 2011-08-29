@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+/**
+ * The Service of PMP provided for an authentificated ResourceGroup.
+ *
+ * @author Jakob Jarosch
+ */
 interface IPMPServiceResourceGroup {
 
 	/**
