@@ -9,23 +9,23 @@ package de.unistuttgart.ipvs.pmp.model.interfaces;
  */
 public interface IPreset {
 
-	/**
-	 * @return Returns the name of the preset.
-	 */
-	public String getName();
+    /**
+     * @return Returns the name of the preset.
+     */
+    public String getName();
 
-	/**
-	 * @return Returns the description of the preset.
-	 */
-	public String getDescription();
+    /**
+     * @return Returns the description of the preset.
+     */
+    public String getDescription();
 
-	/**
-	 * @return Returns the assigned {@link IApp}s to this preset.
-	 */
-	public IApp[] getAssignedApps();
+    /**
+     * @return Returns the assigned {@link IApp}s to this preset.
+     */
+    public IApp[] getAssignedApps();
 
-	/**
-	 * @return Returns the used {@link IPrivacyLevel}s by this preset.
-	 */
-	public IPrivacyLevel[] getUsedPrivacyLevels();
+    /**
+     * @return Returns the used {@link IPrivacyLevel}s by this preset.
+     */
+    public IPrivacyLevel[] getUsedPrivacyLevels();
 }

@@ -29,67 +29,69 @@ import android.os.IBinder;
  */
 public class PMPService extends Service {
 
-	/**
-	 * On creation of service called (only once).
+    /**
+     * On creation of service called (only once).
+     */
+    @Override
+    public void onCreate() {
+
+    }
+
+    /**
+     * Called when service is going to shutdown.
+     */
+    @Override
+    public void onDestroy() {
+
+    }
+
+    /**
+     * Called on startup the service.
+     */
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+	/*
+	 * We want this service to continue running until it is explicitly
+	 * stopped, so return sticky.
 	 */
-	@Override
-	public void onCreate() {
+	return START_STICKY;
+    }
 
-	}
+    /**
+     * Called when another application is going to bind the service.
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+	String type = intent.getStringExtra(Constants.INTENT_TYPE);
+	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+	String token = intent.getStringExtra(Constants.INTENT_TOKEN);
 
-	/**
-	 * Called when service is going to shutdown.
-	 */
-	@Override
-	public void onDestroy() {
-
-	}
-
-	/**
-	 * Called on startup the service.
-	 */
-	public int onStartCommand(Intent intent, int flags, int startId) {
-
-		/*
-		 * We want this service to continue running until it is explicitly
-		 * stopped, so return sticky.
-		 */
-		return START_STICKY;
-	}
-
-	/**
-	 * Called when another application is going to bind the service.
-	 */
-	@Override
-	public IBinder onBind(Intent intent) {
-		String type = intent.getStringExtra(Constants.INTENT_TYPE);
-		String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-		String token = intent.getStringExtra(Constants.INTENT_TOKEN);
-
-		if (identifier == null || type == null) {
-			return null;
-		} else if (token == null) {
-			return new PMPServiceRegistrationStubImpl(identifier);
+	if (identifier == null || type == null) {
+	    return null;
+	} else if (token == null) {
+	    return new PMPServiceRegistrationStubImpl(identifier);
+	} else {
+	    /* Should be a normal authentification */
+	    if (type.equals(Constants.TYPE_APP)) {
+		/* Authentification from an app */
+		if (ModelSingleton.getInstance().checkAppToken(identifier,
+			token)) {
+		    return new PMPServiceAppStubImpl(identifier);
 		} else {
-			/* Should be a normal authentification */
-			if(type.equals(Constants.TYPE_APP)) {
-				/* Authentification from an app */
-				if (ModelSingleton.getInstance().checkAppToken(identifier, token)) {
-					return new PMPServiceAppStubImpl(identifier);
-				} else {
-					return null;
-				}
-			} else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
-				/* Authentification from a resourcegroup */
-				if (ModelSingleton.getInstance().checkResourceGroupToken(identifier, token)) {
-					return new PMPServiceResourceGroupStubImpl(identifier);
-				} else {
-					return null;
-				}
-			}  else {
-				/* no valid type identifier found */
-				return null;
-			}
+		    return null;
 		}
+	    } else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
+		/* Authentification from a resourcegroup */
+		if (ModelSingleton.getInstance().checkResourceGroupToken(
+			identifier, token)) {
+		    return new PMPServiceResourceGroupStubImpl(identifier);
+		} else {
+		    return null;
+		}
+	    } else {
+		/* no valid type identifier found */
+		return null;
+	    }
 	}
+    }
 }

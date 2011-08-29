@@ -8,33 +8,34 @@ import de.unistuttgart.ipvs.pmp.service.IPMPServiceRegistration;
  * 
  * @author Jakob Jarosch
  */
-public class PMPServiceRegistrationStubImpl extends IPMPServiceRegistration.Stub {
+public class PMPServiceRegistrationStubImpl extends
+	IPMPServiceRegistration.Stub {
 
-	private String identifier = null;
+    private String identifier = null;
 
-	public PMPServiceRegistrationStubImpl(String identifier) {
-		this.identifier = identifier;
-	}
+    public PMPServiceRegistrationStubImpl(String identifier) {
+	this.identifier = identifier;
+    }
 
-	@Override
-	public String registerApp(String url) throws RemoteException {
-		/*
-		 * Note: The Identifier of the App can be found in the identifier
-		 * variable.
-		 */
+    @Override
+    public String registerApp(String url) throws RemoteException {
+	/*
+	 * Note: The Identifier of the App can be found in the identifier
+	 * variable.
+	 */
 
-		// TODO IMPLEMENT
-		throw new UnsupportedOperationException();
-	}
+	// TODO IMPLEMENT
+	throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public String registerResourceGroup(String url) throws RemoteException {
-		/*
-		 * Note: The Identifier of the ResourceGroup can be found in the
-		 * identifier variable.
-		 */
+    @Override
+    public String registerResourceGroup(String url) throws RemoteException {
+	/*
+	 * Note: The Identifier of the ResourceGroup can be found in the
+	 * identifier variable.
+	 */
 
-		// TODO IMPLEMENT
-		throw new UnsupportedOperationException();
-	}
+	// TODO IMPLEMENT
+	throw new UnsupportedOperationException();
+    }
 }

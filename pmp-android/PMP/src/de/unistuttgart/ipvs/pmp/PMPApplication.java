@@ -11,26 +11,26 @@ import android.content.Context;
  */
 public class PMPApplication extends Application {
 
-	/**
-	 * Singleton instance of the Class.
-	 */
-	private static PMPApplication instance;
+    /**
+     * Singleton instance of the Class.
+     */
+    private static PMPApplication instance;
 
-	/**
-	 * Called when the Application is started (Activity-Call or
-	 * Service-StartUp).
-	 */
-	@Override
-	public void onCreate() {
-		super.onCreate();
+    /**
+     * Called when the Application is started (Activity-Call or
+     * Service-StartUp).
+     */
+    @Override
+    public void onCreate() {
+	super.onCreate();
 
-		instance = this;
-	}
+	instance = this;
+    }
 
-	/**
-	 * @return Returns an actual {@link Context} of the Application.
-	 */
-	public static Context getContext() {
-		return instance.getApplicationContext();
-	}
+    /**
+     * @return Returns an actual {@link Context} of the Application.
+     */
+    public static Context getContext() {
+	return instance.getApplicationContext();
+    }
 }

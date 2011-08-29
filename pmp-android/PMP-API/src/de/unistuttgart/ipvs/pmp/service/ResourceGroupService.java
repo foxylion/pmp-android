@@ -15,8 +15,8 @@ import android.os.IBinder;
  * intent.putExtraString("token", Generated Token for ResourceGroup);
  * </pre>
  * 
- * With a valid token the {@link IResourceGroupServicePMP} or
- * !!CREATE ALTERNATIVE BINDER (AIDL)!! Binder will be given back.
+ * With a valid token the {@link IResourceGroupServicePMP} or !!CREATE
+ * ALTERNATIVE BINDER (AIDL)!! Binder will be given back.
  * 
  * If an authentification fails the Service will give back NULL.
  * 
@@ -24,47 +24,46 @@ import android.os.IBinder;
  */
 public class ResourceGroupService extends Service {
 
-	/**
-	 * On creation of service called (only once).
+    /**
+     * On creation of service called (only once).
+     */
+    @Override
+    public void onCreate() {
+
+    }
+
+    /**
+     * Called when service is going to shutdown.
+     */
+    @Override
+    public void onDestroy() {
+
+    }
+
+    /**
+     * Called on startup the service.
+     */
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+	/*
+	 * We want this service to continue running until it is explicitly
+	 * stopped, so return sticky.
 	 */
-	@Override
-	public void onCreate() {
+	return START_STICKY;
+    }
 
-	}
+    /**
+     * Called when another application is going to bind the service.
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+	String type = intent.getStringExtra("type");
+	String identifier = intent.getStringExtra("identifier");
+	String token = intent.getStringExtra("token");
 
-	/**
-	 * Called when service is going to shutdown.
-	 */
-	@Override
-	public void onDestroy() {
+	// TODO IMPLEMENT
 
-	}
-
-	/**
-	 * Called on startup the service.
-	 */
-	public int onStartCommand(Intent intent, int flags, int startId) {
-
-		/*
-		 * We want this service to continue running until it is explicitly
-		 * stopped, so return sticky.
-		 */
-		return START_STICKY;
-	}
-
-	/**
-	 * Called when another application is going to bind the service.
-	 */
-	@Override
-	public IBinder onBind(Intent intent) {
-		String type = intent.getStringExtra("type");
-		String identifier = intent.getStringExtra("identifier");
-		String token = intent.getStringExtra("token");
-		
-		
-		// TODO IMPLEMENT
-		
-		/* This Binder should only be returned when PMP is connecting. */
-		return new ResourceGroupServicePMPStubImpl();
-	}
+	/* This Binder should only be returned when PMP is connecting. */
+	return new ResourceGroupServicePMPStubImpl();
+    }
 }

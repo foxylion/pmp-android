@@ -12,38 +12,38 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
  */
 public class DatabaseSingleton {
 
-	/**
-	 * The instance.
-	 */
-	private static final DatabaseSingleton instance = new DatabaseSingleton();
+    /**
+     * The instance.
+     */
+    private static final DatabaseSingleton instance = new DatabaseSingleton();
 
-	/**
-	 * A {@link DatabaseOpenHelper} instance.
-	 */
-	private DatabaseOpenHelper doh = null;
+    /**
+     * A {@link DatabaseOpenHelper} instance.
+     */
+    private DatabaseOpenHelper doh = null;
 
-	/**
-	 * Private constructor, prevents direct object creation.
-	 */
-	private DatabaseSingleton() {
+    /**
+     * Private constructor, prevents direct object creation.
+     */
+    private DatabaseSingleton() {
 
+    }
+
+    /**
+     * @return Returns an instance of the {@link DatabaseSingleton} class.
+     */
+    public static DatabaseSingleton getInstance() {
+	return instance;
+    }
+
+    /**
+     * @return Returns an instance of the {@link DatabaseOpenHelper} class.
+     */
+    public DatabaseOpenHelper getDatabaseHelper() {
+	if (doh == null) {
+	    doh = new DatabaseOpenHelper(PMPApplication.getContext());
 	}
 
-	/**
-	 * @return Returns an instance of the {@link DatabaseSingleton} class.
-	 */
-	public static DatabaseSingleton getInstance() {
-		return instance;
-	}
-
-	/**
-	 * @return Returns an instance of the {@link DatabaseOpenHelper} class.
-	 */
-	public DatabaseOpenHelper getDatabaseHelper() {
-		if (doh == null) {
-			doh = new DatabaseOpenHelper(PMPApplication.getContext());
-		}
-
-		return doh;
-	}
+	return doh;
+    }
 }

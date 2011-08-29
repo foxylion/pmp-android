@@ -7,24 +7,24 @@ package de.unistuttgart.ipvs.pmp.model.interfaces;
  * @author Jakob Jarosch
  */
 public interface IServiceLevel {
-	
-	/**
-	 * @return returns the ordering position of the service level.
-	 */
-	public String getOrdering();
 
-	/**
-	 * @return Returns the localized name of the service level.
-	 */
-	public String getName();
+    /**
+     * @return returns the ordering position of the service level.
+     */
+    public String getOrdering();
 
-	/**
-	 * @return Returns the localized description of the service level.
-	 */
-	public String getDescription();
+    /**
+     * @return Returns the localized name of the service level.
+     */
+    public String getName();
 
-	/**
-	 * @return Returns the required privacy levels for the service level.
-	 */
-	public IPrivacyLevel[] getPrivacyLevels();
+    /**
+     * @return Returns the localized description of the service level.
+     */
+    public String getDescription();
+
+    /**
+     * @return Returns the required privacy levels for the service level.
+     */
+    public IPrivacyLevel[] getPrivacyLevels();
 }

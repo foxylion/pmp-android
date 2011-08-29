@@ -11,28 +11,28 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
  */
 public class RoleImpl implements IPreset {
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getDescription() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	@Override
-	public IApp[] getAssignedApps() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IApp[] getAssignedApps() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-	@Override
-	public IPrivacyLevel[] getUsedPrivacyLevels() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IPrivacyLevel[] getUsedPrivacyLevels() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
 }
