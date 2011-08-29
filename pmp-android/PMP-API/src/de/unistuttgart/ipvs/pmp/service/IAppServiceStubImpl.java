@@ -47,8 +47,9 @@ public class IAppServiceStubImpl extends IAppService.Stub {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List getServiceLevelPrivacyLevels(int serviceLevelId)
 			throws RemoteException {
 		/**

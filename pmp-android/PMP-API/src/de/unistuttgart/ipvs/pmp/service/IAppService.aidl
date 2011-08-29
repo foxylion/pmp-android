@@ -13,9 +13,7 @@ interface IAppService {
 	String getServiceLevelDescription(String locale, int serviceLevelId);
 	
 	/**
-	 * @return a List of Strings, which concatenates
-	 * 	       ResourceGroup, PrivacyLevel and Value,
-	 *         using a ":" as delemiter.
+	 * @return Returns a List of {@link AppPrivacyLevel}s
 	 */
 	List getServiceLevelPrivacyLevels(int serviceLevelId);
 	

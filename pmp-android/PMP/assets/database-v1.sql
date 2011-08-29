@@ -1,6 +1,5 @@
 CREATE TABLE ResourceGroup (
 	Identifier TEXT NOT NULL,
-	Location TEXT NOT NULL,
 	PRIMARY KEY(Identifier)
 );
 
@@ -66,7 +65,6 @@ CREATE TABLE Context_Preset_PrivacyLevels (
 
 CREATE TABLE App (
 	Identifier TEXT NOT NULL,
-	Location TEXT NOT NULL,
 	PRIMARY KEY(Identifier)
 );
 

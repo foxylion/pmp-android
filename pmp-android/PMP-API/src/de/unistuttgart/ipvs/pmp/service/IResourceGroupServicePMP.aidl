@@ -25,13 +25,10 @@ interface IResourceGroupServicePMP {
 	String getHumanReadablePrivacyLevelValue(String locale, String identifier, String value);
 
 	/**
-	 * Accepts a Map with key as String and value as String.
-	 * The value has to be a List with concatenations (using ":" as delimiter)
-	 * of privacy-level and value of the given privacy level inside.<br/>
-	 * <br/>
-	 * Exact declaration: Map&lt;String, List&lt;String&gt;&gt;
+	 * Accepts the access configuration for the resource group.
+	 * Exact declaration: List&lt;ResourceGroupApp&gt;
 	 */
-	void setAccesses(in Map accesses);
+	void setAccesses(in List accesses);
 	
 	/**
 	 * Checks if an privacy level value satisfies the currently set value or not.

@@ -1,7 +1,8 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import java.util.List;
-import java.util.Map;
+
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
 
 import android.os.RemoteException;
 
@@ -58,14 +59,14 @@ public class ResourceGroupServicePMPStubImpl extends
 	}
 
 	@Override
-	public void setAccesses(@SuppressWarnings("rawtypes") Map accesses)
+	public void setAccesses(@SuppressWarnings("rawtypes") List accesses)
 			throws RemoteException {
 		/**
 		 * Note: The given Map is described by the JavaDoc of
 		 * {@link IResourceGroupSerivce.Stub#setAccesses}
 		 */
 		@SuppressWarnings("unchecked")
-		Map<String, List<String>> castedAccesses = (Map<String, List<String>>) accesses;
+		List<ResourceGroupApp> castedAccesses =(List<ResourceGroupApp>) accesses;
 
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
