@@ -23,7 +23,7 @@ interface IAppService {
 	 */
 	List getServiceLevelPrivacyLevels(int serviceLevelOrdering);
 	
-	void setServiceLevel(int serviceLevelOrdering);
+	void setActiveServiceLevel(int serviceLevelOrdering);
 	
 	void setRegistrationSuccessful(boolean success);
 }

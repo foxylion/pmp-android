@@ -24,7 +24,7 @@ public interface IModel {
     /**
      * @return Returns all {@link IPreset}s known by PMP.
      */
-    public IPreset[] getRoles();
+    public IPreset[] getPresets();
 
     /**
      * @return Returns all {@link IResourceGroup}s known by PMP.

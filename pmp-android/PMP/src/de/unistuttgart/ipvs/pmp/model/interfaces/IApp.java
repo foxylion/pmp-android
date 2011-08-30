@@ -47,7 +47,7 @@ public interface IApp {
      * @param serviceLevel
      *            New service level which should be set.
      */
-    public void setServiceLevel(int serviceLevel);
+    public void setActiveServiceLevel(int serviceLevel);
 
     /**
      * @return Returns all to the App assigned roles.

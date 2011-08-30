@@ -62,7 +62,7 @@ public class IAppServiceStubImpl extends IAppService.Stub {
     }
 
     @Override
-    public void setServiceLevel(int serviceLevel) throws RemoteException {
+    public void setActiveServiceLevel(int serviceLevel) throws RemoteException {
 
 	// TODO Auto-generated method stub
 	throw new UnsupportedOperationException();

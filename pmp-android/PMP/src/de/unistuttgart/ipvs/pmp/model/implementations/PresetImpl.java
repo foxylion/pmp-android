@@ -9,7 +9,7 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
  * 
  * @author Jakob Jarosch
  */
-public class RoleImpl implements IPreset {
+public class PresetImpl implements IPreset {
 
     @Override
     public String getName() {

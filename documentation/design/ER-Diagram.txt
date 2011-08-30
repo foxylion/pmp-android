@@ -8,7 +8,6 @@ E  - Entity
 
 - ResourceGroup
     [PK]    Identifier
-	[E]     Location
    ([E]     Name (fetched by Resource-API))
    ([E]     Icon-Source (fetched by Resource-API))
    ([E]     Description (fetched by Resource-API))
@@ -27,6 +26,7 @@ E  - Entity
 
 - Preset
     [PK]    Name
+	[PK,FK] ResourceGroup_Identifier
 	[E]     Description
 
 - Preset_PrivacyLevels
@@ -55,7 +55,6 @@ E  - Entity
 
 - App
     [PK]    Identifier
-	[E]     Location
    ([E]     Name (fetched by Resource-API))
    ([E]     Description (fetched by Resource-API))
    ([E]     Icon-Source (fetched by Resource-API))

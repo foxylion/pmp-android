@@ -48,7 +48,7 @@ public class AppImpl implements IApp {
     }
 
     @Override
-    public void setServiceLevel(int serviceLevel) {
+    public void setActiveServiceLevel(int serviceLevel) {
 	// TODO Auto-generated method stub
 	throw new UnsupportedOperationException();
     }

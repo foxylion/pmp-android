@@ -29,7 +29,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public IPreset[] getRoles() {
+    public IPreset[] getPresets() {
 	// TODO Auto-generated method stub
 	return null;
     }
