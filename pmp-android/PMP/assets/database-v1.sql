@@ -1,11 +1,15 @@
 CREATE TABLE ResourceGroup (
 	Identifier TEXT NOT NULL,
+	Name_Cache TEXT,
+	Description_Cache TEXT,
 	PRIMARY KEY(Identifier)
 );
 
 CREATE TABLE PrivacyLevel (
 	ResourceGroup_Identifier TEXT NOT NULL,
 	Identifier TEXT NOT NULL,
+	Name_Cache TEXT,
+	Description_Cache TEXT,
 	PRIMARY KEY(ResourceGroup_Identifier,
 	            Identifier)
 );
@@ -13,14 +17,17 @@ CREATE TABLE PrivacyLevel (
 CREATE TABLE ResourceContext (
 	ResourceGroup_Identifier TEXT NOT NULL,
 	Identifier TEXT NOT NULL,
+	Name_Cache TEXT,
+	Description_Cache TEXT,
 	PRIMARY KEY(ResourceGroup_Identifier,
 	            Identifier)
 );
 
 CREATE TABLE Preset (
 	Name TEXT NOT NULL,
+	ResourceGroup_Identifier TEXT,
 	Description TEXT,
-	PRIMARY KEY(Name)
+	PRIMARY KEY(Name, ResourceGroup_Identifier)
 );
 
 CREATE TABLE Preset_PrivacyLevels (
@@ -65,12 +72,16 @@ CREATE TABLE Context_Preset_PrivacyLevels (
 
 CREATE TABLE App (
 	Identifier TEXT NOT NULL,
+	Name_Cache TEXT,
+	Description_Cache TEXT,
 	PRIMARY KEY(Identifier)
 );
 
 CREATE TABLE ServiceLevel (
 	App_Identifier TEXT NOT NULL,
 	Ordering INTEGER NOT NULL,
+	Name_Cache TEXT,
+	Description_Cache TEXT,
 	PRIMARY KEY(App_Identifier,
 	            Ordering)
 );
