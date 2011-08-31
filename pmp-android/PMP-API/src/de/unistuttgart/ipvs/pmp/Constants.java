@@ -8,7 +8,7 @@ public class Constants {
 
     public static final String INTENT_IDENTIFIER = "identifier";
 
-    public static final String INTENT_TOKEN = "token";
+    public static final String INTENT_SIGNATURE = "signature";
 
     public static final String TYPE_APP = "APP";
 

@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import de.unistuttgart.ipvs.pmp.Constants;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -57,9 +58,9 @@ public class ResourceGroupService extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-	String type = intent.getStringExtra("type");
-	String identifier = intent.getStringExtra("identifier");
-	String token = intent.getStringExtra("token");
+	String type = intent.getStringExtra(Constants.INTENT_TYPE);
+	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+	String signature = intent.getStringExtra(Constants.INTENT_SIGNATURE);
 
 	// TODO IMPLEMENT
 

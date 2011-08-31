@@ -14,10 +14,10 @@ import android.os.IBinder;
  * <pre>
  * intent.putExtraString(Constants.INTENT_TYPE, <Constants.TYPE_APP|Constants.TYPE_RESOURCEGROUP>);
  * intent.putExtraString(Constants.INTENT_IDENTIFIER, <App/ResourceGroup-Identifier>);
- * intent.putExtraString(Constants.INTENT_TOKEN, Generated Token for PMPService);
+ * intent.putExtraString(Constants.INTENT_SIGNATURE, Generated signature for PMPService);
  * </pre>
  * 
- * The token is optional, if you do not sent a token, the Service will handle
+ * The signature is optional, if you do not sent a signature, the Service will handle
  * the binding as an registration and gives back the
  * {@link IPMPServiceRegistration} Binder.<br/>
  * With a valid token the {@link IPMPServiceResourceGroup} or
@@ -64,18 +64,18 @@ public class PMPService extends Service {
     public IBinder onBind(Intent intent) {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	String token = intent.getStringExtra(Constants.INTENT_TOKEN);
+	String signature = intent.getStringExtra(Constants.INTENT_SIGNATURE);
 
 	if (identifier == null || type == null) {
 	    return null;
-	} else if (token == null) {
+	} else if (signature == null) {
 	    return new PMPServiceRegistrationStubImpl(identifier);
 	} else {
 	    /* Should be a normal authentification */
 	    if (type.equals(Constants.TYPE_APP)) {
 		/* Authentification from an app */
 		if (ModelSingleton.getInstance().checkAppToken(identifier,
-			token)) {
+			signature)) {
 		    return new PMPServiceAppStubImpl(identifier);
 		} else {
 		    return null;
@@ -83,7 +83,7 @@ public class PMPService extends Service {
 	    } else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
 		/* Authentification from a resourcegroup */
 		if (ModelSingleton.getInstance().checkResourceGroupToken(
-			identifier, token)) {
+			identifier, signature)) {
 		    return new PMPServiceResourceGroupStubImpl(identifier);
 		} else {
 		    return null;
