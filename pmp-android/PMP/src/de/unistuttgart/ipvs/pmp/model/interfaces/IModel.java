@@ -16,21 +16,16 @@ public interface IModel {
     /**
      * Register a new App at PMP.
      * 
-     * @param identifier 
-     * @param publicKey 
+     * @param identifier
+     * @param publicKey
      */
     public boolean addApp(String identifier, String publicKey);
-    
-    /**
-     * @return Returns all {@link IPreset}s known by PMP.
-     */
-    public IPreset[] getPresets();
 
     /**
      * @return Returns all {@link IResourceGroup}s known by PMP.
      */
     public IResourceGroup[] getResourceGroups();
-    
+
     /**
      * Register a new ResourceGroup at PMP.
      * 
@@ -38,4 +33,9 @@ public interface IModel {
      * @param publicKey
      */
     public boolean addResourceGroup(String identifier, String publicKey);
+
+    /**
+     * @return Returns all {@link IPreset}s known by PMP.
+     */
+    public IPreset[] getPresets();
 }

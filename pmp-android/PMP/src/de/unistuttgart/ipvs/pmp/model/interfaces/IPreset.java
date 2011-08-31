@@ -15,6 +15,12 @@ public interface IPreset {
     public String getName();
 
     /**
+     * @return Returns the identifier of the resource group which created this
+     *         preset, or NULL if this preset was generated manually.
+     */
+    public String getResourceGroupIdentifier();
+
+    /**
      * @return Returns the description of the preset.
      */
     public String getDescription();

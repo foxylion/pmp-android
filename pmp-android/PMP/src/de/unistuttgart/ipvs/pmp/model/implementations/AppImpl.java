@@ -11,22 +11,29 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
  */
 public class AppImpl implements IApp {
 
+    private String identifier;
+    private String name;
+    private String description;
+    
+    public AppImpl(String identifier, String name, String description) {
+	this.identifier = identifier;
+	this.name = name;
+	this.description = description;
+    }
+    
     @Override
     public String getIdentifier() {
-	// TODO Auto-generated method stub
-	return null;
+	return identifier;
     }
 
     @Override
     public String getName() {
-	// TODO Auto-generated method stub
-	return null;
+	return name;
     }
 
     @Override
     public String getDescription() {
-	// TODO Auto-generated method stub
-	return null;
+	return description;
     }
 
     @Override
