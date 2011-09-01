@@ -18,7 +18,7 @@ public interface IPrivacyLevel {
     /**
      * @return Returns the father of the PrivacyLevel (a resource group).
      */
-    public IResourceGroup getResourceGroup();
+    public IResourceGroup[] getResourceGroup();
 
     /**
      * @return Returns the localized name of the privacy level.

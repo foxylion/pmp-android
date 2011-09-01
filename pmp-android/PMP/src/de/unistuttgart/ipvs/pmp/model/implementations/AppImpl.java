@@ -1,5 +1,11 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
@@ -14,13 +20,13 @@ public class AppImpl implements IApp {
     private String identifier;
     private String name;
     private String description;
-    
+
     public AppImpl(String identifier, String name, String description) {
 	this.identifier = identifier;
 	this.name = name;
 	this.description = description;
     }
-    
+
     @Override
     public String getIdentifier() {
 	return identifier;
@@ -38,14 +44,64 @@ public class AppImpl implements IApp {
 
     @Override
     public IServiceLevel[] getServiceLevels() {
-	// TODO Auto-generated method stub
-	return null;
+	List<IServiceLevel> list = new ArrayList<IServiceLevel>();
+
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel;",
+			null);
+
+	while (!cursor.isAfterLast()) {
+	    String app_Identifier = cursor.getString(cursor
+		    .getColumnIndex("App_Identifier"));
+	    String ordering = cursor.getString(cursor
+		    .getColumnIndex("Ordering"));
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+
+	    list.add(new ServiceLevelImpl(app_Identifier, ordering, name,
+		    description));
+
+	    cursor.moveToNext();
+	}
+
+	return list.toArray(new IServiceLevel[list.size()]);
     }
 
     @Override
-    public IServiceLevel getServiceLevel(int ordering) {
-	// TODO Auto-generated method stub
-	return null;
+    public IServiceLevel[] getServiceLevel(int ordering) {
+	List<IServiceLevel> list = new ArrayList<IServiceLevel>();
+
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE Ordering = "
+				+ ordering + ";", null);
+
+	while (!cursor.isAfterLast()) {
+	    String app_Identifier = cursor.getString(cursor
+		    .getColumnIndex("App_Identifier"));
+//	    String ordering = cursor.getString(cursor
+//		    .getColumnIndex("Ordering"));
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+
+//	    list.add(new ServiceLevelImpl(app_Identifier, ordering, name,
+//		    description));
+	    list.add(new ServiceLevelImpl(app_Identifier, null, name,
+		    description));
+
+	    cursor.moveToNext();
+	}
+
+	return list.toArray(new IServiceLevel[list.size()]);
     }
 
     @Override
