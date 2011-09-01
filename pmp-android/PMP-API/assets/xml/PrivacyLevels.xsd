@@ -23,8 +23,8 @@
 	<!-- Represents the description written in English -->	
 	<xs:complexType name="tDescriptionEN">
 		<xs:simpleContent>
-			<xs:extension base="enumerationEN">
-				<xs:attribute name="lang" use="required"/>
+			<xs:extension base="xs:string">
+				<xs:attribute name="lang" type="enumerationEN" use="required"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
