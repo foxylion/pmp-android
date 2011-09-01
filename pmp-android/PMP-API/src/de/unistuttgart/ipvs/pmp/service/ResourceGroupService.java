@@ -11,9 +11,9 @@ import android.os.IBinder;
  * {@link PMPService}, put as extra into the {@link Intent}.
  * 
  * <pre>
- * intent.putExtraString("identifier", <App/PMP-Identifier>);
- * intent.putExtraString("type", <APP|PMP>);
- * intent.putExtraString("token", Generated Token for ResourceGroup);
+ * intent.putExtraString("identifier", &lt;App/PMP-Identifier>);
+ * intent.putExtraString("type", &lt;APP|PMP>);
+ * intent.putExtraByteArray("signature", PMPSignature signing identifier);
  * </pre>
  * 
  * With a valid token the {@link IResourceGroupServicePMP} or !!CREATE
@@ -21,7 +21,7 @@ import android.os.IBinder;
  * 
  * If an authentification fails the Service will give back NULL.
  * 
- * @author Jakob Jarosch
+ * @author Tobias Kuhn
  */
 public class ResourceGroupService extends Service {
 
@@ -60,8 +60,7 @@ public class ResourceGroupService extends Service {
     public IBinder onBind(Intent intent) {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	String signature = intent.getStringExtra(Constants.INTENT_SIGNATURE);
-
+	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 	// TODO IMPLEMENT
 
 	/* This Binder should only be returned when PMP is connecting. */

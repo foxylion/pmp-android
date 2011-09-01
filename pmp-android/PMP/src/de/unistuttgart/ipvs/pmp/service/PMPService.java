@@ -12,9 +12,9 @@ import android.os.IBinder;
  * {@link PMPService}, put as extra into the {@link Intent}.
  * 
  * <pre>
- * intent.putExtraString(Constants.INTENT_TYPE, <Constants.TYPE_APP|Constants.TYPE_RESOURCEGROUP>);
- * intent.putExtraString(Constants.INTENT_IDENTIFIER, <App/ResourceGroup-Identifier>);
- * intent.putExtraString(Constants.INTENT_SIGNATURE, Generated signature for PMPService);
+ * intent.putExtraString(Constants.INTENT_TYPE, &lt;Constants.TYPE_APP|Constants.TYPE_RESOURCEGROUP>);
+ * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/ResourceGroup-Identifier>);
+intent.putExtraByteArray("signature", PMPSignature signing PMPService identifier);
  * </pre>
  * 
  * The signature is optional, if you do not sent a signature, the Service will handle
@@ -64,7 +64,7 @@ public class PMPService extends Service {
     public IBinder onBind(Intent intent) {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	String signature = intent.getStringExtra(Constants.INTENT_SIGNATURE);
+	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 
 	if (identifier == null || type == null) {
 	    return null;

@@ -47,7 +47,7 @@ public class ModelSingleton {
      *            Token the App uses to identify
      * @return true when authentification succeeded, otherwise false
      */
-    public boolean checkAppToken(String identifier, String token) {
+    public boolean checkAppToken(String identifier, byte[] token) {
 
 	// TODO Implement the asymetric authentification system
 	return true;
@@ -62,7 +62,7 @@ public class ModelSingleton {
      *            Token the ResourceGroup uses to identify
      * @return true when authentification succeeded, otherwise false
      */
-    public boolean checkResourceGroupToken(String identifier, String token) {
+    public boolean checkResourceGroupToken(String identifier, byte[] token) {
 
 	// TODO Implement the asymetric authentification system
 	return true;
