@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<serviceLevels>
+		<serviceLevel>
+			<ordering>0</ordering>
+			<name>Null-Level</name>
+			<description lang="en">I can't do anything for you!</description>
+			<description lang="de">Ich kann nichts für Sie tun!</description>
+			<description lang="sv">Jag kan inte göra något för dig!</description>
+		</serviceLevel>
+		<serviceLevel>
+			<ordering>1</ordering>
+			<name>Full-Level</name>
+			<description lang="en">I can do anything you want</description>
+			<description lang="de">Ich kann alles, was Sie wünschen!</description>
+			<description lang="sv">Jag kan göra vad du vill!</description>
+			<requiredPrivacyLevel>
+				<resourceGroupIdentifier>de.unistuttgart.ipvs.pmp.resourceGroups.database</resourceGroupIdentifier>
+				<privacyLevelIdentifier>read</privacyLevelIdentifier>
+				<requiredValue>true</requiredValue>
+			</requiredPrivacyLevel>
+			<requiredPrivacyLevel>
+				<resourceGroupIdentifier>de.unistuttgart.ipvs.pmp.resourceGroups.database</resourceGroupIdentifier>
+				<privacyLevelIdentifier>write</privacyLevelIdentifier>
+				<requiredValue>true</requiredValue>
+			</requiredPrivacyLevel>
+			<requiredPrivacyLevel>
+				<resourceGroupIdentifier>de.unistuttgart.ipvs.pmp.resourceGroups.filesystem</resourceGroupIdentifier>
+				<privacyLevelIdentifier>read</privacyLevelIdentifier>
+				<requiredValue>true</requiredValue>
+			</requiredPrivacyLevel>
+			<requiredPrivacyLevel>
+				<resourceGroupIdentifier>de.unistuttgart.ipvs.pmp.resourceGroups.filesystem</resourceGroupIdentifier>
+				<privacyLevelIdentifier>write</privacyLevelIdentifier>
+				<requiredValue>true</requiredValue>
+			</requiredPrivacyLevel>
+			<requiredPrivacyLevel>
+				<resourceGroupIdentifier>de.unistuttgart.ipvs.pmp.resourceGroups.filesystem</resourceGroupIdentifier>
+				<privacyLevelIdentifier>maxFileSizeForWritingInMB</privacyLevelIdentifier>
+				<requiredValue>20</requiredValue>
+			</requiredPrivacyLevel>
+		</serviceLevel>
+	</serviceLevels>
