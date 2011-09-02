@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+
 /**
  * Implementation of the {@link IPMPServiceApp.Stub} stub.
  * 
