@@ -1,33 +1,56 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
+import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
 /**
- * External service for communication between Resources and or PMP the Apps. <br/>
- * The Service requires several informations in the intent, used to bind the
- * {@link PMPService}, put as extra into the {@link Intent}.
+ * <h2>Implementing your resource</h2>
+ * 
+ * To implement your resource, create a {@link ResourceGroupService} and use
+ * assignResourceGroup() to assign a {@link ResourceGroup} that stores the data
+ * you intent to use for this resource.
+ * 
+ * <h2>PMP internal view</h2>
+ * 
+ * <p>This is an external service for communication between resource groups and PMP or apps. <br/>
+ * This service requires several informations in the intent, used to bind the
+ * {@link PMPService} or the {@link AppService}, put as extra into the
+ * {@link Intent}.</p>
  * 
  * <pre>
  * intent.putExtraString("identifier", &lt;App/PMP-Identifier>);
  * intent.putExtraString("type", &lt;APP|PMP>);
- * intent.putExtraByteArray("resgrpSig", PMPSignature signing identifier);
+ * intent.putExtraByteArray("signature", PMPSignature signing identifier);
  * </pre>
  * 
- * With a valid token the {@link IResourceGroupServicePMP} or !!CREATE
- * ALTERNATIVE BINDER (AIDL)!! Binder will be given back.
+ * <p>On first contact, you will not need to transmit "signature", but you will
+ * only receive an {@link IResourceGroupServiceRegister} binder to transmit your
+ * public key fetched from {@link PMPSignature#getLocalPublicKey()}.</p>
  * 
- * If an authentification fails the Service will give back NULL.
+ * <p>Subsequently, use {@link PMPSignature#signContent(byte[])} with the
+ * identifier you're sending the Intent to (likely
+ * ResourceGroupService.class.toString().getBytes()). Transmit the result of the
+ * signing in "signature".</p>
+ * 
+ * <p>If you are PMP, you will then receive {@link IResourceGroupServicePMP}; if
+ * you are an app you will receive {@link IResourceGroupServiceApp}.</p>
  * 
  * @author Tobias Kuhn
  */
 public class ResourceGroupService extends Service {
 
-    private PMPSignature resgrpSig;
+    private PMPSignature resgrpSig = null;
+    private ResourceGroup rg = null;
+
+    public void assignResourceGroup(ResourceGroup rg) {
+	this.rg = rg;
+    }
 
     /**
      * On creation of service called (only once).
@@ -65,21 +88,30 @@ public class ResourceGroupService extends Service {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
+	
+	// you have to assign a resource group for this to work, buddy
+	if (rg == null) {
+	    return null;
+	}
 
 	if (resgrpSig.isSignatureValid(identifier, ResourceGroupService.class
 		.toString().getBytes(), signature)) {
 	    // this caller is authorized correctly
-	
+
 	    if (type.equals(Constants.TYPE_PMP)) {
-		return new ResourceGroupServicePMPStubImpl();
-		
+		ResourceGroupServicePMPStubImpl rgspmpsi = new ResourceGroupServicePMPStubImpl();
+		rgspmpsi.setResourceGroup(rg);
+		return rgspmpsi;
+
 	    } else if (type.equals(Constants.TYPE_APP)) {
+		ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
+		rgsasi.setResourceGroup(rg);
 		return new ResourceGroupServiceAppStubImpl();
-		
+
 	    } else {
 		// wait, what?
 		return null;
-		
+
 	    }
 
 	} else {

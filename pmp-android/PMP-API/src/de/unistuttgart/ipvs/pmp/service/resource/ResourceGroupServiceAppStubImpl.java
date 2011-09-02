@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.os.IBinder;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServiceApp;
 
 /**
@@ -12,18 +14,31 @@ import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServiceApp;
  * @author Tobias Kuhn
  */
 public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.Stub {
+    
+    /**
+     * {@link ResourceGroup} referenced.
+     */
+    private ResourceGroup rg;
+    
+    public void setResourceGroup(ResourceGroup rg) {
+	this.rg = rg;	
+    }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List getResources() throws RemoteException {
-	// TODO Auto-generated method stub
-	return null;
+	return rg.getResources();
     }
 
     @Override
     public IBinder getResource(String resourceIdentifier)
 	    throws RemoteException {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	Resource resource = rg.getResource(resourceIdentifier);
+	if (resource == null) {
+	    return null;
+	} else {
+	    return resource.getAndroidInterface();
+	}
+    }    
 
 }

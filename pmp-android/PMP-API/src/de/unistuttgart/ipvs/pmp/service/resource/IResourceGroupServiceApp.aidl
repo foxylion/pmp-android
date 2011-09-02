@@ -14,7 +14,7 @@ interface IResourceGroupServiceApp {
 	
 	/**
 	 * @param resourceIdentifier the resource to be identified
-	 * @return the interface for interacting with that resource
+	 * @return the interface for interacting with that resource, null if the resource does not exist.
 	 */
 	IBinder getResource(String resourceIdentifier);
 

@@ -10,14 +10,14 @@ import android.os.Parcelable;
  * 
  * @author Jakob Jarosch
  */
-public class ResourceGroupApp implements Parcelable {
+public class ResourceGroupAccess implements Parcelable {
 
     private String identifier;
     private String publicKey;
     private Bundle privacyLevels;
 
     /**
-     * Creates a new {@link ResourceGroupApp}.
+     * Creates a new {@link ResourceGroupAccess}.
      * 
      * @param identifier
      *            Identifier of the App
@@ -26,7 +26,7 @@ public class ResourceGroupApp implements Parcelable {
      * @param privacyLevels
      *            Bundle of privacy levels and their set values
      */
-    public ResourceGroupApp(String identifier, String publicKey,
+    public ResourceGroupAccess(String identifier, String publicKey,
 	    Bundle privacyLevels) {
 	this.identifier = identifier;
 	this.publicKey = publicKey;
@@ -66,7 +66,7 @@ public class ResourceGroupApp implements Parcelable {
      * @param source
      *            Parcel-Source
      */
-    private ResourceGroupApp(Parcel source) {
+    private ResourceGroupAccess(Parcel source) {
 	this.identifier = source.readString();
 	this.publicKey = source.readString();
 	this.privacyLevels = source.readBundle();
@@ -92,16 +92,16 @@ public class ResourceGroupApp implements Parcelable {
     /**
      * Required Creator for the {@link Parcelable} regeneration.
      */
-    public static final Parcelable.Creator<ResourceGroupApp> CREATOR = new Parcelable.Creator<ResourceGroupApp>() {
+    public static final Parcelable.Creator<ResourceGroupAccess> CREATOR = new Parcelable.Creator<ResourceGroupAccess>() {
 
 	@Override
-	public ResourceGroupApp createFromParcel(Parcel source) {
-	    return new ResourceGroupApp(source);
+	public ResourceGroupAccess createFromParcel(Parcel source) {
+	    return new ResourceGroupAccess(source);
 	}
 
 	@Override
-	public ResourceGroupApp[] newArray(int size) {
-	    return new ResourceGroupApp[size];
+	public ResourceGroupAccess[] newArray(int size) {
+	    return new ResourceGroupAccess[size];
 	}
     };
 }

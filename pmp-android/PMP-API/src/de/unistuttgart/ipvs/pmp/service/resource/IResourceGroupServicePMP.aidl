@@ -23,15 +23,27 @@ interface IResourceGroupServicePMP {
 	 */
 	List getPrivacyLevelIdentifiers();
 	
+	/**
+	 * @return the name of the privacy level identified by identifier for locale locale,
+	 *  null if the privacy level is not present.
+	 */
 	String getPrivacyLevelName(String locale, String identifier);
 	
+	/**
+	 * @return the description of the privacy level identified by identifier for locale locale,
+	 *  null if the privacy level is not present.
+	 */
 	String getPrivacyLevelDescription(String locale, String identifier);
 	
+	/**
+	 * @return the human readable representation of the privacy level value identified by 
+	 *  identifier and value for locale locale, null if the privacy level is not present.
+	 */
 	String getHumanReadablePrivacyLevelValue(String locale, String identifier, String value);
 
 	/**
 	 * Accepts the access configuration for the resource group.
-	 * Exact declaration: List&lt;ResourceGroupApp&gt;
+	 * Exact declaration: List&lt;ResourceGroupAccess&gt;
 	 */
 	void setAccesses(in List accesses);
 	
@@ -53,5 +65,4 @@ interface IResourceGroupServicePMP {
 	 */
 	void changePrivacyLevels(String appIdentifier);
 	
-	void setRegistrationSuccessful(boolean success);
 }

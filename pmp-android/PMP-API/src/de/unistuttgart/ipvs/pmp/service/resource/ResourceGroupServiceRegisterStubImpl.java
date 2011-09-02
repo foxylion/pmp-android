@@ -37,4 +37,9 @@ public class ResourceGroupServiceRegisterStubImpl extends
 	}	
     }
 
+    @Override
+    public void registerFailed() throws RemoteException {
+	// TODO: what to do here?
+    }
+
 }

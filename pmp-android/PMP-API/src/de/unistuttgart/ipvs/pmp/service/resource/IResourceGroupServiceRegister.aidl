@@ -13,5 +13,10 @@ interface IResourceGroupServiceRegister {
 	 * @param publicKey the public key with which the remote shall be registered
 	 */
 	void register(in byte[] publicKey);
+	
+	/**
+	 * Sends the message that the registering has not been accepted by the remote sender.
+	 */
+	 void registerFailed();
 
 }
