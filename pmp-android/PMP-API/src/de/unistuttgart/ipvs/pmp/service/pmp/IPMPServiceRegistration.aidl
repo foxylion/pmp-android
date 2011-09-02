@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.pmp;
 
 /**
  * Interface for communicating between PMPService and Resources/Apps.
