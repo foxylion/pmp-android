@@ -16,16 +16,16 @@ import android.os.IBinder;
 
 /**
  * This service encapsulates all the dirty signature stuff necessary for
- * authentification of services.
+ * authentication of services.
  * 
  * This service requires several informations in the intent, used to bind the
  * {@link PMPService} or the {@link AppService}, put as extra into the
  * {@link Intent}. </p>
  * 
  * <pre>
- * intent.putExtraString("identifier", &lt;App/PMP-Identifier>);
- * intent.putExtraString("type", &lt;APP|PMP>);
- * intent.putExtraByteArray("signature", PMPSignature signing identifier);
+ * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/PMP-Identifier>);
+ * intent.putExtraString(Constants.INTENT_TYPE, &lt;APP|PMP>);
+ * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignature signing identifier);
  * </pre>
  * 
  * 
@@ -46,23 +46,21 @@ public abstract class PMPSignedService extends Service {
      */
     private final PMPSignature signature = new PMPSignature();
 
-    /**
-     * the type string from the last onBind()
-     */
-    private String boundType;
-
-    /**
-     * the identifier string from the last onBind()
-     */
-    private String boundIdentifier;
-
-    /**
-     * the signature of the bind from the last onBind()
-     */
-    private byte[] boundSignature;
-
     @Override
     public void onCreate() {
+	loadSignature();
+	saveSignature();
+    }
+
+    @Override
+    public void onDestroy() {
+	saveSignature();
+    }
+
+    /**
+     * Loads the signature
+     */
+    private final void loadSignature() {
 	// load signature, if exists
 	try {
 	    InputStream is = openFileInput(getClass().getName());
@@ -75,9 +73,11 @@ public abstract class PMPSignedService extends Service {
 	}
     }
 
-    @Override
-    public void onDestroy() {
-	// save signature, if exists
+    /**
+     * Saves the signature
+     */
+    private final void saveSignature() {
+	// save signature
 	try {
 	    OutputStream os = openFileOutput(getClass().getName(),
 		    Context.MODE_PRIVATE);
@@ -93,9 +93,10 @@ public abstract class PMPSignedService extends Service {
 
     @Override
     public final IBinder onBind(Intent intent) {
-	boundType = intent.getStringExtra(Constants.INTENT_TYPE);
-	boundIdentifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	boundSignature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
+	String boundIdentifier = intent
+		.getStringExtra(Constants.INTENT_IDENTIFIER);
+	byte[] boundSignature = intent
+		.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 
 	if (signature.isSignatureValid(boundIdentifier, getClass().getName()
 		.getBytes(), boundSignature)) {
@@ -103,14 +104,6 @@ public abstract class PMPSignedService extends Service {
 	} else {
 	    return onUnsignedBind(intent);
 	}
-    }
-
-    protected String getBoundType() {
-	return this.boundType;
-    }
-
-    protected String getBoundIdentifier() {
-	return this.boundIdentifier;
     }
 
     /**
@@ -121,6 +114,14 @@ public abstract class PMPSignedService extends Service {
      */
     protected void addPublicKey(String remoteIdentifier, byte[] remotePublicKey) {
 	signature.setRemotePublicKey(remoteIdentifier, remotePublicKey);
+    }
+
+    /**
+     * 
+     * @return the signature used for signing messages.
+     */
+    public PMPSignature getSignature() {
+	return this.signature;
     }
 
     /**

@@ -1,12 +1,11 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-import de.unistuttgart.ipvs.pmp.service.app.AppService;
-import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -47,15 +46,26 @@ public class ResourceGroupService extends PMPSignedService {
 
     @Override
     public IBinder onSignedBind(Intent intent) {
-	if (getBoundType().equals(Constants.TYPE_PMP)) {
+	ResourceGroup rg = findContextResourceGroup();
+	if (rg == null) {
+	    // invalid context
+	    Log.e(this.toString() + " tried to connect to its resource group and failed.");
+	    return null;
+	}
+
+	String boundType = intent.getStringExtra(Constants.INTENT_TYPE);
+	String boundIdentifier = intent
+		.getStringExtra(Constants.INTENT_IDENTIFIER);
+
+	if (boundType.equals(Constants.TYPE_PMP)) {
 	    ResourceGroupServicePMPStubImpl rgspmpsi = new ResourceGroupServicePMPStubImpl();
 	    rgspmpsi.setResourceGroup(rg);
 	    return rgspmpsi;
 
-	} else if (getBoundType().equals(Constants.TYPE_APP)) {
+	} else if (boundType.equals(Constants.TYPE_APP)) {
 	    ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
 	    rgsasi.setResourceGroup(rg);
-	    rgsasi.setAppIdentifier(getBoundIdentifier());
+	    rgsasi.setAppIdentifier(boundIdentifier);
 	    return new ResourceGroupServiceAppStubImpl();
 
 	} else {
@@ -68,5 +78,14 @@ public class ResourceGroupService extends PMPSignedService {
     public IBinder onUnsignedBind(Intent intent) {
 	// go away, I don't like you!
 	return null;
+    }
+
+    private ResourceGroup findContextResourceGroup() {
+	if (!(getApplication() instanceof ResourceGroupApp)) {
+	    return null;
+	} else {
+	    ResourceGroupApp rga = (ResourceGroupApp) getApplication();
+	    return rga.getResourceGroupForService(this);
+	}
     }
 }

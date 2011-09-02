@@ -13,7 +13,7 @@ interface IPMPServiceRegistration {
 	 * @param publicKey the public key, for validating the submitted token in further bindings
 	 * @return the public key of PMP
 	 */
-	String registerApp(String publicKey);
+	byte[] registerApp(in byte[] publicKey);
 
 	/**
 	 * Method for registering a new Resource at PMP.
@@ -21,5 +21,5 @@ interface IPMPServiceRegistration {
 	 * @param publicKey the public key, for validating the submitted token in further bindings
 	 * @return the public key of PMP
 	 */
-	String registerResourceGroup(String publicKey);
+	byte[] registerResourceGroup(in byte[] publicKey);
 }

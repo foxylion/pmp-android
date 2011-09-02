@@ -150,9 +150,10 @@ public abstract class ResourceGroup {
 	    return appPLs.getString(privacyLevel);
 	}
     }
-    
+
     /**
-     * Effectively starts this resource group and registers it with PMP
+     * Effectively starts this resource group and registers it with PMP.
+     * 
      * @return true, if the registration was successful, false otherwise
      */
     public boolean start() {

@@ -20,27 +20,28 @@ public class ResourceGroupAccessHeader implements Parcelable {
 	this.identifier = identifier;
 	this.publicKey = publicKey;
     }
-    
+
     private ResourceGroupAccessHeader(Parcel parcel) {
 	this.identifier = parcel.readString();
 	parcel.readByteArray(this.publicKey);
     }
-    
+
     public String getIdentifier() {
 	return this.identifier;
     }
-    
+
     public byte[] getPublicKey() {
 	return this.publicKey;
-    }    
-    
+    }
+
     @Override
     public boolean equals(Object o) {
 	if (o instanceof ResourceGroupAccessHeader) {
 	    ResourceGroupAccessHeader rgah = (ResourceGroupAccessHeader) o;
-	    return (this.identifier.equals(rgah) && this.publicKey.equals(rgah.publicKey));
+	    return (this.identifier.equals(rgah) && this.publicKey
+		    .equals(rgah.publicKey));
 	}
-        return false;
+	return false;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
 	dest.writeString(identifier);
 	dest.writeByteArray(publicKey);
     }
-    
+
     /**
      * Required Creator for the {@link Parcelable} regeneration.
      */
@@ -68,7 +69,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
 	public ResourceGroupAccessHeader[] newArray(int size) {
 	    return new ResourceGroupAccessHeader[size];
 	}
-	
+
     };
 
 }

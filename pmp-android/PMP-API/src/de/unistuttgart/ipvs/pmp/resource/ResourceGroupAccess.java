@@ -43,7 +43,7 @@ public class ResourceGroupAccess implements Parcelable {
     public String getPrivacyLevelValue(String privacyLevel) {
 	return privacyLevelValues.getString(privacyLevel);
     }
-    
+
     /**
      * @return the bundle containing the privacy level values.
      */
@@ -60,7 +60,8 @@ public class ResourceGroupAccess implements Parcelable {
      *            Parcel-Source
      */
     private ResourceGroupAccess(Parcel source) {
-	this.header = ResourceGroupAccessHeader.CREATOR.createFromParcel(source);
+	this.header = ResourceGroupAccessHeader.CREATOR
+		.createFromParcel(source);
 	this.privacyLevelValues = source.readBundle();
     }
 

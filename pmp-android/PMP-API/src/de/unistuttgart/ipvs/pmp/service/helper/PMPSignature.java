@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.service.helper;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
