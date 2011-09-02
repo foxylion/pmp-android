@@ -41,7 +41,8 @@ public abstract class PrivacyLevel {
 
     /**
      * Should return true, iff value >= reference for this privacy level. E.g.
-     * value.compareTo(reference) >= 0
+     * value.compareTo(reference) >= 0 Note that you must handle any string that
+     * might not even meet your format guidelines.
      */
     public abstract boolean satisfies(String reference, String value);
 
