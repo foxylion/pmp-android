@@ -1,6 +1,8 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.app;
 
 import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 import android.os.RemoteException;
 

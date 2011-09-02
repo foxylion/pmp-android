@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.app;
 
 /**
  * The IAppService is provided by an application, over the interface

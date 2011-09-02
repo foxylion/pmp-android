@@ -1,6 +1,8 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
+import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -13,7 +15,7 @@ import android.os.IBinder;
  * <pre>
  * intent.putExtraString("identifier", &lt;App/PMP-Identifier>);
  * intent.putExtraString("type", &lt;APP|PMP>);
- * intent.putExtraByteArray("signature", PMPSignature signing identifier);
+ * intent.putExtraByteArray("resgrpSig", PMPSignature signing identifier);
  * </pre>
  * 
  * With a valid token the {@link IResourceGroupServicePMP} or !!CREATE
@@ -25,12 +27,14 @@ import android.os.IBinder;
  */
 public class ResourceGroupService extends Service {
 
+    private PMPSignature resgrpSig;
+
     /**
      * On creation of service called (only once).
      */
     @Override
     public void onCreate() {
-
+	resgrpSig = new PMPSignature();
     }
 
     /**
@@ -61,9 +65,31 @@ public class ResourceGroupService extends Service {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
-	// TODO IMPLEMENT
 
-	/* This Binder should only be returned when PMP is connecting. */
-	return new ResourceGroupServicePMPStubImpl();
+	if (resgrpSig.isSignatureValid(identifier, ResourceGroupService.class
+		.toString().getBytes(), signature)) {
+	    // this caller is authorized correctly
+	
+	    if (type.equals(Constants.TYPE_PMP)) {
+		return new ResourceGroupServicePMPStubImpl();
+		
+	    } else if (type.equals(Constants.TYPE_APP)) {
+		return new ResourceGroupServiceAppStubImpl();
+		
+	    } else {
+		// wait, what?
+		return null;
+		
+	    }
+
+	} else {
+	    // registration required
+	    ResourceGroupServiceRegisterStubImpl rgsrsi = new ResourceGroupServiceRegisterStubImpl();
+	    rgsrsi.setIdentifier(identifier);
+	    rgsrsi.setSignature(resgrpSig);
+	    return rgsrsi;
+
+	}
+
     }
 }

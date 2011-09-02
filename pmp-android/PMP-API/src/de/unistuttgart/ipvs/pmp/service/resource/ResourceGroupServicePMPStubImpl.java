@@ -1,8 +1,9 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.resource;
 
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
+import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 import android.os.RemoteException;
 

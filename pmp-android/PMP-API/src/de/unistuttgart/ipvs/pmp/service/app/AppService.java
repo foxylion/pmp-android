@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.app.Service;
 import android.content.Intent;

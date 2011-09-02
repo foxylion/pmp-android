@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
-import de.unistuttgart.ipvs.pmp.service.IResourceGroupServicePMP;
+import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;

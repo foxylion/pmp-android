@@ -10,6 +10,8 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Log;
 
@@ -40,18 +42,20 @@ public class PMPSignature {
     private KeyPair local;
 
     /**
-     * The remote public key
+     * The remote public keys
      */
-    private PublicKey remotePublicKey;
+    private Map<String, PublicKey> remotePublicKeys;
 
     /**
      * Creates a new PMPSignature ready for mayhem.
      */
     public PMPSignature() {
-	KeyPairGenerator kpg;
+	remotePublicKeys = new HashMap<String, PublicKey>();
+
 	try {
-	    kpg = KeyPairGenerator.getInstance(ALGORITHM_KEY);
-	    kpg.initialize(256);
+	    // generate keys
+	    KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM_KEY);
+	    kpg.initialize(1024);
 	    local = kpg.generateKeyPair();
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
@@ -75,16 +79,22 @@ public class PMPSignature {
 
     /**
      * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignature}.
+     * {@link PMPSignature} that is identified by identifier.
      * 
+     * @param remoteIdentifier
+     *            the identifier of the remote sender
      * @param remotePublicKey
+     *            the public key belonging to the identifier
      */
-    public void setRemotePublicKey(byte[] remotePublicKey) {
+    public void setRemotePublicKey(String remoteIdentifier,
+	    byte[] remotePublicKey) {
 
 	try {
 	    KeyFactory kf = KeyFactory.getInstance(ALGORITHM_KEY);
 	    X509EncodedKeySpec x509eks = new X509EncodedKeySpec(remotePublicKey);
-	    this.remotePublicKey = kf.generatePublic(x509eks);
+	    this.remotePublicKeys.put(remoteIdentifier,
+		    kf.generatePublic(x509eks));
+
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
 	} catch (InvalidKeySpecException e) {
@@ -95,24 +105,35 @@ public class PMPSignature {
     /**
      * Checks whether a signature is valid.
      * 
+     * @param remoteIdentifier
+     *            the identifier of the remote sender
      * @param content
      *            the content of the signature.
      * @param signature
      *            the signature with which content was signed.
-     * @return true, iff all values are valid (ie. not null, correct key) and
+     * @return true, iff all values are valid (i.e. not null, correct key) and
      *         the signature fits the content. Therefore false, if the
      *         initialization was faulty, any value is null or the signature is
-     *         invalid.
+     *         invalid. Also false, if no public key was set for remoteIdentifier.
      */
-    public boolean isSignatureValid(byte[] content, byte[] signature) {
-	if ((local == null) || (remotePublicKey == null) || (content == null)
+    public boolean isSignatureValid(String remoteIdentifier, byte[] content,
+	    byte[] signature) {
+	// check for nulls
+	if ((local == null) || (remotePublicKeys == null) || (content == null)
 		|| (signature == null)) {
 	    return false;
 	}
+	
+	// fetch public key for remoteIdentifier
+	PublicKey pk = remotePublicKeys.get(remoteIdentifier);
+	if (pk == null) {
+	    return false;
+	}
 
-	try {
+	try {	    	 
+	    // actual signature check
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
-	    sg.initVerify(remotePublicKey);
+	    sg.initVerify(pk);
 	    sg.update(content);
 	    return sg.verify(signature);
 
@@ -136,11 +157,13 @@ public class PMPSignature {
      *         faulty
      */
     public byte[] signContent(byte[] content) {
+	// null check
 	if ((local == null) || (content == null)) {
 	    return null;
 	}
 
 	try {
+	    // actual signing
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
 	    sg.initSign(local.getPrivate());
 	    sg.update(content);

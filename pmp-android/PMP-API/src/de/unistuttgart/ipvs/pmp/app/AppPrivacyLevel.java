@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.app;
 
-import de.unistuttgart.ipvs.pmp.service.IAppService;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 import android.os.Parcel;
 import android.os.Parcelable;
 
