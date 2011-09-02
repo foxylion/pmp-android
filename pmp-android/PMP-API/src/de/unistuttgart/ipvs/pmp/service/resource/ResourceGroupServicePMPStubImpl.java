@@ -5,6 +5,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
+import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
@@ -118,6 +119,13 @@ public class ResourceGroupServicePMPStubImpl extends
 	 * NOTICE: THIS WOULD BE GUI!
 	 */
 
+    }
+
+    @Override
+    public void setRegistrationSuccessful(RegistrationState state)
+	    throws RemoteException {
+	// TODO Auto-generated method stub
+	
     }
 
 

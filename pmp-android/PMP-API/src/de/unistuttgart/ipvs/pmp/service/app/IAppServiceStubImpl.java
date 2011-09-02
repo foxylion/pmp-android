@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 import android.os.RemoteException;
@@ -71,7 +72,7 @@ public class IAppServiceStubImpl extends IAppService.Stub {
     }
 
     @Override
-    public void setRegistrationSuccessful(boolean success)
+    public void setRegistrationSuccessful(RegistrationState success)
 	    throws RemoteException {
 	// TODO Auto-generated method stub
 	
