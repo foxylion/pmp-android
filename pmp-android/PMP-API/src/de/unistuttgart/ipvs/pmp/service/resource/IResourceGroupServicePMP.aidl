@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
+import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
  * The Service of a ResourceGroup provided for PMP.
@@ -65,4 +66,10 @@ interface IResourceGroupServicePMP {
 	 */
 	void changePrivacyLevels(String appIdentifier);
 	
+	/**
+	 * Is called when the PMP will inform the resource group about a successful (or not) registration.
+	 *
+	 * @param state State of the registration
+	 */
+	void setRegistrationSuccessful(in RegistrationState state);
 }

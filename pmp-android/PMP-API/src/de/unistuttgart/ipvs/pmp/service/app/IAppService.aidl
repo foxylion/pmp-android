@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
+import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+
 /**
  * The IAppService is provided by an application, over the interface
  * it's possible to get name, description and ServiceLevels from the App.
@@ -25,5 +27,10 @@ interface IAppService {
 	
 	void setActiveServiceLevel(int serviceLevelOrdering);
 	
-	void setRegistrationSuccessful(boolean success);
+	/**
+	 * Is called when the PMP will inform the app about a successful (or not) registration.
+	 *
+	 * @param state State of the registration
+	 */
+	void setRegistrationSuccessful(in RegistrationState state);
 }
