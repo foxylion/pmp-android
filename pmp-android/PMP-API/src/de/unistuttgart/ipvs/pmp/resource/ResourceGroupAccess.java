@@ -12,39 +12,25 @@ import android.os.Parcelable;
  */
 public class ResourceGroupAccess implements Parcelable {
 
-    private String identifier;
-    private String publicKey;
-    private Bundle privacyLevels;
+    private ResourceGroupAccessHeader header;
+    private Bundle privacyLevelValues;
 
     /**
      * Creates a new {@link ResourceGroupAccess}.
      * 
-     * @param identifier
-     *            Identifier of the App
-     * @param publicKey
-     *            public key of the App
-     * @param privacyLevels
+     * @param header
+     *            header of this access set.
+     * @param privacyLevelValues
      *            Bundle of privacy levels and their set values
      */
-    public ResourceGroupAccess(String identifier, String publicKey,
-	    Bundle privacyLevels) {
-	this.identifier = identifier;
-	this.publicKey = publicKey;
-	this.privacyLevels = privacyLevels;
+    public ResourceGroupAccess(ResourceGroupAccessHeader header,
+	    Bundle privacyLevelValues) {
+	this.header = header;
+	this.privacyLevelValues = privacyLevelValues;
     }
 
-    /**
-     * @return Returns the identifier of the App.
-     */
-    public String getIdentifier() {
-	return identifier;
-    }
-
-    /**
-     * @return Returns the public key of the App.
-     */
-    public String getPublicKey() {
-	return publicKey;
+    public ResourceGroupAccessHeader getHeader() {
+	return this.header;
     }
 
     /**
@@ -54,8 +40,15 @@ public class ResourceGroupAccess implements Parcelable {
      *            name of the privacy level
      * @return value of the privacy level or NULL if it is not set
      */
-    public String getPrivacyLevel(String privacyLevel) {
-	return privacyLevels.getString(privacyLevel);
+    public String getPrivacyLevelValue(String privacyLevel) {
+	return privacyLevelValues.getString(privacyLevel);
+    }
+    
+    /**
+     * @return the bundle containing the privacy level values.
+     */
+    public Bundle getPrivacyLevelValues() {
+	return privacyLevelValues;
     }
 
     /**
@@ -67,9 +60,8 @@ public class ResourceGroupAccess implements Parcelable {
      *            Parcel-Source
      */
     private ResourceGroupAccess(Parcel source) {
-	this.identifier = source.readString();
-	this.publicKey = source.readString();
-	this.privacyLevels = source.readBundle();
+	this.header = ResourceGroupAccessHeader.CREATOR.createFromParcel(source);
+	this.privacyLevelValues = source.readBundle();
     }
 
     /**
@@ -79,9 +71,8 @@ public class ResourceGroupAccess implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-	dest.writeString(identifier);
-	dest.writeString(publicKey);
-	dest.writeBundle(privacyLevels);
+	this.header.writeToParcel(dest, flags);
+	dest.writeBundle(privacyLevelValues);
     }
 
     @Override

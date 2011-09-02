@@ -20,9 +20,19 @@ public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.St
      */
     private ResourceGroup rg;
     
+    /**
+     * The app referenced.
+     */
+    private String appIdentifier;
+    
     public void setResourceGroup(ResourceGroup rg) {
 	this.rg = rg;	
     }
+    
+
+    public void setAppIdentifier(String identifier) {
+	this.appIdentifier = identifier;
+    }	
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -37,7 +47,7 @@ public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.St
 	if (resource == null) {
 	    return null;
 	} else {
-	    return resource.getAndroidInterface();
+	    return resource.getAndroidInterface(appIdentifier);
 	}
     }    
 

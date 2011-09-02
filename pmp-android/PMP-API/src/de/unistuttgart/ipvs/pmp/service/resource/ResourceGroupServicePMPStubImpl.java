@@ -5,6 +5,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
+import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 import android.os.RemoteException;
@@ -21,6 +22,15 @@ public class ResourceGroupServicePMPStubImpl extends
      * referenced resource group
      */
     private ResourceGroup rg;
+    
+    /**
+     * referenced signature
+     */
+    private PMPSignature refSig;
+    
+    public void setSignature(PMPSignature resgrpSig) {
+	refSig = resgrpSig;	
+    }
     
     public void setResourceGroup(ResourceGroup rg) {
 	this.rg = rg;
@@ -78,15 +88,13 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public void setAccesses(@SuppressWarnings("rawtypes") List accesses)
 	    throws RemoteException {
-	/**
-	 * Note: The given Map is described by the JavaDoc of
-	 * {@link IResourceGroupService.Stub#setAccesses}
-	 */
 	@SuppressWarnings("unchecked")
 	List<ResourceGroupAccess> castedAccesses = (List<ResourceGroupAccess>) accesses;
 
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
+	for (ResourceGroupAccess rga : castedAccesses) {
+	    refSig.setRemotePublicKey(rga.getHeader().getIdentifier(), rga.getHeader().getPublicKey());
+	    rg.updateAccess(rga);
+	}
     }
 
     @Override

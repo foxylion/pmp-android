@@ -18,10 +18,13 @@ import android.os.IBinder;
  * 
  * <h2>PMP internal view</h2>
  * 
- * <p>This is an external service for communication between resource groups and PMP or apps. <br/>
+ * <p>
+ * This is an external service for communication between resource groups and PMP
+ * or apps. <br/>
  * This service requires several informations in the intent, used to bind the
  * {@link PMPService} or the {@link AppService}, put as extra into the
- * {@link Intent}.</p>
+ * {@link Intent}.
+ * </p>
  * 
  * <pre>
  * intent.putExtraString("identifier", &lt;App/PMP-Identifier>);
@@ -29,17 +32,25 @@ import android.os.IBinder;
  * intent.putExtraByteArray("signature", PMPSignature signing identifier);
  * </pre>
  * 
- * <p>On first contact, you will not need to transmit "signature", but you will
- * only receive an {@link IResourceGroupServiceRegister} binder to transmit your
- * public key fetched from {@link PMPSignature#getLocalPublicKey()}.</p>
+ * <p>
+ * On first contact of PMP, you will not need to transmit "signature", but you
+ * will only receive an {@link IResourceGroupServiceRegister} binder to transmit
+ * your public key fetched from {@link PMPSignature#getLocalPublicKey()} or
+ * inform the resource that the registration has failed..
+ * </p>
  * 
- * <p>Subsequently, use {@link PMPSignature#signContent(byte[])} with the
+ * <p>
+ * Subsequently, use {@link PMPSignature#signContent(byte[])} with the
  * identifier you're sending the Intent to (likely
  * ResourceGroupService.class.toString().getBytes()). Transmit the result of the
- * signing in "signature".</p>
+ * signing in "signature".
+ * </p>
  * 
- * <p>If you are PMP, you will then receive {@link IResourceGroupServicePMP}; if
- * you are an app you will receive {@link IResourceGroupServiceApp}.</p>
+ * <p>
+ * If you are PMP, you will then receive {@link IResourceGroupServicePMP}; if
+ * you are an app authorized by PMP you will receive
+ * {@link IResourceGroupServiceApp}.
+ * </p>
  * 
  * @author Tobias Kuhn
  */
@@ -88,7 +99,7 @@ public class ResourceGroupService extends Service {
 	String type = intent.getStringExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
-	
+
 	// you have to assign a resource group for this to work, buddy
 	if (rg == null) {
 	    return null;
@@ -106,6 +117,7 @@ public class ResourceGroupService extends Service {
 	    } else if (type.equals(Constants.TYPE_APP)) {
 		ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
 		rgsasi.setResourceGroup(rg);
+		rgsasi.setAppIdentifier(identifier);
 		return new ResourceGroupServiceAppStubImpl();
 
 	    } else {
