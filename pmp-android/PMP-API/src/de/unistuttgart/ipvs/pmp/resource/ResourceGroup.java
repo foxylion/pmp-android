@@ -21,17 +21,17 @@ public abstract class ResourceGroup {
     /**
      * The resources present in that resource group.
      */
-    private Map<String, Resource> resources;
+    private final Map<String, Resource> resources;
 
     /**
      * The privacy levels present in that resource group.
      */
-    private Map<String, PrivacyLevel> privacyLevels;
+    private final Map<String, PrivacyLevel> privacyLevels;
 
     /**
      * Stores the list of the privacy level values.
      */
-    private Map<String, Bundle> privacyLevelValues;
+    private final Map<String, Bundle> privacyLevelValues;
 
     /**
      * Creates a new {@link ResourceGroup}.
@@ -149,5 +149,13 @@ public abstract class ResourceGroup {
 	} else {
 	    return appPLs.getString(privacyLevel);
 	}
+    }
+    
+    /**
+     * Effectively starts this resource group and registers it with PMP
+     * @return true, if the registration was successful, false otherwise
+     */
+    public boolean start() {
+	return false;
     }
 }

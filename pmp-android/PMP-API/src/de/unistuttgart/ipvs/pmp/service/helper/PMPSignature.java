@@ -1,5 +1,11 @@
 package de.unistuttgart.ipvs.pmp.service.helper;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -55,7 +61,7 @@ public class PMPSignature {
 	try {
 	    // generate keys
 	    KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM_KEY);
-	    kpg.initialize(1024);
+	    kpg.initialize(4096);
 	    local = kpg.generateKeyPair();
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
@@ -114,7 +120,8 @@ public class PMPSignature {
      * @return true, iff all values are valid (i.e. not null, correct key) and
      *         the signature fits the content. Therefore false, if the
      *         initialization was faulty, any value is null or the signature is
-     *         invalid. Also false, if no public key was set for remoteIdentifier.
+     *         invalid. Also false, if no public key was set for
+     *         remoteIdentifier.
      */
     public boolean isSignatureValid(String remoteIdentifier, byte[] content,
 	    byte[] signature) {
@@ -123,14 +130,14 @@ public class PMPSignature {
 		|| (signature == null)) {
 	    return false;
 	}
-	
+
 	// fetch public key for remoteIdentifier
 	PublicKey pk = remotePublicKeys.get(remoteIdentifier);
 	if (pk == null) {
 	    return false;
 	}
 
-	try {	    	 
+	try {
 	    // actual signature check
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
 	    sg.initVerify(pk);
@@ -178,6 +185,36 @@ public class PMPSignature {
 	}
 
 	return null;
+    }
+
+    /**
+     * Writes the whole signature set to an {@link OutputStream}.
+     * 
+     * @param os
+     * @throws IOException
+     */
+    public void writeToOutput(OutputStream os) throws IOException {
+	ObjectOutputStream oos = new ObjectOutputStream(os);
+	oos.writeObject(local);
+	oos.writeObject(remotePublicKeys);
+    }
+
+    @SuppressWarnings("unchecked")
+    /**
+     * Reads the whole signature set out of an {@link InputStream}.
+     * @param is
+     * @throws IOException
+     */
+    public void readFromInput(InputStream is) throws IOException {
+	ObjectInputStream ois = new ObjectInputStream(is);
+
+	try {
+	    local = (KeyPair) ois.readObject();
+	    remotePublicKeys = (Map<String, PublicKey>) ois.readObject();
+	} catch (ClassNotFoundException e) {
+	    Log.e("Class not found during load.");
+	}
+
     }
 
 }
