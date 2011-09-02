@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.resource;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
@@ -18,21 +19,21 @@ import android.os.RemoteException;
  */
 public class ResourceGroupServicePMPStubImpl extends
 	IResourceGroupServicePMP.Stub {
-    
+
     /**
      * referenced resource group
      */
     private ResourceGroup rg;
-    
+
     /**
      * referenced signature
      */
     private PMPSignature refSig;
-    
+
     public void setSignature(PMPSignature resgrpSig) {
-	refSig = resgrpSig;	
+	refSig = resgrpSig;
     }
-    
+
     public void setResourceGroup(ResourceGroup rg) {
 	this.rg = rg;
     }
@@ -93,7 +94,8 @@ public class ResourceGroupServicePMPStubImpl extends
 	List<ResourceGroupAccess> castedAccesses = (List<ResourceGroupAccess>) accesses;
 
 	for (ResourceGroupAccess rga : castedAccesses) {
-	    refSig.setRemotePublicKey(rga.getHeader().getIdentifier(), rga.getHeader().getPublicKey());
+	    refSig.setRemotePublicKey(Constants.TYPE_APP, rga.getHeader()
+		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);
 	}
     }
@@ -112,9 +114,10 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public void changePrivacyLevels(String appIdentifier)
 	    throws RemoteException {
-	/* TODO: some magic happening here
-	 * I assume we have to call ResourceGroup.createActivity() that presents a
-	 * standard representation of all privacylevels or something.
+	/*
+	 * TODO: some magic happening here I assume we have to call
+	 * ResourceGroup.createActivity() that presents a standard
+	 * representation of all privacylevels or something.
 	 * 
 	 * NOTICE: THIS WOULD BE GUI!
 	 */
@@ -125,8 +128,7 @@ public class ResourceGroupServicePMPStubImpl extends
     public void setRegistrationSuccessful(RegistrationState state)
 	    throws RemoteException {
 	// TODO Auto-generated method stub
-	
-    }
 
+    }
 
 }
