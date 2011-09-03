@@ -6,9 +6,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 
 /**
  * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
@@ -17,6 +24,11 @@ import android.os.Bundle;
  * 
  */
 public abstract class ResourceGroup {
+
+    /**
+     * Stores the associated service.
+     */
+    private ResourceGroupService service;
 
     /**
      * The resources present in that resource group.
@@ -59,6 +71,15 @@ public abstract class ResourceGroup {
      * @return the description of this resource group for the given locale
      */
     public abstract String getDescription(String locale);
+
+    /**
+     * Internal call for the {@link ResourceGroupService}.
+     * 
+     * <b>Do not call this method.</b>
+     */
+    public void assignService(ResourceGroupService service) {
+	this.service = service;
+    }
 
     /**
      * Registers resource as resource "identifier" in this resource group.
@@ -152,11 +173,58 @@ public abstract class ResourceGroup {
     }
 
     /**
-     * Effectively starts this resource group and registers it with PMP.
+     * Effectively starts this resource group and registers it with PMP. Note
+     * that it needs to be connected to a {@link ResourceGroupService} via an
+     * {@link ResourceGroupApp}. You can implement reacting to the result of
+     * this operation by implementing onRegistrationSuccess() or
+     * onRegistrationFailed()
      * 
-     * @return true, if the registration was successful, false otherwise
+     * @param context
+     *            {@link Context} to use for the connection
+     * @throws MissingServiceException
+     *             TODO fix this, this does not look good
+     * 
      */
-    public boolean start() {
-	return false;
+    public void start(Context context) throws MissingServiceException {
+	if (service == null) {
+	    throw new MissingServiceException();
+	}
+
+	// connect to PMP
+	PMPServiceConnector pmpsc = new PMPServiceConnector(context);
+	pmpsc.bind();
+	IBinder binding = pmpsc.getService();
+
+	if ((binding != null) && (binding instanceof IPMPServiceRegistration)) {
+	    // register here
+	    IPMPServiceRegistration ipmpsr = (IPMPServiceRegistration) binding;
+	    try {
+		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(service
+			.getSignature().getLocalPublicKey());
+		// TODO: what there?
+		service.setAndSaveRemotePublicKey(Constants.TYPE_PMP,
+			"what to put here?", pmpPublicKey);
+	    } catch (RemoteException e) {
+		Log.e("RemoteException during registering resource group: "
+			+ e.toString());
+	    }
+	} else {
+	    Log.e("PMP does not work correctly.");
+	}
     }
+
+    /**
+     * Callback called when the preceding call to start() registered this
+     * resource group successfully with PMP.
+     */
+    public abstract void onRegistrationSuccess();
+
+    /**
+     * Callback called when the preceding call to start() could not register
+     * this resource group with PMP due to errors.
+     * 
+     * @param message
+     *            returned message from the PMP service
+     */
+    public abstract void onRegistrationFailed(String message);
 }

@@ -1,14 +1,14 @@
-package de.unistuttgart.ipvs.pmp.service.helper;
+package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.app.Service;
 
 /**
- * {@link ICallback} is used to get informed when a Service has connected after
- * the binding command.
+ * {@link IConnectorCallback} is used in {@link AbstractConnector}s to get
+ * informed when a Service has connected after the binding command.
  * 
  * @author Jakob Jarosch
  */
-public interface ICallback {
+public interface IConnectorCallback {
 
     /**
      * Is called when the {@link Service} has connected.

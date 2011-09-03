@@ -1,11 +1,11 @@
-package de.unistuttgart.ipvs.pmp.service.helper;
+package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
 import android.content.Intent;
 
-public class ResourceGroupServiceHelper extends AbstractHelper {
+public class AppServiceConnector extends AbstractConnector {
 
-    public ResourceGroupServiceHelper(Context context) {
+    public AppServiceConnector(Context context) {
 	super(context);
 	// TODO Auto-generated constructor stub
     }

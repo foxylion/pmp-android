@@ -1,16 +1,9 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.app.AppService;
-import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -117,7 +110,7 @@ public abstract class PMPSignedService extends Service {
      *            the new public key or null to remove the current one.
      * @see {@link PMPSignature#setRemotePublicKey(String, String, byte[])}
      */
-    protected void setAndSaveRemotePublicKey(String remoteType,
+    public final void setAndSaveRemotePublicKey(String remoteType,
 	    String remoteIdentifier, byte[] remotePublicKey) {
 	signature.setRemotePublicKey(remoteType, remoteIdentifier,
 		remotePublicKey);
@@ -128,7 +121,7 @@ public abstract class PMPSignedService extends Service {
      * 
      * @return the signature used for signing messages.
      */
-    public PMPSignature getSignature() {
+    public final PMPSignature getSignature() {
 	return this.signature;
     }
 

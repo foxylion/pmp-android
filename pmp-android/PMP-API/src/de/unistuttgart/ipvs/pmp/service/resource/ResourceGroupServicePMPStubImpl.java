@@ -7,8 +7,8 @@ import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.service.helper.PMPSignature;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 
 import android.os.RemoteException;
 
@@ -127,8 +127,11 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public void setRegistrationSuccessful(RegistrationState state)
 	    throws RemoteException {
-	// TODO Auto-generated method stub
-
+	if (state.getState()) {
+	    rg.onRegistrationSuccess();
+	} else {
+	    rg.onRegistrationFailed(state.getMessage());
+	}
     }
 
 }

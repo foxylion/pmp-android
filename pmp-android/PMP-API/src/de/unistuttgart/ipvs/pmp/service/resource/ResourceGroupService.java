@@ -32,8 +32,21 @@ import android.os.IBinder;
  */
 public class ResourceGroupService extends PMPSignedService {
 
+    @Override
+    public void onCreate() {
+	super.onCreate();
+	ResourceGroup rg = findContextResourceGroup();
+	if (rg == null) {
+	    // invalid context
+	    Log.e(this.toString()
+		    + " tried to connect to its resource group and failed.");
+	} else {
+	    rg.assignService(this);
+	}
+    }
+
     /**
-     * Called on startup the service.
+     * Called on startup of the service.
      */
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -49,7 +62,8 @@ public class ResourceGroupService extends PMPSignedService {
 	ResourceGroup rg = findContextResourceGroup();
 	if (rg == null) {
 	    // invalid context
-	    Log.e(this.toString() + " tried to connect to its resource group and failed.");
+	    Log.e(this.toString()
+		    + " tried to connect to its resource group and failed.");
 	    return null;
 	}
 
@@ -66,7 +80,7 @@ public class ResourceGroupService extends PMPSignedService {
 	    ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
 	    rgsasi.setResourceGroup(rg);
 	    rgsasi.setAppIdentifier(boundIdentifier);
-	    return new ResourceGroupServiceAppStubImpl();
+	    return rgsasi;
 
 	} else {
 	    // wait, what?

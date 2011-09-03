@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.service.helper;
+package de.unistuttgart.ipvs.pmp.service.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,12 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 /**
- * {@link AbstractHelper} implements methods used by {@link PMPServiceHelper},
- * {@link ResourceGroupServiceHelper} and {@link AppServiceHelper}.
+ * {@link AbstractConnector} implements methods used by {@link PMPServiceConnector},
+ * {@link ResourceGroupServiceConnector} and {@link AppServiceConnector}.
  * 
  * @author Jakob Jarosch
  */
-public abstract class AbstractHelper {
+public abstract class AbstractConnector {
 
     /**
      * Reference to the connected service {@link IBinder}.
@@ -35,10 +35,10 @@ public abstract class AbstractHelper {
     private boolean connected = false;
 
     /**
-     * List of all {@link ICallback} handler which will receive a connection
+     * List of all {@link IConnectorCallback} handler which will receive a connection
      * message.
      */
-    private List<ICallback> callbackHandler = new ArrayList<ICallback>();
+    private List<IConnectorCallback> callbackHandler = new ArrayList<IConnectorCallback>();
 
     /**
      * The context used to initiate the binding.
@@ -67,7 +67,7 @@ public abstract class AbstractHelper {
 	}
     };
 
-    public AbstractHelper(Context context) {
+    public AbstractConnector(Context context) {
 	this.context = context;
     }
 
@@ -105,23 +105,23 @@ public abstract class AbstractHelper {
     }
 
     /**
-     * Adds a {@link ICallback} instance to the list.
+     * Adds a {@link IConnectorCallback} instance to the list.
      * 
-     * @param callback
-     *            {@link ICallback} object which should be added
+     * @param connectorCallback
+     *            {@link IConnectorCallback} object which should be added
      */
-    public void addCallbackHandler(ICallback callback) {
-	callbackHandler.add(callback);
+    public void addCallbackHandler(IConnectorCallback connectorCallback) {
+	callbackHandler.add(connectorCallback);
     }
 
     /**
-     * Removes an {@link ICallback} instance from the list.
+     * Removes an {@link IConnectorCallback} instance from the list.
      * 
-     * @param callback
-     *            {@link ICallback} object which should be removed
+     * @param connectorCallback
+     *            {@link IConnectorCallback} object which should be removed
      */
-    public void removeCallbackHandler(ICallback callback) {
-	callbackHandler.remove(callback);
+    public void removeCallbackHandler(IConnectorCallback connectorCallback) {
+	callbackHandler.remove(connectorCallback);
     }
 
     /**
@@ -131,6 +131,10 @@ public abstract class AbstractHelper {
      */
     protected IBinder getService() {
 	return connectedService;
+    }
+
+    protected Context getContext() {
+	return context;
     }
 
     /**
@@ -151,11 +155,11 @@ public abstract class AbstractHelper {
     protected abstract void serviceDisconnected();
 
     /**
-     * Inform all {@link ICallback} instances which are registered that
+     * Inform all {@link IConnectorCallback} instances which are registered that
      * something has changed.
      */
     private void informCallback() {
-	for (ICallback handler : callbackHandler) {
+	for (IConnectorCallback handler : callbackHandler) {
 	    if (!binding) {
 
 	    } else if (binding && !isBound()) {

@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.service.helper;
+package de.unistuttgart.ipvs.pmp.service.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
