@@ -57,8 +57,8 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	signature = new PMPSignee();
-	signature.load(serviceContext, service);
+	signature = new PMPSignee(PMPComponentType.RESOURCE_GROUP, ResourceGroupService.class);
+	signature.load(serviceContext);
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
 	privacyLevelValues = new HashMap<String, Bundle>();
@@ -212,7 +212,7 @@ public abstract class ResourceGroup {
 		// TODO: what there?
 		signature.setRemotePublicKey(PMPComponentType.PMP,
 			Constants.PMP_IDENTIFIER, pmpPublicKey);
-		signature.save(serviceContext, service);
+		signature.save(serviceContext);
 	    } catch (RemoteException e) {
 		Log.e("RemoteException during registering resource group: "
 			+ e.toString());

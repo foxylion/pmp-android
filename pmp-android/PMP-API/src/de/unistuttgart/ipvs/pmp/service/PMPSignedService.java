@@ -24,8 +24,8 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  * *
  * <p>
- * Use {@link PMPSignee#signContent(byte[])} with the identifier you're
- * sending the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
+ * Use {@link PMPSignee#signContent(byte[])} with the identifier you're sending
+ * the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
  * the signing in "signature".
  * </p>
  * 
@@ -47,24 +47,25 @@ public abstract class PMPSignedService extends Service {
     private PMPSignee signature;
 
     /**
-     * Overwrite this method if you want to use your own signature object.
+     * Overwrite this method to use your own signature object.
      * 
-     * @return null, if the service shall create and administer the signature,
-     *         or a reference to a signature for the service to use.
+     * @return a reference to a signature for the service to use.
      */
-    protected PMPSignee createSignature() {
-	return null;
-    }
+    protected abstract PMPSignee createSignature();
+
+    /**
+     * Overwrite this method to return the <b>exact same</b> identifier you have
+     * put in the manifest file: &lt;service>...&lt;intent-filter>...&lt;action
+     * android:name=" HERE ">. If the identifier differ, the service will not work.
+     * 
+     * @return the specified identifier
+     */
+    protected abstract String getAndroidName();    
 
     @Override
     public void onCreate() {
-	PMPSignee pmps = createSignature();
-	if (pmps == null) {
-	    signature = new PMPSignee();
-	    signature.load(getApplicationContext(), this.getClass());
-	} else {
-	    signature = pmps;
-	}
+	this.signature = createSignature();
+	this.signature.setIdentifier(getAndroidName());
     }
 
     @Override
@@ -73,7 +74,8 @@ public abstract class PMPSignedService extends Service {
 
     @Override
     public final IBinder onBind(Intent intent) {
-	PMPComponentType boundType = (PMPComponentType) intent.getSerializableExtra(Constants.INTENT_TYPE);
+	PMPComponentType boundType = (PMPComponentType) intent
+		.getSerializableExtra(Constants.INTENT_TYPE);
 	String boundIdentifier = intent
 		.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] boundSignature = intent
@@ -115,7 +117,7 @@ public abstract class PMPSignedService extends Service {
 	    String remoteIdentifier, byte[] remotePublicKey) {
 	signature.setRemotePublicKey(remoteType, remoteIdentifier,
 		remotePublicKey);
-	signature.save(getApplicationContext(), this.getClass());
+	signature.save(getApplicationContext());
     }
 
     /**
