@@ -48,6 +48,7 @@ public class ResourceGroupService extends PMPSignedService {
     /**
      * Called on startup of the service.
      */
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 	/*

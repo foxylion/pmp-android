@@ -91,7 +91,7 @@ public class ResourceGroupServicePMPStubImpl extends
     public void setAccesses(@SuppressWarnings("rawtypes") List accesses)
 	    throws RemoteException {
 	@SuppressWarnings("unchecked")
-	List<ResourceGroupAccess> castedAccesses = (List<ResourceGroupAccess>) accesses;
+	List<ResourceGroupAccess> castedAccesses = accesses;
 
 	for (ResourceGroupAccess rga : castedAccesses) {
 	    refSig.setRemotePublicKey(Constants.TYPE_APP, rga.getHeader()
