@@ -6,6 +6,7 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -40,8 +41,20 @@ public class ResourceGroupService extends PMPSignedService {
 	    // invalid context
 	    Log.e(this.toString()
 		    + " tried to connect to its resource group and failed.");
+	}
+    }
+
+    @Override
+    protected PMPSignature createSignature() {
+	ResourceGroup rg = findContextResourceGroup();
+	if (rg == null) {
+	    // invalid context
+	    Log.e(this.toString()
+		    + " tried to connect to its resource group and failed.");
+	    // die with NullPointerExceptions instead of confusing everyone
+	    return null;
 	} else {
-	    rg.assignService(this);
+	    return rg.getSignature();
 	}
     }
 

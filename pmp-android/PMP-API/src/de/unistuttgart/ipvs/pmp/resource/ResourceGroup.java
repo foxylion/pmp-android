@@ -8,9 +8,11 @@ import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,9 +28,9 @@ import android.os.RemoteException;
 public abstract class ResourceGroup {
 
     /**
-     * Stores the associated service.
+     * Stores the associated signature.
      */
-    private ResourceGroupService service;
+    private PMPSignature signature;
 
     /**
      * The resources present in that resource group.
@@ -47,8 +49,16 @@ public abstract class ResourceGroup {
 
     /**
      * Creates a new {@link ResourceGroup}.
+     * 
+     * @param serviceContext
+     *            context of the service for this resource group
+     * @param service
+     *            class of the service for this resource group
      */
-    public ResourceGroup() {
+    public ResourceGroup(Context serviceContext,
+	    Class<? extends PMPSignedService> service) {
+	signature = new PMPSignature();
+	signature.load(serviceContext, service);
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
 	privacyLevelValues = new HashMap<String, Bundle>();
@@ -71,14 +81,13 @@ public abstract class ResourceGroup {
      * @return the description of this resource group for the given locale
      */
     public abstract String getDescription(String locale);
-
+    
     /**
-     * Internal call for the {@link ResourceGroupService}.
      * 
-     * <b>Do not call this method.</b>
+     * @return the signature
      */
-    public void assignService(ResourceGroupService service) {
-	this.service = service;
+    public PMPSignature getSignature() {
+	return this.signature;
     }
 
     /**
@@ -181,15 +190,14 @@ public abstract class ResourceGroup {
      * 
      * @param context
      *            {@link Context} to use for the connection
-     * @throws MissingServiceException
-     *             TODO fix this, this does not look good
+     * @param serviceContext
+     *            Context of the service used for this resource group
+     * @param service
+     *            class of the service used for this resource group
      * 
      */
-    public void start(Context context) throws MissingServiceException {
-	if (service == null) {
-	    throw new MissingServiceException();
-	}
-
+    public void start(Context context, Context serviceContext,
+	    Class<? extends PMPSignedService> service) {
 	// connect to PMP
 	PMPServiceConnector pmpsc = new PMPServiceConnector(context);
 	pmpsc.bind();
@@ -199,11 +207,12 @@ public abstract class ResourceGroup {
 	    // register here
 	    IPMPServiceRegistration ipmpsr = (IPMPServiceRegistration) binding;
 	    try {
-		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(service
-			.getSignature().getLocalPublicKey());
+		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signature
+			.getLocalPublicKey());
 		// TODO: what there?
-		service.setAndSaveRemotePublicKey(Constants.TYPE_PMP,
+		signature.setRemotePublicKey(Constants.TYPE_PMP,
 			"what to put here?", pmpPublicKey);
+		signature.save(serviceContext, service);
 	    } catch (RemoteException e) {
 		Log.e("RemoteException during registering resource group: "
 			+ e.toString());
