@@ -3,6 +3,9 @@ package de.unistuttgart.ipvs.pmp.service.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
+
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -46,6 +49,16 @@ public abstract class AbstractConnector {
     private Context context;
 
     /**
+     * The signature used to sign the connection to the service.
+     */
+    private PMPSignature signature;
+    
+    /**
+     * The identifier of the service to which the connection should go.
+     */
+    private String targetIdentifier;
+    
+    /**
      * The {@link ServiceConnection} is used to handle the bound Service
      * {@link IBinder}.
      */
@@ -67,8 +80,10 @@ public abstract class AbstractConnector {
 	}
     };
 
-    public AbstractConnector(Context context) {
+    public AbstractConnector(Context context, PMPSignature signature, String targetIdentifier) {
 	this.context = context;
+	this.signature = signature;
+	this.targetIdentifier = targetIdentifier;
     }
 
     /**
@@ -80,7 +95,13 @@ public abstract class AbstractConnector {
 	binding = true;
 
 	if (!isBound()) {
-	    Intent intent = createIntent();
+	    Intent intent = new Intent();
+	    intent.setComponent(createComponentName(targetIdentifier));
+	    
+	    intent.putExtra(Constants.INTENT_TYPE, this.signature.getType());
+	    intent.putExtra(Constants.INTENT_IDENTIFIER, this.signature.getIdentifier());
+	    intent.putExtra(Constants.INTENT_SIGNATURE, this.signature.signContent(targetIdentifier.getBytes()));
+	    
 	    return context.bindService(intent, serviceConnection,
 		    Context.BIND_AUTO_CREATE);
 	} else {
@@ -136,14 +157,16 @@ public abstract class AbstractConnector {
     protected Context getContext() {
 	return context;
     }
-
-    /**
-     * Create a new {@link Intent} to connect to the {@link Service}.
-     * 
-     * @return Returns the created {@link Intent}.
-     */
-    protected abstract Intent createIntent();
-
+    
+    protected ComponentName createComponentName(String identifier) {
+	String[] splits = identifier.split(";");
+	if(splits.length != 2) {
+	    Log.e("The identifier had not 2 parts (package and className) speparted by a semicolon.");
+	    throw new IllegalArgumentException("The identifier requires two parts (package and className), sperated by a semicolon.");
+	}
+	return new ComponentName(splits[0], splits[1]);
+    }
+    
     /**
      * Is called when the service connected.
      */

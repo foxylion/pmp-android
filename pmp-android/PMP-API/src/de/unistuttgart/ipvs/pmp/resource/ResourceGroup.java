@@ -8,12 +8,14 @@ import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -199,7 +201,7 @@ public abstract class ResourceGroup {
     public void start(Context context, Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
 	// connect to PMP
-	PMPServiceConnector pmpsc = new PMPServiceConnector(context);
+	PMPServiceConnector pmpsc = new PMPServiceConnector(context, signature);
 	pmpsc.bind();
 	IBinder binding = pmpsc.getService();
 
@@ -210,8 +212,8 @@ public abstract class ResourceGroup {
 		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signature
 			.getLocalPublicKey());
 		// TODO: what there?
-		signature.setRemotePublicKey(Constants.TYPE_PMP,
-			"what to put here?", pmpPublicKey);
+		signature.setRemotePublicKey(PMPComponentType.PMP,
+			Constants.PMP_IDENTIFIER, pmpPublicKey);
 		signature.save(serviceContext, service);
 	    } catch (RemoteException e) {
 		Log.e("RemoteException during registering resource group: "

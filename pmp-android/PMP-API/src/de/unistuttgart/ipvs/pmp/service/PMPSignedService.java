@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 import android.app.Service;
@@ -24,8 +25,7 @@ import android.os.IBinder;
  * *
  * <p>
  * Use {@link PMPSignature#signContent(byte[])} with the identifier you're
- * sending the Intent to (likely
- * YourService.class.getClass().getName().getBytes()). Transmit the result of
+ * sending the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
  * the signing in "signature".
  * </p>
  * 
@@ -73,7 +73,7 @@ public abstract class PMPSignedService extends Service {
 
     @Override
     public final IBinder onBind(Intent intent) {
-	String boundType = intent.getStringExtra(Constants.INTENT_TYPE);
+	PMPComponentType boundType = (PMPComponentType) intent.getSerializableExtra(Constants.INTENT_TYPE);
 	String boundIdentifier = intent
 		.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] boundSignature = intent
@@ -111,7 +111,7 @@ public abstract class PMPSignedService extends Service {
      *            the new public key or null to remove the current one.
      * @see {@link PMPSignature#setRemotePublicKey(String, String, byte[])}
      */
-    public final void setAndSaveRemotePublicKey(String remoteType,
+    public final void setAndSaveRemotePublicKey(PMPComponentType remoteType,
 	    String remoteIdentifier, byte[] remotePublicKey) {
 	signature.setRemotePublicKey(remoteType, remoteIdentifier,
 		remotePublicKey);

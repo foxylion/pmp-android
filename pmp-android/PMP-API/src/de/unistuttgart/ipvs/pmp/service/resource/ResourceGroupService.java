@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
@@ -80,16 +81,16 @@ public class ResourceGroupService extends PMPSignedService {
 	    return null;
 	}
 
-	String boundType = intent.getStringExtra(Constants.INTENT_TYPE);
+	PMPComponentType boundType = PMPComponentType.valueOf(intent.getStringExtra(Constants.INTENT_TYPE));
 	String boundIdentifier = intent
 		.getStringExtra(Constants.INTENT_IDENTIFIER);
 
-	if (boundType.equals(Constants.TYPE_PMP)) {
+	if (boundType.equals(PMPComponentType.PMP)) {
 	    ResourceGroupServicePMPStubImpl rgspmpsi = new ResourceGroupServicePMPStubImpl();
 	    rgspmpsi.setResourceGroup(rg);
 	    return rgspmpsi;
 
-	} else if (boundType.equals(Constants.TYPE_APP)) {
+	} else if (boundType.equals(PMPComponentType.APP)) {
 	    ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
 	    rgsasi.setResourceGroup(rg);
 	    rgsasi.setAppIdentifier(boundIdentifier);

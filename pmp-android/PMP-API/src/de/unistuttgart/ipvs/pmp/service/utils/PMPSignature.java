@@ -22,6 +22,7 @@ import java.util.Map;
 import android.content.Context;
 
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
@@ -109,7 +110,7 @@ public class PMPSignature {
      * @param remotePublicKey
      *            the public key belonging to the identifier
      */
-    public void setRemotePublicKey(String remoteType, String remoteIdentifier,
+    public void setRemotePublicKey(PMPComponentType remoteType, String remoteIdentifier,
 	    byte[] remotePublicKey) {
 
 	try {
@@ -128,7 +129,7 @@ public class PMPSignature {
     /**
      * Checks whether a signature is valid.
      * 
-     * @param remoteType
+     * @param boundType
      *            the type of the remote sender
      * @param remoteIdentifier
      *            the identifier of the remote sender
@@ -142,7 +143,7 @@ public class PMPSignature {
      *         invalid. Also false, if no public key was set for
      *         remoteIdentifier.
      */
-    public boolean isSignatureValid(String remoteType, String remoteIdentifier,
+    public boolean isSignatureValid(PMPComponentType boundType, String remoteIdentifier,
 	    byte[] content, byte[] signature) {
 	// check for nulls
 	if ((local == null) || (remotePublicKeys == null) || (content == null)
@@ -151,7 +152,7 @@ public class PMPSignature {
 	}
 
 	// fetch public key for remoteIdentifier
-	PublicKey pk = remotePublicKeys.get(remoteType
+	PublicKey pk = remotePublicKeys.get(boundType
 		+ TYPE_IDENTIFIER_SEPARATOR + remoteIdentifier);
 	if (pk == null) {
 	    return false;
@@ -285,6 +286,16 @@ public class PMPSignature {
 	    Log.e(e.toString() + " during writing signature for "
 		    + getClass().getName());
 	}
+    }
+
+    public String getType() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    public String getIdentifier() {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }

@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.service.resource;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
@@ -94,7 +95,7 @@ public class ResourceGroupServicePMPStubImpl extends
 	List<ResourceGroupAccess> castedAccesses = (List<ResourceGroupAccess>) accesses;
 
 	for (ResourceGroupAccess rga : castedAccesses) {
-	    refSig.setRemotePublicKey(Constants.TYPE_APP, rga.getHeader()
+	    refSig.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);
 	}
