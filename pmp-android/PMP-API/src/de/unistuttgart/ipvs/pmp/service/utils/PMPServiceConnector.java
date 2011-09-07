@@ -1,8 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
-import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 
 public class PMPServiceConnector extends AbstractConnector {
     
@@ -10,9 +12,19 @@ public class PMPServiceConnector extends AbstractConnector {
 	super(context, signature, Constants.PMP_IDENTIFIER);
     }
     
-    @Override
-    public IBinder getService() {
-        return super.getService();
+    public IPMPServiceRegistration getRegistrationService() {
+	IPMPServiceRegistration service = IPMPServiceRegistration.Stub.asInterface(getService());
+	return service;
+    }
+    
+    public IPMPServiceResourceGroup getResourceGroupService() {
+	IPMPServiceResourceGroup service = IPMPServiceResourceGroup.Stub.asInterface(getService());
+	return service;
+    }
+    
+    public IPMPServiceApp getAppService() {
+	IPMPServiceApp service = IPMPServiceApp.Stub.asInterface(getService());
+	return service;
     }
     
     @Override
