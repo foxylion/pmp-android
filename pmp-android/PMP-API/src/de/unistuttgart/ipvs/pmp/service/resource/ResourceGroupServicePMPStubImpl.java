@@ -2,15 +2,13 @@ package de.unistuttgart.ipvs.pmp.service.resource;
 
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.Constants;
+import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
-
-import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * Implementation of the {@link IResourceGroupServicePMP.Stub} stub.
@@ -28,9 +26,9 @@ public class ResourceGroupServicePMPStubImpl extends
     /**
      * referenced signature
      */
-    private PMPSignature refSig;
+    private PMPSignee refSig;
 
-    public void setSignature(PMPSignature resgrpSig) {
+    public void setSignature(PMPSignee resgrpSig) {
 	refSig = resgrpSig;
     }
 
@@ -94,7 +92,7 @@ public class ResourceGroupServicePMPStubImpl extends
 	List<ResourceGroupAccess> castedAccesses = (List<ResourceGroupAccess>) accesses;
 
 	for (ResourceGroupAccess rga : castedAccesses) {
-	    refSig.setRemotePublicKey(Constants.TYPE_APP, rga.getHeader()
+	    refSig.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);
 	}

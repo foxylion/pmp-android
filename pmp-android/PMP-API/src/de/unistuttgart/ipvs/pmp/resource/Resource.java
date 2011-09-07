@@ -1,8 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
-import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
-
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 
 /**
  * An individual Resource of a {@link ResourceGroup}.

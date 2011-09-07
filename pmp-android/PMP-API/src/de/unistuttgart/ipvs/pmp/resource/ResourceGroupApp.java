@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
-import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import android.app.Application;
+import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 
 /**
  * The default resource group app to implement for creating an App that stores
