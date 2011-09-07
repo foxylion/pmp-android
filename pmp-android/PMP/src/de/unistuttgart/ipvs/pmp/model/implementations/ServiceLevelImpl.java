@@ -57,25 +57,36 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier ="
-				+ appIdentifier + ";", null);
+			"SELECT pl.ResourceGroup_Identifier AS ResourceGroup_Identifier,"
+				+ "       pl.Identifier AS PrivacyLevel_Identifier,"
+				+ "       pl.Name_Cache AS Name_Cache,"
+				+ "       pl.Description_Cache AS Description_Cache,"
+				+ "       slpl.Value AS Value,"
+				+ "FROM ServiceLevel_PrivacyLevels AS slpl,"
+				+ "     PrivacyLevel AS pl"
+				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier"
+				+ "  AND slpl.PrivacyLevel_Identifier = pl.Identifier"
+				+ "  AND slpl.App_Identifier = ?"
+				+ "  AND slpl.ServiceLevel_Ordering = "
+				+ ordering + ";",
+			new String[] { appIdentifier });
 
 	while (!cursor.isAfterLast()) {
 	    String resourceGroup_Identifier = cursor.getString(cursor
 		    .getColumnIndex("ResourceGroup_Identifier"));
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
+	    String value = cursor.getString(cursor.getColumnIndex("Value"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
 	    list.add(new PrivacyLevelImpl(resourceGroup_Identifier, identifier,
-		    name, description));
+		    name, description, value));
 
 	    cursor.moveToNext();
 	}
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
-
 }

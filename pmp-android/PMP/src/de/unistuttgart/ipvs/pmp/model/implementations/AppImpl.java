@@ -51,19 +51,16 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = "
-				+ identifier + ";", null);
+			"SELECT Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = '"
+				+ identifier + "';", null);
 
 	while (!cursor.isAfterLast()) {
-	    String app_Identifier = cursor.getString(cursor
-		    .getColumnIndex("App_Identifier"));
-	    int ordering = cursor.getInt(cursor
-		    .getColumnIndex("Ordering"));
+	    int ordering = cursor.getInt(cursor.getColumnIndex("Ordering"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    list.add(new ServiceLevelImpl(app_Identifier, ordering, name,
+	    list.add(new ServiceLevelImpl(identifier, ordering, name,
 		    description));
 
 	    cursor.moveToNext();
@@ -80,20 +77,18 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE Ordering = "
-				+ ordering + ";", null);
+			"SELECT Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Ordering = "
+				+ ordering + " LIMIT 1;", new String[] { identifier });
 
-	String app_Identifier = cursor.getString(cursor
-		.getColumnIndex("App_Identifier"));
-	ordering = cursor.getInt(cursor
-		    .getColumnIndex("Ordering"));
-	String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
-	String description = cursor.getString(cursor
-		.getColumnIndex("Description_Cache"));
+	if (cursor != null && cursor.getCount() == 1) {
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
 
-	cursor.moveToNext();
-
-	return new ServiceLevelImpl(app_Identifier, ordering, name, description);
+	    return new ServiceLevelImpl(identifier, ordering, name, description);
+	} else {
+	    return null;
+	}
     }
 
     @Override
