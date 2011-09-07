@@ -53,19 +53,9 @@ public abstract class PMPSignedService extends Service {
      */
     protected abstract PMPSignee createSignature();
 
-    /**
-     * Overwrite this method to return the <b>exact same</b> identifier you have
-     * put in the manifest file: &lt;service>...&lt;intent-filter>...&lt;action
-     * android:name=" HERE ">. If the identifier differ, the service will not work.
-     * 
-     * @return the specified identifier
-     */
-    protected abstract String getAndroidName();    
-
     @Override
     public void onCreate() {
 	this.signature = createSignature();
-	this.signature.setIdentifier(getAndroidName());
     }
 
     @Override

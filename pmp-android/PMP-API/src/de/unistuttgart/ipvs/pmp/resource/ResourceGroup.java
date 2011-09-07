@@ -57,8 +57,11 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	signature = new PMPSignee(PMPComponentType.RESOURCE_GROUP, ResourceGroupService.class);
+	signature = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
+		ResourceGroupService.class);
 	signature.load(serviceContext);
+	signature.setIdentifier(getServiceAndroidName());
+
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
 	privacyLevelValues = new HashMap<String, Bundle>();
@@ -81,7 +84,17 @@ public abstract class ResourceGroup {
      * @return the description of this resource group for the given locale
      */
     public abstract String getDescription(String locale);
-    
+
+    /**
+     * Overwrite this method to return the <b>exact same</b> identifier you have
+     * put in the manifest file for the service for this Resource Group:
+     * &lt;service>...&lt;intent-filter>...&lt;action android:name="<b>HERE</b>">. If
+     * the identifier differ, the service will not work.
+     * 
+     * @return the specified identifier
+     */
+    protected abstract String getServiceAndroidName();
+
     /**
      * 
      * @return the signature
