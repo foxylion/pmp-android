@@ -33,14 +33,14 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     /**
-     * List of all sql-files for database-creation, the key is the version of
+     * List of all SQL-files for database-creation, the key is the version of
      * the database.
      */
     private static final String[] SQL_FILES = new String[] { null,
 	    "database-v1.sql" };
 
     /**
-     * DatabaseHelper-Constrcutor.
+     * DatabaseHelper-Constructor.
      */
     public DatabaseOpenHelper(Context context) {
 	super(context, DB_NAME, null, DB_VERSION);
@@ -74,12 +74,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Read a sql file from assets folder.
+     * Read a SQL file from assets folder.
      * 
      * @param filename
-     *            Filename of the sql file.
+     *            Filename of the SQL file.
      * 
-     * @return String represented sql querys from the file. NULL if the file
+     * @return String represented SQL query from the file. NULL if the file
      *         could not be read.
      */
     private String readSqlFile(String filename) {
@@ -105,7 +105,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	    sqlQuery = sb.toString();
 
 	} catch (IOException e) {
-	    Log.e("Reading the sql file from " + filename + " failed.", e);
+	    Log.e("Reading the SQL file from " + filename + " failed.", e);
 	}
 
 	return sqlQuery;

@@ -23,7 +23,7 @@ intent.putExtraByteArray("signature", PMPSignature signing PMPService identifier
  * With a valid token the {@link IPMPServiceResourceGroup} or
  * {@link IPMPServiceApp} Binder will be given back.
  * 
- * If an authentification fails the Service will give back NULL.
+ * If an authentication fails the Service will give back NULL.
  * 
  * @author Jakob Jarosch
  */
@@ -71,9 +71,9 @@ public class PMPService extends Service {
 	} else if (signature == null) {
 	    return new PMPServiceRegistrationStubImpl(identifier);
 	} else {
-	    /* Should be a normal authentification */
+	    /* Should be a normal authentication */
 	    if (type.equals(Constants.TYPE_APP)) {
-		/* Authentification from an app */
+		/* Authentication from an app */
 		if (ModelSingleton.getInstance().checkAppToken(identifier,
 			signature)) {
 		    return new PMPServiceAppStubImpl(identifier);
@@ -81,7 +81,7 @@ public class PMPService extends Service {
 		    return null;
 		}
 	    } else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
-		/* Authentification from a resourcegroup */
+		/* Authentication from a resourcegroup */
 		if (ModelSingleton.getInstance().checkResourceGroupToken(
 			identifier, signature)) {
 		    return new PMPServiceResourceGroupStubImpl(identifier);

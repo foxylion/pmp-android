@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp;
 
 /**
- * Internal {@link android.util.Log} class for the project. Logging is so more
- * simple.
+ * Internal {@link android.util.Log} class for the project. Logging is so much
+ * more simple.
  * 
  * @author Jakob Jarosch
  */
