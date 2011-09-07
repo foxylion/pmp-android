@@ -17,12 +17,12 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 public class ServiceLevelImpl implements IServiceLevel {
 
     private String appIdentifier;
-    private String ordering;
+    private int ordering;
     private String name;
     private String description;
 
-    public ServiceLevelImpl(String appIdentifier, String ordering,
-	    String name, String description) {
+    public ServiceLevelImpl(String appIdentifier, int ordering, String name,
+	    String description) {
 	this.appIdentifier = appIdentifier;
 	this.ordering = ordering;
 	this.name = name;
@@ -34,7 +34,7 @@ public class ServiceLevelImpl implements IServiceLevel {
     }
 
     @Override
-    public String getOrdering() {
+    public int getOrdering() {
 	return ordering;
     }
 
@@ -57,8 +57,8 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache FROM PrivacyLevel",
-			null);
+			"SELECT ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier ="
+				+ appIdentifier + ";", null);
 
 	while (!cursor.isAfterLast()) {
 	    String resourceGroup_Identifier = cursor.getString(cursor

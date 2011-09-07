@@ -20,20 +20,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
-
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
- * Signature helper class to handle all the signed messages in PMP using an
- * asymmetric crypto system.
- * 
- * TODO: TEST THIS! It will be only of vital importance to PMP...
+ * Signature helper class to handle all the signed messages in PMP for a
+ * specific {@link PMPComponentType} and {@link PMPSignedService} using an
+ * asymmetric crypto system. It is not known whether it is thread-safe.
  * 
  * @author Tobias Kuhn
  * 
  */
-public class PMPSignature {
+public class PMPSignee {
 
     /**
      * Algorithm to be used for the keys.
@@ -45,6 +44,9 @@ public class PMPSignature {
      */
     private final static String ALGORITHM_SIGNATURE = "SHA1withRSA";
 
+    /**
+     * Separator between type and identifier.
+     */
     private final static String TYPE_IDENTIFIER_SEPARATOR = "::";
 
     /**
@@ -56,12 +58,35 @@ public class PMPSignature {
      * The remote public keys
      */
     private Map<String, PublicKey> remotePublicKeys;
+    
+    /**
+     * The type of the signee
+     */
+    private PMPComponentType type;
+    
+    /**
+     * The service class the signee should use
+     */
+    private Class<? extends PMPSignedService> serviceClass;
+    
+    /**
+     * The android:name identifier for this signee
+     */
+    private String identifier;
 
     /**
-     * Creates a new PMPSignature ready for mayhem.
+     * Creates a new PMPSignee ready for mayhem.
+     * 
+     * @param type
+     *            the type of the signee
+     * @param serviceClass
+     *            the service class the signee should use
      */
-    public PMPSignature() {
-	remotePublicKeys = new HashMap<String, PublicKey>();
+    public PMPSignee(PMPComponentType type,
+	    Class<? extends PMPSignedService> serviceClass) {
+	this.remotePublicKeys = new HashMap<String, PublicKey>();
+	this.type = type;
+	this.serviceClass = serviceClass;
 
 	try {
 	    // generate keys
@@ -76,7 +101,7 @@ public class PMPSignature {
 
     /**
      * Returns the local public key to transmit it to a different, remote
-     * {@link PMPSignature}.
+     * {@link PMPSignee}.
      * 
      * @return the local public key, null if the initialization was faulty
      */
@@ -91,7 +116,7 @@ public class PMPSignature {
     /**
      * <p>
      * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignature} that is identified by identifier.
+     * {@link PMPSignee} that is identified by identifier.
      * </p>
      * 
      * <p>
@@ -104,21 +129,21 @@ public class PMPSignature {
      * specified and not a value that the remote can freely set!
      * </p>
      * 
-     * @param remoteType
+     * @param boundType
      *            the type of the remote sender
-     * @param remoteIdentifier
+     * @param boundIdentifier
      *            the identifier of the remote sender
      * @param remotePublicKey
      *            the public key belonging to the identifier
      */
-    public void setRemotePublicKey(String remoteType, String remoteIdentifier,
-	    byte[] remotePublicKey) {
+    public void setRemotePublicKey(PMPComponentType boundType,
+	    String boundIdentifier, byte[] remotePublicKey) {
 
 	try {
 	    KeyFactory kf = KeyFactory.getInstance(ALGORITHM_KEY);
 	    X509EncodedKeySpec x509eks = new X509EncodedKeySpec(remotePublicKey);
-	    this.remotePublicKeys.put(remoteType + TYPE_IDENTIFIER_SEPARATOR
-		    + remoteIdentifier, kf.generatePublic(x509eks));
+	    this.remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier, kf.generatePublic(x509eks));
 
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
@@ -130,9 +155,9 @@ public class PMPSignature {
     /**
      * Checks whether a signature is valid.
      * 
-     * @param remoteType
+     * @param boundType
      *            the type of the remote sender
-     * @param remoteIdentifier
+     * @param boundIdentifier
      *            the identifier of the remote sender
      * @param content
      *            the content of the signature.
@@ -144,8 +169,8 @@ public class PMPSignature {
      *         invalid. Also false, if no public key was set for
      *         remoteIdentifier.
      */
-    public boolean isSignatureValid(String remoteType, String remoteIdentifier,
-	    byte[] content, byte[] signature) {
+    public boolean isSignatureValid(PMPComponentType boundType,
+	    String boundIdentifier, byte[] content, byte[] signature) {
 	// check for nulls
 	if ((local == null) || (remotePublicKeys == null) || (content == null)
 		|| (signature == null)) {
@@ -153,8 +178,8 @@ public class PMPSignature {
 	}
 
 	// fetch public key for remoteIdentifier
-	PublicKey pk = remotePublicKeys.get(remoteType
-		+ TYPE_IDENTIFIER_SEPARATOR + remoteIdentifier);
+	PublicKey pk = remotePublicKeys.get(boundType
+		+ TYPE_IDENTIFIER_SEPARATOR + boundIdentifier);
 	if (pk == null) {
 	    return false;
 	}
@@ -247,19 +272,18 @@ public class PMPSignature {
      * @param context
      *            the context of service
      * @param service
-     *            the service for which this {@link PMPSignature} is kept.
+     *            the service for which this {@link PMPSignee} is kept.
      */
-    public final void load(Context context,
-	    Class<? extends PMPSignedService> service) {
+    public final void load(Context context) {
 	// load signature, if exists
 	try {
-	    InputStream is = context.openFileInput(service.getName());
+	    InputStream is = context.openFileInput(serviceClass.getName());
 	    readFromInput(is);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + service.getName() + " not found.");
+	    Log.v("Signature file for " + serviceClass.getName() + " not found.");
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during loading signature for "
-		    + service.getName());
+		    + serviceClass.getName());
 	}
     }
 
@@ -273,20 +297,44 @@ public class PMPSignature {
      * @param service
      *            the context of service
      */
-    public final void save(Context context,
-	    Class<? extends PMPSignedService> service) {
+    public final void save(Context context) {
 	// save signature
 	try {
-	    OutputStream os = context.openFileOutput(getClass().getName(),
+	    OutputStream os = context.openFileOutput(serviceClass.getName(),
 		    Context.MODE_PRIVATE);
 	    writeToOutput(os);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + getClass().getName()
+	    Log.v("Signature file for " + serviceClass.getName()
 		    + " not found (during writing?!).");
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during writing signature for "
-		    + getClass().getName());
+		    + serviceClass.getName());
 	}
     }
+
+    /**
+     * 
+     * @return the type of this signee
+     */
+    public PMPComponentType getType() {
+	return this.type;
+    }
+    
+    /**
+     * 
+     * @param androidName the android:name identifier of this signee
+     */
+    public void setIdentifier(String androidName) {
+	this.identifier = androidName;
+    }
+
+    /**
+     * 
+     * @return the identifier of this signee
+     */
+    public String getIdentifier() {
+	return this.identifier;
+    }
+
 
 }

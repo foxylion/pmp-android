@@ -1,11 +1,12 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.service.app.AppService;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.service.app.AppService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * This service encapsulates all the dirty signature stuff necessary for
@@ -18,21 +19,21 @@ import android.os.IBinder;
  * <pre>
  * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/PMP-Identifier>);
  * intent.putExtraString(Constants.INTENT_TYPE, &lt;APP|PMP>);
- * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignature signing identifier);
+ * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignee signing identifier);
  * </pre>
  * 
  * *
  * <p>
- * Use {@link PMPSignature#signContent(byte[])} with the identifier you're
- * sending the Intent to (likely
- * YourService.class.getClass().getName().getBytes()). Transmit the result of
+ * Use {@link PMPSignee#signContent(byte[])} with the identifier you're sending
+ * the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
  * the signing in "signature".
  * </p>
  * 
  * <p>
  * If you need to have access to a correct copy (one which changes will be
  * reflected in the service and vice versa) create one and override
- * createSignature() to copy that signature to this service.
+ * createSignature() to copy that signature to this service (return the
+ * signature). Note that signatures should be consistently the same object!
  * </p>
  * 
  * @author Tobias Kuhn
@@ -43,27 +44,28 @@ public abstract class PMPSignedService extends Service {
     /**
      * The signature used for this service.
      */
-    private PMPSignature signature;
+    private PMPSignee signature;
 
     /**
-     * Overwrite this method if you want to use your own signature object.
+     * Overwrite this method to use your own signature object.
      * 
-     * @return null, if the service shall create and administer the signature,
-     *         or a reference to a signature for the service to use.
+     * @return a reference to a signature for the service to use.
      */
-    protected PMPSignature createSignature() {
-	return null;
-    }
+    protected abstract PMPSignee createSignature();
+
+    /**
+     * Overwrite this method to return the <b>exact same</b> identifier you have
+     * put in the manifest file: &lt;service>...&lt;intent-filter>...&lt;action
+     * android:name=" HERE ">. If the identifier differ, the service will not work.
+     * 
+     * @return the specified identifier
+     */
+    protected abstract String getAndroidName();    
 
     @Override
     public void onCreate() {
-	PMPSignature pmps = createSignature();
-	if (pmps == null) {
-	    signature = new PMPSignature();
-	    signature.load(getApplicationContext(), this.getClass());
-	} else {
-	    signature = pmps;
-	}
+	this.signature = createSignature();
+	this.signature.setIdentifier(getAndroidName());
     }
 
     @Override
@@ -72,7 +74,8 @@ public abstract class PMPSignedService extends Service {
 
     @Override
     public final IBinder onBind(Intent intent) {
-	String boundType = intent.getStringExtra(Constants.INTENT_TYPE);
+	PMPComponentType boundType = (PMPComponentType) intent
+		.getSerializableExtra(Constants.INTENT_TYPE);
 	String boundIdentifier = intent
 		.getStringExtra(Constants.INTENT_IDENTIFIER);
 	byte[] boundSignature = intent
@@ -90,7 +93,7 @@ public abstract class PMPSignedService extends Service {
     /**
      * <p>
      * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignature} that is identified by identifier and makes sure the
+     * {@link PMPSignee} that is identified by identifier and makes sure the
      * signature is saved.
      * </p>
      * 
@@ -108,20 +111,20 @@ public abstract class PMPSignedService extends Service {
      * @param remoteIdentifier
      * @param remotePublicKey
      *            the new public key or null to remove the current one.
-     * @see {@link PMPSignature#setRemotePublicKey(String, String, byte[])}
+     * @see {@link PMPSignee#setRemotePublicKey(String, String, byte[])}
      */
-    public final void setAndSaveRemotePublicKey(String remoteType,
+    public final void setAndSaveRemotePublicKey(PMPComponentType remoteType,
 	    String remoteIdentifier, byte[] remotePublicKey) {
 	signature.setRemotePublicKey(remoteType, remoteIdentifier,
 		remotePublicKey);
-	signature.save(getApplicationContext(), this.getClass());
+	signature.save(getApplicationContext());
     }
 
     /**
      * 
      * @return the signature used for signing messages.
      */
-    public final PMPSignature getSignature() {
+    public final PMPSignee getSignature() {
 	return this.signature;
     }
 

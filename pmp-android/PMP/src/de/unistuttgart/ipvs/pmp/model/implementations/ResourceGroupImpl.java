@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
-import java.util.ArrayList;import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,7 +50,8 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache FROM PrivacyLevel", null);
+			"SELECT ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = "
+				+ identifier + ";", null);
 
 	while (!cursor.isAfterLast()) {
 	    String resourceIdentifier = cursor.getString(cursor

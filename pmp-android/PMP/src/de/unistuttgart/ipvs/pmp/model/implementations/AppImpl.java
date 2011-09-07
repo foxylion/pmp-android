@@ -51,13 +51,13 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel;",
-			null);
+			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = "
+				+ identifier + ";", null);
 
 	while (!cursor.isAfterLast()) {
 	    String app_Identifier = cursor.getString(cursor
 		    .getColumnIndex("App_Identifier"));
-	    String ordering = cursor.getString(cursor
+	    int ordering = cursor.getInt(cursor
 		    .getColumnIndex("Ordering"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
@@ -73,8 +73,7 @@ public class AppImpl implements IApp {
     }
 
     @Override
-    public IServiceLevel[] getServiceLevel(int ordering) {
-	List<IServiceLevel> list = new ArrayList<IServiceLevel>();
+    public IServiceLevel getServiceLevel(int ordering) {
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
@@ -84,24 +83,17 @@ public class AppImpl implements IApp {
 			"SELECT App_Identifier, Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE Ordering = "
 				+ ordering + ";", null);
 
-	while (!cursor.isAfterLast()) {
-	    String app_Identifier = cursor.getString(cursor
-		    .getColumnIndex("App_Identifier"));
-//	    String ordering = cursor.getString(cursor
-//		    .getColumnIndex("Ordering"));
-	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
-	    String description = cursor.getString(cursor
-		    .getColumnIndex("Description_Cache"));
+	String app_Identifier = cursor.getString(cursor
+		.getColumnIndex("App_Identifier"));
+	ordering = cursor.getInt(cursor
+		    .getColumnIndex("Ordering"));
+	String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	String description = cursor.getString(cursor
+		.getColumnIndex("Description_Cache"));
 
-//	    list.add(new ServiceLevelImpl(app_Identifier, ordering, name,
-//		    description));
-	    list.add(new ServiceLevelImpl(app_Identifier, null, name,
-		    description));
+	cursor.moveToNext();
 
-	    cursor.moveToNext();
-	}
-
-	return list.toArray(new IServiceLevel[list.size()]);
+	return new ServiceLevelImpl(app_Identifier, ordering, name, description);
     }
 
     @Override
