@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
@@ -13,13 +17,7 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
-
-import android.content.ComponentName;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
@@ -32,7 +30,7 @@ public abstract class ResourceGroup {
     /**
      * Stores the associated signature.
      */
-    private PMPSignature signature;
+    private PMPSignee signature;
 
     /**
      * The resources present in that resource group.
@@ -59,7 +57,7 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	signature = new PMPSignature();
+	signature = new PMPSignee();
 	signature.load(serviceContext, service);
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
@@ -88,7 +86,7 @@ public abstract class ResourceGroup {
      * 
      * @return the signature
      */
-    public PMPSignature getSignature() {
+    public PMPSignee getSignature() {
 	return this.signature;
     }
 

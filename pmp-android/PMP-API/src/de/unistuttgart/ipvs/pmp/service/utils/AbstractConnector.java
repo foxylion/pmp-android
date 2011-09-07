@@ -3,15 +3,14 @@ package de.unistuttgart.ipvs.pmp.service.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} implements methods used by {@link PMPServiceConnector},
@@ -51,7 +50,7 @@ public abstract class AbstractConnector {
     /**
      * The signature used to sign the connection to the service.
      */
-    private PMPSignature signature;
+    private PMPSignee signature;
     
     /**
      * The identifier of the service to which the connection should go.
@@ -80,7 +79,7 @@ public abstract class AbstractConnector {
 	}
     };
 
-    public AbstractConnector(Context context, PMPSignature signature, String targetIdentifier) {
+    public AbstractConnector(Context context, PMPSignee signature, String targetIdentifier) {
 	this.context = context;
 	this.signature = signature;
 	this.targetIdentifier = targetIdentifier;

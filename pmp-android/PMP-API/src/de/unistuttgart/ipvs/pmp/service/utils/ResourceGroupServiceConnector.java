@@ -1,11 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
-import android.content.Intent;
 
 public class ResourceGroupServiceConnector extends AbstractConnector {
 
-    public ResourceGroupServiceConnector(Context context, PMPSignature signature,
+    public ResourceGroupServiceConnector(Context context, PMPSignee signature,
 	    String targetIdentifier) {
 	super(context, signature, targetIdentifier);
     }

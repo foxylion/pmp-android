@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class AppServiceConnector extends AbstractConnector {
 
-    public AppServiceConnector(Context context, PMPSignature signature,
+    public AppServiceConnector(Context context, PMPSignee signature,
 	    String targetIdentifier) {
 	super(context, signature, targetIdentifier);
     }

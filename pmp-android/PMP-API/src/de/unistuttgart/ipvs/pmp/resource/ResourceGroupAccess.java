@@ -1,9 +1,11 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
-import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.unistuttgart.ipvs.pmp.app.AppPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 /**
  * A App representation for the {@link IResourceGroupServicePMP}.

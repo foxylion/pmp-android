@@ -1,8 +1,9 @@
 package de.unistuttgart.ipvs.pmp.app;
 
-import de.unistuttgart.ipvs.pmp.service.app.IAppService;
+import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**
  * A PrivacyLevel representation for the {@link IAppService}.

@@ -1,12 +1,12 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.service.app.AppService;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.service.app.AppService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * This service encapsulates all the dirty signature stuff necessary for
@@ -19,12 +19,12 @@ import android.os.IBinder;
  * <pre>
  * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/PMP-Identifier>);
  * intent.putExtraString(Constants.INTENT_TYPE, &lt;APP|PMP>);
- * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignature signing identifier);
+ * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignee signing identifier);
  * </pre>
  * 
  * *
  * <p>
- * Use {@link PMPSignature#signContent(byte[])} with the identifier you're
+ * Use {@link PMPSignee#signContent(byte[])} with the identifier you're
  * sending the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
  * the signing in "signature".
  * </p>
@@ -44,7 +44,7 @@ public abstract class PMPSignedService extends Service {
     /**
      * The signature used for this service.
      */
-    private PMPSignature signature;
+    private PMPSignee signature;
 
     /**
      * Overwrite this method if you want to use your own signature object.
@@ -52,15 +52,15 @@ public abstract class PMPSignedService extends Service {
      * @return null, if the service shall create and administer the signature,
      *         or a reference to a signature for the service to use.
      */
-    protected PMPSignature createSignature() {
+    protected PMPSignee createSignature() {
 	return null;
     }
 
     @Override
     public void onCreate() {
-	PMPSignature pmps = createSignature();
+	PMPSignee pmps = createSignature();
 	if (pmps == null) {
-	    signature = new PMPSignature();
+	    signature = new PMPSignee();
 	    signature.load(getApplicationContext(), this.getClass());
 	} else {
 	    signature = pmps;
@@ -91,7 +91,7 @@ public abstract class PMPSignedService extends Service {
     /**
      * <p>
      * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignature} that is identified by identifier and makes sure the
+     * {@link PMPSignee} that is identified by identifier and makes sure the
      * signature is saved.
      * </p>
      * 
@@ -109,7 +109,7 @@ public abstract class PMPSignedService extends Service {
      * @param remoteIdentifier
      * @param remotePublicKey
      *            the new public key or null to remove the current one.
-     * @see {@link PMPSignature#setRemotePublicKey(String, String, byte[])}
+     * @see {@link PMPSignee#setRemotePublicKey(String, String, byte[])}
      */
     public final void setAndSaveRemotePublicKey(PMPComponentType remoteType,
 	    String remoteIdentifier, byte[] remotePublicKey) {
@@ -122,7 +122,7 @@ public abstract class PMPSignedService extends Service {
      * 
      * @return the signature used for signing messages.
      */
-    public final PMPSignature getSignature() {
+    public final PMPSignee getSignature() {
 	return this.signature;
     }
 

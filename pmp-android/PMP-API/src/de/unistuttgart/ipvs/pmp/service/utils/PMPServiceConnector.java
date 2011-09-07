@@ -1,13 +1,12 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
-import de.unistuttgart.ipvs.pmp.Constants;
 import android.content.Context;
-import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
 
 public class PMPServiceConnector extends AbstractConnector {
     
-    public PMPServiceConnector(Context context, PMPSignature signature) {
+    public PMPServiceConnector(Context context, PMPSignee signature) {
 	super(context, signature, Constants.PMP_IDENTIFIER);
     }
     

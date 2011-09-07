@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
@@ -32,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
  * @author Tobias Kuhn
  * 
  */
-public class PMPSignature {
+public class PMPSignee {
 
     /**
      * Algorithm to be used for the keys.
@@ -57,9 +56,9 @@ public class PMPSignature {
     private Map<String, PublicKey> remotePublicKeys;
 
     /**
-     * Creates a new PMPSignature ready for mayhem.
+     * Creates a new PMPSignee ready for mayhem.
      */
-    public PMPSignature() {
+    public PMPSignee() {
 	remotePublicKeys = new HashMap<String, PublicKey>();
 
 	try {
@@ -75,7 +74,7 @@ public class PMPSignature {
 
     /**
      * Returns the local public key to transmit it to a different, remote
-     * {@link PMPSignature}.
+     * {@link PMPSignee}.
      * 
      * @return the local public key, null if the initialization was faulty
      */
@@ -90,7 +89,7 @@ public class PMPSignature {
     /**
      * <p>
      * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignature} that is identified by identifier.
+     * {@link PMPSignee} that is identified by identifier.
      * </p>
      * 
      * <p>
@@ -246,7 +245,7 @@ public class PMPSignature {
      * @param context
      *            the context of service
      * @param service
-     *            the service for which this {@link PMPSignature} is kept.
+     *            the service for which this {@link PMPSignee} is kept.
      */
     public final void load(Context context,
 	    Class<? extends PMPSignedService> service) {

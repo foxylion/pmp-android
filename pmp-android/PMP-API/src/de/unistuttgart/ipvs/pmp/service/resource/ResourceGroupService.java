@@ -1,15 +1,14 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
+import android.content.Intent;
+import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
-import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
-import android.content.Intent;
-import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * <h2>Implementing your resource</h2>
@@ -46,7 +45,7 @@ public class ResourceGroupService extends PMPSignedService {
     }
 
     @Override
-    protected PMPSignature createSignature() {
+    protected PMPSignee createSignature() {
 	ResourceGroup rg = findContextResourceGroup();
 	if (rg == null) {
 	    // invalid context
