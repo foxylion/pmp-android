@@ -32,7 +32,8 @@ import android.os.IBinder;
  * <p>
  * If you need to have access to a correct copy (one which changes will be
  * reflected in the service and vice versa) create one and override
- * createSignature() to copy that signature to this service.
+ * createSignature() to copy that signature to this service (return the
+ * signature). Note that signatures should be consistently the same object!
  * </p>
  * 
  * @author Tobias Kuhn

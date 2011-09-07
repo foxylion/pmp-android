@@ -26,9 +26,7 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
  * Signature helper class to handle all the signed messages in PMP using an
- * asymmetric crypto system.
- * 
- * TODO: TEST THIS! It will be only of vital importance to PMP...
+ * asymmetric crypto system. It is not known whether it is thread-safe.
  * 
  * @author Tobias Kuhn
  * 
