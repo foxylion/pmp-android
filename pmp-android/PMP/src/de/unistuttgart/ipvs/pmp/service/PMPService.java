@@ -1,8 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -51,5 +53,15 @@ public class PMPService extends PMPSignedService {
     public IBinder onUnsignedBind(Intent intent) {
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
 	return new PMPServiceRegistrationStubImpl(identifier);
+    }
+
+    @Override
+    protected PMPSignee createSignature() {
+	return PMPApplication.getSignee();
+    }
+
+    @Override
+    protected String getAndroidName() {
+	return Constants.PMP_IDENTIFIER;
     }
 }
