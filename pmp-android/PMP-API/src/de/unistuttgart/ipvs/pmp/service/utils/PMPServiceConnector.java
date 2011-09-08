@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
  * 
  * @author Jakob Jarosch
  */
-public abstract class PMPServiceConnector extends AbstractConnector {
+public class PMPServiceConnector extends AbstractConnector {
 
     public PMPServiceConnector(Context context, PMPSignee signature) {
 	super(context, signature, Constants.PMP_IDENTIFIER);
@@ -36,6 +36,18 @@ public abstract class PMPServiceConnector extends AbstractConnector {
     public IPMPServiceApp getAppService() {
 	IPMPServiceApp service = IPMPServiceApp.Stub.asInterface(getService());
 	return service;
+    }
+
+    @Override
+    protected void serviceConnected() {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    protected void serviceDisconnected() {
+	// TODO Auto-generated method stub
+	
     }
 
 }
