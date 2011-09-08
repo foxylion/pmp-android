@@ -34,7 +34,7 @@ public interface IApp {
      *            ID of the service level
      * @return the to the ID corresponding service level
      */
-    public IServiceLevel[] getServiceLevel(int ordering);
+    public IServiceLevel getServiceLevel(int ordering);
 
     /**
      * @return get the current active service level set for the App.

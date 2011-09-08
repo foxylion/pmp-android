@@ -1,8 +1,9 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
+import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 
 /**
  * A RegistrationState representation for the registration at

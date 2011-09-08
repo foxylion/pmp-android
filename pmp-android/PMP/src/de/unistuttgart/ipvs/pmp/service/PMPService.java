@@ -1,7 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -12,86 +15,53 @@ import android.os.IBinder;
  * {@link PMPService}, put as extra into the {@link Intent}.
  * 
  * <pre>
- * intent.putExtraString(Constants.INTENT_TYPE, &lt;Constants.TYPE_APP|Constants.TYPE_RESOURCEGROUP>);
+ * intent.putExtraString(Constants.INTENT_TYPE, PMPComponentType.*.toString());
  * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/ResourceGroup-Identifier>);
-intent.putExtraByteArray("signature", PMPSignature signing PMPService identifier);
+ * intent.putExtraByteArray("signature", PMPSignature signing PMPService identifier);
  * </pre>
  * 
- * The signature is optional, if you do not sent a signature, the Service will handle
- * the binding as an registration and gives back the
+ * The signature is optional, if you do not sent a signature, the Service will
+ * handle the binding as an registration and gives back the
  * {@link IPMPServiceRegistration} Binder.<br/>
  * With a valid token the {@link IPMPServiceResourceGroup} or
  * {@link IPMPServiceApp} Binder will be given back.
  * 
- * If an authentication fails the Service will give back NULL.
+ * If an authentification fails the Service will give back NULL.
  * 
  * @author Jakob Jarosch
  */
-public class PMPService extends Service {
+public class PMPService extends PMPSignedService {
 
-    /**
-     * On creation of service called (only once).
-     */
     @Override
-    public void onCreate() {
-
-    }
-
-    /**
-     * Called when service is going to shutdown.
-     */
-    @Override
-    public void onDestroy() {
-
-    }
-
-    /**
-     * Called on startup the service.
-     */
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-	/*
-	 * We want this service to continue running until it is explicitly
-	 * stopped, so return sticky.
-	 */
-	return START_STICKY;
-    }
-
-    /**
-     * Called when another application is going to bind the service.
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-	String type = intent.getStringExtra(Constants.INTENT_TYPE);
+    public IBinder onSignedBind(Intent intent) {
+	PMPComponentType type = (PMPComponentType) intent
+		.getSerializableExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	byte[] signature = intent.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 
-	if (identifier == null || type == null) {
-	    return null;
-	} else if (signature == null) {
-	    return new PMPServiceRegistrationStubImpl(identifier);
+	/* Should be a normal authentification */
+	if (type.equals(PMPComponentType.APP)) {
+	    return new PMPServiceAppStubImpl(identifier);
+	} else if (type.equals(PMPComponentType.RESOURCE_GROUP)) {
+	    return new PMPServiceResourceGroupStubImpl(identifier);
 	} else {
-	    /* Should be a normal authentication */
-	    if (type.equals(Constants.TYPE_APP)) {
-		/* Authentication from an app */
-		if (ModelSingleton.getInstance().checkAppToken(identifier,
-			signature)) {
-		    return new PMPServiceAppStubImpl(identifier);
-		} else {
-		    return null;
-		}
-	    } else if (type.equals(Constants.TYPE_RESOURCEGROUP)) {
-		/* Authentication from a resourcegroup */
-		if (ModelSingleton.getInstance().checkResourceGroupToken(
-			identifier, signature)) {
-		    return new PMPServiceResourceGroupStubImpl(identifier);
-		} else {
-		    return null;
-		}
-	    } else {
-		/* no valid type identifier found */
-		return null;
-	    }
+	    /* no valid type identifier found */
+	    return null;
 	}
+    }
+
+    @Override
+    public IBinder onUnsignedBind(Intent intent) {
+	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+	return new PMPServiceRegistrationStubImpl(identifier);
+    }
+
+    @Override
+    protected PMPSignee createSignature() {
+	return PMPApplication.getSignee();
+    }
+
+    @Override
+    protected String getAndroidName() {
+	return Constants.PMP_IDENTIFIER;
     }
 }

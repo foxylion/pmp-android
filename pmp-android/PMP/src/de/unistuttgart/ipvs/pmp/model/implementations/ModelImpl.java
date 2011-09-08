@@ -49,9 +49,8 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public boolean addApp(String identifier, String publicKey) {
+    public void addApp(String identifier, String publicKey) {
 	// TODO Auto-generated method stub
-	return true;
     }
 
     @Override
@@ -82,9 +81,8 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public boolean addResourceGroup(String identifier, String publicKey) {
+    public void addResourceGroup(String identifier, String publicKey) {
 	// TODO Auto-generated method stub
-	return true;
     }
 
     @Override

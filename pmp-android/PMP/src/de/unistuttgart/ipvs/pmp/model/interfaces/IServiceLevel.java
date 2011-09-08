@@ -11,7 +11,7 @@ public interface IServiceLevel {
     /**
      * @return returns the ordering position of the service level.
      */
-    public String getOrdering();
+    public int getOrdering();
 
     /**
      * @return Returns the localized name of the service level.

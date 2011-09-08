@@ -6,7 +6,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServiceApp;
 
 /**
  * Implementation of the {@link IResourceGroupServiceApp.Stub} stub.

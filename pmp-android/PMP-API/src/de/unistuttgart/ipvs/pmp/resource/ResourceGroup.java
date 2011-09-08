@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
-import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignature;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
+import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
@@ -30,7 +30,7 @@ public abstract class ResourceGroup {
     /**
      * Stores the associated signature.
      */
-    private PMPSignature signature;
+    private PMPSignee signature;
 
     /**
      * The resources present in that resource group.
@@ -57,8 +57,11 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	signature = new PMPSignature();
-	signature.load(serviceContext, service);
+	signature = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
+		ResourceGroupService.class);
+	signature.load(serviceContext);
+	signature.setIdentifier(getServiceAndroidName());
+
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
 	privacyLevelValues = new HashMap<String, Bundle>();
@@ -81,12 +84,22 @@ public abstract class ResourceGroup {
      * @return the description of this resource group for the given locale
      */
     public abstract String getDescription(String locale);
-    
+
+    /**
+     * Overwrite this method to return the <b>exact same</b> identifier you have
+     * put in the manifest file for the service for this Resource Group:
+     * &lt;service>...&lt;intent-filter>...&lt;action android:name="<b>HERE</b>">. If
+     * the identifier differ, the service will not work.
+     * 
+     * @return the specified identifier
+     */
+    protected abstract String getServiceAndroidName();
+
     /**
      * 
      * @return the signature
      */
-    public PMPSignature getSignature() {
+    public PMPSignee getSignature() {
 	return this.signature;
     }
 
@@ -199,7 +212,7 @@ public abstract class ResourceGroup {
     public void start(Context context, Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
 	// connect to PMP
-	PMPServiceConnector pmpsc = new PMPServiceConnector(context);
+	PMPServiceConnector pmpsc = new PMPServiceConnector(context, signature);
 	pmpsc.bind();
 	IBinder binding = pmpsc.getService();
 
@@ -210,9 +223,9 @@ public abstract class ResourceGroup {
 		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signature
 			.getLocalPublicKey());
 		// TODO: what there?
-		signature.setRemotePublicKey(Constants.TYPE_PMP,
-			"what to put here?", pmpPublicKey);
-		signature.save(serviceContext, service);
+		signature.setRemotePublicKey(PMPComponentType.PMP,
+			Constants.PMP_IDENTIFIER, pmpPublicKey);
+		signature.save(serviceContext);
 	    } catch (RemoteException e) {
 		Log.e("RemoteException during registering resource group: "
 			+ e.toString());

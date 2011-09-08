@@ -2,10 +2,8 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.service.app.IAppService;
-
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
  * Implementation of the {@link IAppService.Stub} stub.

@@ -1,14 +1,10 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
  * Implementation of the {@link PrivacyLevelImpl} interface.
@@ -21,13 +17,20 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
     private String identifier;
     private String name;
     private String description;
+    private String value;
 
     public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier,
 	    String name, String description) {
+	this(resourceGroupIdentifier, identifier, name, description, null);
+    }
+
+    public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier,
+	    String name, String description, String value) {
 	this.resourceGroupIdentifier = resourceGroupIdentifier;
 	this.identifier = identifier;
 	this.name = name;
 	this.description = description;
+	this.value = value;
     }
 
     public String getRessourceGroupIdentifier() {
@@ -51,36 +54,29 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 
     @Override
     public String getValue() {
-	// TODO Auto-generated method stub
-	return null;
+	return value;
     }
 
     @Override
-    public IResourceGroup[] getResourceGroup() {
-	List<IResourceGroup> list = new ArrayList<IResourceGroup>();
-
+    public IResourceGroup getResourceGroup() {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Identifier, Name_Cache, Description_Cache FROM ResourceGroup;",
-			null);
+			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1;",
+			new String[] { resourceGroupIdentifier });
 
-	while (!cursor.isAfterLast()) {
-	    String identifier = cursor.getString(cursor
-		    .getColumnIndex("Identifier"));
+	if (cursor != null && cursor.getCount() == 1) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    list.add(new ResourceGroupImpl(identifier, name,
-		    description));
-
-	    cursor.moveToNext();
+	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
+		    description);
+	} else {
+	    return null;
 	}
-
-	return list.toArray(new IResourceGroup[list.size()]);
     }
 
     @Override
