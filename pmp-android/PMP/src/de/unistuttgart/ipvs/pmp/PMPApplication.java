@@ -35,12 +35,12 @@ public class PMPApplication extends Application {
     public static Context getContext() {
 	return instance.getApplicationContext();
     }
-    
+
     public static PMPSignee getSignee() {
-	PMPSignee signee = new PMPSignee(PMPComponentType.PMP, PMPService.class);
-	signee.load(getContext());
+	PMPSignee signee = new PMPSignee(PMPComponentType.PMP,
+		PMPService.class, getContext());
 	signee.setIdentifier(Constants.PMP_IDENTIFIER);
-	
+
 	return signee;
     }
 }

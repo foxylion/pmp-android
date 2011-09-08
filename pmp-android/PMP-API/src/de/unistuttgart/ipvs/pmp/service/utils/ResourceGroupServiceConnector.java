@@ -4,19 +4,30 @@ import android.content.Context;
 
 /**
  * {@link ResourceGroupServiceConnector} is used for connecting (in this case
- * binding) to a resource group service. Override
- * {@link ResourceGroupServiceConnector#serviceConnected()} to implement your
- * interaction with the service. Call {@link ResourceGroupServiceConnector#bind}
+ * binding) to a resource group service. Add your {@link IConnectorCallback} for
+ * interacting with the service. Call {@link ResourceGroupServiceConnector#bind}
  * to start the connection.
  * 
  * 
  * @author Jakob Jarosch
  */
-public abstract class ResourceGroupServiceConnector extends AbstractConnector {
+public class ResourceGroupServiceConnector extends AbstractConnector {
 
-    public ResourceGroupServiceConnector(Context context, PMPSignee signature,
+    public ResourceGroupServiceConnector(Context context, PMPSignee signee,
 	    String targetIdentifier) {
-	super(context, signature, targetIdentifier);
+	super(context, signee, targetIdentifier);
+    }
+
+    @Override
+    protected void serviceConnected() {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    protected void serviceDisconnected() {
+	// TODO Auto-generated method stub
+	
     }
 
 }

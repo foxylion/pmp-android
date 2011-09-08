@@ -14,9 +14,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to
- * services. Override {@link AbstractConnector#serviceConnected()} to implement
- * your interaction with the service. Call {@link AbstractConnector#bind} to
- * start the connection.
+ * services. Add your {@link IConnectorCallback} for interacting with the
+ * service. Call {@link AbstractConnector#bind} to start the connection.
  * 
  * @author Jakob Jarosch
  */
@@ -50,9 +49,9 @@ public abstract class AbstractConnector {
     private Context context;
 
     /**
-     * The signature used to sign the connection to the service.
+     * The signee used to sign the connection to the service.
      */
-    private PMPSignee signature;
+    private PMPSignee signee;
 
     /**
      * The identifier of the service to which the connection should go.
@@ -81,10 +80,10 @@ public abstract class AbstractConnector {
 	}
     };
 
-    public AbstractConnector(Context context, PMPSignee signature,
+    public AbstractConnector(Context context, PMPSignee signee,
 	    String targetIdentifier) {
 	this.context = context;
-	this.signature = signature;
+	this.signee = signee;
 	this.targetIdentifier = targetIdentifier;
     }
 
@@ -100,11 +99,11 @@ public abstract class AbstractConnector {
 	    Intent intent = new Intent();
 	    intent.setComponent(createComponentName(targetIdentifier));
 
-	    intent.putExtra(Constants.INTENT_TYPE, this.signature.getType());
+	    intent.putExtra(Constants.INTENT_TYPE, this.signee.getType());
 	    intent.putExtra(Constants.INTENT_IDENTIFIER,
-		    this.signature.getIdentifier());
+		    this.signee.getIdentifier());
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
-		    this.signature.signContent(targetIdentifier.getBytes()));
+		    this.signee.signContent(targetIdentifier.getBytes()));
 
 	    return context.bindService(intent, serviceConnection,
 		    Context.BIND_AUTO_CREATE);

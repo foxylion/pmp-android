@@ -27,9 +27,9 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 public abstract class ResourceGroup {
 
     /**
-     * Stores the associated signature.
+     * Stores the associated signee.
      */
-    private PMPSignee signature;
+    private PMPSignee signee;
 
     /**
      * The resources present in that resource group.
@@ -56,10 +56,9 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	signature = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
-		ResourceGroupService.class);
-	signature.load(serviceContext);
-	signature.setIdentifier(getServiceAndroidName());
+	signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
+		ResourceGroupService.class, serviceContext);
+	signee.setIdentifier(getServiceAndroidName());
 
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
@@ -97,10 +96,10 @@ public abstract class ResourceGroup {
 
     /**
      * 
-     * @return the signature
+     * @return the signee
      */
-    public PMPSignee getSignature() {
-	return this.signature;
+    public PMPSignee getSignee() {
+	return this.signee;
     }
 
     /**
@@ -214,7 +213,7 @@ public abstract class ResourceGroup {
 
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,
-		signature) {
+		signee) {
 
 	    @Override
 	    protected void serviceConnected() {
@@ -222,13 +221,12 @@ public abstract class ResourceGroup {
 		IPMPServiceRegistration ipmpsr = getRegistrationService();
 		try {
 		    byte[] pmpPublicKey = ipmpsr
-			    .registerResourceGroup(signature
+			    .registerResourceGroup(signee
 				    .getLocalPublicKey());
 		    
                     // save the returned public key to be PMP's		    
-		    signature.setRemotePublicKey(PMPComponentType.PMP,
+		    signee.setRemotePublicKey(PMPComponentType.PMP,
 			    Constants.PMP_IDENTIFIER, pmpPublicKey);
-		    signature.save(serviceContext);
 		    
 		} catch (RemoteException e) {
 		    Log.e("RemoteException during registering resource group: "

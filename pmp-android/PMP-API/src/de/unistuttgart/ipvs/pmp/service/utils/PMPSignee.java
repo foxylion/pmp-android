@@ -27,7 +27,8 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 /**
  * Signature helper class to handle all the signed messages in PMP for a
  * specific {@link PMPComponentType} and {@link PMPSignedService} using an
- * asymmetric crypto system. It is not known whether it is thread-safe.
+ * asymmetric crypto system. It is not known whether it is thread-safe. It will
+ * automatically save on changes.
  * 
  * @author Tobias Kuhn
  * 
@@ -58,21 +59,26 @@ public class PMPSignee {
      * The remote public keys
      */
     private Map<String, PublicKey> remotePublicKeys;
-    
+
     /**
      * The type of the signee
      */
     private PMPComponentType type;
-    
+
     /**
      * The service class the signee should use
      */
     private Class<? extends PMPSignedService> serviceClass;
-    
+
     /**
      * The android:name identifier for this signee
      */
     private String identifier;
+
+    /**
+     * The context of this signee (used for saving & loading)
+     */
+    private Context context;
 
     /**
      * Creates a new PMPSignee ready for mayhem.
@@ -81,21 +87,30 @@ public class PMPSignee {
      *            the type of the signee
      * @param serviceClass
      *            the service class the signee should use
+     * @param context
+     *            the context this signee should use to save
      */
     public PMPSignee(PMPComponentType type,
-	    Class<? extends PMPSignedService> serviceClass) {
+	    Class<? extends PMPSignedService> serviceClass, Context context) {
 	this.remotePublicKeys = new HashMap<String, PublicKey>();
 	this.type = type;
 	this.serviceClass = serviceClass;
+	this.context = context;
 
-	try {
-	    // generate keys
-	    KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM_KEY);
-	    kpg.initialize(4096);
-	    local = kpg.generateKeyPair();
-	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
-	    local = null;
+	// try loading an old state
+	if (!load()) {
+
+	    // if that fails, generate new ones
+	    try {
+		// generate keys
+		KeyPairGenerator kpg = KeyPairGenerator
+			.getInstance(ALGORITHM_KEY);
+		kpg.initialize(4096);
+		local = kpg.generateKeyPair();
+	    } catch (NoSuchAlgorithmException e) {
+		Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
+		local = null;
+	    }
 	}
     }
 
@@ -144,6 +159,7 @@ public class PMPSignee {
 	    X509EncodedKeySpec x509eks = new X509EncodedKeySpec(remotePublicKey);
 	    this.remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
 		    + boundIdentifier, kf.generatePublic(x509eks));
+	    save();
 
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
@@ -235,12 +251,12 @@ public class PMPSignee {
     }
 
     /**
-     * Writes the whole signature set to an {@link OutputStream}.
+     * Writes the whole signee set to an {@link OutputStream}.
      * 
      * @param os
      * @throws IOException
      */
-    public void writeToOutput(OutputStream os) throws IOException {
+    private final void writeToOutput(OutputStream os) throws IOException {
 	ObjectOutputStream oos = new ObjectOutputStream(os);
 	oos.writeObject(local);
 	oos.writeObject(remotePublicKeys);
@@ -248,11 +264,11 @@ public class PMPSignee {
 
     @SuppressWarnings("unchecked")
     /**
-     * Reads the whole signature set out of an {@link InputStream}.
+     * Reads the whole signee set out of an {@link InputStream}.
      * @param is
      * @throws IOException
      */
-    public void readFromInput(InputStream is) throws IOException {
+    private final void readFromInput(InputStream is) throws IOException {
 	ObjectInputStream ois = new ObjectInputStream(is);
 
 	try {
@@ -265,49 +281,43 @@ public class PMPSignee {
     }
 
     /**
-     * Loads the content of a signature from a file in context for the service
+     * Loads the content of a signee from a file in context for the service
      * service. Pay close attention from where you load, attackers could try to
      * get there!
      * 
-     * @param context
-     *            the context of service
-     * @param service
-     *            the service for which this {@link PMPSignee} is kept.
+     * @return true, iff the file was succesfully loaded
      */
-    public final void load(Context context) {
-	// load signature, if exists
+    public final boolean load() {
+	// load signee, if exists
 	try {
 	    InputStream is = context.openFileInput(serviceClass.getName());
 	    readFromInput(is);
+	    return true;
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + serviceClass.getName() + " not found.");
+	    Log.v("Signee file for " + serviceClass.getName() + " not found.");
 	} catch (IOException e) {
-	    Log.e(e.toString() + " during loading signature for "
+	    Log.e(e.toString() + " during loading Signee for "
 		    + serviceClass.getName());
 	}
+	return false;
     }
 
     /**
-     * Saves the content of a signature from a file in context for the service
+     * Saves the content of a signee from a file in context for the service
      * service. Pay close attention where you save, attackers could try to get
      * there!
-     * 
-     * @param context
-     *            the context of service
-     * @param service
-     *            the context of service
      */
-    public final void save(Context context) {
-	// save signature
+    public final void save() {
+	// save signee
 	try {
 	    OutputStream os = context.openFileOutput(serviceClass.getName(),
 		    Context.MODE_PRIVATE);
 	    writeToOutput(os);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + serviceClass.getName()
+	    Log.v("Signee file for " + serviceClass.getName()
 		    + " not found (during writing?!).");
 	} catch (IOException e) {
-	    Log.e(e.toString() + " during writing signature for "
+	    Log.e(e.toString() + " during writing signee for "
 		    + serviceClass.getName());
 	}
     }
@@ -319,10 +329,11 @@ public class PMPSignee {
     public PMPComponentType getType() {
 	return this.type;
     }
-    
+
     /**
      * 
-     * @param androidName the android:name identifier of this signee
+     * @param androidName
+     *            the android:name identifier of this signee
      */
     public void setIdentifier(String androidName) {
 	this.identifier = androidName;
@@ -336,5 +347,12 @@ public class PMPSignee {
 	return this.identifier;
     }
 
+    /**
+     * 
+     * @return the context of this signee
+     */
+    public Context getContext() {
+	return this.context;
+    }
 
 }

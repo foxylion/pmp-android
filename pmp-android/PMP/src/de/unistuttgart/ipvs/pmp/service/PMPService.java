@@ -56,7 +56,7 @@ public class PMPService extends PMPSignedService {
     }
 
     @Override
-    protected PMPSignee createSignature() {
+    protected PMPSignee createSignee() {
 	return PMPApplication.getSignee();
     }
     

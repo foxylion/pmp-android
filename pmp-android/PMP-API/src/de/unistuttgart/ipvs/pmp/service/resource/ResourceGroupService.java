@@ -46,7 +46,7 @@ public abstract class ResourceGroupService extends PMPSignedService {
     }
 
     @Override
-    protected PMPSignee createSignature() {
+    protected PMPSignee createSignee() {
 	ResourceGroup rg = findContextResourceGroup();
 	if (rg == null) {
 	    // invalid context
@@ -55,7 +55,7 @@ public abstract class ResourceGroupService extends PMPSignedService {
 	    // die with NullPointerExceptions instead of confusing everyone
 	    return null;
 	} else {
-	    return rg.getSignature();
+	    return rg.getSignee();
 	}
     }
 
