@@ -13,9 +13,9 @@ import android.content.Context;
  */
 public class ResourceGroupServiceConnector extends AbstractConnector {
 
-    public ResourceGroupServiceConnector(Context context, PMPSignee signature,
+    public ResourceGroupServiceConnector(Context context, PMPSignee signee,
 	    String targetIdentifier) {
-	super(context, signature, targetIdentifier);
+	super(context, signee, targetIdentifier);
     }
 
     @Override

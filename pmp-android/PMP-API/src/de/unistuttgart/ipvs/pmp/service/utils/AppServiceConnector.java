@@ -11,9 +11,9 @@ import android.content.Context;
  */
 public class AppServiceConnector extends AbstractConnector {
 
-    public AppServiceConnector(Context context, PMPSignee signature,
+    public AppServiceConnector(Context context, PMPSignee signee,
 	    String targetIdentifier) {
-	super(context, signature, targetIdentifier);
+	super(context, signee, targetIdentifier);
     }
 
     @Override

@@ -15,8 +15,8 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
  */
 public class PMPServiceConnector extends AbstractConnector {
 
-    public PMPServiceConnector(Context context, PMPSignee signature) {
-	super(context, signature, Constants.PMP_IDENTIFIER);
+    public PMPServiceConnector(Context context, PMPSignee signee) {
+	super(context, signee, Constants.PMP_IDENTIFIER);
     }
 
     public IPMPServiceRegistration getRegistrationService() {

@@ -49,9 +49,9 @@ public abstract class AbstractConnector {
     private Context context;
 
     /**
-     * The signature used to sign the connection to the service.
+     * The signee used to sign the connection to the service.
      */
-    private PMPSignee signature;
+    private PMPSignee signee;
 
     /**
      * The identifier of the service to which the connection should go.
@@ -80,10 +80,10 @@ public abstract class AbstractConnector {
 	}
     };
 
-    public AbstractConnector(Context context, PMPSignee signature,
+    public AbstractConnector(Context context, PMPSignee signee,
 	    String targetIdentifier) {
 	this.context = context;
-	this.signature = signature;
+	this.signee = signee;
 	this.targetIdentifier = targetIdentifier;
     }
 
@@ -99,11 +99,11 @@ public abstract class AbstractConnector {
 	    Intent intent = new Intent();
 	    intent.setComponent(createComponentName(targetIdentifier));
 
-	    intent.putExtra(Constants.INTENT_TYPE, this.signature.getType());
+	    intent.putExtra(Constants.INTENT_TYPE, this.signee.getType());
 	    intent.putExtra(Constants.INTENT_IDENTIFIER,
-		    this.signature.getIdentifier());
+		    this.signee.getIdentifier());
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
-		    this.signature.signContent(targetIdentifier.getBytes()));
+		    this.signee.signContent(targetIdentifier.getBytes()));
 
 	    return context.bindService(intent, serviceConnection,
 		    Context.BIND_AUTO_CREATE);

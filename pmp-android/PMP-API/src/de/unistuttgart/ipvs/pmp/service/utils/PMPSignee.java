@@ -235,7 +235,7 @@ public class PMPSignee {
     }
 
     /**
-     * Writes the whole signature set to an {@link OutputStream}.
+     * Writes the whole signee set to an {@link OutputStream}.
      * 
      * @param os
      * @throws IOException
@@ -248,7 +248,7 @@ public class PMPSignee {
 
     @SuppressWarnings("unchecked")
     /**
-     * Reads the whole signature set out of an {@link InputStream}.
+     * Reads the whole signee set out of an {@link InputStream}.
      * @param is
      * @throws IOException
      */
@@ -265,7 +265,7 @@ public class PMPSignee {
     }
 
     /**
-     * Loads the content of a signature from a file in context for the service
+     * Loads the content of a signee from a file in context for the service
      * service. Pay close attention from where you load, attackers could try to
      * get there!
      * 
@@ -275,20 +275,20 @@ public class PMPSignee {
      *            the service for which this {@link PMPSignee} is kept.
      */
     public final void load(Context context) {
-	// load signature, if exists
+	// load signee, if exists
 	try {
 	    InputStream is = context.openFileInput(serviceClass.getName());
 	    readFromInput(is);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + serviceClass.getName() + " not found.");
+	    Log.v("Signee file for " + serviceClass.getName() + " not found.");
 	} catch (IOException e) {
-	    Log.e(e.toString() + " during loading signature for "
+	    Log.e(e.toString() + " during loading Signee for "
 		    + serviceClass.getName());
 	}
     }
 
     /**
-     * Saves the content of a signature from a file in context for the service
+     * Saves the content of a signee from a file in context for the service
      * service. Pay close attention where you save, attackers could try to get
      * there!
      * 
@@ -298,16 +298,16 @@ public class PMPSignee {
      *            the context of service
      */
     public final void save(Context context) {
-	// save signature
+	// save signee
 	try {
 	    OutputStream os = context.openFileOutput(serviceClass.getName(),
 		    Context.MODE_PRIVATE);
 	    writeToOutput(os);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signature file for " + serviceClass.getName()
+	    Log.v("Signee file for " + serviceClass.getName()
 		    + " not found (during writing?!).");
 	} catch (IOException e) {
-	    Log.e(e.toString() + " during writing signature for "
+	    Log.e(e.toString() + " during writing signee for "
 		    + serviceClass.getName());
 	}
     }

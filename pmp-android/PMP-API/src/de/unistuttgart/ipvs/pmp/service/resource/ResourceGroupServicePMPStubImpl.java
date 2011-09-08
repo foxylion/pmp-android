@@ -24,12 +24,12 @@ public class ResourceGroupServicePMPStubImpl extends
     private ResourceGroup rg;
 
     /**
-     * referenced signature
+     * referenced signee
      */
-    private PMPSignee refSig;
+    private PMPSignee refSignee;
 
-    public void setSignature(PMPSignee resgrpSig) {
-	refSig = resgrpSig;
+    public void setSignee(PMPSignee resgrpSignee) {
+	refSignee = resgrpSignee;
     }
 
     public void setResourceGroup(ResourceGroup rg) {
@@ -92,7 +92,7 @@ public class ResourceGroupServicePMPStubImpl extends
 	List<ResourceGroupAccess> castedAccesses = accesses;
 
 	for (ResourceGroupAccess rga : castedAccesses) {
-	    refSig.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
+	    refSignee.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);
 	}

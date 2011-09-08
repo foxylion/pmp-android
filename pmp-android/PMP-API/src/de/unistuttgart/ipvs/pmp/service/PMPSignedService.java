@@ -9,7 +9,7 @@ import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
- * This service encapsulates all the dirty signature stuff necessary for
+ * This service encapsulates all the dirty signee stuff necessary for
  * authentication of services.
  * 
  * This service requires several informations in the intent, used to bind the
@@ -19,21 +19,21 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * <pre>
  * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/PMP-Identifier>);
  * intent.putExtraString(Constants.INTENT_TYPE, &lt;APP|PMP>);
- * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignee signing identifier);
+ * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, PMPSignee signed identifier);
  * </pre>
  * 
  * *
  * <p>
  * Use {@link PMPSignee#signContent(byte[])} with the identifier you're sending
  * the Intent to (likely targetIdentifier.getBytes()). Transmit the result of
- * the signing in "signature".
+ * the signing in "signee".
  * </p>
  * 
  * <p>
  * If you need to have access to a correct copy (one which changes will be
  * reflected in the service and vice versa) create one and override
- * createSignature() to copy that signature to this service (return the
- * signature). Note that signatures should be consistently the same object!
+ * {@link PMPSignedService#createSignee()} to copy that signee to this service (return the
+ * signee). Note that signees should be consistently the same object!
  * </p>
  * 
  * @author Tobias Kuhn
@@ -42,20 +42,20 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 public abstract class PMPSignedService extends Service {
 
     /**
-     * The signature used for this service.
+     * The signee used for this service.
      */
-    private PMPSignee signature;
+    private PMPSignee signee;
 
     /**
-     * Overwrite this method to use your own signature object.
+     * Overwrite this method to use your own signee object.
      * 
-     * @return a reference to a signature for the service to use.
+     * @return a reference to a signee for the service to use.
      */
-    protected abstract PMPSignee createSignature();
+    protected abstract PMPSignee createSignee();
 
     @Override
     public void onCreate() {
-	this.signature = createSignature();
+	this.signee = createSignee();
     }
 
     @Override
@@ -72,7 +72,7 @@ public abstract class PMPSignedService extends Service {
 		.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 
 	if ((boundSignature != null)
-		&& (signature.isSignatureValid(boundType, boundIdentifier,
+		&& (signee.isSignatureValid(boundType, boundIdentifier,
 			getClass().getName().getBytes(), boundSignature))) {
 	    return onSignedBind(intent);
 	} else {
@@ -84,7 +84,7 @@ public abstract class PMPSignedService extends Service {
      * <p>
      * Sets the remote public key fetched from a different, remote
      * {@link PMPSignee} that is identified by identifier and makes sure the
-     * signature is saved.
+     * signee is saved.
      * </p>
      * 
      * <p>
@@ -105,17 +105,17 @@ public abstract class PMPSignedService extends Service {
      */
     public final void setAndSaveRemotePublicKey(PMPComponentType remoteType,
 	    String remoteIdentifier, byte[] remotePublicKey) {
-	signature.setRemotePublicKey(remoteType, remoteIdentifier,
+	signee.setRemotePublicKey(remoteType, remoteIdentifier,
 		remotePublicKey);
-	signature.save(getApplicationContext());
+	signee.save(getApplicationContext());
     }
 
     /**
      * 
-     * @return the signature used for signing messages.
+     * @return the signee used for signing messages.
      */
-    public final PMPSignee getSignature() {
-	return this.signature;
+    public final PMPSignee getSignee() {
+	return this.signee;
     }
 
     /**
