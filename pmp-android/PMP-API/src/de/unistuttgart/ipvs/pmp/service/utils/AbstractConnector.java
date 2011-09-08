@@ -14,9 +14,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to
- * services. Override {@link AbstractConnector#serviceConnected()} to implement
- * your interaction with the service. Call {@link AbstractConnector#bind} to
- * start the connection.
+ * services. Add your {@link IConnectorCallback} for interacting with the
+ * service. Call {@link AbstractConnector#bind} to start the connection.
  * 
  * @author Jakob Jarosch
  */

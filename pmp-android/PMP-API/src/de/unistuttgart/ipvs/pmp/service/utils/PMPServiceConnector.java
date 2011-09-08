@@ -8,10 +8,8 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 
 /**
  * {@link PMPServiceConnector} is used for connecting (in this case binding) to
- * the PMP service. Override {@link PMPServiceConnector#serviceConnected()} to
- * implement your interaction with the service. Call
- * {@link PMPServiceConnector#bind} to start the connection.
- * 
+ * the PMP service. Add your {@link IConnectorCallback} for interacting with the
+ * service. Call {@link PMPServiceConnector#bind} to start the connection.
  * 
  * @author Jakob Jarosch
  */
@@ -41,13 +39,13 @@ public class PMPServiceConnector extends AbstractConnector {
     @Override
     protected void serviceConnected() {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     protected void serviceDisconnected() {
 	// TODO Auto-generated method stub
-	
+
     }
 
 }
