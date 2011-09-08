@@ -57,8 +57,7 @@ public abstract class ResourceGroup {
     public ResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
 	signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
-		ResourceGroupService.class);
-	signee.load(serviceContext);
+		ResourceGroupService.class, serviceContext);
 	signee.setIdentifier(getServiceAndroidName());
 
 	resources = new HashMap<String, Resource>();
@@ -228,7 +227,6 @@ public abstract class ResourceGroup {
                     // save the returned public key to be PMP's		    
 		    signee.setRemotePublicKey(PMPComponentType.PMP,
 			    Constants.PMP_IDENTIFIER, pmpPublicKey);
-		    signee.save(serviceContext);
 		    
 		} catch (RemoteException e) {
 		    Log.e("RemoteException during registering resource group: "

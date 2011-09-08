@@ -81,36 +81,6 @@ public abstract class PMPSignedService extends Service {
     }
 
     /**
-     * <p>
-     * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignee} that is identified by identifier and makes sure the
-     * signee is saved.
-     * </p>
-     * 
-     * <p>
-     * <b>Attention:</b> Only call this method if you are sure the source is
-     * valid! This method is a likely target for attackers.
-     * </p>
-     * 
-     * <p>
-     * Make sure that remoteType always has the correct type from Constants.*
-     * specified and not a value that the remote can freely set!
-     * </p>
-     * 
-     * @param remoteType
-     * @param remoteIdentifier
-     * @param remotePublicKey
-     *            the new public key or null to remove the current one.
-     * @see {@link PMPSignee#setRemotePublicKey(String, String, byte[])}
-     */
-    public final void setAndSaveRemotePublicKey(PMPComponentType remoteType,
-	    String remoteIdentifier, byte[] remotePublicKey) {
-	signee.setRemotePublicKey(remoteType, remoteIdentifier,
-		remotePublicKey);
-	signee.save(getApplicationContext());
-    }
-
-    /**
      * 
      * @return the signee used for signing messages.
      */
