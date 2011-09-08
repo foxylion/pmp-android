@@ -18,6 +18,18 @@
 				</action>
 			</intent-filter>
 		</activity>
+		<activity android:name=".activities.DateList">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN">
+				</action>
+			</intent-filter>
+		</activity>	
+		<activity android:name=".activities.ChangeDateActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN">
+				</action>
+			</intent-filter>
+		</activity>		
 
 	</application>
 </manifest>

@@ -15,7 +15,8 @@ public class CalendarAppActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        final Intent intent = new Intent(this, NewDateActivity.class);
+        final Intent newDateIntent = new Intent(this, NewDateActivity.class);
+        final Intent dateListIntent = new Intent(this, DateList.class);
         
         setContentView(R.layout.main);
         Button view = (Button) findViewById(R.id.ListDates);
@@ -23,8 +24,7 @@ public class CalendarAppActivity extends Activity {
 	    
 	    @Override
 	    public void onClick(View v) {
-		// TODO Show new Activity
-		
+		startActivity(dateListIntent);
 	    }
 	});
         
@@ -33,7 +33,7 @@ public class CalendarAppActivity extends Activity {
 	    
 	    @Override
 	    public void onClick(View v) {
-		startActivity(intent);
+		startActivity(newDateIntent);
 	    }
 	});
     }
