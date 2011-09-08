@@ -13,8 +13,10 @@ import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 
 /**
- * {@link AbstractConnector} implements methods used by {@link PMPServiceConnector},
- * {@link ResourceGroupServiceConnector} and {@link AppServiceConnector}.
+ * {@link AbstractConnector} is used for connecting (in this case binding) to
+ * services. Override {@link AbstractConnector#serviceConnected()} to implement
+ * your interaction with the service. Call {@link AbstractConnector#bind} to
+ * start the connection.
  * 
  * @author Jakob Jarosch
  */
@@ -37,8 +39,8 @@ public abstract class AbstractConnector {
     private boolean connected = false;
 
     /**
-     * List of all {@link IConnectorCallback} handler which will receive a connection
-     * message.
+     * List of all {@link IConnectorCallback} handler which will receive a
+     * connection message.
      */
     private List<IConnectorCallback> callbackHandler = new ArrayList<IConnectorCallback>();
 
@@ -51,12 +53,12 @@ public abstract class AbstractConnector {
      * The signature used to sign the connection to the service.
      */
     private PMPSignee signature;
-    
+
     /**
      * The identifier of the service to which the connection should go.
      */
     private String targetIdentifier;
-    
+
     /**
      * The {@link ServiceConnection} is used to handle the bound Service
      * {@link IBinder}.
@@ -79,7 +81,8 @@ public abstract class AbstractConnector {
 	}
     };
 
-    public AbstractConnector(Context context, PMPSignee signature, String targetIdentifier) {
+    public AbstractConnector(Context context, PMPSignee signature,
+	    String targetIdentifier) {
 	this.context = context;
 	this.signature = signature;
 	this.targetIdentifier = targetIdentifier;
@@ -96,11 +99,13 @@ public abstract class AbstractConnector {
 	if (!isBound()) {
 	    Intent intent = new Intent();
 	    intent.setComponent(createComponentName(targetIdentifier));
-	    
+
 	    intent.putExtra(Constants.INTENT_TYPE, this.signature.getType());
-	    intent.putExtra(Constants.INTENT_IDENTIFIER, this.signature.getIdentifier());
-	    intent.putExtra(Constants.INTENT_SIGNATURE, this.signature.signContent(targetIdentifier.getBytes()));
-	    
+	    intent.putExtra(Constants.INTENT_IDENTIFIER,
+		    this.signature.getIdentifier());
+	    intent.putExtra(Constants.INTENT_SIGNATURE,
+		    this.signature.signContent(targetIdentifier.getBytes()));
+
 	    return context.bindService(intent, serviceConnection,
 		    Context.BIND_AUTO_CREATE);
 	} else {
@@ -156,23 +161,31 @@ public abstract class AbstractConnector {
     protected Context getContext() {
 	return context;
     }
-    
+
     protected ComponentName createComponentName(String identifier) {
 	String[] splits = identifier.split(";");
-	if(splits.length != 2) {
+	if (splits.length != 2) {
 	    Log.e("The identifier had not 2 parts (package and className) speparted by a semicolon.");
-	    throw new IllegalArgumentException("The identifier requires two parts (package and className), sperated by a semicolon.");
+	    throw new IllegalArgumentException(
+		    "The identifier requires two parts (package and className), sperated by a semicolon.");
 	}
 	return new ComponentName(splits[0], splits[1]);
     }
-    
+
     /**
-     * Is called when the service connected.
+     * Is called when a connection to the service has been established. Note
+     * that all the required connection handling is done in
+     * {@link AbstractConnector}.
+     * 
+     * @see {@link ServiceConnection#onServiceConnected(ComponentName, IBinder)}
      */
     protected abstract void serviceConnected();
 
     /**
-     * Is called when the service has disconnected.
+     * Is called when a connection to the service has been lost. Note that all
+     * the required connection handling is done in {@link AbstractConnector}.
+     * 
+     * @see {@link ServiceConnection#onServiceDisconnected(ComponentName)}
      */
     protected abstract void serviceDisconnected();
 

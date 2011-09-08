@@ -59,9 +59,5 @@ public class PMPService extends PMPSignedService {
     protected PMPSignee createSignature() {
 	return PMPApplication.getSignee();
     }
-
-    @Override
-    protected String getAndroidName() {
-	return Constants.PMP_IDENTIFIER;
-    }
+    
 }

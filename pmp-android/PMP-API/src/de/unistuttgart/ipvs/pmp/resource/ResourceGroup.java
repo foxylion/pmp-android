@@ -8,7 +8,6 @@ import java.util.Map;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -88,8 +87,9 @@ public abstract class ResourceGroup {
     /**
      * Overwrite this method to return the <b>exact same</b> identifier you have
      * put in the manifest file for the service for this Resource Group:
-     * &lt;service>...&lt;intent-filter>...&lt;action android:name="<b>HERE</b>">. If
-     * the identifier differ, the service will not work.
+     * &lt;service>...&lt;intent-filter>...&lt;action
+     * android:name="<b>HERE</b>">. If the identifier differ, the service will
+     * not work.
      * 
      * @return the specified identifier
      */
@@ -209,30 +209,39 @@ public abstract class ResourceGroup {
      *            class of the service used for this resource group
      * 
      */
-    public void start(Context context, Context serviceContext,
+    public void start(Context context, final Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	// connect to PMP
-	PMPServiceConnector pmpsc = new PMPServiceConnector(context, signature);
-	pmpsc.bind();
-	IBinder binding = pmpsc.getService();
 
-	if ((binding != null) && (binding instanceof IPMPServiceRegistration)) {
-	    // register here
-	    IPMPServiceRegistration ipmpsr = (IPMPServiceRegistration) binding;
-	    try {
-		byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signature
-			.getLocalPublicKey());
-		// TODO: what there?
-		signature.setRemotePublicKey(PMPComponentType.PMP,
-			Constants.PMP_IDENTIFIER, pmpPublicKey);
-		signature.save(serviceContext);
-	    } catch (RemoteException e) {
-		Log.e("RemoteException during registering resource group: "
-			+ e.toString());
+	// connect to PMP
+	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,
+		signature) {
+
+	    @Override
+	    protected void serviceConnected() {
+
+		IPMPServiceRegistration ipmpsr = getRegistrationService();
+		try {
+		    byte[] pmpPublicKey = ipmpsr
+			    .registerResourceGroup(signature
+				    .getLocalPublicKey());
+		    
+                    // save the returned public key to be PMP's		    
+		    signature.setRemotePublicKey(PMPComponentType.PMP,
+			    Constants.PMP_IDENTIFIER, pmpPublicKey);
+		    signature.save(serviceContext);
+		    
+		} catch (RemoteException e) {
+		    Log.e("RemoteException during registering resource group: "
+			    + e.toString());
+		}
+
 	    }
-	} else {
-	    Log.e("PMP does not work correctly.");
-	}
+
+	    @Override
+	    protected void serviceDisconnected() {
+	    }
+	};
+	pmpsc.bind();
     }
 
     /**
