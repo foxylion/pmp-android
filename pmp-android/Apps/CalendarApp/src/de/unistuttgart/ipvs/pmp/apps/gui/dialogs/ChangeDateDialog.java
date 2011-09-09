@@ -63,9 +63,9 @@ public class ChangeDateDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	setContentView(R.layout.changedate);
-	
+
 	this.setTitle("Change date");
-	
+
 	date = Model.getInstance().getDateByIndex(dateIndex);
 	String[] dates = date.getDate().split("\\.");
 
@@ -114,5 +114,4 @@ public class ChangeDateDialog extends Dialog {
 	}
 
     }
-
 }

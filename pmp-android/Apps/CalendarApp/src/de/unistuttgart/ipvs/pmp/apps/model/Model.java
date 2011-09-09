@@ -66,7 +66,7 @@ public class Model {
      * @param id
      *            id of the date to delete
      */
-    public void deleteDate(int id) {
+    public void deleteDateByID(int id) {
 	SqlConnector.getInstance().deleteDate(id);
 	/*
 	 * If no error happened delete it local
@@ -76,6 +76,21 @@ public class Model {
 		dateList.remove(date);
 	    }
 	}
+    }
+
+    /**
+     * Deletes the date at the model and at the database
+     * 
+     * @param index
+     *            index of the date object
+     */
+    public void deleteDateByIndex(int index) {
+	Date date = dateList.get(index);
+	SqlConnector.getInstance().deleteDate(date.getId());
+	/*
+	 * If no error happened delete it local
+	 */
+	dateList.remove(index);
     }
 
     /**

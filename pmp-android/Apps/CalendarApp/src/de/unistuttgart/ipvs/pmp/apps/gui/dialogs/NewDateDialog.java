@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout.LayoutParams;
@@ -29,6 +30,11 @@ public class NewDateDialog extends Dialog {
      * The TextView with the description
      */
     private TextView desc;
+    
+    /**
+     * Array adapter of the list to refresh it
+     */
+    private ArrayAdapter<Date> arrayAdapter;
 
     /**
      * The button to confirm the dialog
@@ -41,8 +47,9 @@ public class NewDateDialog extends Dialog {
      * @param context
      *            the context
      */
-    public NewDateDialog(Context context) {
+    public NewDateDialog(Context context, ArrayAdapter<Date> adapter) {
 	super(context);
+	this.arrayAdapter = adapter;
     }
 
     /**
@@ -89,6 +96,7 @@ public class NewDateDialog extends Dialog {
 		    new Date(Model.getInstance().getNewId(), desc.getText()
 			    .toString(), dPicker.getDayOfMonth() + "." + month
 			    + "." + dPicker.getYear()));
+	    arrayAdapter.notifyDataSetChanged();
 	    dismiss();
 	}
 
