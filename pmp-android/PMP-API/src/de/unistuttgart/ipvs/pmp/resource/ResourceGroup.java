@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
+import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -213,12 +214,16 @@ public abstract class ResourceGroup {
 
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,
-		signee) {
-
+		signee);
+	
+	pmpsc.addCallbackHandler(new IConnectorCallback() {
+	    
 	    @Override
-	    protected void serviceConnected() {
-
-		IPMPServiceRegistration ipmpsr = getRegistrationService();
+	    public void disconnected() {}
+	    
+	    @Override
+	    public void connected() {
+		IPMPServiceRegistration ipmpsr = pmpsc.getRegistrationService();
 		try {
 		    byte[] pmpPublicKey = ipmpsr
 			    .registerResourceGroup(signee
@@ -232,13 +237,13 @@ public abstract class ResourceGroup {
 		    Log.e("RemoteException during registering resource group: "
 			    + e.toString());
 		}
-
 	    }
-
+	    
 	    @Override
-	    protected void serviceDisconnected() {
+	    public void bindingFailed() {
+		Log.e("Binding failed during registering resource group.");		
 	    }
-	};
+	});
 	pmpsc.bind();
     }
 
