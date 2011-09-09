@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cdata="urn:schemas-microsoft-com:mapping-schema">
 
 	<!-- Names, descriptions and all service levels of the app. Required in 
 		English. You can optional provide other languages using the country code. -->
@@ -104,8 +105,8 @@
 		<xs:attribute name="identifier" type="xs:string" use="required" />
 	</xs:complexType>
 
-	<!-- Complex type of a privacy level with an attribute -->
-	<xs:complexType name="tPrivacyLevel">
+	<!-- Complex type of a privacy level with an attribute and a CDATA-Content -->
+	<xs:complexType name="tPrivacyLevel" cdata:use-cdata="1">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute name="identifier" type="xs:string" />

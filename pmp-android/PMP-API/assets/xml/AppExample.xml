@@ -31,7 +31,9 @@
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourceGroups.filesystem">
 					<privacyLevel identifier="read">true</privacyLevel>
 					<privacyLevel identifier="write">true</privacyLevel>
-					<privacyLevel identifier="maxFileSizeForWriting">20mb</privacyLevel>
+					<privacyLevel identifier="maxFileSizeForWriting">
+						<![CDATA[<value>20</value><unit>mb</unit>]]>
+					</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 	</serviceLevels>
