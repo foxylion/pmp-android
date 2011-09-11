@@ -256,3 +256,11 @@ div.uip {
 	box-shadow: 2px 2px 2px #999999;
 	clear: both;
 }
+
+/* Test-Criticism */
+div.criticism {
+	border-color: red;
+	border-width: 0.75em;
+	border-style: none none none double;
+	padding-left: 0.75em;
+}
