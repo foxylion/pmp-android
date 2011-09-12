@@ -1,9 +1,12 @@
 package de.unistuttgart.ipvs.pmp;
 
+import de.unistuttgart.ipvs.pmp.gui.activities.RessourcesActivity;
+import de.unistuttgart.ipvs.pmp.gui.activities.StartActivity;
 import de.unistuttgart.ipvs.pmp.service.PMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 /**
  * This acts like an internal provider for {@link Context}.
