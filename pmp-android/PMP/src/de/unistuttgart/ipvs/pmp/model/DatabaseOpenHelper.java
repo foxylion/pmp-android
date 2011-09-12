@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteTransactionListener;
 
 /**
  * This is a helper for opening the database used by PMP.<br/>
@@ -47,6 +46,13 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	    "database-v1.sql" };
 
     /**
+     * List of all SQL-files for adding sample values to the database, the key
+     * is the version of the database.
+     */
+    private static final String[] SAMPLE_SQL_FILES = new String[] { null,
+	    "samples-v1.sql" };
+
+    /**
      * DatabaseHelper-Constructor.
      */
     public DatabaseOpenHelper(Context context) {
@@ -61,34 +67,30 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 	Log.d("creating database structure.");
 
-	String sqlQuery = readSqlFile(SQL_FILES[1]);
+	String sqlQueries = readSqlFile(SQL_FILES[1]);
 
-	if (sqlQuery != null) {
+	if (sqlQueries != null) {
 	    Log.d("Successfully read the database from " + SQL_FILES[1]
 		    + ", executing now...");
+	    executeMultipleQueries(db, sqlQueries);
+	    Log.d("Created the database (with, or without errors, see above).");
 
-	    Log.v("------- SQL-Queries to be executed ------");
+	    /*
+	     * Load sample data into the database if it is required by
+	     * Constants.USE_SAMPLE_DATA
+	     */
+	    if (Constants.USE_SAMLPE_DATA) {
+		Log.d("Use sample data is enabled, read the queries from "
+			+ SAMPLE_SQL_FILES[1]);
 
-	    for (String query : sqlQuery.split(";")) {
+		sqlQueries = readSqlFile(SAMPLE_SQL_FILES[1]);
 		
-		/* Skipping, empty query */
-		if(query.trim().length() == 0) {
-		    continue;
-		}
-		
-		Log.v(query);
-
-		try {
-		    db.execSQL(query);
-		    Log.d("Created table successful");
-		} catch (SQLException e) {
-		    Log.e("Got an SQLException while creating the table", e);
+		if(sqlQueries != null) {
+		    Log.d("Loaded sample files, inserting them into database...");
+		    executeMultipleQueries(db, sqlQueries);
+		    Log.d("Inserted queries into database (with, or without errors, see above).");
 		}
 	    }
-
-	    Log.v("-------     End of SQL-Queries     ------");
-
-	    Log.d("Created the database (with, or without errors, see above).");
 	}
     }
 
@@ -133,8 +135,32 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	} catch (IOException e) {
 	    Log.e("Reading the SQL file from " + filename + " failed.", e);
+	    sqlQuery = null;
 	}
 
 	return sqlQuery;
+    }
+
+    private void executeMultipleQueries(SQLiteDatabase db, String queries) {
+	Log.v("------- SQL-Queries to be executed ------");
+
+	for (String query : queries.split(";")) {
+
+	    /* Skipping, empty query */
+	    if (query.trim().length() == 0) {
+		continue;
+	    }
+
+	    Log.v(query);
+
+	    try {
+		db.execSQL(query);
+		Log.d("Query execution successful");
+	    } catch (SQLException e) {
+		Log.e("Got an SQLException while executing query", e);
+	    }
+	}
+
+	Log.v("-------     End of SQL-Queries     ------");
     }
 }
