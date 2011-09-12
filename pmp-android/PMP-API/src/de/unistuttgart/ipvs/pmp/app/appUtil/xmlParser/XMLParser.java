@@ -77,11 +77,11 @@ public class XMLParser {
 			parseServiceLevelsNode((Element) serviceLevels.item(0));
 
 		} catch (ParserConfigurationException e) {
-			throw new XMLParserException(Type.CONFIGURATION_EXCEPTION, "ParserConfigurationException");
+			throw new XMLParserException(Type.CONFIGURATION_EXCEPTION, "ParserConfigurationException", e);
 		} catch (SAXException e) {
-			throw new XMLParserException(Type.SAX_EXCEPTION, "SAXException");
+			throw new XMLParserException(Type.SAX_EXCEPTION, "SAXException", e);
 		} catch (IOException e) {
-			throw new XMLParserException(Type.IO_EXCEPTION, "IOException");
+			throw new XMLParserException(Type.IO_EXCEPTION, "IOException", e);
 		}
 
 		return ais;
