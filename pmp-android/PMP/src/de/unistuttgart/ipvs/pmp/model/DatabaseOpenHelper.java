@@ -66,20 +66,29 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	if (sqlQuery != null) {
 	    Log.d("Successfully read the database from " + SQL_FILES[1]
 		    + ", executing now...");
-	    
-	    Log.v("------- SQL-Querys to be executed ------");
-	    Log.v(sqlQuery);
-	    Log.v("-------     End of SQL-Querys     ------");
-	    
-	    db.beginTransaction();
-	    try {
-		db.execSQL(sqlQuery);
-	    } catch (SQLException e) {
-		Log.e("Got an SQLException while creating the database", e);
-	    } finally {
-		Log.d("Created the database");
+
+	    Log.v("------- SQL-Queries to be executed ------");
+
+	    for (String query : sqlQuery.split(";")) {
+		
+		/* Skipping, empty query */
+		if(query.trim().length() == 0) {
+		    continue;
+		}
+		
+		Log.v(query);
+
+		try {
+		    db.execSQL(query);
+		    Log.d("Created table successful");
+		} catch (SQLException e) {
+		    Log.e("Got an SQLException while creating the table", e);
+		}
 	    }
-	    db.endTransaction();
+
+	    Log.v("-------     End of SQL-Queries     ------");
+
+	    Log.d("Created the database (with, or without errors, see above).");
 	}
     }
 
