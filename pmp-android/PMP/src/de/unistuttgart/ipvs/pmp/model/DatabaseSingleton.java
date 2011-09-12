@@ -46,8 +46,4 @@ public class DatabaseSingleton {
 
 	return doh;
     }
-    
-    public void createSampleDatas() {
-	
-    }
 }
