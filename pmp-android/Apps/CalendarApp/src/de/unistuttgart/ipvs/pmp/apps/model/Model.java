@@ -161,7 +161,8 @@ public class Model {
      * @return
      */
     public int getNewId() {
-	return highestId + 1;
+	highestId++;
+	return highestId;
     }
 
 }

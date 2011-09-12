@@ -215,33 +215,33 @@ public abstract class ResourceGroup {
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,
 		signee);
-	
+
 	pmpsc.addCallbackHandler(new IConnectorCallback() {
-	    
+
 	    @Override
-	    public void disconnected() {}
-	    
+	    public void disconnected() {
+	    }
+
 	    @Override
 	    public void connected() {
 		IPMPServiceRegistration ipmpsr = pmpsc.getRegistrationService();
 		try {
-		    byte[] pmpPublicKey = ipmpsr
-			    .registerResourceGroup(signee
-				    .getLocalPublicKey());
-		    
-                    // save the returned public key to be PMP's		    
+		    byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signee
+			    .getLocalPublicKey());
+
+		    // save the returned public key to be PMP's
 		    signee.setRemotePublicKey(PMPComponentType.PMP,
 			    Constants.PMP_IDENTIFIER, pmpPublicKey);
-		    
+
 		} catch (RemoteException e) {
 		    Log.e("RemoteException during registering resource group: "
 			    + e.toString());
 		}
 	    }
-	    
+
 	    @Override
 	    public void bindingFailed() {
-		Log.e("Binding failed during registering resource group.");		
+		Log.e("Binding failed during registering resource group.");
 	    }
 	});
 	pmpsc.bind();

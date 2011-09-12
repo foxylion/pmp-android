@@ -30,11 +30,12 @@ public class PMPServiceRegistrationStubImpl extends
     }
 
     @Override
-    public byte[] registerResourceGroup(byte[] publicKey) throws RemoteException {
+    public byte[] registerResourceGroup(byte[] publicKey)
+	    throws RemoteException {
 	/*
 	 * Note: The Identifier of the ResourceGroup can be found in the
-	 * identifier variable. Execution should be done in Background and PublicKey should
-	 * be returned immediately.
+	 * identifier variable. Execution should be done in Background and
+	 * PublicKey should be returned immediately.
 	 */
 
 	// TODO IMPLEMENT

@@ -21,13 +21,13 @@ public class ResourceGroupServiceConnector extends AbstractConnector {
     @Override
     protected void serviceConnected() {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     protected void serviceDisconnected() {
 	// TODO Auto-generated method stub
-	
+
     }
 
 }

@@ -1,8 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import java.util.List;
-
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
@@ -13,67 +12,23 @@ import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 public class IAppServiceStubImpl extends IAppService.Stub {
 
     @Override
-    public String getName(String locale) throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getDescription(String locale) throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getServiceLevelCount() throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getServiceLevelName(String locale, int serviceLevelId)
-	    throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getServiceLevelDescription(String locale, int serviceLevelId)
-	    throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    @SuppressWarnings("rawtypes")
-    public List getServiceLevelPrivacyLevels(int serviceLevelId)
-	    throws RemoteException {
-	/**
-	 * Note: The given List is described by the JavaDoc of
-	 * {@link IAppService#getServiceLevelPrivacyLevels}
-	 */
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setActiveServiceLevel(int serviceLevel) throws RemoteException {
-
-	// TODO Auto-generated method stub
-	throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setRegistrationSuccessful(RegistrationState success)
+    public AppInformationSetParcelable getAppInformationSet()
 	    throws RemoteException {
 	// TODO Auto-generated method stub
-	
+	return null;
+    }
+
+    @Override
+    public void setActiveServiceLevel(int level) throws RemoteException {
+	// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setRegistrationSuccessful(RegistrationState state)
+	    throws RemoteException {
+	// TODO Auto-generated method stub
+
     }
 
 }

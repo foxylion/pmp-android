@@ -9,9 +9,9 @@ package de.unistuttgart.ipvs.pmp.model.interfaces;
 public interface IServiceLevel {
 
     /**
-     * @return returns the ordering position of the service level.
+     * @return returns the level position of the service level.
      */
-    public int getOrdering();
+    public int getLevel();
 
     /**
      * @return Returns the localized name of the service level.

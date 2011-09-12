@@ -79,21 +79,21 @@ CREATE TABLE App (
 
 CREATE TABLE ServiceLevel (
 	App_Identifier TEXT NOT NULL,
-	Ordering INTEGER NOT NULL,
+	Level INTEGER NOT NULL,
 	Name_Cache TEXT,
 	Description_Cache TEXT,
 	PRIMARY KEY(App_Identifier,
-	            Ordering)
+	            Level)
 );
 
 CREATE TABLE ServiceLevel_PrivacyLevels (
 	App_Identifier TEXT NOT NULL,
-	ServiceLevel_Ordering INTEGER NOT NULL,
+	ServiceLevel_Level INTEGER NOT NULL,
 	ResourceGroup_Identifier TEXT NOT NULL,
 	PrivacyLevel_Identifier TEXT NOT NULL,
 	Value TEXT NOT NULL,
 	PRIMARY KEY(App_Identifier,
-	            ServiceLevel_Ordering,
+	            ServiceLevel_Level,
 				ResourceGroup_Identifier,
 				PrivacyLevel_Identifier)
 );

@@ -32,8 +32,9 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * <p>
  * If you need to have access to a correct copy (one which changes will be
  * reflected in the service and vice versa) create one and override
- * {@link PMPSignedService#createSignee()} to copy that signee to this service (return the
- * signee). Note that signees should be consistently the same object!
+ * {@link PMPSignedService#createSignee()} to copy that signee to this service
+ * (return the signee). Note that signees should be consistently the same
+ * object!
  * </p>
  * 
  * @author Tobias Kuhn

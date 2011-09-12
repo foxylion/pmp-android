@@ -1,7 +1,9 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
+
+;
 
 /**
  * Implementation of the {@link IPMPServiceResourceGroup.Stub} stub.

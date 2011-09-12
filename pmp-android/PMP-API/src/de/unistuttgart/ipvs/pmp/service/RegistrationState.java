@@ -39,16 +39,16 @@ public class RegistrationState implements Parcelable {
     }
 
     /**
-     * @return Returns the state of the registration, true means successful, false means
-     *         registration failed.
+     * @return Returns the state of the registration, true means successful,
+     *         false means registration failed.
      */
     public boolean getState() {
 	return state;
     }
 
     /**
-     * @return Returns a message which describes what exactly is the reason for a
-     *            failed registration.
+     * @return Returns a message which describes what exactly is the reason for
+     *         a failed registration.
      */
     public String getMessage() {
 	return message;
