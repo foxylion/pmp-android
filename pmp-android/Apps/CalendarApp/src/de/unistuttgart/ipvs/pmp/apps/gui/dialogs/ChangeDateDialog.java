@@ -103,14 +103,13 @@ public class ChangeDateDialog extends Dialog {
 	 */
 	@Override
 	public void onClick(View v) {
-	    int month = +1;
+	    int month = dPicker.getMonth() +1;
 	    Model.getInstance().changeDate(
 		    date.getId(),
 		    dPicker.getDayOfMonth() + "." + month + "."
 			    + dPicker.getYear(), desc.getText().toString());
 	    arrayAdapter.notifyDataSetChanged();
 	    dismiss();
-
 	}
 
     }

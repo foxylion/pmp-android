@@ -44,7 +44,6 @@ public class CalendarAppActivity extends ListActivity {
 	setContentView(R.layout.list_layout);
 	arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model
 		.getInstance().getDateList());
-
 	setListAdapter(arrayAdapter);
 
 	ListView listView = getListView();
