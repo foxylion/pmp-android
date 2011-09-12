@@ -53,6 +53,8 @@ public class ResourceGroupImpl implements IResourceGroup {
 			"SELECT Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = ?;",
 			new String[] { identifier });
 
+	cursor.moveToNext();
+	
 	while (!cursor.isAfterLast()) {
 	    String plIdentifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
