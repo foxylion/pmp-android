@@ -9,8 +9,10 @@ import de.unistuttgart.ipvs.pmp.Log;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteTransactionListener;
 
 /**
  * This is a helper for opening the database used by PMP.<br/>
@@ -33,6 +35,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     /**
+     * The context used to open the files from assets folder.
+     */
+    private Context context;
+
+    /**
      * List of all SQL-files for database-creation, the key is the version of
      * the database.
      */
@@ -44,6 +51,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     public DatabaseOpenHelper(Context context) {
 	super(context, DB_NAME, null, DB_VERSION);
+	this.context = context;
     }
 
     /**
@@ -58,8 +66,19 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	if (sqlQuery != null) {
 	    Log.d("Successfully read the database from " + SQL_FILES[1]
 		    + ", executing now...");
+	    
+	    Log.v("------- SQL-Querys to be executed ------");
+	    Log.v(sqlQuery);
+	    Log.v("-------     End of SQL-Querys     ------");
+	    
 	    db.beginTransaction();
-	    db.execSQL(sqlQuery);
+	    try {
+		db.execSQL(sqlQuery);
+	    } catch (SQLException e) {
+		Log.e("Got an SQLException while creating the database", e);
+	    } finally {
+		Log.d("Created the database");
+	    }
 	    db.endTransaction();
 	}
     }
@@ -86,8 +105,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	String sqlQuery = null;
 
 	try {
-	    InputStream is = Resources.getSystem().getAssets()
-		    .open("database-v1.sql");
+	    InputStream is = context.getAssets().open(filename);
 	    InputStreamReader bis = new InputStreamReader(is);
 	    BufferedReader br = new BufferedReader(bis);
 

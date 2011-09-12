@@ -93,13 +93,16 @@ public class Log {
 	    StackTraceElement[] stackTraceElements = Thread.currentThread()
 		    .getStackTrace();
 	    if (useClassNameAsPrefix || forcePrefix) {
-		prefix += stackTraceElements[2].getClassName() + " ";
+		prefix += stackTraceElements[4].getClassName();
 	    }
 	    if (useMethodNameAsPrefix || forcePrefix) {
-		prefix += stackTraceElements[2].getMethodName() + " ";
+		prefix += "#" + stackTraceElements[4].getMethodName() + "()";
 	    }
 	    if (useLineNumberAsPrefix || forcePrefix) {
-		prefix += ":" + stackTraceElements[2].getLineNumber() + " ";
+		prefix += ":" + stackTraceElements[4].getLineNumber();
+	    }
+	    if(prefix.length() > 0) {
+		prefix += " ";
 	    }
 	}
 	return prefix;
