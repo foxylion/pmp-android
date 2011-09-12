@@ -17,14 +17,14 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 public class ServiceLevelImpl implements IServiceLevel {
 
     private String appIdentifier;
-    private int ordering;
+    private int level;
     private String name;
     private String description;
 
-    public ServiceLevelImpl(String appIdentifier, int ordering, String name,
+    public ServiceLevelImpl(String appIdentifier, int level, String name,
 	    String description) {
 	this.appIdentifier = appIdentifier;
-	this.ordering = ordering;
+	this.level = level;
 	this.name = name;
 	this.description = description;
     }
@@ -34,8 +34,8 @@ public class ServiceLevelImpl implements IServiceLevel {
     }
 
     @Override
-    public int getOrdering() {
-	return ordering;
+    public int getLevel() {
+	return level;
     }
 
     @Override
@@ -67,9 +67,8 @@ public class ServiceLevelImpl implements IServiceLevel {
 				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier"
 				+ "  AND slpl.PrivacyLevel_Identifier = pl.Identifier"
 				+ "  AND slpl.App_Identifier = ?"
-				+ "  AND slpl.ServiceLevel_Ordering = "
-				+ ordering + ";",
-			new String[] { appIdentifier });
+				+ "  AND slpl.ServiceLevel_Level = " + level
+				+ ";", new String[] { appIdentifier });
 
 	while (!cursor.isAfterLast()) {
 	    String resourceGroup_Identifier = cursor.getString(cursor

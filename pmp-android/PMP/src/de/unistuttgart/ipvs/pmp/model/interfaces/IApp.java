@@ -28,13 +28,13 @@ public interface IApp {
     public IServiceLevel[] getServiceLevels();
 
     /**
-     * Returns a service level with exactly this service level ordering.
+     * Returns a service level with exactly this service level.
      * 
-     * @param ordering
+     * @param level
      *            ID of the service level
      * @return the to the ID corresponding service level
      */
-    public IServiceLevel getServiceLevel(int ordering);
+    public IServiceLevel getServiceLevel(int level);
 
     /**
      * @return get the current active service level set for the App.

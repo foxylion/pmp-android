@@ -228,7 +228,7 @@
           <y:Geometry height="40.0" width="60.25" x="1170.9791666666652" y="107.75"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" underlinedText="true" visible="true" width="36.677734375" x="11.7861328125" y="10.6494140625">Order</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" underlinedText="true" visible="true" width="34.685546875" x="12.7822265625" y="10.6494140625">Level</y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="shadow" value="true"/>
           </y:StyleProperties>
@@ -709,7 +709,6 @@
       </data>
     </edge>
     <edge id="e30" source="n7" target="n28">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

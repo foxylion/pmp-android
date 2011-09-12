@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.unistuttgart.ipvs.pmp.app.AppPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 /**
@@ -56,7 +55,7 @@ public class ResourceGroupAccess implements Parcelable {
     /**
      * Constructor for regenerating Java object of an parcel from this object.
      * Normally called by {@link Parcelable.Creator#createFromParcel(Parcel)} of
-     * the {@link AppPrivacyLevel#CREATOR} variable.
+     * the {@link AppInformationSet#CREATOR} variable.
      * 
      * @param source
      *            Parcel-Source
@@ -68,8 +67,8 @@ public class ResourceGroupAccess implements Parcelable {
     }
 
     /**
-     * {@link AppPrivacyLevel#writeToParcel(Parcel, int)} is called when the App
-     * Object is sent through an {@link IBinder}. Therefore all data of the
+     * {@link AppInformationSet#writeToParcel(Parcel, int)} is called when the
+     * App Object is sent through an {@link IBinder}. Therefore all data of the
      * object have to be written into the {@link Parcel}.
      */
     @Override

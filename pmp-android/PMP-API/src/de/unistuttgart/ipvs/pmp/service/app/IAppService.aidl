@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 
 /**
  * The IAppService is provided by an application, over the interface
@@ -10,22 +11,17 @@ import de.unistuttgart.ipvs.pmp.service.RegistrationState;
  */
 interface IAppService {
 	
-	String getName(String locale);
-	
-	String getDescription(String locale);
-	
-	int getServiceLevelCount();
-	
-	String getServiceLevelName(String locale, int serviceLevelOrdering);
-	
-	String getServiceLevelDescription(String locale, int serviceLevelOrdering);
+	/**
+	 * @return Returns all Informations about the App.
+	 */
+	AppInformationSetParcelable getAppInformationSet();
 	
 	/**
-	 * @return Returns a List of {@link AppPrivacyLevel}s
+	 * Sets the current active ServiceLevel for the App.
+	 *
+	 * @param level the current active level for the App
 	 */
-	List getServiceLevelPrivacyLevels(int serviceLevelOrdering);
-	
-	void setActiveServiceLevel(int serviceLevelOrdering);
+	void setActiveServiceLevel(int level);
 	
 	/**
 	 * Is called when the PMP will inform the app about a successful (or not) registration.

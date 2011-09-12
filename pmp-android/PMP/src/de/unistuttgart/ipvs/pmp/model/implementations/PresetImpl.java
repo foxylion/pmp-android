@@ -15,12 +15,13 @@ public class PresetImpl implements IPreset {
     private String resourceGroupIdentifier;
     private String description;
 
-    public PresetImpl(String name, String resourceGroupIdentifier, String description) {
+    public PresetImpl(String name, String resourceGroupIdentifier,
+	    String description) {
 	this.name = name;
 	this.resourceGroupIdentifier = resourceGroupIdentifier;
 	this.description = description;
     }
-    
+
     @Override
     public String getName() {
 	return name;
@@ -30,7 +31,6 @@ public class PresetImpl implements IPreset {
     public String getResourceGroupIdentifier() {
 	return resourceGroupIdentifier;
     }
-
 
     @Override
     public String getDescription() {

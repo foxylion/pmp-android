@@ -12,26 +12,26 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
  * 
  * @author Tobias Kuhn
  */
-public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.Stub {
-    
+public class ResourceGroupServiceAppStubImpl extends
+	IResourceGroupServiceApp.Stub {
+
     /**
      * {@link ResourceGroup} referenced.
      */
     private ResourceGroup rg;
-    
+
     /**
      * The app referenced.
      */
     private String appIdentifier;
-    
+
     public void setResourceGroup(ResourceGroup rg) {
-	this.rg = rg;	
+	this.rg = rg;
     }
-    
 
     public void setAppIdentifier(String identifier) {
 	this.appIdentifier = identifier;
-    }	
+    }
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -48,6 +48,6 @@ public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.St
 	} else {
 	    return resource.getAndroidInterface(appIdentifier);
 	}
-    }    
+    }
 
 }

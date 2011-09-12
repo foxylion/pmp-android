@@ -51,17 +51,16 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = '"
+			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = '"
 				+ identifier + "';", null);
 
 	while (!cursor.isAfterLast()) {
-	    int ordering = cursor.getInt(cursor.getColumnIndex("Ordering"));
+	    int level = cursor.getInt(cursor.getColumnIndex("Level"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    list.add(new ServiceLevelImpl(identifier, ordering, name,
-		    description));
+	    list.add(new ServiceLevelImpl(identifier, level, name, description));
 
 	    cursor.moveToNext();
 	}
@@ -70,22 +69,23 @@ public class AppImpl implements IApp {
     }
 
     @Override
-    public IServiceLevel getServiceLevel(int ordering) {
+    public IServiceLevel getServiceLevel(int level) {
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Ordering, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Ordering = "
-				+ ordering + " LIMIT 1;", new String[] { identifier });
+			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Level = "
+				+ level + " LIMIT 1;",
+			new String[] { identifier });
 
 	if (cursor != null && cursor.getCount() == 1) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    return new ServiceLevelImpl(identifier, ordering, name, description);
+	    return new ServiceLevelImpl(identifier, level, name, description);
 	} else {
 	    return null;
 	}

@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import android.app.Service;
+import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -10,30 +11,20 @@ import android.os.IBinder;
  * 
  * @author Jakob Jarosch
  */
-public class AppService extends Service {
+public class AppService extends PMPSignedService {
 
-    /**
-     * On creation of service called (only once).
-     */
     @Override
-    public void onCreate() {
-
+    protected PMPSignee createSignee() {
+	return null;
     }
 
-    /**
-     * Called when service is going to shutdown.
-     */
     @Override
-    public void onDestroy() {
-
-    }
-
-    /**
-     * Called when another application is going to bind the service.
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onSignedBind(Intent intent) {
 	return new IAppServiceStubImpl();
     }
 
+    @Override
+    public IBinder onUnsignedBind(Intent intent) {
+	return null;
+    }
 }
