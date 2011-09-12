@@ -51,7 +51,8 @@ public class ApplicationsActivity extends Activity {
 	actRow = new TableRow(this);
 	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 	createLayout();
-	loadFakeApps(); // loadApps();
+	//loadFakeApps(); 
+	loadApps();
 	scroll = new ScrollView(this);
 	layout.addView(actRow);
 	scroll.addView(layout);
@@ -82,11 +83,13 @@ public class ApplicationsActivity extends Activity {
      * Loading Apps to the View, 3 each row
      */
     private void loadApps() {
-	int AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
-
-	IApp[] appArray = ModelSingleton.getInstance().getModel().getApps();
-	List<IApp> appList = Arrays.asList(appArray);
-
+	int AppsCount = 0;
+	AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
+	List<IApp> appList = null;
+	if(AppsCount!= 0){
+	    IApp[] appArray = ModelSingleton.getInstance().getModel().getApps();
+	     appList = Arrays.asList(appArray);    
+	}
 	if (appList != null) {
 	    for (int i = 0; i < AppsCount; i++) {
 		if (i % 3 == 0) {
