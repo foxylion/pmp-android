@@ -26,6 +26,17 @@ public abstract class Resource {
     protected final void assignResourceGroup(ResourceGroup resourceGroup) {
 	this.resourceGroup = resourceGroup;
     }
+    
+    /**
+     * Retrieves an actual privacy level class.
+     * 
+     * @param privacyLevel
+     *            the name of the privacy level
+     * @return the privacy level named privacyLevel in the resource group.
+     */
+    protected final PrivacyLevel getPrivacyLevel(String privacyLevel) {
+	return resourceGroup.getPrivacyLevel(privacyLevel);
+    }
 
     /**
      * Retrieves the setting for a privacy level.

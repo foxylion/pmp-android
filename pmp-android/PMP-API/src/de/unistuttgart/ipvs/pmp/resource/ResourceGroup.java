@@ -180,6 +180,16 @@ public abstract class ResourceGroup {
 	privacyLevelValues.put(rga.getHeader().getIdentifier(),
 		rga.getPrivacyLevelValues());
     }
+    
+    /**
+     * 
+     * @param privacyLevel
+     *            the identifier of the privacy level
+     * @return the privacy level identified by "privacyLevel", if present, null otherwise
+     */
+    protected final PrivacyLevel getPrivacyLevel(String privacyLevel) {
+	return privacyLevels.get(privacyLevel);
+    }
 
     /**
      * 
@@ -187,7 +197,7 @@ public abstract class ResourceGroup {
      *            the identifier of the accessing app
      * @param privacyLevel
      *            the identifier of the privacy level
-     * @return the value privacy level identified by "privacyLevel" for the app
+     * @return the privacy level value identified by "privacyLevel" for the app
      *         "appIdentifier", if present, null otherwise
      */
     protected final String getPrivacyLevelValue(String appIdentifier,
