@@ -196,7 +196,7 @@ public abstract class ResourceGroup {
 
     /**
      * Effectively starts this resource group and registers it with PMP. Note
-     * that it needs to be connected to a {@link ResourceGroupService} via an
+     * that it needs to be "connected" to a {@link ResourceGroupService} via a
      * {@link ResourceGroupApp}. You can implement reacting to the result of
      * this operation by implementing onRegistrationSuccess() or
      * onRegistrationFailed()
@@ -224,18 +224,23 @@ public abstract class ResourceGroup {
 
 	    @Override
 	    public void connected() {
-		IPMPServiceRegistration ipmpsr = pmpsc.getRegistrationService();
-		try {
-		    byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signee
-			    .getLocalPublicKey());
+		if (!pmpsc.isRegistered()) {
+		    // register with PMP
+		    IPMPServiceRegistration ipmpsr = pmpsc
+			    .getRegistrationService();
+		    try {
+			byte[] pmpPublicKey = ipmpsr
+				.registerResourceGroup(signee
+					.getLocalPublicKey());
 
-		    // save the returned public key to be PMP's
-		    signee.setRemotePublicKey(PMPComponentType.PMP,
-			    Constants.PMP_IDENTIFIER, pmpPublicKey);
+			// save the returned public key to be PMP's
+			signee.setRemotePublicKey(PMPComponentType.PMP,
+				Constants.PMP_IDENTIFIER, pmpPublicKey);
 
-		} catch (RemoteException e) {
-		    Log.e("RemoteException during registering resource group: "
-			    + e.toString());
+		    } catch (RemoteException e) {
+			Log.e("RemoteException during registering resource group: "
+				+ e.toString());
+		    }
 		}
 	    }
 

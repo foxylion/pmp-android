@@ -36,6 +36,17 @@ public class PMPServiceConnector extends AbstractConnector {
 	return service;
     }
 
+    /**
+     * 
+     * @return true, if the class connecting to PMP is already registered and
+     *         does not require any registration action via the
+     *         {@link PMPServiceConnector#getRegistrationService()} interface.
+     */
+    public boolean isRegistered() {
+	// TODO: implement me
+	return false;
+    }
+
     @Override
     protected void serviceConnected() {
 	// TODO Auto-generated method stub
