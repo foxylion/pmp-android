@@ -14,10 +14,10 @@
 		android:layout_width="fill_parent">
 		<Button android:text="Install Sample Data"
 			android:id="@+id/pmp_developer_console_button_add_sample_data"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			android:layout_width="wrap_content" android:layout_height="fill_parent"></Button>
 		<Button android:text="Remove Sample Data"
 			android:id="@+id/pmp_developer_console_button_remove_sample_data"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			android:layout_width="wrap_content" android:layout_height="fill_parent"></Button>
 	</LinearLayout>
 	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 		android:text="Database" android:layout_height="wrap_content"
@@ -35,8 +35,7 @@
 		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="Database Statistics" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/textView1"></TextView>
-		<Button android:text="Refresh" android:layout_width="wrap_content" android:layout_height="30dp" android:layout_marginLeft="10dp" android:textSize="10dp"></Button>
+		<Button android:text="Refresh" android:layout_width="wrap_content" android:layout_height="30dp" android:layout_marginLeft="10dp" android:textSize="10dp" android:enabled="false"></Button>
 	</LinearLayout>
-	<ListView android:layout_height="wrap_content" android:id="@+id/listView1" android:layout_width="fill_parent"></ListView>
 
 </LinearLayout>

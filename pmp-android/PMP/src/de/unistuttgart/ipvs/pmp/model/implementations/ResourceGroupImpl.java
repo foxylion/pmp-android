@@ -50,7 +50,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = ?;",
+			"SELECT Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = ?",
 			new String[] { identifier });
 
 	cursor.moveToNext();
