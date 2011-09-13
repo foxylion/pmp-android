@@ -32,7 +32,7 @@
 			<p></p>
 			
 				<h2 id="zweck">Zweck</h2>
-				<p>Dieses Dokument stellt den Systemtestplan des Projektes "Privacy Management Platform" dar. Es spezifiziert, wie der System-Test der jeweiligen Iteration durchzuführen ist. Im Sinne des Regressionstests für weitere Iterationen darf der fertige Systemtestplan nicht mehr geändert werden.</p>
+				<p>Dieses Dokument stellt den Systemtestplan des Projektes "Privacy Management Platform" dar. Es spezifiziert, wie der System-Test der jeweiligen Iteration durchzuführen ist. Im Sinne des Regressionstests für weitere Iterationen sollte der fertige Systemtestplan nicht mehr gravierend geändert werden.</p>
 				<p>Dabei wird einzeln auf die Testkriterien und Soll-Werte der Tests für funktionale sowie für nicht-funktionale Anforderungen eingegangen. Anhand der Test-Durchführungsbeschreibung wird später ein konkreter Systemtest durchgeführt, dessen Ergebnis im zugehörigen Systemtestprotokoll festgehalten wird.</p>
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
@@ -41,7 +41,7 @@
 				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
-				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+				<p>Dieser Systemtest-Plan dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>
 					<li>den Entwicklern von PMP</li>          
 					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
@@ -59,14 +59,161 @@
 				</ul>
 				
 			<h1 id="testvorgaben">Allgemeine Testvorgaben</h1>
-				<p></p>
+				<h2 id="revisions">Revisionsvorgaben</h2>
+					<table>
+						<tr><th class="left">Spezifikation unter Test</th><td>trunk:5fb9b9fdd083c4adb58b3b2d63d9efe36537eeb4</td></tr>
+						<tr><th class="left">Programm-Code unter Test</th><td>trunk:5fb9b9fdd083c4adb58b3b2d63d9efe36537eeb4</td></tr>
+					</table>
+					
+				<h2 id="umgebung">Umgebung</h2>
+					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
+					
+				<h2 id="testende">Test-Ende-Kriterium</h2>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 30.09.2011 definiert. Dieser Umstand ist nicht optimal und kann den Erfolg des Tests schmälern.</p>
+					
+				<h2 id="testende">Test-Erstellungsmethodik</h2>
+					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
+				
+					<p>Um einen Anwendungsfall zu testen soll ein Aktivitätsdiagramm nach LL10, 19.5.4 erstellt werden, in dem alle Sonderfälle und Annotationen berücksichtigt werden. Anschließend sollen Testfälle ausgearbeitet werden, sodass eine vollständige Pfadüberdeckung erreicht wird.</p>
+					
+					<p>Für Anforderungen in natürlicher Sprache muss einzeln überprüft werden, ob die Anforderung objektivierbar und testbar ist. Ist sie dies nicht, so ist dies ausdrücklich mit Hilfe eines &lt;div class="criticism"&gt; zu kritisieren. Andernfalls müssen ein oder mehrere Testfälle zur Überprüfung der beschriebenen Anforderung entwickelt werden. Unter Umständen bietet sich ein Test mit einem Zustandsdiagramm nach LL10, 19.5.3 an, bei dem Transitionsüberdeckung erreicht werden sollte.</p>
+					
+					<p>Unter Umständen erfordern Tests zusätzliche große Datenmengen oder Programmcode. Diese sind zusätzlich zum Testplan zu entwickeln und der Konfigurationsverwaltung zu unterstellen.</p>
+					
+					<p>Die nicht-funktionale Bedienungs-Anforderungen der Spezifikation, das heißt:
+					<ul>
+					<li>"Wo möglich, wird PMP gute Standardeingaben vorgeben"</li>
+					<li>"Wo möglich, wird PMP [...] direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen"</li>
+					<li>"Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können."</li>
+					<li>"Ungewollte Aktionen wird der Benutzer abbrechen können."</li>
+					<li>"Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt."</li>					
+					</ul>
+					muss in den Tests der Anwendungsfälle jeweils überprüft werden.</p>
 			
-			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>				
+			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
+				<h2 id="usecases">Anwendungsfälle</h2>
+					<h3 id="awdf-1">Service Level anfragen</h3>
+												
+					<h3 id="awdf-2">Ressource der PMP bekannt machen</h3>
+						
+						
+					<h3 id="awdf-3">Ressourcengruppen anzeigen</h3>
+						
+						
+					<h3 id="awdf-4">Details zu einer Ressourcengruppe anzeigen</h3>
+						
+						
+					<h3 id="awdf-5">Apps anzeigen</h3>
+						
+						
+					<h3 id="awdf-6">Service Levels einer App anzeigen</h3>
+						
+						
+					<h3 id="awdf-7">Details zu einem Service Level einer App anzeigen</h3>
+						
+						
+					<h3 id="awdf-8">Rechte einer App auf Grundlage der Service Levels ändern</h3>
+				
+				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
+			
+					<h3 id="oberflaeche">Oberfläche</h3>
+					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+
+					<h3 id="import-export">Import/Export</h3>
+					<p>Kein Test notwendig.</p>
+			
+					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
+					<h4 id="ft-x">FT-x</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester startet PMP.</td><td>PMP ist gestartet und erfordert zur weiteren Benutzung keine Konfiguration von Seiten des Testers.</td></tr>
+					</table>
 			
 			<h1 id="testnichtfunktanf">Tests der nicht-funktionalen Anforderungen</h1>
 			
+				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
+				
+				<div class="criticism">
+				<h3 style="color: red;">Anmerkung</h3>
+				<p>Die genannten Anforderungen zur einfachen Bedienbarkeit sind schlichtweg lächerlich; es wird dringend zur Überarbeitung geraten.</p>
+				<p>Der primäre Grund hierfür ist eine fehlende Einschränkung des "Nutzers". Der Anforderung nach muss selbst ein Nutzer, der noch nie im Leben ein Smartphone bedient und keine Ahnung von PMP hat, in PMP "ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern und das Programm [..] intuitiv bedienen können". PMP selbst ist ein äußerst kompliziertes System, das zumindest auf bestehende Smartphone-Benutzer abzielt und meiner Einschätzung nach im Normalfall eine prinzipielle Einweisung benötigt.</p>
+				<p>Der Nutzer soll PMP "so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift." Offensichtlich handelt es sich um Buzzword-Wichtigtuerei, deren Testbarkeit äußerst fragwürdig erscheint.</p>
+				<p>Die Realisierung eines Tests einer derart abstrusen Anforderung wird versucht, über ein Bestehen des Testes wäre ich aber sehr verwundert. Die Spezifikationskorrektur wird dringend angeraten.</p>
+				</div>
+				
+				<h3 id="nft-1">NFT-1</h3>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App, die Mail-App, die Datenbank-Ressource und die Dateisystem-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+						<tr><td>2.</td><td>Der Tester setzt die Kalender-App auf Service Level 0.</td><td>Die Kalender-App benutzt das Service Level 0.</td></tr>
+						<tr><td>3.</td><td>Der Tester stellt den Android-Home-Bildschirm ein.</td><td>Das Gerät zeigt den Android-Home-Bildschirm.</td></tr>
+						<tr><td>4.</td><td>Der Tester findet eine Test-Person, <b>die noch nie ein Smartphone benutzt hat und noch nie von PMP gehört hat</b>.</td><td>Eine Test-Person steht zur Verfügung.</td></tr>
+						<tr><td>5.</td><td>Der Tester erklärt der Test-Person, dass er ihr eine Aufgabe stellen wird, die sie ohne jegliche Hilfestellung oder Einarbeitungszeit, also auch ohne Antworten auf Nachfragen, bewältigen muss.</td><td>Die Test-Person gibt an, die Erklärung verstanden zu haben.</td></tr>
+						<tr><td>6.</td><td>Der Tester verlangt von dieser Test-Person die Anzahl der Sätze der Beschreibung zur Datenbank-Ressource zu zählen, die Kalender-App "Name_Hier" voll benutzbar zu machen und der Mail-App jeglichen Zugriff zu verbieten.</td><td>Die Test-Person gibt an, die Aufgabe verstanden zu haben.</td></tr>
+						<tr><td>7.</td><td>Der Tester übergibt das Test-Gerät der Test-Person. <b>Er leistet keine Hilfestellung und gewährt keine Einarbeitungszeit, gibt auch keine Antworten auf Nachfragen.</b></td><td>Die Test-Person versucht die Aufgabe zu bewältigen.</td></tr>
+						<tr><td>8.</td><td>Der Tester wartet bis die Test-Person die Aufgabe abgeschlossen hat oder maximal fünf Minuten.</td><td>Die Test-Person hat die Aufgabe erfolgreich abgeschlossen.</td></tr>
+						<tr><td>9.</td><td>Der Tester fragt die Test-Person nach der Anzahl der Sätze in der Beschreibung der Datenbank-Ressource.</td><td>Die Test-Person antwortet "Korrekte_Antwort_Hier".</td></tr>
+						<tr><td>10.</td><td>Der Tester fragt die Test-Person, ob sie das Gefühl hat, dass "PMP nur minimal in ihren gewohnten Workflow eingreift".</td><td>Die Test-Person antwortet "Ja, PMP greift nur minimal in meinen gewohnten Workflow ein".</td></tr>
+						<tr><td>11.</td><td>Der Tester überprüft die Service Level der Apps.</td><td>Die Kalender-App benutzt das maximale Service Level, die Mail-App das Service Level 0.</td></tr>
+					</table>
 			
+				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
 			
+					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
+					<p>Die Software wird interaktiv bedienbar sein, die Reaktionszeit der Benutzeroberfläche wird dabei so gering wie möglich gehalten. Der PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen.
+					
+					<h3 id="mengengeruest">Mengengerüst</h3>
+					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils 5 verschiedenen Service Levels verwalten.</p>
+					<p>In der ersten Iteration wird eine Standard-Ressource bereitgestellt.</p>
+					
+					<h3 id="eingabelaengen">Eingabelängen</h3>
+					<p>Es sind keine Benutzereingaben für die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt.</p>
+					
+				<h2 id="robustheit">Robustheit</h2>
+				<p>PMP wird so robust entwickelt, dass Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
+
+				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
+				<p>PMP läuft als Service während der gesamten Betriebszeit des Android-Systems.</p>
+								
+				<h2 id="sicherheit">Sicherheit</h2>
+				<p>Für die erste Iteration sind keine speziellen Sicherheitfeatures geplant.</p>
+				
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
+				
+				<h2 id="internationalisierung">Internationalisierung</h2>
+				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
+				
+				<h2 id="protokollierung">Protokollierung</h2>
+				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
+				
+				<h2 id="installation">Installation</h2>
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
+				
+				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
+				<p>Die Software wird hinsichtlich folgender Punkte erweiterbar sein:</p>
+				<ul>
+					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
+					<li>Ressourcen/Ressourcengruppen</li>
+					<li>Rollen</li>
+					<li>verwaltete Apps</li>
+				</ul>
+
+				<h2 id="wartbarkeit">Wartbarkeit</h2>
+				<p>Es werden keine speziellen Anforderungen an die Wartbarkeit von PMP gestellt. Folgende allgemeine Anforderungen garantieren jedoch eine hohe Wartbarkeit von PMP:</p>
+				<ul>
+					<li>Es wird eine ausführliche Dokumentation des Sourcecodes in Form von (Javadoc-)Kommentaren erstellt.</li>
+					<li>Die Software wird modular aufgebaut sein.</li>
+					<li>Es werden allgemein bekannte und anerkannte Entwurfsmuster verwendet.</li>
+				</ul>
+				
+				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+				<p>PMP wird in der ersten Iteration ohne externe Abhängigkeiten entwickelt.</p>
+				
+				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
+									
 		</div>
 	
 		<!-- // end of system test plan's content -->
