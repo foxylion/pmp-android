@@ -32,6 +32,8 @@ public class ModelImpl implements IModel {
 	Cursor cursor = db.rawQuery(
 		"SELECT Identifier, Name_Cache, Description_Cache FROM App;",
 		null);
+	
+	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
 	    String identifier = cursor.getString(cursor
@@ -65,6 +67,8 @@ public class ModelImpl implements IModel {
 			"SELECT Identifier, Name_Cache, Description_Cache FROM ResourceGroup;",
 			null);
 
+	cursor.moveToNext();
+	
 	while (!cursor.isAfterLast()) {
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
@@ -97,6 +101,8 @@ public class ModelImpl implements IModel {
 			"SELECT Name, ResourceGroup_Identifier, Description FROM Preset;",
 			null);
 
+	cursor.moveToNext();
+	
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
 	    String rgIdentifier = cursor.getString(cursor

@@ -70,6 +70,8 @@ public class ServiceLevelImpl implements IServiceLevel {
 				+ "  AND slpl.ServiceLevel_Level = " + level
 				+ ";", new String[] { appIdentifier });
 
+	cursor.moveToNext();
+	
 	while (!cursor.isAfterLast()) {
 	    String resourceGroup_Identifier = cursor.getString(cursor
 		    .getColumnIndex("ResourceGroup_Identifier"));

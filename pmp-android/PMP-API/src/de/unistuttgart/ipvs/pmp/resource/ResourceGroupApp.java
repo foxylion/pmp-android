@@ -21,7 +21,7 @@ public abstract class ResourceGroupApp extends Application {
      * 
      * @param rgs
      *            the service asking for the resourcegroup
-     * @return the resourcegroup associated with that service
+     * @return the {@link ResourceGroup} associated with that service
      */
     public abstract ResourceGroup getResourceGroupForService(
 	    ResourceGroupService rgs);

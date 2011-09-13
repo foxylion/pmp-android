@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title>Systemtest-Plan für die 1. Iteration - Privacy Management Platform</title>
-	<script type="text/javascript" src="../_layout/jquery-1.6.2.min.js"></script>
-	<script type="text/javascript" src="../_layout/script.js"></script>
-	<link type="text/css" rel="stylesheet" media="screen" href="../_layout/style.css">
-	<link type="text/css" rel="stylesheet" media="print"  href="../_layout/print.css">
+	<script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../_layout/script.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -131,6 +131,106 @@
 					</table>
 			
 			<h1 id="testnichtfunktanf">Tests der nicht-funktionalen Anforderungen</h1>
+
+<!-- einbauen -->				
+			
+				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
+			
+					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
+
+					<div class="criticism">
+					<h3>Anmerkung</h3>
+					<p>Die Anforderung ist nicht objektivierbar. "Interaktiv bedienbar" sollte näher definiert werden, ggf. eine konkrete Obergrenze für die Reaktionszeit sollte definiert werden. Die Anforderung "PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen" wirkt ulkig und konkretisiert nicht, was "schonend" oder "Systemressourcen" bedeuten. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird dringend angeraten.</p>
+					</div>
+
+<!--					<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>C&P Deploy</td><td>C&P Deploy</td></tr> 
+					
+					</table> -->
+					
+					<h3 id="mengengeruest">Mengengerüst</h3>
+					<p>Für diesen Test ist die Entwicklung einer System-Test-App mit 5 verschiedenen Service-Leveln nötig. Die App muss keine GUI oder Funktionalität aufweisen, sollte allerdings sinnvolle Anforderungen an die Standard-Ressource stellen. Die App ist als "System-Test-Mengengeruest-1" zu kennzeichnen und anschließend 9 mal zu kopieren, wobei lediglich der Name der App (und ggf. das Package) sich ändern sollte, sodass zum Schluss 10 Mengengerüst-Test-Apps vorliegen.</p>
+					<h4>NFT-a</h4>
+					<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>C&P Deploy</td><td>C&P Deploy</td></tr> 
+					<tr><td>n.</td><td>Der Tester führt FT-x  durch.</td><td>FT-x Soll-Zustände werden erreicht</td></tr> 
+					<tr><td>n.</td><td>Der Tester führt FT-y  durch.</td><td>FT-y Soll-Zustände werden erreicht</td></tr> 				
+					</table> 
+					
+					
+					<h3 id="eingabelaengen">Eingabelängen</h3>
+					<div class="criticism">
+					<h3>Anmerkung</h3>
+					<p>Die Anforderung ist nicht objektivierbar, zudem widersprüchlich formuliert. Es gibt keine Eingaben, die auf eine sinnvolle Länge begrenzt werden. Die Definition von "sinnvolle Länge" wäre im Sinne der konsistenten Entwicklung interessant gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
+					</div>
+					
+				<h2 id="robustheit">Robustheit</h2>
+				<p>Test mit fehlerhaften Schnittstellen der Ressourcen, Apps und fehlerhafte Daten der Ressourcen, Apps (denke mal 4)</p>
+				<p>PMP wird so robust entwickelt, dass Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
+
+				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
+				<div class="criticism">
+				<h3>Anmerkung</h3>
+				<p>Die Anforderung erscheint seltsam, da PMP nicht nur ein Service ist. Hier soll also die PMP-App während der gesamten Betriebszeit des Android-Systems als Service laufen. Die PMP-App kann nicht als Service laufen. Android wurde so entwickelt, dass nicht garantiert werden kann, dass ein konkreter Prozess oder ein konkretes Datum während der gesamten Betriebszeit bereitsteht. Ich halte die Anforderung nicht für sinnvoll, einhaltbar oder testbar. Eine Spezifikationskorrektur wird dringend angeraten.</p>
+				</div>
+								
+				<h2 id="sicherheit">Sicherheit</h2>
+				<p>Kein Test notwendig.</p>
+				
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>Zusätzlicher Test für die maximal verfügbare Version 2.x, falls Zwischenversion mit speziellen Bugs bekannt: die auch (zufälliger Guess?)</p>
+				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
+				
+				<h2 id="internationalisierung">Internationalisierung</h2>
+				<p>Test für die Erweiterbarkeit in Japanisch (Google Translator), kurzer Test des Handbuchs</p>
+				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
+				
+				<h2 id="protokollierung">Protokollierung</h2>
+				<p>Test mit FT-Abfolge, Notation aller wichtigen Ereignisse vorab. Dann Überprüfung, ob Protokoll alle spezifizierten Systemereignisse enthält.</p>
+				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
+				
+				<h2 id="installation">Installation</h2>
+				<div class="criticism">
+				<h3>Anmerkung</h3>
+				<p>Die Anforderung "die Installation soll möglichst einfach sein" ist nicht objektivierbar. Konkrete Zeit, Kenntnis oder Hilfsmittelvorgaben wären sinnvoll gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
+				</div>
+				<p>Test, ob Handbuch die Beschreibung enthält.</p>
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
+				
+				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
+				<p>Die Erweiterbarkeit zur Internationalisierung wird im entsprechenden Kapitel getestet. Ressourcengruppen und verwaltete Apps werden im funktionalen Test bzw. im Mengengerüst getestet.</p>
+				
+				<div class="criticism">
+				<h3>Anmerkung</h3>
+				<p>Die Anforderung "Erweiterbarkeit bezüglich Rollen" erscheint grob fehlerhaft. Der korrekte Begriff wäre "Preset", des Weiteren wird nirgends sonst von Presets für diese Iteration gesprochen. Es erscheint mir zwar möglich, einen minimalen Test zu erstellen, dieser ist aber vermutlich nicht erfolgreich. Eine Spezifikationskorrektur wird dringend angeraten.</p>
+				</div>
+
+				<h4>NFT-a</h4>
+				<table>
+				<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+				<tr><td>1.</td><td>C&P Deploy</td><td>C&P Deploy</td></tr> 
+				<tr><td>n.</td><td>Der Tester findet heraus, wie ein neues Preset hinzugefügt werden kann.</td><td>Der Tester weiß, wie ein neues Preset hinzugefügt werden kann.</td></tr>
+				<tr><td>n.</td><td>Der Tester findet heraus, wie die verfügbaren Preset angezeigt werden können.</td><td>Der Tester weiß, wie die verfügbbaren Presets angezeigt werden können.</td></tr>  
+				<tr><td>n.</td><td>Der Tester fügt ein neues Preset hinzu.</td><td>Das neue Preset wird als verfügbares Preset angezeigt.</td></tr> 				
+				</table> 
+
+				<h2 id="wartbarkeit">Wartbarkeit</h2>
+				<div class="criticism">
+				<h3>Anmerkung</h3>
+				<p>Die Anforderung "es gibt eine ausführliche Dokumentation des Source-Codes" ist nicht objektivierbar. Hilfreich wären z.B. die Angabe eines Standards, Mindest-Kriteriums oder Prüfers gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
+				</div>
+
+				<p>Test, ob Entwurf 1. modular aufgebaut 2. bekannte und anerkannte Entwurfsmuster verwendet werden</p>
+				<p>Test, ob Code 1. modular aufgebaut 2. bekannte und anerkannte Entwurfsmuster verwendet werden</p>
+			
+				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+				<p>Ich bin der Meinung, dass die Abgeschlossenheit bereits durch die Tests auf einem AVD mit den entsprechenden Versionen abgedeckt ist. Diese erfordern alle keine externen Abhängigkeiten.</p>
+				
+				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+				<p>Test, ob Code verfügbar (Google Code). Test, ob Kopfkommentare nötig und anwesend.</p>
+<!-- /einbauen -->
 			
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
 				

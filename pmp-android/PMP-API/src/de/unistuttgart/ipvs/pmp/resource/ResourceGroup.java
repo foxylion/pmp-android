@@ -20,7 +20,13 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
- * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
+ * <p>A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
+ * You can register them by using the methods {@link ResourceGroup#registerResource(String, Resource)
+ * and {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel).</p>
+ * 
+ * <p>In order to work, a ResourceGroup needs a service defined in the manifest file which
+ * simply extends ResourceGroupService, and the app containing the ResourceGroup and its
+ * service must extend ResourceGroupApp</p>.
  * 
  * @author Tobias Kuhn
  * 
@@ -174,6 +180,16 @@ public abstract class ResourceGroup {
 	privacyLevelValues.put(rga.getHeader().getIdentifier(),
 		rga.getPrivacyLevelValues());
     }
+    
+    /**
+     * 
+     * @param privacyLevel
+     *            the identifier of the privacy level
+     * @return the privacy level identified by "privacyLevel", if present, null otherwise
+     */
+    protected final PrivacyLevel getPrivacyLevel(String privacyLevel) {
+	return privacyLevels.get(privacyLevel);
+    }
 
     /**
      * 
@@ -181,7 +197,7 @@ public abstract class ResourceGroup {
      *            the identifier of the accessing app
      * @param privacyLevel
      *            the identifier of the privacy level
-     * @return the value privacy level identified by "privacyLevel" for the app
+     * @return the privacy level value identified by "privacyLevel" for the app
      *         "appIdentifier", if present, null otherwise
      */
     protected final String getPrivacyLevelValue(String appIdentifier,
@@ -196,7 +212,7 @@ public abstract class ResourceGroup {
 
     /**
      * Effectively starts this resource group and registers it with PMP. Note
-     * that it needs to be connected to a {@link ResourceGroupService} via an
+     * that it needs to be "connected" to a {@link ResourceGroupService} via a
      * {@link ResourceGroupApp}. You can implement reacting to the result of
      * this operation by implementing onRegistrationSuccess() or
      * onRegistrationFailed()
@@ -224,18 +240,23 @@ public abstract class ResourceGroup {
 
 	    @Override
 	    public void connected() {
-		IPMPServiceRegistration ipmpsr = pmpsc.getRegistrationService();
-		try {
-		    byte[] pmpPublicKey = ipmpsr.registerResourceGroup(signee
-			    .getLocalPublicKey());
+		if (!pmpsc.isRegistered()) {
+		    // register with PMP
+		    IPMPServiceRegistration ipmpsr = pmpsc
+			    .getRegistrationService();
+		    try {
+			byte[] pmpPublicKey = ipmpsr
+				.registerResourceGroup(signee
+					.getLocalPublicKey());
 
-		    // save the returned public key to be PMP's
-		    signee.setRemotePublicKey(PMPComponentType.PMP,
-			    Constants.PMP_IDENTIFIER, pmpPublicKey);
+			// save the returned public key to be PMP's
+			signee.setRemotePublicKey(PMPComponentType.PMP,
+				Constants.PMP_IDENTIFIER, pmpPublicKey);
 
-		} catch (RemoteException e) {
-		    Log.e("RemoteException during registering resource group: "
-			    + e.toString());
+		    } catch (RemoteException e) {
+			Log.e("RemoteException during registering resource group: "
+				+ e.toString());
+		    }
 		}
 	    }
 

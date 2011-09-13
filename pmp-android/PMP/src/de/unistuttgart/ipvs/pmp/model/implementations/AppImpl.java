@@ -54,6 +54,8 @@ public class AppImpl implements IApp {
 			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = '"
 				+ identifier + "';", null);
 
+	cursor.moveToNext();
+	
 	while (!cursor.isAfterLast()) {
 	    int level = cursor.getInt(cursor.getColumnIndex("Level"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
@@ -81,6 +83,7 @@ public class AppImpl implements IApp {
 			new String[] { identifier });
 
 	if (cursor != null && cursor.getCount() == 1) {
+	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
