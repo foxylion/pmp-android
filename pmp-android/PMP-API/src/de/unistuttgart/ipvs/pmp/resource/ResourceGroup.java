@@ -25,8 +25,8 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * and {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel).</p>
  * 
  * <p>In order to work, a ResourceGroup needs a service defined in the manifest file which
- * simply extends ResourceGroupService, and the app containing the ResourceGroup and its
- * service must extend ResourceGroupApp</p>.
+ * simply extends {@link ResourceGroupService}, and the app containing the ResourceGroup and its
+ * service must extend {@link ResourceGroupApp}.</p>
  * 
  * @author Tobias Kuhn
  * 
@@ -179,16 +179,6 @@ public abstract class ResourceGroup {
     public final void updateAccess(ResourceGroupAccess rga) {
 	privacyLevelValues.put(rga.getHeader().getIdentifier(),
 		rga.getPrivacyLevelValues());
-    }
-    
-    /**
-     * 
-     * @param privacyLevel
-     *            the identifier of the privacy level
-     * @return the privacy level identified by "privacyLevel", if present, null otherwise
-     */
-    protected final PrivacyLevel getPrivacyLevel(String privacyLevel) {
-	return privacyLevels.get(privacyLevel);
     }
 
     /**
