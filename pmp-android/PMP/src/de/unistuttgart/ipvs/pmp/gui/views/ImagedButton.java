@@ -1,15 +1,18 @@
 package de.unistuttgart.ipvs.pmp.gui.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.text.TextUtils.TruncateAt;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,11 +30,15 @@ public class ImagedButton extends LinearLayout {
 	String fullname;
 	TextView appName;
 	TextView appName2;
+	int ID;
 	public boolean isDown = false;
+	private int imageSource;
 
-	public ImagedButton(Context context, String name) {
+	public ImagedButton(Context context, String name, int ID, int ImageSource) {
 		super(context);
+		this.imageSource = ImageSource;
 		this.setPadding(10, 10, 10, 10);
+		this.ID = ID;
 		this.fullname = name;
 		this.setOrientation(LinearLayout.VERTICAL);
 		this.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
@@ -56,6 +63,7 @@ public class ImagedButton extends LinearLayout {
 		image = new ImageView(context);
 		image.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT, 1f));
+		image.setPadding(0, 10, 0, 0);
 
 		appName = new TextView(context);
 		appName2 = new TextView(context);
@@ -65,7 +73,7 @@ public class ImagedButton extends LinearLayout {
 				LayoutParams.WRAP_CONTENT, 1f));
 
 		appName.setGravity(Gravity.CENTER_HORIZONTAL);
-		image.setImageResource(R.drawable.icon);
+		image.setImageResource(imageSource);
 		appName.setText(name);
 
 		this.addView(image);
@@ -74,9 +82,14 @@ public class ImagedButton extends LinearLayout {
 		if (name.length() > 10) {
 			String string = name.substring(0, 10);
 			String string2 = name.substring(10);
+			if(string2.length()>10)
+			    string2 = string2.substring(0,10);
+			
 			appName.setText(string);
 			appName2.setText(string2);
 		}
+		appName.setTextColor(Color.BLACK);
+		appName2.setTextColor(Color.BLACK);
 	}
 
 	@Override
@@ -85,28 +98,39 @@ public class ImagedButton extends LinearLayout {
 		paint.setColor(Color.BLACK);
 		paint.setStrokeWidth(1);
 		paint.setStyle(Style.STROKE);
-		canvas.drawRect(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
-				- getPaddingRight(), getHeight() - getPaddingBottom(), paint);
-
+		RectF rect = new RectF();
+		rect.set(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
+			- getPaddingRight(), getHeight() - getPaddingBottom());
+		canvas.drawRoundRect(rect, 10, 10, paint);
 		if(isDown){
-			paint2.setColor(Color.GREEN);	
+		    paint2.setColor(Color.GREEN);
 		}else{
-			paint2.setColor(Color.BLUE);
+		    paint2.setColor(Color.BLUE);
 		}
 		
 		paint2.setAlpha(35);
 		paint2.setStyle(Style.FILL);
-		canvas.drawRect(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
-				- getPaddingRight(), getHeight() - getPaddingBottom(), paint2);
+
+		RectF rect2 = new RectF();
+		rect2.set(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
+				- getPaddingRight(), getHeight() - getPaddingBottom());
+		canvas.drawRoundRect(rect2, 10, 10, paint2);
 	}
 
-	@Override
-	protected void dispatchDraw(Canvas canvas) {
-		super.dispatchDraw(canvas);
-		onDraw(canvas);
-	}
+	/**
+	 * Can be deleted.
+	 * Overlay the icons with the background
+	 */
+//	@Override
+//	protected void dispatchDraw(Canvas canvas) {
+//		super.dispatchDraw(canvas);
+//		onDraw(canvas);
+//	}
 	
-	public String getAppName(){
+	public String getName(){
 	    return fullname;
+	}
+	public int getIndex(){
+	    return ID;
 	}
 }

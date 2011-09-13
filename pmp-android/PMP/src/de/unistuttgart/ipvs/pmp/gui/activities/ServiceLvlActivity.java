@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -34,6 +39,10 @@ public class ServiceLvlActivity extends Activity {
      * App of which the Levels have to be load
      */
     private String appName;
+    /**
+     * Index of the current App
+     */
+    private int index;
 
     /**
      * If there are too much Levels, so you can scroll.
@@ -50,13 +59,13 @@ public class ServiceLvlActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	loadIntentsExtras();
-	this.setTitle("Service Levels for "+appName);
+	this.setTitle("Service Levels for " + appName);
 	createParentLayout();
-	// loadServiceLevels();
-	loadFakeServiceLevels();
+	loadServiceLevels();
+	// loadFakeServiceLevels();
 	scroll = new ScrollView(this);
 	scroll.addView(parentLayout);
-
+	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
 	setContentView(scroll);
     }
 
@@ -76,7 +85,27 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Privacy Levels for the GUI
      */
     private void loadServiceLevels() {
-
+	IApp appsArray[] = ModelSingleton.getInstance().getModel().getApps();
+	IApp app = appsArray[index];
+	IServiceLevel levelArray[] = app.getServiceLevels();
+	RadioGroup group = new RadioGroup(this);
+	for (int i = 0; i < levelArray.length; i++) {
+	    RadioButton button = new RadioButton(this);
+	    button.setBackgroundColor(Color.rgb(211, 211, 211));
+	    button.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+		    LayoutParams.WRAP_CONTENT));
+	    button.setGravity(Gravity.CENTER);
+	    button.setTextColor(Color.BLACK);
+	    button.setText(levelArray[i].getName());
+	    if (app.getActiveServiceLevel() == i) {
+		button.setChecked(true);
+	    }
+	    button.setOnTouchListener(new OnLevelTouchListener(this,
+		    levelArray[i].getDescription(), button, this, index, i));
+	    group.addView(button);
+	}
+	group.setGravity(Gravity.CENTER_HORIZONTAL);
+	parentLayout.addView(group);
     }
 
     /**
@@ -84,11 +113,11 @@ public class ServiceLvlActivity extends Activity {
      */
     private void loadIntentsExtras() {
 	appName = this.getIntent().getExtras().getString("appName");
+	index = this.getIntent().getExtras().getInt("appID");
     }
 
     /**
-     * ************* FAKE METHOD ********** 
-     * Loads the Privacy Levels for the GUI
+     * ************* FAKE METHOD ********** Loads the Privacy Levels for the GUI
      * can be replaced by the method - loadPrivacyLevels()
      */
     private void loadFakeServiceLevels() {
@@ -100,76 +129,137 @@ public class ServiceLvlActivity extends Activity {
 	RadioGroup group = new RadioGroup(this);
 	for (int i = 0; i < levels.length; i++) {
 	    RadioButton button = new RadioButton(this);
-	    button.setBackgroundColor(Color.WHITE);
-	    button.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		    LayoutParams.WRAP_CONTENT));
+	    button.setBackgroundColor(Color.rgb(211, 211, 211));
+	    button.setLayoutParams(LayoutParamsCreator.createFPWC());
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextSize(50);
 	    button.setTextColor(Color.BLACK);
-	    if(i == 3)
+	    if (i == 3)
 		button.setChecked(true);
 	    button.setText(levels[i]);
-	    button
-	    .setOnTouchListener(new OnLevelTouchListener(this,
-		    levels[i], button, this));
+	    // button.setOnTouchListener(new OnLevelTouchListener(this,
+	    // levels[i],
+	    // button, this));
 	    group.addView(button);
 	}
 	group.setGravity(Gravity.CENTER_HORIZONTAL);
 	parentLayout.addView(group);
     }
+
+    public void reloadActivity() {
+	parentLayout.removeAllViews();
+	loadServiceLevels();
+    }
 }
+
 /**
- * OnLevelTouchListener 
+ * OnLevelTouchListener
+ * 
  * @author Alexander Wassiljew
- *
+ * 
  */
 class OnLevelTouchListener implements OnTouchListener {
 
-    private String lvlName;
+    private String lvlDescr;
     private Context context;
     private RadioButton parent;
     private ServiceLvlActivity activity;
-    public OnLevelTouchListener(Context context, String lvlName, RadioButton button,
-	    ServiceLvlActivity activity) {
-	this.lvlName = lvlName;
+    private int levelID;
+    private int appID;
+
+    public OnLevelTouchListener(Context context, String lvlDescr,
+	    RadioButton button, ServiceLvlActivity activity, int appID,
+	    int levelID) {
+	this.lvlDescr = lvlDescr;
 	this.context = context;
 	this.parent = button;
 	this.activity = activity;
+	this.levelID = levelID;
+	this.appID = appID;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 	if (event.getAction() == event.ACTION_UP) {
-	    Dialog dialog = new Dialog(context);
-	    dialog.setCanceledOnTouchOutside(true);
+	    final Dialog dialog = new Dialog(context);
+	    dialog.setCanceledOnTouchOutside(false);
+	    dialog.setCancelable(true);
 	    dialog.setTitle("Apply Service Level?");
 	    LinearLayout dialogLayout = new LinearLayout(context);
 	    dialogLayout.setOrientation(LinearLayout.VERTICAL);
 	    TextView description = new TextView(context);
-	    description.setText("Description of the Service Level " + lvlName);
+	    description.setText("Description:" + "\n\n" + lvlDescr +"\n");
+	    description.setPadding(10, 0, 10, 0);
 	    Button apply = new Button(context);
 	    apply.setText("Apply");
+
+	    Button cancel = new Button(context);
+	    cancel.setText("Cancel");
+
+	    /**
+	     * Reload the ServiceLvlActivity if no changes occur
+	     */
 	    dialog.setOnCancelListener(new OnCancelListener() {
-	        @Override
-	        public void onCancel(DialogInterface dialog) {
-	            // Reloads the Service Level Activity if new Service Level
-	            //wasn't set
-	            activity.startActivity(activity.getIntent()); activity.finish();
-	        }
+		@Override
+		public void onCancel(DialogInterface dialog) {
+		    // Reloads the Service Level Activity if new Service Level
+		    // wasn't set
+		    activity.reloadActivity();
+		}
 	    });
 	    /**
 	     * Sets the Service Level.
 	     */
 	    apply.setOnTouchListener(new OnTouchListener() {
-	        
-	        @Override
-	        public boolean onTouch(View v, MotionEvent event) {
-	            
-	            return false;
-	        }
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+		    IApp appsArray[] = ModelSingleton.getInstance().getModel()
+			    .getApps();
+		    IApp app = appsArray[appID];
+		    IServiceLevel levelArray[] = app.getServiceLevels();
+		    IServiceLevel level = levelArray[levelID];
+		    Log.v("appID:" + String.valueOf(appID));
+		    Log.v("levelID:" + String.valueOf(levelID));
+
+		    try {
+			app.setActiveServiceLevel(level.getLevel());
+		    } catch (Exception exc) {
+			;
+		    }
+		    dialog.cancel();
+		    return false;
+		}
 	    });
+	    /**
+	     * Cancel the dialog
+	     */
+	    cancel.setOnTouchListener(new OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+		    dialog.cancel();
+		    return false;
+		}
+	    });
+
 	    dialogLayout.addView(description);
-	    dialogLayout.addView(apply);
+
+	    LinearLayout buttonLayout = new LinearLayout(context);
+
+	    apply.setLayoutParams(new LinearLayout.LayoutParams(
+		    LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1f));
+
+	    cancel.setLayoutParams(new LinearLayout.LayoutParams(
+		    LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1f));
+	    buttonLayout.addView(apply);
+	    buttonLayout.addView(cancel);
+
+	    
+	    buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+
+	    dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+	    dialogLayout.addView(buttonLayout);
+
 	    dialog.setContentView(dialogLayout);
 	    dialog.show();
 	} else if (event.getAction() == event.ACTION_MOVE) {
