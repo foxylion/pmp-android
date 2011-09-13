@@ -20,7 +20,13 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
- * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
+ * <p>A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
+ * You can register them by using the methods {@link ResourceGroup#registerResource(String, Resource)
+ * and {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel).</p>
+ * 
+ * <p>In order to work, a ResourceGroup needs a service defined in the manifest file which
+ * simply extends ResourceGroupService, and the app containing the ResourceGroup and its
+ * service must extend ResourceGroupApp</p>.
  * 
  * @author Tobias Kuhn
  * 

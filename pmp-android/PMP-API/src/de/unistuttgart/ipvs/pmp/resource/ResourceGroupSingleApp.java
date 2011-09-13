@@ -15,7 +15,9 @@ import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
  * 
  * <p>
  * And finally use getResourceGroup().start(); to register your resource with
- * PMP. That's all there is to it.
+ * PMP, if necessary. You may want to already do this in
+ * {@link ResourceGroupSingleApp#createResourceGroup()}. That's all there is to
+ * it.
  * </p>
  * 
  * 
