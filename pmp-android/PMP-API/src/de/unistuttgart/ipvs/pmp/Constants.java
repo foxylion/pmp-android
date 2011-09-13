@@ -44,6 +44,6 @@ public class Constants {
      * Enable this to generate sample data into the PMP-Database. (Absolutely
      * not recommended for production use!)
      */
-    public static final boolean USE_SAMLPE_DATA = true;
+    public static final boolean USE_SAMLPE_DATA = false;
 
 }

@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model;
 
+import android.database.Cursor;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 
 /**
@@ -11,6 +13,20 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
  * 
  */
 public class DatabaseSingleton {
+
+    /**
+     * List of all SQL-files for adding sample values to the database, the key
+     * is the version of the database.
+     */
+    private static final String[] SAMPLE_SQL_FILES = new String[] { null,
+	    "samples-v1.sql" };
+
+    /**
+     * List of all SQL-files for cleaning sample values from the database, the
+     * key is the version of the database.
+     */
+    private static final String[] CLEAN_SAMPLE_SQL_FILES = new String[] { null,
+	    "samples-v1-clean.sql" };
 
     /**
      * The instance.
@@ -45,5 +61,42 @@ public class DatabaseSingleton {
 	}
 
 	return doh;
+    }
+
+    public void createSampleData() {
+	Log.d("Sample data will be installed, read the queries from "
+		+ SAMPLE_SQL_FILES[1]);
+
+	String sqlQueries = getDatabaseHelper()
+		.readSqlFile(SAMPLE_SQL_FILES[1]);
+
+	if (sqlQueries != null) {
+	    Log.d("Loaded sample file, inserting them into database...");
+	    DatabaseOpenHelper.executeMultipleQueries(getDatabaseHelper()
+		    .getWritableDatabase(), sqlQueries);
+	    Log.d("Inserted queries into database (with, or without errors, see above).");
+	}
+    }
+
+    public boolean isSampleDataInstalled() {
+	Cursor cursor = getDatabaseHelper().getReadableDatabase().rawQuery(
+		"SELECT Identifier FROM App WHERE Identifier LIKE 'Sample#%';",
+		null);
+	return cursor.getCount() > 0;
+    }
+
+    public void removeSampleData() {
+	Log.d("Sample data will be removed, read the queries from "
+		+ CLEAN_SAMPLE_SQL_FILES[1]);
+
+	String sqlQueries = getDatabaseHelper()
+		.readSqlFile(CLEAN_SAMPLE_SQL_FILES[1]);
+
+	if (sqlQueries != null) {
+	    Log.d("Loaded clean file, cleaning them from the database...");
+	    DatabaseOpenHelper.executeMultipleQueries(getDatabaseHelper()
+		    .getWritableDatabase(), sqlQueries);
+	    Log.d("Cleaned samples from database (with, or without errors, see above).");
+	}
     }
 }

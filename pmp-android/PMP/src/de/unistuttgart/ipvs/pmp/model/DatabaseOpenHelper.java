@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 
 import android.content.Context;
@@ -46,11 +45,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	    "database-v1.sql" };
 
     /**
-     * List of all SQL-files for adding sample values to the database, the key
-     * is the version of the database.
+     * List of all SQL-files for database-clean, the key is the version of the
+     * database.
      */
-    private static final String[] SAMPLE_SQL_FILES = new String[] { null,
-	    "samples-v1.sql" };
+    private static final String[] CLEAN_SQL_FILES = new String[] { null,
+	    "database-v1-clean.sql" };
 
     /**
      * DatabaseHelper-Constructor.
@@ -72,25 +71,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	if (sqlQueries != null) {
 	    Log.d("Successfully read the database from " + SQL_FILES[1]
 		    + ", executing now...");
-	    executeMultipleQueries(db, sqlQueries);
+	    DatabaseOpenHelper.executeMultipleQueries(db, sqlQueries);
 	    Log.d("Created the database (with, or without errors, see above).");
-
-	    /*
-	     * Load sample data into the database if it is required by
-	     * Constants.USE_SAMPLE_DATA
-	     */
-	    if (Constants.USE_SAMLPE_DATA) {
-		Log.d("Use sample data is enabled, read the queries from "
-			+ SAMPLE_SQL_FILES[1]);
-
-		sqlQueries = readSqlFile(SAMPLE_SQL_FILES[1]);
-		
-		if(sqlQueries != null) {
-		    Log.d("Loaded sample files, inserting them into database...");
-		    executeMultipleQueries(db, sqlQueries);
-		    Log.d("Inserted queries into database (with, or without errors, see above).");
-		}
-	    }
 	}
     }
 
@@ -104,6 +86,23 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Cleans all data from the tables.
+     */
+    public void cleanTables() {
+	Log.d("Cleaning database.");
+
+	String sqlQueries = readSqlFile(CLEAN_SQL_FILES[1]);
+
+	if (sqlQueries != null) {
+	    Log.d("Successfully read the queries from " + CLEAN_SQL_FILES[1]
+		    + ", executing now...");
+	    DatabaseOpenHelper.executeMultipleQueries(getWritableDatabase(),
+		    sqlQueries);
+	    Log.d("Cleaned database (with, or without errors, see above).");
+	}
+    }
+
+    /**
      * Read a SQL file from assets folder.
      * 
      * @param filename
@@ -112,7 +111,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      * @return String represented SQL query from the file. NULL if the file
      *         could not be read.
      */
-    private String readSqlFile(String filename) {
+    public String readSqlFile(String filename) {
 	String sqlQuery = null;
 
 	try {
@@ -141,7 +140,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	return sqlQuery;
     }
 
-    private void executeMultipleQueries(SQLiteDatabase db, String queries) {
+    public static void executeMultipleQueries(SQLiteDatabase db, String queries) {
 	Log.v("------- SQL-Queries to be executed ------");
 
 	for (String query : queries.split(";")) {
