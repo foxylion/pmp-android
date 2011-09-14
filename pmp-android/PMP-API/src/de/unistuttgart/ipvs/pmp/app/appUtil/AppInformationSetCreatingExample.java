@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.app.appUtil;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -33,7 +34,13 @@ public class AppInformationSetCreatingExample extends Activity {
 	}
 
 	// Create the app information set
-	AppInformationSet ais = AppUtility.createAppInformationSet(xmlURL);
+	AppInformationSet ais = null;
+	try {
+	    ais = AppUtility.createAppInformationSet(xmlURL.openStream());
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 
 	// Print the app information set
 	AppUtility.printAppInformationSet(ais);

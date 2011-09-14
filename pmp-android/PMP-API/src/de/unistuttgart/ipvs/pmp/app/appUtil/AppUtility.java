@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.app.appUtil;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Locale;
 
@@ -25,8 +26,8 @@ public class AppUtility {
      *            url to the xml file
      * @return app information set
      */
-    public static AppInformationSet createAppInformationSet(URL xmlURL) {
-	return new XMLParser().parse(xmlURL);
+    public static AppInformationSet createAppInformationSet(InputStream xmlStream) {
+	return new XMLParser().parse(xmlStream);
     }
 
     /**
