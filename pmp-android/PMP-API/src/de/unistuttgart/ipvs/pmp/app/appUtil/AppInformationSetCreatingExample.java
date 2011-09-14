@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.Log;
 import android.app.Activity;
 import android.os.Bundle;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
 
 /**
  * This activity creates a app information set with the given xml file. This is

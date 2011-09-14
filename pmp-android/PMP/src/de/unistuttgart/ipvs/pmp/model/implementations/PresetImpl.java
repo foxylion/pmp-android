@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 
 /**
  * Implementation of the {@link IPreset} interface.

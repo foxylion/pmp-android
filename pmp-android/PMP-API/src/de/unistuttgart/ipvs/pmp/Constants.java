@@ -5,7 +5,8 @@ import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
- * Constants used by PMP, PMP-API and their implementing Apps and ResourceGroups.
+ * Constants used by PMP, PMP-API and their implementing Apps and
+ * ResourceGroups.
  * 
  * @author Jakob Jarosch
  */

@@ -54,7 +54,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 			new String[] { identifier });
 
 	cursor.moveToNext();
-	
+
 	while (!cursor.isAfterLast()) {
 	    String plIdentifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));

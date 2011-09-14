@@ -1,9 +1,9 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * The {@link AppService} is used to allow PMPService a connection where

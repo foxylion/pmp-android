@@ -18,37 +18,37 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 public class PMPServiceConnector extends AbstractConnector {
 
     private boolean registred = false;
-    
+
     public PMPServiceConnector(Context context, PMPSignee signee) {
 	super(context, signee, Constants.PMP_IDENTIFIER);
     }
 
     public IPMPServiceRegistration getRegistrationService() {
-	if(getService() == null) {
+	if (getService() == null) {
 	    return null;
 	}
 	IPMPServiceRegistration service = IPMPServiceRegistration.Stub
 		.asInterface(getService());
-	
+
 	return service;
     }
 
     public IPMPServiceResourceGroup getResourceGroupService() {
-	if(getService() == null) {
+	if (getService() == null) {
 	    return null;
 	}
 	IPMPServiceResourceGroup service = IPMPServiceResourceGroup.Stub
 		.asInterface(getService());
-	
+
 	return service;
     }
 
     public IPMPServiceApp getAppService() {
-	if(getService() == null) {
+	if (getService() == null) {
 	    return null;
 	}
 	IPMPServiceApp service = IPMPServiceApp.Stub.asInterface(getService());
-	
+
 	return service;
     }
 
@@ -66,18 +66,19 @@ public class PMPServiceConnector extends AbstractConnector {
     protected void serviceConnected() {
 	try {
 	    IPMPServiceRegistration service = IPMPServiceRegistration.Stub
-			.asInterface(getService()); 
+		    .asInterface(getService());
 	    service.testBinding();
-	} catch(SecurityException e) {
+	} catch (SecurityException e) {
 	    registred = true;
-	} catch(RemoteException e) {
-	    Log.e("Got an RemoteException while testing the connected binder in PMPServiceConnector.", e);
+	} catch (RemoteException e) {
+	    Log.e("Got an RemoteException while testing the connected binder in PMPServiceConnector.",
+		    e);
 	}
     }
 
     @Override
     protected void serviceDisconnected() {
-	
+
     }
 
 }

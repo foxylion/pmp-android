@@ -1,13 +1,14 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import android.content.Intent;
+import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
 
 /**
  * External service for communication between PMP, the Resources and Apps. <br/>

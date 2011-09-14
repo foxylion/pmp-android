@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
-import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 import android.content.Context;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**
  * {@link AppServiceConnector} is used for connecting (in this case binding) to
