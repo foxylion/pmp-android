@@ -244,8 +244,7 @@ public abstract class ResourceGroup {
 				Constants.PMP_IDENTIFIER, pmpPublicKey);
 
 		    } catch (RemoteException e) {
-			Log.e("RemoteException during registering resource group: "
-				+ e.toString());
+			Log.e("RemoteException during registering resource group", e);
 		    }
 		}
 	    }
