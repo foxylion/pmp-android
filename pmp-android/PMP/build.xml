@@ -85,5 +85,19 @@
 			<class location="${out.dir}" />
 		</findbugs>
 	</target>
+	
+	<target name="mkjdocs" depends="compile">
+		<mkdir dir="jdoc" />
+		<javadoc 
+           sourcepath="src"           
+           destdir="jdoc"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="PMP">
+		</javadoc>
+	</target>
+
+
 
 </project>
