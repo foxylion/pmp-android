@@ -80,7 +80,7 @@ public class ResourceGroupAccess implements Parcelable {
 
     @Override
     public int describeContents() {
-	return this.hashCode();
+	return 0;
     }
 
     /**

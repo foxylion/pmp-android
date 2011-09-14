@@ -107,6 +107,7 @@ public class PMPSignee {
 			.getInstance(ALGORITHM_KEY);
 		kpg.initialize(4096);
 		local = kpg.generateKeyPair();
+		save();
 	    } catch (NoSuchAlgorithmException e) {
 		Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
 		local = null;
