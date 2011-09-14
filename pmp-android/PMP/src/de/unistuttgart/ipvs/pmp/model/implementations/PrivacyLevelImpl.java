@@ -1,10 +1,18 @@
 package de.unistuttgart.ipvs.pmp.model.implementations;
 
+import java.util.Locale;
+import java.util.concurrent.Semaphore;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
 /**
  * Implementation of the {@link PrivacyLevelImpl} interface.
@@ -33,7 +41,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	this.value = value;
     }
 
-    public String getRessourceGroupIdentifier() {
+    private String getRessourceGroupIdentifier() {
 	return resourceGroupIdentifier;
     }
 
@@ -81,15 +89,46 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
     }
 
     @Override
-    public String getHumanReadableValue(String value) {
-	/*
-	 * TODO Implement the humand readable request
-	 * 
-	 * The request of the human readable value should be done in a non
-	 * connection blocking way and return the human readable value (...)
-	 */
+    public String getHumanReadableValue(String value) throws RemoteException {
+	if(value == null) {
+	    throw new IllegalArgumentException("Value must not be NULL");
+	}
+	
+	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(), PMPApplication.getSignee(), getRessourceGroupIdentifier());
+	
+	rgsc.bind(true);
+	
+	if(!rgsc.isBound() || rgsc.getPMPService() == null) {
+	    Log.e("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+	    RemoteException re = new RemoteException();
+	    re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies"));
+	    throw re;
+	} else {
+	    return rgsc.getPMPService().getHumanReadablePrivacyLevelValue(Locale.getDefault().getLanguage(), identifier, value);
+	}
+    }
 
-	return value;
+    @Override
+    public boolean satisfies(String reference, String value) throws RemoteException {
+	if(reference == null) {
+	    throw new IllegalArgumentException("reference must not be NULL");
+	}
+	if(value == null) {
+	    throw new IllegalArgumentException("value must not be NULL");
+	}
+	
+	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(), PMPApplication.getSignee(), getRessourceGroupIdentifier());
+	
+	rgsc.bind(true);
+	
+	if(!rgsc.isBound() || rgsc.getPMPService() == null) {
+	    Log.e("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+	    RemoteException re = new RemoteException();
+	    re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies"));
+	    throw re;
+	} else {
+	    return rgsc.getPMPService().satisfiesPrivacyLevel(identifier, reference, value);
+	}
     }
 
 }

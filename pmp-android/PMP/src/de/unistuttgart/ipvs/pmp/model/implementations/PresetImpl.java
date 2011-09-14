@@ -110,11 +110,10 @@ public class PresetImpl implements IPreset {
 	    SQLiteDatabase db = DatabaseSingleton.getInstance()
 		    .getDatabaseHelper().getWritableDatabase();
 
-	    Cursor cursor = db
-		    .rawQuery(
-			    "INSERT INTO Preset_Apps (Name, Type, Identifier, App_Identifier) VALUES (?, ?, ?, ?)",
-			    new String[] { name, type.toString(), identifier,
-				    app.getIdentifier() });
+	    db.rawQuery(
+		    "INSERT INTO Preset_Apps (Name, Type, Identifier, App_Identifier) VALUES (?, ?, ?, ?)",
+		    new String[] { name, type.toString(), identifier,
+			    app.getIdentifier() });
 
 	    if (!hidden) {
 		app.verifyServiceLevel();
@@ -132,11 +131,10 @@ public class PresetImpl implements IPreset {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	Cursor cursor = db
-		.rawQuery(
-			"DELETE FROM Preset_Apps WHERE Name = ? AND Type = ? AND Identifier = ? AND App_Identifier = ?",
-			new String[] { name, type.toString(), identifier,
-				app.getIdentifier() });
+	db.rawQuery(
+		"DELETE FROM Preset_Apps WHERE Name = ? AND Type = ? AND Identifier = ? AND App_Identifier = ?",
+		new String[] { name, type.toString(), identifier,
+			app.getIdentifier() });
 
 	if (!hidden) {
 	    app.verifyServiceLevel();
@@ -169,8 +167,8 @@ public class PresetImpl implements IPreset {
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
 	// TODO Auto-generated method stub
 
-	if(!hidden) {
-	    for(IApp app : getAssignedApps()) {
+	if (!hidden) {
+	    for (IApp app : getAssignedApps()) {
 		app.verifyServiceLevel();
 	    }
 	}
