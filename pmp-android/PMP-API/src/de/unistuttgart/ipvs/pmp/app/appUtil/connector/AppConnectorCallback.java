@@ -8,6 +8,13 @@ import de.unistuttgart.ipvs.pmp.app.AppApplication;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
+/**
+ * Class that the PMP service is calling if the app is connected to the service
+ * or not.
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class AppConnectorCallback implements IConnectorCallback {
 
     @Override
@@ -19,7 +26,9 @@ public class AppConnectorCallback implements IConnectorCallback {
 		    .registerApp(signee.getLocalPublicKey());
 	    signee.setRemotePublicKey(PMPComponentType.PMP,
 		    Constants.PMP_IDENTIFIER, pmpKey);
-	    Log.d(AppApplication.getInstance().getContext().getPackageName() + " connected");
+
+	    Log.d(AppApplication.getInstance().getContext().getPackageName()
+		    + " connected");
 	} catch (RemoteException e) {
 	    Log.e("Registration failed", e);
 	}
@@ -27,12 +36,14 @@ public class AppConnectorCallback implements IConnectorCallback {
 
     @Override
     public void bindingFailed() {
-	Log.e(AppApplication.getInstance().getContext().getPackageName() + " failed binding");
+	Log.e(AppApplication.getInstance().getContext().getPackageName()
+		+ " failed binding");
     }
 
     @Override
     public void disconnected() {
-	Log.e(AppApplication.getInstance().getContext().getPackageName() + " disconnected");
+	Log.e(AppApplication.getInstance().getContext().getPackageName()
+		+ " disconnected");
     }
 
 }
