@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.model.implementations.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.os.RemoteException;
+
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -34,8 +36,9 @@ public class ServiceLevelCalculator {
      * @return a map from
      *         {@link ServiceLevelCalculator#getUniquePLIdentifier(IPrivacyLevel)}
      *         to the best value assigned
+     * @throws RemoteException 
      */
-    private Map<String, String> getBestValues() {
+    private Map<String, String> getBestValues() throws RemoteException {
 	Map<String, String> bestValues = new HashMap<String, String>();
 
 	// of all presets
@@ -75,7 +78,7 @@ public class ServiceLevelCalculator {
 		+ RG_PL_SEPARATOR + privacyLevel.getIdentifier();
     }
 
-    public int calculate() {
+    public int calculate() throws RemoteException {
 	// we first need to know which are the best privacy levels availabel
 	Map<String, String> bestValues = getBestValues();
 
