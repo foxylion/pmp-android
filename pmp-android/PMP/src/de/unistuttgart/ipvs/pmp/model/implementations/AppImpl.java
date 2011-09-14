@@ -152,20 +152,21 @@ public class AppImpl implements IApp {
     public void verifyServiceLevel() {
 	final IApp app = this;
 	new Thread(new Runnable() {
-
+	    
 	    @Override
 	    public void run() {
 		ServiceLevelCalculator slc = new ServiceLevelCalculator(app);
+
 		int serviceLevel;
 		try {
 		    serviceLevel = slc.calculate();
-
-		    if (serviceLevel != getActiveServiceLevel()) {
-			setActiveServiceLevel(serviceLevel);
-		    }
 		} catch (RemoteException e) {
-		    Log.e("Could not calculate the ServiceLevel, got RemoteException",
-			    e);
+		    serviceLevel = 0;
+		    Log.e("Could not calculate service level", e);
+		}
+
+		if (serviceLevel != getActiveServiceLevel()) {
+		    setActiveServiceLevel(serviceLevel);
 		}
 
 	    }
