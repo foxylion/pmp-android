@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.gui.activities;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.appUtil.connector.PMPConnector;
 import de.unistuttgart.ipvs.pmp.apps.R;
 import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.ChangeDateDialog;
@@ -45,7 +44,6 @@ public class CalendarAppActivity extends ListActivity {
 	super.onCreate(savedInstanceState);
 
 	actualContext = this.getApplicationContext();
-	
 	PMPConnector.connectToPMP(actualContext);
 	
 	setContentView(R.layout.list_layout);

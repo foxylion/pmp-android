@@ -20,13 +20,17 @@ public class PMPConnector {
 	AppApplication.getInstance().setContext(context);
 	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
 		AppService.class, context);
+	
+	// Right ?????
+	signee.setIdentifier(context.getPackageName());
+	
 	AppApplication.getInstance().setSignee(signee);
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
 		signee);
 	serviceCon.addCallbackHandler(new AppConnectorCallback());
 	AppApplication.getInstance().setServiceConnector(serviceCon);
 
-	Log.v("Trying to connect to PMP service");
+	Log.v(context.getPackageName() + " tries to connect to PMP service");
 	if (!serviceCon.bind()) {
 	    Log.e(context.getPackageName() + " failed binding");
 	}
