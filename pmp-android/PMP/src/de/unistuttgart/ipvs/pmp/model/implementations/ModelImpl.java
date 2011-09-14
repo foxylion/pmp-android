@@ -51,7 +51,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public void addApp(String identifier, String publicKey) {
+    public void addApp(String identifier, byte[] publicKey) {
 	// TODO Auto-generated method stub
     }
 
@@ -85,7 +85,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public void addResourceGroup(String identifier, String publicKey) {
+    public void addResourceGroup(String identifier, byte[] publicKey) {
 	// TODO Auto-generated method stub
     }
 
