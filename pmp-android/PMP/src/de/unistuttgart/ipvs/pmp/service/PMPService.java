@@ -38,7 +38,7 @@ public class PMPService extends PMPSignedService {
 	PMPComponentType type = (PMPComponentType) intent
 		.getSerializableExtra(Constants.INTENT_TYPE);
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-
+	
 	/* Should be a normal authentification */
 	if (type.equals(PMPComponentType.APP)) {
 	    return new PMPServiceAppStubImpl(identifier);
@@ -53,6 +53,7 @@ public class PMPService extends PMPSignedService {
     @Override
     public IBinder onUnsignedBind(Intent intent) {
 	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+	
 	return new PMPServiceRegistrationStubImpl(identifier);
     }
 
