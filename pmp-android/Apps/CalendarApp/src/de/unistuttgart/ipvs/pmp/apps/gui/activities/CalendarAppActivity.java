@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.gui.activities;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.appUtil.connector.PMPConnector;
 import de.unistuttgart.ipvs.pmp.apps.R;
 import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.ChangeDateDialog;
@@ -33,7 +34,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The actual context
      */
-    private Context actualContext = this;
+    private Context actualContext;
 
     /**
      * Called when the activity is first created. Creates the list and shows the
@@ -43,6 +44,8 @@ public class CalendarAppActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
+	actualContext = this.getApplicationContext();
+	
 	PMPConnector.connectToPMP(actualContext);
 	
 	setContentView(R.layout.list_layout);
