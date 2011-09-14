@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-//import java.util.Locale;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -84,15 +84,21 @@ public abstract class ResourceGroup {
 
     /**
      * 
-     * @return the name of this resource group
+     * @param locale
+     *            the ISO-639 locale string available from
+     *            {@link Locale#getLanguage()}
+     * @return the name of this resource group for the given locale
      */
-    public abstract String getName();
+    public abstract String getName(String locale);
 
     /**
      * 
-     * @return the description of this resource group
+     * @param locale
+     *            the ISO-639 locale string available from
+     *            {@link Locale#getLanguage()}
+     * @return the description of this resource group for the given locale
      */
-    public abstract String getDescription();
+    public abstract String getDescription(String locale);
 
     /**
      * Overwrite this method to return the <b>exact same</b> identifier you have
