@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -15,7 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.XMLParserException.Type;
