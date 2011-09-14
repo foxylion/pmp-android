@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 import android.content.Context;
 
 /**
@@ -16,15 +17,24 @@ public class AppServiceConnector extends AbstractConnector {
 	super(context, signee, targetIdentifier);
     }
 
+    /**
+     * @return Returns the AppService or NULL if no Service was returned
+     *         (authentication failed?).
+     */
+    public IAppService getAppService() {
+	if (getService() == null) {
+	    return null;
+	}
+	return IAppService.Stub.asInterface(getService());
+    }
+
     @Override
     protected void serviceConnected() {
-	// TODO Auto-generated method stub
 
     }
 
     @Override
     protected void serviceDisconnected() {
-	// TODO Auto-generated method stub
 
     }
 

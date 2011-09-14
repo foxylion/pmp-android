@@ -22,4 +22,11 @@ interface IPMPServiceRegistration {
 	 * @return the public key of PMP
 	 */
 	byte[] registerResourceGroup(in byte[] publicKey);
+	
+	/**
+	 * Can be called to test if the binding is bound to this interface or not.
+	 *
+	 * @throws SecurityException when the binding is another interface
+	 */
+	void testBinding();
 }

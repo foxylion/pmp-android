@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
 
 /**
@@ -13,5 +14,11 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
 
     public PMPServiceAppStubImpl(String identifier) {
 	this.identifier = identifier;
+    }
+
+    @Override
+    public void setInitialServiceLevel() throws RemoteException {
+	// TODO Auto-generated method stub
+	
     }
 }
