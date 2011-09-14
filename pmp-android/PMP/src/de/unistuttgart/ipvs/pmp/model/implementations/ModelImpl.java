@@ -6,6 +6,7 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
@@ -52,7 +53,7 @@ public class ModelImpl implements IModel {
 
     @Override
     public void addApp(String identifier, byte[] publicKey) {
-	// TODO Auto-generated method stub
+	new AppRegistration(identifier, publicKey);
     }
 
     @Override

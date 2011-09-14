@@ -82,8 +82,14 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 
     @Override
     public String getHumanReadableValue(String value) {
-	// TODO Auto-generated method stub
-	return null;
+	/*
+	 * TODO Implement the humand readable request
+	 * 
+	 * The request of the human readable value should be done in a non
+	 * connection blocking way and return the human readable value (...)
+	 */
+
+	return value;
     }
 
 }

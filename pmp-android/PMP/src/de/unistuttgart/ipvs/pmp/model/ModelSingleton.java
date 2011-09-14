@@ -37,34 +37,4 @@ public class ModelSingleton {
     public IModel getModel() {
 	return new ModelImpl();
     }
-
-    /**
-     * Is used to check authentication a {@link PMPService}.
-     * 
-     * @param identifier
-     *            of the App
-     * @param token
-     *            Token the App uses to identify
-     * @return true when authentication succeeded, otherwise false
-     */
-    public boolean checkAppToken(String identifier, byte[] token) {
-
-	// TODO Implement the asymmetric authentication system
-	return true;
-    }
-
-    /**
-     * Is used to check authentication a {@link PMPService}.
-     * 
-     * @param identifier
-     *            of the ResourceGroup
-     * @param token
-     *            Token the ResourceGroup uses to identify
-     * @return true when authentication succeeded, otherwise false
-     */
-    public boolean checkResourceGroupToken(String identifier, byte[] token) {
-
-	// TODO Implement the asymmetric authentication system
-	return true;
-    }
 }
