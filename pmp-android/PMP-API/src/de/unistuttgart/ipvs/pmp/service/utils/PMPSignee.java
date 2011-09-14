@@ -105,7 +105,7 @@ public class PMPSignee {
 		// generate keys
 		KeyPairGenerator kpg = KeyPairGenerator
 			.getInstance(ALGORITHM_KEY);
-		kpg.initialize(4096);
+		kpg.initialize(1024);
 		local = kpg.generateKeyPair();
 		save();
 	    } catch (NoSuchAlgorithmException e) {
