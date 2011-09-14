@@ -51,10 +51,11 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ?", new String[] { identifier });
+			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ?",
+			new String[] { identifier });
 
 	cursor.moveToNext();
-	
+
 	while (!cursor.isAfterLast()) {
 	    int level = cursor.getInt(cursor.getColumnIndex("Level"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
@@ -95,13 +96,13 @@ public class AppImpl implements IApp {
 
     @Override
     public int getActiveServiceLevel() {
-	// TODO Auto-generated method stub
+	// TODO Calculation for current active ServiceLevel
 	return 0;
     }
 
     @Override
     public void setActiveServiceLevel(int serviceLevel) {
-	// TODO Auto-generated method stub
+	// TODO New Service Level has to be set and published.
 	throw new UnsupportedOperationException();
     }
 
@@ -110,5 +111,4 @@ public class AppImpl implements IApp {
 	// TODO Auto-generated method stub
 	return null;
     }
-
 }
