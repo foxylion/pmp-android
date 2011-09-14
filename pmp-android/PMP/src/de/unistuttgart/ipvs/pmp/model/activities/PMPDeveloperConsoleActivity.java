@@ -1,13 +1,13 @@
 package de.unistuttgart.ipvs.pmp.model.activities;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 
 public class PMPDeveloperConsoleActivity extends Activity {
 

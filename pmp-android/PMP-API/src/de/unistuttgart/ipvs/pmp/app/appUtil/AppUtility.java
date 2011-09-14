@@ -1,14 +1,13 @@
 package de.unistuttgart.ipvs.pmp.app.appUtil;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Locale;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.RequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.XMLParser;
-import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * This Class provides the functionality to parse a given xml file (information
@@ -26,7 +25,8 @@ public class AppUtility {
      *            url to the xml file
      * @return app information set
      */
-    public static AppInformationSet createAppInformationSet(InputStream xmlStream) {
+    public static AppInformationSet createAppInformationSet(
+	    InputStream xmlStream) {
 	return new XMLParser().parse(xmlStream);
     }
 

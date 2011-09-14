@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;

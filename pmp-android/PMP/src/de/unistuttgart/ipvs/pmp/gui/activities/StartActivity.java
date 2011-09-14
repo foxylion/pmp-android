@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * StartActivity is the main activity of PMP.
@@ -61,7 +60,7 @@ public class StartActivity extends Activity {
 	parentLayout.addView(layout);
 
 	scroll.addView(parentLayout);
-	
+
 	setContentView(scroll);
     }
 
@@ -88,7 +87,6 @@ public class StartActivity extends Activity {
 	ressources.setText("Ressources");
 	ressources.setOnTouchListener(new RessourcesListener());
 
-	
 	layout.addView(apps);
 	layout.addView(ressources);
 
@@ -102,7 +100,7 @@ public class StartActivity extends Activity {
 	parentLayout.setLayoutParams(fpfp);
 	parentLayout.setOrientation(LinearLayout.VERTICAL);
 	parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
-	
+
 	scroll = new ScrollView(this);
 	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
 	scroll.setLayoutParams(fpfp);

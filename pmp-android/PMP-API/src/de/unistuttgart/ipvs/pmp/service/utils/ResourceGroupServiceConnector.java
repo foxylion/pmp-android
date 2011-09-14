@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
+import android.content.Context;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServiceApp;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-import android.content.Context;
 
 /**
  * {@link ResourceGroupServiceConnector} is used for connecting (in this case
@@ -26,22 +26,22 @@ public class ResourceGroupServiceConnector extends AbstractConnector {
 	}
 	return IResourceGroupServiceApp.Stub.asInterface(getService());
     }
-    
+
     public IResourceGroupServicePMP getPMPService() {
 	if (getService() == null) {
 	    return null;
 	}
 	return IResourceGroupServicePMP.Stub.asInterface(getService());
     }
-    
+
     @Override
     protected void serviceConnected() {
-	
+
     }
 
     @Override
     protected void serviceDisconnected() {
-	
+
     }
 
 }

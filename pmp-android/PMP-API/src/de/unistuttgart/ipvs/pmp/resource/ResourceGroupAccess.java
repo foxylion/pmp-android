@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
+import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 /**

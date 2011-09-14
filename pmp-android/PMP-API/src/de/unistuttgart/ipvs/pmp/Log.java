@@ -101,7 +101,7 @@ public class Log {
 	    if (useLineNumberAsPrefix || forcePrefix) {
 		prefix += ":" + stackTraceElements[4].getLineNumber();
 	    }
-	    if(prefix.length() > 0) {
+	    if (prefix.length() > 0) {
 		prefix += " ";
 	    }
 	}

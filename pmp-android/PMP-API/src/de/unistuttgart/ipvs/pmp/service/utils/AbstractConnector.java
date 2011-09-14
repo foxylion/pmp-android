@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to
@@ -20,6 +19,10 @@ import de.unistuttgart.ipvs.pmp.Log;
  * @author Jakob Jarosch
  */
 public abstract class AbstractConnector {
+
+    public enum ConnectionState {
+	CONNECTED, DISCONNECTED, BINDING_FAILED
+    };
 
     /**
      * Reference to the connected service {@link IBinder}.
@@ -68,7 +71,7 @@ public abstract class AbstractConnector {
 	public void onServiceDisconnected(ComponentName name) {
 	    connectedService = null;
 	    connected = false;
-	    informCallback();
+	    informCallback(ConnectionState.DISCONNECTED);
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public abstract class AbstractConnector {
 	    connectedService = service;
 	    connected = true;
 	    serviceConnected();
-	    informCallback();
+	    informCallback(ConnectionState.CONNECTED);
 	}
     };
 
@@ -96,8 +99,7 @@ public abstract class AbstractConnector {
 	binding = true;
 
 	if (!isBound()) {
-	    Intent intent = new Intent();
-	    intent.setComponent(createComponentName(targetIdentifier));
+	    Intent intent = new Intent(targetIdentifier);
 
 	    intent.putExtra(Constants.INTENT_TYPE, this.signee.getType());
 	    intent.putExtra(Constants.INTENT_IDENTIFIER,
@@ -105,11 +107,13 @@ public abstract class AbstractConnector {
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
 		    this.signee.signContent(targetIdentifier.getBytes()));
 
-	    return context.bindService(intent, serviceConnection,
-		    Context.BIND_AUTO_CREATE);
-	} else {
-	    return true;
+	    if (!context.bindService(intent, serviceConnection,
+		    Context.BIND_AUTO_CREATE)) {
+		informCallback(ConnectionState.BINDING_FAILED);
+		return false;
+	    }
 	}
+	return true;
     }
 
     /**
@@ -161,16 +165,6 @@ public abstract class AbstractConnector {
 	return context;
     }
 
-    protected ComponentName createComponentName(String identifier) {
-	String[] splits = identifier.split(";");
-	if (splits.length != 2) {
-	    Log.e("The identifier had not 2 parts (package and className) speparted by a semicolon.");
-	    throw new IllegalArgumentException(
-		    "The identifier requires two parts (package and className), sperated by a semicolon.");
-	}
-	return new ComponentName(splits[0], splits[1]);
-    }
-
     /**
      * Is called when a connection to the service has been established. Note
      * that all the required connection handling is done in
@@ -192,14 +186,20 @@ public abstract class AbstractConnector {
      * Inform all {@link IConnectorCallback} instances which are registered that
      * something has changed.
      */
-    private void informCallback() {
+    private void informCallback(ConnectionState state) {
 	for (IConnectorCallback handler : callbackHandler) {
-	    if (!binding) {
-
-	    } else if (binding && !isBound()) {
-		handler.bindingFailed();
-	    } else {
+	    switch (state) {
+	    case CONNECTED:
 		handler.connected();
+		break;
+
+	    case DISCONNECTED:
+		handler.disconnected();
+		break;
+
+	    case BINDING_FAILED:
+		handler.bindingFailed();
+		break;
 	    }
 	}
     }

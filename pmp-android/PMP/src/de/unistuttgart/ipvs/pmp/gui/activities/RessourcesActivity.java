@@ -44,7 +44,7 @@ public class RessourcesActivity extends Activity {
 		LayoutParams.WRAP_CONTENT));
 	createLayout();
 	loadRes();
-//	loadFakeRes();
+	// loadFakeRes();
 	scroll = new ScrollView(this);
 	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
 	layout.addView(actRow);
@@ -90,7 +90,7 @@ public class RessourcesActivity extends Activity {
 		.getResourceGroups().length;
 	IResourceGroup resArray[] = ModelSingleton.getInstance().getModel()
 		.getResourceGroups();
-	
+
 	for (int i = 0; i < resCount; i++) {
 	    if (i % 3 == 0) {
 		layout.addView(actRow);
@@ -107,6 +107,7 @@ public class RessourcesActivity extends Activity {
 
     }
 }
+
 /**
  * Shows the Description Dialog
  * 
@@ -116,10 +117,10 @@ public class RessourcesActivity extends Activity {
 class OnResClickListener implements OnClickListener {
     private ImagedButton parent;
     private IResourceGroup resArray[];
+
     public OnResClickListener(ImagedButton button) {
 	this.parent = button;
-	 resArray = ModelSingleton.getInstance().getModel()
-	.getResourceGroups();
+	resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
     }
 
     @Override
@@ -135,13 +136,14 @@ class OnResClickListener implements OnClickListener {
 		dialog.cancel();
 	    }
 	});
-	description.setText("Description: \n\n" + resArray[parent.getIndex()].getDescription()+"\n");
+	description.setText("Description: \n\n"
+		+ resArray[parent.getIndex()].getDescription() + "\n");
 	description.setPadding(10, 0, 10, 0);
 	LinearLayout layout = new LinearLayout(parent.getContext());
 	layout.setOrientation(LinearLayout.VERTICAL);
 	layout.addView(description);
 	layout.addView(close);
-	
+
 	dialog.setContentView(layout);
 	dialog.show();
     }

@@ -6,10 +6,11 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 /**
  * Implementation of the {@link IModel} interface.
@@ -32,7 +33,7 @@ public class ModelImpl implements IModel {
 	Cursor cursor = db.rawQuery(
 		"SELECT Identifier, Name_Cache, Description_Cache FROM App",
 		null);
-	
+
 	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
@@ -52,7 +53,7 @@ public class ModelImpl implements IModel {
 
     @Override
     public void addApp(String identifier, byte[] publicKey) {
-	// TODO Auto-generated method stub
+	new AppRegistration(identifier, publicKey);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class ModelImpl implements IModel {
 			null);
 
 	cursor.moveToNext();
-	
+
 	while (!cursor.isAfterLast()) {
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
@@ -102,7 +103,7 @@ public class ModelImpl implements IModel {
 			null);
 
 	cursor.moveToNext();
-	
+
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
 	    String rgIdentifier = cursor.getString(cursor
