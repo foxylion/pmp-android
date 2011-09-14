@@ -89,8 +89,8 @@ public class DatabaseSingleton {
 	Log.d("Sample data will be removed, read the queries from "
 		+ CLEAN_SAMPLE_SQL_FILES[1]);
 
-	String sqlQueries = getDatabaseHelper()
-		.readSqlFile(CLEAN_SAMPLE_SQL_FILES[1]);
+	String sqlQueries = getDatabaseHelper().readSqlFile(
+		CLEAN_SAMPLE_SQL_FILES[1]);
 
 	if (sqlQueries != null) {
 	    Log.d("Loaded clean file, cleaning them from the database...");

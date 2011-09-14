@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.model;
 
 import de.unistuttgart.ipvs.pmp.model.implementations.ModelImpl;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
-import de.unistuttgart.ipvs.pmp.service.PMPService;
 
 /**
  * {@link ModelSingleton} provides an instance of the {@link IModel} for direct

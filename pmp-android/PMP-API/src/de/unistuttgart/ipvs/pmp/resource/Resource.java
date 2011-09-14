@@ -26,7 +26,7 @@ public abstract class Resource {
     protected final void assignResourceGroup(ResourceGroup resourceGroup) {
 	this.resourceGroup = resourceGroup;
     }
-    
+
     /**
      * Retrieves an actual privacy level class.
      * 

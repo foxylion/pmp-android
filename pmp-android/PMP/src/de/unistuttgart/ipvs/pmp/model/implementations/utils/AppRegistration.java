@@ -15,7 +15,6 @@ import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.service.PMPService;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
@@ -159,7 +158,8 @@ public class AppRegistration {
     }
 
     /**
-     * Publish the public key of the to the {@link PMPSignee} of {@link PMPApplication}.
+     * Publish the public key of the to the {@link PMPSignee} of
+     * {@link PMPApplication}.
      */
     private void publishPublicKey() {
 	PMPApplication.getSignee().setRemotePublicKey(PMPComponentType.APP,
@@ -171,8 +171,10 @@ public class AppRegistration {
     /**
      * Inform the AppService about the registration state.
      * 
-     * @param state true means successful, false means unsuccessful
-     * @param message a message with optional information provided.
+     * @param state
+     *            true means successful, false means unsuccessful
+     * @param message
+     *            a message with optional information provided.
      */
     private void informAppAboutRegistration(final boolean state,
 	    final String message) {

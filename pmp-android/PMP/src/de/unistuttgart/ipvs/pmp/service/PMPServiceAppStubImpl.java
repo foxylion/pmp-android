@@ -19,6 +19,6 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
     @Override
     public void setInitialServiceLevel() throws RemoteException {
 	// TODO Auto-generated method stub
-	
+
     }
 }

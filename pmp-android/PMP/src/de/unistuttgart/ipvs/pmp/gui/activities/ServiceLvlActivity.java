@@ -1,19 +1,12 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
-import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,11 +15,15 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
  * PrivacyLvlActivity
@@ -188,7 +185,7 @@ class OnLevelTouchListener implements OnTouchListener {
 	    LinearLayout dialogLayout = new LinearLayout(context);
 	    dialogLayout.setOrientation(LinearLayout.VERTICAL);
 	    TextView description = new TextView(context);
-	    description.setText("Description:" + "\n\n" + lvlDescr +"\n");
+	    description.setText("Description:" + "\n\n" + lvlDescr + "\n");
 	    description.setPadding(10, 0, 10, 0);
 	    Button apply = new Button(context);
 	    apply.setText("Apply");
@@ -254,7 +251,6 @@ class OnLevelTouchListener implements OnTouchListener {
 	    buttonLayout.addView(apply);
 	    buttonLayout.addView(cancel);
 
-	    
 	    buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
 
 	    dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());

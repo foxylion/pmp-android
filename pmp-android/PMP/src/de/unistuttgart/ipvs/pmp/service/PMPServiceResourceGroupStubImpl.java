@@ -1,9 +1,6 @@
 package de.unistuttgart.ipvs.pmp.service;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 
 ;
@@ -23,9 +20,9 @@ public class PMPServiceResourceGroupStubImpl extends
     }
 
     @Override
-    public void savePrivacyLevel(String preset, String privacyLevel, String value)
-	    throws RemoteException {
-	
+    public void savePrivacyLevel(String preset, String privacyLevel,
+	    String value) throws RemoteException {
+
 	/*
 	 * Note: The Identifier of the ResourceGroup can be found in the
 	 * identifier variable.

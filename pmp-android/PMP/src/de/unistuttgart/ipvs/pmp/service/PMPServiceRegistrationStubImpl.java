@@ -24,10 +24,11 @@ public class PMPServiceRegistrationStubImpl extends
 	new Thread(new Runnable() {
 	    @Override
 	    public void run() {
-		ModelSingleton.getInstance().getModel().addApp(identifier, publicKey);
+		ModelSingleton.getInstance().getModel()
+			.addApp(identifier, publicKey);
 	    }
 	}).start();
-	
+
 	return PMPApplication.getSignee().getLocalPublicKey();
     }
 
@@ -37,16 +38,16 @@ public class PMPServiceRegistrationStubImpl extends
 	new Thread(new Runnable() {
 	    @Override
 	    public void run() {
-		ModelSingleton.getInstance().getModel().addResourceGroup(identifier, publicKey);
+		ModelSingleton.getInstance().getModel()
+			.addResourceGroup(identifier, publicKey);
 	    }
 	}).start();
-	
 
 	return PMPApplication.getSignee().getLocalPublicKey();
     }
 
     @Override
     public void testBinding() throws RemoteException {
-	
+
     }
 }
