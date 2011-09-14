@@ -82,8 +82,8 @@ public abstract class ResourceGroupService extends PMPSignedService {
 	    return null;
 	}
 
-	PMPComponentType boundType = PMPComponentType.valueOf(intent
-		.getStringExtra(Constants.INTENT_TYPE));
+	PMPComponentType boundType = (PMPComponentType) intent
+		.getSerializableExtra(Constants.INTENT_TYPE);
 	String boundIdentifier = intent
 		.getStringExtra(Constants.INTENT_IDENTIFIER);
 

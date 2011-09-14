@@ -202,7 +202,7 @@ public class AppRegistration {
 		appService.setRegistrationSuccessful(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.");
+		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.", e);
 	    }
 	}
     }

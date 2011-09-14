@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
+import de.unistuttgart.ipvs.pmp.model.implementations.utils.ResourceGroupRegistration;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
@@ -87,7 +88,7 @@ public class ModelImpl implements IModel {
 
     @Override
     public void addResourceGroup(String identifier, byte[] publicKey) {
-	// TODO Auto-generated method stub
+	new ResourceGroupRegistration(identifier, publicKey);
     }
 
     @Override
