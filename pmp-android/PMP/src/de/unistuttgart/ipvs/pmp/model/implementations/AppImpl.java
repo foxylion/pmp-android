@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
@@ -131,11 +132,15 @@ public class AppImpl implements IApp {
 	}
 
 	/* Create a new Preset (if not already exists) for this ServiceLevel */
-	IPreset preset = ModelSingleton.getInstance().getModel().addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP, identifier);
+	IPreset preset = ModelSingleton
+		.getInstance()
+		.getModel()
+		.addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP,
+			identifier);
 	preset.addApp(this, true);
-	
+
 	IServiceLevel sl = getServiceLevel(serviceLevel);
-	for(IPrivacyLevel pl : sl.getPrivacyLevels()) {
+	for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
 	    preset.setPrivacyLevel(pl, true);
 	}
 
@@ -147,15 +152,22 @@ public class AppImpl implements IApp {
     public void verifyServiceLevel() {
 	final IApp app = this;
 	new Thread(new Runnable() {
-	    
+
 	    @Override
 	    public void run() {
 		ServiceLevelCalculator slc = new ServiceLevelCalculator(app);
-		int serviceLevel = slc.calculate();
+		int serviceLevel;
+		try {
+		    serviceLevel = slc.calculate();
 
-		if (serviceLevel != getActiveServiceLevel()) {
-		    setActiveServiceLevel(serviceLevel);
+		    if (serviceLevel != getActiveServiceLevel()) {
+			setActiveServiceLevel(serviceLevel);
+		    }
+		} catch (RemoteException e) {
+		    Log.e("Could not calculate the ServiceLevel, got RemoteException",
+			    e);
 		}
+
 	    }
 	}).start();
     }
@@ -204,9 +216,8 @@ public class AppImpl implements IApp {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery("UPDATE App SET ServiceLevel_Active = "
-		+ serviceLevel + " WHERE Identifier = ?",
-		new String[] { identifier });
+	db.rawQuery("UPDATE App SET ServiceLevel_Active = " + serviceLevel
+		+ " WHERE Identifier = ?", new String[] { identifier });
 
 	new ServiceLevelPublisher(this, false);
     }

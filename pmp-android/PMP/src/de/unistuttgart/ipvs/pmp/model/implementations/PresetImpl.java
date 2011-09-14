@@ -143,8 +143,37 @@ public class PresetImpl implements IPreset {
 
     @Override
     public IPrivacyLevel[] getUsedPrivacyLevels() {
-	// TODO Auto-generated method stub
-	return null;
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	List<IPrivacyLevel> list = new ArrayList<IPrivacyLevel>();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT pl.ResourceGroup_Identifier, pl.Identifier, pl.Name_Cache, pl.Description_Cache, pp.Value FROM PrivacyLevel as pl, Preset_PrivacyLevels AS pp"
+				+ "WHERE pp.Name = ? AND pp.Type = ? AND pp.Identifier = ? AND pp.ResourceGroup_Identifier = pl.ResourceGroupIdentifier AND "
+				+ "pp.PrivacyLevel_Identifier = pl.Identifier",
+			new String[] { name, type.toString(), identifier });
+
+	cursor.moveToNext();
+
+	while (!cursor.isAfterLast()) {
+	    String resourceGroupIdentifier = cursor.getString(cursor
+		    .getColumnIndex("ResourceGroup_Identifier"));
+	    String identifier = cursor.getString(cursor
+		    .getColumnIndex("Identifier"));
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+	    String value = cursor.getString(cursor.getColumnIndex("Value"));
+
+	    list.add(new PrivacyLevelImpl(resourceGroupIdentifier, identifier,
+		    name, description, value));
+
+	    cursor.moveToNext();
+	}
+
+	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
     @Override
@@ -154,8 +183,22 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-	// TODO Auto-generated method stub
+	removePrivacyLevel(privacyLevel, true);
 
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getWritableDatabase();
+
+	db.rawQuery(
+		"INSERT INTO Preset_PrivacyLevels (Name, Type, Identifier, ResourceGroup_Identifier, PrivacyLevel_Identifier, Value) VALUES (?, ?, ?, ?, ?, ?)",
+		new String[] { name, type.toString(), identifier,
+			privacyLevel.getResourceGroup().getIdentifier(),
+			privacyLevel.getIdentifier(), privacyLevel.getValue() });
+	
+	if (!hidden) {
+	    for (IApp app : getAssignedApps()) {
+		app.verifyServiceLevel();
+	    }
+	}
     }
 
     @Override
@@ -165,7 +208,14 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-	// TODO Auto-generated method stub
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getWritableDatabase();
+
+	db.rawQuery(
+		"DELETE FROM Preset_PrivacyLevels Name = ? AND Type = ? AND Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
+		new String[] { name, type.toString(), identifier,
+			privacyLevel.getResourceGroup().getIdentifier(),
+			privacyLevel.getIdentifier() });
 
 	if (!hidden) {
 	    for (IApp app : getAssignedApps()) {
