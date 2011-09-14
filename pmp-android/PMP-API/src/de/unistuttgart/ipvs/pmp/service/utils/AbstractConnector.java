@@ -30,12 +30,6 @@ public abstract class AbstractConnector {
     private IBinder connectedService = null;
 
     /**
-     * Binding state, true if a binding is on the way or the service is bound,
-     * otherwise false.
-     */
-    private boolean binding = false;
-
-    /**
      * Set to true if a {@link Service} has connected.
      */
     private boolean connected = false;
@@ -96,8 +90,6 @@ public abstract class AbstractConnector {
      * @return Returns true if a binding is on the way, otherwise false.
      */
     public boolean bind() {
-	binding = true;
-
 	if (!isBound()) {
 	    Intent intent = new Intent(targetIdentifier);
 
@@ -120,8 +112,6 @@ public abstract class AbstractConnector {
      * Unbind the {@link Service}.
      */
     public void unbind() {
-	binding = false;
-
 	context.unbindService(serviceConnection);
     }
 

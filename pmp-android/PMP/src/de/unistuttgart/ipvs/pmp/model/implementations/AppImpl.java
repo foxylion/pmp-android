@@ -132,7 +132,7 @@ public class AppImpl implements IApp {
 
 	/* Create a new Preset (if not already exists) for this ServiceLevel */
 	IPreset preset = ModelSingleton.getInstance().getModel().addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP, identifier);
-	preset.addApp(this);
+	preset.addApp(this, true);
 	
 	IServiceLevel sl = getServiceLevel(serviceLevel);
 	for(IPrivacyLevel pl : sl.getPrivacyLevels()) {
@@ -204,7 +204,7 @@ public class AppImpl implements IApp {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	Cursor cursor = db.rawQuery("UPDATE App SET ServiceLevel_Active = "
+	db.rawQuery("UPDATE App SET ServiceLevel_Active = "
 		+ serviceLevel + " WHERE Identifier = ?",
 		new String[] { identifier });
 

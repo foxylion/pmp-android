@@ -57,7 +57,7 @@ public interface IApp {
     public void verifyServiceLevel();
 
     /**
-     * @return Returns all to the App assigned roles.
+     * @return Returns all to the App assigned Presets.
      */
     public IPreset[] getAssignedPresets();
 }
