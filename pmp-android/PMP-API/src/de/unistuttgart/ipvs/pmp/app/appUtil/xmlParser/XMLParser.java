@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +42,13 @@ public class XMLParser {
      *            url for the xml
      * @return created app information set
      */
-    public AppInformationSet parse(URL xmlURL) {
+    public AppInformationSet parse(InputStream xmlStream) {
 
 	try {
 	    // Instantiate the document builder and get the document
 	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder db = dbf.newDocumentBuilder();
-	    Document doc = db.parse(new InputSource(xmlURL.openStream()));
+	    Document doc = db.parse(xmlStream);
 	    doc.getDocumentElement().normalize();
 
 	    // The main nodes "appInformation" and "serviceLevels" are required
