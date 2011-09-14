@@ -128,7 +128,7 @@ public class AppRegistration {
 		.getWritableDatabase();
 
 	db.rawQuery(
-		"INSERT INTO App (Identifier, Name_Cache, Description_Cache) VALUES (?, ?, ?)",
+		"INSERT INTO App (Identifier, Name_Cache, Description_Cache, ServiceLevel_Active) VALUES (?, ?, ?, 0)",
 		new String[] { identifier, getLocalized(ais.getNames()),
 			getLocalized(ais.getDescriptions()) });
 

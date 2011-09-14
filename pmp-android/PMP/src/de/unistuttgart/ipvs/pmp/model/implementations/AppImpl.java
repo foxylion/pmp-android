@@ -5,9 +5,15 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelCalculator;
+import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelPublisher;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
@@ -96,19 +102,112 @@ public class AppImpl implements IApp {
 
     @Override
     public int getActiveServiceLevel() {
-	// TODO Calculation for current active ServiceLevel
-	return 0;
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
+			new String[] { identifier });
+
+	if (cursor != null && cursor.getCount() == 1) {
+	    cursor.moveToNext();
+	    int serviceLevel = cursor.getInt(cursor
+		    .getColumnIndex("ServiceLevel_Active"));
+
+	    return serviceLevel;
+	} else {
+	    Log.e("App was not found in Database, Model seems to be out of sync with Database.");
+	    return 0;
+	}
+
     }
 
     @Override
-    public void setActiveServiceLevel(int serviceLevel) {
-	// TODO New Service Level has to be set and published.
-	throw new UnsupportedOperationException();
+    public void setActiveServiceLevelAsPreset(int serviceLevel) {
+	/* Remove App from all Presets */
+	for (IPreset preset : getAssignedPresets()) {
+	    preset.removeApp(this, true);
+	}
+
+	/* Create a new Preset (if not already exists) for this ServiceLevel */
+	IPreset preset = ModelSingleton.getInstance().getModel().addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP, identifier);
+	preset.addApp(this);
+	
+	IServiceLevel sl = getServiceLevel(serviceLevel);
+	for(IPrivacyLevel pl : sl.getPrivacyLevels()) {
+	    preset.setPrivacyLevel(pl, true);
+	}
+
+	/* Set the new ServiceLevel */
+	new ServiceLevelPublisher(this, false);
+    }
+
+    @Override
+    public void verifyServiceLevel() {
+	final IApp app = this;
+	new Thread(new Runnable() {
+	    
+	    @Override
+	    public void run() {
+		ServiceLevelCalculator slc = new ServiceLevelCalculator(app);
+		int serviceLevel = slc.calculate();
+
+		if (serviceLevel != getActiveServiceLevel()) {
+		    setActiveServiceLevel(serviceLevel);
+		}
+	    }
+	}).start();
     }
 
     @Override
     public IPreset[] getAssignedPresets() {
-	// TODO Auto-generated method stub
-	return null;
+	List<IPreset> list = new ArrayList<IPreset>();
+
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db.rawQuery("SELECT p.Name, " + "p.Description, "
+		+ "p.Type, " + "p.Identifier " + "FROM Preset as p, "
+		+ "Preset_Apps AS pa " + "WHERE pa.Name = p.Name "
+		+ "AND pa.Type = p.Type " + "AND pa.Identifier = p.Identifier"
+		+ "AND p.App_Identifier = ?", new String[] { identifier });
+
+	cursor.moveToNext();
+
+	while (!cursor.isAfterLast()) {
+	    String name = cursor.getString(cursor.getColumnIndex("Name"));
+
+	    PMPComponentType type;
+	    try {
+		type = PMPComponentType.valueOf(cursor.getString(cursor
+			.getColumnIndex("Type")));
+	    } catch (IllegalArgumentException e) {
+		type = null;
+	    }
+
+	    String identifier = cursor.getString(cursor
+		    .getColumnIndex("Identifier"));
+
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description"));
+
+	    list.add(new PresetImpl(name, description, type, identifier));
+
+	    cursor.moveToNext();
+	}
+
+	return list.toArray(new IPreset[list.size()]);
+    }
+
+    private void setActiveServiceLevel(int serviceLevel) {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getWritableDatabase();
+
+	Cursor cursor = db.rawQuery("UPDATE App SET ServiceLevel_Active = "
+		+ serviceLevel + " WHERE Identifier = ?",
+		new String[] { identifier });
+
+	new ServiceLevelPublisher(this, false);
     }
 }

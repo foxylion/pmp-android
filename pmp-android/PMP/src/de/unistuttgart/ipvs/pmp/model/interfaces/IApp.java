@@ -42,12 +42,19 @@ public interface IApp {
     public int getActiveServiceLevel();
 
     /**
-     * Set a new service level for the App.
+     * Set a new service level for the App.<br>
+     * 
+     * <b>This method removes the App from all Presets, so use that with caution!</b>
      * 
      * @param serviceLevel
      *            New service level which should be set.
      */
-    public void setActiveServiceLevel(int serviceLevel);
+    public void setActiveServiceLevelAsPreset(int serviceLevel);
+
+    /**
+     * Verifies the service level and publishes the new one asynchronously if it changed.
+     */
+    public void verifyServiceLevel();
 
     /**
      * @return Returns all to the App assigned roles.

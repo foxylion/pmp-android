@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.ResourceGroupRegistration;
@@ -53,6 +54,30 @@ public class ModelImpl implements IModel {
     }
 
     @Override
+    public IApp getApp(String identifier) {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT Name_Cache, Description_Cache FROM App WHERE Identifier = ?",
+			new String[] { identifier });
+
+	cursor.moveToNext();
+
+	if (cursor != null && cursor.getCount() == 1) {
+	    ;
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+
+	    return new AppImpl(identifier, name, description);
+	}
+
+	return null;
+    }
+
+    @Override
     public void addApp(String identifier, byte[] publicKey) {
 	new AppRegistration(identifier, publicKey);
     }
@@ -87,6 +112,30 @@ public class ModelImpl implements IModel {
     }
 
     @Override
+    public IApp getResourceGroup(String identifier) {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ?",
+			new String[] { identifier });
+
+	cursor.moveToNext();
+
+	if (cursor != null && cursor.getCount() == 1) {
+	    ;
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+
+	    return new AppImpl(identifier, name, description);
+	}
+
+	return null;
+    }
+
+    @Override
     public void addResourceGroup(String identifier, byte[] publicKey) {
 	new ResourceGroupRegistration(identifier, publicKey);
     }
@@ -98,25 +147,55 @@ public class ModelImpl implements IModel {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
-	Cursor cursor = db
-		.rawQuery(
-			"SELECT Name, ResourceGroup_Identifier, Description FROM Preset",
-			null);
+	Cursor cursor = db.rawQuery(
+		"SELECT Name, Description, Type, Identifier FROM Preset", null);
 
 	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
-	    String rgIdentifier = cursor.getString(cursor
-		    .getColumnIndex("ResourceGroup_Identifier"));
+
+	    PMPComponentType type;
+	    try {
+		type = PMPComponentType.valueOf(cursor.getString(cursor
+			.getColumnIndex("Type")));
+	    } catch (IllegalArgumentException e) {
+		type = null;
+	    }
+
+	    String identifier = cursor.getString(cursor
+		    .getColumnIndex("Identifier"));
+
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description"));
 
-	    list.add(new PresetImpl(name, rgIdentifier, description));
+	    list.add(new PresetImpl(name, description, type, identifier));
 
 	    cursor.moveToNext();
 	}
 
 	return list.toArray(new IPreset[list.size()]);
+    }
+
+    @Override
+    public IPreset addPreset(String name, String description,
+	    PMPComponentType type, String identifier) {
+
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getWritableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT Name, Description, Type, Identifier FROM Preset WHERE Name = ? AND Type = ? AND Identifier = ?",
+			new String[] { name, type.toString(), identifier });
+
+	if (cursor.getCount() == 0) {
+	    db.rawQuery(
+		    "INSERT INTO Preset (Name, Description, Type, Identifier) VALUES (?, ?, ?, ?)",
+		    new String[] { name, description, type.toString(),
+			    identifier });
+	}
+
+	return new PresetImpl(name, description, type, identifier);
     }
 }

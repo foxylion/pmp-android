@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.interfaces;
 
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+
 /**
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and
  * {@link IResourceGroup}s known by PMP.
@@ -13,6 +15,10 @@ public interface IModel {
      */
     public IApp[] getApps();
 
+
+
+    public IApp getApp(String identifier);
+    
     /**
      * Register a new App at PMP.
      * 
@@ -25,7 +31,9 @@ public interface IModel {
      * @return Returns all {@link IResourceGroup}s known by PMP.
      */
     public IResourceGroup[] getResourceGroups();
-
+    
+    public IApp getResourceGroup(String identifier);
+    
     /**
      * Register a new ResourceGroup at PMP.
      * 
@@ -38,4 +46,8 @@ public interface IModel {
      * @return Returns all {@link IPreset}s known by PMP.
      */
     public IPreset[] getPresets();
+    
+    public IPreset addPreset(String name, String description, PMPComponentType type, String identifier);
+
+
 }

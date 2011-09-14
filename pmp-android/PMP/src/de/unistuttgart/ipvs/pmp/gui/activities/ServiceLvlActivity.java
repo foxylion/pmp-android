@@ -220,7 +220,7 @@ class OnLevelTouchListener implements OnTouchListener {
 		    Log.v("levelID:" + String.valueOf(levelID));
 
 		    try {
-			app.setActiveServiceLevel(level.getLevel());
+			app.setActiveServiceLevelAsPreset(level.getLevel());
 		    } catch (Exception exc) {
 			;
 		    }

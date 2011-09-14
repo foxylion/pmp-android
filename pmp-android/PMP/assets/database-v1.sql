@@ -25,45 +25,62 @@ CREATE TABLE IF NOT EXISTS ResourceContext (
 
 CREATE TABLE IF NOT EXISTS Preset (
 	Name TEXT NOT NULL,
-	ResourceGroup_Identifier TEXT,
 	Description TEXT,
-	PRIMARY KEY(Name, ResourceGroup_Identifier)
+	Type TEXT,
+	Identifier TEXT,
+	PRIMARY KEY(Name, Type, Identifier)
 );
 
 CREATE TABLE IF NOT EXISTS Preset_PrivacyLevels (
 	Preset_Name TEXT NOT NULL,
+	Preset_Type TEXT,
+	Preset_Identifier TEXT,
 	ResourceGroup_Identifier TEXT NOT NULL,
-	ResourceContext_Identifier TEXT NOT NULL,
+	PrivacyLevel_Identifier TEXT NOT NULL,
 	Value TEXT NOT NULL,
 	PRIMARY KEY(Preset_Name,
-	            ResourceGroup_Identifier,
-				ResourceContext_Identifier)
+	            Preset_Type,
+				Preset_Identifier,
+				ResourceGroup_Identifier,
+				PrivacyLevel_Identifier)
 );
 
 CREATE TABLE IF NOT EXISTS Preset_Apps (
 	Preset_Name TEXT NOT NULL,
+	Preset_Type TEXT,
+	Preset_Identifier TEXT,
 	App_Identifier TEXT NOT NULL,
 	PRIMARY KEY(Preset_Name,
+	            Preset_Type,
+				Preset_Identifier,
 	            App_Identifier)
 );
 
 CREATE TABLE IF NOT EXISTS Context_Preset (
 	Preset_Name TEXT NOT NULL,
+	Preset_Type TEXT,
+	Preset_Identifier TEXT,
 	ResourceGroup_Identifier TEXT NOT NULL,
 	ResourceContext_Identifier TEXT NOT NULL,
 	Value TEXT NOT NULL,
 	PRIMARY KEY(Preset_Name,
+	            Preset_Type,
+				Preset_Identifier,
 	            ResourceGroup_Identifier,
 				ResourceContext_Identifier)
 );
 
 CREATE TABLE IF NOT EXISTS Context_Preset_PrivacyLevels (
 	Preset_Name TEXT NOT NULL,
+	Preset_Type TEXT,
+	Preset_Identifier TEXT,
 	PrivacyLevel_ResourceGroup_Identifier TEXT NOT NULL,
 	PrivacyLevel_Identifier TEXT NOT NULL,
 	ResourceContext_ResourceGroup_Identifier TEXT NOT NULL,
 	ResourceContext_Identifier TEXT NOT NULL,
 	PRIMARY KEY(Preset_Name,
+				Preset_Type,
+				Preset_Identifier,
 	            PrivacyLevel_ResourceGroup_Identifier,
 				PrivacyLevel_Identifier,
 				ResourceContext_ResourceGroup_Identifier,
@@ -74,6 +91,7 @@ CREATE TABLE IF NOT EXISTS App (
 	Identifier TEXT NOT NULL,
 	Name_Cache TEXT,
 	Description_Cache TEXT,
+	ServiceLevel_Active INTEGER NOT NULL,
 	PRIMARY KEY(Identifier)
 );
 
