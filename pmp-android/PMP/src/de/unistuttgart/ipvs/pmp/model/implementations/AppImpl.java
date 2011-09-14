@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
@@ -151,7 +152,13 @@ public class AppImpl implements IApp {
 	    @Override
 	    public void run() {
 		ServiceLevelCalculator slc = new ServiceLevelCalculator(app);
-		int serviceLevel = slc.calculate();
+		int serviceLevel;
+		try {
+		    serviceLevel = slc.calculate();
+		} catch (RemoteException e) {
+		    serviceLevel = 0;
+		    Log.e("Could not calculate service level", e);
+		}
 
 		if (serviceLevel != getActiveServiceLevel()) {
 		    setActiveServiceLevel(serviceLevel);
