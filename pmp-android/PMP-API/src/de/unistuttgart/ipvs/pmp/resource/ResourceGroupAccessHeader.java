@@ -23,6 +23,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
 
     private ResourceGroupAccessHeader(Parcel parcel) {
 	this.identifier = parcel.readString();
+	this.publicKey = null;
 	parcel.readByteArray(this.publicKey);
     }
 
@@ -36,7 +37,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
 
     @Override
     public int describeContents() {
-	return this.identifier.hashCode() + this.publicKey.hashCode();
+	return 0;
     }
 
     @Override
