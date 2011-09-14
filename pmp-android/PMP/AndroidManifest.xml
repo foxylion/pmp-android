@@ -50,7 +50,7 @@
 		-->
 		<service android:name=".service.PMPService" android:exported="true">
 			<intent-filter>
-				<action android:name="de.unistuttgart.ipvs.pmp.PMPService"></action>
+				<action android:name="de.unistuttgart.ipvs.pmp.service.PMPService"></action>
 			</intent-filter>
 		</service>
 	</application>

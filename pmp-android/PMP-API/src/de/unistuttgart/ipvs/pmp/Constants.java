@@ -39,7 +39,7 @@ public class Constants {
      * The Android-wide identifier for the PMP (also used to connect to the
      * Service inside the {@link PMPServiceConnector}.
      */
-    public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.pmp;PMPService";
+    public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.PMPService";
 
     /**
      * Enable this to generate sample data into the PMP-Database. (Absolutely
