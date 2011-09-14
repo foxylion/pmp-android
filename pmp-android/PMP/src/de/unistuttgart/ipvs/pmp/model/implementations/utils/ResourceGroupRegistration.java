@@ -76,6 +76,7 @@ public class ResourceGroupRegistration {
 		Log.e("Registration failed: onnection to the ResourceGroupService failed. More details can be found in the log.");
 	    }
 	});
+	rgsc.bind();
     }
 
     /**
@@ -199,6 +200,7 @@ public class ResourceGroupRegistration {
 		    Log.e("Registration Failed: Could not reconnect to ResourceGroupService for setting the registration state");
 		}
 	    });
+	    rgsc.bind();
 	} else {
 	    try {
 		IResourceGroupServicePMP appService = rgsc.getPMPService();
