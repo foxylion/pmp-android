@@ -92,4 +92,10 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	return value;
     }
 
+    @Override
+    public boolean satisfies(String reference, String value) {
+	// TODO Auto-generated method stub
+	return false;
+    }
+
 }

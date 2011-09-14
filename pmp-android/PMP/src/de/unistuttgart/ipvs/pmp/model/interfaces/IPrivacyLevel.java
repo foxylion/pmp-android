@@ -49,4 +49,6 @@ public interface IPrivacyLevel {
      * @return the human readable representation of the given value.
      */
     public String getHumanReadableValue(String value);
+    
+    public boolean satisfies(String reference, String value);
 }
