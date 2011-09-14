@@ -7,4 +7,5 @@ package de.unistuttgart.ipvs.pmp.service.pmp;
  */
 interface IPMPServiceApp {
 
+	void setInitialServiceLevel();
 }

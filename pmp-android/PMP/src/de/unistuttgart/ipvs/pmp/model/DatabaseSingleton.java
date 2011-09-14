@@ -80,7 +80,7 @@ public class DatabaseSingleton {
 
     public boolean isSampleDataInstalled() {
 	Cursor cursor = getDatabaseHelper().getReadableDatabase().rawQuery(
-		"SELECT Identifier FROM App WHERE Identifier LIKE 'Sample#%';",
+		"SELECT Identifier FROM App WHERE Identifier LIKE 'Sample#%'",
 		null);
 	return cursor.getCount() > 0;
     }

@@ -109,12 +109,260 @@
 			  in dieser Version des Handbuchs nicht näher eingegangen
 			</p>
 			<h1 id="developers">Entwickler</h1>
-			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			<p>
+        Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eigene
+        Ressourcen erweitern oder Anwendungen für die PMP erstellen möchten
+      </p>
 			
 			<h2 id="devsl">Service-Levels</h2>
 			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 			
 			<h2 id="devres">Ressourcen</h2>
+			<hr />
+			<p><b>Hinweis:</b> Dies nachfolgende Beschreibung habe ich nach betrachten des Codes erstellt.
+			Daher kann es sein, dass einige Dinge - z. B. durch Missverständnisse - nicht stimmen.
+			Nachdem ich die Dateisystemressource erstellt habe, werde ich diesen Abschnitt
+			nochmals überabreiten und mit den Erfahrungen, die ich beim Implementieren gemacht habe,
+			vergleichen.
+      </p>
+      <hr />
+			<p>
+			  Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines
+        Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
+        Ressourcen in Ressourcengruppen zusammengefasst. Um Ressourcen auf dem Gerät 
+        verfügbar machen zu können, müssen diese immer einer Gruppe zugeordnet werden.
+			</p>
+			<p>
+			  Das Erstellen einer Ressourcengruppe und deren Ressourcen läuft in folgenden
+        Schritten ab:
+			  <ul>
+			    <li>Bestimmen und Implementieren einzelner Ressourcen (z.B. jeweils eine 
+            Ressource um eine Datei in verschiedenen Bereichen des Geräts zu lesen, 
+            schreiben oder zu löschen)</li>
+			    <li>Festlegen einer Ressourcengruppe (z.B. Dateisystemzugriff) und Hinzufügen 
+            der erstellten Ressourcen zu dieser</li>
+			    <li>Bestimmen und Implementieren der zu der erstellten Ressourcengruppe
+            passenden Privacy Levels (z.B. nur lesen, nur schreibe oder lesen und 
+            schreiben)</li>
+			    <li>Hinzufügen der Privacy-Levels zu der Ressourcengruppe</li>
+			    <li>Implementieren einer Anwendung, die die erstellten Ressourcengruppen 
+            enthält.</li>
+			  </ul>
+        In den nachfolgenden Unterabschnitten werden die einzelnen Phasen genauer
+        beschrieben und anhand von Beispielen erläutert.<br /> 
+        Alle für das Erstellen einer Ressource benötigten Klassen befinden sich im 
+        Paket &quot;de.unistuttgart.ipvs.pmp.resource&quot; der API-Bibliothek.
+			</p>
+			
+			<h3 id="devres_res">Erstellen einer Ressource</h3>
+			<p>
+        Ressourcen bilden die Grundlage einer Ressourcengruppe. Jede Gruppe benötigt 
+        mindestens eine Ressourcen. Die Basisklasse einer Ressource bildet 
+        &quot;Resource&quot;.
+			  Um eigene Ressourcen zu erstellen, wird diese Erweitert. Anschließend muss 
+        die Methode &quot;getAndroidInterface()&quot; impelementiert werden.
+			</p>
+
+			<p>
+			  Zunächst wird eine AIDL-Interace erstellt, dass die für Anwendungen sichtbaren 
+        Funktionen der Ressource beinhaltet (etwa Datei lesen). Nachdem Android aus 
+        diesem Interface automatisch ein Stub erstellt hat, wird dieses implementiert, 
+        um die Funktionalität der Ressource zu liefern.
+			  Die Methode &quot;getAndroidInterface()&quot; liefert nun dieses Interface 
+        zurück, um Anwendungen Zugriff auf die Ressource zu bieten. 
+			  Über den Parameter wird der Name der Anwendung übergeben, die Zugriff auf 
+        die Funktionen der Ressource verlangt.
+			</p>
+			
+			<h3 id="devres_privlevel">Erstellen eines Privacy-Levels</h3>
+			<p>
+        Jede Ressourcengruppe behinhaltet mehrere Privacy-Levels. Privay-Levels 
+        werden durch erweitern der Klasse &quot;PrivacyLevel&quot; erstellt, wobei 
+        alle abstrakten Methoden implementiert werden:
+			</p>
+
+			<p>
+			  Über &quot;getName()&quot; und &quot;getDescription()&quot; erhält der 
+        Anwender den <b>Namen</b> und die <b>Beschreibung</b> des Privacy-Levels. 
+        Beide Methoden erhalten als Parameter das Kürzel der Sprache, in der der 
+        jeweilige Wert zurückgegeben werden soll, wobei der Parameter der ISO-639 
+        Norm entspricht (z.B. &quot;en&quot; bei englisch, &quot;de&quot; bei deutsch).
+			  Die Methoden müssen anschließen den zur jeweiligen Sprache gehörenden Wert 
+        zurück liefern. Achten Sie darauf, dass auch bei Übergabe einer unbekannten 
+        Sprache, zu der noch keine Übersetzung existiert, stets ein alternativer Wert
+        (z.B. in englischer Sprache) zurückgeliefert wird.
+			</p>
+
+			<p>
+			  Über die Methode &quot;getHumanReadablePrivacyLevelValue()&quot; 
+        wird der <b>menschen lesbare Wert eines Privacy-Levels</b> zurückgegeben. 
+        Der erste Parameter entspricht dem oben erwähnten Sprachlkürzel.
+			  Dieser gibt an, in welcher Sprache der Wert zurückgeliefert werden soll. 
+        Über den zweiten Wert wird der intern verwendete Wert des Privacy-Levels 
+        übergeben. Aus diesen Daten berechnet die Methode den für die Anzeige
+        geeigneten Text (z. B. wird aus dem internen Wert "r" und der gewählten 
+        Sprache "de" der Text "lesen" berechnet und zurückgegeben).
+			  
+<pre>
+  public String getHumanReadablePrivacyLevelValue(String locale, String value) {
+    if (value.equals("r")) {
+      if (local.equals("de")) {
+        return "lesen";
+      } else {
+        return "read";
+      }
+    }
+
+    if (value.equals("w")) {
+      if (local.equals("de")) {
+        return "schreiben";
+      } else {
+        return "write";
+      }
+    }
+
+    if (value.equals("rw")) {
+      if (local.equals("de")) {
+        return "lesen/schreiben";
+      } else {
+        return "read/write";
+      }
+    }
+  }
+</pre>
+			</p>
+			    
+			<p>
+			  <hr />
+			  Stimmt das so? Noch zu prüfen!b
+			  <hr />
+			  Die Methode &quot;satisfies()&quot; erlaubt die Prüfung, ob ein bestimmtes
+        Privacy-Level in einem Anderen enhalten ist. Beispielsweise ist das Privacy-Level 
+        &quot;read&quot; in &quot;readwrite&quot; enthalten, nicht jedoch umgehrt. 
+        Dazu werden zwei Parameter übergeben. Anschließend erfolgt die Prüfung, 
+        ob das durch den ersten Parameter dargestellte Privacy-Level in dem 
+        Privacy-Level, das als zweiter Parameter übergeben wird, enthalten ist.
+<pre>
+
+  public boolean satisfies(String reference, String value) {
+
+    // Abbrechen, wenn einer der Parameter null ist
+    if (reference == null || value == null) {
+      return false;
+    }
+
+    // &quot;lesen&quot; und &quot;schreiben&quot; sind im Privacy-Level &quot;lesen und schreiben&quot; enthalten
+    if (value.equals(&quot;rw&quot;) {
+      return true;
+    }
+    
+    // Alle Privacy-Levels sind in sich selbst enthalten
+    if (value.equals(reference)) {
+      return true;
+    }
+  }
+</pre>
+			</p>
+			<p>  
+			  Um dem Benutzer das <b>Ändern des Privacy-Levels</b> zu ermöglichen, wird in 
+        &quot;changeValue()&quot; ein Dialog angezeigt, der alle verfügbaren Werte 
+        des Privacy-Levels auflistet und dem Benutzer eine Auswahl darin ermöglicht.
+        Um den aktuell verwendeten Wert hervorheben zu können, wird dieser der 
+        Methode übergeben. Wurde durch den Benutzer ein Wert gewählt und damit der
+        Dialog beendet, muss die Methoden den internen Namen des gewählten Werts 
+        zurückgeben.
+			</p>
+			
+			<h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
+			<p>
+			  Die erstellten Ressourcen müssen einer Ressourcengruppe hinzugfügt werden. 
+        Hierzu wird eine neue Klasse erstellt, die die Klasse &quot;ResourceGroup&quot; 
+        erweitert. Die Klasse &quot;ResourceGroup&quot; besitzt einige abstrakte 
+        Methoden die implentiert werden müssen.
+
+<pre>
+import de.unistuttgart.ipvs.pmp.<WBR>resource.ResourceGroup
+
+public class FilesystemResourceGroup extends ResourceGroup { 
+
+  public ResourceGroup(Context serviceContext, Class service) {
+    super(serviceContext, service);
+  }
+
+  ...
+  ...
+  ...
+
+}
+</pre>
+			</p>
+			<p>
+			  Die zwei Methoden &quot;getName()&quot; und &quot;getDescription()&quot; 
+        liefern dem Anwender den <b>Namen</b> der Ressourcengruppe und eine 
+        <b>Beschreibung</b> dieser. Die Metohden ähneln den gleichnamigen Methoden 
+        der Klasse &quot;PrivacyLevel&quot; und erhalten den gleichen Parameter 
+        (Sprache in ISO-639 Norm). Auch hier muss darauf geachtet werden, das bei
+        unbekannten Sprachen stets ein alternativer Wert gelifert wird.
+
+<pre>
+  public String getName(String locale) {
+    if (local.equals(&quot;de&quot;)) {
+      return &quot;Dateisystem&quot;;
+    } else {
+      return &quot;Filesystem&quot;;
+    }
+  } 
+
+  public String getDescription(String locale) {
+    if (local.equals(&quot;de&quot;)) {
+      return &quot;Bietet Anwendungen Zugriff auf auf dem Gerät gespeicherte Dateien.&quot;;
+    } else {
+      return &quot;Gives applications access to files saved on the device.&quot;;
+    }
+  } 
+</pre>
+
+			</p>
+			<p>
+			  Damit Anwendungen auf die Ressourcengruppe zugreifen können, muss der <b>Name 
+        des Services</b>, innerhalb dessen die Ressourcegruppe ausgeführt wird, 
+        von der Gruppe geliefert werden können.
+			  Hierzu dient die Methode &quot;getServiceAndroidName()&quot;. Der von dieser 
+        Methode gelieferte Wert muss mit der Angabe in der Android-Manifest-Datei 
+        übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.
+
+<pre>
+  protected String getServiceAndroidName() {
+    return "FilesystemRGService";
+  }
+</pre>
+			</p>
+
+			<p>
+			  Um auf eine <b>erfolgreiche oder fehlgeschlagene Registierung</b> der 
+        Ressourcengruppe in der PMP reagieren zu können, stehen die beiden 
+        Callback-Methoden &quot;onRegistrationSuccess()&quot; und 
+			  &quot;onRegistrationFailed()&quot; zur Verfügung. &quot;onRegistrationSuccess()&quot; 
+        wird aufgerufen nachdem die Registrierungsanfrage der Ressourcengruppe von
+        der PMP erfolgreich bearbeitet wurde. Wurde &quot;onRegistrationFailed()&quot; 
+        vom System aufgerufen, konnte die Gruppe dem System nicht hinzugefügt werden. 
+        Über den String-Parameter wird der Grund des Fehlschlags übermittelt.
+
+<pre>
+  public void onRegistrationSuccess() {
+    Toast toast = Toast.makeText(getApplicationContext(), 
+                    "Registration successfull", Toast.LENGTH_SHORT);
+    toast.show();
+  }
+
+  public void onRegistrationFailed(String message) {
+    Toast toast = Toast.makeText(getApplicationContext(), 
+                    "Registration failed. PMP says: " + message, Toast.LENGTH_SHORT);
+    toast.show();
+  }
+</pre>
+
+			</p>
 		</div>
 		<!-- // end of specification's content -->
 	</div>

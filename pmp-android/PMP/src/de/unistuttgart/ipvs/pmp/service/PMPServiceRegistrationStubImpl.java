@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.service;
 
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 
 /**
@@ -18,27 +20,33 @@ public class PMPServiceRegistrationStubImpl extends
     }
 
     @Override
-    public byte[] registerApp(byte[] publicKey) throws RemoteException {
-	/*
-	 * Note: The Identifier of the App can be found in the identifier
-	 * variable. Execution should be done in Background and PublicKey should
-	 * be returned immediately.
-	 */
-
-	// TODO IMPLEMENT
-	throw new UnsupportedOperationException();
+    public byte[] registerApp(final byte[] publicKey) throws RemoteException {
+	new Thread(new Runnable() {
+	    @Override
+	    public void run() {
+		ModelSingleton.getInstance().getModel().addApp(identifier, publicKey);
+	    }
+	}).start();
+	
+	return PMPApplication.getSignee().getLocalPublicKey();
     }
 
     @Override
-    public byte[] registerResourceGroup(byte[] publicKey)
+    public byte[] registerResourceGroup(final byte[] publicKey)
 	    throws RemoteException {
-	/*
-	 * Note: The Identifier of the ResourceGroup can be found in the
-	 * identifier variable. Execution should be done in Background and
-	 * PublicKey should be returned immediately.
-	 */
+	new Thread(new Runnable() {
+	    @Override
+	    public void run() {
+		ModelSingleton.getInstance().getModel().addResourceGroup(identifier, publicKey);
+	    }
+	}).start();
+	
 
-	// TODO IMPLEMENT
-	throw new UnsupportedOperationException();
+	return PMPApplication.getSignee().getLocalPublicKey();
+    }
+
+    @Override
+    public void testBinding() throws RemoteException {
+	
     }
 }

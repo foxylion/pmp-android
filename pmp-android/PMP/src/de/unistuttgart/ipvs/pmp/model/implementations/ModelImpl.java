@@ -30,7 +30,7 @@ public class ModelImpl implements IModel {
 		.getReadableDatabase();
 
 	Cursor cursor = db.rawQuery(
-		"SELECT Identifier, Name_Cache, Description_Cache FROM App;",
+		"SELECT Identifier, Name_Cache, Description_Cache FROM App",
 		null);
 	
 	cursor.moveToNext();
@@ -51,7 +51,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public void addApp(String identifier, String publicKey) {
+    public void addApp(String identifier, byte[] publicKey) {
 	// TODO Auto-generated method stub
     }
 
@@ -64,7 +64,7 @@ public class ModelImpl implements IModel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Identifier, Name_Cache, Description_Cache FROM ResourceGroup;",
+			"SELECT Identifier, Name_Cache, Description_Cache FROM ResourceGroup",
 			null);
 
 	cursor.moveToNext();
@@ -85,7 +85,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public void addResourceGroup(String identifier, String publicKey) {
+    public void addResourceGroup(String identifier, byte[] publicKey) {
 	// TODO Auto-generated method stub
     }
 
@@ -98,7 +98,7 @@ public class ModelImpl implements IModel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Name, ResourceGroup_Identifier, Description FROM Preset;",
+			"SELECT Name, ResourceGroup_Identifier, Description FROM Preset",
 			null);
 
 	cursor.moveToNext();

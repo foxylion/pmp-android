@@ -11,6 +11,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,10 @@ public class StartActivity extends Activity {
     LinearLayout parentLayout;
 
     /**
+     * ScrollLayout for the horizontal mode
+     */
+    ScrollView scroll;
+    /**
      * Views of the Activity
      */
     TextView PMPLabel;
@@ -55,7 +60,9 @@ public class StartActivity extends Activity {
 	parentLayout.addView(PMPLabel);
 	parentLayout.addView(layout);
 
-	setContentView(parentLayout);
+	scroll.addView(parentLayout);
+	
+	setContentView(scroll);
     }
 
     /**
@@ -69,7 +76,7 @@ public class StartActivity extends Activity {
 	PMPLabel.setGravity(Gravity.CENTER);
 
 	layout = new LinearLayout(this);
-	layout.setBackgroundColor(Color.WHITE);
+	layout.setBackgroundColor(Color.rgb(211, 211, 211));
 	layout.setOrientation(LinearLayout.VERTICAL);
 	layout.setVerticalGravity(Gravity.CENTER);
 
@@ -81,6 +88,7 @@ public class StartActivity extends Activity {
 	ressources.setText("Ressources");
 	ressources.setOnTouchListener(new RessourcesListener());
 
+	
 	layout.addView(apps);
 	layout.addView(ressources);
 
@@ -93,7 +101,11 @@ public class StartActivity extends Activity {
 	parentLayout = new LinearLayout(this);
 	parentLayout.setLayoutParams(fpfp);
 	parentLayout.setOrientation(LinearLayout.VERTICAL);
-	parentLayout.setBackgroundColor(Color.WHITE);
+	parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
+	
+	scroll = new ScrollView(this);
+	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+	scroll.setLayoutParams(fpfp);
     }
 
     /**

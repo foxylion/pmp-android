@@ -51,8 +51,7 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = '"
-				+ identifier + "';", null);
+			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ?", new String[] { identifier });
 
 	cursor.moveToNext();
 	
@@ -79,7 +78,7 @@ public class AppImpl implements IApp {
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Level = "
-				+ level + " LIMIT 1;",
+				+ level + " LIMIT 1",
 			new String[] { identifier });
 
 	if (cursor != null && cursor.getCount() == 1) {

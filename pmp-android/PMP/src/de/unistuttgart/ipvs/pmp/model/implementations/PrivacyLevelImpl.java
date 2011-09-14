@@ -64,7 +64,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1;",
+			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
 			new String[] { resourceGroupIdentifier });
 
 	if (cursor != null && cursor.getCount() == 1) {

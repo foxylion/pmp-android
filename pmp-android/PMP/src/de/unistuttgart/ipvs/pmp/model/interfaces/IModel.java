@@ -19,7 +19,7 @@ public interface IModel {
      * @param identifier
      * @param publicKey
      */
-    public void addApp(String identifier, String publicKey);
+    public void addApp(String identifier, byte[] publicKey);
 
     /**
      * @return Returns all {@link IResourceGroup}s known by PMP.
@@ -32,7 +32,7 @@ public interface IModel {
      * @param identifier
      * @param publicKey
      */
-    public void addResourceGroup(String identifier, String publicKey);
+    public void addResourceGroup(String identifier, byte[] publicKey);
 
     /**
      * @return Returns all {@link IPreset}s known by PMP.
