@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.gui.activities;
 
+import de.unistuttgart.ipvs.pmp.app.appUtil.connector.PMPConnector;
 import de.unistuttgart.ipvs.pmp.apps.R;
 import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.ChangeDateDialog;
 import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.NewDateDialog;
@@ -41,6 +42,9 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+
+	PMPConnector.connectToPMP(actualContext);
+	
 	setContentView(R.layout.list_layout);
 	arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model
 		.getInstance().getDateList());
