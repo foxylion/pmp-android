@@ -80,6 +80,7 @@ public class AppRegistration {
 		Log.e("Registration failed: onnection to the AppService failed. More details can be found in the log.");
 	    }
 	});
+	asp.bind();
     }
 
     /**
@@ -196,6 +197,7 @@ public class AppRegistration {
 		    Log.e("Registration Failed: Could not reconnect to AppService for setting the registration state");
 		}
 	    });
+	    asp.bind();
 	} else {
 	    try {
 		IAppService appService = asp.getAppService();
