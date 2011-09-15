@@ -35,8 +35,8 @@ public abstract class App extends Application {
 
     @Override
     public void onCreate() {
-	signee = new PMPSignee(PMPComponentType.APP, getApplicationContext());
-	signee.setIdentifier(getServiceAndroidName());
+	signee = new PMPSignee(PMPComponentType.APP, getServiceAndroidName(),
+		getApplicationContext());
 
 	InputStream is = getXMLInputStream();
 	if (is != null) {

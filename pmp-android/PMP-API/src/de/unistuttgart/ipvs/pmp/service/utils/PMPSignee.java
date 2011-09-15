@@ -80,15 +80,16 @@ public class PMPSignee {
      * 
      * @param type
      *            the type of the signee
-     * @param serviceClass
-     *            the service class the signee should use
+     * @param androidName
+     *            the android:name identifier of this signee
      * @param context
      *            the context this signee should use to save
      */
-    public PMPSignee(PMPComponentType type, Context context) {
+    public PMPSignee(PMPComponentType type, String androidName, Context context) {
 	this.remotePublicKeys = new HashMap<String, PublicKey>();
 	this.type = type;
 	this.context = context;
+	this.identifier = androidName;
 
 	// try loading an old state
 	if (!load()) {

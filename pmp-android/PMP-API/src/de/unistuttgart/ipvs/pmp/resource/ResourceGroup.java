@@ -67,8 +67,7 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext) {
 	signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
-		serviceContext);
-	signee.setIdentifier(getServiceAndroidName());
+		getServiceAndroidName(), serviceContext);
 
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
