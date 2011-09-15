@@ -66,11 +66,6 @@ public class PMPSignee {
     private PMPComponentType type;
 
     /**
-     * The service class the signee should use
-     */
-    private Class<? extends PMPSignedService> serviceClass;
-
-    /**
      * The android:name identifier for this signee
      */
     private String identifier;
@@ -90,11 +85,9 @@ public class PMPSignee {
      * @param context
      *            the context this signee should use to save
      */
-    public PMPSignee(PMPComponentType type,
-	    Class<? extends PMPSignedService> serviceClass, Context context) {
+    public PMPSignee(PMPComponentType type, Context context) {
 	this.remotePublicKeys = new HashMap<String, PublicKey>();
 	this.type = type;
-	this.serviceClass = serviceClass;
 	this.context = context;
 
 	// try loading an old state
@@ -291,14 +284,14 @@ public class PMPSignee {
     public final boolean load() {
 	// load signee, if exists
 	try {
-	    InputStream is = context.openFileInput(serviceClass.getName());
+	    InputStream is = context.openFileInput(getIdentifier());
 	    readFromInput(is);
 	    return true;
 	} catch (FileNotFoundException e) {
-	    Log.v("Signee file for " + serviceClass.getName() + " not found.", e);
+	    Log.v("Signee file for " + getIdentifier() + " not found.", e);
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during loading Signee for "
-		    + serviceClass.getName(), e);
+		    + getIdentifier(), e);
 	}
 	return false;
     }
@@ -311,15 +304,15 @@ public class PMPSignee {
     public final void save() {
 	// save signee
 	try {
-	    OutputStream os = context.openFileOutput(serviceClass.getName(),
+	    OutputStream os = context.openFileOutput(getIdentifier(),
 		    Context.MODE_PRIVATE);
 	    writeToOutput(os);
 	} catch (FileNotFoundException e) {
-	    Log.v("Signee file for " + serviceClass.getName()
+	    Log.v("Signee file for " + getIdentifier()
 		    + " not found (during writing?!).", e);
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during writing signee for "
-		    + serviceClass.getName(), e);
+		    + getIdentifier(), e);
 	}
     }
 

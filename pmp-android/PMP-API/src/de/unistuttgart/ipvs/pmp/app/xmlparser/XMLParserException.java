@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser;
+package de.unistuttgart.ipvs.pmp.app.xmlparser;
 
 /**
  * This class is used to create parser exceptions with a type and details.

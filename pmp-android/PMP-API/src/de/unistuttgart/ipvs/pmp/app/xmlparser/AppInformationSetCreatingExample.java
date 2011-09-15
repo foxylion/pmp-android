@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil;
+package de.unistuttgart.ipvs.pmp.app.xmlparser;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,7 +7,6 @@ import java.net.URL;
 import android.app.Activity;
 import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
 
 /**
  * This activity creates a app information set with the given xml file. This is
@@ -36,14 +35,14 @@ public class AppInformationSetCreatingExample extends Activity {
 	// Create the app information set
 	AppInformationSet ais = null;
 	try {
-	    ais = AppUtility.createAppInformationSet(xmlURL.openStream());
+	    ais = AppInformationSetParser.createAppInformationSet(xmlURL.openStream());
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
 	// Print the app information set
-	AppUtility.printAppInformationSet(ais);
+	AppInformationSetParser.printAppInformationSet(ais);
 
     }
 

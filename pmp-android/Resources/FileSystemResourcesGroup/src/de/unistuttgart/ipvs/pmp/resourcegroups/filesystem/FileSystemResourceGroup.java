@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 import android.content.Context;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.SimplePrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.SimplePrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
@@ -34,7 +34,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
 	 */
 	public FileSystemResourceGroup(Context serviceContext,
 			Class<? extends PMPSignedService> service) throws Exception {
-		super(serviceContext, service);
+		super(serviceContext);
 		
 		// Store the service' context, because we will need it later
 		this.serviceContext = serviceContext;
@@ -79,7 +79,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
 	@Override
 	public String getDescription(String locale) {
 		if (locale.equalsIgnoreCase("de")) {
-			return "Bietet Anwendungen Zugriff auf auf dem Gerät gespeicherte Dateien.";
+			return "Bietet Anwendungen Zugriff auf auf dem Gerï¿½t gespeicherte Dateien.";
 		} else {
 			return "Gives applications access to files saved on the device.";
 		}

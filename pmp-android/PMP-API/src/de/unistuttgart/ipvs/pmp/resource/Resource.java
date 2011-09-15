@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 
 /**

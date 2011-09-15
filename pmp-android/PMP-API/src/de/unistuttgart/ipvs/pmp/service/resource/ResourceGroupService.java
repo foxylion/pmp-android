@@ -11,15 +11,6 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
- * <h2>Implementing your resource</h2>
- * 
- * To implement your resource, extend a {@link ResourceGroupService} and create
- * the service via your manifest and implement a {@link ResourceGroupApp} to
- * link to your {@link ResourceGroup} that stores the data you intent to use for
- * this resource.
- * 
- * <h2>PMP internal view</h2>
- * 
  * <p>
  * This is an external service for communication between resource groups and PMP
  * or apps. <br/>
@@ -32,7 +23,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  * @author Tobias Kuhn
  */
-public abstract class ResourceGroupService extends PMPSignedService {
+public class ResourceGroupService extends PMPSignedService {
 
     @Override
     public void onCreate() {

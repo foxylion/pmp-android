@@ -38,7 +38,7 @@ public class PMPApplication extends Application {
 
     public static PMPSignee getSignee() {
 	PMPSignee signee = new PMPSignee(PMPComponentType.PMP,
-		PMPService.class, getContext());
+		getContext());
 	signee.setIdentifier(Constants.PMP_IDENTIFIER);
 
 	return signee;
