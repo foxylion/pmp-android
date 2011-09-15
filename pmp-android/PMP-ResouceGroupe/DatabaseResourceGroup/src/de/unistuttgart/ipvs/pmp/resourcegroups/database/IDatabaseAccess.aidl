@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 interface IDatabaseAccess {
     

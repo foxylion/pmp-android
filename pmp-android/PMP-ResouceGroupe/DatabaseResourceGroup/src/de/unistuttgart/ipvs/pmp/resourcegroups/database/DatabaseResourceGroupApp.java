@@ -1,11 +1,11 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
-import de.unistuttgart.ipvs.pmp.resourcegroups.DatabaseResourceGroup;
+import de.unistuttgart.ipvs.pmp.resourcegroups.database.DatabaseResourceGroup;
 
 /**
  * @author Dang Huynh

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
