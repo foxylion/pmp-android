@@ -59,6 +59,35 @@ public abstract class App extends Application {
     protected abstract String getServiceAndroidName();
 
     /**
+     * 
+     * @return the signee
+     */
+    public PMPSignee getSignee() {
+	return this.signee;
+    }
+
+    /**
+     * The {@link AppInformationSet} parsed by this {@link App}. See
+     * {@link App#getXMLInputStream()}.
+     * 
+     * @return The {@link AppInformationSet} parsed by this {@link App}.
+     */
+    public AppInformationSet getInfoSet() {
+	return this.infoSet;
+    }
+
+    /**
+     * Overwrite this method to react whenever PMP changes your active service
+     * level. When not received any service level yet, assume you are on level
+     * 0.
+     * 
+     * @param level
+     *            the new service level level according to your specification in
+     *            {@link App#getXMLInputStream()}.
+     */
+    public abstract void setActiveServiceLevel(int level);
+
+    /**
      * Overwrite this method to return an input stream for the XML file that you
      * use to describe your application.
      * 
@@ -104,8 +133,7 @@ public abstract class App extends Application {
 				Constants.PMP_IDENTIFIER, pmpPublicKey);
 
 		    } catch (RemoteException e) {
-			Log.e("RemoteException during registering app",
-				e);
+			Log.e("RemoteException during registering app", e);
 		    }
 		}
 	    }
@@ -119,8 +147,8 @@ public abstract class App extends Application {
     }
 
     /**
-     * Callback called when the preceding call to start() registered this
-     * app successfully with PMP.
+     * Callback called when the preceding call to start() registered this app
+     * successfully with PMP.
      */
     public abstract void onRegistrationSuccess();
 

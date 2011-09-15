@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.content.Intent;
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -16,16 +16,26 @@ public class AppService extends PMPSignedService {
 
     @Override
     protected PMPSignee createSignee() {
-	return ApplicationApp.getInstance().getSignee();
+	return findContextApp().getSignee();
     }
 
     @Override
     public IBinder onSignedBind(Intent intent) {
-	return new IAppServiceStubImpl();
+	AppServiceStubImpl assi = new AppServiceStubImpl();
+	assi.setApp(findContextApp());
+	return assi;
     }
 
     @Override
     public IBinder onUnsignedBind(Intent intent) {
 	return null;
+    }
+    
+    private App findContextApp() {
+	if (!(getApplication() instanceof App)) {
+	    return null;
+	} else {
+	    return (App) getApplication();
+	}
     }
 }
