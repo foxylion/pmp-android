@@ -117,18 +117,19 @@ public abstract class AbstractConnector {
 		    this.signee.getIdentifier());
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
 		    this.signee.signContent(targetIdentifier.getBytes()));
-
+	    
 	    new Thread(new Runnable() {
 		@Override
 		public void run() {
 		    if (context.bindService(intent, serviceConnection,
 			    Context.BIND_AUTO_CREATE)) {
+			
+			Log.d("AbstractConnector successfully sent bind command to "
+				+ targetIdentifier);
+		    } else {
 			Log.d("AbstractConnector recognized that binding for "
 				+ targetIdentifier + " has failed");
 			semaphore.release();
-		    } else {
-			Log.d("AbstractConnector successfully sent bind command to "
-				+ targetIdentifier);
 		    }
 		}
 	    }).start();

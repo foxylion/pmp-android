@@ -19,7 +19,6 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 public class AppRegistration {
@@ -70,7 +69,7 @@ public class AppRegistration {
 	    } else {
 		Log.d("Registration ("
 			+ identifier
-			+ "): Successfully bound service, loading AppInformationSet.");
+			+ "): Successfully bound AppService, loading AppInformationSet.");
 		loadAppInformationSet(asp.getAppService());
 	    }
 	}

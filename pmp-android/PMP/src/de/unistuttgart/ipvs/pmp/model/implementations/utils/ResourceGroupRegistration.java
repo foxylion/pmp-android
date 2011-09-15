@@ -16,7 +16,6 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
@@ -26,8 +25,7 @@ public class ResourceGroupRegistration {
 
     private byte[] publicKey;
 
-    private final ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
-	    PMPApplication.getContext(), PMPApplication.getSignee(), identifier);
+    private final ResourceGroupServiceConnector rgsc;
 
     /**
      * Executes an asynchronous ResourceGroup registration.
@@ -40,6 +38,9 @@ public class ResourceGroupRegistration {
     public ResourceGroupRegistration(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
 	this.publicKey = publicKey;
+	this.rgsc = new ResourceGroupServiceConnector(
+		PMPApplication.getContext(), PMPApplication.getSignee(),
+		identifier);
 
 	connect();
     }
@@ -48,7 +49,24 @@ public class ResourceGroupRegistration {
      * Connect to the Service.
      */
     private void connect() {
-	
+	if (!rgsc.bind(true)) {
+	    Log.e("Registration ("
+		    + identifier
+		    + "): FAILED - Connection to the ResourceGroupService failed. More details can be found in the log.");
+	} else {
+	    Log.d("Registration (" + identifier + "): Successfully bound.");
+
+	    if (rgsc.getPMPService() == null) {
+		Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
+	    } else {
+		Log.d("Registration ("
+			+ identifier
+			+ "): Successfully bound ResourceGroupService, loading resource group informations.");
+		loadResourceGroupData(rgsc.getPMPService());
+	    }
+	}
     }
 
     /**
@@ -81,7 +99,9 @@ public class ResourceGroupRegistration {
 
 	    checkResourceGroup(rgDS);
 	} catch (RemoteException e) {
-	    Log.e("Registration failed: while getting informations it produced an RemoteException.",
+	    Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - while getting informations it produced an RemoteException.",
 		    e);
 	}
     }
@@ -92,8 +112,10 @@ public class ResourceGroupRegistration {
      */
     private void checkResourceGroup(ResourceGroupDS rgDS) {
 	if (!rgDS.validate()) {
-	    Log.e("Registration failed: ResourceGroup informations are missing, details above.");
-	    informAppAboutRegistration(false,
+	    Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - ResourceGroup informations are missing, details above.");
+	    informRGAboutRegistration(false,
 		    "ResourceGroup informations are missing, details in LogCat.");
 	    return;
 	}
@@ -101,8 +123,10 @@ public class ResourceGroupRegistration {
 	for (IResourceGroup rg : ModelSingleton.getInstance().getModel()
 		.getResourceGroups()) {
 	    if (rg.getIdentifier().equals(identifier)) {
-		Log.e("Registration failed: ResourceGroup already registred.");
-		informAppAboutRegistration(false,
+		Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - ResourceGroup already registred.");
+		informRGAboutRegistration(false,
 			"ResourceGroup already registred.");
 		return;
 	    }
@@ -151,28 +175,47 @@ public class ResourceGroupRegistration {
 	PMPApplication.getSignee().setRemotePublicKey(
 		PMPComponentType.RESOURCE_GROUP, identifier, publicKey);
 
-	informAppAboutRegistration(true, null);
+	informRGAboutRegistration(true, null);
     }
 
     /**
-     * Inform the AppService about the registration state.
+     * Inform the ResourceGroupService about the registration state.
      * 
      * @param state
      *            true means successful, false means unsuccessful
      * @param message
      *            a message with optional information provided.
      */
-    private void informAppAboutRegistration(final boolean state,
+    private void informRGAboutRegistration(final boolean state,
 	    final String message) {
 	if (!rgsc.isBound()) {
-	    
+	    if (!rgsc.bind(true)) {
+		    Log.e("Registration ("
+			    + identifier
+			    + "): FAILED - Connection to the ResourceGroupService failed. More details can be found in the log.");
+		} else {
+		    Log.d("Registration (" + identifier + "): Successfully bound.");
+
+		    if (rgsc.getPMPService() == null) {
+			Log.e("Registration ("
+				+ identifier
+				+ "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
+		    } else {
+			Log.d("Registration ("
+				+ identifier
+				+ "): Successfully bound ResourceGroupService, calling setRegistrationSuccessful.");
+			informRGAboutRegistration(state, message);
+		    }
+		}
 	} else {
 	    try {
-		IResourceGroupServicePMP appService = rgsc.getPMPService();
-		appService.setRegistrationSuccessful(new RegistrationState(
+		IResourceGroupServicePMP rgService = rgsc.getPMPService();
+		rgService.setRegistrationSuccessful(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.",
+		Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - setRegistrationSuccessful() produced an RemoteException.",
 			e);
 	    }
 	}
