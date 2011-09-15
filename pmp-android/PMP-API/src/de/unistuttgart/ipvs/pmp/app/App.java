@@ -49,7 +49,7 @@ public abstract class App extends Application {
 
     /**
      * Overwrite this method to return the <b>exact same</b> identifier you have
-     * put in the manifest file for the service for this Resource Group:
+     * put in the manifest file for the service for this App:
      * &lt;service>...&lt;intent-filter>...&lt;action
      * android:name="<b>HERE</b>">. If the identifier differ, the service will
      * not work.
@@ -139,7 +139,7 @@ public abstract class App extends Application {
 
 	    @Override
 	    public void bindingFailed() {
-		Log.e("Binding failed during registering resource group.");
+		Log.e("Binding failed during registering app.");
 	    }
 	});
 	pmpsc.bind();
