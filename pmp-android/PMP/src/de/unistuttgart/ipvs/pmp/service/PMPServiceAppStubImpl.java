@@ -1,6 +1,10 @@
 package de.unistuttgart.ipvs.pmp.service;
 
+import android.content.Intent;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
 
 /**
@@ -18,7 +22,9 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
 
     @Override
     public void setInitialServiceLevel() throws RemoteException {
-	// TODO Auto-generated method stub
-
+	Intent intent = new Intent();
+	intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
+	intent.putExtra(Constants.INTENT_IDENTIFIER, identifier);
+	PMPApplication.getContext().startActivity(intent);
     }
 }

@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.implementations;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
@@ -190,10 +191,13 @@ public class ModelImpl implements IModel {
 			new String[] { name, type.toString(), identifier });
 
 	if (cursor.getCount() == 0) {
-	    db.rawQuery(
-		    "INSERT INTO Preset (Name, Description, Type, Identifier) VALUES (?, ?, ?, ?)",
-		    new String[] { name, description, type.toString(),
-			    identifier });
+	    ContentValues cv = new ContentValues();
+	    cv.put("Name", name);
+	    cv.put("Description", description);
+	    cv.put("Type", type.toString());
+	    cv.put("Identifier", identifier);
+	    
+	    db.insert("Preset", null, cv);
 	}
 
 	return new PresetImpl(name, description, type, identifier);

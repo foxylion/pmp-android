@@ -57,17 +57,16 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT pl.ResourceGroup_Identifier AS ResourceGroup_Identifier,"
-				+ "       pl.Identifier AS PrivacyLevel_Identifier,"
-				+ "       pl.Name_Cache AS Name_Cache,"
-				+ "       pl.Description_Cache AS Description_Cache,"
-				+ "       slpl.Value AS Value,"
-				+ "FROM ServiceLevel_PrivacyLevels AS slpl,"
-				+ "     PrivacyLevel AS pl"
-				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier"
-				+ "  AND slpl.PrivacyLevel_Identifier = pl.Identifier"
-				+ "  AND slpl.App_Identifier = ?"
-				+ "  AND slpl.ServiceLevel_Level = " + level,
+			"SELECT pl.ResourceGroup_Identifier, "
+				+ "pl.Identifier, "
+				+ "pl.Name_Cache, "
+				+ "pl.Description_Cache, "
+				+ "slpl.Value "
+				+ "FROM ServiceLevel_PrivacyLevels AS slpl, PrivacyLevel AS pl "
+				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier "
+				+ "AND slpl.PrivacyLevel_Identifier = pl.Identifier "
+				+ "AND slpl.App_Identifier = ? "
+				+ "AND slpl.ServiceLevel_Level = " + level,
 			new String[] { appIdentifier });
 
 	cursor.moveToNext();
