@@ -24,11 +24,7 @@ public class CalendarApp extends App {
 	@Override
 	protected InputStream getXMLInputStream() {
 		try {
-			URL xmlURL = new URL("/assets/AppInformation.xml");
-			return xmlURL.openStream();
-		} catch (MalformedURLException e) {
-			Log.e("Malformed URL Exception during loading App XML", e);
-			return null;
+			return getAssets().open("/AppInformation.xml");
 		} catch (IOException e) {
 			Log.e("IOException during loading App XML", e);
 			return null;
