@@ -16,13 +16,12 @@ import android.content.Context;
  */
 public class PMPConnector {
 
-    public static void connectToPMP(Context context) {
+    public static void connectToPMP(Context context, String appServiceIdentifier) {
 	AppApplication.getInstance().setContext(context);
 	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
 		AppService.class, context);
 	
-	// Right ?????
-	signee.setIdentifier(context.getPackageName());
+	signee.setIdentifier(appServiceIdentifier);
 	AppApplication.getInstance().setSignee(signee);
 	
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
