@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -76,7 +77,9 @@ public class ResourceGroupRegistration {
 		Log.e("Registration failed: onnection to the ResourceGroupService failed. More details can be found in the log.");
 	    }
 	});
-	rgsc.bind();
+	if (!rgsc.bind()) {
+	    Log.e("Registration failed: connection to the ResourceGroupService failed, service Bind returned false.");
+	}
     }
 
     /**
@@ -92,7 +95,7 @@ public class ResourceGroupRegistration {
 		    .getLanguage());
 
 	    ResourceGroupDS rgDS = new ResourceGroupDS(name, description);
-	    
+
 	    @SuppressWarnings("unchecked")
 	    List<String> privacyLevels = (List<String>) rgService
 		    .getPrivacyLevelIdentifiers();
@@ -146,16 +149,26 @@ public class ResourceGroupRegistration {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery(
-		"INSERT INTO ResourceGroup (Identifier, Name_Cache, Description_Cache) VALUES (?, ?, ?)",
-		new String[] { identifier, rgDS.getName(),
-			rgDS.getDescription() });
+	ContentValues cv = new ContentValues();
+	cv.put("Identifier", identifier);
+	cv.put("Name_Cache", rgDS.getName());
+	cv.put("Description_Cache", rgDS.getDescription());
+
+	db.insert("ResourceGroup", null, cv);
 
 	for (PrivacyLevelDS pl : rgDS.getPrivacyLevels()) {
 	    db.rawQuery(
 		    "INSERT INTO PrivacyLevel (ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache) VALUES (?, ?, ?, ?)",
 		    new String[] { identifier, pl.getIdentifier(),
 			    pl.getName(), pl.getDescription() });
+
+	    cv = new ContentValues();
+	    cv.put("ResourceGroup_Identifier", identifier);
+	    cv.put("Identifier", pl.getIdentifier());
+	    cv.put("Name_Cache", pl.getName());
+	    cv.put("Description_Cache", pl.getDescription());
+
+	    db.insert("PrivacyLevel", null, cv);
 	}
 
 	publishPublicKey();
@@ -200,14 +213,18 @@ public class ResourceGroupRegistration {
 		    Log.e("Registration Failed: Could not reconnect to ResourceGroupService for setting the registration state");
 		}
 	    });
-	    rgsc.bind();
+	    
+	    if (!rgsc.bind()) {
+		Log.e("Registration failed: connection to the ResourceGroupService failed, service Bind returned false.");
+	    }
 	} else {
 	    try {
 		IResourceGroupServicePMP appService = rgsc.getPMPService();
 		appService.setRegistrationSuccessful(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.", e);
+		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.",
+			e);
 	    }
 	}
     }

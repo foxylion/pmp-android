@@ -109,7 +109,7 @@ public class PMPSignee {
 		local = kpg.generateKeyPair();
 		save();
 	    } catch (NoSuchAlgorithmException e) {
-		Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
+		Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
 		local = null;
 	    }
 	}
@@ -163,9 +163,9 @@ public class PMPSignee {
 	    save();
 
 	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.");
+	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
 	} catch (InvalidKeySpecException e) {
-	    Log.e("Key was invalid.");
+	    Log.e("Key was invalid.", e);
 	}
     }
 
@@ -209,11 +209,11 @@ public class PMPSignee {
 	    return sg.verify(signature);
 
 	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.");
+	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
 	} catch (InvalidKeyException e) {
-	    Log.e("Key was invalid.");
+	    Log.e("Key was invalid.", e);
 	} catch (SignatureException e) {
-	    Log.e("Signature was not prepared.");
+	    Log.e("Signature was not prepared.", e);
 	}
 
 	return false;
@@ -241,11 +241,11 @@ public class PMPSignee {
 	    return sg.sign();
 
 	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.");
+	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
 	} catch (InvalidKeyException e) {
-	    Log.e("Key was invalid.");
+	    Log.e("Key was invalid.", e);
 	} catch (SignatureException e) {
-	    Log.e("Signature was not prepared.");
+	    Log.e("Signature was not prepared.", e);
 	}
 
 	return null;
@@ -276,7 +276,7 @@ public class PMPSignee {
 	    local = (KeyPair) ois.readObject();
 	    remotePublicKeys = (Map<String, PublicKey>) ois.readObject();
 	} catch (ClassNotFoundException e) {
-	    Log.e("Class not found during load.");
+	    Log.e("Class not found during load.", e);
 	}
 
     }
@@ -295,10 +295,10 @@ public class PMPSignee {
 	    readFromInput(is);
 	    return true;
 	} catch (FileNotFoundException e) {
-	    Log.v("Signee file for " + serviceClass.getName() + " not found.");
+	    Log.v("Signee file for " + serviceClass.getName() + " not found.", e);
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during loading Signee for "
-		    + serviceClass.getName());
+		    + serviceClass.getName(), e);
 	}
 	return false;
     }
@@ -316,10 +316,10 @@ public class PMPSignee {
 	    writeToOutput(os);
 	} catch (FileNotFoundException e) {
 	    Log.v("Signee file for " + serviceClass.getName()
-		    + " not found (during writing?!).");
+		    + " not found (during writing?!).", e);
 	} catch (IOException e) {
 	    Log.e(e.toString() + " during writing signee for "
-		    + serviceClass.getName());
+		    + serviceClass.getName(), e);
 	}
     }
 

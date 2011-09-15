@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.implementations;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
@@ -144,6 +145,8 @@ public class AppImpl implements IApp {
 	    preset.setPrivacyLevel(pl, true);
 	}
 
+	setActiveServiceLevel(serviceLevel);
+
 	/* Set the new ServiceLevel */
 	new ServiceLevelPublisher(this, false);
     }
@@ -152,7 +155,7 @@ public class AppImpl implements IApp {
     public void verifyServiceLevel() {
 	final IApp app = this;
 	new Thread(new Runnable() {
-	    
+
 	    @Override
 	    public void run() {
 		ServiceLevelCalculator slc = new ServiceLevelCalculator(app);
@@ -180,11 +183,12 @@ public class AppImpl implements IApp {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
-	Cursor cursor = db.rawQuery("SELECT p.Name, " + "p.Description, "
-		+ "p.Type, " + "p.Identifier " + "FROM Preset as p, "
-		+ "Preset_Apps AS pa " + "WHERE pa.Name = p.Name "
-		+ "AND pa.Type = p.Type " + "AND pa.Identifier = p.Identifier"
-		+ "AND p.App_Identifier = ?", new String[] { identifier });
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT p.Name, p.Description, p.Type, p.Identifier "
+				+ "FROM Preset as p, Preset_Apps AS pa "
+				+ "WHERE pa.Preset_Name = p.Name AND pa.Preset_Type = p.Type AND pa.Preset_Identifier = p.Identifier AND pa.App_Identifier = ?",
+			new String[] { identifier });
 
 	cursor.moveToNext();
 
@@ -217,8 +221,13 @@ public class AppImpl implements IApp {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery("UPDATE App SET ServiceLevel_Active = " + serviceLevel
-		+ " WHERE Identifier = ?", new String[] { identifier });
+	ContentValues cv = new ContentValues();
+	cv.put("ServiceLevel_Active", serviceLevel);
+
+	db.update("App", cv, "Identifier = ?", new String[] { identifier });
+
+	Log.d("Setting for " + identifier + " the new service level "
+		+ serviceLevel + ".");
 
 	new ServiceLevelPublisher(this, false);
     }

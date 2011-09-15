@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -29,8 +30,7 @@ public class AppRegistration {
 
     private AppInformationSet ais = null;
 
-    private final AppServiceConnector asp = new AppServiceConnector(
-	    PMPApplication.getContext(), PMPApplication.getSignee(), identifier);
+    private final AppServiceConnector asp;
 
     /**
      * Executes an asynchronous App registration.
@@ -43,6 +43,8 @@ public class AppRegistration {
     public AppRegistration(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
 	this.publicKey = publicKey;
+	this.asp = new AppServiceConnector(PMPApplication.getContext(),
+		PMPApplication.getSignee(), identifier);
 
 	connect();
     }
@@ -80,7 +82,10 @@ public class AppRegistration {
 		Log.e("Registration failed: onnection to the AppService failed. More details can be found in the log.");
 	    }
 	});
-	asp.bind();
+
+	if (!asp.bind()) {
+	    Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
+	}
     }
 
     /**
@@ -128,29 +133,39 @@ public class AppRegistration {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery(
-		"INSERT INTO App (Identifier, Name_Cache, Description_Cache, ServiceLevel_Active) VALUES (?, ?, ?, 0)",
-		new String[] { identifier, getLocalized(ais.getNames()),
-			getLocalized(ais.getDescriptions()) });
+	ContentValues cv = new ContentValues();
+	cv.put("Identifier", identifier);
+	cv.put("Name_Cache", getLocalized(ais.getNames()));
+	cv.put("Description_Cache", getLocalized(ais.getDescriptions()));
+
+	db.insert("App", null, cv);
 
 	for (Entry<Integer, ServiceLevel> sl : ais.getServiceLevels()
 		.entrySet()) {
-	    db.rawQuery(
-		    "INSERT INTO ServiceLevel (App_Identifier, Level, Name_Cache, Description_Cache) VALUES (?, "
-			    + sl.getKey() + ", ?, ?)", new String[] {
-			    identifier, getLocalized(sl.getValue().getNames()),
-			    getLocalized(sl.getValue().getDescriptions()) });
+
+	    cv = new ContentValues();
+	    cv.put("App_Identifier", identifier);
+	    cv.put("Level", sl.getKey());
+	    cv.put("Name_Cache", getLocalized(sl.getValue().getNames()));
+	    cv.put("Description_Cache", getLocalized(sl.getValue()
+		    .getDescriptions()));
+
+	    db.insert("ServiceLevel", null, cv);
 
 	    for (RequiredResourceGroup rrg : sl.getValue()
 		    .getRequiredResourceGroups()) {
 
 		for (Entry<String, String> pl : rrg.getPrivacyLevelMap()
 			.entrySet()) {
-		    db.rawQuery(
-			    "INSERT INTO ServiceLevel_PrivacyLevels (App_Identifier, Level, ResourceGroup_Identifier, PrivacyLevel_Identifier, Value) VALUES (?, "
-				    + sl.getKey() + ", ?, ?, ?)",
-			    new String[] { identifier, rrg.getRgIdentifier(),
-				    pl.getKey(), pl.getValue() });
+
+		    cv = new ContentValues();
+		    cv.put("App_Identifier", identifier);
+		    cv.put("Level", sl.getKey());
+		    cv.put("ResourceGroup_Identifier", rrg.getRgIdentifier());
+		    cv.put("PrivacyLevel_Identifier", pl.getKey());
+		    cv.put("Value", pl.getValue());
+
+		    db.insert("ServiceLevel_PrivacyLevels", null, cv);
 		}
 	    }
 	}
@@ -197,14 +212,18 @@ public class AppRegistration {
 		    Log.e("Registration Failed: Could not reconnect to AppService for setting the registration state");
 		}
 	    });
-	    asp.bind();
+
+	    if (!asp.bind()) {
+		Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
+	    }
 	} else {
 	    try {
 		IAppService appService = asp.getAppService();
 		appService.setRegistrationSuccessful(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.", e);
+		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.",
+			e);
 	    }
 	}
     }

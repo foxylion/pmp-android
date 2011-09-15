@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.implementations;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
@@ -92,7 +93,7 @@ public class PresetImpl implements IPreset {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT Name FROM Preset_Apps WHERE Name = ? AND Type = ? AND Identifier = ? AND App_Identifier = ?",
+			"SELECT Preset_Name FROM Preset_Apps WHERE Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND App_Identifier = ?",
 			new String[] { name, type.toString(), identifier,
 				app.getIdentifier() });
 
@@ -110,10 +111,13 @@ public class PresetImpl implements IPreset {
 	    SQLiteDatabase db = DatabaseSingleton.getInstance()
 		    .getDatabaseHelper().getWritableDatabase();
 
-	    db.rawQuery(
-		    "INSERT INTO Preset_Apps (Name, Type, Identifier, App_Identifier) VALUES (?, ?, ?, ?)",
-		    new String[] { name, type.toString(), identifier,
-			    app.getIdentifier() });
+	    ContentValues cv = new ContentValues();
+	    cv.put("Preset_Name", name);
+	    cv.put("Preset_Type", type.toString());
+	    cv.put("Preset_Identifier", identifier);
+	    cv.put("App_Identifier", app.getIdentifier());
+
+	    db.insert("Preset_Apps", null, cv);
 
 	    if (!hidden) {
 		app.verifyServiceLevel();
@@ -131,8 +135,9 @@ public class PresetImpl implements IPreset {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery(
-		"DELETE FROM Preset_Apps WHERE Name = ? AND Type = ? AND Identifier = ? AND App_Identifier = ?",
+	db.delete(
+		"Preset_Apps",
+		"Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND App_Identifier = ?",
 		new String[] { name, type.toString(), identifier,
 			app.getIdentifier() });
 
@@ -188,12 +193,17 @@ public class PresetImpl implements IPreset {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery(
-		"INSERT INTO Preset_PrivacyLevels (Name, Type, Identifier, ResourceGroup_Identifier, PrivacyLevel_Identifier, Value) VALUES (?, ?, ?, ?, ?, ?)",
-		new String[] { name, type.toString(), identifier,
-			privacyLevel.getResourceGroup().getIdentifier(),
-			privacyLevel.getIdentifier(), privacyLevel.getValue() });
-	
+	ContentValues cv = new ContentValues();
+	cv.put("Preset_Name", name);
+	cv.put("Preset_Type", type.toString());
+	cv.put("Preset_Identifier", identifier);
+	cv.put("ResourceGroup_Identifier", privacyLevel.getResourceGroup()
+		.getIdentifier());
+	cv.put("PrivacyLevel_Identifier", privacyLevel.getIdentifier());
+	cv.put("Value", privacyLevel.getValue());
+
+	db.insert("Preset_PrivacyLevels", null, cv);
+
 	if (!hidden) {
 	    for (IApp app : getAssignedApps()) {
 		app.verifyServiceLevel();
@@ -211,8 +221,9 @@ public class PresetImpl implements IPreset {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
-	db.rawQuery(
-		"DELETE FROM Preset_PrivacyLevels Name = ? AND Type = ? AND Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
+	db.delete(
+		"Preset_PrivacyLevels",
+		"Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
 		new String[] { name, type.toString(), identifier,
 			privacyLevel.getResourceGroup().getIdentifier(),
 			privacyLevel.getIdentifier() });
@@ -223,5 +234,4 @@ public class PresetImpl implements IPreset {
 	    }
 	}
     }
-
 }

@@ -30,4 +30,22 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>PMP-API_src</name>
+			<type>2</type>
+			<locationURI>_android_PMP_API_fd47720/src</locationURI>
+		</link>
+	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1316093326925</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-build.xml</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
