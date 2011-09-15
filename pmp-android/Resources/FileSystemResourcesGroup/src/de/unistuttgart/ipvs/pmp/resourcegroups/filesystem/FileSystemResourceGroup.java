@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resources;
+package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
 import android.content.Context;
 import android.widget.Toast;

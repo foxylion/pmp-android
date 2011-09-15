@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resources;
+package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 

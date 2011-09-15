@@ -39,7 +39,7 @@ public interface IApp {
     /**
      * @return get the current active service level set for the App.
      */
-    public int getActiveServiceLevel();
+    public IServiceLevel getActiveServiceLevel();
 
     /**
      * Set a new service level for the App.<br>

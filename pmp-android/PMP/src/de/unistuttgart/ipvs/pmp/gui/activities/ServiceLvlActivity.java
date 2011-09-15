@@ -91,7 +91,7 @@ public class ServiceLvlActivity extends Activity {
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
-	    if (app.getActiveServiceLevel() == i) {
+	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
 	    button.setOnTouchListener(new OnLevelTouchListener(this,
