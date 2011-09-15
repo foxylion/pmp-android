@@ -2,10 +2,19 @@ package de.unistuttgart.ipvs.pmp.model.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 
@@ -112,6 +121,66 @@ public class PMPDeveloperConsoleActivity extends Activity {
 		}.execute();
 	    }
 	});
+
+	/**
+	 * Bind Service
+	 */
+	Button bindService = (Button) findViewById(R.id.pmp_developer_console_button_bind_service);
+	bindService.setOnClickListener(new View.OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		EditText serviceName = (EditText) findViewById(R.id.pmp_developer_console_edit_service_name);
+		self.bindService(serviceName.getText().toString());
+	    }
+	});
+    }
+
+    private void bindService(String serviceName) {
+	final ProgressBar progress = (ProgressBar) findViewById(R.id.pmp_developer_console_cicle_bind);
+	final TextView status = (TextView) findViewById(R.id.pmp_developer_console_bind_status);
+
+	if (serviceName == null || serviceName.length() == 0) {
+
+	} else {
+	    progress.setVisibility(View.VISIBLE);
+	    status.setText("Now trying to bind " + serviceName);
+
+	    ServiceConnection sc = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name,
+			final IBinder service) {
+		    new Handler().post(new Runnable() {
+		        @Override
+		        public void run() {
+		            if (service == null) {
+				status.setText("Service has connected to ServiceConnection: NULL");
+			    } else {
+				status.setText("Service has connected to ServiceConnection: "
+					+ service.getClass().getName());
+			    }
+			    progress.setVisibility(View.INVISIBLE);
+		        }
+		    });
+		   
+		    unbindService(this);
+		}
+	    };
+	    
+	    Intent intent = new Intent(serviceName);
+	    if(bindService(intent, sc, Service.BIND_AUTO_CREATE)) {
+		status.setText("Service bound was sent successfully, waiting for connection...");
+	    } else {
+		status.setText("Service bound was sent unsuccessfully. (see LogCat)");
+		progress.setVisibility(View.INVISIBLE);
+	    }
+	}
     }
 }
 

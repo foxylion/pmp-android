@@ -3,7 +3,7 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<TextView android:paddingLeft="5dp"
-		android:text="This is the developer console for PMP. Please use with caution, some of the actions can't be undone."
+		android:text="This is the developer console for PMP. Caution, some of the actions can't be undone."
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 		android:text="Sample Data" android:layout_height="wrap_content"
@@ -29,13 +29,25 @@
 			android:id="@+id/pmp_developer_console_button_truncate_database"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 	</LinearLayout>
+	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
+		android:text="Bind Service" android:layout_height="wrap_content"
+		android:layout_width="fill_parent"></TextView>
+
+	<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
+		<EditText android:layout_weight="1" android:layout_width="fill_parent"
+			android:id="@+id/pmp_developer_console_edit_service_name" android:layout_height="wrap_content">
+		</EditText>
+		<Button android:id="@+id/pmp_developer_console_button_bind_service" android:layout_height="wrap_content"
+			android:text="Bind" android:layout_width="wrap_content"></Button>
+	</LinearLayout>
+
 	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:id="@+id/linearLayout1"
-		android:baselineAligned="true" android:weightSum="1">
-		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
-			android:text="Database Statistics" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/textView1"></TextView>
-		<Button android:text="Refresh" android:layout_width="wrap_content" android:layout_height="30dp" android:layout_marginLeft="10dp" android:textSize="10dp" android:enabled="false"></Button>
+		android:layout_height="wrap_content">
+		<ProgressBar android:id="@+id/pmp_developer_console_cicle_bind"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="invisible"></ProgressBar>
+		<TextView android:text="" android:id="@+id/pmp_developer_console_bind_status"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 	</LinearLayout>
 
 </LinearLayout>
