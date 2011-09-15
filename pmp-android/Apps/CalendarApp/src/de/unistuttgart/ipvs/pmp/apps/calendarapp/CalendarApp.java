@@ -21,12 +21,12 @@ public class CalendarApp extends App {
 
 	@Override
 	protected InputStream getXMLInputStream() {
-		try {
-			return getAssets().open("/AppInformation.xml");
-		} catch (IOException e) {
-			Log.e("IOException during loading App XML", e);
-			return null;
-		}
+//		try {
+			return this.getClass().getResourceAsStream("assets/AppInformation.xml");
+//		} catch (IOException e) {
+//			Log.e("IOException during loading App XML", e);
+//			return null;
+//		}
 	}
 
 	@Override
