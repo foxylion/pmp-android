@@ -1,12 +1,13 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.SimplePrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resourcegroups.R;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
@@ -16,7 +17,7 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 public class DatabaseResourceGroup extends ResourceGroup {
 
     public static final String DATABASE_RESOURCE_IDENTIFIER = 
-	    "de.unistuttgart.ipvs.pmp.resourcegroups.DatabaseResource";
+	    "de.unistuttgart.ipvs.pmp.resourcegroups.database.DatabaseResource";
     public static final String PRIVACY_LEVEL_READ = "read";
     public static final String PRIVACY_LEVEL_WRITE = "write";
     public static final String PRIVACY_LEVEL_DELETE = "delete";
