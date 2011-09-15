@@ -102,7 +102,7 @@ public class AppImpl implements IApp {
     }
 
     @Override
-    public int getActiveServiceLevel() {
+    public IServiceLevel getActiveServiceLevel() {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
@@ -116,10 +116,10 @@ public class AppImpl implements IApp {
 	    int serviceLevel = cursor.getInt(cursor
 		    .getColumnIndex("ServiceLevel_Active"));
 
-	    return serviceLevel;
+	    return getServiceLevel(serviceLevel);
 	} else {
 	    Log.e("App was not found in Database, Model seems to be out of sync with Database.");
-	    return 0;
+	    return null;
 	}
 
     }
@@ -165,7 +165,7 @@ public class AppImpl implements IApp {
 		    Log.e("Could not calculate service level", e);
 		}
 
-		if (serviceLevel != getActiveServiceLevel()) {
+		if (serviceLevel != getActiveServiceLevel().getLevel()) {
 		    setActiveServiceLevel(serviceLevel);
 		}
 
