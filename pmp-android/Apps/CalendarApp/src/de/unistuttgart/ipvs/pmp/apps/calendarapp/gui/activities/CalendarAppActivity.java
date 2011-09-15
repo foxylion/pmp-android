@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
 import de.unistuttgart.ipvs.pmp.app.appUtil.connector.PMPConnector;
-import de.unistuttgart.ipvs.pmp.apps.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeDateDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewDateDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
