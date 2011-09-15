@@ -48,38 +48,7 @@ public class ResourceGroupRegistration {
      * Connect to the Service.
      */
     private void connect() {
-	rgsc.addCallbackHandler(new IConnectorCallback() {
-
-	    @Override
-	    public void disconnected() {
-		/* ignore */
-	    }
-
-	    @Override
-	    public void connected() {
-		rgsc.removeCallbackHandler(this);
-
-		new Thread(new Runnable() {
-
-		    @Override
-		    public void run() {
-			if (rgsc.getPMPService() == null) {
-			    Log.e("Registration failed: Binding to the ResourceGroupService failed, only got a NULL IBinder.");
-			} else {
-			    loadResourceGroupData(rgsc.getPMPService());
-			}
-		    }
-		}).start();
-	    }
-
-	    @Override
-	    public void bindingFailed() {
-		Log.e("Registration failed: onnection to the ResourceGroupService failed. More details can be found in the log.");
-	    }
-	});
-	if (!rgsc.bind()) {
-	    Log.e("Registration failed: connection to the ResourceGroupService failed, service Bind returned false.");
-	}
+	
     }
 
     /**
@@ -196,27 +165,7 @@ public class ResourceGroupRegistration {
     private void informAppAboutRegistration(final boolean state,
 	    final String message) {
 	if (!rgsc.isBound()) {
-	    rgsc.addCallbackHandler(new IConnectorCallback() {
-
-		@Override
-		public void disconnected() {
-		}
-
-		@Override
-		public void connected() {
-		    rgsc.removeCallbackHandler(this);
-		    informAppAboutRegistration(state, message);
-		}
-
-		@Override
-		public void bindingFailed() {
-		    Log.e("Registration Failed: Could not reconnect to ResourceGroupService for setting the registration state");
-		}
-	    });
 	    
-	    if (!rgsc.bind()) {
-		Log.e("Registration failed: connection to the ResourceGroupService failed, service Bind returned false.");
-	    }
 	} else {
 	    try {
 		IResourceGroupServicePMP appService = rgsc.getPMPService();

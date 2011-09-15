@@ -56,7 +56,7 @@ public abstract class AbstractConnector {
      * The identifier of the service to which the connection should go.
      */
     private String targetIdentifier;
-    
+
     /**
      * If set to true, the bind will be in blocking mode.
      */
@@ -71,6 +71,9 @@ public abstract class AbstractConnector {
 
 	@Override
 	public void onServiceDisconnected(ComponentName name) {
+	    Log.d("AbstractConnector - service disconnected: "
+		    + targetIdentifier);
+
 	    connectedService = null;
 	    connected = false;
 	    informCallback(ConnectionState.DISCONNECTED);
@@ -78,15 +81,17 @@ public abstract class AbstractConnector {
 
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
+	    Log.d("AbstractConnector - service connected: " + targetIdentifier);
+
 	    connectedService = service;
 	    connected = true;
-	    
+
 	    serviceConnected();
-	    
-	    if(blocking) {
+
+	    if (blocking) {
 		semaphore.release();
 	    }
-	    
+
 	    informCallback(ConnectionState.CONNECTED);
 	}
     };
@@ -103,9 +108,9 @@ public abstract class AbstractConnector {
      * 
      * @return Returns true if a binding is on the way, otherwise false.
      */
-    public boolean bind() {
+    public void bind() {
 	if (!isBound()) {
-	    Intent intent = new Intent(targetIdentifier);
+	    final Intent intent = new Intent(targetIdentifier);
 
 	    intent.putExtra(Constants.INTENT_TYPE, this.signee.getType());
 	    intent.putExtra(Constants.INTENT_IDENTIFIER,
@@ -113,29 +118,39 @@ public abstract class AbstractConnector {
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
 		    this.signee.signContent(targetIdentifier.getBytes()));
 
-	    if (!context.bindService(intent, serviceConnection,
-		    Context.BIND_AUTO_CREATE)) {
-		informCallback(ConnectionState.BINDING_FAILED);
-		return false;
-	    }
+	    new Thread(new Runnable() {
+		@Override
+		public void run() {
+		    if (context.bindService(intent, serviceConnection,
+			    Context.BIND_AUTO_CREATE)) {
+			Log.d("AbstractConnector recognized that binding for "
+				+ targetIdentifier + " has failed");
+			semaphore.release();
+		    } else {
+			Log.d("AbstractConnector successfully sent bind command to "
+				+ targetIdentifier);
+		    }
+		}
+	    }).start();
 	}
-	return true;
     }
-    
+
     public boolean bind(boolean blocking) {
-	this.blocking = blocking;
-	
-	boolean result = bind();
-	
-	if(blocking && result == true) {
+	if (blocking) {
+	    semaphore.drainPermits();
+	}
+
+	bind();
+
+	if (blocking) {
 	    try {
 		semaphore.acquire();
 	    } catch (InterruptedException e) {
 		Log.e("Interrupted while waiting for bind success.", e);
 	    }
 	}
-	
-	return result;
+
+	return isBound();
     }
 
     /**

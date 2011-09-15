@@ -46,6 +46,9 @@ public class AppRegistration {
 	this.asp = new AppServiceConnector(PMPApplication.getContext(),
 		PMPApplication.getSignee(), identifier);
 
+	Log.d("Registration (" + identifier
+		+ "): Trying to connect to the AppService");
+
 	connect();
     }
 
@@ -53,38 +56,23 @@ public class AppRegistration {
      * Connect to the Service.
      */
     private void connect() {
-	asp.addCallbackHandler(new IConnectorCallback() {
+	if (!asp.bind(true)) {
+	    Log.e("Registration ("
+		    + identifier
+		    + "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+	} else {
+	    Log.d("Registration (" + identifier + "): Successfully bound.");
 
-	    @Override
-	    public void disconnected() {
-		/* ignore */
+	    if (asp.getAppService() == null) {
+		Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+	    } else {
+		Log.d("Registration ("
+			+ identifier
+			+ "): Successfully bound service, loading AppInformationSet.");
+		loadAppInformationSet(asp.getAppService());
 	    }
-
-	    @Override
-	    public void connected() {
-		asp.removeCallbackHandler(this);
-
-		new Thread(new Runnable() {
-
-		    @Override
-		    public void run() {
-			if (asp.getAppService() == null) {
-			    Log.e("Registration failed: Binding to the AppService failed, only got a NULL IBinder.");
-			} else {
-			    loadAppInformationSet(asp.getAppService());
-			}
-		    }
-		}).start();
-	    }
-
-	    @Override
-	    public void bindingFailed() {
-		Log.e("Registration failed: onnection to the AppService failed. More details can be found in the log.");
-	    }
-	});
-
-	if (!asp.bind()) {
-	    Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
 	}
     }
 
@@ -98,12 +86,15 @@ public class AppRegistration {
 	try {
 	    appService.getAppInformationSet();
 	} catch (RemoteException e) {
-	    Log.e("Registration failed: getAppInformationSet() produced an RemoteException.",
+	    Log.e("Registration ("
+		    + identifier
+		    + "): FAILED - getAppInformationSet() produced an RemoteException.",
 		    e);
 	}
 
 	if (ais == null) {
-	    Log.e("Registration failed: AppInformationSet is NULL.");
+	    Log.e("Registration (" + identifier
+		    + "): FAILED - AppInformationSet is NULL.");
 	    informAppAboutRegistration(false, "AppInformationSet is NULL.");
 	} else {
 	    checkAppInformationSet();
@@ -195,26 +186,23 @@ public class AppRegistration {
     private void informAppAboutRegistration(final boolean state,
 	    final String message) {
 	if (!asp.isBound()) {
-	    asp.addCallbackHandler(new IConnectorCallback() {
+	    if (!asp.bind(true)) {
+		Log.e("Registration ("
+			+ identifier
+			+ "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+	    } else {
+		Log.d("Registration (" + identifier + "): Successfully bound.");
 
-		@Override
-		public void disconnected() {
-		}
-
-		@Override
-		public void connected() {
-		    asp.removeCallbackHandler(this);
+		if (asp.getAppService() == null) {
+		    Log.e("Registration ("
+			    + identifier
+			    + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+		} else {
+		    Log.d("Registration ("
+			    + identifier
+			    + "): Successfully bound service, inform App about registration");
 		    informAppAboutRegistration(state, message);
 		}
-
-		@Override
-		public void bindingFailed() {
-		    Log.e("Registration Failed: Could not reconnect to AppService for setting the registration state");
-		}
-	    });
-
-	    if (!asp.bind()) {
-		Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
 	    }
 	} else {
 	    try {
@@ -222,7 +210,9 @@ public class AppRegistration {
 		appService.setRegistrationSuccessful(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.",
+		Log.e("Registration ("
+			+ identifier
+			+ "): SUCCEED, but: setRegistrationSuccessful() produced an RemoteException.",
 			e);
 	    }
 	}
