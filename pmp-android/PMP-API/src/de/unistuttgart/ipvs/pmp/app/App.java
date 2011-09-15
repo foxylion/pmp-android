@@ -33,18 +33,18 @@ public abstract class App extends Application {
      */
     private AppInformationSet infoSet;
 
-    /**
-     * Creates a new {@link App}.
-     * 
-     * @param serviceContext
-     *            context of the service for this app
-     */
-    public App(Context serviceContext) {
+    @Override
+    public void onCreate() {
 	signee = new PMPSignee(PMPComponentType.APP, getApplicationContext());
 	signee.setIdentifier(getServiceAndroidName());
 
-	infoSet = AppInformationSetParser
-		.createAppInformationSet(getXMLInputStream());
+	InputStream is = getXMLInputStream();
+	if (is != null) {
+	    infoSet = AppInformationSetParser.createAppInformationSet(is);
+	} else {
+	    infoSet = null;
+	    // maybe it is required to have a specific NullInfoSet object?
+	}
     }
 
     /**
