@@ -215,13 +215,11 @@ public abstract class ResourceGroup {
      * 
      * @param context
      *            {@link Context} to use for the connection
-     * @param serviceContext
-     *            Context of the service used for this resource group
      * @param service
      *            class of the service used for this resource group
      * 
      */
-    public void start(Context context, final Context serviceContext,
+    public void start(Context context,
 	    Class<? extends PMPSignedService> service) {
 
 	// connect to PMP
