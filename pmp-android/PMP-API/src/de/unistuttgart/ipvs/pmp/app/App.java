@@ -124,9 +124,8 @@ public abstract class App extends Application {
 		    IPMPServiceRegistration ipmpsr = pmpsc
 			    .getRegistrationService();
 		    try {
-			byte[] pmpPublicKey = ipmpsr
-				.registerResourceGroup(signee
-					.getLocalPublicKey());
+			byte[] pmpPublicKey = ipmpsr.registerApp(signee
+				.getLocalPublicKey());
 
 			// save the returned public key to be PMP's
 			signee.setRemotePublicKey(PMPComponentType.PMP,
