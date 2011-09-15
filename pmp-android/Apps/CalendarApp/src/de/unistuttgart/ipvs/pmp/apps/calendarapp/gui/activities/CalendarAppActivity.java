@@ -69,7 +69,7 @@ public class CalendarAppActivity extends ListActivity {
 
 			@Override
 			public void onClick(View v) {
-				Dialog dialog = new NewDateDialog(actualContext, arrayAdapter);
+				Dialog dialog = new NewDateDialog(self, arrayAdapter);
 				dialog.setTitle("Create new date");
 				dialog.show();
 			}
@@ -96,7 +96,7 @@ public class CalendarAppActivity extends ListActivity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Dialog changeDateDialog = new ChangeDateDialog(actualContext,
+				Dialog changeDateDialog = new ChangeDateDialog(self,
 						position, arrayAdapter);
 				changeDateDialog.show();
 			}
