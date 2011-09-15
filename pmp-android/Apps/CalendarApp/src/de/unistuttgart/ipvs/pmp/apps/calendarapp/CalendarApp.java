@@ -8,35 +8,35 @@ import de.unistuttgart.ipvs.pmp.app.App;
 
 public class CalendarApp extends App {
 
-	@Override
-	protected String getServiceAndroidName() {
-		return "de.unistuttgart.ipvs.pmp.apps.calendarapp";
-	}
+    @Override
+    protected String getServiceAndroidName() {
+	return "de.unistuttgart.ipvs.pmp.apps.calendarapp";
+    }
 
-	@Override
-	public void setActiveServiceLevel(int level) {
-		// TODO Auto-generated method stub
+    @Override
+    public void setActiveServiceLevel(int level) {
+	// TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	protected InputStream getXMLInputStream() {
-//		try {
-			return this.getClass().getResourceAsStream("assets/AppInformation.xml");
-//		} catch (IOException e) {
-//			Log.e("IOException during loading App XML", e);
-//			return null;
-//		}
+    @Override
+    protected InputStream getXMLInputStream() {
+	try {
+	    return getAssets().open("AppInformation.xml");
+	} catch (IOException e) {
+	    Log.e("IOException during loading App XML", e);
+	    return null;
 	}
+    }
 
-	@Override
-	public void onRegistrationSuccess() {
-		Log.d("Registration succeed");
-	}
+    @Override
+    public void onRegistrationSuccess() {
+	Log.d("Registration succeed");
+    }
 
-	@Override
-	public void onRegistrationFailed(String message) {
-		Log.d("Registration failed:" + message);
-	}
+    @Override
+    public void onRegistrationFailed(String message) {
+	Log.d("Registration failed:" + message);
+    }
 
 }
