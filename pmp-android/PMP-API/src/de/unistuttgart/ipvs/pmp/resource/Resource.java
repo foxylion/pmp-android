@@ -27,6 +27,14 @@ public abstract class Resource {
     protected final void assignResourceGroup(ResourceGroup resourceGroup) {
 	this.resourceGroup = resourceGroup;
     }
+    
+    /**
+     * 
+     * @return the associated {@link ResourceGroup}.
+     */
+    protected final ResourceGroup getResourceGroup() {
+	return this.resourceGroup;
+    }
 
     /**
      * Retrieves an actual privacy level class.
@@ -35,7 +43,7 @@ public abstract class Resource {
      *            the name of the privacy level
      * @return the privacy level named privacyLevel in the resource group.
      */
-    protected final PrivacyLevel getPrivacyLevel(String privacyLevel) {
+    public final PrivacyLevel getPrivacyLevel(String privacyLevel) {
 	return resourceGroup.getPrivacyLevel(privacyLevel);
     }
 
@@ -48,7 +56,7 @@ public abstract class Resource {
      *            the name of the privacy level
      * @return the value of the privacy level
      */
-    protected final String getPrivacyLevelValue(String appIdentifier,
+    public final String getPrivacyLevelValue(String appIdentifier,
 	    String privacyLevel) {
 	return resourceGroup.getPrivacyLevelValue(appIdentifier, privacyLevel);
     }

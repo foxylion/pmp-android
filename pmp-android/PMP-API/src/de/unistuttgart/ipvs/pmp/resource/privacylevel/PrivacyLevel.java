@@ -57,6 +57,8 @@ public abstract class PrivacyLevel {
      *            old value which should be initially displayed
      * @return Returns the new value which has been set.
      */
-    public abstract String changeValue(String oldValue);
+    public String changeValue(String oldValue) {
+	return null;
+    }
     
 }

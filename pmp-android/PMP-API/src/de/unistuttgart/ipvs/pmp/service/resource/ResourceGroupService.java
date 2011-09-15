@@ -103,6 +103,7 @@ public class ResourceGroupService extends PMPSignedService {
 
     private ResourceGroup findContextResourceGroup() {
 	if (!(getApplication() instanceof ResourceGroupApp)) {
+	    Log.e("ResourceGroupService finds its app to be " + getApplication().toString() + ", should be ResourceGroupApp");
 	    return null;
 	} else {
 	    ResourceGroupApp rga = (ResourceGroupApp) getApplication();
