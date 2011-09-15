@@ -59,7 +59,6 @@ public class ServiceLvlActivity extends Activity {
 	this.setTitle("Service Levels for " + appName);
 	createParentLayout();
 	loadServiceLevels();
-	// loadFakeServiceLevels();
 	scroll = new ScrollView(this);
 	scroll.addView(parentLayout);
 	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
