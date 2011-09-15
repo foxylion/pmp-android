@@ -4,7 +4,7 @@
       android:versionName="1.0" package="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
     <uses-sdk android:minSdkVersion="7" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.FileSystemResourceGroupApp">
 
         <activity android:name=".FileSystemResourceGroupApp"
                   android:label="@string/app_name">
