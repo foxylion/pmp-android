@@ -22,7 +22,7 @@ public class DatabaseResourceGroupApp extends
 	DatabaseResourceGroup result = new DatabaseResourceGroup(context,
 		DatabaseService.class);
 	// TODO Service Context???
-	result.start(context, context, DatabaseService.class);
+	result.start(context, DatabaseService.class);
 	return result;
     }
 }
