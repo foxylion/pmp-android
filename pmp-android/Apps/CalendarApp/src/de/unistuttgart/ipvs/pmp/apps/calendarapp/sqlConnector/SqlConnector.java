@@ -1,9 +1,9 @@
-package de.unistuttgart.ipvs.pmp.apps.sqlConnector;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector;
 
 import java.util.ArrayList;
 
-import de.unistuttgart.ipvs.pmp.apps.model.Date;
-import de.unistuttgart.ipvs.pmp.apps.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
 public class SqlConnector {
     /**

@@ -1,10 +1,10 @@
-package de.unistuttgart.ipvs.pmp.apps.model;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import de.unistuttgart.ipvs.pmp.apps.exception.DateNotFoundException;
-import de.unistuttgart.ipvs.pmp.apps.sqlConnector.SqlConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.exception.DateNotFoundException;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class Model {
 

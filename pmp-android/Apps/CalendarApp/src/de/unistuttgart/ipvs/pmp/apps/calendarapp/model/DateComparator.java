@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.apps.model;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

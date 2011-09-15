@@ -1,11 +1,11 @@
-package de.unistuttgart.ipvs.pmp.apps.gui.activities;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
 import de.unistuttgart.ipvs.pmp.app.appUtil.connector.PMPConnector;
 import de.unistuttgart.ipvs.pmp.apps.R;
-import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.ChangeDateDialog;
-import de.unistuttgart.ipvs.pmp.apps.gui.dialogs.NewDateDialog;
-import de.unistuttgart.ipvs.pmp.apps.model.Date;
-import de.unistuttgart.ipvs.pmp.apps.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeDateDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewDateDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;

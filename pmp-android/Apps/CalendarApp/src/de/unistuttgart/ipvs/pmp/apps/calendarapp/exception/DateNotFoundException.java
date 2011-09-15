@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.apps.exception;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.exception;
 
 public class DateNotFoundException extends Exception {
 

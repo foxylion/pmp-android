@@ -1,8 +1,8 @@
-package de.unistuttgart.ipvs.pmp.apps.gui.dialogs;
+package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
 import de.unistuttgart.ipvs.pmp.apps.R;
-import de.unistuttgart.ipvs.pmp.apps.model.Date;
-import de.unistuttgart.ipvs.pmp.apps.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
