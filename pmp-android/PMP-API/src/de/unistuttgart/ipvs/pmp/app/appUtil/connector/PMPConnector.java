@@ -23,8 +23,8 @@ public class PMPConnector {
 	
 	// Right ?????
 	signee.setIdentifier(context.getPackageName());
-	
 	AppApplication.getInstance().setSignee(signee);
+	
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
 		signee);
 	serviceCon.addCallbackHandler(new AppConnectorCallback());
