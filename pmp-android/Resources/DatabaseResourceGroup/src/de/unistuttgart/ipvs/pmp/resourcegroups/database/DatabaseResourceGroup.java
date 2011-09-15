@@ -32,7 +32,7 @@ public class DatabaseResourceGroup extends ResourceGroup {
 
     public DatabaseResourceGroup(Context serviceContext,
 	    Class<? extends PMPSignedService> service) {
-	super(serviceContext, service);
+	super(serviceContext);
 	context = serviceContext;
 	this.service = service;
 	Log.d(context.getResources().getString(R.string.resource_group_name));
