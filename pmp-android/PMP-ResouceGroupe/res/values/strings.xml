@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="resource_group_name">Database</string>
+    <string name="hello_world">hallo!</string>
+    <string name="app_name">Database Resource</string>
+</resources>

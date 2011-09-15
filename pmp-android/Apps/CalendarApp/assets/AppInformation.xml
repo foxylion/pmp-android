@@ -38,12 +38,12 @@
 			</description>
 			<description lang="sv">Jag kan göra vad du vill!</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourceGroups.database">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
 				<privacyLevel identifier="write">true</privacyLevel>
 			</requiredResourceGroup>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourceGroups.filesystem">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
 				<privacyLevel identifier="read">true</privacyLevel>
 				<privacyLevel identifier="write">true</privacyLevel>
 				<privacyLevel identifier="maxFileSizeForWriting">
