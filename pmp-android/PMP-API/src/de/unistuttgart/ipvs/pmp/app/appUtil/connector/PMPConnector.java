@@ -1,11 +1,8 @@
 package de.unistuttgart.ipvs.pmp.app.appUtil.connector;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.app.AppApplication;
-import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 import android.content.Context;
 
 /**
@@ -18,14 +15,10 @@ public class PMPConnector {
 
     public static void connectToPMP(Context context, String appServiceIdentifier) {
 	AppApplication.getInstance().setContext(context);
-	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
-		AppService.class, context);
-	
-	signee.setIdentifier(appServiceIdentifier);
-	AppApplication.getInstance().setSignee(signee);
+	AppApplication.getInstance().setAppServiceIdentifier(appServiceIdentifier);
 	
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
-		signee);
+		AppApplication.getInstance().getSignee());
 	serviceCon.addCallbackHandler(new AppConnectorCallback());
 	AppApplication.getInstance().setServiceConnector(serviceCon);
 

@@ -20,25 +20,65 @@ import android.widget.TextView;
  * 
  */
 public class ImagedButton extends LinearLayout {
-
+    /**
+     * Painter for the View
+     */
+    Paint paint;
     Paint paint2;
+    /**
+     * Image for the View
+     */
     ImageView image;
+    /**
+     * Fullname of the App
+     */
     String fullname;
+    /**
+     * Appname lines
+     */
     TextView appName;
     TextView appName2;
+    /**
+     * ID of the Button
+     */
     int ID;
-    public boolean isDown = false;
+    /**
+     * State of the ImageButton
+     */
+    private boolean isDown = false;
+    /**
+     * Sourceimage for image
+     */
     private int imageSource;
 
+    /**
+     * Constructor
+     * 
+     * @param context
+     * @param name
+     * @param ID
+     * @param ImageSource
+     */
     public ImagedButton(Context context, String name, int ID, int ImageSource) {
 	super(context);
-	this.imageSource = ImageSource;
+	
+	/*Setting the Padding of the ImageButton*/
 	this.setPadding(10, 10, 10, 10);
+	
+	/*Initialize the fields*/
+	this.imageSource = ImageSource;
 	this.ID = ID;
 	this.fullname = name;
+	
+	/*Setting up the ImagedButton*/
 	this.setOrientation(LinearLayout.VERTICAL);
 	this.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
-	setWillNotDraw(false);
+	
+	// False for using the custom onDraw method
+	this.setWillNotDraw(false);
+	
+	/*TouchListener for the ImagedButton, which handles the 
+	 * behaviour of the ImagedButton*/
 	this.setOnTouchListener(new OnTouchListener() {
 
 	    @Override
@@ -56,23 +96,30 @@ public class ImagedButton extends LinearLayout {
 	    }
 
 	});
+	
+	/*Creating the painter*/
+	paint = new Paint();
 	paint2 = new Paint();
+	
+	/*Setting up the Icon of the ImagedButton*/
+	
 	image = new ImageView(context);
-	image.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
 	image.setPadding(0, 10, 0, 0);
-
+	image.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
+	
+	// set the SourceImage to the View
+	image.setImageResource(imageSource);
+	
+	/*Setting up the AppName lines*/
 	appName = new TextView(context);
 	appName2 = new TextView(context);
 	appName.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
 	appName2.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
 
 	appName.setGravity(Gravity.CENTER_HORIZONTAL);
-	image.setImageResource(imageSource);
 	appName.setText(name);
-
-	this.addView(image);
-	this.addView(appName);
-	this.addView(appName2);
+	
+	/*Sets the Appname max. to 10 Chars each line*/
 	if (name.length() > 10) {
 	    String string = name.substring(0, 10);
 	    String string2 = name.substring(10);
@@ -84,27 +131,42 @@ public class ImagedButton extends LinearLayout {
 	}
 	appName.setTextColor(Color.BLACK);
 	appName2.setTextColor(Color.BLACK);
+	
+	/*Adding the Views*/
+	this.addView(image);
+	this.addView(appName);
+	this.addView(appName2);
     }
-
+    
+    /**
+     * Custom onDraw method
+     */
     @Override
     protected void onDraw(Canvas canvas) {
-	Paint paint = new Paint();
+	
+	/*Setting up the painter*/
 	paint.setColor(Color.BLACK);
 	paint.setStrokeWidth(1);
 	paint.setStyle(Style.STROKE);
+	paint2.setStyle(Style.FILL);
+	
+	
+	/*Create and draw the black border*/
 	RectF rect = new RectF();
 	rect.set(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
 		- getPaddingRight(), getHeight() - getPaddingBottom());
 	canvas.drawRoundRect(rect, 10, 10, paint);
+	
+	
+	/*Create and draw the State of the ImagedButton
+	 * isDown --> GREEN
+	 * !isDown--> BLUE*/
 	if (isDown) {
 	    paint2.setColor(Color.GREEN);
 	} else {
 	    paint2.setColor(Color.BLUE);
 	}
-
 	paint2.setAlpha(35);
-	paint2.setStyle(Style.FILL);
-
 	RectF rect2 = new RectF();
 	rect2.set(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth()
 		- getPaddingRight(), getHeight() - getPaddingBottom());
@@ -112,22 +174,14 @@ public class ImagedButton extends LinearLayout {
     }
 
     /**
-     * Can be deleted. Overlay the icons with the background
-     */
-    // @Override
-    // protected void dispatchDraw(Canvas canvas) {
-    // super.dispatchDraw(canvas);
-    // onDraw(canvas);
-    // }
-    
-    /**
      * @return returns the fullname of the App
      */
     public String getName() {
 	return fullname;
     }
+
     /**
-     *
+     * 
      * @return return the ID of the ImagedButton
      */
     public int getIndex() {

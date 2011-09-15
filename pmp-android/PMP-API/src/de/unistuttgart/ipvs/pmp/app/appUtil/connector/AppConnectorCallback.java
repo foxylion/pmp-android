@@ -20,15 +20,22 @@ public class AppConnectorCallback implements IConnectorCallback {
     @Override
     public void connected() {
 	try {
-	    PMPSignee signee = AppApplication.getInstance().getSignee();
-	    byte[] pmpKey = AppApplication.getInstance().getServiceConnector()
-		    .getRegistrationService()
-		    .registerApp(signee.getLocalPublicKey());
-	    signee.setRemotePublicKey(PMPComponentType.PMP,
-		    Constants.PMP_IDENTIFIER, pmpKey);
+	    /*
+	     * Register the app only if its not registered yet
+	     */
+	    if (!AppApplication.getInstance().getServiceConnector()
+		    .isRegistered()) {
+		PMPSignee signee = AppApplication.getInstance().getSignee();
+		byte[] pmpKey = AppApplication.getInstance()
+			.getServiceConnector().getRegistrationService()
+			.registerApp(signee.getLocalPublicKey());
+		signee.setRemotePublicKey(PMPComponentType.PMP,
+			Constants.PMP_IDENTIFIER, pmpKey);
 
-	    Log.d(AppApplication.getInstance().getContext().getPackageName()
-		    + " connected");
+		Log.d(AppApplication.getInstance().getContext()
+			.getPackageName()
+			+ " connected");
+	    }
 	} catch (RemoteException e) {
 	    Log.e("Registration failed", e);
 	}

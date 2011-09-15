@@ -38,25 +38,32 @@ public class ApplicationsActivity extends Activity {
     private ScrollView scroll;
 
     /**
-     * Is needed for the creation of the Activity
+     * Handles the filling of the TableRows
      */
     TableRow actRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+
+	/* Create the 1st TableRow and set up */
 	actRow = new TableRow(this);
 	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
+
+	/* Create the MainLayout for the ApplicationsActivity */
 	createLayout();
-	if(loadApps()){
-	    	scroll = new ScrollView(this);
-		layout.addView(actRow);
-		scroll.addView(layout);
-		scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-		setContentView(scroll);
-	}else{
+
+	/* Check if there are apps available */
+	if (loadApps()) {
+	    scroll = new ScrollView(this);
+	    scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+	    layout.addView(actRow);
+	    scroll.addView(layout);
+	    setContentView(scroll);
+	} else {
+
 	    LinearLayout layoutEmpty = new LinearLayout(this);
-	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
+	    layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
 	    setContentView(layoutEmpty);
 	}
     }
@@ -67,15 +74,21 @@ public class ApplicationsActivity extends Activity {
      * @return true if apps where successfully loaded
      */
     private boolean loadApps() {
-	int AppsCount = 0;
-	AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
-	List<IApp> appList = null;
-	
-	if (AppsCount != 0) {
 
+	/* Used variables */
+	int AppsCount = 0;
+	List<IApp> appList = null;
+
+	/* Get the number of installed apps */
+	AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
+
+	/* Load Apps into a List */
+	if (AppsCount != 0) {
 	    IApp[] appArray = ModelSingleton.getInstance().getModel().getApps();
 	    appList = Arrays.asList(appArray);
 	}
+
+	/* Filling the Table with Apps each row 3 */
 	if (appList != null) {
 	    for (int i = 0; i < AppsCount; i++) {
 		if (i % 3 == 0) {
@@ -87,6 +100,8 @@ public class ApplicationsActivity extends Activity {
 		ImagedButton act = new ImagedButton(this, app.getName(), i,
 			R.drawable.app);
 		act.setClickable(true);
+
+		/* Set up the behaviour of the App */
 		act.setOnClickListener(new OnAppClickListener(act));
 		actRow.addView(act);
 	    }
@@ -116,16 +131,25 @@ public class ApplicationsActivity extends Activity {
 class OnAppClickListener implements OnClickListener {
     private ImagedButton parent;
 
+    /**
+     * Custom constructor
+     * 
+     * @param button
+     */
     public OnAppClickListener(ImagedButton button) {
 	this.parent = button;
     }
 
     @Override
     public void onClick(View v) {
-	// Call Privacy Level Activity
+
+	/*
+	 * Call Privacy Level Activity with the specified Intent
+	 */
 	Intent intent = new Intent(v.getContext(), ServiceLvlActivity.class);
 	intent.putExtra("appName", parent.getName());
 	intent.putExtra("appID", parent.getIndex());
+
 	if (v.getContext() != null)
 	    v.getContext().startActivity(intent);
     }

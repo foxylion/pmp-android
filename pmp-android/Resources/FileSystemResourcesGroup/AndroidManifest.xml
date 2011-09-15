@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         
-		<service android:name="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.FileSystemService" android:exported="true">
+		<service android:exported="true" android:name="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.FileSystemService">
 			<intent-filter>
 				<action android:name="de.unistuttgart.ipvs.pmp.resources.FileSystemService"></action>
 			</intent-filter>

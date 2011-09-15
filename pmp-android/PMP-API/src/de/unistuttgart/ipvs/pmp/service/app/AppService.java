@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.app.AppApplication;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -15,7 +16,7 @@ public class AppService extends PMPSignedService {
 
     @Override
     protected PMPSignee createSignee() {
-	return null;
+	return AppApplication.getInstance().getSignee();
     }
 
     @Override
