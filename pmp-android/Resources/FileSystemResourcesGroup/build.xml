@@ -76,29 +76,29 @@
     -->
     <setup />
 	
-		<path id="android.libraries.src"><path refid="project.libraries.src" /></path>
-		<path id="android.libraries.jars"><path refid="project.libraries.jars" /></path>
-		
-		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+	<path id="android.libraries.src"><path refid="project.libraries.src" /></path>
+	<path id="android.libraries.jars"><path refid="project.libraries.jars" /></path>
+	
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
 
-		<target name="findbugs" depends="compile">
-			<mkdir dir="reports" />
-			<findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml">
-				<auxClasspath path="${android.jar}" />
-				<class location="${out.dir}" />
-			</findbugs>
-		</target>
-		
-		<target name="mkjdocs" depends="compile">
-			<mkdir dir="jdoc" />
-			<javadoc 
-	           sourcepath="src"           
-	           destdir="jdoc"
-	           author="true"
-	           version="true"
-	           use="true"
-	           windowtitle="PMP">
-			</javadoc>
-		</target>
+	<target name="findbugs" depends="compile">
+		<mkdir dir="reports" />
+		<findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml">
+			<auxClasspath path="${android.jar}" />
+			<class location="${out.dir}" />
+		</findbugs>
+	</target>
+	
+	<target name="mkjdocs" depends="compile">
+		<mkdir dir="jdoc" />
+		<javadoc 
+           sourcepath="src"           
+           destdir="jdoc"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="PMP">
+		</javadoc>
+	</target>
 
 </project>
