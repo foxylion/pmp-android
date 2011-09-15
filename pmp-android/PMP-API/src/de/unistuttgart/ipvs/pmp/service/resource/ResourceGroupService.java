@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  * @author Tobias Kuhn
  */
-public abstract class ResourceGroupService extends PMPSignedService {
+public class ResourceGroupService extends PMPSignedService {
 
     @Override
     public void onCreate() {

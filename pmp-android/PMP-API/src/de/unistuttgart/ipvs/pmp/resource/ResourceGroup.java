@@ -12,7 +12,6 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -64,11 +63,8 @@ public abstract class ResourceGroup {
      * 
      * @param serviceContext
      *            context of the service for this resource group
-     * @param service
-     *            class of the service for this resource group
      */
-    public ResourceGroup(Context serviceContext,
-	    Class<? extends PMPSignedService> service) {
+    public ResourceGroup(Context serviceContext) {
 	signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
 		ResourceGroupService.class, serviceContext);
 	signee.setIdentifier(getServiceAndroidName());
@@ -215,12 +211,9 @@ public abstract class ResourceGroup {
      * 
      * @param context
      *            {@link Context} to use for the connection
-     * @param service
-     *            class of the service used for this resource group
      * 
      */
-    public void start(Context context,
-	    Class<? extends PMPSignedService> service) {
+    public void start(Context context) {
 
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,
