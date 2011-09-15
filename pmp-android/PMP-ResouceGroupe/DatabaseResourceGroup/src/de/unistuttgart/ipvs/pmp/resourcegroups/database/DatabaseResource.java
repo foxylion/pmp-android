@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.resource.Resource;

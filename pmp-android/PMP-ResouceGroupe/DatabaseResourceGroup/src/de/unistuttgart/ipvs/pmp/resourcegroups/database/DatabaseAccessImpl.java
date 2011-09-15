@@ -1,5 +1,6 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups;
+package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
+import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseAccess;
 import android.os.RemoteException;
 
 public class DatabaseAccessImpl extends IDatabaseAccess.Stub{
