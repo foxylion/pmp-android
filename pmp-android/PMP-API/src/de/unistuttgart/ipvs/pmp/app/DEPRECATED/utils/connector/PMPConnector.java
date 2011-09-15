@@ -11,8 +11,10 @@ import android.content.Context;
  * @author Thorsten Berberich
  * 
  */
+@Deprecated
 public class PMPConnector {
 
+    @Deprecated
     public static void connectToPMP(Context context, String appServiceIdentifier) {
 	ApplicationApp.getInstance().setContext(context);
 	ApplicationApp.getInstance().setAppServiceIdentifier(

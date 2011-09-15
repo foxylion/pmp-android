@@ -2,10 +2,10 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.AppInformationSetParcelable;
+import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.AppUtility;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSetParser;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
@@ -19,7 +19,7 @@ public class IAppServiceStubImpl extends IAppService.Stub {
     public AppInformationSetParcelable getAppInformationSet()
 	    throws RemoteException {
 	// Parse the xml
-	AppInformationSet appInfoSet = AppUtility.createAppInformationSet(this
+	AppInformationSet appInfoSet = AppInformationSetParser.createAppInformationSet(this
 		.getClass().getResourceAsStream("/assets/AppInformation.xml"));
 
 	// Convert the AppInformationset into an AppInformationSetParcelable

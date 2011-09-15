@@ -28,7 +28,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  * <p>
  * In order to work, a ResourceGroup needs a service defined in the manifest
- * file which simply extends {@link ResourceGroupService}, and the app
+ * file which simply is {@link ResourceGroupService}, and the app
  * containing the ResourceGroup and its service must extend
  * {@link ResourceGroupApp}.
  * </p>
@@ -66,7 +66,7 @@ public abstract class ResourceGroup {
      */
     public ResourceGroup(Context serviceContext) {
 	signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP,
-		ResourceGroupService.class, serviceContext);
+		serviceContext);
 	signee.setIdentifier(getServiceAndroidName());
 
 	resources = new HashMap<String, Resource>();

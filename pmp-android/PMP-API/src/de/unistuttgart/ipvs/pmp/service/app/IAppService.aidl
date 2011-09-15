@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.AppInformationSetParcelable;
+import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 
 /**
  * The IAppService is provided by an application, over the interface

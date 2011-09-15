@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser;
+package de.unistuttgart.ipvs.pmp.app.xmlparser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParserException.Type;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException.Type;
 
 /**
  * This XML Parser parses a given xml (for an app) and creates a app information

@@ -1,11 +1,11 @@
-package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser;
+package de.unistuttgart.ipvs.pmp.app.xmlparser;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParserException.Type;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException.Type;
 
 /**
  * This is an information set of the app. It contains all basic informations

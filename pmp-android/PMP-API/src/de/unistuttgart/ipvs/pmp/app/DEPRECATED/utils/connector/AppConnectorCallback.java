@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * @author Thorsten Berberich
  * 
  */
+@Deprecated
 public class AppConnectorCallback implements IConnectorCallback {
 
     @Override

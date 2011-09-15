@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * @author Thorsten Berberich
  * 
  */
+@Deprecated
 public class ApplicationApp {
 
     /**
@@ -59,7 +60,7 @@ public class ApplicationApp {
      */
     public PMPSignee getSignee() {
 	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
-		AppService.class, getContext());
+		getContext());
 	signee.setIdentifier(appServiceIdentifier);
 	return signee;
     }

@@ -1,9 +1,9 @@
-package de.unistuttgart.ipvs.pmp.app.DEPRECATED;
+package de.unistuttgart.ipvs.pmp.app;
 
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**

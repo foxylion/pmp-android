@@ -1,13 +1,9 @@
-package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils;
+package de.unistuttgart.ipvs.pmp.app.xmlparser;
 
 import java.io.InputStream;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.ServiceLevel;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParser;
 
 /**
  * This Class provides the functionality to parse a given xml file (information
@@ -16,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParser;
  * @author marcus
  * 
  */
-public class AppUtility {
+public class AppInformationSetParser {
 
     /**
      * This method creates an app information set for a given xml url.

@@ -7,7 +7,8 @@ import java.net.URL;
 import android.app.Activity;
 import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSetParser;
 
 /**
  * This activity creates a app information set with the given xml file. This is
@@ -15,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet
  * 
  * @author Marcus Vetter
  */
+@Deprecated
 public class AppInformationSetCreatingExample extends Activity {
 
     /**
@@ -36,14 +38,14 @@ public class AppInformationSetCreatingExample extends Activity {
 	// Create the app information set
 	AppInformationSet ais = null;
 	try {
-	    ais = AppUtility.createAppInformationSet(xmlURL.openStream());
+	    ais = AppInformationSetParser.createAppInformationSet(xmlURL.openStream());
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
 	// Print the app information set
-	AppUtility.printAppInformationSet(ais);
+	AppInformationSetParser.printAppInformationSet(ais);
 
     }
 
