@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
@@ -12,12 +12,12 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * @author Thorsten Berberich
  * 
  */
-public class AppApplication {
+public class ApplicationApp {
 
     /**
      * Singleton instance of the class
      */
-    private static AppApplication instance = null;
+    private static ApplicationApp instance = null;
 
     /**
      * The {@link Context} of the app
@@ -37,7 +37,7 @@ public class AppApplication {
     /**
      * Private constructor because of the singleton
      */
-    private AppApplication() {
+    private ApplicationApp() {
     }
 
     /**
@@ -45,9 +45,9 @@ public class AppApplication {
      * 
      * @return instance of this method
      */
-    public static AppApplication getInstance() {
+    public static ApplicationApp getInstance() {
 	if (instance == null) {
-	    instance = new AppApplication();
+	    instance = new ApplicationApp();
 	}
 	return instance;
     }

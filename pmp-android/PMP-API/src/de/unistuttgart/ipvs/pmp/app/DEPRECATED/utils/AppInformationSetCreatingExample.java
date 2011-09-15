@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,7 +7,7 @@ import java.net.URL;
 import android.app.Activity;
 import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
 
 /**
  * This activity creates a app information set with the given xml file. This is

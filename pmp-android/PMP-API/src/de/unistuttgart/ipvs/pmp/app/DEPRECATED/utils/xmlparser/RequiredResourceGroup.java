@@ -1,10 +1,10 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.XMLParserException.Type;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParserException.Type;
 
 /**
  * This is a representation of a resource group, which is required for a

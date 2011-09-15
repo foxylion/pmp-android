@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.XMLParserException.Type;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParserException.Type;
 
 /**
  * This is a service level, which is assigned to an app and contains all

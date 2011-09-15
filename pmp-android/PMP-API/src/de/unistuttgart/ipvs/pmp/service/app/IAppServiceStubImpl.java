@@ -2,10 +2,10 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.ApplicationApp;
-import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
-import de.unistuttgart.ipvs.pmp.app.utils.AppUtility;
-import de.unistuttgart.ipvs.pmp.app.utils.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.AppInformationSetParcelable;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.AppUtility;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**

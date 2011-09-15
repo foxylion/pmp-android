@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.content.Intent;
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.app.ApplicationApp;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 

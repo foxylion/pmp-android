@@ -1,10 +1,10 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil.connector;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.connector;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.app.AppApplication;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -23,16 +23,16 @@ public class AppConnectorCallback implements IConnectorCallback {
 	    /*
 	     * Register the app only if its not registered yet
 	     */
-	    if (!AppApplication.getInstance().getServiceConnector()
+	    if (!ApplicationApp.getInstance().getServiceConnector()
 		    .isRegistered()) {
-		PMPSignee signee = AppApplication.getInstance().getSignee();
-		byte[] pmpKey = AppApplication.getInstance()
+		PMPSignee signee = ApplicationApp.getInstance().getSignee();
+		byte[] pmpKey = ApplicationApp.getInstance()
 			.getServiceConnector().getRegistrationService()
 			.registerApp(signee.getLocalPublicKey());
 		signee.setRemotePublicKey(PMPComponentType.PMP,
 			Constants.PMP_IDENTIFIER, pmpKey);
 
-		Log.d(AppApplication.getInstance().getContext()
+		Log.d(ApplicationApp.getInstance().getContext()
 			.getPackageName()
 			+ " connected");
 	    }
@@ -43,13 +43,13 @@ public class AppConnectorCallback implements IConnectorCallback {
 
     @Override
     public void bindingFailed() {
-	Log.e(AppApplication.getInstance().getContext().getPackageName()
+	Log.e(ApplicationApp.getInstance().getContext().getPackageName()
 		+ " failed binding");
     }
 
     @Override
     public void disconnected() {
-	Log.e(AppApplication.getInstance().getContext().getPackageName()
+	Log.e(ApplicationApp.getInstance().getContext().getPackageName()
 		+ " disconnected");
     }
 

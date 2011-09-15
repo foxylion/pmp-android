@@ -1,13 +1,13 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils;
 
 import java.io.InputStream;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.ServiceLevel;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.XMLParser;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.RequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.ServiceLevel;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.xmlparser.XMLParser;
 
 /**
  * This Class provides the functionality to parse a given xml file (information

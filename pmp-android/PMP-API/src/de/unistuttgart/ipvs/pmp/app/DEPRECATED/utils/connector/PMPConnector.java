@@ -1,7 +1,7 @@
-package de.unistuttgart.ipvs.pmp.app.appUtil.connector;
+package de.unistuttgart.ipvs.pmp.app.DEPRECATED.utils.connector;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.AppApplication;
+import de.unistuttgart.ipvs.pmp.app.DEPRECATED.ApplicationApp;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import android.content.Context;
 
@@ -14,14 +14,14 @@ import android.content.Context;
 public class PMPConnector {
 
     public static void connectToPMP(Context context, String appServiceIdentifier) {
-	AppApplication.getInstance().setContext(context);
-	AppApplication.getInstance().setAppServiceIdentifier(
+	ApplicationApp.getInstance().setContext(context);
+	ApplicationApp.getInstance().setAppServiceIdentifier(
 		appServiceIdentifier);
 
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
-		AppApplication.getInstance().getSignee());
+		ApplicationApp.getInstance().getSignee());
 	serviceCon.addCallbackHandler(new AppConnectorCallback());
-	AppApplication.getInstance().setServiceConnector(serviceCon);
+	ApplicationApp.getInstance().setServiceConnector(serviceCon);
 
 	Log.v(context.getPackageName() + " tries to connect to PMP service");
 	serviceCon.bind();
