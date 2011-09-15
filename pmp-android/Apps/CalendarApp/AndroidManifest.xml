@@ -11,5 +11,10 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<service android:name="de.uni.stuttgart.ipvs.pmp.service.AppService" android:exported="true">
+			<intent-filter>
+				<action android:name="de.unistuttgart.ipvs.pmp.apps.service.AppService"></action>
+			</intent-filter>
+		</service>
 	</application>
 </manifest>
