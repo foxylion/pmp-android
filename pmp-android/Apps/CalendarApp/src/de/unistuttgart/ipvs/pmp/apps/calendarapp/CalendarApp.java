@@ -2,8 +2,6 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
@@ -33,14 +31,12 @@ public class CalendarApp extends App {
 
 	@Override
 	public void onRegistrationSuccess() {
-		// TODO Auto-generated method stub
-
+		Log.d("Registration succeed");
 	}
 
 	@Override
 	public void onRegistrationFailed(String message) {
-		// TODO Auto-generated method stub
-
+		Log.d("Registration failed:" + message);
 	}
 
 }
