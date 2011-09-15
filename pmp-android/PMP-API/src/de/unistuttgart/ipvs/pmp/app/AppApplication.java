@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.app;
 
 import android.content.Context;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -18,14 +20,14 @@ public class AppApplication {
     private static AppApplication instance = null;
 
     /**
-     * The {@link PMPSignee} of the app
-     */
-    private PMPSignee signee;
-
-    /**
      * The {@link Context} of the app
      */
     private Context context;
+
+    /**
+     * The identifier of the app service
+     */
+    private String appServiceIdentifier;
 
     /**
      * The {@link PMPServiceConnector} of the app
@@ -56,17 +58,10 @@ public class AppApplication {
      * @return the {@link PMPSignee}
      */
     public PMPSignee getSignee() {
+	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
+		AppService.class, getContext());
+	signee.setIdentifier(appServiceIdentifier);
 	return signee;
-    }
-
-    /**
-     * Sets the {@link PMPSignee} of the app
-     * 
-     * @param signee
-     *            {@link PMPSignee} to set
-     */
-    public void setSignee(PMPSignee signee) {
-	this.signee = signee;
     }
 
     /**
@@ -105,6 +100,24 @@ public class AppApplication {
      */
     public void setContext(Context context) {
 	this.context = context;
+    }
+
+    /**
+     * Returns the identifier of the app service
+     * 
+     * @return app service identifier
+     */
+    public String getAppServiceIdentifier() {
+	return appServiceIdentifier;
+    }
+
+    /**
+     * Sets the app service identifer
+     * 
+     * @param appServiceIdentifier
+     */
+    public void setAppServiceIdentifier(String appServiceIdentifier) {
+	this.appServiceIdentifier = appServiceIdentifier;
     }
 
 }

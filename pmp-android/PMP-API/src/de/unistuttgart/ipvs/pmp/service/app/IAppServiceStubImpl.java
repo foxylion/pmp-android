@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.app.AppApplication;
 import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 import de.unistuttgart.ipvs.pmp.app.appUtil.AppUtility;
 import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
@@ -35,8 +37,7 @@ public class IAppServiceStubImpl extends IAppService.Stub {
     @Override
     public void setRegistrationSuccessful(RegistrationState state)
 	    throws RemoteException {
-	// TODO Auto-generated method stub
-
+	Log.v(AppApplication.getInstance().getContext().getPackageName() + " registred successful");
     }
 
 }
