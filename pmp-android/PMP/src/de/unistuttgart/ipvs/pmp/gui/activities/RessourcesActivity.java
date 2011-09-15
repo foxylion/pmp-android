@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -17,6 +19,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 /**
@@ -29,20 +32,27 @@ public class RessourcesActivity extends Activity {
     TableLayout layout;
 
     /**
-     * If there is too much Ressources, so you can scroll.
+     * Scrollable
      */
     private ScrollView scroll;
+
     /**
-     * Is needed for the creation of the Activity
+     * Handles the filling of the TableRows
      */
     TableRow actRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+
+	/* Create the 1st TableRow and set up */
 	actRow = new TableRow(this);
 	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
+
+	/* Create the MainLayout for the ApplicationsActivity */
 	createLayout();
+
+	/* Check if there are resources available */
 	if (loadRes()) {
 	    scroll = new ScrollView(this);
 	    scroll.setBackgroundColor(Color.rgb(211, 211, 211));
@@ -51,11 +61,14 @@ public class RessourcesActivity extends Activity {
 	    setContentView(scroll);
 	} else {
 	    LinearLayout layoutEmpty = new LinearLayout(this);
-	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
+	    layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
 	    setContentView(layoutEmpty);
 	}
     }
 
+    /**
+     * Creating the Layout and setting the properties.
+     */
     private void createLayout() {
 	layout = new TableLayout(this);
 	layout.setScrollBarStyle(0);
@@ -65,29 +78,37 @@ public class RessourcesActivity extends Activity {
     }
 
     /**
-     * Loaading the Ressources each row 3
+     * Loading the Ressources each row 3
      */
     private boolean loadRes() {
-	int resCount = ModelSingleton.getInstance().getModel()
-		.getResourceGroups().length;
+	
+	/* Used variables */
+	int resCount = 0;
 	IResourceGroup resArray[] = null;
-
+	
+	resCount = ModelSingleton.getInstance().getModel()
+		.getResourceGroups().length;
+	
+	/*Geting the resources in an array*/
 	if (resCount != 0) {
 	    resArray = ModelSingleton.getInstance().getModel()
 		    .getResourceGroups();
 	}
+	
 	if (resArray != null) {
 
+	    /* Filling the Table with Apps each row 3 */
 	    for (int i = 0; i < resCount; i++) {
 		if (i % 3 == 0) {
 		    layout.addView(actRow);
 		    actRow = new TableRow(this);
-		    actRow
-			    .setLayoutParams(LayoutParamsCreator.createFPWC());
+		    actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 		}
 		ImagedButton act = new ImagedButton(this,
 			resArray[i].getName(), i, R.drawable.res);
 		act.setClickable(true);
+		
+		/* Set up the behaviour of the resource */
 		act.setOnClickListener(new OnResClickListener(act));
 		actRow.addView(act);
 	    }
@@ -112,6 +133,7 @@ class OnResClickListener implements OnClickListener {
 	resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
     }
 
+    /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
 	final Dialog dialog = new Dialog(parent.getContext());
