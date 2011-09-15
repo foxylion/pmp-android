@@ -23,19 +23,15 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * <p>
  * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s.
  * You can register them by using the methods
- * {@link ResourceGroup#registerResource(String, Resource) and
- * {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel).
+ * {@link ResourceGroup#registerResource(String, Resource)} and
+ * {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel)}.
  * </p>
  * 
  * <p>
  * In order to work, a ResourceGroup needs a service defined in the manifest
- * file which<p>
- * In order to work, a ResourceGroup needs a service defined in the manifest
- * file which
- * 
- * 
- * simply extends {@link ResourceGroupService}, and the app containing the
- * ResourceGroup and its service must extend {@link ResourceGroupApp}.
+ * file which simply extends {@link ResourceGroupService}, and the app
+ * containing the ResourceGroup and its service must extend
+ * {@link ResourceGroupApp}.
  * </p>
  * 
  * @author Tobias Kuhn
@@ -219,13 +215,11 @@ public abstract class ResourceGroup {
      * 
      * @param context
      *            {@link Context} to use for the connection
-     * @param serviceContext
-     *            Context of the service used for this resource group
      * @param service
      *            class of the service used for this resource group
      * 
      */
-    public void start(Context context, final Context serviceContext,
+    public void start(Context context,
 	    Class<? extends PMPSignedService> service) {
 
 	// connect to PMP

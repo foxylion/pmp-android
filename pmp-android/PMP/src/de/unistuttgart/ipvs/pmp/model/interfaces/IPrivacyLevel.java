@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.interfaces;
 
+import android.os.RemoteException;
+
 /**
  * The {@link IPrivacyLevel} interface represents a PrivacyLevel of a
  * {@link IResourceGroup}. It can be fetched from an {@link IServiceLevel},
@@ -48,7 +50,7 @@ public interface IPrivacyLevel {
      *            representation.
      * @return the human readable representation of the given value.
      */
-    public String getHumanReadableValue(String value);
+    public String getHumanReadableValue(String value) throws RemoteException;
     
-    public boolean satisfies(String reference, String value);
+    public boolean satisfies(String reference, String value) throws RemoteException;
 }

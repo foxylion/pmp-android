@@ -43,13 +43,17 @@ public class RessourcesActivity extends Activity {
 	actRow.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 		LayoutParams.WRAP_CONTENT));
 	createLayout();
-	loadRes();
-	// loadFakeRes();
-	scroll = new ScrollView(this);
-	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-	layout.addView(actRow);
-	scroll.addView(layout);
-	setContentView(scroll);
+	if (loadRes()) {
+	    scroll = new ScrollView(this);
+	    scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+	    layout.addView(actRow);
+	    scroll.addView(layout);
+	    setContentView(scroll);
+	} else {
+	    LinearLayout layoutEmpty = new LinearLayout(this);
+	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
+	    setContentView(layoutEmpty);
+	}
     }
 
     private void createLayout() {
@@ -85,26 +89,35 @@ public class RessourcesActivity extends Activity {
     /**
      * Loaading the Ressources each row 3
      */
-    private void loadRes() {
+    private boolean loadRes() {
 	int resCount = ModelSingleton.getInstance().getModel()
 		.getResourceGroups().length;
-	IResourceGroup resArray[] = ModelSingleton.getInstance().getModel()
-		.getResourceGroups();
+	IResourceGroup resArray[] = null;
 
-	for (int i = 0; i < resCount; i++) {
-	    if (i % 3 == 0) {
-		layout.addView(actRow);
-		actRow = new TableRow(this);
-		actRow.setLayoutParams(new LayoutParams(
-			LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	    }
-	    ImagedButton act = new ImagedButton(this, resArray[i].getName(), i,
-		    R.drawable.res);
-	    act.setClickable(true);
-	    act.setOnClickListener(new OnResClickListener(act));
-	    actRow.addView(act);
+	if (resCount != 0) {
+	    resArray = ModelSingleton.getInstance().getModel()
+		    .getResourceGroups();
 	}
+	if (resArray != null) {
 
+	    for (int i = 0; i < resCount; i++) {
+		if (i % 3 == 0) {
+		    layout.addView(actRow);
+		    actRow = new TableRow(this);
+		    actRow
+			    .setLayoutParams(new LayoutParams(
+				    LayoutParams.FILL_PARENT,
+				    LayoutParams.WRAP_CONTENT));
+		}
+		ImagedButton act = new ImagedButton(this,
+			resArray[i].getName(), i, R.drawable.res);
+		act.setClickable(true);
+		act.setOnClickListener(new OnResClickListener(act));
+		actRow.addView(act);
+	    }
+	    return true;
+	}
+	return false;
     }
 }
 

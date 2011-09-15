@@ -21,6 +21,10 @@ public class PMPServiceRegistrationStubImpl extends
 
     @Override
     public byte[] registerApp(final byte[] publicKey) throws RemoteException {
+	if(identifier == null) {
+	    return null;
+	}
+	
 	new Thread(new Runnable() {
 	    @Override
 	    public void run() {
@@ -35,6 +39,10 @@ public class PMPServiceRegistrationStubImpl extends
     @Override
     public byte[] registerResourceGroup(final byte[] publicKey)
 	    throws RemoteException {
+	if(identifier == null) {
+	    return null;
+	}
+	
 	new Thread(new Runnable() {
 	    @Override
 	    public void run() {

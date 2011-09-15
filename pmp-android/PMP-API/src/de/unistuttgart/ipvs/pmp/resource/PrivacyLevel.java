@@ -36,15 +36,15 @@ public abstract class PrivacyLevel {
      * @return the human readable representation of the value for this privacy
      *         level for the given locale
      */
-    public abstract String getHumanReadablePrivacyLevelValue(String locale,
+    public abstract String getHumanReadableValue(String locale,
 	    String value);
 
     /**
-     * Should return true, iff value >= reference for this privacy level. E.g.
-     * value.compareTo(reference) >= 0 Note that you must handle any string that
-     * might not even meet your format guidelines.
+     * Should return true, if the value is qualified for the service level's
+     * reference value. Note that you must handle any string that might not even
+     * meet your format guidelines.
      */
-    public abstract boolean satisfies(String reference, String value);
+    public abstract boolean isQualified(String reference, String value);
 
     /**
      * Should internally call an {@link Activity} which enables the user to
@@ -58,4 +58,5 @@ public abstract class PrivacyLevel {
      * @return Returns the new value which has been set.
      */
     public abstract String changeValue(String oldValue);
+    
 }

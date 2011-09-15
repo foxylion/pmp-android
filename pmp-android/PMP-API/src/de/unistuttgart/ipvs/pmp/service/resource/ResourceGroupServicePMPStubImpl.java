@@ -81,7 +81,7 @@ public class ResourceGroupServicePMPStubImpl extends
 	if (pl == null) {
 	    return null;
 	} else {
-	    return pl.getHumanReadablePrivacyLevelValue(locale, value);
+	    return pl.getHumanReadableValue(locale, value);
 	}
     }
 
@@ -105,7 +105,7 @@ public class ResourceGroupServicePMPStubImpl extends
 	if (pl == null) {
 	    return false;
 	} else {
-	    return pl.satisfies(reference, value);
+	    return pl.isQualified(reference, value);
 	}
     }
 

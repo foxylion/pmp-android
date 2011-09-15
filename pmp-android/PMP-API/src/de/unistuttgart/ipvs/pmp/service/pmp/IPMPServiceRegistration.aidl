@@ -11,7 +11,7 @@ interface IPMPServiceRegistration {
 	 * Method for registering a new App at PMP.
 	 *
 	 * @param publicKey the public key, for validating the submitted token in further bindings
-	 * @return the public key of PMP
+	 * @return the public key of PMP, or NULL if the identifier was NULL
 	 */
 	byte[] registerApp(in byte[] publicKey);
 
@@ -19,7 +19,7 @@ interface IPMPServiceRegistration {
 	 * Method for registering a new Resource at PMP.
 	 *
 	 * @param publicKey the public key, for validating the submitted token in further bindings
-	 * @return the public key of PMP
+	 * @return the public key of PMP, or NULL if the identifier was NULL
 	 */
 	byte[] registerResourceGroup(in byte[] publicKey);
 	

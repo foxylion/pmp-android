@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -48,12 +49,17 @@ public class ApplicationsActivity extends Activity {
 	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 	createLayout();
 	// loadFakeApps();
-	loadApps();
-	scroll = new ScrollView(this);
-	layout.addView(actRow);
-	scroll.addView(layout);
-	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-	setContentView(scroll);
+	if(loadApps()){
+	    	scroll = new ScrollView(this);
+		layout.addView(actRow);
+		scroll.addView(layout);
+		scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+		setContentView(scroll);
+	}else{
+	    LinearLayout layoutEmpty = new LinearLayout(this);
+	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
+	    setContentView(layoutEmpty);
+	}
     }
 
     /**
@@ -78,12 +84,16 @@ public class ApplicationsActivity extends Activity {
 
     /**
      * Loading Apps to the View, 3 each row
+     * 
+     * @return true if apps where successfully loaded
      */
-    private void loadApps() {
+    private boolean loadApps() {
 	int AppsCount = 0;
 	AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
 	List<IApp> appList = null;
+	
 	if (AppsCount != 0) {
+
 	    IApp[] appArray = ModelSingleton.getInstance().getModel().getApps();
 	    appList = Arrays.asList(appArray);
 	}
@@ -101,7 +111,9 @@ public class ApplicationsActivity extends Activity {
 		act.setOnClickListener(new OnAppClickListener(act));
 		actRow.addView(act);
 	    }
+	    return true;
 	}
+	return false;
     }
 
     /**

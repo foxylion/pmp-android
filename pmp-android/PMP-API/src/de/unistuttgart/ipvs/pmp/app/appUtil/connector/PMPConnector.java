@@ -16,17 +16,20 @@ import android.content.Context;
  */
 public class PMPConnector {
 
-    public static void connectToPMP(Context context) {
+    public static void connectToPMP(Context context, String appServiceIdentifier) {
 	AppApplication.getInstance().setContext(context);
 	PMPSignee signee = new PMPSignee(PMPComponentType.APP,
 		AppService.class, context);
+	
+	signee.setIdentifier(appServiceIdentifier);
 	AppApplication.getInstance().setSignee(signee);
+	
 	PMPServiceConnector serviceCon = new PMPServiceConnector(context,
 		signee);
 	serviceCon.addCallbackHandler(new AppConnectorCallback());
 	AppApplication.getInstance().setServiceConnector(serviceCon);
 
-	Log.v("Trying to connect to PMP service");
+	Log.v(context.getPackageName() + " tries to connect to PMP service");
 	if (!serviceCon.bind()) {
 	    Log.e(context.getPackageName() + " failed binding");
 	}

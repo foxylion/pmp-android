@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to
@@ -54,6 +56,12 @@ public abstract class AbstractConnector {
      * The identifier of the service to which the connection should go.
      */
     private String targetIdentifier;
+    
+    /**
+     * If set to true, the bind will be in blocking mode.
+     */
+    private boolean blocking = false;
+    private Semaphore semaphore = new Semaphore(0);
 
     /**
      * The {@link ServiceConnection} is used to handle the bound Service
@@ -72,7 +80,13 @@ public abstract class AbstractConnector {
 	public void onServiceConnected(ComponentName name, IBinder service) {
 	    connectedService = service;
 	    connected = true;
+	    
 	    serviceConnected();
+	    
+	    if(blocking) {
+		semaphore.release();
+	    }
+	    
 	    informCallback(ConnectionState.CONNECTED);
 	}
     };
@@ -106,6 +120,22 @@ public abstract class AbstractConnector {
 	    }
 	}
 	return true;
+    }
+    
+    public boolean bind(boolean blocking) {
+	this.blocking = blocking;
+	
+	boolean result = bind();
+	
+	if(blocking && result == true) {
+	    try {
+		semaphore.acquire();
+	    } catch (InterruptedException e) {
+		Log.e("Interrupted while waiting for bind success.", e);
+	    }
+	}
+	
+	return result;
     }
 
     /**
