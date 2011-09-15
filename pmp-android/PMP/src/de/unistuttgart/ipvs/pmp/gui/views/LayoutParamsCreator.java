@@ -54,7 +54,6 @@ public class LayoutParamsCreator {
 
     /**
      * Creates the LayoutParams with - width: FILL_PARENT - height: FILL_PARENT
-     * - weight: float
      * 
      * @return LayoutParams
      */
@@ -65,8 +64,7 @@ public class LayoutParamsCreator {
 
     /**
      * Creates the LayoutParams with - width: FILL_PARENT - height: WRAP_CONTENT
-     * - weight: float
-     * 
+     *
      * @return LayoutParams
      */
     public static LayoutParams createFPWC(float weight) {
@@ -76,7 +74,7 @@ public class LayoutParamsCreator {
 
     /**
      * Creates the LayoutParams with - width: WRAP_CONTENT - height: FILL_PARENT
-     * - weight: float
+     * 
      * 
      * @return LayoutParams
      */
@@ -87,7 +85,7 @@ public class LayoutParamsCreator {
 
     /**
      * Creates the LayoutParams with - width: WRAP_CONTENT - height:
-     * WRAP_CONTENT - weight: float
+     * WRAP_CONTENT 
      * 
      * @return LayoutParams
      */
