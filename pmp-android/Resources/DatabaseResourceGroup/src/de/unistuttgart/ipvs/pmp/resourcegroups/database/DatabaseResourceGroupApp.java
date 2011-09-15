@@ -3,7 +3,6 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
-import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.DatabaseResourceGroup;
 
@@ -14,15 +13,12 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.database.DatabaseResourceGroup;
 public class DatabaseResourceGroupApp extends
 	ResourceGroupSingleApp<DatabaseResourceGroup> {
 
-    private Context context = this.getApplicationContext();
-//    private DatabaseService dbService = new DatabaseService();
-
     @Override
     protected DatabaseResourceGroup createResourceGroup() {
-	DatabaseResourceGroup result = new DatabaseResourceGroup(context,
+	DatabaseResourceGroup result = new DatabaseResourceGroup(getApplicationContext(),
 		DatabaseService.class);
 	// TODO Service Context???
-	result.start(context);
+	result.start(getApplicationContext());
 	return result;
     }
 }
