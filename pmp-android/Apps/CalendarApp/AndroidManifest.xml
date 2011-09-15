@@ -11,9 +11,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<service android:name="de.uni.stuttgart.ipvs.pmp.service.AppService" android:exported="true">
+		<service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
 			<intent-filter>
-				<action android:name="de.unistuttgart.ipvs.pmp.apps.service.AppService"></action>
+				<action android:name="de.unistuttgart.ipvs.pmp.apps.calendarapp"></action>
 			</intent-filter>
 		</service>
 	</application>

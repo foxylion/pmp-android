@@ -44,7 +44,7 @@ public class CalendarAppActivity extends ListActivity {
 	super.onCreate(savedInstanceState);
 
 	actualContext = this.getApplicationContext();
-	PMPConnector.connectToPMP(actualContext, "de.unistuttgart.ipvs.pmp.apps.service.AppService");
+	PMPConnector.connectToPMP(actualContext, "de.unistuttgart.ipvs.pmp.apps.calendarapp");
 	
 	setContentView(R.layout.list_layout);
 	arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model
