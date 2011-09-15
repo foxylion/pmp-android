@@ -4,9 +4,9 @@ import java.util.List;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.resource.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 

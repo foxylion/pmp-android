@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 import android.content.Context;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.SimplePrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.SimplePrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**

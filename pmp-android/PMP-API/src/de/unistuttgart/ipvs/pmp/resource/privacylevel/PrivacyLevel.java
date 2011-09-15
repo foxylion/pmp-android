@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resource;
+package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 
 import java.util.Locale;
 
