@@ -73,8 +73,7 @@ public class ServiceLvlActivity extends Activity {
 	parentLayout = new LinearLayout(this);
 	parentLayout.setScrollBarStyle(0);
 	parentLayout.setOrientation(LinearLayout.VERTICAL);
-	parentLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.FILL_PARENT));
+	parentLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
 	parentLayout.setBackgroundColor(Color.BLACK);
     }
 
@@ -89,8 +88,7 @@ public class ServiceLvlActivity extends Activity {
 	for (int i = 0; i < levelArray.length; i++) {
 	    RadioButton button = new RadioButton(this);
 	    button.setBackgroundColor(Color.rgb(211, 211, 211));
-	    button.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		    LayoutParams.WRAP_CONTENT));
+	    button.setLayoutParams(LayoutParamsCreator.createFPWC());
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
@@ -111,36 +109,6 @@ public class ServiceLvlActivity extends Activity {
     private void loadIntentsExtras() {
 	appName = this.getIntent().getExtras().getString("appName");
 	index = this.getIntent().getExtras().getInt("appID");
-    }
-
-    /**
-     * ************* FAKE METHOD ********** Loads the Privacy Levels for the GUI
-     * can be replaced by the method - loadPrivacyLevels()
-     */
-    private void loadFakeServiceLevels() {
-	String levels[] = { "Level1", "Level2", "Level3", "Level1", "Level2",
-		"Level3", "Level1", "Level2", "Level3", "Level1", "Level2",
-		"Level3", "Level1", "Level2", "Level3", "Level1", "Level2",
-		"Level3", "Level1", "Level2", "Level3" };
-	String description = "Service level Description ";
-	RadioGroup group = new RadioGroup(this);
-	for (int i = 0; i < levels.length; i++) {
-	    RadioButton button = new RadioButton(this);
-	    button.setBackgroundColor(Color.rgb(211, 211, 211));
-	    button.setLayoutParams(LayoutParamsCreator.createFPWC());
-	    button.setGravity(Gravity.CENTER);
-	    button.setTextSize(50);
-	    button.setTextColor(Color.BLACK);
-	    if (i == 3)
-		button.setChecked(true);
-	    button.setText(levels[i]);
-	    // button.setOnTouchListener(new OnLevelTouchListener(this,
-	    // levels[i],
-	    // button, this));
-	    group.addView(button);
-	}
-	group.setGravity(Gravity.CENTER_HORIZONTAL);
-	parentLayout.addView(group);
     }
 
     public void reloadActivity() {
@@ -219,11 +187,8 @@ class OnLevelTouchListener implements OnTouchListener {
 		    Log.v("appID:" + String.valueOf(appID));
 		    Log.v("levelID:" + String.valueOf(levelID));
 
-		    try {
-			app.setActiveServiceLevelAsPreset(level.getLevel());
-		    } catch (Exception exc) {
-			;
-		    }
+		    app.setActiveServiceLevelAsPreset(level.getLevel());
+
 		    dialog.cancel();
 		    return false;
 		}
@@ -243,11 +208,9 @@ class OnLevelTouchListener implements OnTouchListener {
 
 	    LinearLayout buttonLayout = new LinearLayout(context);
 
-	    apply.setLayoutParams(new LinearLayout.LayoutParams(
-		    LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1f));
+	    apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
 
-	    cancel.setLayoutParams(new LinearLayout.LayoutParams(
-		    LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1f));
+	    cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
 	    buttonLayout.addView(apply);
 	    buttonLayout.addView(cancel);
 

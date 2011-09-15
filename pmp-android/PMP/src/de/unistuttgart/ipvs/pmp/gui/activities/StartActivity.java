@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,13 +22,6 @@ import android.widget.TextView;
  * 
  */
 public class StartActivity extends Activity {
-    /**
-     * LayoutParams for the layouts
-     */
-    LayoutParams fpfp;
-    LayoutParams fpwc;
-    LayoutParams wcfp;
-    LayoutParams wcwc;
     /**
      * Buttons Layout
      */
@@ -52,7 +46,7 @@ public class StartActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	createLayoutParams();
+	
 	createParentLayout();
 	createChildren();
 
@@ -97,27 +91,13 @@ public class StartActivity extends Activity {
      */
     private void createParentLayout() {
 	parentLayout = new LinearLayout(this);
-	parentLayout.setLayoutParams(fpfp);
+	parentLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
 	parentLayout.setOrientation(LinearLayout.VERTICAL);
 	parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
 
 	scroll = new ScrollView(this);
 	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-	scroll.setLayoutParams(fpfp);
-    }
-
-    /**
-     * Creating the LayoutParams for the Layout
-     */
-    private void createLayoutParams() {
-	fpfp = new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.FILL_PARENT);
-	fpwc = new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.WRAP_CONTENT);
-	wcfp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.FILL_PARENT);
-	wcwc = new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.WRAP_CONTENT);
+	scroll.setLayoutParams(LayoutParamsCreator.createFPFP());
     }
 }
 

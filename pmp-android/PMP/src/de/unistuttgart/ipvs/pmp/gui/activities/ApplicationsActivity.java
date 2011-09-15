@@ -48,7 +48,6 @@ public class ApplicationsActivity extends Activity {
 	actRow = new TableRow(this);
 	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 	createLayout();
-	// loadFakeApps();
 	if(loadApps()){
 	    	scroll = new ScrollView(this);
 		layout.addView(actRow);
@@ -59,26 +58,6 @@ public class ApplicationsActivity extends Activity {
 	    LinearLayout layoutEmpty = new LinearLayout(this);
 	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
 	    setContentView(layoutEmpty);
-	}
-    }
-
-    /**
-     * Loading Apps to the View, 3 each row Can be replaced with: - loadApps()
-     * if not needed delete!!!!
-     */
-    private void loadFakeApps() {
-	int AppsCount = 16;
-	for (int i = 0; i < AppsCount; i++) {
-	    if (i % 3 == 0) {
-		layout.addView(actRow);
-		actRow = new TableRow(this);
-		actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
-	    }
-	    ImagedButton act = new ImagedButton(this, "Beispiel App: " + i, i,
-		    R.drawable.app);
-	    act.setClickable(true);
-	    act.setOnClickListener(new OnAppClickListener(act));
-	    actRow.addView(act);
 	}
     }
 

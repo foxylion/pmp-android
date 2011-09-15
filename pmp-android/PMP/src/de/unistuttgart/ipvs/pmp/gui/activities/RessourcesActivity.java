@@ -15,6 +15,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
@@ -40,8 +41,7 @@ public class RessourcesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	actRow = new TableRow(this);
-	actRow.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.WRAP_CONTENT));
+	actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 	createLayout();
 	if (loadRes()) {
 	    scroll = new ScrollView(this);
@@ -60,30 +60,8 @@ public class RessourcesActivity extends Activity {
 	layout = new TableLayout(this);
 	layout.setScrollBarStyle(0);
 	layout.setStretchAllColumns(true);
-	layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.FILL_PARENT));
+	layout.setLayoutParams(LayoutParamsCreator.createFPFP());
 	layout.setBackgroundColor(Color.rgb(211, 211, 211));
-    }
-
-    /**
-     * ************ FAKE METHOD********** Loading Apps to the View, 3 each row
-     * Can be replaced with loadRes()
-     */
-    private void loadFakeRes() {
-	int AppsCount = 16;
-	for (int i = 0; i < AppsCount; i++) {
-	    if (i % 3 == 0) {
-		layout.addView(actRow);
-		actRow = new TableRow(this);
-		actRow.setLayoutParams(new LayoutParams(
-			LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	    }
-	    ImagedButton act = new ImagedButton(this, "Beispiel Res: " + i, i,
-		    R.drawable.res);
-	    act.setClickable(true);
-	    actRow.addView(act);
-	}
-
     }
 
     /**
@@ -105,9 +83,7 @@ public class RessourcesActivity extends Activity {
 		    layout.addView(actRow);
 		    actRow = new TableRow(this);
 		    actRow
-			    .setLayoutParams(new LayoutParams(
-				    LayoutParams.FILL_PARENT,
-				    LayoutParams.WRAP_CONTENT));
+			    .setLayoutParams(LayoutParamsCreator.createFPWC());
 		}
 		ImagedButton act = new ImagedButton(this,
 			resArray[i].getName(), i, R.drawable.res);

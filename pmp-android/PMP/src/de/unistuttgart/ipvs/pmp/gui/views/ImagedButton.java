@@ -58,16 +58,13 @@ public class ImagedButton extends LinearLayout {
 	});
 	paint2 = new Paint();
 	image = new ImageView(context);
-	image.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.WRAP_CONTENT, 1f));
+	image.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
 	image.setPadding(0, 10, 0, 0);
 
 	appName = new TextView(context);
 	appName2 = new TextView(context);
-	appName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.WRAP_CONTENT, 1f));
-	appName2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.WRAP_CONTENT, 1f));
+	appName.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
+	appName2.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
 
 	appName.setGravity(Gravity.CENTER_HORIZONTAL);
 	image.setImageResource(imageSource);
@@ -122,11 +119,17 @@ public class ImagedButton extends LinearLayout {
     // super.dispatchDraw(canvas);
     // onDraw(canvas);
     // }
-
+    
+    /**
+     * @return returns the fullname of the App
+     */
     public String getName() {
 	return fullname;
     }
-
+    /**
+     *
+     * @return return the ID of the ImagedButton
+     */
     public int getIndex() {
 	return ID;
     }
