@@ -30,8 +30,7 @@ public class AppRegistration {
 
     private AppInformationSet ais = null;
 
-    private final AppServiceConnector asp = new AppServiceConnector(
-	    PMPApplication.getContext(), PMPApplication.getSignee(), identifier);
+    private final AppServiceConnector asp;
 
     /**
      * Executes an asynchronous App registration.
@@ -44,6 +43,8 @@ public class AppRegistration {
     public AppRegistration(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
 	this.publicKey = publicKey;
+	this.asp = new AppServiceConnector(PMPApplication.getContext(),
+		PMPApplication.getSignee(), identifier);
 
 	connect();
     }
@@ -81,7 +82,10 @@ public class AppRegistration {
 		Log.e("Registration failed: onnection to the AppService failed. More details can be found in the log.");
 	    }
 	});
-	asp.bind();
+
+	if (!asp.bind()) {
+	    Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
+	}
     }
 
     /**
@@ -208,7 +212,10 @@ public class AppRegistration {
 		    Log.e("Registration Failed: Could not reconnect to AppService for setting the registration state");
 		}
 	    });
-	    asp.bind();
+
+	    if (!asp.bind()) {
+		Log.e("Registration failed: connection to the AppService failed, service Bind returned false.");
+	    }
 	} else {
 	    try {
 		IAppService appService = asp.getAppService();
