@@ -1,9 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
-import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
@@ -17,39 +15,32 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
  */
 public class PMPServiceConnector extends AbstractConnector {
 
-    private boolean registred = false;
-
     public PMPServiceConnector(Context context, PMPSignee signee) {
 	super(context, signee, Constants.PMP_IDENTIFIER);
     }
 
     public IPMPServiceRegistration getRegistrationService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IPMPServiceRegistration.class)) {
+	    return IPMPServiceRegistration.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	IPMPServiceRegistration service = IPMPServiceRegistration.Stub
-		.asInterface(getService());
-
-	return service;
     }
 
     public IPMPServiceResourceGroup getResourceGroupService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IPMPServiceResourceGroup.class)) {
+	    return IPMPServiceResourceGroup.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	IPMPServiceResourceGroup service = IPMPServiceResourceGroup.Stub
-		.asInterface(getService());
-
-	return service;
     }
 
     public IPMPServiceApp getAppService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IPMPServiceApp.class)) {
+	    return IPMPServiceApp.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	IPMPServiceApp service = IPMPServiceApp.Stub.asInterface(getService());
-
-	return service;
     }
 
     /**
@@ -59,21 +50,16 @@ public class PMPServiceConnector extends AbstractConnector {
      *         {@link PMPServiceConnector#getRegistrationService()} interface.
      */
     public boolean isRegistered() {
-	return registred;
+	if (isCorrectBinder(IPMPServiceRegistration.class)) {
+	    return false;
+	} else {
+	    return true;
+	}
     }
 
     @Override
     protected void serviceConnected() {
-	try {
-	    IPMPServiceRegistration service = IPMPServiceRegistration.Stub
-		    .asInterface(getService());
-	    service.testBinding();
-	} catch (SecurityException e) {
-	    registred = true;
-	} catch (RemoteException e) {
-	    Log.e("Got an RemoteException while testing the connected binder in PMPServiceConnector.",
-		    e);
-	}
+
     }
 
     @Override

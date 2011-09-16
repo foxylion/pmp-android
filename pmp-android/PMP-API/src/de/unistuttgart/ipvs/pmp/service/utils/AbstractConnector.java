@@ -9,8 +9,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Binder;
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -117,13 +117,13 @@ public abstract class AbstractConnector {
 		    this.signee.getIdentifier());
 	    intent.putExtra(Constants.INTENT_SIGNATURE,
 		    this.signee.signContent(targetIdentifier.getBytes()));
-	    
+
 	    new Thread(new Runnable() {
 		@Override
 		public void run() {
 		    if (context.bindService(intent, serviceConnection,
 			    Context.BIND_AUTO_CREATE)) {
-			
+
 			Log.d("AbstractConnector successfully sent bind command to "
 				+ targetIdentifier);
 		    } else {
@@ -190,23 +190,26 @@ public abstract class AbstractConnector {
 
     /**
      * @return Returns the Service as {@link IBinder}, should be casted to the
-     *         correct interface. Returns NULL if the Service returned a {@link INullService}-
-     *         {@link IBinder}.
+     *         correct interface. Returns NULL if the Service returned a
+     *         {@link INullService}- {@link IBinder}.
      */
     protected IBinder getService() {
+	boolean isNullService = isCorrectBinder(INullService.class);
+
+	return (isNullService ? null : connectedService);
+    }
+
+    public boolean isCorrectBinder(Class<? extends IInterface> binder) {
 	try {
-	    
-	    INullService service = INullService.Stub
-		    .asInterface(connectedService);
-	    service.isServiceANullService();
-	} catch (SecurityException e) {
-	    return connectedService;
+	    String descriptor = connectedService.getInterfaceDescriptor();
+	    Log.v("Trying to match following binders: source<" + descriptor
+		    + "> with <" + binder.getName() + ">");
+	    return descriptor.equals(binder.getName());
 	} catch (RemoteException e) {
-	    Log.e("Got an RemoteException while testing if the connected binder is al INullService-IBinder.",
-		    e);
+	    Log.e("Got an RemoteException while checking the Type of the returned IBinder");
 	}
-	
-	return null;
+
+	return false;
     }
 
     protected Context getContext() {

@@ -22,10 +22,12 @@ public class AppServiceConnector extends AbstractConnector {
      *         (authentication failed?).
      */
     public IAppService getAppService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IAppService.class)) {
+	    return IAppService.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	return IAppService.Stub.asInterface(getService());
+	
     }
 
     @Override

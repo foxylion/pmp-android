@@ -77,10 +77,6 @@ public abstract class PMPSignedService extends Service {
 	if (boundSignature == null) {
 	    Log.d(this.toString() + " received a NULL signature from "
 		    + boundType + "::" + boundIdentifier);
-	} else {
-	    Log.d(this.toString() + " received signature "
-		    + new String(boundSignature).substring(0,5) + "... from " + boundType + "::"
-		    + boundIdentifier);
 	}
 
 	// actual check

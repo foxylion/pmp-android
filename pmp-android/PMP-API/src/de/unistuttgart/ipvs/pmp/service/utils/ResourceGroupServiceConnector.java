@@ -21,17 +21,19 @@ public class ResourceGroupServiceConnector extends AbstractConnector {
     }
 
     public IResourceGroupServiceApp getAppService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IResourceGroupServiceApp.class)) {
+	    return IResourceGroupServiceApp.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	return IResourceGroupServiceApp.Stub.asInterface(getService());
     }
 
     public IResourceGroupServicePMP getPMPService() {
-	if (getService() == null) {
+	if (isCorrectBinder(IResourceGroupServicePMP.class)) {
+	    return IResourceGroupServicePMP.Stub.asInterface(getService());
+	} else {
 	    return null;
 	}
-	return IResourceGroupServicePMP.Stub.asInterface(getService());
     }
 
     @Override
