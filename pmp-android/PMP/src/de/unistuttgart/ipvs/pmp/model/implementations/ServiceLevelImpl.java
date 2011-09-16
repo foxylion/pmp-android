@@ -96,22 +96,35 @@ public class ServiceLevelImpl implements IServiceLevel {
     public boolean isAvailable() {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
-	
-	Cursor cursor = db
-		.rawQuery(
-			"SELECT ResourceGroup_Identifier "
-				+ "FROM ServiceLevel_PrivacyLevels "
-				+ "WHERE App_Identifier = ? AND ServiceLevel_Level = " + level,
-			new String[] { appIdentifier });
+
+	Cursor cursor = db.rawQuery(
+		"SELECT ResourceGroup_Identifier, PrivacyLevel_Identifier "
+			+ "FROM ServiceLevel_PrivacyLevels "
+			+ "WHERE App_Identifier = ? AND ServiceLevel_Level = "
+			+ level, new String[] { appIdentifier });
 
 	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
-	    String resourceGroupIdentifier = cursor.getString(cursor.getColumnIndex("ResourceGroup_Identifier"));
-	    
-	    /* check if there is any resource group with that identifier. */
-	    if(ModelSingleton.getInstance().getModel().getResourceGroup(resourceGroupIdentifier) == null) {
+	    String resourceGroupIdentifier = cursor.getString(cursor
+		    .getColumnIndex("ResourceGroup_Identifier"));
+	    String privacyLevelIdentifier = cursor.getString(cursor
+		    .getColumnIndex("PrivacyLevel_Identifier"));
+
+	    /* check if there is any IResourceGroup with that identifier. */
+	    if (ModelSingleton.getInstance().getModel()
+		    .getResourceGroup(resourceGroupIdentifier) == null) {
 		return false;
+	    } else {
+		/*
+		 * check if there is any IPrivacyLevel in this IResourceGroup
+		 * with that identifier
+		 */
+		if (ModelSingleton.getInstance().getModel()
+			.getResourceGroup(resourceGroupIdentifier)
+			.getPrivacyLevel(privacyLevelIdentifier) == null) {
+		    return false;
+		}
 	    }
 
 	    cursor.moveToNext();

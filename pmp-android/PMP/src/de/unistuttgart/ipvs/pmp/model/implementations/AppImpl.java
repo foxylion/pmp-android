@@ -92,7 +92,7 @@ public class AppImpl implements IApp {
 				+ level + " LIMIT 1",
 			new String[] { identifier });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
@@ -117,7 +117,7 @@ public class AppImpl implements IApp {
 			"SELECT ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
 			new String[] { identifier });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    int serviceLevel = cursor.getInt(cursor
 		    .getColumnIndex("ServiceLevel_Active"));
@@ -156,7 +156,8 @@ public class AppImpl implements IApp {
 
 	    return setActiveServiceLevel(serviceLevel, false);
 	} else {
-	    Log.w("Tried to set the ServiceLevel " + serviceLevel + " which is currently not available for " + identifier);
+	    Log.w("Tried to set the ServiceLevel " + serviceLevel
+		    + " which is currently not available for " + identifier);
 	    return false;
 	}
     }
@@ -205,13 +206,8 @@ public class AppImpl implements IApp {
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
 
-	    PMPComponentType type;
-	    try {
-		type = PMPComponentType.valueOf(cursor.getString(cursor
-			.getColumnIndex("Type")));
-	    } catch (IllegalArgumentException e) {
-		type = null;
-	    }
+	    PMPComponentType type = PMPComponentType.valueOf(cursor
+		    .getString(cursor.getColumnIndex("Type")));
 
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
