@@ -82,6 +82,7 @@ public class PresetImpl implements IPreset {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IApp[list.size()]);
     }
@@ -97,7 +98,9 @@ public class PresetImpl implements IPreset {
 			new String[] { name, type.toString(), identifier,
 				app.getIdentifier() });
 
-	return (cursor.getCount() > 0);
+	boolean result = (cursor.getCount() > 0);
+	cursor.close();
+	return result;
     }
 
     @Override
@@ -177,6 +180,7 @@ public class PresetImpl implements IPreset {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }

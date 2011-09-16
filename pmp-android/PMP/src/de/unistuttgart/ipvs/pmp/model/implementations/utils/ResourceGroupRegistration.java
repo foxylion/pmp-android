@@ -157,11 +157,6 @@ public class ResourceGroupRegistration {
 	db.insert("ResourceGroup", null, cv);
 
 	for (PrivacyLevelDS pl : rgDS.getPrivacyLevels()) {
-	    db.rawQuery(
-		    "INSERT INTO PrivacyLevel (ResourceGroup_Identifier, Identifier, Name_Cache, Description_Cache) VALUES (?, ?, ?, ?)",
-		    new String[] { identifier, pl.getIdentifier(),
-			    pl.getName(), pl.getDescription() });
-
 	    cv = new ContentValues();
 	    cv.put("ResourceGroup_Identifier", identifier);
 	    cv.put("Identifier", pl.getIdentifier());

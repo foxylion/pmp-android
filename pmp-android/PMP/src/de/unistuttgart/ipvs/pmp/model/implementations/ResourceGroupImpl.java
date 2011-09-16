@@ -69,6 +69,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
@@ -95,6 +96,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    list.add(app);
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IApp[list.size()]);
     }

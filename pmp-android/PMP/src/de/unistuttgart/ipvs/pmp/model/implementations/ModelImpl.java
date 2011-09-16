@@ -50,6 +50,7 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IApp[list.size()]);
     }
@@ -72,10 +73,13 @@ public class ModelImpl implements IModel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    return new AppImpl(identifier, name, description);
-	}
+	    cursor.close();
 
-	return null;
+	    return new AppImpl(identifier, name, description);
+	} else {
+	    cursor.close();
+	    return null;
+	}
     }
 
     @Override
@@ -108,6 +112,7 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IResourceGroup[list.size()]);
     }
@@ -132,6 +137,7 @@ public class ModelImpl implements IModel {
 
 	    return new ResourceGroupImpl(identifier, name, description);
 	}
+	cursor.close();
 
 	return null;
     }
@@ -174,6 +180,7 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IPreset[list.size()]);
     }
@@ -196,9 +203,10 @@ public class ModelImpl implements IModel {
 	    cv.put("Description", description);
 	    cv.put("Type", type.toString());
 	    cv.put("Identifier", identifier);
-	    
+
 	    db.insert("Preset", null, cv);
 	}
+	cursor.close();
 
 	return new PresetImpl(name, description, type, identifier);
     }

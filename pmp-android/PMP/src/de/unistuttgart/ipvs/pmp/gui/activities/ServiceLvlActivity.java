@@ -2,11 +2,13 @@ package de.unistuttgart.ipvs.pmp.gui.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -175,7 +177,7 @@ class OnLevelTouchListener implements OnTouchListener {
 		activity.reloadActivity();
 	    }
 	});
-	
+
 	/* Description */
 	TextView description = new TextView(context);
 	description.setText("Description:" + "\n\n" + lvlDescr + "\n");
@@ -194,13 +196,30 @@ class OnLevelTouchListener implements OnTouchListener {
 	    public void onClick(View v) {
 		IApp appsArray[] = ModelSingleton.getInstance().getModel()
 			.getApps();
-		IApp app = appsArray[appID];
+		final IApp app = appsArray[appID];
 		IServiceLevel levelArray[] = app.getServiceLevels();
-		IServiceLevel level = levelArray[levelID];
+		final IServiceLevel level = levelArray[levelID];
 		Log.v("appID:" + String.valueOf(appID));
 		Log.v("levelID:" + String.valueOf(levelID));
-		/*Set the Service Level here*/
-		app.setActiveServiceLevelAsPreset(level.getLevel());
+
+		/* Set the Service Level here */
+		final Dialog waitingDialog = ProgressDialog.show(context,
+			"Please wait", "Setting Service Level", true);
+		
+		new AsyncTask<Void, Void, Void>() {
+
+		    @Override
+		    protected Void doInBackground(Void... params) {
+			app.setActiveServiceLevelAsPreset(level.getLevel());
+			return null;
+		    }
+
+		    @Override
+		    protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			waitingDialog.hide();
+		    }
+		}.execute();
 
 		dialog.cancel();
 	    }
@@ -220,18 +239,18 @@ class OnLevelTouchListener implements OnTouchListener {
 		dialog.cancel();
 	    }
 	});
-	/*DialogLayout which holds the description and the buttonLayout*/
+	/* DialogLayout which holds the description and the buttonLayout */
 	LinearLayout dialogLayout = new LinearLayout(context);
 	dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
 	dialogLayout.setOrientation(LinearLayout.VERTICAL);
 	dialogLayout.addView(description);
-	
-	/*buttonLayout which holds the buttons: Apply, Cancel*/
+
+	/* buttonLayout which holds the buttons: Apply, Cancel */
 	LinearLayout buttonLayout = new LinearLayout(context);
 	buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
 	buttonLayout.addView(apply);
 	buttonLayout.addView(cancel);
-	
+
 	dialogLayout.addView(buttonLayout);
 	dialog.setContentView(dialogLayout);
 

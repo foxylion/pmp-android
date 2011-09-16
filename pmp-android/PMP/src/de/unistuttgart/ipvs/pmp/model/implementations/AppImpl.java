@@ -75,6 +75,7 @@ public class AppImpl implements IApp {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IServiceLevel[list.size()]);
     }
@@ -97,8 +98,11 @@ public class AppImpl implements IApp {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
+	    cursor.close();
+
 	    return new ServiceLevelImpl(identifier, level, name, description);
 	} else {
+	    cursor.close();
 	    return null;
 	}
     }
@@ -118,8 +122,11 @@ public class AppImpl implements IApp {
 	    int serviceLevel = cursor.getInt(cursor
 		    .getColumnIndex("ServiceLevel_Active"));
 
+	    cursor.close();
+
 	    return getServiceLevel(serviceLevel);
 	} else {
+	    cursor.close();
 	    Log.e("App was not found in Database, Model seems to be out of sync with Database.");
 	    return null;
 	}
@@ -147,9 +154,6 @@ public class AppImpl implements IApp {
 	}
 
 	setActiveServiceLevel(serviceLevel, false);
-
-	/* Set the new ServiceLevel */
-
     }
 
     @Override
@@ -166,7 +170,7 @@ public class AppImpl implements IApp {
 		    serviceLevel = slc.calculate();
 		} catch (RemoteException e) {
 		    serviceLevel = 0;
-		    Log.e("Could not calculate service level", e);
+		    Log.e("Could not calculate ServiceLevel", e);
 		}
 
 		if (serviceLevel != getActiveServiceLevel().getLevel()) {
@@ -214,6 +218,7 @@ public class AppImpl implements IApp {
 
 	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IPreset[list.size()]);
     }
@@ -238,7 +243,10 @@ public class AppImpl implements IApp {
 	    IResourceGroup resourceGroup = ModelSingleton.getInstance()
 		    .getModel().getResourceGroup(rgIdentifier);
 	    list.add(resourceGroup);
+	    
+	    cursor.moveToNext();
 	}
+	cursor.close();
 
 	return list.toArray(new IResourceGroup[list.size()]);
     }
@@ -267,13 +275,15 @@ public class AppImpl implements IApp {
 		    .getColumnIndex("PrivacyLevel_Identifier"));
 	    String value = cursor.getString(cursor.getColumnIndex("Value"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
-	    String description = cursor.getString(cursor.getColumnIndex("Description_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
 
 	    IPrivacyLevel pl = new PrivacyLevelImpl(
 		    resourceGroup.getIdentifier(), plIdentifier, name,
 		    description, value);
 	    list.add(pl);
 	}
+	cursor.close();
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }

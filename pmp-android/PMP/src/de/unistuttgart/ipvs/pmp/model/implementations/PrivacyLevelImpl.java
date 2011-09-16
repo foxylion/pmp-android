@@ -79,53 +79,71 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
+	    cursor.close();
+
 	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
+	    cursor.close();
 	    return null;
 	}
     }
 
     @Override
     public String getHumanReadableValue(String value) throws RemoteException {
-	if(value == null) {
+	if (value == null) {
 	    throw new IllegalArgumentException("Value must not be NULL");
 	}
-	
-	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(), PMPApplication.getSignee(), getRessourceGroupIdentifier());
-	
+
+	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
+		PMPApplication.getContext(), PMPApplication.getSignee(),
+		getRessourceGroupIdentifier());
+
 	rgsc.bind(true);
-	
-	if(!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+
+	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
+	    Log.e("Binding of ResourceGroupService "
+		    + getRessourceGroupIdentifier()
+		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
-	    re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies"));
+	    re.initCause(new Throwable("Binding of ResourceGroupService "
+		    + getRessourceGroupIdentifier()
+		    + " failed, can't do satisfies"));
 	    throw re;
 	} else {
-	    return rgsc.getPMPService().getHumanReadablePrivacyLevelValue(Locale.getDefault().getLanguage(), identifier, value);
+	    return rgsc.getPMPService().getHumanReadablePrivacyLevelValue(
+		    Locale.getDefault().getLanguage(), identifier, value);
 	}
     }
 
     @Override
-    public boolean satisfies(String reference, String value) throws RemoteException {
-	if(reference == null) {
+    public boolean satisfies(String reference, String value)
+	    throws RemoteException {
+	if (reference == null) {
 	    throw new IllegalArgumentException("reference must not be NULL");
 	}
-	if(value == null) {
+	if (value == null) {
 	    throw new IllegalArgumentException("value must not be NULL");
 	}
-	
-	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(), PMPApplication.getSignee(), getRessourceGroupIdentifier());
-	
+
+	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
+		PMPApplication.getContext(), PMPApplication.getSignee(),
+		getRessourceGroupIdentifier());
+
 	rgsc.bind(true);
-	
-	if(!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+
+	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
+	    Log.e("Binding of ResourceGroupService "
+		    + getRessourceGroupIdentifier()
+		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
-	    re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier() + " failed, can't do satisfies"));
+	    re.initCause(new Throwable("Binding of ResourceGroupService "
+		    + getRessourceGroupIdentifier()
+		    + " failed, can't do satisfies"));
 	    throw re;
 	} else {
-	    return rgsc.getPMPService().satisfiesPrivacyLevel(identifier, reference, value);
+	    return rgsc.getPMPService().satisfiesPrivacyLevel(identifier,
+		    reference, value);
 	}
     }
 
