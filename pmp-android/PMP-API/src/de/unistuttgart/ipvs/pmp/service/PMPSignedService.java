@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.app.AppService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
@@ -72,9 +73,20 @@ public abstract class PMPSignedService extends Service {
 	byte[] boundSignature = intent
 		.getByteArrayExtra(Constants.INTENT_SIGNATURE);
 
+	// debug code
+	if (boundSignature == null) {
+	    Log.d(this.toString() + " received a NULL signature from "
+		    + boundType + "::" + boundIdentifier);
+	} else {
+	    Log.d(this.toString() + " received signature "
+		    + new String(boundSignature) + " from " + boundType + "::"
+		    + boundIdentifier);
+	}
+
+	// actual check
 	if ((boundSignature != null)
-		&& (signee.isSignatureValid(boundType, boundIdentifier,
-			getClass().getName().getBytes(), boundSignature))) {
+		&& (signee.isSignatureValid(boundType, boundIdentifier, signee
+			.getIdentifier().getBytes(), boundSignature))) {
 	    return onSignedBind(intent);
 	} else {
 	    return onUnsignedBind(intent);

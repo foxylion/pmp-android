@@ -210,10 +210,12 @@ public class PMPSignee {
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
 	    sg.initVerify(pk);
 	    sg.update(content);
-	    Log.d("PMPSignee returns actual signature validity for remote "
-		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
-		    + boundIdentifier + ".");
-	    return sg.verify(signature);
+	    boolean result = sg.verify(signature);
+	    Log.d("PMPSignee found signature " + (result ? "valid" : "INVALID")
+		    + " for remote " + boundType.toString()
+		    + TYPE_IDENTIFIER_SEPARATOR + boundIdentifier
+		    + ", expecting content \"" + new String(content) + "\".");
+	    return result;
 
 	} catch (NoSuchAlgorithmException e) {
 	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
@@ -246,6 +248,8 @@ public class PMPSignee {
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
 	    sg.initSign(local.getPrivate());
 	    sg.update(content);
+	    Log.d(this.toString() + " is signing content \""
+		    + new String(content) + "\" with local private key");
 	    return sg.sign();
 
 	} catch (NoSuchAlgorithmException e) {
