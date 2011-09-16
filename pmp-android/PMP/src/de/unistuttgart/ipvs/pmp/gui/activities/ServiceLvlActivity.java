@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
@@ -59,7 +60,7 @@ public class ServiceLvlActivity extends Activity {
 	loadIntentsExtras();
 	appName = ModelSingleton.getInstance().getModel()
 		.getApp(identifier).getName();
-	this.setTitle("Service Levels for " + appName);
+	this.setTitle(R.string.servive_level_for + " " + appName);
 	createParentLayout();
 	loadServiceLevels();
 	scroll = new ScrollView(this);
@@ -164,7 +165,7 @@ class OnLevelTouchListener implements OnTouchListener {
 	final Dialog dialog = new Dialog(context);
 	dialog.setCanceledOnTouchOutside(false);
 	dialog.setCancelable(true);
-	dialog.setTitle("Apply Service Level?");
+	dialog.setTitle(R.string.apply_service_level);
 	/**
 	 * Reload the ServiceLvlActivity if no changes occur
 	 */
@@ -179,13 +180,13 @@ class OnLevelTouchListener implements OnTouchListener {
 
 	/* Description */
 	TextView description = new TextView(context);
-	description.setText("Description:" + "\n\n" + lvlDescr + "\n");
+	description.setText(R.string.description + "\n\n" + lvlDescr + "\n");
 	description.setPadding(10, 0, 10, 0);
 
 	/* Apply */
 	Button apply = new Button(context);
 	apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-	apply.setText("Apply");
+	apply.setText(R.string.apply);
 	/**
 	 * Sets the Service Level.
 	 */
@@ -200,8 +201,10 @@ class OnLevelTouchListener implements OnTouchListener {
 		Log.v("appID:" + String.valueOf(identifier));
 		Log.v("levelID:" + String.valueOf(levelID));
 		/* Set the Service Level here */
+		
 		final Dialog waitingDialog = ProgressDialog.show(context,
-			"Please wait", "Setting Service Level", true);
+			context.getString(R.string.please_wait), 
+			context.getString(R.string.set_service_level), true);
 		
 		new AsyncTask<Void, Void, Void>() {
 
@@ -224,7 +227,7 @@ class OnLevelTouchListener implements OnTouchListener {
 	/* Cancel */
 	Button cancel = new Button(context);
 	cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-	cancel.setText("Cancel");
+	cancel.setText(R.string.cancel);
 
 	/**
 	 * Cancel the dialog
