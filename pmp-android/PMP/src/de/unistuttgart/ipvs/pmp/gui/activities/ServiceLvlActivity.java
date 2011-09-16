@@ -2,17 +2,19 @@ package de.unistuttgart.ipvs.pmp.gui.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,6 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
@@ -27,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
  * PrivacyLvlActivity
+ * 
  * 
  * @author Alexander Wassiljew
  * 
@@ -39,7 +43,7 @@ public class ServiceLvlActivity extends Activity {
     /**
      * Index of the current App
      */
-    private int index;
+    private String identifier;
 
     /**
      * If there are too much Levels, so you can scroll.
@@ -49,14 +53,16 @@ public class ServiceLvlActivity extends Activity {
      * Main Layout of the Activity, which will be draw to the Canvas
      */
     private LinearLayout parentLayout;
-    private Intent intent;
 
     /** Called when the activity is first created. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	loadIntentsExtras();
-	this.setTitle("Service Levels for " + appName);
+	appName = ModelSingleton.getInstance().getModel().getApp(identifier)
+		.getName();
+	this.setTitle(this.getString(R.string.servive_level_for) + " "
+		+ appName);
 	createParentLayout();
 	loadServiceLevels();
 	scroll = new ScrollView(this);
@@ -80,10 +86,10 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Privacy Levels for the GUI
      */
     private void loadServiceLevels() {
-	IApp appsArray[] = ModelSingleton.getInstance().getModel().getApps();
-	IApp app = appsArray[index];
+	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
 	IServiceLevel levelArray[] = app.getServiceLevels();
 	RadioGroup group = new RadioGroup(this);
+	/*Iterate over Service Levels */
 	for (int i = 0; i < levelArray.length; i++) {
 	    RadioButton button = new RadioButton(this);
 	    button.setBackgroundColor(Color.rgb(211, 211, 211));
@@ -94,8 +100,10 @@ public class ServiceLvlActivity extends Activity {
 	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
-	    button.setOnTouchListener(new OnLevelTouchListener(this,
-		    levelArray[i].getDescription(), button, this, index, i));
+	    button
+		    .setOnTouchListener(new OnLevelTouchListener(this,
+			    levelArray[i].getDescription(), button, this,
+			    identifier, i));
 	    group.addView(button);
 	}
 	group.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -106,10 +114,12 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Intent
      */
     private void loadIntentsExtras() {
-	appName = this.getIntent().getExtras().getString("appName");
-	index = this.getIntent().getExtras().getInt("appID");
+	identifier = this.getIntent().getExtras().getString(
+		de.unistuttgart.ipvs.pmp.Constants.INTENT_IDENTIFIER);
     }
-
+    /**
+     * Reload the activity
+     */
     public void reloadActivity() {
 	parentLayout.removeAllViews();
 	loadServiceLevels();
@@ -129,100 +139,132 @@ class OnLevelTouchListener implements OnTouchListener {
     private RadioButton parent;
     private ServiceLvlActivity activity;
     private int levelID;
-    private int appID;
+    private String identifier;
 
     public OnLevelTouchListener(Context context, String lvlDescr,
-	    RadioButton button, ServiceLvlActivity activity, int appID,
+	    RadioButton button, ServiceLvlActivity activity, String identifier,
 	    int levelID) {
 	this.lvlDescr = lvlDescr;
 	this.context = context;
 	this.parent = button;
 	this.activity = activity;
 	this.levelID = levelID;
-	this.appID = appID;
+	this.identifier = identifier;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 	if (event.getAction() == event.ACTION_UP) {
-	    final Dialog dialog = new Dialog(context);
-	    dialog.setCanceledOnTouchOutside(false);
-	    dialog.setCancelable(true);
-	    dialog.setTitle("Apply Service Level?");
-	    LinearLayout dialogLayout = new LinearLayout(context);
-	    dialogLayout.setOrientation(LinearLayout.VERTICAL);
-	    TextView description = new TextView(context);
-	    description.setText("Description:" + "\n\n" + lvlDescr + "\n");
-	    description.setPadding(10, 0, 10, 0);
-	    Button apply = new Button(context);
-	    apply.setText("Apply");
-
-	    Button cancel = new Button(context);
-	    cancel.setText("Cancel");
-
-	    /**
-	     * Reload the ServiceLvlActivity if no changes occur
-	     */
-	    dialog.setOnCancelListener(new OnCancelListener() {
-		@Override
-		public void onCancel(DialogInterface dialog) {
-		    // Reloads the Service Level Activity if new Service Level
-		    // wasn't set
-		    activity.reloadActivity();
-		}
-	    });
-	    /**
-	     * Sets the Service Level.
-	     */
-	    apply.setOnTouchListener(new OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-		    IApp appsArray[] = ModelSingleton.getInstance().getModel()
-			    .getApps();
-		    IApp app = appsArray[appID];
-		    IServiceLevel levelArray[] = app.getServiceLevels();
-		    IServiceLevel level = levelArray[levelID];
-		    Log.v("appID:" + String.valueOf(appID));
-		    Log.v("levelID:" + String.valueOf(levelID));
-
-		    app.setActiveServiceLevelAsPreset(level.getLevel());
-
-		    dialog.cancel();
-		    return false;
-		}
-	    });
-	    /**
-	     * Cancel the dialog
-	     */
-	    cancel.setOnTouchListener(new OnTouchListener() {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-		    dialog.cancel();
-		    return false;
-		}
-	    });
-
-	    dialogLayout.addView(description);
-
-	    LinearLayout buttonLayout = new LinearLayout(context);
-
-	    apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-
-	    cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-	    buttonLayout.addView(apply);
-	    buttonLayout.addView(cancel);
-
-	    buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
-
-	    dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
-	    dialogLayout.addView(buttonLayout);
-
-	    dialog.setContentView(dialogLayout);
+	    Dialog dialog = createDialog();
 	    dialog.show();
 	} else if (event.getAction() == event.ACTION_MOVE) {
 	}
 	return false;
+    }
+
+    /**
+     * Create a dialog for setting up the service level
+     * 
+     * @return Dialog
+     */
+    private Dialog createDialog() {
+	/* Dialog */
+	final Dialog dialog = new Dialog(context);
+	dialog.setCanceledOnTouchOutside(false);
+	dialog.setCancelable(true);
+	dialog.setTitle(R.string.apply_service_level);
+	/**
+	 * Reload the ServiceLvlActivity if no changes occur
+	 */
+	dialog.setOnCancelListener(new OnCancelListener() {
+	    @Override
+	    public void onCancel(DialogInterface dialog) {
+		// Reloads the Service Level Activity if new Service Level
+		// wasn't set
+		activity.reloadActivity();
+	    }
+	});
+
+	/* Description */
+	TextView description = new TextView(context);
+	description.setText(context.getString(R.string.description) + "\n\n"
+		+ lvlDescr + "\n");
+	description.setPadding(10, 0, 10, 0);
+
+	/* Apply */
+	Button apply = new Button(context);
+	apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+	apply.setText(R.string.apply);
+	/**
+	 * Sets the Service Level.
+	 */
+	apply.setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		final IApp app = ModelSingleton.getInstance().getModel()
+			.getApp(identifier);
+		IServiceLevel levelArray[] = app.getServiceLevels();
+		final IServiceLevel level = levelArray[levelID];
+		Log.v("appID:" + String.valueOf(identifier));
+		Log.v("levelID:" + String.valueOf(levelID));
+		/* Set the Service Level here */
+
+		final Dialog waitingDialog = ProgressDialog.show(context,
+			context.getString(R.string.please_wait), context
+				.getString(R.string.set_service_level), true);
+		/*
+		 * Create an AsynchTask and wait till
+		 * setActiveServiceLevelAsPreset is done
+		 */
+		new AsyncTask<Void, Void, Void>() {
+
+		    @Override
+		    protected Void doInBackground(Void... params) {
+			app.setActiveServiceLevelAsPreset(level.getLevel());
+			return null;
+		    }
+
+		    @Override
+		    protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			waitingDialog.hide();
+			dialog.cancel();
+		    }
+		}.execute();
+	    }
+	});
+
+	/* Cancel */
+	Button cancel = new Button(context);
+	cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+	cancel.setText(context.getString(R.string.cancel));
+
+	/**
+	 * Cancel the dialog
+	 */
+	cancel.setOnClickListener(new OnClickListener() {
+	    @Override
+	    public void onClick(View v) {
+		dialog.cancel();
+	    }
+	});
+	/* DialogLayout which holds the description and the buttonLayout */
+	LinearLayout dialogLayout = new LinearLayout(context);
+	dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+	dialogLayout.setOrientation(LinearLayout.VERTICAL);
+	dialogLayout.addView(description);
+
+	/* buttonLayout which holds the buttons: Apply, Cancel */
+	LinearLayout buttonLayout = new LinearLayout(context);
+	buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+	buttonLayout.addView(apply);
+	buttonLayout.addView(cancel);
+
+	dialogLayout.addView(buttonLayout);
+	dialog.setContentView(dialogLayout);
+
+	return dialog;
     }
 
 }

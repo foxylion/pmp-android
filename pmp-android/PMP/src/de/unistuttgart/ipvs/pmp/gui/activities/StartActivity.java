@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import android.app.Activity;
 import android.content.Intent;
@@ -74,11 +75,11 @@ public class StartActivity extends Activity {
 	layout.setVerticalGravity(Gravity.CENTER);
 
 	apps = new Button(this);
-	apps.setText("Applications");
+	apps.setText(R.string.apps);
 	apps.setOnTouchListener(new ApplicationsListener());
 
 	ressources = new Button(this);
-	ressources.setText("Ressources");
+	ressources.setText(R.string.ress);
 	ressources.setOnTouchListener(new RessourcesListener());
 
 	layout.addView(apps);

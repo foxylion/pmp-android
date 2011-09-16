@@ -49,8 +49,10 @@ public interface IApp {
      * 
      * @param serviceLevel
      *            New service level which should be set.
+     * @return true if the serviceLevel was set, false if not (maybe not
+     *         sl.isAvailable() == true?)
      */
-    public void setActiveServiceLevelAsPreset(int serviceLevel);
+    public boolean setActiveServiceLevelAsPreset(int serviceLevel);
 
     /**
      * Verifies the service level and publishes the new one asynchronously if it

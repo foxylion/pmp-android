@@ -1,14 +1,12 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -19,7 +17,6 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 /**
@@ -105,7 +102,7 @@ public class RessourcesActivity extends Activity {
 		    actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 		}
 		ImagedButton act = new ImagedButton(this,
-			resArray[i].getName(), i, R.drawable.res);
+			resArray[i].getName(), resArray[i].getIdentifier(), R.drawable.res);
 		act.setClickable(true);
 		
 		/* Set up the behaviour of the resource */
@@ -126,37 +123,51 @@ public class RessourcesActivity extends Activity {
  */
 class OnResClickListener implements OnClickListener {
     private ImagedButton parent;
-    private IResourceGroup resArray[];
+    private IResourceGroup res;
 
     public OnResClickListener(ImagedButton button) {
 	this.parent = button;
-	resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
+	res = ModelSingleton.getInstance().getModel().getResourceGroup(parent.getIdentifier());
     }
 
     /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
-	final Dialog dialog = new Dialog(parent.getContext());
-	dialog.setTitle(parent.getName());
-	TextView description = new TextView(parent.getContext());
-	Button close = new Button(parent.getContext());
-	close.setText("Close");
+	Dialog dialog = createDialog(parent.getContext(), parent.getName(), 
+		res.getDescription() + "\n");
+	dialog.show();
+    }
+    /**
+     * Create Dialog with params
+     * @param context
+     * @param title
+     * @param description
+     * @return Dialog
+     */
+    private Dialog createDialog(Context context, String title, String description){
+	final Dialog dialog = new Dialog(context);
+	dialog.setTitle(title);
+	TextView descriptionView = new TextView(context);
+	
+	descriptionView.setText(context.getString(R.string.description) + "\n\n" + description);
+	descriptionView.setPadding(10, 0, 10, 0);
+	
+	Button close = new Button(context);
+	close.setText(R.string.cancel);
 	close.setOnClickListener(new OnClickListener() {
 	    @Override
 	    public void onClick(View v) {
 		dialog.cancel();
 	    }
 	});
-	description.setText("Description: \n\n"
-		+ resArray[parent.getIndex()].getDescription() + "\n");
-	description.setPadding(10, 0, 10, 0);
+	
 	LinearLayout layout = new LinearLayout(parent.getContext());
 	layout.setOrientation(LinearLayout.VERTICAL);
-	layout.addView(description);
+	layout.addView(descriptionView);
 	layout.addView(close);
-
+	
 	dialog.setContentView(layout);
-	dialog.show();
+	
+	return dialog;
     }
-
 }

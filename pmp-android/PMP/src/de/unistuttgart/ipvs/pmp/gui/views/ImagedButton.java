@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.views;
 
+import de.unistuttgart.ipvs.pmp.gui.activities.ApplicationsActivity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -41,7 +42,7 @@ public class ImagedButton extends LinearLayout {
     /**
      * ID of the Button
      */
-    int ID;
+    String identifier;
     /**
      * State of the ImageButton
      */
@@ -59,7 +60,7 @@ public class ImagedButton extends LinearLayout {
      * @param ID
      * @param ImageSource
      */
-    public ImagedButton(Context context, String name, int ID, int ImageSource) {
+    public ImagedButton(Context context, String name,String identifier, int ImageSource) {
 	super(context);
 	
 	/*Setting the Padding of the ImageButton*/
@@ -67,7 +68,7 @@ public class ImagedButton extends LinearLayout {
 	
 	/*Initialize the fields*/
 	this.imageSource = ImageSource;
-	this.ID = ID;
+	this.identifier = identifier;
 	this.fullname = name;
 	
 	/*Setting up the ImagedButton*/
@@ -137,7 +138,7 @@ public class ImagedButton extends LinearLayout {
 	this.addView(appName);
 	this.addView(appName2);
     }
-    
+
     /**
      * Custom onDraw method
      */
@@ -184,7 +185,7 @@ public class ImagedButton extends LinearLayout {
      * 
      * @return return the ID of the ImagedButton
      */
-    public int getIndex() {
-	return ID;
+    public String getIdentifier() {
+	return identifier;
     }
 }
