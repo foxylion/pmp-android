@@ -6,16 +6,15 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeDateDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewDateDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,9 +40,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The actual context
      */
-    private Context actualContext;
-
-    private static Dialog waitingDialog;
+    private Context appContext;
 
     /**
      * Called when the activity is first created. Creates the list and shows the
@@ -52,33 +49,34 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	Model.getInstance().setContext(self);
 
-	actualContext = this.getApplicationContext();
+	appContext = this.getApplicationContext();
+
+	// Connector to check if the app is registered yet
 	final PMPServiceConnector connector = new PMPServiceConnector(
-		actualContext, ((CalendarApp) actualContext).getSignee());
+		appContext, ((CalendarApp) appContext).getSignee());
 	connector.addCallbackHandler(new IConnectorCallback() {
 
 	    @Override
 	    public void disconnected() {
-		// TODO Auto-generated method stub
-
+		Log.e("Disconnected");
 	    }
 
 	    @Override
 	    public void connected() {
-		if (!connector.isRegistered()) {
-		    new Handler().post(new Runnable() {
-			@Override
-			public void run() {
-			    waitingDialog = ProgressDialog.show(self,
-				    "Please wait...",
-				    "Registration is running.", true);
-			}
-		    });
-		    ((App) getApplication()).start(actualContext);
 
+		// Check if the service is registered yet
+		if (!connector.isRegistered()) {
+		    DialogManager.getInstance().showWaitingDialog();
+
+		    // Register the service
+		    ((App) getApplication()).start(appContext);
+
+		    connector.unbind();
 		} else {
-		    Log.d("App already registered.");
+		    Log.v("App already registered");
+		    connector.unbind();
 		}
 	    }
 
@@ -87,12 +85,14 @@ public class CalendarAppActivity extends ListActivity {
 		Log.e("Binding failed during registering app.");
 	    }
 	});
+
+	// Connect to the service
 	connector.bind();
-	
 
 	setContentView(R.layout.list_layout);
 	arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model
 		.getInstance().getDateList());
+	Model.getInstance().setArrayAdapter(arrayAdapter);
 	setListAdapter(arrayAdapter);
 
 	ListView listView = getListView();
@@ -102,11 +102,12 @@ public class CalendarAppActivity extends ListActivity {
 	 * Listener for adding a new date. Opens a new dialog
 	 */
 	Button newDate = (Button) findViewById(R.id.AddDate);
+	Model.getInstance().setNewDateButton(newDate);
 	newDate.setOnClickListener(new OnClickListener() {
 
 	    @Override
 	    public void onClick(View v) {
-		Dialog dialog = new NewDateDialog(self, arrayAdapter);
+		Dialog dialog = new NewDateDialog(self);
 		dialog.setTitle("Create new date");
 		dialog.show();
 	    }
@@ -133,11 +134,12 @@ public class CalendarAppActivity extends ListActivity {
 	listView.setOnItemClickListener(new OnItemClickListener() {
 	    public void onItemClick(AdapterView<?> parent, View view,
 		    int position, long id) {
-		Dialog changeDateDialog = new ChangeDateDialog(self, position,
-			arrayAdapter);
+		Dialog changeDateDialog = new ChangeDateDialog(self, position);
 		changeDateDialog.show();
 	    }
 	});
+	
+	((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
     }
 
     @Override
@@ -152,9 +154,5 @@ public class CalendarAppActivity extends ListActivity {
 	Model.getInstance().deleteDateByIndex(menuInfo.position);
 	arrayAdapter.notifyDataSetChanged();
 	return true;
-    }
-
-    public static void disposeWaitingDialog() {
-	waitingDialog.dismiss();
     }
 }

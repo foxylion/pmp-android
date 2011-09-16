@@ -38,12 +38,10 @@ public class SqlConnector {
      */
     public ArrayList<Date> loadDates() {
 	ArrayList<Date> dList = new ArrayList<Date>();
-//	for (int i = 0; i < 5; i++) {
-//	    dList.add(new Date(1, "abc", "12.12.2001"));
-//	    dList.add(new Date(2, "cde", "01.02.1999"));
-//	    dList.add(new Date(3, "efg", "01.01.2200"));
-//	}
-	Model.highestId = 4;
+	for (int i = 0; i < 5; i++) {
+	    dList.add(new Date(1, "abc", "12.12.2001"));
+	}
+	Model.highestId = 5;
 	return dList;
     }
 
