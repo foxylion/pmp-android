@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.unused.FileSystemService;
 
 /**
  * Application class encapsulating all resource-groups and its services.
@@ -22,13 +21,9 @@ public class FileSystemResourceGroupApp extends ResourceGroupSingleApp<FileSyste
 	
 	
 	@Override
-	protected FileSystemResourceGroup createResourceGroup() {
-		
-		FileSystemService service = new FileSystemService();
-		
+	protected FileSystemResourceGroup createResourceGroup() {		
 		try {
-			return new FileSystemResourceGroup(service.getApplicationContext(),
-					FileSystemService.class);
+			return new FileSystemResourceGroup(getApplicationContext());
 		} catch (Exception e) {
 			Log.e("Cannot instantiate  resource-group.", e);
 			return null;

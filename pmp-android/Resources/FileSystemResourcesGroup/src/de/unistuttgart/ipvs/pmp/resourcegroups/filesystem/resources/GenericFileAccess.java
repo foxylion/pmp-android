@@ -1,13 +1,8 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -26,6 +21,11 @@ public class GenericFileAccess extends IFileAccess.Stub {
 	private String app;
 	private GenericFileAccessResource resource;
 
+	/**
+	 * Creates a new instance
+	 * @param app		Identifier of the app that is using this access handler
+	 * @param resource	Resource this access handler object belongs to
+	 */
 	public GenericFileAccess(String app, GenericFileAccessResource resource) {
 		this.app = app;
 		this.resource = resource;
@@ -38,21 +38,8 @@ public class GenericFileAccess extends IFileAccess.Stub {
 			throw new IllegalAccessError("Generic file reading not allowed");
 		}
 		
-		File file = new File(path);
-		
 		try {
-			// Read file to string
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			
-			StringBuilder result = new StringBuilder();
-			String line = null;
-			
-			while ((line = reader.readLine()) != null) {
-				result.append(line);
-			}
-			reader.close();
-			return result.toString();
-			
+			return Utils.readFileToString(new File(path));			
 		} catch (FileNotFoundException e) {
 			Log.d("Cannot open file: " + path, e);
 			throw new RemoteException();
@@ -72,9 +59,7 @@ public class GenericFileAccess extends IFileAccess.Stub {
 		
 		File file = new File(path);
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file, append));
-			writer.write(data);
-			writer.close();
+			Utils.writeStringToFile(file, data, append);
 			return true;
 		} catch (IOException e) {
 			Log.d("Cannot write data to " + path);
@@ -89,8 +74,7 @@ public class GenericFileAccess extends IFileAccess.Stub {
 			throw new IllegalAccessError("Generic file deleting not allowed");
 		}
 		
-		File file = new File(path);
-		return file.delete();
+		return new File(path).delete();
 	}
 
 	@Override
@@ -100,26 +84,11 @@ public class GenericFileAccess extends IFileAccess.Stub {
 			throw new IllegalAccessError("Generic file listing not allowed");
 		}
 
-		File file = new File(directory);
-		File[] fileArray = file.listFiles();
-
-		// The user has selected a file instead of a directory
-		if (fileArray == null) {
-			return null;
-		}
-
-		// Generate our FileDetails-List
-		List<FileDetails> detailsList = new ArrayList<FileDetails>();
-
-		for (File f : fileArray) {
-			detailsList.add(new FileDetails(f));
-		}
-
-		return detailsList;
+		return Utils.getFileDetailsList(new File(directory));
 	}
 
 	/**
-	 * Checks if a specific privacy-level ist set for an application
+	 * Checks if a specific privacy-level is set for an application
 	 * @param privacyLevelName The privacy-level to check
 	 * @return True, if privacy-level is set for this application
 	 */
