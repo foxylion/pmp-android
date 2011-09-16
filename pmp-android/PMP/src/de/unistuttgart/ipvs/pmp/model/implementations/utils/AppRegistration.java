@@ -112,8 +112,8 @@ public class AppRegistration {
 	/* Check if the app is already in the PMP-Database. */
 	if (ModelSingleton.getInstance().getModel().getApp(identifier) != null) {
 	    Log.e("Registration (" + identifier
-		    + "): FAILED - App already registred, maybe lost your key?");
-	    informAboutRegistration(false, "Already registered, maybe lost your key?");
+		    + "): FAILED - There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
+	    informAboutRegistration(false, "There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
 	    return;
 	}
 
