@@ -65,10 +65,9 @@ public class ModelImpl implements IModel {
 			"SELECT Name_Cache, Description_Cache FROM App WHERE Identifier = ?",
 			new String[] { identifier });
 
-	cursor.moveToNext();
+	if (cursor.getCount() == 1) {
+	    cursor.moveToNext();
 
-	if (cursor != null && cursor.getCount() == 1) {
-	    ;
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
@@ -127,10 +126,9 @@ public class ModelImpl implements IModel {
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ?",
 			new String[] { identifier });
 
-	cursor.moveToNext();
-
-	if (cursor != null && cursor.getCount() == 1) {
-	    ;
+	if (cursor.getCount() == 1) {
+	    cursor.moveToNext();
+	    
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));

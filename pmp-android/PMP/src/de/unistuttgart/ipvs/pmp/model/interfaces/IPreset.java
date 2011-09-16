@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.interfaces;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 
 /**
- * {@link IPreset} is the chain link between the {@link IResourceGroup} and its
+ * {@link IPreset} is the chain link between the {@link IResourceGroup}, its
  * {@link IPrivacyLevel}s and the {@link IApp}. It gives the {@link IApp} access
  * to the defined {@link IPrivacyLevel}s.
  * 
@@ -12,74 +12,175 @@ import de.unistuttgart.ipvs.pmp.PMPComponentType;
 public interface IPreset {
 
     /**
-     * @return Returns the name of the preset.
+     * @return Returns the name of the {@link IPreset}.
      */
     public String getName();
 
     /**
-     * @return Returns the type of the identifier which may be assigned.
+     * @return Returns the {@link PMPComponentType} of the identifier which may
+     *         be assigned. {@link PMPComponentType#NONE} will be returned when
+     *         the identifier is NULL.
      */
     PMPComponentType getType();
-    
+
     /**
-     * @return Returns the identifier which created this
-     *         preset, or NULL if this preset was generated manually.
+     * @return Returns the identifier which created this {@link IPreset}, or
+     *         NULL if this {@link IPreset} was generated manually.
      */
     public String getIdentifier();
 
     /**
-     * @return Returns the description of the preset.
+     * @return Returns the description of the {@link IPreset}.
      */
     public String getDescription();
 
     /**
-     * @return Returns the assigned {@link IApp}s to this preset.
+     * @return Returns the used {@link IPrivacyLevel}s by this preset.
+     */
+    public IPrivacyLevel[] getUsedPrivacyLevels();
+
+    /**
+     * @return Returns the assigned {@link IApp}s to this {@link IPreset}.
      */
     public IApp[] getAssignedApps();
-    
+
     /**
      * @return Returns true if the {@link IApp} is assigned, otherwise false.
      */
     public boolean isAppAssigned(IApp app);
-    
+
     /**
      * Adds an {@link IApp} to the {@link IPreset}.
-     * Inside the {@link IApp#verifyServiceLevel()) will be called.
      * 
-     * @param app {@link IApp} which should be added.
+     * <p>
+     * <i>Inside the {@link IApp#verifyServiceLevel()} will be called, what will
+     * maybe end up in a roll out of changed {@link IServiceLevel} and
+     * {@link IResourceGroup} Accesses.</i> <b>So, if you have multiple changes
+     * on the {@link IPreset} use the hidden variant of this method
+     * {@link IPreset#addApp(IApp, boolean)}</b>
+     * </p>
+     * 
+     * @param app
+     *            The {@link IApp} which should be added.
      */
     public void addApp(IApp app);
-    
+
+    /**
+     * Adds an {@link IApp} to the {@link IPreset}.
+     * 
+     * <p>
+     * <b>If you use the hidden variant you have to call
+     * {@link IApp#verifyServiceLevel()} manually, otherwise the {@link IPreset}
+     * change will not be rolled out.</b>
+     * </p>
+     * 
+     * @param app
+     *            The {@link IApp} which should be added.
+     * @param hidden
+     *            if set to true {@link IApp#verifyServiceLevel()} will not be
+     *            called.
+     */
     public void addApp(IApp app, boolean hidden);
-    
+
     /**
      * Removes an {@link IApp} from the {@link IPreset}.
-     * Inside the {@link IApp#verifyServiceLevel()} whill be called, to prevent this, call {@link IPreset#removeApp(IApp, boolean)}.
      * 
-     * @param app {@link IApp} which should be removed
+     * <p>
+     * <i>Inside the {@link IApp#verifyServiceLevel()} will be called, what will
+     * maybe end up in a roll out of changed {@link IServiceLevel} and
+     * {@link IResourceGroup} Accesses.</i> <b>So, if you have multiple changes
+     * on the {@link IApp} use the hidden variant of this method
+     * {@link IPreset#removeApp(IApp, boolean)}</b>
+     * </p>
+     * 
+     * @param app
+     *            The {@link IApp} which should be removed.
      */
     public void removeApp(IApp app);
-    
+
     /**
      * Removes an {@link IApp} from the {@link IPreset}.
      * 
-     * @param app {@link IApp} which should be removed
-     * @param hidden If set to true, the verification described in {@link IPreset#removeApp(IApp)} will not be called.
+     * <p>
+     * <b>If you use the hidden variant you have to call
+     * {@link IApp#verifyServiceLevel()} manually, otherwise the {@link IApp}
+     * remove from this {@link IPreset} will not be rolled out.</b>
+     * </p>
+     * 
+     * @param app
+     *            The {@link IApp} which should be removed.
+     * @param hidden
+     *            if set to true {@link IApp#verifyServiceLevel()} will not be
+     *            called.
      */
     public void removeApp(IApp app, boolean hidden);
-    
 
-
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel);
-    
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
-    
-    public void removePrivacyLevel(IPrivacyLevel privacyLevel);
-    
-    public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
-    
     /**
-     * @return Returns the used {@link IPrivacyLevel}s by this preset.
+     * Sets an {@link IPrivacyLevel} to the {@link IPreset}.
+     * 
+     * <p>
+     * <i>Inside the {@link IApp#verifyServiceLevel()} will be called for each
+     * {@link IApp}, what will maybe end up in a roll out of changed
+     * {@link IServiceLevel}s and {@link IResourceGroup}s Accesses.</i> <b>So,
+     * if you have multiple changes on the {@link IPreset} use the hidden
+     * variant of this method
+     * {@link IPreset#setPrivacyLevel(IPrivacyLevel, boolean)}</b>
+     * </p>
+     * 
+     * @param privacyLevel
+     *            The {@link IPrivacyLevel} which should be set.
      */
-    public IPrivacyLevel[] getUsedPrivacyLevels();
+    public void setPrivacyLevel(IPrivacyLevel privacyLevel);
+
+    /**
+     * Adds an {@link IPrivacyLevel} to the {@link IPreset}.
+     * 
+     * <p>
+     * <b>If you use the hidden variant you have to call
+     * {@link IApp#verifyServiceLevel()} for each linked {@link IApp} manually,
+     * otherwise the {@link IPreset} change will not be rolled out.</b>
+     * </p>
+     * 
+     * @param privacyLevel
+     *            The {@link IPrivacyLevel} which should be added.
+     * @param hidden
+     *            if set to true {@link IApp#verifyServiceLevel()} will not be
+     *            called.
+     */
+    public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
+
+    /**
+     * Removes an {@link IPrivacyLevel} from the {@link IPreset}.
+     * 
+     * <p>
+     * <i>Inside the {@link IApp#verifyServiceLevel()} will be called for each
+     * {@link IApp}, what will maybe end up in a roll out of changed
+     * {@link IServiceLevel}s and {@link IResourceGroup}s Accesses.</i> <b>So,
+     * if you have multiple changes on the {@link IPreset} use the hidden
+     * variant of this method
+     * {@link IPreset#removePrivacyLevel(IPrivacyLevel, boolean)}</b>
+     * </p>
+     * 
+     * @param privacyLevel
+     *            The {@link IPrivacyLevel} which should be removed.
+     */
+    public void removePrivacyLevel(IPrivacyLevel privacyLevel);
+
+    /**
+     * Removes an {@link IPrivacyLevel} from the {@link IPreset}.
+     * 
+     * <p>
+     * <b>If you use the hidden variant you have to call
+     * {@link IApp#verifyServiceLevel()} for each linked {@link IApp} manually,
+     * otherwise the {@link IPrivacyLevel} remove from this {@link IPreset} will
+     * not be rolled out.</b>
+     * </p>
+     * 
+     * @param app
+     *            The {@link IPrivacyLevel} which should be removed.
+     * @param hidden
+     *            if set to true {@link IApp#verifyServiceLevel()} will not be
+     *            called.
+     */
+    public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
 }

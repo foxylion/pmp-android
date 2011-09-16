@@ -1,13 +1,21 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacyLevels;
 
 import android.os.Environment;
 import android.os.RemoteException;
 
+/**
+ * Handles the access to a external resource
+ * @author Patrick Strobel
+ * @version 0.1.0
+ */
 public class ExternalFileAccess extends IFileAccess.Stub {
 
 	private String app;
@@ -23,6 +31,12 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 
 	private final Directories directory;
 
+	/**
+	 * Creates a new instance
+	 * @param app		Identifier of the app that is using this access handler
+	 * @param resource	Resource this access handler object belongs to
+	 * @param dir		External directory this gives access to
+	 */
 	public ExternalFileAccess(String app, ExternalFileAccessResource resource,
 			Directories dir) {
 		this.app = app;
@@ -38,8 +52,16 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 			throw new IllegalAccessError("Generic file reading not allowed");
 		}
 
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return Utils.readFileToString(getExternalDirectory(path));
+		} catch (FileNotFoundException e) {
+			Log.d("Cannot open file: " + path, e);
+			throw new RemoteException();
+		} catch (IOException e) {
+			Log.d("Cannot read file", e);
+			throw new RemoteException();
+		}
+
 	}
 
 	@Override
@@ -50,7 +72,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 			throw new IllegalAccessError("Generic file reading not allowed");
 		}
 		// TODO Auto-generated method stub
-		return false;
+		try {
+			Utils.writeStringToFile(getExternalDirectory(path), data, append);
+			return true;
+		} catch (IOException e) {
+			Log.d("Cannot write data to " + path);
+			return false;
+		}
 	}
 
 	@Override
@@ -59,8 +87,8 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 		if (!privacyLevelSet(Functions.DELETE)) {
 			throw new IllegalAccessError("Generic file reading not allowed");
 		}
-		// TODO Auto-generated method stub
-		return false;
+
+		return getExternalDirectory(path).delete();
 	}
 
 	@Override
@@ -69,8 +97,8 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 		if (!privacyLevelSet(Functions.LIST)) {
 			throw new IllegalAccessError("Generic file reading not allowed");
 		}
-		// TODO Auto-generated method stub
-		return null;
+
+		return Utils.getFileDetailsList(getExternalDirectory(directory));
 	}
 
 	/**

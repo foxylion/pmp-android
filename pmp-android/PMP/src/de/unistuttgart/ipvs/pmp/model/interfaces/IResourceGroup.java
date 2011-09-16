@@ -13,22 +13,41 @@ public interface IResourceGroup {
     public String getIdentifier();
 
     /**
-     * @return Returns the localized name of the resource group.
+     * @return Returns the localized name of the {@link IResourceGroup}.
      */
     public String getName();
 
     /**
-     * @return Returns the localized description of the resource group.
+     * @return Returns the localized description of the {@link IResourceGroup}.
      */
     public String getDescription();
 
     /**
-     * @return Returns all usable {@link IPrivacyLevel}s of the resource group.
+     * @return Returns all usable {@link IPrivacyLevel}s of the
+     *         {@link IResourceGroup}.
      */
     public IPrivacyLevel[] getPrivacyLevels();
 
     /**
-     * @return Returns all {@link IApp} which are <b>currently</b> using this {@link IResourceGroup}.
+     * Returns a {@link IPrivacyLevel} which matches the requested identifier.
+     * 
+     * @param privacyLevelIdentifier
+     *            Identifier of the {@link IPrivacyLevel} which should be
+     *            returned.
+     * @return Returns the requested {@link IPrivacyLevel} or NULL if no
+     *         {@link IPrivacyLevel} is available with that identifier.
+     */
+    public IPrivacyLevel getPrivacyLevel(String privacyLevelIdentifier);
+
+    /**
+     * This method return all {@link IApp}s which are currently using the
+     * {@link IResourceGroup}.<br>
+     * Currently means that the {@link IApp} has an {@link IServiceLevel} set as
+     * active where one of the {@link IResourceGroup}s {@link IPrivacyLevel} is
+     * referenced.
+     * 
+     * @return Returns all {@link IApp} which are <b>currently</b> using this
+     *         {@link IResourceGroup}.
      */
     IApp[] getAllAppsUsingThisResourceGroup();
 }

@@ -21,7 +21,7 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
     }
 
     @Override
-    public void setInitialServiceLevel() throws RemoteException {
+    public void getInitialServiceLevel() throws RemoteException {
 	Intent intent = new Intent();
 	intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
 	intent.putExtra(Constants.INTENT_IDENTIFIER, identifier);

@@ -139,6 +139,16 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	return sqlQuery;
     }
 
+    /**
+     * This method executes multiple queries, which are concatenated by a
+     * semicolon.
+     * 
+     * @param db
+     *            The {@link SQLiteDatabase} which should be used to execute the
+     *            queries.
+     * @param queries
+     *            The queries which should be executed.
+     */
     public static void executeMultipleQueries(SQLiteDatabase db, String queries) {
 	Log.v("------- SQL-Queries to be executed ------");
 

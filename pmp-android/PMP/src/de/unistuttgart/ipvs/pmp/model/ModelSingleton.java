@@ -24,7 +24,7 @@ public class ModelSingleton {
     }
 
     /**
-     * @return Returns an instance of the {@link ModelSingleton} class.
+     * @return Returns the instance of the {@link ModelSingleton} class.
      */
     public static ModelSingleton getInstance() {
 	return instance;

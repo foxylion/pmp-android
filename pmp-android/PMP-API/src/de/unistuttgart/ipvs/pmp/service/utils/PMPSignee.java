@@ -177,7 +177,8 @@ public class PMPSignee {
      *            the type of the remote sender
      * @param boundIdentifier
      *            the identifier of the remote sender
-     * @return the public key belonging to the identifier
+     * @return the public key belonging to the identifier, or null if none
+     *         present
      */
     public synchronized byte[] getRemotePublicKey(PMPComponentType boundType,
 	    String boundIdentifier) {
@@ -188,9 +189,9 @@ public class PMPSignee {
 		    + boundIdentifier + ", but had null values present.");
 	    return null;
 	}
-	return remotePublicKeys.get(
-		boundType + TYPE_IDENTIFIER_SEPARATOR + boundIdentifier)
-		.getEncoded();
+	PublicKey pk = remotePublicKeys.get(boundType
+		+ TYPE_IDENTIFIER_SEPARATOR + boundIdentifier);
+	return pk != null ? pk.getEncoded() : null;
     }
 
     /**
