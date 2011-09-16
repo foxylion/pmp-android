@@ -150,7 +150,7 @@ public class AppRegistration {
 
 		    cv = new ContentValues();
 		    cv.put("App_Identifier", identifier);
-		    cv.put("Level", sl.getKey());
+		    cv.put("ServiceLevel_Level", sl.getKey());
 		    cv.put("ResourceGroup_Identifier", rrg.getRgIdentifier());
 		    cv.put("PrivacyLevel_Identifier", pl.getKey());
 		    cv.put("Value", pl.getValue());
