@@ -149,7 +149,7 @@ class OnResClickListener implements OnClickListener {
 	dialog.setTitle(title);
 	TextView descriptionView = new TextView(context);
 	
-	descriptionView.setText(R.string.description + "\n\n" + description);
+	descriptionView.setText(context.getString(R.string.description) + "\n\n" + description);
 	descriptionView.setPadding(10, 0, 10, 0);
 	
 	Button close = new Button(context);

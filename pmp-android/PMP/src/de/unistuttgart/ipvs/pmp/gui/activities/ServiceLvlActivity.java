@@ -31,6 +31,7 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 /**
  * PrivacyLvlActivity
  * 
+ *
  * @author Alexander Wassiljew
  * 
  */
@@ -60,7 +61,7 @@ public class ServiceLvlActivity extends Activity {
 	loadIntentsExtras();
 	appName = ModelSingleton.getInstance().getModel()
 		.getApp(identifier).getName();
-	this.setTitle(R.string.servive_level_for + " " + appName);
+	this.setTitle(this.getString(R.string.servive_level_for) + " " + appName);
 	createParentLayout();
 	loadServiceLevels();
 	scroll = new ScrollView(this);
@@ -180,7 +181,7 @@ class OnLevelTouchListener implements OnTouchListener {
 
 	/* Description */
 	TextView description = new TextView(context);
-	description.setText(R.string.description + "\n\n" + lvlDescr + "\n");
+	description.setText(context.getString(R.string.description) + "\n\n" + lvlDescr + "\n");
 	description.setPadding(10, 0, 10, 0);
 
 	/* Apply */
@@ -227,7 +228,7 @@ class OnLevelTouchListener implements OnTouchListener {
 	/* Cancel */
 	Button cancel = new Button(context);
 	cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-	cancel.setText(R.string.cancel);
+	cancel.setText(context.getString(R.string.cancel));
 
 	/**
 	 * Cancel the dialog
