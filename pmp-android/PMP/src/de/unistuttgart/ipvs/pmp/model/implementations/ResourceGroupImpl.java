@@ -86,7 +86,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	cursor.moveToNext();
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    String plIdentifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));

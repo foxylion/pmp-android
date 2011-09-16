@@ -92,7 +92,9 @@ public class AppImpl implements IApp {
 				+ level + " LIMIT 1",
 			new String[] { identifier });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	cursor.moveToNext();
+	
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
@@ -117,7 +119,9 @@ public class AppImpl implements IApp {
 			"SELECT ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
 			new String[] { identifier });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	cursor.moveToNext();
+	
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    int serviceLevel = cursor.getInt(cursor
 		    .getColumnIndex("ServiceLevel_Active"));

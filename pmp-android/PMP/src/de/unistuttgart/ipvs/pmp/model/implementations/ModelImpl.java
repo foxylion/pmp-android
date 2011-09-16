@@ -67,8 +67,7 @@ public class ModelImpl implements IModel {
 
 	cursor.moveToNext();
 
-	if (cursor != null && cursor.getCount() == 1) {
-	    ;
+	if (cursor.getCount() == 1) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
@@ -129,8 +128,7 @@ public class ModelImpl implements IModel {
 
 	cursor.moveToNext();
 
-	if (cursor != null && cursor.getCount() == 1) {
-	    ;
+	if (cursor.getCount() == 1) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
