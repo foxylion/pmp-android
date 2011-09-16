@@ -17,7 +17,6 @@ public class DatabaseResource extends Resource {
      */
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
-	return new DatabaseAccessImpl();
+	return new DatabaseConnectionImpl();
     }
-
 }
