@@ -9,7 +9,7 @@ import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
  *
  * @author Jakob Jarosch
  */
-interface IAppService {
+interface IAppServicePMP {
 	
 	/**
 	 * @return Returns all Informations about the App.
