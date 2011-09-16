@@ -29,6 +29,8 @@ public abstract class AbstractConnector {
 	CONNECTED, DISCONNECTED, BINDING_FAILED
     };
 
+    private AbstractConnector self = this;
+
     /**
      * Reference to the connected service {@link IBinder}.
      */
@@ -83,10 +85,14 @@ public abstract class AbstractConnector {
 
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
-	    Log.d("AbstractConnector - service connected: " + targetIdentifier);
-
+	    
 	    connectedService = service;
 	    connected = true;
+	    
+	    Log.v(self.getClass().getSimpleName()
+		    + " - Service connected, received the binder "
+		    + getInterfaceDescriptor() + " for connected service "
+		    + targetIdentifier);
 
 	    serviceConnected();
 
@@ -194,22 +200,20 @@ public abstract class AbstractConnector {
      *         {@link INullService}- {@link IBinder}.
      */
     protected IBinder getService() {
-	boolean isNullService = isCorrectBinder(INullService.class);
-
-	return (isNullService ? null : connectedService);
+	return (isCorrectBinder(INullService.class) ? null : connectedService);
     }
 
     public boolean isCorrectBinder(Class<? extends IInterface> binder) {
+	return getInterfaceDescriptor().equals(binder.getName());
+    }
+
+    private String getInterfaceDescriptor() {
 	try {
-	    String descriptor = connectedService.getInterfaceDescriptor();
-	    Log.v("Trying to match following binders: source<" + descriptor
-		    + "> with <" + binder.getName() + ">");
-	    return descriptor.equals(binder.getName());
+	    return connectedService.getInterfaceDescriptor();
 	} catch (RemoteException e) {
 	    Log.e("Got an RemoteException while checking the Type of the returned IBinder");
 	}
-
-	return false;
+	return "";
     }
 
     protected Context getContext() {

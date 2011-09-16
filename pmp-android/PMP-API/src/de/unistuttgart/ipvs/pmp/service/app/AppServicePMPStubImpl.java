@@ -10,7 +10,7 @@ import de.unistuttgart.ipvs.pmp.service.RegistrationState;
  * 
  * @author Thorsten Berberich
  */
-public class AppServiceStubImpl extends IAppService.Stub {
+public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
     
     /**
      * The {@link App} referenced.

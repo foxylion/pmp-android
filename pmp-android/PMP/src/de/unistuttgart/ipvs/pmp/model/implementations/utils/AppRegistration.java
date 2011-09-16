@@ -17,7 +17,7 @@ import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.service.app.IAppService;
+import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -45,7 +45,7 @@ public class AppRegistration {
 	this.asp = new AppServiceConnector(PMPApplication.getContext(),
 		PMPApplication.getSignee(), identifier);
 
-	Log.d("Registration (" + identifier
+	Log.v("Registration (" + identifier
 		+ "): Trying to connect to the AppService");
 
 	connect();
@@ -69,7 +69,7 @@ public class AppRegistration {
 	    } else {
 		Log.d("Registration ("
 			+ identifier
-			+ "): Successfully bound AppService, loading AppInformationSet.");
+			+ "): Successfully connected, got IAppServicePMP.");
 		loadAppInformationSet(asp.getAppService());
 	    }
 	}
@@ -81,9 +81,9 @@ public class AppRegistration {
      * @param appService
      *            service which provides the {@link AppInformationSet}
      */
-    private void loadAppInformationSet(IAppService appService) {
+    private void loadAppInformationSet(IAppServicePMP appService) {
 	try {
-	    appService.getAppInformationSet();
+	    ais = appService.getAppInformationSet().getAppInformationSet();
 	} catch (RemoteException e) {
 	    Log.e("Registration ("
 		    + identifier
@@ -150,7 +150,7 @@ public class AppRegistration {
 
 		    cv = new ContentValues();
 		    cv.put("App_Identifier", identifier);
-		    cv.put("Level", sl.getKey());
+		    cv.put("ServiceLevel_Level", sl.getKey());
 		    cv.put("ResourceGroup_Identifier", rrg.getRgIdentifier());
 		    cv.put("PrivacyLevel_Identifier", pl.getKey());
 		    cv.put("Value", pl.getValue());
@@ -205,7 +205,7 @@ public class AppRegistration {
 	    }
 	} else {
 	    try {
-		IAppService appService = asp.getAppService();
+		IAppServicePMP appService = asp.getAppService();
 		appService.setRegistrationState(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {

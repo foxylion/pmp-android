@@ -53,8 +53,4 @@ public class PMPServiceRegistrationStubImpl extends
 
 	return PMPApplication.getSignee().getLocalPublicKey();
     }
-
-    @Override
-    public void testBinding() throws RemoteException {
-    }
 }

@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.service.NullServiceStubImpl;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
@@ -22,16 +24,23 @@ public class AppService extends PMPSignedService {
 
     @Override
     public IBinder onSignedBind(Intent intent) {
-	AppServiceStubImpl assi = new AppServiceStubImpl();
-	assi.setApp(findContextApp());
-	return assi;
+	PMPComponentType type = (PMPComponentType) intent
+		.getSerializableExtra(Constants.INTENT_TYPE);
+
+	if (type == PMPComponentType.PMP) {
+	    AppServicePMPStubImpl assi = new AppServicePMPStubImpl();
+	    assi.setApp(findContextApp());
+	    return assi;
+	} else {
+	    return new NullServiceStubImpl();
+	}
     }
 
     @Override
     public IBinder onUnsignedBind(Intent intent) {
 	return new NullServiceStubImpl();
     }
-    
+
     private App findContextApp() {
 	if (!(getApplication() instanceof App)) {
 	    return null;

@@ -42,6 +42,9 @@ public class ResourceGroupRegistration {
 		PMPApplication.getContext(), PMPApplication.getSignee(),
 		identifier);
 
+	Log.v("Registration (" + identifier
+		+ "): Trying to connect to the ResourceGroupService");
+	
 	connect();
     }
 
@@ -62,7 +65,7 @@ public class ResourceGroupRegistration {
 			+ "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 	    } else {
 		Log.d("Registration (" + identifier
-			+ "): Successfully got IResourceGroupServicePMP.");
+			+ "): Successfully connected, got IResourceGroupServicePMP.");
 		loadResourceGroupData(rgsc.getPMPService());
 	    }
 	}
