@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model.interfaces;
 
-import android.util.EventLogTags.Description;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 
 /**
