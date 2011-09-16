@@ -18,7 +18,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
      */
     public ResourceGroupAccessHeader(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
-	this.publicKey = publicKey;
+	this.publicKey = publicKey.clone();
     }
 
     private ResourceGroupAccessHeader(Parcel parcel) {
@@ -32,7 +32,7 @@ public class ResourceGroupAccessHeader implements Parcelable {
     }
 
     public byte[] getPublicKey() {
-	return this.publicKey;
+	return this.publicKey.clone();
     }
 
     @Override

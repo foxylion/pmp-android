@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.unused.FileSystemService;
 
 /**
  * Application class encapsulating all resource-groups and its services.

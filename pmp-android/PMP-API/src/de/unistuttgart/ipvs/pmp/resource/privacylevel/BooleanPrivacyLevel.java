@@ -48,7 +48,7 @@ public class BooleanPrivacyLevel extends PrivacyLevel {
 
     @Override
     public String getHumanReadableValue(String locale, String value) {
-	if (locale == "de") {
+	if (locale.equals("de")) {
 	    return parseValue(value) ? "wahr" : "falsch";
 	} else {
 	    return parseValue(value) ? "true" : "false";
