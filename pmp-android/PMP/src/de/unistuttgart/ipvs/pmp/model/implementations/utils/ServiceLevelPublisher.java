@@ -75,7 +75,7 @@ public class ServiceLevelPublisher {
 
 	    for (IApp app : affectedResourceGroup
 		    .getAllAppsUsingThisResourceGroup()) {
-		byte[] publicKey = PMPApplication.getSignee().getPublicKeyFor(
+		byte[] publicKey = PMPApplication.getSignee().getRemotePublicKey(
 			PMPComponentType.APP, app.getIdentifier());
 
 		Bundle privacyLevels = new Bundle();

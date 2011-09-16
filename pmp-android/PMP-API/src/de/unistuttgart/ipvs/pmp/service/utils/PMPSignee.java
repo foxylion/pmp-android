@@ -168,6 +168,32 @@ public class PMPSignee {
     }
 
     /**
+     * <p>
+     * Gets the remote public key for a different, remote {@link PMPSignee} that
+     * is identified by identifier.
+     * </p>
+     * 
+     * @param boundType
+     *            the type of the remote sender
+     * @param boundIdentifier
+     *            the identifier of the remote sender
+     * @return the public key belonging to the identifier
+     */
+    public byte[] getRemotePublicKey(PMPComponentType boundType,
+	    String boundIdentifier) {
+	// check for nulls
+	if (remotePublicKeys == null) {
+	    Log.e("PMPSignee ordered to fetch a remote public key for "
+		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier + ", but had null values present.");
+	    return null;
+	}
+	return remotePublicKeys.get(
+		boundType + TYPE_IDENTIFIER_SEPARATOR + boundIdentifier)
+		.getEncoded();
+    }
+
+    /**
      * Checks whether a signature is valid.
      * 
      * @param boundType
@@ -370,11 +396,6 @@ public class PMPSignee {
      */
     public synchronized Context getContext() {
 	return this.context;
-    }
-
-    public byte[] getPublicKeyFor(PMPComponentType type, String identifier) {
-	// TODO Auto-generated method stub
-	return null;
     }
 
 }
