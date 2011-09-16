@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
@@ -97,6 +98,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    return new PrivacyLevelImpl(identifier, plIdentifier, name,
 		    description);
 	} else {
+	    Log.d("Model: There is no PrivacyLevel " + privacyLevelIdentifier + " in the ResourceGroup " + identifier);
 	    cursor.close();
 	    return null;
 	}

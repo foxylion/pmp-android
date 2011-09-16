@@ -84,6 +84,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
+	    Log.e("Model: PrivacyLevel " + identifier + " has no parent ResourceGroup.");
 	    cursor.close();
 	    return null;
 	}
@@ -102,7 +103,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService "
+	    Log.e("Model: Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
@@ -133,7 +134,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService "
+	    Log.e("Model: Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
