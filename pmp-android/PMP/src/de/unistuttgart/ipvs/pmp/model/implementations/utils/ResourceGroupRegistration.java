@@ -12,7 +12,6 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
@@ -44,7 +43,7 @@ public class ResourceGroupRegistration {
 
 	Log.v("Registration (" + identifier
 		+ "): Trying to connect to the ResourceGroupService");
-	
+
 	connect();
     }
 
@@ -64,7 +63,8 @@ public class ResourceGroupRegistration {
 			+ identifier
 			+ "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 	    } else {
-		Log.d("Registration (" + identifier
+		Log.d("Registration ("
+			+ identifier
 			+ "): Successfully connected, got IResourceGroupServicePMP.");
 		loadResourceGroupData(rgsc.getPMPService());
 	    }
@@ -108,6 +108,9 @@ public class ResourceGroupRegistration {
 		    + identifier
 		    + "): FAILED - while loading resource group data a RemoteException was produced.",
 		    e);
+	    informAboutRegistration(
+		    false,
+		    "IResourceGroupServicePMP produced a RemoteException, during information collection.");
 	}
     }
 
@@ -120,20 +123,17 @@ public class ResourceGroupRegistration {
 	    Log.e("Registration ("
 		    + identifier
 		    + "): FAILED - ResourceGroup informations are missing, details above.");
-	    informRGAboutRegistration(false,
+	    informAboutRegistration(false,
 		    "ResourceGroup informations are missing, details in LogCat.");
 	    return;
 	}
 
-	for (IResourceGroup rg : ModelSingleton.getInstance().getModel()
-		.getResourceGroups()) {
-	    if (rg.getIdentifier().equals(identifier)) {
-		Log.e("Registration (" + identifier
-			+ "): FAILED - ResourceGroup already registred.");
-		informRGAboutRegistration(false,
-			"ResourceGroup already registred.");
-		return;
-	    }
+	if (ModelSingleton.getInstance().getModel()
+		.getResourceGroup(identifier) != null) {
+	    Log.e("Registration (" + identifier
+		    + "): FAILED - ResourceGroup already registred.");
+	    informAboutRegistration(false, "ResourceGroup already registred.");
+	    return;
 	}
 
 	registerResourceGroupInDatabase(rgDS);
@@ -143,10 +143,11 @@ public class ResourceGroupRegistration {
      * Write the {@link ResourceGroupDS} to the Database.
      */
     private void registerResourceGroupInDatabase(ResourceGroupDS rgDS) {
-	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
-		.getWritableDatabase();
 	Log.v("Registration (" + identifier
 		+ "): Adding the ResourceGroup to the PMP-Database");
+
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getWritableDatabase();
 
 	ContentValues cv = new ContentValues();
 	cv.put("Identifier", identifier);
@@ -183,7 +184,7 @@ public class ResourceGroupRegistration {
 	PMPApplication.getSignee().setRemotePublicKey(
 		PMPComponentType.RESOURCE_GROUP, identifier, publicKey);
 
-	informRGAboutRegistration(true, null);
+	informAboutRegistration(true, null);
     }
 
     /**
@@ -194,7 +195,7 @@ public class ResourceGroupRegistration {
      * @param message
      *            a message with optional information provided.
      */
-    private void informRGAboutRegistration(final boolean state,
+    private void informAboutRegistration(final boolean state,
 	    final String message) {
 	Log.d("Registration (" + identifier
 		+ "): Informing ResourceGroup about registrationState ("
@@ -213,9 +214,10 @@ public class ResourceGroupRegistration {
 			    + identifier
 			    + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 		} else {
-		    Log.d("Registration (" + identifier
-			    + "): Successfully got IResourceGroupServicePMP.");
-		    informRGAboutRegistration(state, message);
+		    Log.d("Registration ("
+			    + identifier
+			    + "): Successfully connected got IResourceGroupServicePMP.");
+		    informAboutRegistration(state, message);
 		}
 	    }
 	} else {
@@ -233,7 +235,7 @@ public class ResourceGroupRegistration {
 			+ identifier
 			+ "): "
 			+ (state ? "succeed" : "FAILED")
-			+ ", but setRegistrationSuccessful() produced an RemoteException.",
+			+ ", but setRegistrationState() produced an RemoteException.",
 			e);
 	    }
 	}

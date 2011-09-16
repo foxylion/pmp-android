@@ -15,7 +15,6 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
@@ -67,8 +66,7 @@ public class AppRegistration {
 			+ identifier
 			+ "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
 	    } else {
-		Log.d("Registration ("
-			+ identifier
+		Log.d("Registration (" + identifier
 			+ "): Successfully connected, got IAppServicePMP.");
 		loadAppInformationSet(asp.getAppService());
 	    }
@@ -82,22 +80,21 @@ public class AppRegistration {
      *            service which provides the {@link AppInformationSet}
      */
     private void loadAppInformationSet(IAppServicePMP appService) {
+	Log.v("Registration (" + identifier + "): loading AppInformationSet...");
+
 	try {
 	    ais = appService.getAppInformationSet().getAppInformationSet();
+	    
+	    checkAppInformationSet();
 	} catch (RemoteException e) {
 	    Log.e("Registration ("
 		    + identifier
 		    + "): FAILED - getAppInformationSet() produced an RemoteException.",
 		    e);
+	    informAboutRegistration(false,
+		    "getAppInformationSet() produced an RemoteException.");
 	}
 
-	if (ais == null) {
-	    Log.e("Registration (" + identifier
-		    + "): FAILED - AppInformationSet is NULL.");
-	    informAppAboutRegistration(false, "AppInformationSet is NULL.");
-	} else {
-	    checkAppInformationSet();
-	}
     }
 
     /**
@@ -105,12 +102,19 @@ public class AppRegistration {
      * not already registered.
      */
     private void checkAppInformationSet() {
+	if (ais == null) {
+	    Log.e("Registration (" + identifier
+		    + "): FAILED - AppInformationSet is NULL.");
+	    informAboutRegistration(false, "AppInformationSet is NULL.");
+	    return;
+	}
+
 	/* Check if the app is already in the PMP-Database. */
-	for (IApp app : ModelSingleton.getInstance().getModel().getApps()) {
-	    if (app.getIdentifier().equals(identifier)) {
-		informAppAboutRegistration(false, "Already registered");
-		return;
-	    }
+	if (ModelSingleton.getInstance().getModel().getApp(identifier) != null) {
+	    Log.e("Registration (" + identifier
+		    + "): FAILED - App already registred.");
+	    informAboutRegistration(false, "Already registered");
+	    return;
 	}
 
 	registerAppInDatabase();
@@ -120,6 +124,9 @@ public class AppRegistration {
      * Write the {@link AppInformationSet} to the Database.
      */
     private void registerAppInDatabase() {
+	Log.v("Registration (" + identifier
+		+ "): Adding the App to the PMP-Database");
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
@@ -168,10 +175,12 @@ public class AppRegistration {
      * {@link PMPApplication}.
      */
     private void publishPublicKey() {
+	Log.v("Loading Apps public key into PMPSignee");
+
 	PMPApplication.getSignee().setRemotePublicKey(PMPComponentType.APP,
 		identifier, publicKey);
 
-	informAppAboutRegistration(true, null);
+	informAboutRegistration(true, null);
     }
 
     /**
@@ -182,8 +191,11 @@ public class AppRegistration {
      * @param message
      *            a message with optional information provided.
      */
-    private void informAppAboutRegistration(final boolean state,
+    private void informAboutRegistration(final boolean state,
 	    final String message) {
+	Log.d("Registration (" + identifier
+		+ "): Informing App about registrationState (" + state + ")");
+
 	if (!asp.isBound()) {
 	    if (!asp.bind(true)) {
 		Log.e("Registration ("
@@ -197,21 +209,27 @@ public class AppRegistration {
 			    + identifier
 			    + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
 		} else {
-		    Log.d("Registration ("
-			    + identifier
-			    + "): Successfully bound service, inform App about registration");
-		    informAppAboutRegistration(state, message);
+		    Log.d("Registration (" + identifier
+			    + "): Successfully connected got IAppServicePMP");
+		    informAboutRegistration(state, message);
 		}
 	    }
 	} else {
 	    try {
+		Log.v("Registration (" + identifier
+			+ "): Calling setRegistrationState");
 		IAppServicePMP appService = asp.getAppService();
-		appService.setRegistrationState(new RegistrationState(
-			state, message));
+		appService.setRegistrationState(new RegistrationState(state,
+			message));
+		
+		Log.d("Registration (" + identifier + "): Registration "
+			+ (state ? "succeed" : "FAILED"));
 	    } catch (RemoteException e) {
 		Log.e("Registration ("
 			+ identifier
-			+ "): SUCCEED, but: setRegistrationSuccessful() produced an RemoteException.",
+			+ "): "
+			+ (state ? "succeed" : "FAILED")
+			+ ", but setRegistrationState() produced an RemoteException.",
 			e);
 	    }
 	}
