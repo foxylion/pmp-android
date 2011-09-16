@@ -87,7 +87,9 @@ public class ServiceLvlActivity extends Activity {
      */
     private void loadServiceLevels() {
 	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
+	
 	IServiceLevel levelArray[] = app.getServiceLevels();
+	Log.v(String.valueOf(levelArray.length));
 	RadioGroup group = new RadioGroup(this);
 	/*Iterate over Service Levels */
 	for (int i = 0; i < levelArray.length; i++) {
@@ -97,13 +99,23 @@ public class ServiceLvlActivity extends Activity {
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
+	    /*Check if Service Level is set*/
+	    Log.e(app.getActiveServiceLevel().getDescription());
 	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
+	    /*Check if Service Level is available*/
+	    if(levelArray[i].isAvailable()){
 	    button
 		    .setOnTouchListener(new OnLevelTouchListener(this,
 			    levelArray[i].getDescription(), button, this,
 			    identifier, i));
+	    
+	    }else{
+		button.setEnabled(false);
+		button.setBackgroundColor(Color.DKGRAY);
+		button.setTextColor(Color.GRAY);
+	    }
 	    group.addView(button);
 	}
 	group.setGravity(Gravity.CENTER_HORIZONTAL);
