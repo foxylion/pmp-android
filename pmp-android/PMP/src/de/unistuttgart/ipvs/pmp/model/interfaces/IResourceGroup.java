@@ -26,4 +26,9 @@ public interface IResourceGroup {
      * @return Returns all usable {@link IPrivacyLevel}s of the resource group.
      */
     public IPrivacyLevel[] getPrivacyLevels();
+
+    /**
+     * @return Returns all {@link IApp} which are <b>currently</b> using this {@link IResourceGroup}.
+     */
+    IApp[] getAllAppsUsingThisResourceGroup();
 }

@@ -131,8 +131,8 @@ public class ResourceGroupRegistration {
 	if (ModelSingleton.getInstance().getModel()
 		.getResourceGroup(identifier) != null) {
 	    Log.e("Registration (" + identifier
-		    + "): FAILED - ResourceGroup already registred.");
-	    informAboutRegistration(false, "ResourceGroup already registred.");
+		    + "): FAILED - ResourceGroup already registred in PMP-Database, maybe lost your key?.");
+	    informAboutRegistration(false, "ResourceGroup already registred, maybe lost your key?");
 	    return;
 	}
 

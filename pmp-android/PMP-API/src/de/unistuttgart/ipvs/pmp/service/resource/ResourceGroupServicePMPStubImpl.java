@@ -86,12 +86,9 @@ public class ResourceGroupServicePMPStubImpl extends
     }
 
     @Override
-    public void setAccesses(@SuppressWarnings("rawtypes") List accesses)
+    public void setAccesses(ResourceGroupAccess[] accesses)
 	    throws RemoteException {
-	@SuppressWarnings("unchecked")
-	List<ResourceGroupAccess> castedAccesses = accesses;
-
-	for (ResourceGroupAccess rga : castedAccesses) {
+	for (ResourceGroupAccess rga : accesses) {
 	    refSignee.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);

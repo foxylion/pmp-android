@@ -6,6 +6,8 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
@@ -69,7 +71,32 @@ public class ResourceGroupImpl implements IResourceGroup {
 	}
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
+    }
+    
+    @Override
+    public IApp[] getAllAppsUsingThisResourceGroup() {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
 
+	List<IApp> list = new ArrayList<IApp>();
+	
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT a.Identifier "
+				+ "FROM App AS a, ServiceLevel_PrivacyLevels AS slpl "
+				+ "WHERE a.ServiceLevel_Active = slpl.ServiceLevel_Level AND slpl.ResourceGroup_Identifier = ?",
+			new String[] { identifier });
+	
+	cursor.moveToNext();
+	
+	while(!cursor.isAfterLast()) {
+	    String appIdentifier = cursor.getString(cursor.getColumnIndex("Identifier"));
+	    IApp app = ModelSingleton.getInstance().getModel().getApp(appIdentifier);
+	    list.add(app);
+	    cursor.moveToNext();
+	}
+
+	return list.toArray(new IApp[list.size()]);
     }
 
 }

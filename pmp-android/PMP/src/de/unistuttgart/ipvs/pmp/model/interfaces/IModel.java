@@ -32,7 +32,7 @@ public interface IModel {
      */
     public IResourceGroup[] getResourceGroups();
     
-    public IApp getResourceGroup(String identifier);
+    public IResourceGroup getResourceGroup(String identifier);
     
     /**
      * Register a new ResourceGroup at PMP.

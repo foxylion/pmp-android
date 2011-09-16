@@ -113,7 +113,7 @@ public class ModelImpl implements IModel {
     }
 
     @Override
-    public IApp getResourceGroup(String identifier) {
+    public IResourceGroup getResourceGroup(String identifier) {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
@@ -130,7 +130,7 @@ public class ModelImpl implements IModel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    return new AppImpl(identifier, name, description);
+	    return new ResourceGroupImpl(identifier, name, description);
 	}
 
 	return null;

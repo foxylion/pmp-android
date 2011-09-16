@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 
 /**
  * The Service of a ResourceGroup provided for PMP.
@@ -46,7 +47,7 @@ interface IResourceGroupServicePMP {
 	 * Accepts the access configuration for the resource group.
 	 * Exact declaration: List&lt;ResourceGroupAccess&gt;
 	 */
-	void setAccesses(in List accesses);
+	void setAccesses(in ResourceGroupAccess[] accesses);
 	
 	/**
 	 * Checks if an privacy level value satisfies the currently set value or not.

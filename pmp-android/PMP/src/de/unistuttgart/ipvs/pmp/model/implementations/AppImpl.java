@@ -16,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelPublishe
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
@@ -145,10 +146,10 @@ public class AppImpl implements IApp {
 	    preset.setPrivacyLevel(pl, true);
 	}
 
-	setActiveServiceLevel(serviceLevel);
+	setActiveServiceLevel(serviceLevel, false);
 
 	/* Set the new ServiceLevel */
-	new ServiceLevelPublisher(this, false);
+
     }
 
     @Override
@@ -169,7 +170,7 @@ public class AppImpl implements IApp {
 		}
 
 		if (serviceLevel != getActiveServiceLevel().getLevel()) {
-		    setActiveServiceLevel(serviceLevel);
+		    setActiveServiceLevel(serviceLevel, true);
 		}
 
 	    }
@@ -217,9 +218,71 @@ public class AppImpl implements IApp {
 	return list.toArray(new IPreset[list.size()]);
     }
 
-    private void setActiveServiceLevel(int serviceLevel) {
+    @Override
+    public IResourceGroup[] getAllResourceGroupsUsedByServiceLevels() {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	List<IResourceGroup> list = new ArrayList<IResourceGroup>();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT ResourceGroup_Identifier FROM ServiceLevel_PrivacyLevels WHERE App_Identifier = ?",
+			new String[] { identifier });
+
+	cursor.moveToNext();
+
+	while (!cursor.isAfterLast()) {
+	    String rgIdentifier = cursor.getString(cursor
+		    .getColumnIndex("ResourceGroup_Identifier"));
+	    IResourceGroup resourceGroup = ModelSingleton.getInstance()
+		    .getModel().getResourceGroup(rgIdentifier);
+	    list.add(resourceGroup);
+	}
+
+	return list.toArray(new IResourceGroup[list.size()]);
+    }
+
+    @Override
+    public IPrivacyLevel[] getAllPrivacyLevelsUsedByActiveServiceLevel(
+	    IResourceGroup resourceGroup) {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	List<IPrivacyLevel> list = new ArrayList<IPrivacyLevel>();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT slpl.PrivacyLevel_Identifier, slpl.Value, pl.Name_Cache, pl.Description_Cache "
+				+ "FROM ServiceLevel_PrivacyLevels AS slpl, PrivacyLevel AS pl "
+				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier AND slpl.PrivacyLevel_Identifier = pl.Identifier "
+				+ "AND slpl.App_Identifier = ? AND slpl.ResourceGroup_Identifier = ? AND slpl.ServiceLevel_Level = "
+				+ getActiveServiceLevel().getLevel(),
+			new String[] { identifier });
+
+	cursor.moveToNext();
+
+	while (!cursor.isAfterLast()) {
+	    String plIdentifier = cursor.getString(cursor
+		    .getColumnIndex("PrivacyLevel_Identifier"));
+	    String value = cursor.getString(cursor.getColumnIndex("Value"));
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor.getColumnIndex("Description_Cache"));
+
+	    IPrivacyLevel pl = new PrivacyLevelImpl(
+		    resourceGroup.getIdentifier(), plIdentifier, name,
+		    description, value);
+	    list.add(pl);
+	}
+
+	return list.toArray(new IPrivacyLevel[list.size()]);
+    }
+
+    private void setActiveServiceLevel(int serviceLevel, boolean asynchronously) {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
+
+	IServiceLevel oldServiceLevel = getActiveServiceLevel();
 
 	ContentValues cv = new ContentValues();
 	cv.put("ServiceLevel_Active", serviceLevel);
@@ -229,6 +292,8 @@ public class AppImpl implements IApp {
 	Log.d("Setting for " + identifier + " the new service level "
 		+ serviceLevel + ".");
 
-	new ServiceLevelPublisher(this, false);
+	ServiceLevelPublisher slp = new ServiceLevelPublisher(this,
+		oldServiceLevel);
+	slp.publish(asynchronously);
     }
 }

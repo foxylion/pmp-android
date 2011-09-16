@@ -372,4 +372,9 @@ public class PMPSignee {
 	return this.context;
     }
 
+    public byte[] getPublicKeyFor(PMPComponentType type, String identifier) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
 }
