@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -145,84 +146,96 @@ class OnLevelTouchListener implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 	if (event.getAction() == event.ACTION_UP) {
-	    final Dialog dialog = new Dialog(context);
-	    dialog.setCanceledOnTouchOutside(false);
-	    dialog.setCancelable(true);
-	    dialog.setTitle("Apply Service Level?");
-	    LinearLayout dialogLayout = new LinearLayout(context);
-	    dialogLayout.setOrientation(LinearLayout.VERTICAL);
-	    TextView description = new TextView(context);
-	    description.setText("Description:" + "\n\n" + lvlDescr + "\n");
-	    description.setPadding(10, 0, 10, 0);
-	    Button apply = new Button(context);
-	    apply.setText("Apply");
-
-	    Button cancel = new Button(context);
-	    cancel.setText("Cancel");
-
-	    /**
-	     * Reload the ServiceLvlActivity if no changes occur
-	     */
-	    dialog.setOnCancelListener(new OnCancelListener() {
-		@Override
-		public void onCancel(DialogInterface dialog) {
-		    // Reloads the Service Level Activity if new Service Level
-		    // wasn't set
-		    activity.reloadActivity();
-		}
-	    });
-	    /**
-	     * Sets the Service Level.
-	     */
-	    apply.setOnTouchListener(new OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-		    IApp appsArray[] = ModelSingleton.getInstance().getModel()
-			    .getApps();
-		    IApp app = appsArray[appID];
-		    IServiceLevel levelArray[] = app.getServiceLevels();
-		    IServiceLevel level = levelArray[levelID];
-		    Log.v("appID:" + String.valueOf(appID));
-		    Log.v("levelID:" + String.valueOf(levelID));
-
-		    app.setActiveServiceLevelAsPreset(level.getLevel());
-
-		    dialog.cancel();
-		    return false;
-		}
-	    });
-	    /**
-	     * Cancel the dialog
-	     */
-	    cancel.setOnTouchListener(new OnTouchListener() {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-		    dialog.cancel();
-		    return false;
-		}
-	    });
-
-	    dialogLayout.addView(description);
-
-	    LinearLayout buttonLayout = new LinearLayout(context);
-
-	    apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-
-	    cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
-	    buttonLayout.addView(apply);
-	    buttonLayout.addView(cancel);
-
-	    buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
-
-	    dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
-	    dialogLayout.addView(buttonLayout);
-
-	    dialog.setContentView(dialogLayout);
+	    Dialog dialog = createDialog();
 	    dialog.show();
 	} else if (event.getAction() == event.ACTION_MOVE) {
 	}
 	return false;
+    }
+
+    /**
+     * Create a dialog for setting up the service level
+     * 
+     * @return Dialog
+     */
+    private Dialog createDialog() {
+	/* Dialog */
+	final Dialog dialog = new Dialog(context);
+	dialog.setCanceledOnTouchOutside(false);
+	dialog.setCancelable(true);
+	dialog.setTitle("Apply Service Level?");
+	/**
+	 * Reload the ServiceLvlActivity if no changes occur
+	 */
+	dialog.setOnCancelListener(new OnCancelListener() {
+	    @Override
+	    public void onCancel(DialogInterface dialog) {
+		// Reloads the Service Level Activity if new Service Level
+		// wasn't set
+		activity.reloadActivity();
+	    }
+	});
+	
+	/* Description */
+	TextView description = new TextView(context);
+	description.setText("Description:" + "\n\n" + lvlDescr + "\n");
+	description.setPadding(10, 0, 10, 0);
+
+	/* Apply */
+	Button apply = new Button(context);
+	apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+	apply.setText("Apply");
+	/**
+	 * Sets the Service Level.
+	 */
+	apply.setOnClickListener(new OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+		IApp appsArray[] = ModelSingleton.getInstance().getModel()
+			.getApps();
+		IApp app = appsArray[appID];
+		IServiceLevel levelArray[] = app.getServiceLevels();
+		IServiceLevel level = levelArray[levelID];
+		Log.v("appID:" + String.valueOf(appID));
+		Log.v("levelID:" + String.valueOf(levelID));
+		/*Set the Service Level here*/
+		app.setActiveServiceLevelAsPreset(level.getLevel());
+
+		dialog.cancel();
+	    }
+	});
+
+	/* Cancel */
+	Button cancel = new Button(context);
+	cancel.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+	cancel.setText("Cancel");
+
+	/**
+	 * Cancel the dialog
+	 */
+	cancel.setOnClickListener(new OnClickListener() {
+	    @Override
+	    public void onClick(View v) {
+		dialog.cancel();
+	    }
+	});
+	/*DialogLayout which holds the description and the buttonLayout*/
+	LinearLayout dialogLayout = new LinearLayout(context);
+	dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+	dialogLayout.setOrientation(LinearLayout.VERTICAL);
+	dialogLayout.addView(description);
+	
+	/*buttonLayout which holds the buttons: Apply, Cancel*/
+	LinearLayout buttonLayout = new LinearLayout(context);
+	buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+	buttonLayout.addView(apply);
+	buttonLayout.addView(cancel);
+	
+	dialogLayout.addView(buttonLayout);
+	dialog.setContentView(dialogLayout);
+
+	return dialog;
     }
 
 }

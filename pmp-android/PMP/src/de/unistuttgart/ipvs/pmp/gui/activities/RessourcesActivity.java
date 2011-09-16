@@ -1,14 +1,12 @@
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -19,7 +17,6 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 /**
@@ -136,10 +133,26 @@ class OnResClickListener implements OnClickListener {
     /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
-	final Dialog dialog = new Dialog(parent.getContext());
-	dialog.setTitle(parent.getName());
-	TextView description = new TextView(parent.getContext());
-	Button close = new Button(parent.getContext());
+	Dialog dialog = createDialog(parent.getContext(), parent.getName(), 
+		resArray[parent.getIndex()].getDescription() + "\n");
+	dialog.show();
+    }
+    /**
+     * Create Dialog with params
+     * @param context
+     * @param title
+     * @param description
+     * @return Dialog
+     */
+    private Dialog createDialog(Context context, String title, String description){
+	final Dialog dialog = new Dialog(context);
+	dialog.setTitle(title);
+	TextView descriptionView = new TextView(context);
+	
+	descriptionView.setText("Description: \n\n" + description);
+	descriptionView.setPadding(10, 0, 10, 0);
+	
+	Button close = new Button(context);
 	close.setText("Close");
 	close.setOnClickListener(new OnClickListener() {
 	    @Override
@@ -147,16 +160,14 @@ class OnResClickListener implements OnClickListener {
 		dialog.cancel();
 	    }
 	});
-	description.setText("Description: \n\n"
-		+ resArray[parent.getIndex()].getDescription() + "\n");
-	description.setPadding(10, 0, 10, 0);
+	
 	LinearLayout layout = new LinearLayout(parent.getContext());
 	layout.setOrientation(LinearLayout.VERTICAL);
-	layout.addView(description);
+	layout.addView(descriptionView);
 	layout.addView(close);
-
+	
 	dialog.setContentView(layout);
-	dialog.show();
+	
+	return dialog;
     }
-
 }
