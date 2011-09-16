@@ -79,7 +79,7 @@ public abstract class PMPSignedService extends Service {
 		    + boundType + "::" + boundIdentifier);
 	} else {
 	    Log.d(this.toString() + " received signature "
-		    + new String(boundSignature) + " from " + boundType + "::"
+		    + new String(boundSignature).substring(0,5) + "... from " + boundType + "::"
 		    + boundIdentifier);
 	}
 

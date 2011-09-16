@@ -71,5 +71,5 @@ interface IResourceGroupServicePMP {
 	 *
 	 * @param state State of the registration
 	 */
-	void setRegistrationSuccessful(in RegistrationState state);
+	void setRegistrationState(in RegistrationState state);
 }

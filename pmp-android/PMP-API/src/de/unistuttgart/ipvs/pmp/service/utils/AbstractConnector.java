@@ -9,12 +9,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.INullService;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to
@@ -63,7 +63,6 @@ public abstract class AbstractConnector {
     /**
      * If set to true, the bind will be in blocking mode.
      */
-    private boolean blocking = false;
     private Semaphore semaphore = new Semaphore(0);
 
     /**
@@ -196,6 +195,7 @@ public abstract class AbstractConnector {
      */
     protected IBinder getService() {
 	try {
+	    
 	    INullService service = INullService.Stub
 		    .asInterface(connectedService);
 	    service.isServiceANullService();

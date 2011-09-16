@@ -206,7 +206,7 @@ public class AppRegistration {
 	} else {
 	    try {
 		IAppService appService = asp.getAppService();
-		appService.setRegistrationSuccessful(new RegistrationState(
+		appService.setRegistrationState(new RegistrationState(
 			state, message));
 	    } catch (RemoteException e) {
 		Log.e("Registration ("

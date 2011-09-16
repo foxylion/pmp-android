@@ -36,7 +36,7 @@ public class AppServiceStubImpl extends IAppService.Stub {
     }
 
     @Override
-    public void setRegistrationSuccessful(RegistrationState state)
+    public void setRegistrationState(RegistrationState state)
 	    throws RemoteException {
 	if (state.getState()) {
 	    app.onRegistrationSuccess();
