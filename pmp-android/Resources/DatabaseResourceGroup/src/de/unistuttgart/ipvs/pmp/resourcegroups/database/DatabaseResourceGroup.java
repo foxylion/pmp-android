@@ -45,7 +45,7 @@ public class DatabaseResourceGroup extends ResourceGroup {
 	create = new BooleanPrivacyLevel(context.getResources().getString(
 		R.string.privacy_level_create_name), context.getResources()
 		.getString(R.string.privacy_level_create_description));
-	dbr = new DatabaseResource();
+	dbr = new DatabaseResource(context);
 
 	// Register the privacy levels
 	registerPrivacyLevel(PRIVACY_LEVEL_READ, read);

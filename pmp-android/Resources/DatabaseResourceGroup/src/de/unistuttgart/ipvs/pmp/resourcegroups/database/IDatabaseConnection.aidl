@@ -1,23 +1,16 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
-interface IDatabaseConnection {
-    
-//    final int READ_ONLY = 1;
+import java.util.Map;
 
-    /**
-     * 
-     * @param databasename
-     * @return READ_ONLY
-     */
-//    boolean open(String databasename);
-    
+interface IDatabaseConnection {
+        
     /**
      * 
      * @param tableName
      * @param columnNames
      * @return true if successful, false otherwise
      */
-    boolean createTable(String tableName, in String[] columnNames);
+    boolean createTable(String tableName, in Map columns);
     
     /**
      * Convenience method for inserting a row into the database
@@ -26,7 +19,7 @@ interface IDatabaseConnection {
      * @param values
      * @return
      */
-    long insert(String table, String nullColumnHack, in String[] values);
+    long insert(String table, String nullColumnHack, in Map values);
 
     /**
      * Convenience method for updating rows in the database.
@@ -36,7 +29,7 @@ interface IDatabaseConnection {
      * @param whereArgs
      * @return the number of rows affected
      */
-    int update(String table, in String[] values, String whereClause, in String[] whereArgs);
+    int update(String table, in Map values, String whereClause, in String[] whereArgs);
 
     /**
      * Convenience method for deleting rows in the database.
@@ -87,7 +80,5 @@ interface IDatabaseConnection {
     String[] getCurrentRow();
     String[] getRowAndNext();
     boolean next();
-    boolean isNext();
-    boolean goToRowAt(int position);
-    
+    boolean goToRowPosition(int position);
 }

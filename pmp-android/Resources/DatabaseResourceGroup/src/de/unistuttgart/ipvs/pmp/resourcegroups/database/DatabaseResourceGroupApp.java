@@ -19,13 +19,6 @@ public class DatabaseResourceGroupApp extends
     
     @Override
     protected DatabaseResourceGroup createResourceGroup() {
-	
-	// Create resource group
-	DatabaseResourceGroup rg = new DatabaseResourceGroup(getApplicationContext());
-		
-	// Start resource group
-	rg.start(getApplicationContext());
-
-	return rg;
+	return new DatabaseResourceGroup(getApplicationContext());
     }
 }
