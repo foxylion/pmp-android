@@ -397,5 +397,9 @@ public class PMPSignee {
     public synchronized Context getContext() {
 	return this.context;
     }
+    
+    public void clean() {
+	
+    }
 
 }

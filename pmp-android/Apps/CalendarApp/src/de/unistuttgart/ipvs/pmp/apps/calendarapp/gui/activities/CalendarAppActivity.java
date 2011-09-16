@@ -90,6 +90,8 @@ public class CalendarAppActivity extends ListActivity {
 	connector.bind();
 
 	setContentView(R.layout.list_layout);
+
+	// Array adapter that is needed to show the list of dates
 	arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model
 		.getInstance().getDateList());
 	Model.getInstance().setArrayAdapter(arrayAdapter);
@@ -114,8 +116,8 @@ public class CalendarAppActivity extends ListActivity {
 	});
 
 	/*
-	 * Listener for long clicking the item. Opens a context menu where the
-	 * user can delete this date
+	 * Listener for long clicking on one item. Opens a context menu where
+	 * the user can delete this date
 	 */
 	listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 
@@ -138,8 +140,9 @@ public class CalendarAppActivity extends ListActivity {
 		changeDateDialog.show();
 	    }
 	});
-	
-	((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
+
+	((CalendarApp) getApplication())
+		.changeFunctionalityAccordingToServiceLevel();
     }
 
     @Override
