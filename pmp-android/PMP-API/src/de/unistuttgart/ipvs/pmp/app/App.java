@@ -135,6 +135,7 @@ public abstract class App extends Application {
 			Log.e("RemoteException during registering app", e);
 		    }
 		}
+		pmpsc.unbind();
 	    }
 
 	    @Override
