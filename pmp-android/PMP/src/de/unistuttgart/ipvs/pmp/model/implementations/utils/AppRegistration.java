@@ -83,7 +83,7 @@ public class AppRegistration {
      */
     private void loadAppInformationSet(IAppService appService) {
 	try {
-	    appService.getAppInformationSet();
+	    ais = appService.getAppInformationSet().getAppInformationSet();
 	} catch (RemoteException e) {
 	    Log.e("Registration ("
 		    + identifier
