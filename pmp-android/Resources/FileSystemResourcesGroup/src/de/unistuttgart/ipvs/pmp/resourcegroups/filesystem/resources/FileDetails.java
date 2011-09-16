@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
+package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
 import java.io.File;
 import android.os.Parcel;
