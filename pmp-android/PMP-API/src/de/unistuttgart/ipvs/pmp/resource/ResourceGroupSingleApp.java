@@ -68,5 +68,10 @@ public abstract class ResourceGroupSingleApp<T extends ResourceGroup> extends
     public ResourceGroup getResourceGroupForService(ResourceGroupService rgs) {
 	return resourceGroup;
     }
+    
+    @Override
+    public ResourceGroup[] getAllResourceGroups() {
+        return new ResourceGroup[] { resourceGroup };
+    }
 
 }
