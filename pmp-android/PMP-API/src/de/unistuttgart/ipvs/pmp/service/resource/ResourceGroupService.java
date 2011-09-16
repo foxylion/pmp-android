@@ -7,6 +7,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupApp;
+import de.unistuttgart.ipvs.pmp.service.NullServiceStubImpl;
 import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
@@ -70,7 +71,7 @@ public class ResourceGroupService extends PMPSignedService {
 	    // invalid context
 	    Log.e(this.toString()
 		    + " tried to connect to its resource group and failed.");
-	    return null;
+	    return new NullServiceStubImpl();
 	}
 
 	PMPComponentType boundType = (PMPComponentType) intent
@@ -91,14 +92,14 @@ public class ResourceGroupService extends PMPSignedService {
 
 	} else {
 	    // wait, what?
-	    return null;
+	    return new NullServiceStubImpl();
 	}
     }
 
     @Override
     public IBinder onUnsignedBind(Intent intent) {
 	// go away, I don't like you!
-	return null;
+	return new NullServiceStubImpl();
     }
 
     private ResourceGroup findContextResourceGroup() {
