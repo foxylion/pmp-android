@@ -194,6 +194,38 @@ public class PMPSignee {
     }
 
     /**
+     * <p>
+     * Removes the remote public key for a different, remote {@link PMPSignee}
+     * that is identified by identifier.
+     * </p>
+     * 
+     * @param boundType
+     *            the type of the remote sender
+     * @param boundIdentifier
+     *            the identifier of the remote sender
+     */
+    public void removeRemotePublicKey(PMPComponentType boundType,
+	    String boundIdentifier) {
+	if (remotePublicKeys == null) {
+	    Log.e("PMPSignee ordered to fetch a remote public key for "
+		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier + ", but had null values present.");
+	}
+	remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
+		+ boundIdentifier, null);
+	save();
+    }
+
+    /**
+     * Removes all remote public keys which are currently present from this
+     * signee.
+     */
+    public void clearRemotePublicKeys() {
+	remotePublicKeys = new HashMap<String, PublicKey>();
+	save();
+    }
+
+    /**
      * Checks whether a signature is valid.
      * 
      * @param boundType
@@ -396,10 +428,6 @@ public class PMPSignee {
      */
     public synchronized Context getContext() {
 	return this.context;
-    }
-    
-    public void clean() {
-	
     }
 
 }
