@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -42,7 +41,7 @@ public class ServiceLvlActivity extends Activity {
     /**
      * Index of the current App
      */
-    private int index;
+    private String identifier;
 
     /**
      * If there are too much Levels, so you can scroll.
@@ -52,13 +51,14 @@ public class ServiceLvlActivity extends Activity {
      * Main Layout of the Activity, which will be draw to the Canvas
      */
     private LinearLayout parentLayout;
-    private Intent intent;
 
     /** Called when the activity is first created. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	loadIntentsExtras();
+	appName = ModelSingleton.getInstance().getModel()
+		.getApp(identifier).getName();
 	this.setTitle("Service Levels for " + appName);
 	createParentLayout();
 	loadServiceLevels();
@@ -83,8 +83,7 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Privacy Levels for the GUI
      */
     private void loadServiceLevels() {
-	IApp appsArray[] = ModelSingleton.getInstance().getModel().getApps();
-	IApp app = appsArray[index];
+	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
 	IServiceLevel levelArray[] = app.getServiceLevels();
 	RadioGroup group = new RadioGroup(this);
 	for (int i = 0; i < levelArray.length; i++) {
@@ -98,7 +97,7 @@ public class ServiceLvlActivity extends Activity {
 		button.setChecked(true);
 	    }
 	    button.setOnTouchListener(new OnLevelTouchListener(this,
-		    levelArray[i].getDescription(), button, this, index, i));
+		    levelArray[i].getDescription(), button, this, identifier, i));
 	    group.addView(button);
 	}
 	group.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -109,8 +108,8 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Intent
      */
     private void loadIntentsExtras() {
-	appName = this.getIntent().getExtras().getString("appName");
-	index = this.getIntent().getExtras().getInt("appID");
+	identifier = this.getIntent().getExtras().
+	getString(de.unistuttgart.ipvs.pmp.Constants.INTENT_IDENTIFIER);
     }
 
     public void reloadActivity() {
@@ -132,17 +131,17 @@ class OnLevelTouchListener implements OnTouchListener {
     private RadioButton parent;
     private ServiceLvlActivity activity;
     private int levelID;
-    private int appID;
+    private String identifier;
 
     public OnLevelTouchListener(Context context, String lvlDescr,
-	    RadioButton button, ServiceLvlActivity activity, int appID,
+	    RadioButton button, ServiceLvlActivity activity, String identifier,
 	    int levelID) {
 	this.lvlDescr = lvlDescr;
 	this.context = context;
 	this.parent = button;
 	this.activity = activity;
 	this.levelID = levelID;
-	this.appID = appID;
+	this.identifier = identifier;
     }
 
     @Override
@@ -194,14 +193,12 @@ class OnLevelTouchListener implements OnTouchListener {
 
 	    @Override
 	    public void onClick(View v) {
-		IApp appsArray[] = ModelSingleton.getInstance().getModel()
-			.getApps();
-		final IApp app = appsArray[appID];
+		final IApp app = ModelSingleton.getInstance().getModel()
+			.getApp(identifier);
 		IServiceLevel levelArray[] = app.getServiceLevels();
 		final IServiceLevel level = levelArray[levelID];
-		Log.v("appID:" + String.valueOf(appID));
+		Log.v("appID:" + String.valueOf(identifier));
 		Log.v("levelID:" + String.valueOf(levelID));
-
 		/* Set the Service Level here */
 		final Dialog waitingDialog = ProgressDialog.show(context,
 			"Please wait", "Setting Service Level", true);
@@ -218,10 +215,9 @@ class OnLevelTouchListener implements OnTouchListener {
 		    protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			waitingDialog.hide();
+			dialog.cancel();
 		    }
 		}.execute();
-
-		dialog.cancel();
 	    }
 	});
 

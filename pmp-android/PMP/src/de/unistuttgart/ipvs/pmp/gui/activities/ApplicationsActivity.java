@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
@@ -97,8 +98,10 @@ public class ApplicationsActivity extends Activity {
 		    actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 		}
 		IApp app = appList.get(i);
-		ImagedButton act = new ImagedButton(this, app.getName(), i,
-			R.drawable.app);
+		// ImagedButton act = new ImagedButton(this, app.getName(), i,
+		// R.drawable.app);
+		ImagedButton act = new ImagedButton(this, app.getName(), 
+			app.getIdentifier(), R.drawable.app);
 		act.setClickable(true);
 
 		/* Set up the behaviour of the App */
@@ -147,8 +150,7 @@ class OnAppClickListener implements OnClickListener {
 	 * Call Privacy Level Activity with the specified Intent
 	 */
 	Intent intent = new Intent(v.getContext(), ServiceLvlActivity.class);
-	intent.putExtra("appName", parent.getName());
-	intent.putExtra("appID", parent.getIndex());
+	intent.putExtra(Constants.INTENT_IDENTIFIER, parent.getIdentifier());
 
 	if (v.getContext() != null)
 	    v.getContext().startActivity(intent);

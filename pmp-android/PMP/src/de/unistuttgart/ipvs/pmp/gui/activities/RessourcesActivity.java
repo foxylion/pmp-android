@@ -102,7 +102,7 @@ public class RessourcesActivity extends Activity {
 		    actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
 		}
 		ImagedButton act = new ImagedButton(this,
-			resArray[i].getName(), i, R.drawable.res);
+			resArray[i].getName(), resArray[i].getIdentifier(), R.drawable.res);
 		act.setClickable(true);
 		
 		/* Set up the behaviour of the resource */
@@ -123,18 +123,18 @@ public class RessourcesActivity extends Activity {
  */
 class OnResClickListener implements OnClickListener {
     private ImagedButton parent;
-    private IResourceGroup resArray[];
+    private IResourceGroup res;
 
     public OnResClickListener(ImagedButton button) {
 	this.parent = button;
-	resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
+	res = ModelSingleton.getInstance().getModel().getResourceGroup(parent.getIdentifier());
     }
 
     /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
 	Dialog dialog = createDialog(parent.getContext(), parent.getName(), 
-		resArray[parent.getIndex()].getDescription() + "\n");
+		res.getDescription() + "\n");
 	dialog.show();
     }
     /**
