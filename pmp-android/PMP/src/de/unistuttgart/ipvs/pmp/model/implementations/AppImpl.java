@@ -102,6 +102,7 @@ public class AppImpl implements IApp {
 
 	    return new ServiceLevelImpl(identifier, level, name, description);
 	} else {
+	    Log.d("ServiceLevel " + level + " for " + identifier + " was not found in Database.");
 	    cursor.close();
 	    return null;
 	}
@@ -127,7 +128,7 @@ public class AppImpl implements IApp {
 	    return getServiceLevel(serviceLevel);
 	} else {
 	    cursor.close();
-	    Log.e("App was not found in Database, Model seems to be out of sync with Database.");
+	    Log.e("Model: App " + identifier + " was not found in Database, Model seems to be out of sync with Database.");
 	    return null;
 	}
 
@@ -156,7 +157,7 @@ public class AppImpl implements IApp {
 
 	    return setActiveServiceLevel(serviceLevel, false);
 	} else {
-	    Log.w("Tried to set the ServiceLevel " + serviceLevel
+	    Log.w("Model: Tried to set the ServiceLevel " + serviceLevel
 		    + " which is currently not available for " + identifier);
 	    return false;
 	}
@@ -176,7 +177,7 @@ public class AppImpl implements IApp {
 		    serviceLevel = slc.calculate();
 		} catch (RemoteException e) {
 		    serviceLevel = 0;
-		    Log.e("Could not calculate ServiceLevel", e);
+		    Log.e("Model: Could not calculate ServiceLevel, got RemoteException", e);
 		}
 
 		if (serviceLevel != getActiveServiceLevel().getLevel()) {
@@ -305,7 +306,7 @@ public class AppImpl implements IApp {
 
 	db.update("App", cv, "Identifier = ?", new String[] { identifier });
 
-	Log.d("Setting for " + identifier + " the new service level "
+	Log.d("Model: Set for App " + identifier + " the new service level "
 		+ serviceLevel + ".");
 
 	ServiceLevelPublisher slp = new ServiceLevelPublisher(this,

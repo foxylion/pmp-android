@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
@@ -76,6 +77,7 @@ public class ModelImpl implements IModel {
 
 	    return new AppImpl(identifier, name, description);
 	} else {
+	    Log.d("Model: There is no App with the identifier" + identifier + " in the Database.");
 	    cursor.close();
 	    return null;
 	}

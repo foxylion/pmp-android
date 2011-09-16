@@ -114,6 +114,7 @@ public class ServiceLevelImpl implements IServiceLevel {
 	    /* check if there is any IResourceGroup with that identifier. */
 	    if (ModelSingleton.getInstance().getModel()
 		    .getResourceGroup(resourceGroupIdentifier) == null) {
+		cursor.close();
 		return false;
 	    } else {
 		/*
@@ -123,6 +124,7 @@ public class ServiceLevelImpl implements IServiceLevel {
 		if (ModelSingleton.getInstance().getModel()
 			.getResourceGroup(resourceGroupIdentifier)
 			.getPrivacyLevel(privacyLevelIdentifier) == null) {
+		    cursor.close();
 		    return false;
 		}
 	    }
