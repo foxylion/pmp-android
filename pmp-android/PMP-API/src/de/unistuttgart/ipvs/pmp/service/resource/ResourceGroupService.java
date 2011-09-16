@@ -92,6 +92,7 @@ public class ResourceGroupService extends PMPSignedService {
 
 	} else {
 	    // wait, what?
+	    Log.d("Received an sing bind with unknown TYPE, returning NullService");
 	    return new NullServiceStubImpl();
 	}
     }
@@ -99,6 +100,7 @@ public class ResourceGroupService extends PMPSignedService {
     @Override
     public IBinder onUnsignedBind(Intent intent) {
 	// go away, I don't like you!
+	Log.d("Received an unsinged bind, returning NullService");
 	return new NullServiceStubImpl();
     }
 
