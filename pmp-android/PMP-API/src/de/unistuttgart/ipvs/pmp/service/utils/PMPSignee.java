@@ -35,319 +35,323 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
  */
 public class PMPSignee {
 
-    /**
-     * Algorithm to be used for the keys.
-     */
-    private final static String ALGORITHM_KEY = "RSA";
+	/**
+	 * Algorithm to be used for the keys.
+	 */
+	private final static String ALGORITHM_KEY = "RSA";
 
-    /**
-     * Algorithm to be used for the signatures.
-     */
-    private final static String ALGORITHM_SIGNATURE = "SHA1withRSA";
+	/**
+	 * Algorithm to be used for the signatures.
+	 */
+	private final static String ALGORITHM_SIGNATURE = "SHA1withRSA";
 
-    /**
-     * Separator between type and identifier.
-     */
-    private final static String TYPE_IDENTIFIER_SEPARATOR = "::";
+	/**
+	 * Separator between type and identifier.
+	 */
+	private final static String TYPE_IDENTIFIER_SEPARATOR = "::";
 
-    /**
-     * The local key pair
-     */
-    private KeyPair local;
+	/**
+	 * The local key pair
+	 */
+	private KeyPair local;
 
-    /**
-     * The remote public keys
-     */
-    private Map<String, PublicKey> remotePublicKeys;
+	/**
+	 * The remote public keys
+	 */
+	private Map<String, PublicKey> remotePublicKeys;
 
-    /**
-     * The type of the signee
-     */
-    private PMPComponentType type;
+	/**
+	 * The type of the signee
+	 */
+	private PMPComponentType type;
 
-    /**
-     * The android:name identifier for this signee
-     */
-    private String identifier;
+	/**
+	 * The android:name identifier for this signee
+	 */
+	private String identifier;
 
-    /**
-     * The context of this signee (used for saving & loading)
-     */
-    private Context context;
+	/**
+	 * The context of this signee (used for saving & loading)
+	 */
+	private Context context;
 
-    /**
-     * Creates a new PMPSignee ready for mayhem.
-     * 
-     * @param type
-     *            the type of the signee
-     * @param androidName
-     *            the android:name identifier of this signee
-     * @param context
-     *            the context this signee should use to save
-     */
-    public PMPSignee(PMPComponentType type, String androidName, Context context) {
-	this.remotePublicKeys = new HashMap<String, PublicKey>();
-	this.type = type;
-	this.context = context;
-	this.identifier = androidName;
+	/**
+	 * Creates a new PMPSignee ready for mayhem.
+	 * 
+	 * @param type
+	 *            the type of the signee
+	 * @param androidName
+	 *            the android:name identifier of this signee
+	 * @param context
+	 *            the context this signee should use to save
+	 */
+	public PMPSignee(PMPComponentType type, String androidName, Context context) {
+		this.remotePublicKeys = new HashMap<String, PublicKey>();
+		this.type = type;
+		this.context = context;
+		this.identifier = androidName;
 
-	// try loading an old state
-	if (!load()) {
+		// try loading an old state
+		if (!load()) {
 
-	    // if that fails, generate new ones
-	    try {
-		// generate keys
-		KeyPairGenerator kpg = KeyPairGenerator
-			.getInstance(ALGORITHM_KEY);
-		kpg.initialize(1024);
-		local = kpg.generateKeyPair();
-		save();
-	    } catch (NoSuchAlgorithmException e) {
-		Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
-		local = null;
-	    }
-	}
-    }
-
-    /**
-     * Returns the local public key to transmit it to a different, remote
-     * {@link PMPSignee}.
-     * 
-     * @return the local public key, null if the initialization was faulty
-     */
-    public byte[] getLocalPublicKey() {
-	if (local == null) {
-	    return null;
-	} else {
-	    return this.local.getPublic().getEncoded();
-	}
-    }
-
-    /**
-     * <p>
-     * Sets the remote public key fetched from a different, remote
-     * {@link PMPSignee} that is identified by identifier.
-     * </p>
-     * 
-     * <p>
-     * <b>Attention:</b> Only call this method if you are sure the source is
-     * valid! This method is a likely target for attackers.
-     * </p>
-     * 
-     * <p>
-     * Make sure that remoteType always has the correct type from Constants.*
-     * specified and not a value that the remote can freely set!
-     * </p>
-     * 
-     * @param boundType
-     *            the type of the remote sender
-     * @param boundIdentifier
-     *            the identifier of the remote sender
-     * @param remotePublicKey
-     *            the public key belonging to the identifier
-     */
-    public void setRemotePublicKey(PMPComponentType boundType,
-	    String boundIdentifier, byte[] remotePublicKey) {
-
-	try {
-	    KeyFactory kf = KeyFactory.getInstance(ALGORITHM_KEY);
-	    X509EncodedKeySpec x509eks = new X509EncodedKeySpec(remotePublicKey);
-	    this.remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
-		    + boundIdentifier, kf.generatePublic(x509eks));
-	    save();
-
-	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
-	} catch (InvalidKeySpecException e) {
-	    Log.e("Key was invalid.", e);
-	}
-    }
-
-    /**
-     * Checks whether a signature is valid.
-     * 
-     * @param boundType
-     *            the type of the remote sender
-     * @param boundIdentifier
-     *            the identifier of the remote sender
-     * @param content
-     *            the content of the signature.
-     * @param signature
-     *            the signature with which content was signed.
-     * @return true, iff all values are valid (i.e. not null, correct key) and
-     *         the signature fits the content. Therefore false, if the
-     *         initialization was faulty, any value is null or the signature is
-     *         invalid. Also false, if no public key was set for
-     *         remoteIdentifier.
-     */
-    public boolean isSignatureValid(PMPComponentType boundType,
-	    String boundIdentifier, byte[] content, byte[] signature) {
-	// check for nulls
-	if ((local == null) || (remotePublicKeys == null) || (content == null)
-		|| (signature == null)) {
-	    return false;
+			// if that fails, generate new ones
+			try {
+				// generate keys
+				KeyPairGenerator kpg = KeyPairGenerator
+						.getInstance(ALGORITHM_KEY);
+				kpg.initialize(1024);
+				local = kpg.generateKeyPair();
+				save();
+			} catch (NoSuchAlgorithmException e) {
+				Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
+				local = null;
+			}
+		}
 	}
 
-	// fetch public key for remoteIdentifier
-	PublicKey pk = remotePublicKeys.get(boundType
-		+ TYPE_IDENTIFIER_SEPARATOR + boundIdentifier);
-	if (pk == null) {
-	    return false;
+	/**
+	 * Returns the local public key to transmit it to a different, remote
+	 * {@link PMPSignee}.
+	 * 
+	 * @return the local public key, null if the initialization was faulty
+	 */
+	public byte[] getLocalPublicKey() {
+		if (local == null) {
+			return null;
+		} else {
+			return this.local.getPublic().getEncoded();
+		}
 	}
 
-	try {
-	    // actual signature check
-	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
-	    sg.initVerify(pk);
-	    sg.update(content);
-	    return sg.verify(signature);
+	/**
+	 * <p>
+	 * Sets the remote public key fetched from a different, remote
+	 * {@link PMPSignee} that is identified by identifier.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>Attention:</b> Only call this method if you are sure the source is
+	 * valid! This method is a likely target for attackers.
+	 * </p>
+	 * 
+	 * <p>
+	 * Make sure that remoteType always has the correct type from Constants.*
+	 * specified and not a value that the remote can freely set!
+	 * </p>
+	 * 
+	 * @param boundType
+	 *            the type of the remote sender
+	 * @param boundIdentifier
+	 *            the identifier of the remote sender
+	 * @param remotePublicKey
+	 *            the public key belonging to the identifier
+	 */
+	public void setRemotePublicKey(PMPComponentType boundType,
+			String boundIdentifier, byte[] remotePublicKey) {
 
-	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
-	} catch (InvalidKeyException e) {
-	    Log.e("Key was invalid.", e);
-	} catch (SignatureException e) {
-	    Log.e("Signature was not prepared.", e);
+		try {
+			KeyFactory kf = KeyFactory.getInstance(ALGORITHM_KEY);
+			X509EncodedKeySpec x509eks = new X509EncodedKeySpec(remotePublicKey);
+			this.remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
+					+ boundIdentifier, kf.generatePublic(x509eks));
+			save();
+
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("Algorithm " + ALGORITHM_KEY + " was not supported.", e);
+		} catch (InvalidKeySpecException e) {
+			Log.e("Key was invalid.", e);
+		}
 	}
 
-	return false;
-    }
+	/**
+	 * Checks whether a signature is valid.
+	 * 
+	 * @param boundType
+	 *            the type of the remote sender
+	 * @param boundIdentifier
+	 *            the identifier of the remote sender
+	 * @param content
+	 *            the content of the signature.
+	 * @param signature
+	 *            the signature with which content was signed.
+	 * @return true, iff all values are valid (i.e. not null, correct key) and
+	 *         the signature fits the content. Therefore false, if the
+	 *         initialization was faulty, any value is null or the signature is
+	 *         invalid. Also false, if no public key was set for
+	 *         remoteIdentifier.
+	 */
+	public boolean isSignatureValid(PMPComponentType boundType,
+			String boundIdentifier, byte[] content, byte[] signature) {
+		// check for nulls
+		if ((local == null) || (remotePublicKeys == null) || (content == null)
+				|| (signature == null)) {
+			return false;
+		}
 
-    /**
-     * Creates a signature for a given content.
-     * 
-     * @param content
-     *            the content to be signed
-     * @return the signature for content, or null if the initialization was
-     *         faulty
-     */
-    public byte[] signContent(byte[] content) {
-	// null check
-	if ((local == null) || (content == null)) {
-	    return null;
+		// fetch public key for remoteIdentifier
+		PublicKey pk = remotePublicKeys.get(boundType
+				+ TYPE_IDENTIFIER_SEPARATOR + boundIdentifier);
+		if (pk == null) {
+			return false;
+		}
+
+		try {
+			// actual signature check
+			Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
+			sg.initVerify(pk);
+			sg.update(content);
+			return sg.verify(signature);
+
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
+		} catch (InvalidKeyException e) {
+			Log.e("Key was invalid.", e);
+		} catch (SignatureException e) {
+			Log.e("Signature was not prepared.", e);
+		}
+
+		return false;
 	}
 
-	try {
-	    // actual signing
-	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
-	    sg.initSign(local.getPrivate());
-	    sg.update(content);
-	    return sg.sign();
+	/**
+	 * Creates a signature for a given content.
+	 * 
+	 * @param content
+	 *            the content to be signed
+	 * @return the signature for content, or null if the initialization was
+	 *         faulty
+	 */
+	public byte[] signContent(byte[] content) {
+		// null check
+		if ((local == null) || (content == null)) {
+			return null;
+		}
 
-	} catch (NoSuchAlgorithmException e) {
-	    Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
-	} catch (InvalidKeyException e) {
-	    Log.e("Key was invalid.", e);
-	} catch (SignatureException e) {
-	    Log.e("Signature was not prepared.", e);
+		try {
+			// actual signing
+			Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
+			sg.initSign(local.getPrivate());
+			sg.update(content);
+			return sg.sign();
+
+		} catch (NoSuchAlgorithmException e) {
+			Log.e("Algorithm " + ALGORITHM_SIGNATURE + " was not supported.", e);
+		} catch (InvalidKeyException e) {
+			Log.e("Key was invalid.", e);
+		} catch (SignatureException e) {
+			Log.e("Signature was not prepared.", e);
+		}
+
+		return null;
 	}
 
-	return null;
-    }
-
-    /**
-     * Writes the whole signee set to an {@link OutputStream}.
-     * 
-     * @param os
-     * @throws IOException
-     */
-    private final void writeToOutput(OutputStream os) throws IOException {
-	ObjectOutputStream oos = new ObjectOutputStream(os);
-	oos.writeObject(local);
-	oos.writeObject(remotePublicKeys);
-    }
-
-    @SuppressWarnings("unchecked")
-    /**
-     * Reads the whole signee set out of an {@link InputStream}.
-     * @param is
-     * @throws IOException
-     */
-    private final void readFromInput(InputStream is) throws IOException {
-	ObjectInputStream ois = new ObjectInputStream(is);
-
-	try {
-	    local = (KeyPair) ois.readObject();
-	    remotePublicKeys = (Map<String, PublicKey>) ois.readObject();
-	} catch (ClassNotFoundException e) {
-	    Log.e("Class not found during load.", e);
+	/**
+	 * Writes the whole signee set to an {@link OutputStream}.
+	 * 
+	 * @param os
+	 * @throws IOException
+	 */
+	private final void writeToOutput(OutputStream os) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(os);
+		oos.writeObject(local);
+		oos.writeObject(remotePublicKeys);
+		oos.close();
 	}
 
-    }
+	@SuppressWarnings("unchecked")
+	/**
+	 * Reads the whole signee set out of an {@link InputStream}.
+	 * @param is
+	 * @throws IOException
+	 */
+	private final void readFromInput(InputStream is) throws IOException {
+		ObjectInputStream ois = new ObjectInputStream(is);
 
-    /**
-     * Loads the content of a signee from a file in context for the service
-     * service. Pay close attention from where you load, attackers could try to
-     * get there!
-     * 
-     * @return true, iff the file was succesfully loaded
-     */
-    public final boolean load() {
-	// load signee, if exists
-	try {
-	    InputStream is = context.openFileInput(getIdentifier());
-	    readFromInput(is);
-	    return true;
-	} catch (FileNotFoundException e) {
-	    Log.v("Signee file for " + getIdentifier() + " not found.", e);
-	} catch (IOException e) {
-	    Log.e(e.toString() + " during loading Signee for "
-		    + getIdentifier(), e);
+		try {
+			local = (KeyPair) ois.readObject();
+			remotePublicKeys = (Map<String, PublicKey>) ois.readObject();
+			ois.close();
+		} catch (ClassNotFoundException e) {
+			Log.e("Class not found during load.", e);
+		}
+
 	}
-	return false;
-    }
 
-    /**
-     * Saves the content of a signee from a file in context for the service
-     * service. Pay close attention where you save, attackers could try to get
-     * there!
-     */
-    public final void save() {
-	// save signee
-	try {
-	    OutputStream os = context.openFileOutput(getIdentifier(),
-		    Context.MODE_PRIVATE);
-	    writeToOutput(os);
-	} catch (FileNotFoundException e) {
-	    Log.v("Signee file for " + getIdentifier()
-		    + " not found (during writing?!).", e);
-	} catch (IOException e) {
-	    Log.e(e.toString() + " during writing signee for "
-		    + getIdentifier(), e);
+	/**
+	 * Loads the content of a signee from a file in context for the service
+	 * service. Pay close attention from where you load, attackers could try to
+	 * get there!
+	 * 
+	 * @return true, iff the file was succesfully loaded
+	 */
+	public final boolean load() {
+		// load signee, if exists
+		try {
+			InputStream is = context.openFileInput(getIdentifier());
+			readFromInput(is);
+			is.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			Log.v("Signee file for " + getIdentifier() + " not found.", e);
+		} catch (IOException e) {
+			Log.e(e.toString() + " during loading Signee for "
+					+ getIdentifier(), e);
+		}
+		return false;
 	}
-    }
 
-    /**
-     * 
-     * @return the type of this signee
-     */
-    public PMPComponentType getType() {
-	return this.type;
-    }
+	/**
+	 * Saves the content of a signee from a file in context for the service
+	 * service. Pay close attention where you save, attackers could try to get
+	 * there!
+	 */
+	public final void save() {
+		// save signee
+		try {
+			OutputStream os = context.openFileOutput(getIdentifier(),
+					Context.MODE_PRIVATE);
+			writeToOutput(os);
+			os.close();
+		} catch (FileNotFoundException e) {
+			Log.v("Signee file for " + getIdentifier()
+					+ " not found (during writing?!).", e);
+		} catch (IOException e) {
+			Log.e(e.toString() + " during writing signee for "
+					+ getIdentifier(), e);
+		}
+	}
 
-    /**
-     * 
-     * @param androidName
-     *            the android:name identifier of this signee
-     */
-    public void setIdentifier(String androidName) {
-	this.identifier = androidName;
-    }
+	/**
+	 * 
+	 * @return the type of this signee
+	 */
+	public PMPComponentType getType() {
+		return this.type;
+	}
 
-    /**
-     * 
-     * @return the identifier of this signee
-     */
-    public String getIdentifier() {
-	return this.identifier;
-    }
+	/**
+	 * 
+	 * @param androidName
+	 *            the android:name identifier of this signee
+	 */
+	public void setIdentifier(String androidName) {
+		this.identifier = androidName;
+	}
 
-    /**
-     * 
-     * @return the context of this signee
-     */
-    public Context getContext() {
-	return this.context;
-    }
+	/**
+	 * 
+	 * @return the identifier of this signee
+	 */
+	public String getIdentifier() {
+		return this.identifier;
+	}
+
+	/**
+	 * 
+	 * @return the context of this signee
+	 */
+	public Context getContext() {
+		return this.context;
+	}
 
 }
