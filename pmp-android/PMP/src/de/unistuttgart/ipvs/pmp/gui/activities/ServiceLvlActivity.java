@@ -89,7 +89,8 @@ public class ServiceLvlActivity extends Activity {
 	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
 	
 	IServiceLevel levelArray[] = app.getServiceLevels();
-	Log.v(String.valueOf(levelArray.length));
+	Log.v("ServiceLeveltActivity: Number of Service Levels" + String.valueOf(levelArray.length)
+		+ "for the app: " + app.getName());
 	RadioGroup group = new RadioGroup(this);
 	/*Iterate over Service Levels */
 	for (int i = 0; i < levelArray.length; i++) {
@@ -100,7 +101,6 @@ public class ServiceLvlActivity extends Activity {
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
 	    /*Check if Service Level is set*/
-	    Log.e(app.getActiveServiceLevel().getDescription());
 	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
@@ -113,7 +113,6 @@ public class ServiceLvlActivity extends Activity {
 	    
 	    }else{
 		button.setEnabled(false);
-		button.setBackgroundColor(Color.DKGRAY);
 		button.setTextColor(Color.GRAY);
 	    }
 	    group.addView(button);
@@ -218,8 +217,6 @@ class OnLevelTouchListener implements OnTouchListener {
 			.getApp(identifier);
 		IServiceLevel levelArray[] = app.getServiceLevels();
 		final IServiceLevel level = levelArray[levelID];
-		Log.v("appID:" + String.valueOf(identifier));
-		Log.v("levelID:" + String.valueOf(levelID));
 		/* Set the Service Level here */
 
 		final Dialog waitingDialog = ProgressDialog.show(context,
