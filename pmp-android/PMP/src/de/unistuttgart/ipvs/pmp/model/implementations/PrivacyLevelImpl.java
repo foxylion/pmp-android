@@ -73,8 +73,6 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
 			new String[] { resourceGroupIdentifier });
 
-	cursor.moveToNext();
-	
 	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
