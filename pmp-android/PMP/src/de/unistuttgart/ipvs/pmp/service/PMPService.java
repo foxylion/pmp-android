@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;

@@ -156,7 +156,8 @@ public class AppImpl implements IApp {
 
 	    return setActiveServiceLevel(serviceLevel, false);
 	} else {
-	    Log.w("Tried to set the ServiceLevel " + serviceLevel + " which is currently not available for " + identifier);
+	    Log.w("Tried to set the ServiceLevel " + serviceLevel
+		    + " which is currently not available for " + identifier);
 	    return false;
 	}
     }
@@ -205,13 +206,8 @@ public class AppImpl implements IApp {
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
 
-	    PMPComponentType type;
-	    try {
-		type = PMPComponentType.valueOf(cursor.getString(cursor
-			.getColumnIndex("Type")));
-	    } catch (IllegalArgumentException e) {
-		type = null;
-	    }
+	    PMPComponentType type = PMPComponentType.valueOf(cursor
+		    .getString(cursor.getColumnIndex("Type")));
 
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
