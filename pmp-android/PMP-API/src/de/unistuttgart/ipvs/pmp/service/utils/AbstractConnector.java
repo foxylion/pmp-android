@@ -85,13 +85,14 @@ public abstract class AbstractConnector {
 
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
+	    
+	    connectedService = service;
+	    connected = true;
+	    
 	    Log.v(self.getClass().getSimpleName()
 		    + " - Service connected, received the binder "
 		    + getInterfaceDescriptor() + " for connected service "
 		    + targetIdentifier);
-
-	    connectedService = service;
-	    connected = true;
 
 	    serviceConnected();
 
