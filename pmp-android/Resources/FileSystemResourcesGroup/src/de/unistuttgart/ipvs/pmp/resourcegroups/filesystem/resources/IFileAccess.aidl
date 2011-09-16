@@ -1,9 +1,9 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
+package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
 import java.util.List;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
-interface IFileSystemAccess {
+interface IFileAccess {
     
     String read(String path);
     boolean write(String path, String data, boolean append);
