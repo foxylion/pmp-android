@@ -179,7 +179,7 @@ public class PMPSignee {
      *            the identifier of the remote sender
      * @return the public key belonging to the identifier
      */
-    public byte[] getRemotePublicKey(PMPComponentType boundType,
+    public synchronized byte[] getRemotePublicKey(PMPComponentType boundType,
 	    String boundIdentifier) {
 	// check for nulls
 	if (remotePublicKeys == null) {
@@ -204,12 +204,13 @@ public class PMPSignee {
      * @param boundIdentifier
      *            the identifier of the remote sender
      */
-    public void removeRemotePublicKey(PMPComponentType boundType,
+    public synchronized void removeRemotePublicKey(PMPComponentType boundType,
 	    String boundIdentifier) {
 	if (remotePublicKeys == null) {
 	    Log.e("PMPSignee ordered to fetch a remote public key for "
 		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
 		    + boundIdentifier + ", but had null values present.");
+	    return;
 	}
 	remotePublicKeys.put(boundType + TYPE_IDENTIFIER_SEPARATOR
 		+ boundIdentifier, null);
@@ -220,7 +221,7 @@ public class PMPSignee {
      * Removes all remote public keys which are currently present from this
      * signee.
      */
-    public void clearRemotePublicKeys() {
+    public synchronized void clearRemotePublicKeys() {
 	remotePublicKeys = new HashMap<String, PublicKey>();
 	save();
     }
