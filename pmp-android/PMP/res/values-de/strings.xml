@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hallo Welt!</string>
+    <string name="app_name">PMP</string>
+    <string name="apps">Applikationen</string>
+    <string name="ress">Ressourcen</string>
+    <string name="description">Beschreibung</string>
+    <string name="apply">Bestätigen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="servive_level_for">Service Levels für </string>
+    <string name="apply_service_level">Service Level setzen?</string>
+    <string name="set_service_level">Service Level wird gesetzt.</string>
+    <string name="please_wait">Bitte warten!</string>
+</resources>
