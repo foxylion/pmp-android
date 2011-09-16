@@ -77,7 +77,8 @@ public class ModelImpl implements IModel {
 
 	    return new AppImpl(identifier, name, description);
 	} else {
-	    Log.d("Model: There is no App with the identifier" + identifier + " in the Database.");
+	    Log.d("Model: There is no App with the identifier" + identifier
+		    + " in the Database.");
 	    cursor.close();
 	    return null;
 	}
@@ -130,7 +131,7 @@ public class ModelImpl implements IModel {
 
 	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
-	    
+
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
@@ -188,6 +189,26 @@ public class ModelImpl implements IModel {
     @Override
     public IPreset addPreset(String name, String description,
 	    PMPComponentType type, String identifier) {
+	/* Pre-Conditions Check */
+	if (name == null) {
+	    throw new IllegalArgumentException(
+		    "The preset name must not be null");
+	}
+	if (type == null) {
+	    throw new IllegalArgumentException(
+		    "The preset type must not be null, use PMPComponentType.NONE instead");
+	}
+	if (description == null) {
+	    description = "";
+	}
+	if (identifier == null) {
+	    identifier = "";
+	}
+	if (type != PMPComponentType.NONE && identifier.length() == 0) {
+	    throw new IllegalArgumentException(
+		    "The preset type is not NONE, so the identifier must not be empty or null");
+	}
+	/* End of pre-conditions check */
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
