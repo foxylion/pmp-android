@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 
 public class CalendarApp extends App {
 
@@ -36,6 +37,7 @@ public class CalendarApp extends App {
     @Override
     public void onRegistrationSuccess() {
 	Log.d("Registration succeed");
+	CalendarAppActivity.disposeWaitingDialog();
     }
 
     @Override
