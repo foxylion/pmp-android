@@ -8,6 +8,10 @@ import de.unistuttgart.ipvs.pmp.app.App;
 
 public class CalendarApp extends App {
 
+	static {
+		Log.setTagSufix("CalendarApp");
+	}
+	
     @Override
     protected String getServiceAndroidName() {
 	return "de.unistuttgart.ipvs.pmp.apps.calendarapp";

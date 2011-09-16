@@ -15,6 +15,11 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
  */
 public class FileSystemResourceGroupApp extends ResourceGroupSingleApp<FileSystemResourceGroup> {
 
+	static {
+		Log.setTagSufix("FilesystemRG");
+	}
+	
+	
 	@Override
 	protected FileSystemResourceGroup createResourceGroup() {
 		

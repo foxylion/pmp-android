@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
-import de.unistuttgart.ipvs.pmp.service.PMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
@@ -27,6 +26,8 @@ public class PMPApplication extends Application {
 	super.onCreate();
 
 	PMPApplication.instance = this;
+	
+	Log.setTagSufix(Constants.PMP_LOG_SUFIX);
     }
 
     /**

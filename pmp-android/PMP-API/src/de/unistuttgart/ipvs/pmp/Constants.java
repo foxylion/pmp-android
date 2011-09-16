@@ -41,10 +41,6 @@ public class Constants {
      */
     public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.PMPService";
 
-    /**
-     * Enable this to generate sample data into the PMP-Database. (Absolutely
-     * not recommended for production use!)
-     */
-    public static final boolean USE_SAMLPE_DATA = false;
+    public static final String PMP_LOG_SUFIX = "PMP";
 
 }

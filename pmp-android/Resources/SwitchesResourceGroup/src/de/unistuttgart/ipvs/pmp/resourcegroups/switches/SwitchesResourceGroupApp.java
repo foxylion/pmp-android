@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
 
 /**
@@ -10,7 +11,12 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
  */
 public class SwitchesResourceGroupApp extends
 		ResourceGroupSingleApp<SwitchesResourceGroup> {
-
+	
+	static {
+		Log.setTagSufix("CalendarApp");
+	}
+	
+	
 	@Override
 	protected SwitchesResourceGroup createResourceGroup() {
 		// create RG
