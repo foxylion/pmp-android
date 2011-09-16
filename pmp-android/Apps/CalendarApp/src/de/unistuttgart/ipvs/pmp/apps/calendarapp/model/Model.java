@@ -3,6 +3,13 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.exception.DateNotFoundException;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
@@ -16,7 +23,7 @@ public class Model {
     /**
      * Holds all stored dates
      */
-    private ArrayList<Date> dateList;
+    private ArrayList<Date> dateList = new ArrayList<Date>();;
 
     /**
      * Stores the highest id
@@ -24,11 +31,24 @@ public class Model {
     public static int highestId = 0;
 
     /**
+     * The context of the app
+     */
+    private Context appContext;
+
+    /**
+     * Array adapter of the list to refresh it
+     */
+    private ArrayAdapter<Date> arrayAdapter;
+
+    /**
+     * The newDate button of the app to dis- and enable it
+     */
+    private Button newDateButton;
+
+    /**
      * Private constructor because of singleton
      */
     private Model() {
-	dateList = SqlConnector.getInstance().loadDates();
-	Collections.sort(dateList, new DateComparator());
     }
 
     /**
@@ -42,6 +62,44 @@ public class Model {
 	    instance = new Model();
 	}
 	return instance;
+    }
+
+    public void loadDates() {
+	for (Date date : SqlConnector.getInstance().loadDates()) {
+	    dateList.add(date);
+	}
+	Collections.sort(dateList, new DateComparator());
+	arrayAdapter.notifyDataSetChanged();	
+    }
+
+    /**
+     * Sets the array adapter that the model can refresh the list when something
+     * is changed
+     * 
+     * @param adapter
+     *            the ArrayAdapter of the list with dates
+     */
+    public void setArrayAdapter(ArrayAdapter<Date> adapter) {
+	this.arrayAdapter = adapter;
+    }
+
+    /**
+     * Sets the context of the app
+     * 
+     * @param context
+     *            context of the app
+     */
+    public void setContext(Context context) {
+	appContext = context;
+    }
+
+    /**
+     * Returns the context of the app
+     * 
+     * @return app context
+     */
+    public Context getContext() {
+	return appContext;
     }
 
     /**
@@ -58,6 +116,7 @@ public class Model {
 	 */
 	dateList.add(date);
 	Collections.sort(dateList, new DateComparator());
+	arrayAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -76,6 +135,7 @@ public class Model {
 		dateList.remove(date);
 	    }
 	}
+	arrayAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -91,6 +151,7 @@ public class Model {
 	 * If no error happened delete it local
 	 */
 	dateList.remove(index);
+	arrayAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -115,6 +176,7 @@ public class Model {
 		Collections.sort(dateList, new DateComparator());
 	    }
 	}
+	arrayAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -163,6 +225,61 @@ public class Model {
     public int getNewId() {
 	highestId++;
 	return highestId;
+    }
+
+    /**
+     * Returns the service level of the app
+     * 
+     * @return the service level
+     */
+    public int getServiceLevel() {
+	SharedPreferences app_preferences = PreferenceManager
+		.getDefaultSharedPreferences(appContext);
+	return app_preferences.getInt("servicelevel", 0);
+    }
+
+    /**
+     * Sets the service level and stores it at the preferences of the app
+     * 
+     * @param serviceLevel
+     *            the service level to set
+     */
+    public void setServiceLevel(int serviceLevel) {
+	SharedPreferences app_preferences = PreferenceManager
+		.getDefaultSharedPreferences(appContext);
+	SharedPreferences.Editor editor = app_preferences.edit();
+	editor.putInt("servicelevel", serviceLevel);
+	if (!editor.commit()) {
+	    Log.e("Error while commiting preferences");
+	}
+    }
+
+    /**
+     * Clears the local stored list of dates but not the dates stored at the
+     * database
+     */
+    public void clearLocalList() {
+	dateList.clear();
+	arrayAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Returns the new date button of the app
+     * 
+     * @return the new date button
+     */
+    public Button getNewDateButton() {
+	return newDateButton;
+    }
+
+    /**
+     * Sets the new date button
+     * 
+     * @param newDateButton
+     *            button of the app
+     */
+    public void setNewDateButton(Button newDateButton) {
+	this.newDateButton = newDateButton;
     }
 
 }

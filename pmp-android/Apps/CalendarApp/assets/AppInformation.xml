@@ -6,10 +6,12 @@
 		<name lang="sv">Kalender</name>
 		<defaultDescription lang="en">This App is used to test
 			the privacy management platform. It provides simple calendar
-			functionalities.</defaultDescription>
+			functionalities.
+		</defaultDescription>
 		<description lang="de">Die App wird verwendet um die Privacy
 			Manangement Platform zu testen. Sie stellt einfache Funktionalitäten
-			eines Kalenders zur Verfügung.</description>
+			eines Kalenders zur Verfügung.
+		</description>
 		<description lang="sv">App används för att testa plattformen
 			privatliv Manangement. Det ger enkel kalender funktioner.
 		</description>
@@ -21,7 +23,8 @@
 			<name lang="de">Null-Level</name>
 			<name lang="sv">null nivå</name>
 			<defaultDescription lang="en">I can't do anything for
-				you!</defaultDescription>
+				you!
+			</defaultDescription>
 			<description lang="de">Ich kann nichts für Sie tun!
 			</description>
 			<description lang="sv">Jag kan inte göra något för dig!
@@ -33,7 +36,8 @@
 			<name lang="de">Vollständiges Level</name>
 			<name lang="sv">Klara nivå</name>
 			<defaultDescription lang="en">I can do anything you
-				want</defaultDescription>
+				want
+			</defaultDescription>
 			<description lang="de">Ich kann alles, was Sie wünschen!
 			</description>
 			<description lang="sv">Jag kan göra vad du vill!</description>
@@ -41,14 +45,7 @@
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
 				<privacyLevel identifier="write">true</privacyLevel>
-			</requiredResourceGroup>
-			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-				<privacyLevel identifier="read">true</privacyLevel>
-				<privacyLevel identifier="write">true</privacyLevel>
-				<privacyLevel identifier="maxFileSizeForWriting">
-						<![CDATA[<value>20</value><unit>mb</unit>]]>
-				</privacyLevel>
+				<privacyLevel identifier="delete">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 	</serviceLevels>
