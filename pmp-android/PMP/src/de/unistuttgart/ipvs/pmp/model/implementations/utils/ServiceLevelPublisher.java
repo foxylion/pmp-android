@@ -61,6 +61,12 @@ public class ServiceLevelPublisher {
 		.getAllResourceGroupsUsedByServiceLevels();
 
 	for (IResourceGroup affectedResourceGroup : affectedResourceGroups) {
+	    
+	    if(affectedResourceGroup == null) {
+		Log.e("A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
+		continue;
+	    }
+	    
 	    Log.v("ResoureceGroup-AccessSet-Publishing ("
 		    + affectedResourceGroup.getIdentifier()
 		    + "): AccessSet is beeing created");

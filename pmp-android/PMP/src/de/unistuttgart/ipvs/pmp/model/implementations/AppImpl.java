@@ -134,26 +134,31 @@ public class AppImpl implements IApp {
     }
 
     @Override
-    public void setActiveServiceLevelAsPreset(int serviceLevel) {
-	/* Remove App from all Presets */
-	for (IPreset preset : getAssignedPresets()) {
-	    preset.removeApp(this, true);
+    public boolean setActiveServiceLevelAsPreset(int serviceLevel) {
+	if (getServiceLevel(serviceLevel).isAvailable()) {
+	    /* Remove App from all Presets */
+	    for (IPreset preset : getAssignedPresets()) {
+		preset.removeApp(this, true);
+	    }
+
+	    /* Create a new Preset (if not already exists) for this ServiceLevel */
+	    IPreset preset = ModelSingleton
+		    .getInstance()
+		    .getModel()
+		    .addPreset("AutoServiceLevelPreset", "",
+			    PMPComponentType.APP, identifier);
+	    preset.addApp(this, true);
+
+	    IServiceLevel sl = getServiceLevel(serviceLevel);
+	    for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
+		preset.setPrivacyLevel(pl, true);
+	    }
+
+	    return setActiveServiceLevel(serviceLevel, false);
+	} else {
+	    Log.w("Tried to set the ServiceLevel " + serviceLevel + " which is currently not available for " + identifier);
+	    return false;
 	}
-
-	/* Create a new Preset (if not already exists) for this ServiceLevel */
-	IPreset preset = ModelSingleton
-		.getInstance()
-		.getModel()
-		.addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP,
-			identifier);
-	preset.addApp(this, true);
-
-	IServiceLevel sl = getServiceLevel(serviceLevel);
-	for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
-	    preset.setPrivacyLevel(pl, true);
-	}
-
-	setActiveServiceLevel(serviceLevel, false);
     }
 
     @Override
@@ -243,7 +248,7 @@ public class AppImpl implements IApp {
 	    IResourceGroup resourceGroup = ModelSingleton.getInstance()
 		    .getModel().getResourceGroup(rgIdentifier);
 	    list.add(resourceGroup);
-	    
+
 	    cursor.moveToNext();
 	}
 	cursor.close();
@@ -288,11 +293,16 @@ public class AppImpl implements IApp {
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
-    private void setActiveServiceLevel(int serviceLevel, boolean asynchronously) {
+    private boolean setActiveServiceLevel(int serviceLevel,
+	    boolean asynchronously) {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
 	IServiceLevel oldServiceLevel = getActiveServiceLevel();
+
+	if (!getServiceLevel(serviceLevel).isAvailable()) {
+	    return false;
+	}
 
 	ContentValues cv = new ContentValues();
 	cv.put("ServiceLevel_Active", serviceLevel);
@@ -305,5 +315,7 @@ public class AppImpl implements IApp {
 	ServiceLevelPublisher slp = new ServiceLevelPublisher(this,
 		oldServiceLevel);
 	slp.publish(asynchronously);
+
+	return true;
     }
 }

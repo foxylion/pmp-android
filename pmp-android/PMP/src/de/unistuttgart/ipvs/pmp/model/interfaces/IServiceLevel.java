@@ -27,4 +27,9 @@ public interface IServiceLevel {
      * @return Returns the required privacy levels for the service level.
      */
     public IPrivacyLevel[] getPrivacyLevels();
+
+    /**
+     * @return Returns if a {@link IServiceLevel} is available for setting or not.
+     */
+    public boolean isAvailable();
 }

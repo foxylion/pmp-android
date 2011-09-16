@@ -6,6 +6,7 @@ import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -89,5 +90,34 @@ public class ServiceLevelImpl implements IServiceLevel {
 	cursor.close();
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
+    }
+
+    @Override
+    public boolean isAvailable() {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+	
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT ResourceGroup_Identifier "
+				+ "FROM ServiceLevel_PrivacyLevels "
+				+ "WHERE App_Identifier = ? AND ServiceLevel_Level = " + level,
+			new String[] { appIdentifier });
+
+	cursor.moveToNext();
+
+	while (!cursor.isAfterLast()) {
+	    String resourceGroupIdentifier = cursor.getString(cursor.getColumnIndex("ResourceGroup_Identifier"));
+	    
+	    /* check if there is any resource group with that identifier. */
+	    if(ModelSingleton.getInstance().getModel().getResourceGroup(resourceGroupIdentifier) == null) {
+		return false;
+	    }
+
+	    cursor.moveToNext();
+	}
+	cursor.close();
+
+	return true;
     }
 }
