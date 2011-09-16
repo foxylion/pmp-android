@@ -6,6 +6,8 @@ import de.unistuttgart.ipvs.pmp.PMPComponentType;
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and
  * {@link IResourceGroup}s known by PMP.
  * 
+ * That interface can got by calling <code>ModelSingleton.getInstance().getModel();</code>.
+ * 
  * @author Jakob Jarosch
  */
 public interface IModel {
