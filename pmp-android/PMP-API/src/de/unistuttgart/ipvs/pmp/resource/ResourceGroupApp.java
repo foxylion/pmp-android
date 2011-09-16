@@ -26,4 +26,12 @@ public abstract class ResourceGroupApp extends Application {
     public abstract ResourceGroup getResourceGroupForService(
 	    ResourceGroupService rgs);
 
+    /**
+     * Fetches all {@link ResourceGroup}s held by this App.
+     * 
+     * @return all the {@link ResourceGroup}s that could possibly returned by
+     *         {@link ResourceGroupApp#getResourceGroupForService(ResourceGroupService)}
+     */
+    public abstract ResourceGroup[] getAllResourceGroups();
+
 }

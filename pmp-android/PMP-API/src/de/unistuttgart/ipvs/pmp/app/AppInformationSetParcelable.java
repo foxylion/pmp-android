@@ -60,7 +60,7 @@ public class AppInformationSetParcelable implements Parcelable {
 
     @Override
     public int describeContents() {
-	return this.hashCode();
+	return 0;
     }
 
     /**
