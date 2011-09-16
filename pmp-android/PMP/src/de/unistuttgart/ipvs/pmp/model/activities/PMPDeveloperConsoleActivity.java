@@ -118,7 +118,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
 		    protected void toBeExecuted() {
 			DatabaseSingleton.getInstance().getDatabaseHelper()
 				.cleanTables();
-			PMPApplication.getSignee().clean();
+			PMPApplication.getSignee().clearRemotePublicKeys();
 		    }
 		}.execute();
 	    }
