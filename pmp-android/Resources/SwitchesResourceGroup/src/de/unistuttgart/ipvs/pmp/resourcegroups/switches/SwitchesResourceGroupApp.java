@@ -13,7 +13,7 @@ public class SwitchesResourceGroupApp extends
 		ResourceGroupSingleApp<SwitchesResourceGroup> {
 	
 	static {
-		Log.setTagSufix("CalendarApp");
+		Log.setTagSufix("SwitchesRG");
 	}
 	
 	
