@@ -27,8 +27,11 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 /**
  * Signature helper class to handle all the signed messages in PMP for a
  * specific {@link PMPComponentType} and {@link PMPSignedService} using an
- * asymmetric crypto system. It is not known whether it is thread-safe. It will
- * automatically save on changes.
+ * asymmetric crypto system. It should be thread-safe in a way that the safety
+ * is ensured. This means if one operation is performed on the signee instance,
+ * no other operation can be performed until the first one has completed. How
+ * good this works with the liveness property is unknown. It will automatically
+ * save on changes.
  * 
  * @author Tobias Kuhn
  * 
@@ -115,7 +118,7 @@ public class PMPSignee {
      * 
      * @return the local public key, null if the initialization was faulty
      */
-    public byte[] getLocalPublicKey() {
+    public synchronized byte[] getLocalPublicKey() {
 	if (local == null) {
 	    Log.e("PMPSignee tried to fetch local public key, but had null values present.");
 	    return null;
@@ -147,7 +150,7 @@ public class PMPSignee {
      * @param remotePublicKey
      *            the public key belonging to the identifier
      */
-    public void setRemotePublicKey(PMPComponentType boundType,
+    public synchronized void setRemotePublicKey(PMPComponentType boundType,
 	    String boundIdentifier, byte[] remotePublicKey) {
 
 	try {
@@ -181,12 +184,14 @@ public class PMPSignee {
      *         invalid. Also false, if no public key was set for
      *         remoteIdentifier.
      */
-    public boolean isSignatureValid(PMPComponentType boundType,
+    public synchronized boolean isSignatureValid(PMPComponentType boundType,
 	    String boundIdentifier, byte[] content, byte[] signature) {
 	// check for nulls
 	if ((local == null) || (remotePublicKeys == null) || (content == null)
 		|| (signature == null)) {
-	    Log.e("PMPSignee tried to verify a signature, but had null values present.");
+	    Log.e("PMPSignee tried to verify a signature from "
+		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier + ", but had null values present.");
 	    return false;
 	}
 
@@ -194,7 +199,9 @@ public class PMPSignee {
 	PublicKey pk = remotePublicKeys.get(boundType
 		+ TYPE_IDENTIFIER_SEPARATOR + boundIdentifier);
 	if (pk == null) {
-	    Log.e("PMPSignee tried to verify a signature, but did not know the remote.");
+	    Log.e("PMPSignee tried to verify a signature from "
+		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier + ", but did not know the remote.");
 	    return false;
 	}
 
@@ -203,7 +210,9 @@ public class PMPSignee {
 	    Signature sg = Signature.getInstance(ALGORITHM_SIGNATURE);
 	    sg.initVerify(pk);
 	    sg.update(content);
-	    Log.d("PMPSignee returns actual signature validity.");
+	    Log.d("PMPSignee returns actual signature validity for remote "
+		    + boundType.toString() + TYPE_IDENTIFIER_SEPARATOR
+		    + boundIdentifier + ".");
 	    return sg.verify(signature);
 
 	} catch (NoSuchAlgorithmException e) {
@@ -225,7 +234,7 @@ public class PMPSignee {
      * @return the signature for content, or null if the initialization was
      *         faulty
      */
-    public byte[] signContent(byte[] content) {
+    public synchronized byte[] signContent(byte[] content) {
 	// null check
 	if ((local == null) || (content == null)) {
 	    Log.e("PMPSignee tried to sign content, but had null values present.");
@@ -289,7 +298,7 @@ public class PMPSignee {
      * 
      * @return true, iff the file was succesfully loaded
      */
-    public final boolean load() {
+    public synchronized final boolean load() {
 	// load signee, if exists
 	try {
 	    InputStream is = context.openFileInput(getIdentifier());
@@ -310,7 +319,7 @@ public class PMPSignee {
      * service. Pay close attention where you save, attackers could try to get
      * there!
      */
-    public final void save() {
+    public synchronized final void save() {
 	// save signee
 	try {
 	    OutputStream os = context.openFileOutput(getIdentifier(),
@@ -330,7 +339,7 @@ public class PMPSignee {
      * 
      * @return the type of this signee
      */
-    public PMPComponentType getType() {
+    public synchronized PMPComponentType getType() {
 	return this.type;
     }
 
@@ -339,7 +348,7 @@ public class PMPSignee {
      * @param androidName
      *            the android:name identifier of this signee
      */
-    public void setIdentifier(String androidName) {
+    public synchronized void setIdentifier(String androidName) {
 	this.identifier = androidName;
     }
 
@@ -347,7 +356,7 @@ public class PMPSignee {
      * 
      * @return the identifier of this signee
      */
-    public String getIdentifier() {
+    public synchronized String getIdentifier() {
 	return this.identifier;
     }
 
@@ -355,7 +364,7 @@ public class PMPSignee {
      * 
      * @return the context of this signee
      */
-    public Context getContext() {
+    public synchronized Context getContext() {
 	return this.context;
     }
 
