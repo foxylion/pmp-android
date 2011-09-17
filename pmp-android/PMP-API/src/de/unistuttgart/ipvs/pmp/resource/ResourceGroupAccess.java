@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.resource;
 import java.io.Serializable;
 import java.util.Map;
 
-import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
 
 /**

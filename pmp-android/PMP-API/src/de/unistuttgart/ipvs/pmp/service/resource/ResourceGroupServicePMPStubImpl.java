@@ -1,12 +1,16 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.SerializableContainer;
 
@@ -46,7 +50,7 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public String getPrivacyLevelName(String locale, String identifier)
 	    throws RemoteException {
-	PrivacyLevel pl = rg.getPrivacyLevel(identifier);
+	PrivacyLevel<?> pl = rg.getPrivacyLevel(identifier);
 	if (pl == null) {
 	    return null;
 	} else {
@@ -57,7 +61,7 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public String getPrivacyLevelDescription(String locale, String identifier)
 	    throws RemoteException {
-	PrivacyLevel pl = rg.getPrivacyLevel(identifier);
+	PrivacyLevel<?> pl = rg.getPrivacyLevel(identifier);
 	if (pl == null) {
 	    return null;
 	} else {
@@ -68,33 +72,72 @@ public class ResourceGroupServicePMPStubImpl extends
     @Override
     public String getHumanReadablePrivacyLevelValue(String locale,
 	    String identifier, String value) throws RemoteException {
-	PrivacyLevel pl = rg.getPrivacyLevel(identifier);
+	PrivacyLevel<?> pl = rg.getPrivacyLevel(identifier);
 	if (pl == null) {
 	    return null;
 	} else {
-	    return pl.getHumanReadableValue(locale, value);
+	    
+	    try {
+		return pl.getHumanReadableValue(locale, value);
+	    } catch (PrivacyLevelValueException e) {
+		throw generateCausedRemoteException(e);
+	    }
 	}
     }
 
     @Override
-    public void setAccesses(SerializableContainer accesses)
+    public void setAccesses(SerializableContainer remoteAccesses)
 	    throws RemoteException {
-	ResourceGroupAccess[] rgas = (ResourceGroupAccess[]) accesses.getSerializable();
+	/*
+	 * local resorting variables are marked local:
+	 * Application => (PrivacyLevel => Value)
+	 * remote variables are marked remote:
+	 * PrivacyLevel => (Application => Value)
+	 */
+	Map<String, Map<String, String>> localPLsAccess = new HashMap<String, Map<String,String>>();
+	
+	ResourceGroupAccess[] rgas = (ResourceGroupAccess[]) remoteAccesses.getSerializable();
 	for (ResourceGroupAccess rga : rgas) {
+	    // update the public keys
 	    rg.getSignee().setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());	    
-	    rg.updateAccess(rga);
+	    
+	    // create our new internal representation,
+	    // the resorting is quite confusing...
+	    for (Entry<String, String> remotePLValue : rga.getPrivacyLevelValues().entrySet()) {
+		
+		Map<String, String> localAppValues = localPLsAccess.get(remotePLValue.getKey());
+		if (localAppValues == null) {
+		    localAppValues = new HashMap<String, String>();
+		    localPLsAccess.put(remotePLValue.getKey(), localAppValues);
+		}
+		
+		localAppValues.put(rga.getHeader().getIdentifier(), remotePLValue.getValue());
+		
+	    }	   
+	}
+	for (Entry<String, Map<String, String>> e : localPLsAccess.entrySet()) {
+	    try {
+		rg.updateAccess(e.getKey(), e.getValue());
+	    } catch (PrivacyLevelValueException e1) {
+		throw generateCausedRemoteException(e1);
+	    }
 	}
     }
 
     @Override
     public boolean satisfiesPrivacyLevel(String privacyLevel, String reference,
 	    String value) throws RemoteException {
-	PrivacyLevel pl = rg.getPrivacyLevel(privacyLevel);
+	PrivacyLevel<?> pl = rg.getPrivacyLevel(privacyLevel);
 	if (pl == null) {
 	    return false;
 	} else {
-	    return pl.isQualified(reference, value);
+	    
+	    try {
+		return pl.permits(reference, value);
+	    } catch (PrivacyLevelValueException e) {
+		throw generateCausedRemoteException(e);
+	    }
 	}
     }
 
@@ -119,6 +162,17 @@ public class ResourceGroupServicePMPStubImpl extends
 	} else {
 	    rg.onRegistrationFailed(state.getMessage());
 	}
+    }
+    
+    /**
+     * Generates a {@link RemoteException} caused by cause.
+     * @param cause
+     * @return
+     */
+    private static RemoteException generateCausedRemoteException(Throwable cause) {
+	RemoteException re = new RemoteException();
+	re.initCause(cause);
+	return re;
     }
 
 }

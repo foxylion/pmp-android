@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -50,12 +51,7 @@ public abstract class ResourceGroup {
     /**
      * The privacy levels present in that resource group.
      */
-    private final Map<String, PrivacyLevel> privacyLevels;
-
-    /**
-     * Stores the list of the privacy level values.
-     */
-    private final Map<String, Map<String, String>> privacyLevelValues;
+    private final Map<String, PrivacyLevel<?>> privacyLevels;
 
     /**
      * Creates a new {@link ResourceGroup}.
@@ -68,8 +64,7 @@ public abstract class ResourceGroup {
 		getServiceAndroidName(), serviceContext);
 
 	resources = new HashMap<String, Resource>();
-	privacyLevels = new HashMap<String, PrivacyLevel>();
-	privacyLevelValues = new HashMap<String, Map<String, String>>();
+	privacyLevels = new HashMap<String, PrivacyLevel<?>>();
     }
 
     /**
@@ -146,7 +141,7 @@ public abstract class ResourceGroup {
      * @param privacyLevel
      */
     public void registerPrivacyLevel(String identifier,
-	    PrivacyLevel privacyLevel) {
+	    PrivacyLevel<?> privacyLevel) {
 	privacyLevels.put(identifier, privacyLevel);
     }
 
@@ -156,7 +151,7 @@ public abstract class ResourceGroup {
      * @return the privacy level identified by "identifier", if present, null
      *         otherwise
      */
-    public PrivacyLevel getPrivacyLevel(String identifier) {
+    public PrivacyLevel<?> getPrivacyLevel(String identifier) {
 	return privacyLevels.get(identifier);
     }
 
@@ -173,30 +168,22 @@ public abstract class ResourceGroup {
      * {@link ResourceGroupService}. <b>Do not call this method yourself or
      * allow a different context to call it.</b>
      * 
-     * @param rga
-     *            the {@link ResourceGroupAccess} to update
+     * @param privacyLevelIdentifier
+     *            the identifier of the privacy level to update
+     * @param privacyLevelValues
+     *            a map from appIdentifier to privacy level value.
+     * @throws PrivacyLevelValueException
+     *             if any of the supplied values did not match the privacy
+     *             levels criteria
      */
-    public final void updateAccess(ResourceGroupAccess rga) {
-	privacyLevelValues.put(rga.getHeader().getIdentifier(),
-		rga.getPrivacyLevelValues());
-    }
-
-    /**
-     * 
-     * @param appIdentifier
-     *            the identifier of the accessing app
-     * @param privacyLevel
-     *            the identifier of the privacy level
-     * @return the privacy level value identified by "privacyLevel" for the app
-     *         "appIdentifier", if present, null otherwise
-     */
-    protected final String getPrivacyLevelValue(String appIdentifier,
-	    String privacyLevel) {
-	Map<String, String> appPLs = privacyLevelValues.get(appIdentifier);
-	if (appPLs == null) {
-	    return null;
+    public final void updateAccess(String privacyLevelIdentifier,
+	    Map<String, String> privacyLevelValues)
+	    throws PrivacyLevelValueException {
+	PrivacyLevel<?> pl = getPrivacyLevel(privacyLevelIdentifier);
+	if (pl == null) {
+	    Log.e("Should update access for a privacy level which does not exist.");
 	} else {
-	    return appPLs.get(privacyLevel);
+	    pl.setValues(privacyLevelValues);
 	}
     }
 

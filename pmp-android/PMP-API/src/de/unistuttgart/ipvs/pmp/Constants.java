@@ -42,5 +42,10 @@ public class Constants {
     public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.PMPService";
 
     public static final String PMP_LOG_SUFIX = "PMP";
+    
+    /**
+     * The default locale required to be present at all times
+     */
+    public static final String DEFAULT_LOCALE = "en";
 
 }

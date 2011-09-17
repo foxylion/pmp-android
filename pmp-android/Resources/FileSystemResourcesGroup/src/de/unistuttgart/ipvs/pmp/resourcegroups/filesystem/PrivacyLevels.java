@@ -363,9 +363,7 @@ public class PrivacyLevels {
 		}
 		BooleanPrivacyLevel privacyLevel = (BooleanPrivacyLevel) resource
 				.getPrivacyLevel(privacyLevelName);
-		String setPrivacyLevel = resource.getPrivacyLevelValue(app,
-				privacyLevelName);
-		return privacyLevel.parseValue(setPrivacyLevel);
+		return privacyLevel.permits(app, true);
 	}
 
 }
