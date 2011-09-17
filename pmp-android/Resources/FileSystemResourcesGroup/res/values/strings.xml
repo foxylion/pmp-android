@@ -15,14 +15,28 @@
     <string name="pl_generic_write_desc">Allows the application to write files everywhere on the device.</string>
     <string name="pl_generic_list_desc">Allows the application to receive a list of all files stored in every directory of on the device.</string>
 	<string name="pl_generic_delete_desc">Allows the application to delete every file stored on the device.</string>
-    <string name="pl_generic_mkdirs_desc">Allows the application to delete every file stored on the device.</string>
+    <string name="pl_generic_mkdirs_desc">Allows the application to create directories everywhere on the device.</string>
+    
     <string name="pl_external_base_dir">External base directory</string>
-    <string name="pl_external_music">External music directory</string>
-    <string name="pl_external_podcasts">External podcasts directory</string>
-    <string name="pl_external_ringtones">External ringtones directory</string>
-    <string name="pl_external_alarms">External alarms directory</string>
-    <string name="pl_external_notifications">External notifications directory</string>
-    <string name="pl_external_pictures">External pictures directory</string>
-    <string name="pl_external_movies">External movies directory</string>
-    <string name="pl_external_download">External download directory</string>
+    <string name="pl_external_base_dir_notice">If this is enabled, privacy-levels for sub-directories (like "music") will be ignored.</string>
+    <string name="pl_external_base_dir_read_desc">Allows the application to read every files stored in the external directory.</string>
+    <string name="pl_external_base_dir_write_desc">Allows the application to write files everywhere in the external directory.</string>
+    <string name="pl_external_base_dir_list_desc">Allows the application to receive a list of all files stored in the external directory.</string>
+	<string name="pl_external_base_dir_delete_desc">Allows the application to delete every file stored in the external directory.</string>
+    <string name="pl_external_base_dir_mkdirs_desc">Allows the application to create directories everywhere in the external directory.</string>
+
+	<string name="pl_external_read_desc">Allows the application to read files stored in the external {dir} directory.</string>
+	<string name="pl_external_write_desc">Allows the application to write files in the external {dir} directory.</string>
+	<string name="pl_external_list_desc">Allows the application to list all files and directories in the external {dir} directory.</string>
+	<string name="pl_external_delete_desc">Allows the application to delete files and directories stored in the external {dir} directory.</string>
+	<string name="pl_external_mkdirs_desc">Allows the application to create new directories in the external {dir} directory.</string>
+	<string name="pl_external">External {dir} directory</string>
+    <string name="music">music</string>
+    <string name="podcasts">podcasts</string>
+    <string name="ringtones">ringtones</string>
+    <string name="alarms">alarms</string>
+    <string name="notifications">notifications</string>
+    <string name="pictures">pictures</string>
+    <string name="movies">movies</string>
+    <string name="download">download</string>
 </resources>
