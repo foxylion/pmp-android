@@ -42,7 +42,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
 		this.context = context;
 		
 		// Generate privacy-levels and register them
-		PrivacyLevels privacyLevels = new PrivacyLevels();
+		PrivacyLevels privacyLevels = new PrivacyLevels(context);
 		privacyLevels.addToResourceGroup(this);
 		
 		// Generate resources and register them
@@ -52,20 +52,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
 
 	@Override
 	public String getName(String locale) {
-		if (locale.equalsIgnoreCase("de")) {
-			return "Dateisystem";
-		} else {
-			return "Filesystem";
-		}
+		return context.getResources().getString(R.string.rg_name);
 	}
 
 	@Override
 	public String getDescription(String locale) {
-		if (locale.equalsIgnoreCase("de")) {
-			return "Bietet Anwendungen Zugriff auf auf dem Ger�t gespeicherte Dateien.";
-		} else {
-			return "Gives applications access to files saved on the device.";
-		}
+		return context.getResources().getString(R.string.rg_desc);
 	}
 
 	@Override
