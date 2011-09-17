@@ -61,12 +61,12 @@ public class ServiceLevelPublisher {
 		.getAllResourceGroupsUsedByServiceLevels();
 
 	for (IResourceGroup affectedResourceGroup : affectedResourceGroups) {
-	    
-	    if(affectedResourceGroup == null) {
+
+	    if (affectedResourceGroup == null) {
 		Log.e("A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
 		continue;
 	    }
-	    
+
 	    Log.v("ResoureceGroup-AccessSet-Publishing ("
 		    + affectedResourceGroup.getIdentifier()
 		    + "): AccessSet is beeing created");
@@ -75,8 +75,9 @@ public class ServiceLevelPublisher {
 
 	    for (IApp app : affectedResourceGroup
 		    .getAllAppsUsingThisResourceGroup()) {
-		byte[] publicKey = PMPApplication.getSignee().getRemotePublicKey(
-			PMPComponentType.APP, app.getIdentifier());
+		byte[] publicKey = PMPApplication.getSignee()
+			.getRemotePublicKey(PMPComponentType.APP,
+				app.getIdentifier());
 
 		Bundle privacyLevels = new Bundle();
 
@@ -126,10 +127,10 @@ public class ServiceLevelPublisher {
 
 		    try {
 			Log.v("Calling setAccesses()...");
-			rgsc.getPMPService()
-				.setAccesses(
-					accesses.toArray(new ResourceGroupAccess[accesses
-						.size()]));
+			ResourceGroupAccess[] rgas = accesses
+				.toArray(new ResourceGroupAccess[accesses
+					.size()]);
+			rgsc.getPMPService().setAccesses(rgas);
 			Log.d("ResoureceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): Successfully set new Accesses.");
