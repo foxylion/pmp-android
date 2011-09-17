@@ -212,7 +212,7 @@ public abstract class ResourceGroup {
      *            {@link Context} to use for the connection
      * 
      */
-    public void start(Context context) {
+    protected void start(Context context) {
 
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,

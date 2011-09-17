@@ -24,8 +24,6 @@ public class SwitchesResourceGroupApp extends
 				getApplicationContext());
 		// call methods for this RG
 		srg.setContext(getApplicationContext());
-		// start it
-		srg.start(getApplicationContext());
 		return srg;
 	}
 

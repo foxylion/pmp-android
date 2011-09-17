@@ -44,8 +44,8 @@
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
-				<privacyLevel identifier="write">true</privacyLevel>
-				<privacyLevel identifier="delete">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 	</serviceLevels>

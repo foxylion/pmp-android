@@ -39,26 +39,26 @@ public abstract class Resource {
     /**
      * Retrieves an actual privacy level class.
      * 
-     * @param privacyLevel
-     *            the name of the privacy level
-     * @return the privacy level named privacyLevel in the resource group.
+     * @param identifier
+     *            the identifier of the privacy level
+     * @return the privacy level with the the identifier in the resource group.
      */
-    public final PrivacyLevel getPrivacyLevel(String privacyLevel) {
-	return resourceGroup.getPrivacyLevel(privacyLevel);
+    public final PrivacyLevel getPrivacyLevel(String identifier) {
+	return resourceGroup.getPrivacyLevel(identifier);
     }
 
     /**
      * Retrieves the setting for a privacy level.
      * 
      * @param appIdentifier
-     *            the identifier for the accessing app
-     * @param privacyLevel
-     *            the name of the privacy level
+     *            the identifier of the accessing app
+     * @param privacyIdentifier
+     *            the identifier of the privacy level
      * @return the value of the privacy level
      */
     public final String getPrivacyLevelValue(String appIdentifier,
-	    String privacyLevel) {
-	return resourceGroup.getPrivacyLevelValue(appIdentifier, privacyLevel);
+	    String privacyIdentifier) {
+	return resourceGroup.getPrivacyLevelValue(appIdentifier, privacyIdentifier);
     }
 
     /**
