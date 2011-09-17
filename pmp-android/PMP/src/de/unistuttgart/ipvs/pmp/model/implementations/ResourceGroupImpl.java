@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
@@ -73,26 +74,57 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
-    
+
+    @Override
+    public IPrivacyLevel getPrivacyLevel(String privacyLevelIdentifier) {
+	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
+		.getReadableDatabase();
+
+	Cursor cursor = db
+		.rawQuery(
+			"SELECT Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = ? AND Identifier = ?",
+			new String[] { identifier, privacyLevelIdentifier });
+
+	if (cursor.getCount() == 1) {
+	    cursor.moveToNext();
+
+	    String plIdentifier = cursor.getString(cursor
+		    .getColumnIndex("Identifier"));
+	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+	    String description = cursor.getString(cursor
+		    .getColumnIndex("Description_Cache"));
+
+	    cursor.close();
+	    return new PrivacyLevelImpl(identifier, plIdentifier, name,
+		    description);
+	} else {
+	    Log.d("Model: There is no PrivacyLevel " + privacyLevelIdentifier + " in the ResourceGroup " + identifier);
+	    cursor.close();
+	    return null;
+	}
+    }
+
     @Override
     public IApp[] getAllAppsUsingThisResourceGroup() {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
 	List<IApp> list = new ArrayList<IApp>();
-	
+
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT a.Identifier "
 				+ "FROM App AS a, ServiceLevel_PrivacyLevels AS slpl "
 				+ "WHERE a.ServiceLevel_Active = slpl.ServiceLevel_Level AND slpl.ResourceGroup_Identifier = ?",
 			new String[] { identifier });
-	
+
 	cursor.moveToNext();
-	
-	while(!cursor.isAfterLast()) {
-	    String appIdentifier = cursor.getString(cursor.getColumnIndex("Identifier"));
-	    IApp app = ModelSingleton.getInstance().getModel().getApp(appIdentifier);
+
+	while (!cursor.isAfterLast()) {
+	    String appIdentifier = cursor.getString(cursor
+		    .getColumnIndex("Identifier"));
+	    IApp app = ModelSingleton.getInstance().getModel()
+		    .getApp(appIdentifier);
 	    list.add(app);
 	    cursor.moveToNext();
 	}

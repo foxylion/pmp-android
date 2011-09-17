@@ -5,10 +5,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.SimplePrivacyLevel;
-import de.unistuttgart.ipvs.pmp.resourcegroups.database.R;
-import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
 
 /**
  * @author Dang Huynh
@@ -16,98 +14,108 @@ import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
  */
 public class DatabaseResourceGroup extends ResourceGroup {
 
-	public static final String DATABASE_RESOURCE_IDENTIFIER = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
-	public static final String PRIVACY_LEVEL_READ = "read";
-	public static final String PRIVACY_LEVEL_WRITE = "write";
-	public static final String PRIVACY_LEVEL_DELETE = "delete";
-	// public static final String PRIVACY_LEVEL_CREATE = "create";
+    public static final String DATABASE_RESOURCE_IDENTIFIER = 
+	    "de.unistuttgart.ipvs.pmp.resourcegroups.database";
 
-	private DatabaseResource dbr;
-	private Class<? extends PMPSignedService> service;
-	private Context context;
+    private Context context;
 
-	// PL
-	private SimplePrivacyLevel read, write, delete;
+    public static final String PRIVACY_LEVEL_READ = "read";
+    public static final String PRIVACY_LEVEL_MODIFY = "modify";
+    public static final String PRIVACY_LEVEL_CREATE = "create";
 
-	public DatabaseResourceGroup(Context serviceContext,
-			Class<? extends PMPSignedService> service) {
-		super(serviceContext);
-		context = serviceContext;
-		this.service = service;
-		Log.d(context.getResources().getString(R.string.resource_group_name));
+    private DatabaseResource dbr;
 
-		// Register the privacy levels
-		// TODO: Create the privacy levels
-		registerPrivacyLevel(PRIVACY_LEVEL_READ, read);
-		registerPrivacyLevel(PRIVACY_LEVEL_WRITE, write);
-		registerPrivacyLevel(PRIVACY_LEVEL_DELETE, delete);
+    // PL
+    private BooleanPrivacyLevel read, modify, create;
 
-		// Register the resource
-		// TODO: Where should the resource be created? Only when an authorized
-		// application request, right?
-		dbr = new DatabaseResource();
-		registerResource(DATABASE_RESOURCE_IDENTIFIER, dbr);
-	}
+    public DatabaseResourceGroup(Context context) {
+	super(context);
+	this.context = context;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getName(java.lang.String)
-	 */
-	@Override
-	public String getName(String locale) {
-		// TODO: Locale or not locale?
-		return context.getResources().getString(R.string.resource_group_name);
-	}
+	// TODO Remove Log
+	Log.d(context.getResources().getString(R.string.resource_group_name) + getDescription("en"));
+	
+	// Prepare the privacy levels and resource
+	read = new BooleanPrivacyLevel(context.getResources().getString(
+		R.string.privacy_level_read_name), context.getResources()
+		.getString(R.string.privacy_level_read_description));
+	modify = new BooleanPrivacyLevel(context.getResources().getString(
+		R.string.privacy_level_modify_name), context.getResources()
+		.getString(R.string.privacy_level_modify_description));
+	create = new BooleanPrivacyLevel(context.getResources().getString(
+		R.string.privacy_level_create_name), context.getResources()
+		.getString(R.string.privacy_level_create_description));
+	dbr = new DatabaseResource(context);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getDescription(java.lang
-	 * .String)
-	 */
-	@Override
-	public String getDescription(String locale) {
-		// TODO: Locale or not locale?
-		return context.getResources().getString(R.string.resource_group_name);
-	}
+	// Register the privacy levels
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, read);
+	registerPrivacyLevel(PRIVACY_LEVEL_MODIFY, modify);
+	registerPrivacyLevel(PRIVACY_LEVEL_CREATE, create);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getServiceAndroidName()
-	 */
-	@Override
-	protected String getServiceAndroidName() {
-		return DATABASE_RESOURCE_IDENTIFIER;
-	}
+	// Register the resource
+	// TODO: Where should the resource be created? Only when an authorized
+	// application request, right?
+	registerResource(DATABASE_RESOURCE_IDENTIFIER, dbr);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#onRegistrationSuccess()
-	 */
-	@Override
-	public void onRegistrationSuccess() {
-		// TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getName(java.lang.String)
+     */
+    @Override
+    public String getName(String locale) {
+	// TODO: Locale or not locale?
+	return context.getResources().getString(R.string.resource_group_name);
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getDescription(java.lang
+     * .String)
+     */
+    @Override
+    public String getDescription(String locale) {
+	// TODO: Locale or not locale?
+	return context.getResources().getString(
+		R.string.resource_group_description);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#onRegistrationFailed(
-	 * java.lang.String)
-	 */
-	@Override
-	public void onRegistrationFailed(String message) {
-		// TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#getServiceAndroidName()
+     */
+    @Override
+    protected String getServiceAndroidName() {
+	return DATABASE_RESOURCE_IDENTIFIER;
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#onRegistrationSuccess()
+     */
+    @Override
+    public void onRegistrationSuccess() {
+	Log.d("Registration with the PMP Service successed");
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.unistuttgart.ipvs.pmp.resource.ResourceGroup#onRegistrationFailed(
+     * java.lang.String)
+     */
+    @Override
+    public void onRegistrationFailed(String message) {
+	// TODO Retry?
+	Log.e("Registration with the PMP Service failed: " + message + "");
+    }
 }

@@ -48,20 +48,37 @@ public class BooleanPrivacyLevel extends PrivacyLevel {
 
     @Override
     public String getHumanReadableValue(String locale, String value) {
-	if (locale == "de") {
-	    return parseValue(value) ? "wahr" : "falsch";
+	if (locale.equals("de")) {
+	    return valueOf(value) ? "wahr" : "falsch";
 	} else {
-	    return parseValue(value) ? "true" : "false";
+	    return valueOf(value) ? "true" : "false";
 	}
     }
 
     @Override
     public boolean isQualified(String reference, String value) {
-	return (parseValue(value) || (!parseValue(reference))); 
+	return (valueOf(value) || (!valueOf(reference))); 
     }
     
+    /**
+     * Parse and return boolean from PrivacyLevel value.
+     *
+     * @deprecated Please use the static method {@link #valueOf(String)} instead
+     *    
+     */
+    @Deprecated
     public boolean parseValue(String value) {
 	return Boolean.valueOf(value);
     }
 
+    /**
+     * Parse and return boolean value from a Privacy Level string.
+     * 
+     * @param value
+     * @return Boolean.TRUE if value is equal to "true" using case insensitive
+     *         comparison, Boolean.FALSE otherwise.
+     */
+    public static boolean valueOf(String value) {
+	return Boolean.valueOf(value);
+    }
 }

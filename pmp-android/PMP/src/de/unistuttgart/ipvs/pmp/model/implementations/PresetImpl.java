@@ -197,6 +197,13 @@ public class PresetImpl implements IPreset {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
+	/*
+	 * Remove the privacy level from preset (either it is inside or not),
+	 * will prevent that the privacy level is doubled inside.
+	 */
+	removePrivacyLevel(privacyLevel, true);
+
+	/* add the new (or changed) privacy level */
 	ContentValues cv = new ContentValues();
 	cv.put("Preset_Name", name);
 	cv.put("Preset_Type", type.toString());

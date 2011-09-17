@@ -87,7 +87,10 @@ public class ServiceLvlActivity extends Activity {
      */
     private void loadServiceLevels() {
 	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
+	
 	IServiceLevel levelArray[] = app.getServiceLevels();
+	Log.v("ServiceLeveltActivity: Number of Service Levels" + String.valueOf(levelArray.length)
+		+ "for the app: " + app.getName());
 	RadioGroup group = new RadioGroup(this);
 	/*Iterate over Service Levels */
 	for (int i = 0; i < levelArray.length; i++) {
@@ -97,13 +100,21 @@ public class ServiceLvlActivity extends Activity {
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
+	    /*Check if Service Level is set*/
 	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
+	    /*Check if Service Level is available*/
+	    if(levelArray[i].isAvailable()){
 	    button
 		    .setOnTouchListener(new OnLevelTouchListener(this,
 			    levelArray[i].getDescription(), button, this,
 			    identifier, i));
+	    
+	    }else{
+		button.setEnabled(false);
+		button.setTextColor(Color.GRAY);
+	    }
 	    group.addView(button);
 	}
 	group.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -206,8 +217,6 @@ class OnLevelTouchListener implements OnTouchListener {
 			.getApp(identifier);
 		IServiceLevel levelArray[] = app.getServiceLevels();
 		final IServiceLevel level = levelArray[levelID];
-		Log.v("appID:" + String.valueOf(identifier));
-		Log.v("levelID:" + String.valueOf(levelID));
 		/* Set the Service Level here */
 
 		final Dialog waitingDialog = ProgressDialog.show(context,

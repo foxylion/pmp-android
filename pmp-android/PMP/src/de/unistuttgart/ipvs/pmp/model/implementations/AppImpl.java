@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
@@ -26,10 +27,31 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
  */
 public class AppImpl implements IApp {
 
+    /**
+     * The identifier of the {@link IApp} should be unique.
+     */
     private String identifier;
+
+    /**
+     * The localized name of the {@link IApp}.
+     */
     private String name;
+
+    /**
+     * The localized description of the {@link IApp}.
+     */
     private String description;
 
+    /**
+     * Constructor for the {@link AppImpl}.
+     * 
+     * @param identifier
+     *            The identifier of the {@link IApp}.
+     * @param name
+     *            The name of the {@link IApp}.
+     * @param description
+     *            The description of the {@link IApp}.
+     */
     public AppImpl(String identifier, String name, String description) {
 	this.identifier = identifier;
 	this.name = name;
@@ -53,25 +75,27 @@ public class AppImpl implements IApp {
 
     @Override
     public IServiceLevel[] getServiceLevels() {
-	List<IServiceLevel> list = new ArrayList<IServiceLevel>();
-
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	List<IServiceLevel> list = new ArrayList<IServiceLevel>();
 
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? ORDER BY Level ASC",
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
 	cursor.moveToNext();
 
+	/* iterating over the entries of service levels */
 	while (!cursor.isAfterLast()) {
 	    int level = cursor.getInt(cursor.getColumnIndex("Level"));
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    list.add(new ServiceLevelImpl(identifier, level, name, description));
+	    list.add(new ServiceLevelImpl(getIdentifier(), level, name,
+		    description));
 
 	    cursor.moveToNext();
 	}
@@ -82,29 +106,34 @@ public class AppImpl implements IApp {
 
     @Override
     public IServiceLevel getServiceLevel(int level) {
+	ModelConditions.assertServiceLevelIdNotNegative(level);
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	IServiceLevel returnValue = null;
 
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Level, Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Level = "
 				+ level + " LIMIT 1",
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    cursor.close();
-
-	    return new ServiceLevelImpl(identifier, level, name, description);
+	    returnValue = new ServiceLevelImpl(getIdentifier(), level, name,
+		    description);
 	} else {
-	    cursor.close();
-	    return null;
+	    Log.d("ServiceLevel " + level + " for " + getIdentifier()
+		    + " was not found in Database.");
 	}
+
+	cursor.close();
+	return returnValue;
     }
 
     @Override
@@ -112,30 +141,34 @@ public class AppImpl implements IApp {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
+	IServiceLevel returnValue = null;
+
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    int serviceLevel = cursor.getInt(cursor
 		    .getColumnIndex("ServiceLevel_Active"));
 
-	    cursor.close();
-
-	    return getServiceLevel(serviceLevel);
+	    returnValue = getServiceLevel(serviceLevel);
 	} else {
-	    cursor.close();
-	    Log.e("App was not found in Database, Model seems to be out of sync with Database.");
-	    return null;
+	    Log.e("Model: App "
+		    + getIdentifier()
+		    + " was not found in Database, Model seems to be out of sync with Database.");
 	}
 
+	cursor.close();
+	return returnValue;
     }
 
     @Override
-    public boolean setActiveServiceLevelAsPreset(int serviceLevel) {
-	if (getServiceLevel(serviceLevel).isAvailable()) {
+    public boolean setActiveServiceLevelAsPreset(int level) {
+	ModelConditions.assertServiceLevelIdNotNegative(level);
+
+	if (getServiceLevel(level).isAvailable()) {
 	    /* Remove App from all Presets */
 	    for (IPreset preset : getAssignedPresets()) {
 		preset.removeApp(this, true);
@@ -146,17 +179,19 @@ public class AppImpl implements IApp {
 		    .getInstance()
 		    .getModel()
 		    .addPreset("AutoServiceLevelPreset", "",
-			    PMPComponentType.APP, identifier);
+			    PMPComponentType.APP, getIdentifier());
 	    preset.addApp(this, true);
 
-	    IServiceLevel sl = getServiceLevel(serviceLevel);
+	    IServiceLevel sl = getServiceLevel(level);
 	    for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
 		preset.setPrivacyLevel(pl, true);
 	    }
 
-	    return setActiveServiceLevel(serviceLevel, false);
+	    return setActiveServiceLevel(level, false);
 	} else {
-	    Log.w("Tried to set the ServiceLevel " + serviceLevel + " which is currently not available for " + identifier);
+	    Log.w("Model: Tried to set the ServiceLevel " + level
+		    + " which is currently not available for "
+		    + getIdentifier());
 	    return false;
 	}
     }
@@ -175,7 +210,8 @@ public class AppImpl implements IApp {
 		    serviceLevel = slc.calculate();
 		} catch (RemoteException e) {
 		    serviceLevel = 0;
-		    Log.e("Could not calculate ServiceLevel", e);
+		    Log.e("Model: Could not calculate ServiceLevel for "
+			    + app.getIdentifier() + ", got RemoteException", e);
 		}
 
 		if (serviceLevel != getActiveServiceLevel().getLevel()) {
@@ -188,34 +224,26 @@ public class AppImpl implements IApp {
 
     @Override
     public IPreset[] getAssignedPresets() {
-	List<IPreset> list = new ArrayList<IPreset>();
-
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	List<IPreset> list = new ArrayList<IPreset>();
 
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT p.Name, p.Description, p.Type, p.Identifier "
 				+ "FROM Preset as p, Preset_Apps AS pa "
 				+ "WHERE pa.Preset_Name = p.Name AND pa.Preset_Type = p.Type AND pa.Preset_Identifier = p.Identifier AND pa.App_Identifier = ?",
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
 	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
-
-	    PMPComponentType type;
-	    try {
-		type = PMPComponentType.valueOf(cursor.getString(cursor
-			.getColumnIndex("Type")));
-	    } catch (IllegalArgumentException e) {
-		type = null;
-	    }
-
+	    PMPComponentType type = PMPComponentType.valueOf(cursor
+		    .getString(cursor.getColumnIndex("Type")));
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
-
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description"));
 
@@ -223,8 +251,8 @@ public class AppImpl implements IApp {
 
 	    cursor.moveToNext();
 	}
-	cursor.close();
 
+	cursor.close();
 	return list.toArray(new IPreset[list.size()]);
     }
 
@@ -238,7 +266,7 @@ public class AppImpl implements IApp {
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT ResourceGroup_Identifier FROM ServiceLevel_PrivacyLevels WHERE App_Identifier = ?",
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
 	cursor.moveToNext();
 
@@ -247,18 +275,21 @@ public class AppImpl implements IApp {
 		    .getColumnIndex("ResourceGroup_Identifier"));
 	    IResourceGroup resourceGroup = ModelSingleton.getInstance()
 		    .getModel().getResourceGroup(rgIdentifier);
+
 	    list.add(resourceGroup);
 
 	    cursor.moveToNext();
 	}
-	cursor.close();
 
+	cursor.close();
 	return list.toArray(new IResourceGroup[list.size()]);
     }
 
     @Override
     public IPrivacyLevel[] getAllPrivacyLevelsUsedByActiveServiceLevel(
 	    IResourceGroup resourceGroup) {
+	ModelConditions.assertNotNull("resourceGroup", resourceGroup);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
@@ -271,7 +302,7 @@ public class AppImpl implements IApp {
 				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier AND slpl.PrivacyLevel_Identifier = pl.Identifier "
 				+ "AND slpl.App_Identifier = ? AND slpl.ResourceGroup_Identifier = ? AND slpl.ServiceLevel_Level = "
 				+ getActiveServiceLevel().getLevel(),
-			new String[] { identifier });
+			new String[] { getIdentifier() });
 
 	cursor.moveToNext();
 
@@ -286,31 +317,33 @@ public class AppImpl implements IApp {
 	    IPrivacyLevel pl = new PrivacyLevelImpl(
 		    resourceGroup.getIdentifier(), plIdentifier, name,
 		    description, value);
+
 	    list.add(pl);
 	}
-	cursor.close();
 
+	cursor.close();
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
-    private boolean setActiveServiceLevel(int serviceLevel,
-	    boolean asynchronously) {
+    private boolean setActiveServiceLevel(int level, boolean asynchronously) {
+	ModelConditions.assertServiceLevelIdNotNegative(level);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
 	IServiceLevel oldServiceLevel = getActiveServiceLevel();
 
-	if (!getServiceLevel(serviceLevel).isAvailable()) {
+	if (!getServiceLevel(level).isAvailable()) {
 	    return false;
 	}
 
 	ContentValues cv = new ContentValues();
-	cv.put("ServiceLevel_Active", serviceLevel);
+	cv.put("ServiceLevel_Active", level);
 
-	db.update("App", cv, "Identifier = ?", new String[] { identifier });
+	db.update("App", cv, "Identifier = ?", new String[] { getIdentifier() });
 
-	Log.d("Setting for " + identifier + " the new service level "
-		+ serviceLevel + ".");
+	Log.d("Model: Set for App " + getIdentifier()
+		+ " the new service level " + level + ".");
 
 	ServiceLevelPublisher slp = new ServiceLevelPublisher(this,
 		oldServiceLevel);

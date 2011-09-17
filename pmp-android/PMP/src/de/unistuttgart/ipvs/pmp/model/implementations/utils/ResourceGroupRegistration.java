@@ -36,7 +36,7 @@ public class ResourceGroupRegistration {
      */
     public ResourceGroupRegistration(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
-	this.publicKey = publicKey;
+	this.publicKey = publicKey.clone();
 	this.rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),
 		identifier);

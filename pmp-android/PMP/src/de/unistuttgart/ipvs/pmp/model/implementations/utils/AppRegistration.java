@@ -40,7 +40,7 @@ public class AppRegistration {
      */
     public AppRegistration(String identifier, byte[] publicKey) {
 	this.identifier = identifier;
-	this.publicKey = publicKey;
+	this.publicKey = publicKey.clone();
 	this.asp = new AppServiceConnector(PMPApplication.getContext(),
 		PMPApplication.getSignee(), identifier);
 
@@ -84,7 +84,7 @@ public class AppRegistration {
 
 	try {
 	    ais = appService.getAppInformationSet().getAppInformationSet();
-	    
+
 	    checkAppInformationSet();
 	} catch (RemoteException e) {
 	    Log.e("Registration ("
@@ -108,12 +108,23 @@ public class AppRegistration {
 	    informAboutRegistration(false, "AppInformationSet is NULL.");
 	    return;
 	}
+	if (ais.getNames() == null || ais.getDescriptions() == null
+		|| ais.getServiceLevels() == null) {
+	    Log.e("Registration (" + identifier
+		    + "): FAILED - AppInformationSet has methods with NULL-Return.");
+	    informAboutRegistration(false,
+		    "AppInformationSet has methods with NULL-Return.");
+	    return;
+	}
 
 	/* Check if the app is already in the PMP-Database. */
 	if (ModelSingleton.getInstance().getModel().getApp(identifier) != null) {
-	    Log.e("Registration (" + identifier
-		    + "): FAILED - There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
-	    informAboutRegistration(false, "There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
+	    Log.e("Registration ("
+		    + identifier
+		    + "): FAILED - There is already an App registred with that identifier.");
+	    informAboutRegistration(
+		    false,
+		    "There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
 	    return;
 	}
 
@@ -221,7 +232,7 @@ public class AppRegistration {
 		IAppServicePMP appService = asp.getAppService();
 		appService.setRegistrationState(new RegistrationState(state,
 			message));
-		
+
 		Log.d("Registration (" + identifier + "): Registration "
 			+ (state ? "succeed" : "FAILED"));
 	    } catch (RemoteException e) {

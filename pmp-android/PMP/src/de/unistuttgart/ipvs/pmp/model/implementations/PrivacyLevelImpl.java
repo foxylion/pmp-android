@@ -73,7 +73,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
 			new String[] { resourceGroupIdentifier });
 
-	if (cursor != null && cursor.getCount() == 1) {
+	if (cursor.getCount() == 1) {
 	    cursor.moveToNext();
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
@@ -84,6 +84,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
+	    Log.e("Model: PrivacyLevel " + identifier + " has no parent ResourceGroup.");
 	    cursor.close();
 	    return null;
 	}
@@ -102,7 +103,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService "
+	    Log.e("Model: Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
@@ -133,7 +134,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Binding of ResourceGroupService "
+	    Log.e("Model: Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();

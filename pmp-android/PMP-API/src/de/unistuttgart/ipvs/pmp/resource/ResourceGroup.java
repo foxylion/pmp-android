@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -56,7 +55,7 @@ public abstract class ResourceGroup {
     /**
      * Stores the list of the privacy level values.
      */
-    private final Map<String, Bundle> privacyLevelValues;
+    private final Map<String, Map<String, String>> privacyLevelValues;
 
     /**
      * Creates a new {@link ResourceGroup}.
@@ -70,7 +69,7 @@ public abstract class ResourceGroup {
 
 	resources = new HashMap<String, Resource>();
 	privacyLevels = new HashMap<String, PrivacyLevel>();
-	privacyLevelValues = new HashMap<String, Bundle>();
+	privacyLevelValues = new HashMap<String, Map<String, String>>();
     }
 
     /**
@@ -193,11 +192,11 @@ public abstract class ResourceGroup {
      */
     protected final String getPrivacyLevelValue(String appIdentifier,
 	    String privacyLevel) {
-	Bundle appPLs = privacyLevelValues.get(appIdentifier);
+	Map<String, String> appPLs = privacyLevelValues.get(appIdentifier);
 	if (appPLs == null) {
 	    return null;
 	} else {
-	    return appPLs.getString(privacyLevel);
+	    return appPLs.get(privacyLevel);
 	}
     }
 
@@ -212,7 +211,7 @@ public abstract class ResourceGroup {
      *            {@link Context} to use for the connection
      * 
      */
-    public void start(Context context) {
+    protected void start(Context context) {
 
 	// connect to PMP
 	final PMPServiceConnector pmpsc = new PMPServiceConnector(context,

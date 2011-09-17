@@ -2,8 +2,12 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector;
 
 import java.util.ArrayList;
 
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
 public class SqlConnector {
     /**
@@ -12,9 +16,20 @@ public class SqlConnector {
     private static SqlConnector instance;
 
     /**
+     * The highest id that is set yet
+     */
+    private int highestId = 0;
+
+    /**
+     * Identifier of the needed resource group
+     */
+    private final String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
+
+    /**
      * Private constructor because of singleton
      */
     private SqlConnector() {
+
     }
 
     /**
@@ -31,31 +46,90 @@ public class SqlConnector {
     }
 
     /**
-     * Loads the dates stored in the SQL database. This is called when the
-     * {@link Model} is instantiated
+     * Loads the dates stored in the SQL database. This method calls
+     * {@link Model#loadDates(ArrayList)} to store the dates in the model
      * 
-     * @return ArrayList<Date> with the loaded dates out of the SQL database
      */
-    public ArrayList<Date> loadDates() {
+    public void loadDates() {
+	final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(
+		Model.getInstance().getContext().getApplicationContext(),
+		((CalendarApp) Model.getInstance().getContext()
+			.getApplicationContext()).getSignee(),
+		resGroupIdentifier);
+	resGroupCon.addCallbackHandler(new IConnectorCallback() {
+
+	    @Override
+	    public void disconnected() {
+		Log.v(resGroupIdentifier + " disconnected");
+	    }
+
+	    @Override
+	    public void connected() {
+		Log.d("Connected to ResourceGroup " + resGroupIdentifier);
+		if (resGroupCon.getAppService() == null) {
+		    Log.e(resGroupIdentifier + " appService is null");
+		} else {
+		    // Get resource
+		   
+		}
+		resGroupCon.unbind();
+	    }
+
+	    @Override
+	    public void bindingFailed() {
+		Log.e(resGroupIdentifier + " binding failed");
+	    }
+	});
+	resGroupCon.bind();
+
 	ArrayList<Date> dList = new ArrayList<Date>();
-//	for (int i = 0; i < 5; i++) {
-//	    dList.add(new Date(1, "abc", "12.12.2001"));
-//	    dList.add(new Date(2, "cde", "01.02.1999"));
-//	    dList.add(new Date(3, "efg", "01.01.2200"));
-//	}
-	Model.highestId = 4;
-	return dList;
+	dList.add(new Date(getNewId(), "a", "01.02.2000"));
+	dList.add(new Date(getNewId(), "b", "01.03.2000"));
+	dList.add(new Date(getNewId(), "c", "01.04.2000"));
+	dList.add(new Date(getNewId(), "d", "01.05.2000"));
+
+	Model.getInstance().loadDates(dList);
+
     }
 
     /**
-     * Stores the date in the SQL Database
+     * Stores the new date in the SQL Database
      * 
      * @param date
      */
-    public void storeNewDate(int id, String date, String description) {
-	/*
-	 * TODO Store the date in the SQL Database
-	 */
+    public void storeNewDate(String date, String description) {
+
+	final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(
+		Model.getInstance().getContext().getApplicationContext(),
+		((CalendarApp) Model.getInstance().getContext()
+			.getApplicationContext()).getSignee(),
+		resGroupIdentifier);
+	resGroupCon.addCallbackHandler(new IConnectorCallback() {
+
+	    @Override
+	    public void disconnected() {
+		Log.v(resGroupIdentifier + " disconnected");
+	    }
+
+	    @Override
+	    public void connected() {
+		Log.d("Connected to ResourceGroup " + resGroupIdentifier);
+		if (resGroupCon.getAppService() == null) {
+		    Log.e(resGroupIdentifier + " appService is null");
+		} else {
+		    // Get resource
+		}
+		resGroupCon.unbind();
+	    }
+
+	    @Override
+	    public void bindingFailed() {
+		Log.e(resGroupIdentifier + " binding failed");
+	    }
+	});
+	resGroupCon.bind();
+
+	Model.getInstance().addDate(new Date(getNewId(), description, date));
     }
 
     /**
@@ -65,9 +139,38 @@ public class SqlConnector {
      *            id of the date to delete
      */
     public void deleteDate(int id) {
-	/*
-	 * TODO
-	 */
+
+	final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(
+		Model.getInstance().getContext().getApplicationContext(),
+		((CalendarApp) Model.getInstance().getContext()
+			.getApplicationContext()).getSignee(),
+		resGroupIdentifier);
+	resGroupCon.addCallbackHandler(new IConnectorCallback() {
+
+	    @Override
+	    public void disconnected() {
+		Log.v(resGroupIdentifier + " disconnected");
+	    }
+
+	    @Override
+	    public void connected() {
+		Log.d("Connected to ResourceGroup " + resGroupIdentifier);
+		if (resGroupCon.getAppService() == null) {
+		    Log.e(resGroupIdentifier + " appService is null");
+		} else {
+		    // Get resource
+		}
+		resGroupCon.unbind();
+	    }
+
+	    @Override
+	    public void bindingFailed() {
+		Log.e(resGroupIdentifier + " binding failed");
+	    }
+	});
+	resGroupCon.bind();
+
+	Model.getInstance().deleteDateByID(id);
     }
 
     /**
@@ -77,9 +180,47 @@ public class SqlConnector {
      *            date that has changed
      */
     public void changeDate(int id, String date, String description) {
-	/*
-	 * TODO
-	 */
+
+	final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(
+		Model.getInstance().getContext().getApplicationContext(),
+		((CalendarApp) Model.getInstance().getContext()
+			.getApplicationContext()).getSignee(),
+		resGroupIdentifier);
+	resGroupCon.addCallbackHandler(new IConnectorCallback() {
+
+	    @Override
+	    public void disconnected() {
+		Log.v(resGroupIdentifier + " disconnected");
+	    }
+
+	    @Override
+	    public void connected() {
+		Log.d("Connected to ResourceGroup " + resGroupIdentifier);
+		if (resGroupCon.getAppService() == null) {
+		    Log.e(resGroupIdentifier + " appService is null");
+		} else {
+		    // Get resource
+		}
+		resGroupCon.unbind();
+	    }
+
+	    @Override
+	    public void bindingFailed() {
+		Log.e(resGroupIdentifier + " binding failed");
+	    }
+	});
+	resGroupCon.bind();
+
+	Model.getInstance().changeDate(id, date, description);
     }
 
+    /**
+     * Returns a new id for a date
+     * 
+     * @return the new id
+     */
+    private int getNewId() {
+	highestId++;
+	return highestId;
+    }
 }

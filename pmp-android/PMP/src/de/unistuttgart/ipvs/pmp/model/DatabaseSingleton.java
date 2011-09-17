@@ -9,7 +9,7 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
  * {@link DatabaseOpenHelper}, and can be received by calling
  * <code>DatabaseSingleton.getInstance().getDatabaseHelper();</code>.
  * 
- * @author FoXyLiOn
+ * @author Jakob Jarosch
  * 
  */
 public class DatabaseSingleton {

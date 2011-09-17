@@ -28,21 +28,23 @@ public class AppInformationSetCreatingExample extends Activity {
 	try {
 	    // The URL of the XML file
 	    xmlURL = new URL("http://marcus.mvvt.de/AppExample.xml");
+
+	    // Create the app information set
+	    AppInformationSet ais = null;
+	    try {
+		ais = AppInformationSetParser.createAppInformationSet(xmlURL
+			.openStream());
+
+		// Print the app information set
+		AppInformationSetParser.printAppInformationSet(ais);
+	    } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
 	} catch (MalformedURLException e) {
 	    Log.e(e.getMessage());
 	}
-
-	// Create the app information set
-	AppInformationSet ais = null;
-	try {
-	    ais = AppInformationSetParser.createAppInformationSet(xmlURL.openStream());
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-
-	// Print the app information set
-	AppInformationSetParser.printAppInformationSet(ais);
 
     }
 

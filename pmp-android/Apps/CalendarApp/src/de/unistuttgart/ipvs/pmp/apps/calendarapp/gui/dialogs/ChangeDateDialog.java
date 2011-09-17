@@ -3,11 +3,11 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -41,20 +41,14 @@ public class ChangeDateDialog extends Dialog {
     private Date date;
 
     /**
-     * The array adapter of the list to refresh the list after changing a date
-     */
-    private ArrayAdapter<Date> arrayAdapter;
-
-    /**
      * Necessary constructor
      * 
      * @param context
      *            the context
      */
-    public ChangeDateDialog(Context context, int id, ArrayAdapter<Date> adapter) {
+    public ChangeDateDialog(Context context, int id) {
 	super(context);
 	this.dateIndex = id;
-	this.arrayAdapter = adapter;
     }
 
     /**
@@ -103,12 +97,11 @@ public class ChangeDateDialog extends Dialog {
 	 */
 	@Override
 	public void onClick(View v) {
-	    int month = dPicker.getMonth() +1;
-	    Model.getInstance().changeDate(
-		    date.getId(),
-		    dPicker.getDayOfMonth() + "." + month + "."
-			    + dPicker.getYear(), desc.getText().toString());
-	    arrayAdapter.notifyDataSetChanged();
+	    int month = dPicker.getMonth() + 1;
+	    
+	    SqlConnector.getInstance().changeDate(date.getId(), dPicker.getDayOfMonth() + "." + month + "."
+		    + dPicker.getYear(), desc.getText().toString());
+	   
 	    dismiss();
 	}
 
