@@ -3,16 +3,13 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.exception.DateNotFoundException;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class Model {
 
@@ -25,11 +22,6 @@ public class Model {
      * Holds all stored dates
      */
     private ArrayList<Date> dateList = new ArrayList<Date>();
-
-    /**
-     * Stores the highest id
-     */
-    public static int highestId = 0;
 
     /**
      * The context of the app
@@ -62,16 +54,20 @@ public class Model {
 	if (instance == null) {
 	    instance = new Model();
 	}
+
 	return instance;
     }
 
-    public void loadDates() {
+    /**
+     * Loads the dates from the SQL connector
+     */
+    public void loadDates(ArrayList<Date> dList) {
+	
 	dateList.clear();
-	for (Date date : SqlConnector.getInstance().loadDates()){
-	    Log.v("Adding date");
+	for (Date date : dList) {
 	    dateList.add(date);
 	}
-	
+
 	Collections.sort(dateList, new DateComparator());
 	arrayAdapter.notifyDataSetChanged();
     }
@@ -113,11 +109,6 @@ public class Model {
      *            date to store
      */
     public void addDate(Date date) {
-	SqlConnector.getInstance().storeNewDate(date.getId(), date.getDate(),
-		date.getDescrpition());
-	/*
-	 * If no error happened then store it local
-	 */
 	dateList.add(date);
 	Collections.sort(dateList, new DateComparator());
 	arrayAdapter.notifyDataSetChanged();
@@ -130,31 +121,11 @@ public class Model {
      *            id of the date to delete
      */
     public void deleteDateByID(int id) {
-	SqlConnector.getInstance().deleteDate(id);
-	/*
-	 * If no error happened delete it local
-	 */
 	for (Date date : dateList) {
 	    if (date.getId() == id) {
 		dateList.remove(date);
 	    }
 	}
-	arrayAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Deletes the date at the model and at the database
-     * 
-     * @param index
-     *            index of the date object
-     */
-    public void deleteDateByIndex(int index) {
-	Date date = dateList.get(index);
-	SqlConnector.getInstance().deleteDate(date.getId());
-	/*
-	 * If no error happened delete it local
-	 */
-	dateList.remove(index);
 	arrayAdapter.notifyDataSetChanged();
     }
 
@@ -169,10 +140,6 @@ public class Model {
      *            descrpition of the date
      */
     public void changeDate(int id, String dateString, String description) {
-	SqlConnector.getInstance().changeDate(id, dateString, description);
-	/*
-	 * If no error happend change it local
-	 */
 	for (Date date : dateList) {
 	    if (date.getId() == id) {
 		date.setDate(dateString);
@@ -219,16 +186,6 @@ public class Model {
      */
     public ArrayList<Date> getDateList() {
 	return dateList;
-    }
-
-    /**
-     * Returns a new id for a new date
-     * 
-     * @return
-     */
-    public int getNewId() {
-	highestId++;
-	return highestId;
     }
 
     /**

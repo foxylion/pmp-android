@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -85,10 +85,9 @@ public class NewDateDialog extends Dialog {
 	    int month = dPicker.getMonth() + 1;
 
 	    // Stores the date
-	    Model.getInstance().addDate(
-		    new Date(Model.getInstance().getNewId(), desc.getText()
-			    .toString(), dPicker.getDayOfMonth() + "." + month
-			    + "." + dPicker.getYear()));
+	    SqlConnector.getInstance().storeNewDate(
+		    dPicker.getDayOfMonth() + "." + month + "."
+			    + dPicker.getYear(), desc.getText().toString());
 	    dismiss();
 	}
 
