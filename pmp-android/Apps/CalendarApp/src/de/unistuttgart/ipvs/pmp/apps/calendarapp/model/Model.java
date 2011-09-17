@@ -62,7 +62,7 @@ public class Model {
      * Loads the dates from the SQL connector
      */
     public void loadDates(ArrayList<Date> dList) {
-	
+
 	dateList.clear();
 	for (Date date : dList) {
 	    dateList.add(date);
@@ -210,6 +210,33 @@ public class Model {
 		.getDefaultSharedPreferences(appContext);
 	SharedPreferences.Editor editor = app_preferences.edit();
 	editor.putInt("servicelevel", serviceLevel);
+	if (!editor.commit()) {
+	    Log.e("Error while commiting preferences");
+	}
+    }
+
+    /**
+     * Checks if the table was created yet
+     * 
+     * @return true if the table exists
+     */
+    public Boolean isTableCreated() {
+	SharedPreferences app_preferences = PreferenceManager
+		.getDefaultSharedPreferences(appContext);
+	return app_preferences.getBoolean("tablecreated", false);
+    }
+
+    /**
+     * Sets the status if the table exists or not
+     * 
+     * @param created
+     *            true if the table is created
+     */
+    public void tableCreated(Boolean created) {
+	SharedPreferences app_preferences = PreferenceManager
+		.getDefaultSharedPreferences(appContext);
+	SharedPreferences.Editor editor = app_preferences.edit();
+	editor.putBoolean("tablecreated", created);
 	if (!editor.commit()) {
 	    Log.e("Error while commiting preferences");
 	}
