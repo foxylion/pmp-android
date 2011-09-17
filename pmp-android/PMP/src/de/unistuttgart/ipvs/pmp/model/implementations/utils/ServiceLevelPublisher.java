@@ -109,16 +109,16 @@ public class ServiceLevelPublisher {
 	    if (!rgsc.bind(true)) {
 		Log.e("ResoureceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
-			+ "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+			+ "): FAILED - Connection to the ResourceGroup failed. More details can be found in the log.");
 	    } else {
 		Log.d("ResoureceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
 			+ "): Successfully bound.");
 
-		if (rgsc.getAppService() == null) {
+		if (rgsc.getPMPService() == null) {
 		    Log.e("ResoureceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
-			    + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+			    + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 		} else {
 		    Log.d("ResoureceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
