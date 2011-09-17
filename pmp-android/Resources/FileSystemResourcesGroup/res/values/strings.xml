@@ -2,4 +2,27 @@
 <resources>
     <string name="hello">Hello World, FileSystemResourcesActivity!</string>
     <string name="app_name">FileSystemResources</string>
+    <string name="rg_name">File system</string>
+    <string name="rg_desc">Gives access to files stored on the device</string>
+    <string name="read">Read</string>
+    <string name="write">Write</string>
+    <string name="list">List</string>
+    <string name="delete">Delete</string>
+    <string name="mkdirs">Make Directories</string>
+    <string name="pl_generic">Generic</string>
+    <string name="pl_generic_warning">This may require root-right and can cause the resource-group to crash.</string>
+    <string name="pl_generic_read_desc">Allows the application to read every file stored on the device.</string>
+    <string name="pl_generic_write_desc">Allows the application to write files everywhere on the device.</string>
+    <string name="pl_generic_list_desc">Allows the application to receive a list of all files stored in every directory of on the device.</string>
+	<string name="pl_generic_delete_desc">Allows the application to delete every file stored on the device.</string>
+    <string name="pl_generic_mkdirs_desc">Allows the application to delete every file stored on the device.</string>
+    <string name="pl_external_base_dir">External base directory</string>
+    <string name="pl_external_music">External music directory</string>
+    <string name="pl_external_podcasts">External podcasts directory</string>
+    <string name="pl_external_ringtones">External ringtones directory</string>
+    <string name="pl_external_alarms">External alarms directory</string>
+    <string name="pl_external_notifications">External notifications directory</string>
+    <string name="pl_external_pictures">External pictures directory</string>
+    <string name="pl_external_movies">External movies directory</string>
+    <string name="pl_external_download">External download directory</string>
 </resources>

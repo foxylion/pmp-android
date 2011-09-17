@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Stores details of a file.
  * This is used for security reasons. If we would directly transfer a
  * File object, the user could easily modify files without using our resource
- * (e.g File.delete()) 
+ * (e.g <code>File.delete()</code>) 
  * 
  * @author Patrick Strobel
  * @version 0.1.0

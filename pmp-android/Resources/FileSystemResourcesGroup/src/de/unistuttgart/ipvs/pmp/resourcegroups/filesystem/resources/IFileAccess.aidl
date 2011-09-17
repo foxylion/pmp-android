@@ -9,4 +9,5 @@ interface IFileAccess {
     boolean write(String path, String data, boolean append);
     boolean delete(String path);
     List<FileDetails> list(String directory);
+    boolean makeDirs(String path);
 }
