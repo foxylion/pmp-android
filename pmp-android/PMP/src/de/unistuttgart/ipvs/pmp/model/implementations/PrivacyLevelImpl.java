@@ -8,6 +8,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
@@ -68,6 +69,8 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
+	ResourceGroupImpl returnValue = null;
+
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
@@ -79,22 +82,20 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    cursor.close();
-
-	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
+	    returnValue = new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
-	    Log.e("Model: PrivacyLevel " + identifier + " has no parent ResourceGroup.");
-	    cursor.close();
-	    return null;
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): PrivacyLevel "
+		    + identifier + " has no parent ResourceGroup.");
 	}
+
+	cursor.close();
+	return returnValue;
     }
 
     @Override
     public String getHumanReadableValue(String value) throws RemoteException {
-	if (value == null) {
-	    throw new IllegalArgumentException("Value must not be NULL");
-	}
+	ModelConditions.assertNotNull("value", value);
 
 	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),
@@ -103,7 +104,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Model: Binding of ResourceGroupService "
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
@@ -120,12 +121,8 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
     @Override
     public boolean satisfies(String reference, String value)
 	    throws RemoteException {
-	if (reference == null) {
-	    throw new IllegalArgumentException("reference must not be NULL");
-	}
-	if (value == null) {
-	    throw new IllegalArgumentException("value must not be NULL");
-	}
+	ModelConditions.assertNotNull("reference", reference);
+	ModelConditions.assertNotNull("value", value);
 
 	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),
@@ -134,7 +131,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Model: Binding of ResourceGroupService "
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();

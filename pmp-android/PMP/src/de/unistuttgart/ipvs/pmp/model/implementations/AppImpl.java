@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelCalculator;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelPublisher;
@@ -101,6 +102,9 @@ public class AppImpl implements IApp {
 	}
 	cursor.close();
 
+	Log.v("AppImpl#getServiceLevels(): is returning " + list.size()
+		+ " datasets for identifier " + getIdentifier());
+
 	return list.toArray(new IServiceLevel[list.size()]);
     }
 
@@ -128,9 +132,14 @@ public class AppImpl implements IApp {
 	    returnValue = new ServiceLevelImpl(getIdentifier(), level, name,
 		    description);
 	} else {
-	    Log.d("ServiceLevel " + level + " for " + getIdentifier()
+	    Log.w("AppImpl#getServiceLevel(): The ServiceLevel " + level
+		    + " for the identifier " + getIdentifier()
 		    + " was not found in Database.");
 	}
+
+	Log.v("AppImpl#getServiceLevel(): found "
+		+ (returnValue == null ? "NO" : "a")
+		+ " app with the identifier " + identifier);
 
 	cursor.close();
 	return returnValue;
@@ -155,10 +164,14 @@ public class AppImpl implements IApp {
 
 	    returnValue = getServiceLevel(serviceLevel);
 	} else {
-	    Log.e("Model: App "
+	    Log.e("AppImpl#getActiveServiceLevel(): App "
 		    + getIdentifier()
 		    + " was not found in Database, Model seems to be out of sync with Database.");
 	}
+
+	Log.v("AppImpl#getActiveServiceLevel(): Returning "
+		+ (cursor.getCount() == 1 ? "the currently active ServiceLevel"
+			: "NULL"));
 
 	cursor.close();
 	return returnValue;
@@ -169,12 +182,18 @@ public class AppImpl implements IApp {
 	ModelConditions.assertServiceLevelIdNotNegative(level);
 
 	if (getServiceLevel(level).isAvailable()) {
+	    Log.v("ModelImpl#setActiveServiceLevelAsPreset(): Removing the App "
+		    + getIdentifier() + " from all assigned Presets");
+
 	    /* Remove App from all Presets */
 	    for (IPreset preset : getAssignedPresets()) {
 		preset.removeApp(this, true);
 	    }
 
 	    /* Create a new Preset (if not already exists) for this ServiceLevel */
+	    Log.v("ModelImpl#setActiveServiceLevelAsPreset(): Creating a new Preset for the App "
+		    + identifier);
+
 	    IPreset preset = ModelSingleton
 		    .getInstance()
 		    .getModel()
@@ -187,10 +206,19 @@ public class AppImpl implements IApp {
 		preset.setPrivacyLevel(pl, true);
 	    }
 
-	    return setActiveServiceLevel(level, false);
+	    Log.v("ModelImpl#setActiveServiceLevelAsPreset(): Publishing the ServiceLevel "
+		    + level + " for identifier " + getIdentifier());
+
+	    boolean returnValue = setActiveServiceLevel(level, false);
+
+	    Log.v("ModelImpl#setActiveServiceLevelAsPreset(): Publishing the ServiceLevel "
+		    + getIdentifier() + " finished");
+
+	    return returnValue;
 	} else {
-	    Log.w("Model: Tried to set the ServiceLevel " + level
-		    + " which is currently not available for "
+	    Log.w("AppImpl#setActiveServiceLevelAsPreset(): Tried to set the ServiceLevel "
+		    + level
+		    + " which is currently not available for the identifier "
 		    + getIdentifier());
 	    return false;
 	}
@@ -210,7 +238,7 @@ public class AppImpl implements IApp {
 		    serviceLevel = slc.calculate();
 		} catch (RemoteException e) {
 		    serviceLevel = 0;
-		    Log.e("Model: Could not calculate ServiceLevel for "
+		    Log.e("AppImpl#verifyServiceLevel(): Could not calculate ServiceLevel for "
 			    + app.getIdentifier() + ", got RemoteException", e);
 		}
 
@@ -220,6 +248,9 @@ public class AppImpl implements IApp {
 
 	    }
 	}).start();
+
+	Log.v("AppImpl#verifyServiceLevel(): Verification of the ServiceLevel for "
+		+ getIdentifier() + " has been started");
     }
 
     @Override
@@ -252,6 +283,9 @@ public class AppImpl implements IApp {
 	    cursor.moveToNext();
 	}
 
+	Log.v("AppImpl#getAssignedPresets(): is returning " + list.size()
+		+ " datasets for identifier " + getIdentifier());
+
 	cursor.close();
 	return list.toArray(new IPreset[list.size()]);
     }
@@ -280,6 +314,9 @@ public class AppImpl implements IApp {
 
 	    cursor.moveToNext();
 	}
+
+	Log.v("AppImpl#getAllResourceGroupsUsedByServiceLevels(): is returning "
+		+ list.size() + " datasets for identifier " + getIdentifier());
 
 	cursor.close();
 	return list.toArray(new IResourceGroup[list.size()]);
@@ -321,6 +358,9 @@ public class AppImpl implements IApp {
 	    list.add(pl);
 	}
 
+	Log.v("AppImpl#getAllPrivacyLevelsUsedByActiveServiceLevel(): is returning "
+		+ list.size() + " datasets for identifier " + getIdentifier());
+
 	cursor.close();
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
@@ -342,8 +382,8 @@ public class AppImpl implements IApp {
 
 	db.update("App", cv, "Identifier = ?", new String[] { getIdentifier() });
 
-	Log.d("Model: Set for App " + getIdentifier()
-		+ " the new service level " + level + ".");
+	Log.v("AppImpl#setActiveServiceLevel(): Start publishing the ServiceLevel "
+		+ level + " for identifier " + getIdentifier());
 
 	ServiceLevelPublisher slp = new ServiceLevelPublisher(this,
 		oldServiceLevel);

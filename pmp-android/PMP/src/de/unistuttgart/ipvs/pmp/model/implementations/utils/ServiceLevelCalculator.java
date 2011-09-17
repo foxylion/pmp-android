@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.os.RemoteException;
 
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -27,55 +28,9 @@ public class ServiceLevelCalculator {
     private IApp app;
 
     public ServiceLevelCalculator(IApp app) {
+	ModelConditions.assertNotNull("app", app);
+	
 	this.app = app;
-    }
-
-    /**
-     * Finds the best values of the presets of the app.
-     * 
-     * @return a map from
-     *         {@link ServiceLevelCalculator#getUniquePLIdentifier(IPrivacyLevel)}
-     *         to the best value assigned
-     * @throws RemoteException 
-     */
-    private Map<String, String> getBestValues() throws RemoteException {
-	Map<String, String> bestValues = new HashMap<String, String>();
-
-	// of all presets
-	for (IPreset preset : app.getAssignedPresets()) {
-	    // with every value
-	    for (IPrivacyLevel value : preset.getUsedPrivacyLevels()) {
-		// update the best one
-		String currentBest = bestValues
-			.get(getUniquePLIdentifier(value));
-
-		if (currentBest == null) {
-		    // set for the first time
-		    bestValues.put(getUniquePLIdentifier(value),
-			    value.getValue());
-		} else {
-		    // check which one is equal or better
-		    if (value.satisfies(currentBest, value.getValue())) {
-			// value >= currentBest
-			bestValues.put(getUniquePLIdentifier(value),
-				value.getValue());
-		    }
-		}
-	    } /* for privacy levels */
-	} /* for presets */
-
-	return bestValues;
-    }
-
-    /**
-     * 
-     * @param privacyLevel
-     *            the privacy level
-     * @return a String uniquely identifying this privacy level in the system
-     */
-    private String getUniquePLIdentifier(IPrivacyLevel privacyLevel) {
-	return privacyLevel.getResourceGroup().getIdentifier()
-		+ RG_PL_SEPARATOR + privacyLevel.getIdentifier();
     }
 
     public int calculate() throws RemoteException {
@@ -106,6 +61,54 @@ public class ServiceLevelCalculator {
 
 	// none found, default to zero
 	return 0;
+    }
+
+    /**
+     * Finds the best values of the presets of the app.
+     * 
+     * @return a map from
+     *         {@link ServiceLevelCalculator#getUniquePLIdentifier(IPrivacyLevel)}
+     *         to the best value assigned
+     * @throws RemoteException 
+     */
+    private Map<String, String> getBestValues() throws RemoteException {
+        Map<String, String> bestValues = new HashMap<String, String>();
+    
+        // of all presets
+        for (IPreset preset : app.getAssignedPresets()) {
+            // with every value
+            for (IPrivacyLevel value : preset.getUsedPrivacyLevels()) {
+        	// update the best one
+        	String currentBest = bestValues
+        		.get(getUniquePLIdentifier(value));
+    
+        	if (currentBest == null) {
+        	    // set for the first time
+        	    bestValues.put(getUniquePLIdentifier(value),
+        		    value.getValue());
+        	} else {
+        	    // check which one is equal or better
+        	    if (value.satisfies(currentBest, value.getValue())) {
+        		// value >= currentBest
+        		bestValues.put(getUniquePLIdentifier(value),
+        			value.getValue());
+        	    }
+        	}
+            } /* for privacy levels */
+        } /* for presets */
+    
+        return bestValues;
+    }
+
+    /**
+     * 
+     * @param privacyLevel
+     *            the privacy level
+     * @return a String uniquely identifying this privacy level in the system
+     */
+    private String getUniquePLIdentifier(IPrivacyLevel privacyLevel) {
+        return privacyLevel.getResourceGroup().getIdentifier()
+        	+ RG_PL_SEPARATOR + privacyLevel.getIdentifier();
     }
 
 }

@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
@@ -35,6 +36,9 @@ public class ResourceGroupRegistration {
      *            Public key of the ResourceGroup
      */
     public ResourceGroupRegistration(String identifier, byte[] publicKey) {
+	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
+	
 	this.identifier = identifier;
 	this.publicKey = publicKey.clone();
 	this.rgsc = new ResourceGroupServiceConnector(

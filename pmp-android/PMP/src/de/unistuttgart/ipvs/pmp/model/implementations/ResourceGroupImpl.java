@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -70,15 +71,23 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	    cursor.moveToNext();
 	}
-	cursor.close();
 
+	Log.v("ResourceGroupImpl#getPrivacyLevels(): is returning "
+		+ list.size() + " datasets for identifier " + getIdentifier());
+
+	cursor.close();
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
     @Override
     public IPrivacyLevel getPrivacyLevel(String privacyLevelIdentifier) {
+	ModelConditions.assertStringNotNullOrEmpty("privacyLevelIdentifier",
+		privacyLevelIdentifier);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	PrivacyLevelImpl returnValue = null;
 
 	Cursor cursor = db
 		.rawQuery(
@@ -94,14 +103,17 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    cursor.close();
-	    return new PrivacyLevelImpl(identifier, plIdentifier, name,
+	    returnValue = new PrivacyLevelImpl(identifier, plIdentifier, name,
 		    description);
 	} else {
-	    Log.d("Model: There is no PrivacyLevel " + privacyLevelIdentifier + " in the ResourceGroup " + identifier);
-	    cursor.close();
-	    return null;
+	    Log.w("ResourceGroupImpl#getPrivacyLevel(): There is no PrivacyLevel "
+		    + privacyLevelIdentifier
+		    + " in the ResourceGroup "
+		    + identifier);
 	}
+
+	cursor.close();
+	return returnValue;
     }
 
     @Override
@@ -128,8 +140,11 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    list.add(app);
 	    cursor.moveToNext();
 	}
-	cursor.close();
 
+	Log.v("ResourceGroupImpl#getAllAppsUsingThisResourceGroup(): is returning "
+		+ list.size() + " datasets for identifier " + getIdentifier());
+	
+	cursor.close();
 	return list.toArray(new IApp[list.size()]);
     }
 

@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
@@ -25,13 +26,16 @@ public class ServiceLevelPublisher {
     private IServiceLevel oldServiceLevel;
 
     public ServiceLevelPublisher(IApp app, IServiceLevel oldServiceLevel) {
+	ModelConditions.assertNotNull("app", app);
+	ModelConditions.assertNotNull("oldServiceLevel", oldServiceLevel);
+
 	this.app = app;
 	this.oldServiceLevel = oldServiceLevel;
     }
 
     public void publish(boolean asynchronous) {
 	if (asynchronous) {
-	    Log.v("Starting ServiceLevel publishing as asynchronous thread");
+	    Log.v("ServiceLevelPublisher: Starting ServiceLevel publishing as asynchronous thread");
 	    new Thread(new Runnable() {
 
 		@Override
@@ -40,7 +44,7 @@ public class ServiceLevelPublisher {
 		}
 	    }).start();
 	} else {
-	    Log.v("Starting ServiceLevel publishing");
+	    Log.v("ServiceLevelPublisher: Starting ServiceLevel publishing");
 	    executePublishing();
 	}
     }
@@ -65,7 +69,7 @@ public class ServiceLevelPublisher {
 	for (IResourceGroup affectedResourceGroup : affectedResourceGroups) {
 
 	    if (affectedResourceGroup == null) {
-		Log.e("A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
+		Log.e("ServiceLevelPublisher: A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
 		continue;
 	    }
 
@@ -85,8 +89,7 @@ public class ServiceLevelPublisher {
 
 		for (IPrivacyLevel appPl : app
 			.getAllPrivacyLevelsUsedByActiveServiceLevel(affectedResourceGroup)) {
-		    privacyLevels.put(appPl.getIdentifier(),
-			    appPl.getValue());
+		    privacyLevels.put(appPl.getIdentifier(), appPl.getValue());
 		}
 
 		ResourceGroupAccessHeader header = new ResourceGroupAccessHeader(
@@ -101,7 +104,7 @@ public class ServiceLevelPublisher {
 	    /*
 	     * Publish the Accesses to the ResourceGroupService.
 	     */
-	    Log.v("ResoureceGroup-AccessSet-Publishing ("
+	    Log.v("ResourceGroup-AccessSet-Publishing ("
 		    + affectedResourceGroup.getIdentifier()
 		    + "): AccessSet is beeing published");
 
@@ -110,20 +113,20 @@ public class ServiceLevelPublisher {
 		    affectedResourceGroup.getIdentifier());
 
 	    if (!rgsc.bind(true)) {
-		Log.e("ResoureceGroup-AccessSet-Publishing ("
+		Log.e("ResourceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
 			+ "): FAILED - Connection to the ResourceGroup failed. More details can be found in the log.");
 	    } else {
-		Log.d("ResoureceGroup-AccessSet-Publishing ("
+		Log.d("ResourceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
 			+ "): Successfully bound.");
 
 		if (rgsc.getPMPService() == null) {
-		    Log.e("ResoureceGroup-AccessSet-Publishing ("
+		    Log.e("ResourceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
 			    + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 		} else {
-		    Log.d("ResoureceGroup-AccessSet-Publishing ("
+		    Log.d("ResourceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
 			    + "): Successfully connected, got IResourceGroupServicePMP.");
 
@@ -132,12 +135,13 @@ public class ServiceLevelPublisher {
 			ResourceGroupAccess[] rgas = accesses
 				.toArray(new ResourceGroupAccess[accesses
 					.size()]);
-			rgsc.getPMPService().setAccesses(new SerializableContainer(rgas));
-			Log.d("ResoureceGroup-AccessSet-Publishing ("
+			rgsc.getPMPService().setAccesses(
+				new SerializableContainer(rgas));
+			Log.d("ResourceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): Successfully set new Accesses.");
 		    } catch (RemoteException e) {
-			Log.e("ResoureceGroup-AccessSet-Publishing ("
+			Log.e("ResourceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): FAILED - got a RemoteException, by calling setAccesses()",
 				e);

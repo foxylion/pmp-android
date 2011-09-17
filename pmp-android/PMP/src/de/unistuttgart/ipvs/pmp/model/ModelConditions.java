@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.model.implementations;
+package de.unistuttgart.ipvs.pmp.model;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.PMPConditions;
@@ -91,7 +91,7 @@ public class ModelConditions extends PMPConditions {
      */
     public static void assertPMPComponentTypeAndIdentiferMatch(
 	    PMPComponentType type, String identifier) {
-	if (type != PMPComponentType.NONE && identifier.length() == 0) {
+	if (type != PMPComponentType.NONE && (identifier == null || identifier.length() == 0)) {
 	    throw_IllegalArgumentException("The preset type is not NONE, so the identifier must not be empty or null");
 	}
     }

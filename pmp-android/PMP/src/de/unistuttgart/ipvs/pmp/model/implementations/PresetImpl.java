@@ -6,8 +6,10 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -30,10 +32,6 @@ public class PresetImpl implements IPreset {
 	this.description = description;
 	this.type = type;
 	this.identifier = identifier;
-
-	if (identifier != null && identifier.length() == 0) {
-	    this.identifier = null;
-	}
     }
 
     @Override
@@ -48,7 +46,11 @@ public class PresetImpl implements IPreset {
 
     @Override
     public String getIdentifier() {
-	return identifier;
+	if (identifier != null && identifier.length() == 0) {
+	    return null;
+	} else {
+	    return identifier;
+	}
     }
 
     @Override
@@ -84,11 +86,16 @@ public class PresetImpl implements IPreset {
 	}
 	cursor.close();
 
+	Log.v("PresetImpl#getAssignedApps(): is returning " + list.size()
+		+ " datasets for Preset-Name " + getName());
+
 	return list.toArray(new IApp[list.size()]);
     }
 
     @Override
     public boolean isAppAssigned(IApp app) {
+	ModelConditions.assertNotNull("app", app);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
@@ -99,6 +106,11 @@ public class PresetImpl implements IPreset {
 				app.getIdentifier() });
 
 	boolean result = (cursor.getCount() > 0);
+
+	Log.v("PresetImpl#isAppAssigned(): The App " + app.getIdentifier()
+		+ " is " + (result ? "" : "not ") + " assigned to the Preset "
+		+ getName());
+
 	cursor.close();
 	return result;
     }
@@ -110,6 +122,11 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void addApp(IApp app, boolean hidden) {
+	ModelConditions.assertNotNull("app", app);
+
+	Log.v("PresetImpl#addApp(): The App " + app.getIdentifier()
+		+ " is beeing added to the Preset " + getName());
+
 	if (!isAppAssigned(app)) {
 	    SQLiteDatabase db = DatabaseSingleton.getInstance()
 		    .getDatabaseHelper().getWritableDatabase();
@@ -125,6 +142,9 @@ public class PresetImpl implements IPreset {
 	    if (!hidden) {
 		app.verifyServiceLevel();
 	    }
+	} else {
+	    Log.v("PresetImpl#addApp(): The App " + app.getIdentifier()
+		    + " was already assigned to the Preset " + getName());
 	}
     }
 
@@ -135,6 +155,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void removeApp(IApp app, boolean hidden) {
+	ModelConditions.assertNotNull("app", app);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
@@ -143,6 +165,9 @@ public class PresetImpl implements IPreset {
 		"Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND App_Identifier = ?",
 		new String[] { name, type.toString(), identifier,
 			app.getIdentifier() });
+
+	Log.v("PresetImpl#removeApp(): Removed the App " + app.getIdentifier()
+		+ " from the Preset " + getName());
 
 	if (!hidden) {
 	    app.verifyServiceLevel();
@@ -180,8 +205,11 @@ public class PresetImpl implements IPreset {
 
 	    cursor.moveToNext();
 	}
-	cursor.close();
 
+	Log.v("PresetImpl#getUsedPrivacyLevels(): is returning " + list.size()
+		+ " datasets for Preset-Name " + getName());
+
+	cursor.close();
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
@@ -192,10 +220,14 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-	removePrivacyLevel(privacyLevel, true);
+	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
+
+	Log.v("PresetImpl#setPrivacyLevel(): First remove the "
+		+ privacyLevel.getIdentifier() + " from the Preset "
+		+ getName());
 
 	/*
 	 * Remove the privacy level from preset (either it is inside or not),
@@ -215,6 +247,9 @@ public class PresetImpl implements IPreset {
 
 	db.insert("Preset_PrivacyLevels", null, cv);
 
+	Log.v("PresetImpl#setPrivacyLevel(): Added the PrivacyLevel "
+		+ privacyLevel.getIdentifier() + " to the Preset " + getName());
+
 	if (!hidden) {
 	    for (IApp app : getAssignedApps()) {
 		app.verifyServiceLevel();
@@ -229,6 +264,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
+	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
@@ -238,6 +275,10 @@ public class PresetImpl implements IPreset {
 		new String[] { name, type.toString(), identifier,
 			privacyLevel.getResourceGroup().getIdentifier(),
 			privacyLevel.getIdentifier() });
+
+	Log.v("PresetImpl#removePrivacyLevel(): Removed the PrivacyLevel "
+		+ privacyLevel.getIdentifier() + " from the Preset "
+		+ getName());
 
 	if (!hidden) {
 	    for (IApp app : getAssignedApps()) {
