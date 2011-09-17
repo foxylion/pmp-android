@@ -17,8 +17,8 @@ import android.os.RemoteException;
 
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 
-	private String name;
-	private int version;
+	private String dbName;
+	private int dbVersion;
 	private String appID;
 	private String exceptionMessage;
 
@@ -37,7 +37,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 		this.context = context;
 		this.resource = resource;
 		appID = appIdentifier;
-		name = appIdentifier; // TODO Allow access to other databases
+		dbName = appIdentifier; // TODO Allow access to other databases
 		exceptionMessage = context.getResources().getString(
 				R.string.unauthorized_action_exception);
 		// Set the Privacy Levels
@@ -58,7 +58,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 		// Open a database connection
 		if (helper == null) {
 			// TODO Feature: open a other databases
-			helper = new DatabaseOpenHelper(context, name, version);
+			helper = new DatabaseOpenHelper(context, dbName, dbVersion);
 		}
 		if (read && !modify && !create) {
 			db = helper.getReadableDatabase();
@@ -89,20 +89,26 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 	@Override
 	public boolean createTable(String tableName, Map columns)
 			throws RemoteException {
+		if (create) {
+			if ("".equals(tableName.trim()) || columns == null) {
+				return false;
+			}
+			if (columns.isEmpty()) {
+				return false;
+			}
 
-		// if (create) {
-		// if ("".equals(tableName) || columns == null) {
-		// return false;
-		// }
-		// if (columns.size() == 0) {
-		// return false;
-		// }
-		// Collection
-		// for (int i = 0; i < columns.size(); i++) {
-		//
-		// }
-		// }
-		// TODO Auto-generated method stub
+			// Check the tableName
+
+			// Build a SQL Statement
+			String sql = "CREATE TABLE IF NOT EXISTS " + dbName + "."
+					+ tableName + " (";
+
+			for (Object obj : columns.entrySet()) {
+				Entry<String, String> e = (Entry<String, String>) obj;
+				e.getKey();
+				db.rawQuery(sql, null);
+			}
+		}
 		return false;
 	}
 
@@ -110,7 +116,6 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 	public long insert(String table, String nullColumnHack, Map values)
 			throws RemoteException {
 		if (modify) {
-
 			return db.insert(table, nullColumnHack, getContentValues(values));
 		} else {
 			RemoteException ex = new RemoteException();
@@ -197,7 +202,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 			throw ex;
 		} else if (cursor.getColumnCount() <= column) {
 			RemoteException ex = new RemoteException();
-			ex.setStackTrace((new IllegalAccessException()).getStackTrace());
+			ex.setStackTrace((new IndexOutOfBoundsException()).getStackTrace());
 			throw ex;
 		} else {
 			return cursor.getString(column);
@@ -213,7 +218,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 			throw ex;
 		} else if (cursor.getColumnCount() <= column) {
 			RemoteException ex = new RemoteException();
-			ex.setStackTrace((new IllegalAccessException()).getStackTrace());
+			ex.setStackTrace((new IndexOutOfBoundsException()).getStackTrace());
 			throw ex;
 		} else {
 			return (cursor.getInt(column));
@@ -229,7 +234,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 			throw ex;
 		} else if (cursor.getColumnCount() <= column) {
 			RemoteException ex = new RemoteException();
-			ex.setStackTrace((new IllegalAccessException()).getStackTrace());
+			ex.setStackTrace((new IndexOutOfBoundsException()).getStackTrace());
 			throw ex;
 		} else {
 			return (cursor.getDouble(column));

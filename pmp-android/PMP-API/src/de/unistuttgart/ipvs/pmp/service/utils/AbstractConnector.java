@@ -107,6 +107,8 @@ public abstract class AbstractConnector {
 	this.context = context;
 	this.signee = signee;
 	this.targetIdentifier = targetIdentifier;
+	
+	Log.v("Created AbstractConnector for " + signee.getType().toString() + "::" + signee.getIdentifier() + "; connection will go to " + targetIdentifier);
     }
 
     /**
