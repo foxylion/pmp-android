@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -87,7 +88,11 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	    cursor.moveToNext();
 	}
-	
+
+	Log.v("ServiceLevelImpl#getPrivacyLevels(): is returning "
+		+ list.size() + " datasets for identifier:level "
+		+ getAppIdentifier() + ":" + getLevel());
+
 	cursor.close();
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
@@ -131,7 +136,7 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	    cursor.moveToNext();
 	}
-	
+
 	cursor.close();
 	return true;
     }

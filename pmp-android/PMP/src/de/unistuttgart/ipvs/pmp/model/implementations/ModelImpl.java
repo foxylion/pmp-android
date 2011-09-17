@@ -57,18 +57,21 @@ public class ModelImpl implements IModel {
 	}
 	cursor.close();
 
+	Log.v("ModelImpl#getApps(): is returning " + list.size()
+		+ " datasets");
+
 	return list.toArray(new IApp[list.size()]);
     }
 
     @Override
     public IApp getApp(String identifier) {
 	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
-	
+
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
 	IApp returnValue = null;
-	
+
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Name_Cache, Description_Cache FROM App WHERE Identifier = ?",
@@ -86,7 +89,11 @@ public class ModelImpl implements IModel {
 	    Log.d("Model: There is no App with the identifier" + identifier
 		    + " in the Database.");
 	}
-	
+
+	Log.v("ModelImpl#getApp(): found "
+		+ (returnValue == null ? "NO" : "a")
+		+ " app with the identifier " + identifier);
+
 	cursor.close();
 	return returnValue;
     }
@@ -95,7 +102,7 @@ public class ModelImpl implements IModel {
     public void addApp(String identifier, byte[] publicKey) {
 	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
 	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
-	
+
 	new AppRegistration(identifier, publicKey);
     }
 
@@ -124,7 +131,10 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
-	
+
+	Log.v("ModelImpl#getResourceGroups(): is returning "
+		+ list.size() + " datasets");
+
 	cursor.close();
 	return list.toArray(new IResourceGroup[list.size()]);
     }
@@ -133,7 +143,7 @@ public class ModelImpl implements IModel {
     public IResourceGroup getResourceGroup(String identifier) {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
-	
+
 	IResourceGroup returnValue = null;
 
 	Cursor cursor = db
@@ -150,7 +160,11 @@ public class ModelImpl implements IModel {
 
 	    returnValue = new ResourceGroupImpl(identifier, name, description);
 	}
-	
+
+	Log.v("ModelImpl#getResourceGroup(): found  "
+		+ (returnValue == null ? "NO" : "a")
+		+ " app with the identifier " + identifier);
+
 	cursor.close();
 	return returnValue;
     }
@@ -159,7 +173,7 @@ public class ModelImpl implements IModel {
     public void addResourceGroup(String identifier, byte[] publicKey) {
 	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
 	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
-	
+
 	new ResourceGroupRegistration(identifier, publicKey);
     }
 
@@ -193,7 +207,10 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
-	
+
+	Log.v("ModelImpl#getPresets(): is returning " + list.size()
+		+ " datasets");
+
 	cursor.close();
 	return list.toArray(new IPreset[list.size()]);
     }
@@ -203,10 +220,16 @@ public class ModelImpl implements IModel {
 	    PMPComponentType type, String identifier) {
 	ModelConditions.assertPMPComponentTypeNotNull(type);
 	ModelConditions.assertStringNotNullOrEmpty("name", name);
-	ModelConditions.assertNotNull("identifier", identifier);
-	ModelConditions.assertPMPComponentTypeAndIdentiferMatch(type, identifier);
+	ModelConditions.assertPMPComponentTypeAndIdentiferMatch(type,
+		identifier);
+
 	if (description == null) {
+	    Log.i("Model {ModelImpl#addPreset()}: description was NULL, emtpy string has been asinged.");
 	    description = "";
+	}
+	if (identifier == null) {
+	    Log.i("Model {ModelImpl#addPreset()}: identifier was NULL, emtpy string has been asinged.");
+	    identifier = "";
 	}
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
@@ -225,8 +248,13 @@ public class ModelImpl implements IModel {
 	    cv.put("Identifier", identifier);
 
 	    db.insert("Preset", null, cv);
+	} else {
+	    Log.w("ModelImpl#addPreset(): found an exisiting Preset with that Name, Type and Identifier.");
 	}
-	
+
+	Log.v("ModelImpl#addPreset(): returning the "
+		+ (cursor.getCount() == 0 ? "new" : "existing") + " IPreset");
+
 	cursor.close();
 	return new PresetImpl(name, description, type, identifier);
     }
