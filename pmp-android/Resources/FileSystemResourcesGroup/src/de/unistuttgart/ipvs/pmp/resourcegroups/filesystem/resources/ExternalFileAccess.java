@@ -208,18 +208,17 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 	 * (&lt;Directory&gt;/&lt;subpath&gt;)
 	 * 
 	 * @param subpath
-	 *            Subpath &lt;subpath&gt; in the external directory
-	 * @return Computet path to the external storage
+	 *            Sub-path &lt;subpath&gt; in the external directory
+	 * @return Computed path to the external storage
 	 * @throws IllegalArgumentException
-	 *             Thrown, if the supath string contains characters for
+	 *             Thrown, if the sub-path string contains characters for
 	 *             switching into an upper directory (typically "../")
 	 */
 	private File getExternalDirectory(String subpath)
 			throws IllegalArgumentException {
 		// Prevent switching into an upper directory using "../"
 		if (subpath.contains("..")) {
-			throw new IllegalArgumentException(
-					"Switching in upper directories is not allowed");
+			throw new IllegalArgumentException(SWITCHING_EXCEPTION);
 		}
 
 		File root = Environment.getExternalStorageDirectory();
