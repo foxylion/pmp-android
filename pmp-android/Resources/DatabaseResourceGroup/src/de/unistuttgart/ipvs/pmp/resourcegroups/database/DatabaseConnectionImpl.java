@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import de.unistuttgart.ipvs.pmp.resource.Resource;
@@ -74,9 +75,10 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 	    return null;
 	}
 	ContentValues cv = new ContentValues();
-	Set keys = values.keySet();
-	for (Object key : keys) {
-	    cv.put(key.toString(), values.get(key).toString());
+	for (Object value : values.entrySet()) {
+	    // TODO in right order?????????????????????????????????????????????
+	    Entry e = (Entry) value;
+	    cv.put(e.getKey().toString(), e.getValue().toString());
 	}
 	return cv;
     }
