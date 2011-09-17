@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.model.implementations;
+package de.unistuttgart.ipvs.pmp.model;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.PMPConditions;

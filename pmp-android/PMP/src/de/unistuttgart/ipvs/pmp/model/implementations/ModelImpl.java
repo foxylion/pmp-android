@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.AppRegistration;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.ResourceGroupRegistration;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;

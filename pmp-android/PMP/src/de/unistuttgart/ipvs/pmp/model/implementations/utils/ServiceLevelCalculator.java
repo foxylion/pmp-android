@@ -5,7 +5,7 @@ import java.util.Map;
 
 import android.os.RemoteException;
 
-import de.unistuttgart.ipvs.pmp.model.implementations.ModelConditions;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
