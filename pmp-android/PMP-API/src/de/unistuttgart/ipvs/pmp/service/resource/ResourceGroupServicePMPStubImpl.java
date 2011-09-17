@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+import de.unistuttgart.ipvs.pmp.service.SerializableContainer;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
@@ -86,9 +87,10 @@ public class ResourceGroupServicePMPStubImpl extends
     }
 
     @Override
-    public void setAccesses(ResourceGroupAccess[] accesses)
+    public void setAccesses(SerializableContainer accesses)
 	    throws RemoteException {
-	for (ResourceGroupAccess rga : accesses) {
+	ResourceGroupAccess[] rgas = (ResourceGroupAccess[]) accesses.getSerializable();
+	for (ResourceGroupAccess rga : rgas) {
 	    refSignee.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
 		    .getIdentifier(), rga.getHeader().getPublicKey());
 	    rg.updateAccess(rga);

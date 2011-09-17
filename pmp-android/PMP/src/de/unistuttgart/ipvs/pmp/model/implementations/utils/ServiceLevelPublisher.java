@@ -1,9 +1,10 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -14,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccessHeader;
+import de.unistuttgart.ipvs.pmp.service.SerializableContainer;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
@@ -79,11 +81,11 @@ public class ServiceLevelPublisher {
 			.getRemotePublicKey(PMPComponentType.APP,
 				app.getIdentifier());
 
-		Bundle privacyLevels = new Bundle();
+		Map<String, String> privacyLevels = new HashMap<String, String>();
 
 		for (IPrivacyLevel appPl : app
 			.getAllPrivacyLevelsUsedByActiveServiceLevel(affectedResourceGroup)) {
-		    privacyLevels.putString(appPl.getIdentifier(),
+		    privacyLevels.put(appPl.getIdentifier(),
 			    appPl.getValue());
 		}
 
@@ -130,7 +132,7 @@ public class ServiceLevelPublisher {
 			ResourceGroupAccess[] rgas = accesses
 				.toArray(new ResourceGroupAccess[accesses
 					.size()]);
-			rgsc.getPMPService().setAccesses(rgas);
+			rgsc.getPMPService().setAccesses(new SerializableContainer(rgas));
 			Log.d("ResoureceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): Successfully set new Accesses.");
