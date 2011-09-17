@@ -72,7 +72,7 @@ public class CalendarAppActivity extends ListActivity {
 		    DialogManager.getInstance().showWaitingDialog();
 
 		    // Register the service
-		    ((App) getApplication()).start(appContext);
+		    ((App) getApplication()).start(getApplicationContext());
 
 		    connector.unbind();
 		} else {

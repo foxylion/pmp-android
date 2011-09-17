@@ -3,11 +3,15 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.os.RemoteException;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class CalendarApp extends App {
 
@@ -36,10 +40,48 @@ public class CalendarApp extends App {
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.unistuttgart.ipvs.pmp.app.App#onRegistrationSuccess() Is called
+     * when the registration was successful. The method then tries to receive
+     * the initial service level from the PMP service.
+     */
     @Override
     public void onRegistrationSuccess() {
 	Log.d("Registration succeed");
-	DialogManager.getInstance().dismissWaitingDialog();
+
+	// Connector to get the initial service level
+	final PMPServiceConnector connector = new PMPServiceConnector(
+		this.getApplicationContext(), this.getSignee());
+	connector.addCallbackHandler(new IConnectorCallback() {
+
+	    @Override
+	    public void disconnected() {
+		Log.e("Disconnected");
+	    }
+
+	    @Override
+	    public void connected() {
+		// Try to get the initial service level
+		try {
+		    connector.getAppService().getInitialServiceLevel();
+		} catch (RemoteException e) {
+		    Log.e("RemoteException during getting initial ServiceLevel",
+			    e);
+		}
+		DialogManager.getInstance().dismissWaitingDialog();
+		connector.unbind();
+	    }
+
+	    @Override
+	    public void bindingFailed() {
+		Log.e("Binding failed during getting initial service level.");
+	    }
+	});
+
+	// Connect to the service
+	connector.bind();
     }
 
     @Override
