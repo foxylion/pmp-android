@@ -23,6 +23,9 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
  */
 public class ModelImpl implements IModel {
 
+    /**
+     * Constructor for {@link ModelImpl}.
+     */
     public ModelImpl() {
 
     }
@@ -58,9 +61,13 @@ public class ModelImpl implements IModel {
 
     @Override
     public IApp getApp(String identifier) {
+	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+	
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
+	IApp returnValue = null;
+	
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Name_Cache, Description_Cache FROM App WHERE Identifier = ?",
@@ -73,28 +80,30 @@ public class ModelImpl implements IModel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    cursor.close();
-
-	    return new AppImpl(identifier, name, description);
+	    returnValue = new AppImpl(identifier, name, description);
 	} else {
 	    Log.d("Model: There is no App with the identifier" + identifier
 		    + " in the Database.");
-	    cursor.close();
-	    return null;
 	}
+	
+	cursor.close();
+	return returnValue;
     }
 
     @Override
     public void addApp(String identifier, byte[] publicKey) {
+	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
+	
 	new AppRegistration(identifier, publicKey);
     }
 
     @Override
     public IResourceGroup[] getResourceGroups() {
-	List<IResourceGroup> list = new ArrayList<IResourceGroup>();
-
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	List<IResourceGroup> list = new ArrayList<IResourceGroup>();
 
 	Cursor cursor = db
 		.rawQuery(
@@ -114,8 +123,8 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IResourceGroup[list.size()]);
     }
 
@@ -123,6 +132,8 @@ public class ModelImpl implements IModel {
     public IResourceGroup getResourceGroup(String identifier) {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+	
+	IResourceGroup returnValue = null;
 
 	Cursor cursor = db
 		.rawQuery(
@@ -136,24 +147,27 @@ public class ModelImpl implements IModel {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    return new ResourceGroupImpl(identifier, name, description);
+	    returnValue = new ResourceGroupImpl(identifier, name, description);
 	}
+	
 	cursor.close();
-
-	return null;
+	return returnValue;
     }
 
     @Override
     public void addResourceGroup(String identifier, byte[] publicKey) {
+	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
+	
 	new ResourceGroupRegistration(identifier, publicKey);
     }
 
     @Override
     public IPreset[] getPresets() {
-	List<IPreset> list = new ArrayList<IPreset>();
-
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
+
+	List<IPreset> list = new ArrayList<IPreset>();
 
 	Cursor cursor = db.rawQuery(
 		"SELECT Name, Description, Type, Identifier FROM Preset", null);
@@ -162,18 +176,15 @@ public class ModelImpl implements IModel {
 
 	while (!cursor.isAfterLast()) {
 	    String name = cursor.getString(cursor.getColumnIndex("Name"));
-
-	    PMPComponentType type;
+	    PMPComponentType type = PMPComponentType.NONE;
 	    try {
 		type = PMPComponentType.valueOf(cursor.getString(cursor
 			.getColumnIndex("Type")));
 	    } catch (IllegalArgumentException e) {
-		type = null;
+		Log.d("Model: Got a NULL PMPComponentType asume PMPComponentType.NONE was meant.");
 	    }
-
 	    String identifier = cursor.getString(cursor
 		    .getColumnIndex("Identifier"));
-
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description"));
 
@@ -181,34 +192,21 @@ public class ModelImpl implements IModel {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IPreset[list.size()]);
     }
 
     @Override
     public IPreset addPreset(String name, String description,
 	    PMPComponentType type, String identifier) {
-	/* Pre-Conditions Check */
-	if (name == null) {
-	    throw new IllegalArgumentException(
-		    "The preset name must not be null");
-	}
-	if (type == null) {
-	    throw new IllegalArgumentException(
-		    "The preset type must not be null, use PMPComponentType.NONE instead");
-	}
+	ModelConditions.assertPMPComponentTypeNotNull(type);
+	ModelConditions.assertStringNotNullOrEmpty("name", name);
+	ModelConditions.assertNotNull("identifier", identifier);
+	ModelConditions.assertPMPComponentTypeAndIdentiferMatch(type, identifier);
 	if (description == null) {
 	    description = "";
 	}
-	if (identifier == null) {
-	    identifier = "";
-	}
-	if (type != PMPComponentType.NONE && identifier.length() == 0) {
-	    throw new IllegalArgumentException(
-		    "The preset type is not NONE, so the identifier must not be empty or null");
-	}
-	/* End of pre-conditions check */
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
@@ -227,8 +225,8 @@ public class ModelImpl implements IModel {
 
 	    db.insert("Preset", null, cv);
 	}
+	
 	cursor.close();
-
 	return new PresetImpl(name, description, type, identifier);
     }
 }

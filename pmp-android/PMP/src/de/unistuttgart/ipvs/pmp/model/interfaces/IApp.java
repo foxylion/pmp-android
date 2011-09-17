@@ -64,11 +64,11 @@ public interface IApp {
      * use {@link IServiceLevel#isAvailable()} to check that).
      * </p>
      * 
-     * @param serviceLevel
+     * @param level
      *            New {@link IServiceLevel}s level which should be set.
      * @return true if the {@link IServiceLevel} was set, false if not.
      */
-    public boolean setActiveServiceLevelAsPreset(int serviceLevel);
+    public boolean setActiveServiceLevelAsPreset(int level);
 
     /**
      * Verifies the service level in background and publishes the changed
