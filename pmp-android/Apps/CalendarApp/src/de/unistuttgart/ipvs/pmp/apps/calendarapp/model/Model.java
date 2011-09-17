@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.exception.DateNotFoundException;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class Model {
@@ -23,7 +24,7 @@ public class Model {
     /**
      * Holds all stored dates
      */
-    private ArrayList<Date> dateList = new ArrayList<Date>();;
+    private ArrayList<Date> dateList = new ArrayList<Date>();
 
     /**
      * Stores the highest id
@@ -33,7 +34,7 @@ public class Model {
     /**
      * The context of the app
      */
-    private Context appContext;
+    private CalendarAppActivity appContext;
 
     /**
      * Array adapter of the list to refresh it
@@ -65,11 +66,14 @@ public class Model {
     }
 
     public void loadDates() {
-	for (Date date : SqlConnector.getInstance().loadDates()) {
+	dateList.clear();
+	for (Date date : SqlConnector.getInstance().loadDates()){
+	    Log.v("Adding date");
 	    dateList.add(date);
 	}
+	
 	Collections.sort(dateList, new DateComparator());
-	arrayAdapter.notifyDataSetChanged();	
+	arrayAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -89,7 +93,7 @@ public class Model {
      * @param context
      *            context of the app
      */
-    public void setContext(Context context) {
+    public void setContext(CalendarAppActivity context) {
 	appContext = context;
     }
 
@@ -98,7 +102,7 @@ public class Model {
      * 
      * @return app context
      */
-    public Context getContext() {
+    public CalendarAppActivity getContext() {
 	return appContext;
     }
 

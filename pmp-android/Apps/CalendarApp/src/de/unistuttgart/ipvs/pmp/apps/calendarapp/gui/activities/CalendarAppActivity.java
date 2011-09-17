@@ -109,9 +109,11 @@ public class CalendarAppActivity extends ListActivity {
 
 	    @Override
 	    public void onClick(View v) {
-		Dialog dialog = new NewDateDialog(self);
-		dialog.setTitle("Create new date");
-		dialog.show();
+		if (Model.getInstance().getServiceLevel() == 1) {
+		    Dialog dialog = new NewDateDialog(self);
+		    dialog.setTitle("Create new date");
+		    dialog.show();
+		}
 	    }
 	});
 
@@ -136,26 +138,36 @@ public class CalendarAppActivity extends ListActivity {
 	listView.setOnItemClickListener(new OnItemClickListener() {
 	    public void onItemClick(AdapterView<?> parent, View view,
 		    int position, long id) {
-		Dialog changeDateDialog = new ChangeDateDialog(self, position);
-		changeDateDialog.show();
+		if (Model.getInstance().getServiceLevel() == 1) {
+		    Dialog changeDateDialog = new ChangeDateDialog(self,
+			    position);
+		    changeDateDialog.show();
+		}
 	    }
 	});
 
-	((CalendarApp) getApplication())
-		.changeFunctionalityAccordingToServiceLevel();
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
+	/*
+	 * Changes the functionality according to the service level that is set.
+	 * Will be called when the activity is started after on create and
+	 * called when the activity is shown again.
+	 */
+	((CalendarApp) getApplication())
+		.changeFunctionalityAccordingToServiceLevel();
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
-	AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem
-		.getMenuInfo();
-	Model.getInstance().deleteDateByIndex(menuInfo.position);
-	arrayAdapter.notifyDataSetChanged();
+	if (Model.getInstance().getServiceLevel() == 1) {
+	    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem
+		    .getMenuInfo();
+	    Model.getInstance().deleteDateByIndex(menuInfo.position);
+	    arrayAdapter.notifyDataSetChanged();
+	}
 	return true;
     }
 }

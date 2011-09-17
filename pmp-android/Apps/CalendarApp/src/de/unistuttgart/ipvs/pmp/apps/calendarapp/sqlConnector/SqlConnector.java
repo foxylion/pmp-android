@@ -42,7 +42,7 @@ public class SqlConnector {
 	dList.add(new Date(1, "b", "01.03.2000"));
 	dList.add(new Date(2, "c", "01.04.2000"));
 	dList.add(new Date(3, "d", "01.05.2000"));
-	Model.highestId = 4;
+	Model.highestId = 3;
 	return dList;
     }
 
