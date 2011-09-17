@@ -9,7 +9,6 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroupAccess;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.SerializableContainer;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * Implementation of the {@link IResourceGroupServicePMP.Stub} stub.
@@ -23,15 +22,6 @@ public class ResourceGroupServicePMPStubImpl extends
      * referenced resource group
      */
     private ResourceGroup rg;
-
-    /**
-     * referenced signee
-     */
-    private PMPSignee refSignee;
-
-    public void setSignee(PMPSignee resgrpSignee) {
-	refSignee = resgrpSignee;
-    }
 
     public void setResourceGroup(ResourceGroup rg) {
 	this.rg = rg;
@@ -91,8 +81,8 @@ public class ResourceGroupServicePMPStubImpl extends
 	    throws RemoteException {
 	ResourceGroupAccess[] rgas = (ResourceGroupAccess[]) accesses.getSerializable();
 	for (ResourceGroupAccess rga : rgas) {
-	    refSignee.setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
-		    .getIdentifier(), rga.getHeader().getPublicKey());
+	    rg.getSignee().setRemotePublicKey(PMPComponentType.APP, rga.getHeader()
+		    .getIdentifier(), rga.getHeader().getPublicKey());	    
 	    rg.updateAccess(rga);
 	}
     }
