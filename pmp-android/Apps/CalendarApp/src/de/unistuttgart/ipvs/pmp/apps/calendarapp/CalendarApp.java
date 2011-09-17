@@ -23,7 +23,6 @@ public class CalendarApp extends App {
     public void setActiveServiceLevel(int level) {
 	Log.v("ServiceLevel set to: " + String.valueOf(level));
 	Model.getInstance().setServiceLevel(level);
-	changeFunctionalityAccordingToServiceLevel();
     }
 
     @Override
