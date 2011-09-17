@@ -62,8 +62,7 @@ public class ResourceGroupAccess implements Parcelable {
      *            Parcel-Source
      */
     private ResourceGroupAccess(Parcel source) {
-	this.header = ResourceGroupAccessHeader.CREATOR
-		.createFromParcel(source);
+	this.header = source.readParcelable(null);
 	this.privacyLevelValues = source.readBundle();
     }
 
@@ -74,7 +73,7 @@ public class ResourceGroupAccess implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-	this.header.writeToParcel(dest, flags);
+	dest.writeParcelable(this.header, flags);
 	dest.writeBundle(privacyLevelValues);
     }
 

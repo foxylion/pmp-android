@@ -61,12 +61,12 @@ public class ServiceLevelPublisher {
 		.getAllResourceGroupsUsedByServiceLevels();
 
 	for (IResourceGroup affectedResourceGroup : affectedResourceGroups) {
-	    
-	    if(affectedResourceGroup == null) {
+
+	    if (affectedResourceGroup == null) {
 		Log.e("A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
 		continue;
 	    }
-	    
+
 	    Log.v("ResoureceGroup-AccessSet-Publishing ("
 		    + affectedResourceGroup.getIdentifier()
 		    + "): AccessSet is beeing created");
@@ -75,8 +75,9 @@ public class ServiceLevelPublisher {
 
 	    for (IApp app : affectedResourceGroup
 		    .getAllAppsUsingThisResourceGroup()) {
-		byte[] publicKey = PMPApplication.getSignee().getRemotePublicKey(
-			PMPComponentType.APP, app.getIdentifier());
+		byte[] publicKey = PMPApplication.getSignee()
+			.getRemotePublicKey(PMPComponentType.APP,
+				app.getIdentifier());
 
 		Bundle privacyLevels = new Bundle();
 
@@ -109,16 +110,16 @@ public class ServiceLevelPublisher {
 	    if (!rgsc.bind(true)) {
 		Log.e("ResoureceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
-			+ "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+			+ "): FAILED - Connection to the ResourceGroup failed. More details can be found in the log.");
 	    } else {
 		Log.d("ResoureceGroup-AccessSet-Publishing ("
 			+ affectedResourceGroup.getIdentifier()
 			+ "): Successfully bound.");
 
-		if (rgsc.getAppService() == null) {
+		if (rgsc.getPMPService() == null) {
 		    Log.e("ResoureceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
-			    + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+			    + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
 		} else {
 		    Log.d("ResoureceGroup-AccessSet-Publishing ("
 			    + affectedResourceGroup.getIdentifier()
@@ -126,10 +127,10 @@ public class ServiceLevelPublisher {
 
 		    try {
 			Log.v("Calling setAccesses()...");
-			rgsc.getPMPService()
-				.setAccesses(
-					accesses.toArray(new ResourceGroupAccess[accesses
-						.size()]));
+			ResourceGroupAccess[] rgas = accesses
+				.toArray(new ResourceGroupAccess[accesses
+					.size()]);
+			rgsc.getPMPService().setAccesses(rgas);
 			Log.d("ResoureceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): Successfully set new Accesses.");
