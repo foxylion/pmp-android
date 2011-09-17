@@ -70,7 +70,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 		.getReadableDatabase();
 
 	ResourceGroupImpl returnValue = null;
-	
+
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
@@ -81,20 +81,21 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
-	    
+
 	    returnValue = new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
-	    Log.e("Model: PrivacyLevel " + identifier + " has no parent ResourceGroup.");
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): PrivacyLevel "
+		    + identifier + " has no parent ResourceGroup.");
 	}
-	
+
 	cursor.close();
 	return returnValue;
     }
 
     @Override
     public String getHumanReadableValue(String value) throws RemoteException {
-	ModelConditions.assertNotNull("value",value);
+	ModelConditions.assertNotNull("value", value);
 
 	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),
@@ -103,7 +104,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Model: Binding of ResourceGroupService "
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
@@ -130,7 +131,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	rgsc.bind(true);
 
 	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("Model: Binding of ResourceGroupService "
+	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
 	    RemoteException re = new RemoteException();
