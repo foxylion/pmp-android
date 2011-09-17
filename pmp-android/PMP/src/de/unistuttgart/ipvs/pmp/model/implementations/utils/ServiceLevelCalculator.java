@@ -46,7 +46,7 @@ public class ServiceLevelCalculator {
 	    IServiceLevel testSL = appSL[serviceLevel];
 	    boolean confirmed = true;
 	    for (IPrivacyLevel toConfirmPL : testSL.getPrivacyLevels()) {
-		if (!toConfirmPL.satisfies(toConfirmPL.getValue(),
+		if (!toConfirmPL.permits(toConfirmPL.getValue(),
 			bestValues.get(getUniquePLIdentifier(toConfirmPL)))) {
 		    confirmed = false;
 		    continue;
@@ -88,7 +88,7 @@ public class ServiceLevelCalculator {
         		    value.getValue());
         	} else {
         	    // check which one is equal or better
-        	    if (value.satisfies(currentBest, value.getValue())) {
+        	    if (value.permits(currentBest, value.getValue())) {
         		// value >= currentBest
         		bestValues.put(getUniquePLIdentifier(value),
         			value.getValue());

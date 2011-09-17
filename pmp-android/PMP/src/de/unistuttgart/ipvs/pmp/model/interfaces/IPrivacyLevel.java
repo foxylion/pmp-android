@@ -95,6 +95,6 @@ public interface IPrivacyLevel {
      *             Is thrown when the connection to the {@link IResourceGroup}s
      *             service can not be correctly established.
      */
-    public boolean satisfies(String reference, String value)
+    public boolean permits(String reference, String value)
 	    throws RemoteException;
 }

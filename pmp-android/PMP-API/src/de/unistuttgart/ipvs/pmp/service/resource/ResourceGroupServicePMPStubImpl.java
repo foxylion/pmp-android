@@ -126,7 +126,7 @@ public class ResourceGroupServicePMPStubImpl extends
     }
 
     @Override
-    public boolean satisfiesPrivacyLevel(String privacyLevel, String reference,
+    public boolean permitsPrivacyLevel(String privacyLevel, String reference,
 	    String value) throws RemoteException {
 	PrivacyLevel<?> pl = rg.getPrivacyLevel(privacyLevel);
 	if (pl == null) {

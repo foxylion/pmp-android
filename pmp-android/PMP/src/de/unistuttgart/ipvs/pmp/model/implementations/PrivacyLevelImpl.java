@@ -119,7 +119,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
     }
 
     @Override
-    public boolean satisfies(String reference, String value)
+    public boolean permits(String reference, String value)
 	    throws RemoteException {
 	ModelConditions.assertNotNull("reference", reference);
 	ModelConditions.assertNotNull("value", value);
@@ -140,7 +140,7 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 		    + " failed, can't do satisfies"));
 	    throw re;
 	} else {
-	    return rgsc.getPMPService().satisfiesPrivacyLevel(identifier,
+	    return rgsc.getPMPService().permitsPrivacyLevel(identifier,
 		    reference, value);
 	}
     }
