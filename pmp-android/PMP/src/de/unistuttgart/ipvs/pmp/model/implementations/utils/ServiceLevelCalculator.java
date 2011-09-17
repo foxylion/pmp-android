@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.os.RemoteException;
 
+import de.unistuttgart.ipvs.pmp.model.implementations.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
@@ -27,6 +28,8 @@ public class ServiceLevelCalculator {
     private IApp app;
 
     public ServiceLevelCalculator(IApp app) {
+	ModelConditions.assertNotNull("app", app);
+	
 	this.app = app;
     }
 

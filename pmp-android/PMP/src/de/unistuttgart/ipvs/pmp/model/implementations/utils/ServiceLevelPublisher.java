@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.model.implementations.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
@@ -25,6 +26,9 @@ public class ServiceLevelPublisher {
     private IServiceLevel oldServiceLevel;
 
     public ServiceLevelPublisher(IApp app, IServiceLevel oldServiceLevel) {
+	ModelConditions.assertNotNull("app", app);
+	ModelConditions.assertNotNull("oldServiceLevel", oldServiceLevel);
+	
 	this.app = app;
 	this.oldServiceLevel = oldServiceLevel;
     }

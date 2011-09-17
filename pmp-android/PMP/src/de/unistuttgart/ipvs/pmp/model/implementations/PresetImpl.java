@@ -30,10 +30,6 @@ public class PresetImpl implements IPreset {
 	this.description = description;
 	this.type = type;
 	this.identifier = identifier;
-
-	if (identifier != null && identifier.length() == 0) {
-	    this.identifier = null;
-	}
     }
 
     @Override
@@ -48,7 +44,11 @@ public class PresetImpl implements IPreset {
 
     @Override
     public String getIdentifier() {
-	return identifier;
+	if (identifier != null && identifier.length() == 0) {
+	    return null;
+	} else {
+	    return identifier;
+	}
     }
 
     @Override
@@ -89,6 +89,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public boolean isAppAssigned(IApp app) {
+	ModelConditions.assertNotNull("app", app);
+	
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
@@ -110,6 +112,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void addApp(IApp app, boolean hidden) {
+	ModelConditions.assertNotNull("app", app);
+	
 	if (!isAppAssigned(app)) {
 	    SQLiteDatabase db = DatabaseSingleton.getInstance()
 		    .getDatabaseHelper().getWritableDatabase();
@@ -135,6 +139,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void removeApp(IApp app, boolean hidden) {
+	ModelConditions.assertNotNull("app", app);
+	
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 
@@ -180,8 +186,8 @@ public class PresetImpl implements IPreset {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
@@ -192,7 +198,7 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-	removePrivacyLevel(privacyLevel, true);
+	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
@@ -229,6 +235,8 @@ public class PresetImpl implements IPreset {
 
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
+	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+	
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
 

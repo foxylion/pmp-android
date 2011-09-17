@@ -70,16 +70,20 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
     @Override
     public IPrivacyLevel getPrivacyLevel(String privacyLevelIdentifier) {
+	ModelConditions.assertStringNotNullOrEmpty("privacyLevelIdentifier", privacyLevelIdentifier);
+	
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
+	PrivacyLevelImpl returnValue = null;
+	
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Identifier, Name_Cache, Description_Cache FROM PrivacyLevel WHERE ResourceGroup_Identifier = ? AND Identifier = ?",
@@ -94,14 +98,14 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
 
-	    cursor.close();
-	    return new PrivacyLevelImpl(identifier, plIdentifier, name,
+	    returnValue = new PrivacyLevelImpl(identifier, plIdentifier, name,
 		    description);
 	} else {
 	    Log.d("Model: There is no PrivacyLevel " + privacyLevelIdentifier + " in the ResourceGroup " + identifier);
-	    cursor.close();
-	    return null;
 	}
+	
+	cursor.close();
+	return returnValue;
     }
 
     @Override
@@ -128,8 +132,8 @@ public class ResourceGroupImpl implements IResourceGroup {
 	    list.add(app);
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IApp[list.size()]);
     }
 

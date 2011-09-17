@@ -68,6 +68,8 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getReadableDatabase();
 
+	ResourceGroupImpl returnValue = null;
+	
 	Cursor cursor = db
 		.rawQuery(
 			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
@@ -78,23 +80,20 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
 	    String description = cursor.getString(cursor
 		    .getColumnIndex("Description_Cache"));
-
-	    cursor.close();
-
-	    return new ResourceGroupImpl(resourceGroupIdentifier, name,
+	    
+	    returnValue = new ResourceGroupImpl(resourceGroupIdentifier, name,
 		    description);
 	} else {
 	    Log.e("Model: PrivacyLevel " + identifier + " has no parent ResourceGroup.");
-	    cursor.close();
-	    return null;
 	}
+	
+	cursor.close();
+	return returnValue;
     }
 
     @Override
     public String getHumanReadableValue(String value) throws RemoteException {
-	if (value == null) {
-	    throw new IllegalArgumentException("Value must not be NULL");
-	}
+	ModelConditions.assertNotNull("value",value);
 
 	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),
@@ -120,12 +119,8 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
     @Override
     public boolean satisfies(String reference, String value)
 	    throws RemoteException {
-	if (reference == null) {
-	    throw new IllegalArgumentException("reference must not be NULL");
-	}
-	if (value == null) {
-	    throw new IllegalArgumentException("value must not be NULL");
-	}
+	ModelConditions.assertNotNull("reference", reference);
+	ModelConditions.assertNotNull("value", value);
 
 	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
 		PMPApplication.getContext(), PMPApplication.getSignee(),

@@ -87,8 +87,8 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return list.toArray(new IPrivacyLevel[list.size()]);
     }
 
@@ -131,8 +131,8 @@ public class ServiceLevelImpl implements IServiceLevel {
 
 	    cursor.moveToNext();
 	}
+	
 	cursor.close();
-
 	return true;
     }
 }

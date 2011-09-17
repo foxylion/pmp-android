@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.implementations.ModelConditions;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
@@ -39,11 +40,14 @@ public class AppRegistration {
      *            Public key of the App
      */
     public AppRegistration(String identifier, byte[] publicKey) {
+	ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+	ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
+	
 	this.identifier = identifier;
 	this.publicKey = publicKey.clone();
 	this.asp = new AppServiceConnector(PMPApplication.getContext(),
 		PMPApplication.getSignee(), identifier);
-
+	
 	Log.v("Registration (" + identifier
 		+ "): Trying to connect to the AppService");
 
