@@ -181,6 +181,8 @@ public class PrivacyLevels {
 	 *             Thrown,
 	 */
 	public PrivacyLevels(Context c) throws Exception {
+		
+		// Read localized strings for the basic operations
 		String read = c.getResources().getString(R.string.read);
 		String write = c.getResources().getString(R.string.write);
 		String list = c.getResources().getString(R.string.list);
@@ -190,10 +192,9 @@ public class PrivacyLevels {
 		// Creates privacy-levels for reading, writing, deleting and listing
 		// files.
 		// We do not need a specialized implementation of our privacy-levels,
-		// so we are using the implementation provided by "SimplePrivacyLevel".
-		// As we want to use the privacy-levels' names and descriptions
-		// stored in the Andorid resource-file (values/string.xml), we
-		// set the name and description parameters to "null".
+		// so we are using the implementation provided by "BooleanPrivacyLevel".
+		
+		// Generic file access
 		String generic = c.getResources().getString(R.string.pl_generic);
 		String generic_warning = c.getResources().getString(R.string.pl_generic_warning);
 		genericRead = new BooleanPrivacyLevel(generic + ": " + read,
@@ -221,49 +222,56 @@ public class PrivacyLevels {
 		extBaseDirMakeDirs = new BooleanPrivacyLevel(extBaseDir + ": " + delete,
 				c.getResources().getString(R.string.pl_external_base_dir_mkdirs_desc) + " " + extBaseDirNotice);
 
-
+		// External music-dir access
 		extMusicRead = getExternalReadPl(c, R.string.music);
 		extMusicWrite = getExternalWritePl(c, R.string.music);
 		extMusicList = getExternalListPl(c, R.string.music);
-		extMusicDelete = getExternalDeletePl(c, R.string.delete);
+		extMusicDelete = getExternalDeletePl(c, R.string.music);
 		extMusicMakeDirs = getExternalMkdirsPl(c, R.string.mkdirs);
 
+		// External podcasts-dir access
 		extPodcastsRead = getExternalReadPl(c, R.string.podcasts);
 		extPodcastsWrite = getExternalWritePl(c, R.string.podcasts);
 		extPodcastsList = getExternalListPl(c, R.string.podcasts);
 		extPodcastsDelete = getExternalDeletePl(c, R.string.podcasts);
 		extPodcastsMakeDirs = getExternalMkdirsPl(c, R.string.podcasts);
 
+		// External ringtones-dir access
 		extRingtonesRead = getExternalReadPl(c, R.string.ringtones);
 		extRingtonesWrite = getExternalWritePl(c, R.string.ringtones);
 		extRingtonesList = getExternalListPl(c, R.string.ringtones);
 		extRingtonesDelete = getExternalDeletePl(c, R.string.ringtones);
 		extRingtonesMakeDirs = getExternalMkdirsPl(c, R.string.ringtones);
 
+		// External alarm-dir access
 		extAlarmsRead = getExternalReadPl(c, R.string.alarms);
 		extAlarmsWrite = getExternalWritePl(c, R.string.alarms);
 		extAlarmsList = getExternalListPl(c, R.string.alarms);
 		extAlarmsDelete = getExternalDeletePl(c, R.string.alarms);
 		extAlarmsMakeDirs = getExternalMkdirsPl(c, R.string.alarms);
 		
+		// External notifications-dir access
 		extNotificationsRead = getExternalReadPl(c, R.string.notifications);
 		extNotificationsWrite = getExternalWritePl(c, R.string.notifications);
 		extNotificationsList = getExternalListPl(c, R.string.notifications);
 		extNotificationsDelete = getExternalDeletePl(c, R.string.notifications);
 		extNotificationsMakeDirs = getExternalMkdirsPl(c, R.string.notifications);
 
+		// External pictures-dir access
 		extPicturesRead = getExternalReadPl(c, R.string.pictures);
 		extPicturesWrite = getExternalWritePl(c, R.string.pictures);
 		extPicturesList = getExternalListPl(c, R.string.pictures);
 		extPicturesDelete = getExternalDeletePl(c, R.string.pictures);
 		extPicturesMakeDirs = getExternalMkdirsPl(c, R.string.pictures);
 		
+		// External movies-dir access
 		extMoviesRead = getExternalReadPl(c, R.string.movies);
 		extMoviesWrite = getExternalWritePl(c, R.string.movies);
 		extMoviesList = getExternalListPl(c, R.string.movies);
 		extMoviesDelete = getExternalDeletePl(c, R.string.movies);
 		extMoviesMakeDirs = getExternalMkdirsPl(c, R.string.movies);
 		
+		// External download-dir access
 		extDownloadRead = getExternalReadPl(c, R.string.download);
 		extDownloadWrite = getExternalWritePl(c, R.string.download);
 		extDownloadList = getExternalListPl(c, R.string.download);
@@ -346,7 +354,7 @@ public class PrivacyLevels {
 	}
 
 	/**
-	 * Adds all generated pirvacy-levels to a resource-group
+	 * Adds all generated privacy-levels to a resource-group
 	 * 
 	 * @param rg
 	 *            Resource-group to which the privacy-levels should be added
