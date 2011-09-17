@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World!</string>
-    <string name="app_name">PMP</string>
     <string name="apps">Applications</string>
     <string name="ress">Resources</string>
     <string name="description">Description</string>
