@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewDateDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import android.app.Dialog;
@@ -165,7 +166,9 @@ public class CalendarAppActivity extends ListActivity {
 	if (Model.getInstance().getServiceLevel() == 1) {
 	    AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem
 		    .getMenuInfo();
-	    Model.getInstance().deleteDateByIndex(menuInfo.position);
+	    SqlConnector.getInstance().deleteDate(
+		    Model.getInstance().getDateByIndex(menuInfo.position)
+			    .getId());
 	    arrayAdapter.notifyDataSetChanged();
 	}
 	return true;

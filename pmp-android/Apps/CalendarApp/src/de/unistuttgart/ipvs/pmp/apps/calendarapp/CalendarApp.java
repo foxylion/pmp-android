@@ -7,6 +7,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class CalendarApp extends App {
 
@@ -62,7 +63,7 @@ public class CalendarApp extends App {
 	    Model.getInstance().getNewDateButton().setEnabled(false);
 	    break;
 	case 1:
-	    Model.getInstance().loadDates();
+	    SqlConnector.getInstance().loadDates();
 	    Model.getInstance().getNewDateButton().setEnabled(true);
 	    break;
 	default:

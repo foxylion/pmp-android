@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -97,10 +98,10 @@ public class ChangeDateDialog extends Dialog {
 	@Override
 	public void onClick(View v) {
 	    int month = dPicker.getMonth() + 1;
-	    Model.getInstance().changeDate(
-		    date.getId(),
-		    dPicker.getDayOfMonth() + "." + month + "."
-			    + dPicker.getYear(), desc.getText().toString());
+	    
+	    SqlConnector.getInstance().changeDate(date.getId(), dPicker.getDayOfMonth() + "." + month + "."
+		    + dPicker.getYear(), desc.getText().toString());
+	   
 	    dismiss();
 	}
 
