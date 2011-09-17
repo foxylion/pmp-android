@@ -97,8 +97,11 @@ public class SqlConnector {
 			// null, null, null, null, null, null);
 			// ArrayList<Date> dateList = new ArrayList<Date>();
 			// while (!cursor.isLast()) {
-			// dateList.add(new Date(Integer.valueOf(cursor
-			// .getString(0)), cursor.getString(2), cursor
+			// int id = Integer.valueOf(cursor.getString(0));
+			// if (id > highestId){
+			// highestId = id;
+			// }
+			// dateList.add(new Date(id, cursor.getString(2), cursor
 			// .getString(1)));
 			// cursor.moveToNext();
 			// }
