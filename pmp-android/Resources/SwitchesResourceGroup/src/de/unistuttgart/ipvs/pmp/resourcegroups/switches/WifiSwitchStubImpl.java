@@ -61,7 +61,7 @@ public class WifiSwitchStubImpl extends Stub {
 	private boolean verifyAccessAllowed() {
 		BooleanPrivacyLevel bpl = (BooleanPrivacyLevel) resource
 				.getPrivacyLevel(SwitchesResourceGroup.PRIVACY_LEVEL_WIFI_SWITCH);
-		return bpl.parseValue(resource.getPrivacyLevelValue(appIdentifier,
+		return bpl.valueOf(resource.getPrivacyLevelValue(appIdentifier,
 				SwitchesResourceGroup.PRIVACY_LEVEL_WIFI_SWITCH));
 	}
 }

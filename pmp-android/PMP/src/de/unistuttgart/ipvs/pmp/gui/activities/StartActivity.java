@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -111,7 +110,7 @@ public class StartActivity extends Activity {
 class ApplicationsListener implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	if (event.ACTION_UP == event.getAction()) {
+	if (MotionEvent.ACTION_UP == event.getAction()) {
 
 	    Intent intent = new Intent(v.getContext(),
 		    ApplicationsActivity.class);
@@ -132,7 +131,7 @@ class ApplicationsListener implements OnTouchListener {
 class RessourcesListener implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	if (event.ACTION_UP == event.getAction()) {
+	if (MotionEvent.ACTION_UP == event.getAction()) {
 	    Intent intent = new Intent(v.getContext(), RessourcesActivity.class);
 	    if (v.getContext() != null)
 		v.getContext().startActivity(intent);

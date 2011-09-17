@@ -13,10 +13,10 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 public class PMPServiceResourceGroupStubImpl extends
 	IPMPServiceResourceGroup.Stub {
 
-    private String identifier = null;
+    //private String identifier = null;
 
     public PMPServiceResourceGroupStubImpl(String identifier) {
-	this.identifier = identifier;
+	//this.identifier = identifier;
     }
 
     @Override

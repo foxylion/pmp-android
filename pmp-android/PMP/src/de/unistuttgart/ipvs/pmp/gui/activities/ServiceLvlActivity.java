@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,12 +86,13 @@ public class ServiceLvlActivity extends Activity {
      */
     private void loadServiceLevels() {
 	IApp app = ModelSingleton.getInstance().getModel().getApp(identifier);
-	
+
 	IServiceLevel levelArray[] = app.getServiceLevels();
-	Log.v("ServiceLeveltActivity: Number of Service Levels" + String.valueOf(levelArray.length)
-		+ "for the app: " + app.getName());
+	Log.v("ServiceLeveltActivity: Number of Service Levels"
+		+ String.valueOf(levelArray.length) + "for the app: "
+		+ app.getName());
 	RadioGroup group = new RadioGroup(this);
-	/*Iterate over Service Levels */
+	/* Iterate over Service Levels */
 	for (int i = 0; i < levelArray.length; i++) {
 	    RadioButton button = new RadioButton(this);
 	    button.setBackgroundColor(Color.rgb(211, 211, 211));
@@ -100,18 +100,17 @@ public class ServiceLvlActivity extends Activity {
 	    button.setGravity(Gravity.CENTER);
 	    button.setTextColor(Color.BLACK);
 	    button.setText(levelArray[i].getName());
-	    /*Check if Service Level is set*/
+	    /* Check if Service Level is set */
 	    if (app.getActiveServiceLevel().getLevel() == i) {
 		button.setChecked(true);
 	    }
-	    /*Check if Service Level is available*/
-	    if(levelArray[i].isAvailable()){
-	    button
-		    .setOnTouchListener(new OnLevelTouchListener(this,
-			    levelArray[i].getDescription(), button, this,
-			    identifier, i));
-	    
-	    }else{
+	    /* Check if Service Level is available */
+	    if (levelArray[i].isAvailable()) {
+		button.setOnTouchListener(new OnLevelTouchListener(this,
+			levelArray[i].getDescription(), button, this,
+			identifier, i));
+
+	    } else {
 		button.setEnabled(false);
 		button.setTextColor(Color.GRAY);
 	    }
@@ -125,9 +124,12 @@ public class ServiceLvlActivity extends Activity {
      * Loads the Intent
      */
     private void loadIntentsExtras() {
-	identifier = this.getIntent().getExtras().getString(
-		de.unistuttgart.ipvs.pmp.Constants.INTENT_IDENTIFIER);
+	identifier = this
+		.getIntent()
+		.getExtras()
+		.getString(de.unistuttgart.ipvs.pmp.Constants.INTENT_IDENTIFIER);
     }
+
     /**
      * Reload the activity
      */
@@ -147,7 +149,7 @@ class OnLevelTouchListener implements OnTouchListener {
 
     private String lvlDescr;
     private Context context;
-    private RadioButton parent;
+//    private RadioButton parent;
     private ServiceLvlActivity activity;
     private int levelID;
     private String identifier;
@@ -157,7 +159,8 @@ class OnLevelTouchListener implements OnTouchListener {
 	    int levelID) {
 	this.lvlDescr = lvlDescr;
 	this.context = context;
-	this.parent = button;
+//	this.parent = button; // TODO check if that is really required, seems
+			      // not to be used
 	this.activity = activity;
 	this.levelID = levelID;
 	this.identifier = identifier;
@@ -165,10 +168,10 @@ class OnLevelTouchListener implements OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	if (event.getAction() == event.ACTION_UP) {
+	if (event.getAction() == MotionEvent.ACTION_UP) {
 	    Dialog dialog = createDialog();
 	    dialog.show();
-	} else if (event.getAction() == event.ACTION_MOVE) {
+	} else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 	}
 	return false;
     }
@@ -220,8 +223,8 @@ class OnLevelTouchListener implements OnTouchListener {
 		/* Set the Service Level here */
 
 		final Dialog waitingDialog = ProgressDialog.show(context,
-			context.getString(R.string.please_wait), context
-				.getString(R.string.set_service_level), true);
+			context.getString(R.string.please_wait),
+			context.getString(R.string.set_service_level), true);
 		/*
 		 * Create an AsynchTask and wait till
 		 * setActiveServiceLevelAsPreset is done

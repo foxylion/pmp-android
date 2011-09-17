@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.views;
 
-import de.unistuttgart.ipvs.pmp.gui.activities.ApplicationsActivity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -84,12 +83,12 @@ public class ImagedButton extends LinearLayout {
 
 	    @Override
 	    public boolean onTouch(View v, MotionEvent event) {
-		if (event.getAction() == event.ACTION_DOWN) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 		    isDown = true;
 		    v.invalidate();
 		}
-		if (event.getAction() == event.ACTION_UP
-			|| event.getAction() == event.ACTION_CANCEL) {
+		if (event.getAction() == MotionEvent.ACTION_UP
+			|| event.getAction() == MotionEvent.ACTION_CANCEL) {
 		    isDown = false;
 		    v.invalidate();
 		}

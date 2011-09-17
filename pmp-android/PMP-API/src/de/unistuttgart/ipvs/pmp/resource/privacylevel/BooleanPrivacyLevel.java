@@ -59,17 +59,6 @@ public class BooleanPrivacyLevel extends PrivacyLevel {
     public boolean isQualified(String reference, String value) {
 	return (valueOf(value) || (!valueOf(reference))); 
     }
-    
-    /**
-     * Parse and return boolean from PrivacyLevel value.
-     *
-     * @deprecated Please use the static method {@link #valueOf(String)} instead
-     *    
-     */
-    @Deprecated
-    public boolean parseValue(String value) {
-	return Boolean.valueOf(value);
-    }
 
     /**
      * Parse and return boolean value from a Privacy Level string.
