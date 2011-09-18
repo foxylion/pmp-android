@@ -92,20 +92,25 @@ public class SqlConnector {
 			IDatabaseConnection idc = IDatabaseConnection.Stub
 				.asInterface(resGroupCon.getAppService()
 					.getResource(resIdentifier));
-			// TODO
-			// Cursor cursor = idc.queryWithLimit(DBNAME, null,
-			// null, null, null, null, null, null);
-			// ArrayList<Date> dateList = new ArrayList<Date>();
-			// while (!cursor.isLast()) {
-			// int id = Integer.valueOf(cursor.getString(0));
-			// if (id > highestId){
-			// highestId = id;
-			// }
-			// dateList.add(new Date(id, cursor.getString(2), cursor
-			// .getString(1)));
-			// cursor.moveToNext();
-			// }
-			// Model.getInstance().loadDates(dateList);
+
+			ArrayList<Date> dateList = new ArrayList<Date>();
+
+			// Getting the number of the rows
+			long rowCount = idc.query(DBNAME, null, null, null,
+				null, null, null);
+
+			// Getting the rows
+			for (int itr = 0; itr < rowCount; itr++) {
+			    String[] columns = idc.getRowAt(itr);
+			    int id = Integer.valueOf(columns[0]);
+			    dateList.add(new Date(id, columns[2], columns[1]));
+
+			    // Check if there's a new highest id
+			    if (id > highestId) {
+				highestId = id;
+			    }
+			}
+			Model.getInstance().loadDates(dateList);
 		    } catch (RemoteException e) {
 			Log.e("Remote Exception", e);
 		    }
@@ -348,9 +353,9 @@ public class SqlConnector {
 			    columns.put(DATE, "TEXT");
 			    columns.put(DESC, "TEXT");
 			    // Create table here TODO Table Constraints?
-			     if (idc.createTable(DBNAME, columns, null)) {
-			     Model.getInstance().tableCreated(true);
-			     }
+			    if (idc.createTable(DBNAME, columns, null)) {
+				Model.getInstance().tableCreated(true);
+			    }
 			} catch (RemoteException e) {
 			    Log.e("Remote Exception", e);
 			}
