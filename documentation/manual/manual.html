@@ -468,6 +468,25 @@ public class FileSystemResourceGroup extends ResourceGroup {
   ...
 }
 </pre>
+      <h3 id="devres_app">Erstellen der Anwendung</h3>
+      <p>
+        Um die Ressourcen-Gruppen auf eine Smartphone installieren zu können, wird eine 
+        Anwendung benötigt, die die Ressourcen-Gruppen kapselt.
+        Einer Anwendung kann mehrere Gruppen enthalten, d. h. es können mehrere
+        Gruppen gemeinsam ausgeliefert und installiert werden.
+      </p>
+      <p>
+        Als Basis der Anwendung wird die Klasse <code>ResourceGroupApp</code> erweitert.
+        Für Anwendungen, die nur aus einer Ressourcen-Gruppe bestehen, bietet die 
+        API mit der Klasse <code>ResourceGroupSingleApp</code> eine vereinfachte 
+        Basis-Klasse. Diese implementiert bereits alle grundlegenden Funktionen,
+        so dass das erstellen der Anwendung stark vereinfacht wird. 
+      </p>
+      <p>
+        Bei Verwendung von <code>ResourceGroupSingleApp</code> wird lediglich die 
+        Methode <code>createResourceGroup</code> implementiert. Diese muss lediglich 
+        eine Refernz auf die erstellte Ressourcen-Gruppe zurückliefern.
+      </p>
     </div>
     <!-- // end of specification's content -->
   </div>
