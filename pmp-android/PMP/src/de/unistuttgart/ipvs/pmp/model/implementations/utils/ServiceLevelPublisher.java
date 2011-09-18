@@ -148,6 +148,8 @@ public class ServiceLevelPublisher {
 		    }
 		}
 	    }
+	    
+	    rgsc.unbind();
 	}
     }
 
