@@ -31,7 +31,7 @@ public class SqlConnector {
     private final String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
 
     /**
-     * Resource identifer TODO
+     * Resource identifier TODO
      */
     private String resIdentifier = "";
 
@@ -347,8 +347,8 @@ public class SqlConnector {
 			    columns.put(ID, "TEXT");
 			    columns.put(DATE, "TEXT");
 			    columns.put(DESC, "TEXT");
-			    // Creat table here TODO
-			     if (idc.createTable(DBNAME, columns)) {
+			    // Create table here TODO Table Constraints?
+			     if (idc.createTable(DBNAME, columns, null)) {
 			     Model.getInstance().tableCreated(true);
 			     }
 			} catch (RemoteException e) {

@@ -3,6 +3,10 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 import java.util.Map;
 
 interface IDatabaseConnection {
+    /**
+     *  Close and clean up the connection 
+     */
+    void close();
         
     /**
      * 
@@ -10,8 +14,16 @@ interface IDatabaseConnection {
      * @param columnNames
      * @return true if successful, false otherwise
      */
-    boolean createTable(String tableName, in Map columns);
+    boolean createTable(String tableName, in Map columns, String tableConstraint);
     
+    /**
+     * 
+     * @param tableName
+     * @param columnNames
+     * @return true if successful, false otherwise
+     */
+    boolean deleteTable(String tableName);
+
     /**
      * Convenience method for inserting a row into the database
      * @param table
