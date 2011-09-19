@@ -8,8 +8,8 @@ import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.exception.DateNotFoundException;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class Model {
 
@@ -59,7 +59,7 @@ public class Model {
     }
 
     /**
-     * Loads the dates from the SQL connector
+     * Called from {@link SqlConnector#loadDates()}
      */
     public void loadDates(ArrayList<Date> dList) {
 
@@ -103,7 +103,8 @@ public class Model {
     }
 
     /**
-     * Adds the date to the model and stores it at the database
+     * Called from {@link SqlConnector#storeNewDate(String, String)}. Adds the
+     * date to de model.
      * 
      * @param date
      *            date to store
@@ -115,7 +116,8 @@ public class Model {
     }
 
     /**
-     * Deletes the date at the model and at the database
+     * Called when the date is deleted out of the model. Called from
+     * {@link SqlConnector#deleteDate(int)}
      * 
      * @param id
      *            id of the date to delete
@@ -130,7 +132,8 @@ public class Model {
     }
 
     /**
-     * Changes the date
+     * Changes the date. Called from
+     * {@link SqlConnector#changeDate(int, String, String)}
      * 
      * @param id
      *            unique id of the date
@@ -148,24 +151,6 @@ public class Model {
 	    }
 	}
 	arrayAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Returns the date with the given id
-     * 
-     * @param id
-     *            id of the searched date
-     * @return the date
-     * @throws DateNotFoundException
-     *             thrown if the date was not found
-     */
-    public Date getDateById(int id) throws DateNotFoundException {
-	for (Date date : dateList) {
-	    if (date.getId() == id) {
-		return date;
-	    }
-	}
-	throw new DateNotFoundException();
     }
 
     /**
