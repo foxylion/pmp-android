@@ -1,0 +1,38 @@
+package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestServiceLevel;
+
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestPrivacyLevel50m;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelBadenWuerttemberg;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
+
+public class ServiceLevel3 implements IServiceLevel {
+
+    @Override
+    public int getLevel() {
+	return 3;
+    }
+
+    @Override
+    public String getName() {
+	return "Level 3";
+    }
+
+    @Override
+    public String getDescription() {
+	return "Third service level";
+    }
+
+    @Override
+    public IPrivacyLevel[] getPrivacyLevels() {
+	IPrivacyLevel[] pls = new IPrivacyLevel[2];
+	pls[0] = new TestPrivacyLevelBadenWuerttemberg();
+	pls[1] = new TestPrivacyLevel50m();
+	return pls;
+    }
+
+    @Override
+    public boolean isAvailable() {
+	return true;
+    }
+
+}
