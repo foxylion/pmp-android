@@ -106,7 +106,7 @@ public class ServiceLvlActivity extends Activity {
 	    }
 	    /* Check if Service Level is available */
 	    if (levelArray[i].isAvailable()) {
-		button.setOnTouchListener(new OnLevelTouchListener(this,
+		button.setOnTouchListener(new OnLevelTouchListener(button.getContext(),
 			levelArray[i].getDescription(), button, this,
 			identifier, i));
 
@@ -195,7 +195,9 @@ class OnLevelTouchListener implements OnTouchListener {
 	    public void onCancel(DialogInterface dialog) {
 		// Reloads the Service Level Activity if new Service Level
 		// wasn't set
+		dialog.dismiss();
 		activity.reloadActivity();
+		
 	    }
 	});
 
@@ -233,14 +235,18 @@ class OnLevelTouchListener implements OnTouchListener {
 
 		    @Override
 		    protected Void doInBackground(Void... params) {
-			app.setActiveServiceLevelAsPreset(level.getLevel());
+			try {
+			    app.setActiveServiceLevelAsPreset(level.getLevel());
+			}catch(Exception exc){
+			    Log.e("ServiceLevelActivity: setActiveServiceLevelAsPreset() --> Exception");
+			}
 			return null;
 		    }
 
 		    @Override
 		    protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			waitingDialog.hide();
+			waitingDialog.dismiss();
 			dialog.cancel();
 		    }
 		}.execute();
