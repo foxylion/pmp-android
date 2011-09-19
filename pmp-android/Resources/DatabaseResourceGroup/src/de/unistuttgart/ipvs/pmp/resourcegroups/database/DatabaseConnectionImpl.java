@@ -23,7 +23,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 	private static final String TABLE_CONSTRAINTS = "^[a-zA-Z0-9_\\s]+$";
 
 	private String dbName;
-	private int dbVersion;
+	private int dbVersion = 1;
 	private String appID;
 	private String exceptionMessage;
 
@@ -39,7 +39,14 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 		this.context = context;
 		this.resource = resource;
 		appID = appIdentifier;
-		dbName = appIdentifier; // TODO Allow access to other databases
+		
+		String [] appIdentSplit = appID.split("\\.");
+		String tmp ="";
+		for (String oneSplit : appIdentSplit){
+		    tmp = tmp +oneSplit;
+		}// TODO Allow access to other databases
+		this.dbName = tmp;
+		Log.v("Database name : " + dbName);
 		exceptionMessage = context.getResources().getString(
 				R.string.unauthorized_action_exception);
 	}
@@ -70,7 +77,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 
 			// Build a SQL Statement
 			String s = "";
-			String sql = "CREATE TABLE IF NOT EXISTS " + dbName + "."
+			String sql = "CREATE TABLE IF NOT EXISTS " + dbName
 					+ tableName + " (";
 			Pattern pColName = Pattern.compile(COLUMN_NAME,
 					Pattern.CASE_INSENSITIVE);
@@ -95,10 +102,12 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
 					s += strip(tableConstraint) + ")";
 				}
 			} else {
-				s = s.substring(0, s.length() - 3) + ")";
+				s = s.substring(0, s.length() - 2) + ")";
 			}
+			sql = sql + s;
 			closeCursor();
 			openDB();
+			Log.v("Executing Sql query: " + sql);
 			cursor = db.rawQuery(sql, null);
 
 			// TODO Check table's existence
