@@ -295,14 +295,12 @@ public class SqlConnector {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put(DATE, date);
 			values.put(DESC, description);
-			String[] args = new String[1];
-			args[0] = String.valueOf(id);
 
 			/*
 			 * Change the date in the database and only if one row
 			 * was changed change, then change it in the model
 			 */
-			if (idc.update(DBNAME, values, ID + " = ?", args) == 1) {
+			if (idc.update(DBNAME, values, ID + " = " + String.valueOf(id), null) == 1) {
 			    Log.v("Changing date with id " + String.valueOf(id)
 				    + " to: date: " + date + " description: "
 				    + description);
@@ -367,6 +365,7 @@ public class SqlConnector {
 			    columns.put(DATE, "TEXT");
 			    columns.put(DESC, "TEXT");
 			    // Creates the table
+			    Log.v("Creating table");
 			    if (idc.createTable(DBNAME, columns, null)) {
 				Log.v("Table created. Name: " + DBNAME);
 				Model.getInstance().tableCreated(true);
