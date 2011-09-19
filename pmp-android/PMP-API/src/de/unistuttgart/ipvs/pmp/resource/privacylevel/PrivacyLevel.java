@@ -103,10 +103,6 @@ public abstract class PrivacyLevel<T> {
     }
 
     /**
-     * 
-     */
-
-    /**
      * Should create the representation of the string value for this
      * {@link PrivacyLevel} based on a given String value.
      * 
