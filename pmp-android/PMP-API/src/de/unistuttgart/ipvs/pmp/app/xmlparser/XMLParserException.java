@@ -17,9 +17,9 @@ public class XMLParserException extends RuntimeException {
      * Possible types a parser exception can have.
      * 
      * @author Marcus Vetter
-     * 
+     * Patrick: Had to change visibility to "public". Otherwise exception-type would be untestable
      */
-    protected enum Type {
+    public enum Type {
 	/** A required node is missing */
 	NODE_MISSING,
 	/** A node occurred too often */
