@@ -1,5 +1,7 @@
 INSERT INTO "App" VALUES('Sample#pmp.test.app1','Test App 1','This is a sample App for testing database configuration', 0);
 INSERT INTO "App" VALUES('Sample#pmp.test.app2','Test App 2','This is another sample App for testing database configuration', 0);
+INSERT INTO "App" VALUES('Sample#pmp.test.app3','App','This is another sample App for testing database configuration', 0);
+
 
 INSERT INTO "PrivacyLevel" VALUES('Sample#pmp.test.rg1','read','Read Files','Enable this to allow reading files');
 INSERT INTO "PrivacyLevel" VALUES('Sample#pmp.test.rg1','write','Write Files','Enable this to allow writing files');

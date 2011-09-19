@@ -24,7 +24,6 @@ public class ModelImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		apps = ModelSingleton.getInstance().getModel().getApps();
 		ress = ModelSingleton.getInstance().getModel().getResourceGroups();
-		System.out.println(apps.length);
 	}
 	
 	/**
@@ -39,19 +38,13 @@ public class ModelImplTest extends TestCase {
 		assertEquals(2, apps.length);
 		assertEquals(3, ress.length);
 	}
-
-	public void testApp1(){
-		testIdentifierApp1();
-		testNameApp1();
-	}
-	private void testNameApp1() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void testApp2(){
-		testIdentifierApp2();
-	}
 	
+	public void testNameApp1() {
+		assertEquals("Test App 1", apps[0].getName());
+	}
+	public void testNameApp2() {
+		assertEquals("Test App 2", apps[1].getName());
+	}
 	public void testIdentifierApp1(){
 		assertEquals("Sample#pmp.test.app1", apps[0].getIdentifier());
 	}
