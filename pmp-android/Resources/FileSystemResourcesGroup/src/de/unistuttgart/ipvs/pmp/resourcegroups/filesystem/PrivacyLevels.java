@@ -5,7 +5,6 @@ import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 
 /**
  * Defines all privacy-levels used by the resources for accessing the file
