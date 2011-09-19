@@ -33,7 +33,7 @@ public class SqlConnector {
     /**
      * Resource identifier TODO
      */
-    private String resIdentifier = "";
+    private String resIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
 
     /**
      * Private constructor because of singleton
