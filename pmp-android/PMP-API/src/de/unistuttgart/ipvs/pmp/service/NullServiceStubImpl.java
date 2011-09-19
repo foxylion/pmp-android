@@ -4,8 +4,15 @@ import android.os.RemoteException;
 
 public class NullServiceStubImpl extends INullService.Stub {
 
+    private String cause;
+    
+    public NullServiceStubImpl(String cause) {
+	this.cause = cause;
+    }
+    
     @Override
-    public void isServiceANullService() throws RemoteException {
+    public String getCause() throws RemoteException {
+	return cause;
     }
 
 }

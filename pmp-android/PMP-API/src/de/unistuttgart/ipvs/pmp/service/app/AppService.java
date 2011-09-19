@@ -32,13 +32,13 @@ public class AppService extends PMPSignedService {
 	    assi.setApp(findContextApp());
 	    return assi;
 	} else {
-	    return new NullServiceStubImpl();
+	    return new NullServiceStubImpl("The bound Type is does not allow any Service at the AppService");
 	}
     }
 
     @Override
     public IBinder onUnsignedBind(Intent intent) {
-	return new NullServiceStubImpl();
+	return new NullServiceStubImpl("The AppService does not allow any unsigned connection");
     }
 
     private App findContextApp() {

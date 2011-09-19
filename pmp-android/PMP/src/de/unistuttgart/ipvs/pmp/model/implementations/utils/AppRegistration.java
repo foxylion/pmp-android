@@ -236,6 +236,7 @@ public class AppRegistration {
 		IAppServicePMP appService = asp.getAppService();
 		appService.setRegistrationState(new RegistrationState(state,
 			message));
+		asp.unbind();
 
 		Log.d("Registration (" + identifier + "): Registration "
 			+ (state ? "succeed" : "FAILED"));

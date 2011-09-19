@@ -107,14 +107,17 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
+	    rgsc.unbind();
 	    RemoteException re = new RemoteException();
 	    re.initCause(new Throwable("Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies"));
 	    throw re;
 	} else {
-	    return rgsc.getPMPService().getHumanReadablePrivacyLevelValue(
+	    String result = rgsc.getPMPService().getHumanReadablePrivacyLevelValue(
 		    Locale.getDefault().getLanguage(), identifier, value);
+	    rgsc.unbind();
+	    return result;
 	}
     }
 
@@ -134,14 +137,17 @@ public class PrivacyLevelImpl implements IPrivacyLevel {
 	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies");
+	    rgsc.unbind();
 	    RemoteException re = new RemoteException();
 	    re.initCause(new Throwable("Binding of ResourceGroupService "
 		    + getRessourceGroupIdentifier()
 		    + " failed, can't do satisfies"));
 	    throw re;
 	} else {
-	    return rgsc.getPMPService().permitsPrivacyLevel(identifier,
+	    boolean result = rgsc.getPMPService().permitsPrivacyLevel(identifier,
 		    reference, value);
+	    rgsc.unbind();
+	    return result;
 	}
     }
 
