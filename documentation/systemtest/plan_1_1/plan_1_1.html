@@ -88,7 +88,7 @@
 					<li>"Ungewollte Aktionen wird der Benutzer abbrechen können."</li>
 					<li>"Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt."</li>					
 					</ul>
-					muss in den Tests der Anwendungsfälle jeweils überprüft werden.</p>
+					muss in den Tests der Anwendungsfälle jeweils überprüft werden.</p>				
 			
 			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
 				<h2 id="usecases">Anwendungsfälle</h2>
@@ -143,57 +143,123 @@
 				<p>Die Realisierung eines Tests einer derart abstrusen Anforderung wird versucht, über ein Bestehen des Testes wäre ich aber sehr verwundert. Die Spezifikationskorrektur wird dringend angeraten.</p>
 				</div>
 				
+				<p>Der Test kann auf einem beliebigen Android-Gerät, das mindestens Android 2.1.1 unterstützt, durchgeführt werden.</p>
+				
 				<h3 id="nft-1">NFT-1</h3>
-					<table>
-						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-						<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App, die Mail-App, die Datenbank-Ressource und die Dateisystem-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-						<tr><td>2.</td><td>Der Tester setzt die Kalender-App auf Service Level 0.</td><td>Die Kalender-App benutzt das Service Level 0.</td></tr>
-						<tr><td>3.</td><td>Der Tester stellt den Android-Home-Bildschirm ein.</td><td>Das Gerät zeigt den Android-Home-Bildschirm.</td></tr>
-						<tr><td>4.</td><td>Der Tester findet eine Test-Person, <b>die noch nie ein Smartphone benutzt hat und noch nie von PMP gehört hat</b>.</td><td>Eine Test-Person steht zur Verfügung.</td></tr>
-						<tr><td>5.</td><td>Der Tester erklärt der Test-Person, dass er ihr eine Aufgabe stellen wird, die sie ohne jegliche Hilfestellung oder Einarbeitungszeit, also auch ohne Antworten auf Nachfragen, bewältigen muss.</td><td>Die Test-Person gibt an, die Erklärung verstanden zu haben.</td></tr>
-						<tr><td>6.</td><td>Der Tester verlangt von dieser Test-Person die Anzahl der Sätze der Beschreibung zur Datenbank-Ressource zu zählen, die Kalender-App "Name_Hier" voll benutzbar zu machen und der Mail-App jeglichen Zugriff zu verbieten.</td><td>Die Test-Person gibt an, die Aufgabe verstanden zu haben.</td></tr>
-						<tr><td>7.</td><td>Der Tester übergibt das Test-Gerät der Test-Person. <b>Er leistet keine Hilfestellung und gewährt keine Einarbeitungszeit, gibt auch keine Antworten auf Nachfragen.</b></td><td>Die Test-Person versucht die Aufgabe zu bewältigen.</td></tr>
-						<tr><td>8.</td><td>Der Tester wartet bis die Test-Person die Aufgabe abgeschlossen hat oder maximal fünf Minuten.</td><td>Die Test-Person hat die Aufgabe erfolgreich abgeschlossen.</td></tr>
-						<tr><td>9.</td><td>Der Tester fragt die Test-Person nach der Anzahl der Sätze in der Beschreibung der Datenbank-Ressource.</td><td>Die Test-Person antwortet "Korrekte_Antwort_Hier".</td></tr>
-						<tr><td>10.</td><td>Der Tester fragt die Test-Person, ob sie das Gefühl hat, dass "PMP nur minimal in ihren gewohnten Workflow eingreift".</td><td>Die Test-Person antwortet "Ja, PMP greift nur minimal in meinen gewohnten Workflow ein".</td></tr>
-						<tr><td>11.</td><td>Der Tester überprüft die Service Level der Apps.</td><td>Die Kalender-App benutzt das maximale Service Level, die Mail-App das Service Level 0.</td></tr>
-					</table>
+				<table>
+					<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App, die Datenbank-Ressource und die Dateisystem-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+					<tr><td>2.</td><td>Der Tester setzt die Kalender-App auf Service Level 0.</td><td>Die Kalender-App benutzt das Service Level 0.</td></tr>
+					<tr><td>3.</td><td>Der Tester stellt den Android-Home-Bildschirm ein.</td><td>Das Gerät zeigt den Android-Home-Bildschirm.</td></tr>
+					<tr><td>4.</td><td>Der Tester findet eine Test-Person, <b>die noch nie ein Smartphone benutzt hat und noch nie von PMP gehört hat</b>.</td><td>Eine Test-Person steht zur Verfügung.</td></tr>
+					<tr><td>5.</td><td>Der Tester erklärt der Test-Person, dass er ihr eine Aufgabe stellen wird, die sie ohne jegliche Hilfestellung oder Einarbeitungszeit, also auch ohne Antworten auf Nachfragen, bewältigen muss.</td><td>Die Test-Person gibt an, die Erklärung verstanden zu haben.</td></tr>
+					<tr><td>6.</td><td>Der Tester verlangt von dieser Test-Person die Anzahl der Sätze der Beschreibung zur Datenbank-Ressource zu zählen und die Kalender-App "Name_Hier" voll benutzbar zu machen.</td><td>Die Test-Person gibt an, die Aufgabe verstanden zu haben.</td></tr>
+					<tr><td>7.</td><td>Der Tester übergibt das Test-Gerät der Test-Person. <b>Er leistet keine Hilfestellung und gewährt keine Einarbeitungszeit, gibt auch keine Antworten auf Nachfragen.</b></td><td>Die Test-Person versucht die Aufgabe zu bewältigen.</td></tr>
+					<tr><td>8.</td><td>Der Tester wartet bis die Test-Person die Aufgabe abgeschlossen hat oder maximal fünf Minuten.</td><td>Die Test-Person hat die Aufgabe erfolgreich abgeschlossen.</td></tr>
+					<tr><td>9.</td><td>Der Tester fragt die Test-Person nach der Anzahl der Sätze in der Beschreibung der Datenbank-Ressource.</td><td>Die Test-Person antwortet "Korrekte_Antwort_Hier".</td></tr>
+					<tr><td>10.</td><td>Der Tester fragt die Test-Person, ob sie das Gefühl hat, dass "PMP nur minimal in ihren gewohnten Workflow eingreift".</td><td>Die Test-Person antwortet "Ja, PMP greift nur minimal in meinen gewohnten Workflow ein".</td></tr>
+					<tr><td>11.</td><td>Der Tester überprüft die Service Level der Calendar-App.</td><td>Die Kalender-App benutzt das maximale Service Level.</td></tr>
+				</table>
 			
 				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
 			
 					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
 
 					<div class="criticism">
-					<h3>Anmerkung</h3>
+					<h3 style="color: red;">Anmerkung</h3>
 					<p>Die Anforderung ist nicht objektivierbar. "Interaktiv bedienbar" sollte näher definiert werden, ggf. eine konkrete Obergrenze für die Reaktionszeit sollte definiert werden. Die Anforderung "PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen" wirkt ulkig und konkretisiert nicht, was "schonend" oder "Systemressourcen" bedeuten. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird dringend angeraten.</p>
 					</div>
 					
 					<h3 id="mengengeruest">Mengengerüst</h3>
-					<p>Für diesen Test ist die Entwicklung einer System-Test-App mit 5 verschiedenen Service-Leveln nötig. Die App muss keine GUI oder Funktionalität aufweisen, sollte allerdings sinnvolle Anforderungen an die Standard-Ressource stellen. Die App ist als "System-Test-Mengengeruest-1" zu kennzeichnen und anschließend 9 mal zu kopieren, wobei lediglich der Name der App (und ggf. das Package) sich ändern sollte, sodass zum Schluss 10 Mengengerüst-Test-Apps vorliegen.</p>
+					<p>Für diesen Test ist die Entwicklung einer System-Test-App mit 5 verschiedenen Service-Leveln nötig. Die App muss keine GUI aufweisen, sollte allerdings sinnvolle Anforderungen an die Datenbank-Ressource stellen. Ab Stufe 1 sollte eine Datenbank-Tabelle angelegt, ab Stufe 3 sollte diese beschrieben werden, ab Stufe 5 sollte diese gelöscht werden. In der App-Activity soll das aktive Service-Level als Text dargestellt werden. Die App ist als "ST-Mengengeruest-1" zu kennzeichnen und anschließend 9 mal zu kopieren, wobei lediglich der Name der App und das Package sich ändern sollte, sodass zum Schluss 10 Mengengerüst-Test-Apps vorliegen.</p>
 					<h3 id="nft-2">NFT-2</h3>
 					<table>
-					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
-					<tr><td>1.</td><td>C&P Deploy</td><td>C&P Deploy</td></tr> 
-					<tr><td>n.</td><td>Der Tester führt FT-x  durch.</td><td>FT-x Soll-Zustände werden erreicht</td></tr> 
-					<tr><td>n.</td><td>Der Tester führt FT-y  durch.</td><td>FT-y Soll-Zustände werden erreicht</td></tr> 				
+						<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP, die 10 ST-Mengengeruest-Apps und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+						<tr><td>2.</td><td>Der Tester ändert die Service-Level aller ST-Mengengeruest-Apps auf Stufe 5.</td><td>Es tritt kein Fehler auf und alle ST-Mengengeruest-Apps benutzen laut Activity-Anzeige Service Level 5.</td></tr> 
+						<tr><td>3.</td><td>Der Tester ändert das Service-Level von ST-Mengengeruest-7 auf Stufe 1.</td><td>Es tritt kein Fehler auf und nur ST-Mengengeruest-7 benutzt laut-Activity-Anzeige Stufe 1, die restlichen Apps laut Activity-Anzeige Stufe 5.</td></tr>
 					</table> 
 					
 					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
 					<div class="criticism">
-					<h3>Anmerkung</h3>
+					<h3 style="color: red;">Anmerkung</h3>
 					<p>Die Anforderung ist nicht objektivierbar, zudem widersprüchlich formuliert. Es gibt keine Eingaben, die auf eine sinnvolle Länge begrenzt werden. Die Definition von "sinnvolle Länge" wäre im Sinne der konsistenten Entwicklung interessant gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
 					</div>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p>Test mit fehlerhaften Schnittstellen der Ressourcen, Apps und fehlerhafte Daten der Ressourcen, Apps (denke mal 2)</p>
+				<div class="criticism">
+					<h3 style="color: red;">Anmerkung</h3>
+					<p>Es würde sich empfehlen, zu erwähnen, ob die PMP-API ebenfalls so robust sein muss; und ob dies nur für die Schnittstellen von PMP-API zur Benutzerimplementation gilt oder auch für die Schnittstellen zwischen PMP und PMP-API. In den nachfolgenden Testfällen wird davon ausgegangen, dass an die PMP-API keine Robustheitsanforderung gestellt wird. Des Weiteren wird davon ausgegangen, dass die PMP-API-Grundklassen nicht ausgetauscht werden dürfen.</p>
+					</div>
+				
+				<p>Die nachfolgenden Tests werden jeweils mit der notwendigen Implementierung angegeben, da die Vielzahl der Tests eine Vorab-Erwähnung der nötigen Implementierung ungünstig erscheinen lässt. Es wird hierzu die vorhandene Datenbank-Ressource modifiziert. Es ist also darauf zu achten, dass nach jedem Testfall die entstanden Änderungen wieder rückgängig gemacht werden müssen (z.B. mit Undo oder "git reset --hard")</p>
+				<p>Für die App findet sich kein XML-Testfall, da der XML-Parser schon in </p>
 				<h3 id="nft-3">NFT-3</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie in getName() und getDescription ein (String) new Object() zurückgibt.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+				
 				<h3 id="nft-4">NFT-4</h3>
-				<p>PMP wird so robust entwickelt, dass Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
-
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel((String) new Object(), new BooleanPrivacyLevel("", "")) aufruft.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+				
+				<h3 id="nft-5">NFT-5</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(PRIVACY_LEVEL_READ, (PrivacyLevel&lt;?&gt;) new Object()) aufruft.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+				
+				<h3 id="nft-6">NFT-6</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor 
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false)); aufruft.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+				
+				<h3 id="nft-7">NFT-7</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor 
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(true)); aufruft.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+								
+				<h3 id="nft-8">NFT-8</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Calendar-App so, dass sie in getXMLInputStream() null zurückgibt.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Calendar-App.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Calendar-App.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Calendar-App. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung (also die Service Level) der Calendar-App in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table> 
+				
 				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
 				<div class="criticism">
-				<h3>Anmerkung</h3>
+				<h3 style="color: red;">Anmerkung</h3>
 				<p>Die Anforderung erscheint seltsam, da PMP nicht nur ein Service ist. Hier soll also die PMP-App während der gesamten Betriebszeit des Android-Systems als Service laufen. Die PMP-App kann nicht als Service laufen. Android wurde so entwickelt, dass nicht garantiert werden kann, dass ein konkreter Prozess oder ein konkretes Datum während der gesamten Betriebszeit bereitsteht. Ich halte die Anforderung nicht für sinnvoll, einhaltbar oder testbar. Eine Spezifikationskorrektur wird dringend angeraten.</p>
 				</div>
 								
@@ -201,63 +267,106 @@
 				<p>Kein Test notwendig.</p>
 				
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>Zusätzlicher Test für die maximal verfügbare Version 2.x, falls Zwischenversion mit speziellen Bugs bekannt: die auch (zufälliger Guess?)</p>
-				<h3 id="nft-5">NFT-5</h3>
+				<p>Dieser Test soll auf einem AVD mit der Android-Version 2.3.3 durchgeführt werden.</p>
+				<h3 id="nft-9">NFT-9</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Funktionale Tests kopieren...</td><td>...</td></tr>
+				</table> 
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
-				<p>Test für die Erweiterbarkeit in Japanisch (Google Translator), kurzer Test des Handbuchs</p>
-				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
-				<h3 id="nft-6">NFT-6</h3>
-				<h3 id="nft-7">NFT-7</h3>
+				<p>Es bietet sich an, NFT-10 vor NFT-11 Schritt 4 auszuführen.</p>
+				
+				<h3 id="nft-10">NFT-10</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
+					<tr><td>2.</td><td>Der Tester öffnet das Handbuch.</td><td>Das Handbuch ist in Deutsch verfasst.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht den Abschnitt, wie Sprachen hinzugefügt werden können.</td><td>Der Tester findet diesen Abschnitt.</td></tr>
+					<tr><td>4.</td><td>Der Tester liest den Abschnitt.</td><td>Der Tester findet den Abschnitt verständlich.</td></tr>
+				</table> 
+				
+				<h3 id="nft-11">NFT-11</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+					<tr><td>2.</td><td>Der Tester stellt die in der AVD verwendete Sprache (Einstellungen > Sprache & Tastatur) auf Japanisch (日本語) und aktiviert die Japanisch-IME.</td><td>Die AVD steht auf Japanisch, PMP enthält keine Japanisch-Lokalisierung.</td></tr>
+					<tr><td>3.</td><td>Der Tester startet PMP.</td><td>Die Buttons von PMP zeigen den englischen Standard-Text.</td></tr>
+					<tr><td>4.</td><td>Der Tester findet heraus, wie eine neue Sprache hinzugefügt werden kann.</td><td>Der Tester weiß, wie eine neue Sprache hinzugefügt werden kann.</td></tr>
+					<tr><td>5.</td><td>Der Tester übersetzt alle Texte mit Hilfe von Google Translator in japanische Schriftzeichen.</td><td>Der Tester hat eine Sprach-Erweiterungs-Definitions-Datei mit japanischen Schriftzeichen.</td></tr>  
+					<tr><td>6.</td><td>Der Tester fügt die eben übersetzten Texte als neue Sprache "Japanisch" (Locale: "ja") hinzu.</td><td>PMP enthält die Sprache Japanisch/ja.</td></tr> 					<tr><td>7.</td><td>Der Tester startet PMP.</td><td>Die Buttons von PMP zeigen japanische Schriftzeichen.</td></tr>
+				</table> 
 				
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p>Test mit FT-Abfolge, Notation aller wichtigen Ereignisse vorab. Dann Überprüfung, ob Protokoll alle spezifizierten Systemereignisse enthält.</p>
-				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
-				<h3 id="nft-8">NFT-8</h3>
+				<p>Dieser Test soll mit einem beliebigen, echten Android-Device (also keine AVD) ab Version 2.1.1 durchgeführt werden.</p>
+				<h3 id="nft-12">NFT-12</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester führt NFT-4 durch.</td><td>NFT-4 wurde erfolgreich durchgeführt</td></tr>
+					<tr><td>2.</td><td>Der Tester sucht das Protokoll (ggf. mit Anschließen des Android-Devices an einen PC).</td><td>Der Tester findet das Protokoll.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht Einträge, die darauf hindeuten, dass die Ressourcengruppe nicht korrekt registriert wurde.</td><td>Der Tester findet solche Einträge.</td></tr>
+				</table> 
 				
 				<h2 id="installation">Installation</h2>
 				<div class="criticism">
-				<h3>Anmerkung</h3>
-				<p>Die Anforderung "die Installation soll möglichst einfach sein" ist nicht objektivierbar. Konkrete Zeit, Kenntnis oder Hilfsmittelvorgaben wären sinnvoll gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
+				<h3 style="color: red;">Anmerkung</h3>
+				<p>Die Anforderung "die Installation soll möglichst einfach sein" ist nicht objektivierbar. Konkrete Zeit, Kenntnis- oder Hilfsmittelvorgaben wären sinnvoll gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
 				</div>
-				<h3 id="nft-9">NFT-9</h3>
-				<p>Test, ob Handbuch die Beschreibung enthält.</p>
-				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
+				<h3 id="nft-13">NFT-13</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
+					<tr><td>2.</td><td>Der Tester öffnet das Handbuch.</td><td>Das Handbuch ist in Deutsch verfasst.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht den Abschnitt, wie PMP installiert wird.</td><td>Der Tester findet diesen Abschnitt.</td></tr>
+					<tr><td>4.</td><td>Der Tester liest den Abschnitt.</td><td>Der Tester findet den Abschnitt verständlich.</td></tr>
+				</table> 
 				
 				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
 				<p>Die Erweiterbarkeit zur Internationalisierung wird im entsprechenden Kapitel getestet. Ressourcengruppen und verwaltete Apps werden im funktionalen Test bzw. im Mengengerüst getestet.</p>
 				
 				<div class="criticism">
-				<h3>Anmerkung</h3>
+				<h3 style="color: red;">Anmerkung</h3>
 				<p>Die Anforderung "Erweiterbarkeit bezüglich Rollen" erscheint grob fehlerhaft. Der korrekte Begriff wäre "Preset", des Weiteren wird nirgends sonst von Presets für diese Iteration gesprochen. Es erscheint mir zwar möglich, einen minimalen Test zu erstellen, dieser ist aber vermutlich nicht erfolgreich. Eine Spezifikationskorrektur wird dringend angeraten.</p>
 				</div>
 
-				<h3 id="nft-10">NFT-10</h3>
+				<h3 id="nft-14">NFT-14</h3>
 				<table>
-				<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
-				<tr><td>1.</td><td>C&P Deploy</td><td>C&P Deploy</td></tr> 
-				<tr><td>n.</td><td>Der Tester findet heraus, wie ein neues Preset hinzugefügt werden kann.</td><td>Der Tester weiß, wie ein neues Preset hinzugefügt werden kann.</td></tr>
-				<tr><td>n.</td><td>Der Tester findet heraus, wie die verfügbaren Preset angezeigt werden können.</td><td>Der Tester weiß, wie die verfügbbaren Presets angezeigt werden können.</td></tr>  
-				<tr><td>n.</td><td>Der Tester fügt ein neues Preset hinzu.</td><td>Das neue Preset wird als verfügbares Preset angezeigt.</td></tr> 				
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+					<tr><td>2.</td><td>Der Tester findet heraus, wie ein neues Preset hinzugefügt werden kann.</td><td>Der Tester weiß, wie ein neues Preset hinzugefügt werden kann.</td></tr>
+					<tr><td>3.</td><td>Der Tester findet heraus, wie die verfügbaren Preset angezeigt werden können.</td><td>Der Tester weiß, wie die verfügbbaren Presets angezeigt werden können.</td></tr>  
+					<tr><td>4.</td><td>Der Tester fügt ein neues Preset hinzu.</td><td>Das neue Preset wird als verfügbares Preset angezeigt.</td></tr> 				
 				</table> 
 
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
 				<div class="criticism">
-				<h3>Anmerkung</h3>
+				<h3 style="color: red;">Anmerkung</h3>
 				<p>Die Anforderung "es gibt eine ausführliche Dokumentation des Source-Codes" ist nicht objektivierbar. Hilfreich wären z.B. die Angabe eines Standards, Mindest-Kriteriums oder Prüfers gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
 				</div>
+				
+				<p>Für diesen Test empfiehlt sich die Kenntnis von "bekannten und anerkannten Entwurfsmustern", wie man sie z.B. in "Design Patterns. Elements of Reusable Object-Oriented Software" von Gamma, Helm, Johnson und Vlissides (GoF) finden lassen.</p>
 
-				<h3 id="nft-11">NFT-11</h3>
-				<h3 id="nft-12">NFT-12</h3>
-				<p>Test, ob Entwurf 1. modular aufgebaut 2. bekannte und anerkannte Entwurfsmuster verwendet werden</p>
-				<p>Test, ob Code 1. modular aufgebaut 2. bekannte und anerkannte Entwurfsmuster verwendet werden</p>
+				<h3 id="nft-15">NFT-15</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht den Entwurf.</td><td>Der Tester findet den Entwurf.</td></tr>
+					<tr><td>2.</td><td>Der Tester untersucht, ob der Entwurf modular aufgebaut ist (enthält z.B. viele einzelne Klassen).</td><td>Der Tester hält den Entwurf für modular aufgebaut.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht im Entwurf nach von der GoF anerkannten Entwurfsmustern.</td><td>Der Tester findet mindestens 3 von der GoF anerkannte Entwurfsmuster-Anwendungen. (Es kann sich also um das gleiche Entwurfsmuster in 3 Fällen handeln)</td></tr>
+				</table> 
+				
+				<h3 id="nft-16">NFT-16</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht den Code.</td><td>Der Tester findet den Code.</td></tr>
+					<tr><td>2.</td><td>Der Tester untersucht, ob der Code modular aufgebaut ist (enthält z.B. viele einzelne Klassen).</td><td>Der Tester hält den Code für modular aufgebaut.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht im Code nach von der GoF anerkannten Entwurfsmustern.</td><td>Der Tester findet mindestens 3 von der GoF anerkannte Entwurfsmuster-Anwendungen. (Es kann sich also um das gleiche Entwurfsmuster in 3 Fällen handeln)</td></tr>
+				</table> 
 			
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
 				<p>Ich bin der Meinung, dass die Abgeschlossenheit bereits durch die Tests auf einem AVD mit den entsprechenden Versionen abgedeckt ist. Diese erfordern alle keine externen Abhängigkeiten.</p>
 				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-				<p>Test, ob Code verfügbar (Google Code). Test, ob Kopfkommentare nötig und anwesend.</p>
-				<h3 id="nft-13">NFT-13</h3>
+				<p>Kein Test notwendig.</p>
 									
 		</div>
 	
