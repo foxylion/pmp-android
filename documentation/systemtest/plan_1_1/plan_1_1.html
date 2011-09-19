@@ -198,7 +198,7 @@
 				<h3 id="nft-3">NFT-3</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
-					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie in getName() und getDescription ein (String) new Object() zurückgibt.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie in getName() und getDescription null zurückgibt.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
 					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
@@ -208,7 +208,7 @@
 				<h3 id="nft-4">NFT-4</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
-					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel((String) new Object(), new BooleanPrivacyLevel("", "")) aufruft.</td></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(null, new BooleanPrivacyLevel("", "")) aufruft.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
 					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
@@ -218,7 +218,7 @@
 				<h3 id="nft-5">NFT-5</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
-					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(PRIVACY_LEVEL_READ, (PrivacyLevel&lt;?&gt;) new Object()) aufruft.</td></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(PRIVACY_LEVEL_READ, null) aufruft.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
 					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
@@ -229,7 +229,7 @@
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor 
-	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false)); aufruft.</td></tr>
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(true, false)); aufruft.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
 					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
@@ -240,14 +240,25 @@
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor 
-	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(true)); aufruft.</td></tr>
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false, false)); aufruft.</td></tr>
+					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
+					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
+				</table>
+				
+				<h3 id="nft-8">NFT-8</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor 
+	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false, true)); aufruft.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
 					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 								
-				<h3 id="nft-8">NFT-8</h3>
+				<h3 id="nft-9">NFT-9</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester modifiziert die Calendar-App so, dass sie in getXMLInputStream() null zurückgibt.</td></tr>
@@ -268,7 +279,7 @@
 				
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
 				<p>Dieser Test soll auf einem AVD mit der Android-Version 2.3.3 durchgeführt werden.</p>
-				<h3 id="nft-9">NFT-9</h3>
+				<h3 id="nft-10">NFT-10</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Funktionale Tests kopieren...</td><td>...</td></tr>
@@ -277,7 +288,7 @@
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Es bietet sich an, NFT-10 vor NFT-11 Schritt 4 auszuführen.</p>
 				
-				<h3 id="nft-10">NFT-10</h3>
+				<h3 id="nft-11">NFT-11</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
@@ -286,7 +297,7 @@
 					<tr><td>4.</td><td>Der Tester liest den Abschnitt.</td><td>Der Tester findet den Abschnitt verständlich.</td></tr>
 				</table> 
 				
-				<h3 id="nft-11">NFT-11</h3>
+				<h3 id="nft-12">NFT-12</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
@@ -299,7 +310,7 @@
 				
 				<h2 id="protokollierung">Protokollierung</h2>
 				<p>Dieser Test soll mit einem beliebigen, echten Android-Device (also keine AVD) ab Version 2.1.1 durchgeführt werden.</p>
-				<h3 id="nft-12">NFT-12</h3>
+				<h3 id="nft-13">NFT-13</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester führt NFT-4 durch.</td><td>NFT-4 wurde erfolgreich durchgeführt</td></tr>
@@ -312,7 +323,7 @@
 				<h3 style="color: red;">Anmerkung</h3>
 				<p>Die Anforderung "die Installation soll möglichst einfach sein" ist nicht objektivierbar. Konkrete Zeit, Kenntnis- oder Hilfsmittelvorgaben wären sinnvoll gewesen. Es erscheint mir nicht möglich, einen minimal zufriedenstellenden Test zu erstellen. Eine Spezifikationskorrektur wird angeraten.</p>
 				</div>
-				<h3 id="nft-13">NFT-13</h3>
+				<h3 id="nft-14">NFT-14</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
@@ -329,7 +340,7 @@
 				<p>Die Anforderung "Erweiterbarkeit bezüglich Rollen" erscheint grob fehlerhaft. Der korrekte Begriff wäre "Preset", des Weiteren wird nirgends sonst von Presets für diese Iteration gesprochen. Es erscheint mir zwar möglich, einen minimalen Test zu erstellen, dieser ist aber vermutlich nicht erfolgreich. Eine Spezifikationskorrektur wird dringend angeraten.</p>
 				</div>
 
-				<h3 id="nft-14">NFT-14</h3>
+				<h3 id="nft-15">NFT-15</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester installiert PMP, die Kalender-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
@@ -346,7 +357,7 @@
 				
 				<p>Für diesen Test empfiehlt sich die Kenntnis von "bekannten und anerkannten Entwurfsmustern", wie man sie z.B. in "Design Patterns. Elements of Reusable Object-Oriented Software" von Gamma, Helm, Johnson und Vlissides (GoF) finden lassen.</p>
 
-				<h3 id="nft-15">NFT-15</h3>
+				<h3 id="nft-16">NFT-16</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester sucht den Entwurf.</td><td>Der Tester findet den Entwurf.</td></tr>
@@ -354,7 +365,7 @@
 					<tr><td>3.</td><td>Der Tester sucht im Entwurf nach von der GoF anerkannten Entwurfsmustern.</td><td>Der Tester findet mindestens 3 von der GoF anerkannte Entwurfsmuster-Anwendungen. (Es kann sich also um das gleiche Entwurfsmuster in 3 Fällen handeln)</td></tr>
 				</table> 
 				
-				<h3 id="nft-16">NFT-16</h3>
+				<h3 id="nft-17">NFT-17</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester sucht den Code.</td><td>Der Tester findet den Code.</td></tr>
