@@ -121,65 +121,65 @@ public class PrivacyLevels {
 	public static final String EXTERNAL_DOWNLOAD_DELETE = "ext_download_d";
 	public static final String EXTERNAL_DOWNLOAD_MAKE_DIRS = "ext_download_mkdirs";
 
-	private static PrivacyLevel genericRead;
-	private static PrivacyLevel genericWrite;
-	private static PrivacyLevel genericList;
-	private static PrivacyLevel genericDelete;
-	private static PrivacyLevel genericMakeDirs;
+	private BooleanPrivacyLevel genericRead;
+	private BooleanPrivacyLevel genericWrite;
+	private BooleanPrivacyLevel genericList;
+	private BooleanPrivacyLevel genericDelete;
+	private BooleanPrivacyLevel genericMakeDirs;
 
-	private static PrivacyLevel extBaseDirRead;
-	private static PrivacyLevel extBaseDirWrite;
-	private static PrivacyLevel extBaseDirList;
-	private static PrivacyLevel extBaseDirDelete;
-	private static PrivacyLevel extBaseDirMakeDirs;
+	private BooleanPrivacyLevel extBaseDirRead;
+	private BooleanPrivacyLevel extBaseDirWrite;
+	private BooleanPrivacyLevel extBaseDirList;
+	private BooleanPrivacyLevel extBaseDirDelete;
+	private BooleanPrivacyLevel extBaseDirMakeDirs;
 
-	private static PrivacyLevel extMusicRead;
-	private static PrivacyLevel extMusicWrite;
-	private static PrivacyLevel extMusicList;
-	private static PrivacyLevel extMusicDelete;
-	private static PrivacyLevel extMusicMakeDirs;
+	private BooleanPrivacyLevel extMusicRead;
+	private BooleanPrivacyLevel extMusicWrite;
+	private BooleanPrivacyLevel extMusicList;
+	private BooleanPrivacyLevel extMusicDelete;
+	private BooleanPrivacyLevel extMusicMakeDirs;
 
-	private static PrivacyLevel extPodcastsRead;
-	private static PrivacyLevel extPodcastsWrite;
-	private static PrivacyLevel extPodcastsList;
-	private static PrivacyLevel extPodcastsDelete;
-	private static PrivacyLevel extPodcastsMakeDirs;
+	private BooleanPrivacyLevel extPodcastsRead;
+	private BooleanPrivacyLevel extPodcastsWrite;
+	private BooleanPrivacyLevel extPodcastsList;
+	private BooleanPrivacyLevel extPodcastsDelete;
+	private BooleanPrivacyLevel extPodcastsMakeDirs;
 
-	private static PrivacyLevel extRingtonesRead;
-	private static PrivacyLevel extRingtonesWrite;
-	private static PrivacyLevel extRingtonesList;
-	private static PrivacyLevel extRingtonesDelete;
-	private static PrivacyLevel extRingtonesMakeDirs;
+	private BooleanPrivacyLevel extRingtonesRead;
+	private BooleanPrivacyLevel extRingtonesWrite;
+	private BooleanPrivacyLevel extRingtonesList;
+	private BooleanPrivacyLevel extRingtonesDelete;
+	private BooleanPrivacyLevel extRingtonesMakeDirs;
 
-	private static PrivacyLevel extAlarmsRead;
-	private static PrivacyLevel extAlarmsWrite;
-	private static PrivacyLevel extAlarmsList;
-	private static PrivacyLevel extAlarmsDelete;
-	private static PrivacyLevel extAlarmsMakeDirs;
+	private BooleanPrivacyLevel extAlarmsRead;
+	private BooleanPrivacyLevel extAlarmsWrite;
+	private BooleanPrivacyLevel extAlarmsList;
+	private BooleanPrivacyLevel extAlarmsDelete;
+	private BooleanPrivacyLevel extAlarmsMakeDirs;
 
-	private static PrivacyLevel extNotificationsRead;
-	private static PrivacyLevel extNotificationsWrite;
-	private static PrivacyLevel extNotificationsList;
-	private static PrivacyLevel extNotificationsDelete;
-	private static PrivacyLevel extNotificationsMakeDirs;
+	private BooleanPrivacyLevel extNotificationsRead;
+	private BooleanPrivacyLevel extNotificationsWrite;
+	private BooleanPrivacyLevel extNotificationsList;
+	private BooleanPrivacyLevel extNotificationsDelete;
+	private BooleanPrivacyLevel extNotificationsMakeDirs;
 
-	private static PrivacyLevel extPicturesRead;
-	private static PrivacyLevel extPicturesWrite;
-	private static PrivacyLevel extPicturesList;
-	private static PrivacyLevel extPicturesDelete;
-	private static PrivacyLevel extPicturesMakeDirs;
+	private BooleanPrivacyLevel extPicturesRead;
+	private BooleanPrivacyLevel extPicturesWrite;
+	private BooleanPrivacyLevel extPicturesList;
+	private BooleanPrivacyLevel extPicturesDelete;
+	private BooleanPrivacyLevel extPicturesMakeDirs;
 
-	private static PrivacyLevel extMoviesRead;
-	private static PrivacyLevel extMoviesWrite;
-	private static PrivacyLevel extMoviesList;
-	private static PrivacyLevel extMoviesDelete;
-	private static PrivacyLevel extMoviesMakeDirs;
+	private BooleanPrivacyLevel extMoviesRead;
+	private BooleanPrivacyLevel extMoviesWrite;
+	private BooleanPrivacyLevel extMoviesList;
+	private BooleanPrivacyLevel extMoviesDelete;
+	private BooleanPrivacyLevel extMoviesMakeDirs;
 
-	private static PrivacyLevel extDownloadRead;
-	private static PrivacyLevel extDownloadWrite;
-	private static PrivacyLevel extDownloadList;
-	private static PrivacyLevel extDownloadDelete;
-	private static PrivacyLevel extDownloadMakeDirs;
+	private BooleanPrivacyLevel extDownloadRead;
+	private BooleanPrivacyLevel extDownloadWrite;
+	private BooleanPrivacyLevel extDownloadList;
+	private BooleanPrivacyLevel extDownloadDelete;
+	private BooleanPrivacyLevel extDownloadMakeDirs;
 
 	/**
 	 * This creates all privacy-levels for reading, writing, deleting and
