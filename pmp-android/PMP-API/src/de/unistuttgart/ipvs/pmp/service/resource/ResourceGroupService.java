@@ -71,7 +71,7 @@ public class ResourceGroupService extends PMPSignedService {
 	    // invalid context
 	    Log.e(this.toString()
 		    + " tried to connect to its resource group and failed.");
-	    return new NullServiceStubImpl();
+	    return new NullServiceStubImpl("[Internal Failure] The ResourceGroup is null, can not accept any connection.");
 	}
 
 	PMPComponentType boundType = (PMPComponentType) intent
@@ -93,7 +93,7 @@ public class ResourceGroupService extends PMPSignedService {
 	} else {
 	    // wait, what?
 	    Log.d("Received a signed bind with unknown TYPE, returning NullService");
-	    return new NullServiceStubImpl();
+	    return new NullServiceStubImpl("The bound Type is does not allow any Service at the ResourceGroupService");
 	}
     }
 
@@ -101,7 +101,7 @@ public class ResourceGroupService extends PMPSignedService {
     public IBinder onUnsignedBind(Intent intent) {
 	// go away, I don't like you!
 	Log.d("Received an unsigned bind, returning NullService");
-	return new NullServiceStubImpl();
+	return new NullServiceStubImpl("The ResourceGroupService does not allow any unsigned connection");
     }
 
     private ResourceGroup findContextResourceGroup() {

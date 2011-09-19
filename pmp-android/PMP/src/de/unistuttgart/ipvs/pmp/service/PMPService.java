@@ -59,7 +59,7 @@ public class PMPService extends PMPSignedService {
 	    return new PMPServiceResourceGroupStubImpl(identifier);
 	} else {
 	    /* no valid type identifier found */
-	    return new NullServiceStubImpl();
+	    return new NullServiceStubImpl("The bound Type is does not allow any Service at the PMPService");
 	}
     }
 

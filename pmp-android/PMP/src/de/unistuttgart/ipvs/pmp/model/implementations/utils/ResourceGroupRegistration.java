@@ -226,6 +226,7 @@ public class ResourceGroupRegistration {
 		IResourceGroupServicePMP rgService = rgsc.getPMPService();
 		rgService.setRegistrationState(new RegistrationState(state,
 			message));
+		rgsc.unbind();
 
 		Log.d("Registration (" + identifier + "): Registration "
 			+ (state ? "succeed" : "FAILED"));
