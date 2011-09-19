@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+	<appInformation>
+		<name lang="de">KalenderDe</name>
+		<name lang="sv">KalenderSv</name>
+		<defaultDescription lang="en">This App is used to test the privacy management platform. It provides simple calendar functionalities.</defaultDescription>
+		<description lang="de">Die App wird verwendet um die Privacy Manangement Platform zu testen. Sie stellt einfache Funktionalitäten eines Kalenders zur Verfügung.</description>
+		<description lang="sv">App används för att testa plattformen privatliv Manangement. Det ger enkel kalender funktioner.</description>
+	</appInformation>
+	<serviceLevels>
+		<defaultServiceLevel>
+			<level>0</level>
+			<defaultName lang="en">Null-Level</defaultName>
+			<name lang="de">Null-Level</name>
+			<name lang="sv">null nivå</name>
+			<defaultDescription lang="en">I can't do anything for you!</defaultDescription>
+			<description lang="de">Ich kann nichts für Sie tun!</description>
+			<description lang="sv">Jag kan inte göra något för dig!</description>
+		</defaultServiceLevel>
+		<serviceLevel>
+			<level>1</level>
+			<defaultName lang="en">Level Complete</defaultName>
+			<name lang="de">Vollständiges Level</name>
+			<name lang="sv">Klara nivå</name>
+			<defaultDescription lang="en">I can do anything you want</defaultDescription>
+			<description lang="de">Ich kann alles, was Sie wünschen!</description>
+			<description lang="sv">Jag kan göra vad du vill!</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourceGroups.database">
+					<privacyLevel identifier="read">true</privacyLevel>
+					<privacyLevel identifier="write">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourceGroups.filesystem">
+					<privacyLevel identifier="read">true</privacyLevel>
+					<privacyLevel identifier="write">true</privacyLevel>
+					<privacyLevel identifier="maxFileSizeForWriting">
+						<![CDATA[<value>20</value><unit>mb</unit>]]>
+					</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+	</serviceLevels>
+</app>
+	
