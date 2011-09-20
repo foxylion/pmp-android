@@ -37,21 +37,4 @@
 			<locationURI>_android_PMP_API_fd47720/src</locationURI>
 		</link>
 	</linkedResources>
-	<filteredResources>
-		<filter>
-			<id>1316092829656</id>
-			<name></name>
-			<type>6</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-build.xml</arguments>
-			</matcher>
-		</filter>
-	</filteredResources>
-	<variableList>
-		<variable>
-			<name>PMP_API</name>
-			<value>$%7BPARENT-1-PROJECT_LOC%7D/PMP-API/src</value>
-		</variable>
-	</variableList>
 </projectDescription>
