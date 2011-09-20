@@ -221,6 +221,7 @@ public class PresetImpl implements IPreset {
     @Override
     public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
 	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+	ModelConditions.assertNotNull("privacyLevel.getValue()", privacyLevel.getValue());
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
