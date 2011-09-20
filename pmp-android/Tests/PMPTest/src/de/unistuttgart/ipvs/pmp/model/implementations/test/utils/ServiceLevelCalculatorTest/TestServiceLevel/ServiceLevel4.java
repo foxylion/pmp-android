@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestServiceLevel;
 
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestPrivacyLevel600m;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelDeutschland;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
@@ -26,7 +26,7 @@ public class ServiceLevel4 implements IServiceLevel{
     public IPrivacyLevel[] getPrivacyLevels() {
 	IPrivacyLevel[] pls = new IPrivacyLevel[2];
 	pls[0] = new TestPrivacyLevelDeutschland();
-	pls[1] = new TestPrivacyLevel600m();
+	pls[1] = new TestAccuracyPrivacyLevel("600");
 	return pls;
     }
 
