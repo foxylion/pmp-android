@@ -37,7 +37,7 @@ public class XMLParserTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() {
-		parser = new XMLParser();
+		parser = new XMLParser();;
 	}
 	
 	private InputStream openAssetFile(String file) throws IOException {
@@ -163,6 +163,58 @@ public class XMLParserTest extends InstrumentationTestCase {
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.LOCALE_INVALID, e.getType());
+		}
+	}
+	
+	/**
+	 * Tests a file having a resource-group in the default service-level.
+	 * @throws FileNotFoundException Thrown, if test-files does not exist
+	 */
+	public void testDefaultServiceLevelHasResourceGroup() throws IOException {
+		try {
+			parser.parse(openAssetFile("DefaultServiceLevelHasResourceGroup.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.DEFAULT_SERVICE_LEVEL_MUST_HAVE_NO_REQUIRED_RESOURCE_GROUPS, e.getType());
+		}
+	}
+	
+	/**
+	 * Tests a file having no default service-level.
+	 * @throws FileNotFoundException Thrown, if test-files does not exist
+	 */
+	public void testMissingDefaultServiceLevel() throws IOException {
+		try {
+			parser.parse(openAssetFile("DefaultServiceLevelMissing.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.NODE_MISSING, e.getType());
+		}
+	}
+	
+	/**
+	 * Tests a file having a invalid level for the default service-level.
+	 * @throws FileNotFoundException Thrown, if test-files does not exist
+	 */
+	public void testInvalidLevelForDefaultServiceLevel() throws IOException {
+		try {
+			parser.parse(openAssetFile("InvalidLevelForDefaultServiceLevel.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.DEFAULT_SERVICE_LEVEL_IS_NOT_ZERO, e.getType());
+		}
+	}
+	
+	/**
+	 * Tests a file having more than one descriptions with the  a invalid level for the default service-level.
+	 * @throws FileNotFoundException Thrown, if test-files does not exist
+	 */
+	public void testSameLocaleForDesc() throws IOException {
+		try {
+			parser.parse(openAssetFile("SameLocaleForDesc.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
 		}
 	}
 	
