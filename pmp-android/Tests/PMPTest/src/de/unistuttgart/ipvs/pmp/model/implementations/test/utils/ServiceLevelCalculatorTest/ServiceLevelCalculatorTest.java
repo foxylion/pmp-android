@@ -2,9 +2,8 @@ package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCa
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelBadenWuerttemberg;
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelDeutschland;
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelStuttgart;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.LocationEnum;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestLocationPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestPresets.TestPreset;
 import de.unistuttgart.ipvs.pmp.model.implementations.utils.ServiceLevelCalculator;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
@@ -23,13 +22,13 @@ public class ServiceLevelCalculatorTest extends TestCase {
 	private final static IPreset TEST_PRESET_2 = new TestPreset(
 			new IPrivacyLevel[] { new TestAccuracyPrivacyLevel("50") });
 	private final static IPreset TEST_PRESET_3 = new TestPreset(
-			new IPrivacyLevel[] { new TestAccuracyPrivacyLevel("50"),
-					new TestPrivacyLevelStuttgart() });
+			new IPrivacyLevel[] { new TestAccuracyPrivacyLevel("1"),
+					new TestLocationPrivacyLevel(LocationEnum.STUTTGART.toString()) });
 	private final static IPreset TEST_PRESET_4 = new TestPreset(
 			new IPrivacyLevel[] { new TestAccuracyPrivacyLevel("600"),
-					new TestPrivacyLevelBadenWuerttemberg() });
+					new TestLocationPrivacyLevel(LocationEnum.BADEN_WUERTTEMBERG.toString()) });
 	private final static IPreset TEST_PRESET_5 = new TestPreset(
-			new IPrivacyLevel[] { new TestPrivacyLevelDeutschland() });
+			new IPrivacyLevel[] { new TestLocationPrivacyLevel(LocationEnum.DEUTSCHLAND.toString()) });
 
 	/**
 	 * Set up the testing environment
