@@ -12,42 +12,44 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
  * 
  * @author Tobias Kuhn
  */
-public class ResourceGroupServiceAppStubImpl extends
-	IResourceGroupServiceApp.Stub {
-
+public class ResourceGroupServiceAppStubImpl extends IResourceGroupServiceApp.Stub {
+    
     /**
      * {@link ResourceGroup} referenced.
      */
     private ResourceGroup rg;
-
+    
     /**
      * The app referenced.
      */
     private String appIdentifier;
-
+    
+    
     public void setResourceGroup(ResourceGroup rg) {
-	this.rg = rg;
+        this.rg = rg;
     }
-
+    
+    
     public void setAppIdentifier(String identifier) {
-	this.appIdentifier = identifier;
+        this.appIdentifier = identifier;
     }
-
+    
+    
     @SuppressWarnings("rawtypes")
     @Override
     public List getResources() throws RemoteException {
-	return rg.getResources();
+        return this.rg.getResources();
     }
-
+    
+    
     @Override
-    public IBinder getResource(String resourceIdentifier)
-	    throws RemoteException {
-	Resource resource = rg.getResource(resourceIdentifier);
-	if (resource == null) {
-	    return null;
-	} else {
-	    return resource.getAndroidInterface(appIdentifier);
-	}
+    public IBinder getResource(String resourceIdentifier) throws RemoteException {
+        Resource resource = this.rg.getResource(resourceIdentifier);
+        if (resource == null) {
+            return null;
+        } else {
+            return resource.getAndroidInterface(this.appIdentifier);
+        }
     }
-
+    
 }

@@ -7,12 +7,12 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
  * 
  */
 public class Date {
-
+    
     /**
      * The descrption of the date
      */
     private String descrpition;
-
+    
     /**
      * Date as string representation
      */
@@ -22,7 +22,8 @@ public class Date {
      * Unique id to identifiy the date
      */
     private Integer id;
-
+    
+    
     /**
      * Constructor to create a new date object
      * 
@@ -32,20 +33,22 @@ public class Date {
      *            date as String
      */
     public Date(int id, String descrpition, String date) {
-	this.descrpition = descrpition;
-	this.date = date;
-	this.id = id;
+        this.descrpition = descrpition;
+        this.date = date;
+        this.id = id;
     }
-
+    
+    
     /**
      * Getter for the description
      * 
      * @return the descrpition of the date
      */
     public String getDescrpition() {
-	return descrpition;
+        return this.descrpition;
     }
-
+    
+    
     /**
      * Sets the description
      * 
@@ -53,18 +56,20 @@ public class Date {
      *            to set
      */
     public void setDescription(String description) {
-	this.descrpition = description;
+        this.descrpition = description;
     }
-
+    
+    
     /**
      * Returns the date
      * 
      * @return the date as string
      */
     public String getDate() {
-	return date;
+        return this.date;
     }
-
+    
+    
     /**
      * Sets the given date
      * 
@@ -72,22 +77,25 @@ public class Date {
      *            to set
      */
     public void setDate(String date) {
-	this.date = date;
+        this.date = date;
     }
-
+    
+    
     /**
      * Returns the id of the date
+     * 
      * @return the id
      */
     public Integer getId() {
-	return id;
+        return this.id;
     }
-
+    
+    
     /**
      * Returns the string represetation for the list view
      */
     @Override
     public String toString() {
-	return descrpition + "\n" + date;
+        return this.descrpition + "\n" + this.date;
     }
 }

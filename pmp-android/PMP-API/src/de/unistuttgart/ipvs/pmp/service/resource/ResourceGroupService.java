@@ -13,104 +13,104 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * <p>
- * This is an external service for communication between resource groups and PMP
- * or apps. <br/>
+ * This is an external service for communication between resource groups and PMP or apps. <br/>
  * 
  * <p>
- * If you are PMP, you will then receive {@link IResourceGroupServicePMP}; if
- * you are an app authorized by PMP you will receive
- * {@link IResourceGroupServiceApp}.
+ * If you are PMP, you will then receive {@link IResourceGroupServicePMP}; if you are an app authorized by PMP you will
+ * receive {@link IResourceGroupServiceApp}.
  * </p>
  * 
  * @author Tobias Kuhn
  */
 public class ResourceGroupService extends PMPSignedService {
-
+    
     @Override
     public void onCreate() {
-	super.onCreate();
-	ResourceGroup rg = findContextResourceGroup();
-	if (rg == null) {
-	    // invalid context
-	    Log.e(this.toString()
-		    + " tried to connect to its resource group and failed.");
-	}
+        super.onCreate();
+        ResourceGroup rg = findContextResourceGroup();
+        if (rg == null) {
+            // invalid context
+            Log.e(toString() + " tried to connect to its resource group and failed.");
+        }
     }
-
+    
+    
     @Override
     protected PMPSignee createSignee() {
-	ResourceGroup rg = findContextResourceGroup();
-	if (rg == null) {
-	    // invalid context
-	    Log.e(this.toString()
-		    + " tried to connect to its resource group and failed.");
-	    // die with NullPointerExceptions instead of confusing everyone
-	    return null;
-	} else {
-	    return rg.getSignee();
-	}
+        ResourceGroup rg = findContextResourceGroup();
+        if (rg == null) {
+            // invalid context
+            Log.e(toString() + " tried to connect to its resource group and failed.");
+            // die with NullPointerExceptions instead of confusing everyone
+            return null;
+        } else {
+            return rg.getSignee();
+        }
     }
-
+    
+    
     /**
      * Called on startup of the service.
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-	/*
-	 * We want this service to continue running until it is explicitly
-	 * stopped, so return sticky.
-	 */
-	return START_STICKY;
+        
+        /*
+         * We want this service to continue running until it is explicitly
+         * stopped, so return sticky.
+         */
+        return START_STICKY;
     }
-
+    
+    
     @Override
     public IBinder onSignedBind(Intent intent) {
-	ResourceGroup rg = findContextResourceGroup();
-	if (rg == null) {
-	    // invalid context
-	    Log.e(this.toString()
-		    + " tried to connect to its resource group and failed.");
-	    return new NullServiceStubImpl("[Internal Failure] The ResourceGroup is null, can not accept any connection.");
-	}
-
-	PMPComponentType boundType = (PMPComponentType) intent
-		.getSerializableExtra(Constants.INTENT_TYPE);
-	String boundIdentifier = intent
-		.getStringExtra(Constants.INTENT_IDENTIFIER);
-
-	if (boundType.equals(PMPComponentType.PMP)) {
-	    ResourceGroupServicePMPStubImpl rgspmpsi = new ResourceGroupServicePMPStubImpl();
-	    rgspmpsi.setResourceGroup(rg);
-	    return rgspmpsi;
-
-	} else if (boundType.equals(PMPComponentType.APP)) {
-	    ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
-	    rgsasi.setResourceGroup(rg);
-	    rgsasi.setAppIdentifier(boundIdentifier);
-	    return rgsasi;
-
-	} else {
-	    // wait, what?
-	    Log.d("Received a signed bind with unknown TYPE, returning NullService");
-	    return new NullServiceStubImpl("The bound Type is does not allow any Service at the ResourceGroupService");
-	}
+        ResourceGroup rg = findContextResourceGroup();
+        if (rg == null) {
+            // invalid context
+            Log.e(toString() + " tried to connect to its resource group and failed.");
+            return new NullServiceStubImpl(
+                    "[Internal Failure] The ResourceGroup is null, can not accept any connection.");
+        }
+        
+        PMPComponentType boundType = (PMPComponentType) intent.getSerializableExtra(Constants.INTENT_TYPE);
+        String boundIdentifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+        
+        if (boundType.equals(PMPComponentType.PMP)) {
+            ResourceGroupServicePMPStubImpl rgspmpsi = new ResourceGroupServicePMPStubImpl();
+            rgspmpsi.setResourceGroup(rg);
+            return rgspmpsi;
+            
+        } else if (boundType.equals(PMPComponentType.APP)) {
+            ResourceGroupServiceAppStubImpl rgsasi = new ResourceGroupServiceAppStubImpl();
+            rgsasi.setResourceGroup(rg);
+            rgsasi.setAppIdentifier(boundIdentifier);
+            return rgsasi;
+            
+        } else {
+            // wait, what?
+            Log.d("Received a signed bind with unknown TYPE, returning NullService");
+            return new NullServiceStubImpl("The bound Type is does not allow any Service at the ResourceGroupService");
+        }
     }
-
+    
+    
     @Override
     public IBinder onUnsignedBind(Intent intent) {
-	// go away, I don't like you!
-	Log.d("Received an unsigned bind, returning NullService");
-	return new NullServiceStubImpl("The ResourceGroupService does not allow any unsigned connection");
+        // go away, I don't like you!
+        Log.d("Received an unsigned bind, returning NullService");
+        return new NullServiceStubImpl("The ResourceGroupService does not allow any unsigned connection");
     }
-
+    
+    
     private ResourceGroup findContextResourceGroup() {
-	if (!(getApplication() instanceof ResourceGroupApp)) {
-	    Log.e("ResourceGroupService finds its app to be " + getApplication().toString() + ", should be ResourceGroupApp");
-	    return null;
-	} else {
-	    ResourceGroupApp rga = (ResourceGroupApp) getApplication();
-	    return rga.getResourceGroupForService(this);
-	}
+        if (!(getApplication() instanceof ResourceGroupApp)) {
+            Log.e("ResourceGroupService finds its app to be " + getApplication().toString()
+                    + ", should be ResourceGroupApp");
+            return null;
+        } else {
+            ResourceGroupApp rga = (ResourceGroupApp) getApplication();
+            return rga.getResourceGroupForService(this);
+        }
     }
 }

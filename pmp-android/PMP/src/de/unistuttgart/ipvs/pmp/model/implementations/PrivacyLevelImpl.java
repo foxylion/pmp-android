@@ -19,136 +19,133 @@ import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
  * @author Jakob Jarosch
  */
 public class PrivacyLevelImpl implements IPrivacyLevel {
-
+    
     private String resourceGroupIdentifier;
     private String identifier;
     private String name;
     private String description;
     private String value;
-
-    public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier,
-	    String name, String description) {
-	this(resourceGroupIdentifier, identifier, name, description, null);
+    
+    
+    public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier, String name, String description) {
+        this(resourceGroupIdentifier, identifier, name, description, null);
     }
-
-    public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier,
-	    String name, String description, String value) {
-	this.resourceGroupIdentifier = resourceGroupIdentifier;
-	this.identifier = identifier;
-	this.name = name;
-	this.description = description;
-	this.value = value;
+    
+    
+    public PrivacyLevelImpl(String resourceGroupIdentifier, String identifier, String name, String description,
+            String value) {
+        this.resourceGroupIdentifier = resourceGroupIdentifier;
+        this.identifier = identifier;
+        this.name = name;
+        this.description = description;
+        this.value = value;
     }
-
+    
+    
     private String getRessourceGroupIdentifier() {
-	return resourceGroupIdentifier;
+        return this.resourceGroupIdentifier;
     }
-
+    
+    
     @Override
     public String getIdentifier() {
-	return identifier;
+        return this.identifier;
     }
-
+    
+    
     @Override
     public String getName() {
-	return name;
+        return this.name;
     }
-
+    
+    
     @Override
     public String getDescription() {
-	return description;
+        return this.description;
     }
-
+    
+    
     @Override
     public String getValue() {
-	return value;
+        return this.value;
     }
-
+    
+    
     @Override
     public IResourceGroup getResourceGroup() {
-	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
-		.getReadableDatabase();
-
-	ResourceGroupImpl returnValue = null;
-
-	Cursor cursor = db
-		.rawQuery(
-			"SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
-			new String[] { resourceGroupIdentifier });
-
-	if (cursor.getCount() == 1) {
-	    cursor.moveToNext();
-	    String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
-	    String description = cursor.getString(cursor
-		    .getColumnIndex("Description_Cache"));
-
-	    returnValue = new ResourceGroupImpl(resourceGroupIdentifier, name,
-		    description);
-	} else {
-	    Log.e("PrivacyLevelImpl#getResourceGroup(): PrivacyLevel "
-		    + identifier + " has no parent ResourceGroup.");
-	}
-
-	cursor.close();
-	return returnValue;
+        SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper().getReadableDatabase();
+        
+        ResourceGroupImpl returnValue = null;
+        
+        Cursor cursor = db.rawQuery(
+                "SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
+                new String[] { this.resourceGroupIdentifier });
+        
+        if (cursor.getCount() == 1) {
+            cursor.moveToNext();
+            String name = cursor.getString(cursor.getColumnIndex("Name_Cache"));
+            String description = cursor.getString(cursor.getColumnIndex("Description_Cache"));
+            
+            returnValue = new ResourceGroupImpl(this.resourceGroupIdentifier, name, description);
+        } else {
+            Log.e("PrivacyLevelImpl#getResourceGroup(): PrivacyLevel " + this.identifier
+                    + " has no parent ResourceGroup.");
+        }
+        
+        cursor.close();
+        return returnValue;
     }
-
+    
+    
     @Override
     public String getHumanReadableValue(String value) throws RemoteException {
-	ModelConditions.assertNotNull("value", value);
-
-	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
-		PMPApplication.getContext(), PMPApplication.getSignee(),
-		getRessourceGroupIdentifier());
-
-	rgsc.bind(true);
-
-	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
-		    + getRessourceGroupIdentifier()
-		    + " failed, can't do satisfies");
-	    rgsc.unbind();
-	    RemoteException re = new RemoteException();
-	    re.initCause(new Throwable("Binding of ResourceGroupService "
-		    + getRessourceGroupIdentifier()
-		    + " failed, can't do satisfies"));
-	    throw re;
-	} else {
-	    String result = rgsc.getPMPService().getHumanReadablePrivacyLevelValue(
-		    Locale.getDefault().getLanguage(), identifier, value);
-	    rgsc.unbind();
-	    return result;
-	}
+        ModelConditions.assertNotNull("value", value);
+        
+        ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(),
+                PMPApplication.getSignee(), getRessourceGroupIdentifier());
+        
+        rgsc.bind(true);
+        
+        if (!rgsc.isBound() || rgsc.getPMPService() == null) {
+            Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
+                    + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+            rgsc.unbind();
+            RemoteException re = new RemoteException();
+            re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier()
+                    + " failed, can't do satisfies"));
+            throw re;
+        } else {
+            String result = rgsc.getPMPService().getHumanReadablePrivacyLevelValue(Locale.getDefault().getLanguage(),
+                    this.identifier, value);
+            rgsc.unbind();
+            return result;
+        }
     }
-
+    
+    
     @Override
-    public boolean permits(String reference, String value)
-	    throws RemoteException {
-	ModelConditions.assertNotNull("reference", reference);
-	ModelConditions.assertNotNull("value", value);
-
-	ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(
-		PMPApplication.getContext(), PMPApplication.getSignee(),
-		getRessourceGroupIdentifier());
-
-	rgsc.bind(true);
-
-	if (!rgsc.isBound() || rgsc.getPMPService() == null) {
-	    Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
-		    + getRessourceGroupIdentifier()
-		    + " failed, can't do satisfies");
-	    rgsc.unbind();
-	    RemoteException re = new RemoteException();
-	    re.initCause(new Throwable("Binding of ResourceGroupService "
-		    + getRessourceGroupIdentifier()
-		    + " failed, can't do satisfies"));
-	    throw re;
-	} else {
-	    boolean result = rgsc.getPMPService().permitsPrivacyLevel(identifier,
-		    reference, value);
-	    rgsc.unbind();
-	    return result;
-	}
+    public boolean permits(String reference, String value) throws RemoteException {
+        ModelConditions.assertNotNull("reference", reference);
+        ModelConditions.assertNotNull("value", value);
+        
+        ResourceGroupServiceConnector rgsc = new ResourceGroupServiceConnector(PMPApplication.getContext(),
+                PMPApplication.getSignee(), getRessourceGroupIdentifier());
+        
+        rgsc.bind(true);
+        
+        if (!rgsc.isBound() || rgsc.getPMPService() == null) {
+            Log.e("PrivacyLevelImpl#getResourceGroup(): Binding of ResourceGroupService "
+                    + getRessourceGroupIdentifier() + " failed, can't do satisfies");
+            rgsc.unbind();
+            RemoteException re = new RemoteException();
+            re.initCause(new Throwable("Binding of ResourceGroupService " + getRessourceGroupIdentifier()
+                    + " failed, can't do satisfies"));
+            throw re;
+        } else {
+            boolean result = rgsc.getPMPService().permitsPrivacyLevel(this.identifier, reference, value);
+            rgsc.unbind();
+            return result;
+        }
     }
-
+    
 }

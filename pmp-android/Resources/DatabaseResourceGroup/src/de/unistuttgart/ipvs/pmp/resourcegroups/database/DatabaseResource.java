@@ -12,13 +12,15 @@ import de.unistuttgart.ipvs.pmp.resource.Resource;
  * 
  */
 public class DatabaseResource extends Resource {
-
+    
     private Context context;
-
+    
+    
     public DatabaseResource(Context context) {
-	this.context = context;
+        this.context = context;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -28,6 +30,6 @@ public class DatabaseResource extends Resource {
      */
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
-	return new DatabaseConnectionImpl(context, this, appIdentifier);
+        return new DatabaseConnectionImpl(this.context, this, appIdentifier);
     }
 }
