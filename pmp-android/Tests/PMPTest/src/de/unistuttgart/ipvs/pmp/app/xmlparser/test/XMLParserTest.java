@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.app.xmlparser.test;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +8,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.test.InstrumentationTestCase;
-import android.text.TextUtils;
-import android.util.Log;
 
 import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
@@ -215,6 +212,31 @@ public class XMLParserTest extends InstrumentationTestCase {
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+		}
+	}
+	
+	/**
+	 * Tests a file having more than one descriptions with the  a invalid level for the default service-level.
+	 * @throws FileNotFoundException Thrown, if test-files does not exist
+	 */
+	public void testSameLocaleForName() throws IOException {
+		try {
+			parser.parse(openAssetFile("SameLocaleForName.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void testSameServiceLevel() throws IOException {
+		try {
+			parser.parse(openAssetFile("SameServiceLevel.xml"));
+			fail("Parser accepted malformed XML file!");
+		} catch (XMLParserException e) {
+			assertEquals("Test exception type", Type.SERVICE_LEVEL_WITH_SAME_LEVEL_ALREADY_EXISTS, e.getType());
 		}
 	}
 	
