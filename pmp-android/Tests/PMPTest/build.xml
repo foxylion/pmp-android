@@ -74,6 +74,7 @@
                below to <setup import="false" />.
              - customize to your needs.
     -->
+	<property name="test.runner" value="com.zutubi.android.junitreport.JUnitReportTestRunner" />
 	<target name="coverage" depends="-set-coverage-classpath, -install-instrumented, install"
                 description="Runs the tests against the instrumented code and generates
                             code coverage report">
@@ -117,5 +118,16 @@
     </target>
 	
     <setup />
+	
+	<target name="fetch-test-report">
+    <echo>Downloading XML test report...</echo>
+    <mkdir dir="${reports.dir}"/>
+    <exec executable="${adb}" failonerror="true">
+        <arg line="${adb.device.arg}"/>
+        <arg value="pull" />
+        <arg value="/data/data/${tested.manifest.package}/files/junit-report.xml" />
+        <arg value="${basedir}/coverage/junit-report.xml" />
+    </exec>
+</target>
 
 </project>
