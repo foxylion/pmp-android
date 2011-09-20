@@ -150,7 +150,11 @@ public class PMPSigneeTest extends AndroidTestCase {
 				APP_IDENTIFIER, new byte[] {}, new byte[] {}));
 
 		/* Set remotePublicKey to null */
-		rgSignee.setRemotePublicKey(PMPComponentType.APP, APP_IDENTIFIER, null);
+		try {
+			rgSignee.setRemotePublicKey(PMPComponentType.APP, APP_IDENTIFIER, null);
+			fail("No exception thrown");
+		} catch (NullPointerException npe) {			
+		}
 
 		/* Set remotePublicKey to a empty byte arrays */
 		rgSignee.setRemotePublicKey(PMPComponentType.APP, APP_IDENTIFIER,

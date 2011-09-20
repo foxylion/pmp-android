@@ -149,9 +149,16 @@ public class PMPSignee {
      *            the identifier of the remote sender
      * @param remotePublicKey
      *            the public key belonging to the identifier
+     * @throws NullPointerException
+     *             if one of the supplied arguments was null
      */
     public synchronized void setRemotePublicKey(PMPComponentType boundType,
 	    String boundIdentifier, byte[] remotePublicKey) {
+
+	if ((boundType == null) || (boundIdentifier == null)
+		|| (remotePublicKey == null)) {
+	    throw new NullPointerException();
+	}
 
 	try {
 	    KeyFactory kf = KeyFactory.getInstance(ALGORITHM_KEY);
