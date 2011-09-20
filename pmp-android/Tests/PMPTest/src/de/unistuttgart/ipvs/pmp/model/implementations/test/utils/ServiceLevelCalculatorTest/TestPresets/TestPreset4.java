@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestPresets;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestPrivacyLevel600m;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelBadenWuerttemberg;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
@@ -37,7 +37,7 @@ public class TestPreset4 implements IPreset{
     public IPrivacyLevel[] getUsedPrivacyLevels() {
 	IPrivacyLevel[] pls = new IPrivacyLevel[2];
 	pls[0] = new TestPrivacyLevelBadenWuerttemberg();
-	pls[1] = new TestPrivacyLevel600m();
+	pls[1] = new TestAccuracyPrivacyLevel("600");
 	return pls;
     }
 
