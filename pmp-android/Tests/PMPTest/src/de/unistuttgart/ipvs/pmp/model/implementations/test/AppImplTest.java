@@ -183,7 +183,7 @@ public class AppImplTest extends AndroidTestCase {
     public void testGetAssignedPresets() {
         assertNull(this.app);
         this.app = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT);
-        this.preset.addApp(this.app);
+        this.preset.addApp(this.app, true);
         assertNull(this.presets);
         this.presets = this.app.getAssignedPresets();
         assertEquals(1, this.presets.length);
