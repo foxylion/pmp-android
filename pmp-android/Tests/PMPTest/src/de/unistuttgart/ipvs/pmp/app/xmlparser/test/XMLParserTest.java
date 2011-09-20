@@ -1,11 +1,15 @@
 package de.unistuttgart.ipvs.pmp.app.xmlparser.test;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import junit.framework.TestCase;
+
 
 import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
@@ -13,7 +17,6 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParser;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException.Type;
-import junit.framework.TestCase;
 
 /**
  * Feeds the XML-Parser with different well- and malformed XML-files and compares it's behavior
@@ -24,7 +27,6 @@ import junit.framework.TestCase;
  */
 public class XMLParserTest extends TestCase {
 
-	private static final String FILES_PATH = "assets/xml-parser-test";
 	
 	private Locale de = new Locale("de");
 	private Locale en = new Locale("en");
@@ -36,15 +38,21 @@ public class XMLParserTest extends TestCase {
 	public void setUp() {
 		parser = new XMLParser();
 	}
+	
+	private InputStream openAssetFile(String file) throws IOException {
+		// Throws an FileNotFoundException, so open file manual instead
+		//return getContext().getAssets().open("xml-parser-test/" + file);
+		return new FileInputStream("assets/xml-parser-test/" + file);
+	}
 
 	/**
 	 * Tests a file containing no XML-data.
+	 * @throws IOException 
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testNonXmlFile() throws FileNotFoundException {
+	public void testNonXmlFile() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "NonXmlFile.xml"));
+			parser.parse(openAssetFile("NonXmlFile.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.SAX_EXCEPTION, e.getType());
@@ -55,10 +63,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with missing <code>AppInformation</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testMissingAppInformation() throws FileNotFoundException {
+	public void testMissingAppInformation() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "MissingAppInformation.xml"));
+			parser.parse(openAssetFile("MissingAppInformation.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_MISSING, e.getType());
@@ -69,10 +76,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with missing default-name in <code>AppInformation</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testMissingDefaultAppName() throws FileNotFoundException {
+	public void testMissingDefaultAppName() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "MissingDefaultAppName.xml"));
+			parser.parse(openAssetFile("MissingDefaultAppName.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_MISSING, e.getType());
@@ -83,10 +89,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with more then one default-names in <code>AppInformation</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testInvalidNumberOfDefaultAppName() throws FileNotFoundException {
+	public void testInvalidNumberOfDefaultAppName() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "InvalidNumberOfDefaultAppNames.xml"));
+			parser.parse(openAssetFile("InvalidNumberOfDefaultAppNames.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_OCCURRED_TOO_OFTEN, e.getType());
@@ -97,10 +102,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with missing <code>ServiceLevels</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testMissingServiceLevels() throws FileNotFoundException {
+	public void testMissingServiceLevels() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "MissingServiceLevels.xml"));
+			parser.parse(openAssetFile("MissingServiceLevels.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_MISSING, e.getType());
@@ -112,10 +116,9 @@ public class XMLParserTest extends TestCase {
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
 	public void testInvalidNumberOfAppInformation()
-			throws FileNotFoundException {
+			throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "InvalidNumberOfAppInformation.xml"));
+			parser.parse(openAssetFile("InvalidNumberOfAppInformation.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_OCCURRED_TOO_OFTEN,
@@ -127,10 +130,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with more then one <code>ServiceLevels</code> sections.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testInvalidNumberOfServiceLevels() throws FileNotFoundException {
+	public void testInvalidNumberOfServiceLevels() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "InvalidNumberOfServiceLevels.xml"));
+			parser.parse(openAssetFile("InvalidNumberOfServiceLevels.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.NODE_OCCURRED_TOO_OFTEN,
@@ -142,10 +144,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with missing lang-attribute in <code>AppInformation</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testMissingLangAttribute() throws FileNotFoundException {
+	public void testMissingLangAttribute() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "MissingLangAttribute.xml"));
+			parser.parse(openAssetFile("MissingLangAttribute.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.LOCALE_MISSING, e.getType());
@@ -156,10 +157,9 @@ public class XMLParserTest extends TestCase {
 	 * Tests a file with a invalid lang-attribute in <code>AppInformation</code> section.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testInvalidLangAttribute() throws FileNotFoundException {
+	public void testInvalidLangAttribute() throws IOException {
 		try {
-			parser.parse(new FileInputStream(FILES_PATH + File.separator
-					+ "InvalidLangAttribute.xml"));
+			parser.parse(openAssetFile("InvalidLangAttribute.xml"));
 			fail("Parser accepted malformed XML file!");
 		} catch (XMLParserException e) {
 			assertEquals("Test exception type", Type.LOCALE_INVALID, e.getType());
@@ -171,10 +171,9 @@ public class XMLParserTest extends TestCase {
 	 * Checks <code>AppInformation</code> section only.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testReadAppData() throws FileNotFoundException {
+	public void testReadAppData() throws IOException {
 		try {
-			AppInformationSet info = parser.parse(new FileInputStream(
-					FILES_PATH + File.separator + "WellFormedFile.xml"));
+			AppInformationSet info = parser.parse(openAssetFile("WellFormedFile.xml"));
 
 			// App names
 			Map<Locale, String> appNames = info.getNames();
@@ -210,10 +209,9 @@ public class XMLParserTest extends TestCase {
 	 * Checks number of service-levels in <code>ServiceLevels</code> section only.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testReadServiceLevelData() throws FileNotFoundException {
+	public void testReadServiceLevelData() throws IOException {
 		try {
-			AppInformationSet info = parser.parse(new FileInputStream(
-					FILES_PATH + File.separator + "WellFormedFile.xml"));
+			AppInformationSet info = parser.parse(openAssetFile("WellFormedFile.xml"));
 
 			// Service-Level
 			Map<Integer, ServiceLevel> sl = info.getServiceLevels();
@@ -230,10 +228,9 @@ public class XMLParserTest extends TestCase {
 	 * Checks data of service-level zero in <code>ServiceLevels</code> section only.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testReadServiceLevel0Data() throws FileNotFoundException {
+	public void testReadServiceLevel0Data() throws IOException {
 		try {
-			AppInformationSet info = parser.parse(new FileInputStream(
-					FILES_PATH + File.separator + "WellFormedFile.xml"));
+			AppInformationSet info = parser.parse(openAssetFile("WellFormedFile.xml"));
 
 			// Service-Level
 			Map<Integer, ServiceLevel> sl = info.getServiceLevels();
@@ -278,10 +275,9 @@ public class XMLParserTest extends TestCase {
 	 * Checks data of service-level one in <code>ServiceLevels</code> section only.
 	 * @throws FileNotFoundException Thrown, if test-files does not exist
 	 */
-	public void testReadServiceLevel1Data() throws FileNotFoundException {
+	public void testReadServiceLevel1Data() throws IOException {
 		try {
-			AppInformationSet info = parser.parse(new FileInputStream(
-					FILES_PATH + File.separator + "WellFormedFile.xml"));
+			AppInformationSet info = parser.parse(openAssetFile("WellFormedFile.xml"));
 
 			// Service-Level
 			Map<Integer, ServiceLevel> sl = info.getServiceLevels();
