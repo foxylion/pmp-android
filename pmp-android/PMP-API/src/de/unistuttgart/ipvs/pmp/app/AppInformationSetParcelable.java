@@ -11,9 +11,10 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
  * @author Jakob Jarosch
  */
 public class AppInformationSetParcelable implements Parcelable {
-
+    
     private AppInformationSet set;
-
+    
+    
     /**
      * Creates a new {@link AppInformationSet}.
      * 
@@ -25,56 +26,59 @@ public class AppInformationSetParcelable implements Parcelable {
      *            set value of the privacy level
      */
     public AppInformationSetParcelable(AppInformationSet set) {
-	this.set = set;
+        this.set = set;
     }
-
+    
+    
     /**
      * @return Returns the {@link AppInformationSet}
      */
     public AppInformationSet getAppInformationSet() {
-	return set;
+        return this.set;
     }
-
+    
+    
     /**
-     * Constructor for regenerating Java object of an parcel from this object.
-     * Normally called by {@link Parcelable.Creator#createFromParcel(Parcel)} of
-     * the {@link AppInformationSetParcelable#CREATOR} variable.
+     * Constructor for regenerating Java object of an parcel from this object. Normally called by
+     * {@link Parcelable.Creator#createFromParcel(Parcel)} of the {@link AppInformationSetParcelable#CREATOR} variable.
      * 
      * @param source
      *            Parcel-Source
      */
     private AppInformationSetParcelable(Parcel source) {
-	this.set = (AppInformationSet) source.readSerializable();
+        this.set = (AppInformationSet) source.readSerializable();
     }
-
+    
+    
     /**
-     * {@link AppInformationSet#writeToParcel(Parcel, int)} is called when the
-     * App Object is sent through an {@link IBinder}. Therefore all data of the
-     * object have to be written into the {@link Parcel}.
+     * {@link AppInformationSet#writeToParcel(Parcel, int)} is called when the App Object is sent through an
+     * {@link IBinder}. Therefore all data of the object have to be written into the {@link Parcel}.
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-	dest.writeSerializable(set);
+        dest.writeSerializable(this.set);
     }
-
+    
+    
     @Override
     public int describeContents() {
-	return 0;
+        return 0;
     }
-
+    
     /**
      * Required Creator for the {@link Parcelable} regeneration.
      */
     public static final Parcelable.Creator<AppInformationSetParcelable> CREATOR = new Parcelable.Creator<AppInformationSetParcelable>() {
-
-	@Override
-	public AppInformationSetParcelable createFromParcel(Parcel source) {
-	    return new AppInformationSetParcelable(source);
-	}
-
-	@Override
-	public AppInformationSetParcelable[] newArray(int size) {
-	    return new AppInformationSetParcelable[size];
-	}
+        
+        @Override
+        public AppInformationSetParcelable createFromParcel(Parcel source) {
+            return new AppInformationSetParcelable(source);
+        }
+        
+        
+        @Override
+        public AppInformationSetParcelable[] newArray(int size) {
+            return new AppInformationSetParcelable[size];
+        }
     };
 }

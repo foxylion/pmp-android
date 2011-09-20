@@ -10,12 +10,12 @@ import de.unistuttgart.ipvs.pmp.resource.Resource;
  * 
  */
 public class WifiSwitchResource extends Resource {
-
-	@Override
-	public IBinder getAndroidInterface(String appIdentifier) {
-		// we want to pass some value from the RG
-		SwitchesResourceGroup srg = (SwitchesResourceGroup) getResourceGroup();
-		return new WifiSwitchStubImpl(appIdentifier, this, srg.getContext());
-	}
-
+    
+    @Override
+    public IBinder getAndroidInterface(String appIdentifier) {
+        // we want to pass some value from the RG
+        SwitchesResourceGroup srg = (SwitchesResourceGroup) getResourceGroup();
+        return new WifiSwitchStubImpl(appIdentifier, this, srg.getContext());
+    }
+    
 }

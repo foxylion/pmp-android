@@ -8,17 +8,17 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
 
 /**
  * @author Dang Huynh
- *
+ * 
  */
-public class DatabaseResourceGroupApp extends
-	ResourceGroupSingleApp<DatabaseResourceGroup> {
+public class DatabaseResourceGroupApp extends ResourceGroupSingleApp<DatabaseResourceGroup> {
     
     static {
         Log.setTagSufix("DatabaseRG");
     }
     
+    
     @Override
     protected DatabaseResourceGroup createResourceGroup() {
-	return new DatabaseResourceGroup(getApplicationContext());
+        return new DatabaseResourceGroup(getApplicationContext());
     }
 }

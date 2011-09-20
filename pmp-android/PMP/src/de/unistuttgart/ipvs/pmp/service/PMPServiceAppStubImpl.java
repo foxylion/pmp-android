@@ -13,19 +13,21 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
  * @author Jakob Jarosch
  */
 public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
-
+    
     private String identifier = null;
-
+    
+    
     public PMPServiceAppStubImpl(String identifier) {
-	this.identifier = identifier;
+        this.identifier = identifier;
     }
-
+    
+    
     @Override
     public void getInitialServiceLevel() throws RemoteException {
-	Intent intent = new Intent();
-	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
-	intent.putExtra(Constants.INTENT_IDENTIFIER, identifier);
-	PMPApplication.getContext().startActivity(intent);
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
+        intent.putExtra(Constants.INTENT_IDENTIFIER, this.identifier);
+        PMPApplication.getContext().startActivity(intent);
     }
 }

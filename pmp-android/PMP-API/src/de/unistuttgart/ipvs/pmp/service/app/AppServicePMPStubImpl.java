@@ -17,32 +17,33 @@ public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
      */
     private App app;
     
+    
     public void setApp(App app) {
-	this.app = app;
+        this.app = app;
     }
-
+    
+    
     @Override
-    public AppInformationSetParcelable getAppInformationSet()
-	    throws RemoteException {
-	// Convert the AppInformationset into an AppInformationSetParcelable
-	AppInformationSetParcelable appInfoSetParcelable = new AppInformationSetParcelable(
-		app.getInfoSet());
-	return appInfoSetParcelable;
+    public AppInformationSetParcelable getAppInformationSet() throws RemoteException {
+        // Convert the AppInformationset into an AppInformationSetParcelable
+        AppInformationSetParcelable appInfoSetParcelable = new AppInformationSetParcelable(this.app.getInfoSet());
+        return appInfoSetParcelable;
     }
-
+    
+    
     @Override
     public void setActiveServiceLevel(int level) throws RemoteException {
-	app.setActiveServiceLevel(level);
+        this.app.setActiveServiceLevel(level);
     }
-
+    
+    
     @Override
-    public void setRegistrationState(RegistrationState state)
-	    throws RemoteException {
-	if (state.getState()) {
-	    app.onRegistrationSuccess();
-	} else {
-	    app.onRegistrationFailed(state.getMessage());
-	}
+    public void setRegistrationState(RegistrationState state) throws RemoteException {
+        if (state.getState()) {
+            this.app.onRegistrationSuccess();
+        } else {
+            this.app.onRegistrationFailed(state.getMessage());
+        }
     }
-
+    
 }

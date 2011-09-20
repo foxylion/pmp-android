@@ -11,12 +11,13 @@ import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
  * 
  */
 public abstract class Resource {
-
+    
     /**
      * The resource group that this resource is assigned to.
      */
     private ResourceGroup resourceGroup;
-
+    
+    
     /**
      * Assigns the resource group during registration.
      * 
@@ -25,17 +26,19 @@ public abstract class Resource {
      * @param resourceGroup
      */
     protected final void assignResourceGroup(ResourceGroup resourceGroup) {
-	this.resourceGroup = resourceGroup;
+        this.resourceGroup = resourceGroup;
     }
-
+    
+    
     /**
      * 
      * @return the associated {@link ResourceGroup}.
      */
     protected final ResourceGroup getResourceGroup() {
-	return this.resourceGroup;
+        return this.resourceGroup;
     }
-
+    
+    
     /**
      * Retrieves an actual privacy level class.
      * 
@@ -44,21 +47,21 @@ public abstract class Resource {
      * @return the privacy level with the the identifier in the resource group.
      */
     public final PrivacyLevel<?> getPrivacyLevel(String privacyLevelIdentifier) {
-	return resourceGroup.getPrivacyLevel(privacyLevelIdentifier);
+        return this.resourceGroup.getPrivacyLevel(privacyLevelIdentifier);
     }
-
+    
+    
     /**
-     * Sets the {@link IBinder} defined in AIDL for communicating over a
-     * Service.
+     * Sets the {@link IBinder} defined in AIDL for communicating over a Service.
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
      * @param appIdentifier
      *            the identifier for the app accessing the interface.
      * 
-     * @return The IBinder that shall be returned when an App binds against the
-     *         {@link ResourceGroupService} requesting this resource.
+     * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
+     *         this resource.
      */
     public abstract IBinder getAndroidInterface(String appIdentifier);
-
+    
 }

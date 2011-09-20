@@ -15,15 +15,13 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * <p>
- * External service for communication between PMP, the {@link IResourceGroup}
- * and {@link IApp}. <br>
- * <b>Normally you will use the {@link PMPServiceConnector} for connection the
- * {@link PMPService}. </b>
+ * External service for communication between PMP, the {@link IResourceGroup} and {@link IApp}. <br>
+ * <b>Normally you will use the {@link PMPServiceConnector} for connection the {@link PMPService}. </b>
  * </p>
  * 
  * <p>
- * The Service requires several informations in the intent, used to bind the
- * {@link PMPService}, put as extra into the {@link Intent}.
+ * The Service requires several informations in the intent, used to bind the {@link PMPService}, put as extra into the
+ * {@link Intent}.
  * </p>
  * 
  * <pre>
@@ -33,11 +31,9 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * </pre>
  * 
  * <p>
- * The signature is optional, if you do not sent a signature, the Service will
- * handle the binding as an registration and gives back the
- * {@link IPMPServiceRegistration} Binder.<br/>
- * With a valid token the {@link IPMPServiceResourceGroup} or
- * {@link IPMPServiceApp} Binder will be given back.<br>
+ * The signature is optional, if you do not sent a signature, the Service will handle the binding as an registration and
+ * gives back the {@link IPMPServiceRegistration} Binder.<br/>
+ * With a valid token the {@link IPMPServiceResourceGroup} or {@link IPMPServiceApp} Binder will be given back.<br>
  * 
  * If an authentification fails the Service will give back NULL.
  * </p>
@@ -45,34 +41,35 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * @author Jakob Jarosch
  */
 public class PMPService extends PMPSignedService {
-
+    
     @Override
     public IBinder onSignedBind(Intent intent) {
-	PMPComponentType type = (PMPComponentType) intent
-		.getSerializableExtra(Constants.INTENT_TYPE);
-	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-
-	/* Should be a normal authentification */
-	if (type.equals(PMPComponentType.APP)) {
-	    return new PMPServiceAppStubImpl(identifier);
-	} else if (type.equals(PMPComponentType.RESOURCE_GROUP)) {
-	    return new PMPServiceResourceGroupStubImpl(identifier);
-	} else {
-	    /* no valid type identifier found */
-	    return new NullServiceStubImpl("The bound Type is does not allow any Service at the PMPService");
-	}
+        PMPComponentType type = (PMPComponentType) intent.getSerializableExtra(Constants.INTENT_TYPE);
+        String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+        
+        /* Should be a normal authentification */
+        if (type.equals(PMPComponentType.APP)) {
+            return new PMPServiceAppStubImpl(identifier);
+        } else if (type.equals(PMPComponentType.RESOURCE_GROUP)) {
+            return new PMPServiceResourceGroupStubImpl(identifier);
+        } else {
+            /* no valid type identifier found */
+            return new NullServiceStubImpl("The bound Type is does not allow any Service at the PMPService");
+        }
     }
-
+    
+    
     @Override
     public IBinder onUnsignedBind(Intent intent) {
-	String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-	
-	return new PMPServiceRegistrationStubImpl(identifier);
+        String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
+        
+        return new PMPServiceRegistrationStubImpl(identifier);
     }
-
+    
+    
     @Override
     protected PMPSignee createSignee() {
-	return PMPApplication.getSignee();
+        return PMPApplication.getSignee();
     }
-
+    
 }

@@ -10,33 +10,30 @@ import java.util.Comparator;
  * @param <T>
  *            the type that is stored in this {@link DefaultPrivacyLevel}.
  */
-public abstract class DefaultPrivacyLevel<T extends Comparable<T>> extends
-	ComparablePrivacyLevel<T> {
-
+public abstract class DefaultPrivacyLevel<T extends Comparable<T>> extends ComparablePrivacyLevel<T> {
+    
     /**
-     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparable}
-     * implementation of T.
+     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparable} implementation of T.
      */
     public DefaultPrivacyLevel() {
-	super();
+        super();
     }
-
+    
+    
     /**
-     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparator}
-     * implementation for T.
+     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparator} implementation for T.
      * 
      * @param comparator
-     *            Comparator to represent the "permit more or equal" partial
-     *            order.
+     *            Comparator to represent the "permit more or equal" partial order.
      */
     public DefaultPrivacyLevel(Comparator<T> comparator) {
-	super(comparator);
+        super(comparator);
     }
-
+    
+    
     @Override
-    public String getHumanReadableValue(String locale, String value)
-	    throws PrivacyLevelValueException {
-	return parseValue(value).toString();
+    public String getHumanReadableValue(String locale, String value) throws PrivacyLevelValueException {
+        return parseValue(value).toString();
     }
-
+    
 }

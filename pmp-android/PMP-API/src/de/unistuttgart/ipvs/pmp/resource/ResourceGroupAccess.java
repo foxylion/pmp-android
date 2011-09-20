@@ -11,12 +11,13 @@ import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
  * @author Jakob Jarosch
  */
 public class ResourceGroupAccess implements Serializable {
-
+    
     private static final long serialVersionUID = 6045269413834594529L;
     
     private ResourceGroupAccessHeader header;
     private Map<String, String> privacyLevelValues;
-
+    
+    
     /**
      * Creates a new {@link ResourceGroupAccess}.
      * 
@@ -25,16 +26,17 @@ public class ResourceGroupAccess implements Serializable {
      * @param privacyLevelValues
      *            Bundle of privacy levels and their set values
      */
-    public ResourceGroupAccess(ResourceGroupAccessHeader header,
-	    Map<String, String> privacyLevelValues) {
-	this.header = header;
-	this.privacyLevelValues = privacyLevelValues;
+    public ResourceGroupAccess(ResourceGroupAccessHeader header, Map<String, String> privacyLevelValues) {
+        this.header = header;
+        this.privacyLevelValues = privacyLevelValues;
     }
-
+    
+    
     public ResourceGroupAccessHeader getHeader() {
-	return this.header;
+        return this.header;
     }
-
+    
+    
     /**
      * Returns the corresponding value to a privacy level.
      * 
@@ -43,13 +45,14 @@ public class ResourceGroupAccess implements Serializable {
      * @return value of the privacy level or NULL if it is not set
      */
     public String getPrivacyLevelValue(String privacyLevel) {
-	return privacyLevelValues.get(privacyLevel);
+        return this.privacyLevelValues.get(privacyLevel);
     }
-
+    
+    
     /**
      * @return the bundle containing the privacy level values.
      */
     public Map<String, String> getPrivacyLevelValues() {
-	return privacyLevelValues;
+        return this.privacyLevelValues;
     }
 }
