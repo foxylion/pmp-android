@@ -1,7 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestServiceLevel;
 
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestPrivacyLevel50m;
-import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestPrivacyLevelBadenWuerttemberg;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.LocationEnum;
+import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestLocationPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -25,8 +26,8 @@ public class ServiceLevel3 implements IServiceLevel {
     @Override
     public IPrivacyLevel[] getPrivacyLevels() {
 	IPrivacyLevel[] pls = new IPrivacyLevel[2];
-	pls[0] = new TestPrivacyLevelBadenWuerttemberg();
-	pls[1] = new TestPrivacyLevel50m();
+	pls[0] = new TestLocationPrivacyLevel(LocationEnum.BADEN_WUERTTEMBERG.toString());
+	pls[1] = new TestAccuracyPrivacyLevel("50");
 	return pls;
     }
 
