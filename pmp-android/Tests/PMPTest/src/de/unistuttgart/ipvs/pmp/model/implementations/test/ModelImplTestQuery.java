@@ -21,10 +21,6 @@ public class ModelImplTestQuery extends AndroidTestCase {
 
 	IApp apps[];
 	IResourceGroup ress[];
-	
-	public ModelImplTestQuery(String name) {
-		
-	}
 
 	/**
 	 * Set up the testing environment
