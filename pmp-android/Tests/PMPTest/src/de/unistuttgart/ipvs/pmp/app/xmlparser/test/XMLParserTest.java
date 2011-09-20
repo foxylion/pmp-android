@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import android.test.InstrumentationTestCase;
+import android.text.TextUtils;
+import android.util.Log;
 
 import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
@@ -25,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException.Type;
  * @version 0.1.0
  *
  */
-public class XMLParserTest extends TestCase {
+public class XMLParserTest extends InstrumentationTestCase {
 
 	
 	private Locale de = new Locale("de");
@@ -40,9 +41,8 @@ public class XMLParserTest extends TestCase {
 	}
 	
 	private InputStream openAssetFile(String file) throws IOException {
-		// Throws an FileNotFoundException, so open file manual instead
-		//return getContext().getAssets().open("xml-parser-test/" + file);
-		return new FileInputStream("assets/xml-parser-test/" + file);
+		InputStream inputStream = getInstrumentation().getContext().getAssets().open("xml-parser-test/" + file);
+		return inputStream; 
 	}
 
 	/**
