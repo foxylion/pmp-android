@@ -13,13 +13,15 @@ INSERT INTO "ResourceGroup" VALUES('Sample#pmp.test.resnodescription','TestResNo
 INSERT INTO "ResourceGroup" VALUES(,'TestResNoIdentifier','This ressource has no identifier');
 INSERT INTO "ResourceGroup" VALUES('Sample#pmp.test.resnoname','SameIdentifier','This ressource has same identifier resnoname');
 
-INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.noname',0,'ZeroLevel','ZeroLevel');
-INSERT INTO "ServiceLevel" VALUES('',0,'ZeroLevel','ZeroLevel');
-INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.nodescription',0,'ZeroLevel','ZeroLevel');
 
 INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.okapp',0,'ZeroLevel','ZeroLevel');
 INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.okapp',1,'FirstLevel','FirstLevel');
 INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.okapp',2,'SecondLevel','SecondLevel');
+INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.noname',0,'ZeroLevel','ZeroLevel');
+INSERT INTO "ServiceLevel" VALUES('',0,'ZeroLevel','ZeroLevel');
+INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.nodescription',0,'ZeroLevel','ZeroLevel');
+INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.falselevel',3,'ThirdLevel','ThirdLevel');
+INSERT INTO "ServiceLevel" VALUES('Sample#pmp.test.falselevel',6,'SixthLevel','SixthLevel');
 
 INSERT INTO "PrivacyLevel" VALUES('','read','Read Files','Enable this to allow reading files');
 INSERT INTO "PrivacyLevel" VALUES('Sample#pmp.test.resnoname','write','Write Files','Enable this to allow writing files');
@@ -30,3 +32,8 @@ INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.okapp',1,'Sampl
 INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.okapp',2,'Sample#pmp.test.resnoname','write','true');
 INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.okapp',2,'Sample#pmp.test.resnodescription','delete','true');
 
+INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.noname',0,'Sample#pmp.test.resnodescription','delete','true');
+INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.noname',0,'Sample#pmp.test.resNoRes','delete','true');
+INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('',0,'Sample#pmp.test.resnodescription','delete','true');
+INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.falselevel',3,'Sample#pmp.test.resnodescription','delete','true');
+INSERT INTO "ServiceLevel_PrivacyLevels" VALUES('Sample#pmp.test.falselevel',6,'Sample#pmp.test.resnodescription','delete','true');
