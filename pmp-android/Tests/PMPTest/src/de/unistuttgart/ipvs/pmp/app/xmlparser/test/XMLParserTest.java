@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  */
 public class XMLParserTest extends TestCase {
 
-	private static final String FILES_PATH = "src/de/unistuttgart/ipvs/pmp/app/xmlparser/test/files";
+	private static final String FILES_PATH = "assets/xml-parser-test";
 	
 	private Locale de = new Locale("de");
 	private Locale en = new Locale("en");
