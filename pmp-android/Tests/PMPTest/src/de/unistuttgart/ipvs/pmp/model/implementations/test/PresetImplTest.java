@@ -20,18 +20,18 @@ public class PresetImplTest extends AndroidTestCase {
 	private static final String TEST_APP_IDENT = "TEST_APP";
 	private static final String TEST_APP_NAME = "TEST_APP_NAME";
 	private static final String TEST_APP_DESC = "TEST_APP_DESC";
-	
+
 	private static final String TEST_APP_SL0_NAME = "TEST_APP_SL0_NAME";
-	private static final String TEST_APP_SL0_DESC = "TEST_APP_SL0_DESC";	
+	private static final String TEST_APP_SL0_DESC = "TEST_APP_SL0_DESC";
 	private static final String TEST_APP_SL1_NAME = "TEST_APP_SL1_NAME";
 	private static final String TEST_APP_SL1_DESC = "TEST_APP_SL1_DESC";
 
 	private static final String TEST_APP2_IDENT = "TEST_PPA";
 	private static final String TEST_APP2_NAME = "TEST_PPA_NAME";
 	private static final String TEST_APP2_DESC = "TEST_PPA_DESC";
-	
+
 	private static final String TEST_APP2_SL0_NAME = "TEST_PPA_SL0_NAME";
-	private static final String TEST_APP2_SL0_DESC = "TEST_PPA_SL0_DESC";	
+	private static final String TEST_APP2_SL0_DESC = "TEST_PPA_SL0_DESC";
 	private static final String TEST_APP2_SL1_NAME = "TEST_PPA_SL1_NAME";
 	private static final String TEST_APP2_SL1_DESC = "TEST_PPA_SL1_DESC";
 
@@ -48,7 +48,7 @@ public class PresetImplTest extends AndroidTestCase {
 	private static final String TEST_PL2_NAME = "TEST_LP_NAME";
 	private static final String TEST_PL2_DESC = "TEST_LP_DESC";
 	private static final String TEST_PL2_VALUE = "TEST_LP_VALUE";
-	
+
 	private IPreset preset;
 	private IApp app, app2;
 	private IPrivacyLevel pl, pl2;
@@ -56,8 +56,7 @@ public class PresetImplTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		/*
-		 * some serious magic about to happen here
-		 * happy understanding!
+		 * some serious magic about to happen here happy understanding!
 		 */
 		DatabaseOpenHelper doh = DatabaseSingleton.getInstance()
 				.getDatabaseHelper();
@@ -81,30 +80,43 @@ public class PresetImplTest extends AndroidTestCase {
 		sqld.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);",
 				new String[] { TEST_RG_IDENT, TEST_PL2_IDENT, TEST_PL2_NAME,
 						TEST_PL2_DESC });
-		
+
 		// sl
 		sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);",
-				new String[] { TEST_APP_IDENT, TEST_APP_SL0_NAME, TEST_APP_SL0_DESC });
+				new String[] { TEST_APP_IDENT, TEST_APP_SL0_NAME,
+						TEST_APP_SL0_DESC });
 		sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 1, ?, ?);",
-				new String[] { TEST_APP_IDENT, TEST_APP_SL1_NAME, TEST_APP_SL1_DESC });
+				new String[] { TEST_APP_IDENT, TEST_APP_SL1_NAME,
+						TEST_APP_SL1_DESC });
 		sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);",
-				new String[] { TEST_APP2_IDENT, TEST_APP2_SL0_NAME, TEST_APP2_SL0_DESC });
+				new String[] { TEST_APP2_IDENT, TEST_APP2_SL0_NAME,
+						TEST_APP2_SL0_DESC });
 		sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 1, ?, ?);",
-				new String[] { TEST_APP2_IDENT, TEST_APP2_SL1_NAME, TEST_APP2_SL1_DESC });
-		
-		// sl_pl
-		sqld.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 1, ?, ?, ?);",
-				new String[] { TEST_APP_IDENT, TEST_RG_IDENT, TEST_PL2_IDENT, TEST_PL2_VALUE });
-		sqld.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 1, ?, ?, ?);",
-				new String[] { TEST_APP2_IDENT, TEST_RG_IDENT, TEST_PL_IDENT, TEST_PL_VALUE });
+				new String[] { TEST_APP2_IDENT, TEST_APP2_SL1_NAME,
+						TEST_APP2_SL1_DESC });
 
-		preset = ModelSingleton.getInstance().getModel()
-				.addPreset(TEST_PRESET_NAME, TEST_PRESET_DESC, TEST_PRESET_TYPE,
-						TEST_PRESET_IDENT);
+		// sl_pl
+		sqld.execSQL(
+				"INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 1, ?, ?, ?);",
+				new String[] { TEST_APP_IDENT, TEST_RG_IDENT, TEST_PL2_IDENT,
+						TEST_PL2_VALUE });
+		sqld.execSQL(
+				"INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 1, ?, ?, ?);",
+				new String[] { TEST_APP2_IDENT, TEST_RG_IDENT, TEST_PL_IDENT,
+						TEST_PL_VALUE });
+
+		preset = ModelSingleton
+				.getInstance()
+				.getModel()
+				.addPreset(TEST_PRESET_NAME, TEST_PRESET_DESC,
+						TEST_PRESET_TYPE, TEST_PRESET_IDENT);
 		app = ModelSingleton.getInstance().getModel().getApp(TEST_APP_IDENT);
 		app2 = ModelSingleton.getInstance().getModel().getApp(TEST_APP2_IDENT);
-		pl = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG_IDENT).getPrivacyLevel(TEST_PL_IDENT);
-		pl2 = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG_IDENT).getPrivacyLevel(TEST_PL2_IDENT);
+		pl = ModelSingleton.getInstance().getModel()
+				.getResourceGroup(TEST_RG_IDENT).getPrivacyLevel(TEST_PL_IDENT);
+		pl2 = ModelSingleton.getInstance().getModel()
+				.getResourceGroup(TEST_RG_IDENT)
+				.getPrivacyLevel(TEST_PL2_IDENT);
 	}
 
 	protected void tearDown() throws Exception {
@@ -112,34 +124,34 @@ public class PresetImplTest extends AndroidTestCase {
 	}
 
 	public void testPresetImpl() {
-		assertEquals(preset.getName(), TEST_PRESET_NAME);
-		assertEquals(preset.getDescription(), TEST_PRESET_DESC);
-		assertEquals(preset.getType(), TEST_PRESET_TYPE);
-		assertEquals(preset.getIdentifier(), TEST_PRESET_IDENT);
+		assertEquals(TEST_PRESET_NAME, preset.getName());
+		assertEquals(TEST_PRESET_DESC, preset.getDescription());
+		assertEquals(TEST_PRESET_TYPE, preset.getType());
+		assertEquals(TEST_PRESET_IDENT, preset.getIdentifier());
 	}
 
-	public void testAddApps() {		
+	public void testAddApps() {
 		preset.addApp(app, true);
-		
+
 		assertTrue(preset.isAppAssigned(app));
 		assertFalse(preset.isAppAssigned(app2));
 
-		assertEquals(preset.getAssignedApps().length, 1);
+		assertEquals(1, preset.getAssignedApps().length);
 		for (IApp ia : preset.getAssignedApps()) {
-			assertTrue(ia.equals(app));
+			assertTrue(isIdenticalApp(app, ia));
 		}
 
 		preset.addApp(app2, true);
 		assertTrue(preset.isAppAssigned(app));
 		assertTrue(preset.isAppAssigned(app2));
 
-		assertEquals(preset.getAssignedApps().length, 2);
+		assertEquals(2, preset.getAssignedApps().length);
 		for (IApp ia : preset.getAssignedApps()) {
-			assertTrue(ia.equals(app) || ia.equals(app2));
+			assertTrue(isIdenticalApp(app, ia) || isIdenticalApp(app2, ia));
 		}
 	}
 
-	public void testRemoveApps() {		
+	public void testRemoveApps() {
 		preset.addApp(app, true);
 		preset.addApp(app2, true);
 
@@ -147,29 +159,29 @@ public class PresetImplTest extends AndroidTestCase {
 		assertFalse(preset.isAppAssigned(app));
 		assertTrue(preset.isAppAssigned(app2));
 
-		assertEquals(preset.getAssignedApps().length, 1);
+		assertEquals(1, preset.getAssignedApps().length);
 		for (IApp ia : preset.getAssignedApps()) {
-			assertTrue(ia.equals(app2));
+			assertTrue(isIdenticalApp(app2, ia));
 		}
 
 		preset.removeApp(app2, true);
 		assertFalse(preset.isAppAssigned(app));
 		assertFalse(preset.isAppAssigned(app2));
 
-		assertEquals(preset.getAssignedApps().length, 0);
+		assertEquals(0, preset.getAssignedApps().length);
 	}
 
 	public void testAddPrivacyLevel() {
 		preset.setPrivacyLevel(pl, true);
-		assertEquals(preset.getUsedPrivacyLevels().length, 1);
+		assertEquals(1, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(ipl.equals(pl));
+			assertTrue(isIdenticalPL(pl, ipl));
 		}
 
 		preset.setPrivacyLevel(pl2, true);
-		assertEquals(preset.getUsedPrivacyLevels().length, 2);
+		assertEquals(2, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(ipl.equals(pl) || ipl.equals(pl2));
+			assertTrue(isIdenticalPL(pl, ipl) || isIdenticalPL(pl2, ipl));
 		}
 	}
 
@@ -178,13 +190,39 @@ public class PresetImplTest extends AndroidTestCase {
 		preset.setPrivacyLevel(pl2, true);
 
 		preset.removePrivacyLevel(pl, true);
-		assertEquals(preset.getUsedPrivacyLevels().length, 1);
+		assertEquals(1, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(ipl.equals(pl2));
+			assertTrue(isIdenticalPL(pl2, ipl));
 		}
 
 		preset.removePrivacyLevel(pl2, true);
-		assertEquals(preset.getUsedPrivacyLevels().length, 0);
+		assertEquals(0, preset.getUsedPrivacyLevels().length);
+	}
+
+	/**
+	 * Checks whether two {@link IApp}s are identical.
+	 * 
+	 * @param expected
+	 * @param actual
+	 * @return
+	 */
+	private boolean isIdenticalApp(IApp expected, IApp actual) {
+		return expected.getIdentifier().equals(actual.getIdentifier());
+	}
+
+	/**
+	 * Checks whether two {@link IPrivacyLevel}s are identical.
+	 * 
+	 * @param expected
+	 * @param actual
+	 * @return
+	 */
+	private boolean isIdenticalPL(IPrivacyLevel expected, IPrivacyLevel actual) {
+		boolean sameRG = expected.getResourceGroup().getIdentifier()
+				.equals(actual.getResourceGroup().getIdentifier());
+		boolean sameIdent = expected.getIdentifier().equals(
+				actual.getIdentifier());
+		return sameRG && sameIdent;
 	}
 
 }
