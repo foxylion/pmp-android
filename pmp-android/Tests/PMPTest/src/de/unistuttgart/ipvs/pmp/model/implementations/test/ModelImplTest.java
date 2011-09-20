@@ -2,10 +2,12 @@ package de.unistuttgart.ipvs.pmp.model.implementations.test;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 public class ModelImplTest extends AndroidTestCase {
@@ -30,10 +32,24 @@ public class ModelImplTest extends AndroidTestCase {
     private static final String TEST_RG2_NAME = "TEST_RG2_NAME";
     private static final String TEST_RG2_DESC = "TEST_RG2_DESC";
     
+    private static final String TEST_PRESET1_NAME = "TEST_PRESET1_NAME";
+    private static final String TEST_PRESET1_DESC = "TEST_PRESET1_DESC";
+    private static final String TEST_PRESET1_IDENT = "TEST_PRESET1_IDENT";
+    private static final PMPComponentType TEST_PRESET1_TYPE = PMPComponentType.NONE;
+    
+    private static final String TEST_PRESET2_NAME = "TEST_PRESET2_NAME";
+    private static final String TEST_PRESET2_DESC = "TEST_PRESET2_DESC";
+    private static final String TEST_PRESET2_IDENT = "TEST_PRESET2_IDENT";
+    private static final PMPComponentType TEST_PRESET2_TYPE = PMPComponentType.NONE;
+    
     private IApp apps[] = null;
     private IApp app = null;
     private IResourceGroup ress[] = null;
     private IResourceGroup res = null;
+    private IPreset presets[] = null;
+    private IPreset preset1 = null;
+    private IPreset preset2 = null;
+    
     
     
     /**
@@ -60,6 +76,11 @@ public class ModelImplTest extends AndroidTestCase {
                 TEST_RG1_DESC });
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG2_IDENT, TEST_RG2_NAME,
                 TEST_RG2_DESC });
+        
+        this.preset1  = ModelSingleton.getInstance().getModel()
+                .addPreset(TEST_PRESET1_NAME, TEST_PRESET1_DESC, TEST_PRESET1_TYPE, TEST_PRESET1_IDENT);
+        this.preset2  = ModelSingleton.getInstance().getModel()
+                .addPreset(TEST_PRESET2_NAME, TEST_PRESET2_DESC, TEST_PRESET2_TYPE, TEST_PRESET2_IDENT);
     }
     
     
@@ -95,5 +116,16 @@ public class ModelImplTest extends AndroidTestCase {
         this.res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(this.res);
         assertEquals(TEST_RG1_IDENT, this.res.getIdentifier());
+    }
+    
+    public void testGetPreset(){
+        assertNotNull(preset1);
+        assertNotNull(preset2);
+        assertNull(presets);
+        presets = ModelSingleton.getInstance().getModel().getPresets();
+        assertNotNull(presets);
+        assertEquals(2, presets.length);
+        assertEquals(TEST_PRESET1_IDENT, presets[0].getIdentifier());
+        assertEquals(TEST_PRESET2_IDENT, presets[1].getIdentifier());
     }
 }
