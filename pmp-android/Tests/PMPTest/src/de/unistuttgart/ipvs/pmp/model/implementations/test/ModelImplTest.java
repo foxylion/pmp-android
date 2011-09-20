@@ -1,9 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test;
 
-import java.io.InputStream;
-
 import android.test.AndroidTestCase;
-import junit.framework.TestCase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
@@ -21,10 +18,6 @@ public class ModelImplTest extends AndroidTestCase {
 
 	IApp apps[];
 	IResourceGroup ress[];
-	
-	public ModelImplTest(String name) {
-		
-	}
 
 	/**
 	 * Set up the testing environment
