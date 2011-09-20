@@ -74,6 +74,7 @@
                below to <setup import="false" />.
              - customize to your needs.
     -->
+	<property name="test.runner" value="com.zutubi.android.junitreport.JUnitReportTestRunner" />
 	<target name="coverage" depends="-set-coverage-classpath, -install-instrumented, install"
                 description="Runs the tests against the instrumented code and generates
                             code coverage report">
@@ -101,18 +102,32 @@
                     <include name="coverage.em" />
                 </infileset>
                 <!-- TODO: reports in other, indicated by user formats -->
-				<xml outfile="coverage.xml" />
-                <html outfile="coverage.html" />
+				<txt outfile="${basedir}/coverage/coverage.txt" />
+				<html outfile="${basedir}/coverage/coverage.html" />
+				<xml outfile="${basedir}/coverage/coverage.xml" />
+
            </report>
         </emma>
         <echo>Cleaning up temporary files...</echo>
         <delete dir="${instrumentation.absolute.dir}" />
         <delete file="coverage.ec" />
         <delete file="coverage.em" />
+		<echo>Saving the report file in ${basedir}/coverage/coverage.txt</echo>
         <echo>Saving the report file in ${basedir}/coverage/coverage.html</echo>
 		<echo>Saving the report file in ${basedir}/coverage/coverage.xml</echo>
     </target>
 	
     <setup />
+	
+	<target name="fetch-test-report">
+    <echo>Downloading XML test report...</echo>
+    <mkdir dir="${reports.dir}"/>
+    <exec executable="${adb}" failonerror="true">
+        <arg line="${adb.device.arg}"/>
+        <arg value="pull" />
+        <arg value="/data/data/${tested.manifest.package}/files/junit-report.xml" />
+        <arg value="${basedir}/coverage/junit-report.xml" />
+    </exec>
+</target>
 
 </project>
