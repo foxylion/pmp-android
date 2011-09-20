@@ -181,12 +181,12 @@ public class ServiceLevelCalculatorTest extends TestCase {
 	}
 
 	public void testCalculate14() {
-		// Test 14: Preset 3 + Preset 5 -> SL 2
+		// Test 14: Preset 3 + Preset 5 -> SL 0
 		presets2[0] = TEST_PRESET_3;
 		presets2[1] = TEST_PRESET_5;
 		testApp.setPresets(presets2);
 		try {
-			assertEquals(2, new ServiceLevelCalculator(testApp).calculate());
+			assertEquals(0, new ServiceLevelCalculator(testApp).calculate());
 		} catch (RemoteException ignore) {
 		}
 	}
