@@ -121,7 +121,6 @@
 	
 	<target name="fetch-test-report">
     <echo>Downloading XML test report...</echo>
-    <mkdir dir="${reports.dir}"/>
     <exec executable="${adb}" failonerror="true">
         <arg line="${adb.device.arg}"/>
         <arg value="pull" />
