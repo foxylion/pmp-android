@@ -67,8 +67,8 @@ public class PresetImpl implements IPreset {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT a.App_Identifier, a.Name_Cache, a.Description_Cache FROM App as a, Preset_Apps AS pa"
-				+ "WHERE pa.App_Identifier = a.Identifier AND pa.Name = ? AND pa.Type = ? AND pa.Identifier = ?",
+			"SELECT a.Identifier, a.Name_Cache, a.Description_Cache FROM App as a, Preset_Apps AS pa "
+				+ "WHERE pa.App_Identifier = a.Identifier AND pa.Preset_Name = ? AND pa.Preset_Type = ? AND pa.Preset_Identifier = ?",
 			new String[] { name, type.toString(), identifier });
 
 	cursor.moveToNext();
@@ -265,6 +265,7 @@ public class PresetImpl implements IPreset {
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
 	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+	ModelConditions.assertNotNull("resourceGroup of privacylevel", privacyLevel.getResourceGroup());
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
