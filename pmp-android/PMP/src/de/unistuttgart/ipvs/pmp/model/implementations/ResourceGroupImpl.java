@@ -127,14 +127,14 @@ public class ResourceGroupImpl implements IResourceGroup {
 		.rawQuery(
 			"SELECT a.Identifier "
 				+ "FROM App AS a, ServiceLevel_PrivacyLevels AS slpl "
-				+ "WHERE a.ServiceLevel_Active = slpl.ServiceLevel_Level AND slpl.ResourceGroup_Identifier = ?",
+				+ "WHERE a.ServiceLevel_Active = slpl.ServiceLevel_Level AND slpl.ResourceGroup_Identifier = ? "
+				+ "GROUP BY a.Identifier",
 			new String[] { identifier });
 
 	cursor.moveToNext();
 
 	while (!cursor.isAfterLast()) {
-	    String appIdentifier = cursor.getString(cursor
-		    .getColumnIndex("Identifier"));
+	    String appIdentifier = cursor.getString(0);
 	    IApp app = ModelSingleton.getInstance().getModel()
 		    .getApp(appIdentifier);
 	    list.add(app);
@@ -143,7 +143,7 @@ public class ResourceGroupImpl implements IResourceGroup {
 
 	Log.v("ResourceGroupImpl#getAllAppsUsingThisResourceGroup(): is returning "
 		+ list.size() + " datasets for identifier " + getIdentifier());
-	
+
 	cursor.close();
 	return list.toArray(new IApp[list.size()]);
     }

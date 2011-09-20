@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
@@ -140,10 +139,10 @@ public class ServiceLevelPublisher {
 			Log.d("ResourceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
 				+ "): Successfully set new Accesses.");
-		    } catch (RemoteException e) {
+		    } catch (Exception e) {
 			Log.e("ResourceGroup-AccessSet-Publishing ("
 				+ affectedResourceGroup.getIdentifier()
-				+ "): FAILED - got a RemoteException, by calling setAccesses()",
+				+ "): FAILED - got a (Remote)Exception, by calling setAccesses()",
 				e);
 		    }
 		}
@@ -183,10 +182,10 @@ public class ServiceLevelPublisher {
 			    app.getActiveServiceLevel().getLevel());
 		    Log.d("ServiceLevel-Publishing (" + app.getIdentifier()
 			    + "): Successfully set new ServiceLevel.");
-		} catch (RemoteException e) {
+		} catch (Exception e) {
 		    Log.e("ServiceLevel-Publishing ("
 			    + app.getIdentifier()
-			    + "): FAILED - got a RemoteException, by calling setActiveServiceLevel()",
+			    + "): FAILED - got a (Remote)Exception, by calling setActiveServiceLevel()",
 			    e);
 		}
 	    }

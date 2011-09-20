@@ -299,11 +299,12 @@ public class AppImpl implements IApp {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT ResourceGroup_Identifier FROM ServiceLevel_PrivacyLevels WHERE App_Identifier = ?",
+			"SELECT ResourceGroup_Identifier FROM ServiceLevel_PrivacyLevels WHERE App_Identifier = ? " +
+			"GROUP BY ResourceGroup_Identifier",
 			new String[] { getIdentifier() });
 
 	cursor.moveToNext();
-
+	
 	while (!cursor.isAfterLast()) {
 	    String rgIdentifier = cursor.getString(cursor
 		    .getColumnIndex("ResourceGroup_Identifier"));
@@ -339,7 +340,7 @@ public class AppImpl implements IApp {
 				+ "WHERE slpl.ResourceGroup_Identifier = pl.ResourceGroup_Identifier AND slpl.PrivacyLevel_Identifier = pl.Identifier "
 				+ "AND slpl.App_Identifier = ? AND slpl.ResourceGroup_Identifier = ? AND slpl.ServiceLevel_Level = "
 				+ getActiveServiceLevel().getLevel(),
-			new String[] { getIdentifier() });
+			new String[] { getIdentifier(), resourceGroup.getIdentifier() });
 
 	cursor.moveToNext();
 
@@ -354,6 +355,8 @@ public class AppImpl implements IApp {
 	    IPrivacyLevel pl = new PrivacyLevelImpl(
 		    resourceGroup.getIdentifier(), plIdentifier, name,
 		    description, value);
+	    
+	    cursor.moveToNext();
 
 	    list.add(pl);
 	}

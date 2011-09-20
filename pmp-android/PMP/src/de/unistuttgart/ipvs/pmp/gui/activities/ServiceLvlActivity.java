@@ -238,7 +238,7 @@ class OnLevelTouchListener implements OnTouchListener {
 			try {
 			    app.setActiveServiceLevelAsPreset(level.getLevel());
 			}catch(Exception exc){
-			    Log.e("ServiceLevelActivity: setActiveServiceLevelAsPreset() --> Exception");
+			    Log.e("ServiceLevelActivity: setActiveServiceLevelAsPreset() --> Exception", exc);
 			}
 			return null;
 		    }

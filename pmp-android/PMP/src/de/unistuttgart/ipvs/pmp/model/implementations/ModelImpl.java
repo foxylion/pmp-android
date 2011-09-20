@@ -163,7 +163,7 @@ public class ModelImpl implements IModel {
 
 	Log.v("ModelImpl#getResourceGroup(): found  "
 		+ (returnValue == null ? "NO" : "a")
-		+ " app with the identifier " + identifier);
+		+ " resource group with the identifier " + identifier);
 
 	cursor.close();
 	return returnValue;

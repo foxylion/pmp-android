@@ -67,8 +67,8 @@ public class PresetImpl implements IPreset {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT a.App_Identifier, a.Name_Cache, a.Description_Cache FROM App as a, Preset_Apps AS pa"
-				+ "WHERE pa.App_Identifier = a.Identifier AND pa.Name = ? AND pa.Type = ? AND pa.Identifier = ?",
+			"SELECT a.Identifier, a.Name_Cache, a.Description_Cache FROM App as a, Preset_Apps AS pa "
+				+ "WHERE pa.App_Identifier = a.Identifier AND pa.Preset_Name = ? AND pa.Preset_Type = ? AND pa.Preset_Identifier = ?",
 			new String[] { name, type.toString(), identifier });
 
 	cursor.moveToNext();
@@ -183,8 +183,8 @@ public class PresetImpl implements IPreset {
 
 	Cursor cursor = db
 		.rawQuery(
-			"SELECT pl.ResourceGroup_Identifier, pl.Identifier, pl.Name_Cache, pl.Description_Cache, pp.Value FROM PrivacyLevel as pl, Preset_PrivacyLevels AS pp"
-				+ "WHERE pp.Name = ? AND pp.Type = ? AND pp.Identifier = ? AND pp.ResourceGroup_Identifier = pl.ResourceGroupIdentifier AND "
+			"SELECT pl.ResourceGroup_Identifier, pl.Identifier, pl.Name_Cache, pl.Description_Cache, pp.Value FROM PrivacyLevel as pl, Preset_PrivacyLevels AS pp "
+				+ "WHERE pp.Preset_Name = ? AND pp.Preset_Type = ? AND pp.Preset_Identifier = ? AND pp.ResourceGroup_Identifier = pl.ResourceGroup_Identifier AND "
 				+ "pp.PrivacyLevel_Identifier = pl.Identifier",
 			new String[] { name, type.toString(), identifier });
 
@@ -221,6 +221,7 @@ public class PresetImpl implements IPreset {
     @Override
     public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
 	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+	ModelConditions.assertNotNull("privacyLevel.getValue()", privacyLevel.getValue());
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
@@ -265,6 +266,7 @@ public class PresetImpl implements IPreset {
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
 	ModelConditions.assertNotNull("privacyLevel", privacyLevel);
+	ModelConditions.assertNotNull("resourceGroup of privacylevel", privacyLevel.getResourceGroup());
 
 	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
 		.getWritableDatabase();
