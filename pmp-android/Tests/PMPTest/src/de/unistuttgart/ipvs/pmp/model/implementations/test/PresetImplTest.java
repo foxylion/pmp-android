@@ -51,12 +51,12 @@ public class PresetImplTest extends AndroidTestCase {
 
 	private IPreset preset;
 	private IApp app, app2;
-	private IPrivacyLevel pl, pl2;
+	private IPrivacyLevel plValue, plValue2;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		/*
-		 * some serious magic about to happen here happy understanding!
+		 * some serious magic about to happen here, happy understanding!
 		 */
 		DatabaseOpenHelper doh = DatabaseSingleton.getInstance()
 				.getDatabaseHelper();
@@ -73,7 +73,7 @@ public class PresetImplTest extends AndroidTestCase {
 		sqld.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);",
 				new String[] { TEST_RG_IDENT, TEST_RG_NAME, TEST_RG_DESC });
 
-		// pl
+		// plValue
 		sqld.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);",
 				new String[] { TEST_RG_IDENT, TEST_PL_IDENT, TEST_PL_NAME,
 						TEST_PL_DESC });
@@ -112,11 +112,9 @@ public class PresetImplTest extends AndroidTestCase {
 						TEST_PRESET_TYPE, TEST_PRESET_IDENT);
 		app = ModelSingleton.getInstance().getModel().getApp(TEST_APP_IDENT);
 		app2 = ModelSingleton.getInstance().getModel().getApp(TEST_APP2_IDENT);
-		pl = ModelSingleton.getInstance().getModel()
-				.getResourceGroup(TEST_RG_IDENT).getPrivacyLevel(TEST_PL_IDENT);
-		pl2 = ModelSingleton.getInstance().getModel()
-				.getResourceGroup(TEST_RG_IDENT)
-				.getPrivacyLevel(TEST_PL2_IDENT);
+		plValue2 = app.getServiceLevel(1).getPrivacyLevels()[0];
+		plValue = app2.getServiceLevel(1).getPrivacyLevels()[0];
+		
 	}
 
 	protected void tearDown() throws Exception {
@@ -172,30 +170,30 @@ public class PresetImplTest extends AndroidTestCase {
 	}
 
 	public void testAddPrivacyLevel() {
-		preset.setPrivacyLevel(pl, true);
+		preset.setPrivacyLevel(plValue, true);
 		assertEquals(1, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(isIdenticalPL(pl, ipl));
+			assertTrue(isIdenticalPL(plValue, ipl));
 		}
 
-		preset.setPrivacyLevel(pl2, true);
+		preset.setPrivacyLevel(plValue2, true);
 		assertEquals(2, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(isIdenticalPL(pl, ipl) || isIdenticalPL(pl2, ipl));
+			assertTrue(isIdenticalPL(plValue, ipl) || isIdenticalPL(plValue2, ipl));
 		}
 	}
 
 	public void testRemovePrivacyLevel() {
-		preset.setPrivacyLevel(pl, true);
-		preset.setPrivacyLevel(pl2, true);
+		preset.setPrivacyLevel(plValue, true);
+		preset.setPrivacyLevel(plValue2, true);
 
-		preset.removePrivacyLevel(pl, true);
+		preset.removePrivacyLevel(plValue, true);
 		assertEquals(1, preset.getUsedPrivacyLevels().length);
 		for (IPrivacyLevel ipl : preset.getUsedPrivacyLevels()) {
-			assertTrue(isIdenticalPL(pl2, ipl));
+			assertTrue(isIdenticalPL(plValue2, ipl));
 		}
 
-		preset.removePrivacyLevel(pl2, true);
+		preset.removePrivacyLevel(plValue2, true);
 		assertEquals(0, preset.getUsedPrivacyLevels().length);
 	}
 
