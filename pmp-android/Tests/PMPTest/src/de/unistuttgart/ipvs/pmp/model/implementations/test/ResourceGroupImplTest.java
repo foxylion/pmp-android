@@ -29,6 +29,7 @@ public class ResourceGroupImplTest extends AndroidTestCase {
     
     IResourceGroup res = null;
     
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -71,7 +72,7 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         assertNull(res);
         res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(res);
-        assertEquals(TEST_RG1_DESC,res.getDescription());
+        assertEquals(TEST_RG1_DESC, res.getDescription());
     }
     
     
@@ -79,7 +80,7 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         assertNull(res);
         res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(res);
-        assertEquals(TEST_RG1_IDENT,res.getIdentifier());
+        assertEquals(TEST_RG1_IDENT, res.getIdentifier());
     }
     
     
@@ -87,7 +88,7 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         assertNull(res);
         res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(res);
-        assertEquals(TEST_RG1_NAME,res.getName());
+        assertEquals(TEST_RG1_NAME, res.getName());
     }
     
     
