@@ -17,12 +17,12 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
  * @author Alexander Wassiljew
  * 
  */
-public class ModelImplTest extends AndroidTestCase {
+public class ModelImplTestQuery extends AndroidTestCase {
 
 	IApp apps[];
 	IResourceGroup ress[];
 	
-	public ModelImplTest(String name) {
+	public ModelImplTestQuery(String name) {
 		
 	}
 
