@@ -28,7 +28,7 @@ public class FileDetails implements Parcelable {
 
 	public static final Parcelable.Creator<FileDetails> CREATOR = new Parcelable.Creator<FileDetails>() {
 		public FileDetails createFromParcel(Parcel source) {
-			return createFromParcel(source);
+			return FileDetails.createFromParcel(source);
 		}
 
 		public FileDetails[] newArray(int size) {
