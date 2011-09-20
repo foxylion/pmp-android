@@ -37,8 +37,6 @@
 			<locationURI>_android_PMP_API_fd47720/src</locationURI>
 		</link>
 	</linkedResources>
-<<<<<<< HEAD
-=======
 	<filteredResources>
 		<filter>
 			<id>1316014709953</id>
@@ -50,5 +48,4 @@
 			</matcher>
 		</filter>
 	</filteredResources>
->>>>>>> 2f2b18c156aba325ff239f6dfbb8027eeb923e0f
 </projectDescription>
