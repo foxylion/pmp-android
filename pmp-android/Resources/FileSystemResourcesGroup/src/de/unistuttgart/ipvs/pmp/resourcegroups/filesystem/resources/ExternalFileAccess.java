@@ -32,7 +32,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
 
 	private final Directories directory;
 
-	private final String SWITCHING_EXCEPTION = "Switching in upper directories is not allowed";
+	private static final String SWITCHING_EXCEPTION = "Switching in upper directories is not allowed";
 
 	/**
 	 * Creates a new instance

@@ -1,5 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test;
 
+<<<<<<< HEAD
+=======
+import android.test.AndroidTestCase;
+>>>>>>> 4a1edf75091190bc00e8ea999f6b5a6a00e6031d
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
@@ -9,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
 public class ModelImplTest extends AndroidTestCase {
+<<<<<<< HEAD
 	private static final String TEST_APP1_IDENT = "TEST_APP1";
 	private static final String TEST_APP1_NAME = "TEST_APP1_NAME";
 	private static final String TEST_APP1_DESCR = "TEST_APP1_DESCR";
@@ -35,6 +40,15 @@ public class ModelImplTest extends AndroidTestCase {
 	private IResourceGroup res = null;
 	
 	@Override
+=======
+
+	IApp apps[];
+	IResourceGroup ress[];
+
+	/**
+	 * Set up the testing environment
+	 */
+>>>>>>> 4a1edf75091190bc00e8ea999f6b5a6a00e6031d
 	protected void setUp() throws Exception {
 		super.setUp();
 		/*
