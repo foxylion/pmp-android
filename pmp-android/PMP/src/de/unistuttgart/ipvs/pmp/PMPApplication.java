@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
-import de.unistuttgart.ipvs.pmp.service.PMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
@@ -12,35 +11,37 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  */
 public class PMPApplication extends Application {
-
+    
     /**
      * Singleton instance of the Class.
      */
     private static PMPApplication instance;
-
+    
+    
     /**
-     * Called when the Application is started (Activity-Call or
-     * Service-StartUp).
+     * Called when the Application is started (Activity-Call or Service-StartUp).
      */
     @Override
     public void onCreate() {
-	super.onCreate();
-
-	PMPApplication.instance = this;
+        super.onCreate();
+        
+        PMPApplication.instance = this;
+        
+        Log.setTagSufix(Constants.PMP_LOG_SUFIX);
     }
-
+    
+    
     /**
      * @return Returns an actual {@link Context} of the Application.
      */
     public static Context getContext() {
-	return instance.getApplicationContext();
+        return instance.getApplicationContext();
     }
-
+    
+    
     public static PMPSignee getSignee() {
-	PMPSignee signee = new PMPSignee(PMPComponentType.PMP,
-		PMPService.class, getContext());
-	signee.setIdentifier(Constants.PMP_IDENTIFIER);
-
-	return signee;
+        PMPSignee signee = new PMPSignee(PMPComponentType.PMP, Constants.PMP_IDENTIFIER, getContext());
+        
+        return signee;
     }
 }

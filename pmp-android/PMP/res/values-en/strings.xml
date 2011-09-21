@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps">Applications</string>
+    <string name="ress">Resources</string>
+    <string name="description">Description</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="servive_level_for">Service Levels for </string>
+    <string name="apply_service_level">Apply Service Level?</string>
+    <string name="set_service_level">Setting Service Level.</string>
+    <string name="please_wait">Please wait!</string>
+</resources>

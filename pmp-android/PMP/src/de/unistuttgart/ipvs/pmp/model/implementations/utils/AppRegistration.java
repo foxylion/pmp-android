@@ -4,34 +4,34 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.app.appUtil.xmlParser.ServiceLevel;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.RequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.ServiceLevel;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelConditions;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
-import de.unistuttgart.ipvs.pmp.service.app.IAppService;
+import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 public class AppRegistration {
-
+    
     private String identifier;
-
+    
     private byte[] publicKey;
-
+    
     private AppInformationSet ais = null;
-
-    private final AppServiceConnector asp = new AppServiceConnector(
-	    PMPApplication.getContext(), PMPApplication.getSignee(), identifier);
-
+    
+    private final AppServiceConnector asp;
+    
+    
     /**
      * Executes an asynchronous App registration.
      * 
@@ -41,134 +41,148 @@ public class AppRegistration {
      *            Public key of the App
      */
     public AppRegistration(String identifier, byte[] publicKey) {
-	this.identifier = identifier;
-	this.publicKey = publicKey;
-
-	connect();
+        ModelConditions.assertStringNotNullOrEmpty("identifier", identifier);
+        ModelConditions.assertPublicKeyNotNullOrEmpty(publicKey);
+        
+        this.identifier = identifier;
+        this.publicKey = publicKey.clone();
+        this.asp = new AppServiceConnector(PMPApplication.getContext(), PMPApplication.getSignee(), identifier);
+        
+        Log.v("Registration (" + identifier + "): Trying to connect to the AppService");
+        
+        connect();
     }
-
+    
+    
     /**
      * Connect to the Service.
      */
     private void connect() {
-	asp.addCallbackHandler(new IConnectorCallback() {
-
-	    @Override
-	    public void disconnected() {
-		/* ignore */
-	    }
-
-	    @Override
-	    public void connected() {
-		asp.removeCallbackHandler(this);
-
-		new Thread(new Runnable() {
-
-		    @Override
-		    public void run() {
-			if (asp.getAppService() == null) {
-			    Log.e("Registration failed: Binding to the AppService failed, only got a NULL IBinder.");
-			} else {
-			    loadAppInformationSet(asp.getAppService());
-			}
-		    }
-		}).start();
-	    }
-
-	    @Override
-	    public void bindingFailed() {
-		Log.e("Registration failed: onnection to the AppService failed. More details can be found in the log.");
-	    }
-	});
-	asp.bind();
+        if (!this.asp.bind(true)) {
+            Log.e("Registration (" + this.identifier
+                    + "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+        } else {
+            Log.d("Registration (" + this.identifier + "): Successfully bound.");
+            
+            if (this.asp.getAppService() == null) {
+                Log.e("Registration (" + this.identifier
+                        + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+            } else {
+                Log.d("Registration (" + this.identifier + "): Successfully connected, got IAppServicePMP.");
+                loadAppInformationSet(this.asp.getAppService());
+            }
+        }
     }
-
+    
+    
     /**
      * Load the {@link AppInformationSet} from the Service.
      * 
      * @param appService
      *            service which provides the {@link AppInformationSet}
      */
-    private void loadAppInformationSet(IAppService appService) {
-	try {
-	    appService.getAppInformationSet();
-	} catch (RemoteException e) {
-	    Log.e("Registration failed: getAppInformationSet() produced an RemoteException.",
-		    e);
-	}
-
-	if (ais == null) {
-	    Log.e("Registration failed: AppInformationSet is NULL.");
-	    informAppAboutRegistration(false, "AppInformationSet is NULL.");
-	} else {
-	    checkAppInformationSet();
-	}
+    private void loadAppInformationSet(IAppServicePMP appService) {
+        Log.v("Registration (" + this.identifier + "): loading AppInformationSet...");
+        
+        try {
+            this.ais = appService.getAppInformationSet().getAppInformationSet();
+            
+            checkAppInformationSet();
+        } catch (RemoteException e) {
+            Log.e("Registration (" + this.identifier
+                    + "): FAILED - getAppInformationSet() produced an RemoteException.", e);
+            informAboutRegistration(false, "getAppInformationSet() produced an RemoteException.");
+        }
+        
     }
-
+    
+    
     /**
-     * Check if the {@link AppInformationSet} is correct and the application is
-     * not already registered.
+     * Check if the {@link AppInformationSet} is correct and the application is not already registered.
      */
     private void checkAppInformationSet() {
-	/* Check if the app is already in the PMP-Database. */
-	for (IApp app : ModelSingleton.getInstance().getModel().getApps()) {
-	    if (app.getIdentifier().equals(identifier)) {
-		informAppAboutRegistration(false, "Already registered");
-		return;
-	    }
-	}
-
-	registerAppInDatabase();
+        if (this.ais == null) {
+            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet is NULL.");
+            informAboutRegistration(false, "AppInformationSet is NULL.");
+            return;
+        }
+        if (this.ais.getNames() == null || this.ais.getDescriptions() == null || this.ais.getServiceLevels() == null) {
+            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet has methods with NULL-Return.");
+            informAboutRegistration(false, "AppInformationSet has methods with NULL-Return.");
+            return;
+        }
+        
+        /* Check if the app is already in the PMP-Database. */
+        if (ModelSingleton.getInstance().getModel().getApp(this.identifier) != null) {
+            Log.e("Registration (" + this.identifier
+                    + "): FAILED - There is already an App registred with that identifier.");
+            informAboutRegistration(
+                    false,
+                    "There is already an App registred with that identifier, maybe lost your key and want to reregister? that will not work, yet.");
+            return;
+        }
+        
+        registerAppInDatabase();
     }
-
+    
+    
     /**
      * Write the {@link AppInformationSet} to the Database.
      */
     private void registerAppInDatabase() {
-	SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper()
-		.getWritableDatabase();
-
-	db.rawQuery(
-		"INSERT INTO App (Identifier, Name_Cache, Description_Cache, ServiceLevel_Active) VALUES (?, ?, ?, 0)",
-		new String[] { identifier, getLocalized(ais.getNames()),
-			getLocalized(ais.getDescriptions()) });
-
-	for (Entry<Integer, ServiceLevel> sl : ais.getServiceLevels()
-		.entrySet()) {
-	    db.rawQuery(
-		    "INSERT INTO ServiceLevel (App_Identifier, Level, Name_Cache, Description_Cache) VALUES (?, "
-			    + sl.getKey() + ", ?, ?)", new String[] {
-			    identifier, getLocalized(sl.getValue().getNames()),
-			    getLocalized(sl.getValue().getDescriptions()) });
-
-	    for (RequiredResourceGroup rrg : sl.getValue()
-		    .getRequiredResourceGroups()) {
-
-		for (Entry<String, String> pl : rrg.getPrivacyLevelMap()
-			.entrySet()) {
-		    db.rawQuery(
-			    "INSERT INTO ServiceLevel_PrivacyLevels (App_Identifier, Level, ResourceGroup_Identifier, PrivacyLevel_Identifier, Value) VALUES (?, "
-				    + sl.getKey() + ", ?, ?, ?)",
-			    new String[] { identifier, rrg.getRgIdentifier(),
-				    pl.getKey(), pl.getValue() });
-		}
-	    }
-	}
-
-	publishPublicKey();
+        Log.v("Registration (" + this.identifier + "): Adding the App to the PMP-Database");
+        
+        SQLiteDatabase db = DatabaseSingleton.getInstance().getDatabaseHelper().getWritableDatabase();
+        
+        ContentValues cv = new ContentValues();
+        cv.put("Identifier", this.identifier);
+        cv.put("Name_Cache", getLocalized(this.ais.getNames()));
+        cv.put("Description_Cache", getLocalized(this.ais.getDescriptions()));
+        
+        db.insert("App", null, cv);
+        
+        for (Entry<Integer, ServiceLevel> sl : this.ais.getServiceLevels().entrySet()) {
+            
+            cv = new ContentValues();
+            cv.put("App_Identifier", this.identifier);
+            cv.put("Level", sl.getKey());
+            cv.put("Name_Cache", getLocalized(sl.getValue().getNames()));
+            cv.put("Description_Cache", getLocalized(sl.getValue().getDescriptions()));
+            
+            db.insert("ServiceLevel", null, cv);
+            
+            for (RequiredResourceGroup rrg : sl.getValue().getRequiredResourceGroups()) {
+                
+                for (Entry<String, String> pl : rrg.getPrivacyLevelMap().entrySet()) {
+                    
+                    cv = new ContentValues();
+                    cv.put("App_Identifier", this.identifier);
+                    cv.put("ServiceLevel_Level", sl.getKey());
+                    cv.put("ResourceGroup_Identifier", rrg.getRgIdentifier());
+                    cv.put("PrivacyLevel_Identifier", pl.getKey());
+                    cv.put("Value", pl.getValue());
+                    
+                    db.insert("ServiceLevel_PrivacyLevels", null, cv);
+                }
+            }
+        }
+        
+        publishPublicKey();
     }
-
+    
+    
     /**
-     * Publish the public key of the to the {@link PMPSignee} of
-     * {@link PMPApplication}.
+     * Publish the public key of the to the {@link PMPSignee} of {@link PMPApplication}.
      */
     private void publishPublicKey() {
-	PMPApplication.getSignee().setRemotePublicKey(PMPComponentType.APP,
-		identifier, publicKey);
-
-	informAppAboutRegistration(true, null);
+        Log.v("Loading Apps public key into PMPSignee");
+        
+        PMPApplication.getSignee().setRemotePublicKey(PMPComponentType.APP, this.identifier, this.publicKey);
+        
+        informAboutRegistration(true, null);
     }
-
+    
+    
     /**
      * Inform the AppService about the registration state.
      * 
@@ -177,45 +191,47 @@ public class AppRegistration {
      * @param message
      *            a message with optional information provided.
      */
-    private void informAppAboutRegistration(final boolean state,
-	    final String message) {
-	if (!asp.isBound()) {
-	    asp.addCallbackHandler(new IConnectorCallback() {
-
-		@Override
-		public void disconnected() {
-		}
-
-		@Override
-		public void connected() {
-		    asp.removeCallbackHandler(this);
-		    informAppAboutRegistration(state, message);
-		}
-
-		@Override
-		public void bindingFailed() {
-		    Log.e("Registration Failed: Could not reconnect to AppService for setting the registration state");
-		}
-	    });
-	    asp.bind();
-	} else {
-	    try {
-		IAppService appService = asp.getAppService();
-		appService.setRegistrationSuccessful(new RegistrationState(
-			state, message));
-	    } catch (RemoteException e) {
-		Log.e("Registration Failed: setRegistrationSuccessful() produced an RemoteException.", e);
-	    }
-	}
+    private void informAboutRegistration(final boolean state, final String message) {
+        Log.d("Registration (" + this.identifier + "): Informing App about registrationState (" + state + ")");
+        
+        if (!this.asp.isBound()) {
+            if (!this.asp.bind(true)) {
+                Log.e("Registration (" + this.identifier
+                        + "): FAILED - Connection to the AppService failed. More details can be found in the log.");
+            } else {
+                Log.d("Registration (" + this.identifier + "): Successfully bound.");
+                
+                if (this.asp.getAppService() == null) {
+                    Log.e("Registration (" + this.identifier
+                            + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+                } else {
+                    Log.d("Registration (" + this.identifier + "): Successfully connected got IAppServicePMP");
+                    informAboutRegistration(state, message);
+                }
+            }
+        } else {
+            try {
+                Log.v("Registration (" + this.identifier + "): Calling setRegistrationState");
+                IAppServicePMP appService = this.asp.getAppService();
+                appService.setRegistrationState(new RegistrationState(state, message));
+                this.asp.unbind();
+                
+                Log.d("Registration (" + this.identifier + "): Registration " + (state ? "succeed" : "FAILED"));
+            } catch (RemoteException e) {
+                Log.e("Registration (" + this.identifier + "): " + (state ? "succeed" : "FAILED")
+                        + ", but setRegistrationState() produced an RemoteException.", e);
+            }
+        }
     }
-
+    
+    
     private String getLocalized(Map<Locale, String> map) {
-	if (map.containsKey(Locale.getDefault())) {
-	    // TODO check if that really works when the default is de_DE.utf-8
-	    // or something like that...
-	    return map.get(Locale.getDefault());
-	} else {
-	    return map.get(new Locale("en"));
-	}
+        if (map.containsKey(Locale.getDefault())) {
+            // TODO check if that really works when the default is de_DE.utf-8
+            // or something like that...
+            return map.get(Locale.getDefault());
+        } else {
+            return map.get(new Locale("en"));
+        }
     }
 }

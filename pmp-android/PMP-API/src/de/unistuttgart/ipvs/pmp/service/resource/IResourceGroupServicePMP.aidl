@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.resource;
 
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+import de.unistuttgart.ipvs.pmp.service.SerializableContainer;
 
 /**
  * The Service of a ResourceGroup provided for PMP.
@@ -44,9 +45,8 @@ interface IResourceGroupServicePMP {
 
 	/**
 	 * Accepts the access configuration for the resource group.
-	 * Exact declaration: List&lt;ResourceGroupAccess&gt;
 	 */
-	void setAccesses(in List accesses);
+	void setAccesses(in SerializableContainer accesses);
 	
 	/**
 	 * Checks if an privacy level value satisfies the currently set value or not.
@@ -56,7 +56,7 @@ interface IResourceGroupServicePMP {
 	 *
 	 * @return Returns true if value is equal or better than reference, otherwise false
 	 */
-	boolean satisfiesPrivacyLevel(String privacyLevel, String reference, String value);
+	boolean permitsPrivacyLevel(String privacyLevel, String reference, String value);
 	
 	/**
 	 * Opens the Activity for changing the PrivacyLevels
@@ -71,5 +71,5 @@ interface IResourceGroupServicePMP {
 	 *
 	 * @param state State of the registration
 	 */
-	void setRegistrationSuccessful(in RegistrationState state);
+	void setRegistrationState(in RegistrationState state);
 }

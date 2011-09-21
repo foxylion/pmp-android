@@ -8,11 +8,12 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 
 /**
  * StartActivity is the main activity of PMP.
@@ -21,13 +22,7 @@ import android.widget.TextView;
  * 
  */
 public class StartActivity extends Activity {
-    /**
-     * LayoutParams for the layouts
-     */
-    LayoutParams fpfp;
-    LayoutParams fpwc;
-    LayoutParams wcfp;
-    LayoutParams wcwc;
+    
     /**
      * Buttons Layout
      */
@@ -36,7 +31,7 @@ public class StartActivity extends Activity {
      * Main Layout of the Activity, which will be draw to the Canvas
      */
     LinearLayout parentLayout;
-
+    
     /**
      * ScrollLayout for the horizontal mode
      */
@@ -47,77 +42,66 @@ public class StartActivity extends Activity {
     TextView PMPLabel;
     Button apps;
     Button ressources;
-
+    
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	createLayoutParams();
-	createParentLayout();
-	createChildren();
-
-	parentLayout.addView(PMPLabel);
-	parentLayout.addView(layout);
-
-	scroll.addView(parentLayout);
-
-	setContentView(scroll);
+        super.onCreate(savedInstanceState);
+        
+        createParentLayout();
+        createChildren();
+        
+        this.parentLayout.addView(this.PMPLabel);
+        this.parentLayout.addView(this.layout);
+        
+        this.scroll.addView(this.parentLayout);
+        
+        setContentView(this.scroll);
     }
-
+    
+    
     /**
      * Creating the Children and its Listeners
      */
     private void createChildren() {
-	PMPLabel = new TextView(this);
-	PMPLabel.setText("PMP");
-	PMPLabel.setTextColor(Color.rgb(46, 139, 87));
-	PMPLabel.setTextSize(150);
-	PMPLabel.setGravity(Gravity.CENTER);
-
-	layout = new LinearLayout(this);
-	layout.setBackgroundColor(Color.rgb(211, 211, 211));
-	layout.setOrientation(LinearLayout.VERTICAL);
-	layout.setVerticalGravity(Gravity.CENTER);
-
-	apps = new Button(this);
-	apps.setText("Applications");
-	apps.setOnTouchListener(new ApplicationsListener());
-
-	ressources = new Button(this);
-	ressources.setText("Ressources");
-	ressources.setOnTouchListener(new RessourcesListener());
-
-	layout.addView(apps);
-	layout.addView(ressources);
-
+        this.PMPLabel = new TextView(this);
+        this.PMPLabel.setText("PMP");
+        this.PMPLabel.setTextColor(Color.rgb(46, 139, 87));
+        this.PMPLabel.setTextSize(150);
+        this.PMPLabel.setGravity(Gravity.CENTER);
+        
+        this.layout = new LinearLayout(this);
+        this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
+        this.layout.setOrientation(LinearLayout.VERTICAL);
+        this.layout.setVerticalGravity(Gravity.CENTER);
+        
+        this.apps = new Button(this);
+        this.apps.setText(R.string.apps);
+        this.apps.setOnTouchListener(new ApplicationsListener());
+        
+        this.ressources = new Button(this);
+        this.ressources.setText(R.string.ress);
+        this.ressources.setOnTouchListener(new RessourcesListener());
+        
+        this.layout.addView(this.apps);
+        this.layout.addView(this.ressources);
+        
     }
-
+    
+    
     /**
      * Creates the Parent Layout and setting the properties.
      */
     private void createParentLayout() {
-	parentLayout = new LinearLayout(this);
-	parentLayout.setLayoutParams(fpfp);
-	parentLayout.setOrientation(LinearLayout.VERTICAL);
-	parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
-
-	scroll = new ScrollView(this);
-	scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-	scroll.setLayoutParams(fpfp);
-    }
-
-    /**
-     * Creating the LayoutParams for the Layout
-     */
-    private void createLayoutParams() {
-	fpfp = new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.FILL_PARENT);
-	fpwc = new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.WRAP_CONTENT);
-	wcfp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.FILL_PARENT);
-	wcwc = new LayoutParams(LayoutParams.WRAP_CONTENT,
-		LayoutParams.WRAP_CONTENT);
+        this.parentLayout = new LinearLayout(this);
+        this.parentLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+        this.parentLayout.setOrientation(LinearLayout.VERTICAL);
+        this.parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
+        
+        this.scroll = new ScrollView(this);
+        this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+        this.scroll.setLayoutParams(LayoutParamsCreator.createFPFP());
     }
 }
 
@@ -128,17 +112,18 @@ public class StartActivity extends Activity {
  * 
  */
 class ApplicationsListener implements OnTouchListener {
+    
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	if (event.ACTION_UP == event.getAction()) {
-
-	    Intent intent = new Intent(v.getContext(),
-		    ApplicationsActivity.class);
-	    if (v.getContext() != null)
-		v.getContext().startActivity(intent);
-	    return false;
-	}
-	return false;
+        if (MotionEvent.ACTION_UP == event.getAction()) {
+            
+            Intent intent = new Intent(v.getContext(), ApplicationsActivity.class);
+            if (v.getContext() != null) {
+                v.getContext().startActivity(intent);
+            }
+            return false;
+        }
+        return false;
     }
 }
 
@@ -149,14 +134,16 @@ class ApplicationsListener implements OnTouchListener {
  * 
  */
 class RessourcesListener implements OnTouchListener {
+    
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	if (event.ACTION_UP == event.getAction()) {
-	    Intent intent = new Intent(v.getContext(), RessourcesActivity.class);
-	    if (v.getContext() != null)
-		v.getContext().startActivity(intent);
-	    return false;
-	}
-	return false;
+        if (MotionEvent.ACTION_UP == event.getAction()) {
+            Intent intent = new Intent(v.getContext(), RessourcesActivity.class);
+            if (v.getContext() != null) {
+                v.getContext().startActivity(intent);
+            }
+            return false;
+        }
+        return false;
     }
 }

@@ -30,10 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<variableList>
-		<variable>
-			<name>PMP_API</name>
-			<value>$%7BPARENT-1-PROJECT_LOC%7D/PMP-API/src</value>
-		</variable>
-	</variableList>
+	<linkedResources>
+		<link>
+			<name>PMP-API_src</name>
+			<type>2</type>
+			<locationURI>_android_PMP_API_fd47720/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

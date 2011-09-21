@@ -6,49 +6,56 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.SimplePrivacyLevel;
-import de.unistuttgart.ipvs.pmp.resourcegroups.R;
-import de.unistuttgart.ipvs.pmp.service.PMPSignedService;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
 
 /**
  * @author Dang Huynh
  * 
  */
 public class DatabaseResourceGroup extends ResourceGroup {
-
-    public static final String DATABASE_RESOURCE_IDENTIFIER = 
-	    "de.unistuttgart.ipvs.pmp.resourcegroups.database.DatabaseResource";
-    public static final String PRIVACY_LEVEL_READ = "read";
-    public static final String PRIVACY_LEVEL_WRITE = "write";
-    public static final String PRIVACY_LEVEL_DELETE = "delete";
-    // public static final String PRIVACY_LEVEL_CREATE = "create";
-
-    private DatabaseResource dbr;
-    private Class<? extends PMPSignedService> service;
+    
+    public static final String DATABASE_RESOURCE_IDENTIFIER = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
+    
     private Context context;
-
+    
+    public static final String PRIVACY_LEVEL_READ = "read";
+    public static final String PRIVACY_LEVEL_MODIFY = "modify";
+    public static final String PRIVACY_LEVEL_CREATE = "create";
+    
+    private DatabaseResource dbr;
+    
     // PL
-    private SimplePrivacyLevel read, write, delete;
-
-    public DatabaseResourceGroup(Context serviceContext,
-	    Class<? extends PMPSignedService> service) {
-	super(serviceContext, service);
-	context = serviceContext;
-	this.service = service;
-	Log.d(context.getResources().getString(R.string.resource_group_name));
-
-	// Register the privacy levels
-	// TODO: Create the privacy levels
-	registerPrivacyLevel(PRIVACY_LEVEL_READ, read);
-	registerPrivacyLevel(PRIVACY_LEVEL_WRITE, write);
-	registerPrivacyLevel(PRIVACY_LEVEL_DELETE, delete);
-
-	// Register the resource
-	// TODO: Where should the resource be created? Only when an authorized
-	// application request, right?
-	registerResource(DATABASE_RESOURCE_IDENTIFIER, dbr);
+    private BooleanPrivacyLevel read, modify, create;
+    
+    
+    public DatabaseResourceGroup(Context context) {
+        super(context);
+        this.context = context;
+        
+        // TODO Remove Log
+        Log.d(context.getResources().getString(R.string.resource_group_name) + getDescription("en"));
+        
+        // Prepare the privacy levels and resource
+        this.read = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_read_name), context
+                .getResources().getString(R.string.privacy_level_read_description));
+        this.modify = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_modify_name),
+                context.getResources().getString(R.string.privacy_level_modify_description));
+        this.create = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_create_name),
+                context.getResources().getString(R.string.privacy_level_create_description));
+        this.dbr = new DatabaseResource(context);
+        
+        // Register the privacy levels
+        registerPrivacyLevel(PRIVACY_LEVEL_READ, this.read);
+        registerPrivacyLevel(PRIVACY_LEVEL_MODIFY, this.modify);
+        registerPrivacyLevel(PRIVACY_LEVEL_CREATE, this.create);
+        
+        // Register the resource
+        // TODO: Where should the resource be created? Only when an authorized
+        // application request, right?
+        registerResource(DATABASE_RESOURCE_IDENTIFIER, this.dbr);
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -57,10 +64,11 @@ public class DatabaseResourceGroup extends ResourceGroup {
      */
     @Override
     public String getName(String locale) {
-	// TODO: Locale or not locale?
-	return context.getResources().getString(R.string.resource_group_name);
+        // TODO: Locale or not locale?
+        return this.context.getResources().getString(R.string.resource_group_name);
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -70,10 +78,11 @@ public class DatabaseResourceGroup extends ResourceGroup {
      */
     @Override
     public String getDescription(String locale) {
-	// TODO: Locale or not locale?
-	return context.getResources().getString(R.string.resource_group_name);
+        // TODO: Locale or not locale?
+        return this.context.getResources().getString(R.string.resource_group_description);
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -82,10 +91,10 @@ public class DatabaseResourceGroup extends ResourceGroup {
      */
     @Override
     protected String getServiceAndroidName() {
-	// TODO Is this right?
-	return service.toString();
+        return DATABASE_RESOURCE_IDENTIFIER;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -94,10 +103,10 @@ public class DatabaseResourceGroup extends ResourceGroup {
      */
     @Override
     public void onRegistrationSuccess() {
-	// TODO Auto-generated method stub
-
+        Log.d("Registration with the PMP Service successed");
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -107,8 +116,7 @@ public class DatabaseResourceGroup extends ResourceGroup {
      */
     @Override
     public void onRegistrationFailed(String message) {
-	// TODO Auto-generated method stub
-
+        // TODO Retry?
+        Log.e("Registration with the PMP Service failed: " + message + "");
     }
-
 }

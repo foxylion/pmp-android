@@ -10,25 +10,24 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
  * 
  * @author Jakob Jarosch
  */
-public class PMPServiceResourceGroupStubImpl extends
-	IPMPServiceResourceGroup.Stub {
-
-    private String identifier = null;
-
+public class PMPServiceResourceGroupStubImpl extends IPMPServiceResourceGroup.Stub {
+    
+    //private String identifier = null;
+    
     public PMPServiceResourceGroupStubImpl(String identifier) {
-	this.identifier = identifier;
+        //this.identifier = identifier;
     }
-
+    
+    
     @Override
-    public void savePrivacyLevel(String preset, String privacyLevel,
-	    String value) throws RemoteException {
-
-	/*
-	 * Note: The Identifier of the ResourceGroup can be found in the
-	 * identifier variable.
-	 */
-
-	// TODO IMPLEMENT
-	throw new UnsupportedOperationException();
+    public void savePrivacyLevel(String preset, String privacyLevel, String value) throws RemoteException {
+        
+        /*
+         * Note: The Identifier of the ResourceGroup can be found in the
+         * identifier variable.
+         */
+        
+        // TODO IMPLEMENT
+        throw new UnsupportedOperationException();
     }
 }

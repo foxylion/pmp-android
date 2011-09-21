@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS App (
 	Identifier TEXT NOT NULL,
 	Name_Cache TEXT,
 	Description_Cache TEXT,
-	ServiceLevel_Active INTEGER NOT NULL,
+	ServiceLevel_Active INTEGER NOT NULL DEFAULT (0),
 	PRIMARY KEY(Identifier)
 );
 

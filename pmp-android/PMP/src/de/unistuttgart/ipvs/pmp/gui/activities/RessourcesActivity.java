@@ -2,11 +2,11 @@ package de.unistuttgart.ipvs.pmp.gui.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -15,6 +15,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
+import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
@@ -25,99 +26,96 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
  * 
  */
 public class RessourcesActivity extends Activity {
+    
     TableLayout layout;
-
+    
     /**
-     * If there is too much Ressources, so you can scroll.
+     * Scrollable
      */
     private ScrollView scroll;
+    
     /**
-     * Is needed for the creation of the Activity
+     * Handles the filling of the TableRows
      */
     TableRow actRow;
-
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	actRow = new TableRow(this);
-	actRow.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.WRAP_CONTENT));
-	createLayout();
-	if (loadRes()) {
-	    scroll = new ScrollView(this);
-	    scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-	    layout.addView(actRow);
-	    scroll.addView(layout);
-	    setContentView(scroll);
-	} else {
-	    LinearLayout layoutEmpty = new LinearLayout(this);
-	    layoutEmpty.setBackgroundColor(Color.rgb(211,211,211));
-	    setContentView(layoutEmpty);
-	}
+        super.onCreate(savedInstanceState);
+        
+        this.setTitle(R.string.ress);
+        
+        /* Create the 1st TableRow and set up */
+        this.actRow = new TableRow(this);
+        this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
+        
+        /* Create the MainLayout for the ApplicationsActivity */
+        createLayout();
+        
+        /* Check if there are resources available */
+        if (loadRes()) {
+            this.scroll = new ScrollView(this);
+            this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+            this.layout.addView(this.actRow);
+            this.scroll.addView(this.layout);
+            setContentView(this.scroll);
+        } else {
+            LinearLayout layoutEmpty = new LinearLayout(this);
+            layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
+            setContentView(layoutEmpty);
+        }
     }
-
-    private void createLayout() {
-	layout = new TableLayout(this);
-	layout.setScrollBarStyle(0);
-	layout.setStretchAllColumns(true);
-	layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-		LayoutParams.FILL_PARENT));
-	layout.setBackgroundColor(Color.rgb(211, 211, 211));
-    }
-
+    
+    
     /**
-     * ************ FAKE METHOD********** Loading Apps to the View, 3 each row
-     * Can be replaced with loadRes()
+     * Creating the Layout and setting the properties.
      */
-    private void loadFakeRes() {
-	int AppsCount = 16;
-	for (int i = 0; i < AppsCount; i++) {
-	    if (i % 3 == 0) {
-		layout.addView(actRow);
-		actRow = new TableRow(this);
-		actRow.setLayoutParams(new LayoutParams(
-			LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-	    }
-	    ImagedButton act = new ImagedButton(this, "Beispiel Res: " + i, i,
-		    R.drawable.res);
-	    act.setClickable(true);
-	    actRow.addView(act);
-	}
-
+    private void createLayout() {
+        this.layout = new TableLayout(this);
+        this.layout.setScrollBarStyle(0);
+        this.layout.setStretchAllColumns(true);
+        this.layout.setLayoutParams(LayoutParamsCreator.createFPFP());
+        this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
     }
-
+    
+    
     /**
-     * Loaading the Ressources each row 3
+     * Loading the Ressources each row 3
      */
     private boolean loadRes() {
-	int resCount = ModelSingleton.getInstance().getModel()
-		.getResourceGroups().length;
-	IResourceGroup resArray[] = null;
-
-	if (resCount != 0) {
-	    resArray = ModelSingleton.getInstance().getModel()
-		    .getResourceGroups();
-	}
-	if (resArray != null) {
-
-	    for (int i = 0; i < resCount; i++) {
-		if (i % 3 == 0) {
-		    layout.addView(actRow);
-		    actRow = new TableRow(this);
-		    actRow
-			    .setLayoutParams(new LayoutParams(
-				    LayoutParams.FILL_PARENT,
-				    LayoutParams.WRAP_CONTENT));
-		}
-		ImagedButton act = new ImagedButton(this,
-			resArray[i].getName(), i, R.drawable.res);
-		act.setClickable(true);
-		act.setOnClickListener(new OnResClickListener(act));
-		actRow.addView(act);
-	    }
-	    return true;
-	}
-	return false;
+        
+        /* Used variables */
+        int resCount = 0;
+        IResourceGroup resArray[] = null;
+        
+        resCount = ModelSingleton.getInstance().getModel().getResourceGroups().length;
+        
+        /*Geting the resources in an array*/
+        if (resCount != 0) {
+            resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
+        }
+        
+        if (resArray != null) {
+            
+            /* Filling the Table with Apps each row 3 */
+            for (int i = 0; i < resCount; i++) {
+                if (i % 3 == 0) {
+                    this.layout.addView(this.actRow);
+                    this.actRow = new TableRow(this);
+                    this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
+                }
+                ImagedButton act = new ImagedButton(this, resArray[i].getName(), resArray[i].getIdentifier(),
+                        R.drawable.res);
+                act.setClickable(true);
+                
+                /* Set up the behaviour of the resource */
+                act.setOnClickListener(new OnResClickListener(act));
+                this.actRow.addView(act);
+            }
+            return true;
+        }
+        return false;
     }
 }
 
@@ -128,37 +126,58 @@ public class RessourcesActivity extends Activity {
  * 
  */
 class OnResClickListener implements OnClickListener {
+    
     private ImagedButton parent;
-    private IResourceGroup resArray[];
-
+    private IResourceGroup res;
+    
+    
     public OnResClickListener(ImagedButton button) {
-	this.parent = button;
-	resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
+        this.parent = button;
+        this.res = ModelSingleton.getInstance().getModel().getResourceGroup(this.parent.getIdentifier());
     }
-
+    
+    
+    /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
-	final Dialog dialog = new Dialog(parent.getContext());
-	dialog.setTitle(parent.getName());
-	TextView description = new TextView(parent.getContext());
-	Button close = new Button(parent.getContext());
-	close.setText("Close");
-	close.setOnClickListener(new OnClickListener() {
-	    @Override
-	    public void onClick(View v) {
-		dialog.cancel();
-	    }
-	});
-	description.setText("Description: \n\n"
-		+ resArray[parent.getIndex()].getDescription() + "\n");
-	description.setPadding(10, 0, 10, 0);
-	LinearLayout layout = new LinearLayout(parent.getContext());
-	layout.setOrientation(LinearLayout.VERTICAL);
-	layout.addView(description);
-	layout.addView(close);
-
-	dialog.setContentView(layout);
-	dialog.show();
+        Dialog dialog = createDialog(this.parent.getContext(), this.parent.getName(), this.res.getDescription() + "\n");
+        dialog.show();
     }
-
+    
+    
+    /**
+     * Create Dialog with params
+     * 
+     * @param context
+     * @param title
+     * @param description
+     * @return Dialog
+     */
+    private Dialog createDialog(Context context, String title, String description) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setTitle(title);
+        TextView descriptionView = new TextView(context);
+        
+        descriptionView.setText(context.getString(R.string.description) + "\n\n" + description);
+        descriptionView.setPadding(10, 0, 10, 0);
+        
+        Button close = new Button(context);
+        close.setText(R.string.cancel);
+        close.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        
+        LinearLayout layout = new LinearLayout(this.parent.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(descriptionView);
+        layout.addView(close);
+        
+        dialog.setContentView(layout);
+        
+        return dialog;
+    }
 }
