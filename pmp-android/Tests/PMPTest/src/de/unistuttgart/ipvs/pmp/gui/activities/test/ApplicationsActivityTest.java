@@ -8,29 +8,47 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activities.ApplicationsActivity;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 
 public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<ApplicationsActivity> {
     
-    private static final String TEST_APP1_IDENT = "TEST_APP1";
-    private static final String TEST_APP1_NAME = "TEST_APP1_NAME";
-    private static final String TEST_APP1_DESCR = "TEST_APP1_DESCR";
+    ApplicationsActivity mActivity;
     
-    private ApplicationsActivity activity;
+    String TEST_APP1_IDENT;
+    String TEST_APP1_NAME;
+    String TEST_APP1_DESCR;
+    String headerString;
+    
+    IApp[] apps;
+    
+    int appCount;
+    
     private ViewGroup vGroup;
     
     
     public ApplicationsActivityTest() {
-        super("de.unistuttgart.ipvs.pmp", ApplicationsActivity.class);
+        super("de.unistuttgart.ipvs.pmp.gui.activities", ApplicationsActivity.class);
     }
     
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        
+        mActivity = this.getActivity();
+        apps = ModelSingleton.getInstance().getModel().getApps();
+        appCount = apps.length;
+        headerString = mActivity.getString(R.string.apps);
+        
+        TEST_APP1_IDENT = "TEST_APP1";
+        TEST_APP1_NAME = "TEST APP 1";
+        TEST_APP1_DESCR = "TEST_APP1_DESCR";
         
         /*
          * Clean the DB
@@ -42,14 +60,31 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         // Fill with the App
         DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { TEST_APP1_IDENT, TEST_APP1_NAME,
                 TEST_APP1_DESCR });
-        
-        activity = this.getActivity();
     }
+    
+    
+    public void testingPreconditions() {
+        assertNotNull(mActivity);
+        assertNotNull(apps);
+        assertNotNull(headerString);
+        assertNotNull(vGroup);
+    }
+    
+    
+    public void testEnglishHeader() {
+        assertEquals("Applications", headerString);
+    }
+    
+    
+    //    public void testGermanHeader() {
+    //        assertEquals("Applikationen", headerString);
+    //    }
+    //    
     
     
     public void testLoadApps() {
         /*The way yout get the Views inside the Activity*/
-        vGroup = (ViewGroup) activity.getWindow().getDecorView();
+        vGroup = (ViewGroup) mActivity.getWindow().getDecorView();
         assertEquals(1, vGroup.getChildCount());
         LinearLayout layout = (LinearLayout) vGroup.getChildAt(0);
         FrameLayout frameLayout = (FrameLayout) layout.getChildAt(1);
