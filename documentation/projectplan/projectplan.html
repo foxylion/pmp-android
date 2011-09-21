@@ -18,10 +18,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">20. August 2011</div>
+		<div id="page-head-date">21. September 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Projektplan</div>
-		<div id="page-version">Version 1.2</div>
+		<div id="page-version">Version 1.3</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -32,12 +32,18 @@
 		<div id="content">
 		
 			<h1 id="versionsgeschichte">Versionsgeschichte des Dokuments</h1>
+				<h3>Version 1.3 (21.09.2011)</h3>
+					<ul>
+						<li>Änderungen in den Unterkapiteln des Kapitels <span class="reference" title="#entwicklungsplan"></span> vorgenommen.
+							Aktualisierung des Terminplans, der Meilensteine, der Gantt-Diagramme und Arbeitspakete, sowie der tatsächliche Kosten- und Zeitentwicklung.
+						</li>
+					</ul>
 				<h3>Version 1.2 (20.08.2011)</h3>
 					<ul>
-						<li>Kapitel <span class="reference" title="#tatsaechliche_kosten_zeitentwicklung"></span> hinzugefügt</li>
-						<li>Kapitel <span class="reference" title="#versionsgeschichte"></span> an den Beginn des Dokuments verschoben</li>
-						<li>Kapitel <span class="reference" title="#leserkreis"></span> hinzugefügt</li>
-						<li>Kapitel <span class="reference" title="#konventionen"></span> hinzugefügt</li>
+						<li>Kapitel <span class="reference" title="#tatsaechliche_kosten_zeitentwicklung"></span> hinzugefügt.</li>
+						<li>Kapitel <span class="reference" title="#versionsgeschichte"></span> an den Beginn des Dokuments verschoben.</li>
+						<li>Kapitel <span class="reference" title="#leserkreis"></span> hinzugefügt.</li>
+						<li>Kapitel <span class="reference" title="#konventionen"></span> hinzugefügt.</li>
 					</ul>
 				<h3>Version 1.1 (12.08.2011)</h3>
 					<ul>
@@ -49,19 +55,19 @@
 					</ul>			
 					<h3>Version 0.4 (03.08.2011)</h3>
 					<ul>
-						<li>Entwurfsreview und -korrektur in erster Iteration hinzugefügt</li>
+						<li>Entwurfsreview und -korrektur in erster Iteration hinzugefügt.</li>
 					</ul>
 				<h3>Version 0.3 (02.08.2011)</h3>
 					<ul>
-						<li>Gesamtkorrektur des Projektplans nach Review</li>
+						<li>Gesamtkorrektur des Projektplans nach Review.</li>
 					</ul>
 					<h3>Version 0.2 (01.08.2011)</h3>
 					<ul>
-						<li>Ausformulieren der Kapitel</li>
+						<li>Ausformulieren der Kapitel.</li>
 					</ul>
 				<h3>Version 0.1 (25.07.2011)</h3>
 					<ul>
-						<li>Initiale Version nach der Vorlage aus LLSE10, S.115</li>
+						<li>Initiale Version nach der Vorlage aus LLSE10, S.115.</li>
 					</ul>
 			
 			
@@ -173,7 +179,7 @@
 							</tr>
 							<tr>
 								<td>M-1.7</td>
-								<td>30.09.2011</td>
+								<td>07.10.2011</td>
 								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
 							</tr>
 							<tr>
@@ -236,7 +242,7 @@
 					<ul>
 						<li>Spezifikation, Modellierung & Prototyping</li>
 						<li>Review & Korrektur der Spezifikation</li>
-						<li>Entwurf</li>
+						<li>Entwurf & Walkthrough mit Korrektur</li>
 						<li>Implementation & Modultest mit kontinuierlicher Integration</li>
 						<li>Handbuch</li>
 						<li>Systemtest</li>
@@ -244,10 +250,10 @@
 					</ul>
 				<h2 id="dokumentationsplan">Dokumentationsplan</h2>
 					<p>Alle eigenständig entstehenden Dokumente werden einheitlich in HTML mit Kodierung UTF-8 verfasst, da dies sowohl einfach bearbeitbar als auch gut versionierbar ist. Dokumentation im Code soll durch JavaDoc-Kommentare gemäß den entsprechenden Richtlinien ununterbrochen stattfinden.</p>
-				<h2 id="pruefungen">Prüfungen (Reviews und Tests)</h2>
-					<p>Das Spezifikationsreview wird in jeder Iteration stattfinden, um die Fehler der Spezifikation besonders unter Kontrolle zu behalten, da diese sehr gravierende Auswirkungen haben können. Da insbesondere auch in der ersten Iteration mit dem Entwurf das Grundsystem wesentlich modelliert wird und weitere Änderungen nicht unbedingt einfach zu realisieren wären, wird in der ersten Iteration zudem ein Review des Entwurfs stattfinden.</p>
+				<h2 id="pruefungen">Prüfungen (Reviews, Walkthroughs und Tests)</h2>
+					<p>In jeder Iteration wird ein Spezifikationsreview stattfinden, um die Fehler der Spezifikation besonders unter Kontrolle zu behalten, da diese sehr gravierende Auswirkungen haben können.</p>
+					<p>Da insbesondere auch im Entwurf das System wesentlich modelliert wird, findet in jeder Iteration ein Entwurfs-Walkthrough statt.</p>
 					<p>Im Laufe der Implementierung werden kontinuierlich Modultests entstehen, die nicht vom Kodierer des Moduls verfasst werden sollen. Dazu wird durch die kontinuierliche Integration auch ein weiterer stetiger Test stattfinden. Ein abschließender Systemtest wird in jeder Iteration stattfinden.</p>
-					
 			<h1 id="risiken">Risiken</h1>
 				<h2 id="risiken_und_ihre_bewertung">Risiken und ihre Bewertung, Maßnahmen zur Reduktion und Notfallpläne</h2>
 					<h3 id="personalausfall">Personalausfall</h3>
@@ -603,29 +609,30 @@
 							</tr>
 							<tr>
 								<td>M-1.4</td>
-								<td>19.09.2011</td>
+								<td>27.09.2011</td>
 								<td>Implementierung, Modultest, Integration</td>
 								<td>
-									Anton Makarov (GUI)<br> 
-									Andre Bach Nguyen (Interne Daten)<br>
-									Hai Dang Huynh (Schnittstellen)
+									Alexander Wassiljew (GUI)<br> 
+									Andre Bach Nguyen (Model)<br>
+									Tobias Kuhn (Resource-Groups)<br>
+									Thorsten Berberich (Beispiel-Apps)
 								</td>
 							</tr>
 							<tr>
 								<td>M-1.5</td>
-								<td>20.09.2011</td>
+								<td>28.09.2011</td>
 								<td>Handbuch</td>
 								<td>Patrick Strobel</td>
 							</tr>
 							<tr>
 								<td>M-1.6</td>
-								<td>29.09.2011</td>
+								<td>05.10.2011</td>
 								<td>Systemtest/-korrektur</td>
 								<td>Tobias Kuhn</td>
 							</tr>
 							<tr>
 								<td>M-1.7</td>
-								<td>30.09.2011</td>
+								<td>07.10.2011</td>
 								<td>Abnahme</td>
 								<td>Marcus Vetter</td>
 							</tr>
@@ -799,17 +806,20 @@
 							</tr>
 						</table>
 					<h3 id="terminplanung">Terminplanung, Gantt-Diagramm</h3>
-						<p>Das Gantt-Diagramm wurde für das Vorprojekt und erste Iteration erstellt. Sobald die Meilensteinetermine der weiteren Iterationen bekannt sind,
-						werden diese im Gantt-Diagramm nachgetragen.</p>
-						<b>Gantt-Diagramm:</b>
-						<img src="gantt.png" width="100%" height="100%" alt="GANTT-Diagramm">
+						<p>
+							<b>Vorprojekt:</b><br>
+							<img src="gantt_diagrams/gantt_vorprojekt.png" width="75%" height="75%" alt="Gantt-Diagramm Vorprojekt">
+						</p>
+						
+						<p>
+							<b>1. Iteration: </b><br>
+							<img src="gantt_diagrams/gantt_I1.png" width="100%" height="100%" alt="Gantt-Diagramm 1. Iteration">
+						</p>
 						
 						<div class="pagebreak"></div>
 						
 				<h2 id="projektstrukturplan_verantwortlichkeiten">Projektstrukturplan und Verantwortlichkeiten</h2>
-						<p>Der folgende Projektstrukturplan gilt für die erste Iteration. In allen weiteren Iterationen fallen die Arbeitspakete "Entwurfsreview" für die graphische Benutzeroberfläche, internen Daten und Schnittstellen, sowie die "Entwurfskorrektur" für die
-						graphische Benutzeroberfläche, internen Daten und Schnittstellen weg. Alle weiteren Arbeitspakete bleiben erhalten.
-						Die Mitarbeiter, die für einzelne Arbeitspakete verantwortlich sind, werden für jede Iteration neu bestimmt.
+						<p>Der folgende Projektstrukturplan gilt für die erste Iteration. Die Mitarbeiter, die für einzelne Arbeitspakete verantwortlich sind, werden für jede Iteration neu bestimmt.
 						</p>
 						<table>
 							<tr>
@@ -915,41 +925,15 @@
 								<td>32 Std.</td>
 								<td>M-1.3</td>
 							</tr>
-														<tr>
-								<td>Entwurfsreview (Graphische Benutzeroberfläche)</td>
-								<td>Anton Makarov</td>
-								<td>
-									<ul>
-										<li>Meeting (Entwurfsreview)</li>
-										<li>Entwurfsreview-Protokoll</li>
-									</ul>
-								</td>
-								<td>10 Std.</td>
-								<td>M-1.3</td>
-								
-							</tr>
 							<tr>
-								<td>Entwurfsreview (Interne Daten)</td>
-								<td>Andre Bach Nguyen</td>
+								<td>Entwurfs-Walkthrough</td>
+								<td>Jakob Jarosch</td>
 								<td>
 									<ul>
-										<li>Meeting (Entwurfsreview)</li>
-										<li>Entwurfsreview-Protokoll</li>
+										<li>Meeting (Entwurfs-Walkthrough)</li>
 									</ul>
 								</td>
-								<td>10 Std.</td>
-								<td>M-1.3</td>
-							</tr>
-							<tr>
-								<td>Entwurfsreview (Schnittstellen)</td>
-								<td>Hai Dang Huynh</td>
-								<td>
-									<ul>
-										<li>Meeting (Entwurfsreview)</li>
-										<li>Entwurfsreview-Protokoll</li>
-									</ul>
-								</td>
-								<td>10 Std.</td>
+								<td>30 Std.</td>
 								<td>M-1.3</td>
 							</tr>
 							<tr>
@@ -964,7 +948,6 @@
 								</td>
 								<td>3 Std.</td>
 								<td>M-1.3</td>
-								
 							</tr>
 							<tr>
 								<td>Entwurfskorrektur (Interne Daten)</td>
@@ -992,46 +975,46 @@
 							</tr>
 							<tr>
 								<td>Implementierung (Graphische Benutzeroberfläche)</td>
-								<td>Anton Makarov</td>
+								<td>Alexander Wassiljew</td>
 								<td>
 									<ul>
 										<li>Implementierung der graphischen Benutzeroberfläche</li>
 									</ul>
 								</td>
-								<td>140 Std.</td>
+								<td>80 Std.</td>
 								<td>M-1.4</td>
 							</tr>
 							<tr>
-								<td>Implementierung (Interne Daten)</td>
+								<td>Implementierung (Model)</td>
 								<td>Andre Bach Nguyen</td>
 								<td>
 									<ul>
 										<li>Implementierung der internen Daten</li>
 									</ul>
 								</td>
+								<td>100 Std.</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Implementierung (Resource-Groups)</td>
+								<td>Tobias Kuhn</td>
+								<td>
+									<ul>
+										<li>Implementierung der Resource-Groups</li>
+									</ul>
+								</td>
 								<td>150 Std.</td>
 								<td>M-1.4</td>
 							</tr>
 							<tr>
-								<td>Implementierung (Schnittstellen)</td>
-								<td>Hai Dang Huynh</td>
+								<td>Implementierung (Beispiel-Apps)</td>
+								<td>Thorsten Berberich</td>
 								<td>
 									<ul>
-										<li>Implementierung der Schnittstellen</li>
+										<li>Implementierung der Beispiel-Applikationen</li>
 									</ul>
 								</td>
 								<td>110 Std.</td>
-								<td>M-1.4</td>
-							</tr>
-							<tr>
-								<td>Beispiel-Applikationen</td>
-								<td>Alexander Wassiljew</td>
-								<td>
-									<ul>
-										<li>Implementierte Beispiel-Applikationen</li>
-									</ul>
-								</td>
-								<td>60 Std.</td>
 								<td>M-1.4</td>
 							</tr>
 							<tr>
@@ -1042,18 +1025,7 @@
 										<li>Modultest-Protokoll</li>
 									</ul>
 								</td>
-								<td>40 Std.</td>
-								<td>M-1.4</td>
-							</tr>
-							<tr>
-								<td>Integration (kontinuierlich)</td>
-								<td>Alexander Wassiljew</td>
-								<td>
-									<ul>
-										<li>Fertige Software</li>
-									</ul>
-								</td>
-								<td>20 Std.</td>
+								<td>80 Std.</td>
 								<td>M-1.4</td>
 							</tr>
 							<tr>
@@ -1129,7 +1101,7 @@
 							</tr>
 							<tr>
 								<td>M-x.3</td>
-								<td>Entwurf (M-1.3: inkl. Review und Korrektur)</td>
+								<td>Entwurf</td>
 								<td>14%</td>
 								<td>116 Std.</td>
 								<td>€ 11.600,-</td>
@@ -1171,7 +1143,7 @@
 						</table>
 						
 				<h2 id="tatsaechliche_kosten_zeitentwicklung">Tatsächliche Aufwands- und Kostenentwicklung</h2>
-						<p>Die folgende Tabelle vergleicht die geplante und tatsächliche Aufwands- und Kostenentwicklung.<br>Stand 20.08.2011.
+						<p>Die folgende Tabelle vergleicht die geplante und tatsächliche Aufwands- und Kostenentwicklung.<br>Stand 21.09.2011.
 						</p>
 						<table>
 							<tr>
@@ -1199,23 +1171,30 @@
 								<td>Spezifikation, Modellierung, Prototyp</td>
 								<td>95 Std.</td>
 								<td>€ 9.500,-</td>
-								<td>107 Std.</td>
-								<td>€ 10.700,-</td>
+								<td>108 Std.</td>
+								<td>€ 10.800,-</td>
 							</tr>
 							<tr>
 								<td>M-1.2</td>
 								<td>Spezifikationsreview/-korrektur</td>
 								<td>34 Std.</td>
 								<td>€ 3.400,-</td>
-								<td>52 Std.</td>
-								<td>€ 5.200,-</td>
+								<td>57 Std.</td>
+								<td>€ 5.700,-</td>
 							</tr>
 							<tr>
+								<td>M-1.3</td>
+								<td>Entwurf</td>
+								<td>116 Std.</td>
+								<td>€ 11.600,-</td>
+								<td>152 Std.</td>
+								<td>€ 15.200,-</td>
+							<tr>
 								<th colspan="2">Summe:</th>
-								<th>379 Std.</th>
-								<th>€ 37.900,-</th>
-								<th>321 Std.</th>
-								<th>€ 32.100,-</th>
+								<th>495 Std.</th>
+								<th>€ 49.500,-</th>
+								<th>479 Std.</th>
+								<th>€ 47.900,-</th>
 							</tr>					
 						</table>
 				
