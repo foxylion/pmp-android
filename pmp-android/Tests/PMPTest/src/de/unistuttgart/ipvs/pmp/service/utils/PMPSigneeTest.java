@@ -44,6 +44,18 @@ public class PMPSigneeTest extends AndroidTestCase {
     }
     
     
+    public void testSetIdentifier() {
+        assertEquals(APP_IDENTIFIER, appSignee.getIdentifier());
+        appSignee.setIdentifier(RG_IDENTIFIER);
+        assertEquals(RG_IDENTIFIER, appSignee.getIdentifier());
+    }
+    
+    
+    public void testGetContext() {
+        assertEquals(getContext(), appSignee.getContext());
+    }
+    
+    
     /**
      * Test a sign, while rgSignee does not know the appSignee-publicKey. Should normally fail.
      */
