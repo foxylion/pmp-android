@@ -30,7 +30,7 @@
       <p>
         Dieses stellt das Handbuch der "Privacy Management Platform". Es soll
         sowohl den Laien als auch den erfahrenen Benutzer und Entwickler bei der
-        verwendung der PMP unterstützen. Auf eine gute Verständlichkeit wird
+        Verwendung der PMP unterstützen. Auf eine gute Verständlichkeit wird
         Wert gelegt.        
       </p>
       
@@ -41,7 +41,7 @@
           <li>den unerfahrenen Benutzer</li>
           <li>den erfahrenen Benutzer</li>
           <li>den Entwicklern von Ressourcen (für die PMP)</li>
-          <li>den Entwicklern von APPs inkl. der Service-Levels</li>
+          <li>den Entwicklern von Apps inkl. deren Service-Levels</li>
           <li>dem Kunden</li>
           <li>den Betreuern des Studienprojekts</li>
         </ul> 
@@ -50,7 +50,7 @@
       
       <h2 id="gliederung">Gliederung</h2>
       <p>
-        Der besseren Übersicht wegen unterteil sich das Handbuch in die einzelnen
+        Der besseren Übersicht wegen unterteilt sich das Handbuch in die einzelnen
         Benutzergruppen:
         <ul>
           <li>"<span class="reference" title="#user"></span>" richtet sich an Benutzer,
@@ -60,9 +60,9 @@
             (<span class="reference" title="#expertmode"></span>), der die Funktionen des
             erweiterten Modus beschreibt.</li>
           <li>"<span class="reference" title="#developers"></span>" richtet sich an 
-            Benutzer, die Ressourcen oder Apps für die PMP entwickel möchten.
+            Benutzer, die Ressourcen oder Apps für die PMP entwickeln möchten.
             Der Unterabschnitt "<span class="reference" title="#devsl"></span>"
-            geht auf die Erstellung und Definition von Service Levels zur integration
+            geht auf die Erstellung und Definition von Service Levels zur Integration
             in eigene Apps ein. Dagegen beschriebt 
             "<span class="reference" title="#devres"></span>" wie Ressourcen erstellt
             und in die PMP integriert werden können.
@@ -76,15 +76,15 @@
         dem Benutzer die wichtigsten Funktionen zur Verfügung. Werden alle Funktionen
         benötigt, lässt sich das System in den erweiterten Modus (Expert Mode) schalten.
         
-      <h2 id="switchmode">Wechsel zwischen Modis</h2>
+      <h2 id="switchmode">Modus-Wechsel</h2>
       <p>
-        Der Wechsel zwischen einfachen und erweiterte Modus erfolgt über die 
-        Schalftläche "Expert Mode" auf dem Startbildschirm der PMP.
+        Der Wechsel zwischen einfachem und erweitertem Modus erfolgt über die 
+        Schaltfläche "Expert Mode" auf dem Startbildschirm der PMP.
       </p>
       <p>
         Befindet sich die PMP im erweiterten Modus, erscheint ein Häkchen im vorderen
         Bereich der Schaltfläche. Durch Antippen der Schaltfläche wird zwischen 
-        den Modi hin- und hergewächselt.
+        den Modi hin- und her gewechselt.
       </p> 
       
       <h2 id="simplemode">Einfacher Modus (Simple Mode)</h2>
@@ -101,12 +101,12 @@
         an erfahrene Benutzer, die vollen Zugriff auf den Funktionsumfang haben möchten.
       </p>
       <p>
-        Dieser Abschnitt enthält nur die Funktionen, die aussschließlich im erweiterten
-        Modus verfügbar sind um redundanz mit dem obigen Abschnitt zu vermeiden
+        Dieser Abschnitt enthält nur die Funktionen, die ausschließlich im erweiterten
+        Modus verfügbar sind um Redundanz mit dem obigen Abschnitt zu vermeiden.
       </p>
       <p>
         Da der erweiterte Modus gegenwärtig nicht implementiert ist, wird auf ihn 
-        in dieser Version des Handbuchs nicht näher eingegangen
+        in dieser Version des Handbuchs nicht näher eingegangen.
       </p>
       <h1 id="developers">Entwickler</h1>
       <p>
@@ -118,14 +118,6 @@
       <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
       
       <h2 id="devres">Ressourcen</h2>
-      <hr />
-      <p><b>Hinweis:</b> Dies nachfolgende Beschreibung habe ich nach betrachten des Codes erstellt.
-      Daher kann es sein, dass einige Dinge - z. B. durch Missverständnisse - nicht stimmen.
-      Nachdem ich die Dateisystemressource erstellt habe, werde ich diesen Abschnitt
-      nochmals überabreiten und mit den Erfahrungen, die ich beim Implementieren gemacht habe,
-      vergleichen.
-      </p>
-      <hr />
       <p>
         Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines
         Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
@@ -133,16 +125,16 @@
         verfügbar machen zu können, müssen diese immer einer Gruppe zugeordnet werden.
       </p>
       <p>
-        Das Erstellen einer Ressourcengruppe und deren Ressourcen läuft in folgenden
-        Schritten ab:
+        Das Erstellen einer Ressourcengruppe und deren Ressourcen gliedert sich 
+        in folgende Schritten:
         <ul>
-          <li>Bestimmen und Implementieren einzelner Ressourcen (z.B. jeweils eine 
+          <li>Bestimmen und Implementieren einzelner Ressourcen (z. B. jeweils eine 
             Ressource um eine Datei in verschiedenen Bereichen des Geräts zu lesen, 
             schreiben oder zu löschen)</li>
-          <li>Festlegen einer Ressourcengruppe (z.B. Dateisystemzugriff) und Hinzufügen 
+          <li>Festlegen einer Ressourcengruppe (z. B. Dateisystemzugriff) und Hinzufügen 
             der erstellten Ressourcen zu dieser</li>
           <li>Bestimmen und Implementieren der zu der erstellten Ressourcengruppe
-            passenden Privacy Levels (z.B. nur lesen, nur schreibe oder lesen und 
+            passenden Privacy-Levels (z. B. nur lesen, nur schreibe oder lesen und 
             schreiben)</li>
           <li>Hinzufügen der Privacy-Levels zu der Ressourcengruppe</li>
           <li>Implementieren einer Anwendung, die die erstellten Ressourcengruppen 
@@ -161,37 +153,43 @@
         Ressourcen bilden die Grundlage einer Ressourcengruppe. Jede Gruppe benötigt 
         mindestens eine Ressourcen. Die Basisklasse einer Ressource bildet 
         <code>Resource</code>.
-        Um eigene Ressourcen zu erstellen, wird diese Erweitert. Anschließend muss 
+        Um eigene Ressourcen zu erstellen, wird diese erweitert. Anschließend muss 
         die Methode <code>getAndroidInterface()</code> impelementiert werden.
       </p>
 
       <p>
         Zunächst wird eine AIDL-Interace erstellt, dass die für Anwendungen sichtbaren 
-        Funktionen der Ressource beinhaltet (etwa Datei lesen). Nachdem Android aus 
+        Funktionen der Ressource beinhaltet (etwa Datei lesen). Nachdem das Android-SDK aus 
         diesem Interface automatisch ein Stub erstellt hat, wird dieses implementiert, 
         um die Funktionalität der Ressource zu liefern.
-        Die Methode <code>getAndroidInterface()</code> liefert nun dieses Interface 
-        zurück, um Anwendungen Zugriff auf die Ressource zu bieten. 
+        Die Aufgabe der Methode <code>getAndroidInterface()</code> besteht nun ausschließlich
+        darin, die Implementierung dieses Interface zurück zu geben, um hierdurch
+        Anwendungen Zugriff auf die Funktionen der Ressource zu bieten. 
         Über den Parameter wird der Name der Anwendung übergeben, die Zugriff auf 
-        die Funktionen der Ressource verlangt. Dieser sollte der Implementierung des
-        AIDL-Interface weitergereich werden, damit dieses pürfen kann, ob die 
-        Anwendung zum Zugriff auf die Funktion berechtigt ist.
+        die Funktionen der Ressource verlangt. Dieser sollte an die Implementierung des
+        AIDL-Interface weitergereicht werden, damit diese prüfen kann, ob die 
+        Anwendung zum Zugriff auf die einzelnen Funktionen berechtigt ist.
       </p>
       
       <h3 id="devres_privlevel">Erstellen eines Privacy-Levels</h3>
       <p>
-        Jede Ressourcengruppe behinhaltet mehrere Privacy-Levels. Privay-Levels 
-        werden durch erweitern der Klasse &quot;PrivacyLevel&quot; erstellt, wobei 
-        alle abstrakten Methoden implementiert werden müssen. Für Privacy-Levels, die als
-        Wert nur Wahrheitswerte erlauben, bietet die API mit <code>BooleanPrivacyLevel</code>
-        eine fertige Implementierung.
+        Jede Ressourcengruppe beinhaltet mehrere Privacy-Levels. Privacy-Levels 
+        werden durch Erweitern der Klasse <code>PrivacyLevel</code> erstellt, wobei 
+        alle abstrakten Methoden implementiert werden müssen. Um den 
+        Implementierungsaufwand zu verringern, bietet die API für häufige wiederkehrende
+        Einsatzgebiete Standartimplementierungen an:
       </p>
 
       <h4 id="devres_privlevel_boolean">Für Wahrheitswerte</h4>
       <p>
-        Bei Verwendung eines <code>BooleanPrivacyLevel</code> empfiehlt es sich,
+        Wird ein Privacy-Level benötigt, das als Einstellungswert ausschließlich
+        einen Wahrheitswert ("Ja"/"Nein") erlaubt (z. B. "lesen erlauben"), so
+        sollte für das Privacy-Level die fertig implementierte Klasse 
+        <code>BooleanPrivacyLevel</code> verwendet werden. Bei der Instanziierung
+        erwartet der Konstruktor als Parameter den Namen des Privacy-Levels
+        und als weiteren Parameter eine Beschreibung. Hierbei empfiehlt es sich,
         den Namen und die Beschreibung des Privacy-Levels in die String-Ressource
-        auszulagern.
+        auszulagern, um die Internationalisierung zu vereinfachen.
       </p>
       
 <pre>
@@ -204,10 +202,18 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
 
       <h4 id="devres_privlevel_userdefined">Benutzerdefiniert</h4>      
       <p>
-        Sollte die Erstellung eine benutzerdefiniertes Privacy-Levels erforderlich
-        sein, d. h. <code>PrivacyLevel</code> wird erweitert, so müssen einige
-        Methoden implementiert werden:
+        Sollte die Erstellung eine benutzerdefinierten Privacy-Levels erforderlich
+        sein, d. h. das Privacy-Level lässt sich nicht durch eine bestehenden
+        Implementierung realisieren, so lässt sich ohne weiteres ein eigenes
+        Privacy-Level implementieren. Hierzu muss die Klasse 
+        <code>PrivacyLevel</code> erweitert und ihre abstrakten Methoden
+        implementiert werden. Eine Liste aller zu implementierenden Methoden und
+        deren Aufgaben entnehmen Sie bitte der API-Dokumentation.
       </p>
+      <!--
+      HINWEIS: Da die API im Moment nicht fix ist, d.h. sich schon ein paarmal
+      verändert hat, habe ich mich für einen Verweis auf die API-Doku entschieden.
+      
       <p>
         Über <code>getName()</code> und <code>getDescription()</code> erhält der 
         Anwender den <b>Namen</b> und die <b>Beschreibung</b> des Privacy-Levels. 
@@ -301,35 +307,40 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         Methode übergeben. Wurde durch den Benutzer ein Wert gewählt und damit der
         Dialog beendet, muss die Methoden den internen Namen des gewählten Werts 
         zurückgeben.
-      </p>          
+      </p>    
+      -->      
       
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
       <p>
-        Die erstellten Ressourcen müssen einer Ressourcengruppe hinzugfügt werden. 
-        Hierzu wird eine neue Klasse erstellt, die die Klasse &quot;ResourceGroup&quot; 
-        erweitert. Die Klasse &quot;ResourceGroup&quot; besitzt einige abstrakte 
-        Methoden die implentiert werden müssen.
+        Die erstellten Ressourcen müssen einer Ressourcengruppe hinzugefügt werden. 
+        Hierzu wird eine neue Klasse erstellt, die die Klasse <code>ResourceGroup</code> 
+        erweitert. Die Klasse <code>ResourceGroup</code> besitzt einige abstrakte 
+        Methoden die implementiert werden müssen.
       </p>
       <p>
         Die zwei Methoden <code>getName()</code> und <code>getDescription()</code> 
         liefern dem Anwender den <b>Namen</b> der Ressourcengruppe und eine 
-        <b>Beschreibung</b> dieser. Die Metohden ähneln den gleichnamigen Methoden 
-        der Klasse <code>PrivacyLevel</code> und erhalten den gleichen Parameter 
-        (Sprache in ISO-639 Norm). Es empfiehlt sich auch hier, den Parameter zu
-        ignorieren und statt dessen den Namen bzw. die Beschreibung aus der 
-        String-Ressource zu laden.
+        <b>Beschreibung</b> dieser. Zwar wird den Methoden im Parameter die
+        Benutzersprache mit übergeben (ISO-639 Norm), aus Gründen der 
+        Internationalisierbarkeit sollte dieser jedoch ignoriert werden und 
+        statt dessen der Namen bzw. die Beschreibung aus der String-Ressource geladen
+        werden.
       </p>
       <p>
         Damit Anwendungen auf die Ressourcengruppe zugreifen können, muss der <b>Name 
-        des Services</b>, innerhalb dessen die Ressourcegruppe ausgeführt wird, 
+        des Services</b>, innerhalb dessen die Ressourcengruppe ausgeführt wird, 
         von der Gruppe geliefert werden können.
-        Hierzu dient die Methode<code>getServiceAndroidName()</code>. Der von dieser 
-        Methode gelieferte Wert muss mit der Angabe in der Android-Manifest-Datei 
-        übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.
+        Hierzu dient die Methode <code>getServiceAndroidName()</code>, die diesen 
+        Namen liefert. Wichtig ist hierbei, dass der von dieser 
+        Methode gelieferte Wert mit der Angabe in der Android-Manifest-Datei 
+        übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.     
+        Wichtig ist, dass sich in der Manifest-Datei dieser Name auf den Service
+        <code>de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService</code>
+        bezieht (siehe unten stehendes Beispiel).
       </p>
 
       <p>
-        Um auf eine <b>erfolgreiche oder fehlgeschlagene Registierung</b> der 
+        Um auf eine <b>erfolgreiche oder fehlgeschlagene Registrierung</b> der 
         Ressourcengruppe in der PMP reagieren zu können, stehen die beiden 
         Callback-Methoden <code>onRegistrationSuccess()</code> und 
         <code>onRegistrationFailed()</code> zur Verfügung. <code>onRegistrationSuccess()</code> 
@@ -338,6 +349,10 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         vom System aufgerufen, konnte die Gruppe dem System nicht hinzugefügt werden. 
         Über den String-Parameter wird der Grund des Fehlschlags übermittelt.
       </p>
+      <h4 id="devres_resgroup_example">Beispiel</h4>
+      <p>
+        Unter Berücksichtigung des oben Erwähnten, könnte eine Ressourcengruppe
+        wie folgt aussehen:
       
 <pre>
 public class FileSystemResourceGroup extends ResourceGroup {
@@ -406,19 +421,47 @@ public class FileSystemResourceGroup extends ResourceGroup {
 
 }
 </pre>
-      
-      <h3 id="devres_addres">Hinzufügen der Resourcen zur Gruppe</h3>
+      </p>
       <p>
-        Innerhalb der erstellten Ressourcen-Gruppe werden durch Aufruf der 
+        Die zugehörige Manifest-Datei:
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;manifest ...>
+  ...
+  &lt;application ...>
+    ...
+    &lt;activity android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
+	    &lt;intent-filter>
+	      &lt;action android:name="android.intent.action.MAIN" />
+	      &lt;category android:name="android.intent.category.LAUNCHER" />
+      &lt;/intent-filter>
+    &lt;/activity>
+    
+    &lt;service android:exported="true" android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
+      &lt;intent-filter>
+        &lt;action android:name="de.unistuttgart.ipvs.pmp.resourcegroups.switches"></action>
+      &lt;/intent-filter>
+    &lt;/service>
+    ...
+  &lt;/application>  
+&lt;/manifest>
+</pre>
+      
+      <h3 id="devres_addres">Hinzufügen der Ressourcen zur Gruppe</h3>
+      <p>
+        Innerhalb der erstellten Ressourcengruppe werden durch Aufruf der 
         Methode <code>registerResource()</code> die erstellten Ressourcen der 
-        Gruppe zu geordnet. Damit später auf die einzelnen Ressourcen zugreifen
-        zu können, wird neben der Referenz auf die Ressource eine String-Kürzel
-        übergeben. Dieses Kürzel sollte in eine Konstante ausgelagert werden um
+        Gruppe zugeordnet. Um einen späteren Zugriff auf die einzelnen Ressourcen 
+        zu ermöglichen, wird neben der Referenz auf die Ressource noch eine String-Kürzel
+        mit übergeben. Dieses Kürzel sollte in eine Konstante ausgelagert werden um
         Fehler beim Zugriff durch Tipp-Fehler oder einen veränderten Wert auszuschließen.
+        Es muss darauf geachtet werden, dass das String-Kürzel eindeutig ist.
+        Eine bereits registrierte Ressource wird überschrieben, sollte eine
+        Ressource mit gleichem Kürzel hinzugefügt werden.
       </p>
       <p>
         Beinhaltet die Gruppe sehr viele Ressourcen, sollte über eine Auslagerung
-        der Ressourcen-Instanzierung und der String-Konstanten in eine seperate
+        der Ressourcen-Instanziierung und der String-Konstanten in eine separate
         Klasse nachgedacht werden.
       </p>
       
@@ -445,11 +488,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Ähnlich der Ressourcen werden die erstellten Privacy-Levels durch
         <code>registerPrivacyLevel()</code> der Gruppe hinzugefügt.
         Auch hier wird zur späteren Referenzierung ein String-Kürzel mit angegeben, das
-        ebenfalls in eine Konstante ausgelagert werden sollte.  
+        ebenfalls in eine Konstante ausgelagert werden sollte und eindeutig sein
+        muss.  
       </p>
       <p>
-        Da eine Gruppe viele Pirvacy-Levels enthalten kann, kann auch hier eine
-        Auslagerung der Objekt-Instanzierung in eine eigene Klasse sinnvoll sein.
+        Da eine Gruppe viele Privacy-Levels enthalten kann, kann auch hier eine
+        Auslagerung der Objekt-Instanziierung in eine eigene Klasse sinnvoll sein.
       </p>
 <pre>
 public class FileSystemResourceGroup extends ResourceGroup {  
@@ -470,22 +514,28 @@ public class FileSystemResourceGroup extends ResourceGroup {
 </pre>
       <h3 id="devres_app">Erstellen der Anwendung</h3>
       <p>
-        Um die Ressourcen-Gruppen auf eine Smartphone installieren zu können, wird eine 
-        Anwendung benötigt, die die Ressourcen-Gruppen kapselt.
-        Einer Anwendung kann mehrere Gruppen enthalten, d. h. es können mehrere
+        Um die Ressourcengruppen auf einem Gerät installieren zu können, wird eine 
+        Anwendung benötigt, die die Ressourcengruppen kapselt.
+        Eine Anwendung kann mehrere Gruppen enthalten, d. h. es können mehrere
         Gruppen gemeinsam ausgeliefert und installiert werden.
       </p>
       <p>
         Als Basis der Anwendung wird die Klasse <code>ResourceGroupApp</code> erweitert.
-        Für Anwendungen, die nur aus einer Ressourcen-Gruppe bestehen, bietet die 
+        Für Anwendungen, die nur aus einer Ressourcengruppe bestehen, bietet die 
         API mit der Klasse <code>ResourceGroupSingleApp</code> eine vereinfachte 
-        Basis-Klasse. Diese implementiert bereits alle grundlegenden Funktionen,
-        so dass das erstellen der Anwendung stark vereinfacht wird. 
+        Basis-Klasse an. Diese implementiert bereits alle grundlegenden Funktionen,
+        so dass das Erstellen der Anwendung stark vereinfacht wird. 
       </p>
       <p>
-        Bei Verwendung von <code>ResourceGroupSingleApp</code> wird lediglich die 
-        Methode <code>createResourceGroup</code> implementiert. Diese muss lediglich 
-        eine Refernz auf die erstellte Ressourcen-Gruppe zurückliefern.
+        Bei Verwendung von <code>ResourceGroupSingleApp</code> muss lediglich die 
+        Methode <code>createResourceGroup</code> so implementiert werden, dass diese
+        eine Referenz auf die erstellte Ressourcengruppe zurückliefern.
+      </p>
+      <p>
+        Soll die Anwendung mehrere Ressourcengruppen enthalten, ist eine
+        Implementierung der abstrakten Klasse <code>ResourceGroup</code> unumgänglich.
+        Informationen über die zu implementierenden Methoden finden Sie in der
+        API-Dokumentation.
       </p>
     </div>
     <!-- // end of specification's content -->
