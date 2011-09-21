@@ -27,8 +27,14 @@ public class BooleanPrivacyLevel extends LocalizedDefaultPrivacyLevel<Boolean> {
     
     
     @Override
-    public Boolean parseValue(String value) {
-        return Boolean.valueOf(value);
+    public Boolean parseValue(String value) throws PrivacyLevelValueException {
+        boolean result = Boolean.valueOf(value);
+        
+        if (!result && !value.equalsIgnoreCase(Boolean.FALSE.toString())) {
+            throw new PrivacyLevelValueException();
+        }
+        
+        return result;
     }
     
 }
