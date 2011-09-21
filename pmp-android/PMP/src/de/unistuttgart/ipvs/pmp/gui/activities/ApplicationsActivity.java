@@ -48,6 +48,8 @@ public class ApplicationsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        this.setTitle(R.string.apps);
+        
         /* Create the 1st TableRow and set up */
         this.actRow = new TableRow(this);
         this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());

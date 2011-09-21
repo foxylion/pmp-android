@@ -38,6 +38,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         DatabaseOpenHelper doh = DatabaseSingleton.getInstance().getDatabaseHelper();
         doh.cleanTables();
         SQLiteDatabase DB = doh.getWritableDatabase();
+        
         // Fill with the App
         DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { TEST_APP1_IDENT, TEST_APP1_NAME,
                 TEST_APP1_DESCR });
@@ -57,7 +58,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         
         ScrollView scroll = (ScrollView) frameLayout.getChildAt(0);
         TableLayout tLayout = (TableLayout) scroll.getChildAt(0);
-        assertEquals(2, tLayout.getChildCount());// 0 Row have no Views!!!
+        assertEquals(2, tLayout.getChildCount());// 0. Row have no Views!!!
         TableRow tRow = (TableRow) tLayout.getChildAt(1);// 0 Row have no Views!!!
         assertEquals(1, tRow.getChildCount());
         ImagedButton button = (ImagedButton) tRow.getChildAt(0);
