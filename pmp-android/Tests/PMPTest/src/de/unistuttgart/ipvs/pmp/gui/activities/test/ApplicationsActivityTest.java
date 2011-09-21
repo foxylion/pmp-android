@@ -41,14 +41,14 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
     protected void setUp() throws Exception {
         super.setUp();
         
-        mActivity = this.getActivity();
-        apps = ModelSingleton.getInstance().getModel().getApps();
-        appCount = apps.length;
-        headerString = mActivity.getString(R.string.apps);
+        this.mActivity = getActivity();
+        this.apps = ModelSingleton.getInstance().getModel().getApps();
+        this.appCount = this.apps.length;
+        this.headerString = this.mActivity.getString(R.string.apps);
         
-        TEST_APP1_IDENT = "TEST_APP1";
-        TEST_APP1_NAME = "TEST APP 1";
-        TEST_APP1_DESCR = "TEST_APP1_DESCR";
+        this.TEST_APP1_IDENT = "TEST_APP1";
+        this.TEST_APP1_NAME = "TEST APP 1";
+        this.TEST_APP1_DESCR = "TEST_APP1_DESCR";
         
         /*
          * Clean the DB
@@ -58,21 +58,21 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         SQLiteDatabase DB = doh.getWritableDatabase();
         
         // Fill with the App
-        DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { TEST_APP1_IDENT, TEST_APP1_NAME,
-                TEST_APP1_DESCR });
+        DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { this.TEST_APP1_IDENT, this.TEST_APP1_NAME,
+                this.TEST_APP1_DESCR });
     }
     
     
     public void testingPreconditions() {
-        assertNotNull(mActivity);
-        assertNotNull(apps);
-        assertNotNull(headerString);
-        assertNotNull(vGroup);
+        assertNotNull(this.mActivity);
+        assertNotNull(this.apps);
+        assertNotNull(this.headerString);
+        assertNotNull(this.vGroup);
     }
     
     
     public void testEnglishHeader() {
-        assertEquals("Applications", headerString);
+        assertEquals("Applications", this.headerString);
     }
     
     
@@ -81,12 +81,11 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
     //    }
     //    
     
-    
     public void testLoadApps() {
         /*The way yout get the Views inside the Activity*/
-        vGroup = (ViewGroup) mActivity.getWindow().getDecorView();
-        assertEquals(1, vGroup.getChildCount());
-        LinearLayout layout = (LinearLayout) vGroup.getChildAt(0);
+        this.vGroup = (ViewGroup) this.mActivity.getWindow().getDecorView();
+        assertEquals(1, this.vGroup.getChildCount());
+        LinearLayout layout = (LinearLayout) this.vGroup.getChildAt(0);
         FrameLayout frameLayout = (FrameLayout) layout.getChildAt(1);
         //After the FrameLayout you can get the Views with getChildAt(index)
         //You have to cast to needed Class, else you get CastException
@@ -98,7 +97,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         assertEquals(1, tRow.getChildCount());
         ImagedButton button = (ImagedButton) tRow.getChildAt(0);
         assertNotNull(button);
-        assertEquals(TEST_APP1_NAME, button.getName());
+        assertEquals(this.TEST_APP1_NAME, button.getName());
     }
     
 }

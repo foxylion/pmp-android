@@ -1,14 +1,13 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.test.AndroidTestCase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
-import android.database.sqlite.SQLiteDatabase;
-import android.test.AndroidTestCase;
 
 public class PrivacyLevelImplTest extends AndroidTestCase {
     
@@ -18,9 +17,6 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     
     private static final String TEST_APP1_SL0_NAME = "TEST_APP1_SL0_NAME";
     private static final String TEST_APP1_SL0_DESC = "TEST_APP1_SL0_DESC";
-    private static final String TEST_APP1_SL1_NAME = "TEST_APP1_SL1_NAME";
-    private static final String TEST_APP1_SL1_DESC = "TEST_APP1_SL1_DESC";
-    
     private static final String TEST_RG1_IDENT = "TEST_RG1";
     private static final String TEST_RG1_NAME = "TEST_RG1_NAME";
     private static final String TEST_RG1_DESC = "TEST_RG1_DESC";
@@ -30,7 +26,6 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     private static final String TEST_PL1_DESC = "TEST_PL1_DESC";
     private static final String TEST_PL1_VALUE = "TEST_PL1_VALUE";
     
-    private IPrivacyLevel plevels[] = null;
     private IPrivacyLevel plevel = null;
     private IResourceGroup res = null;
     private IApp app = null;
@@ -65,54 +60,54 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     
     
     public void testGetDescription() {
-        assertNull(plevel);
-        plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
+        assertNull(this.plevel);
+        this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
                 .getPrivacyLevel(TEST_PL1_IDENT);
-        assertNotNull(plevel);
-        assertEquals(TEST_PL1_DESC, plevel.getDescription());
+        assertNotNull(this.plevel);
+        assertEquals(TEST_PL1_DESC, this.plevel.getDescription());
     }
     
     
     public void testGetIdentifier() {
-        assertNull(plevel);
-        plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
+        assertNull(this.plevel);
+        this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
                 .getPrivacyLevel(TEST_PL1_IDENT);
-        assertNotNull(plevel);
-        assertEquals(TEST_PL1_IDENT, plevel.getIdentifier());
+        assertNotNull(this.plevel);
+        assertEquals(TEST_PL1_IDENT, this.plevel.getIdentifier());
     }
     
     
     public void testGetName() {
-        assertNull(plevel);
-        plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
+        assertNull(this.plevel);
+        this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
                 .getPrivacyLevel(TEST_PL1_IDENT);
-        assertNotNull(plevel);
-        assertEquals(TEST_PL1_NAME, plevel.getName());
+        assertNotNull(this.plevel);
+        assertEquals(TEST_PL1_NAME, this.plevel.getName());
     }
     
     
     public void testGetRessourceGroup() {
-        assertNull(plevel);
-        plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
+        assertNull(this.plevel);
+        this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
                 .getPrivacyLevel(TEST_PL1_IDENT);
-        assertNotNull(plevel);
+        assertNotNull(this.plevel);
         
-        assertNull(res);
-        res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
-        assertNotNull(res);
-        assertEquals(res.getIdentifier(), plevel.getResourceGroup().getIdentifier());
+        assertNull(this.res);
+        this.res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
+        assertNotNull(this.res);
+        assertEquals(this.res.getIdentifier(), this.plevel.getResourceGroup().getIdentifier());
     }
-
+    
     
     public void testGetValue() {
-        assertNull(plevel);
-        plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
+        assertNull(this.plevel);
+        this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
                 .getPrivacyLevel(TEST_PL1_IDENT);
-        assertNotNull(plevel);
-        assertNull(app);
-        app = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT);
-        assertNotNull(app);
-        String value = app.getServiceLevel(0).getPrivacyLevels()[0].getValue();
+        assertNotNull(this.plevel);
+        assertNull(this.app);
+        this.app = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT);
+        assertNotNull(this.app);
+        String value = this.app.getServiceLevel(0).getPrivacyLevels()[0].getValue();
         
         assertEquals(TEST_PL1_VALUE, value);
     }

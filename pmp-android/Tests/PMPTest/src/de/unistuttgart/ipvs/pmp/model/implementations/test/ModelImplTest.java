@@ -51,7 +51,6 @@ public class ModelImplTest extends AndroidTestCase {
     private IPreset preset2 = null;
     
     
-    
     /**
      * Set up the testing environment
      */
@@ -77,9 +76,9 @@ public class ModelImplTest extends AndroidTestCase {
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG2_IDENT, TEST_RG2_NAME,
                 TEST_RG2_DESC });
         
-        this.preset1  = ModelSingleton.getInstance().getModel()
+        this.preset1 = ModelSingleton.getInstance().getModel()
                 .addPreset(TEST_PRESET1_NAME, TEST_PRESET1_DESC, TEST_PRESET1_TYPE, TEST_PRESET1_IDENT);
-        this.preset2  = ModelSingleton.getInstance().getModel()
+        this.preset2 = ModelSingleton.getInstance().getModel()
                 .addPreset(TEST_PRESET2_NAME, TEST_PRESET2_DESC, TEST_PRESET2_TYPE, TEST_PRESET2_IDENT);
     }
     
@@ -118,14 +117,15 @@ public class ModelImplTest extends AndroidTestCase {
         assertEquals(TEST_RG1_IDENT, this.res.getIdentifier());
     }
     
-    public void testGetPreset(){
-        assertNotNull(preset1);
-        assertNotNull(preset2);
-        assertNull(presets);
-        presets = ModelSingleton.getInstance().getModel().getPresets();
-        assertNotNull(presets);
-        assertEquals(2, presets.length);
-        assertEquals(TEST_PRESET1_IDENT, presets[0].getIdentifier());
-        assertEquals(TEST_PRESET2_IDENT, presets[1].getIdentifier());
+    
+    public void testGetPreset() {
+        assertNotNull(this.preset1);
+        assertNotNull(this.preset2);
+        assertNull(this.presets);
+        this.presets = ModelSingleton.getInstance().getModel().getPresets();
+        assertNotNull(this.presets);
+        assertEquals(2, this.presets.length);
+        assertEquals(TEST_PRESET1_IDENT, this.presets[0].getIdentifier());
+        assertEquals(TEST_PRESET2_IDENT, this.presets[1].getIdentifier());
     }
 }

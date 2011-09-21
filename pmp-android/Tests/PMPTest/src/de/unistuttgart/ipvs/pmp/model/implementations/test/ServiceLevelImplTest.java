@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.test.AndroidTestCase;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
-import android.database.sqlite.SQLiteDatabase;
-import android.test.AndroidTestCase;
 
 public class ServiceLevelImplTest extends AndroidTestCase {
     
@@ -19,9 +19,6 @@ public class ServiceLevelImplTest extends AndroidTestCase {
     
     private static final String TEST_APP1_SL0_NAME = "TEST_APP1_SL0_NAME";
     private static final String TEST_APP1_SL0_DESC = "TEST_APP1_SL0_DESC";
-    private static final String TEST_APP1_SL1_NAME = "TEST_APP1_SL1_NAME";
-    private static final String TEST_APP1_SL1_DESC = "TEST_APP1_SL1_DESC";
-    
     private static final String TEST_PL1_IDENT = "TEST_PL1";
     private static final String TEST_PL1_NAME = "TEST_PL1_NAME";
     private static final String TEST_PL1_DESC = "TEST_PL1_DESC";
@@ -58,42 +55,42 @@ public class ServiceLevelImplTest extends AndroidTestCase {
     
     
     public void testGetDescription() {
-        assertNull(slevel);
-        slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
-        assertNotNull(slevel);
-        assertEquals(TEST_APP1_SL0_DESC, slevel.getDescription());
+        assertNull(this.slevel);
+        this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
+        assertNotNull(this.slevel);
+        assertEquals(TEST_APP1_SL0_DESC, this.slevel.getDescription());
     }
     
     
     public void testGetLevel() {
-        assertNull(slevel);
-        slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
-        assertNotNull(slevel);
-        assertEquals(0, slevel.getLevel());
+        assertNull(this.slevel);
+        this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
+        assertNotNull(this.slevel);
+        assertEquals(0, this.slevel.getLevel());
     }
     
     
     public void testGetName() {
-        assertNull(slevel);
-        slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
-        assertNotNull(slevel);
-        assertEquals(TEST_APP1_SL0_NAME, slevel.getName());
+        assertNull(this.slevel);
+        this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
+        assertNotNull(this.slevel);
+        assertEquals(TEST_APP1_SL0_NAME, this.slevel.getName());
     }
     
     
     public void testGetPrivacyLevels() {
-        assertNull(slevel);
-        slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
-        assertNotNull(slevel);
-        assertEquals(1, slevel.getPrivacyLevels().length);
-        assertEquals(TEST_PL1_IDENT, slevel.getPrivacyLevels()[0].getIdentifier());
+        assertNull(this.slevel);
+        this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
+        assertNotNull(this.slevel);
+        assertEquals(1, this.slevel.getPrivacyLevels().length);
+        assertEquals(TEST_PL1_IDENT, this.slevel.getPrivacyLevels()[0].getIdentifier());
     }
     
     
     public void testIsAvailable() {
-        assertNull(slevel);
-        slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
-        assertNotNull(slevel);
-        assertEquals(true, slevel.isAvailable());
+        assertNull(this.slevel);
+        this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
+        assertNotNull(this.slevel);
+        assertEquals(true, this.slevel.isAvailable());
     }
 }
