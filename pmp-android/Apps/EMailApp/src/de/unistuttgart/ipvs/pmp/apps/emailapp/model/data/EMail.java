@@ -112,5 +112,14 @@ public class EMail {
 	public void setRecipients(List<String> recipients) {
 		this.recipients = recipients;
 	}
+	
+	@Override
+	public String toString(){
+	    String recipient = "";
+	    for (String rec : recipients){
+		recipient = recipient + rec + " ";
+	    }
+	    return "From: " + from + "\nTo: " + recipient + "\n" + "Subject: " + subject;
+	}
 
 }
