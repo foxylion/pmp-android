@@ -32,6 +32,21 @@
 		</defaultServiceLevel>
 		<serviceLevel>
 			<level>1</level>
+			<defaultName lang="en">Level Read Only</defaultName>
+			<name lang="de">Nur lesendes Level</name>
+			<name lang="sv">Nivå Skrivskyddad</name>
+			<defaultDescription lang="en">I can read the files.
+			</defaultDescription>
+			<description lang="de">Ich kann die Daten lesen.
+			</description>
+			<description lang="sv">Jag kan läsa filerna.</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>2</level>
 			<defaultName lang="en">Level Complete</defaultName>
 			<name lang="de">Vollständiges Level</name>
 			<name lang="sv">Klara nivå</name>
