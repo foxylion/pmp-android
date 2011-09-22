@@ -47,6 +47,9 @@ public class XMLParserTest extends InstrumentationTestCase {
     /**
      * Tests a file containing no XML-data.
      * 
+     * The nodes appInformationSet and serviceLevels are missing. It is not crucial, that text is between the nodes, so
+     * a NODE_MISSING exception is thrown.
+     * 
      * @throws IOException
      * @throws FileNotFoundException
      *             Thrown, if test-files does not exist
@@ -56,7 +59,7 @@ public class XMLParserTest extends InstrumentationTestCase {
             this.parser.parse(openAssetFile("NonXmlFile.xml"));
             fail("Parser accepted malformed XML file!");
         } catch (XMLParserException e) {
-            assertEquals("Test exception type", Type.SAX_EXCEPTION, e.getType());
+            assertEquals("Test exception type", Type.NODE_MISSING, e.getType());
         }
     }
     

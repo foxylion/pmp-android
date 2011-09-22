@@ -111,7 +111,7 @@ public class CalendarAppActivity extends ListActivity {
             
             @Override
             public void onClick(View v) {
-                if (Model.getInstance().getServiceLevel() == 1) {
+                if (Model.getInstance().getServiceLevel() == 2) {
                     Dialog dialog = new NewDateDialog(CalendarAppActivity.this.self);
                     dialog.setTitle("Create new date");
                     dialog.show();
@@ -140,7 +140,7 @@ public class CalendarAppActivity extends ListActivity {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (Model.getInstance().getServiceLevel() == 1) {
+                if (Model.getInstance().getServiceLevel() == 2) {
                     Dialog changeDateDialog = new ChangeDateDialog(CalendarAppActivity.this.self, position);
                     changeDateDialog.show();
                 }
@@ -164,7 +164,7 @@ public class CalendarAppActivity extends ListActivity {
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
-        if (Model.getInstance().getServiceLevel() == 1) {
+        if (Model.getInstance().getServiceLevel() == 2) {
             AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
             SqlConnector.getInstance().deleteDate(Model.getInstance().getDateByIndex(menuInfo.position).getId());
             arrayAdapter.notifyDataSetChanged();

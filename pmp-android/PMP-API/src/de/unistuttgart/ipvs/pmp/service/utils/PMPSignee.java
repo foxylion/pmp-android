@@ -355,6 +355,11 @@ public class PMPSignee {
      * @return true, iff the file was succesfully loaded
      */
     public synchronized final boolean load() {
+        if (this.context == null) {
+            Log.e(this.toString() + " had context = null for loading.");
+            return false;
+        }
+        
         // load signee, if exists
         try {
             InputStream is = this.context.openFileInput(getIdentifier());
@@ -364,6 +369,8 @@ public class PMPSignee {
         } catch (FileNotFoundException e) {
             Log.v("Signee file for " + getIdentifier() + " not found.", e);
         } catch (IOException e) {
+            Log.e(e.toString() + " during loading Signee for " + getIdentifier(), e);
+        } catch (UnsupportedOperationException e) {
             Log.e(e.toString() + " during loading Signee for " + getIdentifier(), e);
         }
         return false;
@@ -375,6 +382,11 @@ public class PMPSignee {
      * attackers could try to get there!
      */
     public synchronized final void save() {
+        if (this.context == null) {
+            Log.e(this.toString() + " had context = null for saving.");
+            return;
+        }
+        
         // save signee
         try {
             OutputStream os = this.context.openFileOutput(getIdentifier(), Context.MODE_PRIVATE);
@@ -384,6 +396,8 @@ public class PMPSignee {
             Log.v("Signee file for " + getIdentifier() + " not found (during writing?!).", e);
         } catch (IOException e) {
             Log.e(e.toString() + " during writing signee for " + getIdentifier(), e);
+        } catch (UnsupportedOperationException e) {
+            Log.e(e.toString() + " during loading Signee for " + getIdentifier(), e);
         }
     }
     

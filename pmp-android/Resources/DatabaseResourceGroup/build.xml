@@ -97,7 +97,7 @@
            author="true"
            version="true"
            use="true"
-           windowtitle="PMP">
+           windowtitle="Database-RG">
 		</javadoc>
 	</target>
 
