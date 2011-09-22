@@ -1,5 +1,7 @@
-package de.unistuttgart.ipvs.pmp.apps.emailapp;
+package de.unistuttgart.ipvs.pmp.apps.emailapp.gui;
 
+import de.unistuttgart.ipvs.pmp.apps.emailapp.R;
+import de.unistuttgart.ipvs.pmp.apps.emailapp.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 
