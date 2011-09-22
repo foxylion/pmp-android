@@ -1,27 +1,37 @@
 package de.unistuttgart.ipvs.pmp.apps.emailapp;
 
+import java.io.IOException;
 import java.io.InputStream;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.apps.emailapp.model.Model;
 
 public class EMailApp extends App {
+	
+    static {
+        Log.setTagSufix("EMailApp");
+    }
 
 	@Override
 	protected String getServiceAndroidName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "de.unistuttgart.ipvs.pmp.apps.emailapp";
 	}
 
 	@Override
 	public void setActiveServiceLevel(int level) {
-		// TODO Auto-generated method stub
-
+		Log.v("Setting service level " + level);
+		Model.getInstance().setServiceLevel(level);
 	}
 
 	@Override
 	protected InputStream getXMLInputStream() {
-		// TODO Auto-generated method stub
-		return null;
+        try {
+            return getAssets().open("AppInformation.xml");
+        } catch (IOException e) {
+            Log.e("IOException during loading App XML", e);
+            return null;
+        }
 	}
 
 	@Override
