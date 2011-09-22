@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:weightSum="1">
+	<TextView android:gravity="center_horizontal" android:text="E-Mail Application"
+		android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="fill_parent" android:id="@+id/textView1"></TextView>
+	<Button android:layout_height="wrap_content" android:id="@+id/inbox"
+		android:layout_width="126dp" android:text="In-box"></Button>
+	<Button android:layout_height="wrap_content" android:id="@+id/sent"
+		android:text="Sent e-mails" android:layout_width="120dp"></Button>
 </LinearLayout>
