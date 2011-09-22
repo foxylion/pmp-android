@@ -8,6 +8,7 @@ import java.util.Map;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 
@@ -47,7 +48,7 @@ public class AppTest extends InstrumentationTestCase {
                 try {
                     return getInstrumentation().getContext().getAssets().open("xml-parser-test/WellFormedFile.xml");
                 } catch (IOException e) {
-                    fail("App.getXMLInputStream() did not exist");
+                    Log.e("App.getXMLInputStream() did not exist");
                     return null;
                 }
             }
@@ -95,9 +96,9 @@ public class AppTest extends InstrumentationTestCase {
         // App names
         Map<Locale, String> appNames = info.getNames();
         assertEquals("Number of names", 3, appNames.size());
-        assertEquals("German app-name", "KalenderDe", appNames.get("de"));
-        assertEquals("English app-name", "Calendar", appNames.get("en"));
-        assertEquals("Swedish app-name", "KalenderSv", appNames.get("sv"));
+        assertEquals("German app-name", "KalenderDe", appNames.get(new Locale("de")));
+        assertEquals("English app-name", "Calendar", appNames.get(new Locale("en")));
+        assertEquals("Swedish app-name", "KalenderSv", appNames.get(new Locale("sv")));
         
         // App descriptions
         Map<Locale, String> appDescs = info.getDescriptions();
@@ -105,14 +106,14 @@ public class AppTest extends InstrumentationTestCase {
         assertEquals(
                 "German app-description",
                 "Die App wird verwendet um die Privacy Manangement Platform zu testen. Sie stellt einfache Funktionalitäten eines Kalenders zur Verfügung.",
-                appDescs.get("de"));
+                appDescs.get(new Locale("de")));
         assertEquals(
                 "English app-description",
                 "This App is used to test the privacy management platform. It provides simple calendar functionalities.",
-                appDescs.get("en"));
+                appDescs.get(new Locale("en")));
         assertEquals("Swedish app-description",
                 "App används för att testa plattformen privatliv Manangement. Det ger enkel kalender funktioner.",
-                appDescs.get("sv"));
+                appDescs.get(new Locale("sv")));
         
         /*
          * ... EOF COPYPASTA 
