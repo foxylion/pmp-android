@@ -6,7 +6,7 @@ import de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity;
 public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<ServiceLvlActivity> {
     
     public ServiceLvlActivityTest() {
-        super("de.unistuttgart.ipvs.pmp.gui.activities", ServiceLvlActivity.class);
+        super("de.unistuttgart.ipvs.pmp", ServiceLvlActivity.class);
     }
     
     

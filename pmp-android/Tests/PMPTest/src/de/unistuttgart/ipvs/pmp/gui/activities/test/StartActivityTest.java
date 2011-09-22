@@ -21,7 +21,7 @@ public class StartActivityTest extends ActivityInstrumentationTestCase2<StartAct
     
     
     public StartActivityTest() {
-        super("de.unistuttgart.ipvs.pmp.gui.activities", StartActivity.class);
+        super("de.unistuttgart.ipvs.pmp", StartActivity.class);
     }
     
     

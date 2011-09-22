@@ -33,7 +33,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
     
     
     public ApplicationsActivityTest() {
-        super("de.unistuttgart.ipvs.pmp.gui.activities", ApplicationsActivity.class);
+        super("de.unistuttgart.ipvs.pmp", ApplicationsActivity.class);
     }
     
     

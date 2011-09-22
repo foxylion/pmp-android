@@ -22,7 +22,7 @@ public class ResourcesActivityTest extends ActivityInstrumentationTestCase2<Ress
     
     
     public ResourcesActivityTest() {
-        super("de.unistuttgart.ipvs.pmp.gui.activities", RessourcesActivity.class);
+        super("de.unistuttgart.ipvs.pmp", RessourcesActivity.class);
     }
     
     
