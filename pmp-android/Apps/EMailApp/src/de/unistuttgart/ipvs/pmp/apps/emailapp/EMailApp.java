@@ -7,6 +7,11 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.emailapp.model.Model;
 
+/**
+ * The email app
+ * @author Marcus Vetter
+ *
+ */
 public class EMailApp extends App {
 	
     static {
