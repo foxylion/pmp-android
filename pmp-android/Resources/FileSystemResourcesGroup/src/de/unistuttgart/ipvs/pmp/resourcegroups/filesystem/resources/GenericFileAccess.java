@@ -30,7 +30,7 @@ public class GenericFileAccess extends IFileAccess.Stub {
      * @param resource
      *            Resource this access handler object belongs to
      */
-    public GenericFileAccess(String app, GenericFileAccessResource resource) {
+    protected GenericFileAccess(String app, GenericFileAccessResource resource) {
         this.app = app;
         this.resource = resource;
     }

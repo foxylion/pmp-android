@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacyLevels;
 
 /**
- * Handles the access to a external directories.
+ * Handles the access to external directories.
  * 
  * @author Patrick Strobel
  * @version 0.2.0
@@ -56,7 +56,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * @param dir
      *            External directory this gives access to
      */
-    public ExternalFileAccess(String app, ExternalFileAccessResource resource, Directories dir) {
+    protected ExternalFileAccess(String app, ExternalFileAccessResource resource, Directories dir) {
         this.app = app;
         this.resource = resource;
         this.directory = dir;
@@ -65,16 +65,18 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     
     
     /**
-     * Reads a file in the external directory into a string.
+     * Reads a file stored in the external directory into a string.
      * 
      * @param path
-     *            Path to the file in the external directory (e.g. /Music/ <code>path</code>)
-     * @return Data of the selected file
+     *            Path to the file in the external directory as sub-directory of the currently selected external directory.
+     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            <code>example/testFile.txt</code>, then <code>Music/example/testFile.txt</code> will be read).
+     * @return Data of the selected file.
      * @throws IllegalAccessError
      *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
-     *             switching into a upper directory (typically <code>../</code>)
+     *             switching into a upper directory (typically <code>../</code>).
      * @throws RemoteException
-     *             Thrown, if file is not readable (e.g. does not exist)
+     *             Thrown, if file is not readable (e.g. does not exist).
      */
     @Override
     public String read(String path) throws RemoteException {
@@ -103,15 +105,18 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Writes a given string into a file in the external directory
      * 
      * @param path
-     *            Path to the file in the external directory (e.g. /Music/ <code>path</code>)
+     *            Path to the file in the external directory the string should be written to.
+     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            <code>example/testFile.txt</code>, then the string will be written to
+     *            <code>Music/example/testFile.txt</code>).
      * @param data
-     *            Date to write into the selected file
+     *            Date to write into the selected file.
      * @param append
-     *            True, if data should be appended to the existing file data. Otherwise it's data will be overwritten
-     * @return True, if data was successfully written
+     *            True, if data should be appended to the existing file data. Otherwise it's data will be overwritten.
+     * @return True, if data was successfully written.
      * @throws IllegalAccessError
      *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
-     *             switching into a upper directory (typically <code>../</code>)
+     *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean write(String path, String data, boolean append) throws RemoteException {
@@ -138,11 +143,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * files.
      * 
      * @param path
-     *            Path of the file or directory which should be deleted (e.g. /Music/<code>path</code>)
+     *            Path of the file or directory which should be deleted.
+     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            <code>example/testDir</code>, then <code>Music/example/testDir</code> will be deleted).
      * @return True, if file or directory was deleted successfully.
      * @throws IllegalAccessError
      *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
-     *             switching into a upper directory (typically <code>../</code>)
+     *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean delete(String path) throws RemoteException {
@@ -163,11 +170,14 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Returns a list of all files and directories in a given external directory
      * 
      * @param directory
-     *            Path of the parent directory
-     * @return List of detailed file information data
+     *            Path of the parent directory.
+     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            <code>example/testDir</code>, then a list of all files and sub-directories in
+     *            <code>Music/example/testDir</code> will be generated).
+     * @return List of detailed file information data.
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
-     *             for switching into a upper directory (typically <code>../</code>)
+     *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public List<FileDetails> list(String directory) throws RemoteException {
@@ -191,10 +201,12 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * @see File#mkdirs()
      * @param path
      *            Directory path
-     * @return True, if directories where created successfully
+     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            <code>example/testDir</code>, then <code>Music/example/testFDir</code> will be created).
+     * @return True, if directories where created successfully.
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
-     *             for switching into a upper directory (typically <code>../</code>)
+     *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean makeDirs(String path) throws RemoteException {
@@ -216,11 +228,11 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Returns the path to the external storage (&lt;Directory&gt;/&lt;subpath&gt;)
      * 
      * @param subpath
-     *            Sub-path &lt;subpath&gt; in the external directory
-     * @return Computed path to the external storage
+     *            Sub-path &lt;subpath&gt; in the external directory.
+     * @return Computed path to the external storage.
      * @throws IllegalArgumentException
      *             Thrown, if the sub-path string contains characters for switching into an upper directory (typically
-     *             "../")
+     *             "../").
      */
     private File getExternalDirectory(String subpath) throws IllegalArgumentException {
         // Prevent switching into an upper directory using "../"
@@ -266,11 +278,11 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     
     
     /**
-     * Checks if a specific privacy-level is set for an application
+     * Checks if a specific privacy-level is set for an application.
      * 
      * @param privacyLevelName
-     *            The privacy-level to check
-     * @return True, if privacy-level is set for this application
+     *            The privacy-level to check.
+     * @return True, if privacy-level is set for this application.
      */
     private boolean privacyLevelSet(Functions function) {
         String privacyLevelName = null;

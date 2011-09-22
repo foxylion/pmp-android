@@ -50,7 +50,7 @@ public class FileDetails implements Parcelable {
      * @param file
      *            Source of data used for this FileDetails object
      */
-    public FileDetails(File file) {
+    protected FileDetails(File file) {
         this.absolutePath = file.getAbsolutePath();
         this.name = file.getName();
         this.path = file.getPath();
@@ -183,7 +183,7 @@ public class FileDetails implements Parcelable {
      *            Parcel
      * @return Recovered FileDetails object
      */
-    public static FileDetails createFromParcel(Parcel source) {
+    private static FileDetails createFromParcel(Parcel source) {
         // TODO security check
         FileDetails f = new FileDetails();
         
