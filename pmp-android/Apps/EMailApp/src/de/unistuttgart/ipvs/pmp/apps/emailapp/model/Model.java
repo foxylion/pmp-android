@@ -1,9 +1,12 @@
 package de.unistuttgart.ipvs.pmp.apps.emailapp.model;
 
+import java.util.List;
+
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.emailapp.gui.activities.EMailAppActivity;
+import de.unistuttgart.ipvs.pmp.apps.emailapp.model.data.EMail;
 
 public class Model {
 	
@@ -15,7 +18,12 @@ public class Model {
     /**
      * The context of the app
      */
-    private EMailAppActivity appContext;
+    private Context appContext;
+    
+    /**
+     * List of all emails in the inbox
+     */
+    private List<EMail> inboxEMails;
 	
 	/**
 	 * Private constructor (Singleton)
@@ -57,5 +65,41 @@ public class Model {
         SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
         return app_preferences.getInt("servicelevel", 0);
     }
+
+    /**
+     * Returns the context of the app
+     * 
+     * @return app context
+     */
+	public Context getAppContext() {
+		return appContext;
+	}
+
+    /**
+     * Sets the context of the app
+     * 
+     * @param context
+     *            context of the app
+     */
+	public void setAppContext(Context appContext) {
+		this.appContext = appContext;
+	}
+
+	/**
+	 * Get all emails of the inbox
+	 * @return list of emails
+	 */
+	public List<EMail> getInboxEMails() {
+		return inboxEMails;
+	}
+
+	/**
+	 * Set all emails of the inbox
+	 * @param inboxEMails list of emails
+	 */
+	public void setInboxEMails(List<EMail> inboxEMails) {
+		this.inboxEMails = inboxEMails;
+	}
+
 
 }
