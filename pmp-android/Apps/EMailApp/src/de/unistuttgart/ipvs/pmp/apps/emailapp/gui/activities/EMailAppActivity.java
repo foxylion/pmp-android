@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.apps.emailapp.gui;
+package de.unistuttgart.ipvs.pmp.apps.emailapp.gui.activities;
 
 import de.unistuttgart.ipvs.pmp.apps.emailapp.R;
 import de.unistuttgart.ipvs.pmp.apps.emailapp.R.layout;
