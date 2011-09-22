@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.emailapp.model.data;
 
+import java.util.List;
+
 /**
  * This is an email with the attributes from, to, subject and content.
  * 
@@ -14,9 +16,9 @@ public class EMail {
 	private String from;
 
 	/**
-	 * The email address of the receiver
+	 * The email addresses of the recipients
 	 */
-	private String to;
+	private List<String> recipients;
 
 	/**
 	 * The subject of the email
@@ -31,9 +33,9 @@ public class EMail {
 	/**
 	 * Constructor
 	 */
-	public EMail(String from, String to, String subject, String content) {
+	public EMail(String from, List<String> recipients, String subject, String content) {
 		this.setFrom(from);
-		this.setTo(to);
+		this.setRecipients(recipients);
 		this.setSubject(subject);
 		this.setContent(content);
 	}
@@ -55,25 +57,6 @@ public class EMail {
 	 */
 	public void setFrom(String from) {
 		this.from = from;
-	}
-
-	/**
-	 * Get the email address of the receiver
-	 * 
-	 * @return the email address of the receiver
-	 */
-	public String getTo() {
-		return to;
-	}
-
-	/**
-	 * Set the email address of the receiver
-	 * 
-	 * @param to
-	 *            the email address of the receiver
-	 */
-	public void setTo(String to) {
-		this.to = to;
 	}
 
 	/**
@@ -112,6 +95,22 @@ public class EMail {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	/**
+	 * Get the list of recipients
+	 * @return the list of recipients
+	 */
+	public List<String> getRecipients() {
+		return recipients;
+	}
+
+	/**
+	 * Set the list of recipients
+	 * @param recipients list of recipients
+	 */
+	public void setRecipients(List<String> recipients) {
+		this.recipients = recipients;
 	}
 
 }
