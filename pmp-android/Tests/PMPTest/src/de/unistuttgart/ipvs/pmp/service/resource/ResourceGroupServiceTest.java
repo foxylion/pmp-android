@@ -24,21 +24,23 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
     };
     
     
-    public ResourceGroupServiceTest(Class<ResourceGroupService> serviceClass) {
-        super(serviceClass);
+    public ResourceGroupServiceTest() {
+        super(ResourceGroupService.class);
     }
     
     @Override
     protected void setupService() {
         super.setupService();
         
-        setApplication(rgApp);
+        setApplication(rgApp);        
     }
     
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        
+        rgApp.onCreate();
         
         /* first clear all public keys, then inject the pmp public key */
         rgApp.getResourceGroup().getSignee().clearRemotePublicKeys();
