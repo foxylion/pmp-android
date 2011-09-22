@@ -24,13 +24,14 @@ public class InboxActivity extends ListActivity {
 	 */
 	TextView tv = (TextView) findViewById(R.id.header);
 	tv.setText("Inbox");
-	
-	ArrayAdapter<EMail>arrayAdapter = new ArrayAdapter<EMail>(this, R.layout.list_item, Model.getInstance().getInboxEMails());
-        setListAdapter(arrayAdapter);
-        
-        ListView listView = getListView();
-        listView.setTextFilterEnabled(true);
-	
+
+	ArrayAdapter<EMail> arrayAdapter = new ArrayAdapter<EMail>(this,
+		R.layout.list_item, Model.getInstance().getInboxEMails());
+	setListAdapter(arrayAdapter);
+
+	ListView listView = getListView();
+	listView.setTextFilterEnabled(true);
+
     }
 
     @Override
@@ -43,15 +44,15 @@ public class InboxActivity extends ListActivity {
 	inflater.inflate(R.menu.newmail_menu, menu);
 	return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-        case R.id.new_mail:
-            Log.d("Do something");
-        default:
-            return super.onOptionsItemSelected(item);
-        }
+	// Handle item selection
+	switch (item.getItemId()) {
+	case R.id.new_mail:
+	    Log.d("Do something");
+	default:
+	    return super.onOptionsItemSelected(item);
+	}
     }
 }

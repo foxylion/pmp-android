@@ -115,6 +115,28 @@ public class Model {
 	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
 		return inboxEMails;
 	}
+	
+	/**
+	 * Get all sent emails
+	 * 
+	 * @return list of emails
+	 */
+	public List<EMail> getSentEMails() {
+	    inboxEMails = new ArrayList<EMail>();
+	    List<String> rec = new ArrayList<String>();
+	    rec.add("You");
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+		return inboxEMails;
+	}
 
 	/**
 	 * Set all emails of the inbox

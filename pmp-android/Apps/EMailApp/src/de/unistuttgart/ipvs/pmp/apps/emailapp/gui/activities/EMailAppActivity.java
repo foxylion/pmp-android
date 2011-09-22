@@ -31,5 +31,15 @@ public class EMailAppActivity extends Activity {
 		startActivity(intent);
 	    }
 	});
+        
+        Button sent = (Button) findViewById(R.id.sent);
+        sent.setOnClickListener(new OnClickListener() {
+	    
+	    @Override
+	    public void onClick(View v) {
+		Intent intent = new Intent(self, SentEMailsActivity.class);
+		startActivity(intent);
+	    }
+	});
     }
 }
