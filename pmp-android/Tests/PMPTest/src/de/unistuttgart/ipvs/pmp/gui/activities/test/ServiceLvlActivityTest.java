@@ -1,16 +1,21 @@
 package de.unistuttgart.ipvs.pmp.gui.activities.test;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.test.ActivityInstrumentationTestCase2;
 
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity;
+import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
+import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 
 public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<ServiceLvlActivity> {
     
     ServiceLvlActivity mActivity;
     String headerString;
     
-    String TEST_APP_IDENT;
+    String TEST_APP_IDENT = "TEST_APP_IDENT";
     String TEST_APP_NAME;
     String TEST_APP_DESC;
     
@@ -27,8 +32,6 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
     protected void setUp() throws Exception {
         super.setUp();
         
-        mActivity = this.getActivity();
-        
         TEST_APP_IDENT = "APP_IDENT";
         TEST_APP_NAME = "APP_NAME";
         TEST_APP_DESC = "APP_DESC";
@@ -39,17 +42,22 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
         
         headerString = mActivity.getString(R.string.servive_level_for) + " " + TEST_APP_NAME;
         
-        //        DatabaseOpenHelper doh = DatabaseSingleton.getInstance().getDatabaseHelper();
-        //        doh.cleanTables();
-        //        SQLiteDatabase DB = doh.getWritableDatabase();
+        DatabaseOpenHelper doh = DatabaseSingleton.getInstance().getDatabaseHelper();
+        doh.cleanTables();
+        SQLiteDatabase DB = doh.getWritableDatabase();
         
-        //        // Fill with the App
-        //        DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { this.TEST_APP_IDENT, this.TEST_APP_NAME,
-        //                this.TEST_APP_DESC });
-        //        
-        //        // Fill Service Lvl for App
-        //        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { this.TEST_SERLVL_IDENT,
-        //                 this.TEST_SERLVL_NAME, this.TEST_SERLVL_DESC });
+        // Fill with the App
+        DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { this.TEST_APP_IDENT, this.TEST_APP_NAME,
+                this.TEST_APP_DESC });
+        
+        // Fill Service Lvl for App
+        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { this.TEST_SERLVL_IDENT,
+                this.TEST_SERLVL_NAME, this.TEST_SERLVL_DESC });
+        
+        Intent intent = new Intent();
+        intent.putExtra(Constants.INTENT_IDENTIFIER, TEST_APP_IDENT);
+        setActivityIntent(intent);
+        mActivity = getActivity();
     }
     
     
@@ -65,7 +73,7 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
     
     
     public void testGermanHeader() {
-        assertEquals("Service Levels für APP_NAME", headerString);
+        assertEquals("Service Levels fï¿½r APP_NAME", headerString);
     }
     
     
