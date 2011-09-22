@@ -26,7 +26,9 @@ public class StartActivityTest extends ActivityInstrumentationTestCase2<StartAct
     
     
     @Override
-    protected void setUp() {
+    protected void setUp() throws Exception {
+        super.setUp();
+        
         this.mActivity = getActivity();
         this.appString = this.mActivity.getString(R.string.apps);
         this.resString = this.mActivity.getString(R.string.ress);
@@ -35,6 +37,8 @@ public class StartActivityTest extends ActivityInstrumentationTestCase2<StartAct
     
     public void testingPreconditions() {
         assertNotNull(this.mActivity);
+        assertNotNull(this.appString);
+        assertNotNull(resString);
     }
     
     
@@ -44,9 +48,9 @@ public class StartActivityTest extends ActivityInstrumentationTestCase2<StartAct
     }
     
     
-    public void testGermanButtons() {
-        assertEquals("Applikationen", this.appString);
-        assertEquals("Ressourcen", this.resString);
-    }
+//    public void testGermanButtons() {
+//        assertEquals("Applikationen", this.appString);
+//        assertEquals("Ressourcen", this.resString);
+//    }
     
 }

@@ -36,7 +36,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         super("de.unistuttgart.ipvs.pmp", ApplicationsActivity.class);
     }
     
-    
+ 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -67,7 +67,6 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         assertNotNull(this.mActivity);
         assertNotNull(this.apps);
         assertNotNull(this.headerString);
-        assertNotNull(this.vGroup);
     }
     
     
@@ -80,6 +79,10 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
     //        assertEquals("Applikationen", headerString);
     //    }
     //    
+    
+    public void testAppCount() {
+        assertEquals(1, appCount);
+    }
     
     public void testLoadApps() {
         /*The way yout get the Views inside the Activity*/
