@@ -145,6 +145,12 @@ public class XMLParser {
      *            true, if the given service level element is the default service level
      */
     private void parseOneServiceLevel(Element serviceLevelElement, Boolean defaultServiceLevel) {
+        // Validate, if the default service level occurres
+        if (defaultServiceLevel && (serviceLevelElement == null)) {
+            throw new XMLParserException(Type.NODE_MISSING,
+                    "The default service level is missing!");
+        }
+        
         // Create results
         List<String[]> levelList = parseNodes(serviceLevelElement, "level", 1, 1);
         List<String[]> defaultNameList = parseNodes(serviceLevelElement, "defaultName", 1, 1, "lang");
@@ -322,7 +328,7 @@ public class XMLParser {
             }
             // Check, if the locale is valid
             if (!checkLocale(nodeArray[1])) {
-                throw new XMLParserException(Type.LOCALE_MISSING, "The locale " + nodeArray[1] + " of " + nodeArray[0]
+                throw new XMLParserException(Type.LOCALE_INVALID, "The locale " + nodeArray[1] + " of " + nodeArray[0]
                         + " is invalid!");
             }
         }
