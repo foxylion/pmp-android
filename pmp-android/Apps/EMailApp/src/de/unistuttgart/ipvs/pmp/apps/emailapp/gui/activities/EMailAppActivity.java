@@ -1,30 +1,35 @@
 package de.unistuttgart.ipvs.pmp.apps.emailapp.gui.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import de.unistuttgart.ipvs.pmp.apps.emailapp.EMailProvider;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.apps.emailapp.R;
 import de.unistuttgart.ipvs.pmp.apps.emailapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.emailapp.model.data.EMail;
 
 public class EMailAppActivity extends Activity {
+    private EMailAppActivity self;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        self = this;
         
         // Set the app context
         Model.getInstance().setAppContext(getApplicationContext());
         
-        // TEST: Send an email!
-        List<String> recipients = new ArrayList<String>();
-        recipients.add("marcus@mvvt.de");
-        recipients.add("m@mvvt.de");
-        EMailProvider.getInstance().sendEmail(new EMail("test@test.com", recipients, "Betreff 123", "Text *g* was für ein Test ^^"));
-        
         setContentView(R.layout.main);
+        
+        Button inbox = (Button) findViewById(R.id.inbox);
+        inbox.setOnClickListener(new OnClickListener() {
+	    
+	    @Override
+	    public void onClick(View v) {
+		Intent intent = new Intent(self, InboxActivity.class);
+		startActivity(intent);
+	    }
+	});
     }
 }

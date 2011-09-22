@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.emailapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -99,6 +100,19 @@ public class Model {
 	 * @return list of emails
 	 */
 	public List<EMail> getInboxEMails() {
+	    inboxEMails = new ArrayList<EMail>();
+	    List<String> rec = new ArrayList<String>();
+	    rec.add("You");
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
+	    inboxEMails.add(new EMail("Me", rec, "Test", "Text"));
 		return inboxEMails;
 	}
 
