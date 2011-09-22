@@ -5,22 +5,23 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
-
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.app.xmlparser.AppInformationSet;
 
 public class AppTest extends InstrumentationTestCase {
     
     protected static final String SERVICE_ANDROID_NAME = "APP_SERVICE_ANDROID_NAME";
+    
     private App app;
     
     
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-
+        
         this.app = new App() {
             
             @Override
@@ -57,33 +58,35 @@ public class AppTest extends InstrumentationTestCase {
                 return SERVICE_ANDROID_NAME;
             }
             
+            
             @Override
             public Context getApplicationContext() {
                 // mockup
                 return new MockContext();
             }
         };
-        app.onCreate();
+        this.app.onCreate();
     }
     
     
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
     
     
     public void testGetSignee() {
-        assertNotNull(app.getSignee());
-        assertNotNull(app.getSignee().getLocalPublicKey());
-        assertEquals(PMPComponentType.APP, app.getSignee().getType());
-        assertEquals(SERVICE_ANDROID_NAME, app.getSignee().getIdentifier());
+        assertNotNull(this.app.getSignee());
+        assertNotNull(this.app.getSignee().getLocalPublicKey());
+        assertEquals(PMPComponentType.APP, this.app.getSignee().getType());
+        assertEquals(SERVICE_ANDROID_NAME, this.app.getSignee().getIdentifier());
     }
     
     
     public void testGetInfoSet() {
-        assertNotNull(app.getInfoSet());
-
-        AppInformationSet info = this.app.getInfoSet();        
+        assertNotNull(this.app.getInfoSet());
+        
+        AppInformationSet info = this.app.getInfoSet();
         
         /*
          * COPY PASTA FROM XMLParserTest ...

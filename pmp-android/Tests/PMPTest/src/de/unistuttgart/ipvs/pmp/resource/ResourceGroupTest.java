@@ -2,13 +2,13 @@ package de.unistuttgart.ipvs.pmp.resource;
 
 import java.util.HashMap;
 
+import android.os.IBinder;
+import android.test.InstrumentationTestCase;
+import android.test.mock.MockContext;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 import de.unistuttgart.ipvs.pmp.service.NullServiceStubImpl;
-import android.os.IBinder;
-import android.test.InstrumentationTestCase;
-import android.test.mock.MockContext;
 
 public class ResourceGroupTest extends InstrumentationTestCase {
     
@@ -34,6 +34,7 @@ public class ResourceGroupTest extends InstrumentationTestCase {
     private BooleanPrivacyLevel bpl;
     
     
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         this.res = new Resource() {
@@ -46,7 +47,7 @@ public class ResourceGroupTest extends InstrumentationTestCase {
         
         this.bpl = new BooleanPrivacyLevel(PL_NAME, PL_DESC);
         
-        rg = new ResourceGroup(new MockContext()) {
+        this.rg = new ResourceGroup(new MockContext()) {
             
             @Override
             public void onRegistrationSuccess() {
@@ -80,24 +81,26 @@ public class ResourceGroupTest extends InstrumentationTestCase {
     }
     
     
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
     
     
     public void testGetSignee() {
-        assertNotNull(rg.getSignee());
-        assertNotNull(rg.getSignee().getLocalPublicKey());
-        assertEquals(PMPComponentType.RESOURCE_GROUP, rg.getSignee().getType());
-        assertEquals(SERVICE_ANDROID_NAME, rg.getSignee().getIdentifier());
+        assertNotNull(this.rg.getSignee());
+        assertNotNull(this.rg.getSignee().getLocalPublicKey());
+        assertEquals(PMPComponentType.RESOURCE_GROUP, this.rg.getSignee().getType());
+        assertEquals(SERVICE_ANDROID_NAME, this.rg.getSignee().getIdentifier());
     }
     
     
     public void testRegisterResource() {
-        rg.registerResource(RESOURCE_IDENTIFIER, this.res);
+        this.rg.registerResource(RESOURCE_IDENTIFIER, this.res);
         assertEquals(1, this.rg.getResources().size());
         assertEquals(this.res, this.rg.getResource(RESOURCE_IDENTIFIER));
     }
+    
     
     /**
      * Test whether getResource() returns null
@@ -109,10 +112,11 @@ public class ResourceGroupTest extends InstrumentationTestCase {
     
     
     public void testRegisterPrivacyLevel() {
-        rg.registerPrivacyLevel(PL_IDENTIFIER, this.bpl);
+        this.rg.registerPrivacyLevel(PL_IDENTIFIER, this.bpl);
         assertEquals(1, this.rg.getPrivacyLevels().size());
         assertEquals(this.bpl, this.rg.getPrivacyLevel(PL_IDENTIFIER));
     }
+    
     
     /**
      * Test whether getPrivacyLevel() returns null
@@ -127,10 +131,10 @@ public class ResourceGroupTest extends InstrumentationTestCase {
         testRegisterPrivacyLevel();
         HashMap<String, String> values = new HashMap<String, String>();
         values.put(APP_IDENTIFIER, PL_VALUE);
-        rg.updateAccess(PL_IDENTIFIER, values);
+        this.rg.updateAccess(PL_IDENTIFIER, values);
         
-        assertEquals(Boolean.TRUE, rg.getPrivacyLevel(PL_IDENTIFIER).getValue(APP_IDENTIFIER));
-        assertNull(rg.getPrivacyLevel(PL_IDENTIFIER).getValue(NO_APP_IDENTIFIER));
+        assertEquals(Boolean.TRUE, this.rg.getPrivacyLevel(PL_IDENTIFIER).getValue(APP_IDENTIFIER));
+        assertNull(this.rg.getPrivacyLevel(PL_IDENTIFIER).getValue(NO_APP_IDENTIFIER));
     }
     
 }

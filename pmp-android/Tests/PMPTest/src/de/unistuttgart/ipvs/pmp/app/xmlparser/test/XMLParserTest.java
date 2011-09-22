@@ -47,9 +47,8 @@ public class XMLParserTest extends InstrumentationTestCase {
     /**
      * Tests a file containing no XML-data.
      * 
-     * The nodes appInformationSet and serviceLevels are missing.
-     * It is not crucial, that text is between the nodes, 
-     * so a NODE_MISSING exception is thrown.
+     * The nodes appInformationSet and serviceLevels are missing. It is not crucial, that text is between the nodes, so
+     * a NODE_MISSING exception is thrown.
      * 
      * @throws IOException
      * @throws FileNotFoundException
@@ -309,14 +308,14 @@ public class XMLParserTest extends InstrumentationTestCase {
             assertEquals("Number of descriptions", 3, appNames.size());
             assertEquals(
                     "German app-description",
-                    "Die App wird verwendet um die Privacy Manangement Platform zu testen. Sie stellt einfache Funktionalitäten eines Kalenders zur Verfügung.",
+                    "Die App wird verwendet um die Privacy Manangement Platform zu testen. Sie stellt einfache Funktionalitï¿½ten eines Kalenders zur Verfï¿½gung.",
                     appDescs.get(this.de));
             assertEquals(
                     "English app-description",
                     "This App is used to test the privacy management platform. It provides simple calendar functionalities.",
                     appDescs.get(this.en));
             assertEquals("Swedish app-description",
-                    "App används för att testa plattformen privatliv Manangement. Det ger enkel kalender funktioner.",
+                    "App anvï¿½nds fï¿½r att testa plattformen privatliv Manangement. Det ger enkel kalender funktioner.",
                     appDescs.get(this.sv));
             
         } catch (XMLParserException e) {
@@ -365,16 +364,16 @@ public class XMLParserTest extends InstrumentationTestCase {
             assertEquals("Number of names in service-level 0", 3, slZeroNames.size());
             assertEquals("German name of service-level 0", "Null-LevelDe", slZeroNames.get(this.de));
             assertEquals("English name of service-level 0", "Null-LevelEn", slZeroNames.get(this.en));
-            assertEquals("Swedish name of service-level 0", "null nivå", slZeroNames.get(this.sv));
+            assertEquals("Swedish name of service-level 0", "null nivï¿½", slZeroNames.get(this.sv));
             
             // Descriptions
             Map<Locale, String> slZeroDescs = slZero.getDescriptions();
             assertEquals("Number of descriptions in service-level 0", 3, slZeroDescs.size());
-            assertEquals("German description of service-level 0", "Ich kann nichts für Sie tun!",
+            assertEquals("German description of service-level 0", "Ich kann nichts fï¿½r Sie tun!",
                     slZeroDescs.get(this.de));
             assertEquals("English description of service-level 0", "I can't do anything for you!",
                     slZeroDescs.get(this.en));
-            assertEquals("Swedish description of service-level 0", "Jag kan inte göra något för dig!",
+            assertEquals("Swedish description of service-level 0", "Jag kan inte gï¿½ra nï¿½got fï¿½r dig!",
                     slZeroDescs.get(this.sv));
             
             // Resource-groups
@@ -405,18 +404,18 @@ public class XMLParserTest extends InstrumentationTestCase {
             // Names
             Map<Locale, String> slOneNames = slOne.getNames();
             assertEquals("Number of names in service-level 1", 3, slOneNames.size());
-            assertEquals("German name of service-level 1", "Vollständiges Level", slOneNames.get(this.de));
+            assertEquals("German name of service-level 1", "Vollstï¿½ndiges Level", slOneNames.get(this.de));
             assertEquals("English name of service-level 1", "Level Complete", slOneNames.get(this.en));
-            assertEquals("Swedish name of service-level 1", "Klara nivå", slOneNames.get(this.sv));
+            assertEquals("Swedish name of service-level 1", "Klara nivï¿½", slOneNames.get(this.sv));
             
             // Descriptions
             Map<Locale, String> slOneDescs = slOne.getDescriptions();
             assertEquals("Number of descriptions in service-level 1", 3, slOneDescs.size());
-            assertEquals("German description of service-level 1", "Ich kann alles, was Sie wünschen!",
+            assertEquals("German description of service-level 1", "Ich kann alles, was Sie wï¿½nschen!",
                     slOneDescs.get(this.de));
             assertEquals("English description of service-level 1", "I can do anything you want",
                     slOneDescs.get(this.en));
-            assertEquals("Swedish description of service-level 1", "Jag kan göra vad du vill!", slOneDescs.get(this.sv));
+            assertEquals("Swedish description of service-level 1", "Jag kan gï¿½ra vad du vill!", slOneDescs.get(this.sv));
             
             // Resource-groups
             List<RequiredResourceGroup> slOneRgs = slOne.getRequiredResourceGroups();
