@@ -66,7 +66,7 @@ public abstract class ResourceGroup {
      *            context of the service for this resource group
      */
     public ResourceGroup(Context serviceContext) {
-        this.signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP, getServiceAndroidName(), serviceContext);
+        this.signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP, getServiceAndroidName(), serviceContext);        
         
         this.resources = new HashMap<String, Resource>();
         this.privacyLevels = new HashMap<String, PrivacyLevel<?>>();
@@ -272,11 +272,11 @@ public abstract class ResourceGroup {
         props.putAll(privacyLevelValues);
         FileOutputStream fos;
         try {
-            fos = new FileOutputStream(privacyLevelIdentifier);
+            fos = this.signee.getContext().openFileOutput(privacyLevelIdentifier, 0);
             props.storeToXML(fos, null);
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.e(e.toString() + " during saving privacy level values of " + privacyLevelIdentifier + ".");
+            Log.d(e.toString() + " during saving privacy level values of " + privacyLevelIdentifier + ".");
         } catch (IOException e) {
             Log.e(e.toString() + " during saving privacy level values of " + privacyLevelIdentifier + ".");
         }
@@ -294,7 +294,7 @@ public abstract class ResourceGroup {
     private Map<String, String> loadPrivacyLevel(String privacyLevelIdentifier) {
         Properties props = new Properties();
         try {
-            FileInputStream fis = new FileInputStream(privacyLevelIdentifier);
+            FileInputStream fis = this.signee.getContext().openFileInput(privacyLevelIdentifier);
             props.loadFromXML(fis);
             fis.close();
             
@@ -304,7 +304,7 @@ public abstract class ResourceGroup {
             }
             return result;
         } catch (FileNotFoundException e) {
-            Log.e(e.toString() + " during loading privacy level values of " + privacyLevelIdentifier + ".");
+            Log.d(e.toString() + " during loading privacy level values of " + privacyLevelIdentifier + ".");
         } catch (IOException e) {
             Log.e(e.toString() + " during loading privacy level values of " + privacyLevelIdentifier + ".");
         }
