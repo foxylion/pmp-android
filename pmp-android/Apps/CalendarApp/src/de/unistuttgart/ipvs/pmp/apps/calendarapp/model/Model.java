@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -21,7 +22,7 @@ public class Model {
     /**
      * Holds all stored dates
      */
-    private ArrayList<Date> dateList = new ArrayList<Date>();
+    private ArrayList<Todo> todoList = new ArrayList<Todo>();
     
     /**
      * The context of the app
@@ -31,7 +32,7 @@ public class Model {
     /**
      * Array adapter of the list to refresh it
      */
-    private ArrayAdapter<Date> arrayAdapter;
+    private ArrayAdapter<Todo> arrayAdapter;
     
     /**
      * The newDate button of the app to dis- and enable it
@@ -63,14 +64,14 @@ public class Model {
     /**
      * Called from {@link SqlConnector#loadDates()}
      */
-    public void loadDates(ArrayList<Date> dList) {
+    public void loadDates(ArrayList<Todo> tList) {
         
-        this.dateList.clear();
-        for (Date date : dList) {
-            this.dateList.add(date);
+        this.todoList.clear();
+        for (Todo date : tList) {
+            this.todoList.add(date);
         }
         
-        Collections.sort(this.dateList, new DateComparator());
+        Collections.sort(this.todoList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
     }
     
@@ -81,7 +82,7 @@ public class Model {
      * @param adapter
      *            the ArrayAdapter of the list with dates
      */
-    public void setArrayAdapter(ArrayAdapter<Date> adapter) {
+    public void setArrayAdapter(ArrayAdapter<Todo> adapter) {
         this.arrayAdapter = adapter;
     }
     
@@ -113,9 +114,9 @@ public class Model {
      * @param date
      *            date to store
      */
-    public void addDate(Date date) {
-        this.dateList.add(date);
-        Collections.sort(this.dateList, new DateComparator());
+    public void addTodo(Todo todo) {
+        this.todoList.add(todo);
+        Collections.sort(this.todoList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
     }
     
@@ -126,12 +127,14 @@ public class Model {
      * @param id
      *            id of the date to delete
      */
-    public void deleteDateByID(int id) {
-        for (Date date : this.dateList) {
-            if (date.getId() == id) {
-                this.dateList.remove(date);
+    public void deleteTodoByID(int id) {
+        Todo toDelete = null;
+        for (Todo todo : this.todoList) {
+            if (todo.getId() == id) {
+                toDelete = todo;
             }
         }
+        todoList.remove(toDelete);
         this.arrayAdapter.notifyDataSetChanged();
     }
     
@@ -141,17 +144,17 @@ public class Model {
      * 
      * @param id
      *            unique id of the date
-     * @param dateString
-     *            string representation of the date
+     * @param date
+     *            {@link Date}
      * @param description
      *            descrpition of the date
      */
-    public void changeDate(int id, String dateString, String description) {
-        for (Date date : this.dateList) {
-            if (date.getId() == id) {
-                date.setDate(dateString);
-                date.setDescription(description);
-                Collections.sort(this.dateList, new DateComparator());
+    public void changeTodo(int id, Date date, String description) {
+        for (Todo todo : this.todoList) {
+            if (todo.getId() == id) {
+                todo.setDate(date);
+                todo.setDescription(description);
+                Collections.sort(this.todoList, new DateComparator());
             }
         }
         this.arrayAdapter.notifyDataSetChanged();
@@ -165,8 +168,8 @@ public class Model {
      *            index of the date
      * @return the date
      */
-    public Date getDateByIndex(int index) {
-        return this.dateList.get(index);
+    public Todo getTodoByIndex(int index) {
+        return this.todoList.get(index);
     }
     
     
@@ -175,8 +178,8 @@ public class Model {
      * 
      * @return
      */
-    public ArrayList<Date> getDateList() {
-        return this.dateList;
+    public ArrayList<Todo> getDateList() {
+        return this.todoList;
     }
     
     
@@ -238,7 +241,7 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        this.dateList.clear();
+        this.todoList.clear();
         this.arrayAdapter.notifyDataSetChanged();
     }
     

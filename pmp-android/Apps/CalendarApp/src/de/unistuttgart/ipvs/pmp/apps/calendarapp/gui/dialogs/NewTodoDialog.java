@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,16 +11,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 /**
- * Opens a new dialog where the user can add a new {@link Date}.
+ * Opens a new dialog where the user can add a new {@link Todo}.
  * 
  * @author Thorsten Berberich
  * 
  */
-public class NewDateDialog extends Dialog {
+public class NewTodoDialog extends Dialog {
     
     /**
      * The date picker
@@ -41,7 +44,7 @@ public class NewDateDialog extends Dialog {
      * @param context
      *            the context
      */
-    public NewDateDialog(Context context) {
+    public NewTodoDialog(Context context) {
         super(context);
     }
     
@@ -81,12 +84,14 @@ public class NewDateDialog extends Dialog {
         @Override
         public void onClick(View v) {
             // The chosen month
-            int month = NewDateDialog.this.dPicker.getMonth() + 1;
+            int month = NewTodoDialog.this.dPicker.getMonth();
+            int year = NewTodoDialog.this.dPicker.getYear();
+            int day = NewTodoDialog.this.dPicker.getDayOfMonth();
             
+            Calendar cal = new GregorianCalendar(year,month,day);
+           
             // Stores the date
-            SqlConnector.getInstance().storeNewDate(
-                    NewDateDialog.this.dPicker.getDayOfMonth() + "." + month + "."
-                            + NewDateDialog.this.dPicker.getYear(), NewDateDialog.this.desc.getText().toString());
+            SqlConnector.getInstance().storeNewDate(cal.getTime(), NewTodoDialog.this.desc.getText().toString());
             dismiss();
         }
         

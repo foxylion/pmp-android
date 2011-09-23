@@ -21,10 +21,10 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeDateDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewDateDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeTodoDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewTodoDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
@@ -39,7 +39,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The arrayAdapter of the list
      */
-    private static ArrayAdapter<Date> arrayAdapter;
+    private static ArrayAdapter<Todo> arrayAdapter;
     
     /**
      * The actual context
@@ -98,7 +98,7 @@ public class CalendarAppActivity extends ListActivity {
         setContentView(R.layout.list_layout);
         
         // Array adapter that is needed to show the list of dates
-        arrayAdapter = new ArrayAdapter<Date>(this, R.layout.list_item, Model.getInstance().getDateList());
+        arrayAdapter = new ArrayAdapter<Todo>(this, R.layout.list_item, Model.getInstance().getDateList());
         Model.getInstance().setArrayAdapter(arrayAdapter);
         setListAdapter(arrayAdapter);
         
@@ -115,7 +115,7 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onClick(View v) {
                 if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog dialog = new NewDateDialog(CalendarAppActivity.this.self);
+                    Dialog dialog = new NewTodoDialog(CalendarAppActivity.this.self);
                     dialog.setTitle("Create new date");
                     dialog.show();
                 }
@@ -145,7 +145,7 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog changeDateDialog = new ChangeDateDialog(CalendarAppActivity.this.self, position);
+                    Dialog changeDateDialog = new ChangeTodoDialog(CalendarAppActivity.this.self, position);
                     changeDateDialog.show();
                 }
             }
@@ -173,7 +173,7 @@ public class CalendarAppActivity extends ListActivity {
          */
         if (Model.getInstance().getServiceLevel() == 2 && aItem.getItemId() == 0) {
             AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
-            SqlConnector.getInstance().deleteDate(Model.getInstance().getDateByIndex(menuInfo.position).getId());
+            SqlConnector.getInstance().deleteDate(Model.getInstance().getTodoByIndex(menuInfo.position).getId());
             return true;
         }
         if (Model.getInstance().getServiceLevel() >= 1 && aItem.getItemId() == 1) {

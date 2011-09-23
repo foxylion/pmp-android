@@ -5,7 +5,7 @@ import java.util.List;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.IFileAccess;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -61,7 +61,7 @@ public class FileSystemConnector {
      * @param dates
      *            to export
      */
-    public void exportDates(List<Date> dates) {
+    public void exportDates(List<Todo> dates) {
         
         // Create the export string
         StringBuilder exportStringBuilder = new StringBuilder();
@@ -71,7 +71,7 @@ public class FileSystemConnector {
         exportStringBuilder.append("BEGIN:VCALENDAR\n");
         exportStringBuilder.append("VERSION:2.0\n");
         exportStringBuilder.append("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP\n");
-        for (Date date : dates) {
+        for (Todo date : dates) {
             // Dummy date object
             java.util.Date dateObjectDummy = new java.util.Date();
             dateObjectDummy.setYear(2011);
