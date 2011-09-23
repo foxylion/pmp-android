@@ -112,12 +112,14 @@ public class SqlConnector {
                                 SqlConnector.this.highestId = id;
                             }
                         }
+                        idc.close();
                         Model.getInstance().loadDates(dateList);
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -176,11 +178,13 @@ public class SqlConnector {
                         } else {
                             Log.e("Date didn't inserted into database");
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -233,11 +237,13 @@ public class SqlConnector {
                             Log.v("Deleting date: id: " + String.valueOf(id));
                             Model.getInstance().deleteDateByID(id);
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -298,11 +304,13 @@ public class SqlConnector {
                                     + " description: " + description);
                             Model.getInstance().changeDate(id, date, description);
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -312,17 +320,6 @@ public class SqlConnector {
             }
         });
         resGroupCon.bind();
-    }
-    
-    
-    /**
-     * Returns a new id for a date
-     * 
-     * @return the new id
-     */
-    private int getNewId() {
-        this.highestId++;
-        return this.highestId;
     }
     
     
@@ -362,11 +359,13 @@ public class SqlConnector {
                                 Log.v("Table created. Name: " + SqlConnector.this.DBNAME);
                                 Model.getInstance().tableCreated(true);
                             }
+                            idc.close();
                         } catch (RemoteException e) {
                             Log.e("Remote Exception", e);
+                        } finally {
+                            resGroupCon.unbind();
                         }
                     }
-                    resGroupCon.unbind();
                 }
                 
                 
@@ -377,5 +376,16 @@ public class SqlConnector {
             });
             resGroupCon.bind();
         }
+    }
+    
+    
+    /**
+     * Returns a new id for a date
+     * 
+     * @return the new id
+     */
+    private int getNewId() {
+        this.highestId++;
+        return this.highestId;
     }
 }
