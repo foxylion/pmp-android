@@ -107,9 +107,11 @@ public class SqlConnector {
                             
                             String[] columns = idc.getRowAt(itr);
                             int id = Integer.valueOf(columns[0]);
-                            todoList.add(new Appointment(id, columns[2], new Date(Long.valueOf(columns[1]))));
-                            Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[1] + " description: "
-                                    + columns[2]);
+                            
+                            Date date = new Date(Long.valueOf(columns[2]));
+                            todoList.add(new Appointment(id, columns[1], date));
+                            Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " description: "
+                                    + columns[1]);
                             // Check if there's a new highest id
                             if (id > SqlConnector.this.highestId) {
                                 SqlConnector.this.highestId = id;
