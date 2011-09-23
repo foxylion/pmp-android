@@ -106,15 +106,15 @@ public class CalendarApp extends App {
         switch (level) {
             case 0:
                 Model.getInstance().clearLocalList();
-                Model.getInstance().getNewDateButton().setEnabled(false);
+                Model.getInstance().getNewAppointmentButton().setEnabled(false);
                 break;
             case 1:
-                SqlConnector.getInstance().loadDates();
-                Model.getInstance().getNewDateButton().setEnabled(false);
+                SqlConnector.getInstance().loadAppointments();
+                Model.getInstance().getNewAppointmentButton().setEnabled(false);
                 break;
             case 2:
-                SqlConnector.getInstance().loadDates();
-                Model.getInstance().getNewDateButton().setEnabled(true);
+                SqlConnector.getInstance().loadAppointments();
+                Model.getInstance().getNewAppointmentButton().setEnabled(true);
                 break;
             default:
                 break;

@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
-public class ChangeTodoDialog extends Dialog {
+public class ChangeAppointmentDialog extends Dialog {
     
     /**
      * Index of the date to edit
@@ -41,7 +41,7 @@ public class ChangeTodoDialog extends Dialog {
     /**
      * Original date
      */
-    private Todo todo;
+    private Appointment appointment;
     
     
     /**
@@ -50,7 +50,7 @@ public class ChangeTodoDialog extends Dialog {
      * @param context
      *            the context
      */
-    public ChangeTodoDialog(Context context, int id) {
+    public ChangeAppointmentDialog(Context context, int id) {
         super(context);
         this.dateIndex = id;
     }
@@ -63,10 +63,10 @@ public class ChangeTodoDialog extends Dialog {
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.changedate);
         
-        this.setTitle("Change date");
-        
-        this.todo = Model.getInstance().getTodoByIndex(this.dateIndex);
-        Date date = todo.getDate();
+        this.setTitle(R.string.change_todo_dialog);
+ 
+        this.appointment = Model.getInstance().getAppointmentByIndex(this.dateIndex);
+        Date date = appointment.getDate();
         
         Calendar cal = new GregorianCalendar();
         cal.setTime(date);
@@ -79,7 +79,7 @@ public class ChangeTodoDialog extends Dialog {
         this.dPicker.init(year, month, day, null);
         
         this.desc = (TextView) findViewById(R.id.descriptionChangeDate);
-        this.desc.setText(this.todo.getDescrpition());
+        this.desc.setText(this.appointment.getDescrpition());
         
         this.confirm = (Button) findViewById(R.id.ConfirmButtonChange);
         this.confirm.setOnClickListener(new ConfirmListener());
@@ -105,14 +105,14 @@ public class ChangeTodoDialog extends Dialog {
         @Override
         public void onClick(View v) {
             // The chosen month
-            int month = ChangeTodoDialog.this.dPicker.getMonth();
-            int year = ChangeTodoDialog.this.dPicker.getYear();
-            int day = ChangeTodoDialog.this.dPicker.getDayOfMonth();
+            int month = ChangeAppointmentDialog.this.dPicker.getMonth();
+            int year = ChangeAppointmentDialog.this.dPicker.getYear();
+            int day = ChangeAppointmentDialog.this.dPicker.getDayOfMonth();
             
             Calendar cal = new GregorianCalendar(year, month, day);
             
-            SqlConnector.getInstance().changeDate(ChangeTodoDialog.this.todo.getId(), cal.getTime(),
-                    ChangeTodoDialog.this.desc.getText().toString());
+            SqlConnector.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(), cal.getTime(),
+                    ChangeAppointmentDialog.this.desc.getText().toString());
             dismiss();
         }
         

@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -21,10 +26,10 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeTodoDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewTodoDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
@@ -39,7 +44,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The arrayAdapter of the list
      */
-    private static ArrayAdapter<Todo> arrayAdapter;
+    private static ArrayAdapter<Appointment> arrayAdapter;
     
     /**
      * The actual context
@@ -98,7 +103,7 @@ public class CalendarAppActivity extends ListActivity {
         setContentView(R.layout.list_layout);
         
         // Array adapter that is needed to show the list of dates
-        arrayAdapter = new ArrayAdapter<Todo>(this, R.layout.list_item, Model.getInstance().getDateList());
+        arrayAdapter = new ArrayAdapter<Appointment>(this, R.layout.list_item, Model.getInstance().getAppointmentList());
         Model.getInstance().setArrayAdapter(arrayAdapter);
         setListAdapter(arrayAdapter);
         
@@ -108,14 +113,14 @@ public class CalendarAppActivity extends ListActivity {
         /*
          * Listener for adding a new date. Opens a new dialog
          */
-        Button newDate = (Button) findViewById(R.id.AddDate);
-        Model.getInstance().setNewDateButton(newDate);
-        newDate.setOnClickListener(new OnClickListener() {
+        Button newAppointment = (Button) findViewById(R.id.AddDate);
+        Model.getInstance().setNewAppointmentButton(newAppointment);
+        newAppointment.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog dialog = new NewTodoDialog(CalendarAppActivity.this.self);
+                    Dialog dialog = new NewAppointmentDialog(CalendarAppActivity.this.self);
                     dialog.setTitle("Create new date");
                     dialog.show();
                 }
@@ -130,9 +135,9 @@ public class CalendarAppActivity extends ListActivity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle("ContextMenu");
-                menu.add(0, 0, 0, "Delete");
-                menu.add(0, 1, 0, "Send via E-mail");
+                menu.setHeaderTitle(getString(R.string.menu));
+                menu.add(0, 0, 0, R.string.delete);
+                menu.add(0, 1, 0, R.string.send);
             }
         });
         
@@ -145,7 +150,7 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog changeDateDialog = new ChangeTodoDialog(CalendarAppActivity.this.self, position);
+                    Dialog changeDateDialog = new ChangeAppointmentDialog(CalendarAppActivity.this.self, position);
                     changeDateDialog.show();
                 }
             }
@@ -168,12 +173,14 @@ public class CalendarAppActivity extends ListActivity {
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
+        final Appointment clicked = Model.getInstance().getAppointmentByIndex(menuInfo.position);
         /*
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (Model.getInstance().getServiceLevel() == 2 && aItem.getItemId() == 0) {
-            AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
-            SqlConnector.getInstance().deleteDate(Model.getInstance().getTodoByIndex(menuInfo.position).getId());
+            
+            SqlConnector.getInstance().deleteAppointment(clicked.getId());
             return true;
         }
         if (Model.getInstance().getServiceLevel() >= 1 && aItem.getItemId() == 1) {
@@ -199,7 +206,12 @@ public class CalendarAppActivity extends ListActivity {
                         IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource("emailOperations"));
                         if (emailOP != null) {
-                            emailOP.sendEmail("abc", "abc", "abc");
+                            Calendar cal = new GregorianCalendar();
+                            cal.setTime(clicked.getDate());
+                            SimpleDateFormat formatter;
+                            formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                            emailOP.sendEmail("", getString(R.string.subject), "Date: " + formatter.format(cal.getTime())
+                                    + "\n" + getString(R.string.desc) + ": " + clicked.getDescrpition());
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception: ", e);

@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Locale;
  * @author Thorsten
  * 
  */
-public class Todo {
+public class Appointment {
     
     /**
      * The descrption of the date
@@ -39,7 +38,7 @@ public class Todo {
      * @param date
      *            date as String
      */
-    public Todo(int id, String descrpition, Date date) {
+    public Appointment(int id, String descrpition, Date date) {
         this.descrpition = descrpition;
         this.date = date;
         this.id = id;
