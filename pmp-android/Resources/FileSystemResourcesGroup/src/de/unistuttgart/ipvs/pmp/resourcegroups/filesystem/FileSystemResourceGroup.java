@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
  */
 public class FileSystemResourceGroup extends ResourceGroup {
     
-    public static final String SERVICE_NAME = "de.unistuttgart.ipvs.pmp.resources.FileSystemService";
+    public static final String SERVICE_NAME = "de.unistuttgart.ipvs.pmp.resources.filesystem";
     
     /**
      * Context of service in which this resource-group is running.
