@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Calendar</string>
-    <string name="new_todo">New appointment</string>
-    <string name="desc">Description</string>
-    <string name="conf">Confirm</string>
-    <string name="add_todo_dialog">Add new appointment</string>
-    <string name="change_todo_dialog">Change appointment</string>
-    <string name="delete">Delete</string>
-    <string name="send">Send via E-Mail</string>
-    <string name="subject">I am sending you a new appointment</string>
-    <string name="menu">Menu</string>
-    <string name="wait">Please wait...</string>
-    <string name="registration">Registration is running.</string>
-    <string name="err_store">Error while storing in database</string>
-    <string name="err_del">Error while deleting date in database</string>
-    <string name="err_change">Error while changing appointment in database</string>
-
+	<string name="app_name">Calendar</string>
+	<string name="new_todo">New appointment</string>
+	<string name="desc">Description</string>
+	<string name="conf">Confirm</string>
+	<string name="add_todo_dialog">Add new appointment</string>
+	<string name="change_todo_dialog">Change appointment</string>
+	<string name="delete">Delete</string>
+	<string name="send">Send via E-Mail</string>
+	<string name="subject">I am sending you a new appointment</string>
+	<string name="menu">Menu</string>
+	<string name="wait">Please wait...</string>
+	<string name="registration">Registration is running.</string>
+	<string name="err_store">Error while storing in database</string>
+	<string name="err_del">Error while deleting date in database</string>
+	<string name="err_change">Error while changing appointment in database</string>
+	<string name="appoint">Appointment:</string>
 </resources>

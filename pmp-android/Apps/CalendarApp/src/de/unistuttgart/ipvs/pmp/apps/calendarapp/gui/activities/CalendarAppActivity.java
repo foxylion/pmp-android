@@ -210,8 +210,9 @@ public class CalendarAppActivity extends ListActivity {
                             cal.setTime(clicked.getDate());
                             SimpleDateFormat formatter;
                             formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                            emailOP.sendEmail("", getString(R.string.subject), "Date: " + formatter.format(cal.getTime())
-                                    + "\n" + getString(R.string.desc) + ": " + clicked.getDescrpition());
+                            emailOP.sendEmail("", getString(R.string.subject),
+                                    getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
+                                            + getString(R.string.desc) + ": " + clicked.getDescrpition());
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception: ", e);

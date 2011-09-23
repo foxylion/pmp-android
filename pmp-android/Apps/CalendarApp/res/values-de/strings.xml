@@ -15,4 +15,5 @@
 	<string name="err_store">Fehler beim Speichern in der Datenbank</string>
 	<string name="err_del">Fehler beim Löschen eines Termins in der Datenbank</string>
 	<string name="err_change">Fehler beim Ändern eines Termins in der Datenbank</string>
+	<string name="appoint">Termin:</string>
 </resources>
