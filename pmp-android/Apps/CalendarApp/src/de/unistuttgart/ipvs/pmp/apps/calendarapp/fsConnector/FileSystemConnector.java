@@ -34,7 +34,7 @@ public class FileSystemConnector {
      * Identifier of the resource used for storing the exported data.
      */
     // Auskommentiert wegen Fehler
-//    private final String rIdentifier = Resources.EXTERNAL_DOWNLOAD;
+    private final String resourceIdentifier = "ext_download";
     
     
     /**
@@ -118,7 +118,9 @@ public class FileSystemConnector {
                 } else {
                     // Get resource
                     try {
-                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        //IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        // There is no resource with the same same as the resource group!
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(resourceIdentifier));
                         // Write the file
                         ifa.write("de.unistuttgart.ipvs.pmp.apps.calendarapp", exportString, false);
                     } catch (RemoteException e) {
@@ -170,7 +172,9 @@ public class FileSystemConnector {
                 } else {
                     // Get resource
                     try {
-                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        // There is no resource with the same same as the resource group!
+                        //IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(resourceIdentifier));
                         // Write the file
                         importString = ifa.read("de.unistuttgart.ipvs.pmp.apps.calendarapp");
                         
