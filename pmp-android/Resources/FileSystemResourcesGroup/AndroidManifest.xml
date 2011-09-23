@@ -5,10 +5,8 @@
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.FileSystemResourceGroupApp">
-
-        <activity android:name=".FileSystemResourceGroupApp"
-                  android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="FileSystemResourceGroupApp">
+        <activity android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,7 +15,7 @@
         
 		<service android:exported="true" android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
 			<intent-filter>
-				<action android:name="de.unistuttgart.ipvs.pmp.resources.FileSystemService"></action>
+				<action android:name="de.unistuttgart.ipvs.pmp.resources.filesystem"></action>
 			</intent-filter>
 		</service>
 

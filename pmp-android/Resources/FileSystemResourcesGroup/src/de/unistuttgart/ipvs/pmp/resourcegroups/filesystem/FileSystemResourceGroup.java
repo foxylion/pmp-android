@@ -33,7 +33,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
      * @throws Exception
      *             Throws if at least one privacy-level could not be instantiated.
      */
-    public FileSystemResourceGroup(Context context) throws Exception {
+    public FileSystemResourceGroup(Context context) {
         super(context);
         
         // Store the service' context, because we will need it later
