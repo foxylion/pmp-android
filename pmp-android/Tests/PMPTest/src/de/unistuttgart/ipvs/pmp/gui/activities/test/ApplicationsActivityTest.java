@@ -36,19 +36,17 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         super("de.unistuttgart.ipvs.pmp", ApplicationsActivity.class);
     }
     
- 
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         
         this.mActivity = getActivity();
-        this.apps = ModelSingleton.getInstance().getModel().getApps();
-        this.appCount = this.apps.length;
         this.headerString = this.mActivity.getString(R.string.apps);
         
         this.TEST_APP1_IDENT = "TEST_APP1";
         this.TEST_APP1_NAME = "TEST APP 1";
-        this.TEST_APP1_DESCR = "TEST_APP1_DESCR";
+        this.TEST_APP1_DESCR = "This is a very long test description to see if a scrollbar appears, if not this test is an absolute failure and i will kill myself today. if it does i am the happiest person alive, that ever existed in this beautiful world. i am so happy. so happy that i could jump up and down all day until my legs break into half and i am yet to be unhappy like the test failed. then again i dont care about the test, because i want to eat. i like to eat very much. in fact i like to eat so much that i am eating my own legs that were broken from the jumping up and down all day. man my legs are so delicious that i could be happy again, so happy like this stupid test is running perfectly normal. i dunno if this text is long enough but ill just keep writing till my fingers break into half to and then ill eat'em up until my stomachs full because im am very hungry. so hungry from all this stupid writing until the text is so long that this stupid scrollbar is appearing. man i am hungry!. this better be long enough...........";
         
         /*
          * Clean the DB
@@ -60,6 +58,9 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         // Fill with the App
         DB.execSQL("INSERT INTO \"App\" VALUES(?, ?, ?, 0);", new String[] { this.TEST_APP1_IDENT, this.TEST_APP1_NAME,
                 this.TEST_APP1_DESCR });
+        
+        this.apps = ModelSingleton.getInstance().getModel().getApps();
+        this.appCount = this.apps.length;
     }
     
     
@@ -83,6 +84,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
     public void testAppCount() {
         assertEquals(1, appCount);
     }
+    
     
     public void testLoadApps() {
         /*The way yout get the Views inside the Activity*/
