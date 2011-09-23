@@ -28,14 +28,14 @@ public class FileSystemConnector {
     /**
      * Identifier of the resource group
      */
-    private final String rgIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    private static final String rgIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
     
     /**
      * Identifier of the resource used for storing the exported data.
      * This is needed since the file system resource has no resource having the same name as
      * its resource-group
      */
-    private final String resourceIdentifier = "ext_download";
+    private static final String resourceIdentifier = "ext_download";
     
     
     /**
