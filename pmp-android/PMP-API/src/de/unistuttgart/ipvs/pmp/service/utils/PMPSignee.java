@@ -356,7 +356,7 @@ public class PMPSignee {
      */
     public synchronized final boolean load() {
         if (this.context == null) {
-            Log.e(this.toString() + " had context = null for loading.");
+            Log.e(toString() + " had context = null for loading.");
             return false;
         }
         
@@ -383,7 +383,7 @@ public class PMPSignee {
      */
     public synchronized final void save() {
         if (this.context == null) {
-            Log.e(this.toString() + " had context = null for saving.");
+            Log.e(toString() + " had context = null for saving.");
             return;
         }
         
