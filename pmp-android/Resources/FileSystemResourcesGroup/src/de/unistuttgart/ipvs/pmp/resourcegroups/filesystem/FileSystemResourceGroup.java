@@ -69,32 +69,13 @@ public class FileSystemResourceGroup extends ResourceGroup {
     
     @Override
     public void onRegistrationSuccess() {
-        // To keep it simple, we just make a log and tell the user that
-        // everything went fine
         Log.d("Registration was successfull");
-        
-        try {
-            Toast toast = Toast.makeText(this.context, "Registration successfull", Toast.LENGTH_SHORT);
-            toast.show();
-        } catch (Throwable t) {
-            Log.d("Could not show toast-notification.", t);
-        }
     }
     
     
     @Override
     public void onRegistrationFailed(String message) {
-        // As in "onRegistrationSuccess()", we make a log and tell the user what
-        // had happened
         Log.d("Registration failed: " + message);
-        
-        try {
-            Toast toast = Toast.makeText(this.context, "Registration failed. PMP says: " + message, Toast.LENGTH_SHORT);
-            toast.show();
-            
-        } catch (Throwable t) {
-            Log.d("Could not show toast-notification.", t);
-        }
     }
     
 }
