@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.IFileAccess;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.Resources;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
@@ -29,6 +30,12 @@ public class FileSystemConnector {
      * Identifier of the resource group
      */
     private final String rgIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    
+    /**
+     * Identifier of the resource used for storing the exported data.
+     */
+    private final String rIdentifier = Resources.EXTERNAL_DOWNLOAD;
+    
     
     /**
      * The import string

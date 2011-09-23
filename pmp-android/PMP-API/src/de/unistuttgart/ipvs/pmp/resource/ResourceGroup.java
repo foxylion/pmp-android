@@ -1,10 +1,16 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import android.content.Context;
 import android.os.RemoteException;
@@ -183,20 +189,35 @@ public abstract class ResourceGroup {
             Log.e("Should update access for a privacy level which does not exist.");
         } else {
             pl.setValues(privacyLevelValues);
+            
+            savePrivacyLevels(privacyLevelIdentifier, privacyLevelValues);
         }
     }
     
     
     /**
-     * Effectively starts this resource group and registers it with PMP. Note that it needs to be "connected" to a
-     * {@link ResourceGroupService} via a {@link ResourceGroupApp}. You can implement reacting to the result of this
-     * operation by implementing onRegistrationSuccess() or onRegistrationFailed()
+     * Effectively starts this resource group, loads all previously known privacy level values and registers it with
+     * PMP. Note that it needs to be "connected" to a {@link ResourceGroupService} via a {@link ResourceGroupApp}. You
+     * can implement reacting to the result of this operation by implementing onRegistrationSuccess() or
+     * onRegistrationFailed()
      * 
      * @param context
      *            {@link Context} to use for the connection
      * 
      */
     protected void start(Context context) {
+        
+        // load saved privacy level values
+        for (Entry<String, PrivacyLevel<?>> e : this.privacyLevels.entrySet()) {
+            try {
+                Map<String, String> values = loadPrivacyLevel(e.getKey());
+                if (values != null) {
+                    e.getValue().setValues(values);
+                }
+            } catch (PrivacyLevelValueException e1) {
+                Log.e("Saved values for " + e.getKey() + " were parsed with " + e1.toString() + " thrown.");
+            }
+        }
         
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);
@@ -235,6 +256,60 @@ public abstract class ResourceGroup {
             }
         });
         pmpsc.bind();
+    }
+    
+    
+    /**
+     * This saves the privacy level values specified into a local file.
+     * 
+     * @param privacyLevelIdentifier
+     *            identifier of the privacy level
+     * @param privacyLevelValues
+     *            the values in a map using app identifier => privacy level value
+     */
+    private void savePrivacyLevels(String privacyLevelIdentifier, Map<String, String> privacyLevelValues) {
+        Properties props = new Properties();
+        props.putAll(privacyLevelValues);
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(privacyLevelIdentifier);
+            props.storeToXML(fos, null);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e(e.toString() + " during saving privacy level values of " + privacyLevelIdentifier + ".");
+        } catch (IOException e) {
+            Log.e(e.toString() + " during saving privacy level values of " + privacyLevelIdentifier + ".");
+        }
+    }
+    
+    
+    /**
+     * Loads the privacy level values of privacyLevelIdentifier and returns them.
+     * 
+     * @param privacyLevelIdentifier
+     *            the identifier of the privacy level
+     * @return a map containing the privacy level values in the fashion app identifier => privacy level value, or null
+     *         if no data was found
+     */
+    private Map<String, String> loadPrivacyLevel(String privacyLevelIdentifier) {
+        Properties props = new Properties();
+        try {
+            FileInputStream fis = new FileInputStream(privacyLevelIdentifier);
+            props.loadFromXML(fis);
+            fis.close();
+            
+            Map<String, String> result = new HashMap<String, String>();
+            for (Entry<Object, Object> e : props.entrySet()) {
+                result.put((String) e.getKey(), (String) e.getValue());
+            }
+            return result;
+        } catch (FileNotFoundException e) {
+            Log.e(e.toString() + " during loading privacy level values of " + privacyLevelIdentifier + ".");
+        } catch (IOException e) {
+            Log.e(e.toString() + " during loading privacy level values of " + privacyLevelIdentifier + ".");
+        }
+        
+        return null;
     }
     
     
