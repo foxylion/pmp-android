@@ -4,6 +4,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="PMP-API_src"/>
-	<classpathentry kind="src" path="/FileSystemResourceGroup"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
