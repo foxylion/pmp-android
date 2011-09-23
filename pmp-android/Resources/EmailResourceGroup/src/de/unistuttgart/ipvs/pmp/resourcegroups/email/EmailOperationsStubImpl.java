@@ -38,7 +38,10 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
 
-		context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+		Intent startIntent = Intent.createChooser(emailIntent, "Send mail...");
+		startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
+		context.startActivity(startIntent);
 	}
 
 }
