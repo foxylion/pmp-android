@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -26,8 +27,10 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
 public class CalendarAppActivity extends ListActivity {
     
@@ -128,8 +131,8 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle("ContextMenu");
-                menu.add(0, 0, 0, "Delete this date");
-                menu.add(0, 1, 0, "Send this date via E-mail");
+                menu.add(0, 0, 0, "Delete");
+                menu.add(0, 1, 0, "Send via E-mail");
             }
         });
         
@@ -173,8 +176,45 @@ public class CalendarAppActivity extends ListActivity {
             SqlConnector.getInstance().deleteDate(Model.getInstance().getDateByIndex(menuInfo.position).getId());
             return true;
         }
-        if (aItem.getItemId()==1){
-            Log.d("Send Mail");
+        if (Model.getInstance().getServiceLevel() >= 1 && aItem.getItemId() == 1) {
+            
+            /*
+             * Connect to the EmailResourceGroup and send an mail with the date
+             */
+            final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
+            final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(appContext,
+                    ((CalendarApp) appContext).getSignee(), resGroupId);
+            resGroupCon.addCallbackHandler(new IConnectorCallback() {
+                
+                @Override
+                public void disconnected() {
+                    Log.d("Disconnected from " + resGroupId);
+                }
+                
+                
+                @Override
+                public void connected() {
+                    Log.d("Connected to " + resGroupId);
+                    try {
+                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
+                                .getResource("emailOperations"));
+                        if (emailOP != null) {
+                            emailOP.sendEmail("abc", "abc", "abc");
+                        }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception: ", e);
+                    } finally {
+                        resGroupCon.unbind();
+                    }
+                }
+                
+                
+                @Override
+                public void bindingFailed() {
+                    Log.e("Binding failed to " + resGroupId);
+                }
+            });
+            resGroupCon.bind();
             return true;
         }
         return false;

@@ -262,5 +262,4 @@ public class Model {
     public void setNewDateButton(Button newDateButton) {
         this.newDateButton = newDateButton;
     }
-    
 }

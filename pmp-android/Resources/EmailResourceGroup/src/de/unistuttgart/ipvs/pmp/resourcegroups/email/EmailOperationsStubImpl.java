@@ -29,7 +29,7 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
 		}
 
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		emailIntent.setType("plain/text");
 
