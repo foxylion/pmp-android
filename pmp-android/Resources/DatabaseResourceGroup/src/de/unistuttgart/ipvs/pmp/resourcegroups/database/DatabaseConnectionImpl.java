@@ -76,7 +76,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Build a SQL Statement
             String s = "";
-            String sql = "CREATE TABLE IF NOT EXISTS " + this.dbName + tableName + " (";
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
             Pattern pColName = Pattern.compile(COLUMN_NAME, Pattern.CASE_INSENSITIVE);
             Matcher m1 = pColName.matcher("");
             Pattern pType = Pattern.compile(COLUMN_TYPE, Pattern.CASE_INSENSITIVE);

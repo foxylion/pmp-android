@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.os.RemoteException;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
@@ -112,12 +113,14 @@ public class SqlConnector {
                                 SqlConnector.this.highestId = id;
                             }
                         }
+                        idc.close();
                         Model.getInstance().loadDates(dateList);
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -169,18 +172,24 @@ public class SqlConnector {
                         values.put(SqlConnector.this.DATE, date);
                         values.put(SqlConnector.this.DESC, description);
                         
-                        if (idc.insert(SqlConnector.this.DBNAME, null, values) != -1) {
+                        long result = idc.insert(SqlConnector.this.DBNAME, null, values);
+                        Log.v("Return value of insert: " + result);
+                        if (result != 0) {
                             Log.v("Storing new date: id: " + String.valueOf(id) + " date: " + date + " description: "
                                     + description);
                             Model.getInstance().addDate(new Date(id, description, date));
                         } else {
-                            Log.e("Date didn't inserted into database");
+                            Toast.makeText(Model.getInstance().getContext(), "Error while storing in database",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.e("Date not stored");
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -227,17 +236,22 @@ public class SqlConnector {
                         args[0] = String.valueOf(id);
                         /*
                          * Delete the date out of the database and if exactly
-                         * once removed the remove it out of the model
+                         * once removed then remove it out of the model
                          */
                         if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
                             Model.getInstance().deleteDateByID(id);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while deleting date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -297,12 +311,17 @@ public class SqlConnector {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
                             Model.getInstance().changeDate(id, date, description);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while changing date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -312,17 +331,6 @@ public class SqlConnector {
             }
         });
         resGroupCon.bind();
-    }
-    
-    
-    /**
-     * Returns a new id for a date
-     * 
-     * @return the new id
-     */
-    private int getNewId() {
-        this.highestId++;
-        return this.highestId;
     }
     
     
@@ -361,12 +369,16 @@ public class SqlConnector {
                             if (idc.createTable(SqlConnector.this.DBNAME, columns, null)) {
                                 Log.v("Table created. Name: " + SqlConnector.this.DBNAME);
                                 Model.getInstance().tableCreated(true);
+                            } else {
+                                Log.e("Couldn't create table");
                             }
+                            idc.close();
                         } catch (RemoteException e) {
                             Log.e("Remote Exception", e);
+                        } finally {
+                            resGroupCon.unbind();
                         }
                     }
-                    resGroupCon.unbind();
                 }
                 
                 
@@ -377,5 +389,16 @@ public class SqlConnector {
             });
             resGroupCon.bind();
         }
+    }
+    
+    
+    /**
+     * Returns a new id for a date
+     * 
+     * @return the new id
+     */
+    private int getNewId() {
+        this.highestId++;
+        return this.highestId;
     }
 }
