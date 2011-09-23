@@ -147,8 +147,7 @@ public class XMLParser {
     private void parseOneServiceLevel(Element serviceLevelElement, Boolean defaultServiceLevel) {
         // Validate, if the default service level occurres
         if (defaultServiceLevel && (serviceLevelElement == null)) {
-            throw new XMLParserException(Type.NODE_MISSING,
-                    "The default service level is missing!");
+            throw new XMLParserException(Type.NODE_MISSING, "The default service level is missing!");
         }
         
         // Create results

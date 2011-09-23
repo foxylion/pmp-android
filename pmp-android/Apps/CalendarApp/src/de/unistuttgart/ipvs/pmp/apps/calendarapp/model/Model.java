@@ -22,7 +22,7 @@ public class Model {
     /**
      * Holds all stored dates
      */
-    private ArrayList<Todo> todoList = new ArrayList<Todo>();
+    private ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
     /**
      * The context of the app
@@ -32,12 +32,12 @@ public class Model {
     /**
      * Array adapter of the list to refresh it
      */
-    private ArrayAdapter<Todo> arrayAdapter;
+    private ArrayAdapter<Appointment> arrayAdapter;
     
     /**
      * The newDate button of the app to dis- and enable it
      */
-    private Button newDateButton;
+    private Button newAppointmentButton;
     
     
     /**
@@ -62,16 +62,16 @@ public class Model {
     
     
     /**
-     * Called from {@link SqlConnector#loadDates()}
+     * Called from {@link SqlConnector#loadAppointments()}
      */
-    public void loadDates(ArrayList<Todo> tList) {
+    public void loadAppointments(ArrayList<Appointment> tList) {
         
-        this.todoList.clear();
-        for (Todo date : tList) {
-            this.todoList.add(date);
+        this.appointmentList.clear();
+        for (Appointment date : tList) {
+            this.appointmentList.add(date);
         }
         
-        Collections.sort(this.todoList, new DateComparator());
+        Collections.sort(this.appointmentList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
     }
     
@@ -82,7 +82,7 @@ public class Model {
      * @param adapter
      *            the ArrayAdapter of the list with dates
      */
-    public void setArrayAdapter(ArrayAdapter<Todo> adapter) {
+    public void setArrayAdapter(ArrayAdapter<Appointment> adapter) {
         this.arrayAdapter = adapter;
     }
     
@@ -109,38 +109,38 @@ public class Model {
     
     
     /**
-     * Called from {@link SqlConnector#storeNewDate(String, String)}. Adds the date to de model.
+     * Called from {@link SqlConnector#storeNewDate(String, String)}. Adds the appointment to de model.
      * 
      * @param date
      *            date to store
      */
-    public void addTodo(Todo todo) {
-        this.todoList.add(todo);
-        Collections.sort(this.todoList, new DateComparator());
+    public void addAppointment(Appointment appointment) {
+        this.appointmentList.add(appointment);
+        Collections.sort(this.appointmentList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
     }
     
     
     /**
-     * Called when the date is deleted out of the model. Called from {@link SqlConnector#deleteDate(int)}
+     * Called when the appointment is deleted out of the model. Called from {@link SqlConnector#deleteDate(int)}
      * 
      * @param id
      *            id of the date to delete
      */
-    public void deleteTodoByID(int id) {
-        Todo toDelete = null;
-        for (Todo todo : this.todoList) {
+    public void deleteAppointmentByID(int id) {
+        Appointment toDelete = null;
+        for (Appointment todo : this.appointmentList) {
             if (todo.getId() == id) {
                 toDelete = todo;
             }
         }
-        todoList.remove(toDelete);
+        appointmentList.remove(toDelete);
         this.arrayAdapter.notifyDataSetChanged();
     }
     
     
     /**
-     * Changes the date. Called from {@link SqlConnector#changeDate(int, String, String)}
+     * Changes the appointment. Called from {@link SqlConnector#changeAppointment(int, String, String)}
      * 
      * @param id
      *            unique id of the date
@@ -149,12 +149,12 @@ public class Model {
      * @param description
      *            descrpition of the date
      */
-    public void changeTodo(int id, Date date, String description) {
-        for (Todo todo : this.todoList) {
-            if (todo.getId() == id) {
-                todo.setDate(date);
-                todo.setDescription(description);
-                Collections.sort(this.todoList, new DateComparator());
+    public void changeAppointment(int id, Date date, String description) {
+        for (Appointment appointment : this.appointmentList) {
+            if (appointment.getId() == id) {
+                appointment.setDate(date);
+                appointment.setDescription(description);
+                Collections.sort(this.appointmentList, new DateComparator());
             }
         }
         this.arrayAdapter.notifyDataSetChanged();
@@ -162,24 +162,24 @@ public class Model {
     
     
     /**
-     * Returns the date at the given index of the list
+     * Returns the appointment at the given index of the list
      * 
      * @param index
      *            index of the date
      * @return the date
      */
-    public Todo getTodoByIndex(int index) {
-        return this.todoList.get(index);
+    public Appointment getAppointmentByIndex(int index) {
+        return this.appointmentList.get(index);
     }
     
     
     /**
-     * Returns the whole list of dates
+     * Returns the whole list of appointments
      * 
      * @return
      */
-    public ArrayList<Todo> getDateList() {
-        return this.todoList;
+    public ArrayList<Appointment> getAppointmentList() {
+        return this.appointmentList;
     }
     
     
@@ -241,18 +241,18 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        this.todoList.clear();
+        this.appointmentList.clear();
         this.arrayAdapter.notifyDataSetChanged();
     }
     
     
     /**
-     * Returns the new date button of the app
+     * Returns the new ppointment button of the app
      * 
-     * @return the new date button
+     * @return the new appointment button
      */
-    public Button getNewDateButton() {
-        return this.newDateButton;
+    public Button getNewAppointmentButton() {
+        return this.newAppointmentButton;
     }
     
     
@@ -262,7 +262,7 @@ public class Model {
      * @param newDateButton
      *            button of the app
      */
-    public void setNewDateButton(Button newDateButton) {
-        this.newDateButton = newDateButton;
+    public void setNewAppointmentButton(Button newDateButton) {
+        this.newAppointmentButton = newDateButton;
     }
 }

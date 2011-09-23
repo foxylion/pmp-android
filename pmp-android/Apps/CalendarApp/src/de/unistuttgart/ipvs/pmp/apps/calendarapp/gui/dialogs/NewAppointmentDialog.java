@@ -11,16 +11,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 /**
- * Opens a new dialog where the user can add a new {@link Todo}.
+ * Opens a new dialog where the user can add a new {@link Appointment}.
  * 
  * @author Thorsten Berberich
  * 
  */
-public class NewTodoDialog extends Dialog {
+public class NewAppointmentDialog extends Dialog {
     
     /**
      * The date picker
@@ -44,7 +44,7 @@ public class NewTodoDialog extends Dialog {
      * @param context
      *            the context
      */
-    public NewTodoDialog(Context context) {
+    public NewAppointmentDialog(Context context) {
         super(context);
     }
     
@@ -55,6 +55,8 @@ public class NewTodoDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.newdate);
+        
+        this.setTitle(R.string.add_todo_dialog);
         
         this.dPicker = (DatePicker) findViewById(R.id.datePickerNew);
         this.desc = (TextView) findViewById(R.id.descriptionNew);
@@ -84,14 +86,15 @@ public class NewTodoDialog extends Dialog {
         @Override
         public void onClick(View v) {
             // The chosen month
-            int month = NewTodoDialog.this.dPicker.getMonth();
-            int year = NewTodoDialog.this.dPicker.getYear();
-            int day = NewTodoDialog.this.dPicker.getDayOfMonth();
+            int month = NewAppointmentDialog.this.dPicker.getMonth();
+            int year = NewAppointmentDialog.this.dPicker.getYear();
+            int day = NewAppointmentDialog.this.dPicker.getDayOfMonth();
             
-            Calendar cal = new GregorianCalendar(year,month,day);
-           
+            Calendar cal = new GregorianCalendar(year, month, day);
+            
             // Stores the date
-            SqlConnector.getInstance().storeNewDate(cal.getTime(), NewTodoDialog.this.desc.getText().toString());
+            SqlConnector.getInstance().storeNewAppointment(cal.getTime(),
+                    NewAppointmentDialog.this.desc.getText().toString());
             dismiss();
         }
         
