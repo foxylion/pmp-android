@@ -9,10 +9,10 @@ import java.util.Date;
  * @author Thorsten Berberich
  * 
  */
-public class DateComparator implements Comparator<Todo> {
+public class DateComparator implements Comparator<Appointment> {
     
     @Override
-    public int compare(Todo todo1, Todo todo2) {
+    public int compare(Appointment todo1, Appointment todo2) {
         Date date1 =todo1.getDate();
         Date date2 = todo2.getDate();
         return date1.compareTo(date2);
