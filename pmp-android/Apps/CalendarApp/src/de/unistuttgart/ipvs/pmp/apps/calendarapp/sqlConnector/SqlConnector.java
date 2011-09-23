@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.os.RemoteException;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
@@ -178,7 +179,9 @@ public class SqlConnector {
                                     + description);
                             Model.getInstance().addDate(new Date(id, description, date));
                         } else {
-                            Log.e("Date didn't inserted into database");
+                            Toast.makeText(Model.getInstance().getContext(), "Error while storing in database",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.e("Date not stored");
                         }
                         idc.close();
                     } catch (RemoteException e) {
@@ -238,6 +241,9 @@ public class SqlConnector {
                         if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
                             Model.getInstance().deleteDateByID(id);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while deleting date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
                         idc.close();
                     } catch (RemoteException e) {
@@ -305,6 +311,9 @@ public class SqlConnector {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
                             Model.getInstance().changeDate(id, date, description);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while changing date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
                         idc.close();
                     } catch (RemoteException e) {
@@ -360,6 +369,8 @@ public class SqlConnector {
                             if (idc.createTable(SqlConnector.this.DBNAME, columns, null)) {
                                 Log.v("Table created. Name: " + SqlConnector.this.DBNAME);
                                 Model.getInstance().tableCreated(true);
+                            } else {
+                                Log.e("Couldn't create table");
                             }
                             idc.close();
                         } catch (RemoteException e) {
