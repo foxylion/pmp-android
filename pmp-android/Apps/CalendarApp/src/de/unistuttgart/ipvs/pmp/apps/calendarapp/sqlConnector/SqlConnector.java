@@ -171,7 +171,9 @@ public class SqlConnector {
                         values.put(SqlConnector.this.DATE, date);
                         values.put(SqlConnector.this.DESC, description);
                         
-                        if (idc.insert(SqlConnector.this.DBNAME, null, values) != -1) {
+                        long result = idc.insert(SqlConnector.this.DBNAME, null, values);
+                        Log.v("Return value of insert: " + result);
+                        if (result != 0) {
                             Log.v("Storing new date: id: " + String.valueOf(id) + " date: " + date + " description: "
                                     + description);
                             Model.getInstance().addDate(new Date(id, description, date));
@@ -231,7 +233,7 @@ public class SqlConnector {
                         args[0] = String.valueOf(id);
                         /*
                          * Delete the date out of the database and if exactly
-                         * once removed the remove it out of the model
+                         * once removed then remove it out of the model
                          */
                         if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
