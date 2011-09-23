@@ -32,8 +32,9 @@ public class FileSystemConnector {
     
     /**
      * Identifier of the resource used for storing the exported data.
+     * This is needed since the file system resource has no resource having the same name as
+     * its resource-group
      */
-    // Auskommentiert wegen Fehler
     private final String resourceIdentifier = "ext_download";
     
     
