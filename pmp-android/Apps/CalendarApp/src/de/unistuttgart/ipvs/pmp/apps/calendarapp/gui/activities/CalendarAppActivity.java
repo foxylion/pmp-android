@@ -129,6 +129,7 @@ public class CalendarAppActivity extends ListActivity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle("ContextMenu");
                 menu.add(0, 0, 0, "Delete this date");
+                menu.add(0, 1, 0, "Send this date via E-mail");
             }
         });
         
@@ -164,11 +165,18 @@ public class CalendarAppActivity extends ListActivity {
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
-        if (Model.getInstance().getServiceLevel() == 2) {
+        /*
+         * Called when the user presses sth. in the menu that appears while long clicking
+         */
+        if (Model.getInstance().getServiceLevel() == 2 && aItem.getItemId() == 0) {
             AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
             SqlConnector.getInstance().deleteDate(Model.getInstance().getDateByIndex(menuInfo.position).getId());
-            arrayAdapter.notifyDataSetChanged();
+            return true;
         }
-        return true;
+        if (aItem.getItemId()==1){
+            Log.d("Send Mail");
+            return true;
+        }
+        return false;
     }
 }
