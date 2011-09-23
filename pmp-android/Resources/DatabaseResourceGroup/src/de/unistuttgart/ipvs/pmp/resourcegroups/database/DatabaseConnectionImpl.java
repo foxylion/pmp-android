@@ -17,9 +17,9 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     private final String TABLE_NAME = "^[a-zA-Z0-9_]+$";
-    private static final String COLUMN_NAME = "^((id ){0,1}[a-z0-9_]+)$";
-    private static final String COLUMN_TYPE = "^[a-zA-Z0-9_\\s]+$";
-    private static final String TABLE_CONSTRAINTS = "^[a-zA-Z0-9_\\s]+$";
+    private final String COLUMN_NAME = "^((id ){0,1}[a-z0-9_]+)$";
+    private final String COLUMN_TYPE = "^[a-zA-Z0-9_\\s]+$";
+    private final String TABLE_CONSTRAINTS = "^[a-zA-Z0-9_\\s]+$";
     
     private String dbName;
     private int dbVersion = 1;
@@ -43,7 +43,9 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         String tmp = "";
         for (String oneSplit : appIdentSplit) {
             tmp = tmp + oneSplit;
-        }// TODO Allow access to other databases
+        }
+        // TODO Feature: Allow access to other databases
+        // TODO Feature: New Privacy Level for the maximum size of the DB.
         this.dbName = tmp;
         Log.v("Database name : " + this.dbName);
         this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
@@ -57,6 +59,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     }
     
     
+    @SuppressWarnings("unchecked")
     @Override
     public boolean createTable(String tableName, Map columns, String tableConstraint) throws RemoteException {
         if (isCreate()) {
@@ -69,13 +72,13 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Check the tableName
             tableName = strip(tableName);
-            if (!Pattern.matches(this.TABLE_NAME, tableName)) {
-                Log.d("Table name '" + tableName + "' invalid. " + this.TABLE_NAME);
+            if (!Pattern.matches(TABLE_NAME, tableName)) {
+                Log.d("Table name '" + tableName + "' invalid. " + TABLE_NAME);
                 return false;
             }
             
             // Build a SQL Statement
-            String s = "";
+            StringBuffer s = new StringBuffer("");
             String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
             Pattern pColName = Pattern.compile(COLUMN_NAME, Pattern.CASE_INSENSITIVE);
             Matcher m1 = pColName.matcher("");
@@ -86,27 +89,31 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             for (Object obj : columns.entrySet()) {
                 Entry<String, String> e = (Entry<String, String>) obj;
                 if (m1.reset(strip(e.getKey())).find() && m2.reset(strip(e.getValue())).find()) {
-                    s += strip(e.getKey()) + " " + strip(e.getValue()) + ", ";
+                    s.append(strip(e.getKey())).append(" ").append(strip(e.getValue())).append(", ");
+                } else {
+                    Log.e("Column description is not valid: " + e.toString());
+                    return false;
                 }
             }
             if (tableConstraint != null) {
                 Pattern p = Pattern.compile(TABLE_CONSTRAINTS, Pattern.CASE_INSENSITIVE);
                 m1 = p.matcher(strip(tableConstraint));
                 if (m1.find()) {
-                    s += strip(tableConstraint) + ")";
+                    s.append(strip(tableConstraint)).append(")");
                 }
             } else {
-                s = s.substring(0, s.length() - 2) + ")";
+                s.delete(s.length() - 2, s.length()).append(")");
             }
             sql = sql + s;
             closeCursor();
             openDB();
-            Log.v("Executing Sql query: " + sql);
+            Log.v("Create table SQL query: " + sql);
             this.cursor = this.db.rawQuery(sql, null);
             
-            // TODO Check table's existence
+            // TODO Check table's existence if necessary
             // SELECT name FROM sqlite_master WHERE type='table' AND
             // name='table_name';
+            Log.v("Created " + cursor.getCount() + " table(s).");
             if (this.cursor.getCount() > 0) {
                 return true;
             } else {
@@ -130,6 +137,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     }
     
     
+    // TODO Check content type!
     private ContentValues getContentValues(Map values) {
         if (values == null || values.isEmpty()) {
             return null;
@@ -163,7 +171,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     @Override
-    public double getDouble(int column) throws RemoteException {
+    public double getAsDouble(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
@@ -179,7 +187,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     @Override
-    public int getInteger(int column) throws RemoteException {
+    public int getAsInteger(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
@@ -196,10 +204,12 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     @Override
     public String[] getRowAndNext() throws RemoteException {
-        if (this.cursor == null || !isRead()) {
+        if (!isRead()) {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
             throw ex;
+        } else if (this.cursor == null) {
+            return null;
         } else if (this.cursor.isAfterLast() || this.cursor.isBeforeFirst()) {
             return null;
         } else {
@@ -244,7 +254,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     @Override
-    public String getString(int column) throws RemoteException {
+    public String getAsString(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
@@ -346,6 +356,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             closeCursor();
             openDB();
             this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+            this.cursor.moveToFirst();
             return this.cursor.getCount();
         } else {
             RemoteException ex = new RemoteException();
@@ -420,5 +431,14 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isAfterLast() throws RemoteException {
+        if (cursor == null) {
+            return true;
+        } else {
+            return cursor.isAfterLast();
+        }
     }
 }
