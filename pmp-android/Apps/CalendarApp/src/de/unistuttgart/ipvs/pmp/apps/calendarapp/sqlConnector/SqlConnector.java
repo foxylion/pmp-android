@@ -1,13 +1,15 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.os.RemoteException;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Todo;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -94,7 +96,7 @@ public class SqlConnector {
                         IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         
-                        ArrayList<Date> dateList = new ArrayList<Date>();
+                        ArrayList<Todo> todoList = new ArrayList<Todo>();
                         
                         // Getting the number of the rows
                         long rowCount = idc.query(SqlConnector.this.DBNAME, null, null, null, null, null, null);
@@ -104,7 +106,7 @@ public class SqlConnector {
                             
                             String[] columns = idc.getRowAt(itr);
                             int id = Integer.valueOf(columns[0]);
-                            dateList.add(new Date(id, columns[2], columns[1]));
+                            todoList.add(new Todo(id, columns[2], new Date(Long.valueOf(columns[1]))));
                             Log.v("Loading date: ID: " + String.valueOf(id) + " date: " + columns[1] + " description: "
                                     + columns[2]);
                             // Check if there's a new highest id
@@ -112,12 +114,14 @@ public class SqlConnector {
                                 SqlConnector.this.highestId = id;
                             }
                         }
-                        Model.getInstance().loadDates(dateList);
+                        idc.close();
+                        Model.getInstance().loadDates(todoList);
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -131,14 +135,14 @@ public class SqlConnector {
     
     
     /**
-     * Stores the new date in the SQL Database and then calls {@link Model#addDate(Date)}.
+     * Stores the new date in the SQL Database and then calls {@link Model#addDate(Todo)}.
      * 
      * @param date
      *            the date
      * @param description
      *            the description
      */
-    public void storeNewDate(final String date, final String description) {
+    public void storeNewDate(final Date date, final String description) {
         
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -166,21 +170,27 @@ public class SqlConnector {
                         Map<String, String> values = new HashMap<String, String>();
                         int id = getNewId();
                         values.put(SqlConnector.this.ID, String.valueOf(id));
-                        values.put(SqlConnector.this.DATE, date);
+                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
                         
-                        if (idc.insert(SqlConnector.this.DBNAME, null, values) != -1) {
+                        long result = idc.insert(SqlConnector.this.DBNAME, null, values);
+                        Log.v("Return value of insert: " + result);
+                        if (result != 0) {
                             Log.v("Storing new date: id: " + String.valueOf(id) + " date: " + date + " description: "
                                     + description);
-                            Model.getInstance().addDate(new Date(id, description, date));
+                            Model.getInstance().addTodo(new Todo(id, description, date));
                         } else {
-                            Log.e("Date didn't inserted into database");
+                            Toast.makeText(Model.getInstance().getContext(), "Error while storing in database",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.e("Date not stored");
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -227,17 +237,22 @@ public class SqlConnector {
                         args[0] = String.valueOf(id);
                         /*
                          * Delete the date out of the database and if exactly
-                         * once removed the remove it out of the model
+                         * once removed then remove it out of the model
                          */
                         if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
-                            Model.getInstance().deleteDateByID(id);
+                            Model.getInstance().deleteTodoByID(id);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while deleting date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -260,7 +275,7 @@ public class SqlConnector {
      * @param description
      *            the description that has changed
      */
-    public void changeDate(final int id, final String date, final String description) {
+    public void changeDate(final int id, final Date date, final String description) {
         
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -285,7 +300,7 @@ public class SqlConnector {
                         IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         Map<String, String> values = new HashMap<String, String>();
-                        values.put(SqlConnector.this.DATE, date);
+                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
                         
                         /*
@@ -296,13 +311,18 @@ public class SqlConnector {
                                 SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
-                            Model.getInstance().changeDate(id, date, description);
+                            Model.getInstance().changeTodo(id, date, description);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(), "Error while changing date in database",
+                                    Toast.LENGTH_SHORT).show();
                         }
+                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        resGroupCon.unbind();
                     }
                 }
-                resGroupCon.unbind();
             }
             
             
@@ -312,17 +332,6 @@ public class SqlConnector {
             }
         });
         resGroupCon.bind();
-    }
-    
-    
-    /**
-     * Returns a new id for a date
-     * 
-     * @return the new id
-     */
-    private int getNewId() {
-        this.highestId++;
-        return this.highestId;
     }
     
     
@@ -361,12 +370,16 @@ public class SqlConnector {
                             if (idc.createTable(SqlConnector.this.DBNAME, columns, null)) {
                                 Log.v("Table created. Name: " + SqlConnector.this.DBNAME);
                                 Model.getInstance().tableCreated(true);
+                            } else {
+                                Log.e("Couldn't create table");
                             }
+                            idc.close();
                         } catch (RemoteException e) {
                             Log.e("Remote Exception", e);
+                        } finally {
+                            resGroupCon.unbind();
                         }
                     }
-                    resGroupCon.unbind();
                 }
                 
                 
@@ -377,5 +390,16 @@ public class SqlConnector {
             });
             resGroupCon.bind();
         }
+    }
+    
+    
+    /**
+     * Returns a new id for a date
+     * 
+     * @return the new id
+     */
+    private int getNewId() {
+        this.highestId++;
+        return this.highestId;
     }
 }

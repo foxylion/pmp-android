@@ -44,6 +44,10 @@
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
 			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+				<privacyLevel identifier="canSendEmail">true</privacyLevel>
+			</requiredResourceGroup>
 		</serviceLevel>
 		<serviceLevel>
 			<level>2</level>
@@ -61,6 +65,10 @@
 				<privacyLevel identifier="read">true</privacyLevel>
 				<privacyLevel identifier="modify">true</privacyLevel>
 				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+				<privacyLevel identifier="canSendEmail">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 	</serviceLevels>

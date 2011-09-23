@@ -109,9 +109,7 @@ public class CalendarApp extends App {
                 Model.getInstance().getNewDateButton().setEnabled(false);
                 break;
             case 1:
-                if (Model.getInstance().isTableCreated()) {
-                    SqlConnector.getInstance().loadDates();
-                }
+                SqlConnector.getInstance().loadDates();
                 Model.getInstance().getNewDateButton().setEnabled(false);
                 break;
             case 2:
