@@ -1,23 +1,40 @@
 package de.unistuttgart.ipvs.pmp.model.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ServiceInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.ListPreference;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
 public class PMPDeveloperConsoleActivity extends Activity {
     
@@ -134,6 +151,59 @@ public class PMPDeveloperConsoleActivity extends Activity {
             public void onClick(View v) {
                 EditText serviceName = (EditText) findViewById(R.id.pmp_developer_console_edit_service_name);
                 PMPDeveloperConsoleActivity.this.self.bindService(serviceName.getText().toString());
+            }
+        });
+        
+        /**
+         * Register ResourceGroup.
+         */
+        Button registerRg = (Button) findViewById(R.id.pmp_developer_console_button_register_rg);
+        registerRg.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                final List<Intent> intents = new ArrayList<Intent>();
+                
+                final PackageManager pm = getPackageManager();
+                List<ApplicationInfo> pkgs = pm.getInstalledApplications(0);
+                for (ApplicationInfo info : pkgs) {
+                    try {
+                        PackageInfo pi = pm.getPackageInfo(info.packageName, PackageManager.GET_ACTIVITIES
+                                | PackageManager.GET_INTENT_FILTERS);
+                        if (pi.activities != null) {
+                            for (ActivityInfo ai : pi.activities) {
+                                if (ai.name.equals(ResourceGroupActivity.class.getName())) {
+                                    Log.d(info.packageName + " :: " + ai.name);
+                                    Intent i = new Intent();
+                                    i.setClassName(info.packageName, ai.name);
+                                    i.setPackage(info.packageName);
+                                    i.putExtra("rgName", info.loadLabel(pm));
+                                    Log.d(info.name);
+                                    intents.add(i);
+                                }
+                            }
+                        }
+                    } catch (NameNotFoundException e) {
+                        Log.e(info.packageName + " not found.", e);
+                    }
+                    
+                }
+                
+                CharSequence[] items = new CharSequence[intents.size()];
+                for(int i = 0; i < items.length; i++) {
+                    items[i] = intents.get(i).getStringExtra("rgName");
+                    Log.d("" + items[i]);
+                }
+                
+                AlertDialog.Builder builder = new AlertDialog.Builder(self);
+                builder.setTitle("Pick a ResourceGroup");
+                builder.setItems(items, new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialogInterface, int item) {
+                        startActivity(intents.get(item));
+                        return;
+                    }
+                });
+                builder.create().show();
             }
         });
     }

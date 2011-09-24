@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RG: Filesystem</string>
+    <string name="app_name">Filesystem ResourceGroup</string>
     <string name="rg_name">File system</string>
     <string name="rg_desc">Gives access to files stored on the device</string>
     <string name="read">Read</string>
