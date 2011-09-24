@@ -10,6 +10,7 @@
 			android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 
