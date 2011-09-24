@@ -3,7 +3,6 @@
 	<appInformation>
 		<defaultName lang="en">Calendar</defaultName>
 		<name lang="de">Kalender</name>
-		<name lang="sv">Kalender</name>
 		<defaultDescription lang="en">This App is used to test
 			the privacy management platform. It provides simple calendar
 			functionalities.
@@ -12,54 +11,66 @@
 			Manangement Platform zu testen. Sie stellt einfache Funktionalitäten
 			eines Kalenders zur Verfügung.
 		</description>
-		<description lang="sv">App används för att testa plattformen
-			privatliv Manangement. Det ger enkel kalender funktioner.
-		</description>
 	</appInformation>
 	<serviceLevels>
 		<defaultServiceLevel>
 			<level>0</level>
 			<defaultName lang="en">Null-Level</defaultName>
 			<name lang="de">Null-Level</name>
-			<name lang="sv">null nivå</name>
-			<defaultDescription lang="en">I can't do anything for
-				you!
+			<defaultDescription lang="en">I need no resource
+				groups, but i can't do anything for
+				you.
 			</defaultDescription>
-			<description lang="de">Ich kann nichts für Sie tun!
-			</description>
-			<description lang="sv">Jag kan inte göra något för dig!
+			<description lang="de">Ich benötige keine Ressourcengruppen,
+				kann jedoch auch nichts für Sie tun.
 			</description>
 		</defaultServiceLevel>
 		<serviceLevel>
 			<level>1</level>
-			<defaultName lang="en">Level Read Only</defaultName>
-			<name lang="de">Nur lesendes Level</name>
-			<name lang="sv">Nivå Skrivskyddad</name>
-			<defaultDescription lang="en">I can read the files.
+			<defaultName lang="en">Read calendar entries</defaultName>
+			<name lang="de">Kalendereinträge lesen</name>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
-			<description lang="de">Ich kann die Daten lesen.
+			<description lang="de">Ich kann Kalendereinträge lesen.
 			</description>
-			<description lang="sv">Jag kan läsa filerna.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
 			</requiredResourceGroup>
-			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
-				<privacyLevel identifier="canSendEmail">true</privacyLevel>
-			</requiredResourceGroup>
 		</serviceLevel>
 		<serviceLevel>
 			<level>2</level>
-			<defaultName lang="en">Level Complete</defaultName>
-			<name lang="de">Vollständiges Level</name>
-			<name lang="sv">Klara nivå</name>
-			<defaultDescription lang="en">I can do anything you
-				want
+			<defaultName lang="en">Read and write calendar entries
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen und schreiben</name>
+			<defaultDescription lang="en">I can read and write
+				calendar entries.
 			</defaultDescription>
-			<description lang="de">Ich kann alles, was Sie wünschen!
+			<description lang="de">Ich kann Kalendereinträge lesen und
+				schreiben.
 			</description>
-			<description lang="sv">Jag kan göra vad du vill!</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>3</level>
+			<defaultName lang="en">Read, write calendar entries and send
+				them via email
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen, schreiben und per E-Mail
+				versenden
+			</name>
+			<defaultDescription lang="en">I can read, write
+				calendar entries and send them via email.
+			</defaultDescription>
+			<description lang="de">Ich kann Kalendereinträge lesen,
+				schreiben und per E-Mail versenden.
+			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 				<privacyLevel identifier="read">true</privacyLevel>
@@ -71,6 +82,121 @@
 				<privacyLevel identifier="canSendEmail">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
+		<serviceLevel>
+			<level>4</level>
+			<defaultName lang="en">Read, write and import calendar entries
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen, schreiben und importieren
+			</name>
+			<defaultDescription lang="en">I can read, write and
+				import calendar entries.
+			</defaultDescription>
+			<description lang="de">Ich Kalendereinträge lesen, schreiben
+				und importieren.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacyLevel identifier="gen_l">true</privacyLevel>
+				<privacyLevel identifier="gen_r">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>5</level>
+			<defaultName lang="en">Read, write, import calendar entries
+				and send them via email
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen, schreiben, importieren und
+				per E-Mail versenden
+			</name>
+			<defaultDescription lang="en">I can read, write, import
+				calendar entries and send them via email.
+			</defaultDescription>
+			<description lang="de">Ich Kalendereinträge lesen, schreiben,
+				importieren und per E-Mail versenden.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacyLevel identifier="gen_l">true</privacyLevel>
+				<privacyLevel identifier="gen_r">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+				<privacyLevel identifier="canSendEmail">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>6</level>
+			<defaultName lang="en">Read, write, import and export calendar
+				entries
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen, schreiben, importieren und
+				exportieren
+			</name>
+			<defaultDescription lang="en">I can read, write, import
+				and export calendar entries.
+			</defaultDescription>
+			<description lang="de">Ich Kalendereinträge lesen, schreiben,
+				importieren, exportieren.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacyLevel identifier="gen_l">true</privacyLevel>
+				<privacyLevel identifier="gen_r">true</privacyLevel>
+				<privacyLevel identifier="gen_d">true</privacyLevel>
+				<privacyLevel identifier="gen_w">true</privacyLevel>
+				<privacyLevel identifier="gen_mkdirs">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>7</level>
+			<defaultName lang="en">Read, write, import, export calendar
+				entries and send them via email
+			</defaultName>
+			<name lang="de">Kalendereinträge lesen, schreiben, importieren,
+				exportieren und per E-Mail versenden
+			</name>
+			<defaultDescription lang="en">I can read, write, import
+				and export calendar entries and send them via email.
+			</defaultDescription>
+			<description lang="de">Ich Kalendereinträge lesen, schreiben,
+				importieren, exportieren und per E-Mail versenden.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="read">true</privacyLevel>
+				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacyLevel identifier="gen_l">true</privacyLevel>
+				<privacyLevel identifier="gen_r">true</privacyLevel>
+				<privacyLevel identifier="gen_d">true</privacyLevel>
+				<privacyLevel identifier="gen_w">true</privacyLevel>
+				<privacyLevel identifier="gen_mkdirs">true</privacyLevel>
+			</requiredResourceGroup>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+				<privacyLevel identifier="canSendEmail">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
 	</serviceLevels>
 </app>
-	
