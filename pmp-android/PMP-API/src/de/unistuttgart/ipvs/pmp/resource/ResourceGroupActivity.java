@@ -98,14 +98,14 @@ public class ResourceGroupActivity extends Activity {
             
             @Override
             public void run() {
-                boolean allRegistered = true;
+                ResourceRegistrationState rgState = ResourceRegistrationState.REGISTERED;
                 for (ResourceGroup rg : ResourceGroupActivity.this.rgs) {
-                    if (!rg.isRegistered(getApplicationContext())) {
-                        allRegistered = false;
+                    rgState = rg.isRegistered(getApplicationContext());
+                    if (rgState != ResourceRegistrationState.REGISTERED) {
                         break;
                     }
                 }
-                foundRegistrationState(allRegistered);
+                foundRegistrationState(rgState);
             }
         });
         
@@ -119,20 +119,31 @@ public class ResourceGroupActivity extends Activity {
      * @param registrationState
      *            true, if and only if all resource groups are registered
      */
-    private void foundRegistrationState(final boolean registrationState) {
+    private void foundRegistrationState(final ResourceRegistrationState registrationState) {
         runOnUiThread(new Runnable() {
             
             @Override
             public void run() {
                 ResourceGroupActivity.this.progress.hide();
-                ResourceGroupActivity.this.installBtn.setEnabled(!registrationState);
-                if (registrationState) {
-                    ResourceGroupActivity.this.installBtn.setText("Already installed");
-                    ResourceGroupActivity.this.state
-                            .setText("All resource groups stored in this app are already registered with PMP.");
-                } else {
-                    ResourceGroupActivity.this.state
-                            .setText("Click \"Install\" to register all the missing resource groups with PMP.");
+                ResourceGroupActivity.this.installBtn
+                        .setEnabled(registrationState == ResourceRegistrationState.NOT_REGISTERED);
+                switch (registrationState) {
+                    case REGISTERED:
+                        ResourceGroupActivity.this.installBtn.setText("Already installed");
+                        ResourceGroupActivity.this.state
+                                .setText("All resource groups stored in this app are already registered with PMP.");
+                        break;
+                    
+                    case NOT_REGISTERED:
+                        ResourceGroupActivity.this.state
+                                .setText("Click \"Install\" to register all the missing resource groups with PMP.");
+                        break;
+                    
+                    case PMP_NOT_FOUND:
+                        ResourceGroupActivity.this.state
+                                .setText("PMP was not found on this device, but is required to use this resource group.");
+                        break;
+                
                 }
             }
         });

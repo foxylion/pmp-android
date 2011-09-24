@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.concurrent.Semaphore;
 
 import android.content.Context;
 import android.os.RemoteException;
@@ -202,9 +201,14 @@ public abstract class ResourceGroup {
      * 
      * @param context
      *            {@link Context} to use for the connection
+     * @return <ul>
+     *         <li>PMP_NOT_FOUND, if PMP was not found</li>
+     *         <li>NOT_REGISTERED, if PMP was found, but the RG was not registered</li>
+     *         <li>REGISTERED, if PMP was found and the RG was registered</li>
+     *         </ul>
      * 
      */
-    public boolean isRegistered(Context context) {
+    public ResourceRegistrationState isRegistered(Context context) {
         final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);
         
         // required due to final pointer
@@ -214,8 +218,6 @@ public abstract class ResourceGroup {
         }
         
         final ResultObject ro = new ResultObject();
-        // we however ensure passing the callback by blocking
-        final Semaphore sema = new Semaphore(0);
         pmpsc.addCallbackHandler(new IConnectorCallback() {
             
             @Override
@@ -225,9 +227,8 @@ public abstract class ResourceGroup {
             
             @Override
             public void connected() {
-                ro.result = !pmpsc.isRegistered();
+                ro.result = pmpsc.isRegistered();
                 pmpsc.unbind();
-                sema.release();
             }
             
             
@@ -235,15 +236,16 @@ public abstract class ResourceGroup {
             public void bindingFailed() {
             }
         });
-        pmpsc.bind();
         
-        // wait for result
-        try {
-            sema.acquire();
-        } catch (InterruptedException e) {
-            ro.result = false;
-        }
-        return ro.result;
+        if (pmpsc.bind(true)) {
+            if (ro.result) {
+                return ResourceRegistrationState.REGISTERED;
+            } else {
+                return ResourceRegistrationState.NOT_REGISTERED;
+            }
+        } else {
+            return ResourceRegistrationState.PMP_NOT_FOUND;
+        }           
     }
     
     
