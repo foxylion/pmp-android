@@ -100,6 +100,7 @@ public class SqlConnector {
                         ArrayList<Appointment> todoList = new ArrayList<Appointment>();
                         
                         // Getting the number of the rows
+                        // TODO: table not exists?
                         long rowCount = idc.query(SqlConnector.this.DBNAME, null, null, null, null, null, null);
                         
                         // Getting the rows
@@ -342,7 +343,7 @@ public class SqlConnector {
      * Creates a table if there exists none. The table name is "appointmentlist".
      */
     private void createTable() {
-        if (!Model.getInstance().isTableCreated()) {
+        if (!Model.getInstance().isTableCreated()) { // TODO: Preference is not always accurate!!! 
             final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                     .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
                     .getApplicationContext()).getSignee(), this.resGroupIdentifier);

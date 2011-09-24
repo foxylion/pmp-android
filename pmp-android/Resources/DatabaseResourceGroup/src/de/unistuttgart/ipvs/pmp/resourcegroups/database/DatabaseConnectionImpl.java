@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
@@ -16,10 +17,11 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
 @SuppressWarnings("rawtypes")
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
-    private final String TABLE_NAME = "^[a-zA-Z0-9_]+$";
-    private final String COLUMN_NAME = "^((id ){0,1}[a-z0-9_]+)$";
-    private final String COLUMN_TYPE = "^[a-zA-Z0-9_\\s]+$";
-    private final String TABLE_CONSTRAINTS = "^[a-zA-Z0-9_\\s]+$";
+    // Regular expressions used to check SQL queries from apps 
+    private static final String TABLE_NAME = "^[a-zA-Z0-9_]+$";
+    private static final String COLUMN_NAME = "^((_id\\s+){0,1}[a-z0-9_]+)$";
+    private static final String COLUMN_TYPE = "^[a-z0-9_\\s]+$";
+    private static final String TABLE_CONSTRAINTS = "^[a-z\\s]+\\(\\s*[a-z0-9_]+\\s*(\\s*[,]\\s*[a-z0-9_]+)*\\)[a-z0-9_\\s]*$";
     
     private String dbName;
     private int dbVersion = 1;
@@ -39,14 +41,15 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         this.resource = resource;
         this.appID = appIdentifier;
         
-        String[] appIdentSplit = this.appID.split("\\.");
-        String tmp = "";
-        for (String oneSplit : appIdentSplit) {
-            tmp = tmp + oneSplit;
-        }
+//        String[] appIdentSplit = this.appID.split("\\.");
+//        String tmp = "";
+//        for (String oneSplit : appIdentSplit) {
+//            tmp = tmp + oneSplit;
+//        }
+        
         // TODO Feature: Allow access to other databases
         // TODO Feature: New Privacy Level for the maximum size of the DB.
-        this.dbName = tmp;
+        this.dbName = appID;
         Log.v("Database name : " + this.dbName);
         this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
     }
@@ -59,7 +62,6 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     }
     
     
-    @SuppressWarnings("unchecked")
     @Override
     public boolean createTable(String tableName, Map columns, String tableConstraint) throws RemoteException {
         if (isCreate()) {
@@ -78,9 +80,9 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             }
             
             // Build a SQL Statement
-            StringBuffer s = new StringBuffer("");
-//            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
-            String sql = "CREATE TABLE " + tableName + " (";
+            StringBuffer sql = new StringBuffer("CREATE TABLE IF NOT EXISTS ");
+            // CREATE TABLE IF NOT EXISTS "main"."appointments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , "description" TEXT, "appointment" TEXT)
+            sql.append(tableName).append(" (");
             Pattern pColName = Pattern.compile(COLUMN_NAME, Pattern.CASE_INSENSITIVE);
             Matcher m1 = pColName.matcher("");
             Pattern pType = Pattern.compile(COLUMN_TYPE, Pattern.CASE_INSENSITIVE);
@@ -88,9 +90,9 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Check the column descriptions
             for (Object obj : columns.entrySet()) {
-                Entry<String, String> e = (Entry<String, String>) obj;
-                if (m1.reset(strip(e.getKey())).find() && m2.reset(strip(e.getValue())).find()) {
-                    s.append(strip(e.getKey())).append(" ").append(strip(e.getValue())).append(", ");
+                Entry e = (Entry) obj;
+                if (m1.reset(strip(e.getKey().toString())).find() && m2.reset(strip(e.getValue().toString())).find()) {
+                    sql.append("\"").append(strip(e.getKey().toString())).append("\" ").append(strip(e.getValue().toString())).append(", ");
                 } else {
                     Log.e("Column description is not valid: " + e.toString());
                     return false;
@@ -100,30 +102,39 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                 Pattern p = Pattern.compile(TABLE_CONSTRAINTS, Pattern.CASE_INSENSITIVE);
                 m1 = p.matcher(strip(tableConstraint));
                 if (m1.find()) {
-                    s.append(strip(tableConstraint)).append(")");
+                    sql.append(strip(tableConstraint)).append(")");
                 }
             } else {
-                s.delete(s.length() - 2, s.length()).append(")");
+                sql.delete(sql.length() - 2, sql.length()).append(")");
             }
-            sql = sql + s;
+            
+            // Execute the query and return result
             closeCursor();
             openDB();
-            Log.v("Create table SQL query: " + sql);
-            this.cursor = this.db.rawQuery(sql, null);
-            String[] args = new String[1];
-            args[0] = strip(tableName);
-            cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
-            Log.e(cursor.toString());
-            // SELECT name FROM sqlite_master WHERE type='table' AND
-            // name='table_name';
-            Log.v("Created " + cursor.getCount() + " table(s).");
-            if (this.cursor.getCount() > 0) {
+            Log.v("Execute create table SQL query: " + sql.toString());
+            this.cursor = this.db.rawQuery(sql.toString(), null);
+            Log.v("Table creation result: " + cursor.getCount());
+            if (this.cursor.getCount() != -1) {
                 return true;
             } else {
                 return false;
             }
         }
         return false;
+    }
+    
+    
+    public boolean isTableExisted(String tableName) {
+        String[] args = new String[1];
+        args[0] = strip(tableName);
+        closeCursor();
+        openDB();
+        cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
+        if (cursor.getCount()>=1) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     
@@ -341,10 +352,18 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         if (isRead()) {
             closeCursor();
             openDB();
-            // TODO Fix Bug
-            this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-            this.cursor.moveToFirst(); // TODO movable?
-            return this.cursor.getCount();
+            try {
+                this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
+            } catch (SQLiteException e) {
+                RemoteException ex = new RemoteException();
+                ex.initCause(e);
+            }
+            if (cursor == null) {
+                return -1;
+            } else {
+                cursor.moveToNext(); // TODO: MOVEABLE? DESCRIPTION!
+                return cursor.getCount();
+            }
         } else {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
@@ -414,8 +433,8 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Check the tableName
             tableName = strip(tableName);
-            if (!Pattern.matches(this.TABLE_NAME, tableName)) {
-                Log.d("Table name '" + tableName + "' invalid. " + this.TABLE_NAME);
+            if (!Pattern.matches(DatabaseConnectionImpl.TABLE_NAME, tableName)) {
+                Log.d("Table name '" + tableName + "' invalid. " + DatabaseConnectionImpl.TABLE_NAME);
                 return false;
             }
             

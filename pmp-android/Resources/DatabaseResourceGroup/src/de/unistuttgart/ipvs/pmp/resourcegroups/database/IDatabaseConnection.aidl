@@ -12,11 +12,20 @@ interface IDatabaseConnection {
      *  Close and clean up the current connection. 
      */
     void close();
-        
+    
+    /**
+     * Return wether the requested table exists
+     * 
+     * @param tableName Name of the table
+     * @return true if the table exists, false otherwise
+     */
+    boolean isTableExisted(String tableName);
+
     /**
      * Create a table if it doesn't already exist.
      * 
-     * @param tableName Name of the table to be created.
+     * @param tableName Name of the table to be created. Table name can only
+     * contains alphanumeric and underscore characters.
      * @param column A Map of column names and their descriptions, both must be
      * Strings and don't contain special characters. 
      * @param tableConstraint Describe the constraints for the table.
