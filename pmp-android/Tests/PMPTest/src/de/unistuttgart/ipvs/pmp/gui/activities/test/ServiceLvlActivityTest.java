@@ -3,16 +3,30 @@ package de.unistuttgart.ipvs.pmp.gui.activities.test;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity;
+import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<ServiceLvlActivity> {
     
     ServiceLvlActivity mActivity;
+    IApp app;
+    IServiceLevel levelArray[];
     String headerString;
     
     String TEST_APP_IDENT = "TEST_APP_IDENT";
@@ -22,6 +36,8 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
     String TEST_SERLVL_IDENT;
     String TEST_SERLVL_NAME;
     String TEST_SERLVL_DESC;
+    
+    RadioGroup rGroup;
     
     
     public ServiceLvlActivityTest() {
@@ -40,8 +56,6 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
         TEST_SERLVL_NAME = "SERLVL_NAME";
         TEST_SERLVL_DESC = "SERLVL_DESC";
         
-        headerString = mActivity.getString(R.string.servive_level_for) + " " + TEST_APP_NAME;
-        
         DatabaseOpenHelper doh = DatabaseSingleton.getInstance().getDatabaseHelper();
         doh.cleanTables();
         SQLiteDatabase DB = doh.getWritableDatabase();
@@ -55,9 +69,12 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
                 this.TEST_SERLVL_NAME, this.TEST_SERLVL_DESC });
         
         Intent intent = new Intent();
+        intent.setClassName("de.unistuttgart.ipvs.pmp", "de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity");
         intent.putExtra(Constants.INTENT_IDENTIFIER, TEST_APP_IDENT);
         setActivityIntent(intent);
         mActivity = getActivity();
+        headerString = mActivity.getString(R.string.servive_level_for) + " " + TEST_APP_NAME;
+        
     }
     
     
@@ -72,13 +89,19 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
     }
     
     
-    public void testGermanHeader() {
-        assertEquals("Service Levels f�r APP_NAME", headerString);
-    }
-    
+    //    public void testGermanHeader() {
+    //        assertEquals("Service Levels f�r APP_NAME", headerString);
+    //    }
     
     public void testLoadServiceLvls() {
         
+        app = ModelSingleton.getInstance().getModel().getApp(TEST_APP_IDENT);
+        levelArray = app.getServiceLevels();
+        rGroup = new RadioGroup(mActivity);
+        RadioButton button = new RadioButton(mActivity);
+        button.setText(levelArray[0].getName());
+        //        assertNotNull(button);
+        //        assertEquals(this.TEST_SERLVL_NAME, button.getText());
     }
     
 }
