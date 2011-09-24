@@ -1,12 +1,18 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 /**
  * Represents one date object that is stored
  * 
  * @author Thorsten
  * 
  */
-public class Date {
+public class Appointment {
     
     /**
      * The descrption of the date
@@ -16,7 +22,7 @@ public class Date {
     /**
      * Date as string representation
      */
-    private String date;
+    private Date date;
     
     /**
      * Unique id to identifiy the date
@@ -32,7 +38,7 @@ public class Date {
      * @param date
      *            date as String
      */
-    public Date(int id, String descrpition, String date) {
+    public Appointment(int id, String descrpition, Date date) {
         this.descrpition = descrpition;
         this.date = date;
         this.id = id;
@@ -65,7 +71,7 @@ public class Date {
      * 
      * @return the date as string
      */
-    public String getDate() {
+    public Date getDate() {
         return this.date;
     }
     
@@ -76,7 +82,7 @@ public class Date {
      * @param date
      *            to set
      */
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     
@@ -96,6 +102,10 @@ public class Date {
      */
     @Override
     public String toString() {
-        return this.descrpition + "\n" + this.date;
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        SimpleDateFormat formatter;
+        formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        return this.descrpition + "\n" + formatter.format(cal.getTime());
     }
 }

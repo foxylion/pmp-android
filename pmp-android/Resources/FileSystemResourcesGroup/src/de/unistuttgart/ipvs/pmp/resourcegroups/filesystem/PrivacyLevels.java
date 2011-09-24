@@ -176,7 +176,7 @@ public class PrivacyLevels {
      * @throws Exception
      *             Thrown,
      */
-    public PrivacyLevels(Context c) throws Exception {
+    public PrivacyLevels(Context c) {
         
         // Read localized strings for the basic operations
         String read = c.getResources().getString(R.string.read);

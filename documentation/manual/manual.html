@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+f<!DOCTYPE html>
 <html>
 <head>
   <title>Handbuch - Privacy Management Platform</title>
@@ -10,10 +10,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">17. August 2011</div>
+    <div id="page-head-date">24. September 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 0.1</div>
+    <div id="page-version">Version 0.2</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -41,7 +41,7 @@
           <li>den unerfahrenen Benutzer</li>
           <li>den erfahrenen Benutzer</li>
           <li>den Entwicklern von Ressourcen (für die PMP)</li>
-          <li>den Entwicklern von Apps inkl. deren Service-Levels</li>
+          <li>den Entwicklern von Applikationen inkl. deren Service-Levels</li>
           <li>dem Kunden</li>
           <li>den Betreuern des Studienprojekts</li>
         </ul> 
@@ -54,29 +54,76 @@
         Benutzergruppen:
         <ul>
           <li>"<span class="reference" title="#user"></span>" richtet sich an Benutzer,
-            die die PMP verwenden möchten. Diese Kapitel unterteilt sich in einen Abschnitt,
-            der den einfachen Modus (<span class="reference" title="#simplemode"></span>) 
-            erläutert, und einen Abschnitt für den erweiterten Modus 
-            (<span class="reference" title="#expertmode"></span>), der die Funktionen des
-            erweiterten Modus beschreibt.</li>
+            die die PMP verwenden möchten. Dieses Kapitel enthält eine Beschreibung aller
+            im einfachen Modus (<span class="reference" title="#simplemode"></span>) 
+            verfügbaren Funktionen, sowie eine Beschreibung der Funktionen, die 
+            erst im erweiterten Modus (<span class="reference" title="#expertmode"></span>)
+            verfügbar sind.</li>
           <li>"<span class="reference" title="#developers"></span>" richtet sich an 
             Benutzer, die Ressourcen oder Apps für die PMP entwickeln möchten.
-            Der Unterabschnitt "<span class="reference" title="#devsl"></span>"
-            geht auf die Erstellung und Definition von Service Levels zur Integration
-            in eigene Apps ein. Dagegen beschriebt 
-            "<span class="reference" title="#devres"></span>" wie Ressourcen erstellt
-            und in die PMP integriert werden können.
+            Der Unterabschnitt "<span class="reference" title="#devres"></span>"
+            geht auf die Erstellung von Ressourcen ein. Dagegen beschriebt           
+            "<span class="reference" title="#devsl"></span>"
+            wie Service-Levels definiert und in eigene Applikationen integriert werden können.
         </ul>
+      </p>
+      
+      <h1 id="basics">Grundbegriffe</h1>
+      <p>
+        Dieser Abschnitt erläutert einige Grundbegriffe die im Kontext der PMP
+        verwendet werden.
+      </p>
+      
+      <h2 id="basisc_res">Ressourcen</h2>
+      <p>
+        Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines 
+        Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
+        Ressourcen in Ressourcengruppen zusammengefasst. Diese Gruppen könne dann auf dem Gerät
+        installiert werden.
+      </p>
+      <p>
+        Jede Ressourcengruppe definiert mehrere sogenannte Privacy-Levels. Diese
+        können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).
+        Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource
+        möglich (ist etwa des Privay-Level "Datei lesen" gesetzt, das
+        Level "Datei schreiben" jedoch nicht, so erlaubt die Ressource nur das
+        Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
+      </p>
+       
+      <h2 id="basics_sl">Service-Level</h2>
+      <p>
+        Jede PMP-Applikation legt fest, welche Funktionen bestimmter Ressourcen 
+        sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese 
+        Vereinbarung wird als Service-Level bezeichnet. Eine Applikation besitzt
+        in der Regel mehrere Service-Levels.
+      </p>
+      <p>
+        Im Detail legt jedes Service-Level fest, welche Ressourcengruppen benötigt 
+        werden, und auf welchen Wert die zur Gruppe gehörigen Privacy-Levels 
+        gesetzt werden müssen. Wird ein Service-Level gewählt, so werden die
+        Privacy-Levels auf die festgelegten Werte gesetzt, wodurch Zugriffe auf
+        die zugehörigen Funktionen der Ressourcen möglich sind.
+      </p>
+      <p>
+        Das niedrigste Service-Level, das PMP-Applikationen stets anbieten, erlaubt
+        diesen keinerlei Zugriff auf Ressourcen und damit auf kritische Bereiche
+        des Geräts.
       </p>
       
       <h1 id="user">Anwender</h1>
       <p>
-        Dieser Abschnitt richtet sich an die Benutzer der PMP. Die PMP lässt sich in
+        Dieser Abschnitt richtet sich an die Benutzer der PMP.
+      </p>
+        
+      <h2 id="modes">Anwender-Modis</h2>
+      <p>
+        Die PMP lässt sich in
         zwei Modi betreiben: im einfachen Modus (als Simple Mode bezeichnet), stehen
         dem Benutzer die wichtigsten Funktionen zur Verfügung. Werden alle Funktionen
         benötigt, lässt sich das System in den erweiterten Modus (Expert Mode) schalten.
-        
-      <h2 id="switchmode">Modus-Wechsel</h2>
+      </p>
+      
+      <h3 id="switchmode">Modus-Wechsel</h3>
       <p>
         Der Wechsel zwischen einfachem und erweitertem Modus erfolgt über die 
         Schaltfläche "Expert Mode" auf dem Startbildschirm der PMP.
@@ -87,43 +134,102 @@
         den Modi hin- und her gewechselt.
       </p> 
       
-      <h2 id="simplemode">Einfacher Modus (Simple Mode)</h2>
+      <h3 id="simplemode">Einfacher Modus (Simple Mode)</h3>
       <p>
         Der einfache Modus ist auf Anwender mit geringen Kenntnissen angepasst.
         Daher enthält er nur die wichtigsten Funktionen um den Benutzer nicht zu 
         überfordern.
       </p>
       
-      <h2 id="expertmode">Erweiterter Modus (Expert Mode)</h2>
+       
+      <h3 id="expertmode">Erweiterter Modus (Expert Mode)</h3>
       <p>
         Der erweiterte Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
         unerfahrene Benutzer überfordert fühlen könnten, richtet sich dieser Modus
         an erfahrene Benutzer, die vollen Zugriff auf den Funktionsumfang haben möchten.
       </p>
       <p>
-        Dieser Abschnitt enthält nur die Funktionen, die ausschließlich im erweiterten
-        Modus verfügbar sind um Redundanz mit dem obigen Abschnitt zu vermeiden.
+        Die Abgrenzung zwischen den beiden Modi erfolgt in der nachfolgenden 
+        Beschreibungen durch Hinweise der Form "Expert Mode:". Die diesem 
+        Hinweis folgenden Funktionen sind ausschließlich im erweiterten
+        Modus verfügbar.
       </p>
       <p>
         Da der erweiterte Modus gegenwärtig nicht implementiert ist, wird auf ihn 
         in dieser Version des Handbuchs nicht näher eingegangen.
       </p>
+      
+      <!-- 12:18 -->
+      <h2 id="apps">Applikationen</h2>
+      <h3 id="apps_inst">Applikationen installieren</h3>
+      <p>
+        Die Installation von PMP-Applikationen unterscheidet sich nicht von
+        der Installation gewöhnlicher Applikationen. Im Allgemeinen benötigen
+        PMP-Applikationen selbst keine Zugriffsrechte auf System-Funktionen, da
+        diese Zugriffe über die PMP-Ressourcen erfolgen.
+      </p>
+            
+      <h3 id="apps_uninst">Applikationen deinstallieren</h3>
+      <p>
+        Da PMP-Applikationen in Bezug auf die Installation gegenüber anderen
+        Applikationen keine Sonderstellung einnehmen, werde sie auch auf gleicher
+        Weiße deinstalliert.
+      </p>
+      
+      <h3 id="apps_sl">Service-Levels einstellen, installierte Anwendungen anzeigen</h3>
+      <p>
+        Beim ersten Start der Applikation werden alle von ihr angebotenen
+        Service-Levels angezeigt. Nach Auswahl des gewünschten Service-Levels
+        erhält die Applikation Zugriff auf die darin festgelegten Ressourcen und
+        deren Funktionen.
+      </p>
+      <p>
+        Das gewählte Service-Level lässt sich jederzeit über die Benutzeroberfläche
+        der PMP ändern. Durch Antippen der ersten Schaltfläche "Apps" im Hauptmenü
+        der PMP werden alle installierten PMP-Applikationen aufgelistet. Anschließend
+        kann durch Auswahl einer Applikation deren Service-Level festgelegt werden.
+      </p>
+      
+      <h2 id="res">Ressourcen</h2>
+      <h3 id="res_inst">Ressourcen installieren</h3>
+      <p>
+        PMP-Ressourcen werden in Form einer Andorid-Applikation, einer apk-Datei,
+        ausgeliefert. Hierdurch unterscheidet sich die Installation von PMP-Ressourcen
+        nicht von der Installation gewöhnlicher Andorid-Applikationen:
+        Übertragen Sie die apk-Datei auf Ihr Gerät und öffnen Sie diese
+        oder wählen Sie die Ressource aus dem App-Store aus. Folgen Sie anschließend
+        den Anweisungen des Andorid-Betriebssystems. Damit die Ressource lauffähig ist,
+        müssen die von dieser verlangten Zugriffsrechte genehmigt werden.
+      </p>
+      
+      <h3 id="res_uninst">Ressourcen deinstallieren</h3>
+      <p>
+        Wie bereits unter "<span class="reference" title="#res_inst"></span>" erwähnt,
+        werden PMP-Ressourcen wie gewöhnliche Andorid-Applikationen ausgeliefert
+        und installiert. Daher erfolgt auch die Deinstallation wie bei normalen
+        Android-Applikationen: Wechseln Sie in die Anwendungsverwaltung von
+        Android (Launcher -> "Settings" -> "Manage Applications" (TODO: verifizieren)) 
+        und wählen Sie die Ressource aus, die sie deinstallieren möchten. Klicken
+        Sie anschließend auf "Uninstall" und betätigen Sie die Sicherheitsabfrage.
+      </p>
+      
+      <h3 id="res_show">Installierte Ressourcen anzeigen</h3>
+      <p>
+        Über die zweite Schaltfläche "Resources" im Hauptmenü der PMP lassen sich 
+        alle gegenwärtig auf dem Gerät installierten PMP-Ressourcen anzeigen.
+        Durch Antippen einer Ressource werden weitere Informationen über diese
+        angezeigt.
+      </p> 
+      
+     
       <h1 id="developers">Entwickler</h1>
       <p>
         Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eigene
         Ressourcen erweitern oder Anwendungen für die PMP erstellen möchten
       </p>
       
-      <h2 id="devsl">Service-Levels</h2>
-      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
       
       <h2 id="devres">Ressourcen</h2>
-      <p>
-        Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines
-        Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
-        Ressourcen in Ressourcengruppen zusammengefasst. Um Ressourcen auf dem Gerät 
-        verfügbar machen zu können, müssen diese immer einer Gruppe zugeordnet werden.
-      </p>
       <p>
         Das Erstellen einer Ressourcengruppe und deren Ressourcen gliedert sich 
         in folgende Schritten:
@@ -389,34 +495,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
 
   @Override
   public void onRegistrationSuccess() {
-    // To keep it simple, we just make a log and tell the user that
-    // everything went fine
     Log.d("Registration was successfull");
-
-    try {
-      Toast toast = Toast.makeText(context,
-          "Registration successfull", Toast.LENGTH_SHORT);
-      toast.show();
-    } catch (Throwable t) {
-      Log.d("Could not show toast-notification.", t);
-    }
   }
 
   @Override
   public void onRegistrationFailed(String message) {
-    // As in "onRegistrationSuccess()", we make a log and tell the user what
-    // had happened
     Log.d("Registration failed: " + message);
-
-    try {
-      Toast toast = Toast.makeText(context,
-          "Registration failed. PMP says: " + message,
-          Toast.LENGTH_SHORT);
-      toast.show();
-
-    } catch (Throwable t) {
-      Log.d("Could not show toast-notification.", t);
-    }
   }
 
 }
@@ -537,6 +621,21 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Informationen über die zu implementierenden Methoden finden Sie in der
         API-Dokumentation.
       </p>
+      
+      <h2 id="devsl">Service-Levels</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      
+      
+      <h1 id="versions">Versionshistorie</h1>
+      <h3>Version 0.2 (24.09.2011)</h3>
+			<ul>
+			  <li>Kapitel zu Grundbegriffen hinzugefügt</li>
+		  </ul>
+		  
+      <h3>Version 0.1 (20.09.2011)</h3>
+			<ul>
+			  <li>Kapitel zur Ressourcen-Entwicklung fertiggestellt</li>
+		  </ul>
     </div>
     <!-- // end of specification's content -->
   </div>

@@ -1,7 +1,7 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
+package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
 import java.util.List;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.FileDetails;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
 interface IFileAccess {
     

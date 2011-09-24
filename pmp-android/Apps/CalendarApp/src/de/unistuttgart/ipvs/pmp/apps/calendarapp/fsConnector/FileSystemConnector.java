@@ -5,9 +5,9 @@ import java.util.List;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.IFileAccess;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.IFileAccess;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
@@ -28,7 +28,15 @@ public class FileSystemConnector {
     /**
      * Identifier of the resource group
      */
-    private final String rgIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    private static final String rgIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    
+    /**
+     * Identifier of the resource used for storing the exported data.
+     * This is needed since the file system resource has no resource having the same name as
+     * its resource-group
+     */
+    private static final String resourceIdentifier = "ext_download";
+    
     
     /**
      * The import string
@@ -61,7 +69,7 @@ public class FileSystemConnector {
      * @param dates
      *            to export
      */
-    public void exportDates(List<Date> dates) {
+    public void exportDates(List<Appointment> dates) {
         
         // Create the export string
         StringBuilder exportStringBuilder = new StringBuilder();
@@ -71,7 +79,7 @@ public class FileSystemConnector {
         exportStringBuilder.append("BEGIN:VCALENDAR\n");
         exportStringBuilder.append("VERSION:2.0\n");
         exportStringBuilder.append("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP\n");
-        for (Date date : dates) {
+        for (Appointment date : dates) {
             // Dummy date object
             java.util.Date dateObjectDummy = new java.util.Date();
             dateObjectDummy.setYear(2011);
@@ -111,7 +119,9 @@ public class FileSystemConnector {
                 } else {
                     // Get resource
                     try {
-                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        //IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        // There is no resource with the same same as the resource group!
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(resourceIdentifier));
                         // Write the file
                         ifa.write("de.unistuttgart.ipvs.pmp.apps.calendarapp", exportString, false);
                     } catch (RemoteException e) {
@@ -163,7 +173,9 @@ public class FileSystemConnector {
                 } else {
                     // Get resource
                     try {
-                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        // There is no resource with the same same as the resource group!
+                        //IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(rgIdentifier));
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(resourceIdentifier));
                         // Write the file
                         importString = ifa.read("de.unistuttgart.ipvs.pmp.apps.calendarapp");
                         

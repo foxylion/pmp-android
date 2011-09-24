@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
 public class DialogManager {
@@ -33,8 +34,9 @@ public class DialogManager {
             
             @Override
             public void run() {
-                DialogManager.this.waitingDialog = ProgressDialog.show(Model.getInstance().getContext(),
-                        "Please wait...", "Registration is running.", true);
+                DialogManager.this.waitingDialog = ProgressDialog.show(Model.getInstance().getContext(), Model
+                        .getInstance().getContext().getString(R.string.wait), Model.getInstance().getContext()
+                        .getString(R.string.registration, true));
             }
         });
     }

@@ -21,12 +21,7 @@ public class FileSystemResourceGroupApp extends ResourceGroupSingleApp<FileSyste
     
     @Override
     protected FileSystemResourceGroup createResourceGroup() {
-        try {
-            return new FileSystemResourceGroup(getApplicationContext());
-        } catch (Exception e) {
-            Log.e("Cannot instantiate  resource-group.", e);
-            return null;
-        }
+        return new FileSystemResourceGroup(getApplicationContext());
     }
     
 }

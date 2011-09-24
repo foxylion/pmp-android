@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,8 @@ import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Date;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -47,9 +49,9 @@ public class SqlConnector {
     /*
      * Constants for the database table
      */
-    private final String DBNAME = "datelist";
+    private final String DBNAME = "appointmentlist";
     private final String ID = "id";
-    private final String DATE = "date";
+    private final String DATE = "appointment";
     private final String DESC = "description";
     
     
@@ -67,11 +69,11 @@ public class SqlConnector {
     
     
     /**
-     * Loads the dates stored in the SQL database. This method calls {@link Model#loadDates(ArrayList)} to store the
-     * dates in the model.
+     * Loads the dates stored appointments in the SQL database. This method calls
+     * {@link Model#loadAppointments(ArrayList)} to store the dates in the model.
      * 
      */
-    public void loadDates() {
+    public void loadAppointments() {
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
                 .getApplicationContext()).getSignee(), this.resGroupIdentifier);
@@ -95,7 +97,7 @@ public class SqlConnector {
                         IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         
-                        ArrayList<Date> dateList = new ArrayList<Date>();
+                        ArrayList<Appointment> todoList = new ArrayList<Appointment>();
                         
                         // Getting the number of the rows
                         long rowCount = idc.query(SqlConnector.this.DBNAME, null, null, null, null, null, null);
@@ -105,16 +107,18 @@ public class SqlConnector {
                             
                             String[] columns = idc.getRowAt(itr);
                             int id = Integer.valueOf(columns[0]);
-                            dateList.add(new Date(id, columns[2], columns[1]));
-                            Log.v("Loading date: ID: " + String.valueOf(id) + " date: " + columns[1] + " description: "
-                                    + columns[2]);
+                            
+                            Date date = new Date(Long.valueOf(columns[2]));
+                            todoList.add(new Appointment(id, columns[1], date));
+                            Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " description: "
+                                    + columns[1]);
                             // Check if there's a new highest id
                             if (id > SqlConnector.this.highestId) {
                                 SqlConnector.this.highestId = id;
                             }
                         }
                         idc.close();
-                        Model.getInstance().loadDates(dateList);
+                        Model.getInstance().loadAppointments(todoList);
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
                     } finally {
@@ -134,14 +138,14 @@ public class SqlConnector {
     
     
     /**
-     * Stores the new date in the SQL Database and then calls {@link Model#addDate(Date)}.
+     * Stores the new appointment in the SQL Database and then calls {@link Model#addDate(Appointment)}.
      * 
      * @param date
      *            the date
      * @param description
      *            the description
      */
-    public void storeNewDate(final String date, final String description) {
+    public void storeNewAppointment(final Date date, final String description) {
         
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -169,19 +173,19 @@ public class SqlConnector {
                         Map<String, String> values = new HashMap<String, String>();
                         int id = getNewId();
                         values.put(SqlConnector.this.ID, String.valueOf(id));
-                        values.put(SqlConnector.this.DATE, date);
+                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
                         
                         long result = idc.insert(SqlConnector.this.DBNAME, null, values);
                         Log.v("Return value of insert: " + result);
-                        if (result != 0) {
-                            Log.v("Storing new date: id: " + String.valueOf(id) + " date: " + date + " description: "
+                        if (result != -1) {
+                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date + " description: "
                                     + description);
-                            Model.getInstance().addDate(new Date(id, description, date));
+                            Model.getInstance().addAppointment(new Appointment(id, description, date));
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), "Error while storing in database",
+                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
                                     Toast.LENGTH_SHORT).show();
-                            Log.e("Date not stored");
+                            Log.e("Appointment not stored");
                         }
                         idc.close();
                     } catch (RemoteException e) {
@@ -203,12 +207,12 @@ public class SqlConnector {
     
     
     /**
-     * Delete the date out of the SQL database with the given id and then calls {@link Model#deleteDateByID(int)}
+     * Delete the appointment out of the SQL database with the given id and then calls {@link Model#deleteDateByID(int)}
      * 
      * @param id
-     *            id of the date to delete
+     *            id of the appointment to delete
      */
-    public void deleteDate(final int id) {
+    public void deleteAppointment(final int id) {
         
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -240,9 +244,9 @@ public class SqlConnector {
                          */
                         if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
-                            Model.getInstance().deleteDateByID(id);
+                            Model.getInstance().deleteAppointmentByID(id);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), "Error while deleting date in database",
+                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
                                     Toast.LENGTH_SHORT).show();
                         }
                         idc.close();
@@ -265,16 +269,16 @@ public class SqlConnector {
     
     
     /**
-     * Changes the date at the SQL database and then calls {@link Model#changeDate(int, String, String)}
+     * Changes the appointment at the SQL database and then calls {@link Model#changeAppointment(int, String, String)}
      * 
      * @param id
-     *            the id of the date to change
+     *            the id of the appointment to change
      * @param date
      *            the date that has changed
      * @param description
      *            the description that has changed
      */
-    public void changeDate(final int id, final String date, final String description) {
+    public void changeAppointment(final Integer id, final Date date, final String description) {
         
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -299,7 +303,7 @@ public class SqlConnector {
                         IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         Map<String, String> values = new HashMap<String, String>();
-                        values.put(SqlConnector.this.DATE, date);
+                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
                         
                         /*
@@ -310,9 +314,9 @@ public class SqlConnector {
                                 SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
-                            Model.getInstance().changeDate(id, date, description);
+                            Model.getInstance().changeAppointment(id, date, description);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), "Error while changing date in database",
+                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
                                     Toast.LENGTH_SHORT).show();
                         }
                         idc.close();
@@ -335,7 +339,7 @@ public class SqlConnector {
     
     
     /**
-     * Creates a table if there exists none. The table name is "datelist".
+     * Creates a table if there exists none. The table name is "appointmentlist".
      */
     private void createTable() {
         if (!Model.getInstance().isTableCreated()) {
