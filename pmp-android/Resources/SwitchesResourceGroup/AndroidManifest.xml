@@ -18,6 +18,11 @@
 	            <category android:name="android.intent.category.LAUNCHER" />
 	        </intent-filter>
     	</activity>
+    	<activity android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupDebugActivity">
+	        <intent-filter>
+	            <action android:name="android.intent.action.VIEW" />
+	        </intent-filter>
+    	</activity>
     
    		<service android:exported="true" android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
 			<intent-filter>
