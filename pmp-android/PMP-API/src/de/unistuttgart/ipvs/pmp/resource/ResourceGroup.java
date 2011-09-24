@@ -385,4 +385,6 @@ public abstract class ResourceGroup {
      *            returned message from the PMP service
      */
     public abstract void onRegistrationFailed(String message);
+    
+
 }

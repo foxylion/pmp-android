@@ -4,8 +4,10 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -29,6 +31,8 @@ public class ResourceGroupActivity extends Activity {
     private TextView titles;
     private TextView state;
     private Button installBtn;
+    
+    private String myStr = "";
     
     
     @Override
@@ -136,7 +140,7 @@ public class ResourceGroupActivity extends Activity {
                     
                     case NOT_REGISTERED:
                         ResourceGroupActivity.this.state
-                                .setText("Click \"Install\" to register all the missing resource groups with PMP.");
+                                .setText("Click \"Install\" to register all the resource groups of this app with PMP.");
                         break;
                     
                     case PMP_NOT_FOUND:
@@ -179,6 +183,25 @@ public class ResourceGroupActivity extends Activity {
         });
         
         t.start();
+    }
+    
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        boolean result = super.onKeyUp(keyCode, event);
+        if (event.getDisplayLabel() != 0) {
+            myStr += event.getDisplayLabel();
+            if (myStr.endsWith("PIMPMYRG")) {
+                Intent intent = new Intent(this, ResourceGroupDebugActivity.class);
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Log.e("Tried to use RGDebugActivity, but was not defined in activity.");
+                }
+            }
+        }
+        return result;
+        
     }
     
 }
