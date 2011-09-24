@@ -178,7 +178,7 @@ public class SqlConnector {
                         
                         long result = idc.insert(SqlConnector.this.DBNAME, null, values);
                         Log.v("Return value of insert: " + result);
-                        if (result != 0) {
+                        if (result != -1) {
                             Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date + " description: "
                                     + description);
                             Model.getInstance().addAppointment(new Appointment(id, description, date));

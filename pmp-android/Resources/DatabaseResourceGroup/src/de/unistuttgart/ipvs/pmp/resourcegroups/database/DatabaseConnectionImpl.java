@@ -79,7 +79,8 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Build a SQL Statement
             StringBuffer s = new StringBuffer("");
-            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
+//            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (";
+            String sql = "CREATE TABLE " + tableName + " (";
             Pattern pColName = Pattern.compile(COLUMN_NAME, Pattern.CASE_INSENSITIVE);
             Matcher m1 = pColName.matcher("");
             Pattern pType = Pattern.compile(COLUMN_TYPE, Pattern.CASE_INSENSITIVE);
@@ -109,8 +110,10 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             openDB();
             Log.v("Create table SQL query: " + sql);
             this.cursor = this.db.rawQuery(sql, null);
-            
-            // TODO Check table's existence if necessary
+            String[] args = new String[1];
+            args[0] = strip(tableName);
+            cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
+            Log.e(cursor.toString());
             // SELECT name FROM sqlite_master WHERE type='table' AND
             // name='table_name';
             Log.v("Created " + cursor.getCount() + " table(s).");
@@ -338,8 +341,9 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         if (isRead()) {
             closeCursor();
             openDB();
+            // TODO Fix Bug
             this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-            this.cursor.moveToFirst();
+            this.cursor.moveToFirst(); // TODO movable?
             return this.cursor.getCount();
         } else {
             RemoteException ex = new RemoteException();
