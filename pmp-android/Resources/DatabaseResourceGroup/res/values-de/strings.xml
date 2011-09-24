@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RG: Datenbank</string><string name="service_name">Datenbank-Service</string><string name="resource_group_name">Datenbank</string>
+    <string name="app_name">Datenbank ResourceGroup</string><string name="service_name">Datenbank-Service</string><string name="resource_group_name">Datenbank</string>
     
     
     <string name="resource_group_description">Die Datenbankresourcengruppe bietet Funtionalität für die Datenbankzugriff...</string>

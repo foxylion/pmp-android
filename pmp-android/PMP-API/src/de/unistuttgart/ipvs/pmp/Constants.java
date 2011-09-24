@@ -37,6 +37,9 @@ public class Constants {
      */
     public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.PMPService";
     
+    /**
+     * 
+     */
     public static final String PMP_LOG_SUFIX = "PMP";
     
     /**
@@ -44,4 +47,8 @@ public class Constants {
      */
     public static final String DEFAULT_LOCALE = "en";
     
+    /**
+     * 
+     */
+    public static final String PMP_RESOURCE_GROUP_INTENT_CATEGROY = "de.unistuttgart.ipvs.pmp.categories.registration.rg";
 }
