@@ -102,8 +102,8 @@
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-				<privacyLevel identifier="gen_l">true</privacyLevel>
-				<privacyLevel identifier="gen_r">true</privacyLevel>
+				<privacyLevel identifier="ext_download_l">true</privacyLevel>
+				<privacyLevel identifier="ext_download_r">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 		<serviceLevel>
@@ -128,8 +128,8 @@
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-				<privacyLevel identifier="gen_l">true</privacyLevel>
-				<privacyLevel identifier="gen_r">true</privacyLevel>
+				<privacyLevel identifier="ext_download_l">true</privacyLevel>
+				<privacyLevel identifier="ext_download_r">true</privacyLevel>
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
@@ -158,11 +158,11 @@
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-				<privacyLevel identifier="gen_l">true</privacyLevel>
-				<privacyLevel identifier="gen_r">true</privacyLevel>
-				<privacyLevel identifier="gen_d">true</privacyLevel>
-				<privacyLevel identifier="gen_w">true</privacyLevel>
-				<privacyLevel identifier="gen_mkdirs">true</privacyLevel>
+				<privacyLevel identifier="ext_download_l">true</privacyLevel>
+				<privacyLevel identifier="ext_download_r">true</privacyLevel>
+				<privacyLevel identifier="ext_download_d">true</privacyLevel>
+				<privacyLevel identifier="ext_download_w">true</privacyLevel>
+				<privacyLevel identifier="ext_download_mkdirs">true</privacyLevel>
 			</requiredResourceGroup>
 		</serviceLevel>
 		<serviceLevel>
@@ -187,11 +187,11 @@
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-				<privacyLevel identifier="gen_l">true</privacyLevel>
-				<privacyLevel identifier="gen_r">true</privacyLevel>
-				<privacyLevel identifier="gen_d">true</privacyLevel>
-				<privacyLevel identifier="gen_w">true</privacyLevel>
-				<privacyLevel identifier="gen_mkdirs">true</privacyLevel>
+				<privacyLevel identifier="ext_download_l">true</privacyLevel>
+				<privacyLevel identifier="ext_download_r">true</privacyLevel>
+				<privacyLevel identifier="ext_download_d">true</privacyLevel>
+				<privacyLevel identifier="ext_download_w">true</privacyLevel>
+				<privacyLevel identifier="ext_download_mkdirs">true</privacyLevel>
 			</requiredResourceGroup>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
