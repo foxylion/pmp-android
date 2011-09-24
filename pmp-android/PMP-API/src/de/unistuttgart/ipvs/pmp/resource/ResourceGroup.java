@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
 
 import android.content.Context;
 import android.os.RemoteException;
@@ -66,7 +67,7 @@ public abstract class ResourceGroup {
      *            context of the service for this resource group
      */
     public ResourceGroup(Context serviceContext) {
-        this.signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP, getServiceAndroidName(), serviceContext);        
+        this.signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP, getServiceAndroidName(), serviceContext);
         
         this.resources = new HashMap<String, Resource>();
         this.privacyLevels = new HashMap<String, PrivacyLevel<?>>();
@@ -196,18 +197,60 @@ public abstract class ResourceGroup {
     
     
     /**
-     * Effectively starts this resource group, loads all previously known privacy level values and registers it with
-     * PMP. Note that it needs to be "connected" to a {@link ResourceGroupService} via a {@link ResourceGroupApp}. You
-     * can implement reacting to the result of this operation by implementing onRegistrationSuccess() or
-     * onRegistrationFailed()
+     * Checks whether this ResourceGroup is already registered with PMP. Note that this method blocks until it receives
+     * a result.
      * 
      * @param context
      *            {@link Context} to use for the connection
      * 
      */
-    protected void start(Context context) {
+    public boolean isRegistered(Context context) {
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);
         
-        // load saved privacy level values
+        // required due to final pointer
+        class ResultObject {
+            
+            public boolean result = false;
+        }
+        
+        final ResultObject ro = new ResultObject();
+        // we however ensure passing the callback by blocking
+        final Semaphore sema = new Semaphore(0);
+        pmpsc.addCallbackHandler(new IConnectorCallback() {
+            
+            @Override
+            public void disconnected() {
+            }
+            
+            
+            @Override
+            public void connected() {
+                ro.result = !pmpsc.isRegistered();
+                pmpsc.unbind();
+                sema.release();
+            }
+            
+            
+            @Override
+            public void bindingFailed() {
+            }
+        });
+        pmpsc.bind();
+        
+        // wait for result
+        try {
+            sema.acquire();
+        } catch (InterruptedException e) {
+            ro.result = false;
+        }
+        return ro.result;
+    }
+    
+    
+    /**
+     * Loads all possibly previously stored privacy level values.
+     */
+    public void initPrivacyLevelValues() {
         for (Entry<String, PrivacyLevel<?>> e : this.privacyLevels.entrySet()) {
             try {
                 Map<String, String> values = loadPrivacyLevel(e.getKey());
@@ -218,6 +261,20 @@ public abstract class ResourceGroup {
                 Log.e("Saved values for " + e.getKey() + " were parsed with " + e1.toString() + " thrown.");
             }
         }
+    }
+    
+    
+    /**
+     * Effectively starts this resource group, loads all previously known privacy level values and registers it with
+     * PMP. Note that it needs to be "connected" to a {@link ResourceGroupService} via a {@link ResourceGroupApp}. You
+     * can implement reacting to the result of this operation by implementing onRegistrationSuccess() or
+     * onRegistrationFailed()
+     * 
+     * @param context
+     *            {@link Context} to use for the connection
+     * 
+     */
+    public void register(Context context) {
         
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);

@@ -103,7 +103,7 @@ public abstract class App extends Application {
      *            {@link Context} to use for the connection
      * 
      */
-    public void start(Context context) {
+    public void register(Context context) {
         
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);

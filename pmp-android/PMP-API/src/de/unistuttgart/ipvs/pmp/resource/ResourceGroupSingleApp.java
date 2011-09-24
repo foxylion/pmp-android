@@ -33,6 +33,7 @@ public abstract class ResourceGroupSingleApp<T extends ResourceGroup> extends Re
     @Override
     public void onCreate() {
         this.resourceGroup = createResourceGroup();
+        this.resourceGroup.initPrivacyLevelValues();
     }
     
     
