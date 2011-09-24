@@ -22,15 +22,30 @@
 				android:id="@+id/pmp_developer_console_button_remove_sample_data"
 				android:layout_width="wrap_content" android:layout_height="fill_parent"></Button>
 		</LinearLayout>
-		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
-			android:text="Database" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:layout_width="fill_parent"
-			android:paddingLeft="5dp"></TextView>
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<LinearLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:orientation="vertical">
+				<TextView android:paddingLeft="5dp" android:text="Database"
+					android:layout_marginTop="5dp" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/pmp_developer_console_button_truncate_database"
+					android:text="Clean Database"></Button>
+			</LinearLayout>
+			<LinearLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:orientation="vertical">
+				<TextView android:text="ResourceGroups"
+					android:layout_marginTop="5dp" android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/pmp_developer_console_button_register_rg"
+					android:text="Register ResourceGroup"></Button>
+			</LinearLayout>
+		</LinearLayout>
 		<LinearLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:padding="5dp">
-			<Button android:text="Clean Database"
-				android:id="@+id/pmp_developer_console_button_truncate_database"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</LinearLayout>
 		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="Bind Service" android:layout_height="wrap_content"

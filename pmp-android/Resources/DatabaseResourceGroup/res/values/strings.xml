@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RG: Database</string><string name="service_name">Database Service</string><string name="resource_group_name">Database</string>
+    <string name="app_name">Database ResourceGroup</string><string name="service_name">Database Service</string><string name="resource_group_name">Database</string>
     
     
     <string name="resource_group_description">The Database resource group provides access to the databases managed by PMP</string>
