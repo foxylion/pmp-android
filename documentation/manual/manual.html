@@ -94,6 +94,53 @@ f<!DOCTYPE html>
         überfordern.
       </p>
       
+      <!-- 12:18 -->
+      <h2 id="apps">Applikationen</h2>
+      <h3 id="apps_inst">Applikationen installieren</h3>
+      <p>
+        Die Installation von PMP-Applikationen unterscheidet sich nicht von
+        der Installation gewöhnlicher Applikationen. Im Allgemeinen benötigen
+        PMP-Applikationen selbst keine Zugriffsrechte auf System-Funktionen, da
+        diese Zugriffe über die PMP-Ressourcen erfolgen.
+      </p>
+            
+      <h3 id="apps_uninst">Applikationen deinstallieren</h3>
+      <p>
+        Da sich PMP-Applikationen in Bezug auf die Installation gegenüber anderen
+        Applikationen keine Sonderstellung einnehmen, werde sie auch auf gleicher
+        Weiße deinstalliert.
+      </p>
+      
+      <h2 id="res">Ressourcen</h2>
+      <h3 id="res_inst">Ressourcen installieren</h3>
+      <p>
+        PMP-Ressourcen werden in Form einer Andorid-Applikation, einer apk-Datei,
+        ausgeliefert. Hierdurch unterscheidet sich die Installation von PMP-Ressourcen
+        nicht von der Installation gewöhnlicher Andorid-Applikationen:
+        Übertragen Sie die apk-Datei auf Ihr Gerät und öffnen Sie diese
+        oder wählen Sie die Ressource aus dem App-Store aus. Folgen Sie anschließend
+        den Anweisungen des Andorid-Betriebssystems. Damit die Ressource lauffähig ist,
+        müssen die von dieser verlangten Zugriffsrechte genehmigt werden.
+      </p>
+      
+      <h3 id="res_show">Installierte Ressourcen anzeigen</h3>
+      <p>
+        Über die zweite Schaltfläche "Resources" im Hauptmenü der PMP lassen sich 
+        alle gegenwärtig auf dem Gerät installierten PMP-Ressourcen anzeigen.
+        Durch Antippen einer Ressource werden weitere Informationen über diese
+        angezeigt.
+      </p> 
+      
+      <h3 id="res_uninst">Ressourcen deinstallieren</h3>
+      <p>
+        Wie bereits unter "<span class="reference" title="#res_inst"></span>" erwähnt,
+        werden PMP-Ressourcen wie gewöhnliche Andorid-Applikationen ausgeliefert
+        und installiert. Daher erfolgt auch die Deinstallation wie bei normalen
+        Android-Applikationen: Wechseln Sie in die Anwendungsverwaltung von
+        Android (Launcher -> "Settings" -> "Manage Applications" (TODO: verifizieren)) 
+        und wählen Sie die Ressource aus, die sie deinstallieren möchten. Klicken
+        Sie anschließend auf "Uninstall" und betätigen die Sicherheitsabfrage.
+      
       <h2 id="expertmode">Erweiterter Modus (Expert Mode)</h2>
       <p>
         Der erweiterte Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
@@ -515,6 +562,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Informationen über die zu implementierenden Methoden finden Sie in der
         API-Dokumentation.
       </p>
+      
+      <h1 id="versions">Versionshistorie</h1>
+      <h3>Version 0.1.0 (20.09.2011)</h3>
+			<ul>
+			  <li>Kapitel zur Ressourcen-Entwicklung fertiggestellt</li>
+		  </ul>
     </div>
     <!-- // end of specification's content -->
   </div>
