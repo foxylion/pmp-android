@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Constants;
+import de.unistuttgart.ipvs.pmp.service.INullService;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
@@ -53,7 +54,7 @@ public class PMPServiceConnector extends AbstractConnector {
      *         via the {@link PMPServiceConnector#getRegistrationService()} interface.
      */
     public boolean isRegistered() {
-        if (isCorrectBinder(IPMPServiceRegistration.class)) {
+        if (isCorrectBinder(IPMPServiceRegistration.class) || isCorrectBinder(INullService.class)) {
             return false;
         } else {
             return true;
