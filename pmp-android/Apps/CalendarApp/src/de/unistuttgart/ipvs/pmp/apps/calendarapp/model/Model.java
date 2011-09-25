@@ -7,8 +7,10 @@ import java.util.List;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -50,6 +52,16 @@ public class Model {
      * The newDate button of the app to dis- and enable it
      */
     private Button newAppointmentButton;
+    
+    /**
+     * The list view of the import activity
+     */
+    private ListView importListView;
+    
+    /**
+     * Menu
+     */
+    private Menu menu;
     
     
     /**
@@ -359,6 +371,48 @@ public class Model {
      */
     public void setImportArrayAdapter(ArrayAdapter<FileDetails> importArrayAdapter) {
         this.importArrayAdapter = importArrayAdapter;
+    }
+    
+    
+    /**
+     * Get the list view of the import activity
+     * 
+     * @return list view of the import activity
+     */
+    public ListView getImportListView() {
+        return importListView;
+    }
+    
+    
+    /**
+     * Set the list view of the import activity
+     * 
+     * @param importListView
+     *            list view of the import activity
+     */
+    public void setImportListView(ListView importListView) {
+        this.importListView = importListView;
+    }
+    
+    
+    /**
+     * Get the menu
+     * 
+     * @return the menu
+     */
+    public Menu getMenu() {
+        return menu;
+    }
+    
+    
+    /**
+     * Set the menu
+     * 
+     * @param menu
+     *            the menu
+     */
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
     
 }

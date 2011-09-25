@@ -11,17 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnCreateContextMenuListener;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,9 +22,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -54,6 +45,11 @@ public class CalendarAppActivity extends ListActivity {
      * The actual context
      */
     private Context appContext;
+    
+    /**
+     * The menu
+     */
+    private Menu menu;
     
     
     /**
@@ -114,51 +110,10 @@ public class CalendarAppActivity extends ListActivity {
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
         
-        /*
-         * Listener for adding a new date. Opens a new dialog
-         */
+        // The new appointment button
         Button newAppointment = (Button) findViewById(R.id.AddDate);
+        newAppointment.setEnabled(false);
         Model.getInstance().setNewAppointmentButton(newAppointment);
-        newAppointment.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog dialog = new NewAppointmentDialog(CalendarAppActivity.this.self);
-                    dialog.setTitle("Create new date");
-                    dialog.show();
-                }
-            }
-        });
-        
-        /*
-         * Listener for long clicking on one item. Opens a context menu where
-         * the user can delete this date
-         */
-        listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
-            
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle(getString(R.string.menu));
-                menu.add(0, 0, 0, R.string.delete);
-                menu.add(0, 1, 0, R.string.send);
-            }
-        });
-        
-        /*
-         * Listener for clicking one item. Opens a new dialog where the user can
-         * change the date.
-         */
-        listView.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (Model.getInstance().getServiceLevel() == 2) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(CalendarAppActivity.this.self, position);
-                    changeDateDialog.show();
-                }
-            }
-        });
         
     }
     
@@ -172,6 +127,8 @@ public class CalendarAppActivity extends ListActivity {
          * called when the activity is shown again.
          */
         ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
+        
+        updateMenuVisibility();
     }
     
     
@@ -237,37 +194,65 @@ public class CalendarAppActivity extends ListActivity {
         return false;
     }
     
+    
     /**
      * Add the menu
+     * 
+     * @author Marcus Vetter
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calendar_menu, menu);
+        
+        this.menu = menu;
+        
+        updateMenuVisibility();
+        
         return true;
     }
     
+    
     /**
      * Respond to user interaction with the menu
+     * 
+     * @author Marcus Vetter
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-        case R.id.import_appointments:
-            // Open activity with file list
-            Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
-            if (Model.getInstance().getContext() != null) {
-                Model.getInstance().getContext().startActivity(intent);
-            }
-            return true;
-        case R.id.export_appointments:
-            // Open dialog for entering a file name
-            Dialog exportDialog = new ExportDialog(this);
-            exportDialog.show();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.import_appointments:
+                // Open activity with file list
+                Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
+                if (Model.getInstance().getContext() != null) {
+                    Model.getInstance().getContext().startActivity(intent);
+                }
+                return true;
+            case R.id.export_appointments:
+                // Open dialog for entering a file name
+                Dialog exportDialog = new ExportDialog(this);
+                exportDialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    /**
+     * Update the visibility of the menu
+     */
+    private void updateMenuVisibility() {
+        // Update the menu visibility
+        if (menu != null) {
+            // Get the service level
+            int serviceLevel = Model.getInstance().getServiceLevel();
+            
+            // Set import functionality
+            menu.getItem(0).setVisible(serviceLevel >= 4);
+            
+            // Set export functionality
+            menu.getItem(1).setVisible(serviceLevel >= 6);
         }
     }
 }
