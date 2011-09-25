@@ -30,15 +30,15 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
     
     @Override
     protected void setupService() {
-        super.setupService();
-        
-        setApplication(rgApp);        
+        super.setupService();  
     }
     
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        
+        setApplication(rgApp);
         
         rgApp.onCreate();
         
@@ -53,16 +53,15 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
         intent.putExtra(Constants.INTENT_IDENTIFIER, "test.pmp");
         intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.PMP);
         intent.putExtra(Constants.INTENT_SIGNATURE, pmpSignee.signContent("test.rg".getBytes()));
-        
     }
     
     public void testSimpleBind() {
         IBinder binder = bindService(intent);
         try {
-            assertEquals("de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP", binder.getInterfaceDescriptor());
+            assertEquals(IResourceGroupServicePMP.class.getName(), binder.getInterfaceDescriptor());
         } catch (RemoteException e) {
             e.printStackTrace();
-            fail();
+            fail("got an remote exception " + e.toString());
         }
     }
 }
