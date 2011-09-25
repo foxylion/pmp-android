@@ -120,6 +120,18 @@ public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.St
                 
             }
         }
+        
+        /* Q&D workaround, refs #163 */
+        // this deletes all previously available values and the saved files
+        for (String string : rg.getPrivacyLevels()) {
+            try {
+                this.rg.updateAccess(string, null);
+            } catch (PrivacyLevelValueException e1) {
+                generateCausedRemoteException(e1);
+            }
+        }
+        /* EOF please kill me */
+        
         for (Entry<String, Map<String, String>> e : localPLsAccess.entrySet()) {
             try {
                 this.rg.updateAccess(e.getKey(), e.getValue());

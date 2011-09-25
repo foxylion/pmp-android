@@ -187,8 +187,7 @@ public abstract class ResourceGroup {
         PrivacyLevel<?> pl = getPrivacyLevel(privacyLevelIdentifier);
         if (pl == null) {
             Log.e("Should update access for a privacy level which does not exist.");
-        } else {
-            pl.setValues(null);
+        } else {         
             pl.setValues(privacyLevelValues);
             
             savePrivacyLevels(privacyLevelIdentifier, privacyLevelValues);
