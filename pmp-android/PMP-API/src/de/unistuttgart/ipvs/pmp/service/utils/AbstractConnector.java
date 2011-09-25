@@ -94,9 +94,9 @@ public abstract class AbstractConnector {
             
             serviceConnected();
             
-            AbstractConnector.this.semaphore.release();
-            
             informCallback(ConnectionState.CONNECTED);
+            
+            AbstractConnector.this.semaphore.release();
         }
     };
     
