@@ -354,6 +354,12 @@ public class AppImpl implements IApp {
             return false;
         }
         
+        /* check if service level is already set. */
+        if(oldServiceLevel.getLevel() == level) {
+            Log.w("AppImpl#setActiveServiceLevel(): ServiceLevel " + level + " is already set for identifier " + getIdentifier());
+            return true;
+        }
+        
         ContentValues cv = new ContentValues();
         cv.put("ServiceLevel_Active", level);
         
