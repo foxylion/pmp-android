@@ -49,7 +49,7 @@ public class SqlConnector {
     /*
      * Constants for the database table
      */
-    private final String DBNAME = "appointmentlist";
+    private final String DB_TABLE_NAME = "Appointment";
     private final String ID = "id";
     private final String DATE = "appointment";
     private final String DESC = "description";
@@ -93,15 +93,16 @@ public class SqlConnector {
                     Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
                 } else {
                     // Get resource
+                    IDatabaseConnection idc = null;
                     try {
-                        IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         
                         ArrayList<Appointment> todoList = new ArrayList<Appointment>();
                         
                         // Getting the number of the rows
                         // TODO: table not exists?
-                        long rowCount = idc.query(SqlConnector.this.DBNAME, null, null, null, null, null, null);
+                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null, null);
                         
                         // Getting the rows
                         for (int itr = 0; itr < rowCount; itr++) {
@@ -118,11 +119,19 @@ public class SqlConnector {
                                 SqlConnector.this.highestId = id;
                             }
                         }
-                        idc.close();
                         Model.getInstance().loadAppointments(todoList);
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } catch (Exception e) {
+                        Log.e("Exception", e);
                     } finally {
+                        if (idc != null) {
+                            try {
+                                idc.close();
+                            } catch (RemoteException e) {
+                                Log.e("Cannot close connection: ", e);
+                            }
+                        }
                         resGroupCon.unbind();
                     }
                 }
@@ -167,8 +176,9 @@ public class SqlConnector {
                     Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
                 } else {
                     // Get resource
+                    IDatabaseConnection idc = null;
                     try {
-                        IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
@@ -177,7 +187,7 @@ public class SqlConnector {
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
                         
-                        long result = idc.insert(SqlConnector.this.DBNAME, null, values);
+                        long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
                         Log.v("Return value of insert: " + result);
                         if (result != -1) {
                             Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date + " description: "
@@ -188,10 +198,18 @@ public class SqlConnector {
                                     Toast.LENGTH_SHORT).show();
                             Log.e("Appointment not stored");
                         }
-                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } catch (Exception e) {
+                        Log.e("Exception", e);
                     } finally {
+                        if (idc != null) {
+                            try {
+                                idc.close();
+                            } catch (RemoteException e) {
+                                Log.e("Cannot close connection: ", e);
+                            }
+                        }
                         resGroupCon.unbind();
                     }
                 }
@@ -234,8 +252,9 @@ public class SqlConnector {
                     Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
                 } else {
                     // Get resource
+                    IDatabaseConnection idc = null;
                     try {
-                        IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         String[] args = new String[1];
                         args[0] = String.valueOf(id);
@@ -243,17 +262,25 @@ public class SqlConnector {
                          * Delete the date out of the database and if exactly
                          * once removed then remove it out of the model
                          */
-                        if (idc.delete(SqlConnector.this.DBNAME, SqlConnector.this.ID + " = ?", args) == 1) {
+                        if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(id));
                             Model.getInstance().deleteAppointmentByID(id);
                         } else {
                             Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
                                     Toast.LENGTH_SHORT).show();
                         }
-                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } catch (Exception e) {
+                        Log.e("Exception", e);
                     } finally {
+                        if (idc != null) {
+                            try {
+                                idc.close();
+                            } catch (RemoteException e) {
+                                Log.e("Cannot close connection: ", e);
+                            }
+                        }
                         resGroupCon.unbind();
                     }
                 }
@@ -300,8 +327,9 @@ public class SqlConnector {
                     Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
                 } else {
                     // Get resource
+                    IDatabaseConnection idc = null;
                     try {
-                        IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
                         Map<String, String> values = new HashMap<String, String>();
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
@@ -311,7 +339,7 @@ public class SqlConnector {
                          * Change the date in the database and only if one row
                          * was changed change, then change it in the model
                          */
-                        if (idc.update(SqlConnector.this.DBNAME, values,
+                        if (idc.update(SqlConnector.this.DB_TABLE_NAME, values,
                                 SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
@@ -320,10 +348,18 @@ public class SqlConnector {
                             Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
                                     Toast.LENGTH_SHORT).show();
                         }
-                        idc.close();
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } catch (Exception e) {
+                        Log.e("Exception", e);
                     } finally {
+                        if (idc != null) {
+                            try {
+                                idc.close();
+                            } catch (RemoteException e) {
+                                Log.e("Cannot close connection: ", e);
+                            }
+                        }
                         resGroupCon.unbind();
                     }
                 }
@@ -343,57 +379,70 @@ public class SqlConnector {
      * Creates a table if there exists none. The table name is "appointmentlist".
      */
     private void createTable() {
-        if (!Model.getInstance().isTableCreated()) { // TODO: Preference is not always accurate!!! 
-            final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-                    .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                    .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-            resGroupCon.addCallbackHandler(new IConnectorCallback() {
-                
-                @Override
-                public void disconnected() {
-                    Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-                }
-                
-                
-                @Override
-                public void connected() {
-                    Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                    if (resGroupCon.getAppService() == null) {
-                        Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                    } else {
-                        // Get resource
-                        try {
-                            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
-                                    .getResource(SqlConnector.this.resIdentifier));
+//        if (!Model.getInstance().isTableCreated()) { // Preference is not always accurate!!! 
+        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
+                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+            
+            @Override
+            public void disconnected() {
+                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+            }
+            
+            
+            @Override
+            public void connected() {
+                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+                if (resGroupCon.getAppService() == null) {
+                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+                } else {
+                    // Get resource
+                    IDatabaseConnection idc = null;
+                    try {
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+                                SqlConnector.this.resIdentifier));
+                        
+                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)){
                             Map<String, String> columns = new HashMap<String, String>();
                             columns.put(SqlConnector.this.ID, "TEXT");
                             columns.put(SqlConnector.this.DATE, "TEXT");
                             columns.put(SqlConnector.this.DESC, "TEXT");
                             // Creates the table
                             Log.v("Creating table");
-                            if (idc.createTable(SqlConnector.this.DBNAME, columns, null)) {
-                                Log.v("Table created. Name: " + SqlConnector.this.DBNAME);
+                            if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
+                                Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
                                 Model.getInstance().tableCreated(true);
                             } else {
                                 Log.e("Couldn't create table");
                             }
-                            idc.close();
-                        } catch (RemoteException e) {
-                            Log.e("Remote Exception", e);
-                        } finally {
-                            resGroupCon.unbind();
+                        } else {
+                            Log.v("Table already exists");
                         }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception", e);
+                    } catch (Exception e) {
+                        Log.e("Exception", e);
+                    } finally {
+                        if (idc != null) {
+                            try {
+                                idc.close();
+                            } catch (RemoteException e) {
+                                Log.e("Cannot close connection: ", e);
+                            }
+                        }
+                        resGroupCon.unbind();
                     }
                 }
-                
-                
-                @Override
-                public void bindingFailed() {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-                }
-            });
-            resGroupCon.bind();
-        }
+            }
+            
+            
+            @Override
+            public void bindingFailed() {
+                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+            }
+        });
+        resGroupCon.bind();
     }
     
     

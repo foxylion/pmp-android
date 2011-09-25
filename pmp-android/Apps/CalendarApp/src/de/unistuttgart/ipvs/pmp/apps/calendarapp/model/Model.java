@@ -215,10 +215,10 @@ public class Model {
      * 
      * @return true if the table exists
      */
-    public Boolean isTableCreated() {
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-        return app_preferences.getBoolean("tablecreated", false);
-    }
+//    public Boolean isTableCreated() {
+//        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
+//        return app_preferences.getBoolean("tablecreated", false);
+//    }
     
     
     /**

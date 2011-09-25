@@ -83,9 +83,12 @@ interface IDatabaseConnection {
     int delete(String table, String whereClause, in String[] whereArgs);
     
     /**
-     * Query the given table, returning a cursor with limited number of rows to
+     * <p>Query the given table, returning a cursor with limited number of rows to
      * this DatabaseConnection object, which can be accessed using the
-     * {@link #getCurrentRow()}, {@link #getRowAt(int)}... methods.
+     * {@link #getCurrentRow()}, {@link #getRowAt(int)}... methods.</p>
+     * 
+     * <p><b>CAUTION:</b> Unlike Android's Cursor, the cursor return from this
+     * method will be pointed at the first row if it exists.</p>
      * 
      * @param table The table name to compile the query against.
      * @param columns A list of which columns to return. Passing null will
@@ -114,9 +117,12 @@ interface IDatabaseConnection {
     long queryWithLimit(String table, in String[] columns, String selection, in String[] selectionArgs, String groupBy, String having, String orderBy, String limit);
     
     /**
-     * Query the given table, returning a cursor with limited number of rows to
+     * <p>Query the given table, returning a cursor with limited number of rows to
      * this DatabaseConnection object, which can be accessed using the
-     * {@link #getCurrentRow()}, {@link #getRowAt(int)}... methods.
+     * {@link #getCurrentRow()}, {@link #getRowAt(int)}... methods.</p>
+     * 
+     * <p><b>CAUTION:</b> Unlike Android's Cursor, the cursor return from this
+     * method will be pointed at the first row if it exists.</p>
      * 
      * @param table The table name to compile the query against.
      * @param columns A list of which columns to return. Passing null will

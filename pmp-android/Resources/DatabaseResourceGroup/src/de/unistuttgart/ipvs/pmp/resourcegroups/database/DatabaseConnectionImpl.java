@@ -40,21 +40,17 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         this.context = context;
         this.resource = resource;
         this.appID = appIdentifier;
-        
-//        String[] appIdentSplit = this.appID.split("\\.");
-//        String tmp = "";
-//        for (String oneSplit : appIdentSplit) {
-//            tmp = tmp + oneSplit;
-//        }
+        this.dbName = appID;
+        this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
         
         // TODO Feature: Allow access to other databases
         // TODO Feature: New Privacy Level for the maximum size of the DB.
-        this.dbName = appID;
-        Log.v("Database name : " + this.dbName);
-        this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
     }
     
-    
+
+    /**
+     * Close the cursor and release it resources. 
+     */
     private void closeCursor() {
         if (this.cursor != null) {
             this.cursor.close();
@@ -62,6 +58,126 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     }
     
     
+    // TODO Check content type!
+    private ContentValues getContentValues(Map values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        ContentValues cv = new ContentValues();
+        for (Object value : values.entrySet()) {
+            // TODO test if set is in right order??????????????????????????????
+            Entry e = (Entry) value;
+            cv.put(e.getKey().toString(), e.getValue().toString());
+        }
+        return cv;
+    }
+
+
+    private String strip(String s) {
+        return s.trim().replaceAll("(\\s+)", " ");
+    }
+
+
+    private boolean isCreate() {
+        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_CREATE))
+                .permits(this.appID, true);
+    }
+
+
+    private boolean isModify() {
+        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_MODIFY))
+                .permits(this.appID, true);
+    }
+
+
+    private boolean isRead() {
+        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_READ)).permits(
+                this.appID, true);
+    }
+
+
+    /**
+     * Open a writable database object if necessary.
+     */
+    private void openWritableDB() {
+        if (this.db == null) {
+            // Open a database connection
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getWritableDatabase();
+        } else if (db.isReadOnly()) {
+            db.close();
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getWritableDatabase();
+        }
+    }
+
+
+    /**
+     * Open a read-only database object if necessary. If a database's already
+     * available, it will be used, even though it could be writable, since every
+     * actions are carefully checked
+     */
+    private void openReadableDB() {
+        if (this.db == null) {
+            // Open a database connection
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getReadableDatabase();
+        }
+    }
+
+
+    @Override
+    public void close() throws RemoteException {
+        if (this.cursor != null) {
+            this.cursor.close();
+            this.cursor = null;
+        }
+        if (this.db != null) {
+            this.db.close();
+            this.db = null;
+        }
+        if (this.helper != null) {
+            this.helper.close();
+            this.helper = null;
+        }
+    }
+
+
+    @Override
+    public boolean isTableExisted(String tableName) throws RemoteException {
+        if (isRead()) {
+            String[] args = new String[1];
+            args[0] = strip(tableName);
+            closeCursor();
+            openReadableDB();
+            try {
+                cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
+                return true;
+            } catch (SQLiteException e) {
+                Log.v("Caught SQLiteExcetion: ", e);
+                return false;
+            }
+//            if (cursor == null || cursor.getCount()<1) {
+//                return false;
+//            } else {
+//            }
+        } else {
+            RemoteException ex = new RemoteException();
+            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
+            throw ex;
+        }
+    }
+
+
     @Override
     public boolean createTable(String tableName, Map columns, String tableConstraint) throws RemoteException {
         if (isCreate()) {
@@ -94,7 +210,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                 if (m1.reset(strip(e.getKey().toString())).find() && m2.reset(strip(e.getValue().toString())).find()) {
                     sql.append("\"").append(strip(e.getKey().toString())).append("\" ").append(strip(e.getValue().toString())).append(", ");
                 } else {
-                    Log.e("Column description is not valid: " + e.toString());
+                    Log.d("Column description is not valid: " + e.toString());
                     return false;
                 }
             }
@@ -110,9 +226,13 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             
             // Execute the query and return result
             closeCursor();
-            openDB();
+            openWritableDB();
             Log.v("Execute create table SQL query: " + sql.toString());
-            this.cursor = this.db.rawQuery(sql.toString(), null);
+            try {
+                this.cursor = this.db.rawQuery(sql.toString(), null);
+            } catch (SQLiteException e) {
+                Log.e("Error creating table: ", e);
+            }
             Log.v("Table creation result: " + cursor.getCount());
             if (this.cursor.getCount() != -1) {
                 return true;
@@ -123,25 +243,30 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         return false;
     }
     
-    
-    public boolean isTableExisted(String tableName) {
-        String[] args = new String[1];
-        args[0] = strip(tableName);
-        closeCursor();
-        openDB();
-        cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
-        if (cursor.getCount()>=1) {
-            return true;
+
+    @Override
+    public long insert(String table, String nullColumnHack, Map values) throws RemoteException {
+        if (isModify()) {
+            openWritableDB();
+            long result = -1;
+            try {
+                result = this.db.insert(table, nullColumnHack, getContentValues(values));
+            } catch (SQLiteException e) {
+                Log.v("Caught SQLiteExcetion: ", e);
+            }
+            return result;
         } else {
-            return false;
+            RemoteException ex = new RemoteException();
+            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
+            throw ex;
         }
     }
-    
-    
+
+
     @Override
     public int delete(String table, String whereClause, String[] whereArgs) throws RemoteException {
         if (isModify()) {
-            openDB();
+            openWritableDB();
             return this.db.delete(table, whereClause, whereArgs);
         } else {
             RemoteException ex = new RemoteException();
@@ -151,21 +276,19 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     }
     
     
-    // TODO Check content type!
-    private ContentValues getContentValues(Map values) {
-        if (values == null || values.isEmpty()) {
-            return null;
+    @Override
+    public int update(String table, Map values, String whereClause, String[] whereArgs) throws RemoteException {
+        if (isModify()) {
+            openWritableDB();
+            return this.db.update(table, getContentValues(values), whereClause, whereArgs);
+        } else {
+            RemoteException ex = new RemoteException();
+            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
+            throw ex;
         }
-        ContentValues cv = new ContentValues();
-        for (Object value : values.entrySet()) {
-            // TODO test if set is in right order??????????????????????????????
-            Entry e = (Entry) value;
-            cv.put(e.getKey().toString(), e.getValue().toString());
-        }
-        return cv;
     }
-    
-    
+
+
     @Override
     public String[] getCurrentRow() throws RemoteException {
         if (this.cursor == null || !isRead()) {
@@ -294,37 +417,6 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     @Override
-    public long insert(String table, String nullColumnHack, Map values) throws RemoteException {
-        if (isModify()) {
-            openDB();
-            return this.db.insert(table, nullColumnHack, getContentValues(values));
-        } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
-        }
-    }
-    
-    
-    private boolean isCreate() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_CREATE))
-                .permits(this.appID, true);
-    }
-    
-    
-    private boolean isModify() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_MODIFY))
-                .permits(this.appID, true);
-    }
-    
-    
-    private boolean isRead() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_READ)).permits(
-                this.appID, true);
-    }
-    
-    
-    @Override
     public boolean next() throws RemoteException {
         if (this.cursor == null || !isRead()) {
             return false;
@@ -332,36 +424,23 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             return this.cursor.moveToNext();
         }
     }
-    
-    
-    private void openDB() {
-        if (this.db == null) {
-            // Open a database connection
-            if (this.helper == null) {
-                // TODO Feature: open other databases
-                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
-            }
-            this.db = this.helper.getWritableDatabase();
-        }
-    }
-    
-    
+
+
     @Override
     public long query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy,
             String having, String orderBy) throws RemoteException {
         if (isRead()) {
             closeCursor();
-            openDB();
+            openReadableDB();
             try {
                 this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
             } catch (SQLiteException e) {
-                RemoteException ex = new RemoteException();
-                ex.initCause(e);
+                Log.v("Caught SQLiteExcetion: ", e);
             }
             if (cursor == null) {
                 return -1;
             } else {
-                cursor.moveToNext(); // TODO: MOVEABLE? DESCRIPTION!
+                cursor.moveToNext();
                 return cursor.getCount();
             }
         } else {
@@ -377,49 +456,22 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             String groupBy, String having, String orderBy, String limit) throws RemoteException {
         if (isRead()) {
             closeCursor();
-            openDB();
-            this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-            this.cursor.moveToFirst();
-            return this.cursor.getCount();
+            openReadableDB();
+            try {
+                this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+            } catch (SQLiteException e) {
+                Log.v("Caught SQLiteExcetion: ", e);
+            }
+            if (cursor == null) {
+                return -1;
+            } else {
+                cursor.moveToNext();
+                return cursor.getCount();
+            }
         } else {
             RemoteException ex = new RemoteException();
             ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
             throw ex;
-        }
-    }
-    
-    
-    private String strip(String s) {
-        return s.trim().replaceAll("(\\s+)", " ");
-    }
-    
-    
-    @Override
-    public int update(String table, Map values, String whereClause, String[] whereArgs) throws RemoteException {
-        if (isModify()) {
-            openDB();
-            return this.db.update(table, getContentValues(values), whereClause, whereArgs);
-        } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
-        }
-    }
-    
-    
-    @Override
-    public void close() throws RemoteException {
-        if (this.cursor != null) {
-            this.cursor.close();
-            this.cursor = null;
-        }
-        if (this.db != null) {
-            this.db.close();
-            this.db = null;
-        }
-        if (this.helper != null) {
-            this.helper.close();
-            this.helper = null;
         }
     }
     
@@ -441,12 +493,15 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             // Build a SQL Statement
             String sql = "DROP TABLE IF EXISTS " + this.dbName + "." + tableName;
             closeCursor();
-            openDB();
-            this.cursor = this.db.rawQuery(sql, null);
+            openWritableDB();
+            try {
+                this.cursor = this.db.rawQuery(sql, null);
+            } catch (SQLiteException e) {
+                Log.v("Caught SQLiteExcetion: ", e);
+                return false;
+            }
             
             // TODO Check table's existence
-            // SELECT name FROM sqlite_master WHERE type='table' AND
-            // name='table_name';
             if (this.cursor.getCount() >= 0) {
                 return true;
             } else {
