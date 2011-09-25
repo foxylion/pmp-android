@@ -48,6 +48,16 @@
 		</activity>
 		<!-- // end of Activity declaration -->
 
+		<!-- Broadcast Receivers -->
+		<receiver android:name=".broadcastreceiver.ResourceGroupInstall">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_ADDED" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="package" />
+			</intent-filter>
+		</receiver>
+		<!-- // end of Broadcast Receivers -->
+
 		<!-- The PMPService can be loaded by using the intent action name declared 
 			3 lines below -->
 		<service android:name=".service.PMPService" android:exported="true">
