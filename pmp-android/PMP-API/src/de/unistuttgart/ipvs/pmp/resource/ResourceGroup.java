@@ -328,7 +328,9 @@ public abstract class ResourceGroup {
      */
     private void savePrivacyLevels(String privacyLevelIdentifier, Map<String, String> privacyLevelValues) {
         Properties props = new Properties();
-        props.putAll(privacyLevelValues);
+        if (privacyLevelValues != null) {
+            props.putAll(privacyLevelValues);
+        }
         FileOutputStream fos;
         try {
             fos = this.signee.getContext().openFileOutput(privacyLevelIdentifier, 0);
