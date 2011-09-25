@@ -123,7 +123,7 @@ public class ResourceGroupServicePMPStubImpl extends IResourceGroupServicePMP.St
         
         /* Q&D workaround, refs #163 */
         // this deletes all previously available values and the saved files
-        for (String string : rg.getPrivacyLevels()) {
+        for (String string : this.rg.getPrivacyLevels()) {
             try {
                 this.rg.updateAccess(string, null);
             } catch (PrivacyLevelValueException e1) {

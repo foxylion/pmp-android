@@ -190,8 +190,8 @@ public class ResourceGroupActivity extends Activity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         boolean result = super.onKeyUp(keyCode, event);
         if (event.getDisplayLabel() != 0) {
-            myStr += event.getDisplayLabel();
-            if (myStr.endsWith("PIMPMYRG")) {
+            this.myStr += event.getDisplayLabel();
+            if (this.myStr.endsWith("PIMPMYRG")) {
                 Intent intent = new Intent(this, ResourceGroupDebugActivity.class);
                 try {
                     startActivity(intent);
@@ -202,6 +202,16 @@ public class ResourceGroupActivity extends Activity {
         }
         return result;
         
+    }
+    
+    
+    @Override
+    protected void onPause() {
+        if (this.progress != null) {
+            this.progress.dismiss();
+        }
+        
+        super.onPause();
     }
     
 }

@@ -1,18 +1,13 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
 import java.io.FileInputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
-import android.R;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -20,12 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
 
 public class ResourceGroupDebugActivity extends Activity {
+    
+    private Dialog d;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +40,10 @@ public class ResourceGroupDebugActivity extends Activity {
                 for (String pl : rg.getPrivacyLevels()) {
                     pls.put(pl, rg);
                 }
-            }            
+            }
         }
         
-        ListView list = new ListView(this);        
+        ListView list = new ListView(this);
         list.setAdapter(new BaseAdapter() {
             
             @Override
@@ -54,8 +52,8 @@ public class ResourceGroupDebugActivity extends Activity {
                 if (convertView == null) {
                     tv = new TextView(ResourceGroupDebugActivity.this);
                 } else {
-                    tv = (TextView) convertView; 
-                }               
+                    tv = (TextView) convertView;
+                }
                 tv.setText(plList.get(position));
                 return tv;
             }
@@ -77,9 +75,9 @@ public class ResourceGroupDebugActivity extends Activity {
             public int getCount() {
                 return plList.size();
             }
-        });        
+        });
         list.setOnItemClickListener(new OnItemClickListener() {
-
+            
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ResourceGroup rg = pls.get(plList.get(position));
@@ -98,17 +96,25 @@ public class ResourceGroupDebugActivity extends Activity {
                     TextView tv = new TextView(ResourceGroupDebugActivity.this);
                     tv.setText(sb.toString());
                     
-                    Dialog d = new Dialog(ResourceGroupDebugActivity.this);
-                    d.setContentView(tv);
-                    d.show();
-
+                    ResourceGroupDebugActivity.this.d = new Dialog(ResourceGroupDebugActivity.this);
+                    ResourceGroupDebugActivity.this.d.setContentView(tv);
+                    ResourceGroupDebugActivity.this.d.show();
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 
-                
             }
         });
         setContentView(list);
+    }
+    
+    
+    @Override
+    protected void onPause() {
+        if (this.d != null) {
+            this.d.dismiss();
+        }
+        super.onPause();
     }
 }
