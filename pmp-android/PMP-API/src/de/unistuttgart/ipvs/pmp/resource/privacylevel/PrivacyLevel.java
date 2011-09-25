@@ -123,8 +123,10 @@ public abstract class PrivacyLevel<T> {
      */
     public void setValues(Map<String, String> values) throws PrivacyLevelValueException {
         this.values.clear();
-        for (Entry<String, String> entry : values.entrySet()) {
-            this.values.put(entry.getKey(), parseValue(entry.getValue()));
+        if (values != null) {
+            for (Entry<String, String> entry : values.entrySet()) {
+                this.values.put(entry.getKey(), parseValue(entry.getValue()));
+            }
         }
     }
     
