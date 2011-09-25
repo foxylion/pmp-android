@@ -18,8 +18,8 @@ import de.unistuttgart.ipvs.pmp.app.xmlparser.XMLParserException.Type;
 /**
  * Feeds the XML-Parser with different well- and malformed XML-files and compares it's behavior
  * 
- * @author Patrick Strobel
- * @version 0.1.0
+ * @author Frieder Schüler, Patrick Strobel
+ * @version 0.3.0
  * 
  */
 public class XMLParserTest extends InstrumentationTestCase {
@@ -242,14 +242,14 @@ public class XMLParserTest extends InstrumentationTestCase {
     
     
     /**
-     * Tests a file having more than one descriptions with the a invalid level for the default service-level.
+     * Tests a file having more than one descriptions with the same locale in the app-information.
      * 
      * @throws FileNotFoundException
      *             Thrown, if test-files does not exist
      */
-    public void testSameLocaleForDesc() throws IOException {
+    public void testSameLocaleForDescAppInfo() throws IOException {
         try {
-            this.parser.parse(openAssetFile("SameLocaleForDesc.xml"));
+            this.parser.parse(openAssetFile("SameLocaleForDescAppInfo.xml"));
             fail("Parser accepted malformed XML file!");
         } catch (XMLParserException e) {
             assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
@@ -258,20 +258,64 @@ public class XMLParserTest extends InstrumentationTestCase {
     
     
     /**
-     * Tests a file having more than one descriptions with the a invalid level for the default service-level.
+     * Tests a file having more than one name with the same locale in the app-information.
      * 
      * @throws FileNotFoundException
      *             Thrown, if test-files does not exist
      */
-    public void testSameLocaleForName() throws IOException {
+    public void testSameLocaleForNameAppInfo() throws IOException {
         try {
-            this.parser.parse(openAssetFile("SameLocaleForName.xml"));
+            this.parser.parse(openAssetFile("SameLocaleForNameAppInfo.xml"));
             fail("Parser accepted malformed XML file!");
         } catch (XMLParserException e) {
             assertEquals("Test exception type", Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
         }
     }
     
+    /** Tests a file having more than one descriptions with the same locale in a service-level.
+    * 
+    * @throws FileNotFoundException
+    *             Thrown, if test-files does not exist
+    */
+   public void testSameLocaleForDescServiceLevel() throws IOException {
+       try {
+           this.parser.parse(openAssetFile("SameLocaleForDescServiceLevel.xml"));
+           fail("Parser accepted malformed XML file!");
+       } catch (XMLParserException e) {
+           assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+       }
+   }
+   
+   
+   /**
+    * Tests a file having more than one name with the same locale in a service-level.
+    * 
+    * @throws FileNotFoundException
+    *             Thrown, if test-files does not exist
+    */
+   public void testSameLocaleForNameServiceLevel() throws IOException {
+       try {
+           this.parser.parse(openAssetFile("SameLocaleForNameServiceLevel.xml"));
+           fail("Parser accepted malformed XML file!");
+       } catch (XMLParserException e) {
+           assertEquals("Test exception type", Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+       }
+   }
+   
+   /**
+    * Tests a file having a service-level with privacy-levels that have the same identifier.
+    * 
+    * @throws FileNotFoundException
+    *             Thrown, if test-files does not exist
+    */
+   public void testPrivacyLevelWithSameIdentifier() throws IOException {
+       try {
+           this.parser.parse(openAssetFile("PrivacyLevelWithSameIdentifier.xml"));
+           fail("Parser accepted malformed XML file!");
+       } catch (XMLParserException e) {
+           assertEquals("Test exception type", Type.PRIVACY_LEVEL_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, e.getType());
+       }
+   }    
     
     /**
 	 * 
