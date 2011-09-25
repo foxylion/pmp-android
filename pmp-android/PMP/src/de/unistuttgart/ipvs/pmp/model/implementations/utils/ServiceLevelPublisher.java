@@ -97,6 +97,14 @@ public class ServiceLevelPublisher {
                 accesses.add(access);
             }
             
+            Log.v("AccesSet: " + affectedResourceGroup.getIdentifier());
+            for(ResourceGroupAccess rga : accesses) {
+                Log.v(rga.getHeader().getIdentifier());
+                for(Map.Entry<String, String> e : rga.getPrivacyLevelValues().entrySet()) {
+                    Log.v("\t" + e.getKey() + "=" + e.getValue());
+                }
+            }
+            
             /*
              * Publish the Accesses to the ResourceGroupService.
              */
