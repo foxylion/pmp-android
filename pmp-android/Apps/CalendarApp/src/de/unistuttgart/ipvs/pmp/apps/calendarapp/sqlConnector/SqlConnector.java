@@ -50,9 +50,9 @@ public class SqlConnector {
      * Constants for the database table
      */
     private final String DB_TABLE_NAME = "Appointment";
-    private final String ID = "id";
-    private final String DATE = "appointment";
-    private final String DESC = "description";
+    private final String ID = "ID";
+    private final String DATE = "Appointment";
+    private final String DESC = "Description";
     
     
     /**
@@ -104,7 +104,7 @@ public class SqlConnector {
                         // TODO: table not exists?
                         long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null, null);
                         
-                        // Getting the rows
+                        // Getting the rows - TODO if fail skip only ONE row!! 
                         for (int itr = 0; itr < rowCount; itr++) {
                             
                             String[] columns = idc.getRowAt(itr);
@@ -186,7 +186,7 @@ public class SqlConnector {
                         values.put(SqlConnector.this.ID, String.valueOf(id));
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
-                        
+
                         long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
                         Log.v("Return value of insert: " + result);
                         if (result != -1) {

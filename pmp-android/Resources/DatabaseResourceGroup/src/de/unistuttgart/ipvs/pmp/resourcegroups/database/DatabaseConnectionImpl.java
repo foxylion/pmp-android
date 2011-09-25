@@ -67,7 +67,30 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         for (Object value : values.entrySet()) {
             // TODO test if set is in right order??????????????????????????????
             Entry e = (Entry) value;
-            cv.put(e.getKey().toString(), e.getValue().toString());
+            if (String.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (String) e.getValue());
+            } else if (Integer.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Integer) e.getValue());
+            } else if (Long.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Long) e.getValue());
+            } else if (Short.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Short) e.getValue());
+            } else if (Boolean.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Boolean) e.getValue());
+            } else if (Float.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Float) e.getValue());
+            } else if (Double.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Double) e.getValue());
+            } else if (Byte.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Byte) e.getValue());
+            } else {
+                try {
+                    byte[] b = (byte[]) e.getValue();
+                    cv.put(e.getKey().toString(), b);
+                } catch (Exception e2) {
+                    cv.put(e.getKey().toString(), e.getValue().toString());
+                }
+            }
         }
         return cv;
     }

@@ -52,7 +52,13 @@ interface IDatabaseConnection {
      * provides the name of nullable column name to explicitly insert a NULL
      * into in the case where your values is empty.
      * @param values this map contains the initial column values for the row.
-     * The keys should be the column names and the values the column values
+     * The keys should be the column names in String and their values the
+     * column's values in simple data types suitable for Interprocess Procedure
+     * Call (IPC) supported by Android (String, Integer, Short, Long, Float,
+     * Double, Byte, Boolean and []byte). Data types can be mixed and stored in
+     * a Map<String, Object> object, incompatible types will be converted to
+     * String using their .toString() methods so they may not be accurate or
+     * worse, may lead to Exceptions.
      * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     long insert(String table, String nullColumnHack, in Map values);
