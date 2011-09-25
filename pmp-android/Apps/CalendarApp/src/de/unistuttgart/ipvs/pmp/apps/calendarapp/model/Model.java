@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
 public class Model {
     
@@ -25,6 +27,11 @@ public class Model {
     private ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
     /**
+     * Holds all files for importing
+     */
+    private List<FileDetails> fileList = new ArrayList<FileDetails>();
+    
+    /**
      * The context of the app
      */
     private CalendarAppActivity appContext;
@@ -33,6 +40,11 @@ public class Model {
      * Array adapter of the list to refresh it
      */
     private ArrayAdapter<Appointment> arrayAdapter;
+    
+    /**
+     * Array adapter of the import file list to refresh it
+     */
+    private ArrayAdapter<FileDetails> importArrayAdapter;
     
     /**
      * The newDate button of the app to dis- and enable it
@@ -215,11 +227,10 @@ public class Model {
      * 
      * @return true if the table exists
      */
-//    public Boolean isTableCreated() {
-//        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-//        return app_preferences.getBoolean("tablecreated", false);
-//    }
-    
+    //    public Boolean isTableCreated() {
+    //        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
+    //        return app_preferences.getBoolean("tablecreated", false);
+    //    }
     
     /**
      * Sets the status if the table exists or not
@@ -264,5 +275,89 @@ public class Model {
      */
     public void setNewAppointmentButton(Button newDateButton) {
         this.newAppointmentButton = newDateButton;
+    }
+    
+    
+    /**
+     * Get the file list for importing
+     * 
+     * @return file list for importing
+     */
+    public List<FileDetails> getFileList() {
+        return fileList;
+    }
+    
+    
+    /**
+     * Set the file list for importing
+     * 
+     * @param fileList
+     *            for importing
+     */
+    public void setFileList(List<FileDetails> fileList) {
+        this.fileList = fileList;
+        this.arrayAdapter.notifyDataSetChanged();
+    }
+    
+    
+    /**
+     * Remove a file from the list for importing
+     * 
+     * @param file
+     *            to remove
+     */
+    public void removeFileFromList(FileDetails file) {
+        fileList.remove(file);
+        this.arrayAdapter.notifyDataSetChanged();
+    }
+    
+    
+    /**
+     * Add a file to the list for importing
+     * 
+     * @param file
+     *            to add
+     */
+    public void addFileToList(FileDetails file) {
+        fileList.add(file);
+        this.arrayAdapter.notifyDataSetChanged();
+    }
+    
+    
+    /**
+     * Check, if a file name already exists
+     * 
+     * @param filenameToCheck
+     *            filename to check
+     * @return flag
+     */
+    public boolean isFileNameExisting(String filenameToCheck) {
+        for (FileDetails file : fileList) {
+            if (file.getName().equals(filenameToCheck)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Get the array adapter for importing files
+     * 
+     * @return array adapter
+     */
+    public ArrayAdapter<FileDetails> getImportArrayAdapter() {
+        return importArrayAdapter;
+    }
+    
+    
+    /**
+     * Set the array adapter for importing files
+     * 
+     * @param importArrayAdapter
+     *            array adapter for importing files
+     */
+    public void setImportArrayAdapter(ArrayAdapter<FileDetails> importArrayAdapter) {
+        this.importArrayAdapter = importArrayAdapter;
     }
 }

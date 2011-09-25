@@ -8,10 +8,13 @@ import java.util.Locale;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +29,9 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -156,6 +161,11 @@ public class CalendarAppActivity extends ListActivity {
             }
         });
         
+        /*
+         * Fill the list of files for importing
+         */
+        FileSystemConnector.getInstance().listStoredFiles();
+        
     }
     
     
@@ -231,5 +241,39 @@ public class CalendarAppActivity extends ListActivity {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Add the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar_menu, menu);
+        return true;
+    }
+    
+    /**
+     * Respond to user interaction with the menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.import_appointments:
+            // Open activity with file list
+            Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
+            if (Model.getInstance().getContext() != null) {
+                Model.getInstance().getContext().startActivity(intent);
+            }
+            return true;
+        case R.id.export_appointments:
+            // Open dialog for entering a file name
+            Dialog exportDialog = new ExportDialog(this);
+            exportDialog.show();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.RemoteException;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -130,7 +131,16 @@ public class FileSystemConnector {
                         // Create the folder
                         ifa.makeDirs(FOLDER_NAME);
                         // Write the file
-                        ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
+                        boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
+
+                        // if exporting worked successfully, add the file to the model list
+                        if (success) {
+                            FileSystemConnector.getInstance().listStoredFiles();
+                            Toast.makeText(Model.getInstance().getContext(), "Export success", Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            Log.e("Exporting failed");
+                        }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
                     }
@@ -187,8 +197,7 @@ public class FileSystemConnector {
                                 resourceIdentifier));
                         // Write the file
                         importString = ifa.read(FOLDER_NAME + "/" + fileName);
-                        importString = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:CALENDAR_APP_EXAMPLE_FOR_PMP\nBEGIN:VTODO\nSUMMARY:Test Eintrag\nDTSTAMP:20110924T120040Z\nEND:VTODO\nBEGIN:VTODO\nSUMMARY:Test Eintrag2\nDTSTAMP:20110924T120050Z\nEND:VTODO\nEND:VCALENDAR";
-                        
+
                         // Check, if the import string is null
                         if (importString == null) {
                             Log.e("Importing failed!");
@@ -316,8 +325,8 @@ public class FileSystemConnector {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
                                 resourceIdentifier));
-                        // list the files
-                        List<FileDetails> fileNames = ifa.list(FOLDER_NAME);
+                        // list the files and add it to the model
+                        Model.getInstance().setFileList(ifa.list(FOLDER_NAME));
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
                     }
@@ -369,7 +378,10 @@ public class FileSystemConnector {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
                                 resourceIdentifier));
                         // delete a file
-                        ifa.delete(FOLDER_NAME + "/" + file.getName());
+                        boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
+                        if (success) {
+                            Model.getInstance().removeFileFromList(file);
+                        }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
                     }
@@ -386,4 +398,5 @@ public class FileSystemConnector {
         });
         rgCon.bind();
     }
+    
 }

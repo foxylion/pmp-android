@@ -18,7 +18,8 @@
 			<intent-filter>
 				<action android:name="de.unistuttgart.ipvs.pmp.apps.calendarapp"></action>
 			</intent-filter>
-		</service>	
+		</service>
+		<activity android:name=".gui.activities.ImportActivity"></activity>	
 	</application>
 	
 </manifest>
