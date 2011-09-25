@@ -184,7 +184,11 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             openReadableDB();
             try {
                 cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?", args);
-                return true;
+                if (cursor.getCount()>0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } catch (SQLiteException e) {
                 Log.v("Caught SQLiteExcetion: ", e);
                 return false;
