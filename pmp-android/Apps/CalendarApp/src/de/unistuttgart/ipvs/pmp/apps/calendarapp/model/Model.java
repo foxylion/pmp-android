@@ -289,26 +289,15 @@ public class Model {
     
     
     /**
-     * Set the file list for importing
-     * 
-     * @param fileList
-     *            for importing
-     */
-    public void setFileList(List<FileDetails> fileList) {
-        this.fileList = fileList;
-        this.arrayAdapter.notifyDataSetChanged();
-    }
-    
-    
-    /**
      * Remove a file from the list for importing
      * 
      * @param file
      *            to remove
      */
     public void removeFileFromList(FileDetails file) {
-        fileList.remove(file);
-        this.arrayAdapter.notifyDataSetChanged();
+        this.fileList.remove(file);
+        if (importArrayAdapter != null)
+            this.importArrayAdapter.notifyDataSetChanged();
     }
     
     
@@ -319,8 +308,19 @@ public class Model {
      *            to add
      */
     public void addFileToList(FileDetails file) {
-        fileList.add(file);
-        this.arrayAdapter.notifyDataSetChanged();
+        this.fileList.add(file);
+        if (importArrayAdapter != null)
+            this.importArrayAdapter.notifyDataSetChanged();
+    }
+    
+    
+    /**
+     * Clear the file list of the model
+     */
+    public void clearFileList() {
+        this.fileList.clear();
+        if (importArrayAdapter != null)
+            this.importArrayAdapter.notifyDataSetChanged();
     }
     
     
@@ -360,4 +360,5 @@ public class Model {
     public void setImportArrayAdapter(ArrayAdapter<FileDetails> importArrayAdapter) {
         this.importArrayAdapter = importArrayAdapter;
     }
+    
 }

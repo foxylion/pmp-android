@@ -1,24 +1,22 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog.ConfirmListener;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/**
+ * This is the dialog for exporting. You can enter a file name for exporting.
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class ExportDialog extends Dialog {
     
     /**
@@ -41,6 +39,7 @@ public class ExportDialog extends Dialog {
     public ExportDialog(Context context) {
         super(context);
     }
+    
     
     /**
      * Called when the dialog is first created. Gets all elements of the gui

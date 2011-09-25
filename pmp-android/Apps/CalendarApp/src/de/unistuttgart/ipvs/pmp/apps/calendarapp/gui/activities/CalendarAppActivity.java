@@ -29,7 +29,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
@@ -160,11 +159,6 @@ public class CalendarAppActivity extends ListActivity {
                 }
             }
         });
-        
-        /*
-         * Fill the list of files for importing
-         */
-        FileSystemConnector.getInstance().listStoredFiles();
         
     }
     

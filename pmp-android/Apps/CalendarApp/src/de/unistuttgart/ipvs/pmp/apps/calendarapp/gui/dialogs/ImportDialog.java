@@ -2,17 +2,18 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog.ConfirmListener;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
+/**
+ * This is the dialog for the import. It shows a confirm-button and warns, that all current saved data will be lost
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class ImportDialog extends Dialog {
     
     /**
