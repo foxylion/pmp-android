@@ -12,13 +12,15 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name=".gui.activities.ImportActivity"></activity>	
 		
 		<!-- The service of the app where pmp connects to -->
 		<service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
 			<intent-filter>
 				<action android:name="de.unistuttgart.ipvs.pmp.apps.calendarapp"></action>
 			</intent-filter>
-		</service>	
+		</service>
+		
 	</application>
 	
 </manifest>

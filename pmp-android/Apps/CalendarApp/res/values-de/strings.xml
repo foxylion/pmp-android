@@ -16,4 +16,9 @@
 	<string name="err_del">Fehler beim Löschen eines Termins in der Datenbank</string>
 	<string name="err_change">Fehler beim Ändern eines Termins in der Datenbank</string>
 	<string name="appoint">Termin:</string>
+	<string name="import_appointments">Termine importieren</string>
+	<string name="export_appointments">Termine exportieren</string>
+	<string name="file_name">Dateiname:</string>
+	<string name="import_question">Diese Datei importieren?</string>
+	<string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei verloren gehen!</string>
 </resources>

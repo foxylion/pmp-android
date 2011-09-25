@@ -202,4 +202,11 @@ public class FileDetails implements Parcelable {
         f.path = source.readString();
         return f;
     }
+    
+    /**
+     * Get the string represetation for the list view
+     */
+    public String toString() {
+        return this.name + "\n" + this.absolutePath;
+    }
 }
