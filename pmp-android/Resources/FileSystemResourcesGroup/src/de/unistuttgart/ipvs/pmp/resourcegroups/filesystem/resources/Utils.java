@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility-Class for string-to-file and file-to-string functions
+ * 
+ * @author Patrick Strobel
+ * @version 0.1.1
+ */
 public class Utils {
     
     /**
@@ -28,9 +34,11 @@ public class Utils {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         
         StringBuilder result = new StringBuilder();
-        String line = null;
+        String line = reader.readLine();
+        result.append(line);
         
         while ((line = reader.readLine()) != null) {
+            result.append("\n");
             result.append(line);
         }
         reader.close();
