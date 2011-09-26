@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -47,11 +46,6 @@ public class Model {
      * Array adapter of the import file list to refresh it
      */
     private ArrayAdapter<FileDetails> importArrayAdapter;
-    
-    /**
-     * The newDate button of the app to dis- and enable it
-     */
-    private Button newAppointmentButton;
     
     /**
      * The list view of the import activity
@@ -266,27 +260,6 @@ public class Model {
     public void clearLocalList() {
         this.appointmentList.clear();
         this.arrayAdapter.notifyDataSetChanged();
-    }
-    
-    
-    /**
-     * Returns the new ppointment button of the app
-     * 
-     * @return the new appointment button
-     */
-    public Button getNewAppointmentButton() {
-        return this.newAppointmentButton;
-    }
-    
-    
-    /**
-     * Sets the new date button
-     * 
-     * @param newDateButton
-     *            button of the app
-     */
-    public void setNewAppointmentButton(Button newDateButton) {
-        this.newAppointmentButton = newDateButton;
     }
     
     

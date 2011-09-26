@@ -215,12 +215,10 @@ public class FileSystemConnector {
                             Log.e("Importing failed!");
                         } else {
                             
-//                            // Delete all appointments
-//                            for (Appointment appointment : Model.getInstance().getAppointmentList()) {
-//                                SqlConnector.getInstance().deleteAppointment(appointment.getId());
-//                            }
-                            
-                            Log.e(importString);
+                            // Delete all appointments
+                            for (Appointment appointment : Model.getInstance().getAppointmentList()) {
+                                SqlConnector.getInstance().deleteAppointment(appointment.getId());
+                            }
                             
                             String[] importArray = importString.split("\n");
                             
@@ -290,8 +288,11 @@ public class FileSystemConnector {
                             // If something went wrong, log the error
                             if (!success) {
                                 Log.e("Import data invalid; imported as far as posible");
+                                Toast.makeText(Model.getInstance().getContext(),
+                                        "Import data invalid; imported as far as posible", Toast.LENGTH_SHORT);
                             } else {
                                 Log.d("Import succeed");
+                                Toast.makeText(Model.getInstance().getContext(), "Import succeed!", Toast.LENGTH_SHORT);
                             }
                             
                         }

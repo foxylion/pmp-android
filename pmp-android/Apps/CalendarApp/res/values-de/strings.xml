@@ -21,4 +21,5 @@
 	<string name="file_name">Dateiname:</string>
 	<string name="import_question">Diese Datei importieren?</string>
 	<string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei verloren gehen!</string>
+	<string name="delete_all_appointments">Alle Termine löschen</string>
 </resources>

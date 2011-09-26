@@ -16,13 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -109,11 +109,6 @@ public class CalendarAppActivity extends ListActivity {
         
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
-        
-        // The new appointment button
-        Button newAppointment = (Button) findViewById(R.id.AddDate);
-        newAppointment.setEnabled(false);
-        Model.getInstance().setNewAppointmentButton(newAppointment);
         
     }
     
@@ -222,6 +217,13 @@ public class CalendarAppActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.new_appointment:
+                Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
+                dialog.setTitle("Create new appointment");
+                dialog.show();
+                return true;
+            case R.id.delete_all_appointments:
+                return true;
             case R.id.import_appointments:
                 // Open activity with file list
                 Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
@@ -239,6 +241,7 @@ public class CalendarAppActivity extends ListActivity {
         }
     }
     
+    
     /**
      * Update the visibility of the menu
      */
@@ -248,11 +251,17 @@ public class CalendarAppActivity extends ListActivity {
             // Get the service level
             int serviceLevel = Model.getInstance().getServiceLevel();
             
+            // Set new appointment functionality
+            menu.getItem(0).setEnabled(serviceLevel >= 2);
+            
+            // Set delete all appointments functionality
+            menu.getItem(1).setEnabled(serviceLevel >= 2);
+            
             // Set import functionality
-            menu.getItem(0).setVisible(serviceLevel >= 4);
+            menu.getItem(2).setEnabled(serviceLevel >= 4);
             
             // Set export functionality
-            menu.getItem(1).setVisible(serviceLevel >= 6);
+            menu.getItem(3).setEnabled(serviceLevel >= 6);
         }
     }
 }

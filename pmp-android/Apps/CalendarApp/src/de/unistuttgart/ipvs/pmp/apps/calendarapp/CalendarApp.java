@@ -8,14 +8,12 @@ import android.os.RemoteException;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -201,24 +199,6 @@ public class CalendarApp extends App {
         } else {
             Model.getInstance().clearLocalList();
         }
-        
-        // new button
-        Model.getInstance().getNewAppointmentButton().setEnabled(writeFlag);
-        
-        /*
-         * Listener for adding a new appointment. Opens a new dialog
-         */
-        Model.getInstance().getNewAppointmentButton().setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                if (writeFlag) {
-                    Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-                    dialog.setTitle("Create new appointment");
-                    dialog.show();
-                }
-            }
-        });
         
         /*
          * Listener for long clicking on one item. Opens a context menu where
