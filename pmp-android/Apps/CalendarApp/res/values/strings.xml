@@ -41,4 +41,7 @@
 	<string name="export_override_cancel">Cancel</string>
 	<string name="export_toast_cancel">Canceled exporting appointments.</string>
 	<string name="export_toast_succeed">Exporting appointments succeed.</string>
+	<string name="delete_file_toast">File deleted.</string>
+	<string name="import_data_invalid_toast">Import data invalid.</string>
+	<string name="import_succeed_toast">Importing appointments succeed.</string>
 </resources>

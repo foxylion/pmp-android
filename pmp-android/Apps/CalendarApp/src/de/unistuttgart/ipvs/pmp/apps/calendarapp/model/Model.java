@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
@@ -34,6 +35,11 @@ public class Model {
      * The context of the app
      */
     private CalendarAppActivity appContext;
+    
+    /**
+     * The context of the import activity
+     */
+    private ImportActivity importContext;
     
     /**
      * Array adapter of the list to refresh it
@@ -366,5 +372,26 @@ public class Model {
      */
     public void setImportArrayAdapter(ArrayAdapter<FileDetails> importArrayAdapter) {
         this.importArrayAdapter = importArrayAdapter;
+    }
+    
+    
+    /**
+     * Get the context of the import activity
+     * 
+     * @return context of the import activity
+     */
+    public ImportActivity getImportContext() {
+        return importContext;
+    }
+    
+    
+    /**
+     * Set the context of the import activity
+     * 
+     * @param importContext
+     *            context of the import activity
+     */
+    public void setImportContext(ImportActivity importContext) {
+        this.importContext = importContext;
     }
 }

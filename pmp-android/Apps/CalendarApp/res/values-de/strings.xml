@@ -42,4 +42,7 @@
 	<string name="export_override_cancel">Abbrechen</string>
 	<string name="export_toast_cancel">Exportieren wurden abgebrochen.</string>
 	<string name="export_toast_succeed">Exportieren war erfolgreich.</string>
+	<string name="delete_file_toast">Datei gelöscht.</string>
+	<string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
+	<string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
 </resources>
