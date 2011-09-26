@@ -4,15 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.ImagedButton;
@@ -152,16 +155,81 @@ class OnAppClickListener implements OnClickListener {
     
     @Override
     public void onClick(View v) {
+        final Dialog dialog = new Dialog(parent.getContext());
+
+        String appName = ModelSingleton.getInstance().getModel().getApp(parent.getIdentifier()).getName();
+        dialog.setTitle(appName);
         
-        /*
-         * Call Privacy Level Activity with the specified Intent
-         */
-        Intent intent = new Intent(v.getContext(), ServiceLvlActivity.class);
-        intent.putExtra(Constants.INTENT_IDENTIFIER, this.parent.getIdentifier());
+        String description = ModelSingleton.getInstance().getModel().getApp(parent.getIdentifier()).getDescription();
+        TextView descriptionView = new TextView(parent.getContext());
+        descriptionView.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+        descriptionView.setText(description);
         
-        if (v.getContext() != null) {
-            v.getContext().startActivity(intent);
-        }
+        String setSLName = ModelSingleton.getInstance().getModel().getApp(parent.getIdentifier()).getActiveServiceLevel().getName();
+        String setSLDescr = ModelSingleton.getInstance().getModel().getApp(parent.getIdentifier()).getActiveServiceLevel().getDescription();
+        TextView setSL = new TextView(parent.getContext());
+        setSL.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+        setSL.setText("Active Service Level:" + "\n" + setSLName + "\n"
+                + setSLDescr);
+        
+        Button changeSL = new Button(parent.getContext());
+        changeSL.setText(parent.getContext().getString(R.string.change_sl));
+        changeSL.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+        changeSL.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                
+              /*
+               * Call Privacy Level Activity with the specified Intent
+               */
+              Intent intent = new Intent(v.getContext(), ServiceLvlActivity.class);
+              intent.putExtra(Constants.INTENT_IDENTIFIER, parent.getIdentifier());
+              
+              if (v.getContext() != null) {
+                  dialog.dismiss();
+                  v.getContext().startActivity(intent);
+              }
+            }
+        });
+        
+        Button close = new Button(parent.getContext());
+        close.setText(parent.getContext().getString(R.string.close));
+        close.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
+        close.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        
+        LinearLayout dialogLayout = new LinearLayout(parent.getContext());
+        dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+        
+        LinearLayout buttonLayout = new LinearLayout(parent.getContext());
+        buttonLayout.addView(changeSL);
+        buttonLayout.addView(close);
+        
+        LinearLayout inScrollLayout = new LinearLayout(parent.getContext());
+        inScrollLayout.setOrientation(LinearLayout.VERTICAL);
+        ScrollView scrollView = new ScrollView(parent.getContext());
+        scrollView.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
+        
+        inScrollLayout.addView(descriptionView);
+        inScrollLayout.addView(setSL);
+        
+        
+        scrollView.addView(inScrollLayout);
+        
+        dialogLayout.addView(scrollView);
+        dialogLayout.addView(buttonLayout);
+        
+        
+        dialog.setContentView(dialogLayout);
+        
+        dialog.show();
+//    
     }
-    
 }

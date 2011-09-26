@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -20,11 +21,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.views.LayoutParamsCreator;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
@@ -205,7 +208,24 @@ class OnLevelTouchListener implements OnTouchListener {
         
         /* Description */
         TextView description = new TextView(this.context);
-        description.setText(this.context.getString(R.string.description) + "\n\n" + this.lvlDescr + "\n");
+        
+        String req_res = "";
+        String old_res = "";
+        int PLlength = ModelSingleton.getInstance().getModel().getApp(identifier).getServiceLevel(levelID)
+                .getPrivacyLevels().length;
+        IPrivacyLevel[] plevels = ModelSingleton.getInstance().getModel().getApp(identifier).getServiceLevel(levelID)
+                .getPrivacyLevels();
+        for (int j = 0; j < PLlength; j++) {
+            if (old_res.contentEquals(plevels[j].getResourceGroup().getName())) {
+                ;
+            } else {
+                old_res = plevels[j].getResourceGroup().getName();
+                req_res = req_res + plevels[j].getResourceGroup().getName() + "\n";
+            }
+        }
+        
+        description.setText(this.lvlDescr + "\n" + this.context.getString(R.string.required_resource) + "\n" + req_res);
+        
         description.setPadding(10, 0, 10, 0);
         
         /* Apply */
@@ -249,6 +269,7 @@ class OnLevelTouchListener implements OnTouchListener {
                         super.onPostExecute(result);
                         waitingDialog.dismiss();
                         dialog.cancel();
+                        activity.finish();
                     }
                 }.execute();
             }
@@ -273,14 +294,20 @@ class OnLevelTouchListener implements OnTouchListener {
         LinearLayout dialogLayout = new LinearLayout(this.context);
         dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
         dialogLayout.setOrientation(LinearLayout.VERTICAL);
-        dialogLayout.addView(description);
+        
+        ScrollView dialogScroll = new ScrollView(this.context);
+        dialogScroll.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
+        dialogScroll.addView(description);
+        
+        
         
         /* buttonLayout which holds the buttons: Apply, Cancel */
         LinearLayout buttonLayout = new LinearLayout(this.context);
-        buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+//        buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
         buttonLayout.addView(apply);
         buttonLayout.addView(cancel);
         
+        dialogLayout.addView(dialogScroll);
         dialogLayout.addView(buttonLayout);
         dialog.setContentView(dialogLayout);
         

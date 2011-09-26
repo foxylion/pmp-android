@@ -158,11 +158,11 @@ class OnResClickListener implements OnClickListener {
         dialog.setTitle(title);
         TextView descriptionView = new TextView(context);
         
-        descriptionView.setText(context.getString(R.string.description) + "\n\n" + description);
+        descriptionView.setText(description);
         descriptionView.setPadding(10, 0, 10, 0);
         
         Button close = new Button(context);
-        close.setText(R.string.cancel);
+        close.setText(R.string.close);
         close.setOnClickListener(new OnClickListener() {
             
             @Override
@@ -173,7 +173,13 @@ class OnResClickListener implements OnClickListener {
         
         LinearLayout layout = new LinearLayout(this.parent.getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(descriptionView);
+        
+        ScrollView dialogScroll = new ScrollView(this.parent.getContext());
+        dialogScroll.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
+        dialogScroll.addView(descriptionView);
+        
+        
+        layout.addView(dialogScroll);
         layout.addView(close);
         
         dialog.setContentView(layout);

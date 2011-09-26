@@ -10,4 +10,7 @@
     <string name="apply_service_level">Apply Service Level?</string>
     <string name="set_service_level">Setting Service Level.</string>
     <string name="please_wait">Please wait!</string>
+    <string name="required_resource">Required resource groups:</string>
+    <string name="change_sl">Change Service Level</string>
+    <string name="close">Close</string>
 </resources>

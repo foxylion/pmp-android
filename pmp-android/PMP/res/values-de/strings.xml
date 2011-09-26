@@ -9,4 +9,7 @@
     <string name="apply_service_level">Service Level setzen?</string>
     <string name="set_service_level">Service Level wird gesetzt.</string>
     <string name="please_wait">Bitte warten!</string>
+    <string name="required_resource">Benötigte Ressource-Gruppen</string>
+    <string name="change_sl">Service Level ändern</string>
+    <string name="close">Schließen</string>
 </resources>
