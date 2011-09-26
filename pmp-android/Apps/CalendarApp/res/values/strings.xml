@@ -14,12 +14,16 @@
 	<string name="registration">Registration is running.</string>
 	<string name="err_store">Error while storing in database</string>
 	<string name="err_del">Error while deleting date in database</string>
-	<string name="err_change">Error while changing appointment in database</string>
+	<string name="err_change">Error while changing appointment in database
+	</string>
 	<string name="appoint">Appointment:</string>
 	<string name="import_appointments">Import appointments</string>
 	<string name="export_appointments">Export appointments</string>
 	<string name="file_name">Filename:</string>
 	<string name="import_question">Import this file?</string>
-	<string name="import_attention">Attention: Your current appointment list will be lost!</string>
+	<string name="import_attention">Attention: Your current appointment list will be
+		lost!</string>
 	<string name="delete_all_appointments">Delete all appointments</string>
+	<string name="delete_all_appointments_question">Do you really want to delete all appointments?
+	</string>
 </resources>

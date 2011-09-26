@@ -1,20 +1,23 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ImportDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
 /**
  * This is the (list-)activity for the import. It shows all available files for importing.
@@ -55,12 +58,6 @@ public class ImportActivity extends ListActivity {
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
         
-        // Add the list view to the model
-        Model.getInstance().setImportListView(listView);
-        
-        // Enable context menu if available
-        ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
-        
         /*
          * Listener for clicking one item. Opens a new dialog where the user can
          * change the date.
@@ -69,13 +66,37 @@ public class ImportActivity extends ListActivity {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FileDetails file = Model.getInstance().getFileList().get(position);
-                // Open dialog for importing
-                ImportDialog importDialog = new ImportDialog(ImportActivity.this);
-                importDialog.setFilename(file.getName());
-                importDialog.show();
+                final FileDetails file = Model.getInstance().getFileList().get(position);
+
+                // Show the confirm dialog for importing and deleting all current appointments
+                new AlertDialog.Builder(ImportActivity.this).setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.import_question)
+                        .setMessage(R.string.import_attention)
+                        .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Import the file
+                                FileSystemConnector.getInstance().importAppointments(file.getName());
+                                finish();
+                            }
+                            
+                        }).show();
             }
-        });        
+        });
+        
+        /*
+         * Listener for long clicking on one item. Opens a context menu where
+         * the user can delete a file
+         */
+        listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+            
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(getString(R.string.menu));
+                menu.add(0, 0, 0, R.string.delete);
+            }
+        });
         
     }
     
@@ -88,7 +109,11 @@ public class ImportActivity extends ListActivity {
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
-            FileSystemConnector.getInstance().deleteFile(clicked);
+            if (Model.getInstance().getServiceLevel() >= 6) {
+                FileSystemConnector.getInstance().deleteFile(clicked);
+            } else {
+                
+            }
             return true;
         }
         return false;
