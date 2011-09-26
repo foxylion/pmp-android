@@ -115,7 +115,7 @@ f<!DOCTYPE html>
         Dieser Abschnitt richtet sich an die Benutzer der PMP.
       </p>
         
-      <h2 id="modes">Anwender-Modis</h2>
+      <h2 id="modes">Anwender-Modi</h2>
       <p>
         Die PMP lässt sich in
         zwei Modi betreiben: im einfachen Modus (als Simple Mode bezeichnet), stehen
@@ -159,7 +159,6 @@ f<!DOCTYPE html>
         in dieser Version des Handbuchs nicht näher eingegangen.
       </p>
       
-      <!-- 12:18 -->
       <h2 id="apps">Applikationen</h2>
       <h3 id="apps_inst">Applikationen installieren</h3>
       <p>
@@ -745,59 +744,167 @@ public class FileSystemResourceGroup extends ResourceGroup {
       
       <h3 id="devapp_impl">Implementierung</h3>
       <h4 id="devapp_com">Kommunikation mit der PMP</h4>
+      <p>                                                       
+        Zentraler Punkt der Kommunikation zwischen Applikationen und PMP ist der 
+        sogenannte <code>AppService</code>. Dieser regelt die integration der
+        Applikation in die PMP und verwaltet deren Service-Levels.
+        Viele Funktionen dieses Services sind bereits fertig implementiert und in 
+        die PMP integriert, so dass nur die anwendungspezifische Funktionen 
+        durch den Entwickler der Applikation festgelegt werden müssen.
+      </p>
+      <h5>Service in Manifest-Datei eintragen</h5>
       <p>
-        Um die Kommunikation zwischen den Komponenten und Ressourcen der PMP zu
-        ermöglichen, muss die Klasse <code>app</code> erweitert und ihre 
-        abstrakte Methoden implementiert werden. Zentraler Punkt der 
-        Implementierung ist hierbei die Methode <code>getServiceAndroidName()</code>.
-        Diese definiert den Namen des <b>Service</b>, über den die <b>Kommunikation</b> abläuft.
-        <br />
-        Wichtig ist hierbei, dass der hier verwendete Name mit der Angabe in der
-        Manifest-Datei übereinstimmt und die Manifest-Datei auf den Service
-        <code>de.unistuttgart.ipvs.pmp.service.app.AppService</code> verweist:
+        Zunächst muss der Service in der Manifest-Datei bekanntgemacht werden.
+        Hierzu wird der Datei folgender Service hinzugefügt:
 <pre>
-    &lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
-      &lt;intent-filter>
-        &lt;action android:name="de.unistuttgart.ipvs.pmp.apps.exampleapp">&lt;/action>
-      &lt;/intent-filter>
-    &lt;/service>
+&lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
+  &lt;intent-filter>
+    &lt;action android:name="&raquo;Applikationsspezifischer Service-Name&laquo;" />
+  &lt;/intent-filter>
+&lt;/service> 
 </pre>
-        Zugehörige Implementierung:
-<pre>
-    @Override
-    protected String getServiceAndroidName() {
-      return "de.unistuttgart.ipvs.pmp.apps.calendarapp";
-    }
-</pre>
-
+        Einzig variabler Wert ist hier der Name der Aktion innerhalb des Intent-Filters
+        ("&raquo;Applikationsspezifischer Service-Name&laquo;"). Der Wert dieses
+        Attributes wird im weiteren Verlauf der Implementierung noch benötigt.
+        Dieser Wert sollte auf den Namen des Basis-Paketes gesetzt werden, unterhalb
+        dessen sich alle Klassen der Applikation befinden (Befinden sich alle 
+        Klassen unterhalb von <code>de.unistuttgart.ipvs.pmp.apps.ournewapp</code>, 
+        sollte der Eintrag <code>&lt;action android:name="de.unistuttgart.ipvs.pmp.apps.ournewapp" /></code> lauten).
+      </p>
+      <h5>Implementierung des Services</h5>
+      <p>
+        Wurde der Service in der Manifest-Datei bekannt gemacht, kann mit der 
+        Implemenetierung der anwendungsspezifischen Funktionen begonnen werden.
+        Hierfür muss die Klasse <code>app</code> erweitert und ihre 
+        abstrakten Methoden implementiert werden.
+      </p>
+      <p>
+        Zentraler Punkt der Implementierung ist die Methode <code>getServiceAndroidName()</code>.
+        Diese muss exakt den <b>selben Wert</b> zurückliefern, wie er zuvor im <b>Intent-Filter</b>
+        des Services (Manifest-Datei, siehe weiter oben) festgelegt wurde
+        (in obigem Beispiel war dies <code>de.unistuttgart.ipvs.pmp.apps.ournewapp</code>).
+      </p>     
       <p>
         Mithilfe der Methode <code>getXMLInputStream()</code> wird die in der 
         XML-Datei abgelegt <b>Service-Level-Definition eingelesen</b> und weiterverarbeitet.
-        Diese Methode muss lediglich einen Eingabe-Strom auf diese Datei liefern.
-        Um alles weitere kümmert sich die PMP.
+        Diese Methode muss lediglich einen Eingabe-Strom mit dem Inhalt diese Datei liefern.
+        Die weitere Verarbeitung wird dann von der PMP übernommen.
       </p>
       
       <p>
-        Mitteilungen über <b>Änderungen am Service-Level</b> werden an die Methode 
-        <code>setActiveServiceLevel()</code> gesendet, die das neue
-        Service-Level per Parameter erhält. Diese Methode sollte verwendet werden,
+        <b>Änderungen am Service-Level</b> durch den Anwender werden der Applikation
+        über die Methode <code>setActiveServiceLevel()</code> mitgeteilt, wobei das neue
+        Service-Level im Parameter enthalten ist. Diese Methode sollte verwendet werden,
         um das Verhalten der Applikation dem geänderten Service-Level anzupassen.
       </p>
       
       <p>
-        Jede für die PMP entwickelte Applikation muss sich bei der PMP regisitieren.
+        Eine weitere Aufgabe des <code>AppServices</code> ist die Registrierung der
+        Applikation bei der PMP.
         Um auf eine <b>erfolgreiche oder fehlgeschlagene Registrierung</b> reagieren zu können,
         exisiteren die beiden Callback-Methoden <code>onRegistrationSuccess()</code>
         und <code>onRegistrationFailed()</code>, wobei Letztere den Grund des
         Fehlschlags über den Parameter erhält.
       </p>
       
-      <h4 id="devapp_impl_pmpservices">Dienste der PMP</h4>
+      <h4 id="devapp_impl_pmpservices">Dienste der PMP, Zugriff auf Ressourcen</h4>
       <p>
-        Mit dem <code>PMPServiceConnector</code> bietet die PMP Zugriff auf 
-        alle wichtigen Funktionen des PMP-Services.
-        TODO
+        Um jederzeit auf Dienste der PMP Zugreifen zu können, steht eine Reihe sogenannter
+        <code>Conntector</code>-Klasse zur Verfügung. Die Kommunikation mit der PMP
+        sollte immer über eine dieser Klassen erfolgen. Der Zugriff auf PMP-Ressourcen
+        erfolg ebenfalls über diese Konnektoren
       </p>
+      <p>
+        Die Verwendung jedes Konnektors läuft nach folgendem Schema ab:
+        <ul>
+          <li>Durch Aufruf des Konstruktors wird ein Objekt des Konnectors erstellt</li>
+          <li>Durch Aufruf der Methode <code>addCallbackHandler()</code> des Konntectors,
+            wird diesem ein Callback-Handler zugewiesen</li>
+          <li>Innheralb der <code>connected()</code>-Methode des Callback-Handlers
+            erfolgt der Zugriff auf die Methoden des Konntectors</li>
+          <li>Die Verbindung wird mit der Methode <code>bind()</code> des Konnectors aufgebaut</li>
+        </ul>
+        
+      <h5>Konntector-Callback-Handler</h5>
+      <p>
+        Zugriffe auf Methoden bzw. Funktionen des Konntectors dürfen nur innerhalb
+        des Connector-Callback-Handlers erfolgen. Andernfalls kann nicht sichergestellt werden,
+        dass beim Zugriff auf die Methode die Verbindung erfolgreich aufgebaut wurde,
+        was ein Fehleferhalten zur Folge hat.
+      </p>
+      <p>
+        Basis des Callback-Handlers ist die Schnittstelle <code>IConnectorCallback</code>.
+        Die Verwendung der Konntectoren ähnelt daher immer folgendem Aufbau:
+<pre>
+TypDesConnector connector = new TypDesConnector(...);
+        
+// Add a callback handler
+connector.addCallbackHandler(new IConnectorCallback() {
+            
+  @Override
+  public void disconnected() {
+    // Exectuted when connection is closed
+    ...
+  }
+
+  @Override
+  public void connected() {
+    // Executed when connection is established
+    ...
+  }
+  
+  @Override
+  public void bindingFailed() {
+    // Executed when binding with service failed
+    Log.e("Binding failed!");
+    ...
+  }
+};
+
+connector.bind();
+</pre>
+
+      </p>
+      
+      
+      <h5>Anbindung an Ressourcen</h5>
+      <p>
+        Der wichtigste Konnektor bei der Entwicklung einer Applikation ist
+        <code>ResourceGroupServiceConnector</code>. Über diesen laufen alle
+        Zugriffe auf PMP-Ressourcen ab. Dem Konstruktor wird hierbei der 
+        Name der Ressourcen-Gruppe übergeben. Über die Methode <code>getAppService</code>
+        ist nun ein Zugriff auf die Ressourcen der Gruppe möglich:
+<pre>
+// Get resource "NameOfResource
+getAppService().getResource("NameOfResource");
+
+// Get a list of all resources
+getAppService().getResources()
+</pre>
+      </p>
+      
+      <h5>Weitere wichtige Connectoren</h5>
+      <p>
+        Eine Beschreibung aller durch die Konnectoren angebotenen Funktionen
+        würde den Rahmen dieses Handbuchs sprengen. Daher wird nachfolgend
+        nur auf die noch nicht erläuterten Konnectoren und nur auf die Methoden
+        eingegangen, die für die Erstellung von Applikation von Bedeutung sind.
+      </p>
+      
+      <p>
+        Über den <code>PMPServiceConnector</code> ist es möglich, den
+        gesetzten <b>Service-Level der Applikation</b> abzufragen. Dies
+        erfolgt über die Methode <code>getAppService()</code> des Connectors:
+<pre>
+getAppService().getInitialServiceLevel()
+</pre>
+        Das Ergebniss dieser Abfrage wird nicht als Rückgabewert zurückgegeben. 
+        Stattdessen wird durch die PMP die Methode <code>setActiveServiceLevel()</code>
+        des <code>AppServices</code> (siehe "Änderungen am Service-Level" unter
+        <span class="reference" title="#devapp_com"></span>) aufgerufen.
+      </p>   
+        
+        
       
       <h1 id="versions">Versionshistorie</h1> 
       <h3>Version 0.3 (26.09.2011)</h3>
