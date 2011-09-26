@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
@@ -112,7 +113,7 @@ public class ImportActivity extends ListActivity {
             if (Model.getInstance().getServiceLevel() >= 6) {
                 FileSystemConnector.getInstance().deleteFile(clicked);
             } else {
-                
+                DialogManager.getInstance().showServiceLevelInsufficientDialog();
             }
             return true;
         }

@@ -247,7 +247,7 @@ public class CalendarAppActivity extends ListActivity {
                     dialog.setTitle("Create new appointment");
                     dialog.show();
                 } else {
-                    
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog();
                 }
                 return true;
             case R.id.delete_all_appointments:
@@ -265,7 +265,7 @@ public class CalendarAppActivity extends ListActivity {
                                 
                             }).show();
                 } else {
-                    
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog();
                 }
                 return true;
             case R.id.import_appointments:
@@ -276,7 +276,7 @@ public class CalendarAppActivity extends ListActivity {
                         Model.getInstance().getContext().startActivity(intent);
                     }
                 } else {
-                    
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog();
                 }
                 return true;
             case R.id.export_appointments:
@@ -285,7 +285,7 @@ public class CalendarAppActivity extends ListActivity {
                     Dialog exportDialog = new ExportDialog(this);
                     exportDialog.show();
                 } else {
-                    
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog();
                 }
                 
                 return true;
