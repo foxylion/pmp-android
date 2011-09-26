@@ -155,7 +155,7 @@ public class CalendarAppActivity extends ListActivity {
             if (serviceLevel >= 2) {
                 SqlConnector.getInstance().deleteAppointment(clicked.getId());
             } else {
-                
+                DialogManager.getInstance().showServiceLevelInsufficientDialog();
             }
             
             return true;
@@ -207,7 +207,7 @@ public class CalendarAppActivity extends ListActivity {
                 resGroupCon.bind();
                 return true;
             } else {
-                
+                DialogManager.getInstance().showServiceLevelInsufficientDialog();
             }
             
         }
