@@ -226,10 +226,10 @@ public class AppRegistration {
     
     
     private String getLocalized(Map<Locale, String> map) {
-        if (map.containsKey(Locale.getDefault())) {
+        if (map.containsKey(new Locale(Locale.getDefault().getLanguage()))) {
             // TODO check if that really works when the default is de_DE.utf-8
             // or something like that...
-            return map.get(Locale.getDefault());
+            return map.get(new Locale(Locale.getDefault().getLanguage()));
         } else {
             return map.get(new Locale("en"));
         }
