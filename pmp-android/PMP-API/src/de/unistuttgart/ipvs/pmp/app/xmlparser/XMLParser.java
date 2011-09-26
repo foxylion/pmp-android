@@ -102,13 +102,17 @@ public class XMLParser {
         validateLocaleAttribute(descriptionList);
         
         // Add to the app information set
-        this.ais.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0]);
+        this.ais.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
+                .replaceAll("\n", " ").trim());
         for (String[] nameArray : nameList) {
-            this.ais.addName(new Locale(nameArray[1]), nameArray[0]);
+            this.ais.addName(new Locale(nameArray[1]), nameArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
         }
-        this.ais.addDescription(new Locale(defaultDescriptionList.get(0)[1]), defaultDescriptionList.get(0)[0]);
+        this.ais.addDescription(new Locale(defaultDescriptionList.get(0)[1]), defaultDescriptionList.get(0)[0]
+                .replaceAll("\t", "").replaceAll("\n", " ").trim());
+        
         for (String[] descriptionArray : descriptionList) {
-            this.ais.addDescription(new Locale(descriptionArray[1]), descriptionArray[0]);
+            this.ais.addDescription(new Locale(descriptionArray[1]), descriptionArray[0].replaceAll("\t", "")
+                    .replaceAll("\n", " ").trim());
         }
         
     }
@@ -173,13 +177,16 @@ public class XMLParser {
         ServiceLevel sl = new ServiceLevel();
         this.ais.addServiceLevel(Integer.valueOf(levelList.get(0)[0]), sl);
         
-        sl.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0]);
+        sl.addName(new Locale(defaultNameList.get(0)[1]),
+                defaultNameList.get(0)[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
         for (String[] nameArray : nameList) {
-            sl.addName(new Locale(nameArray[1]), nameArray[0]);
+            sl.addName(new Locale(nameArray[1]), nameArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
         }
-        sl.addDescription(new Locale(defaultDescriptionList.get(0)[1]), defaultDescriptionList.get(0)[0]);
+        sl.addDescription(new Locale(defaultDescriptionList.get(0)[1]),
+                defaultDescriptionList.get(0)[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
         for (String[] descriptionArray : descriptionList) {
-            sl.addDescription(new Locale(descriptionArray[1]), descriptionArray[0]);
+            sl.addDescription(new Locale(descriptionArray[1]),
+                    descriptionArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
         }
         
         // Get the node list of the required resource groups
