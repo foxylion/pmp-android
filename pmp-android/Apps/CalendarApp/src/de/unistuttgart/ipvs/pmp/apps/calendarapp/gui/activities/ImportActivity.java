@@ -113,7 +113,7 @@ public class ImportActivity extends ListActivity {
             if (Model.getInstance().getServiceLevel() >= 6) {
                 FileSystemConnector.getInstance().deleteFile(clicked);
             } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog();
+                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
             }
             return true;
         }

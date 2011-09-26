@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
@@ -60,8 +61,8 @@ public class DialogManager {
     /**
      * Shows a dialog when the user wants to do sth. that is not allowed in this service level
      */
-    public void showServiceLevelInsufficientDialog() {
-        final Dialog serviceLevelDialog = new Dialog(Model.getInstance().getContext());
+    public void showServiceLevelInsufficientDialog(Context context) {
+        final Dialog serviceLevelDialog = new Dialog(context);
         serviceLevelDialog.setContentView(R.layout.serviceleveldialog);
         
         serviceLevelDialog.setTitle(Model.getInstance().getContext().getString(R.string.insufficent_sl));
