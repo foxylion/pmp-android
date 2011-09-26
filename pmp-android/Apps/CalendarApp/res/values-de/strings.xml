@@ -22,13 +22,12 @@
 	<string name="export_appointments">Termine exportieren</string>
 	<string name="file_name">Dateiname:</string>
 	<string name="import_question">Diese Datei importieren?</string>
-	<string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei
-		verloren gehen!</string>
+	<string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei verloren gehen!</string>
 	<string name="delete_all_appointments">Alle Termine löschen</string>
+	<string name="delete_all_appointments_question">Möchten Sie wirklich alle Termineinträge löschen?</string>
 	<string name="change_sl">Service Level ändern</string>
 	<string name="insufficent_sl">Service Level nicht ausreichend</string>
 	<string name="insufficent_sl_message">Das aktuelle Service Level ist nicht ausreichend um
 		diese Aktion auszuführen. Um dies zu können wechseln Sie zu einem
-		höheren Service Level.
-	</string>
+		höheren Service Level.</string>
 </resources>

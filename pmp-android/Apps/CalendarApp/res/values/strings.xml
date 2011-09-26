@@ -24,10 +24,10 @@
 	<string name="import_attention">Attention: Your current appointment list will be
 		lost!</string>
 	<string name="delete_all_appointments">Delete all appointments</string>
+	<string name="delete_all_appointments_question">Do you really want to delete all appointments?</string>
 	<string name="change_sl">Change service level</string>
 	<string name="ok">OK</string>
 	<string name="insufficent_sl">Insufficient service level</string>
 	<string name="insufficent_sl_message">The actual service level is insufficient for this
-		operation. To enable this operation change to a higher service level.
-	</string>
+		operation. To enable this operation change to a higher service level.</string>
 </resources>
