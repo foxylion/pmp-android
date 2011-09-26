@@ -264,3 +264,8 @@ div.criticism {
 	border-style: none none none double;
 	padding-left: 0.75em;
 }
+
+td.fail {
+	font-weight: bold;
+	color: red;
+}
