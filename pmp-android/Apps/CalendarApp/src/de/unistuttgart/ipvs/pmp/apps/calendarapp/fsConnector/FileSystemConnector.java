@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -148,7 +149,7 @@ public class FileSystemConnector {
                         // if exporting worked successfully, add the file to the model list
                         if (success) {
                             FileSystemConnector.getInstance().listStoredFiles();
-                            Toast.makeText(Model.getInstance().getContext(), "Export success", Toast.LENGTH_SHORT)
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed, Toast.LENGTH_SHORT)
                                     .show();
                         } else {
                             Log.e("Exporting failed");

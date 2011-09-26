@@ -46,7 +46,8 @@ public class ImportActivity extends ListActivity {
         setTitle(R.string.import_appointments);
         
         /*
-         * Fill the list of files for importing
+         * Fill the list of files for importing.
+         * It is also used to check for exporting, if a file already exists.
          */
         FileSystemConnector.getInstance().listStoredFiles();
         

@@ -27,6 +27,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
@@ -125,6 +126,11 @@ public class CalendarAppActivity extends ListActivity {
             }
         });
         
+        /*
+         * Fill the list of files for importing.
+         * It is also used to check for exporting, if a file already exists.
+         */
+        FileSystemConnector.getInstance().listStoredFiles();
     }
     
     
@@ -137,6 +143,12 @@ public class CalendarAppActivity extends ListActivity {
          * called when the activity is shown again.
          */
         ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
+        
+        /*
+         * Fill the list of files for importing.
+         * It is also used to check for exporting, if a file already exists.
+         */
+        FileSystemConnector.getInstance().listStoredFiles();
     }
     
     

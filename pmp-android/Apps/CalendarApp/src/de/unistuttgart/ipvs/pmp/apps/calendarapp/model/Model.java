@@ -279,6 +279,23 @@ public class Model {
     
     
     /**
+     * Get a file for a given file name
+     * 
+     * @param fileName
+     *            given file name
+     * @return file for file name, null if file name does not exist
+     */
+    public FileDetails getFileForName(String fileName) {
+        for (FileDetails file : fileList) {
+            if (file.getName().equals(fileName)) {
+                return file;
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
      * Remove a file from the list for importing
      * 
      * @param file
@@ -323,7 +340,7 @@ public class Model {
      */
     public boolean isFileNameExisting(String filenameToCheck) {
         for (FileDetails file : fileList) {
-            if (file.getName().equals(filenameToCheck)) {
+            if (file.getName().toLowerCase().equals(filenameToCheck.toLowerCase())) {
                 return true;
             }
         }

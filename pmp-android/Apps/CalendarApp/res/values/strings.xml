@@ -22,12 +22,23 @@
 	<string name="file_name">Filename:</string>
 	<string name="import_question">Import this file?</string>
 	<string name="import_attention">Attention: Your current appointment list will be
-		lost!</string>
+		lost!
+	</string>
 	<string name="delete_all_appointments">Delete all appointments</string>
-	<string name="delete_all_appointments_question">Do you really want to delete all appointments?</string>
+	<string name="delete_all_appointments_question">Do you really want to delete all appointments?
+	</string>
 	<string name="change_sl">Change service level</string>
 	<string name="ok">OK</string>
 	<string name="insufficent_sl">Insufficient service level</string>
 	<string name="insufficent_sl_message">The actual service level is insufficient for this
-		operation. To enable this operation change to a higher service level.</string>
+		operation. To enable this operation change to a higher service level.
+	</string>
+	<string name="export_override_question">Override existing file?</string>
+	<string name="export_override_attention">A file with this file name already exists. Do you
+		want to override the file?
+	</string>
+	<string name="export_override_conf">Override</string>
+	<string name="export_override_cancel">Cancel</string>
+	<string name="export_toast_cancel">Canceled exporting appointments.</string>
+	<string name="export_toast_succeed">Exporting appointments succeed.</string>
 </resources>

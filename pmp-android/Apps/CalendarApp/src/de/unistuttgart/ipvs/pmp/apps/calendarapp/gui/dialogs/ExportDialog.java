@@ -1,15 +1,18 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
 /**
  * This is the dialog for exporting. You can enter a file name for exporting.
@@ -22,7 +25,7 @@ public class ExportDialog extends Dialog {
     /**
      * The file name input
      */
-    private TextView fileName;
+    private TextView fileTextView;
     
     /**
      * The confirm button
@@ -50,7 +53,7 @@ public class ExportDialog extends Dialog {
         
         this.setTitle(R.string.export_appointments);
         
-        fileName = (TextView) findViewById(R.id.export_file_name_input);
+        fileTextView = (TextView) findViewById(R.id.export_file_name_input);
         
         confirm = (Button) findViewById(R.id.ExportConfirmButton);
         
@@ -76,13 +79,38 @@ public class ExportDialog extends Dialog {
         @Override
         public void onClick(View v) {
             
-            if (!Model.getInstance().isFileNameExisting(fileName.getText().toString())) {
+            final String fileName = fileTextView.getText().toString();
+            
+            if (!Model.getInstance().isFileNameExisting(fileName)) {
                 Log.d("Exporting...");
-                FileSystemConnector.getInstance().exportAppointments(Model.getInstance().getAppointmentList(),
-                        fileName.getText().toString());
+                FileSystemConnector.getInstance()
+                        .exportAppointments(Model.getInstance().getAppointmentList(), fileName);
             } else {
-                // TODO: Filename already exists
-                Log.e("Filename already exists!");
+                Log.d("Filename already exists!");
+                
+                // Show the confirm dialog for overwriting the file
+                new AlertDialog.Builder(Model.getInstance().getContext()).setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.export_override_question).setMessage(R.string.export_override_attention)
+                        .setPositiveButton(R.string.export_override_conf, new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Override the file
+                                Log.d("Exporting... Filename: " + fileName);
+                                FileSystemConnector.getInstance().exportAppointments(
+                                        Model.getInstance().getAppointmentList(), fileName);
+                            }
+                            
+                        }).setNegativeButton(R.string.export_override_cancel, new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_cancel,
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d("Exporting canceled.");
+                            }
+                        }).show();
+                
             }
             
             dismiss();
