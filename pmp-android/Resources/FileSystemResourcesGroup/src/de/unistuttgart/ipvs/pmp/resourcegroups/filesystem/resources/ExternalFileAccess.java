@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacyLevels;
  * Handles the access to external directories.
  * 
  * @author Patrick Strobel
- * @version 0.2.0
+ * @version 0.2.1
  */
 public class ExternalFileAccess extends IFileAccess.Stub {
     
@@ -167,14 +167,14 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     
     
     /**
-     * Returns a list of all files and directories in a given external directory
+     * Returns a list of all files and directories in a given external directory.
      * 
      * @param directory
      *            Path of the parent directory.
      *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
      *            <code>example/testDir</code>, then a list of all files and sub-directories in
      *            <code>Music/example/testDir</code> will be generated).
-     * @return List of detailed file information data.
+     * @return List of detailed file information data or null, if path points to a non existing directory or a file.
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
      *             for switching into a upper directory (typically <code>../</code>).
@@ -200,7 +200,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * 
      * @see File#mkdirs()
      * @param path
-     *            Directory path
+     *            Directory path.
      *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
      *            <code>example/testDir</code>, then <code>Music/example/testFDir</code> will be created).
      * @return True, if directories where created successfully.

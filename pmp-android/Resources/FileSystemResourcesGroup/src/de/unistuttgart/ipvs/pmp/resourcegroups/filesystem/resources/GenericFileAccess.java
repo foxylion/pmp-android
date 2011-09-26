@@ -122,7 +122,7 @@ public class GenericFileAccess extends IFileAccess.Stub {
      * 
      * @param directory
      *            Path of the parent directory
-     * @return List of detailed file information data
+     * @return List of detailed file information data or null, if path points to a non existing directory or a file
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set
      */
