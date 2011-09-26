@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.ContextMenu;
@@ -28,7 +27,7 @@ import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -125,12 +124,6 @@ public class CalendarAppActivity extends ListActivity {
                 menu.add(1, 1, 0, R.string.send);
             }
         });
-        
-        /*
-         * Fill the list of files for importing.
-         * It is also used to check for exporting, if a file already exists.
-         */
-        FileSystemConnector.getInstance().listStoredFiles();
     }
     
     
@@ -143,12 +136,6 @@ public class CalendarAppActivity extends ListActivity {
          * called when the activity is shown again.
          */
         ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
-        
-        /*
-         * Fill the list of files for importing.
-         * It is also used to check for exporting, if a file already exists.
-         */
-        FileSystemConnector.getInstance().listStoredFiles();
     }
     
     
@@ -282,20 +269,24 @@ public class CalendarAppActivity extends ListActivity {
                 return true;
             case R.id.import_appointments:
                 if (serviceLevel >= 4) {
-                    // Open activity with file list
-                    Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
-                    if (Model.getInstance().getContext() != null) {
-                        Model.getInstance().getContext().startActivity(intent);
-                    }
+                    /*
+                     * Fill the list of files for importing.
+                     * It is also used to check for exporting, if a file already exists.
+                     */
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
+                    
                 } else {
                     DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
                 }
                 return true;
             case R.id.export_appointments:
                 if (serviceLevel >= 6) {
-                    // Open dialog for entering a file name
-                    Dialog exportDialog = new ExportDialog(this);
-                    exportDialog.show();
+                    /*
+                     * Fill the list of files for importing.
+                     * It is also used to check for exporting, if a file already exists.
+                     */
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                   
                 } else {
                     DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
                 }

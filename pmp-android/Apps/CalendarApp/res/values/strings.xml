@@ -44,4 +44,6 @@
 	<string name="delete_file_toast">File deleted.</string>
 	<string name="import_data_invalid_toast">Import data invalid.</string>
 	<string name="import_succeed_toast">Importing appointments succeed.</string>
+	<string name="sd_card_missing">If you want to use the import/export functionality,
+		you have to insert a SD-Card!</string>
 </resources>

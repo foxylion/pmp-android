@@ -8,11 +8,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -149,7 +153,7 @@ public class FileSystemConnector {
                         
                         // if exporting worked successfully, add the file to the model list
                         if (success) {
-                            FileSystemConnector.getInstance().listStoredFiles();
+                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
                             Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -220,7 +224,7 @@ public class FileSystemConnector {
                         if (importString == null) {
                             Log.e("Importing failed!");
                         } else {
-
+                            
                             // The import string (splitted by newlines)
                             String[] importArray = importString.split("\n");
                             
@@ -342,9 +346,10 @@ public class FileSystemConnector {
     /**
      * This method provides the stored files
      * 
-     * @return list of all stored files
+     * @param type
+     *            Type of invoked action after listing the files successfully.
      */
-    public void listStoredFiles() {
+    public void listStoredFiles(final FileSystemListActionType type) {
         // The resource group connection
         final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
                 .getApplicationContext(),
@@ -370,10 +375,49 @@ public class FileSystemConnector {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
                                 resourceIdentifier));
+                        
                         // list the files and add it to the model (and clear the model)
                         Model.getInstance().clearFileList();
-                        for (FileDetails file : ifa.list(FOLDER_NAME)) {
-                            Model.getInstance().addFileToList(file);
+                        List<FileDetails> fileList = new ArrayList<FileDetails>();
+                        
+                        // Flag, if the next action should be invoked or not
+                        boolean invokeNextAction = false;
+                        
+                        try {
+                            fileList = ifa.list(FOLDER_NAME);
+                            for (FileDetails file : fileList) {
+                                Model.getInstance().addFileToList(file);
+                            }
+                            invokeNextAction = true;
+                        } catch (Exception e) {
+                            boolean makeDir = ifa.makeDirs(FOLDER_NAME);
+                            if (makeDir) {
+                                Log.d("Created folder " + FOLDER_NAME);
+                                invokeNextAction = true;
+                            } else {
+                                Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing,
+                                        Toast.LENGTH_LONG).show();
+                                Log.d("If you want to use the import/export functionality, you have to insert a SD-Card!");
+                            }
+                        }
+                        
+                        if (invokeNextAction) {
+                            switch (type) {
+                                case EXPORT:
+                                    // Open dialog for entering a file name
+                                    Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());
+                                    exportDialog.show();
+                                    break;
+                                case IMPORT:
+                                    // Open activity with file list
+                                    Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
+                                    if (Model.getInstance().getContext() != null) {
+                                        Model.getInstance().getContext().startActivity(intent);
+                                    }
+                                    break;
+                                case NONE:
+                                    break;
+                            }
                         }
                         
                     } catch (RemoteException e) {
@@ -430,7 +474,7 @@ public class FileSystemConnector {
                         boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
                         if (success) {
                             Model.getInstance().removeFileFromList(file);
-                            FileSystemConnector.getInstance().listStoredFiles();
+                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
                             Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
                                     Toast.LENGTH_SHORT).show();
                         }

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
@@ -52,7 +53,7 @@ public class ImportActivity extends ListActivity {
          * Fill the list of files for importing.
          * It is also used to check for exporting, if a file already exists.
          */
-        FileSystemConnector.getInstance().listStoredFiles();
+        FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
         
         // Array adapter that is needed to show the list of dates
         importArrayAdapter = new ArrayAdapter<FileDetails>(this, R.layout.import_list_item, Model.getInstance()

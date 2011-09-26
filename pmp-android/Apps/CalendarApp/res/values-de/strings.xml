@@ -45,4 +45,6 @@
 	<string name="delete_file_toast">Datei gelöscht.</string>
 	<string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
 	<string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
+	<string name="sd_card_missing">Wenn Sie die Import-/Export-Funktionalität nutzen
+		möchten, legen Sie bitte eine SD-Karte ein!</string>
 </resources>
