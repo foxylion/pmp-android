@@ -96,6 +96,7 @@ public class DialogManager {
                 intent.putExtra("connection.identifier", "de.unistuttgart.ipvs.pmp.apps.calendarapp");
                 
                 Model.getInstance().getContext().startActivity(intent);
+                serviceLevelDialog.dismiss();
             }
         });
     }
