@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,6 +12,7 @@ import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -148,8 +150,8 @@ public class FileSystemConnector {
                         // if exporting worked successfully, add the file to the model list
                         if (success) {
                             FileSystemConnector.getInstance().listStoredFiles();
-                            Toast.makeText(Model.getInstance().getContext(), "Export success", Toast.LENGTH_SHORT)
-                                    .show();
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
+                                    Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("Exporting failed");
                         }
@@ -205,6 +207,10 @@ public class FileSystemConnector {
                 } else {
                     // Get resource
                     try {
+                        // List of appointments to add
+                        List<Appointment> importAppointmentList = new ArrayList<Appointment>();
+                        
+                        // The file access interface
                         IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
                                 resourceIdentifier));
                         // Read the file
@@ -214,13 +220,12 @@ public class FileSystemConnector {
                         if (importString == null) {
                             Log.e("Importing failed!");
                         } else {
-                            
-                            // Delete all appointments
-                            for (Appointment appointment : Model.getInstance().getAppointmentList()) {
-                                SqlConnector.getInstance().deleteAppointment(appointment.getId());
-                            }
-                            
+
+                            // The import string (splitted by newlines)
                             String[] importArray = importString.split("\n");
+                            
+                            // Flag, if the import succeed
+                            boolean success = true;
                             
                             // Check meta data
                             boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
@@ -229,10 +234,11 @@ public class FileSystemConnector {
                             boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
                             if (!(rowOne && rowTwo && rowThree && rowLast)) {
                                 Log.e("Import meta data is invalid");
+                                success = false;
                             }
                             
                             // Check and get the appointments
-                            boolean success = true;
+                            
                             String description = null;
                             String dateString = null;
                             for (int dataRow = 0; dataRow < importArray.length - 4; dataRow++) {
@@ -262,18 +268,19 @@ public class FileSystemConnector {
                                                     .matches("\\d\\d\\d\\d[0-1]\\d\\d\\dT[0-2]\\d[0-5]\\d[0-5]\\dZ")) {
                                                 success = false;
                                                 Log.e("Date does not match the regular expression pattern!");
+                                            } else {
+                                                GregorianCalendar cal = new GregorianCalendar(Integer
+                                                        .valueOf(dateString.substring(0, 4)), Integer
+                                                        .valueOf(dateString.substring(4, 6)) - 1, Integer
+                                                        .valueOf(dateString.substring(6, 8)), Integer
+                                                        .valueOf(dateString.substring(9, 11)), Integer
+                                                        .valueOf(dateString.substring(11, 13)), Integer
+                                                        .valueOf(dateString.substring(13, 15)));
+                                                // Add the appointment to the list for importing
+                                                importAppointmentList.add(new Appointment(-1, description, cal
+                                                        .getTime()));
                                             }
                                             
-                                            Date date = new Date(Integer.valueOf(dateString.substring(0, 4)), Integer
-                                                    .valueOf(dateString.substring(4, 6)) - 1, Integer
-                                                    .valueOf(dateString.substring(6, 8)), Integer.valueOf(dateString
-                                                    .substring(9, 11)), Integer.valueOf(dateString.substring(11, 13)),
-                                                    Integer.valueOf(dateString.substring(13, 15)));
-                                            
-                                            // Store the appointment
-                                            SqlConnector.getInstance().storeNewAppointment(date, description);
-                                            Log.d("Imported appointment: " + description);
-                                            Log.d("Imported appointment: " + date);
                                         }
                                         break;
                                     case 3:
@@ -288,11 +295,27 @@ public class FileSystemConnector {
                             // If something went wrong, log the error
                             if (!success) {
                                 Log.e("Import data invalid; imported as far as posible");
-                                Toast.makeText(Model.getInstance().getContext(),
-                                        "Import data invalid; imported as far as posible", Toast.LENGTH_SHORT);
+                                Toast.makeText(Model.getInstance().getImportContext(),
+                                        R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                             } else {
+                                // Delete all current appointments
+                                for (Appointment appointment : Model.getInstance().getAppointmentList()) {
+                                    SqlConnector.getInstance().deleteAppointment(appointment.getId());
+                                }
+                                
+                                // Store the appointments
+                                for (Appointment appointmentToStore : importAppointmentList) {
+                                    String descr = appointmentToStore.getDescrpition();
+                                    Date date = appointmentToStore.getDate();
+                                    SqlConnector.getInstance().storeNewAppointment(date, descr);
+                                    
+                                    Log.d("Imported appointment: " + description);
+                                    Log.d("Imported appointment: " + date);
+                                }
+                                
                                 Log.d("Import succeed");
-                                Toast.makeText(Model.getInstance().getContext(), "Import succeed!", Toast.LENGTH_SHORT);
+                                Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
+                                        Toast.LENGTH_SHORT).show();
                             }
                             
                         }
@@ -408,6 +431,8 @@ public class FileSystemConnector {
                         if (success) {
                             Model.getInstance().removeFileFromList(file);
                             FileSystemConnector.getInstance().listStoredFiles();
+                            Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
+                                    Toast.LENGTH_SHORT).show();
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
