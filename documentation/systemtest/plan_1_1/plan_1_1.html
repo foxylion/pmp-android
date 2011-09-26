@@ -10,10 +10,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">7. September 2011</div>
+		<div id="page-head-date">26. September 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Systemtest-Plan für die<br/>1. Iteration</div>
-		<div id="page-version">Version 1.1</div>
+		<div id="page-version">Version 1.2</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -23,6 +23,11 @@
 		
 		<!-- here comes the content of the system test plan -->
 		<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 1.2 (26.09.2011)</h3>
+					<ul>
+						<li>Anpassung an die Änderungen während der Entwicklung</li>
+					</ul>
+		
 				<h3>Version 1.1 (19.09.2011)</h3>
 					<ul>
 						<li>Vollständiger Systemtestplan mittels Spezifikation</li>
@@ -74,7 +79,7 @@
 					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
 					
 				<h2 id="testende">Test-Ende-Kriterium</h2>
-					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 30.09.2011 definiert. Dieser Umstand ist nicht optimal und kann den Erfolg des Tests schmälern.</p>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 05.10.2011 definiert. Dieser Umstand ist nicht optimal und kann den Erfolg des Tests schmälern.</p>
 					
 				<h2 id="testende">Test-Erstellungsmethodik</h2>
 					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
@@ -236,6 +241,7 @@
 							<tr><td>9.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
 						</table>
 						
+						<div style="text-decoration:line-through">
 						<h4 id="ft-14">FT-14</h4>
 						<table>
 							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
@@ -253,6 +259,7 @@
 							<tr><td>3.-11.</td><td>Der Tester führt den Normalablauf 1. bis 9. durch und wählt in Schritt 5 das Service Level 1 aus.</td><td>Der Tester hat die Service-Level-Übersicht geschlossen.</td></tr>
 							<tr><td>12.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
 						</table>
+						</div>
 				
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 			
@@ -286,6 +293,7 @@
 				
 				<p>Der Test kann auf einem beliebigen Android-Gerät, das mindestens Android 2.1.1 unterstützt, durchgeführt werden.</p>
 				
+				<div style="text-decoration: line-through">
 				<h3 id="nft-1">NFT-1</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
@@ -294,13 +302,14 @@
 					<tr><td>3.</td><td>Der Tester stellt den Android-Home-Bildschirm ein.</td><td>Das Gerät zeigt den Android-Home-Bildschirm.</td></tr>
 					<tr><td>4.</td><td>Der Tester findet eine Test-Person, <b>die noch nie ein Smartphone benutzt hat und noch nie von PMP gehört hat</b>.</td><td>Eine Test-Person steht zur Verfügung.</td></tr>
 					<tr><td>5.</td><td>Der Tester erklärt der Test-Person, dass er ihr eine Aufgabe stellen wird, die sie ohne jegliche Hilfestellung oder Einarbeitungszeit, also auch ohne Antworten auf Nachfragen, bewältigen muss.</td><td>Die Test-Person gibt an, die Erklärung verstanden zu haben.</td></tr>
-					<tr><td>6.</td><td>Der Tester verlangt von dieser Test-Person die Anzahl der Sätze der Beschreibung zur Datenbank-Ressource zu zählen und die Kalender-App "Name_Hier" voll benutzbar zu machen.</td><td>Die Test-Person gibt an, die Aufgabe verstanden zu haben.</td></tr>
+					<tr><td>6.</td><td>Der Tester verlangt von dieser Test-Person die Anzahl der Sätze der Beschreibung zur Datenbank-Ressource zu zählen und die Kalender-App voll benutzbar zu machen.</td><td>Die Test-Person gibt an, die Aufgabe verstanden zu haben.</td></tr>
 					<tr><td>7.</td><td>Der Tester übergibt das Test-Gerät der Test-Person. <b>Er leistet keine Hilfestellung und gewährt keine Einarbeitungszeit, gibt auch keine Antworten auf Nachfragen.</b></td><td>Die Test-Person versucht die Aufgabe zu bewältigen.</td></tr>
 					<tr><td>8.</td><td>Der Tester wartet bis die Test-Person die Aufgabe abgeschlossen hat oder maximal fünf Minuten.</td><td>Die Test-Person hat die Aufgabe erfolgreich abgeschlossen.</td></tr>
 					<tr><td>9.</td><td>Der Tester fragt die Test-Person nach der Anzahl der Sätze in der Beschreibung der Datenbank-Ressource.</td><td>Die Test-Person antwortet "Korrekte_Antwort_Hier".</td></tr>
 					<tr><td>10.</td><td>Der Tester fragt die Test-Person, ob sie das Gefühl hat, dass "PMP nur minimal in ihren gewohnten Workflow eingreift".</td><td>Die Test-Person antwortet "Ja, PMP greift nur minimal in meinen gewohnten Workflow ein".</td></tr>
 					<tr><td>11.</td><td>Der Tester überprüft die Service Level der Calendar-App.</td><td>Die Kalender-App benutzt das maximale Service Level.</td></tr>
 				</table>
+				</div>
 					
 					<h3 id="nutzungskontext">Nutzungskontext</h3>
 					<div class="criticism">
@@ -341,14 +350,14 @@
 					</div>
 				
 				<p>Die nachfolgenden Tests werden jeweils mit der notwendigen Implementierung angegeben, da die Vielzahl der Tests eine Vorab-Erwähnung der nötigen Implementierung ungünstig erscheinen lässt. Es wird hierzu die vorhandene Datenbank-Ressource modifiziert. Es ist also darauf zu achten, dass nach jedem Testfall die entstanden Änderungen wieder rückgängig gemacht werden müssen (z.B. mit Undo oder "git reset --hard")</p>
-				<p>Für die App findet sich kein XML-Testfall, da der XML-Parser schon in </p>
+				<p>Für die App findet sich kein XML-Testfall, da der XML-Parser schon im Modultest ausreichend getestet wurde.</p>
 				<h3 id="nft-3">NFT-3</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
 					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie in getName() und getDescription null zurückgibt.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 				
@@ -358,7 +367,7 @@
 					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(null, new BooleanPrivacyLevel("", "")) aufruft.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 				
@@ -368,7 +377,7 @@
 					<tr><td>1.</td><td>Der Tester modifiziert die Datenbank-Ressource so, dass sie im Konstruktor registerPrivacyLevel(PRIVACY_LEVEL_READ, null) aufruft.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 				
@@ -379,7 +388,7 @@
 	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(true, false)); aufruft.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 				
@@ -390,7 +399,7 @@
 	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false, false)); aufruft.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 				
@@ -401,7 +410,7 @@
 	registerPrivacyLevel(PRIVACY_LEVEL_READ, new FaultyPrivacyLevel(false, true)); aufruft.</td><td>Die Datenbank-Ressource ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Datenbank-Ressource.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung der Datenbank-Ressource in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table>
 								
@@ -411,7 +420,7 @@
 					<tr><td>1.</td><td>Der Tester modifiziert die Calendar-App so, dass sie in getXMLInputStream() null zurückgibt.</td><td>Die Calendar-App ist entsprechend modifiziert.</td></tr>
 					<tr><td>2.</td><td>Der Tester deinstalliert PMP und die modifizierte Calendar-App.</td><td>PMP und die genannten Komponenten sind deinstalliert.</td></tr>
 					<tr><td>3.</td><td>Der Tester installiert PMP, die modifizierte Calendar-App.</td><td>PMP und die genannten Komponenten sind installiert.</td></tr>
-					<tr><td>4.</td><td>Der Tester startet die Calendar-App. (passiert während der Installation automatisch)</td><td>PMP stürzt nicht ab.</td></tr>
+					<tr><td>4.</td><td>Der Tester startet die Calendar-App.</td><td>PMP stürzt nicht ab.</td></tr>
 					<tr><td>5.</td><td>Der Tester listet die Beschreibung (also die Service Level) der Calendar-App in PMP auf.</td><td>PMP stürzt nicht ab.</td></tr>
 				</table> 
 				
@@ -438,7 +447,7 @@
 				</table> 
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
-				<p>Es bietet sich an, NFT-10 vor NFT-11 Schritt 4 auszuführen.</p>
+				<p>Es bietet sich an, NFT-11 vor NFT-12 Schritt 4 auszuführen.</p>
 				
 				<h3 id="nft-11">NFT-11</h3>
 				<table>
@@ -461,7 +470,11 @@
 				</table> 
 				
 				<h2 id="protokollierung">Protokollierung</h2>
+				<div class="criticism">
+				<h3 style="color: red;">Anmerkung</h3>
 				<p>Die Definition, was "alle wichtigen Systemereignisse" sind, wäre sinnvoll gewesen.</p>
+				</div>
+				
 				<p>Dieser Test soll mit einem beliebigen, echten Android-Device (also keine AVD) ab Version 2.1.1 durchgeführt werden.</p>
 				<h3 id="nft-13">NFT-13</h3>
 				<table>
@@ -493,6 +506,7 @@
 				<p>Die Anforderung "Erweiterbarkeit bezüglich Rollen" erscheint grob fehlerhaft. Der korrekte Begriff wäre "Preset", des Weiteren wird nirgends sonst von Presets für diese Iteration gesprochen. Es erscheint mir zwar möglich, einen minimalen Test zu erstellen, dieser ist aber vermutlich nicht erfolgreich. Eine Spezifikationskorrektur wird dringend angeraten.</p>
 				</div>
 
+				<div style="text-decoration: line-through;">
 				<h3 id="nft-15">NFT-15</h3>
 				<table>
 					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
@@ -501,6 +515,7 @@
 					<tr><td>3.</td><td>Der Tester findet heraus, wie die verfügbaren Preset angezeigt werden können.</td><td>Der Tester weiß, wie die verfügbbaren Presets angezeigt werden können.</td></tr>  
 					<tr><td>4.</td><td>Der Tester fügt ein neues Preset hinzu.</td><td>Das neue Preset wird als verfügbares Preset angezeigt.</td></tr> 				
 				</table> 
+				</div>
 
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
 				<div class="criticism">
