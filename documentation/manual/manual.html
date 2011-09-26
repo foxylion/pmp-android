@@ -256,10 +256,10 @@ f<!DOCTYPE html>
       <h3 id="devres_res">Erstellen einer Ressource</h3>
       <p>
         Ressourcen bilden die Grundlage einer Ressourcengruppe. Jede Gruppe benötigt 
-        mindestens eine Ressourcen. Die Basisklasse einer Ressource bildet 
+        mindestens eine Ressource. Die Basisklasse einer Ressource bildet 
         <code>Resource</code>.
         Um eigene Ressourcen zu erstellen, wird diese erweitert. Anschließend muss 
-        die Methode <code>getAndroidInterface()</code> impelementiert werden.
+        die Methode <code>getAndroidInterface()</code> implementiert werden.
       </p>
 
       <p>
@@ -625,18 +625,18 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <p>
         Das Erstellen von mit der PMP kompatiblen Applikationen unterteilt sich
         grob in das Definieren der von der Applikation angebotenen Service-Levels
-        und dem implementieren der Anwendungs-Logik.
+        und dem implementieren der Anwendungslogik.
       </p>
       <p>
         <b>Ausführliche Beispiele</b> zur Festlegung der Service-Levels und
         zur Implementierung einer Applikation finden Sie in den mitgelieferten
-        Beispiel-Applikationen, zu dene der Quellcode verfügbar ist.
+        Beispiel-Applikationen, zu denen der Quellcode verfügbar ist.
       </p>
       
       <h3 id="devapp_sl">Service-Level</h3>
       <p>
         Die von der Applikation angebotenen Service-Levels werden in Form einer
-        <b>XML-Datei</b> festelegt, die folgendes <b>Schema</b> besitzt:
+        <b>XML-Datei</b> festgelegt, die folgendes <b>Schema</b> besitzt:
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
 &lt;app>
@@ -671,7 +671,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
       &raquo;Beschreibung der Applikation in deutscher Sprache&laquo;
     &lt;/description> 
     &lt;description lang="sv">
-      &raquo;Beschreibung der Applikation in schwedicher Sprache&laquo;
+      &raquo;Beschreibung der Applikation in schwedischer Sprache&laquo;
     &lt;/description>
     ...
   &lt;/appInformation>
@@ -680,12 +680,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <p>
         Alle angebotenen <b>Service-Levels</b> werden innerhalb des Knotens
         <code>&lt;serviceLevels&gt;</code> festgelegt. Wie bereits im Knoten
-        <code>&lt;appInformation&gt;</code> exisiteren auch hierbei Namen und
+        <code>&lt;appInformation&gt;</code> existieren auch hier Namen und
         Beschreibungen in verschiedenen Sprachen (inkl. Standard-Namen/-Beschreibung).
         Zusätzlich muss zwischen dem Standard-Service-Level und allen weiteren
         Service-Levels unterschieden werden. Das <b>Standard-Service-Level</b> darf 
         keinerlei Ressourcen verlangen, d. h. es beschreibt das Verhalten der 
-        Applikation, ohne Zugriffsberechtigungen auf Ressourcen:
+        Applikation ohne Zugriffsberechtigungen auf Ressourcen:
 <pre>
   &lt;serviceLevels>
     &lt;defaultServiceLevel>
@@ -708,9 +708,9 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <p>
         Nach dem Standard-Service-Level folgen alle <b>weitere Service-Levels</b>. Der
         Aufbau gleicht dem Standard-Service-Level. Allerdings muss das Level
-        des Service-Levels (Knoten <code>&lt;level&gt;</code>) größer als "0" sein
-        und darf jeweils nur von genau einem Service-Level verwendet werden. Zudem
-        enthält es mindestens einen unter Knoten 
+        der Service-Levels (Knoten <code>&lt;level&gt;</code>) größer als "0" sein
+        und darf jeweils nur von genau einem Service-Level verwendet werden. 
+        Jedes Service-Level enthält mindestens einen unter Knoten 
         <code>&lt;requiredResourceGroup&gt;</code>, der als Attribute den Namen der
         von diesem Service-Level benötigten Ressource und als unter Knoten die 
         Festlegung der Privacy-Levels besitzt:
@@ -746,7 +746,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <h4 id="devapp_com">Kommunikation mit der PMP</h4>
       <p>                                                       
         Zentraler Punkt der Kommunikation zwischen Applikationen und PMP ist der 
-        sogenannte <code>AppService</code>. Dieser regelt die integration der
+        so genannte <code>AppService</code>. Dieser regelt die Integration der
         Applikation in die PMP und verwaltet deren Service-Levels.
         Viele Funktionen dieses Services sind bereits fertig implementiert und in 
         die PMP integriert, so dass nur die anwendungspezifische Funktionen 
@@ -754,7 +754,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
       </p>
       <h5>Service in Manifest-Datei eintragen</h5>
       <p>
-        Zunächst muss der Service in der Manifest-Datei bekanntgemacht werden.
+        Zunächst muss der Service in der Manifest-Datei bekannt gemacht werden.
         Hierzu wird der Datei folgender Service hinzugefügt:
 <pre>
 &lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
@@ -774,8 +774,8 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <h5>Implementierung des Services</h5>
       <p>
         Wurde der Service in der Manifest-Datei bekannt gemacht, kann mit der 
-        Implemenetierung der anwendungsspezifischen Funktionen begonnen werden.
-        Hierfür muss die Klasse <code>app</code> erweitert und ihre 
+        Implementierung der anwendungsspezifischen Funktionen begonnen werden.
+        Hierfür müssen die Klasse <code>app</code> erweitert und ihre 
         abstrakten Methoden implementiert werden.
       </p>
       <p>
@@ -802,41 +802,41 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Eine weitere Aufgabe des <code>AppServices</code> ist die Registrierung der
         Applikation bei der PMP.
         Um auf eine <b>erfolgreiche oder fehlgeschlagene Registrierung</b> reagieren zu können,
-        exisiteren die beiden Callback-Methoden <code>onRegistrationSuccess()</code>
+        existieren die beiden Callback-Methoden <code>onRegistrationSuccess()</code>
         und <code>onRegistrationFailed()</code>, wobei Letztere den Grund des
         Fehlschlags über den Parameter erhält.
       </p>
       
       <h4 id="devapp_impl_pmpservices">Dienste der PMP, Zugriff auf Ressourcen</h4>
       <p>
-        Um jederzeit auf Dienste der PMP Zugreifen zu können, steht eine Reihe sogenannter
-        <code>Conntector</code>-Klasse zur Verfügung. Die Kommunikation mit der PMP
+        Um jederzeit auf Dienste der PMP Zugreifen zu können, stehen eine Reihe so genannter
+        <code>Conntector</code>-Klassen zur Verfügung. Die Kommunikation mit der PMP
         sollte immer über eine dieser Klassen erfolgen. Der Zugriff auf PMP-Ressourcen
-        erfolg ebenfalls über diese Konnektoren
+        erfolg ebenfalls über diese Konnektoren.
       </p>
       <p>
         Die Verwendung jedes Konnektors läuft nach folgendem Schema ab:
         <ul>
-          <li>Durch Aufruf des Konstruktors wird ein Objekt des Konnectors erstellt</li>
-          <li>Durch Aufruf der Methode <code>addCallbackHandler()</code> des Konntectors,
+          <li>Durch Aufruf des Konstruktors wird ein Objekt des Konnektors instanziiert</li>
+          <li>Über Methode <code>addCallbackHandler()</code> des Konnektors
             wird diesem ein Callback-Handler zugewiesen</li>
-          <li>Innheralb der <code>connected()</code>-Methode des Callback-Handlers
-            erfolgt der Zugriff auf die Methoden des Konntectors</li>
-          <li>Die Verbindung wird mit der Methode <code>bind()</code> des Konnectors aufgebaut</li>
+          <li>Innerhalb der <code>connected()</code>-Methode des Callback-Handlers
+            erfolgt der Zugriff auf die Methoden des Konnektors</li>
+          <li>Die Verbindung wird mit der Methode <code>bind()</code> des Konnektors aufgebaut</li>
         </ul>
         
-      <h5>Konntector-Callback-Handler</h5>
+      <h5>Connector-Callback-Handler</h5>
       <p>
-        Zugriffe auf Methoden bzw. Funktionen des Konntectors dürfen nur innerhalb
+        Zugriffe auf Methoden bzw. Funktionen des Konnektors dürfen nur innerhalb
         des Connector-Callback-Handlers erfolgen. Andernfalls kann nicht sichergestellt werden,
         dass beim Zugriff auf die Methode die Verbindung erfolgreich aufgebaut wurde,
-        was ein Fehleferhalten zur Folge hat.
+        was ein Fehlverhalten zur Folge hat.
       </p>
       <p>
         Basis des Callback-Handlers ist die Schnittstelle <code>IConnectorCallback</code>.
-        Die Verwendung der Konntectoren ähnelt daher immer folgendem Aufbau:
+        Die Verwendung der Konnektoren ähnelt daher immer folgendem Aufbau:
 <pre>
-TypDesConnector connector = new TypDesConnector(...);
+TypOfConnector connector = new TypOfConnector(...);
         
 // Add a callback handler
 connector.addCallbackHandler(new IConnectorCallback() {
@@ -872,7 +872,7 @@ connector.bind();
         Der wichtigste Konnektor bei der Entwicklung einer Applikation ist
         <code>ResourceGroupServiceConnector</code>. Über diesen laufen alle
         Zugriffe auf PMP-Ressourcen ab. Dem Konstruktor wird hierbei der 
-        Name der Ressourcen-Gruppe übergeben. Über die Methode <code>getAppService</code>
+        Name der Ressourcengruppe übergeben. Über die Methode <code>getAppService</code>
         ist nun ein Zugriff auf die Ressourcen der Gruppe möglich:
 <pre>
 // Get resource "NameOfResource
@@ -883,22 +883,22 @@ getAppService().getResources()
 </pre>
       </p>
       
-      <h5>Weitere wichtige Connectoren</h5>
+      <h5>Weitere wichtige Konnektoren</h5>
       <p>
-        Eine Beschreibung aller durch die Konnectoren angebotenen Funktionen
+        Eine Beschreibung aller durch die Konnektoren angebotenen Funktionen
         würde den Rahmen dieses Handbuchs sprengen. Daher wird nachfolgend
-        nur auf die noch nicht erläuterten Konnectoren und nur auf die Methoden
+        nur auf die noch nicht erläuterten Konnektoren und nur auf die Methoden
         eingegangen, die für die Erstellung von Applikation von Bedeutung sind.
       </p>
       
       <p>
         Über den <code>PMPServiceConnector</code> ist es möglich, den
         gesetzten <b>Service-Level der Applikation</b> abzufragen. Dies
-        erfolgt über die Methode <code>getAppService()</code> des Connectors:
+        erfolgt über die Methode <code>getAppService()</code> des Konnektors:
 <pre>
 getAppService().getInitialServiceLevel()
 </pre>
-        Das Ergebniss dieser Abfrage wird nicht als Rückgabewert zurückgegeben. 
+        Das Ergebnis dieser Abfrage wird nicht als Rückgabewert zurückgegeben. 
         Stattdessen wird durch die PMP die Methode <code>setActiveServiceLevel()</code>
         des <code>AppServices</code> (siehe "Änderungen am Service-Level" unter
         <span class="reference" title="#devapp_com"></span>) aufgerufen.
@@ -909,7 +909,7 @@ getAppService().getInitialServiceLevel()
       <h1 id="versions">Versionshistorie</h1> 
       <h3>Version 0.3 (26.09.2011)</h3>
 			<ul>
-			  <li>Kapitel zur Entwicklung von Applikationen begonnen</li>
+			  <li>Kapitel zur Entwicklung von Applikationen hinzugefügt</li>
 		  </ul>
 		  
       <h3>Version 0.2 (24.09.2011)</h3>
@@ -919,7 +919,7 @@ getAppService().getInitialServiceLevel()
 		  
       <h3>Version 0.1 (20.09.2011)</h3>
 			<ul>
-			  <li>Kapitel zur Ressourcen-Entwicklung fertiggestellt</li>
+			  <li>Kapitel zur Ressourcen-Entwicklung fertig gestellt</li>
 		  </ul>
     </div>
     <!-- // end of specification's content -->
