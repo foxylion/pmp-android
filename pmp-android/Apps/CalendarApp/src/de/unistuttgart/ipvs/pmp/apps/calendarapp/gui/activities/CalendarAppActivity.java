@@ -139,12 +139,12 @@ public class CalendarAppActivity extends ListActivity {
         /*
          * Called when the user presses sth. in the menu that appears while long clicking
          */
-        if (Model.getInstance().getServiceLevel() == 2 && aItem.getItemId() == 0) {
+        if (aItem.getItemId() == 0) {
             
             SqlConnector.getInstance().deleteAppointment(clicked.getId());
             return true;
         }
-        if (Model.getInstance().getServiceLevel() >= 1 && aItem.getItemId() == 1) {
+        if (aItem.getItemId() == 1) {
             
             /*
              * Connect to the EmailResourceGroup and send an mail with the date
