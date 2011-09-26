@@ -5,15 +5,21 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -45,11 +51,6 @@ public class CalendarAppActivity extends ListActivity {
      * The actual context
      */
     private Context appContext;
-    
-    /**
-     * The menu
-     */
-    private Menu menu;
     
     
     /**
@@ -110,6 +111,20 @@ public class CalendarAppActivity extends ListActivity {
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
         
+        /*
+         * Listener for long clicking on one item. Opens a context menu where
+         * the user can delete a appointment or send it via email
+         */
+        listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+            
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(getString(R.string.menu));
+                menu.add(0, 0, 0, R.string.delete);
+                menu.add(1, 1, 0, R.string.send);
+            }
+        });
+        
     }
     
     
@@ -122,69 +137,79 @@ public class CalendarAppActivity extends ListActivity {
          * called when the activity is shown again.
          */
         ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
-        
-        updateMenuVisibility();
     }
     
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
+        // Get the service level
+        int serviceLevel = Model.getInstance().getServiceLevel();
+        
+        // The menu information
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
         final Appointment clicked = Model.getInstance().getAppointmentByIndex(menuInfo.position);
         /*
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
+            if (serviceLevel >= 2) {
+                SqlConnector.getInstance().deleteAppointment(clicked.getId());
+            } else {
+                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+            }
             
-            SqlConnector.getInstance().deleteAppointment(clicked.getId());
             return true;
         }
         if (aItem.getItemId() == 1) {
-            
-            /*
-             * Connect to the EmailResourceGroup and send an mail with the date
-             */
-            final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
-            final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(appContext,
-                    ((CalendarApp) appContext).getSignee(), resGroupId);
-            resGroupCon.addCallbackHandler(new IConnectorCallback() {
-                
-                @Override
-                public void disconnected() {
-                    Log.d("Disconnected from " + resGroupId);
-                }
-                
-                
-                @Override
-                public void connected() {
-                    Log.d("Connected to " + resGroupId);
-                    try {
-                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
-                                .getResource("emailOperations"));
-                        if (emailOP != null) {
-                            Calendar cal = new GregorianCalendar();
-                            cal.setTime(clicked.getDate());
-                            SimpleDateFormat formatter;
-                            formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                            emailOP.sendEmail("", getString(R.string.subject),
-                                    getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
-                                            + getString(R.string.desc) + ": " + clicked.getDescrpition());
-                        }
-                    } catch (RemoteException e) {
-                        Log.e("Remote Exception: ", e);
-                    } finally {
-                        resGroupCon.unbind();
+            if (serviceLevel == 3 || serviceLevel == 5 || serviceLevel == 7) {
+                /*
+                 * Connect to the EmailResourceGroup and send an mail with the date
+                 */
+                final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
+                final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(appContext,
+                        ((CalendarApp) appContext).getSignee(), resGroupId);
+                resGroupCon.addCallbackHandler(new IConnectorCallback() {
+                    
+                    @Override
+                    public void disconnected() {
+                        Log.d("Disconnected from " + resGroupId);
                     }
-                }
-                
-                
-                @Override
-                public void bindingFailed() {
-                    Log.e("Binding failed to " + resGroupId);
-                }
-            });
-            resGroupCon.bind();
-            return true;
+                    
+                    
+                    @Override
+                    public void connected() {
+                        Log.d("Connected to " + resGroupId);
+                        try {
+                            IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
+                                    .getResource("emailOperations"));
+                            if (emailOP != null) {
+                                Calendar cal = new GregorianCalendar();
+                                cal.setTime(clicked.getDate());
+                                SimpleDateFormat formatter;
+                                formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
+                                        + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
+                                        + clicked.getDescrpition());
+                            }
+                        } catch (RemoteException e) {
+                            Log.e("Remote Exception: ", e);
+                        } finally {
+                            resGroupCon.unbind();
+                        }
+                    }
+                    
+                    
+                    @Override
+                    public void bindingFailed() {
+                        Log.e("Binding failed to " + resGroupId);
+                    }
+                });
+                resGroupCon.bind();
+                return true;
+            } else {
+                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+            }
+            
         }
         return false;
     }
@@ -199,11 +224,6 @@ public class CalendarAppActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calendar_menu, menu);
-        
-        this.menu = menu;
-        
-        updateMenuVisibility();
-        
         return true;
     }
     
@@ -215,53 +235,62 @@ public class CalendarAppActivity extends ListActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Get the service level
+        int serviceLevel = Model.getInstance().getServiceLevel();
+        
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_appointment:
-                Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-                dialog.setTitle("Create new appointment");
-                dialog.show();
+                if (serviceLevel >= 2) {
+                    // Show the new appointment dialog
+                    Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
+                    dialog.setTitle("Create new appointment");
+                    dialog.show();
+                } else {
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                }
                 return true;
             case R.id.delete_all_appointments:
+                if (serviceLevel >= 2) {
+                    // Show the confirm dialog for deleting all appointments
+                    new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.delete_all_appointments)
+                            .setMessage(R.string.delete_all_appointments_question)
+                            .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Model.getInstance().deleteAllAppointments();
+                                }
+                                
+                            }).show();
+                } else {
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                }
                 return true;
             case R.id.import_appointments:
-                // Open activity with file list
-                Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
-                if (Model.getInstance().getContext() != null) {
-                    Model.getInstance().getContext().startActivity(intent);
+                if (serviceLevel >= 4) {
+                    // Open activity with file list
+                    Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
+                    if (Model.getInstance().getContext() != null) {
+                        Model.getInstance().getContext().startActivity(intent);
+                    }
+                } else {
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
                 }
                 return true;
             case R.id.export_appointments:
-                // Open dialog for entering a file name
-                Dialog exportDialog = new ExportDialog(this);
-                exportDialog.show();
+                if (serviceLevel >= 6) {
+                    // Open dialog for entering a file name
+                    Dialog exportDialog = new ExportDialog(this);
+                    exportDialog.show();
+                } else {
+                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                }
+                
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    
-    /**
-     * Update the visibility of the menu
-     */
-    private void updateMenuVisibility() {
-        // Update the menu visibility
-        if (menu != null) {
-            // Get the service level
-            int serviceLevel = Model.getInstance().getServiceLevel();
-            
-            // Set new appointment functionality
-            menu.getItem(0).setEnabled(serviceLevel >= 2);
-            
-            // Set delete all appointments functionality
-            menu.getItem(1).setEnabled(serviceLevel >= 2);
-            
-            // Set import functionality
-            menu.getItem(2).setEnabled(serviceLevel >= 4);
-            
-            // Set export functionality
-            menu.getItem(3).setEnabled(serviceLevel >= 6);
         }
     }
 }

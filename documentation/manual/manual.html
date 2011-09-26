@@ -10,10 +10,10 @@ f<!DOCTYPE html>
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">24. September 2011</div>
+    <div id="page-head-date">26. September 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 0.2</div>
+    <div id="page-version">Version 0.3</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -63,7 +63,7 @@ f<!DOCTYPE html>
             Benutzer, die Ressourcen oder Apps für die PMP entwickeln möchten.
             Der Unterabschnitt "<span class="reference" title="#devres"></span>"
             geht auf die Erstellung von Ressourcen ein. Dagegen beschriebt           
-            "<span class="reference" title="#devsl"></span>"
+            "<span class="reference" title="#devapp"></span>"
             wie Service-Levels definiert und in eigene Applikationen integriert werden können.
         </ul>
       </p>
@@ -622,11 +622,189 @@ public class FileSystemResourceGroup extends ResourceGroup {
         API-Dokumentation.
       </p>
       
-      <h2 id="devsl">Service-Levels</h2>
-      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <h2 id="devapp">Applikationen</h2>
+      <p>
+        Das Erstellen von mit der PMP kompatiblen Applikationen unterteilt sich
+        grob in das Definieren der von der Applikation angebotenen Service-Levels
+        und dem implementieren der Anwendungs-Logik.
+      </p>
+      <p>
+        <b>Ausführliche Beispiele</b> zur Festlegung der Service-Levels und
+        zur Implementierung einer Applikation finden Sie in den mitgelieferten
+        Beispiel-Applikationen, zu dene der Quellcode verfügbar ist.
+      </p>
       
+      <h3 id="devapp_sl">Service-Level</h3>
+      <p>
+        Die von der Applikation angebotenen Service-Levels werden in Form einer
+        <b>XML-Datei</b> festelegt, die folgendes <b>Schema</b> besitzt:
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;app>
+  &lt;appInformation>
+    ...
+  &lt;/appInformation>
+  &lt;serviceLevels>
+    ...
+  &lt;/serviceLevels>
+&lt;/app>
+</pre>
+      </p>
+      <p>
+        Innerhalb des Knotens <code>&lt;appInformation&gt;</code> werden alle
+        <b>Informationen über die Applikation</b> hinterlegt. Er enthält jeweils einen
+        Standard-Namen und eine Standard-Beschreibung sowie weitere Namen und
+        Beschreibungen in anderen Sprachen. Diese Daten dienen zum Aufbau der
+        Applikationen-Liste innerhalb der PMP-Hauptanwendung. Sollten in der vom 
+        Benutzer gewählten Sprache kein Name und keine Beschreibung vorhanden sein, 
+        so wird auf den Standard-Namen bzw. die Standard-Beschreibung zurückgegriffen.
+        
+<pre>
+  &lt;appInformation>
+    &lt;defaultName lang="en">&raquo;Name auf englisch&laquo;&lt;/defaultName>
+    &lt;name lang="de">&raquo;Name auf deutsch&laquo;&lt;/name>
+    &lt;name lang="sv">&raquo;Name auf schwedisch&laquo;&lt;/name>
+    ...
+    &lt;defaultDescription lang="en">
+      &raquo;Beschreibung der Applikation in englischer Sprache&laquo;
+    &lt;/defaultDescription>
+    &lt;description lang="de">
+      &raquo;Beschreibung der Applikation in deutscher Sprache&laquo;
+    &lt;/description> 
+    &lt;description lang="sv">
+      &raquo;Beschreibung der Applikation in schwedicher Sprache&laquo;
+    &lt;/description>
+    ...
+  &lt;/appInformation>
+</pre>
+      </p> 
+      <p>
+        Alle angebotenen <b>Service-Levels</b> werden innerhalb des Knotens
+        <code>&lt;serviceLevels&gt;</code> festgelegt. Wie bereits im Knoten
+        <code>&lt;appInformation&gt;</code> exisiteren auch hierbei Namen und
+        Beschreibungen in verschiedenen Sprachen (inkl. Standard-Namen/-Beschreibung).
+        Zusätzlich muss zwischen dem Standard-Service-Level und allen weiteren
+        Service-Levels unterschieden werden. Das <b>Standard-Service-Level</b> darf 
+        keinerlei Ressourcen verlangen, d. h. es beschreibt das Verhalten der 
+        Applikation, ohne Zugriffsberechtigungen auf Ressourcen:
+<pre>
+  &lt;serviceLevels>
+    &lt;defaultServiceLevel>
+      &lt;level>0&lt;/level>
+      &lt;defaultName lang="en">&raquo;Name auf englisch&laquo;&lt;/defaultName>
+      &lt;name lang="de">&raquo;Name auf deutsch&laquo;&lt;/name>
+      ...
+      &lt;defaultDescription lang="en">
+        &raquo;Beschreibung des Standard-Service-Levels in englischer Sprache&laquo;
+      &lt;/defaultDescription>
+      &lt;description lang="de">
+        &raquo;Beschreibung des Standard-Service-Levels in deutscher Sprache&laquo;
+      &lt;/description>
+      ...
+    &lt;/defaultServiceLevel>
+    ...
+  &lt;/serviceLevels>
+</pre>
+      </p>
+      <p>
+        Nach dem Standard-Service-Level folgen alle <b>weitere Service-Levels</b>. Der
+        Aufbau gleicht dem Standard-Service-Level. Allerdings muss das Level
+        des Service-Levels (Knoten <code>&lt;level&gt;</code>) größer als "0" sein
+        und darf jeweils nur von genau einem Service-Level verwendet werden. Zudem
+        enthält es mindestens einen unter Knoten 
+        <code>&lt;requiredResourceGroup&gt;</code>, der als Attribute den Namen der
+        von diesem Service-Level benötigten Ressource und als unter Knoten die 
+        Festlegung der Privacy-Levels besitzt:
+<pre>
+  &lt;serviceLevels>
+  ...
+    &lt;serviceLevel>
+      &lt;level>1&lt;/level>
+      &lt;defaultName lang="en">&raquo;Name Level 1 auf englisch&laquo;&lt;/defaultName>
+      &lt;name lang="de">&raquo;Name Level 1 auf deutsch&laquo;&lt;/name>
+      ...
+      &lt;defaultDescription lang="en">
+        &raquo;Beschreibung des ersten Service-Levels in englischer Sprache&laquo;
+      &lt;/defaultDescription>
+      &lt;description lang="de">
+        &raquo;Beschreibung des ersten Service-Levels in deutscher Sprache&laquo;
+      &lt;/description>
+      ...
+      &lt;requiredResourceGroup
+        identifier="&raquo;Name der verlangten Ressource&laquo;">
+        &lt;privacyLevel identifier="&raquo;Name des Privacy-Levels&laquo;">
+          &raquo;Wert des Privacy-Levels&laquo;
+        &lt;/privacyLevel>
+        ...
+        &lt;/requiredResourceGroup>
+      &lt;/serviceLevel>
+      ...
+  &lt;/serviceLevels>
+</pre>
+      </p>
       
-      <h1 id="versions">Versionshistorie</h1>
+      <h3 id="devapp_impl">Implementierung</h3>
+      <h4 id="devapp_com">Kommunikation mit der PMP</h4>
+      <p>
+        Um die Kommunikation zwischen den Komponenten und Ressourcen der PMP zu
+        ermöglichen, muss die Klasse <code>app</code> erweitert und ihre 
+        abstrakte Methoden implementiert werden. Zentraler Punkt der 
+        Implementierung ist hierbei die Methode <code>getServiceAndroidName()</code>.
+        Diese definiert den Namen des <b>Service</b>, über den die <b>Kommunikation</b> abläuft.
+        <br />
+        Wichtig ist hierbei, dass der hier verwendete Name mit der Angabe in der
+        Manifest-Datei übereinstimmt und die Manifest-Datei auf den Service
+        <code>de.unistuttgart.ipvs.pmp.service.app.AppService</code> verweist:
+<pre>
+    &lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
+      &lt;intent-filter>
+        &lt;action android:name="de.unistuttgart.ipvs.pmp.apps.exampleapp">&lt;/action>
+      &lt;/intent-filter>
+    &lt;/service>
+</pre>
+        Zugehörige Implementierung:
+<pre>
+    @Override
+    protected String getServiceAndroidName() {
+      return "de.unistuttgart.ipvs.pmp.apps.calendarapp";
+    }
+</pre>
+
+      <p>
+        Mithilfe der Methode <code>getXMLInputStream()</code> wird die in der 
+        XML-Datei abgelegt <b>Service-Level-Definition eingelesen</b> und weiterverarbeitet.
+        Diese Methode muss lediglich einen Eingabe-Strom auf diese Datei liefern.
+        Um alles weitere kümmert sich die PMP.
+      </p>
+      
+      <p>
+        Mitteilungen über <b>Änderungen am Service-Level</b> werden an die Methode 
+        <code>setActiveServiceLevel()</code> gesendet, die das neue
+        Service-Level per Parameter erhält. Diese Methode sollte verwendet werden,
+        um das Verhalten der Applikation dem geänderten Service-Level anzupassen.
+      </p>
+      
+      <p>
+        Jede für die PMP entwickelte Applikation muss sich bei der PMP regisitieren.
+        Um auf eine <b>erfolgreiche oder fehlgeschlagene Registrierung</b> reagieren zu können,
+        exisiteren die beiden Callback-Methoden <code>onRegistrationSuccess()</code>
+        und <code>onRegistrationFailed()</code>, wobei Letztere den Grund des
+        Fehlschlags über den Parameter erhält.
+      </p>
+      
+      <h4 id="devapp_impl_pmpservices">Dienste der PMP</h4>
+      <p>
+        Mit dem <code>PMPServiceConnector</code> bietet die PMP Zugriff auf 
+        alle wichtigen Funktionen des PMP-Services.
+        TODO
+      </p>
+      
+      <h1 id="versions">Versionshistorie</h1> 
+      <h3>Version 0.3 (26.09.2011)</h3>
+			<ul>
+			  <li>Kapitel zur Entwicklung von Applikationen begonnen</li>
+		  </ul>
+		  
       <h3>Version 0.2 (24.09.2011)</h3>
 			<ul>
 			  <li>Kapitel zu Grundbegriffen hinzugefügt</li>
