@@ -12,7 +12,7 @@
 	<string name="menu">Menü</string>
 	<string name="wait">Bitte warten...</string>
 	<string name="registration">Registrierung wird durchgeführt.</string>
-	<string name="err_store">Fehler beim Speichern in der Datenbank</string>
+	<string name="err_load">Fehler beim Lesen der Termins aus der Datenbank</string><string name="err_store">Fehler beim Speichern in der Datenbank</string>
 	<string name="err_del">Fehler beim Löschen eines Termins in der Datenbank
 	</string>
 	<string name="err_change">Fehler beim Ändern eines Termins in der Datenbank
@@ -47,4 +47,6 @@
 	<string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
 	<string name="sd_card_missing">Wenn Sie die Import-/Export-Funktionalität nutzen
 		möchten, legen Sie bitte eine SD-Karte ein!</string>
+	<string name="err_create">Tut mir Leid, Kalender konnte keine Tabelle in der Datenbank erstellen, deswegen wird die App nicht korrekt funktionieren.</string>
+	
 </resources>

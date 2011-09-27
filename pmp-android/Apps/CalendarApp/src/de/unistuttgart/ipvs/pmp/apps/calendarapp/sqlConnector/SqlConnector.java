@@ -101,35 +101,43 @@ public class SqlConnector {
                         ArrayList<Appointment> todoList = new ArrayList<Appointment>();
                         
                         // Getting the number of the rows
-                        // TODO: table not exists?
-                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null, null);
+                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null, SqlConnector.this.DATE);
                         
-                        // Getting the rows - TODO if fail skip only ONE row!! 
+                        // Getting the rows 
                         for (int itr = 0; itr < rowCount; itr++) {
-                            
-                            String[] columns = idc.getRowAt(itr);
-                            int id = Integer.valueOf(columns[0]);
-                            
-                            Date date = new Date(Long.valueOf(columns[2]));
-                            todoList.add(new Appointment(id, columns[1], date));
-                            Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " description: "
-                                    + columns[1]);
-                            // Check if there's a new highest id
-                            if (id > SqlConnector.this.highestId) {
-                                SqlConnector.this.highestId = id;
+                            String[] columns = {};
+                            try {
+                                columns = idc.getRowAt(itr);
+                                int id = Integer.valueOf(columns[0]);
+                                
+                                Date date = new Date(Long.valueOf(columns[2]));
+                                todoList.add(new Appointment(id, columns[1], date));
+                                Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
+                                        + " description: " + columns[1]);
+                                // Check if there's a new highest id
+                                if (id > SqlConnector.this.highestId) {
+                                    SqlConnector.this.highestId = id;
+                                }
+                            } catch (Exception e) {
+                                Log.e("Load appointment failed. Skipped: " + columns.toString());
+                                Log.v(e.toString());
                             }
                         }
                         Model.getInstance().loadAppointments(todoList);
                     } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_load),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_load),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("Cannot close connection: ", e);
+                                Log.e("Cannot close the DatabaseConnection: ", e);
                             }
                         }
                         resGroupCon.unbind();
@@ -180,6 +188,7 @@ public class SqlConnector {
                     try {
                         idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
                                 .getResource(SqlConnector.this.resIdentifier));
+ 
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
                         int id = getNewId();
@@ -199,8 +208,12 @@ public class SqlConnector {
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -270,8 +283,12 @@ public class SqlConnector {
                                     Toast.LENGTH_SHORT).show();
                         }
                     } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -349,8 +366,12 @@ public class SqlConnector {
                                     Toast.LENGTH_SHORT).show();
                         }
                     } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -376,10 +397,9 @@ public class SqlConnector {
     
     
     /**
-     * Creates a table if there exists none. The table name is "appointmentlist".
+     * Creates a table if there exists none. The table name is "Appointment".
      */
     private void createTable() {
-//        if (!Model.getInstance().isTableCreated()) { // Preference is not always accurate!!! 
         final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
                 .getApplicationContext()).getSignee(), this.resGroupIdentifier);
@@ -420,8 +440,12 @@ public class SqlConnector {
                             Log.v("Table already exists");
                         }
                     } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
+                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
+                                Toast.LENGTH_SHORT).show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
