@@ -49,7 +49,7 @@ public class ResourceGroupDebugActivity extends Activity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView tv;
-                if (convertView == null) {
+                if ((convertView == null) || (!(convertView instanceof TextView))) {
                     tv = new TextView(ResourceGroupDebugActivity.this);
                 } else {
                     tv = (TextView) convertView;
