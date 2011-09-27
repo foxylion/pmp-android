@@ -31,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
 /**
- * PrivacyLvlActivity
+ * PrivacyLvlActivity shows the list with available Service Levels
  * 
  * 
  * @author Alexander Wassiljew
@@ -40,25 +40,27 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 public class ServiceLvlActivity extends Activity {
     
     /**
-     * App of which the Levels have to be load
+     * App of which the levels have to be load
      */
     private String appName;
+    
     /**
-     * Index of the current App
+     * Index of the current app
      */
     private String identifier;
     
     /**
-     * If there are too much Levels, so you can scroll.
+     * Scrollable Service levels
      */
     private ScrollView scroll;
+    
     /**
-     * Main Layout of the Activity, which will be draw to the Canvas
+     * Main Layout of the activity, which will be drawn to the Canvas
      */
     private LinearLayout parentLayout;
     
     
-    /** Called when the activity is first created. */
+    /** Called when the activity is created for the first time */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,7 @@ public class ServiceLvlActivity extends Activity {
     
     
     /**
-     * Creates the parent layout and sets the settings
+     * Creating and setting the parent layout
      */
     private void createParentLayout() {
         this.parentLayout = new LinearLayout(this);
@@ -87,7 +89,7 @@ public class ServiceLvlActivity extends Activity {
     
     
     /**
-     * Loads the Privacy Levels for the GUI
+     * Loading the Privacy Levels for the GUI
      */
     private void loadServiceLevels() {
         IApp app = ModelSingleton.getInstance().getModel().getApp(this.identifier);
@@ -96,6 +98,7 @@ public class ServiceLvlActivity extends Activity {
         Log.v("ServiceLeveltActivity: Number of Service Levels" + String.valueOf(levelArray.length) + "for the app: "
                 + app.getName());
         RadioGroup group = new RadioGroup(this);
+        
         /* Iterate over Service Levels */
         for (int i = 0; i < levelArray.length; i++) {
             RadioButton button = new RadioButton(this);
@@ -104,10 +107,12 @@ public class ServiceLvlActivity extends Activity {
             button.setGravity(Gravity.CENTER);
             button.setTextColor(Color.BLACK);
             button.setText(levelArray[i].getName());
+            
             /* Check if Service Level is set */
             if (app.getActiveServiceLevel().getLevel() == i) {
                 button.setChecked(true);
             }
+            
             /* Check if Service Level is available */
             if (levelArray[i].isAvailable()) {
                 button.setOnTouchListener(new OnLevelTouchListener(button.getContext(), levelArray[i].getDescription(),
@@ -125,7 +130,7 @@ public class ServiceLvlActivity extends Activity {
     
     
     /**
-     * Loads the Intent
+     * Loading the intent
      */
     private void loadIntentsExtras() {
         this.identifier = getIntent().getExtras().getString(de.unistuttgart.ipvs.pmp.Constants.INTENT_IDENTIFIER);
@@ -133,7 +138,7 @@ public class ServiceLvlActivity extends Activity {
     
     
     /**
-     * Reload the activity
+     * Reloading the activity
      */
     public void reloadActivity() {
         this.parentLayout.removeAllViews();
@@ -151,7 +156,7 @@ class OnLevelTouchListener implements OnTouchListener {
     
     private String lvlDescr;
     private Context context;
-    //    private RadioButton parent;
+    // private RadioButton parent;
     private ServiceLvlActivity activity;
     private int levelID;
     private String identifier;
@@ -161,7 +166,7 @@ class OnLevelTouchListener implements OnTouchListener {
             String identifier, int levelID) {
         this.lvlDescr = lvlDescr;
         this.context = context;
-        //	this.parent = button; // TODO check if that is really required, seems
+        // this.parent = button; // TODO check if that is really required, seems
         // not to be used
         this.activity = activity;
         this.levelID = levelID;
@@ -181,7 +186,7 @@ class OnLevelTouchListener implements OnTouchListener {
     
     
     /**
-     * Create a dialog for setting up the service level
+     * Creating the dialog for setting up the Service Level
      * 
      * @return Dialog
      */
@@ -191,8 +196,9 @@ class OnLevelTouchListener implements OnTouchListener {
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(true);
         dialog.setTitle(R.string.apply_service_level);
+        
         /**
-         * Reload the ServiceLvlActivity if no changes occur
+         * Reloading the ServiceLvlActivity if no changes occur
          */
         dialog.setOnCancelListener(new OnCancelListener() {
             
@@ -232,8 +238,9 @@ class OnLevelTouchListener implements OnTouchListener {
         Button apply = new Button(this.context);
         apply.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
         apply.setText(R.string.apply);
+        
         /**
-         * Sets the Service Level.
+         * Setting the Service Level
          */
         apply.setOnClickListener(new OnClickListener() {
             
@@ -242,11 +249,13 @@ class OnLevelTouchListener implements OnTouchListener {
                 final IApp app = ModelSingleton.getInstance().getModel().getApp(OnLevelTouchListener.this.identifier);
                 IServiceLevel levelArray[] = app.getServiceLevels();
                 final IServiceLevel level = levelArray[OnLevelTouchListener.this.levelID];
+                
                 /* Set the Service Level here */
                 
                 final Dialog waitingDialog = ProgressDialog.show(OnLevelTouchListener.this.context,
                         OnLevelTouchListener.this.context.getString(R.string.please_wait),
                         OnLevelTouchListener.this.context.getString(R.string.set_service_level), true);
+                
                 /*
                  * Create an AsynchTask and wait till
                  * setActiveServiceLevelAsPreset is done
@@ -281,7 +290,7 @@ class OnLevelTouchListener implements OnTouchListener {
         cancel.setText(this.context.getString(R.string.cancel));
         
         /**
-         * Cancel the dialog
+         * Canceling the dialog
          */
         cancel.setOnClickListener(new OnClickListener() {
             
@@ -290,6 +299,7 @@ class OnLevelTouchListener implements OnTouchListener {
                 dialog.cancel();
             }
         });
+        
         /* DialogLayout which holds the description and the buttonLayout */
         LinearLayout dialogLayout = new LinearLayout(this.context);
         dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
@@ -299,11 +309,10 @@ class OnLevelTouchListener implements OnTouchListener {
         dialogScroll.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
         dialogScroll.addView(description);
         
-        
-        
-        /* buttonLayout which holds the buttons: Apply, Cancel */
+        /* buttonLayout which holds the buttons: "Apply", "Cancel" */
         LinearLayout buttonLayout = new LinearLayout(this.context);
-//        buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
+        
+        // buttonLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
         buttonLayout.addView(apply);
         buttonLayout.addView(cancel);
         
