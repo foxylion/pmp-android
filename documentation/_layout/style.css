@@ -265,7 +265,12 @@ div.criticism {
 	padding-left: 0.75em;
 }
 
-td.fail {
+span.fail,td.fail {
 	font-weight: bold;
+	text-transform: uppercase;
 	color: red;
+}
+
+span.success,td.success {
+	color: #0A6100;
 }
