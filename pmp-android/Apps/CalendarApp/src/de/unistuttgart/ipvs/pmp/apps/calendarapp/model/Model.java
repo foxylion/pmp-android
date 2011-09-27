@@ -85,6 +85,9 @@ public class Model {
         
         Collections.sort(this.appointmentList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no appointments avaiable" textview
+        getContext().updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -130,6 +133,9 @@ public class Model {
         this.appointmentList.add(appointment);
         Collections.sort(this.appointmentList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no appointments avaiable" textview
+        getContext().updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -148,6 +154,9 @@ public class Model {
         }
         appointmentList.remove(toDelete);
         this.arrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no appointments avaiable" textview
+        getContext().updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -240,16 +249,6 @@ public class Model {
     
     
     /**
-     * Checks if the table was created yet
-     * 
-     * @return true if the table exists
-     */
-    //    public Boolean isTableCreated() {
-    //        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-    //        return app_preferences.getBoolean("tablecreated", false);
-    //    }
-    
-    /**
      * Sets the status if the table exists or not
      * 
      * @param created
@@ -279,7 +278,7 @@ public class Model {
      * 
      * @return file list for importing
      */
-    public List<FileDetails> getFileList() {
+    public List<FileDetails> getFileList() {  
         return fileList;
     }
     
@@ -297,6 +296,9 @@ public class Model {
                 return file;
             }
         }
+        // Update the visibility of the "no files avaiable" textview
+        if (getImportContext() != null)
+            getImportContext().updateNoAvaiableFilesTextView();
         return null;
     }
     
@@ -311,6 +313,10 @@ public class Model {
         this.fileList.remove(file);
         if (importArrayAdapter != null)
             this.importArrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no files avaiable" textview
+        if (getImportContext() != null)
+            getImportContext().updateNoAvaiableFilesTextView();
     }
     
     
@@ -324,6 +330,10 @@ public class Model {
         this.fileList.add(file);
         if (importArrayAdapter != null)
             this.importArrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no files avaiable" textview
+        if (getImportContext() != null)
+            getImportContext().updateNoAvaiableFilesTextView();
     }
     
     
@@ -334,6 +344,10 @@ public class Model {
         this.fileList.clear();
         if (importArrayAdapter != null)
             this.importArrayAdapter.notifyDataSetChanged();
+        
+        // Update the visibility of the "no files avaiable" textview
+        if (getImportContext() != null)
+            getImportContext().updateNoAvaiableFilesTextView();
     }
     
     

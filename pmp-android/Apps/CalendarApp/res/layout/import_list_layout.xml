@@ -4,6 +4,10 @@
 	android:orientation="vertical">
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/top_control_bar">
+		<TextView android:text="@string/no_files_available"
+			android:id="@+id/no_files_avaiable" android:layout_height="wrap_content"
+			android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+			android:layout_width="fill_parent"></TextView>
 	</RelativeLayout>
 	<LinearLayout android:id="@+id/bottom_control_bar"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"

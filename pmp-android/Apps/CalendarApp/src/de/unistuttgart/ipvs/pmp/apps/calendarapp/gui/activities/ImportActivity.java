@@ -14,6 +14,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
@@ -104,7 +105,17 @@ public class ImportActivity extends ListActivity {
             }
         });
         
+        // Update the visibility of the "no files avaiable" textview
+        updateNoAvaiableFilesTextView();
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        // Update the visibility of the "no files avaiable" textview
+        updateNoAvaiableFilesTextView();
+    };
     
     
     @Override
@@ -123,6 +134,19 @@ public class ImportActivity extends ListActivity {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Update the visibility of the "no files avaiable" textview
+     */
+    public void updateNoAvaiableFilesTextView() {
+        // add text view "no appointments available", if the list is empty
+        TextView tv = (TextView) findViewById(R.id.no_files_avaiable);
+        if (Model.getInstance().getFileList().size() > 0) {
+            tv.setVisibility(TextView.GONE);
+        } else {
+            tv.setVisibility(TextView.VISIBLE);
+        }
     }
     
 }
