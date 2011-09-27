@@ -22,6 +22,7 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
@@ -124,6 +125,9 @@ public class CalendarAppActivity extends ListActivity {
                 menu.add(1, 1, 0, R.string.send);
             }
         });
+        
+        // Update the visibility of the "no appointments avaiable" textview
+        updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -136,6 +140,9 @@ public class CalendarAppActivity extends ListActivity {
          * called when the activity is shown again.
          */
         ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
+        
+        // Update the visibility of the "no appointments avaiable" textview
+        updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -286,7 +293,7 @@ public class CalendarAppActivity extends ListActivity {
                      * It is also used to check for exporting, if a file already exists.
                      */
                     FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
-                   
+                    
                 } else {
                     DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
                 }
@@ -294,6 +301,20 @@ public class CalendarAppActivity extends ListActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    
+    /**
+     * Update the visibility of the "no appointments avaiable" textview
+     */
+    public void updateNoAvaiableAppointmentsTextView() {
+        // add text view "no appointments available", if the list is empty
+        TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
+        if (Model.getInstance().getAppointmentList().size() > 0) {
+            tv.setVisibility(TextView.GONE);
+        } else {
+            tv.setVisibility(TextView.VISIBLE);
         }
     }
 }
