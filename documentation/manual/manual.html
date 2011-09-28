@@ -40,7 +40,7 @@
         <ul>
           <li>den unerfahrenen Benutzer</li>
           <li>den erfahrenen Benutzer</li>
-          <li>den Entwicklern von Ressourcen (für die PMP)</li>
+          <li>den Entwicklern von Ressourcengruppen (für die PMP)</li>
           <li>den Entwicklern von Applikationen inkl. deren Service-Levels</li>
           <li>dem Kunden</li>
           <li>den Betreuern des Studienprojekts</li>
@@ -60,9 +60,9 @@
             erst im erweiterten Modus (<span class="reference" title="#expertmode"></span>)
             verfügbar sind.</li>
           <li>"<span class="reference" title="#developers"></span>" richtet sich an 
-            Benutzer, die Ressourcen oder Apps für die PMP entwickeln möchten.
+            Benutzer, die Ressourcengruppen oder Apps für die PMP entwickeln möchten.
             Der Unterabschnitt "<span class="reference" title="#devres"></span>"
-            geht auf die Erstellung von Ressourcen ein. Dagegen beschriebt           
+            geht auf die Erstellung von Ressourcengruppen ein. Dagegen beschriebt           
             "<span class="reference" title="#devapp"></span>"
             wie Service-Levels definiert und in eigene Applikationen integriert werden können.
         </ul>
@@ -74,7 +74,7 @@
         verwendet werden.
       </p>
       
-      <h2 id="basisc_res">Ressourcen</h2>
+      <h2 id="basisc_res">Ressourcengruppen</h2>
       <p>
         Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines 
         Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
@@ -86,8 +86,8 @@
         können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).
         Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource
         möglich (ist etwa des Privay-Level "Datei lesen" gesetzt, das
-        Level "Datei schreiben" jedoch nicht, so erlaubt die Ressource nur das
-        Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
+        Level "Datei schreiben" jedoch nicht, so erlaubt die Ressourcegruppe
+        "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
       </p>
        
       <h2 id="basics_sl">Service-Level</h2>
@@ -100,7 +100,7 @@
       <p>
         Im Detail legt jedes Service-Level fest, welche Ressourcengruppen benötigt 
         werden, und auf welchen Wert die zur Gruppe gehörigen Privacy-Levels 
-        gesetzt werden müssen. Wird ein Service-Level gewählt, so werden die
+        gesetzt sein müssen. Wird ein Service-Level gewählt, so werden die
         Privacy-Levels auf die festgelegten Werte gesetzt, wodurch Zugriffe auf
         die zugehörigen Funktionen der Ressourcen möglich sind.
       </p>
@@ -123,7 +123,7 @@
         <ul>
           <li>Verwalten aller installierter Applikationen über die Schaltfläche
             "Applications" (siehe <span class="reference" title="#apps"></span>).</li>
-          <li>Anzeigen aller installierten Ressourcen über die Schaltfläche
+          <li>Anzeigen aller installierten Ressourcengruppen über die Schaltfläche
             "Resources" (siehe <span class="reference" title="#res"></span>).</li>
         </ul>
       </p>
@@ -139,7 +139,7 @@
       <h2 id="modes">Anwender-Modi</h2>
       <p>
         Die PMP lässt sich in
-        zwei Modi betreiben: im einfachen Modus (als Simple Mode bezeichnet), stehen
+        zwei Modi betreiben: Im einfachen Modus (als Simple Mode bezeichnet), stehen
         dem Benutzer die wichtigsten Funktionen zur Verfügung. Werden alle Funktionen
         benötigt, lässt sich das System in den erweiterten Modus (Expert Mode) schalten.
       </p>
@@ -186,7 +186,7 @@
         Die Installation von PMP-Applikationen unterscheidet sich nicht von
         der Installation gewöhnlicher Applikationen. Im Allgemeinen benötigen
         PMP-Applikationen selbst keine Zugriffsrechte auf System-Funktionen, da
-        diese Zugriffe über die PMP-Ressourcen erfolgen.
+        diese Zugriffe über die PMP-Ressourcengruppen erfolgen.
       </p>
             
       <h3 id="apps_uninst">Applikationen deinstallieren</h3>
@@ -209,7 +209,8 @@
         <ul>
           <li>Beim ersten Starten der Applikation</li>
           <li>Über die Anzeige der installierten Applikationen in der PMP (siehe
-            <span class="reference" title="#apps_show"></span>)</li>
+            <span class="reference" title="#apps_show"></span>) und anschließndem
+            Antippen der gewünschten Applikation</li>
         </ul>
       </p>
       <p>
@@ -223,7 +224,7 @@
         benötigten Ressourcengruppen installiert sein (siehe 
         <span class="reference" title="#res_inst"></span>). Wurden die fehlenden
         Ressourcengruppen installiert, kann der Service-Level-Dialog erneut geöffnet
-        und nun ein neu verfügbares Service-Level ausgewählt werden.
+        und ein nun neu verfügbares Service-Level ausgewählt werden.
       </p>
       <div class="clear"></div>
       <img src="images/app_sl_details.png" alt="Details zu einem Service-Level" style="width:215px;" class="right">
@@ -254,7 +255,7 @@
       </p>
       <p>
         Nach diesem Schritt muss sich die Applikation bei der PMP anmelden. Hierzu zeigt jede
-        Ressource beim ersten Starten einen Installations-Dialog (siehe Bildschirmfoto)
+        Ressourcengruppe beim ersten Starten einen Installations-Dialog (siehe Bildschirmfoto)
         an. Durch Antippen der Schaltfläche "Install" meldet sich die 
         Ressourcengruppe bei der PMP an und kann anschließend von PMP-Applikationen
         verwendet werden.
@@ -289,7 +290,7 @@
       <h1 id="developers">Entwickler</h1>
       <p>
         Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eigene
-        Ressourcen erweitern oder Anwendungen für die PMP erstellen möchten
+        Ressourcengruppen erweitern oder Anwendungen für die PMP erstellen möchten.
       </p>
       
       
@@ -312,10 +313,10 @@
         </ul>
         In den nachfolgenden Unterabschnitten werden die einzelnen Phasen genauer
         beschrieben und anhand von Beispielen erläutert.<br /> 
-        Alle für das Erstellen einer Ressource benötigten Klassen befinden sich im 
+        Alle für das Erstellen einer Ressourcengruppe benötigten Klassen befinden sich im 
         Paket &quot;de.unistuttgart.ipvs.pmp.resource&quot; der API-Bibliothek.<br />
-        Der PMP liegen mehrere Beispiel-Ressourcen bei. Diese können als Referenz 
-        für das Erstellen eigener Ressourcen verwendet werden.
+        Der PMP liegen mehrere Ressourcengruppen und deren Quellcode bei. Diese können als Referenz 
+        für das Erstellen eigener Ressourcengruppe verwendet werden.
       </p>
       
       <h3 id="devres_res">Erstellen einer Ressource</h3>
@@ -346,7 +347,7 @@
         Jede Ressourcengruppe beinhaltet mehrere Privacy-Levels. Privacy-Levels 
         werden durch Erweitern der Klasse <code>PrivacyLevel</code> erstellt, wobei 
         alle abstrakten Methoden implementiert werden müssen. Um den 
-        Implementierungsaufwand zu verringern, bietet die API für häufige wiederkehrende
+        Implementierungsaufwand zu verringern, bietet die API für häufig wiederkehrende
         Einsatzgebiete Standartimplementierungen an:
       </p>
 
@@ -372,7 +373,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
 
       <h4 id="devres_privlevel_userdefined">Benutzerdefiniert</h4>      
       <p>
-        Sollte die Erstellung eine benutzerdefinierten Privacy-Levels erforderlich
+        Sollte die Erstellung eines benutzerdefinierten Privacy-Levels erforderlich
         sein, d. h. das Privacy-Level lässt sich nicht durch eine bestehenden
         Implementierung realisieren, so lässt sich ohne weiteres ein eigenes
         Privacy-Level implementieren. Hierzu muss die Klasse 
@@ -504,9 +505,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         Namen liefert. Wichtig ist hierbei, dass der von dieser 
         Methode gelieferte Wert mit der Angabe in der Android-Manifest-Datei 
         übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.     
-        Wichtig ist, dass sich in der Manifest-Datei dieser Name auf den Service
-        <code>de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService</code>
-        bezieht (siehe unten stehendes Beispiel).
+        (siehe <span class="reference" title="#devres_resgroup_manifest"></span>).
       </p>
 
       <p>
@@ -519,6 +518,21 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         vom System aufgerufen, konnte die Gruppe dem System nicht hinzugefügt werden. 
         Über den String-Parameter wird der Grund des Fehlschlags übermittelt.
       </p>
+      <h4 id="devres_resgroup_manifest">Manifest-Datei</h4>
+      <p>
+        Damit die PMP mit der erstellten Ressourcengruppe kommunizieren kann,
+        muss in der Manifest-Datei der so genannte <code>ResourceGroupService</code>
+        eingetragen werden. Diesem Service wird ein <code>action</code>-Intentfilter
+        zugewiesen, der als Name den selben Wert enthält, wie er von der Methode
+        <code>getServiceAndroidName()</code> der <code>ResourceGroup</code>
+        zurück gegeben wird (siehe <span class="reference" title="#devres_resgroup_example"></span>).
+      </p>
+      <p>
+        Damit sich die Ressourcengruppe beim ersten Starten bei der PMP registrieren
+        kann, muss im Namensattribut des Hauptactivities (<code>action</code>-Intentfilter "MAIN", 
+        <code>category</code>-Intentfilter "LAUNCHER") 
+        <code>de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity</code> eingetragen werden.
+      </p>
       <h4 id="devres_resgroup_example">Beispiel</h4>
       <p>
         Unter Berücksichtigung des oben Erwähnten, könnte eine Ressourcengruppe
@@ -528,7 +542,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
 public class FileSystemResourceGroup extends ResourceGroup {
 
   public static final String SERVICE_NAME = 
-                      "de.unistuttgart.ipvs.pmp.resources.FileSystemService";
+                      "de.unistuttgart.ipvs.pmp.resources.filesystem";
 
   private final Context context;
 
@@ -571,23 +585,26 @@ public class FileSystemResourceGroup extends ResourceGroup {
 </pre>
       </p>
       <p>
-        Die zugehörige Manifest-Datei:
+        Die zugehörige Manifest-Datei (bereiche, die sich abhängig von der erstellten
+        Ressourcengruppe verändern können, sind <i>kursiv</i> dargestellt):
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
 &lt;manifest ...>
   ...
   &lt;application ...>
     ...
-    &lt;activity android:label="@string/app_name" android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
-	    &lt;intent-filter>
-	      &lt;action android:name="android.intent.action.MAIN" />
-	      &lt;category android:name="android.intent.category.LAUNCHER" />
+    &lt;activity android:label="@string/app_name" 
+      android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
+      &lt;intent-filter>
+        &lt;action android:name="android.intent.action.MAIN" />
+        &lt;category android:name="android.intent.category.LAUNCHER" />
       &lt;/intent-filter>
     &lt;/activity>
     
-    &lt;service android:exported="true" android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
+    &lt;service android:exported="true" 
+      android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
       &lt;intent-filter>
-        &lt;action android:name="de.unistuttgart.ipvs.pmp.resourcegroups.switches"></action>
+        &lt;action android:name="<i>de.unistuttgart.ipvs.pmp.resourcegroups.filesystem</i>" />
       &lt;/intent-filter>
     &lt;/service>
     ...
