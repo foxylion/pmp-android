@@ -40,21 +40,21 @@
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>FT-1</td><td>tk</td><td class="success">OK</td></tr>
-				<tr><td>FT-2</td><td>tb</td><td></td></tr>
+				<tr><td>FT-2</td><td>tb</td><td class="success">OK</td></tr>
 				<tr><td>FT-3</td><td>fs</td><td></td></tr>
 				<tr><td>FT-4</td><td>-</td><td>-</td></tr>
 				<tr><td>FT-5</td><td>tk</td><td class="success">OK</td></tr>
-				<tr><td>FT-6</td><td>tb</td><td></td></tr>
+				<tr><td>FT-6</td><td>tb</td><td class="success">OK</td></tr>
 				<tr><td>FT-7</td><td>fs</td><td></td></tr>
 				<tr><td>FT-8</td><td>tk</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>FT-9</td><td>tb</td><td></td></tr>
+				<tr><td>FT-9</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-10</td><td>fs</td><td></td></tr>
 				<tr><td>FT-11</td><td>tk</td><td class="success">OK</td></tr>
-				<tr><td>FT-12</td><td>tb</td><td></td></tr>
+				<tr><td>FT-12</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-13</td><td>fs</td><td></td></tr>
 				<tr><td>FT-14</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
 				<tr><td>FT-15</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
-				<tr><td>FT-16</td><td>tb</td><td></td></tr>
+				<tr><td>FT-16</td><td>tb</td><td class="success">OK</td></tr>
 				<tr><td>FT-17</td><td>fs</td><td></td></tr>
 			</table>
 			
@@ -63,22 +63,22 @@
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>NFT-1</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
-				<tr><td>NFT-2</td><td>tb</td><td></td></tr>
+				<tr><td>NFT-2</td><td>tb</td><td class="success">OK</td></tr>
 				<tr><td>NFT-3</td><td>fs</td><td></td></tr>
 				<tr><td>NFT-4</td><td>tk</td><td class="success">OK</td></tr>
-				<tr><td>NFT-5</td><td>tb</td><td></td></tr>
+				<tr><td>NFT-5</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-6</td><td>fs</td><td></td></tr>
 				<tr><td>NFT-7</td><td>tk</td><td class="success">OK</td></tr>
-				<tr><td>NFT-8</td><td>tb</td><td></td></tr>
+				<tr><td>NFT-8</td><td>tb</td><td class="success">OK</td></tr>
 				<tr><td>NFT-9</td><td>fs</td><td></td></tr>
 				<tr><td>NFT-10</td><td>tk</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-11</td><td>fs</td><td></td></tr>
 				<tr><td>NFT-12</td><td>fs</td><td></td></tr>
 				<tr><td>NFT-13</td><td>fs</td><td></td></tr>
-				<tr><td>NFT-14</td><td>tb</td><td></td></tr>
+				<tr><td>NFT-14</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-15</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
 				<tr><td>NFT-16</td><td>fs</td><td></td></tr>
-				<tr><td>NFT-17</td><td>tb</td><td></td></tr>
+				<tr><td>NFT-17</td><td>tb</td><td class="success">OK</td></tr>
 			</table>
 		
 		<h1 id="bericht">Bericht</h1>
@@ -93,6 +93,9 @@
 			<h2 id="tester2">Frieder Schüler</h2>
 			
 			<h2 id="tester3">Thorsten Berberich</h2>
+			<p>FT-9  und FT-12 wurden als "NICHT BESTANDEN" markiert, da der Ablauf in PMP nicht wie im Use Case spezifiziert ist. Wenn man eine App auswählt, werden nicht alle Service Levels angezeigt und das aktuelle Service Level nicht hervorgehoben. Schritt 4 ist somit nicht ausführbar.</p>
+			<p>NFT-5 wurde als "NICHT BESTANDEN" markiert, da die Datenbank Resource nicht in PMP aufgelistet wird. Deshalb ist Schritt 5 nicht ausführbar</p>
+			<p>NFT-14 wurde als "NICHT BESTANDEN" markiert, da das Kapitel über die Installation von PMP nicht im Handbuch gefunden werden konnte.</p>
 		
 		<h1 id="kommentare">Kommentare</h1>
 			<p>In diesem Kapitel finden sich Kommentare über Sachverhalte, die nach Fertigstellung des Protokolls festgestellt wurden.</p>

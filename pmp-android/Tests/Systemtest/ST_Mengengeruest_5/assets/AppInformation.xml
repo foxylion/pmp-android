@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app>
+	<appInformation>
+		<defaultName lang="en">Mengengeruest5</defaultName>
+		<defaultDescription lang="en">This App is for testing
+			ONLY
+		</defaultDescription>
+	</appInformation>
+	<serviceLevels>
+		<defaultServiceLevel>
+			<level>0</level>
+			<defaultName lang="en">0 Level</defaultName>
+			<defaultDescription lang="en">Level 0
+			</defaultDescription>
+		</defaultServiceLevel>
+		<serviceLevel>
+			<level>1</level>
+			<defaultName lang="en">Level 1</defaultName>
+			<defaultDescription lang="en">Level 1
+			</defaultDescription>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>2</level>
+			<defaultName lang="en">Level 2</defaultName>
+			<defaultDescription lang="en">Level 2
+			</defaultDescription>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>3</level>
+			<defaultName lang="en">Level 3</defaultName>
+			<defaultDescription lang="en">Level 3
+			</defaultDescription>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="modify">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>4</level>
+			<defaultName lang="en">Level 4</defaultName>
+			<defaultDescription lang="en">Level 4
+			</defaultDescription>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="modify">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+		<serviceLevel>
+			<level>5</level>
+			<defaultName lang="en">Level 5</defaultName>
+			<defaultDescription lang="en">Level 5
+			</defaultDescription>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacyLevel identifier="create">true</privacyLevel>
+			</requiredResourceGroup>
+		</serviceLevel>
+	</serviceLevels>
+</app>
