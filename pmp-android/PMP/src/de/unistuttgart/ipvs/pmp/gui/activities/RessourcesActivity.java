@@ -20,7 +20,7 @@ import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 
 /**
- * RessourcesActivity shows the resources which are installed on the device.
+ * RessourcesActivity shows the Ressources which are installed on the device.
  * 
  * @author Alexander Wassiljew
  * 
@@ -30,12 +30,12 @@ public class RessourcesActivity extends Activity {
     TableLayout layout;
     
     /**
-     * Scrollability
+     * Scrollable
      */
     private ScrollView scroll;
     
     /**
-     * Handling the filling of the TableRows
+     * Handles the filling of the TableRows
      */
     TableRow actRow;
     
@@ -46,14 +46,14 @@ public class RessourcesActivity extends Activity {
         
         this.setTitle(R.string.ress);
         
-        /* Creating the 1st TableRow and set up */
+        /* Create the 1st TableRow and set up */
         this.actRow = new TableRow(this);
         this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
         
-        /* Creating the MainLayout for the ApplicationsActivity */
+        /* Create the MainLayout for the ApplicationsActivity */
         createLayout();
         
-        /* Checking if there are resources available */
+        /* Check if there are resources available */
         if (loadRes()) {
             this.scroll = new ScrollView(this);
             this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
@@ -69,7 +69,7 @@ public class RessourcesActivity extends Activity {
     
     
     /**
-     * Creating the layout and setting the properties.
+     * Creating the Layout and setting the properties.
      */
     private void createLayout() {
         this.layout = new TableLayout(this);
@@ -81,7 +81,7 @@ public class RessourcesActivity extends Activity {
     
     
     /**
-     * Loading the resources, 3 for each row
+     * Loading the Ressources each row 3
      */
     private boolean loadRes() {
         
@@ -91,14 +91,14 @@ public class RessourcesActivity extends Activity {
         
         resCount = ModelSingleton.getInstance().getModel().getResourceGroups().length;
         
-        /* Getting the resources in an array */
+        /*Geting the resources in an array*/
         if (resCount != 0) {
             resArray = ModelSingleton.getInstance().getModel().getResourceGroups();
         }
         
         if (resArray != null) {
             
-            /* Filling the table with apps, 3 for each row */
+            /* Filling the Table with Apps each row 3 */
             for (int i = 0; i < resCount; i++) {
                 if (i % 3 == 0) {
                     this.layout.addView(this.actRow);
@@ -109,7 +109,7 @@ public class RessourcesActivity extends Activity {
                         R.drawable.res);
                 act.setClickable(true);
                 
-                /* Set up the behavior of the resource */
+                /* Set up the behaviour of the resource */
                 act.setOnClickListener(new OnResClickListener(act));
                 this.actRow.addView(act);
             }
@@ -120,7 +120,7 @@ public class RessourcesActivity extends Activity {
 }
 
 /**
- * OnResClickListener shows the description of the dialog
+ * Shows the Description Dialog
  * 
  * @author Alexander Wassiljew
  * 
@@ -137,7 +137,7 @@ class OnResClickListener implements OnClickListener {
     }
     
     
-    /* Creates the dialog with descriptions of resources */
+    /*Creates the dialog with descriptions of resources*/
     @Override
     public void onClick(View v) {
         Dialog dialog = createDialog(this.parent.getContext(), this.parent.getName(), this.res.getDescription() + "\n");
@@ -146,7 +146,7 @@ class OnResClickListener implements OnClickListener {
     
     
     /**
-     * Creating the dialog with parameters
+     * Create Dialog with params
      * 
      * @param context
      * @param title
@@ -177,6 +177,7 @@ class OnResClickListener implements OnClickListener {
         ScrollView dialogScroll = new ScrollView(this.parent.getContext());
         dialogScroll.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
         dialogScroll.addView(descriptionView);
+        
         
         layout.addView(dialogScroll);
         layout.addView(close);

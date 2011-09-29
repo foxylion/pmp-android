@@ -24,7 +24,7 @@ import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 
 /**
- * ApplicationsActivity shows the applications which are installed on the device.
+ * ApplicationsActivity shows the Applications which are installed on the device.
  * 
  * @author Alexander Wassiljew
  * 
@@ -32,12 +32,12 @@ import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 public class ApplicationsActivity extends Activity {
     
     /**
-     * Main Layout of the activity, which will be drawn to the Canvas
+     * Main Layout of the Activity, which will be draw to the Canvas
      */
     private TableLayout layout;
     
     /**
-     * If there is too much apps, so you can scroll.
+     * If there is too much Apps, so you can scroll.
      */
     private ScrollView scroll;
     
@@ -53,14 +53,14 @@ public class ApplicationsActivity extends Activity {
         
         this.setTitle(R.string.apps);
         
-        /* Creation of the 1st TableRow and set up */
+        /* Create the 1st TableRow and set up */
         this.actRow = new TableRow(this);
         this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
         
-        /* Creation of the MainLayout for the ApplicationsActivity */
+        /* Create the MainLayout for the ApplicationsActivity */
         createLayout();
         
-        /* Checking if there are any apps available */
+        /* Check if there are apps available */
         if (loadApps()) {
             this.scroll = new ScrollView(this);
             this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
@@ -77,26 +77,26 @@ public class ApplicationsActivity extends Activity {
     
     
     /**
-     * Loading apps to the view, 3 for each row
+     * Loading Apps to the View, 3 each row
      * 
      * @return true if apps where successfully loaded
      */
     private boolean loadApps() {
         
-        /* Variables initialization */
+        /* Used variables */
         int AppsCount = 0;
         List<IApp> appList = null;
         
-        /* Getting the number of installed apps */
+        /* Get the number of installed apps */
         AppsCount = ModelSingleton.getInstance().getModel().getApps().length;
         
-        /* Loading apps into a list */
+        /* Load Apps into a List */
         if (AppsCount != 0) {
             IApp[] appArray = ModelSingleton.getInstance().getModel().getApps();
             appList = Arrays.asList(appArray);
         }
         
-        /* Filling the table with apps, 3 for each row */
+        /* Filling the Table with Apps each row 3 */
         if (appList != null) {
             for (int i = 0; i < AppsCount; i++) {
                 if (i % 3 == 0) {
@@ -110,7 +110,7 @@ public class ApplicationsActivity extends Activity {
                 ImagedButton act = new ImagedButton(this, app.getName(), app.getIdentifier(), R.drawable.app);
                 act.setClickable(true);
                 
-                /* Set up the behavior of the app */
+                /* Set up the behaviour of the App */
                 act.setOnClickListener(new OnAppClickListener(act));
                 this.actRow.addView(act);
             }
@@ -133,7 +133,7 @@ public class ApplicationsActivity extends Activity {
 }
 
 /**
- * Starting the ServiceLvlActivity for the app
+ * Starts the ServiceLvlActivity for the App
  * 
  * @author Alexander Wassiljew
  * 
