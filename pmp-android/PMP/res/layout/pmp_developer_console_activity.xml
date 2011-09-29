@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	android:layout_height="fill_parent" android:layout_width="fill_parent">
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical" android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<TextView android:paddingLeft="5dp"
-			android:text="This is the developer console for PMP. Caution, some of the actions can't be undone."
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical">
+		<LinearLayout android:id="@+id/linearLayout1"
+			android:layout_height="wrap_content" android:layout_width="fill_parent"
+			android:baselineAligned="false">
+			<Button android:id="@+id/pmp_developer_console_open_pmp_button"
+				android:text="Open PMP" android:layout_height="fill_parent"
+				android:layout_width="wrap_content"></Button>
+			<TextView
+				android:text="This is the developer console for PMP. Caution, some of the actions can't be undone."
+				android:layout_height="wrap_content" android:paddingLeft="5dp"
+				android:layout_width="wrap_content"></TextView>
+		</LinearLayout>
 		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 			android:text="Sample Data" android:layout_height="wrap_content"
 			android:layout_marginTop="5dp" android:background="#555555"
@@ -40,7 +48,8 @@
 					android:layout_marginTop="5dp" android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
 				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:id="@+id/pmp_developer_console_button_register_rg"
+					android:layout_height="wrap_content"
+					android:id="@+id/pmp_developer_console_button_register_rg"
 					android:text="Register ResourceGroup"></Button>
 			</LinearLayout>
 		</LinearLayout>

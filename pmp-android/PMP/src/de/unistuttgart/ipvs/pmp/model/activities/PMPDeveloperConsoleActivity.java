@@ -28,6 +28,7 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.activities.StartActivity;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
@@ -79,6 +80,18 @@ public class PMPDeveloperConsoleActivity extends Activity {
     
     
     protected void registerListener() {
+        /*
+         * Open PMP Button
+         */
+        Button openPMP = (Button) findViewById(R.id.pmp_developer_console_open_pmp_button);
+        openPMP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(self.getApplicationContext(), StartActivity.class));
+            }
+        });
+            
+        
         /*
          * Sample Data installation.
          */
