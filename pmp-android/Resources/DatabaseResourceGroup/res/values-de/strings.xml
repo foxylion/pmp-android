@@ -3,7 +3,7 @@
     <string name="app_name">Datenbank ResourceGroup</string><string name="service_name">Datenbank-Service</string><string name="resource_group_name">Datenbank</string>
     
     
-    <string name="resource_group_description">Die Datenbankresourcengruppe bietet Funtionalität für die Datenbankzugriff...</string>
+    <string name="resource_group_description">Die Datenbankresourcengruppe bietet Funtionalität für die einfache Zugriffe auf den zentral verwalte Datenbanken</string>
     <string name="privacy_level_read_name">Lesen</string>
     <string name="privacy_level_read_description">Indicate the right to read an existed database</string>
     <string name="privacy_level_modify_name">Bearbeiten</string>
