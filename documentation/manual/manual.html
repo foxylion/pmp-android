@@ -345,6 +345,9 @@
       
       
       <h2 id="devres">Ressourcen</h2>
+      <a href="images/structure_resourcegroup.jpg" target="_blank">
+        <img src="images/structure_resourcegroup.jpg" alt="Klassendiagramm" style="width:300px;" class="right">
+      </a>
       <p>
         Das Erstellen einer Ressourcengruppe und deren Ressourcen gliedert sich 
         in folgende Schritte:
@@ -368,6 +371,7 @@
         Der PMP liegen mehrere Ressourcengruppen und deren Quellcode bei. Diese können als Referenz 
         für das Erstellen eigener Ressourcengruppe verwendet werden.
       </p>
+      <div class="clear"></div>
       
       <h3 id="devres_res">Erstellen einer Ressource</h3>
       <p>
@@ -728,6 +732,9 @@ public class FileSystemResourceGroup extends ResourceGroup {
 }
 </pre>
       <h3 id="devres_app">Erstellen der Anwendung</h3>
+      <a href="images/structure_resourcegroup_app.jpg" target="_blank">
+        <img src="images/structure_resourcegroup_app.jpg" alt="Klassendiagramm" style="width:300px;" class="right">
+      </a>
       <p>
         Um die Ressourcengruppen auf einem Gerät installieren zu können, wird eine 
         Anwendung benötigt, die die Ressourcengruppen kapselt.
@@ -751,7 +758,8 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Implementierung der abstrakten Klasse <code>ResourceGroup</code> unumgänglich.
         Informationen über die zu implementierenden Methoden finden Sie in der
         API-Dokumentation.
-      </p>
+      </p>               
+      <div class="clear"></div>
       
       <h2 id="devapp">Applikationen</h2>
       <p>
@@ -1000,10 +1008,19 @@ connector.bind();
       
       
       <h5>Anbindung an Ressourcen</h5>
+      
       <p>
         Der wichtigste Konnektor bei der Entwicklung einer Applikation ist
         <code>ResourceGroupServiceConnector</code>. Über diesen laufen alle
-        Zugriffe auf PMP-Ressourcen ab. Dem Konstruktor wird hierbei der 
+        Zugriffe auf PMP-Ressourcen ab:
+      </p>
+      <p>
+        <a href="images/access_resourcegroup.jpg" target="_blank">
+          <img src="images/access_resourcegroup_nostubs.jpg" alt="Klassendiagramm" style="width:100%">
+        </a>
+      </p>
+      <p>
+        Dem Konstruktor wird hierbei der 
         Name der Ressourcengruppe übergeben. Über die Methode <code>getAppService</code>
         ist nun ein Zugriff auf die Ressourcen der Gruppe möglich:
 <pre>
@@ -1013,6 +1030,16 @@ getAppService().getResource("NameOfResource");
 // Get a list of all resources
 getAppService().getResources()
 </pre>
+      </p>
+      <p>
+        Die Ressourcengruppe, die über den Konnektor angefordert wird, darf nicht
+        in den Klassenpfad (Classpath) übernommen werden. Um das durch
+        <code>getResource()</code> zurück gegebene Objekt korrekt casten zu
+        können, muss daher das entsprechende AIDL-Interface aus der Ressourcengruppe 
+        heraus kopiert und in das Paket der Applikation übernommen werden.
+        Nachdem das Objekt dann auf dieses Interface gekastet wurde, ist der
+        Zugriff auf die Funktionen der Ressource möglich (vorrausgesetzt, das
+        entsprechende Privacy-Level ist gesetzt).
       </p>
       
       <h5>Weitere wichtige Konnektoren</h5>
