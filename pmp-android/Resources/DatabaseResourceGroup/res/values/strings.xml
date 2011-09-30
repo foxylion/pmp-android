@@ -3,7 +3,7 @@
     <string name="app_name">Database ResourceGroup</string><string name="service_name">Database Service</string><string name="resource_group_name">Database</string>
     
     
-    <string name="resource_group_description">The Database resource group provides easy access to the central managed databases managed</string>
+    <string name="resource_group_description">The Database resource group provides access to the databases managed by PMP</string>
     <string name="privacy_level_read_name">Read</string>
     <string name="privacy_level_read_description">Indicate the right to read an existed database</string>
     <string name="privacy_level_modify_name">Modify</string>
