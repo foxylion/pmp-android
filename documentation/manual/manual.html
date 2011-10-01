@@ -10,10 +10,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">29. September 2011</div>
+    <div id="page-head-date">01. Oktober 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 0.5</div>
+    <div id="page-version">Version 1.0</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -48,22 +48,22 @@
       </p>
       
       <h2 id="konventionen">Konventionen</h2>
-			<p>
+      <p>
         In diesem Dokument werden mehrere Konventionen verwendet, um knapp, 
         übersichtlich, lesbar und treffend zu sein:
-			  <ul>
-				  <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische 
+        <ul>
+          <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische 
             Maskulinum verwendet. Da die Deutsche Sprache hier keine zufrieden stellende 
             Alternative kennt, sind damit selbstverständlich auch alle weiblichen 
             Leserinnen angesprochen.</li>
-					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist 
+          <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist 
             allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe 
             aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch 
             grammatikalisch an die Deutsche Sprache angepasst.</li>
-					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so 
+          <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so 
             dargestellt: <span class="reference" title="#konventionen"></span></li>
-				</ul>
-			</p>
+        </ul>
+      </p>
       
       <h2 id="gliederung">Gliederung</h2>
       <p>
@@ -434,106 +434,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         <code>PrivacyLevel</code> erweitert und ihre abstrakten Methoden
         implementiert werden. Eine Liste aller zu implementierenden Methoden und
         deren Aufgaben entnehmen Sie bitte der API-Dokumentation.
-      </p>
-      <!--
-      HINWEIS: Da die API im Moment nicht fix ist, d.h. sich schon ein paarmal
-      verändert hat, habe ich mich für einen Verweis auf die API-Doku entschieden.
-      
-      <p>
-        Über <code>getName()</code> und <code>getDescription()</code> erhält der 
-        Anwender den <b>Namen</b> und die <b>Beschreibung</b> des Privacy-Levels. 
-        Beide Methoden erhalten als Parameter das Kürzel der Sprache, in der der 
-        jeweilige Wert zurückgegeben werden soll, wobei der Parameter der ISO-639 
-        Norm entspricht (z.B. &quot;en&quot; bei englisch, &quot;de&quot; bei deutsch).
-        Die Methoden müssen anschließen den zur jeweiligen Sprache gehörenden Wert 
-        zurück liefern. Es epmfiehlt sich allerdings den Parameter zu ignorieren
-        und stets den entsprechenden Werte aus der String-Ressource zu laden.
-      </p>
-
-      <p>
-        Über die Methode <code>getHumanReadablePrivacyLevelValue()</code> 
-        wird der <b>menschen lesbare Wert eines Privacy-Levels</b> zurückgegeben. 
-        Der erste Parameter entspricht dem oben erwähnten Sprachlkürzel.
-        Dieser gibt an, in welcher Sprache der Wert zurückgeliefert werden soll. 
-        Über den zweiten Wert wird der intern verwendete Wert des Privacy-Levels 
-        übergeben. Aus diesen Daten berechnet die Methode den für die Anzeige
-        geeigneten Text (z. B. wird aus dem internen Wert "r" und der gewählten 
-        Sprache "de" der Text "lesen" berechnet und zurückgegeben).
-        Wie bereits oben erwähnte, empfiehlt es sich auch hier, die String-Ressourcen
-        zu verwenden.
-      </p>
-        
-<pre>
-  public String getHumanReadablePrivacyLevelValue(String locale, String value) {
-    if (value.equals("r")) {
-      if (local.equals("de")) {
-        return "lesen";
-      } else {
-        return "read";
-      }
-    }
-
-    if (value.equals("w")) {
-      if (local.equals("de")) {
-        return "schreiben";
-      } else {
-        return "write";
-      }
-    }
-
-    if (value.equals("rw")) {
-      if (local.equals("de")) {
-        return "lesen/schreiben";
-      } else {
-        return "read/write";
-      }
-    }
-  }
-</pre>
-      </p>
-          
-      <p>
-        
-        Die Methode <code>isQualified()</code> erlaubt die Prüfung, ob ein bestimmtes
-        Privacy-Level in einem Anderen enhalten ist. Beispielsweise ist das Privacy-Level 
-        &quot;read&quot; in &quot;readwrite&quot; enthalten, nicht jedoch umgehrt. 
-        Dazu werden zwei Parameter übergeben. Anschließend erfolgt die Prüfung, 
-        ob das durch den ersten Parameter dargestellte Privacy-Level in dem 
-        Privacy-Level, das als zweiter Parameter übergeben wird, enthalten ist.
-        <hr />
-        Stimmt das so? Noch zu prüfen!
-        <hr />
-<pre>
-
-  public boolean isQualified(String reference, String value) {
-
-    // Abbrechen, wenn einer der Parameter null ist
-    if (reference == null || value == null) {
-      return false;
-    }
-
-    // &quot;lesen&quot; und &quot;schreiben&quot; sind im Privacy-Level &quot;lesen und schreiben&quot; enthalten
-    if (value.equals(&quot;rw&quot;) {
-      return true;
-    }
-    
-    // Alle Privacy-Levels sind in sich selbst enthalten
-    if (value.equals(reference)) {
-      return true;
-    }
-  }
-</pre>
-      </p>
-      <p>  
-        Um dem Benutzer das <b>Ändern des Privacy-Levels</b> zu ermöglichen, wird in 
-        &quot;changeValue()&quot; ein Dialog angezeigt, der alle verfügbaren Werte 
-        des Privacy-Levels auflistet und dem Benutzer eine Auswahl darin ermöglicht.
-        Um den aktuell verwendeten Wert hervorheben zu können, wird dieser der 
-        Methode übergeben. Wurde durch den Benutzer ein Wert gewählt und damit der
-        Dialog beendet, muss die Methoden den internen Namen des gewählten Werts 
-        zurückgeben.
-      </p>    
-      -->      
+      </p>      
       
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
       <p>
@@ -560,6 +461,14 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         Methode gelieferte Wert mit der Angabe in der Android-Manifest-Datei 
         übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.     
         (siehe <span class="reference" title="#devres_resgroup_manifest"></span>).
+        <br />
+        Um Komplikationen mit anderen Ressourcengruppen zu vermeiden, die
+        u. U. denselben Wert verwenden, sollte dieser auf den Namen des Basis-Paketes 
+        gesetzt werden, unterhalb dessen sich alle Klassen der Applikation befinden 
+        (Befinden sich alle Klassen unterhalb von 
+        <code>de.unistuttgart.ipvs.pmp.resources.filesystem</code>, sollte der 
+        Eintrag <code>&lt;action android:name="de.unistuttgart.ipvs.pmp.resources.filesystem" /></code> 
+        lauten). 
       </p>
 
       <p>
@@ -852,7 +761,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
         und darf jeweils nur von genau einem Service-Level verwendet werden. 
         Jedes Service-Level enthält mindestens einen unter Knoten 
         <code>&lt;requiredResourceGroup&gt;</code>, der als Attribute den Namen der
-        von diesem Service-Level benötigten Ressource und als unter Knoten die 
+        von diesem Service-Level benötigten Ressourcemgruppe und als unter Knoten die 
         Festlegung der Privacy-Levels besitzt:
 <pre>
   &lt;serviceLevels>
@@ -880,6 +789,11 @@ public class FileSystemResourceGroup extends ResourceGroup {
       ...
   &lt;/serviceLevels>
 </pre>
+        Der angegebene Name der Ressourcengruppe (Attribut <code>identifier</code>)
+        entspricht dem internen Namen des Ressourcengruppen-Services 
+        (<code>ResourceGroupService</code>), wie er in der Manifest-Datei der
+        Ressourcengruppe angegeben wurde (Name des <code>action</code>-Intentfilters, siehe
+        <span class="reference" title="#devres_resgroup_manifest"></span>).
       </p>
       
       <h3 id="devapp_impl">Implementierung</h3>
@@ -897,7 +811,8 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Zunächst muss der Service in der Manifest-Datei bekannt gemacht werden.
         Hierzu wird der Datei folgender Service hinzugefügt:
 <pre>
-&lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" android:exported="true">
+&lt;service android:name="de.unistuttgart.ipvs.pmp.service.app.AppService" 
+android:exported="true">
   &lt;intent-filter>
     &lt;action android:name="&raquo;Applikationsspezifischer Service-Name&laquo;" />
   &lt;/intent-filter>
@@ -1020,15 +935,25 @@ connector.bind();
         </a>
       </p>
       <p>
-        Dem Konstruktor wird hierbei der 
-        Name der Ressourcengruppe übergeben. Über die Methode <code>getAppService</code>
-        ist nun ein Zugriff auf die Ressourcen der Gruppe möglich:
+        Dem Konstruktor wird hierbei der Name der Ressourcengruppe übergeben, auf 
+        die zugegriffen werden soll. Über die Methode <code>getAppService()</code>
+        ist nun ein Zugriff auf die Ressourcen der Gruppe möglich. Es ist möglich,
+        das <code>getAppService()</code> "null" zurück liefert (etwa weil die
+        Ressourcengruppe nicht verfügbar ist). Daher ist es ratsam den Rückgabewert
+        vor der weiteren Verwendung dieser Methode zu prüfen: 
 <pre>
-// Get resource "NameOfResource
-getAppService().getResource("NameOfResource");
+// Let rgsCon be our reference to the ResourceGroupServiceConnector
+if (rgsCon.getAppService() == null) {
+  // Could not conntec to the ressource-group
+  ...
+} else {
+  // Get resource "NameOfResource
+  rgsCon.getAppService().getResource("NameOfResource");
 
-// Get a list of all resources
-getAppService().getResources()
+  // Get a list of all resources
+  rgsCon.getAppService().getResources();
+  ...
+}
 </pre>
       </p>
       <p>
@@ -1037,8 +962,8 @@ getAppService().getResources()
         <code>getResource()</code> zurück gegebene Objekt korrekt casten zu
         können, muss daher das entsprechende AIDL-Interface aus der Ressourcengruppe 
         heraus kopiert und in das Paket der Applikation übernommen werden.
-        Nachdem das Objekt dann auf dieses Interface gekastet wurde, ist der
-        Zugriff auf die Funktionen der Ressource möglich (vorrausgesetzt, das
+        Nachdem das Objekt dann auf dieses Interface gecastet wurde, ist der
+        Zugriff auf die Funktionen der Ressource möglich (vorausgesetzt, das
         entsprechende Privacy-Level ist gesetzt).
       </p>
       
@@ -1067,30 +992,35 @@ getAppService().getInitialServiceLevel()
       
       <h1 id="versions">Versionshistorie</h1> 
       
+      <h3>Version 1.0 (01.10.2011)</h3>
+      <ul>
+        <li>Letzte Prüfung des Handbuchs. Alle Kapitel fertig gestellt</li>
+      </ul>
+      
       <h3>Version 0.5 (29.09.2011)</h3>
-			<ul>
-			  <li>Mit Spezifikation abgeglichen, fehlende Abschnitte hinzugefügt</li>
-		  </ul>
-		  
+      <ul>
+        <li>Mit Spezifikation abgeglichen, fehlende Abschnitte hinzugefügt</li>
+      </ul>
+      
       <h3>Version 0.4 (28.09.2011)</h3>
-			<ul>
-			  <li>Bildschirmfotos hinzugefügt und Anwenderkapitel überarbeitet</li>
-		  </ul>
-		  
+      <ul>
+        <li>Bildschirmfotos hinzugefügt und Anwenderkapitel überarbeitet</li>
+      </ul>
+      
       <h3>Version 0.3 (26.09.2011)</h3>
-			<ul>
-			  <li>Kapitel zur Entwicklung von Applikationen hinzugefügt</li>
-		  </ul>
-		  
+      <ul>
+        <li>Kapitel zur Entwicklung von Applikationen hinzugefügt</li>
+      </ul>
+      
       <h3>Version 0.2 (24.09.2011)</h3>
-			<ul>
-			  <li>Kapitel zu Grundbegriffen hinzugefügt</li>
-		  </ul>
-		  
+      <ul>
+        <li>Kapitel zu Grundbegriffen hinzugefügt</li>
+      </ul>
+      
       <h3>Version 0.1 (20.09.2011)</h3>
-			<ul>
-			  <li>Kapitel zur Ressourcen-Entwicklung fertig gestellt</li>
-		  </ul>
+      <ul>
+        <li>Kapitel zur Ressourcen-Entwicklung fertig gestellt</li>
+      </ul>
     </div>
     <!-- // end of specification's content -->
   </div>
