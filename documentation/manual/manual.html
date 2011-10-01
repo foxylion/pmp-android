@@ -10,10 +10,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">28. September 2011</div>
+    <div id="page-head-date">29. September 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 0.4</div>
+    <div id="page-version">Version 0.5</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -47,6 +47,23 @@
         </ul> 
       </p>
       
+      <h2 id="konventionen">Konventionen</h2>
+			<p>
+        In diesem Dokument werden mehrere Konventionen verwendet, um knapp, 
+        übersichtlich, lesbar und treffend zu sein:
+			  <ul>
+				  <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische 
+            Maskulinum verwendet. Da die Deutsche Sprache hier keine zufrieden stellende 
+            Alternative kennt, sind damit selbstverständlich auch alle weiblichen 
+            Leserinnen angesprochen.</li>
+					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist 
+            allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe 
+            aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch 
+            grammatikalisch an die Deutsche Sprache angepasst.</li>
+					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so 
+            dargestellt: <span class="reference" title="#konventionen"></span></li>
+				</ul>
+			</p>
       
       <h2 id="gliederung">Gliederung</h2>
       <p>
@@ -60,7 +77,7 @@
             erst im erweiterten Modus (<span class="reference" title="#expertmode"></span>)
             verfügbar sind.</li>
           <li>"<span class="reference" title="#developers"></span>" richtet sich an 
-            Benutzer, die Ressourcengruppen oder Apps für die PMP entwickeln möchten.
+            Benutzer, die Ressourcengruppen oder Applikationen für die PMP entwickeln möchten.
             Der Unterabschnitt "<span class="reference" title="#devres"></span>"
             geht auf die Erstellung von Ressourcengruppen ein. Dagegen beschriebt           
             "<span class="reference" title="#devapp"></span>"
@@ -82,10 +99,10 @@
         installiert werden.
       </p>
       <p>
-        Jede Ressourcengruppe definiert mehrere sogenannte Privacy-Levels. Diese
+        Jede Ressourcengruppe definiert mehrere so genannte Privacy-Levels. Diese
         können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).
         Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource
-        möglich (ist etwa des Privay-Level "Datei lesen" gesetzt, das
+        möglich (ist etwa des Privacy-Level "Datei lesen" gesetzt, das
         Level "Datei schreiben" jedoch nicht, so erlaubt die Ressourcegruppe
         "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
       </p>
@@ -110,9 +127,42 @@
         des Geräts.
       </p>
       
+      <h1 id="req">Systemanforderungen</h1>
+      <p>
+        Um PMP installieren und ausführen zu können, muss auf dem Zielgerät mindestens
+        Android in der Version 2.1.1 installiert sein. Weitere Anforderungen
+        werden vom Basissystem der PMP nicht gestellt. Es ist jedoch möglich,
+        dass bestimmte Ressourcengruppen Funktion benötigen, die nicht auf allen
+        Geräten verfügbar sind (z. B. aktive GSM-Verbindung oder GPS-Ortung).
+        In der Beschreibung der jeweiligen Ressourcengruppe finden Sie in der Regel 
+        Informationen über deren Systemanforderungen.
+      </p>
+      
       <h1 id="user">Anwender</h1>
       <p>
         Dieser Abschnitt richtet sich an die Benutzer der PMP.
+      </p>
+      
+      <h2 id="inst">Installation</h2>
+      <p>
+        Die PMP wird wie eine gewöhnliche Android-Applikation installiert.
+        Hierzu wird entweder die apk-Datei der PMP-Anwendung auf das Gerät übertragen,
+        oder die PMP wird aus dem Android Market ausgewählt. Folgen Sie anschließend 
+        bitte den Anweisungen des Android-Betriebssystems.
+      </p>
+      
+      <h2 id="lang">Sprache</h2>
+      <p>
+        Die Beschriftung der Elemente der Benutzeroberfläche erfolgt in der 
+        Sprache, die als Geräte-Sprache in Android festgelegt ist.
+        Gegenwärtig enthält die PMP nicht für jede Sprache eine passende Übersetzung.
+        Sollte keine Übersetzung in der gewählten Gerätesprache vorhanden sein,
+        erfolgt die Beschriftung der Benutzeroberfläche in englischer Sprache.
+      </p> 
+      <p>
+        Da, wie bereits erwähnt, die Standard-Beschriftung auf Englisch erfolgt,
+        wird auch in den Bildschirmfotos und bei der Benennung der Schaltflächen 
+        in den folgenden Abschnitten die englische Variante verwendet.
       </p>
       
       <h2 id="mainmenu">Hauptmenü</h2>
@@ -133,7 +183,7 @@
         Gegenwärtig ist diese Funktion jedoch noch nicht integriert.
         Daher ist die entsprechende Schaltfläche nicht sichtbar.
       </p>
-      <div class="clear"></div>        
+      <div class="clear"></div>               
       
         
       <h2 id="modes">Anwender-Modi</h2>
@@ -209,7 +259,7 @@
         <ul>
           <li>Beim ersten Starten der Applikation</li>
           <li>Über die Anzeige der installierten Applikationen in der PMP (siehe
-            <span class="reference" title="#apps_show"></span>) und anschließndem
+            <span class="reference" title="#apps_show"></span>) und anschließendem
             Antippen der gewünschten Applikation</li>
         </ul>
       </p>
@@ -247,11 +297,11 @@
       <h3 id="res_inst">Ressourcengruppen installieren</h3>
       <img src="images/res_inst.png" alt="Installationsdialog einer Ressourcengruppe" style="width:215px;" class="right">
       <p>
-        PMP-Ressourcengruppen werden in Form einer Andorid-Applikation, einer apk-Datei,
+        PMP-Ressourcengruppen werden in Form einer Android-Applikation, einer apk-Datei,
         ausgeliefert. Der erste Schritt der Installation unterscheidet sich daher 
-        nicht von der Installation gewöhnlicher Andorid-Applikationen:
+        nicht von der Installation gewöhnlicher Android-Applikationen:
         Die apk-Datei wird auf das Gerät übertragen und geöffnet oder die
-        Ressourcengruppe wird aus dem App-Store ausgewählt. 
+        Ressourcengruppe wird aus dem Android Market ausgewählt. 
       </p>
       <p>
         Nach diesem Schritt muss sich die Applikation bei der PMP anmelden. Hierzu zeigt jede
@@ -269,7 +319,7 @@
       <h3 id="res_uninst">Ressourcengruppen deinstallieren</h3>
       <p>
         Wie bereits unter "<span class="reference" title="#res_inst"></span>" erwähnt,
-        werden PMP-Ressourcengruppen ähnlich wie gewöhnliche Andorid-Applikationen ausgeliefert
+        werden PMP-Ressourcengruppen ähnlich wie gewöhnliche Android-Applikationen ausgeliefert
         und installiert. Daher erfolgt auch die Deinstallation wie bei normalen
         Android-Applikationen: In der Anwendungsverwaltung von Android wird die 
         zu deinstallierende Ressourcengruppe ausgewählt und über die 
@@ -295,9 +345,12 @@
       
       
       <h2 id="devres">Ressourcen</h2>
+      <a href="images/structure_resourcegroup.jpg" target="_blank">
+        <img src="images/structure_resourcegroup.jpg" alt="Klassendiagramm" style="width:300px;" class="right">
+      </a>
       <p>
         Das Erstellen einer Ressourcengruppe und deren Ressourcen gliedert sich 
-        in folgende Schritten:
+        in folgende Schritte:
         <ul>
           <li>Bestimmen und Implementieren einzelner Ressourcen (z. B. jeweils eine 
             Ressource um eine Datei in verschiedenen Bereichen des Geräts zu lesen, 
@@ -318,6 +371,7 @@
         Der PMP liegen mehrere Ressourcengruppen und deren Quellcode bei. Diese können als Referenz 
         für das Erstellen eigener Ressourcengruppe verwendet werden.
       </p>
+      <div class="clear"></div>
       
       <h3 id="devres_res">Erstellen einer Ressource</h3>
       <p>
@@ -329,7 +383,7 @@
       </p>
 
       <p>
-        Zunächst wird eine AIDL-Interace erstellt, dass die für Anwendungen sichtbaren 
+        Zunächst wird ein AIDL-Interface erstellt, das die für Anwendungen sichtbaren 
         Funktionen der Ressource beinhaltet (etwa Datei lesen). Nachdem das Android-SDK aus 
         diesem Interface automatisch ein Stub erstellt hat, wird dieses implementiert, 
         um die Funktionalität der Ressource zu liefern.
@@ -494,7 +548,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         <b>Beschreibung</b> dieser. Zwar wird den Methoden im Parameter die
         Benutzersprache mit übergeben (ISO-639 Norm), aus Gründen der 
         Internationalisierbarkeit sollte dieser jedoch ignoriert werden und 
-        statt dessen der Namen bzw. die Beschreibung aus der String-Ressource geladen
+        stattdessen der Namen bzw. die Beschreibung aus der String-Ressource geladen
         werden.
       </p>
       <p>
@@ -523,7 +577,7 @@ plTwo = new BooleanPrivacyLevel(r.getString(R.string.pl_two),
         Damit die PMP mit der erstellten Ressourcengruppe kommunizieren kann,
         muss in der Manifest-Datei der so genannte <code>ResourceGroupService</code>
         eingetragen werden. Diesem Service wird ein <code>action</code>-Intentfilter
-        zugewiesen, der als Name den selben Wert enthält, wie er von der Methode
+        zugewiesen, der als Name denselben Wert enthält, wie er von der Methode
         <code>getServiceAndroidName()</code> der <code>ResourceGroup</code>
         zurück gegeben wird (siehe <span class="reference" title="#devres_resgroup_example"></span>).
       </p>
@@ -617,7 +671,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Innerhalb der erstellten Ressourcengruppe werden durch Aufruf der 
         Methode <code>registerResource()</code> die erstellten Ressourcen der 
         Gruppe zugeordnet. Um einen späteren Zugriff auf die einzelnen Ressourcen 
-        zu ermöglichen, wird neben der Referenz auf die Ressource noch eine String-Kürzel
+        zu ermöglichen, wird neben der Referenz auf die Ressource noch ein String-Kürzel
         mit übergeben. Dieses Kürzel sollte in eine Konstante ausgelagert werden um
         Fehler beim Zugriff durch Tipp-Fehler oder einen veränderten Wert auszuschließen.
         Es muss darauf geachtet werden, dass das String-Kürzel eindeutig ist.
@@ -678,6 +732,9 @@ public class FileSystemResourceGroup extends ResourceGroup {
 }
 </pre>
       <h3 id="devres_app">Erstellen der Anwendung</h3>
+      <a href="images/structure_resourcegroup_app.jpg" target="_blank">
+        <img src="images/structure_resourcegroup_app.jpg" alt="Klassendiagramm" style="width:300px;" class="right">
+      </a>
       <p>
         Um die Ressourcengruppen auf einem Gerät installieren zu können, wird eine 
         Anwendung benötigt, die die Ressourcengruppen kapselt.
@@ -701,7 +758,8 @@ public class FileSystemResourceGroup extends ResourceGroup {
         Implementierung der abstrakten Klasse <code>ResourceGroup</code> unumgänglich.
         Informationen über die zu implementierenden Methoden finden Sie in der
         API-Dokumentation.
-      </p>
+      </p>               
+      <div class="clear"></div>
       
       <h2 id="devapp">Applikationen</h2>
       <p>
@@ -801,8 +859,8 @@ public class FileSystemResourceGroup extends ResourceGroup {
   ...
     &lt;serviceLevel>
       &lt;level>1&lt;/level>
-      &lt;defaultName lang="en">&raquo;Name Level 1 auf englisch&laquo;&lt;/defaultName>
-      &lt;name lang="de">&raquo;Name Level 1 auf deutsch&laquo;&lt;/name>
+      &lt;defaultName lang="en">&raquo;Name Level 1 auf Englisch&laquo;&lt;/defaultName>
+      &lt;name lang="de">&raquo;Name Level 1 auf Deutsch&laquo;&lt;/name>
       ...
       &lt;defaultDescription lang="en">
         &raquo;Beschreibung des ersten Service-Levels in englischer Sprache&laquo;
@@ -831,7 +889,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
         so genannte <code>AppService</code>. Dieser regelt die Integration der
         Applikation in die PMP und verwaltet deren Service-Levels.
         Viele Funktionen dieses Services sind bereits fertig implementiert und in 
-        die PMP integriert, so dass nur die anwendungspezifische Funktionen 
+        die PMP integriert, so dass nur die anwendungspezifischen Funktionen 
         durch den Entwickler der Applikation festgelegt werden müssen.
       </p>
       <h5>Service in Manifest-Datei eintragen</h5>
@@ -845,7 +903,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
   &lt;/intent-filter>
 &lt;/service> 
 </pre>
-        Einzig variabler Wert ist hier der Name der Aktion innerhalb des Intent-Filters
+        Einzig variabler Wert ist hier der Name der Aktion innerhalb des Intentfilters
         ("&raquo;Applikationsspezifischer Service-Name&laquo;"). Der Wert dieses
         Attributes wird im weiteren Verlauf der Implementierung noch benötigt.
         Dieser Wert sollte auf den Namen des Basis-Paketes gesetzt werden, unterhalb
@@ -862,14 +920,14 @@ public class FileSystemResourceGroup extends ResourceGroup {
       </p>
       <p>
         Zentraler Punkt der Implementierung ist die Methode <code>getServiceAndroidName()</code>.
-        Diese muss exakt den <b>selben Wert</b> zurückliefern, wie er zuvor im <b>Intent-Filter</b>
+        Diese muss exakt den <b>selben Wert</b> zurückliefern, wie er zuvor im <b>Intentfilter</b>
         des Services (Manifest-Datei, siehe weiter oben) festgelegt wurde
         (in obigem Beispiel war dies <code>de.unistuttgart.ipvs.pmp.apps.ournewapp</code>).
       </p>     
       <p>
         Mithilfe der Methode <code>getXMLInputStream()</code> wird die in der 
         XML-Datei abgelegt <b>Service-Level-Definition eingelesen</b> und weiterverarbeitet.
-        Diese Methode muss lediglich einen Eingabe-Strom mit dem Inhalt diese Datei liefern.
+        Diese Methode muss lediglich einen Eingabe-Strom mit dem Inhalt dieser Datei liefern.
         Die weitere Verarbeitung wird dann von der PMP übernommen.
       </p>
       
@@ -950,10 +1008,19 @@ connector.bind();
       
       
       <h5>Anbindung an Ressourcen</h5>
+      
       <p>
         Der wichtigste Konnektor bei der Entwicklung einer Applikation ist
         <code>ResourceGroupServiceConnector</code>. Über diesen laufen alle
-        Zugriffe auf PMP-Ressourcen ab. Dem Konstruktor wird hierbei der 
+        Zugriffe auf PMP-Ressourcen ab:
+      </p>
+      <p>
+        <a href="images/access_resourcegroup.jpg" target="_blank">
+          <img src="images/access_resourcegroup_nostubs.jpg" alt="Klassendiagramm" style="width:100%">
+        </a>
+      </p>
+      <p>
+        Dem Konstruktor wird hierbei der 
         Name der Ressourcengruppe übergeben. Über die Methode <code>getAppService</code>
         ist nun ein Zugriff auf die Ressourcen der Gruppe möglich:
 <pre>
@@ -963,6 +1030,16 @@ getAppService().getResource("NameOfResource");
 // Get a list of all resources
 getAppService().getResources()
 </pre>
+      </p>
+      <p>
+        Die Ressourcengruppe, die über den Konnektor angefordert wird, darf nicht
+        in den Klassenpfad (Classpath) übernommen werden. Um das durch
+        <code>getResource()</code> zurück gegebene Objekt korrekt casten zu
+        können, muss daher das entsprechende AIDL-Interface aus der Ressourcengruppe 
+        heraus kopiert und in das Paket der Applikation übernommen werden.
+        Nachdem das Objekt dann auf dieses Interface gekastet wurde, ist der
+        Zugriff auf die Funktionen der Ressource möglich (vorrausgesetzt, das
+        entsprechende Privacy-Level ist gesetzt).
       </p>
       
       <h5>Weitere wichtige Konnektoren</h5>
@@ -990,9 +1067,14 @@ getAppService().getInitialServiceLevel()
       
       <h1 id="versions">Versionshistorie</h1> 
       
+      <h3>Version 0.5 (29.09.2011)</h3>
+			<ul>
+			  <li>Mit Spezifikation abgeglichen, fehlende Abschnitte hinzugefügt</li>
+		  </ul>
+		  
       <h3>Version 0.4 (28.09.2011)</h3>
 			<ul>
-			  <li>Bildschirmfotos hinzugefügt und Anwenderkapitel überabeitet</li>
+			  <li>Bildschirmfotos hinzugefügt und Anwenderkapitel überarbeitet</li>
 		  </ul>
 		  
       <h3>Version 0.3 (26.09.2011)</h3>
