@@ -13,17 +13,17 @@
 		<div id="page-head-date">28. September 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Systemtest-Protokoll für die<br/>1. Iteration</div>
-		
+
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
 			<ul>
 			</ul>
 		</nav>
-		
+
 		<!-- here comes the content of the system test protocol -->
 		<h1 id="versionshistorie">Versionshistorie</h1>
 			<p>Ein Protokoll hat keine Versionshistorie, da es nach dem Festhalten (also Protokollieren) der Ergebnisse und dem Bericht der Tester <b>nicht mehr</b> geändert werden darf, alles andere wäre Urkundenfälschung! Für ein neues Ergebnis <b>muss</b> ein neuer Test durchgeführt und eine neues Protokoll angelegt werden, eine falsche Information darf nur im Kapitel <span class="reference noIndex" title="#kommentare"></span> kommentiert werden.</p>
-			
+
 			<h2 id="reveisions">Revisionsvorgaben</h2>
 				<table>
 					<tr><th class="left">Gültiger Prüfplan</th><td>trunk:3e38a1451fc8cbdd1c35aad9f3738ca57e8ff718</td></tr>
@@ -31,77 +31,82 @@
 					<tr><th class="left">Programm-Code unter Test</th><td>trunk:9217c2aa0b8431e1046f3d24d1b1149280183bb4</td></tr>
 				</table>
 
-											
+
 		<h1 id="protokoll">Protokoll</h1>
 			<p>Dieses Kapitel dokumentiert die Durchführung jedes einzelnen Testfalls. Ein Testfall wird entweder mit "<span class="success">OK</span>" markiert, falls die Durchführung möglich war und Soll- und Ist-Wert übereinstimmen, oder andernfalls mit "<span class="fail">Nicht Bestanden</span>". Insbesondere im letzteren Fall oder wenn allgemein Auffälligkeiten auftreten (die nicht Teil des Tests sein müssen) ist ein detaillierterer Bericht erforderlich.</p>
-		
+
 			<h2 id="protokollfr">Funktionale Anforderungstests</h2>
-			
+
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>FT-1</td><td>tk</td><td class="success">OK</td></tr>
 				<tr><td>FT-2</td><td>tb</td><td class="success">OK</td></tr>
-				<tr><td>FT-3</td><td>fs</td><td></td></tr>
+				<tr><td>FT-3</td><td>fs</td><td class="success">OK</td></tr>
 				<tr><td>FT-4</td><td>-</td><td>-</td></tr>
 				<tr><td>FT-5</td><td>tk</td><td class="success">OK</td></tr>
 				<tr><td>FT-6</td><td>tb</td><td class="success">OK</td></tr>
-				<tr><td>FT-7</td><td>fs</td><td></td></tr>
+				<tr><td>FT-7</td><td>fs</td><td class="success">OK</td></tr>
 				<tr><td>FT-8</td><td>tk</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-9</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>FT-10</td><td>fs</td><td></td></tr>
+				<tr><td>FT-10</td><td>fs</td><td class="success">OK</td></tr>
 				<tr><td>FT-11</td><td>tk</td><td class="success">OK</td></tr>
 				<tr><td>FT-12</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>FT-13</td><td>fs</td><td></td></tr>
+				<tr><td>FT-13</td><td>fs</td><td class="success">OK</td></tr>
 				<tr><td>FT-14</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
 				<tr><td>FT-15</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
 				<tr><td>FT-16</td><td>tb</td><td class="success">OK</td></tr>
-				<tr><td>FT-17</td><td>fs</td><td></td></tr>
+				<tr><td>FT-17</td><td>fs</td><td class="success">OK</td></tr>
 			</table>
-			
+
 			<h2 id="protokollnfr">Nicht-funktionale Anforderungstests</h2>
-			
+
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>NFT-1</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
 				<tr><td>NFT-2</td><td>tb</td><td class="success">OK</td></tr>
-				<tr><td>NFT-3</td><td>fs</td><td></td></tr>
+				<tr><td>NFT-3</td><td>fs</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-4</td><td>tk</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-5</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>NFT-6</td><td>fs</td><td></td></tr>
+				<tr><td>NFT-6</td><td>fs</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-7</td><td>tk</td><td class="success">OK</td></tr>
 				<tr><td>NFT-8</td><td>tb</td><td class="success">OK</td></tr>
-				<tr><td>NFT-9</td><td>fs</td><td></td></tr>
+				<tr><td>NFT-9</td><td>fs</td><td class="fail">NICHT BESTANDEN></td></tr>
 				<tr><td>NFT-10</td><td>tk</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>NFT-11</td><td>fs</td><td></td></tr>
-				<tr><td>NFT-12</td><td>fs</td><td></td></tr>
-				<tr><td>NFT-13</td><td>fs</td><td></td></tr>
+				<tr><td>NFT-11</td><td>fs</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>NFT-12</td><td>fs</td><td class="success">OK</td></tr>
+				<tr><td>NFT-13</td><td>fs</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-14</td><td>tb</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-15</td><td>tk</td><td class="fail">(NICHT BESTANDEN)</td></tr>
-				<tr><td>NFT-16</td><td>fs</td><td></td></tr>
+				<tr><td>NFT-16</td><td>fs</td><td class="success">OK</td></tr>
 				<tr><td>NFT-17</td><td>tb</td><td class="success">OK</td></tr>
 			</table>
-		
+
 		<h1 id="bericht">Bericht</h1>
 			<p>In diesem Kapitel finden sich die Abschlussberichte der einzelnen Tester.</p>
-			
+
 			<h2 id="tester1">Tobias Kuhn</h2>
 			<p>FT-14, FT-15, NFT-1 und NFT-15 wurden im Systemtestplan als nicht erfüllbar markiert. Das heißt konkret, es ist (praktisch) unmöglich, sie im entwickelten Programm zu korrigieren, hier ist die Spezifikation grob fehlerhaft. Diese Tests werden daher hier kategorisch als "Nicht Bestanden" geführt, um die knappem Zeitvorgaben nicht weiter mit unnötigen Tests zu belasten. Der Test FT-4 ist nicht durchführbar, weil er nicht erstellt werden konnte.</p>
 			<p>FT-8 ist meines Erachtens falsch realisiert. Statt direkt eine Übersicht über die Details und die Service Level der App zu liefern, wird zunächst ein (unschöner) Dialog mit Details eingeblendet, auf dem man nochmal einen Button klicken müsste. Umständlicher, so nicht spezifiziert und damit war Schritt 4 nicht ausführbar.</p>
 			<p>In NFT-4 wurde zunächst der korrekte Sollzustand erreicht, d.h. PMP ist nicht abgestürzt, sehr wohl aber die RG selbst. Daher konnte die RG auch nicht aufgelistet werden.</p>
 			<p>Während der Durchführung von NFT-10 machten sich dieselben Probleme wie bei FT-8 bemerkbar. Die Versionskompatibilität schien kein Problem. Es fiel jedoch erneut auf, dass bei FT-9 und FT-10 der UC-Schritt 4 nicht stattfinden kann. Der UC-Schritt 9 in diesem Test schien ebenfalls nicht korrekt implementiert zu sein.</p>
-			
+
 			<h2 id="tester2">Frieder Schüler</h2>
-			
+			<p>NFT-3 wurde als "NICHT BESTANDEN" markiert, da die Datenbank Resource nicht in PMP aufgelistet wird. Deshalb ist Schritt 5 nicht ausführbar</p>
+			<p>NFT-6 wurde als "NICHT BESTANDEN" markiert, da die Datenbank Resource nicht in PMP aufgelistet wird. Deshalb ist Schritt 5 nicht ausführbar</p>
+			<p>NFT-9 wurde als "NICHT BESTANDEN" markiert, da die Calender App bei Punkt 4 abgestürzt ist.</p>
+			<p>NFT-11 wurde als "NICHT BESTANDEN" markiert, da der entsprechende Abschnitt im Handbuch fehlt</p>
+			<p>NFT-13 wurde als "NICHT BESTANDEN" markiert, da im Log keine Fehlermeldung über die fehlerhafte Registrierung auftaucht.</p>
+
 			<h2 id="tester3">Thorsten Berberich</h2>
 			<p>FT-9  und FT-12 wurden als "NICHT BESTANDEN" markiert, da der Ablauf in PMP nicht wie im Use Case spezifiziert ist. Wenn man eine App auswählt, werden nicht alle Service Levels angezeigt und das aktuelle Service Level nicht hervorgehoben. Schritt 4 ist somit nicht ausführbar.</p>
 			<p>NFT-5 wurde als "NICHT BESTANDEN" markiert, da die Datenbank Resource nicht in PMP aufgelistet wird. Deshalb ist Schritt 5 nicht ausführbar</p>
 			<p>NFT-14 wurde als "NICHT BESTANDEN" markiert, da das Kapitel über die Installation von PMP nicht im Handbuch gefunden werden konnte.</p>
-		
+
 		<h1 id="kommentare">Kommentare</h1>
 			<p>In diesem Kapitel finden sich Kommentare über Sachverhalte, die nach Fertigstellung des Protokolls festgestellt wurden.</p>
-		
+
 		</div>
-	
+
 		<!-- // end of system test plan's protocol -->
 	</div>
 </body>
