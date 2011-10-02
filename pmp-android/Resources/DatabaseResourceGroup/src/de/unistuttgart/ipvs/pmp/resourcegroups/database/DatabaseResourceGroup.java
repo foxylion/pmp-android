@@ -48,8 +48,6 @@ public class DatabaseResourceGroup extends ResourceGroup {
         registerPrivacyLevel(PRIVACY_LEVEL_READ, this.read);
         registerPrivacyLevel(PRIVACY_LEVEL_MODIFY, this.modify);
         registerPrivacyLevel(PRIVACY_LEVEL_CREATE, this.create);
-        Log.d("find this String: 2f93w48rj2r89wdjhf234ti8fshjke8f4");
-        registerPrivacyLevel(null, new BooleanPrivacyLevel("", ""));
         
         // Register the resource
         // TODO: Where should the resource be created? Only when an authorized
