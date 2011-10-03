@@ -44,6 +44,7 @@
 	<string name="export_override_cancel">Abbrechen</string>
 	<string name="export_toast_cancel">Exportieren wurden abgebrochen.</string>
 	<string name="export_toast_succeed">Exportieren war erfolgreich.</string>
+	<string name="export_toast_failed">Exportieren fehlgeschlagen.</string>
 	<string name="delete_file_toast">Datei gelöscht.</string>
 	<string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
 	<string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
@@ -58,4 +59,9 @@
 		können über das Menü hinzugefügt oder importiert werden.
 	</string>
 	<string name="no_files_available">Es sind keine Dateien verfügbar.</string>
+	<string name="empty_list_title">Keine Termineinträge vorhanden</string>
+	<string name="empty_list_message">Termineinträge können nicht exportiert werden. Es
+		sind keine Termineinträge vorhanden.</string>
+	<string name="invalid_file_name_title">Ungültiger Dateiname</string>
+	<string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
 </resources>

@@ -20,28 +20,8 @@
 	<string name="no_appointments_available">No appointments available. Press menu to add or
 	import appointments.</string>
 	<string name="no_files_available">There are no files available.</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<string name="empty_list_title">No appointments available</string>
+	<string name="empty_list_message">Can not export appointments. There are no appointments available</string>
 	<string name="err_create">Calendar couldn\'t create a database table. The app
 		will not function correctly.
 	</string>
@@ -53,6 +33,7 @@
 	<string name="delete_file_toast">File deleted.</string>
 	<string name="export_toast_succeed">Exporting appointments succeed.</string>
 	<string name="export_toast_cancel">Canceled exporting appointments.</string>
+	<string name="export_toast_failed">Exporting appointments failed.</string>
 	<string name="export_override_cancel">Cancel</string>
 	<string name="export_override_conf">Override</string>
 	<string name="export_override_attention">A file with this file name already exists. Do you
@@ -76,5 +57,6 @@
 	<string name="export_appointments">Export appointments</string>
 	<string name="import_appointments">Import appointments</string>
 	<string name="appoint">Appointment:</string>
-
+	<string name="invalid_file_name_title">Invalid file name</string>
+	<string name="invalid_file_name_message">The entered file name is invalid.</string>
 </resources>

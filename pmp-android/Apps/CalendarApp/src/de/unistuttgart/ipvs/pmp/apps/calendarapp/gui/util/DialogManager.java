@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
 public class DialogManager {
@@ -66,6 +68,7 @@ public class DialogManager {
         builder.setTitle(context.getString(R.string.insufficent_sl))
                 .setMessage(context.getString(R.string.insufficent_sl_message))
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    
                     // Close the dialog
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
@@ -82,6 +85,51 @@ public class DialogManager {
                         intent.putExtra("connection.identifier", "de.unistuttgart.ipvs.pmp.apps.calendarapp");
                         
                         Model.getInstance().getContext().startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    
+    
+    /**
+     * Show a dialog, if the appointment list is empty and the user want to export the list
+     * 
+     * @param context
+     *            the context
+     */
+    public void showAppointmentsListEmptyDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.empty_list_title))
+                .setMessage(context.getString(R.string.empty_list_message))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    
+                    // Close the dialog
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    
+    
+    /**
+     * Show a dialog, if the entered file name is invalid
+     * 
+     * @param context
+     *            the context
+     */
+    public void showInvalidFileNameDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.invalid_file_name_title))
+                .setMessage(context.getString(R.string.invalid_file_name_message))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    
+                    // Close the dialog
+                    public void onClick(DialogInterface dialog, int id) {
+                        FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
                         dialog.dismiss();
                     }
                 });

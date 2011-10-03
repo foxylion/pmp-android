@@ -17,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -90,6 +91,13 @@ public class FileSystemConnector {
      */
     public void exportAppointments(List<Appointment> appointments, final String fileName) {
         
+        // Check, if the filename is valid
+        if (!fileName.matches("[[a-zA-Z0-9]|.|_|\\-| ]*")) {
+            DialogManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
+            Log.d("Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
+            return;
+        }
+        
         // Create the export string
         StringBuilder exportStringBuilder = new StringBuilder();
         final String exportString;
@@ -158,6 +166,7 @@ public class FileSystemConnector {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("Exporting failed");
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed, Toast.LENGTH_SHORT);
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -404,9 +413,16 @@ public class FileSystemConnector {
                         if (invokeNextAction) {
                             switch (type) {
                                 case EXPORT:
-                                    // Open dialog for entering a file name
-                                    Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());
-                                    exportDialog.show();
+                                    // Check, if list of appointments is empty
+                                    List<Appointment> appointments = Model.getInstance().getAppointmentList();
+                                    if (appointments == null || appointments.size() == 0) {
+                                        Log.d("Can not export appointment. There are no appointments available!");
+                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(Model.getInstance().getContext());
+                                    } else {
+                                        // Open dialog for entering a file name
+                                        Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());
+                                        exportDialog.show();
+                                    }
                                     break;
                                 case IMPORT:
                                     // Open activity with file list
