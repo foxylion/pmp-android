@@ -234,7 +234,7 @@ public class FileSystemConnector {
                             Log.e("Importing failed!");
                         } else {
                             
-                            // The import string (splitted by newlines)
+                            // The import string (split by newlines)
                             String[] importArray = importString.split("\n");
                             
                             // Flag, if the import succeed
