@@ -1,8 +1,12 @@
 $(document).ready(function(){
 	generateContents();
 	writeReferences();
+	positionNavigation();
 });
- 
+
+$(window).resize(function() {
+	positionNavigation();
+});
  
 function generateContents() {
 	h1iter = 0;
@@ -68,4 +72,28 @@ function writeReferences() {
 	$('.reference').each(function() {
 		$(this).attr("title", "Springe zum Absatz");
 	});
+}
+
+function positionNavigation() {
+	if($("body").width() < 1180) {
+		$("nav").css("position", "static");
+		$("nav").css("width", "auto");
+		$("nav").css("margin", "0");
+		$("nav").css("padding", "0");
+		$("nav").css("left", "0");
+		$("nav").css("box-shadow", "none");
+		$("nav").css("border", "0");
+		$("div#wrapper").css("margin", "auto");
+		$("div#wrapper").css("left", "0");
+	} else {
+		$("nav").css("position", "fixed");
+		$("nav").css("width", "230pt");
+		$("nav").css("margin-left", "-560px");
+		$("nav").css("padding", "10px");
+		$("nav").css("left", "50%");
+		$("nav").css("box-shadow", "5px 5px 5px #555555;");
+		$("nav").css("border", "1px solid #cccccc;");
+		$("div#wrapper").css("margin-left", "-210px");
+		$("div#wrapper").css("left", "50%");
+	}
 }
