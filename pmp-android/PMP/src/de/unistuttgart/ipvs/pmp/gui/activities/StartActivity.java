@@ -40,6 +40,7 @@ public class StartActivity extends Activity {
      * Views of the Activity
      */
     TextView PMPLabel;
+    TextView PMPDescriptionLabel;
     Button apps;
     Button ressources;
     
@@ -49,15 +50,21 @@ public class StartActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        createParentLayout();
-        createChildren();
+//        createParentLayout();
+//        createChildren();
         
-        this.parentLayout.addView(this.PMPLabel);
-        this.parentLayout.addView(this.layout);
+//        this.parentLayout.addView(this.PMPLabel);
+//        this.parentLayout.addView(this.PMPDescriptionLabel);
+//        this.parentLayout.addView(this.layout);
+//        
+//        this.scroll.addView(this.parentLayout);
+//        
+//        setContentView(this.scroll);
         
-        this.scroll.addView(this.parentLayout);
+        setContentView(R.layout.start);
         
-        setContentView(this.scroll);
+        ((Button) findViewById(R.id.start_button_application)).setOnTouchListener(new ApplicationsListener());
+        ((Button) findViewById(R.id.start_button_resources)).setOnTouchListener(new RessourcesListener());
     }
     
     
@@ -67,12 +74,19 @@ public class StartActivity extends Activity {
     private void createChildren() {
         this.PMPLabel = new TextView(this);
         this.PMPLabel.setText("PMP");
-        this.PMPLabel.setTextColor(Color.rgb(46, 139, 87));
+        this.PMPLabel.setTextColor(Color.rgb(120, 120, 120));
         this.PMPLabel.setTextSize(150);
+        this.PMPLabel.setPadding(10, 10, 10, 10);
         this.PMPLabel.setGravity(Gravity.CENTER);
         
+        this.PMPDescriptionLabel = new TextView(this);
+        this.PMPDescriptionLabel.setText("Privacy Management Platform");
+        this.PMPDescriptionLabel.setTextColor(Color.rgb(75, 75, 75));
+        this.PMPLabel.setPadding(10, 10, 10, 10);
+        this.PMPDescriptionLabel.setGravity(Gravity.CENTER);
+        
         this.layout = new LinearLayout(this);
-        this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
+        this.layout.setBackgroundColor(Color.rgb(0, 0, 0));
         this.layout.setOrientation(LinearLayout.VERTICAL);
         this.layout.setVerticalGravity(Gravity.CENTER);
         
@@ -86,7 +100,6 @@ public class StartActivity extends Activity {
         
         this.layout.addView(this.apps);
         this.layout.addView(this.ressources);
-        
     }
     
     
@@ -97,10 +110,10 @@ public class StartActivity extends Activity {
         this.parentLayout = new LinearLayout(this);
         this.parentLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
         this.parentLayout.setOrientation(LinearLayout.VERTICAL);
-        this.parentLayout.setBackgroundColor(Color.rgb(211, 211, 211));
+        this.parentLayout.setBackgroundColor(Color.rgb(0, 0, 0));
         
         this.scroll = new ScrollView(this);
-        this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+        this.scroll.setBackgroundColor(Color.rgb(0, 0, 0));
         this.scroll.setLayoutParams(LayoutParamsCreator.createFPFP());
     }
 }

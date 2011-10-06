@@ -10,7 +10,7 @@
 
 		<!-- Activities can be declared here -->
 		<activity android:name=".gui.activities.StartActivity"
-			android:label="PMP">
+			android:label="PMP" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />

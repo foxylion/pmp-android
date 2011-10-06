@@ -116,16 +116,17 @@ public class ImagedButton extends LinearLayout {
         this.appName2 = new TextView(context);
         this.appName.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
         this.appName2.setLayoutParams(LayoutParamsCreator.createWCWC(1f));
+        this.appName.setPadding(5, 5, 5, 5);
         
         this.appName.setGravity(Gravity.CENTER_HORIZONTAL);
         this.appName.setText(name);
         
-        /*Sets the Appname max. to 10 Chars each line*/
-        if (name.length() > 10) {
-            String string = name.substring(0, 10);
-            String string2 = name.substring(10);
-            if (string2.length() > 10) {
-                string2 = string2.substring(0, 10);
+        /*Sets the Appname max. to 15 Chars each line*/
+        if (name.length() > 15) {
+            String string = name.substring(0, 15);
+            String string2 = name.substring(15);
+            if (string2.length() > 15) {
+                string2 = string2.substring(0, 15);
             }
             
             this.appName.setText(string);
@@ -163,11 +164,11 @@ public class ImagedButton extends LinearLayout {
          * isDown --> GREEN
          * !isDown--> BLUE*/
         if (this.isDown) {
-            this.paint2.setColor(Color.GREEN);
+            this.paint2.setColor(Color.parseColor("#aaaaaa"));
         } else {
-            this.paint2.setColor(Color.BLUE);
+            this.paint2.setColor(Color.WHITE);
         }
-        this.paint2.setAlpha(35);
+        //this.paint2.setAlpha(35);
         RectF rect2 = new RectF();
         rect2.set(0 + getPaddingLeft(), 0 + getPaddingTop(), getWidth() - getPaddingRight(), getHeight()
                 - getPaddingBottom());

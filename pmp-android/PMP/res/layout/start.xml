@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:textSize="150dp" android:text="PMP"
+		android:layout_width="fill_parent" android:layout_height="170dp"
+		android:paddingBottom="0dp" android:textColor="#ffffff"
+		android:background="#222222" android:shadowRadius="7"
+		android:shadowColor="#ffffff" android:layout_marginTop="-20dp"
+		android:gravity="center"></TextView>
+	<TextView android:textSize="20dp" android:text="Privacy Management Platform"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="center" android:paddingBottom="5dp"
+		android:textColor="#ffffff" android:shadowRadius="1"
+		android:shadowColor="#ffffff"
+		android:background="#222222"></TextView>
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#333333">
+		<Button android:text="@string/apps" android:id="@+id/start_button_application" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+		<Button android:text="@string/ress" android:id="@+id/start_button_resources" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+	</LinearLayout>
+	<TextView android:textAppearance="?android:attr/textAppearanceSmall" android:text="version 1.0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right"></TextView>
+</LinearLayout>

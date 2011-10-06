@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -56,13 +57,13 @@ public class RessourcesActivity extends Activity {
         /* Check if there are resources available */
         if (loadRes()) {
             this.scroll = new ScrollView(this);
-            this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+          //  this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
             this.layout.addView(this.actRow);
             this.scroll.addView(this.layout);
             setContentView(this.scroll);
         } else {
             LinearLayout layoutEmpty = new LinearLayout(this);
-            layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
+           // layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
             setContentView(layoutEmpty);
         }
     }
@@ -76,7 +77,7 @@ public class RessourcesActivity extends Activity {
         this.layout.setScrollBarStyle(0);
         this.layout.setStretchAllColumns(true);
         this.layout.setLayoutParams(LayoutParamsCreator.createFPFP());
-        this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
+      //  this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
     }
     
     
@@ -100,7 +101,7 @@ public class RessourcesActivity extends Activity {
             
             /* Filling the Table with Apps each row 3 */
             for (int i = 0; i < resCount; i++) {
-                if (i % 3 == 0) {
+                if (i % 2 == 0) {
                     this.layout.addView(this.actRow);
                     this.actRow = new TableRow(this);
                     this.actRow.setLayoutParams(LayoutParamsCreator.createFPWC());
@@ -183,6 +184,12 @@ class OnResClickListener implements OnClickListener {
         layout.addView(close);
         
         dialog.setContentView(layout);
+        
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.FILL_PARENT;
+        lp.height = WindowManager.LayoutParams.FILL_PARENT;
+        dialog.getWindow().setAttributes(lp);
         
         return dialog;
     }

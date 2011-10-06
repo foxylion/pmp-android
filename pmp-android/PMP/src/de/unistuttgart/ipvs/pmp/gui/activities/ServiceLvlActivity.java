@@ -10,9 +10,12 @@ import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
@@ -69,10 +72,25 @@ public class ServiceLvlActivity extends Activity {
         this.setTitle(this.getString(R.string.servive_level_for) + " " + this.appName);
         createParentLayout();
         loadServiceLevels();
+        
         this.scroll = new ScrollView(this);
         this.scroll.addView(this.parentLayout);
-        this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
-        setContentView(this.scroll);
+        //this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+        
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.setLayoutParams(LayoutParamsCreator.createFPFP());
+        
+        TextView tv = new TextView(this);
+        tv.setText(R.string.set_service_level_hint);
+        tv.setBackgroundColor(Color.GRAY);
+        tv.setTextColor(Color.BLACK);
+        tv.setPadding(5, 5, 5, 10);
+        
+        ll.addView(tv);
+        ll.addView(this.scroll);
+        
+        setContentView(ll);
     }
     
     
@@ -102,11 +120,20 @@ public class ServiceLvlActivity extends Activity {
         /* Iterate over Service Levels */
         for (int i = 0; i < levelArray.length; i++) {
             RadioButton button = new RadioButton(this);
-            button.setBackgroundColor(Color.rgb(211, 211, 211));
+            //button.setBackgroundColor(Color.rgb(211, 211, 211));
             button.setLayoutParams(LayoutParamsCreator.createFPWC());
-            button.setGravity(Gravity.CENTER);
-            button.setTextColor(Color.BLACK);
-            button.setText(levelArray[i].getName());
+            button.setGravity(Gravity.LEFT);
+            button.setTextColor(Color.WHITE);
+            
+            Spanned sp = Html.fromHtml("<b>Service Level " + levelArray[i].getLevel() + "</b><br>"
+                    + levelArray[i].getName());
+            button.setText(sp);
+            
+            if (i % 2 == 0) {
+                button.setBackgroundColor(Color.parseColor("#222222"));
+            } else {
+                button.setBackgroundColor(Color.BLACK);
+            }
             
             /* Check if Service Level is set */
             if (app.getActiveServiceLevel().getLevel() == i) {
@@ -191,11 +218,13 @@ class OnLevelTouchListener implements OnTouchListener {
      * @return Dialog
      */
     private Dialog createDialog() {
+        IServiceLevel sl = ModelSingleton.getInstance().getModel().getApp(identifier).getServiceLevel(levelID);
+        
         /* Dialog */
         final Dialog dialog = new Dialog(this.context);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(true);
-        dialog.setTitle(R.string.apply_service_level);
+        dialog.setTitle(context.getString(R.string.service_level) + " " + sl.getLevel());
         
         /**
          * Reloading the ServiceLvlActivity if no changes occur
@@ -217,20 +246,19 @@ class OnLevelTouchListener implements OnTouchListener {
         
         String req_res = "";
         String old_res = "";
-        int PLlength = ModelSingleton.getInstance().getModel().getApp(identifier).getServiceLevel(levelID)
-                .getPrivacyLevels().length;
-        IPrivacyLevel[] plevels = ModelSingleton.getInstance().getModel().getApp(identifier).getServiceLevel(levelID)
-                .getPrivacyLevels();
+        int PLlength = sl.getPrivacyLevels().length;
+        IPrivacyLevel[] plevels = sl.getPrivacyLevels();
         for (int j = 0; j < PLlength; j++) {
             if (old_res.contentEquals(plevels[j].getResourceGroup().getName())) {
                 ;
             } else {
                 old_res = plevels[j].getResourceGroup().getName();
-                req_res = req_res + plevels[j].getResourceGroup().getName() + "\n";
+                req_res = req_res + "- " + plevels[j].getResourceGroup().getName() + "<br>";
             }
         }
         
-        description.setText(this.lvlDescr + "\n" + this.context.getString(R.string.required_resource) + "\n" + req_res);
+        description.setText(Html.fromHtml("<b>" + sl.getName() + "</b><br>" + sl.getDescription() + "<br><br><b>"
+                + this.context.getString(R.string.required_resource) + "</b><br>" + req_res));
         
         description.setPadding(10, 0, 10, 0);
         
@@ -300,6 +328,11 @@ class OnLevelTouchListener implements OnTouchListener {
             }
         });
         
+        /* The hint for applying */
+        TextView applyHint = new TextView(this.context);
+        applyHint.setText(R.string.service_level_apply_hint);
+        applyHint.setPadding(10, 0, 10, 0);
+        
         /* DialogLayout which holds the description and the buttonLayout */
         LinearLayout dialogLayout = new LinearLayout(this.context);
         dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
@@ -317,8 +350,15 @@ class OnLevelTouchListener implements OnTouchListener {
         buttonLayout.addView(cancel);
         
         dialogLayout.addView(dialogScroll);
+        dialogLayout.addView(applyHint);
         dialogLayout.addView(buttonLayout);
         dialog.setContentView(dialogLayout);
+        
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.FILL_PARENT;
+        lp.height = WindowManager.LayoutParams.FILL_PARENT;
+        dialog.getWindow().setAttributes(lp);
         
         return dialog;
     }
