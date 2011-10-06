@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector;
 
 import java.util.ArrayList;
@@ -95,13 +114,14 @@ public class SqlConnector {
                     // Get resource
                     IDatabaseConnection idc = null;
                     try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
-                                .getResource(SqlConnector.this.resIdentifier));
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+                                SqlConnector.this.resIdentifier));
                         
                         ArrayList<Appointment> todoList = new ArrayList<Appointment>();
                         
                         // Getting the number of the rows
-                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null, SqlConnector.this.DATE);
+                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
+                                SqlConnector.this.DATE);
                         
                         // Getting the rows 
                         for (int itr = 0; itr < rowCount; itr++) {
@@ -125,12 +145,14 @@ public class SqlConnector {
                         }
                         Model.getInstance().loadAppointments(todoList);
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_load),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_load),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -186,34 +208,37 @@ public class SqlConnector {
                     // Get resource
                     IDatabaseConnection idc = null;
                     try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
-                                .getResource(SqlConnector.this.resIdentifier));
- 
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+                                SqlConnector.this.resIdentifier));
+                        
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
                         int id = getNewId();
                         values.put(SqlConnector.this.ID, String.valueOf(id));
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
-
+                        
                         long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
                         Log.v("Return value of insert: " + result);
                         if (result != -1) {
-                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date + " description: "
-                                    + description);
+                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
+                                    + " description: " + description);
                             Model.getInstance().addAppointment(new Appointment(id, description, date));
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Model.getInstance().getContext(),
+                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+                                    .show();
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_store),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -267,8 +292,8 @@ public class SqlConnector {
                     // Get resource
                     IDatabaseConnection idc = null;
                     try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
-                                .getResource(SqlConnector.this.resIdentifier));
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+                                SqlConnector.this.resIdentifier));
                         String[] args = new String[1];
                         args[0] = String.valueOf(id);
                         /*
@@ -279,16 +304,19 @@ public class SqlConnector {
                             Log.v("Deleting date: id: " + String.valueOf(id));
                             Model.getInstance().deleteAppointmentByID(id);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Model.getInstance().getContext(),
+                                    Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_del),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -346,8 +374,8 @@ public class SqlConnector {
                     // Get resource
                     IDatabaseConnection idc = null;
                     try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService()
-                                .getResource(SqlConnector.this.resIdentifier));
+                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+                                SqlConnector.this.resIdentifier));
                         Map<String, String> values = new HashMap<String, String>();
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
                         values.put(SqlConnector.this.DESC, description);
@@ -362,16 +390,19 @@ public class SqlConnector {
                                     + " description: " + description);
                             Model.getInstance().changeAppointment(id, date, description);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Model.getInstance().getContext(),
+                                    Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {
@@ -423,7 +454,7 @@ public class SqlConnector {
                         idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
                                 SqlConnector.this.resIdentifier));
                         
-                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)){
+                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
                             Map<String, String> columns = new HashMap<String, String>();
                             columns.put(SqlConnector.this.ID, "TEXT");
                             columns.put(SqlConnector.this.DATE, "TEXT");
@@ -440,12 +471,14 @@ public class SqlConnector {
                             Log.v("Table already exists");
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Remote Exception", e);
                     } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(), Model.getInstance().getContext().getString(R.string.err_change),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+                                .show();
                         Log.e("Exception", e);
                     } finally {
                         if (idc != null) {

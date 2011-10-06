@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
 import java.text.SimpleDateFormat;
@@ -13,11 +32,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
@@ -172,8 +191,8 @@ public class CalendarAppActivity extends ListActivity {
                  * Connect to the EmailResourceGroup and send an mail with the date
                  */
                 final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
-                final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(appContext,
-                        ((CalendarApp) appContext).getSignee(), resGroupId);
+                final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(this.appContext,
+                        ((CalendarApp) this.appContext).getSignee(), resGroupId);
                 resGroupCon.addCallbackHandler(new IConnectorCallback() {
                     
                     @Override
@@ -312,9 +331,9 @@ public class CalendarAppActivity extends ListActivity {
         // add text view "no appointments available", if the list is empty
         TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
         if (Model.getInstance().getAppointmentList().size() > 0) {
-            tv.setVisibility(TextView.GONE);
+            tv.setVisibility(View.GONE);
         } else {
-            tv.setVisibility(TextView.VISIBLE);
+            tv.setVisibility(View.VISIBLE);
         }
     }
 }

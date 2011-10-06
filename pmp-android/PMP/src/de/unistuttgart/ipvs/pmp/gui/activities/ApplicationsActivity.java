@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
 import java.util.Arrays;
@@ -6,11 +25,11 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -157,23 +176,23 @@ class OnAppClickListener implements OnClickListener {
     
     @Override
     public void onClick(View v) {
-        final Dialog dialog = new Dialog(parent.getContext());
+        final Dialog dialog = new Dialog(this.parent.getContext());
         
-        IApp currentApp = ModelSingleton.getInstance().getModel().getApp(parent.getIdentifier());
+        IApp currentApp = ModelSingleton.getInstance().getModel().getApp(this.parent.getIdentifier());
         
         dialog.setTitle(currentApp.getName());
         
-        TextView descriptionView = new TextView(parent.getContext());
+        TextView descriptionView = new TextView(this.parent.getContext());
         descriptionView.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
         descriptionView.setText(currentApp.getDescription());
         
-        TextView setSL = new TextView(parent.getContext());
+        TextView setSL = new TextView(this.parent.getContext());
         setSL.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
         setSL.setText(Html.fromHtml("<br><b>Active Service Level " + currentApp.getActiveServiceLevel().getLevel()
                 + ":</b><br>" + currentApp.getActiveServiceLevel().getName()));
         
-        Button changeSL = new Button(parent.getContext());
-        changeSL.setText(parent.getContext().getString(R.string.change_sl));
+        Button changeSL = new Button(this.parent.getContext());
+        changeSL.setText(this.parent.getContext().getString(R.string.change_sl));
         changeSL.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
         changeSL.setOnClickListener(new OnClickListener() {
             
@@ -184,7 +203,7 @@ class OnAppClickListener implements OnClickListener {
                  * Call Privacy Level Activity with the specified Intent
                  */
                 Intent intent = new Intent(v.getContext(), ServiceLvlActivity.class);
-                intent.putExtra(Constants.INTENT_IDENTIFIER, parent.getIdentifier());
+                intent.putExtra(Constants.INTENT_IDENTIFIER, OnAppClickListener.this.parent.getIdentifier());
                 
                 if (v.getContext() != null) {
                     dialog.dismiss();
@@ -193,8 +212,8 @@ class OnAppClickListener implements OnClickListener {
             }
         });
         
-        Button close = new Button(parent.getContext());
-        close.setText(parent.getContext().getString(R.string.close));
+        Button close = new Button(this.parent.getContext());
+        close.setText(this.parent.getContext().getString(R.string.close));
         close.setLayoutParams(LayoutParamsCreator.createFPFP(1f));
         close.setOnClickListener(new OnClickListener() {
             
@@ -204,17 +223,17 @@ class OnAppClickListener implements OnClickListener {
             }
         });
         
-        LinearLayout dialogLayout = new LinearLayout(parent.getContext());
+        LinearLayout dialogLayout = new LinearLayout(this.parent.getContext());
         dialogLayout.setLayoutParams(LayoutParamsCreator.createFPFP());
         dialogLayout.setOrientation(LinearLayout.VERTICAL);
         
-        LinearLayout buttonLayout = new LinearLayout(parent.getContext());
+        LinearLayout buttonLayout = new LinearLayout(this.parent.getContext());
         buttonLayout.addView(changeSL);
         buttonLayout.addView(close);
         
-        LinearLayout inScrollLayout = new LinearLayout(parent.getContext());
+        LinearLayout inScrollLayout = new LinearLayout(this.parent.getContext());
         inScrollLayout.setOrientation(LinearLayout.VERTICAL);
-        ScrollView scrollView = new ScrollView(parent.getContext());
+        ScrollView scrollView = new ScrollView(this.parent.getContext());
         scrollView.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
         
         inScrollLayout.addView(descriptionView);
@@ -229,8 +248,8 @@ class OnAppClickListener implements OnClickListener {
         
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.FILL_PARENT;
-        lp.height = WindowManager.LayoutParams.FILL_PARENT;
+        lp.width = LayoutParams.FILL_PARENT;
+        lp.height = LayoutParams.FILL_PARENT;
         dialog.getWindow().setAttributes(lp);
         
         dialog.show();

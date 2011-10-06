@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs;
 
 import android.app.AlertDialog;
@@ -53,11 +72,11 @@ public class ExportDialog extends Dialog {
         
         this.setTitle(R.string.export_appointments);
         
-        fileTextView = (TextView) findViewById(R.id.export_file_name_input);
+        this.fileTextView = (TextView) findViewById(R.id.export_file_name_input);
         
-        confirm = (Button) findViewById(R.id.ExportConfirmButton);
+        this.confirm = (Button) findViewById(R.id.ExportConfirmButton);
         
-        confirm.setOnClickListener(new ConfirmListener());
+        this.confirm.setOnClickListener(new ConfirmListener());
         
         /*
          * Neeeded to fill the width of the screen
@@ -79,7 +98,7 @@ public class ExportDialog extends Dialog {
         @Override
         public void onClick(View v) {
             
-            final String fileName = fileTextView.getText().toString();
+            final String fileName = ExportDialog.this.fileTextView.getText().toString();
             
             if (!Model.getInstance().isFileNameExisting(fileName)) {
                 Log.d("Exporting...");

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector;
 
 import java.text.SimpleDateFormat;
@@ -166,7 +185,8 @@ public class FileSystemConnector {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e("Exporting failed");
-                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed, Toast.LENGTH_SHORT);
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed,
+                                    Toast.LENGTH_SHORT);
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -195,7 +215,7 @@ public class FileSystemConnector {
     public void importAppointments(final String fileName) {
         
         // clear the import string
-        importString = null;
+        this.importString = null;
         
         // The resource group connection
         final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
@@ -227,15 +247,15 @@ public class FileSystemConnector {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
                                 resourceIdentifier));
                         // Read the file
-                        importString = ifa.read(FOLDER_NAME + "/" + fileName);
+                        FileSystemConnector.this.importString = ifa.read(FOLDER_NAME + "/" + fileName);
                         
                         // Check, if the import string is null
-                        if (importString == null) {
+                        if (FileSystemConnector.this.importString == null) {
                             Log.e("Importing failed!");
                         } else {
                             
                             // The import string (split by newlines)
-                            String[] importArray = importString.split("\n");
+                            String[] importArray = FileSystemConnector.this.importString.split("\n");
                             
                             // Flag, if the import succeed
                             boolean success = true;
@@ -417,7 +437,8 @@ public class FileSystemConnector {
                                     List<Appointment> appointments = Model.getInstance().getAppointmentList();
                                     if (appointments == null || appointments.size() == 0) {
                                         Log.d("Can not export appointment. There are no appointments available!");
-                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(Model.getInstance().getContext());
+                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(
+                                                Model.getInstance().getContext());
                                     } else {
                                         // Open dialog for entering a file name
                                         Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());

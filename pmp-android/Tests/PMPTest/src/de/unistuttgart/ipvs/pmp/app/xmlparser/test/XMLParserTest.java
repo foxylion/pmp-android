@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMPTest
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.app.xmlparser.test;
 
 import java.io.FileNotFoundException;
@@ -272,50 +291,54 @@ public class XMLParserTest extends InstrumentationTestCase {
         }
     }
     
-    /** Tests a file having more than one descriptions with the same locale in a service-level.
-    * 
-    * @throws FileNotFoundException
-    *             Thrown, if test-files does not exist
-    */
-   public void testSameLocaleForDescServiceLevel() throws IOException {
-       try {
-           this.parser.parse(openAssetFile("SameLocaleForDescServiceLevel.xml"));
-           fail("Parser accepted malformed XML file!");
-       } catch (XMLParserException e) {
-           assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
-       }
-   }
-   
-   
-   /**
-    * Tests a file having more than one name with the same locale in a service-level.
-    * 
-    * @throws FileNotFoundException
-    *             Thrown, if test-files does not exist
-    */
-   public void testSameLocaleForNameServiceLevel() throws IOException {
-       try {
-           this.parser.parse(openAssetFile("SameLocaleForNameServiceLevel.xml"));
-           fail("Parser accepted malformed XML file!");
-       } catch (XMLParserException e) {
-           assertEquals("Test exception type", Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
-       }
-   }
-   
-   /**
-    * Tests a file having a service-level with privacy-levels that have the same identifier.
-    * 
-    * @throws FileNotFoundException
-    *             Thrown, if test-files does not exist
-    */
-   public void testPrivacyLevelWithSameIdentifier() throws IOException {
-       try {
-           this.parser.parse(openAssetFile("PrivacyLevelWithSameIdentifier.xml"));
-           fail("Parser accepted malformed XML file!");
-       } catch (XMLParserException e) {
-           assertEquals("Test exception type", Type.PRIVACY_LEVEL_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, e.getType());
-       }
-   }    
+    
+    /**
+     * Tests a file having more than one descriptions with the same locale in a service-level.
+     * 
+     * @throws FileNotFoundException
+     *             Thrown, if test-files does not exist
+     */
+    public void testSameLocaleForDescServiceLevel() throws IOException {
+        try {
+            this.parser.parse(openAssetFile("SameLocaleForDescServiceLevel.xml"));
+            fail("Parser accepted malformed XML file!");
+        } catch (XMLParserException e) {
+            assertEquals("Test exception type", Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+        }
+    }
+    
+    
+    /**
+     * Tests a file having more than one name with the same locale in a service-level.
+     * 
+     * @throws FileNotFoundException
+     *             Thrown, if test-files does not exist
+     */
+    public void testSameLocaleForNameServiceLevel() throws IOException {
+        try {
+            this.parser.parse(openAssetFile("SameLocaleForNameServiceLevel.xml"));
+            fail("Parser accepted malformed XML file!");
+        } catch (XMLParserException e) {
+            assertEquals("Test exception type", Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, e.getType());
+        }
+    }
+    
+    
+    /**
+     * Tests a file having a service-level with privacy-levels that have the same identifier.
+     * 
+     * @throws FileNotFoundException
+     *             Thrown, if test-files does not exist
+     */
+    public void testPrivacyLevelWithSameIdentifier() throws IOException {
+        try {
+            this.parser.parse(openAssetFile("PrivacyLevelWithSameIdentifier.xml"));
+            fail("Parser accepted malformed XML file!");
+        } catch (XMLParserException e) {
+            assertEquals("Test exception type", Type.PRIVACY_LEVEL_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, e.getType());
+        }
+    }
+    
     
     /**
 	 * 

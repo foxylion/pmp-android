@@ -1,9 +1,33 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMPTest
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.service.resource;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.test.ServiceTestCase;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
@@ -11,11 +35,6 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroupSingleApp;
 import de.unistuttgart.ipvs.pmp.service.INullService;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
-import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
-import android.os.RemoteException;
-import android.test.ServiceTestCase;
 
 public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupService> {
     
@@ -48,21 +67,21 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
     protected void setUp() throws Exception {
         super.setUp();
         
-        setApplication(rgApp);
+        setApplication(this.rgApp);
         
-        rgApp.onCreate();
+        this.rgApp.onCreate();
         
         /* first clear all public keys, then inject the public keys */
-        rgApp.getResourceGroup().getSignee().clearRemotePublicKeys();
-        rgApp.getResourceGroup().getSignee()
-                .setRemotePublicKey(PMPComponentType.PMP, "test.pmp", testSignee.getLocalPublicKey());
-        rgApp.getResourceGroup().getSignee()
-                .setRemotePublicKey(PMPComponentType.APP, "test.app", testSignee.getLocalPublicKey());
-        rgApp.getResourceGroup().getSignee()
-                .setRemotePublicKey(PMPComponentType.RESOURCE_GROUP, "test.rg", testSignee.getLocalPublicKey());
+        this.rgApp.getResourceGroup().getSignee().clearRemotePublicKeys();
+        this.rgApp.getResourceGroup().getSignee()
+                .setRemotePublicKey(PMPComponentType.PMP, "test.pmp", this.testSignee.getLocalPublicKey());
+        this.rgApp.getResourceGroup().getSignee()
+                .setRemotePublicKey(PMPComponentType.APP, "test.app", this.testSignee.getLocalPublicKey());
+        this.rgApp.getResourceGroup().getSignee()
+                .setRemotePublicKey(PMPComponentType.RESOURCE_GROUP, "test.rg", this.testSignee.getLocalPublicKey());
         
-        intent = new Intent();
-        intent.setClass(getSystemContext(), ResourceGroupService.class);
+        this.intent = new Intent();
+        this.intent.setClass(getSystemContext(), ResourceGroupService.class);
     }
     
     
@@ -70,11 +89,11 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
      * Bind as a known PMP-Client.
      */
     public void testSimplePMPBind() {
-        intent.putExtra(Constants.INTENT_IDENTIFIER, "test.pmp");
-        intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.PMP);
-        intent.putExtra(Constants.INTENT_SIGNATURE, testSignee.signContent("test.rg".getBytes()));
+        this.intent.putExtra(Constants.INTENT_IDENTIFIER, "test.pmp");
+        this.intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.PMP);
+        this.intent.putExtra(Constants.INTENT_SIGNATURE, this.testSignee.signContent("test.rg".getBytes()));
         
-        IBinder binder = bindService(intent);
+        IBinder binder = bindService(this.intent);
         try {
             assertEquals(IResourceGroupServicePMP.class.getName(), binder.getInterfaceDescriptor());
         } catch (RemoteException e) {
@@ -88,11 +107,11 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
      * Bind as a known App-Client.
      */
     public void testSimpleAppBind() {
-        intent.putExtra(Constants.INTENT_IDENTIFIER, "test.app");
-        intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.APP);
-        intent.putExtra(Constants.INTENT_SIGNATURE, testSignee.signContent("test.rg".getBytes()));
+        this.intent.putExtra(Constants.INTENT_IDENTIFIER, "test.app");
+        this.intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.APP);
+        this.intent.putExtra(Constants.INTENT_SIGNATURE, this.testSignee.signContent("test.rg".getBytes()));
         
-        IBinder binder = bindService(intent);
+        IBinder binder = bindService(this.intent);
         try {
             assertEquals(IResourceGroupServiceApp.class.getName(), binder.getInterfaceDescriptor());
         } catch (RemoteException e) {
@@ -106,11 +125,11 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
      * Bind as a known but not really possible ResourceGroup-Client.
      */
     public void testSimpleUnknownBind() {
-        intent.putExtra(Constants.INTENT_IDENTIFIER, "test.rg");
-        intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.RESOURCE_GROUP);
-        intent.putExtra(Constants.INTENT_SIGNATURE, testSignee.signContent("test.rg".getBytes()));
+        this.intent.putExtra(Constants.INTENT_IDENTIFIER, "test.rg");
+        this.intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.RESOURCE_GROUP);
+        this.intent.putExtra(Constants.INTENT_SIGNATURE, this.testSignee.signContent("test.rg".getBytes()));
         
-        IBinder binder = bindService(intent);
+        IBinder binder = bindService(this.intent);
         try {
             assertEquals(INullService.class.getName(), binder.getInterfaceDescriptor());
         } catch (RemoteException e) {
@@ -124,11 +143,11 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
      * Test some uncommon bindings.
      */
     public void testSimpleUncommonBind() {
-        intent.putExtra(Constants.INTENT_IDENTIFIER, "");
-        intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.NONE);
-        intent.putExtra(Constants.INTENT_SIGNATURE, new byte[0]);
+        this.intent.putExtra(Constants.INTENT_IDENTIFIER, "");
+        this.intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.NONE);
+        this.intent.putExtra(Constants.INTENT_SIGNATURE, new byte[0]);
         
-        IBinder binder = bindService(intent);
+        IBinder binder = bindService(this.intent);
         try {
             assertEquals(INullService.class.getName(), binder.getInterfaceDescriptor());
         } catch (RemoteException e) {
@@ -148,14 +167,15 @@ public class ResourceGroupServiceTest extends ServiceTestCase<ResourceGroupServi
             public void run() {
                 ResourceGroupServiceTest.semaphore.release();
             }
-        };
+        }
+        ;
         
         /* prepare the intent */
-        intent.putExtra(Constants.INTENT_IDENTIFIER, "test.pmp");
-        intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.PMP);
-        intent.putExtra(Constants.INTENT_SIGNATURE, testSignee.signContent("test.rg".getBytes()));
+        this.intent.putExtra(Constants.INTENT_IDENTIFIER, "test.pmp");
+        this.intent.putExtra(Constants.INTENT_TYPE, PMPComponentType.PMP);
+        this.intent.putExtra(Constants.INTENT_SIGNATURE, this.testSignee.signContent("test.rg".getBytes()));
         
-        IBinder binder = bindService(intent);
+        IBinder binder = bindService(this.intent);
         try {
             assertEquals(IResourceGroupServicePMP.class.getName(), binder.getInterfaceDescriptor());
             

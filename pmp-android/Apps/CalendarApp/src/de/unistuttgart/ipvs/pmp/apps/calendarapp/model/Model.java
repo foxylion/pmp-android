@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
 import java.util.ArrayList;
@@ -152,7 +171,7 @@ public class Model {
                 toDelete = todo;
             }
         }
-        appointmentList.remove(toDelete);
+        this.appointmentList.remove(toDelete);
         this.arrayAdapter.notifyDataSetChanged();
         
         // Update the visibility of the "no appointments avaiable" textview
@@ -166,7 +185,7 @@ public class Model {
     public void deleteAllAppointments() {
         // Get all ids
         List<Integer> idList = new ArrayList<Integer>();
-        for (Appointment appointment : appointmentList) {
+        for (Appointment appointment : this.appointmentList) {
             idList.add(appointment.getId());
         }
         
@@ -278,8 +297,8 @@ public class Model {
      * 
      * @return file list for importing
      */
-    public List<FileDetails> getFileList() {  
-        return fileList;
+    public List<FileDetails> getFileList() {
+        return this.fileList;
     }
     
     
@@ -291,14 +310,15 @@ public class Model {
      * @return file for file name, null if file name does not exist
      */
     public FileDetails getFileForName(String fileName) {
-        for (FileDetails file : fileList) {
+        for (FileDetails file : this.fileList) {
             if (file.getName().equals(fileName)) {
                 return file;
             }
         }
         // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null)
+        if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
+        }
         return null;
     }
     
@@ -311,12 +331,14 @@ public class Model {
      */
     public void removeFileFromList(FileDetails file) {
         this.fileList.remove(file);
-        if (importArrayAdapter != null)
+        if (this.importArrayAdapter != null) {
             this.importArrayAdapter.notifyDataSetChanged();
+        }
         
         // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null)
+        if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
+        }
     }
     
     
@@ -328,12 +350,14 @@ public class Model {
      */
     public void addFileToList(FileDetails file) {
         this.fileList.add(file);
-        if (importArrayAdapter != null)
+        if (this.importArrayAdapter != null) {
             this.importArrayAdapter.notifyDataSetChanged();
+        }
         
         // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null)
+        if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
+        }
     }
     
     
@@ -342,12 +366,14 @@ public class Model {
      */
     public void clearFileList() {
         this.fileList.clear();
-        if (importArrayAdapter != null)
+        if (this.importArrayAdapter != null) {
             this.importArrayAdapter.notifyDataSetChanged();
+        }
         
         // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null)
+        if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
+        }
     }
     
     
@@ -359,7 +385,7 @@ public class Model {
      * @return flag
      */
     public boolean isFileNameExisting(String filenameToCheck) {
-        for (FileDetails file : fileList) {
+        for (FileDetails file : this.fileList) {
             if (file.getName().toLowerCase().equals(filenameToCheck.toLowerCase())) {
                 return true;
             }
@@ -374,7 +400,7 @@ public class Model {
      * @return array adapter
      */
     public ArrayAdapter<FileDetails> getImportArrayAdapter() {
-        return importArrayAdapter;
+        return this.importArrayAdapter;
     }
     
     
@@ -395,7 +421,7 @@ public class Model {
      * @return context of the import activity
      */
     public ImportActivity getImportContext() {
-        return importContext;
+        return this.importContext;
     }
     
     

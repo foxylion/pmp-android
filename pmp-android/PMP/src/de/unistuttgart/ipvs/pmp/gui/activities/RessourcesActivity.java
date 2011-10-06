@@ -1,13 +1,32 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -57,13 +76,13 @@ public class RessourcesActivity extends Activity {
         /* Check if there are resources available */
         if (loadRes()) {
             this.scroll = new ScrollView(this);
-          //  this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
+            //  this.scroll.setBackgroundColor(Color.rgb(211, 211, 211));
             this.layout.addView(this.actRow);
             this.scroll.addView(this.layout);
             setContentView(this.scroll);
         } else {
             LinearLayout layoutEmpty = new LinearLayout(this);
-           // layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
+            // layoutEmpty.setBackgroundColor(Color.rgb(211, 211, 211));
             setContentView(layoutEmpty);
         }
     }
@@ -77,7 +96,7 @@ public class RessourcesActivity extends Activity {
         this.layout.setScrollBarStyle(0);
         this.layout.setStretchAllColumns(true);
         this.layout.setLayoutParams(LayoutParamsCreator.createFPFP());
-      //  this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
+        //  this.layout.setBackgroundColor(Color.rgb(211, 211, 211));
     }
     
     
@@ -179,7 +198,6 @@ class OnResClickListener implements OnClickListener {
         dialogScroll.setLayoutParams(LayoutParamsCreator.createFPFP(0.5f));
         dialogScroll.addView(descriptionView);
         
-        
         layout.addView(dialogScroll);
         layout.addView(close);
         
@@ -187,8 +205,8 @@ class OnResClickListener implements OnClickListener {
         
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.FILL_PARENT;
-        lp.height = WindowManager.LayoutParams.FILL_PARENT;
+        lp.width = LayoutParams.FILL_PARENT;
+        lp.height = LayoutParams.FILL_PARENT;
         dialog.getWindow().setAttributes(lp);
         
         return dialog;

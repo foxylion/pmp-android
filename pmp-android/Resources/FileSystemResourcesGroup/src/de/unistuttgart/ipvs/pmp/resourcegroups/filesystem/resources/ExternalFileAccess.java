@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: FileSystemResourceGroup
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources;
 
 import java.io.File;
@@ -68,9 +87,9 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Reads a file stored in the external directory into a string.
      * 
      * @param path
-     *            Path to the file in the external directory as sub-directory of the currently selected external directory.
-     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
-     *            <code>example/testFile.txt</code>, then <code>Music/example/testFile.txt</code> will be read).
+     *            Path to the file in the external directory as sub-directory of the currently selected external
+     *            directory. For example, if this resource gives access to the Music-Directory and <code>path</code> is
+     *            set to <code>example/testFile.txt</code>, then <code>Music/example/testFile.txt</code> will be read).
      * @return Data of the selected file.
      * @throws IllegalAccessError
      *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
@@ -105,8 +124,8 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Writes a given string into a file in the external directory
      * 
      * @param path
-     *            Path to the file in the external directory the string should be written to.
-     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
+     *            Path to the file in the external directory the string should be written to. For example, if this
+     *            resource gives access to the Music-Directory and <code>path</code> is set to
      *            <code>example/testFile.txt</code>, then the string will be written to
      *            <code>Music/example/testFile.txt</code>).
      * @param data
@@ -143,9 +162,9 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * files.
      * 
      * @param path
-     *            Path of the file or directory which should be deleted.
-     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
-     *            <code>example/testDir</code>, then <code>Music/example/testDir</code> will be deleted).
+     *            Path of the file or directory which should be deleted. For example, if this resource gives access to
+     *            the Music-Directory and <code>path</code> is set to <code>example/testDir</code>, then
+     *            <code>Music/example/testDir</code> will be deleted).
      * @return True, if file or directory was deleted successfully.
      * @throws IllegalAccessError
      *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
@@ -170,10 +189,9 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * Returns a list of all files and directories in a given external directory.
      * 
      * @param directory
-     *            Path of the parent directory.
-     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
-     *            <code>example/testDir</code>, then a list of all files and sub-directories in
-     *            <code>Music/example/testDir</code> will be generated).
+     *            Path of the parent directory. For example, if this resource gives access to the Music-Directory and
+     *            <code>path</code> is set to <code>example/testDir</code>, then a list of all files and sub-directories
+     *            in <code>Music/example/testDir</code> will be generated).
      * @return List of detailed file information data or null, if path points to a non existing directory or a file.
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
@@ -200,9 +218,9 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      * 
      * @see File#mkdirs()
      * @param path
-     *            Directory path.
-     *            For example, if this resource gives access to the Music-Directory and <code>path</code> is set to 
-     *            <code>example/testDir</code>, then <code>Music/example/testFDir</code> will be created).
+     *            Directory path. For example, if this resource gives access to the Music-Directory and
+     *            <code>path</code> is set to <code>example/testDir</code>, then <code>Music/example/testFDir</code>
+     *            will be created).
      * @return True, if directories where created successfully.
      * @throws IllegalAccessError
      *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
