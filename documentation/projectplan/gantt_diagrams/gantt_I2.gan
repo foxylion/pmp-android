@@ -45,35 +45,35 @@
         <task id="17" name="Prototyp" color="#8cb7cf" meeting="false" start="2011-11-02" duration="5" complete="0" expand="true">
             <depend id="18" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="4" name="M-1.1 (Spez./Modell./Prototyp)" color="#ff0000" meeting="true" start="2011-11-06" duration="1" complete="0" expand="true"/>
+        <task id="4" name="M-2.1 (Spez./Modell./Prototyp)" color="#ff0000" meeting="true" start="2011-11-06" duration="1" complete="0" expand="true"/>
         <task id="18" name="Spezifikationsreview" color="#8cb7cf" meeting="false" start="2011-11-07" duration="1" complete="0" expand="true">
             <depend id="19" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="19" name="Spezifikationskorrektur" color="#8cb7cf" meeting="false" start="2011-11-08" duration="1" complete="0" expand="true">
             <depend id="20" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="11" name="M-1.2 (Spez.review/-korrektur)" color="#ff0000" meeting="true" start="2011-11-08" duration="1" complete="0" expand="true"/>
+        <task id="11" name="M-2.2 (Spez.review/-korrektur)" color="#ff0000" meeting="true" start="2011-11-08" duration="1" complete="0" expand="true"/>
         <task id="20" name="Entwurf" color="#8cb7cf" meeting="false" start="2011-11-09" duration="7" complete="0" expand="true">
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="5" name="M-1.3 (Entwurf)" color="#ff0000" meeting="true" start="2011-11-15" duration="1" complete="0" expand="true"/>
+        <task id="5" name="M-2.3 (Entwurf)" color="#ff0000" meeting="true" start="2011-11-15" duration="1" complete="0" expand="true"/>
         <task id="21" name="Implementierung" color="#8cb7cf" meeting="false" start="2011-11-16" duration="27" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="24" name="Modultest" color="#8cb7cf" meeting="false" start="2011-12-05" duration="8" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="6" name="M-1.4 (Impl./Modultest/Integr.)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
+        <task id="6" name="M-2.4 (Impl./Modultest/Integr.)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
         <task id="26" name="Handbuch" color="#8cb7cf" meeting="false" start="2011-11-28" duration="15" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="8" name="M-1.5 (Handbuch)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
+        <task id="8" name="M-2.5 (Handbuch)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
         <task id="29" name="Systemtest und -korrektur" color="#8cb7cf" meeting="false" start="2011-12-13" duration="7" complete="0" expand="true">
             <depend id="28" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="31" name="M-1.6 (Systemtest)" color="#ff0000" meeting="true" start="2011-12-19" duration="1" complete="0" expand="true"/>
+        <task id="31" name="M-2.6 (Systemtest)" color="#ff0000" meeting="true" start="2011-12-19" duration="1" complete="0" expand="true"/>
         <task id="28" name="Abnahme" color="#8cb7cf" meeting="false" start="2011-12-20" duration="2" complete="0" expand="true"/>
-        <task id="32" name="M-1.7 (Abnahme)" color="#ff0000" meeting="true" start="2011-12-21" duration="1" complete="0" expand="true"/>
+        <task id="32" name="M-2.7 (Abnahme)" color="#ff0000" meeting="true" start="2011-12-21" duration="1" complete="0" expand="true"/>
         <task id="41" name="Dummy" color="#8cb7cf" meeting="false" start="2012-01-02" duration="1" complete="0" expand="true"/>
     </tasks>
     <resources/>
