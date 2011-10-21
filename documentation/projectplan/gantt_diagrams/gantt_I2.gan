@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="" company="" webLink="" view-date="2011-10-24" view-index="0" gantt-divider-location="319" resource-divider-location="300" version="2.0">
+<project name="" company="" webLink="" view-date="2011-11-14" view-index="0" gantt-divider-location="319" resource-divider-location="300" version="2.0">
     <description/>
     <view zooming-state="default:5" id="gantt-chart"/>
     <view id="resource-table">
@@ -32,43 +32,43 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="43" name="Analyse" color="#8cb7cf" meeting="false" start="2011-10-20" duration="8" complete="0" expand="true">
+        <task id="43" name="Analyse" color="#8cb7cf" meeting="false" start="2011-10-31" duration="4" complete="0" expand="true">
             <depend id="15" type="2" difference="0" hardness="Strong"/>
             <depend id="30" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="15" name="Spezifikation" color="#8cb7cf" meeting="false" start="2011-10-28" duration="10" complete="0" expand="true">
+        <task id="15" name="Spezifikation" color="#8cb7cf" meeting="false" start="2011-11-04" duration="10" complete="0" expand="true">
             <depend id="18" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="30" name="Modellierung" color="#8cb7cf" meeting="false" start="2011-10-28" duration="5" complete="0" expand="true">
+        <task id="30" name="Modellierung" color="#8cb7cf" meeting="false" start="2011-11-04" duration="6" complete="0" expand="true">
             <depend id="17" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="17" name="Prototyp" color="#8cb7cf" meeting="false" start="2011-11-02" duration="5" complete="0" expand="true">
+        <task id="17" name="Prototyp" color="#8cb7cf" meeting="false" start="2011-11-10" duration="4" complete="0" expand="true">
             <depend id="18" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="4" name="M-2.1 (Spez./Modell./Prototyp)" color="#ff0000" meeting="true" start="2011-11-06" duration="1" complete="0" expand="true"/>
-        <task id="18" name="Spezifikationsreview" color="#8cb7cf" meeting="false" start="2011-11-07" duration="1" complete="0" expand="true">
+        <task id="4" name="M-2.1 (Spez./Modell./Prototyp)" color="#ff0000" meeting="true" start="2011-11-13" duration="1" complete="0" expand="true"/>
+        <task id="18" name="Spezifikationsreview" color="#8cb7cf" meeting="false" start="2011-11-14" duration="1" complete="0" expand="true">
             <depend id="19" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="19" name="Spezifikationskorrektur" color="#8cb7cf" meeting="false" start="2011-11-08" duration="1" complete="0" expand="true">
+        <task id="19" name="Spezifikationskorrektur" color="#8cb7cf" meeting="false" start="2011-11-15" duration="1" complete="0" expand="true">
             <depend id="20" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="11" name="M-2.2 (Spez.review/-korrektur)" color="#ff0000" meeting="true" start="2011-11-08" duration="1" complete="0" expand="true"/>
-        <task id="20" name="Entwurf" color="#8cb7cf" meeting="false" start="2011-11-09" duration="7" complete="0" expand="true">
+        <task id="11" name="M-2.2 (Spez.review/-korrektur)" color="#ff0000" meeting="true" start="2011-11-15" duration="1" complete="0" expand="true"/>
+        <task id="20" name="Entwurf" color="#8cb7cf" meeting="false" start="2011-11-16" duration="8" complete="0" expand="true">
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="5" name="M-2.3 (Entwurf)" color="#ff0000" meeting="true" start="2011-11-15" duration="1" complete="0" expand="true"/>
-        <task id="21" name="Implementierung" color="#8cb7cf" meeting="false" start="2011-11-16" duration="27" complete="0" expand="true">
+        <task id="5" name="M-2.3 (Entwurf)" color="#ff0000" meeting="true" start="2011-11-23" duration="1" complete="0" expand="true"/>
+        <task id="21" name="Implementierung" color="#8cb7cf" meeting="false" start="2011-11-24" duration="20" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="24" name="Modultest" color="#8cb7cf" meeting="false" start="2011-12-05" duration="8" complete="0" expand="true">
+        <task id="24" name="Modultest" color="#8cb7cf" meeting="false" start="2011-12-09" duration="5" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="6" name="M-2.4 (Impl./Modultest/Integr.)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
-        <task id="26" name="Handbuch" color="#8cb7cf" meeting="false" start="2011-11-28" duration="15" complete="0" expand="true">
+        <task id="6" name="M-2.4 (Impl./Modultest/Integr.)" color="#ff0000" meeting="true" start="2011-12-13" duration="1" complete="0" expand="true"/>
+        <task id="26" name="Handbuch" color="#8cb7cf" meeting="false" start="2011-12-05" duration="9" complete="0" expand="true">
             <depend id="29" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="8" name="M-2.5 (Handbuch)" color="#ff0000" meeting="true" start="2011-12-12" duration="1" complete="0" expand="true"/>
-        <task id="29" name="Systemtest und -korrektur" color="#8cb7cf" meeting="false" start="2011-12-13" duration="7" complete="0" expand="true">
+        <task id="8" name="M-2.5 (Handbuch)" color="#ff0000" meeting="true" start="2011-12-13" duration="1" complete="0" expand="true"/>
+        <task id="29" name="Systemtest und -korrektur" color="#8cb7cf" meeting="false" start="2011-12-14" duration="6" complete="0" expand="true">
             <depend id="28" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="31" name="M-2.6 (Systemtest)" color="#ff0000" meeting="true" start="2011-12-19" duration="1" complete="0" expand="true"/>
