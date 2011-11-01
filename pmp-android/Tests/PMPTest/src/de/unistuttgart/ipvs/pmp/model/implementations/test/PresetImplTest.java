@@ -140,7 +140,7 @@ public class PresetImplTest extends AndroidTestCase {
     
     
     public void testAddApps() {
-        this.preset.addApp(this.app, true);
+        this.preset.assignApp(this.app, true);
         
         assertTrue(this.preset.isAppAssigned(this.app));
         assertFalse(this.preset.isAppAssigned(this.app2));
@@ -150,7 +150,7 @@ public class PresetImplTest extends AndroidTestCase {
             assertTrue(isIdenticalApp(this.app, ia));
         }
         
-        this.preset.addApp(this.app2, true);
+        this.preset.assignApp(this.app2, true);
         assertTrue(this.preset.isAppAssigned(this.app));
         assertTrue(this.preset.isAppAssigned(this.app2));
         
@@ -162,8 +162,8 @@ public class PresetImplTest extends AndroidTestCase {
     
     
     public void testRemoveApps() {
-        this.preset.addApp(this.app, true);
-        this.preset.addApp(this.app2, true);
+        this.preset.assignApp(this.app, true);
+        this.preset.assignApp(this.app2, true);
         
         this.preset.removeApp(this.app, true);
         assertFalse(this.preset.isAppAssigned(this.app));
@@ -183,13 +183,13 @@ public class PresetImplTest extends AndroidTestCase {
     
     
     public void testAddPrivacyLevel() {
-        this.preset.setPrivacyLevel(this.plValue, true);
+        this.preset.addPrivacyLevel(this.plValue, true);
         assertEquals(1, this.preset.getUsedPrivacyLevels().length);
         for (IPrivacyLevel ipl : this.preset.getUsedPrivacyLevels()) {
             assertTrue(isIdenticalPL(this.plValue, ipl));
         }
         
-        this.preset.setPrivacyLevel(this.plValue2, true);
+        this.preset.addPrivacyLevel(this.plValue2, true);
         assertEquals(2, this.preset.getUsedPrivacyLevels().length);
         for (IPrivacyLevel ipl : this.preset.getUsedPrivacyLevels()) {
             assertTrue(isIdenticalPL(this.plValue, ipl) || isIdenticalPL(this.plValue2, ipl));
@@ -198,8 +198,8 @@ public class PresetImplTest extends AndroidTestCase {
     
     
     public void testRemovePrivacyLevel() {
-        this.preset.setPrivacyLevel(this.plValue, true);
-        this.preset.setPrivacyLevel(this.plValue2, true);
+        this.preset.addPrivacyLevel(this.plValue, true);
+        this.preset.addPrivacyLevel(this.plValue2, true);
         
         this.preset.removePrivacyLevel(this.plValue, true);
         assertEquals(1, this.preset.getUsedPrivacyLevels().length);

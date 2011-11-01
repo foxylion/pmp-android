@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,7 @@ public interface IResourceGroup {
      * 
      * @param privacyLevelIdentifier
      *            Identifier of the {@link IPrivacyLevel} which should be returned.
-     * @return Returns the requested {@link IPrivacyLevel} or NULL if no {@link IPrivacyLevel} is available with that
+     * @return Returns the requested {@link IPrivacyLevel} or null if no {@link IPrivacyLevel} is available with that
      *         identifier.
      */
     public IPrivacyLevel getPrivacyLevel(String privacyLevelIdentifier);

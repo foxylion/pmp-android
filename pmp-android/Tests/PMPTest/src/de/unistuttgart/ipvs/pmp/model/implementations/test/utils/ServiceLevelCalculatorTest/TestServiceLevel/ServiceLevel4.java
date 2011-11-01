@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCa
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.LocationEnum;
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestLocationRessourceGroup.TestLocationPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -57,6 +58,20 @@ public class ServiceLevel4 implements IServiceLevel {
     @Override
     public boolean isAvailable() {
         return true;
+    }
+
+
+    @Override
+    public String getUniqueIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public IApp getApp() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,7 +61,7 @@ public class ResourceGroupAccess implements Serializable {
      * 
      * @param privacyLevel
      *            name of the privacy level
-     * @return value of the privacy level or NULL if it is not set
+     * @return value of the privacy level or null if it is not set
      */
     public String getPrivacyLevelValue(String privacyLevel) {
         return this.privacyLevelValues.get(privacyLevel);

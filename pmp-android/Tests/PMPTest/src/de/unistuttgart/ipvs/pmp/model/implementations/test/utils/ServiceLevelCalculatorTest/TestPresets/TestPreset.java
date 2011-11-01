@@ -77,13 +77,13 @@ public class TestPreset implements IPreset {
     
     
     @Override
-    public void addApp(IApp app) {
+    public void assignApp(IApp app) {
         
     }
     
     
     @Override
-    public void addApp(IApp app, boolean hidden) {
+    public void assignApp(IApp app, boolean hidden) {
         
     }
     
@@ -101,13 +101,13 @@ public class TestPreset implements IPreset {
     
     
     @Override
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel) {
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel) {
         
     }
     
     
     @Override
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
         
     }
     

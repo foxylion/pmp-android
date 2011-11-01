@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -221,7 +221,7 @@ public abstract class AbstractConnector {
     
     
     /**
-     * @return Returns the Service as {@link IBinder}, should be casted to the correct interface. Returns NULL if the
+     * @return Returns the Service as {@link IBinder}, should be casted to the correct interface. Returns null if the
      *         Service returned a {@link INullService}- {@link IBinder}.
      */
     protected IBinder getService() {

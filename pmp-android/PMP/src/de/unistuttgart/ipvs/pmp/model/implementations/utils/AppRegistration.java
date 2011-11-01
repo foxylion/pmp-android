@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -85,7 +85,7 @@ public class AppRegistration {
             
             if (this.asp.getAppService() == null) {
                 Log.e("Registration (" + this.identifier
-                        + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+                        + "): FAILED - Binding to the AppService failed, only got a null IBinder.");
             } else {
                 Log.d("Registration (" + this.identifier + "): Successfully connected, got IAppServicePMP.");
                 loadAppInformationSet(this.asp.getAppService());
@@ -121,13 +121,13 @@ public class AppRegistration {
      */
     private void checkAppInformationSet() {
         if (this.ais == null) {
-            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet is NULL.");
-            informAboutRegistration(false, "AppInformationSet is NULL.");
+            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet is null.");
+            informAboutRegistration(false, "AppInformationSet is null.");
             return;
         }
         if (this.ais.getNames() == null || this.ais.getDescriptions() == null || this.ais.getServiceLevels() == null) {
-            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet has methods with NULL-Return.");
-            informAboutRegistration(false, "AppInformationSet has methods with NULL-Return.");
+            Log.e("Registration (" + this.identifier + "): FAILED - AppInformationSet has methods with null-Return.");
+            informAboutRegistration(false, "AppInformationSet has methods with null-Return.");
             return;
         }
         
@@ -222,7 +222,7 @@ public class AppRegistration {
                 
                 if (this.asp.getAppService() == null) {
                     Log.e("Registration (" + this.identifier
-                            + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+                            + "): FAILED - Binding to the AppService failed, only got a null IBinder.");
                 } else {
                     Log.d("Registration (" + this.identifier + "): Successfully connected got IAppServicePMP");
                     informAboutRegistration(state, message);

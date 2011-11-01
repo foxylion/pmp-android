@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -122,7 +122,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      * @param filename
      *            Filename of the SQL file.
      * 
-     * @return String represented SQL query from the file. NULL if the file could not be read.
+     * @return String represented SQL query from the file. null if the file could not be read.
      */
     public String readSqlFile(String filename) {
         String sqlQuery = null;

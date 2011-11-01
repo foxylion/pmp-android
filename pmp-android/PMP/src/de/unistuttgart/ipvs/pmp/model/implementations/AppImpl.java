@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -179,7 +179,7 @@ public class AppImpl implements IApp {
         }
         
         Log.v("AppImpl#getActiveServiceLevel(): Returning "
-                + (cursor.getCount() == 1 ? "the currently active ServiceLevel" : "NULL"));
+                + (cursor.getCount() == 1 ? "the currently active ServiceLevel" : "null"));
         
         cursor.close();
         return returnValue;
@@ -204,11 +204,11 @@ public class AppImpl implements IApp {
             
             IPreset preset = ModelSingleton.getInstance().getModel()
                     .addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP, getIdentifier());
-            preset.addApp(this, true);
+            preset.assignApp(this, true);
             
             IServiceLevel sl = getServiceLevel(level);
             for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
-                preset.setPrivacyLevel(pl, true);
+                preset.addPrivacyLevel(pl, true);
             }
             
             Log.v("ModelImpl#setActiveServiceLevelAsPreset(): Publishing the ServiceLevel " + level

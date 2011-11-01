@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,7 +83,7 @@ public class ResourceGroupRegistration {
             
             if (this.rgsc.getPMPService() == null) {
                 Log.e("Registration (" + this.identifier
-                        + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
+                        + "): FAILED - Binding to the ResourceGroupService failed, only got a null IBinder.");
             } else {
                 Log.d("Registration (" + this.identifier + "): Successfully connected, got IResourceGroupServicePMP.");
                 loadResourceGroupData(this.rgsc.getPMPService());
@@ -212,7 +212,7 @@ public class ResourceGroupRegistration {
                 
                 if (this.rgsc.getPMPService() == null) {
                     Log.e("Registration (" + this.identifier
-                            + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
+                            + "): FAILED - Binding to the ResourceGroupService failed, only got a null IBinder.");
                 } else {
                     Log.d("Registration (" + this.identifier
                             + "): Successfully connected got IResourceGroupServicePMP.");

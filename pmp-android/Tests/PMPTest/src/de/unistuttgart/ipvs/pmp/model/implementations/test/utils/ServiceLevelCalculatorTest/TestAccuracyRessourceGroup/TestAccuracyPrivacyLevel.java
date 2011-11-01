@@ -127,5 +127,12 @@ public class TestAccuracyPrivacyLevel implements IPrivacyLevel {
             return false;
         }
     }
+
+
+    @Override
+    public String getUniqueIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }

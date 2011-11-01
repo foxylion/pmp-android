@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,13 +37,13 @@ public interface IPreset {
     
     /**
      * @return Returns the {@link PMPComponentType} of the identifier which may be assigned.
-     *         {@link PMPComponentType#NONE} will be returned when the identifier is NULL.
+     *         {@link PMPComponentType#NONE} will be returned when the identifier is null.
      */
     PMPComponentType getType();
     
     
     /**
-     * @return Returns the identifier which created this {@link IPreset}, or NULL if this {@link IPreset} was generated
+     * @return Returns the identifier which created this {@link IPreset}, or null if this {@link IPreset} was generated
      *         manually.
      */
     public String getIdentifier();
@@ -79,13 +79,13 @@ public interface IPreset {
      * <p>
      * <i>Inside the {@link IApp#verifyServiceLevel()} will be called, what will maybe end up in a roll out of changed
      * {@link IServiceLevel} and {@link IResourceGroup} Accesses.</i> <b>So, if you have multiple changes on the
-     * {@link IPreset} use the hidden variant of this method {@link IPreset#addApp(IApp, boolean)}</b>
+     * {@link IPreset} use the hidden variant of this method {@link IPreset#assignApp(IApp, boolean)}</b>
      * </p>
      * 
      * @param app
      *            The {@link IApp} which should be added.
      */
-    public void addApp(IApp app);
+    public void assignApp(IApp app);
     
     
     /**
@@ -101,7 +101,7 @@ public interface IPreset {
      * @param hidden
      *            if set to true {@link IApp#verifyServiceLevel()} will not be called.
      */
-    public void addApp(IApp app, boolean hidden);
+    public void assignApp(IApp app, boolean hidden);
     
     
     /**
@@ -142,13 +142,13 @@ public interface IPreset {
      * <i>Inside the {@link IApp#verifyServiceLevel()} will be called for each {@link IApp}, what will maybe end up in a
      * roll out of changed {@link IServiceLevel}s and {@link IResourceGroup}s Accesses.</i> <b>So, if you have multiple
      * changes on the {@link IPreset} use the hidden variant of this method
-     * {@link IPreset#setPrivacyLevel(IPrivacyLevel, boolean)}</b>
+     * {@link IPreset#addPrivacyLevel(IPrivacyLevel, boolean)}</b>
      * </p>
      * 
      * @param privacyLevel
      *            The {@link IPrivacyLevel} which should be set.
      */
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel);
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel);
     
     
     /**
@@ -164,7 +164,7 @@ public interface IPreset {
      * @param hidden
      *            if set to true {@link IApp#verifyServiceLevel()} will not be called.
      */
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden);
     
     
     /**

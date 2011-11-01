@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -90,7 +90,7 @@ public abstract class PMPSignedService extends Service {
         
         // debug code
         if (boundSignature == null) {
-            Log.d(toString() + " received a NULL signature from " + boundType + "::" + boundIdentifier);
+            Log.d(toString() + " received a null signature from " + boundType + "::" + boundIdentifier);
         }
         
         // actual check

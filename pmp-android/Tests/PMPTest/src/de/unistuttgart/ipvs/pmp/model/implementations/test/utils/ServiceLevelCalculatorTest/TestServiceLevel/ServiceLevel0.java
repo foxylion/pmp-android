@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestServiceLevel;
 
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -51,6 +52,20 @@ public class ServiceLevel0 implements IServiceLevel {
     @Override
     public String getDescription() {
         return "Null level that can do nothing";
+    }
+
+
+    @Override
+    public String getUniqueIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public IApp getApp() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

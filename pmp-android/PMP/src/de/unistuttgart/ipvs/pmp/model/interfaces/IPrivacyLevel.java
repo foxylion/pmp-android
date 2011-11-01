@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ import android.os.RemoteException;
  * 
  * The {@link IPrivacyLevel} from the {@link IResourceGroup} is only a representation of an {@link IPrivacyLevel}
  * assigned to this {@link IResourceGroup} and has not its own value, so {@link IPrivacyLevel#getValue()} will always
- * return NULL.
+ * return null.
  * 
  * @author Jakob Jarosch
  */
@@ -63,7 +63,7 @@ public interface IPrivacyLevel {
     /**
      * Returns the set value of the {@link IPrivacyLevel}.
      * 
-     * @return Returns the set value, NULL if it is fetched from an {@link IResourceGroup} instance, see
+     * @return Returns the set value, null if it is fetched from an {@link IResourceGroup} instance, see
      *         {@link IPrivacyLevel} JavaDoc comment for more details.
      */
     public String getValue();
@@ -109,4 +109,7 @@ public interface IPrivacyLevel {
      *             established.
      */
     public boolean permits(String reference, String value) throws RemoteException;
+    
+    
+    String getUniqueIdentifier();
 }

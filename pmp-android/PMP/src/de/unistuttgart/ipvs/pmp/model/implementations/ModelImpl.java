@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -195,7 +195,7 @@ public class ModelImpl implements IModel {
             try {
                 type = PMPComponentType.valueOf(cursor.getString(cursor.getColumnIndex("Type")));
             } catch (IllegalArgumentException e) {
-                Log.d("Model: Got a NULL PMPComponentType asume PMPComponentType.NONE was meant.");
+                Log.d("Model: Got a null PMPComponentType asume PMPComponentType.NONE was meant.");
             }
             String identifier = cursor.getString(cursor.getColumnIndex("Identifier"));
             String description = cursor.getString(cursor.getColumnIndex("Description"));
@@ -219,11 +219,11 @@ public class ModelImpl implements IModel {
         ModelConditions.assertPMPComponentTypeAndIdentiferMatch(type, identifier);
         
         if (description == null) {
-            Log.i("Model {ModelImpl#addPreset()}: description was NULL, emtpy string has been asinged.");
+            Log.i("Model {ModelImpl#addPreset()}: description was null, emtpy string has been asinged.");
             description = "";
         }
         if (identifier == null) {
-            Log.i("Model {ModelImpl#addPreset()}: identifier was NULL, emtpy string has been asinged.");
+            Log.i("Model {ModelImpl#addPreset()}: identifier was null, emtpy string has been asinged.");
             identifier = "";
         }
         

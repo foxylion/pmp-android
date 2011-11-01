@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestServiceLevel;
 
 import de.unistuttgart.ipvs.pmp.model.implementations.test.utils.ServiceLevelCalculatorTest.TestAccuracyRessourceGroup.TestAccuracyPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -54,5 +55,19 @@ public class ServiceLevel1 implements IServiceLevel {
     @Override
     public String getDescription() {
         return "The first service Level";
+    }
+
+
+    @Override
+    public String getUniqueIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public IApp getApp() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

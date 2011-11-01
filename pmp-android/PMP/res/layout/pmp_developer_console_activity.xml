@@ -5,6 +5,7 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:orientation="vertical">
+
 		<LinearLayout android:id="@+id/linearLayout1"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:baselineAligned="false">
@@ -80,6 +81,41 @@
 				android:id="@+id/pmp_developer_console_bind_status"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+		</LinearLayout>
+
+		<TextView
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="5dp"
+		    android:background="#555555"
+		    android:paddingLeft="5dp"
+		    android:text="Performance Tests"
+		    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="#555555"
+		    android:padding="5dp" >
+
+		    <Button
+		        android:id="@+id/pmp_developer_console_button_performance_model"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:text="Test Model" />
+
+		    <Button
+		        android:id="@+id/pmp_developer_console_button_performance_model2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:text="Test Model2" />
+
+		    <Button
+		        android:id="@+id/pmp_developer_console_button_performance_model2_pc"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:text="Test Model2 PC" />
+
 		</LinearLayout>
 
 	</LinearLayout>

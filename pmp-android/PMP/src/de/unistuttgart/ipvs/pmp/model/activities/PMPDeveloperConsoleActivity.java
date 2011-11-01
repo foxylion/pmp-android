@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -37,8 +38,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug.MemoryInfo;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Process;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +52,15 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activities.StartActivity;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
+import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
+import de.unistuttgart.ipvs.pmp.model2.Model;
+import de.unistuttgart.ipvs.pmp.model2.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
 public class PMPDeveloperConsoleActivity extends Activity {
@@ -75,7 +87,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
      * Open the Wait dialog with a specific message.
      * 
      * @param message
-     *            Message which should be displayed, if NULL, a default message is used.
+     *            Message which should be displayed, if null, a default message is used.
      */
     protected void openWaitDialog(String message) {
         if (message == null) {
@@ -236,6 +248,35 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 builder.create().show();
             }
         });
+        
+        /* *** performance tests ***/
+        Button modelPerformance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model);
+        modelPerformance.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                performanceTests(ModelSingleton.getInstance().getModel(), null);
+            }
+        });
+        
+        Button model2Performance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model2);
+        model2Performance.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                performanceTests(Model.getInstance(), null);
+            }
+        });
+        
+        Button model2pcPerformance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model2_pc);
+        model2pcPerformance.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                performanceTests(Model.getInstance(), PersistenceProvider.getInstance());
+            }
+        });
+        
     }
     
     
@@ -264,7 +305,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                         @Override
                         public void run() {
                             if (service == null) {
-                                status.setText("Service has connected to ServiceConnection: NULL");
+                                status.setText("Service has connected to ServiceConnection: null");
                             } else {
                                 status.setText("Service has connected to ServiceConnection: "
                                         + service.getClass().getName());
@@ -285,6 +326,122 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 progress.setVisibility(View.INVISIBLE);
             }
         }
+    }
+    
+    
+    /**
+     * @param useModel
+     *            {@link IModel} to be used
+     * @param persistenceProvider
+     *            if available, will be called to pre-cache
+     * 
+     */
+    private void performanceTests(IModel useModel, PersistenceProvider persistenceProvider) {
+        long[] indexTimes = new long[5];
+        long[] pathTimes = new long[5];
+        
+        // memory stuff
+        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        MemoryInfo[] miBefore = am.getProcessMemoryInfo(new int[] { Process.myPid() });
+        
+        long pPinit = 0L;
+        if (persistenceProvider != null) {
+            long start = System.nanoTime();
+            persistenceProvider.cacheEverythingNow();
+            pPinit = System.nanoTime() - start;
+        }
+        
+        // index run = get all apps + all rgs
+        for (int i = 0; i < 5; i++) {
+            long start = System.nanoTime();
+            
+            IApp[] apps = useModel.getApps();
+            for (IApp app : apps) {
+                app.getName();
+                app.getActiveServiceLevel();
+            }
+            IResourceGroup[] rgs = useModel.getResourceGroups();
+            for (IResourceGroup rg : rgs) {
+                rg.getDescription();
+                rg.getPrivacyLevels();
+            }
+            
+            indexTimes[i] = System.nanoTime() - start;
+        }
+        // path run = wild calls running through every class
+        for (int i = 0; i < 5; i++) {
+            long start = System.nanoTime();
+            
+            IResourceGroup rg = useModel.getResourceGroup("de.unistuttgart.ipvs.pmp.resourcegroups.database");
+            if (rg == null) {
+                throw new IllegalArgumentException();
+            }
+            IPrivacyLevel pl = rg.getPrivacyLevel("read");
+            pl.getValue();
+            rg = pl.getResourceGroup();
+            IApp app = rg.getAllAppsUsingThisResourceGroup()[0];
+            IPreset p = app.getAssignedPresets()[0];
+            p.getType();
+            p.getUsedPrivacyLevels();
+            p.isAppAssigned(app);
+            IServiceLevel sl = app.getServiceLevel(1);
+            pl = sl.getPrivacyLevels()[0];
+            rg = pl.getResourceGroup();
+            
+            pathTimes[i] = System.nanoTime() - start;
+        }
+        
+        MemoryInfo[] miAfter = am.getProcessMemoryInfo(new int[] { Process.myPid() });
+        
+        // create the message
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            sb.append("Index-Run #");
+            sb.append(i + 1);
+            sb.append(" took ");
+            sb.append(indexTimes[i] / 1E6);
+            sb.append(" ms");
+            sb.append(System.getProperty("line.separator"));
+        }
+        sb.append(System.getProperty("line.separator"));
+        for (int i = 0; i < 5; i++) {
+            sb.append("Path-Run #");
+            sb.append(i + 1);
+            sb.append(" took ");
+            sb.append(pathTimes[i] / 1E6);
+            sb.append(" ms");
+            sb.append(System.getProperty("line.separator"));
+        }
+        sb.append(System.getProperty("line.separator"));
+        if (persistenceProvider != null) {
+            sb.append("Precaching: ");
+            sb.append(pPinit / 1E6);
+            sb.append(" ms");
+            sb.append(System.getProperty("line.separator"));
+        }
+        
+        // memory info
+        int dpb = miBefore[0].dalvikPrivateDirty;
+        int dpa = miAfter[0].dalvikPrivateDirty;
+        sb.append("Dalvik private dirty memory: ");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("before ");
+        sb.append(dpb);
+        sb.append(" kB / after ");
+        sb.append(dpa);
+        sb.append(" kB");
+        
+        // show the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(PMPDeveloperConsoleActivity.this);
+        builder.setMessage(sb.toString()).setCancelable(false)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 }
 

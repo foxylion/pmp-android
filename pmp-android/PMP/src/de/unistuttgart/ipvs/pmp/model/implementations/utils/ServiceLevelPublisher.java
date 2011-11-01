@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -90,7 +90,7 @@ public class ServiceLevelPublisher {
         for (IResourceGroup affectedResourceGroup : affectedResourceGroups) {
             
             if (affectedResourceGroup == null) {
-                Log.e("ServiceLevelPublisher: A ResourceGroup is not available (is NULL), should normaly not happen 'cause then a ServiceLevel cannot be set.");
+                Log.e("ServiceLevelPublisher: A ResourceGroup is not available (is null), should normaly not happen 'cause then a ServiceLevel cannot be set.");
                 continue;
             }
             
@@ -142,7 +142,7 @@ public class ServiceLevelPublisher {
                 
                 if (rgsc.getPMPService() == null) {
                     Log.e("ResourceGroup-AccessSet-Publishing (" + affectedResourceGroup.getIdentifier()
-                            + "): FAILED - Binding to the ResourceGroupService failed, only got a NULL IBinder.");
+                            + "): FAILED - Binding to the ResourceGroupService failed, only got a null IBinder.");
                 } else {
                     Log.d("ResourceGroup-AccessSet-Publishing (" + affectedResourceGroup.getIdentifier()
                             + "): Successfully connected, got IResourceGroupServicePMP.");
@@ -179,7 +179,7 @@ public class ServiceLevelPublisher {
             
             if (asc.getAppService() == null) {
                 Log.e("ServiceLevel-Publishing (" + this.app.getIdentifier()
-                        + "): FAILED - Binding to the AppService failed, only got a NULL IBinder.");
+                        + "): FAILED - Binding to the AppService failed, only got a null IBinder.");
             } else {
                 Log.d("ServiceLevel-Publishing (" + this.app.getIdentifier()
                         + "): Successfully connected, got IAppServicePMP.");

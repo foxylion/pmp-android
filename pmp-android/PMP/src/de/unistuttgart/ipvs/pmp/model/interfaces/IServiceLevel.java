@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,4 +63,10 @@ public interface IServiceLevel {
      *         of {@link IServiceLevel}).
      */
     public boolean isAvailable();
+    
+    
+    String getUniqueIdentifier();
+    
+    
+    IApp getApp();
 }

@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +60,7 @@ public class ModelConditions extends PMPConditions {
      */
     public static void assertStringNotNullOrEmpty(String variableName, String string) {
         if (string == null || string.length() == 0) {
-            throw_IllegalArgumentException("The " + variableName + " must be not NULL and also not empty.");
+            throw_IllegalArgumentException("The " + variableName + " must be not null and also not empty.");
         }
     }
     
@@ -94,7 +94,7 @@ public class ModelConditions extends PMPConditions {
      */
     public static void assertPublicKeyNotNullOrEmpty(byte[] publicKey) {
         if (publicKey == null || publicKey.length == 0) {
-            throw_IllegalArgumentException("The publicKey must be not NULL and also not empty.");
+            throw_IllegalArgumentException("The publicKey must be not null and also not empty.");
         }
     }
     

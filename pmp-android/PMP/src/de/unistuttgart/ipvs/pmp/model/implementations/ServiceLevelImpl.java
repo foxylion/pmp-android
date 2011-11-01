@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,7 @@ import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
 import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
+import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 
@@ -144,5 +145,19 @@ public class ServiceLevelImpl implements IServiceLevel {
         
         cursor.close();
         return true;
+    }
+    
+    
+    @Override
+    public String getUniqueIdentifier() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public IApp getApp() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

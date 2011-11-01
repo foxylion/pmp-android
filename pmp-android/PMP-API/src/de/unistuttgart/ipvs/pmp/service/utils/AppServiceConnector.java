@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ public class AppServiceConnector extends AbstractConnector {
     
     
     /**
-     * @return Returns the AppService or NULL if no Service was returned (authentication failed?).
+     * @return Returns the AppService or null if no Service was returned (authentication failed?).
      */
     public IAppServicePMP getAppService() {
         if (isCorrectBinder(IAppServicePMP.class)) {

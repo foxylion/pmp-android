@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +54,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * gives back the {@link IPMPServiceRegistration} Binder.<br/>
  * With a valid token the {@link IPMPServiceResourceGroup} or {@link IPMPServiceApp} Binder will be given back.<br>
  * 
- * If an authentification fails the Service will give back NULL.
+ * If an authentification fails the Service will give back null.
  * </p>
  * 
  * @author Jakob Jarosch

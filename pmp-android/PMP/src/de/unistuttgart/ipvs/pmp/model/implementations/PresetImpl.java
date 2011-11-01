@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -135,13 +135,13 @@ public class PresetImpl implements IPreset {
     
     
     @Override
-    public void addApp(IApp app) {
-        addApp(app, false);
+    public void assignApp(IApp app) {
+        assignApp(app, false);
     }
     
     
     @Override
-    public void addApp(IApp app, boolean hidden) {
+    public void assignApp(IApp app, boolean hidden) {
         ModelConditions.assertNotNull("app", app);
         
         Log.v("PresetImpl#addApp(): The App " + app.getIdentifier() + " is beeing added to the Preset " + getName());
@@ -227,13 +227,13 @@ public class PresetImpl implements IPreset {
     
     
     @Override
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel) {
-        setPrivacyLevel(privacyLevel, false);
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel) {
+        addPrivacyLevel(privacyLevel, false);
     }
     
     
     @Override
-    public void setPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
+    public void addPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
         ModelConditions.assertNotNull("privacyLevel", privacyLevel);
         ModelConditions.assertNotNull("privacyLevel.getValue()", privacyLevel.getValue());
         

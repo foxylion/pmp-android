@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ public interface IModel {
      * 
      * @param identifier
      *            Corresponding {@link IApp} identifier
-     * @return Returns the requested {@link IApp} or NULL if the {@link IApp} does not exists in PMP.
+     * @return Returns the requested {@link IApp} or null if the {@link IApp} does not exists in PMP.
      */
     public IApp getApp(String identifier);
     
@@ -75,7 +75,7 @@ public interface IModel {
      * 
      * @param identifier
      *            Corresponding {@link IResourceGroup} identifier
-     * @return Returns the requested {@link IResourceGroup} or NULL if the {@link IResourceGroup} does not exists in
+     * @return Returns the requested {@link IResourceGroup} or null if the {@link IResourceGroup} does not exists in
      *         PMP.
      */
     public IResourceGroup getResourceGroup(String identifier);
@@ -114,8 +114,8 @@ public interface IModel {
      *            The {@link PMPComponentType} of the {@link IPreset}. Use {@link PMPComponentType#NONE} if you want to
      *            create a {@link IPreset} with no reference to an {@link IApp} or {@link IResourceGroup}.
      * @param identifier
-     *            The identifier to the corresponding {@link PMPComponentType}. Use NULL if the
-     *            {@link PMPComponentType#NULL} was set.
+     *            The identifier to the corresponding {@link PMPComponentType}. Use null if the {@link
+     *            PMPComponentType#null} was set.
      * @return
      */
     public IPreset addPreset(String name, String description, PMPComponentType type, String identifier);

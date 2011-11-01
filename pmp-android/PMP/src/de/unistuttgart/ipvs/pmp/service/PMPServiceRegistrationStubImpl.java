@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ public class PMPServiceRegistrationStubImpl extends IPMPServiceRegistration.Stub
     @Override
     public byte[] registerApp(final byte[] publicKey) throws RemoteException {
         if (this.identifier == null || this.identifier.length() == 0) {
-            Log.e("An App tried to register at PMPService but the identifier was NULL or a String with length 0");
+            Log.e("An App tried to register at PMPService but the identifier was null or a String with length 0");
             return null;
         }
         
@@ -63,7 +63,7 @@ public class PMPServiceRegistrationStubImpl extends IPMPServiceRegistration.Stub
     @Override
     public byte[] registerResourceGroup(final byte[] publicKey) throws RemoteException {
         if (this.identifier == null || this.identifier.length() == 0) {
-            Log.e("An ResourceGroup tried to register at PMPService but the identifier was NULL or a String with length 0");
+            Log.e("An ResourceGroup tried to register at PMPService but the identifier was null or a String with length 0");
             return null;
         }
         
