@@ -52,6 +52,16 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
     
     
     /**
+     * Internal call to delete the element. Do not override this.
+     */
+    public void deleteElementData() {
+        SQLiteDatabase wdb = getDoh().getWritableDatabase();
+        deleteElementData(wdb);
+        wdb.close();
+    }
+    
+    
+    /**
      * Loads the data of this element from the persistence.
      * 
      * @param rdb
@@ -67,5 +77,14 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
      */
     protected abstract void storeElementData(SQLiteDatabase wdb);
+    
+    
+    /**
+     * Deletes <b>THIS</b> element and all possible references that are held on it and that it holds.
+     * 
+     * @param wdb
+     *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
+     */
+    protected abstract void deleteElementData(SQLiteDatabase wdb);
     
 }

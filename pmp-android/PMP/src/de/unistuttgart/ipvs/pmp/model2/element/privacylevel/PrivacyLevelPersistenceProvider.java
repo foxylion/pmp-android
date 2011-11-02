@@ -19,7 +19,7 @@ public class PrivacyLevelPersistenceProvider extends ElementPersistenceProvider<
     
     
     @Override
-    public void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb) {
         Cursor c = rdb
                 .rawQuery(
                         "SELECT Name_Cache, Description_Cache FROM PrivacyLevel WHERE Identifier = ? AND ResourceGroup_Identifier = ? LIMIT 1",
@@ -39,13 +39,20 @@ public class PrivacyLevelPersistenceProvider extends ElementPersistenceProvider<
     
     
     @Override
-    public void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
         
         wdb.update("PrivacyLevel", cv, "Identifier = ? AND ResourceGroup_Identifier",
                 new String[] { this.element.getIdentifier(), this.element.getResourceGroup().getIdentifier() });
+    }
+
+
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

@@ -22,7 +22,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     
     @Override
-    public void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb) {
         Cursor c = rdb.rawQuery(
                 "SELECT Name_Cache, Description_Cache, ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
                 new String[] { this.element.getIdentifier() });
@@ -50,13 +50,38 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     
     @Override
-    public void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
         cv.put("ServiceLevel_Active", this.element.activeServiceLevel);
         
         wdb.update("App", cv, "Identifier = ?", new String[] { this.element.getIdentifier() });
+    }
+    
+    
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    /**
+     * Creates the data <b>in the persistence</b> for the {@link App} specified with the parameters.
+     * 
+     * @return an {@link App} object that is linked to the newly created persistence data.
+     */
+    protected static App createElementData(String identifier) {
+        
+        // TODO store in db
+        
+        // create associated object
+        App result = new App(identifier);
+        result.setPersistenceProvider(new AppPersistenceProvider(result));
+        
+        return result;
+        
     }
     
 }

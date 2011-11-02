@@ -25,7 +25,7 @@ public class ServiceLevelPersistenceProvider extends ElementPersistenceProvider<
     
     
     @Override
-    public void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb) {
         Cursor c = rdb
                 .rawQuery(
                         "SELECT Name_Cache, Description_Cache FROM ServiceLevel WHERE App_Identifier = ? AND Level = ? LIMIT 1",
@@ -73,13 +73,20 @@ public class ServiceLevelPersistenceProvider extends ElementPersistenceProvider<
     
     
     @Override
-    public void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
         
         wdb.update("ServiceLevel", cv, "App_Identifier = ? AND Level = ?", new String[] {
                 this.element.getApp().getIdentifier(), String.valueOf(this.element.getLevel()) });
+    }
+
+
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

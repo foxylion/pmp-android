@@ -22,7 +22,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     
     @Override
-    public void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb) {
         Cursor c = rdb.rawQuery("SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
                 new String[] { this.element.getIdentifier() });
         
@@ -44,12 +44,19 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     
     @Override
-    public void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
         
         wdb.update("ResourceGroup", cv, "Identifier = ?", new String[] { this.element.getIdentifier() });
+    }
+
+
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

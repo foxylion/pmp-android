@@ -26,7 +26,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    public void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb) {
         Cursor c = rdb.rawQuery("SELECT Name, Description FROM Preset WHERE Identifier = ? AND Type = ? LIMIT 1",
                 new String[] { this.element.getIdentifier(), this.element.getType().toString() });
         
@@ -87,13 +87,20 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    public void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb) {
         ContentValues cv = new ContentValues();
         cv.put("Name", this.element.name);
         cv.put("Description", this.element.description);
         
         wdb.update("Preset", cv, "Identifier = ? AND Type = ?", new String[] { this.element.getIdentifier(),
                 this.element.getType().toString() });
+    }
+
+
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb) {
+        // TODO Auto-generated method stub
+        
     }
     
 }
