@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model2.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model2.element.app.App;
+import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.ResourceGroup;
 
@@ -44,16 +46,18 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                     new String[] { this.element.getIdentifier(), this.element.getType().toString() });
             cpl.moveToFirst();
             
-            this.element.privacyLevelValues = new HashMap<PrivacyLevel, String>();
+            this.element.privacyLevelValues = new HashMap<IPrivacyLevel, String>();
             while (!cpl.isAfterLast()) {
                 String rgId = cpl.getString(cpl.getColumnIndex("ResourceGroup_Identifier"));
                 String plId = cpl.getString(cpl.getColumnIndex("PrivacyLevel_Identifier"));
                 String value = cpl.getString(cpl.getColumnIndex("Value"));
                 
                 ResourceGroup rg = getCache().getResourceGroups().get(rgId);
+                this.element.available = true;
                 if (rg == null) {
                     Log.w("Invalid preset cached (rg does not exist)");
-                    // TODO set invalid flag here
+                    
+                    this.element.available = false;
                 } else {
                     PrivacyLevel pl = getCache().getPrivacyLevels().get(rg).get(plId);
                     
@@ -69,7 +73,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                     this.element.getType().toString() });
             capp.moveToFirst();
             
-            this.element.assignedApps = new ArrayList<App>();
+            this.element.assignedApps = new ArrayList<IApp>();
             while (!capp.isAfterLast()) {
                 String appId = capp.getString(capp.getColumnIndex("App_Identifier"));
                 
@@ -95,12 +99,69 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         wdb.update("Preset", cv, "Identifier = ? AND Type = ?", new String[] { this.element.getIdentifier(),
                 this.element.getType().toString() });
     }
-
-
+    
+    
     @Override
     protected void deleteElementData(SQLiteDatabase wdb) {
         // TODO Auto-generated method stub
         
+    }
+    
+    
+    protected void assignApp(IApp app) {
+        SQLiteDatabase wdb = getDoh().getWritableDatabase();
+        
+        ContentValues cv = new ContentValues();
+        cv.put("Preset_Name", this.element.getName());
+        cv.put("Preset_Type", this.element.getType().toString());
+        cv.put("Preset_Identifier", this.element.getIdentifier());
+        cv.put("App_Identifier", app.getIdentifier());
+        
+        wdb.insert("Preset_Apps", null, cv);
+    }
+    
+    
+    protected void removeApp(IApp app) {
+        SQLiteDatabase wdb = getDoh().getWritableDatabase();
+        
+        wdb.rawQuery(
+                "DELETE FROM Preset_Apps WHERE Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND App_Identifier = ?",
+                new String[] { this.element.getName(), this.element.getType().toString(), this.element.getIdentifier(),
+                        app.getIdentifier() });
+        
+    }
+    
+    
+    protected void assignPrivacyLevel(IPrivacyLevel pl, String value) {
+        SQLiteDatabase wdb = getDoh().getWritableDatabase();
+        
+        ContentValues cv = new ContentValues();
+        cv.put("Preset_Name", this.element.getName());
+        cv.put("Preset_Type", this.element.getType().toString());
+        cv.put("Preset_Identifier", this.element.getIdentifier());
+        cv.put("ResourceGroup_Identifier", pl.getResourceGroup().getIdentifier());
+        cv.put("PrivacyLevel_Identifier", pl.getIdentifier());
+        cv.put("Value", value);
+        
+        if (wdb.insert("Preset_PrivacyLevels", null, cv) == -1) {
+            
+            wdb.update(
+                    "Preset_PrivacyLevels",
+                    cv,
+                    "Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
+                    new String[] { this.element.getName(), this.element.getType().toString(),
+                            this.element.getIdentifier(), pl.getResourceGroup().getIdentifier(), pl.getIdentifier() });
+        }
+    }
+    
+    
+    protected void removePrivacyLevel(IPrivacyLevel pl) {
+        SQLiteDatabase wdb = getDoh().getWritableDatabase();
+        
+        wdb.rawQuery(
+                "DELETE FROM Preset_PrivacyLevels WHERE Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
+                new String[] { this.element.getName(), this.element.getType().toString(), this.element.getIdentifier(),
+                        pl.getResourceGroup().getIdentifier(), pl.getIdentifier() });
     }
     
 }

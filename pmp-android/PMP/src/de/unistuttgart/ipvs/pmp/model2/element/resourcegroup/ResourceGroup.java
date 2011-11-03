@@ -95,11 +95,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     @Override
     @Deprecated
-    /* do not ask a RG this. instead ask the model. */
     public IApp[] getAllAppsUsingThisResourceGroup() {
-        // TODO Auto-generated method stub
-        
-        // implementation for performance test
         List<IApp> result = new ArrayList<IApp>();
         
         for (IApp app : Model.getInstance().getApps()) {

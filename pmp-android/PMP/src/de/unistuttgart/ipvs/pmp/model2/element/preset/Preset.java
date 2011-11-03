@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.model2.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
-import de.unistuttgart.ipvs.pmp.model2.element.app.App;
 import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
 
 /**
  * @see IPreset
@@ -32,8 +31,10 @@ public class Preset extends ModelElement implements IPreset {
     /**
      * internal data & links
      */
-    protected Map<PrivacyLevel, String> privacyLevelValues;
-    protected List<App> assignedApps;
+    protected Map<IPrivacyLevel, String> privacyLevelValues;
+    protected List<IApp> assignedApps;
+    
+    protected boolean available;
     
     
     /* organizational */
@@ -115,78 +116,110 @@ public class Preset extends ModelElement implements IPreset {
         return this.assignedApps.contains(app);
     }
     
-    
+     
     @Override
     public void assignApp(IApp app) {
-        // TODO
+        checkCached();
+        
+        ((PresetPersistenceProvider) persistenceProvider).assignApp(app);
+        this.assignedApps.add(app);
+        
+        app.verifyServiceLevel();
     }
     
     
     @Override
     @Deprecated
     public void assignApp(IApp app, boolean hidden) {
-        startUpdate();
+        if (hidden) {
+            IPCProvider.getInstance().startUpdate();
+        }
         assignApp(app);
-        endUpdate();
+        if (!hidden) {
+            IPCProvider.getInstance().endUpdate();
+        }
     }
     
     
     @Override
     public void removeApp(IApp app) {
-        // TODO
+        checkCached();
+        
+        ((PresetPersistenceProvider) persistenceProvider).removeApp(app);
+        this.assignedApps.remove(app);
+        
+        app.verifyServiceLevel();
     }
     
     
     @Override
     @Deprecated
     public void removeApp(IApp app, boolean hidden) {
-        startUpdate();
+        if (hidden) {
+            IPCProvider.getInstance().startUpdate();
+        }
         removeApp(app);
-        endUpdate();
+        if (!hidden) {
+            IPCProvider.getInstance().endUpdate();
+        }
     }
     
     
     @Override
-    public void addPrivacyLevel(IPrivacyLevel privacyLevel) {
-        // TODO
+    public void assignPrivacyLevel(IPrivacyLevel privacyLevel, String value) {
+        checkCached();
+        
+        ((PresetPersistenceProvider) persistenceProvider).assignPrivacyLevel(privacyLevel, value);
+        this.privacyLevelValues.put(privacyLevel, value);
+        
+        for (IApp app : getAssignedApps()) {
+            app.verifyServiceLevel();
+        }
     }
     
     
     @Override
     @Deprecated
-    public void addPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-        startUpdate();
-        addPrivacyLevel(privacyLevel);
-        endUpdate();
+    public void assignPrivacyLevel(IPrivacyLevel privacyLevel, String value, boolean hidden) {
+        if (hidden) {
+            IPCProvider.getInstance().startUpdate();
+        }
+        assignPrivacyLevel(privacyLevel, value);
+        if (!hidden) {
+            IPCProvider.getInstance().endUpdate();
+        }
     }
     
     
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel) {
-        // TODO
+        checkCached();
+        
+        ((PresetPersistenceProvider) persistenceProvider).removePrivacyLevel(privacyLevel);
+        this.privacyLevelValues.remove(privacyLevel);
+        
+        for (IApp app : getAssignedApps()) {
+            app.verifyServiceLevel();
+        }
     }
     
     
     @Override
     @Deprecated
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-        startUpdate();
+        if (hidden) {
+            IPCProvider.getInstance().startUpdate();
+        }
         removePrivacyLevel(privacyLevel);
-        endUpdate();
+        if (!hidden) {
+            IPCProvider.getInstance().endUpdate();
+        }
     }
-
-
+    
+    
     @Override
-    public void startUpdate() {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public void endUpdate() {
-        // TODO Auto-generated method stub
-        
+    public boolean isAvailable() {
+        return this.available;
     }
     
 }

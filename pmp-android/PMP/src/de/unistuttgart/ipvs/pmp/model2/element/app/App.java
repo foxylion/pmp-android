@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.unistuttgart.ipvs.pmp.PMPComponentType;
+import de.unistuttgart.ipvs.pmp.model2.Model;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model2.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model2.element.preset.Preset;
@@ -107,10 +109,29 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
+    @Deprecated
     public boolean setActiveServiceLevelAsPreset(int level) {
         checkCached();
-        // TODO might actually have to do some stuff here
-        return false;
+        
+        if (!getActiveServiceLevel().isAvailable()) {
+            return false;
+        }
+        
+        for (IPreset preset : getAssignedPresets()) {
+            preset.removeApp(this, true);
+        }
+        
+        IPreset preset = Model.getInstance().addPreset("AutoServiceLevelPreset", "", PMPComponentType.APP,
+                getIdentifier());
+        preset.assignApp(this, true);
+        
+        IServiceLevel sl = getServiceLevel(level);
+        for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
+            preset.assignPrivacyLevel(pl, getActiveServiceLevel().getRequiredPrivacyLevelValue(pl), true);
+        }
+        
+        verifyServiceLevel();
+        return true;
     }
     
     
@@ -147,7 +168,7 @@ public class App extends ModelElement implements IApp {
         checkCached();
         
         List<IPrivacyLevel> result = new ArrayList<IPrivacyLevel>();
-        for (IPrivacyLevel pl : getServiceLevel(this.activeServiceLevel).getPrivacyLevels()) {
+        for (IPrivacyLevel pl : getActiveServiceLevel().getPrivacyLevels()) {
             if (pl.getResourceGroup().equals(resourceGroup)) {
                 result.add(pl);
             }

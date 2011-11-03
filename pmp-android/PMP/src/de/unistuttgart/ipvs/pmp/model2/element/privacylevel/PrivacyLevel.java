@@ -91,10 +91,6 @@ public class PrivacyLevel extends ModelElement implements IPrivacyLevel {
     @Override
     @Deprecated
     public String getValue() {
-        /*
-        checkCached();
-        return this.value;*/
-        // i don't think this belongs here.
         return null;
     }
     
