@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project type="tulip" version="1.2.1">
+  <id>1</id>
+  <name>PMP</name>
+  <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+  <systemName>PMP</systemName>
+  <priorities>
+    <priority>Niedrig</priority>
+    <priority>Mittel</priority>
+    <priority>Hoch</priority>
+  </priorities>
+  <levels>
+    <level>Technische Details</level>
+    <level>Benutzersicht</level>
+    <level>Übersicht</level>
+    <level/>
+    <level/>
+    <level/>
+  </levels>
+  <actorsFolder>
+    <name>Akteure</name>
+    <id>5</id>
+    <children>
+      <actor>
+        <id>13</id>
+        <name>Paketmanagerserver</name>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </actor>
+      <actor>
+        <id>7</id>
+        <name>Expertenbenutzer</name>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </actor>
+      <actor>
+        <id>6</id>
+        <name>Benutzer</name>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </actor>
+    </children>
+  </actorsFolder>
+  <usabilityPatternsFolder>
+    <name>Usability Patterns</name>
+    <id>4</id>
+  </usabilityPatternsFolder>
+  <useCasesFolder>
+    <name>Use Cases</name>
+    <id>3</id>
+    <children>
+      <folder>
+        <id>28</id>
+        <name>Simpler Modus</name>
+        <children>
+          <useCase>
+            <id>16</id>
+            <name>Service Level einer App ändern</name>
+            <useCaseId>101</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:18</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>14</id>
+            <name>Details einer Ressourcengruppen anzeigen</name>
+            <useCaseId>100</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:16</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:21</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+      </folder>
+      <folder>
+        <id>29</id>
+        <name>Expertenmodus</name>
+        <children>
+          <useCase>
+            <id>18</id>
+            <name>In Expertenmodus wechseln</name>
+            <useCaseId>200</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:18</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:19</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>20</id>
+            <name>Privacy-Level-Wert ändern</name>
+            <useCaseId>201</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:19</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>22</id>
+            <name>Service Level durch Privacy Level festlegen</name>
+            <useCaseId>202</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:20</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+      </folder>
+      <folder>
+        <id>30</id>
+        <name>Paketmanager</name>
+        <children>
+          <useCase>
+            <id>24</id>
+            <name>Ressourcengruppe installieren</name>
+            <useCaseId>300</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:21</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:22</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+              <actorId>13</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>26</id>
+            <name>Ressourcengruppe deinstallieren</name>
+            <useCaseId>301</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>03-11-2011 16:22</created>
+            <author/>
+            <lastUpdate>03-11-2011 16:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+      </folder>
+    </children>
+  </useCasesFolder>
+  <useCaseDiagramsFolder>
+    <name>Use-Case-Diagramme</name>
+    <id>2</id>
+    <children>
+      <useCaseDiagram>
+        <id>31</id>
+        <name>PMP</name>
+        <description/>
+        <diagramData>
+          <model>
+            <name>Benutzer</name>
+            <type>ACTOR</type>
+            <reference>6</reference>
+            <position>
+              <x>9</x>
+              <y>44</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Service Level einer App ändern</name>
+            <type>USE_CASE</type>
+            <reference>16</reference>
+            <position>
+              <x>356</x>
+              <y>0</y>
+            </position>
+            <size>
+              <width>223</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Details einer Ressourcengruppen anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>14</reference>
+            <position>
+              <x>319</x>
+              <y>79</y>
+            </position>
+            <size>
+              <width>306</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Expertenbenutzer</name>
+            <type>ACTOR</type>
+            <reference>7</reference>
+            <position>
+              <x>0</x>
+              <y>339</y>
+            </position>
+            <size>
+              <width>87</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>In Expertenmodus wechseln</name>
+            <type>USE_CASE</type>
+            <reference>18</reference>
+            <position>
+              <x>303</x>
+              <y>357</y>
+            </position>
+            <size>
+              <width>202</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy-Level-Wert ändern</name>
+            <type>USE_CASE</type>
+            <reference>20</reference>
+            <position>
+              <x>313</x>
+              <y>435</y>
+            </position>
+            <size>
+              <width>193</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Service Level durch Privacy Level festlegen</name>
+            <type>USE_CASE</type>
+            <reference>22</reference>
+            <position>
+              <x>259</x>
+              <y>513</y>
+            </position>
+            <size>
+              <width>310</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Paketmanagerserver</name>
+            <type>ACTOR</type>
+            <reference>13</reference>
+            <position>
+              <x>0</x>
+              <y>205</y>
+            </position>
+            <size>
+              <width>100</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Ressourcengruppe installieren</name>
+            <type>USE_CASE</type>
+            <reference>24</reference>
+            <position>
+              <x>390</x>
+              <y>266</y>
+            </position>
+            <size>
+              <width>216</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Ressourcengruppe deinstallieren</name>
+            <type>USE_CASE</type>
+            <reference>26</reference>
+            <position>
+              <x>369</x>
+              <y>157</y>
+            </position>
+            <size>
+              <width>234</width>
+              <height>64</height>
+            </size>
+          </model>
+        </diagramData>
+      </useCaseDiagram>
+    </children>
+  </useCaseDiagramsFolder>
+</project>
