@@ -443,6 +443,122 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 });
         builder.create().show();
     }
+
+
+/**
+ * @param useModel
+ *            {@link IModel} to be used
+ * @param persistenceProvider
+ *            if available, will be called to pre-cache
+ * 
+ */
+private void performanceTests(de.unistuttgart.ipvs.pmp.model2.IModel useModel, PersistenceProvider persistenceProvider) {
+    long[] indexTimes = new long[5];
+    long[] pathTimes = new long[5];
+    
+    // memory stuff
+    ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+    MemoryInfo[] miBefore = am.getProcessMemoryInfo(new int[] { Process.myPid() });
+    
+    long pPinit = 0L;
+    if (persistenceProvider != null) {
+        long start = System.nanoTime();
+        persistenceProvider.cacheEverythingNow();
+        pPinit = System.nanoTime() - start;
+    }
+    
+    // index run = get all apps + all rgs
+    for (int i = 0; i < 5; i++) {
+        long start = System.nanoTime();
+        
+        de.unistuttgart.ipvs.pmp.model2.element.app.IApp[] apps = useModel.getApps();
+        for (de.unistuttgart.ipvs.pmp.model2.element.app.IApp app : apps) {
+            app.getName();
+            app.getActiveServiceLevel();
+        }
+        de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup[] rgs = useModel.getResourceGroups();
+        for (de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup rg : rgs) {
+            rg.getDescription();
+            rg.getPrivacyLevels();
+        }
+        
+        indexTimes[i] = System.nanoTime() - start;
+    }
+    // path run = wild calls running through every class
+    for (int i = 0; i < 5; i++) {
+        long start = System.nanoTime();
+        
+        de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup rg = useModel.getResourceGroup("de.unistuttgart.ipvs.pmp.resourcegroups.database");
+        if (rg == null) {
+            throw new IllegalArgumentException();
+        }
+        de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel pl = rg.getPrivacyLevel("read");
+        pl.getValue();
+        rg = pl.getResourceGroup();
+        de.unistuttgart.ipvs.pmp.model2.element.app.IApp app = rg.getAllAppsUsingThisResourceGroup()[0];
+        de.unistuttgart.ipvs.pmp.model2.element.preset.IPreset p = app.getAssignedPresets()[0];
+        p.getType();
+        p.getGrantedPrivacyLevels();
+        p.isAppAssigned(app);
+        de.unistuttgart.ipvs.pmp.model2.element.servicelevel.IServiceLevel sl = app.getServiceLevel(1);
+        pl = sl.getPrivacyLevels()[0];
+        rg = pl.getResourceGroup();
+        
+        pathTimes[i] = System.nanoTime() - start;
+    }
+    
+    MemoryInfo[] miAfter = am.getProcessMemoryInfo(new int[] { Process.myPid() });
+    
+    // create the message
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 5; i++) {
+        sb.append("Index-Run #");
+        sb.append(i + 1);
+        sb.append(" took ");
+        sb.append(indexTimes[i] / 1E6);
+        sb.append(" ms");
+        sb.append(System.getProperty("line.separator"));
+    }
+    sb.append(System.getProperty("line.separator"));
+    for (int i = 0; i < 5; i++) {
+        sb.append("Path-Run #");
+        sb.append(i + 1);
+        sb.append(" took ");
+        sb.append(pathTimes[i] / 1E6);
+        sb.append(" ms");
+        sb.append(System.getProperty("line.separator"));
+    }
+    sb.append(System.getProperty("line.separator"));
+    if (persistenceProvider != null) {
+        sb.append("Precaching: ");
+        sb.append(pPinit / 1E6);
+        sb.append(" ms");
+        sb.append(System.getProperty("line.separator"));
+    }
+    
+    // memory info
+    int dpb = miBefore[0].dalvikPrivateDirty;
+    int dpa = miAfter[0].dalvikPrivateDirty;
+    sb.append("Dalvik private dirty memory: ");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("before ");
+    sb.append(dpb);
+    sb.append(" kB / after ");
+    sb.append(dpa);
+    sb.append(" kB");
+    
+    // show the dialog
+    AlertDialog.Builder builder = new AlertDialog.Builder(PMPDeveloperConsoleActivity.this);
+    builder.setMessage(sb.toString()).setCancelable(false)
+            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+    builder.create().show();
+}
 }
 
 /**

@@ -94,7 +94,7 @@ public class Model implements IModel, Observer {
         checkCached();
         // TODO Auto-generated method stub
         
-        AppPersistenceProvider.createElementData(identifier);
+        //AppPersistenceProvider.createElementData(identifier);
         
     }
     
