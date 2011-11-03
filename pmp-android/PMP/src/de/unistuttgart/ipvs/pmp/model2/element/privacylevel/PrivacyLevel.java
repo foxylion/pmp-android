@@ -1,9 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model2.element.privacylevel;
 
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.ResourceGroup;
 
 /**

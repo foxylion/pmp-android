@@ -1,15 +1,16 @@
 package de.unistuttgart.ipvs.pmp.model2.element.app;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model2.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model2.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model2.element.servicelevel.IServiceLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.servicelevel.ServiceLevel;
 
 /**
@@ -129,8 +130,14 @@ public class App extends ModelElement implements IApp {
     @Override
     @Deprecated
     public IResourceGroup[] getAllResourceGroupsUsedByServiceLevels() {
-        // TODO that sounds awful
-        return null;
+        
+        Set<IResourceGroup> result = new HashSet<IResourceGroup>();
+        for (ServiceLevel sl : this.serviceLevels) {
+            for (IPrivacyLevel pl : sl.getPrivacyLevels()) {
+                result.add(pl.getResourceGroup());
+            }
+        }
+        return result.toArray(new IResourceGroup[0]);
     }
     
     
@@ -138,9 +145,7 @@ public class App extends ModelElement implements IApp {
     @Deprecated
     public IPrivacyLevel[] getAllPrivacyLevelsUsedByActiveServiceLevel(IResourceGroup resourceGroup) {
         checkCached();
-        // TODO what das funk.
         
-        // performance test implementation
         List<IPrivacyLevel> result = new ArrayList<IPrivacyLevel>();
         for (IPrivacyLevel pl : getServiceLevel(this.activeServiceLevel).getPrivacyLevels()) {
             if (pl.getResourceGroup().equals(resourceGroup)) {

@@ -36,7 +36,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
             this.element.activeServiceLevel = c.getInt(c.getColumnIndex("ServiceLevel_Active"));
             
             this.element.serviceLevels = getCache().getServiceLevels().get(this.element);
-            
+
             this.element.assignedPresets = new ArrayList<Preset>();
             for (Preset p : getCache().getPresets()) {
                 if (p.isAppAssigned(this.element)) {
@@ -70,9 +70,10 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     /**
      * Creates the data <b>in the persistence</b> for the {@link App} specified with the parameters.
      * 
-     * @return an {@link App} object that is linked to the newly created persistence data.
+     * @return an {@link App} object that is linked to the newly created persistence data, or null, if the creation was
+     *         not possible
      */
-    protected static App createElementData(String identifier) {
+    public static App createElementData(String identifier) {
         
         // TODO store in db
         

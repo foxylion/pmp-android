@@ -46,7 +46,9 @@ public class ServiceLevelPersistenceProvider extends ElementPersistenceProvider<
                             this.element.getApp().getIdentifier(), String.valueOf(this.element.getLevel()) });
             cpl.moveToFirst();
             
+            // load the required privacy level values
             this.element.privacyLevelValues = new HashMap<PrivacyLevel, String>();
+            this.element.available = true;
             while (!cpl.isAfterLast()) {
                 String rgId = cpl.getString(cpl.getColumnIndex("ResourceGroup_Identifier"));
                 String plId = cpl.getString(cpl.getColumnIndex("PrivacyLevel_Identifier"));
@@ -55,12 +57,13 @@ public class ServiceLevelPersistenceProvider extends ElementPersistenceProvider<
                 ResourceGroup rg = getCache().getResourceGroups().get(rgId);
                 if (rg == null) {
                     Log.w("Invalid service level cached (rg does not exist)");
-                    // TODO set invalid flag here
+                    this.element.available = false;
+                    
                 } else {
                     Map<String, PrivacyLevel> pls = getCache().getPrivacyLevels().get(rg);
                     PrivacyLevel pl = pls.get(plId);
                     
-                    this.element.privacyLevelValues.put(pl, value);
+                    this.element.privacyLevelValues.put(pl, value);                    
                 }
                 cpl.moveToNext();
             }

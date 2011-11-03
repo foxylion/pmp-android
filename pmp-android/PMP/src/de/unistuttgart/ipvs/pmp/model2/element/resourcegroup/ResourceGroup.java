@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.Model;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
 
 /**

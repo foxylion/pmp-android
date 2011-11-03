@@ -2,11 +2,10 @@ package de.unistuttgart.ipvs.pmp.model2.element.servicelevel;
 
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model2.element.app.App;
+import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
 
 /**
@@ -98,6 +97,12 @@ public class ServiceLevel extends ModelElement implements IServiceLevel {
     public IPrivacyLevel[] getPrivacyLevels() {
         checkCached();
         return this.privacyLevelValues.keySet().toArray(new IPrivacyLevel[0]);
+    }
+    
+    
+    @Override
+    public String getRequiredPrivacyLevelValue(IPrivacyLevel privacyLevel) {
+        return this.privacyLevelValues.get(privacyLevel);
     }
     
     

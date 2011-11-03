@@ -4,15 +4,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model2.element.app.App;
+import de.unistuttgart.ipvs.pmp.model2.element.app.AppPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model2.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model2.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model2.element.servicelevel.ServiceLevel;
 
@@ -93,6 +93,8 @@ public class Model implements IModel, Observer {
     public void addApp(String identifier, byte[] publicKey) {
         checkCached();
         // TODO Auto-generated method stub
+        
+        AppPersistenceProvider.createElementData(identifier);
         
     }
     

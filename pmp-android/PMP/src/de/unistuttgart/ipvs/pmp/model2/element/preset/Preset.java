@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model2.element.app.App;
+import de.unistuttgart.ipvs.pmp.model2.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel;
 import de.unistuttgart.ipvs.pmp.model2.element.privacylevel.PrivacyLevel;
 
 /**
@@ -91,83 +90,101 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IPrivacyLevel[] getUsedPrivacyLevels() {
+    public IPrivacyLevel[] getGrantedPrivacyLevels() {
         checkCached();
-        // TODO Auto-generated method stub
-        
-        // performance test implementation        
         return this.privacyLevelValues.keySet().toArray(new IPrivacyLevel[0]);
     }
     
     
     @Override
+    public String getGrantedPrivacyLevelValue(IPrivacyLevel privacyLevel) {
+        return this.privacyLevelValues.get(privacyLevel);
+    }
+    
+    
+    @Override
     public IApp[] getAssignedApps() {
-        // TODO Auto-generated method stub
-        return null;
+        checkCached();
+        return this.assignedApps.toArray(new IApp[0]);
     }
     
     
     @Override
     public boolean isAppAssigned(IApp app) {
         checkCached();
-        // TODO Auto-generated method stub
-        
-        // performance test implementation
         return this.assignedApps.contains(app);
     }
     
     
     @Override
     public void assignApp(IApp app) {
-        // TODO Auto-generated method stub
-        
+        // TODO
     }
     
     
     @Override
+    @Deprecated
     public void assignApp(IApp app, boolean hidden) {
-        // TODO Auto-generated method stub
-        
+        startUpdate();
+        assignApp(app);
+        endUpdate();
     }
     
     
     @Override
     public void removeApp(IApp app) {
-        // TODO Auto-generated method stub
-        
+        // TODO
     }
     
     
     @Override
+    @Deprecated
     public void removeApp(IApp app, boolean hidden) {
-        // TODO Auto-generated method stub
-        
+        startUpdate();
+        removeApp(app);
+        endUpdate();
     }
     
     
     @Override
     public void addPrivacyLevel(IPrivacyLevel privacyLevel) {
-        // TODO Auto-generated method stub
-        
+        // TODO
     }
     
     
     @Override
+    @Deprecated
     public void addPrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
-        // TODO Auto-generated method stub
-        
+        startUpdate();
+        addPrivacyLevel(privacyLevel);
+        endUpdate();
     }
     
     
     @Override
     public void removePrivacyLevel(IPrivacyLevel privacyLevel) {
-        // TODO Auto-generated method stub
-        
+        // TODO
     }
     
     
     @Override
+    @Deprecated
     public void removePrivacyLevel(IPrivacyLevel privacyLevel, boolean hidden) {
+        startUpdate();
+        removePrivacyLevel(privacyLevel);
+        endUpdate();
+    }
+
+
+    @Override
+    public void startUpdate() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void endUpdate() {
         // TODO Auto-generated method stub
         
     }
