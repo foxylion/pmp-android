@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Privacy Management Platform - Projektplan</title>
+	<script type="text/javascript" src="../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../_layout/script.js"></script>
+	<link type="text/css" rel="stylesheet" media="screen" href="../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<style type="text/css">
+	<!--
+		table.peopleList th.left {
+			width: 100px;
+		}
+	//-->
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">25. Juli 2011</div>
+		<div id="page-head-title">Privacy Management Platform</div>
+		<div id="page-title">Projektplan</div>
+		<div id="page-version">Version 0.1</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<div id="content">
+			
+			<h1 id="einleitung">Einleitung</h1>
+				<h2 id="zweck_abgrenzung">Zweck, Abgrenzung</h2>
+                    <p>Dieses Dokument stellt den Projektplan dar und beschreibt die Ziele des Projekts, sowie dessen genauen Ablauf. Die Zeit- und Personaleinteilung, die zu berücksichtigenden Bedingungen und denkbaren Risiken des Projekts werden hier festgehalten.
+                    </p>
+                    <p>Der Entwicklungsprozess und die externen Meilensteine werden detailliert aufgelistet, sowie jede Phase der Entwicklung genau beschrieben.
+                    </p>
+                    <p>Der Projektplan wird laufend aktualisiert, sodass neue Erkenntnisse oder Änderungen am Projekt unmittelbar dokumentiert werden. Jede durchgeführte Änderung wird in der Versionshistorie des Projektplans festgehalten.
+                    </p>
+				<h2 id="projektueberblick_motivation">Projektüberblick, Motivation</h2>
+					<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.
+                    <p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart soll eine Software entwickelt werden, die dem Konsumenten das sichere Benutzen eines Smartphones erlauben könnte.
+                    </p>
+                    <p>Der Benutzer soll alle Apps und Ressourcen auf dem Smartphone schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.
+                    </p>
+			<h1 id="formale_grundlagen">Formale Grundlagen</h1>
+				<h2 id="vertr_anf_projektdurchfuehrung">Vertragliche Anforderungen an die Projektdurchführung</h2>
+					<p>Die Abnahme durch den Kunden erfolgt spätestens zusammen mit dem Ende des Studienprojekts in der Kalenderwoche 21, 2012. <br>
+                    Der Kunde fordert ein iteratives Prozessmodell. Die Dauer pro Iteration beträgt ca. 1-2 Monate. Innerhalb einer Iteration wird das Wasserfallmodell angewendet, das im Kapitel <span class="reference" title="#phasen_der_entwicklung"></span> detaillierter beschrieben wird.<br>
+                    </p>
+                     <p>Nach jeder Iteration werden dem Kunden die Zwischenergebnisse des Projekts vorgelegt.
+					 </p>
+				<h2 id="vertr_anf_produkt">Vertragliche Anforderungen an das Produkt</h2>
+					<p>Die zur Implementierung verwendete Programmiersprache ist Java, die zugrundegelegte Umgebung ist Android 2.1.1. Alle weiteren Versionen aufwärts (2.2, 2.3, 2.3.3) sollen ebenfalls unterstützt werden.<br>
+                    Die Universität Stuttgart erhält ein unbefristetes, unbegrenztes Nutzungsrecht für Forschung und Lehre für die Software.<br>
+                    Alle weiteren Anforderungen an das Produkt werden in der Spezifikation festgehalten.
+                    </p>
+				<h2 id="vertr_anf_konformitaet_normen">Vertragliche Anforderungen an die Konformität mit Normen</h2>
+					<p>Die Software muss keinerlei Normen oder Richtlinien erfüllen. Der Kunde gibt keine Richtlinie zur Programmierung der Software vor, jedoch hält das Projektteam in der Implementierungsphase die Richtline "Code Convention for the Java Programming Language" ein.
+					</p>                                   
+					
+			<h1 id="leistungen_vertragspartner">Leistungen der Vertragspartner</h1>
+				<h2 id="lieferumfang">Lieferumfang (Software, Dienstleistungen, Dokumente)</h2>
+					<p>
+						<ul>							
+							<li>Angebot</li>
+							<li>Projektplan</li>
+						</ul>
+					<b>Nachfolgende Resultate entstehen in jeder Iteration:<b>
+						<ul>
+							<li>Spezifikation mit Begriffslexikon und UI-Prototyp (nach Review und Korrektur)</li>
+							<li>Ausführbare Software</li>
+							<li>Implementierungen der Demonstrationsszenarien</li>
+							<li>Systemtestprotokoll</li>
+							<li>Handbuch</li>							
+						</ul>
+                    </p>
+				<h2 id="resultate_nicht_lieferumfang">Resultate, die nicht zum Lieferumfang gehören</h2>
+					<p>
+						<ul>
+							<li>Analysenotizen aus dem Kundengespräch</li>
+							<li>Entwurf</li>
+							<li>Testdaten</li>
+							<li>Modultestplan und -protokoll</li>
+							<li>Systemtestplan</li>
+							<li>Kommunikationsdokumente (Redmine, E-Mails, usw.)</li>
+							<li>Sonstige Organisationsdokumente</li>
+						</ul>
+                    </p>
+				<h2 id="leistungen_auftraggeber">Leistungen des Auftraggebers</h2>
+					<p>
+						<ul>
+							<li>Arbeitsräume mit Desktop-Computern</li>
+							<li>Mehrere Android-Geräte</li>
+							<li>Lizenz für Visual Paradigm</li>
+						</ul>
+					</p>
+				<h2 id="externe_meilensteine">Externe Meilensteine</h2>
+					<p>Externe Meilensteine sind ausschließlich eine Übersicht für den Kunden. Die detaillierte Planung der internen Meilensteine ist im Kapitel <span class="reference" title="#meilensteinplanung"></span> zu finden.</p>
+					<p>
+						Die Nummer eines Meilenstein setzt sich aus der Nummer der Iteration und einer laufenden Nummer
+						der Meilensteine innerhalb einer Iteration zusammen. Die Vorprojektphase wird als 0. Iteration geführt.<br>
+						M-2.3 bezeichnet beispielsweise den dritten Meilenstein in der zweiten Iteration.
+					</p>
+						<table>
+							<tr>
+								<th>Nr.</th>
+								<th>Termin</th>
+								<th>Resultate für den Kunden</th>
+							</tr>
+							<tr>
+								<td>M-0.1</td>
+								<td>05.08.2011</td>
+								<td>Angebotsdokument und Projektplan</td>
+							</tr>
+							<tr>
+								<td>M-1.2</td>
+								<td>20.08.2011</td>
+								<td>Spezifikationsdokument</td>
+							</tr>
+							<tr>
+								<td>M-1.7</td>
+								<td>30.09.2011</td>
+								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+							</tr>
+							<tr>
+								<td>M-2.2</td>
+								<td>KW 43, 2011</td>
+								<td>Spezifikationsdokument</td>
+							</tr>
+							<tr>
+								<td>M-2.7</td>
+								<td>KW 48, 2011</td>
+								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+							</tr>
+							<tr>
+								<td>M-3.2</td>
+								<td>KW 51, 2011</td>
+								<td>Spezifikationsdokument</td>
+							</tr>
+							<tr>
+								<td>M-3.7</td>
+								<td>KW 04, 2012</td>
+								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+							</tr>
+							<tr>
+								<td>M-4.2</td>
+								<td>KW 08, 2012</td>
+								<td>Spezifikationsdokument</td>
+							</tr>
+							<tr>
+								<td>M-4.7</td>
+								<td>KW 13, 2012</td>
+								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+							</tr>
+							<tr>
+								<td>M-5.2</td>
+								<td>KW 16, 2012</td>
+								<td>Spezifikationsdokument</td>
+							</tr>
+							<tr>
+								<td>M-5.7</td>
+								<td>KW 21, 2012</td>
+								<td>Software, Quellcode, Handbuch, Systemtestprotokoll</td>
+							</tr>
+						</table>
+				<h2 id="abnahmeprozedur">Abnahmeprozedur</h2>
+                    <p>Alle Resultate werden vom Kunden geprüft und bestenfalls akzeptiert.<br>
+                    Sollte der Kunde mit den gelieferten Resultaten nicht einverstanden bzw. vertragliche Anforderungen nicht erfüllt worden sein, so wird das Projektteam die Resultate überarbeiten.
+					</p>
+				<h2 id="aenderungsverfahren">Änderungsverfahren</h2>
+					 <p>Sollte der Kunde Änderungswünsche während des Projekts äußern, werden diese umgesetzt. Voraussetzung dafür ist, dass es sich um geringfügige Änderungen handelt, die den zeitlichen Rahmen des Projekts nicht beeinflussen. Falls es sich um schwerwiegende Änderungen handelt, müssen sämtliche Dokumente angepasst bzw. neu erstellt werden.
+                     </p>
+			
+			<h1 id="entwicklungsprozess">Entwicklungsprozess</h1>
+				<h2 id="strategie_entwicklung_integration">Strategie für die Entwicklung und Integration</h2>
+					<p>Für die Entwicklung wird ein iterativer Prozess angestrebt. Dabei wird eine Iteration etwa 2 Monate lang dauern und einen präzise definierten Entwicklungsfortschritt des gesamten Systems umfassen. Innerhalb der Iteration wird dazu ein Wasserfallmodell angewandt, um innerhalb der kurzen Zeitspanne möglichst zügig und dynamisch entwickeln zu können. Dies bedeutet insbesondere, dass die Richtung gegen den normalen Fluss nur im Ausnahmefall beschritten wird und der klare Fokus auf der schnellen Durchführung des Wasserfalls liegen wird.</p>
+					<p>Um die Integration zu realisieren, soll das stetige Modell der "Continous Integration" eingesetzt werden.</p>
+				<h2 id="projektspez_abweichungen_vom_stdprozess">Projektspezifische Abweichungen vom Standardprozess</h2>
+					<p>Während der Analyse wird in keiner Iteration ein separates Analysedokument erstellt. Die Integration wird nicht als Phase des Wasserfallmodells verstanden, sondern kontinuierlich durchgeführt.</p>
+				<h2 id="phasen_der_entwicklung">Phasen der Entwicklung</h2>
+					<p>Die Entwicklung wird in mehrere Iterationen gegliedert, die klar abgegrenzte Phasen darstellen. Innerhalb einer Iteration werden folgende Phasen durchlaufen, wobei eine Phase durch den Wasserfallprozess unter Umständen mehrfach durchlaufen wird:</p>
+					<ul>
+						<li>Spezifikation, Modellierung & Prototyping</li>
+						<li>Review & Korrektur der Spezifikation</li>
+						<li>Entwurf</li>
+						<li>Implementation & Modultest mit kontinuierlicher Integration</li>
+						<li>Handbuch</li>
+						<li>Systemtest</li>
+						<li>Abnahme</li>
+					</ul>
+				<h2 id="dokumentationsplan">Dokumentationsplan</h2>
+					<p>Alle eigenständig entstehenden Dokumente werden einheitlich in HTML mit Kodierung UTF-8 verfasst, da dies sowohl einfach bearbeitbar als auch gut versionierbar ist. Dokumentation im Code soll durch JavaDoc-Kommentare gemäß den entsprechenden Richtlinien ununterbrochen stattfinden.</p>
+				<h2 id="pruefungen">Prüfungen (Reviews und Tests)</h2>
+					<p>Das Spezifikationsreview wird in jeder Iteration stattfinden, um die Fehler der Spezifikation besonders unter Kontrolle zu behalten, da diese sehr gravierende Auswirkungen haben können. Da insbesondere auch in der ersten Iteration mit dem Entwurf das Grundsystem wesentlich modelliert wird und weitere Änderungen nicht unbedingt einfach zu realisieren wären, wird in der ersten Iteration zudem ein Review des Entwurfs stattfinden.</p>
+					<p>Im Laufe der Implementierung werden kontinuierlich Modultests entstehen, die nicht vom Kodierer des Moduls verfasst werden sollen. Dazu wird durch die kontinuierliche Integration auch ein weiterer stetiger Test stattfinden. Ein abschließender Systemtest wird in jeder Iteration stattfinden.</p>
+					
+			<h1 id="risiken">Risiken</h1>
+				<h2 id="risiken_und_ihre_bewertung">Risiken und ihre Bewertung, Maßnahmen zur Reduktion und Notfallpläne</h2>
+					<h3 id="personalausfall">Personalausfall</h3>
+						<h4>Risiko</h4>
+							<p>Ein oder mehrere Teammitglieder könnten im Laufe des Projekts für einen begrenzten Zeitraum oder für das restliche Projekt unerwartet ausfallen. Die Gründe hierfür können von Krankheit über Lustlosigkeit bis anderweitige Verpflichtungen reichen. Dies würde sich vermutlich auf die Produktivität niederschlagen, da keine Ersatzkapazitäten vorgesehen sind.</p>
+						<h4>Bewertung</h4>
+							<p>Dieses Risiko ist über die Projektdauer hinweg relativ wahrscheinlich, sollte in begrenzten Einzelfällen allerdings ohne schwerwiegende Folgen für das Projekt bleiben. Wird das Team über längere Zeiträume oder in beträchtlichem Maße dezimiert, so wären die Folgen für das Projekt gravierend.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>Ernennung eines stellvertretenden Projektleiters</li>
+								<li>Großräumige Verteilung des Know-Hows dadurch, dass alle Teammitglieder in jeder Phase mitarbeiten.</li>
+							</ul>
+						<h4>Notfallpläne</h4>
+							<p>Im Notfall sollte so früh wie möglich ein Betreuer über den Umstand informiert werden. Des Weiteren muss die weiterführende Planung überprüft und gegebenenfalls dem reduzierten Team angepasst werden.</p>	
+					<h3 id="ausfall_der_infrastruktur">Ausfall der Infrastruktur</h3>
+						<h4>Risiko</h4>
+							<p>Die Technik, die zur Bereitstellung von Konfigurationsverwaltung und Projektverwaltung dient, könnte unerwartet komplett ausfallen. Dabei ist auch ein lokaler Datenverlust nicht ausgeschlossen.</p>
+						<h4>Bewertung</h4>
+							<p>An und für sich ist ein zeitlich begrenzter Ausfall über die Projektdauer äußerst wahrscheinlich. Einen schwerwiegenden Einfluss sollte dieser jedoch nicht haben, abhängig davon, ob Änderungen in Konfigurations- oder Projektverwaltung in dieser Zeitspanne getätigt werden sollten. Ein Datenverlust ist relativ unwahrscheinlich und wäre für sich genommen natürlich desaströs. Ein kompletter Datenverlust durch die getroffenen Gegenmaßnahmen ist sehr unwahrscheinlich.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>Backup des Repositorys sowohl indirekt bei jedem Teammitglied als auch bei Google Code</li>
+								<li>Regelmäßige Backups der Redmine-Daten, teilweise Backups der Backups</li>
+								<li>Keine Arbeitsbehinderung während Verbindungsausfällen durch Lokalität von Git</li>
+							</ul>
+						<h4>Notfallpläne</h4>
+							<p>Fällt diese Infrastruktur unerwartet aus, so ist der Verantwortliche für die Konfigurationsverwaltung umgehend zu informieren, da dies auf lange Sicht den Projektfortschritt beeinträchtigt. Stellt dieser fest, dass ein schwerwiegender Datenverlust eingetreten ist, so wird er versuchen, die Backups einzuspielen. Sollten diese ebenfalls nicht zur Verfügung stehen, ist mit den Betreuern ein Krisenstab zu bilden.</p>
+					<h3 id="fehlende_kenntnisse">Fehlende Kenntnisse</h3>
+						<h4>Risiko</h4>
+							<p>Teammitglieder könnten durch fehlende Kenntnisse mit Werkzeugen oder Techniken ihre Arbeit stillschweigend unzureichend erfüllen, absichtlich korrumpieren oder unabsichtlich Probleme verursachen.</p>
+						<h4>Bewertung</h4>
+							<p>Prinzipiell ist kein Mensch unfehlbar, sodass eine mittlere Wahrscheinlichkeit für dieses Risiko besteht. Je nach Umfang der entstehenden Probleme und der Zeitdauer, bis sie aufgedeckt werden, steigt der Schaden für das Projekt. Praktisch sollte durch die Gegenmaßnahmen sowohl Wahrscheinlichkeit als auch Folgen für ein signifikantes Problem stark reduziert werden.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>starke Ermunterung zur gemeinschaftlichen Zusammenarbeit</li>
+								<li>fortlaufende Ermunterung, bei Problemen Experten in oder außerhalb des Teams zu Rate zu ziehen</li>
+								<li>Einsatz eines Versionierungssystem</li>
+								<li>Einsatz eines Qualitätssicherungsbeauftragten</li>
+								<li>Motivation, bei guter Leistung eine "Google-Exkursion" besuchen zu dürfen</li>
+								<li>alle Teammitglieder sind projektbedingt Softwaretechnik-Studenten und sollten Wissen um dieses Risiko besitzen</li>
+							</ul>
+						<h4>Notfallpläne</h4>
+							<p>Beim Auftreten eines schwerwiegenden Problems ist abzuklären, ob dies absichtlich oder fahrlässig in Kauf genommen wurde. Ist dies der Fall, sollte der Betroffene auf dieses Verhalten angesprochen werden. Es sollte ihm die Möglichkeit gegeben werden, die fehlenden Kenntnisse zu erlernen, soweit der Zeitplan dies zulässt, z.B. durch Team Programming oder Zusammenarbeit mit einem Experten. Ändert sich seine Haltung dann jedoch immer noch nicht, sind entsprechende Kontrollmechanismen der Resultate (zB. eigener Branch, Review) einzuführen.</p>
+					<h3 id="fehlende_stabilitaet_der_anforderungen">Fehlende Stabilität der Anforderungen</h3>
+						<h4>Risiko</h4>
+							<p>Der Kunde wird mit Sicherheit seine Anforderungen im Laufe des Projekts ändern. Allerdings besteht das Risiko, dass er dies in einem Ausmaß tut, der die Entwicklung stark behindert. Ändert sich zum Beispiel bei jeder Absprache die Grundstruktur des Systems kann ein zügiger Projektfortschritt nicht mehr gewährleistet werden.</p>
+						<h4>Bewertung</h4>
+							<p>Dieses Risiko ist als geringfügig wahrscheinlich einzuschätzen, wobei seine Folgen überdurchschnittlich Probleme verursachen können, insbesondere wenn gravierende Zeitaufwände notwendig werden, um die Änderungen einzupflegen.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>Das Projekt ist ein Studienprojekt, fortlaufende großräumige Anforderungsänderungen sind nicht zu erwarten.</li>
+								<li>Der Kunde hat selbst Softwaretechnik studiert und kennt die Problematik.</li>
+							</ul>
+						<h4>Notfallpläne</h4>						
+							<p>Sollten wider Erwarten ununterbrochen schwerwiegende Anforderungsänderungen auftreten, die mit dem Kunden nicht neuverhandelt werden können, so ist mit den Betreuern und gegebenfalls mit der Abteilung Software Engineering abzuklären, ob und wie weit diese im Rahmen eines Studienprojektes sinnvoll sind.</p>
+					<h3 id="fehlende_motivation">Fehlende Motivation</h3>
+						<h4>Risiko</h4>
+							<p>Teammitglieder könnten durch eine prinzipiell unbegrenzte Anzahl von möglichen Gründen die Motivation an der Mitarbeit des Projektes verlieren und zeitlich oder andauernd unzufriedenstellende Resultate liefern.</p>
+						<h4>Bewertung</h4>
+							<p>Dieses Risiko ist relativ wahrscheinlich, da die Teammitglieder keinen bezahlten Arbeitsvertrag eingehen. Je nach Umfang der entstehenden Verzögerung und der Zeitdauer, bis sie aufgedeckt werden, steigt der Schaden für das Projekt. Dabei sollte dies in begrenzten Einzelfällen allerdings ohne schwerwiegende Folgen für das Projekt bleiben. Wird das Team allerdings über längere Zeiträume oder in beträchtlichem Maße dezimiert, so wären die Folgen für das Projekt gravierend. Dieses Risiko ist insbesondere gefährlich, da es sich bei den Teammitgliedern unerkannt bis zu einem spontanen Haltungsumschwung entwickeln kann.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>starke Ermunterung zur gemeinschaftlichen Zusammenarbeit</li>
+								<li>Motivation, bei guter Leistung eine "Google-Exkursion" besuchen zu dürfen</li>
+								<li>engagierte Projektorganisation</li>
+							</ul>
+						<h4>Notfallpläne</h4>
+							<p>Fällt auf, dass die Motivation bei einem Großteil der Teammitglieder abzunehmen scheint, sollten geeignete Belohnungen oder Anpassung der Aufgaben bzw. der Zeiten stattfinden. Findet eine Ausblendung gewisser Teammitglieder statt, so sind diese darauf anzusprechen und bei Überbelastung ist eine Kompromisslösung anzustreben. Schlägt auch diese oder generell die Kommunikationsversuche zu diesem Teammitglied fehl, so sind die Betreuer zu informieren.</p>
+					<h3 id="schlechte_beziehung_kunde">Schlechte Beziehung zum Kunden</h3>
+						<h4>Risiko</h4>
+							<p>Es besteht die Möglichkeit, dass sich eine schlechte Beziehung zum Kunden entwickelt, die durch Kompromisslosigkeit, schlechter Kommunikation und fahrlässig fehlenden Absprachen gekennzeichnet ist.</p>
+						<h4>Bewertung</h4>
+							<p>Das Risiko ist auf Grund der Gegenmaßnahmen als geringfügig wahrscheinlich einzustufen. Da in diesem Fall dem Kunden (als Abteilung) auch eine gewisse Prüfaufgabe zukommt, sind die Auswirkungen des Risikos über das Projekt hinaus nicht absehbar. Prinzipiell ist das Risiko äußerst variabel und kann sowohl minderschwere als auch gravierende Probleme verursachen, wie z.B. komplett neben den Anforderungen vorbei zu entwickeln.</p>
+						<h4>Gegenmaßnahmen</h4>
+							<ul>
+								<li>schriftliches Festhalten der Kommunikationskanäle</li>
+								<li>der Kunde hat selbst Softwaretechnik studiert und kennt das Risiko</li>
+							</ul>
+						<h4>Notfallpläne</h4>
+							<p>Sollte sich wider Erwarten eine derartige Situation einstellen, ist der Fortgang des Projekts äußerst ungewiss. Es wäre dann notwendig mit den Betreuern und gegebenenfalls der Abteilung SE eine allseits verträgliche Lösung zur Abwicklung des Projekts zu finden, ansonsten besteht eine vergleichsweise hohe Wahrscheinlichkeit, dass das Projekt scheitern wird.</p>	
+					
+			<h1 id="richtlinien_entwicklung">Richtlinien für die Entwicklung</h1>
+				<h2 id="konfigurationsmanagement">Konfigurationsmanagment</h2>
+					<p>Zur Konfigurationsverwaltung wird Git in Verbindung mit Redmine eingesetzt. Als verteiltes Versionskontrollsystem hat Git zahlreiche Vorteile gegenüber "normalen" Versionierungssystemen, wie beispielsweise die Ausrichtung auf häufige Merges, die beliebige Integrationsstrategie und die Lokalität der Änderungen. Damit stehen zusätzlich zum Google Code Repository, das ständig unseren Fortschritt als Backup spiegelt, auf jedem Rechner, der das Repository hat, ein funktionstüchtiges Backup zur Verfügung. Damit ist Git auch außerordentlich schnell und klein. Da ein Großteil der Organisationsstruktur bereits gut mit Redmine vertraut ist, wird dieses als Ticket- und Zeiterfassungswerkzeug eingesetzt.</p>
+				<h2 id="design_programmierrichtlinien">Design- und Programmierrichtlinien</h2>
+					<p>Das Projektteam hält beim Implementieren des Java-Codes die "Code Convention for the Java Programming Language" ein. Die Dokumentation wird in HTML mit der Kodierung UTF-8 verfasst. Alle Zeilenumbrüche sollen zur Kompatibilität im Linux-Stil stattfinden.</p>
+				<h2 id="einsatz_werkzeuge">Einsatz von Werkzeugen</h2>
+					<ul>
+						<li><b>Eclipse Indigo IDE</b> zur Entwicklung des Java-Codes</li>
+						<li><b>Git</b> zur Konfigurationsverwaltung</li>
+						<li><b>Redmine</b> als Projektverwaltung und Kommunikationsplatform (Ticketsystem, Zeiterfassung, New, Wiki, Forum)</li>
+						<li>Beliebiger <b>HTML Editor</b> zur Erstellung der Dokumente: Spezifikation, Projektplan, Benutzerhandbuch, Begriffslexikon, usw.</li>
+						<li><b>Justus</b> für die Systemtestverwaltung</li>
+						<li><b>JUnit</b> zur Durchführung der Modultests</li>
+						<li><b>RevAger</b> zur Durchführung und Dokumentation der Reviews</li>
+						<li><b>Visual Paradigm</b> zur Modellierung (Use-Case-Diagramme, Klassendiagramm, usw.)</li>
+						<li><b>CodeCover</b> zur Testüberdeckung (Glass-Box-Test)</li>
+						<li><b>Gantt Project</b> zur Erstellung von Gantt-Diagrammen</li>
+						<li><b>JavaDoc</b> zur Kommentierung des Java-Codes</li>
+					</ul>
+
+			<h1 id="anforderungen_umgebung">Anforderungen an die Umgebung</h1>
+				<h2 id="infrastruktur">Infrastruktur (Büros, Rechnersysteme, Software)</h2>
+					<p>Das Projektteam arbeitet sowohl in den von der Abteilung IPVS (Institut für parallele und verteilte Systeme) 
+					zur Verfügung gestellten Räumlichkeiten (Abteilungspool und Nexus-Labor),
+					den HS-/GS-Rechnerpools der Universität Stuttgart, sowie an privaten Arbeitsplätzen.</p>
+					Es werden folgende Rechnersysteme genutzt:
+					<ul>
+						<li>Private Notebooks und Desktop-Computer</li>
+						<li>Desktop-Computer der HS-/GS-Rechnerpools der Universität Stuttgart </li>
+						<li>Desktop-Computer in den Räumlichkeiten der Abteilung IPVS</li>
+					</ul>
+					<p>
+					Das Projektteam verwendet einige Softwarewerkzeuge zur Durchführung des Projekts.<br>
+					Diese sind in <span class="reference" title="#einsatz_werkzeuge"></span> detailiiert aufgeführt.
+					</p>
+
+			<h1 id="projektorganisation">Projektorganisation</h1>
+				<h2 id="schnittstelle_auftraggeber">Schnittstelle zum Auftraggeber</h2>
+					<p>Der erste Ansprechpartner für den Auftraggeber ist der <span class="reference noIndex" title="#projektleiter"></span>.
+					Sollte dieser in Ausnahmefällen nicht verfügbar sein, so tritt der <span class="reference noIndex" title="#stellv_projektleiter"></span>
+					an seine Stelle.</p>
+					<p>Die Kommunikation seitens des Projektteams erfolgt stets durch den Projektleiter. Dieser tritt in direkte Kommunikation mit dem Kunden.</p>
+				<h2 id="schnittstelle_eigene_organisation">Schnittstelle zur eigenen Organisation</h2>
+					<p>	
+						Für alle organisatorische Belange, allgemeinen Anfragen und schwerwiegende bzw.
+						grundlegende Entscheidungen ist der <span class="reference noIndex" title="#projektleiter"></span> verantwortlich.
+						Ist der Projektleiter nicht verfügbar, wird er durch den <span class="reference noIndex" title="#stellv_projektleiter"></span> vertreten.
+						<br>
+						Für einzelne Arbeitspakete sind verschiedene Projektmitarbeiter verantwortlich. Diese sind in <span class="reference" title="#projektstrukturplan_verantwortlichkeiten"></span> differenziert aufgeführt.<br>
+
+					</p>
+				<h2 id="schluesselpersonen">Schlüsselpersonen</h2>
+					<h3 id="pruefer">Prüfer</h3>
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Prof. Dr.-Ing. habil. Bernhard Mitschang<br>
+								Universitätsstraße 38, Raum 2.357<br>
+								D-70569 Stuttgart</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>Bernhard.Mitschang@ipvs.uni-stuttgart.de</td>
+							</tr>
+						</table>
+					<h3 id="kunde">Kunde</h3>
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Dipl.-Inf. Andreas Brodt<br>
+								Universitätsstraße 38, Raum 2.356<br>
+								D-70569 Stuttgart</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>Andreas.Brodt@ipvs.uni-stuttgart.de</td>
+							</tr>
+						</table>
+					<h3 id="betreuer">Betreuer</h3>
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Dipl.-Inf. Christoph Stach<br>
+								Universitätsstraße 38, Raum 2.360<br>
+								D-70569 Stuttgart</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>Christoph.Stach@ipvs.uni-stuttgart.de</td>
+							</tr>
+						</table>						
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Dipl.-Inf. Nazario Cipriani<br>
+								Universitätsstraße 38, Raum 2.356<br>
+								D-70569 Stuttgart</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>Nazario.Cipriani@ipvs.uni-stuttgart.de</td>
+							</tr>
+						</table>						
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Dipl.-Inf. Carlos Lübbe<br>
+								Universitätsstraße 38, Raum 2.360<br>
+								D-70569 Stuttgart</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>Carlos.Luebbe@ipvs.uni-stuttgart.de</td>
+							</tr>
+						</table>
+					<h3 id="projektleiter">Projektleiter</h3>
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Marcus Vetter<br>
+								Narzissenstraße 29<br>
+								D-70771 Leinfelden-Echterdingen</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>vetterms@studi.informatik.uni-stutgart.de</td>
+							</tr>
+						</table>
+					<h3 id="stellv_projektleiter">Stellv. Projektleiter</h3>
+						<table class="peopleList">
+							<tr>
+								<th class="left">Name:</th>
+								<td>Jakob Jarosch<br>
+								Laubengasse 7<br>
+								D-72664 Kohlberg</td>
+							</tr>
+							<tr>
+								<th class="left">E-Mail:</th>
+								<td>jaroscjb@studi.informatik.uni-stuttgart.de</td>
+							</tr>
+						</table>
+					<h3 id="projektteam">Projektteam</h3>
+						<table>
+							<tr>
+								<th>Name</th>
+								<th>Email</th>
+							</tr>
+							<tr>
+								<td>Berberich, Thorsten</td>
+								<td>swt77178@studmail.uni-stuttgart.de</td>
+							</tr>
+							<tr>
+								<td>Huynh, Hai Dang</td>
+								<td>huynhhi@studi.informatik.uni-stuttgart.de</td>
+							</tr>
+							<tr>
+								<td>Jarosch, Jakob</td>
+								<td>jaroscjb@studi.informatik.uni-stuttgart.de</td>
+							</tr>
+							<tr>
+								<td>Kuhn, Tobias</td>
+								<td>kuhnts@studi.informatik.uni-stuttgart.de</td>
+							</tr>
+							<tr>
+								<td>Makarov, Anton</td>
+								<td>makaroan@studi.informatik.uni-stuttgart.de</td>
+							</tr>							
+							<tr>
+								<td>Nguyen, Andre Bach</td>
+								<td>swt77060@stud.uni-stuttgart.de</td>
+							</tr>							
+							<tr>
+								<td>Schüler, Frieder</td>
+								<td>schuelfr@studi.informatik.uni-stuttgart.de</td>
+							</tr>		
+							<tr>
+								<td>Strobel, Patrick</td>
+								<td>strobepk@studi.informatik.uni-stuttgart.de</td>
+							</tr>
+							<tr>
+								<td>Vetter, Marcus</td>
+								<td>swt75342@stud.uni-stuttgart.de</td>
+							<tr>
+								<td>Alexander Wassilijew</td>
+								<td>wassilar@studi.informatik.uni-stuttgart.de</td>
+							</tr>							
+						</table>
+				<h2 id="berichtwesen">Berichtwesen</h2>
+					<h3 id="internes_berichtwesen">Internes Berichtwesen und Kommunikation</h3>
+						<p>Da das Berichtwesen eine zentrale und sehr wichtige Rolle einnimmt, 
+						verwendet das Projektteam für die Berichterstattung die umfangreiche Plattform <i><b>Redmine</b></i>.
+						Mithilfe dieser Plattform steht dem Projektteam ein Wiki, ein Newssystem und ein Forum zur differenzierten
+						Kommunikation zur Verfügung.<br><br>
+						
+						Das <b>Wiki</b> wird hauptsächlich zur dauerhaften Informationssammlung verwendet,
+						sodass hier wichtige Links zu projektrelevanten Internetseiten, Links zu Programmierrichtlinien,
+						aber auch Installationsanleitungen oder Ähnliches zugänglich gemacht werden können.<br><br>
+						
+						Das <b>Newssystem</b> wird vom Projektleiter und stellvertretenden Projektleiter genutzt,
+						um wichtige Neuigkeiten dem Projektteam mitzuteilen.<br><br>
+						
+						Um Fragen der Projektmitarbeiter effizient beantworten zu können, sowie diese Information zugleich anderen Projektmitarbeitern
+						zugänglich zu machen, wird das in redmine integrierte <b>Forum</b> genutzt.<br><br>
+						
+						Weiterhin wird im Ticketsystem der redmine-Plattform die <b>Aufgabenverteilung</b> durchgeführt.
+						Tickets werden Projektmitarbeitern zugewiesen und einem bestimmten Meilenstein zugeordnet, sodass für alle Projektmitarbeiter
+						die noch zu erledigenden Aufgaben ersichtlich sind.<br>
+						Die <b>Arbeitszeiterfassung</b> wird ebenfalls mit Hilfe der Redmine-Plattform durchgeführt.
+						Eintragungen werden wenn möglich auf Tickets referenziert und zusätzlich mit Kommentaren zur durchgeführten Tätigkeit versehen.
+						<br><br>
+						Ergänzt wird die Redmine-Plattform für die Berichterstattung durch wöchentliche <b>Meetings</b> des gesamten Projektteams.
+						Die hierbei erstellten Protokolle werden ebenfalls auf der Redmine-Plattform jedem Projektmitarbeiter zugänglich gemacht.
+						</p>
+					
+					<h3 id="externes_berichtwesen">Externes Berichtwesen, Activity Reports</h3>
+					
+						<p>	
+						Damit die <span class="reference noIndex" title="#betreuer"></span> kontinuierlich über den Projektfortschritt informiert sind,
+						verfasst der Projektleiter zweiwöchentlich einen kurzen <b>Projektbericht</b> über die bisher erreichten Ziele und der anstehenden durchzuführenden Schritte.
+						Diesem Bericht wird die kommentierte Arbeitszeiterfassung der einzelnen Projektmitarbeiter beigefügt.<br>
+						Zusätzlich werden von jedem Projektmitarbeiter insgesamt drei <b>Activity Reports</b> verfasst. Jeder Activity Report enthält eine Beschreibung der erbrachten Tätigkeit,
+						bei der der Projektmitarbeiter mitgearbeitet hat und gegebenfalls verantwortlich war, was momentan geplant ist und welche Ziele als nächstes erreicht werden sollen.<br>
+						Der erste Activity Report ist zu Beginn des Projekts, der zweite nach ca. sechs Monaten und der dritte kurz vor Projektende zu erstellen.<br>
+						Ergänzend hierzu findet kurz nach der jeweiligen Abgabe der Activity Reports ein <b>Gespräch</b> mit den Beteuern statt.
+						Hier wird der aktuelle Projektstand, die noch zu erreichenden Ziele und die Empfindung des einzelnen Projektmitarbeiters
+						im Team und im Projekt besprochen. Während des Gesprächs wird ein Protokoll erstellt.
+						</p>
+					
+			<h1 id="entwicklungsplan">Entwicklungsplan</h1>
+				<h2 id="termin_und_meilensteinplanung">Meilenstein- und Terminplanung</h2>
+					<h3 id="meilensteinplanung">Meilensteinplanung</h3>
+						<p>
+						Die Nummer eines Meilenstein setzt sich aus der Nummer der Iteration und einer laufenden Nummer
+						der Meilensteine innerhalb einer Iteration zusammen. Die Vorprojektphase wird als 0. Iteration geführt.<br>
+						M-2.3 bezeichnet beispielsweise den dritten Meilenstein in der zweiten Iteration.
+						</p>
+						
+						<table>
+							<tr>
+								<th>Nr.</th>
+								<th>Termin</th>
+								<th>Name des Meilensteins</th>
+								<th>Verantwortlicher Mitarbeiter</th>
+							</tr>
+							<tr>
+								<td>M-0.1</td>
+								<td>05.08.2011</td>
+								<td>Angebot, Projektplan</td>
+								<td>Marcus Vetter</td>
+							</tr>
+							<tr>
+								<td>M-1.1</td>
+								<td>16.08.2011</td>
+								<td>Spezifikation, Modellierung, Prototyp</td>
+								<td>Frieder Schüler</td>
+							</tr>
+							<tr>
+								<td>M-1.2</td>
+								<td>20.08.2011</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>Frieder Schüler</td>
+							</tr>
+							<tr>
+								<td>M-1.3</td>
+								<td>26.08.2011</td>
+								<td>Entwurf</td>
+								<td>
+									Anton Makarov (GUI)<br> 
+									Andre Bach Nguyen (Interne Daten)<br>
+									Hai Dang Huynh (Schnittstellen)
+								</td>
+							</tr>
+							<tr>
+								<td>M-1.4</td>
+								<td>19.09.2011</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>
+									Anton Makarov (GUI)<br> 
+									Andre Bach Nguyen (Interne Daten)<br>
+									Hai Dang Huynh (Schnittstellen)
+								</td>
+							</tr>
+							<tr>
+								<td>M-1.5</td>
+								<td>20.09.2011</td>
+								<td>Handbuch</td>
+								<td>Patrick Strobel</td>
+							</tr>
+							<tr>
+								<td>M-1.6</td>
+								<td>29.09.2011</td>
+								<td>Systemtest/-korrektur</td>
+								<td>Tobias Kuhn</td>
+							</tr>
+							<tr>
+								<td>M-1.7</td>
+								<td>30.09.2011</td>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+							</tr>
+							<tr>
+								<td>M-2.1</td>
+								<td>KW 42, 2011</td>
+								<td>Spezifikation, Modelleriung, Prototyp</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.2</td>
+								<td>KW 43, 2011</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.3</td>
+								<td>KW 44, 2011</td>
+								<td>Entwurf</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.4</td>
+								<td>KW 47, 2011</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.5</td>
+								<td>KW 47, 2011</td>
+								<td>Handbuch</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.6</td>
+								<td>KW 48, 2011</td>
+								<td>Systemtest/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-2.7</td>
+								<td>KW 48, 2011</td>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+							</tr>
+							<tr>
+								<td>M-3.1</td>
+								<td>KW 50, 2011</td>
+								<td>Spezifikation, Modelleriung, Prototyp</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.2</td>
+								<td>KW 51, 2011</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.3</td>
+								<td>KW 52, 2011</td>
+								<td>Entwurf</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.4</td>
+								<td>KW 03, 2012</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.5</td>
+								<td>KW 03, 2012</td>
+								<td>Handbuch</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.6</td>
+								<td>KW 04, 2012</td>
+								<td>Systemtest/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-3.7</td>
+								<td>KW 04, 2012</td>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+							</tr>
+							<tr>
+								<td>M-4.1</td>
+								<td>KW 07, 2012</td>
+								<td>Spezifikation, Modelleriung, Prototyp</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.2</td>
+								<td>KW 08, 2012</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.3</td>
+								<td>KW 09, 2012</td>
+								<td>Entwurf</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.4</td>
+								<td>KW 12, 2012</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.5</td>
+								<td>KW 12, 2012</td>
+								<td>Handbuch</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.6</td>
+								<td>KW 13, 2012</td>
+								<td>Systemtest/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-4.7</td>
+								<td>KW 13, 2012</td>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+							</tr>
+							<tr>
+								<td>M-5.1</td>
+								<td>KW 15, 2012</td>
+								<td>Spezifikation, Modelleriung, Prototyp</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.2</td>
+								<td>KW 16, 2012</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.3</td>
+								<td>KW 17, 2012</td>
+								<td>Entwurf</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.4</td>
+								<td>KW 20, 2012</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.5</td>
+								<td>KW 20, 2012</td>
+								<td>Handbuch</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.6</td>
+								<td>KW 21, 2012</td>
+								<td>Systemtest/-korrektur</td>
+								<td>t.b.a.</td>
+							</tr>
+							<tr>
+								<td>M-5.7</td>
+								<td>KW 21, 2012</td>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+							</tr>
+						</table>
+					<h3 id="terminplanung">Terminplanung, Gantt-Diagramm</h3>
+						<p>Das Gantt-Diagramm wurde für das Vorprojekt und erste Iteration erstellt. Sobald die Meilensteinetermine der weiteren Iterationen bekannt sind,
+						werden diese im Gantt-Diagramm nachgetragen.</p>
+						<b>Gantt-Diagramm:</b>
+						<img src="gantt.png" width="100%" height="100%" alt="GANTT-Diagramm">
+				<h2 id="projektstrukturplan_verantwortlichkeiten">Projektstrukturplan und Verantwortlichkeiten</h2>
+						<table>
+							<tr>
+								<th>Arbeitspaket</th>
+								<th>Verantwortlicher Mitarbeiter</th>
+								<th>Resultate</th>
+								<th>Meilenstein- Zuordnung</th>
+							</tr>
+							<tr>
+								<td>Analyse & Spezifikation</td>
+								<td>Frieder Schüler und Tobias Kuhn (stellv.)</td>
+								<td>
+									<ul>
+										<li>Prototyp der graphischen Benutzerschnittstelle</li>
+										<li>Spezifikation</li>
+									</ul>
+								</td>
+								<td>M-1.1</td>
+							</tr>
+							<tr>
+								<td>Modellierung</td>
+								<td>Thorsten Berberich</td>
+								<td>									
+									<ul>
+										<li>UML Anwendungsfalldiagramm</li>
+										<li>Ggf. UML Komponentendiagramm</li>
+										<li>Ggf. UML Aktivitätendiagramm</li>
+									</ul>
+								</td>
+								<td>M-1.1</td>
+							</tr>
+							<tr>
+								<td>Spezifikationsreview</td>
+								<td>Marcus Vetter</td>
+								<td>
+									<ul>
+										<li>Meeting (Spezifikationsreview)</li>
+										<li>Spezifikationsreview-Protokoll</li>
+									</ul>
+								
+								</td>
+								<td>M-1.2</td>
+							</tr>
+							<tr>
+								<td>Spezifikationskorrektur</td>
+								<td>Frieder Schüler</td>
+								<td>
+									<ul>
+										<li>Korrigierte Spezifikation</li>
+									</ul>
+								</td>
+								<td>M-1.2</td>
+							</tr>
+							<tr>
+								<td>Entwurf (Graphische Benutzeroberfläche)</td>
+								<td>Anton Makarov</td>
+								<td>
+									<ul>
+										<li>Architekturentwurf (Graphische Benutzeroberfläche)</li>
+										<li>Verfeinerter Prototyp</li>
+										<li>Ggf. UML Klassendiagramm</li>
+									</ul>
+								</td>
+								<td>M-1.3</td>
+								
+							</tr>
+							<tr>
+								<td>Entwurf (Interne Daten)</td>
+								<td>Andre Bach Nguyen</td>
+								<td>
+									<ul>
+										<li>Architekturentwurf (Interne Daten)</li>
+										<li>Ggf. UML Klassendiagramm</li>
+									</ul>
+								</td>
+								<td>M-1.3</td>
+							</tr>
+							<tr>
+								<td>Entwurf (Schnittstellen)</td>
+								<td>Hai Dang Huynh</td>
+								<td>
+									<ul>
+										<li>Architekturentwurf (Interne Daten)</li>
+										<li>Ggf. UML Klassendiagramm</li>
+									</ul>
+								</td>
+								<td>M-1.3</td>
+							</tr>
+							<tr>
+								<td>Implementierung (Graphische Benutzeroberfläche)</td>
+								<td>Anton Makarov</td>
+								<td>
+									<ul>
+										<li>Implementierung der graphischen Benutzeroberfläche</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Entwurf und Implementierung (Interne Daten)</td>
+								<td>Andre Bach Nguyen</td>
+								<td>
+									<ul>
+										<li>Implementierung der internen Daten</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Entwurf und Implementierung (Schnittstellen)</td>
+								<td>Hai Dang Huynh</td>
+								<td>
+									<ul>
+										<li>Implementierung der Schnittstellen</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Beispiel-Applikationen</td>
+								<td>Alexander Wassiljew</td>
+								<td>
+									<ul>
+										<li>Implementierte Beispiel-Applikationen</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Modultests</td>
+								<td>Andre Bach Nguyen</td>
+								<td>
+									<ul>
+										<li>Modultest-Protokoll</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Integration</td>
+								<td>Alexander Wassiljew</td>
+								<td>
+									<ul>
+										<li>Fertige Software</li>
+									</ul>
+								</td>
+								<td>M-1.4</td>
+							</tr>
+							<tr>
+								<td>Systemtest/-korrektur</td>
+								<td>Tobias Kuhn und Frieder Schüler (stellv.)</td>
+								<td>
+									<ul>
+										<li>Systemtest-Protokoll</li>
+										<li>Korrigierte Software</li>
+									</ul>
+								</td>
+								<td>M-1.5</td>
+							</tr>
+							<tr>
+								<td>Handbuch</td>
+								<td>Patrick Strobel</td>
+								<td>
+									<ul>
+										<li>Handbuch</li>
+									</ul>
+								</td>
+								<td>M-1.6</td>
+							</tr>
+							<tr>
+								<td>Abnahme</td>
+								<td>Marcus Vetter</td>
+								<td>
+									<ul>
+										<li>Produktpräsentation</li>
+									</ul>
+								</td>
+								<td>M-1.7</td>
+							</tr>
+						</table>
+				<h2 id="kosten_zeitplan">Aufwands- und Kostenplanung</h2>
+						<p>Für das Projekt, aufgeteilt in fünf Iterationen, sind insgesamt 10 Entwickler á 450 Arbeitsstunden vorgesehen.
+						Zusammen ergibt das einen Gesamtaufwand von 4.500 Entwicklerstunden. Eine Entwicklerstunde wird mit € 100,- berechnet.
+						Daraus folgen die Gesamtkosten in Höhe von € 450.000,-.
+						<br><br>
+						Das Vorprojekt wird auf 250 Entwicklerstunden, d.h. € 25.000,- disponiert. Für jede der insgesamt fünf Iterationen
+						stehen 850 Entwicklerstunden, d.h. € 85.000,-, zur Verfügung.
+						<br>
+						<br>
+						<b>Geschätzter Arbeitsanteil der Meilensteine einer Iteration:</b>
+						</p>
+						<table>
+							<tr>
+								<th>Nr.</th>
+								<th>Name des Meilensteins</th>
+								<th>Arbeitsanteil</th>
+								<th>Entwicklerstunden</th>
+								<th>Kosten</th>
+							</tr>
+							<tr>
+								<td>M-x.1</td>
+								<td>Spezifikation, Modelleriung, Prototyp</td>
+								<td>16%</td>
+								<td>136</td>
+								<td>€ 13.600,-</td>
+							</tr>
+							<tr>
+								<td>M-x.2</td>
+								<td>Spezifikationsreview/-korrektur</td>
+								<td>4%</td>
+								<td>34</td>
+								<td>€ 3.400,-</td>
+							</tr>
+							<tr>
+								<td>M-x.3</td>
+								<td>Entwurf</td>
+								<td>10%</td>
+								<td>85</td>
+								<td>€ 8.500,-</td>
+							</tr>
+							<tr>
+								<td>M-x.4</td>
+								<td>Implementierung, Modultest, Integration</td>
+								<td>60%</td>
+								<td>510</td>
+								<td>€ 51.000,-</td>
+							</tr>
+							<tr>
+								<td>M-x.5</td>
+								<td>Handbuch</td>
+								<td>3%</td>
+								<td>25,5</td>
+								<td>€ 2550,-</td>
+							</tr>
+							<tr>
+								<td>M-x.6</td>
+								<td>Systemtest/-korrektur</td>
+								<td>6%</td>
+								<td>51</td>
+								<td>€ 5.100,-</td>
+							</tr>
+							<tr>
+								<td>M-x.7</td>
+								<td>Abnahme</td>
+								<td>1%</td>
+								<td>8,5</td>
+								<td>€ 850,-</td>
+							</tr>
+							<tr>
+								<th colspan="2">Summe:</th>
+								<th>100%</th>
+								<th>850</th>
+								<th>€ 85.000,-</th>
+							</tr>					
+						</table>
+			<h1 id="versionsgeschichte">Versionsgeschichte des Dokuments</h1>
+					<h3>Version 0.3 (02.08.2011)</h3>
+					<ul>
+						<li>Gesamtkorrektur des Projektplans nach Review</li>
+					</ul>
+					<h3>Version 0.2 (01.08.2011)</h3>
+					<ul>
+						<li>Ausformulieren der Kapitel</li>
+					</ul>
+					<h3>Version 0.1 (25.07.2011)</h3>
+					<ul>
+						<li>Initiale Version nach der Vorlage aus LLSE10, S.115</li>
+					</ul>
+				
+		</div>
+	</div>
+</body>
+</html>
