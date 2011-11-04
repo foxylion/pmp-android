@@ -124,13 +124,13 @@
             <id>18</id>
             <name>In Expertenmodus wechseln</name>
             <useCaseId>200</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will in den Expertenmodus wechseln. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will in den Expertenmodus wechseln, damit er in PMP die Einstellungen gezielter ausw&amp;#228;hlen kann. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>03-11-2011 16:19</lastUpdate>
+            <lastUpdate>04-11-2011 11:23</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -139,13 +139,27 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>PMP befindet sich nicht im Expternmodus</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt das Wechseln in den Expertenmodus aus</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>wechselt die Ansicht in den Expertenmodus</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>PMP befindet sich im Expertenmodus</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -157,13 +171,13 @@
             <id>20</id>
             <name>Privacy-Level-Wert ändern</name>
             <useCaseId>201</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Level einer App &amp;#228;ndern &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer ver&amp;#228;ndert ein Privacy Level einer App. Dadurch kann sich unter Umst&amp;#228;ndern das Service Level der App &amp;#228;ndern. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>03-11-2011 16:19</created>
             <author/>
-            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <lastUpdate>04-11-2011 11:09</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -172,17 +186,95 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist mindestens eine App installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Übersicht der Apps aus</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Apps an</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die App aus, bei der das Privacy Level geändert werden soll</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>ändert ein Privacy Level</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>7</actorId>
+                  <description>bestätigt seine Änderungen</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>schließt die Übersicht der Privacy Levels</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Privacy Level einer App geändert</description>
+                </postCondition>
+                <postCondition>
+                  <description>Service Level der App nicht geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>7</associatedStep>
+                <name>7a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es ändert sich das Service Level der App</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>7a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass sich das Service Level der App ändert und welches Service Level gewählt wird</description>
+                  </step>
+                  <step>
+                    <stepNumber>7a2</stepNumber>
+                    <actorId>7</actorId>
+                    <description> bestätigt die Auswahl</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Privacy Level einer App geändert</description>
+                  </postCondition>
+                  <postCondition>
+                    <description>Service Level der App geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
         <children>
@@ -190,13 +282,13 @@
             <id>22</id>
             <name>Service Level durch Privacy Level festlegen</name>
             <useCaseId>202</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will durch ausw&amp;#228;hlen der Privacy Levels das Service Level einer App festlegen. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer w&amp;#228;hlt f&amp;#252;r eine App die Privacy Level aus, die er setzen will und legt dadurch das Service Level der App fest. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>03-11-2011 16:20</created>
             <author/>
-            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <lastUpdate>04-11-2011 11:16</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -205,13 +297,66 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist mindestens eine App installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
+                </preCondition>
+                <preCondition>
+                  <description>Für die App ist noch kein Service Level festgelegt</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Übersicht der Apps aus</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Apps an</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die App aus, bei der das Service Level durch die Privacy Level geändert werden sollen</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>stellt die Privacy Levels nach seinen Wünschen ein</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>7</actorId>
+                  <description>bestätigt die Einstellungen der Privacy Levels</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>zeigt das Service Level an, das auf Grund der Privacy Levels ausgewählt werden kann. Außerdem werden noch Service Levels die für den Expetenbenutzer eine Alternative sein könnten angezeigt.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>7</actorId>
+                  <description>bestätigt die Auswahl der Service Levels</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Es wurde ein Service Level für die App festgelegt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -319,7 +464,7 @@
             <type>USE_CASE</type>
             <reference>16</reference>
             <position>
-              <x>356</x>
+              <x>366</x>
               <y>0</y>
             </position>
             <size>
@@ -358,8 +503,8 @@
             <type>USE_CASE</type>
             <reference>18</reference>
             <position>
-              <x>303</x>
-              <y>357</y>
+              <x>388</x>
+              <y>338</y>
             </position>
             <size>
               <width>202</width>
@@ -371,8 +516,8 @@
             <type>USE_CASE</type>
             <reference>20</reference>
             <position>
-              <x>313</x>
-              <y>435</y>
+              <x>391</x>
+              <y>414</y>
             </position>
             <size>
               <width>193</width>
@@ -384,8 +529,8 @@
             <type>USE_CASE</type>
             <reference>22</reference>
             <position>
-              <x>259</x>
-              <y>513</y>
+              <x>328</x>
+              <y>492</y>
             </position>
             <size>
               <width>310</width>
@@ -410,8 +555,8 @@
             <type>USE_CASE</type>
             <reference>24</reference>
             <position>
-              <x>390</x>
-              <y>266</y>
+              <x>381</x>
+              <y>238</y>
             </position>
             <size>
               <width>216</width>
