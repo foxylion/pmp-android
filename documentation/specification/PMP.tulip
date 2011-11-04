@@ -24,17 +24,17 @@
       <actor>
         <id>13</id>
         <name>Paketmanagerserver</name>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Der Paketmanagerserver der die Pakete in PMP verwaltet. &lt;/p&gt;</description>
       </actor>
       <actor>
         <id>7</id>
         <name>Expertenbenutzer</name>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Ein Benutzer von PMP der den Expertenmodus benutzt. &lt;/p&gt;</description>
       </actor>
       <actor>
         <id>6</id>
         <name>Benutzer</name>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Ein Benutzer von PMP. &lt;/p&gt;</description>
       </actor>
     </children>
   </actorsFolder>
@@ -126,11 +126,11 @@
             <useCaseId>200</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will in den Expertenmodus wechseln. &lt;/p&gt;</goal>
             <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will in den Expertenmodus wechseln, damit er in PMP die Einstellungen gezielter ausw&amp;#228;hlen kann. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
+            <priority>Niedrig</priority>
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>04-11-2011 11:23</lastUpdate>
+            <lastUpdate>04-11-2011 11:32</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
