@@ -54,13 +54,13 @@
             <id>16</id>
             <name>Service Level einer App ändern</name>
             <useCaseId>101</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte den aktuellen Servicelevel einer bestimmten App ver&amp;#228;ndern. &lt;/p&gt;</goal>
             <description/>
-            <priority>Niedrig</priority>
+            <priority>Mittel</priority>
             <level>Technische Details</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>03-11-2011 16:20</lastUpdate>
+            <lastUpdate>04-11-2011 23:17</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -69,17 +69,112 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist mindestens eine App installiert</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Übersicht der Apps aus</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Apps an</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine App aus</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Service Level der gewählten App an</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt ein Service Level aus</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>6</actorId>
+                  <description>bestätigt die Auswahl des ausgewählten Service Levels</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Apps wieder an</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>schließt die Übersicht der Apps</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>kehrt zum Hauptmenü zurück</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Service Level einer App geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 4.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Der Service Level wurde noch nicht geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>6</associatedStep>
+                <name>6a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>6a1</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 4.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Der Service Level wurde noch nicht geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
         <children>
@@ -87,13 +182,13 @@
             <id>14</id>
             <name>Details einer Ressourcengruppen anzeigen</name>
             <useCaseId>100</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die Details &amp;#252;ber eine Ressourcengruppe anzeigen. &lt;/p&gt;</goal>
             <description/>
             <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <level>Übersicht</level>
             <created>03-11-2011 16:16</created>
             <author/>
-            <lastUpdate>03-11-2011 16:21</lastUpdate>
+            <lastUpdate>04-11-2011 23:02</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -102,13 +197,60 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist mindestens eine Ressourcengruppe installiert</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Ressourcengruppenübersicht aus</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle verfügbaren Ressourcengruppen an</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine Ressourcengruppe aus</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details der gewählten Ressourcengruppe an</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>schließt die Detailansicht der Ressourcengruppe</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle verfügbaren Ressourcengruppen wieder an</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>schließt die Ressourcengruppenübersicht</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>kehrt zum Hauptmenü zurück</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Details zu einer Ressourcengruppe angezeigt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
