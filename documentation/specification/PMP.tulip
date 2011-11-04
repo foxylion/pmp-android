@@ -372,13 +372,13 @@
             <id>24</id>
             <name>Ressourcengruppe installieren</name>
             <useCaseId>300</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine Ressourcengruppe finden und installieren. &lt;/p&gt;</goal>
             <description/>
             <priority>Niedrig</priority>
             <level>Technische Details</level>
             <created>03-11-2011 16:21</created>
-            <author/>
-            <lastUpdate>03-11-2011 16:22</lastUpdate>
+            <author>tk</author>
+            <lastUpdate>04-11-2011 17:38</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -388,17 +388,237 @@
               <name/>
               <preConditions>
                 <preCondition>
+                  <description>das PMP-Menü ist geöffnet</description>
+                </preCondition>
+                <preCondition>
                   <description/>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Paketmanager-Ansicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>ruft vom Paketmanagerserver die aktuelle Titelseite ab.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Titelseiten-Ansicht und ein Suchfeld.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId>6</actorId>
+                  <description>tippt in das Suchfeld einen Suchstring für die gewünschte Ressourcengruppe.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId/>
+                  <description>fragt den Paketmanagerserver nach diesem Suchstring.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>13</actorId>
+                  <description>sucht nach passenden Ressourcengruppen und sendet deren Informationen zurück.</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>zeigt dem Benutzer die Übersicht über die Ressourcengruppen.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine Ressourcengruppe aus.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>zeigt dem Benutzer die Details der ausgewählten Benutzergruppe.</description>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Installieren-Funktion.</description>
+                </step>
+                <step>
+                  <stepNumber>11</stepNumber>
+                  <actorId/>
+                  <description>lädt vom Paketmanagerserver die ausgewählte Ressourcengruppe herunter.</description>
+                </step>
+                <step>
+                  <stepNumber>12</stepNumber>
+                  <actorId/>
+                  <description>überprüft, ob die Signatur der Ressourcengruppe korrekt ist.</description>
+                </step>
+                <step>
+                  <stepNumber>13</stepNumber>
+                  <actorId/>
+                  <description>entpackt den Code der Ressourcengruppe und fügt sie in die Datenbank ein.</description>
+                </step>
+                <step>
+                  <stepNumber>14</stepNumber>
+                  <actorId/>
+                  <description>startet die Ressourcengruppe.</description>
+                </step>
+                <step>
+                  <stepNumber>15</stepNumber>
+                  <actorId/>
+                  <description>zeigt an, dass die Ressourcengruppe erfolgreich installiert wurde.</description>
+                </step>
+                <step>
+                  <stepNumber>16</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Titelseiten-Ansicht und ein Suchfeld.</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>die gewünschte Ressourcengruppe ist installiert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es konnte keine Verbindung zum Paketmanagerserver hergestellt werden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt statt der Titelseite eine Fehlermeldung und fordert den Benutzer dazu auf, eine Verbindung zu ermöglichen, wenn er neue Ressourcengruppe installieren will.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>7</associatedStep>
+                <name>7a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es gibt keine passenden Ressourcengruppen.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>7a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Benutzer an, dass es keine Ressourcengruppen mit diesem Suchstring gibt.</description>
+                  </step>
+                  <step>
+                    <stepNumber>7a2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>ändert den Suchstring.</description>
+                  </step>
+                  <step>
+                    <stepNumber>7a3</stepNumber>
+                    <actorId/>
+                    <description>geht zu Schritt 5 zurück.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>10</associatedStep>
+                <name>10a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>10a1</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 7.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>12</associatedStep>
+                <name>12a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Die Signatur der Ressourcengruppe ist ungültig.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>12a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt eine Fehlermeldung an, dass die Ressourcengruppe ungültig ist, ein Sicherheitsrisiko darstellt und nicht benutzt werden kann.</description>
+                  </step>
+                  <step>
+                    <stepNumber>12a2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>bestätigt traurig.</description>
+                  </step>
+                  <step>
+                    <stepNumber>12a3</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 7.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>14</associatedStep>
+                <name>14a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Durch einen Fehler lässt sich die Ressourcengruppe nicht starten.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>14a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt eine Fehlermeldung an, dass die Ressourcengruppe ungültig ist und nicht benutzt werden kann.</description>
+                  </step>
+                  <step>
+                    <stepNumber>14a2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>bestätigt.</description>
+                  </step>
+                  <step>
+                    <stepNumber>14a3</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 7.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
         <children>
@@ -406,13 +626,13 @@
             <id>26</id>
             <name>Ressourcengruppe deinstallieren</name>
             <useCaseId>301</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine installierte Ressourcengruppe deinstallieren. &lt;/p&gt;</goal>
             <description/>
             <priority>Niedrig</priority>
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>03-11-2011 16:23</lastUpdate>
+            <lastUpdate>04-11-2011 17:38</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -421,17 +641,132 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>das PMP-Hauptmenü ist geöffnet</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Paketmanager-Ansicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>ruft vom Paketmanagerserver die aktuelle Titelseite ab.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Installierte-Ressourcengruppen-Ansicht.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>stellt alle installierten Ressourcengruppen dar.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine Ressourcengruppe aus.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt dem Benutzer die Details der ausgewählten Benutzergruppe.</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Deinstallieren-Funktion.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>stoppt die ausgewählte Ressourcengruppe und deinstalliert sie.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>zeigt an, dass die Ressourcengruppe erfolgreich deinstalliert wurde.</description>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId/>
+                  <description>stellt alle installierten Ressourcengruppen dar.</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>die gewünschte Ressourcengruppe wurde deinstalliert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es konnte keine Verbindung zum Paketmanagerserver hergestellt werden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt statt der Titelseite eine Fehlermeldung und fordert den Benutzer dazu auf, eine Verbindung zu ermöglichen, wenn er neue Ressourcengruppe installieren will.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>4</associatedStep>
+                <name>4a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es gibt keine installierte Ressourcengruppe.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>4a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Benutzer an, dass keine Ressourcengruppen installiert sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>7</associatedStep>
+                <name>7a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>7a1</stepNumber>
+                    <actorId/>
+                    <description>geht zurück zu Schritt 4.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
       </folder>
