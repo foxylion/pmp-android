@@ -319,7 +319,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:19</created>
             <author/>
-            <lastUpdate>04-11-2011 11:09</lastUpdate>
+            <lastUpdate>05-11-2011 15:02</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -334,9 +334,6 @@
                   <description>Es ist noch kein Untermenü geöffnet</description>
                 </preCondition>
                 <preCondition>
-                  <description>Es ist mindestens eine App installiert</description>
-                </preCondition>
-                <preCondition>
                   <description>In PMP ist der Expertenmodus eingestellt</description>
                 </preCondition>
               </preConditions>
@@ -344,37 +341,37 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt die Übersicht der Apps aus</description>
+                  <description>wählt die Übersicht der Apps aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Apps an</description>
+                  <description>zeigt alle Apps an.</description>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt die App aus, bei der das Privacy Level geändert werden soll</description>
+                  <description>wählt die App aus, bei der das Privacy Level geändert werden soll.</description>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an</description>
+                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an.</description>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
-                  <description>ändert ein Privacy Level</description>
+                  <description>ändert ein Privacy Level.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId>7</actorId>
-                  <description>bestätigt seine Änderungen</description>
+                  <description>bestätigt seine Änderungen.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId/>
-                  <description>schließt die Übersicht der Privacy Levels</description>
+                  <description>schließt die Übersicht der Privacy Levels.</description>
                 </step>
               </steps>
               <postConditions>
@@ -388,29 +385,77 @@
             </mainScenario>
             <extensions>
               <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es gibt keine Apps.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Benutzer an, dass keine Apps installiert sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Service Level einer App nicht geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
                 <associatedStep>7</associatedStep>
                 <name>7a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Es ändert sich das Service Level der App</description>
+                    <description>Es ändert sich das Service Level der App.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>7a1</stepNumber>
                     <actorId/>
-                    <description>zeigt an, dass sich das Service Level der App ändert und welches Service Level gewählt wird</description>
+                    <description>zeigt an, dass sich das Service Level der App ändert und welches Service Level gewählt wird und dieses wird auch automatisch ausgewählt. Außerdem werden noch alternative Service Level angezeigt, die für den Expertenbenutzer
+                      interessant sein könnten.</description>
                   </step>
                   <step>
                     <stepNumber>7a2</stepNumber>
                     <actorId>7</actorId>
-                    <description> bestätigt die Auswahl</description>
+                    <description> bestätigt die Auswahl mit dem automatisch ausgewählten Service Level.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
                     <description>Privacy Level einer App geändert</description>
                   </postCondition>
+                  <postCondition>
+                    <description>Service Level der App geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>7a2</associatedStep>
+                <name>7a2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Der Expertenbenutzer wählt ein alternatives Service Level aus.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>7a2a1</stepNumber>
+                    <actorId>7</actorId>
+                    <description>wählt ein alternatives Service Level aus.</description>
+                  </step>
+                  <step>
+                    <stepNumber>7a2a2</stepNumber>
+                    <actorId/>
+                    <description>bestätigt die Auswahl.</description>
+                  </step>
+                </steps>
+                <postConditions>
                   <postCondition>
                     <description>Service Level der App geändert</description>
                   </postCondition>
