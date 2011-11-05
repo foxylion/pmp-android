@@ -60,7 +60,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>04-11-2011 23:17</lastUpdate>
+            <lastUpdate>05-11-2011 15:17</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -97,30 +97,40 @@
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Service Level der gewählten App an</description>
+                  <description>zeigt die Details der gewählten App an</description>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt ein Service Level aus</description>
+                  <description>wählt die "Service Level-Option" aus</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
-                  <actorId>6</actorId>
-                  <description>bestätigt die Auswahl des ausgewählten Service Levels</description>
+                  <actorId/>
+                  <description>zeigt alle Service Level der gewählten App an</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Apps wieder an</description>
+                  <actorId>6</actorId>
+                  <description>wählt ein Service Level aus</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId>6</actorId>
-                  <description>schließt die Übersicht der Apps</description>
+                  <description>bestätigt die Auswahl des ausgewählten Service Levels</description>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Apps wieder an</description>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId>6</actorId>
+                  <description>schließt die Übersicht der Apps</description>
+                </step>
+                <step>
+                  <stepNumber>11</stepNumber>
                   <actorId/>
                   <description>kehrt zum Hauptmenü zurück</description>
                 </step>
@@ -133,8 +143,8 @@
             </mainScenario>
             <extensions>
               <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5a</name>
+                <associatedStep>7</associatedStep>
+                <name>7a</name>
                 <preConditions>
                   <preCondition>
                     <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
@@ -142,9 +152,9 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>5a1</stepNumber>
+                    <stepNumber>7a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4.</description>
+                    <description>geht zurück zu Schritt 4</description>
                   </step>
                 </steps>
                 <postConditions>
@@ -154,8 +164,8 @@
                 </postConditions>
               </extensionScenario>
               <extensionScenario>
-                <associatedStep>6</associatedStep>
-                <name>6a</name>
+                <associatedStep>8</associatedStep>
+                <name>8a</name>
                 <preConditions>
                   <preCondition>
                     <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
@@ -163,9 +173,9 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>6a1</stepNumber>
+                    <stepNumber>8a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4.</description>
+                    <description>geht zurück zu Schritt 4</description>
                   </step>
                 </steps>
                 <postConditions>
