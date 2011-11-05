@@ -834,8 +834,8 @@
     <children>
       <useCaseDiagram>
         <id>31</id>
-        <name>PMP</name>
-        <description/>
+        <name/>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
         <diagramData>
           <model>
             <name>Benutzer</name>
@@ -881,8 +881,8 @@
             <type>ACTOR</type>
             <reference>7</reference>
             <position>
-              <x>0</x>
-              <y>339</y>
+              <x>8</x>
+              <y>368</y>
             </position>
             <size>
               <width>87</width>
@@ -894,8 +894,8 @@
             <type>USE_CASE</type>
             <reference>18</reference>
             <position>
-              <x>388</x>
-              <y>338</y>
+              <x>394</x>
+              <y>319</y>
             </position>
             <size>
               <width>202</width>
@@ -912,19 +912,6 @@
             </position>
             <size>
               <width>193</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Service Level durch Privacy Level festlegen</name>
-            <type>USE_CASE</type>
-            <reference>22</reference>
-            <position>
-              <x>328</x>
-              <y>492</y>
-            </position>
-            <size>
-              <width>310</width>
               <height>64</height>
             </size>
           </model>
