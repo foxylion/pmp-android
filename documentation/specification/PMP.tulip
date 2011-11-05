@@ -60,7 +60,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>05-11-2011 15:17</lastUpdate>
+            <lastUpdate>05-11-2011 20:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -82,57 +82,57 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die Übersicht der Apps aus</description>
+                  <description>wählt die Übersicht der Apps aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Apps an</description>
+                  <description>zeigt alle Apps an.</description>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt eine App aus</description>
+                  <description>wählt eine App aus.</description>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
-                  <description>zeigt die Details der gewählten App an</description>
+                  <description>zeigt die Details der gewählten App an.</description>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die "Service Level-Option" aus</description>
+                  <description>wählt die "Service Level-Option" aus.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Service Level der gewählten App an</description>
+                  <description>zeigt alle Service Level der gewählten App an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt ein Service Level aus</description>
+                  <description>wählt ein Service Level aus.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId>6</actorId>
-                  <description>bestätigt die Auswahl des ausgewählten Service Levels</description>
+                  <description>bestätigt die Auswahl des ausgewählten Service Levels.</description>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Apps wieder an</description>
+                  <description>zeigt alle Apps wieder an.</description>
                 </step>
                 <step>
                   <stepNumber>10</stepNumber>
                   <actorId>6</actorId>
-                  <description>schließt die Übersicht der Apps</description>
+                  <description>schließt die Übersicht der Apps.</description>
                 </step>
                 <step>
                   <stepNumber>11</stepNumber>
                   <actorId/>
-                  <description>kehrt zum Hauptmenü zurück</description>
+                  <description>kehrt zum Hauptmenü zurück.</description>
                 </step>
               </steps>
               <postConditions>
@@ -147,14 +147,14 @@
                 <name>7a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>7a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4</description>
+                    <description>geht zurück zu Schritt 4.</description>
                   </step>
                 </steps>
                 <postConditions>
@@ -168,14 +168,14 @@
                 <name>8a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Der Benutzer benutzt die "Zurück"-Funktion</description>
+                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>8a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4</description>
+                    <description>geht zurück zu Schritt 4.</description>
                   </step>
                 </steps>
                 <postConditions>
@@ -198,7 +198,7 @@
             <level>Übersicht</level>
             <created>03-11-2011 16:16</created>
             <author/>
-            <lastUpdate>04-11-2011 23:02</lastUpdate>
+            <lastUpdate>05-11-2011 20:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -220,42 +220,42 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die Ressourcengruppenübersicht aus</description>
+                  <description>wählt die Ressourcengruppenübersicht aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
-                  <description>zeigt alle verfügbaren Ressourcengruppen an</description>
+                  <description>zeigt alle verfügbaren Ressourcengruppen an.</description>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt eine Ressourcengruppe aus</description>
+                  <description>wählt eine Ressourcengruppe aus.</description>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
-                  <description>zeigt die Details der gewählten Ressourcengruppe an</description>
+                  <description>zeigt die Details der gewählten Ressourcengruppe an.</description>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
-                  <description>schließt die Detailansicht der Ressourcengruppe</description>
+                  <description>schließt die Detailansicht der Ressourcengruppe.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt alle verfügbaren Ressourcengruppen wieder an</description>
+                  <description>zeigt alle verfügbaren Ressourcengruppen wieder an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
-                  <description>schließt die Ressourcengruppenübersicht</description>
+                  <description>schließt die Ressourcengruppenübersicht.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
-                  <description>kehrt zum Hauptmenü zurück</description>
+                  <description>kehrt zum Hauptmenü zurück.</description>
                 </step>
               </steps>
               <postConditions>
@@ -282,7 +282,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>04-11-2011 11:32</lastUpdate>
+            <lastUpdate>05-11-2011 20:02</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -301,12 +301,12 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt das Wechseln in den Expertenmodus aus</description>
+                  <description>wählt das Wechseln in den Expertenmodus aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
-                  <description>wechselt die Ansicht in den Expertenmodus</description>
+                  <description>wechselt die Ansicht in den Expertenmodus.</description>
                 </step>
               </steps>
               <postConditions>
@@ -329,7 +329,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:19</created>
             <author/>
-            <lastUpdate>05-11-2011 15:02</lastUpdate>
+            <lastUpdate>05-11-2011 20:07</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -366,20 +366,30 @@
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an.</description>
+                  <description>zeigt die Details der gewählten App an.</description>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
-                  <description>ändert ein Privacy Level.</description>
+                  <description>wählt die "Service Level-Option" aus.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId>7</actorId>
-                  <description>bestätigt seine Änderungen.</description>
+                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>ändert ein Privacy Level.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>bestätigt seine Änderungen.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>schließt die Übersicht der Privacy Levels.</description>
                 </step>
@@ -416,8 +426,8 @@
                 </postConditions>
               </extensionScenario>
               <extensionScenario>
-                <associatedStep>7</associatedStep>
-                <name>7a</name>
+                <associatedStep>9</associatedStep>
+                <name>9a</name>
                 <preConditions>
                   <preCondition>
                     <description>Es ändert sich das Service Level der App.</description>
@@ -425,29 +435,26 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>7a1</stepNumber>
+                    <stepNumber>9a1</stepNumber>
                     <actorId/>
                     <description>zeigt an, dass sich das Service Level der App ändert und welches Service Level gewählt wird und dieses wird auch automatisch ausgewählt. Außerdem werden noch alternative Service Level angezeigt, die für den Expertenbenutzer
                       interessant sein könnten.</description>
                   </step>
                   <step>
-                    <stepNumber>7a2</stepNumber>
+                    <stepNumber>9a2</stepNumber>
                     <actorId>7</actorId>
-                    <description> bestätigt die Auswahl mit dem automatisch ausgewählten Service Level.</description>
+                    <description>bestätigt die Auswahl mit dem automatisch ausgewählten Service Level.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Privacy Level einer App geändert</description>
-                  </postCondition>
-                  <postCondition>
-                    <description>Service Level der App geändert</description>
+                    <description>Service Level der App geändert.</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
               <extensionScenario>
-                <associatedStep>7a2</associatedStep>
-                <name>7a2a</name>
+                <associatedStep>9a1</associatedStep>
+                <name>9a1a</name>
                 <preConditions>
                   <preCondition>
                     <description>Der Expertenbenutzer wählt ein alternatives Service Level aus.</description>
@@ -455,19 +462,19 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>7a2a1</stepNumber>
+                    <stepNumber>9a1a1</stepNumber>
                     <actorId>7</actorId>
                     <description>wählt ein alternatives Service Level aus.</description>
                   </step>
                   <step>
-                    <stepNumber>7a2a2</stepNumber>
-                    <actorId/>
+                    <stepNumber>9a1a2</stepNumber>
+                    <actorId>7</actorId>
                     <description>bestätigt die Auswahl.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Service Level der App geändert</description>
+                    <description>Service Level der App geändert.</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -889,8 +896,8 @@
     <children>
       <useCaseDiagram>
         <id>31</id>
-        <name/>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <name>Diagramm</name>
+        <description/>
         <diagramData>
           <model>
             <name>Benutzer</name>
