@@ -24,12 +24,12 @@
       <actor>
         <id>13</id>
         <name>Paketmanagerserver</name>
-        <description>&lt;p style="margin-top: 0"&gt; Der Paketmanagerserver der die Pakete in PMP verwaltet. &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Der Paketmanagerserver, der die Pakete in PMP verwaltet. &lt;/p&gt;</description>
       </actor>
       <actor>
         <id>7</id>
         <name>Expertenbenutzer</name>
-        <description>&lt;p style="margin-top: 0"&gt; Ein Benutzer von PMP der den Expertenmodus benutzt. &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Ein Benutzer von PMP, der den Expertenmodus benutzt. &lt;/p&gt;</description>
       </actor>
       <actor>
         <id>6</id>
@@ -54,13 +54,13 @@
             <id>16</id>
             <name>Service Level einer App ändern</name>
             <useCaseId>101</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte den aktuellen Servicelevel einer bestimmten App ver&amp;#228;ndern. &lt;/p&gt;</goal>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte den aktuellen Service Level einer bestimmten App ver&amp;#228;ndern. &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Technische Details</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>05-11-2011 20:10</lastUpdate>
+            <lastUpdate>05-11-2011 22:59</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
