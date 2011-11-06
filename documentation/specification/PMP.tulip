@@ -60,7 +60,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>05-11-2011 22:59</lastUpdate>
+            <lastUpdate>06-11-2011 12:31</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -116,21 +116,26 @@
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details des ausgewählten Service Levels.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
                   <actorId>6</actorId>
                   <description>bestätigt die Auswahl des ausgewählten Service Levels.</description>
                 </step>
                 <step>
-                  <stepNumber>9</stepNumber>
+                  <stepNumber>10</stepNumber>
                   <actorId/>
                   <description>zeigt alle Apps wieder an.</description>
                 </step>
                 <step>
-                  <stepNumber>10</stepNumber>
+                  <stepNumber>11</stepNumber>
                   <actorId>6</actorId>
                   <description>schließt die Übersicht der Apps.</description>
                 </step>
                 <step>
-                  <stepNumber>11</stepNumber>
+                  <stepNumber>12</stepNumber>
                   <actorId/>
                   <description>kehrt zum Hauptmenü zurück.</description>
                 </step>
@@ -164,8 +169,8 @@
                 </postConditions>
               </extensionScenario>
               <extensionScenario>
-                <associatedStep>8</associatedStep>
-                <name>8a</name>
+                <associatedStep>9</associatedStep>
+                <name>9a</name>
                 <preConditions>
                   <preCondition>
                     <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
@@ -173,9 +178,9 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>8a1</stepNumber>
+                    <stepNumber>9a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4.</description>
+                    <description>geht zurück zu Schritt 6.</description>
                   </step>
                 </steps>
                 <postConditions>
