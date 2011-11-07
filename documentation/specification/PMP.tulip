@@ -52,15 +52,15 @@
         <children>
           <useCase>
             <id>16</id>
-            <name>Service Level einer App ändern</name>
+            <name>Service Feature einer App aktivieren</name>
             <useCaseId>101</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte den aktuellen Service Level einer bestimmten App ver&amp;#228;ndern. &lt;/p&gt;</goal>
-            <description/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</description>
             <priority>Mittel</priority>
-            <level>Technische Details</level>
+            <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>06-11-2011 12:31</lastUpdate>
+            <lastUpdate>07-11-2011 18:12</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -73,9 +73,6 @@
                 </preCondition>
                 <preCondition>
                   <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist mindestens eine App installiert</description>
                 </preCondition>
               </preConditions>
               <steps>
@@ -102,75 +99,55 @@
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die "Service Level-Option" aus.</description>
+                  <description>wählt die "Service-Feature-Option" aus.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Service Level der gewählten App an.</description>
+                  <description>zeigt alle Service Features der gewählten App an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt ein Service Level aus.</description>
+                  <description>aktiviert ein Service Feature.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Details des ausgewählten Service Levels.</description>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
                   <actorId>6</actorId>
-                  <description>bestätigt die Auswahl des ausgewählten Service Levels.</description>
-                </step>
-                <step>
-                  <stepNumber>10</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Apps wieder an.</description>
-                </step>
-                <step>
-                  <stepNumber>11</stepNumber>
-                  <actorId>6</actorId>
-                  <description>schließt die Übersicht der Apps.</description>
-                </step>
-                <step>
-                  <stepNumber>12</stepNumber>
-                  <actorId/>
-                  <description>kehrt zum Hauptmenü zurück.</description>
+                  <description>bestätigt die Auswahl der aktiven Service Features.</description>
                 </step>
               </steps>
               <postConditions>
                 <postCondition>
-                  <description>Service Level einer App geändert</description>
+                  <description>Aktive Service Features einer App geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
             <extensions>
               <extensionScenario>
-                <associatedStep>7</associatedStep>
-                <name>7a</name>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
+                    <description>Es gibt keine Apps.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>7a1</stepNumber>
+                    <stepNumber>2a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 4.</description>
+                    <description>zeigt dem Benutzer an, dass keine Apps installiert sind.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Der Service Level wurde noch nicht geändert</description>
+                    <description>keine Änderungen an den Service Features der App</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
               <extensionScenario>
-                <associatedStep>9</associatedStep>
-                <name>9a</name>
+                <associatedStep>8</associatedStep>
+                <name>8a</name>
                 <preConditions>
                   <preCondition>
                     <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
@@ -178,14 +155,14 @@
                 </preConditions>
                 <steps>
                   <step>
-                    <stepNumber>9a1</stepNumber>
+                    <stepNumber>8a1</stepNumber>
                     <actorId/>
-                    <description>geht zurück zu Schritt 6.</description>
+                    <description>geht zurück zu Schritt 2.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Der Service Level wurde noch nicht geändert</description>
+                    <description>Die aktiven Service Features der App wurde noch nicht geändert</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -195,15 +172,15 @@
         <children>
           <useCase>
             <id>14</id>
-            <name>Details einer Ressourcengruppen anzeigen</name>
+            <name>Details einer Ressourcengruppe anzeigen</name>
             <useCaseId>100</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die Details &amp;#252;ber eine Ressourcengruppe anzeigen. &lt;/p&gt;</goal>
-            <description/>
+            <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die Details &amp;#252;ber eine Ressourcengruppe anzeigen. &lt;/p&gt;</description>
             <priority>Niedrig</priority>
             <level>Übersicht</level>
             <created>03-11-2011 16:16</created>
             <author/>
-            <lastUpdate>05-11-2011 20:10</lastUpdate>
+            <lastUpdate>07-11-2011 18:14</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -216,9 +193,6 @@
                 </preCondition>
                 <preCondition>
                   <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist mindestens eine Ressourcengruppe installiert</description>
                 </preCondition>
               </preConditions>
               <steps>
@@ -245,22 +219,7 @@
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
-                  <description>schließt die Detailansicht der Ressourcengruppe.</description>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle verfügbaren Ressourcengruppen wieder an.</description>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>6</actorId>
-                  <description>schließt die Ressourcengruppenübersicht.</description>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>kehrt zum Hauptmenü zurück.</description>
+                  <description>schließt die Detailübersicht.</description>
                 </step>
               </steps>
               <postConditions>
@@ -269,7 +228,29 @@
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Ressourcengruppen installiert.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Benutzer an, dass keine Ressourcengruppen installiert sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description/>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
       </folder>
@@ -326,15 +307,15 @@
         <children>
           <useCase>
             <id>20</id>
-            <name>Privacy-Level-Wert ändern</name>
+            <name>Privacy Setting ändern</name>
             <useCaseId>201</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Level einer App &amp;#228;ndern &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer ver&amp;#228;ndert ein Privacy Level einer App. Dadurch kann sich unter Umst&amp;#228;ndern das Service Level der App &amp;#228;ndern. &lt;/p&gt;</description>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Setting einer App &amp;#228;ndern &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer ver&amp;#228;ndert ein Privacy Setting einer App. Dadurch kann sich unter Umst&amp;#228;nden die aktiven Service Features der App &amp;#228;ndern. &lt;/p&gt;</description>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>03-11-2011 16:19</created>
             <author/>
-            <lastUpdate>05-11-2011 20:07</lastUpdate>
+            <lastUpdate>07-11-2011 17:52</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -366,7 +347,7 @@
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt die App aus, bei der das Privacy Level geändert werden soll.</description>
+                  <description>wählt die App aus, bei der das Privacy Setting geändert werden soll.</description>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
@@ -376,17 +357,17 @@
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt die "Service Level-Option" aus.</description>
+                  <description>wählt die "Service-Feature-Option" aus.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
-                  <actorId>7</actorId>
-                  <description>zeigt alle Privacy Level der Ressourcengruppen, die die App benutzt an.</description>
+                  <actorId/>
+                  <description>zeigt alle Privacy Settings der Ressourcengruppen, die die App benutzt, an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
-                  <actorId/>
-                  <description>ändert ein Privacy Level.</description>
+                  <actorId>7</actorId>
+                  <description>ändert ein Privacy Setting.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
@@ -395,8 +376,8 @@
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
-                  <actorId/>
-                  <description>schließt die Übersicht der Privacy Levels.</description>
+                  <actorId>7</actorId>
+                  <description>schließt die Übersicht der Privacy Settings.</description>
                 </step>
               </steps>
               <postConditions>
@@ -404,7 +385,7 @@
                   <description>Privacy Level einer App geändert</description>
                 </postCondition>
                 <postCondition>
-                  <description>Service Level der App nicht geändert</description>
+                  <description>Aktive Service Features der App nicht geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -414,7 +395,7 @@
                 <name>2a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Es gibt keine Apps.</description>
+                    <description>Es sind keine Apps vorhanden.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
@@ -426,7 +407,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Service Level einer App nicht geändert</description>
+                    <description>Aktive Service Features einer App nicht geändert</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -435,25 +416,25 @@
                 <name>9a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Es ändert sich das Service Level der App.</description>
+                    <description>Es ändern sich die aktiven Service Features der App.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>9a1</stepNumber>
                     <actorId/>
-                    <description>zeigt an, dass sich das Service Level der App ändert und welches Service Level gewählt wird und dieses wird auch automatisch ausgewählt. Außerdem werden noch alternative Service Level angezeigt, die für den Expertenbenutzer
-                      interessant sein könnten.</description>
+                    <description>zeigt an, dass sich die aktiven Service Features der App ändern werden. Diese Service Features werden angezeigt und ausgewählt. Außerdem werden noch weitere Privacy Settings dem Expertenbenutzer vorgeschlagen,
+                      die benötigt werden, um weitere Service Features aktivieren zu können.</description>
                   </step>
                   <step>
                     <stepNumber>9a2</stepNumber>
                     <actorId>7</actorId>
-                    <description>bestätigt die Auswahl mit dem automatisch ausgewählten Service Level.</description>
+                    <description>bestätigt die Auswahl mit den ausgewählten Service Features.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Service Level der App geändert.</description>
+                    <description>Aktive Service Features der App geändert.</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -462,24 +443,116 @@
                 <name>9a1a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Der Expertenbenutzer wählt ein alternatives Service Level aus.</description>
+                    <description>Der Expertenbenutzer wählt zusätzlich noch ein Privacy Setting aus.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>9a1a1</stepNumber>
                     <actorId>7</actorId>
-                    <description>wählt ein alternatives Service Level aus.</description>
+                    <description>wählt ein vorgeschlagenes Privacy Setting aus.</description>
                   </step>
                   <step>
                     <stepNumber>9a1a2</stepNumber>
+                    <actorId/>
+                    <description>zeigt die aktualisierten Service Features an, die aktiviert werden.</description>
+                  </step>
+                  <step>
+                    <stepNumber>9a1a3</stepNumber>
                     <actorId>7</actorId>
                     <description>bestätigt die Auswahl.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Service Level der App geändert.</description>
+                    <description>Aktive Service Features der App geändert.</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>69</id>
+            <name>Details eines Presets anzeigen</name>
+            <useCaseId>202</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>07-11-2011 18:04</created>
+            <author/>
+            <lastUpdate>07-11-2011 18:19</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Presetübersicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt ein Preset aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details des gewählten Presets aus.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>schließt die Detailübersicht.</description>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description>Details eines Presets angezeigt</description>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Presets vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Keine Details eines Presets angezeigt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -918,7 +991,7 @@
             </size>
           </model>
           <model>
-            <name>Service Level einer App ändern</name>
+            <name>Service Feature einer App aktivieren</name>
             <type>USE_CASE</type>
             <reference>16</reference>
             <position>
@@ -931,7 +1004,7 @@
             </size>
           </model>
           <model>
-            <name>Details einer Ressourcengruppen anzeigen</name>
+            <name>Details einer Ressourcengruppe anzeigen</name>
             <type>USE_CASE</type>
             <reference>14</reference>
             <position>
@@ -970,7 +1043,7 @@
             </size>
           </model>
           <model>
-            <name>Privacy-Level-Wert ändern</name>
+            <name>Privacy Setting ändern</name>
             <type>USE_CASE</type>
             <reference>20</reference>
             <position>
