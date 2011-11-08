@@ -129,14 +129,14 @@
           <useCase>
             <id>16</id>
             <name>Service Features einer App ändern</name>
-            <useCaseId>101</useCaseId>
+            <useCaseId>100</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</goal>
             <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</description>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>08-11-2011 15:10</lastUpdate>
+            <lastUpdate>08-11-2011 19:08</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -255,14 +255,14 @@
           <useCase>
             <id>14</id>
             <name>Details einer Ressourcengruppe anzeigen</name>
-            <useCaseId>100</useCaseId>
+            <useCaseId>101</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die Details &amp;#252;ber eine Ressourcengruppe anzeigen. &lt;/p&gt;</goal>
             <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die Details &amp;#252;ber eine Ressourcengruppe anzeigen. &lt;/p&gt;</description>
             <priority>Niedrig</priority>
             <level>Übersicht</level>
             <created>03-11-2011 16:16</created>
             <author/>
-            <lastUpdate>07-11-2011 18:14</lastUpdate>
+            <lastUpdate>08-11-2011 19:08</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -333,6 +333,53 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>128</id>
+            <name>In simplen Modus wechseln</name>
+            <useCaseId>102</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte in den simplen Modus wechseln. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte in den simplen Modus wechseln. &lt;/p&gt;</description>
+            <priority>Niedrig</priority>
+            <level>Benutzersicht</level>
+            <created>08-11-2011 19:08</created>
+            <author/>
+            <lastUpdate>08-11-2011 19:10</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>PMP befindet sich nicht im simplen Modus</description>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt das Wechseln in den simplen Modus aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>wechselt die Ansicht in den simplen Modus.</description>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description>PMP befindet sich im simplen Modus</description>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
           </useCase>
         </children>
       </folder>
@@ -849,14 +896,13 @@
             <id>88</id>
             <name>Privacy Setting/App aus einem Preset entfernen</name>
             <useCaseId>205</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App oder ein Privacy Setting entfernen. &lt;/p&gt;</goal>
-            <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte eine App oder ein Privacy Setting entfernen. Da das Entfernen einer App oder eines Privacy Settings gleich abl&amp;#228;uft, sind diese in einem Use Case zusammengefasst.
-              &lt;/p&gt;</description>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</goal>
+            <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</description>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>08-11-2011 10:43</created>
             <author/>
-            <lastUpdate>08-11-2011 15:02</lastUpdate>
+            <lastUpdate>08-11-2011 18:50</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -898,7 +944,7 @@
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
-                  <description>selektiert eine App oder ein Privacy Setting.</description>
+                  <description>selektiert eine App.</description>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
@@ -908,12 +954,151 @@
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt das Entfernen der App oder Privacy Setting aus.</description>
+                  <description>wählt das Entfernen der App aus.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
-                  <description>entfernt die App/das Privacy Setting aus dem Preset.</description>
+                  <description>entfernt die App aus dem Preset.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description>App aus Preset entfernt</description>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Presets vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Keine App aus einem Preset entfernt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es ist keine App vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId>7</actorId>
+                    <description>kann keine App oder Privacy Setting auswählen.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Keine App aus einem Preset entfernt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>8</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>116</id>
+            <name>Privacy Setting aus einem Preset entfernen</name>
+            <useCaseId>206</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</goal>
+            <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>08-11-2011 18:47</created>
+            <author/>
+            <lastUpdate>08-11-2011 18:53</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Presetübersicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt ein Preset aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den Detailbildschirm des Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>selektiert ein Privacy Setting.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die mögliche Aktionen an.</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt das Entfernen des Privacy Setting aus.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>entfernt das Privacy Setting aus dem Preset.</description>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
@@ -945,7 +1130,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Keine App/Privacy Setting aus einem Preset entfernt</description>
+                    <description>Kein Privacy Setting aus einem Preset entfernt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -954,19 +1139,19 @@
                 <name>5a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Es ist keine App oder kein Privacy Setting vorhanden</description>
+                    <description>Es ist kein Privacy Setting vorhanden</description>
                   </preCondition>
                 </preConditions>
                 <steps>
                   <step>
                     <stepNumber>5a1</stepNumber>
                     <actorId>7</actorId>
-                    <description>kann keine App oder Privacy Setting auswählen.</description>
+                    <description>kann keine Privacy Setting auswählen.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Keine App/Privacy Setting aus einem Preset entfernt</description>
+                    <description>Kein Privacy Setting aus einem Preset entfernt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -982,33 +1167,12 @@
                   <step>
                     <stepNumber>5b1</stepNumber>
                     <actorId/>
-                    <description>meldet, dass dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
+                    <description>meldet, dass in dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
                   </step>
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Keine App/Privacy Setting entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5b1</associatedStep>
-                <name>5b1a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es wurde eine App selektiert</description>
-                  </preCondition>
-                </preConditions>
-                <steps>
-                  <step>
-                    <stepNumber>5b1a1</stepNumber>
-                    <actorId>7</actorId>
-                    <description>zurück zu Schritt 6</description>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Keine App/Privacy Setting entfernt</description>
+                    <description>Kein Privacy Setting entfernt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -1030,30 +1194,92 @@
           <useCase>
             <id>103</id>
             <name>Preset ändern</name>
-            <useCaseId>206</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <useCaseId>207</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset &amp;#228;ndern. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset &amp;#228;ndern (Name oder Beschreibung). &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>08-11-2011 14:11</created>
             <author/>
-            <lastUpdate>08-11-2011 14:43</lastUpdate>
-            <actors/>
+            <lastUpdate>08-11-2011 19:11</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
             <mainScenario>
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Presetübersicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt ein Preset aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details des gewählten Presets aus.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>ändert den Namen und/oder die Beschreibung und bestätigt dies.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Presetübersicht an.</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Preset ist verändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Presets vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Preset nicht verändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
             <scenarioAnnotations>
               <scenarioAnnotation>
                 <scenario/>
@@ -1071,36 +1297,82 @@
           <useCase>
             <id>105</id>
             <name>Preset löschen</name>
-            <useCaseId>207</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <useCaseId>208</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. Dies wird dann zu den gel&amp;#246;schten Presets einsortiert. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>08-11-2011 15:13</lastUpdate>
-            <actors/>
+            <lastUpdate>08-11-2011 19:03</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
             <mainScenario>
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Presetübersicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
                   <actorId/>
-                  <description>löscht Preset</description>
+                  <description>zeigt alle Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt aus, dass er ein Preset löschen will.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>sortiert das Preset zu den Gelöschten ein.</description>
                 </step>
               </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Preset wurde zu den gelöschten einsortiert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Presets vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Kein Preset gelöscht</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
             <scenarioAnnotations>
               <scenarioAnnotation>
                 <scenario/>
@@ -1114,7 +1386,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>1</step>
+                <step>4</step>
                 <annotation>
                   <template>ID-5ca5990b</template>
                   <parameters/>
@@ -1128,31 +1400,103 @@
         <children>
           <useCase>
             <id>107</id>
-            <name>Privacy Setting Wert ändern</name>
-            <useCaseId>208</useCaseId>
-            <goal/>
-            <description/>
-            <priority>Niedrig</priority>
-            <level>Technische Details</level>
+            <name>Privacy-Setting-Wert ändern</name>
+            <useCaseId>209</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>08-11-2011 14:43</lastUpdate>
-            <actors/>
+            <lastUpdate>08-11-2011 19:08</lastUpdate>
+            <primaryActorId>7</primaryActorId>
+            <actors>
+              <actorId>7</actorId>
+            </actors>
             <mainScenario>
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>PMP ist gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Es ist noch kein Untermenü geöffnet</description>
+                </preCondition>
+                <preCondition>
+                  <description>In PMP ist der Expertenmodus eingestellt</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt die Presetübersicht aus.</description>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt alle Presets an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt ein Preset aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details des gewählten Presets aus.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt ein Privacy Setting aus, von der er den Wert verändern will.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>7</actorId>
+                  <description>ändert den Wert des Privacy Settings und bestätigt dies.</description>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Details des Presets ,mit dem geänderten Privacy-Setting-Wert, an.</description>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Privacy-Setting-Wert geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>2</associatedStep>
+                <name>2a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Presets vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>2a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Privacy-Setting-Wert nicht geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
             <scenarioAnnotations>
               <scenarioAnnotation>
                 <scenario/>
@@ -1435,6 +1779,20 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
+                <step>11</step>
+                <annotation>
+                  <template>ID-c576be0</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-49e768fb</template>
+                      <value>=(lokaleGröße/KompletteGröße)</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
                 <step>2</step>
                 <annotation>
                   <template>ID-77376028</template>
@@ -1448,20 +1806,6 @@
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-              <stepAnnotation>
-                <step>11</step>
-                <annotation>
-                  <template>ID-c576be0</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-49e768fb</template>
-                      <value>=(lokaleGröße/KompletteGröße)</value>
-                    </parameter>
-                  </parameters>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1628,71 +1972,19 @@
       <useCaseDiagram>
         <id>31</id>
         <name>Diagramm</name>
-        <description/>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
         <diagramData>
           <model>
             <name>Benutzer</name>
             <type>ACTOR</type>
             <reference>6</reference>
             <position>
-              <x>9</x>
-              <y>44</y>
+              <x>17</x>
+              <y>135</y>
             </position>
             <size>
               <width>64</width>
               <height>128</height>
-            </size>
-          </model>
-          <model>
-            <name>Service Features einer App ändern</name>
-            <type>USE_CASE</type>
-            <reference>16</reference>
-            <position>
-              <x>366</x>
-              <y>0</y>
-            </position>
-            <size>
-              <width>223</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Details einer Ressourcengruppe anzeigen</name>
-            <type>USE_CASE</type>
-            <reference>14</reference>
-            <position>
-              <x>319</x>
-              <y>79</y>
-            </position>
-            <size>
-              <width>306</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Expertenbenutzer</name>
-            <type>ACTOR</type>
-            <reference>7</reference>
-            <position>
-              <x>8</x>
-              <y>368</y>
-            </position>
-            <size>
-              <width>87</width>
-              <height>128</height>
-            </size>
-          </model>
-          <model>
-            <name>In Expertenmodus wechseln</name>
-            <type>USE_CASE</type>
-            <reference>18</reference>
-            <position>
-              <x>392</x>
-              <y>313</y>
-            </position>
-            <size>
-              <width>202</width>
-              <height>64</height>
             </size>
           </model>
           <model>
@@ -1701,7 +1993,7 @@
             <reference>13</reference>
             <position>
               <x>0</x>
-              <y>205</y>
+              <y>281</y>
             </position>
             <size>
               <width>100</width>
@@ -1709,12 +2001,64 @@
             </size>
           </model>
           <model>
+            <name>Expertenbenutzer</name>
+            <type>ACTOR</type>
+            <reference>7</reference>
+            <position>
+              <x>0</x>
+              <y>759</y>
+            </position>
+            <size>
+              <width>87</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Service Features einer App ändern</name>
+            <type>USE_CASE</type>
+            <reference>16</reference>
+            <position>
+              <x>248</x>
+              <y>16</y>
+            </position>
+            <size>
+              <width>250</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Details einer Ressourcengruppe anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>14</reference>
+            <position>
+              <x>228</x>
+              <y>91</y>
+            </position>
+            <size>
+              <width>297</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>In simplen Modus wechseln</name>
+            <type>USE_CASE</type>
+            <reference>128</reference>
+            <position>
+              <x>285</x>
+              <y>165</y>
+            </position>
+            <size>
+              <width>193</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
             <name>Ressourcengruppe installieren</name>
             <type>USE_CASE</type>
             <reference>24</reference>
             <position>
-              <x>381</x>
-              <y>238</y>
+              <x>268</x>
+              <y>314</y>
             </position>
             <size>
               <width>216</width>
@@ -1726,11 +2070,24 @@
             <type>USE_CASE</type>
             <reference>26</reference>
             <position>
-              <x>369</x>
-              <y>157</y>
+              <x>264</x>
+              <y>239</y>
             </position>
             <size>
               <width>234</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>In Expertenmodus wechseln</name>
+            <type>USE_CASE</type>
+            <reference>18</reference>
+            <position>
+              <x>270</x>
+              <y>402</y>
+            </position>
+            <size>
+              <width>202</width>
               <height>64</height>
             </size>
           </model>
@@ -1739,8 +2096,8 @@
             <type>USE_CASE</type>
             <reference>69</reference>
             <position>
-              <x>389</x>
-              <y>386</y>
+              <x>264</x>
+              <y>474</y>
             </position>
             <size>
               <width>217</width>
@@ -1752,8 +2109,8 @@
             <type>USE_CASE</type>
             <reference>75</reference>
             <position>
-              <x>456</x>
-              <y>458</y>
+              <x>317</x>
+              <y>546</y>
             </position>
             <size>
               <width>112</width>
@@ -1765,8 +2122,8 @@
             <type>USE_CASE</type>
             <reference>81</reference>
             <position>
-              <x>398</x>
-              <y>531</y>
+              <x>263</x>
+              <y>621</y>
             </position>
             <size>
               <width>231</width>
@@ -1778,8 +2135,8 @@
             <type>USE_CASE</type>
             <reference>84</reference>
             <position>
-              <x>362</x>
-              <y>603</y>
+              <x>228</x>
+              <y>693</y>
             </position>
             <size>
               <width>310</width>
@@ -1791,11 +2148,63 @@
             <type>USE_CASE</type>
             <reference>88</reference>
             <position>
-              <x>357</x>
-              <y>678</y>
+              <x>214</x>
+              <y>763</y>
             </position>
             <size>
               <width>346</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy Setting aus einem Preset entfernen</name>
+            <type>USE_CASE</type>
+            <reference>116</reference>
+            <position>
+              <x>238</x>
+              <y>832</y>
+            </position>
+            <size>
+              <width>312</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset ändern</name>
+            <type>USE_CASE</type>
+            <reference>103</reference>
+            <position>
+              <x>351</x>
+              <y>900</y>
+            </position>
+            <size>
+              <width>102</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset löschen</name>
+            <type>USE_CASE</type>
+            <reference>105</reference>
+            <position>
+              <x>349</x>
+              <y>967</y>
+            </position>
+            <size>
+              <width>105</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy-Setting-Wert ändern</name>
+            <type>USE_CASE</type>
+            <reference>107</reference>
+            <position>
+              <x>297</x>
+              <y>1036</y>
+            </position>
+            <size>
+              <width>207</width>
               <height>64</height>
             </size>
           </model>
