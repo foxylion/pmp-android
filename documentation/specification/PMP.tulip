@@ -1253,7 +1253,7 @@
       <useCaseDiagram>
         <id>31</id>
         <name>Diagramm</name>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <diagramData>
           <model>
             <name>Benutzer</name>
@@ -1312,8 +1312,8 @@
             <type>USE_CASE</type>
             <reference>18</reference>
             <position>
-              <x>396</x>
-              <y>312</y>
+              <x>392</x>
+              <y>313</y>
             </position>
             <size>
               <width>202</width>
@@ -1356,6 +1356,71 @@
             </position>
             <size>
               <width>234</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Details eines Presets anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>69</reference>
+            <position>
+              <x>389</x>
+              <y>386</y>
+            </position>
+            <size>
+              <width>217</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset erstellen</name>
+            <type>USE_CASE</type>
+            <reference>75</reference>
+            <position>
+              <x>456</x>
+              <y>458</y>
+            </position>
+            <size>
+              <width>112</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>App zu einem Preset hinzufügen</name>
+            <type>USE_CASE</type>
+            <reference>81</reference>
+            <position>
+              <x>398</x>
+              <y>531</y>
+            </position>
+            <size>
+              <width>231</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy Setting zu einem Preset hinzufügen</name>
+            <type>USE_CASE</type>
+            <reference>84</reference>
+            <position>
+              <x>362</x>
+              <y>603</y>
+            </position>
+            <size>
+              <width>310</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy Setting/App aus einem Preset entfernen</name>
+            <type>USE_CASE</type>
+            <reference>88</reference>
+            <position>
+              <x>357</x>
+              <y>678</y>
+            </position>
+            <size>
+              <width>346</width>
               <height>64</height>
             </size>
           </model>
