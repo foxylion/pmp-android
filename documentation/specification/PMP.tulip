@@ -41,6 +41,82 @@
   <usabilityPatternsFolder>
     <name>Usability Patterns</name>
     <id>4</id>
+    <children>
+      <pattern>
+        <id>115</id>
+        <patternId>ID-papierkorb</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <globalFunctions>
+          <globalFunction>
+            <content/>
+            <template>ID-750ae7c4</template>
+          </globalFunction>
+          <globalFunction>
+            <content/>
+            <template>ID-9995d36</template>
+          </globalFunction>
+        </globalFunctions>
+        <globalParameters>
+          <globalParameter>
+            <content/>
+            <template>ID-5ed6e942</template>
+          </globalParameter>
+          <globalParameter>
+            <content/>
+            <template>ID-e9823e08</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>114</id>
+        <patternId>ID-direktevalidierung</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <globalParameters>
+          <globalParameter>
+            <content/>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>112</id>
+        <patternId>ID-inarbeit</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <globalParameters>
+          <globalParameter>
+            <content/>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>111</id>
+        <patternId>ID-fortschrittsanzeige</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <globalParameters>
+          <globalParameter>
+            <content/>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>110</id>
+        <patternId>ID-warnung</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <globalParameters>
+          <globalParameter>
+            <content/>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>109</id>
+        <patternId>ID-abbruch</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </pattern>
+    </children>
   </usabilityPatternsFolder>
   <useCasesFolder>
     <name>Use Cases</name>
@@ -52,7 +128,7 @@
         <children>
           <useCase>
             <id>16</id>
-            <name>Service Feature einer App aktivieren</name>
+            <name>Service Features einer App ändern</name>
             <useCaseId>101</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</goal>
             <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Service Feature f&amp;#252;r eine App aktivieren. &lt;/p&gt;</description>
@@ -60,7 +136,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>08-11-2011 10:14</lastUpdate>
+            <lastUpdate>08-11-2011 15:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -109,12 +185,17 @@
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
-                  <description>aktiviert ein Service Feature.</description>
+                  <description>aktiviert/deaktiviert gewünschte Service Features.</description>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId>6</actorId>
                   <description>bestätigt die Auswahl der aktiven Service Features.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die aktiven Service Features.</description>
                 </step>
               </steps>
               <postConditions>
@@ -146,6 +227,28 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>9</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
         <children>
@@ -381,7 +484,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:23</created>
             <author/>
-            <lastUpdate>08-11-2011 11:01</lastUpdate>
+            <lastUpdate>08-11-2011 15:21</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -465,6 +568,33 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-42271e98</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-f10ced1f</template>
+                      <value>nicht bereits vorhandene Preset-Namen</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
         <children>
@@ -478,7 +608,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:30</created>
             <author/>
-            <lastUpdate>08-11-2011 11:01</lastUpdate>
+            <lastUpdate>08-11-2011 14:40</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -567,6 +697,17 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
           </useCase>
         </children>
         <children>
@@ -580,7 +721,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:35</created>
             <author/>
-            <lastUpdate>08-11-2011 11:06</lastUpdate>
+            <lastUpdate>08-11-2011 14:40</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -668,7 +809,39 @@
                   </postCondition>
                 </postConditions>
               </extensionScenario>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Preset ist vordefiniert.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>meldet, dass dem vordefinierten Preset keine Privacy Settings hinzugefügt werden können.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Es wurde kein P</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
           </useCase>
         </children>
         <children>
@@ -683,7 +856,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:43</created>
             <author/>
-            <lastUpdate>08-11-2011 11:15</lastUpdate>
+            <lastUpdate>08-11-2011 15:02</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -739,6 +912,11 @@
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>entfernt die App/das Privacy Setting aus dem Preset.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
                 </step>
@@ -803,8 +981,8 @@
                 <steps>
                   <step>
                     <stepNumber>5b1</stepNumber>
-                    <actorId>7</actorId>
-                    <description>hat versucht ein Privacy Setting zu selektieren, was nicht möglich ist bei einem vordefinierten Preset.</description>
+                    <actorId/>
+                    <description>meldet, dass dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
                   </step>
                 </steps>
                 <postConditions>
@@ -835,6 +1013,157 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>8</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>103</id>
+            <name>Preset ändern</name>
+            <useCaseId>206</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>08-11-2011 14:11</created>
+            <author/>
+            <lastUpdate>08-11-2011 14:43</lastUpdate>
+            <actors/>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>105</id>
+            <name>Preset löschen</name>
+            <useCaseId>207</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>08-11-2011 14:12</created>
+            <author/>
+            <lastUpdate>08-11-2011 15:13</lastUpdate>
+            <actors/>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId/>
+                  <description>löscht Preset</description>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>1</step>
+                <annotation>
+                  <template>ID-5ca5990b</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>107</id>
+            <name>Privacy Setting Wert ändern</name>
+            <useCaseId>208</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Niedrig</priority>
+            <level>Technische Details</level>
+            <created>08-11-2011 14:12</created>
+            <author/>
+            <lastUpdate>08-11-2011 14:43</lastUpdate>
+            <actors/>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
           </useCase>
         </children>
       </folder>
@@ -852,7 +1181,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:21</created>
             <author>tk</author>
-            <lastUpdate>04-11-2011 17:38</lastUpdate>
+            <lastUpdate>08-11-2011 15:06</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1093,6 +1422,51 @@
                 </postConditions>
               </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>2</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
+                <step>11</step>
+                <annotation>
+                  <template>ID-c576be0</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-49e768fb</template>
+                      <value>=(lokaleGröße/KompletteGröße)</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
         <children>
@@ -1106,7 +1480,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>04-11-2011 17:38</lastUpdate>
+            <lastUpdate>08-11-2011 14:55</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1219,28 +1593,29 @@
                   </postCondition>
                 </postConditions>
               </extensionScenario>
-              <extensionScenario>
-                <associatedStep>7</associatedStep>
-                <name>7a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Der Benutzer benutzt die "Zurück"-Funktion.</description>
-                  </preCondition>
-                </preConditions>
-                <steps>
-                  <step>
-                    <stepNumber>7a1</stepNumber>
-                    <actorId/>
-                    <description>geht zurück zu Schritt 4.</description>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
             </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>8</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
       </folder>
@@ -1269,7 +1644,7 @@
             </size>
           </model>
           <model>
-            <name>Service Feature einer App aktivieren</name>
+            <name>Service Features einer App ändern</name>
             <type>USE_CASE</type>
             <reference>16</reference>
             <position>
