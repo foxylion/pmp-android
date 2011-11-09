@@ -136,7 +136,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>08-11-2011 19:08</lastUpdate>
+            <lastUpdate>09-11-2011 14:18</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -210,7 +210,7 @@
                 <name>2a</name>
                 <preConditions>
                   <preCondition>
-                    <description>Es gibt keine Apps.</description>
+                    <description>Es sind keine Apps vorhanden.</description>
                   </preCondition>
                 </preConditions>
                 <steps>
@@ -1408,7 +1408,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>08-11-2011 19:08</lastUpdate>
+            <lastUpdate>09-11-2011 14:20</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1493,6 +1493,27 @@
                 <postConditions>
                   <postCondition>
                     <description>Privacy-Setting-Wert nicht geändert</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Es sind keine Privacy Settings vorhanden.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Kein Privacy-Setting-Wert geändert</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -1793,7 +1814,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>2</step>
+                <step>5</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1802,7 +1823,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>5</step>
+                <step>2</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
