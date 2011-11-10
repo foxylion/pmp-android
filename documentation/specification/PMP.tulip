@@ -1800,6 +1800,15 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
+                <step>2</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
                 <step>5</step>
                 <annotation>
                   <template>ID-77376028</template>
@@ -1822,15 +1831,6 @@
                   <lgParameters/>
                 </annotation>
               </stepAnnotation>
-              <stepAnnotation>
-                <step>2</step>
-                <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
             </stepAnnotations>
           </useCase>
         </children>
@@ -1845,7 +1845,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>10-11-2011 22:16</lastUpdate>
+            <lastUpdate>10-11-2011 22:28</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1985,7 +1985,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                    <description>es wurde die gewünschte Ressourcengruppe deinstalliert</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -2003,7 +2003,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>8a3</step>
+                <step>8</step>
                 <annotation>
                   <template>ID-a63e7488</template>
                   <parameters/>
@@ -2012,7 +2012,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>8</step>
+                <step>8a3</step>
                 <annotation>
                   <template>ID-a63e7488</template>
                   <parameters/>
