@@ -1801,6 +1801,7 @@
             <stepAnnotations>
               <stepAnnotation>
                 <step>2</step>
+<<<<<<< HEAD
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1810,6 +1811,8 @@
               </stepAnnotation>
               <stepAnnotation>
                 <step>5</step>
+=======
+>>>>>>> 31139132fe8a9595187f725052ca3066e7c63b95
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1831,6 +1834,18 @@
                   <lgParameters/>
                 </annotation>
               </stepAnnotation>
+<<<<<<< HEAD
+=======
+              <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+>>>>>>> 31139132fe8a9595187f725052ca3066e7c63b95
             </stepAnnotations>
           </useCase>
         </children>
