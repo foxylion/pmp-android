@@ -2,6 +2,8 @@ $(document).ready(function(){
 	generateContents();
 	writeReferences();
 	positionNavigation();
+	
+	$(".fancybox").fancybox();
 });
 
 $(window).resize(function() {
