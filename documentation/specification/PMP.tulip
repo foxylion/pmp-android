@@ -1800,7 +1800,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>5</step>
+                <step>2</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1823,7 +1823,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>2</step>
+                <step>5</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
