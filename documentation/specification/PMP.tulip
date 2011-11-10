@@ -1800,6 +1800,15 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
                 <step>11</step>
                 <annotation>
                   <template>ID-c576be0</template>
@@ -1809,15 +1818,6 @@
                       <value>=(lokaleGröße/KompletteGröße)</value>
                     </parameter>
                   </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-              <stepAnnotation>
-                <step>5</step>
-                <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1845,7 +1845,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>08-11-2011 14:55</lastUpdate>
+            <lastUpdate>10-11-2011 22:16</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1958,6 +1958,37 @@
                   </postCondition>
                 </postConditions>
               </extensionScenario>
+              <extensionScenario>
+                <associatedStep>8</associatedStep>
+                <name>8a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Die Ressourcengruppe hat Presets mitgebracht.</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>8a1</stepNumber>
+                    <actorId/>
+                    <description>fragt den Benutzer, ob die mitgebrachten Presets gelöscht werden oder erhalten bleiben sollen.</description>
+                  </step>
+                  <step>
+                    <stepNumber>8a2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>wählt die gewünschte Option aus.</description>
+                  </step>
+                  <step>
+                    <stepNumber>8a3</stepNumber>
+                    <actorId/>
+                    <description>stoppt die ausgewählte Ressourcengruppe und deinstalliert sie. zurück zu Schritt 9</description>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>es gab noch keine Änderung der installierten Ressourcengruppen</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
             </extensions>
             <scenarioAnnotations>
               <scenarioAnnotation>
@@ -1971,6 +2002,15 @@
               </scenarioAnnotation>
             </scenarioAnnotations>
             <stepAnnotations>
+              <stepAnnotation>
+                <step>8a3</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
               <stepAnnotation>
                 <step>8</step>
                 <annotation>
