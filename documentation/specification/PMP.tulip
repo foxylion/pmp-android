@@ -1801,7 +1801,6 @@
             <stepAnnotations>
               <stepAnnotation>
                 <step>2</step>
-<<<<<<< HEAD
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1811,8 +1810,6 @@
               </stepAnnotation>
               <stepAnnotation>
                 <step>5</step>
-=======
->>>>>>> 31139132fe8a9595187f725052ca3066e7c63b95
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1834,18 +1831,6 @@
                   <lgParameters/>
                 </annotation>
               </stepAnnotation>
-<<<<<<< HEAD
-=======
-              <stepAnnotation>
-                <step>5</step>
-                <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
->>>>>>> 31139132fe8a9595187f725052ca3066e7c63b95
             </stepAnnotations>
           </useCase>
         </children>
@@ -1860,7 +1845,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>10-11-2011 22:28</lastUpdate>
+            <lastUpdate>10-11-2011 22:16</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -2000,7 +1985,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>es wurde die gewünschte Ressourcengruppe deinstalliert</description>
+                    <description>die gewünschte Ressourcengruppe wurde deinstalliert</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
