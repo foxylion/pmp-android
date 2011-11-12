@@ -235,6 +235,13 @@ span.reference a, a {
 	text-decoration: underline;
 }
 
+img.left {
+	float: left;
+	margin-right: 10px;
+	border: 1px solid #cccccc;
+}
+
+
 img.right {
 	float: right;
 	margin-left: 10px;

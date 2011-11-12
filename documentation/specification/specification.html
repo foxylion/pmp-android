@@ -728,6 +728,8 @@
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
 
+
+
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
 			<h2 id="ui-home">Hauptmenü</h2>
@@ -744,19 +746,23 @@
 			
 			<h2 id="ui-apps">Apps</h2>
 			
+			
+			<h3>Übersicht über alle Apps.</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-list.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-list.jpg" alt="App Liste" width="45%" class="left">
 				</a>
 				
-				<p>Übersicht über alle Apps.</p>
 				<p>Auf diesem Screen werden alle Apps, die an PMP registriert sind, aufgelistet.
 					Von jeder App werden ein Icon, Name und Beschreibung (gekürzt) angezeigt.
 				</p>
-				<p>Mit einem langen Touch auf eine App wird nachfgolgendes Menü angezeigt. Ein kurzer Touch führt zum App-Details Screen.</p>
+				<p>Mit einem langen Touch auf eine App wird nachfgolgendes Menü angezeigt. Ein kurzer Touch führt zum "App Details"-Screen.</p>
 				<div class="clear"></div>
 			</div>
 			
+			<div class="pagebreak"></div>
+			
+			<h3>Aktionsmenü für App</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-list_long-press.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-list_long-press.jpg" alt="App Liste Menü" width="45%" class="left">
@@ -764,116 +770,235 @@
 				
 				<p>Es kann zwischen folgenden Aktionen gewählt werden:</p>
 				<p>
-					<b>Details anzeigen:</b> Öffnet den App-Details Screen.<br>
-					<b>Service Features ändern:</b> Öffnet den Service-Features ändern Screen.<br>
+					<b>Details anzeigen:</b> Öffnet den "App Details"-Screen.<br>
+					<b>Service Features ändern:</b> Öffnet den "Service Features ändern"-Screen.<br>
 					<b>Zugewiesene Presets anzeigen:</b> Öffnet die der App zugewiesenen Presets <i>(Nur Expertmode).</i><br>
 					<b>App entfernen:</b> Entfernt die App aus PMP.
 				</p>
 				<div class="clear"></div>
 			</div>
 			
+			<h3>Details-Screen für App</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-details.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-details.jpg" alt="App Details" width="45%" class="left">
 				</a>
 				
 				<p>Zu der App werden Name, Icon, Beschreibung und alle aktiven Service Features angezeigt.</p>
-				<p>Jedes aktive Service Feature wird mit Namen, und Icon angezeigt. Wird auf ein Service Feature getippt öffnet sich der Service Feature Details Screen.</p>
-				
+				<p>Jedes aktive Service Feature wird mit Namen, und Icon angezeigt. Wird auf ein Service Feature getippt öffnet sich der "Service Feature Details"-Screen.</p>
+				<p>In der Fußzeile gibt es die Möglichkeit die Service Features zu ändern (Im Expert Mode nur anzeigen), dabei öffnet sich der "Service Features ändern"-Screen.<br>
+				Außerderm gibt es einen Presets anzeigen Button, der die Übersicht über alle zugewiesenen Presets anzeigt. Der "App entfernen"-Button entfernt die App aus PMP.</p>
 				<div class="clear"></div>
 			</div>
 			
-			<!--
+			<div class="pagebreak"></div>
+			
+			<h2 id="ui-servicefeatures">Service Features</h2>
+			
+			<p>Im nachfolgenden könnnen Service Features nur dann geändert werden wenn der Expert-Mode <b>nicht</b> aktiviert ist.</p>
+			
+			<h3>Portrait-Modus</h3>
 			<div class="uip">
-				<a href="gui-prototype/.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/.jpg" alt="" width="50%" class="left">
+				<a href="gui-prototype/service-feature-list_portrait.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/service-feature-list_portrait.jpg" alt="Service Features anzeigen (Portrait)" width="45%" class="left">
+				</a>
+				
+				<p>Im Portrait-Modus lassen sich alle Service Features die aktiviert sind anzeigen. Durch einen Fingerwisch nach links werden alle deaktivierten Service Features angezeigt. (Alternativ ein Touch auf "Deaktiviert" in der Button-Leiste über den Service Features.</p>
+				<p>Vor jedem Service Feature wird ein Icon des Features angezeigt (nicht in der Zeichnung enthalten).</p>
+				<p>In der Kopfzeile wird das App-Icon, der Name und "Service Features ändern" angezeigt.</p>
+				<p>Wird auf ein Service Feature getippt, werden im expandierten Modus alle Details zum Service Feature angezeigt.</p>
+				<p>Wird ein Service Feature aktiviert/deaktiviert, wechselt es in die andere Liste.</p>
+				<p>Die Änderungen werden erst am Schluss durch bestätigen gespeichert.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Landscape-Modus</h3>
+			<div class="uip">
+				<a href="gui-prototype/service-feature-list_landscape.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/service-feature-list_landscape.jpg" alt="Service Feature (Landscape)" width="60%" class="left">
+				</a>
+				
+				<p>Im Landscape-Modus lassen sich die Service Features durch wischen in die andere Liste (also aktivieren/deaktivieren) verschieben.</p>
+				<p>Ein Touch auf ein Service Feature öffnet den "Service Feature Details"-Screen.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h3>Service Feature Details</h3>
+			<div class="uip">
+				<a href="gui-prototype/service-feature.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/service-feature.jpg" alt="Service Feature Detail" width="45%" class="left">
+				</a>
+				
+				<p>Im Details-Screen der Service Features werden alle Details zum Service Feature angezeigt.</p>
+				<p>Über einen Button kann das Service Feature aktiviert/deaktiviert werden.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h2 id="ui-presets">Presets</h2>
+			<p>Presets sind nur im Expert-Mode verfügbar.</p>
+			
+			<h3>Presets Übersicht</h3>
+			<div class="uip">
+				<a href="gui-prototype/preset-list.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-list.jpg" alt="Presets Übersicht" width="45%" class="left">
 				</a>
 				
 				<p></p>
 				<div class="clear"></div>
 			</div>
 			
-			-->
-
-
-<!--
+			<h3>Menü in der Preset-Übersicht</h3>
 			<div class="uip">
-				<img src="images/S1-Hauptmenue.png" alt="Hauptmenü" class="right">
-
-				<p>Das Startmenü im Simple Mode besteht aus zwei Optionen:</p>
-				<ul>
-					<li>Applikationen (Apps)</li>
-					<li>Ressourcen (Ressources)</li>
-				</ul>
-
-				<p>Über die Schaltfläche "Expert Mode" ist es dem Benutzer möglich, in den Expert Mode zu wechseln. Dieser bietet Zugriff auf alle Funktionen der PMP und ist daher für erfahrene Benutzer gedacht, die mit der PMP vertraut sind und Zugriff auf alle Einstellungsmöglichkeiten haben möchten.<br>Im Startmenü erscheint dann zusätzlich die Option "Rollen (Presets)". </p>
-				<p>Der Expert Mode ist in der ersten Iteration deaktiviert und die mit einem "E" markierte Schaltfläche wird deshalb nicht angezeigt.</p>
-				<div class="clear"></div>
-			</div>
-
-			<h2 id="applikationen">Applikationen</h2>
-
-			<div class="uip">
-				<img src="images/S2-AppscreenSM.png" alt="Applikationen" class="right">
-				<p>Im Applikations-Menü kann man den Service Level der einzelnen Apps einstellen.</p>
-				<p>Im Expert Mode wird es möglich sein einzelne Apps den Rollen (Presets) zuzuweisen. Im Bild: "Assign Presets"</p>
+				<a href="gui-prototype/preset-list_long-press.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-list_long-press.jpg" alt="Menü in der Preset-Übersicht" width="
+					35%" class="left">
+				</a>
+				
+				<p></p>
 				<div class="clear"></div>
 			</div>
 			
 			<div class="pagebreak"></div>
-
-			<div class="uip">
-				<img src="images/S3-ServiceLevel.png" alt="Service Level Auswahl" class="right">
-				<p>Über das Auswählen einer App werden dem Benutzer alle Service Levels der App aufgelistet. Das der App momentan zugewiesene Service Level wird hervorgehoben.</p>
-			<div class="clear"></div></div>
-
-			<div class="uip">
-				<img src="images/S4-ServiceLeve%20Description.png" alt="Service Level Description" class="right">
-				<p>Beim Auswählen des Service Levels wird ein Informationsfenster angezeigt. Dieses zeigt die Details des Service Levels.</p>
-				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetzt.</p>
-				<p>Durch Schließen wird der Vorgang abgebrochen.</p>
-			<div class="clear"></div></div>
-
-			<div class="pagebreak"></div>
 			
-			<h2 id="ressourcen">Ressourcen</h2>
-
+			<h3>Detail-Ansicht für Presets</h3>
 			<div class="uip">
-				<img src="images/S5-ressource.png" alt="Ressource" class="right">
-				<p>Im zweiten Menü werden alle Ressourcen aufgelistet. Beim Auswählen einer Ressource wird ein Informationsfenster angezeigt.</p>
-			<div class="clear"></div></div>
-
-			<div class="uip">
-				<img src="images/S6-ressourceAbout.png" alt="Ressource Description" class="right">
-				<p>Hier wird die Beschreibung der Ressource angezeigt.</p>
-				<p>Dieses Informationsfenster kann geschlossen werden.</p>
-			<div class="clear"></div></div>
-
-			<div class="pagebreak"></div>
+				<a href="gui-prototype/preset-details.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-details.jpg" alt="Details-Ansicht Presets" width="50%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
 			
-			<h2 id="app-hinzufügen">App hinzufügen</h2>
-
+			<h3>Menü für die Preset-Details-Ansicht</h3>
 			<div class="uip">
-				<img src="images/S0-App%20Starting1.png" alt="Installation" class="right">
-				<p>Beim Starten einer neuen zu PMP kompatiblen App wird ein Dialog erscheinen, mit dessen Hilfe man der App ein Service Level zuweisen kann.</p>
-			<div class="clear"></div></div>
-
-			<div class="uip">
-				<img src="images/S0-App%20Starting2.png" alt="Installation 2" class="right">
-				<p>Hier kann ein Service Level ausgesucht und angewählt werden.</p>
-			<div class="clear"></div></div>
+				<a href="gui-prototype/preset-details_touch.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-details_touch.jpg" alt="Menü für Preset-Details-Ansicht" width="40%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
 			
 			<div class="pagebreak"></div>
 			
+			<h3>Privacy Setting hinzufügen - Schritt 1</h3>
 			<div class="uip">
-				<img src="images/S0-AppStarting3.png" alt="Service Level Description" class="right">
-				<p>Beim Auswählen des Service Levels wird ein Informationsfenster angezeigt. Dieses zeigt die Details des Service Levels.</p>
-				<p>Durch das Bestätigen des Informationsfensters wird der ausgewählte Service Level gesetzt.</p>
-				<p>Durch Schließen wird der Vorgang abgebrochen.</p>
-			<div class="clear"></div>
-		</div>
-		-->
-
+				<a href="gui-prototype/preset-add-pl_1.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-add-pl_1.jpg" alt="PS hinzufügen - Schritt 2" width="30%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Privacy Setting hinzufügen - Schritt 2</h3>
+			<div class="uip">
+				<a href="gui-prototype/preset-add-pl_1.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/preset-add-pl_1.jpg" alt="PS hinzufügen - Schritt 1" width="30%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h2 id="ui-resourcegroups">Ressourcengruppen</h2>
+			
+			<h3>Installierte Ressourcengruppen</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-list_installed.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-list_installed.jpg" alt="Installierte RGs" width="45%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Verfügbare Ressourcengruppen</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-list_available.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-list_available.jpg" alt="Verfügbare RGs" width="45%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h3>Ressourcengruppen laden</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-list_pending.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-list_pending.jpg" alt="Ressourcengruppen laden" width="35%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Ressourcengruppe Details</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-details.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-details.jpg" alt="RG Details" width="30%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h3>Ressourcengruppe installieren - Schritt 1</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-install.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-install.jpg" alt="RG installieren - Schritt 1" width="30%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Ressourcengruppe installieren - Schritt 2&amp;3</h3>
+			<div class="uip">
+				<a href="gui-prototype/rg-install_pending.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rg-install_pending.jpg" alt="RG installieren - Schritt 2-3" width="45%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pagebreak"></div>
+			
+			<h2 id="ui-einstellungen">Einstellungen</h2>
+			
+			<h3>Übersicht</h3>
+			<div class="uip">
+				<a href="gui-prototype/setting-list.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/setting-list.jpg" alt="Einstellungen Übersicht" width="45%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h3>Details</h3>
+			<div class="uip">
+				<a href="gui-prototype/setting-details.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/setting-details.jpg" alt="Einstellungen Details" width="35%" class="left">
+				</a>
+				
+				<p></p>
+				<div class="clear"></div>
+			</div>
+			
+			
 			<h1 id="begriffslexikon">Begriffslexikon</h1>
 				<h2 id="bgl-app">App</h2>
 				<table>
