@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">18. August 2011</div>
+		<div id="page-head-date">12. November 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 1.5</div>
+		<div id="page-version">Version 2.0</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,11 @@
 		<div id="content">
 		
 			<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 2.0 (12.11.2011)</h3>
+					<ul>
+						<li>Überarbeitung der Spezifiaktion für die zweite Iteration (Reviewkanidat)</li>
+					</ul>
+					
 				<h3>Version 1.5 (18.08.2011)</h3>
 					<ul>
 						<li>Korrektur nach Kunden-Review</li>
@@ -95,7 +100,8 @@
 
 			
 			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
-			
+			<div class="sp-del">
+			<span class="title">Use Cases durch neue Version ersetzt</span>
 				<h2 id="use-cases">Use-Cases</h2>
 			
 					<h3 id="uc-diagramm">Diagramm</h3>
@@ -485,7 +491,7 @@
 								</td>
 							</tr>
 						</table>
-						
+			</div>
 						
 						<!--
 						
@@ -549,71 +555,164 @@
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
 					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
+					
+				<div class="sp-add">
+				<span class="title">Hinzugefügt</span>	
+					<h3 id="anforderungen-sonstiges">Sonstiges</h3>
+					<p>
+						<ul>
+							<li>PMP wird eine zu installierende Ressourcengruppe nicht akzeptieren, wenn die von der Ressourcengruppe zu implementierenden Schnittstellen der PMP-API nicht vorhanden sind oder falsche bzw. inkompatible Werte zurück liefern. Selbiges gilt für das Installieren von Apps, die sich bei PMP registrieren.</li>
+							<li>Innerhalb der PMP wird der bei Androidgeräten vorhandene "Zurück"-Button folgende Semantik erfüllen: Wird bei der aktuellen Bildschirmmaske der "Zurück"-Button betätigt, werden die gegebenfalls vorgenommen Einstellungen oder Modifikationen gespeichert, die Bildschirmmaske verlassen und die vorhergehenden Bildschirmmaske angezeigt.</li>
+						</ul>
+					</p>
+				</div>
 			
-			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>
-			
+			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>PMP wird einfach bedienbar sein. Im Simple Mode muss jeder Nutzer ohne weitere Hilfestellungen oder Einarbeitungszeit die grundlegenden Einstellungen ändern und das Programm so intuitiv bedienen können, dass PMP nur minimal in seinen gewohnten Workflow eingreift. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen. Es ist keine Aktivierung des Expert Modes für die erste Iteration geplant.</p>
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>	
+				<p>PMP wird von einem durchschnittlichen Android-Nutzer bedient werden können. Wo möglich, wird PMP gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
+			</div>
 				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können. Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt.</p>
 					<h3 id="nutzungskontext">Nutzungskontext</h3>
 			
 						<h4 id="personae">Personae</h4>
-						
+					<div class="sp-del">
+					<span class="title">Entfernt</span>		
 						<p><strong>Der Durchschnittsuser: Joe</strong></p>
 						<p>Joe ist 15 Jahre alt und besitzt sein Android Smartphone erst seit kurzem, er benutzt es vor allem um Statusupdates bei Facebook zu posten und zu spielen. Besonders gerne spielt er Klingonenschach. Er besitzt außerdem keine Internet-Flatrate und nur ein Gerät mit geringer Akkuleistung. Er hat jedoch gehört dass PMP ihm dabei helfen kann Strom zu sparen und auch Klingonenschach unterstützt seit neuestem PMP. Er benutzt also PMP ohne von Sicherheitskonzepten, Nutzerrollen oder Ressourcen eine Ahnung zu haben.</p>
 						<p>Zugehöriges Nutzungsszenario: N-1</p>
-						
-						<!-- TODO: Hier dann später die passenden Personen zu den Nutzungsszenarien aus dem Forum einfügen !-->
+					</div>
+					
+					<div class="sp-add">
+					<span class="title">Hinzugefügt</span>
+						<p>
+							<table>
+								<tr>
+									<th colspan="2">Die Durchschnittsnutzerin: Kathrin</th>
+								</tr>
+								<tr>
+									<td>Kathrin ist 25 Jahre alt und besitzt ihr Android Smartphone seit 3 Jahren. Sie studiert im 5. Semester Geschichte und Deutsch auf Lehramt und hat generell kein Interesse an Technologie und Softwareentwicklung. Trotzdem nutzt sie einige Apps, die ihr den Alltag erleichtern.
+									</td>
+									<td><img src="personae/kathrin.jpg" alt="Image of kathrin" width="150px"></td>
+								</tr>
+								<tr>
+									<td colspan="2">Zugehöriges Nutzungsszenario: N-1</td>
+								</tr>
+							</table>
+						</p>
+					</div>
+					
+					<div class="sp-add">
+					<span class="title">Hinzugefügt</span>
+						<p>
+							<table>
+								<tr>
+									<th colspan="2">Der Expertennutzer: Moritz</th>
+								</tr>
+								<tr>
+									<td>Moritz ist 28 Jahre alt, arbeitet an einer deutschen Universität als wissenschaftlicher Mitarbeiter im Bereich Elektrotechnik und besitzt sein Android Smartphone seit 4 Jahren. Er hat großes Interesse daran, dass seine installierten Apps keine unnötigen oder nicht von ihm gewollten Ressourcen nutzen. Weiterhin liebt Moritz feingranulare Konfigurationsmöglichkeiten.
+									</td>
+									<td><img src="personae/moritz.jpg" alt="Image of moritz" width="150px"></td>
+								</tr>
+								<tr>
+									<td colspan="2">Zugehöriges Nutzungsszenario: N-2</td>
+								</tr>
+							</table>
+						</p>
+					</div>					
 						
 						<h4 id="nutzungsszenarien">Nutzungsszenarien</h4>
-						
+					<div class="sp-del">
+					<span class="title">Entfernt</span>							
 						<p><strong>Nutzungsszenario N-1</strong></p>
 						<p>Joe ist im Klingonenschach immer noch viel zu schlecht, er traut sich deshalb nicht seinen Highscore zu veröffentlichen. Beim ersten Starten des Schachprogramms und dem daraus folgendem Aktivieren der Service Features aktiviert er das Service Feature "Klingonenschach" (ohne Highscore) und lässt das Service Feature "Highscore übertragen" deaktiviert, womit er so die Speicherung seiner Highscore verhindert.</p>
+					</div>
 
-						<!-- TODO: Hier dann später die passenden Nutzungsszenarien aus dem Forum einfügen !-->
+					<div class="sp-add">
+					<span class="title">Hinzugefügt</span>					
+						<p><strong>Nutzungsszenario N-1</strong></p>
+						<p>
+						Vor kurzem entdeckte Kathrin zufällig im Android-Marketplace eine zu PMP kompatible Kalender-App, die für ihre Bedürfnisse vollkommen ausreichend ist und ihre Kalendereinträge einfach und intuitiv verwalten kann. Nachdem ein Freund ihr von PMP erzählt hat, verwendet sie nun PMP um ihre Kalender-App zu konfigurieren. Zum Beispiel möchte sie auf keinen Fall, dass die Kalender-App die Möglichkeit bietet ihre Kalender-Einträge per E-Mail zu versenden. Aus diesem Grund deaktiviert sie das Service Feature "Einträge per E-Mail versenden", wodurch die Kalender-App keinen Zugriff auf die E-Mail-Ressourcengruppe erhält.
+						</p>
+					</div>
+
+					<div class="sp-add">
+					<span class="title">Hinzugefügt</span>					
+						<p><strong>Nutzungsszenario N-2</strong></p>
+						<p>
+						Durch einen Kollegen erfuhr Moritz, dass seit kurzem die App PMP im Android-Marketplace verfügbar ist. Nachdem er PMP und die zu PMP kompatible Kalender-App heruntergeladen und installiert hatte, war er über die feingranularen Einstellungsmöglichkeiten erfreut. Moritz kann sich nun selbst Presets erstellen und definieren, auf welche Ressourcengruppen die Kalender-App Zugriff bekommt. Da er nicht möchte, dass die Kalender-App Zugriff auf die Dateisystem-Ressourcengruppe erhält, lässt er die zugehörigen Privacy Settings deaktiviert. Also Konsequenz seiner Restriktion ist das Service Feature "Kalendereinträge im- und exportieren" abgeschaltet, welches Moritz sowieso nicht nutzen möchte.
+						</p>
+					</div>
 			
 				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
-			
+				<div class="sp-edit">
+				<span class="title">Bearbeitet</span>
 					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
-					<p>Die Software wird interaktiv bedienbar sein, die Reaktionszeit der Benutzeroberfläche wird dabei so gering wie möglich gehalten. Der PMP-Service wird schonend mit den Systemressourcen des Android-Systems umgehen.
-					
+					<p>PMP wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+				</div>
+				
 					<h3 id="mengengeruest">Mengengerüst</h3>
 					<p>Die Software wird ohne weitere Probleme mindestens 10 Apps mit jeweils 5 verschiedenen Service Features verwalten.</p>
+				<div class="sp-del">
 					<p>In der ersten Iteration wird eine Standard-Ressource bereitgestellt.</p>
-					
+				</div>
+				
+				<div class="sp-del">
+				<span class="title">Entfernt</span>					
 					<h3 id="eingabelaengen">Eingabelängen</h3>
 					<p>Es sind keine Benutzereingaben für die erste Iteration vorgesehen. Texte für Ressourcen-/Appbeschreibungen werden auf eine sinnvolle Länge begrenzt.</p>
+				</div>
 					
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>
 				<h2 id="robustheit">Robustheit</h2>
-				<p>PMP wird so robust entwickelt, dass Abstürze durch fehlerhafte Schnittstellen oder Daten der Ressourcen oder Apps unbedingt vermieden werden.</p>
-
+				<p>Die PMP stürtz bei der Installation von Ressourcengruppen oder Apps, die die PMP-API verwenden und fehlerhafte Schnittstellen aufweisen, nicht ab.</p>
+			</div>
+				
+			<div class="sp-del">
+			<span class="title">Entfernt</span>
 				<h2 id="verfuegbarkeit">Verfügbarkeit</h2>
 				<p>PMP läuft als Service während der gesamten Betriebszeit des Android-Systems.</p>
-								
+			</div>
+			
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>
 				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Für die erste Iteration sind keine speziellen Sicherheitfeatures geplant.</p>
-				
+				<p>Es sind keine speziellen Sicherheitfeatures notwendig.</p>
+			</div>
+			
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
 				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
-				
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>	
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p>Es werden alle wichtigen Systemereignisse in einem Protokoll festgehalten werden, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden.</p>
-				
+				<p>Eine Protokollierung aller wichtigen Systemereignisse, so dass Ausführungszeitpunkt, die ausgeführte Aktion und eventuelle Probleme registriert werden können, ist für die 3. Iteration geplant.</p>
+			</div>
+			
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>
 				<h2 id="installation">Installation</h2>
-				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen. Dabei wird versucht, die Installation möglichst einfach zu halten.</p>
-				
+				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen.</p>
+			</div>
+			
+			<div class="sp-edit">
+			<span class="title">"Rollen" => "Presets"</span>
 				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
 				<p>Die Software wird hinsichtlich folgender Punkte erweiterbar sein:</p>
 				<ul>
 					<li>Internationalisierung (bisher englische Benutzeroberfläche)</li>
 					<li>Ressourcen/Ressourcengruppen</li>
-					<li>Rollen</li>
+					<li>Presets</li>
 					<li>verwaltete Apps</li>
 				</ul>
-
+			</div>
+			
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>
 				<h2 id="wartbarkeit">Wartbarkeit</h2>
 				<p>Es werden keine speziellen Anforderungen an die Wartbarkeit von PMP gestellt. Folgende allgemeine Anforderungen garantieren jedoch eine hohe Wartbarkeit von PMP:</p>
 				<ul>
@@ -621,21 +720,13 @@
 					<li>Die Software wird modular aufgebaut sein.</li>
 					<li>Es werden allgemein bekannte und anerkannte Entwurfsmuster verwendet.</li>
 				</ul>
-				
+			</div>
+			
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-				<p>PMP wird in der ersten Iteration ohne externe Abhängigkeiten entwickelt.</p>
+				<p>PMP wird ohne externe Abhängigkeiten entwickelt.</p>
 				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
-
-			<!-- brauch man eventuell später noch -->
-			<!-- 
-			<h1 id="optionale-anforderungen">Optionale Anforderungen</h1>
-			<p></p>
-			
-				<h2 id="auflistung-optionalen-anforderungen">Auflistung der optionalen Anforderungen</h2>
-				<p>Keine Optionale Anforderungen für die erste Iteration vorhanden.</p>
-			-->
 
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
@@ -914,8 +1005,8 @@
 				</table>
 			</div>
 				
-				<div class="sp-del">
-<span class="title">Ersetzt durch Service Feature</span>
+			<div class="sp-del">
+			<span class="title">Ersetzt durch Service Feature</span>
 				<h2 id="bgl-servicelevel">Service Level</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Service Level</th></tr>
