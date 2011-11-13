@@ -848,7 +848,9 @@
 					<img src="gui-prototype/preset-list.jpg" alt="Presets Übersicht" width="45%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Aktive und inatkive Presets werden mit einer verkürzter Beschreibung in der "Presets-Übersicht"-Ansicht angezeigt.</p>
+				<p>Nach Tippen auf ein beliebiges Preset öffnet sich die "Preset-Detail"-Ansicht. Ein Long-Press auf ein Preset öffnet "Menü der Preset"-Übersicht.</p>
+				<p>Über das Plus-Icon kann ein neues Preset angelegt werden. Tippen auf das Plus-Icon öffnet eine leere bearbeitbare "Preset-Detail"-Ansicht.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -859,7 +861,9 @@
 					35%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Folgende Aktionen können getätigt werden:</p>
+				<p><b>Preset ändern:</b> Öffnet die "Preset-Detail"-Ansicht</p>
+				<p><b>Preset löschen:</b> Löscht ausgewähltes Preset</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -871,7 +875,8 @@
 					<img src="gui-prototype/preset-details.jpg" alt="Details-Ansicht Presets" width="50%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Durch Tippen auf Preset-Namen oder Beschreibung können Änderungen vorgenommen werden. Vordefinierte Presets können nicht geändert werden.</p>
+				<p>Über das Plus-Icon wird eine Liste aller zugewiesener Apps bzw. eingestellter Privacy Settings aufgeklappt. Tippen auf eine App bzw. Privacy Setting öffnet die "Menü für Preset-Details"-Ansicht.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -880,8 +885,14 @@
 				<a href="gui-prototype/preset-details_touch.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-details_touch.jpg" alt="Menü für Preset-Details-Ansicht" width="40%" class="left">
 				</a>
-				
-				<p></p>
+				<p>
+					(1)<br>
+					<b>App-Details anzeigen: </b>Öffnet "App-Details"-Ansicht<br>
+					<b>App entfernen: </b>Entfernt App aus der Preset. Zurückkehren zur "Preset-Details"-Ansicht<br>
+					<br>(2)<br>
+					<b>Privacy Setting ändern: </b>Alle Änderungsmöglichkeiten der Privacy Setting werden angezeigt<br>
+					<b>Privacy Setting entfernen: </b>Privacy Setting wird entfernt
+				</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -893,7 +904,7 @@
 					<img src="gui-prototype/preset-add-pl_1.jpg" alt="PS hinzufügen - Schritt 2" width="30%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Sortierte Liste installierter Ressourcengruppen. Tippen, um gewünschte Ressourcengruppe hinzuzufügen.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -917,7 +928,8 @@
 					<img src="gui-prototype/rg-list_installed.jpg" alt="Installierte RGs" width="45%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Zeigt Ressourcengruppen mit Namen, Icon und verkürzter Beschreibung an. Tippen auf Ressourcengruppe öffnet "Resourcengruppe-Details"-Ansicht.</p>
+				<p>Es kann zwischen bereits installierten und verfügbaren Ressourcengruppen ausgewählt werden. Tippen um zu wechseln.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -926,8 +938,9 @@
 				<a href="gui-prototype/rg-list_available.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-list_available.jpg" alt="Verfügbare RGs" width="45%" class="left">
 				</a>
-				
-				<p></p>
+								
+				<p>Zeigt alle verfügbaren Ressourcengruppen mit Namen, Icon und Status an. Status kann sein "Installiert", "Update" falls verfügbar. Tippen auf Ressourcengruppe öffnet "Ressourcengruppe-Details"-Ansicht.</p>
+				<p>Tippen auf Such-Icon öffnet Textfeld rechtsoben, um eine bestimme Ressourcengruppe zu finden.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -939,7 +952,7 @@
 					<img src="gui-prototype/rg-list_pending.jpg" alt="Ressourcengruppen laden" width="35%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Ladebalken erscheint, wenn verfügbare Ressourcengruppen geladen werden.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -949,7 +962,8 @@
 					<img src="gui-prototype/rg-details.jpg" alt="RG Details" width="30%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Ressourcengruppe mit Namen, Icon, verkürzter Beschreibung und enthaltener Privacy Settings werden angezeigt.</p>
+				<p>Um Ressourcengruppe zu deinstallieren auf "Deinstallieren"-Button tippen. Um Fenster zu schließen auf "Schließen"-Button drücken.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -961,7 +975,8 @@
 					<img src="gui-prototype/rg-install.jpg" alt="RG installieren - Schritt 1" width="30%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Anzeige des Namen, Icon und Beschreibung der zu installierenden Ressourcengruppe.</p>
+				<p>Um zu installieren auf "Installieren"-Button tippen. Um Fenster zu schließen auf "Schließen"-Button drücken.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -971,7 +986,13 @@
 					<img src="gui-prototype/rg-install_pending.jpg" alt="RG installieren - Schritt 2-3" width="45%" class="left">
 				</a>
 				
-				<p></p>
+				<p>
+					(1)<br>
+					Ladebalken während Herunterladen der Ressourcengruppe<br>
+					<br>(2)<br>
+					Ladebalken während Verifizierung und Installation der Ressourcengruppe
+				</p>
+				<p>Forschrittsbalken und Fortschrittsbeschreibung aktualisieren sich je nach Status.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -985,7 +1006,7 @@
 					<img src="gui-prototype/setting-list.jpg" alt="Einstellungen Übersicht" width="45%" class="left">
 				</a>
 				
-				<p></p>
+				<p>Zeigt Checkbox und Label des Experts-Mode an. Tippen auf Checkbox, um Expert-Mode zu aktivieren. Tippen auf den Export-Mode-Label öffnet Detail-Ansicht.</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -995,7 +1016,7 @@
 					<img src="gui-prototype/setting-details.jpg" alt="Einstellungen Details" width="35%" class="left">
 				</a>
 				
-				<p></p>
+				<p>In der Mitte wird die Beschreibung angezeigt. In der Fußzeile befinden sich zwei Buttons, zur Aktivierung/Deaktivierung des Expert-Modes und Schließen der Detail-Ansicht.</p>
 				<div class="clear"></div>
 			</div>
 			
