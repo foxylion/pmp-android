@@ -1334,7 +1334,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>14-11-2011 17:31</lastUpdate>
+            <lastUpdate>14-11-2011 19:54</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1366,10 +1366,20 @@
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt aus, dass er ein Preset löschen will.</description>
+                  <description>selektiert eine App.</description>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt ein Auswahlmenü an.</description>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt das Entfernen des Presets aus.</description>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>sortiert das Preset zu den Gelöschten ein.</description>
                 </step>
@@ -1416,7 +1426,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>4</step>
+                <step>6</step>
                 <annotation>
                   <template>ID-5ca5990b</template>
                   <parameters/>
@@ -2033,7 +2043,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>8</step>
+                <step>8a3</step>
                 <annotation>
                   <template>ID-a63e7488</template>
                   <parameters/>
@@ -2042,7 +2052,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>8a3</step>
+                <step>8</step>
                 <annotation>
                   <template>ID-a63e7488</template>
                   <parameters/>
