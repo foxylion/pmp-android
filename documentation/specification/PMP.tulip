@@ -262,7 +262,7 @@
             <level>Übersicht</level>
             <created>03-11-2011 16:16</created>
             <author/>
-            <lastUpdate>08-11-2011 19:08</lastUpdate>
+            <lastUpdate>14-11-2011 17:04</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -328,7 +328,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description/>
+                    <description>Keine Details zu einer Ressourcengruppe angezeigt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -346,7 +346,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 19:08</created>
             <author/>
-            <lastUpdate>08-11-2011 19:10</lastUpdate>
+            <lastUpdate>14-11-2011 17:07</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -365,10 +365,20 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt das Wechseln in den simplen Modus aus.</description>
+                  <description>wählt das Optionsmenü aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt das Optionsmenü an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt das Wechseln in den simplen Modus aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>wechselt die Ansicht in den simplen Modus.</description>
                 </step>
@@ -397,7 +407,7 @@
             <level>Benutzersicht</level>
             <created>03-11-2011 16:18</created>
             <author/>
-            <lastUpdate>05-11-2011 20:02</lastUpdate>
+            <lastUpdate>14-11-2011 17:08</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -416,10 +426,20 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
-                  <description>wählt das Wechseln in den Expertenmodus aus.</description>
+                  <description>wählt das Optionsmenü aus.</description>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt das Optionsmenü an.</description>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>7</actorId>
+                  <description>wählt das Wechseln in den Expertenmodus aus.</description>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>wechselt die Ansicht in den Expertenmodus.</description>
                 </step>
@@ -655,7 +675,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:30</created>
             <author/>
-            <lastUpdate>08-11-2011 14:40</lastUpdate>
+            <lastUpdate>14-11-2011 17:16</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -702,7 +722,7 @@
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt alle Apps an.</description>
+                  <description>zeigt die Apps an, die sich noch nicht in diesem Preset befinden.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
@@ -768,7 +788,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:35</created>
             <author/>
-            <lastUpdate>08-11-2011 14:40</lastUpdate>
+            <lastUpdate>14-11-2011 17:11</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -825,6 +845,16 @@
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
+                  <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId>7</actorId>
+                  <description>stellt den Wert des Privacy Settings ein und bestätigt dies.</description>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
                 </step>
               </steps>
@@ -873,7 +903,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Es wurde kein P</description>
+                    <description>Es wurde kein Privacy Setting zu einem Preset hinzugefügt</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -894,7 +924,7 @@
         <children>
           <useCase>
             <id>88</id>
-            <name>Privacy Setting/App aus einem Preset entfernen</name>
+            <name>App aus einem Preset entfernen</name>
             <useCaseId>205</useCaseId>
             <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</goal>
             <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</description>
@@ -902,7 +932,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 10:43</created>
             <author/>
-            <lastUpdate>08-11-2011 18:50</lastUpdate>
+            <lastUpdate>14-11-2011 17:20</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -949,7 +979,7 @@
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt die mögliche Aktionen an.</description>
+                  <description>zeigt ein Auswahlmenü an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
@@ -1041,7 +1071,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 18:47</created>
             <author/>
-            <lastUpdate>08-11-2011 18:53</lastUpdate>
+            <lastUpdate>14-11-2011 17:20</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1088,7 +1118,7 @@
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
-                  <description>zeigt die mögliche Aktionen an.</description>
+                  <description>zeigt ein Auswahlmenü an.</description>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
@@ -1193,15 +1223,15 @@
         <children>
           <useCase>
             <id>103</id>
-            <name>Preset ändern</name>
+            <name>Preset-Name/Preset-Beschreibung ändern</name>
             <useCaseId>207</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset &amp;#228;ndern. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset &amp;#228;ndern (Name oder Beschreibung). &lt;/p&gt;</description>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</description>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>08-11-2011 14:11</created>
             <author/>
-            <lastUpdate>08-11-2011 19:11</lastUpdate>
+            <lastUpdate>14-11-2011 17:22</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1304,7 +1334,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>08-11-2011 19:03</lastUpdate>
+            <lastUpdate>14-11-2011 17:31</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1346,7 +1376,7 @@
               </steps>
               <postConditions>
                 <postCondition>
-                  <description>Preset wurde zu den gelöschten einsortiert</description>
+                  <description>Preset wurde zu den Gelöschten einsortiert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -1800,7 +1830,7 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>2</step>
+                <step>5</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -1809,7 +1839,7 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>5</step>
+                <step>2</step>
                 <annotation>
                   <template>ID-77376028</template>
                   <parameters/>
@@ -2205,7 +2235,7 @@
             </size>
           </model>
           <model>
-            <name>Privacy Setting/App aus einem Preset entfernen</name>
+            <name>App aus einem Preset entfernen</name>
             <type>USE_CASE</type>
             <reference>88</reference>
             <position>
@@ -2231,7 +2261,7 @@
             </size>
           </model>
           <model>
-            <name>Preset ändern</name>
+            <name>Preset-Name/Preset-Beschreibung ändern</name>
             <type>USE_CASE</type>
             <reference>103</reference>
             <position>
