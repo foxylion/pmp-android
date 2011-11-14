@@ -103,447 +103,8 @@
 			<div class="sp-del">
 			<span class="title">Use Cases durch neue Version ersetzt</span>
 				<h2 id="use-cases">Use-Cases</h2>
-			
-					<h3 id="uc-diagramm">Diagramm</h3>
-					<img src="usecases.svg" alt="Use-Case Diagramm" style="width:100%;">
-					
-					<div class="pagebreak"></div>
-					
-					<h3 id="anwendungsfaelle">Anwendungsfälle</h3>
-					<p>Im Folgenden werden die im Use-Case-Diagramm aufgeführten Anwendungsfälle ausformuliert.</p>
-					
-						<h4 id="awdf-1">Service Level anfragen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#1</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Service Level anfragen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Die App will das Service Level von PMP erhalten.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>PMP ist auf dem Gerät installiert.</li>
-									<li>PMP-Service läuft.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Die App hat das Service Level von PMP erhalten.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen bei Abbruch</th>
-								<td>Die App hat das Service Level von PMP erhalten, das keine Rechte erfordert.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Die App hat noch kein Service Level von PMP erhalten.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td><ul>
-									<li>App (Hauptakteur)</li>
-									<li>Benutzer</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td>
-									<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
-									<ol>
-										<li>Die App fragt bei PMP an, welches Service Level sie zugewiesen bekommt.</li>
-										<li>PMP ruft die verfügbaren Service Levels der App ab.</li>
-										<li>PMP zeigt eine Übersicht über die Service Levels dem Benutzer an.</li>
-										<li>Der Benutzer wählt das gewünschte Service Level aus.</li>
-										<li>PMP zeigt die Details des Service Levels an.</li>
-										<li>Der Benutzer bestätigt das Service Level.</li>
-										<li>PMP weist der App das Service Level zu.</li>
-									</ol>
-								</td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">6a</span></th>
-								<td>
-									<ol>
-										<li>Der Benutzer schließt die Detailansicht des Service Levels.</li>
-										<li>Weiter mit Normalablauf Schritt 3.</li>
-									</ol>
-								</td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-2">Ressource der PMP bekannt machen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#2</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Ressource der PMP bekannt machen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Die App will eine Ressource der PMP bekannt machen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>PMP ist auf dem Gerät installiert.</li>
-									<li>PMP-Service läuft.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Die Ressource ist der PMP bekannt.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td>Die Ressource ist nicht der PMP bekannt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>App</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Die App registriert bei PMP die neue Ressource.</li>
-									<li>PMP akzeptiert die entsprechende Ressource</li>
-									<li>PMP bestätigt die Registrierung.</li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf">2a</span></th>
-								<td><ol>
-									<li>PMP akzeptiert die entsprechende Ressource nicht.</li>
-									<li>PMP bestätigt die Registrierung nicht.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<div class="pagebreak"></div>
-						
-						<h4 id="awdf-3">Ressourcengruppen anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#3</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Ressourcengruppen anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Ressourcengruppen anzeigen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>PMP hat dem Benutzer die Ressourcengruppen angezeigt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Der Benutzer wählt die Ressourcengruppenübersicht aus.</li>
-									<li>PMP listet alle verfügbaren Ressourcengruppen auf.</li>
-									<li>Der Benutzer schließt die Ressourcengruppenübersicht.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-4">Details zu einer Ressourcengruppe anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#4</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Details zu einer Ressourcengruppe anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Details über eine Ressourcengruppe anzeigen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine Ressourcengruppe verfügbar.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>PMP hat dem Benutzer die Details zu einer Ressourcengruppe angezeigt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Der Benutzer wählt die Ressourcengruppenübersicht aus.</li>
-									<li>PMP listet alle verfügbaren Ressourcengruppen auf.</li>
-									<li>Der Benutzer wählt eine Ressourcengruppe aus.</li>
-									<li>PMP zeigt die Details der Ressourcengruppe an.</li>
-									<li>Der Benutzer schließt die Detailansicht der Ressourcengruppe.</li>
-									<li>Der Benutzer schließt die Ressourcengruppenübersicht.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-5">Apps anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#5</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Apps anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Apps anzeigen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>PMP hat dem Benutzer die Apps angezeigt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Der Benutzer wählt die Appübersicht aus.</li>
-									<li>PMP listet alle verfügbaren Apps auf.</li>
-									<li>Der Benutzer schließt die Appübersicht.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<div class="pagebreak"></div>
-						
-						<h4 id="awdf-6">Service Levels einer App anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#6</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Service Levels einer App anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Service Levels einer App anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>PMP hat dem Benutzer die Service Levels einer App angezeigt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
-									<li>PMP listet dem Benutzer alle Apps auf.</li>
-									<li>Der Benutzer wählt eine App aus.</li>
-									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
-									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
-									<li>Der Benutzer schließt die Übersicht der Apps.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<h4 id="awdf-7">Details zu einem Service Level einer App anzeigen</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#7</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Details zu einem Service Level einer App anzeigen</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte die Details zu einem Service Level einer App anzeigen.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>PMP hat dem Benutzer die Details eines Service Levels einer App angezeigt.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
-									<li>PMP listet dem Benutzer alle Apps auf.</li>
-									<li>Der Benutzer wählt eine App aus.</li>
-									<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
-									<li>Der Benutzer wählt ein Service Level aus.</li>
-									<li>PMP stellt die Details zu diesem Service Level dar.</li>
-									<li>Der Benutzer schließt die Detail-Ansicht des Service Levels.</li>
-									<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
-									<li>Der Benutzer schließt die Übersicht der Apps.</li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						<div class="pagebreak"></div>
-						
-						<h4 id="awdf-8">Rechte einer App auf Grundlage der Service Levels ändern</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#8</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td>Rechte einer App auf Grundlage der Service Levels ändern</td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td>Der Benutzer möchte das Service Level einer App ändern.</td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li>Der Benutzer hat die PMP-App gestartet und ist noch in keinem Untermenü.</li>
-									<li>Es ist mindestens eine App installiert.</li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td>Der Benutzer hat das Service Level einer App geändert.</td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen bei Abbruch</th>
-								<td>Der Benutzer hat das Service Level einer App nicht geändert.</td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td>Benutzer</td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td>
-									<span class="up-annotation">Ablauf kann abgebrochen werden.</span>
-									<ol>
-										<li>Der Benutzer wählt die Übersicht über die installierten Apps aus.</li>
-										<li>PMP listet dem Benutzer alle Apps auf.</li>
-										<li>Der Benutzer wählt eine App aus.</li>
-										<li>PMP listet dem Benutzer die Service Levels der App als Übersicht auf und hebt das aktuell der App zugewiesene Service Level hervor.</li>
-										<li>Der Benutzer wählt ein Service Level aus.</li>
-										<li>PMP stellt die Details zu diesem Service Level dar.</li>
-										<li>Der Benutzer bestätigt die Auswahl dieses Service Levels.</li>
-										<li>PMP weist der App das Service Level zu.</li>
-										<li>Der Benutzer schließt die Service Level-Übersicht der App.</li>
-										<li>Der Benutzer schließt die Übersicht der Apps.</li>
-									</ol>
-								</td>
-							</tr>
-						</table>
+				In Iteration 2 durch usecases.pdf ersetzt.
 			</div>
-						
-						<!--
-						
-						
-						<h4 id="awdf-x">...</h4>
-						<table>
-							<tr>
-								<th class="left">Use-Case ID</th>
-								<td>#x</td>
-							</tr>
-							<tr>
-								<th class="left">Name</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="left">Ziel</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="left">Vorbedingungen</th>
-								<td><ul>
-									<li></li>
-									<li></li>
-								</ul></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="left">Nachbedingungen im Sonderfall</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="left">Akteure</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th class="left">Normalablauf</th>
-								<td><ol>
-									<li></li>
-								</ol></td>
-							</tr>
-							<tr>
-								<th class="left">Sonderfall <span class="uc-sf"></span></th>
-								<td><ol>
-									<li></li>
-								</ol></td>
-							</tr>
-						</table>
-						
-						-->
 			
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 			
@@ -748,7 +309,7 @@
 			<h2 id="ui-apps">Apps</h2>
 			
 			
-			<h3>Übersicht über alle Apps.</h3>
+			<h3 id="ui-apps-list">App-Übersicht</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-list.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-list.jpg" alt="App Liste" width="45%" class="left">
@@ -763,7 +324,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Aktionsmenü für App</h3>
+			<h3 id="ui-apps-list-action">Aktionsmenü für App</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-list_long-press.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-list_long-press.jpg" alt="App Liste Menü" width="45%" class="left">
@@ -779,7 +340,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Details-Screen für App</h3>
+			<h3 id="ui-app-detail">App-Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/app-details.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/app-details.jpg" alt="App Details" width="45%" class="left">
@@ -798,7 +359,7 @@
 			
 			<p>Im nachfolgenden könnnen Service Features nur dann geändert werden wenn der Expert-Mode <b>nicht</b> aktiviert ist.</p>
 			
-			<h3>Portrait-Modus</h3>
+			<h3 id="ui-sf-portrait">Portrait-Modus</h3>
 			<div class="uip">
 				<a href="gui-prototype/service-feature-list_portrait.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/service-feature-list_portrait.jpg" alt="Service Features anzeigen (Portrait)" width="45%" class="left">
@@ -813,7 +374,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Landscape-Modus</h3>
+			<h3 id="ui-sf-landscape">Landscape-Modus</h3>
 			<div class="uip">
 				<a href="gui-prototype/service-feature-list_landscape.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/service-feature-list_landscape.jpg" alt="Service Feature (Landscape)" width="60%" class="left">
@@ -826,7 +387,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Service Feature Details</h3>
+			<h3 id="ui-sf-details">Service Feature Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/service-feature.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/service-feature.jpg" alt="Service Feature Detail" width="45%" class="left">
@@ -842,7 +403,7 @@
 			<h2 id="ui-presets">Presets</h2>
 			<p>Presets sind nur im Expert-Mode verfügbar.</p>
 			
-			<h3>Presets Übersicht</h3>
+			<h3 id="ui-preset-list">Presets-Übersicht</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-list.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-list.jpg" alt="Presets Übersicht" width="45%" class="left">
@@ -854,7 +415,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Menü in der Preset-Übersicht</h3>
+			<h3 id="ui-preset-menu">Aktionsmenü für Preset</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-list_long-press.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-list_long-press.jpg" alt="Menü in der Preset-Übersicht" width="
@@ -869,7 +430,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Detail-Ansicht für Presets</h3>
+			<h3 id="ui-preset-details">Preset-Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-details.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-details.jpg" alt="Details-Ansicht Presets" width="50%" class="left">
@@ -880,7 +441,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Menü für die Preset-Details-Ansicht</h3>
+			<h3 id="ui-preset-details-menu">Aktionsmenü für Preset-Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-details_touch.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-details_touch.jpg" alt="Menü für Preset-Details-Ansicht" width="40%" class="left">
@@ -898,7 +459,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Privacy Setting hinzufügen - Schritt 1</h3>
+			<h3 id="ui-preset-add-ps-1">Privacy Setting hinzufügen - Schritt 1</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-add-pl_1.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-add-pl_1.jpg" alt="PS hinzufügen - Schritt 1" width="30%" class="left">
@@ -908,7 +469,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Privacy Setting hinzufügen - Schritt 2</h3>
+			<h3 id="ui-preset-add-ps-2">Privacy Setting hinzufügen - Schritt 2</h3>
 			<div class="uip">
 				<a href="gui-prototype/preset-add-pl_2.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/preset-add-pl_2.jpg" alt="PS hinzufügen - Schritt 2" width="30%" class="left">
@@ -922,7 +483,7 @@
 			
 			<h2 id="ui-resourcegroups">Ressourcengruppen</h2>
 			
-			<h3>Installierte Ressourcengruppen</h3>
+			<h3 id="ui-rg-installed">Installierte Ressourcengruppen</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-list_installed.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-list_installed.jpg" alt="Installierte RGs" width="45%" class="left">
@@ -933,7 +494,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Verfügbare Ressourcengruppen</h3>
+			<h3 id="ui-rg-available">Verfügbare Ressourcengruppen</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-list_available.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-list_available.jpg" alt="Verfügbare RGs" width="45%" class="left">
@@ -946,7 +507,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Ressourcengruppen laden</h3>
+			<h3 id="ui-rg-load">Ressourcengruppen laden</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-list_pending.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-list_pending.jpg" alt="Ressourcengruppen laden" width="35%" class="left">
@@ -956,7 +517,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Ressourcengruppe Details</h3>
+			<h3 id="ui-rg-detail">Ressourcengruppe Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-details.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-details.jpg" alt="RG Details" width="30%" class="left">
@@ -969,7 +530,7 @@
 			
 			<div class="pagebreak"></div>
 			
-			<h3>Ressourcengruppe installieren - Schritt 1</h3>
+			<h3 id="ui-rg-install-1">Ressourcengruppe installieren - Schritt 1</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-install.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-install.jpg" alt="RG installieren - Schritt 1" width="30%" class="left">
@@ -980,7 +541,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Ressourcengruppe installieren - Schritt 2&amp;3</h3>
+			<h3 id="ui-rg-install-2">Ressourcengruppe installieren - Schritt 2&amp;3</h3>
 			<div class="uip">
 				<a href="gui-prototype/rg-install_pending.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/rg-install_pending.jpg" alt="RG installieren - Schritt 2-3" width="45%" class="left">
@@ -1000,7 +561,7 @@
 			
 			<h2 id="ui-einstellungen">Einstellungen</h2>
 			
-			<h3>Übersicht</h3>
+			<h3 id="ui-settings-list">Übersicht</h3>
 			<div class="uip">
 				<a href="gui-prototype/setting-list.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/setting-list.jpg" alt="Einstellungen Übersicht" width="45%" class="left">
@@ -1010,7 +571,7 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h3>Details</h3>
+			<h3 id="ui-setting-details">Details</h3>
 			<div class="uip">
 				<a href="gui-prototype/setting-details.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/setting-details.jpg" alt="Einstellungen Details" width="35%" class="left">
