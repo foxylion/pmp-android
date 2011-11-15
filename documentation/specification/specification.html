@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">12. November 2011</div>
+		<div id="page-head-date">16. November 2011</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 2.0</div>
+		<div id="page-version">Version 2.1</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -28,9 +28,18 @@
 		<div id="content">
 		
 			<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 2.1 (16.11.2011)</h3>
+				Korrekturen nach Spezifikationsreview in den in Version 2.0 aufgelisteten Kapiteln durchgeführt.
+			
 				<h3>Version 2.0 (12.11.2011)</h3>
+				Überarbeitung der Spezifiaktion für die zweite Iteration (Reviewkandidat)
 					<ul>
-						<li>Überarbeitung der Spezifiaktion für die zweite Iteration (Reviewkanidat)</li>
+						<li>Kapitel <span class="reference" title="#use-cases"></span> bearbeitet</li>
+						<li>Kapitel <span class="reference" title="#anforderungen-sonstiges"></span> hinzugefügt</li>
+						<li>Kapitel <span class="reference" title="#nicht-funktionale-anforderungen"></span> bearbeitet</li>
+						<li>Kapitel <span class="reference" title="#benutzeroberfläche"></span> bearbeitet</li>
+						<li>Kapitel <span class="reference" title="#begriffslexikon"></span> bearbeitet</li>
+						
 					</ul>
 					
 				<h3>Version 1.5 (18.08.2011)</h3>
@@ -551,7 +560,7 @@
 					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
 					<h3 id="import-export">Import/Export</h3>
-					<p>Es ist keine Import-/Exportfunktionen in der ersten Iteration geplant.</p>
+					<p>Es sind aktuell keine Import-/Exportfunktionen geplant.</p>
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
 					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
@@ -593,7 +602,7 @@
 									<th colspan="2">Die Durchschnittsnutzerin: Kathrin</th>
 								</tr>
 								<tr>
-									<td>Kathrin ist 25 Jahre alt und besitzt ihr Android Smartphone seit 3 Jahren. Sie studiert im 5. Semester Geschichte und Deutsch auf Lehramt und hat generell kein Interesse an Technologie und Softwareentwicklung. Trotzdem nutzt sie einige Apps, die ihr den Alltag erleichtern.
+									<td>Kathrin ist 25 Jahre alt und besitzt ihr Android Smartphone seit 3 Jahren. Sie studiert im 5. Semester Geschichte und Deutsch auf Lehramt und hat generell kein Interesse an Technologie und Softwareentwicklung. Trotzdem nutzt sie einige Apps, die ihr den Alltag erleichtern. Generell gehört Kathrin zu den Menschen, denen Datenschutz am Herzen liegt.
 									</td>
 									<td><img src="personae/kathrin.jpg" alt="Image of kathrin" width="150px"></td>
 								</tr>
@@ -642,7 +651,7 @@
 					<span class="title">Hinzugefügt</span>					
 						<p><strong>Nutzungsszenario N-2</strong></p>
 						<p>
-						Durch einen Kollegen erfuhr Moritz, dass seit kurzem die App PMP im Android-Marketplace verfügbar ist. Nachdem er PMP und die zu PMP kompatible Kalender-App heruntergeladen und installiert hatte, war er über die feingranularen Einstellungsmöglichkeiten erfreut. Moritz kann sich nun selbst Presets erstellen und definieren, auf welche Ressourcengruppen die Kalender-App Zugriff bekommt. Da er nicht möchte, dass die Kalender-App Zugriff auf die Dateisystem-Ressourcengruppe erhält, lässt er die zugehörigen Privacy Settings deaktiviert. Also Konsequenz seiner Restriktion ist das Service Feature "Kalendereinträge im- und exportieren" abgeschaltet, welches Moritz sowieso nicht nutzen möchte.
+						Durch einen Kollegen erfuhr Moritz, dass seit kurzem die App PMP im Android-Marketplace verfügbar ist. Nachdem er PMP und die zu PMP kompatible Kalender-App heruntergeladen und installiert hatte, war er über die feingranularen Einstellungsmöglichkeiten erfreut. Moritz kann sich nun selbst Presets erstellen und definieren, auf welche Ressourcengruppen die Kalender-App Zugriff bekommt. Da er nicht möchte, dass die Kalender-App Zugriff auf die Dateisystem-Ressourcengruppe erhält, lässt er die zugehörigen Privacy Settings deaktiviert. Als Konsequenz seiner Restriktion ist das Service Feature "Kalendereinträge im- und exportieren" abgeschaltet, welches Moritz sowieso nicht nutzen möchte.
 						</p>
 					</div>
 			
@@ -668,7 +677,7 @@
 			<div class="sp-edit">
 			<span class="title">Bearbeitet</span>
 				<h2 id="robustheit">Robustheit</h2>
-				<p>Die PMP stürtz bei der Installation von Ressourcengruppen oder Apps, die die PMP-API verwenden und fehlerhafte Schnittstellen aufweisen, nicht ab.</p>
+				<p>Die PMP stürzt bei der Installation von Ressourcengruppen oder Apps, die die PMP-API verwenden und fehlerhafte Schnittstellen aufweisen, nicht ab.</p>
 			</div>
 				
 			<div class="sp-del">
@@ -680,11 +689,11 @@
 			<div class="sp-edit">
 			<span class="title">Bearbeitet</span>
 				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Es sind keine speziellen Sicherheitfeatures notwendig.</p>
+				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
 			</div>
 			
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>PMP wird zu allen Android-Systeme der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
+				<p>PMP wird zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts) kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Die einzige verfügbare Sprache für PMP ist Englisch, die Oberfläche wird jedoch für beliebig viele Sprachen erweiterbar sein. Die Sprache des Handbuches ist Deutsch, wobei die Screenshots auf die englische Oberfläche verweisen werden.</p>
@@ -719,16 +728,17 @@
 				<ul>
 					<li>Es wird eine ausführliche Dokumentation des Sourcecodes in Form von (Javadoc-)Kommentaren erstellt.</li>
 					<li>Die Software wird modular aufgebaut sein.</li>
-					<li>Es werden allgemein bekannte und anerkannte Entwurfsmuster verwendet.</li>
 				</ul>
 			</div>
 			
 				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
 				<p>PMP wird ohne externe Abhängigkeiten entwickelt.</p>
 				
+			<div class="sp-edit">
+			<span class="title">Bearbeitet</span>
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter (mindestens) einer Open-Source Software Lizenz freigegeben werden.</p>
-
+				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. PMP wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+			</div>
 
 
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
@@ -1083,7 +1093,7 @@
 				<h2 id="bgl-privacysetting">Privacy Setting</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
-					<tr><th class="left">Synonyme</th><td>Privacy Flag</td></tr>
+					<tr><th class="left">Synonyme</th><td>Privacy Flag, Privacy Level</td></tr>
 					<tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Setting kann kontext-abhängig sein. Ihre konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Settings wie "Lesen" oder "Schreiben" anbieten.</td></tr>
 					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset.</td></tr>
@@ -1147,7 +1157,7 @@
 					<tr><th class="left">Abgrenzung</th><td>Ein Service Feature ist weder ein Privacy Setting noch ein Preset.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Ein Service Feature bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Es können mehrere Service Features gleichzeitig aktiviert sein.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Das Service Feature wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>Das aus der Spezifikationsversion 1.x bekannte Serivce Level wird vom Service Feature abgelöst.</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 			</div>
