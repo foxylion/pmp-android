@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project type="tulip" version="1.2.3">
+<project type="tulip" version="1.2.1">
   <id>1</id>
   <name>PMP</name>
   <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
@@ -156,55 +156,46 @@
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Übersicht der Apps aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Apps an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt eine App aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt die Details der gewählten App an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die "Service-Feature-Option" aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt alle Service Features der gewählten App an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
                   <description>aktiviert/deaktiviert gewünschte Service Features.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId>6</actorId>
                   <description>bestätigt die Auswahl der aktiven Service Features.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>übernimmt die aktiven Service Features.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -227,7 +218,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Benutzer an, dass keine Apps installiert sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -292,31 +282,26 @@
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Ressourcengruppenübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle verfügbaren Ressourcengruppen an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt eine Ressourcengruppe aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt die Details der gewählten Ressourcengruppe an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
                   <description>schließt die Detailübersicht.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -339,7 +324,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Benutzer an, dass keine Ressourcengruppen installiert sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -382,25 +366,21 @@
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt das Optionsmenü aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt das Optionsmenü an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt das Wechseln in den simplen Modus aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>wechselt die Ansicht in den simplen Modus.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -447,25 +427,21 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das Optionsmenü aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt das Optionsmenü an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das Wechseln in den Expertenmodus aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>wechselt die Ansicht in den Expertenmodus.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -511,31 +487,26 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>schließt die Detailübersicht.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -558,7 +529,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -604,43 +574,36 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Funktion "Preset erstellen" aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt den "Preset erstellen" Bildschirm an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>gibt Namen und Beschreibung ein.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId>7</actorId>
                   <description>bestätigt die Eingaben.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId/>
                   <description>zeigt den Presetdetails Bildschirm an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -663,7 +626,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -736,49 +698,41 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die "App hinzufügen" Funktion aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt die Apps an, die sich noch nicht in diesem Preset befinden.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die gewünschte App aus und bestätigt die Auswahl.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -801,7 +755,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -858,61 +811,51 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die "Privacy Setting hinzufügen" Funktion aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt alle Privacy Settings an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das gewünschte Privacy Setting aus und bestätigt die Auswahl.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId>7</actorId>
                   <description>stellt den Wert des Privacy Settings ein und bestätigt dies.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>10</stepNumber>
                   <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -935,7 +878,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -957,7 +899,6 @@
                     <stepNumber>5a1</stepNumber>
                     <actorId/>
                     <description>meldet, dass dem vordefinierten Preset keine Privacy Settings hinzugefügt werden können.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1014,55 +955,46 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>selektiert eine App.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das Entfernen der App aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>entfernt die App aus dem Preset.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1085,7 +1017,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1107,7 +1038,6 @@
                     <stepNumber>5a1</stepNumber>
                     <actorId>7</actorId>
                     <description>kann keine App oder Privacy Setting auswählen.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1164,55 +1094,46 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>selektiert ein Privacy Setting.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das Entfernen des Privacy Setting aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>entfernt das Privacy Setting aus dem Preset.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1235,7 +1156,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1257,7 +1177,6 @@
                     <stepNumber>5a1</stepNumber>
                     <actorId>7</actorId>
                     <description>kann keine Privacy Setting auswählen.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1279,7 +1198,6 @@
                     <stepNumber>5b1</stepNumber>
                     <actorId/>
                     <description>meldet, dass in dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1336,37 +1254,31 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>ändert den Namen und/oder die Beschreibung und bestätigt dies.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt die Presetübersicht an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1389,7 +1301,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1446,37 +1357,31 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>selektiert ein Preset.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt das Entfernen des Presets aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>sortiert das Preset zu den Gelöschten ein.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1499,7 +1404,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1567,49 +1471,41 @@
                   <stepNumber>1</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt die Presetübersicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>zeigt alle Presets an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Preset aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>7</actorId>
                   <description>wählt ein Privacy Setting aus, von der er den Wert verändern will.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>7</actorId>
                   <description>ändert den Wert des Privacy Settings und bestätigt dies.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>zeigt die Details des Presets ,mit dem geänderten Privacy-Setting-Wert, an.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1632,7 +1528,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1654,7 +1549,6 @@
                     <stepNumber>5a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1713,91 +1607,76 @@
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Ressourcengruppe-Ansicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>ruft vom Paketmanagerserver die aktuelle Titelseite ab.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId/>
                   <description>zeigt die Titelseiten-Ansicht und ein Suchfeld.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId>6</actorId>
                   <description>tippt in das Suchfeld einen Suchstring für die gewünschte Ressourcengruppe.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId/>
                   <description>fragt den Paketmanagerserver nach diesem Suchstring.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId>13</actorId>
                   <description>sucht nach passenden Ressourcengruppen und sendet deren Informationen zurück.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId/>
                   <description>zeigt dem Benutzer die Übersicht über die Ressourcengruppen.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt eine Ressourcengruppe aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>zeigt dem Benutzer die Details der ausgewählten Ressourcengruppe.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>10</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Installieren-Funktion.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>11</stepNumber>
                   <actorId/>
                   <description>lädt vom Paketmanagerserver die ausgewählte Ressourcengruppe herunter.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>12</stepNumber>
                   <actorId/>
                   <description>entpackt den Code der Ressourcengruppe und fügt sie in die Datenbank ein.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>13</stepNumber>
                   <actorId/>
                   <description>startet die Ressourcengruppe.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>14</stepNumber>
                   <actorId/>
                   <description>zeigt an, dass die Ressourcengruppe erfolgreich installiert wurde.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>15</stepNumber>
                   <actorId/>
                   <description>zeigt die Titelseiten-Ansicht und ein Suchfeld.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -1820,7 +1699,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt statt der Titelseite eine Fehlermeldung und fordert den Benutzer dazu auf, eine Verbindung zu ermöglichen, wenn er neue Ressourcengruppe installieren will.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1842,19 +1720,16 @@
                     <stepNumber>7a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Benutzer an, dass es keine Ressourcengruppen mit diesem Suchstring gibt.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>7a2</stepNumber>
                     <actorId>6</actorId>
                     <description>ändert den Suchstring.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>7a3</stepNumber>
                     <actorId/>
                     <description>geht zu Schritt 5 zurück.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1876,19 +1751,16 @@
                     <stepNumber>13a1</stepNumber>
                     <actorId/>
                     <description>zeigt eine Fehlermeldung an, dass die Ressourcengruppe ungültig ist und nicht benutzt werden kann.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>13a2</stepNumber>
                     <actorId>6</actorId>
                     <description>bestätigt.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>13a3</stepNumber>
                     <actorId/>
                     <description>geht zurück zu Schritt 7.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -1911,15 +1783,10 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>11</step>
+                <step>5</step>
                 <annotation>
-                  <template>ID-c576be0</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-49e768fb</template>
-                      <value>=(lokaleGröße/KompletteGröße)</value>
-                    </parameter>
-                  </parameters>
+                  <template>ID-77376028</template>
+                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1934,10 +1801,15 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>5</step>
+                <step>11</step>
                 <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
+                  <template>ID-c576be0</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-49e768fb</template>
+                      <value>=(lokaleGröße/KompletteGröße)</value>
+                    </parameter>
+                  </parameters>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1976,61 +1848,51 @@
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Ressourcegruppen-Ansicht aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
                   <actorId/>
                   <description>ruft vom Paketmanagerserver die aktuelle Titelseite ab.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Installierte-Ressourcengruppen-Ansicht.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId/>
                   <description>stellt alle installierten Ressourcengruppen dar.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>5</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt eine Ressourcengruppe aus.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>6</stepNumber>
                   <actorId/>
                   <description>zeigt dem Benutzer die Details der ausgewählten Ressourcengruppe.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>7</stepNumber>
                   <actorId>6</actorId>
                   <description>wählt die Deinstallieren-Funktion.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>8</stepNumber>
                   <actorId/>
                   <description>stoppt die ausgewählte Ressourcengruppe und deinstalliert sie.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>9</stepNumber>
                   <actorId/>
                   <description>zeigt an, dass die Ressourcengruppe erfolgreich deinstalliert wurde.</description>
-                  <references/>
                 </step>
                 <step>
                   <stepNumber>10</stepNumber>
                   <actorId/>
                   <description>stellt alle installierten Ressourcengruppen dar.</description>
-                  <references/>
                 </step>
               </steps>
               <postConditions>
@@ -2053,7 +1915,6 @@
                     <stepNumber>2a1</stepNumber>
                     <actorId/>
                     <description>zeigt statt der Titelseite eine Fehlermeldung und fordert den Benutzer dazu auf, eine Verbindung zu ermöglichen, wenn er neue Ressourcengruppe installieren will.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -2075,7 +1936,6 @@
                     <stepNumber>4a1</stepNumber>
                     <actorId/>
                     <description>zeigt dem Benutzer an, dass keine Ressourcengruppen installiert sind.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -2097,25 +1957,21 @@
                     <stepNumber>8a1</stepNumber>
                     <actorId/>
                     <description>fragt den Benutzer, ob die mitgebrachten Presets gelöscht werden oder erhalten bleiben sollen.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8a2</stepNumber>
                     <actorId>6</actorId>
                     <description>wählt die gewünschte Option aus.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8a3</stepNumber>
                     <actorId/>
                     <description>migriert die mitgebrachten Presets bzw. löscht sie.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8a4</stepNumber>
                     <actorId/>
                     <description>geht zurück zu Schritt 8.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -2137,31 +1993,26 @@
                     <stepNumber>8b1</stepNumber>
                     <actorId/>
                     <description>berechnet die Service Features für jede betroffene App, die ohne die Ressourcengruppe verwendbar wären.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8b2</stepNumber>
                     <actorId/>
                     <description>zeigt dem Benutzer die Konsequenzen des Löschens (aktive Service Features im Vergleich vorher - nachher) und fordert eine Bestätigung der Aktion.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8b3</stepNumber>
                     <actorId>6</actorId>
                     <description>bestätigt.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8b4</stepNumber>
                     <actorId/>
                     <description>deaktiviert die nicht mehr anwendbaren Service Features jeder betroffenen App und informiert die Apps darüber.</description>
-                    <references/>
                   </step>
                   <step>
                     <stepNumber>8b5</stepNumber>
                     <actorId/>
                     <description>geht zurück zu Schritt 8.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
@@ -2183,7 +2034,6 @@
                     <stepNumber>8b3a1</stepNumber>
                     <actorId/>
                     <description>geht zurück zu Schritt 6.</description>
-                    <references/>
                   </step>
                 </steps>
                 <postConditions>
