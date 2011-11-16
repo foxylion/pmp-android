@@ -1423,7 +1423,7 @@
             <level>Benutzersicht</level>
             <created>08-11-2011 14:12</created>
             <author/>
-            <lastUpdate>14-11-2011 19:54</lastUpdate>
+            <lastUpdate>16-11-2011 09:10</lastUpdate>
             <primaryActorId>7</primaryActorId>
             <actors>
               <actorId>7</actorId>
@@ -1457,7 +1457,7 @@
                 <step>
                   <stepNumber>3</stepNumber>
                   <actorId>7</actorId>
-                  <description>selektiert eine App.</description>
+                  <description>selektiert ein Preset.</description>
                   <references/>
                 </step>
                 <step>
