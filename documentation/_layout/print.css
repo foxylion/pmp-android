@@ -156,8 +156,7 @@ label {
 table { 
 	width: 100%; 
 	border: 1px solid #000000; 
-	empty-cells: hide;
-	border-spacing: 2px 1px;
+	border-spacing: 2px 2px;
 	margin-top: 5px;
 }
 
@@ -292,3 +291,14 @@ div.sp-add span.title {
 div.sp-edit span.title {
 	color: orange;
 }
+
+/* UserInterfacePrototype-Container */
+div.uip {
+	margin-bottom: 10px;
+	padding: 5px;
+	background-color: #f7f7f7;
+	border: 1px solid #555555;
+	box-shadow: 2px 2px 2px #999999;
+	clear: both;
+}
+
