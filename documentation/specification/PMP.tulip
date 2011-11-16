@@ -1692,7 +1692,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:21</created>
             <author>tk</author>
-            <lastUpdate>15-11-2011 18:10</lastUpdate>
+            <lastUpdate>16-11-2011 08:59</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1712,7 +1712,7 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die Paketmanager-Ansicht aus.</description>
+                  <description>wählt die Ressourcengruppe-Ansicht aus.</description>
                   <references/>
                 </step>
                 <step>
@@ -1911,10 +1911,15 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>5</step>
+                <step>11</step>
                 <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
+                  <template>ID-c576be0</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-49e768fb</template>
+                      <value>=(lokaleGröße/KompletteGröße)</value>
+                    </parameter>
+                  </parameters>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1929,15 +1934,10 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>11</step>
+                <step>5</step>
                 <annotation>
-                  <template>ID-c576be0</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-49e768fb</template>
-                      <value>=(lokaleGröße/KompletteGröße)</value>
-                    </parameter>
-                  </parameters>
+                  <template>ID-77376028</template>
+                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -1956,7 +1956,7 @@
             <level>Technische Details</level>
             <created>03-11-2011 16:22</created>
             <author/>
-            <lastUpdate>15-11-2011 18:49</lastUpdate>
+            <lastUpdate>16-11-2011 09:01</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1975,7 +1975,7 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>wählt die Paketmanager-Ansicht aus.</description>
+                  <description>wählt die Ressourcegruppen-Ansicht aus.</description>
                   <references/>
                 </step>
                 <step>
