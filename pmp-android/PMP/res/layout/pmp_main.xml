@@ -26,24 +26,22 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:text="Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings." >
-
                 </TextView>
 
                 <include layout="@layout/divider_strong" >
                 </include>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
-
+
                     <Button
                         android:id="@+id/Button_Apps"
                         android:layout_width="fill_parent"
@@ -53,9 +51,8 @@
                         android:drawableTop="@drawable/icon_apps"
                         android:paddingTop="25sp"
                         android:text="Apps" >
-
                     </Button>
-
+
                     <Button
                         android:id="@+id/Button_RGs"
                         android:layout_width="fill_parent"
@@ -65,17 +62,15 @@
                         android:drawableTop="@drawable/icon_rgs"
                         android:paddingTop="25sp"
                         android:text="Resourcegroups" >
-
                     </Button>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/Button_Presets"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <Button
-                        android:id="@+id/ButtonTest"
+                        android:id="@+id/Button_Presets"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
@@ -83,9 +78,7 @@
                         android:drawableTop="@drawable/icon_presets"
                         android:paddingTop="25sp"
                         android:text="Presets" >
-
                     </Button>
-
 
                     <Button
                         android:id="@+id/Button_Settings"
@@ -96,7 +89,6 @@
                         android:drawableTop="@drawable/icon_settings"
                         android:paddingTop="25sp"
                         android:text="Settings" >
-
                     </Button>
                 </LinearLayout>
             </LinearLayout>

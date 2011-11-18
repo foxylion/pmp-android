@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on Apps-Button", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "Tapped on Apps-Button", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on RGs-Button", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "Tapped on RGs-Button", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on Presets-Button", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "Tapped on Presets-Button", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on Settings-Button", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "Tapped on Settings-Button", Toast.LENGTH_SHORT).show();
             }
         });
     }
