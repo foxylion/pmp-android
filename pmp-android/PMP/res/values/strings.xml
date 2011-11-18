@@ -27,5 +27,9 @@
     <string name="main_presets">Presets</string>
     <string name="main_settings">Settings</string>
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
+    <string name="settings_expertmode_description">Enables the Presets feature in PMP</string>
+    <string name="settings_expertmode">Expert Mode</string>
+    <string name="settings_expertmode_enabled">The Expert Mode has been enabled</string>
+    <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
 
 </resources>

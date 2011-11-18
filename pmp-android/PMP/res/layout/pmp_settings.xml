@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/icon_settings"
+        pmp:name="@string/main_settings" >
+    </de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- Start of Expert Mode Entry -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/icon_expertmode" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_expertmode"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_expertmode_description"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/CheckBox_ExpertMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+            <!-- End of Expert Mode Entry -->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
