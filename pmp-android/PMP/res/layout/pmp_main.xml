@@ -16,7 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             pmp:icon="@drawable/icon"
-            pmp:name="@string/app_name" >
+            pmp:name="@string/main_title" >
         </de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView>
 
         <ScrollView
@@ -95,7 +95,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-3dp"
-                    android:text="@string/statistics" />
+                    android:text="@string/main_statistics" />
 
                 <include layout="@layout/divider_strong" >
                 </include>
@@ -104,19 +104,19 @@
                     android:id="@+id/TextView_Apps"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/statistics_apps" />
+                    android:text="@string/main_statistics_apps" />
 
                 <TextView
                     android:id="@+id/TextView_RGs"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/statistics_rgs" />
+                    android:text="@string/main_statistics_rgs" />
 
                 <TextView
                     android:id="@+id/TextView_Presets"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/statistics_presets" />
+                    android:text="@string/main_statistics_presets" />
 
                 <TextView
                     android:layout_width="wrap_content"

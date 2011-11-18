@@ -26,8 +26,19 @@
         </activity>
         <activity
             android:icon="@drawable/icon_settings"
-            android:label="@string/main_settings"
+            android:label="@string/settings_title"
             android:name=".gui2.activities.SettingsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:icon="@drawable/icon_settings"
+            android:label="@string/apps_title"
+            android:name=".gui2.activities.AppsActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />

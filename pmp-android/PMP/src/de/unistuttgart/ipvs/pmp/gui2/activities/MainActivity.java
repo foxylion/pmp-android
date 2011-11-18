@@ -51,13 +51,13 @@ public class MainActivity extends Activity {
      */
     public void updateStatistics(int appsCount, int rgsCount, int presetsCount) {
         TextView textApps = (TextView) findViewById(R.id.TextView_Apps);
-        textApps.setText(String.format(getResources().getString(R.string.statistics_apps), appsCount));
+        textApps.setText(String.format(getResources().getString(R.string.main_statistics_apps), appsCount));
         
         TextView textRgs = (TextView) findViewById(R.id.TextView_RGs);
-        textRgs.setText(String.format(getResources().getString(R.string.statistics_rgs), rgsCount));
+        textRgs.setText(String.format(getResources().getString(R.string.main_statistics_rgs), rgsCount));
         
         TextView textPresets = (TextView) findViewById(R.id.TextView_Presets);
-        textPresets.setText(String.format(getResources().getString(R.string.statistics_presets), presetsCount));
+        textPresets.setText(String.format(getResources().getString(R.string.main_statistics_presets), presetsCount));
     }
     
     
@@ -75,7 +75,8 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on Apps-Button", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, AppsActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
         

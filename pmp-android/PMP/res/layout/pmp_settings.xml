@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_settings"
-        pmp:name="@string/main_settings" >
+        pmp:name="@string/settings_title" >
     </de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView>
 
     <ScrollView

@@ -18,18 +18,26 @@
     <string name="service_level_apply_hint">To apply the service level press \"Apply\", or press \"Cancel\" to get back to the service level list.</string>
 
     <!-- New GUI-Language variables -->
-    <string name="statistics_apps">- %1$d Apps are registered so far</string>
-    <string name="statistics_rgs">- %1$d Resourcegroups are installed</string>
-    <string name="statistics_presets">- %1$d Presets are created</string>
-    <string name="statistics">Statistics</string>
+    
+    <string name="main_title">Privacy Management Platform</string>
     <string name="main_apps">Apps</string>
     <string name="main_rgs">Resourcegroups</string>
     <string name="main_presets">Presets</string>
     <string name="main_settings">Settings</string>
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
+    
+    <string name="main_statistics_apps">- %1$d Apps are registered so far</string>
+    <string name="main_statistics_rgs">- %1$d Resourcegroups are installed</string>
+    <string name="main_statistics_presets">- %1$d Presets are created</string>
+    <string name="main_statistics">Statistics</string>
+        
+    <string name="settings_title">Settings</string>
     <string name="settings_expertmode_description">Enables the Presets feature in PMP</string>
     <string name="settings_expertmode">Expert Mode</string>
     <string name="settings_expertmode_enabled">The Expert Mode has been enabled</string>
     <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
-
+    
+    <string name="apps_title">Registered Apps</string>
+    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more informations.</string>
+	
 </resources>
