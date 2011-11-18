@@ -61,7 +61,7 @@ public class ApplicationsActivityTest extends ActivityInstrumentationTestCase2<A
         super.setUp();
         
         this.mActivity = getActivity();
-        this.headerString = this.mActivity.getString(R.string.apps);
+        // FIXME this.headerString = this.mActivity.getString(R.string.apps);
         
         this.TEST_APP1_IDENT = "TEST_APP1";
         this.TEST_APP1_NAME = "TEST APP 1";

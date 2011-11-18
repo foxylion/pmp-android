@@ -49,8 +49,8 @@ public class StartActivityTest extends ActivityInstrumentationTestCase2<StartAct
         super.setUp();
         
         this.mActivity = getActivity();
-        this.appString = this.mActivity.getString(R.string.apps);
-        this.resString = this.mActivity.getString(R.string.ress);
+        // FIXME this.appString = this.mActivity.getString(R.string.apps);
+        // FIXME this.resString = this.mActivity.getString(R.string.ress);
     }
     
     
