@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -22,6 +23,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.pmp_main);
         
         registerListener();
+        
+        // TODO Replace the statistics with the real statistics from model
+        updateStatistics(12, 23, 7);
     }
     
     @Override
@@ -47,6 +51,23 @@ public class MainActivity extends Activity {
         super.onBackPressed();
     }
     
+    /**
+     * Updates the statistics displayed in the bottom part of the main activity.
+     * 
+     * @param appsCount Count of the registered apps.
+     * @param rgsCount Count of the installed resource-groups.
+     * @param presetsCount Count of the created presets.
+     */
+    public void updateStatistics(int appsCount, int rgsCount, int presetsCount) {
+        TextView textApps = (TextView) findViewById(R.id.TextView_Apps);
+        textApps.setText(String.format(getResources().getString(R.string.statistics_apps), appsCount));
+        
+        TextView textRgs = (TextView) findViewById(R.id.TextView_RGs);
+        textRgs.setText(String.format(getResources().getString(R.string.statistics_rgs), rgsCount));
+        
+        TextView textPresets = (TextView) findViewById(R.id.TextView_Presets);
+        textPresets.setText(String.format(getResources().getString(R.string.statistics_presets), presetsCount));
+    }
     
     /**
      * Registers all the listeners to the {@link Button}s.
