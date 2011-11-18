@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            pmp:icon="@drawable/icon"
+            pmp:name="Privacy Management Platform" >
+        </de.unistuttgart.ipvs.pmp.gui2.views.BasicTitleView>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="-12dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings." >
+
+                </TextView>
+
+                <include layout="@layout/divider_strong" >
+                </include>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/Button_Apps"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/icon_apps"
+                        android:paddingTop="25sp"
+                        android:text="Apps" >
+
+                    </Button>
+
+                    <Button
+                        android:id="@+id/Button_RGs"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/icon_rgs"
+                        android:paddingTop="25sp"
+                        android:text="Resourcegroups" >
+
+                    </Button>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Button_Presets"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/ButtonTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/icon_presets"
+                        android:paddingTop="25sp"
+                        android:text="Presets" >
+
+                    </Button>
+
+
+                    <Button
+                        android:id="@+id/Button_Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/icon_settings"
+                        android:paddingTop="25sp"
+                        android:text="Settings" >
+
+                    </Button>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="-12dp"
+            android:layout_weight="1"
+            android:text="version 2.0"
+            android:textColor="#777777"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

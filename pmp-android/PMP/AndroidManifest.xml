@@ -9,6 +9,16 @@
 		android:name="de.unistuttgart.ipvs.pmp.PMPApplication">
 
 		<!-- Activities can be declared here -->
+		<activity android:name=".gui2.activities.MainActivity"
+			android:label="PMP v2" android:theme="@android:style/Theme.NoTitleBar" android:icon="@drawable/icon">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		
+		<!-- Starting OLD Activities for OLD gui... -->
 		<activity android:name=".gui.activities.StartActivity"
 			android:label="PMP" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
@@ -16,6 +26,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
 		<activity android:name=".gui.activities.ApplicationsActivity"
 			android:label="Applications">
 			<intent-filter>
@@ -46,6 +57,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<!-- END of the OLD Activities for the OLD gui -->
+		    
+		    
 		<!-- // end of Activity declaration -->
 
 		<!-- Broadcast Receivers -->
