@@ -4,9 +4,10 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui2.utils.PMPPreferences;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -31,8 +32,17 @@ public class SettingsActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        loadSettings();
+        loadFromPMPPrefernces();
     }
+    
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
+        saveToPMPPreferences();
+    }
+    
     
     /**
      * Registers the Listener for changes on the checkbox of the Expert Mode.
@@ -40,30 +50,63 @@ public class SettingsActivity extends Activity {
     private void registerListener() {
         CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
         
-        /* The ExpertMode-Checkbox OnCheckedChangeListener */
-        checkboxExpertMode.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        /*
+         * React on a tap and save the changes directly to the PMPPreferences.
+         */
+        checkboxExpertMode.setOnClickListener(new OnClickListener() {
             
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PMPPreferences.getInstanace().setExpertMode(isChecked);
-                
-                /* Show a toast that the expert mode state has been changed */
-                String text;
-                if (isChecked) {
-                    text = SettingsActivity.this.getString(R.string.settings_expertmode_enabled);
-                } else {
-                    text = SettingsActivity.this.getString(R.string.settings_expertmode_disabled);
-                }
-                Toast.makeText(SettingsActivity.this, text, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                changedStateExpertMode();
+            }
+            
+        });
+        
+        LinearLayout ll = (LinearLayout) findViewById(R.id.LinearLayout_ExpertMode);
+        ll.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
+                checkboxExpertMode.setChecked(!checkboxExpertMode.isChecked());
+                changedStateExpertMode();
             }
         });
     }
     
+    
     /**
      * Load the Settings from {@link PMPPreferences} to ensure that consistency is guaranteed.
      */
-    private void loadSettings() {
+    private void loadFromPMPPrefernces() {
         CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
         checkboxExpertMode.setChecked(PMPPreferences.getInstanace().isExpertMode());
+    }
+    
+    
+    /**
+     * Save the form values of the Activity to the {@link PMPPreferences}.
+     * It ensures that consistency is guaranteed.
+     */
+    private void saveToPMPPreferences() {
+        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
+        PMPPreferences.getInstanace().setExpertMode(checkboxExpertMode.isChecked());
+    }
+    
+    
+    /**
+     * Can be called when the changed state of the Expert Mode should be displayed as a toast message.
+     */
+    private void changedStateExpertMode() {
+        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
+        
+        /* Show a toast that the expert mode state has been changed */
+        String text;
+        if (checkboxExpertMode.isChecked()) {
+            text = SettingsActivity.this.getString(R.string.settings_expertmode_enabled);
+        } else {
+            text = SettingsActivity.this.getString(R.string.settings_expertmode_disabled);
+        }
+        Toast.makeText(SettingsActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 }

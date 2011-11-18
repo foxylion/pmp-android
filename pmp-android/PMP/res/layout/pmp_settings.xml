@@ -24,6 +24,7 @@
             <!-- Start of Expert Mode Entry -->
 
             <LinearLayout
+                android:id="@+id/LinearLayout_ExpertMode"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
