@@ -68,7 +68,7 @@ public class ResourcesActivityTest extends ActivityInstrumentationTestCase2<Ress
         this.mActivity = getActivity();
         this.ress = ModelSingleton.getInstance().getModel().getResourceGroups();
         this.resCount = this.ress.length;
-        this.headerString = this.mActivity.getString(R.string.ress);
+        // FIXME this.headerString = this.mActivity.getString(R.string.ress);
         
         this.TEST_RES1_IDENT = "TEST_RES1";
         this.TEST_RES1_NAME = "TEST RESOURCE";

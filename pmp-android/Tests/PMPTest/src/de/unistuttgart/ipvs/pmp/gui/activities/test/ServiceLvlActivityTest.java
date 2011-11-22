@@ -88,7 +88,7 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
         intent.putExtra(Constants.INTENT_IDENTIFIER, this.TEST_APP_IDENT);
         setActivityIntent(intent);
         this.mActivity = getActivity();
-        this.headerString = this.mActivity.getString(R.string.servive_level_for) + " " + this.TEST_APP_NAME;
+        // FIXME this.headerString = this.mActivity.getString(R.string.servive_level_for) + " " + this.TEST_APP_NAME;
         
         this.app = ModelSingleton.getInstance().getModel().getApp(this.TEST_APP_IDENT);
         this.levelArray = this.app.getServiceLevels();
