@@ -87,7 +87,7 @@
 	
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
 
-	<target name="findbugs" depends="debug">
+	<target name="findbugs">
 		<mkdir dir="reports" />
 		<findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml" excludeFilter="../FindBugsExclude.xml">
 			<auxClasspath path="${android.jar}" />
@@ -95,7 +95,7 @@
 		</findbugs>
 	</target>
 	
-	<target name="mkjdocs" depends="debug">
+	<target name="mkjdocs">
 		<mkdir dir="jdoc" />
 		<javadoc 
            sourcepath="src"           
