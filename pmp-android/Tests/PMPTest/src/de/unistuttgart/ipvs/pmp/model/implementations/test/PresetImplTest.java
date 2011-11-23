@@ -94,19 +94,19 @@ public class PresetImplTest extends AndroidTestCase {
                 TEST_RG_DESC });
         
         // plValue
-        sqld.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG_IDENT, TEST_PL_IDENT,
+        sqld.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG_IDENT, TEST_PL_IDENT,
                 TEST_PL_NAME, TEST_PL_DESC });
-        sqld.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG_IDENT, TEST_PL2_IDENT,
+        sqld.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG_IDENT, TEST_PL2_IDENT,
                 TEST_PL2_NAME, TEST_PL2_DESC });
         
         // sl
-        sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP_IDENT,
+        sqld.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP_IDENT,
                 TEST_APP_SL0_NAME, TEST_APP_SL0_DESC });
-        sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP_IDENT,
+        sqld.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP_IDENT,
                 TEST_APP_SL1_NAME, TEST_APP_SL1_DESC });
-        sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP2_IDENT,
+        sqld.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP2_IDENT,
                 TEST_APP2_SL0_NAME, TEST_APP2_SL0_DESC });
-        sqld.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP2_IDENT,
+        sqld.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP2_IDENT,
                 TEST_APP2_SL1_NAME, TEST_APP2_SL1_DESC });
         
         // sl_pl
@@ -119,8 +119,8 @@ public class PresetImplTest extends AndroidTestCase {
                 .addPreset(TEST_PRESET_NAME, TEST_PRESET_DESC, TEST_PRESET_TYPE, TEST_PRESET_IDENT);
         this.app = ModelSingleton.getInstance().getModel().getApp(TEST_APP_IDENT);
         this.app2 = ModelSingleton.getInstance().getModel().getApp(TEST_APP2_IDENT);
-        this.plValue2 = this.app.getServiceLevel(1).getPrivacyLevels()[0];
-        this.plValue = this.app2.getServiceLevel(1).getPrivacyLevels()[0];
+        this.plValue2 = this.app.getServiceLevel(1).getPrivacySettings()[0];
+        this.plValue = this.app2.getServiceLevel(1).getPrivacySettings()[0];
         
     }
     
@@ -225,7 +225,7 @@ public class PresetImplTest extends AndroidTestCase {
     
     
     /**
-     * Checks whether two {@link IPrivacyLevel}s are identical.
+     * Checks whether two {@link IPrivacySetting}s are identical.
      * 
      * @param expected
      * @param actual

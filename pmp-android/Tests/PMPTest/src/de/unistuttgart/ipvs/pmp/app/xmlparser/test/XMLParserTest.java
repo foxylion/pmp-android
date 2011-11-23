@@ -66,7 +66,7 @@ public class XMLParserTest extends InstrumentationTestCase {
     /**
      * Tests a file containing no XML-data.
      * 
-     * The nodes appInformationSet and serviceLevels are missing. It is not crucial, that text is between the nodes, so
+     * The nodes appInformationSet and serviceFeatures are missing. It is not crucial, that text is between the nodes, so
      * a NODE_MISSING exception is thrown.
      * 
      * @throws IOException

@@ -25,7 +25,7 @@ import android.test.AndroidTestCase;
 import de.unistuttgart.ipvs.pmp.Constants;
 
 /**
- * A test specifically for {@link BooleanPrivacyLevel} down to {@link PrivacyLevel}.
+ * A test specifically for {@link BooleanPrivacyLevel} down to {@link PrivacySetting}.
  * 
  * @author Tobias Kuhn
  * 

@@ -67,10 +67,10 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_RG1_NAME,
                 TEST_RG1_DESC });
         
-        DB.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
+        DB.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
                 TEST_PL1_NAME, TEST_PL1_DESC });
         
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
                 TEST_APP1_SL0_NAME, TEST_APP1_SL0_DESC });
         
         DB.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 0, ?, ?, ?);", new String[] { TEST_APP1_IDENT,
@@ -81,7 +81,7 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     public void testGetDescription() {
         assertNull(this.plevel);
         this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
-                .getPrivacyLevel(TEST_PL1_IDENT);
+                .getPrivacySetting(TEST_PL1_IDENT);
         assertNotNull(this.plevel);
         assertEquals(TEST_PL1_DESC, this.plevel.getDescription());
     }
@@ -90,7 +90,7 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     public void testGetIdentifier() {
         assertNull(this.plevel);
         this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
-                .getPrivacyLevel(TEST_PL1_IDENT);
+                .getPrivacySetting(TEST_PL1_IDENT);
         assertNotNull(this.plevel);
         assertEquals(TEST_PL1_IDENT, this.plevel.getIdentifier());
     }
@@ -99,7 +99,7 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     public void testGetName() {
         assertNull(this.plevel);
         this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
-                .getPrivacyLevel(TEST_PL1_IDENT);
+                .getPrivacySetting(TEST_PL1_IDENT);
         assertNotNull(this.plevel);
         assertEquals(TEST_PL1_NAME, this.plevel.getName());
     }
@@ -108,7 +108,7 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     public void testGetRessourceGroup() {
         assertNull(this.plevel);
         this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
-                .getPrivacyLevel(TEST_PL1_IDENT);
+                .getPrivacySetting(TEST_PL1_IDENT);
         assertNotNull(this.plevel);
         
         assertNull(this.res);
@@ -121,12 +121,12 @@ public class PrivacyLevelImplTest extends AndroidTestCase {
     public void testGetValue() {
         assertNull(this.plevel);
         this.plevel = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT)
-                .getPrivacyLevel(TEST_PL1_IDENT);
+                .getPrivacySetting(TEST_PL1_IDENT);
         assertNotNull(this.plevel);
         assertNull(this.app);
         this.app = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT);
         assertNotNull(this.app);
-        String value = this.app.getServiceLevel(0).getPrivacyLevels()[0].getValue();
+        String value = this.app.getServiceLevel(0).getPrivacySettings()[0].getValue();
         
         assertEquals(TEST_PL1_VALUE, value);
     }

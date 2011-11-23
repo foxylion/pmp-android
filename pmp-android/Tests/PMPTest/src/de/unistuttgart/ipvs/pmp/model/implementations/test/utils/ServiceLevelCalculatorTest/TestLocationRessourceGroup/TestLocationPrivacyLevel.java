@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException
 public class TestLocationPrivacyLevel implements IPrivacyLevel {
     
     /**
-     * Bridge to RG-PrivacyLevel
+     * Bridge to RG-PrivacySetting
      */
     private PrivacyLevel<LocationEnum> bridge;
     

@@ -10,7 +10,7 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:name="de.unistuttgart.ipvs.pmp.PMPApplication" >
+        android:name=".PMPApplication" >
 
         <!-- Activities can be declared here -->
         <activity
@@ -106,7 +106,7 @@
         <activity
             android:icon="@drawable/icon_dev_console"
             android:label="PMP Dev Console"
-            android:name=".model.activities.PMPDeveloperConsoleActivity" >
+            android:name=".model2.activities.PMPDeveloperConsoleActivity">
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -121,7 +121,7 @@
 
 
         <!-- Broadcast Receivers -->
-        <receiver android:name=".broadcastreceiver.ResourceGroupInstall" >
+        <receiver android:name="...broadcastreceiver.ResourceGroupInstall">
             <intent-filter >
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -132,14 +132,14 @@
         </receiver>
         <!-- // end of Broadcast Receivers -->
 
-
+ 
         <!--
              The PMPService can be loaded by using the intent action name declared 
 			3 lines below
         -->
         <service
             android:exported="true"
-            android:name=".service.PMPService" >
+            android:name="...service.PMPService">
             <intent-filter >
                 <action android:name="de.unistuttgart.ipvs.pmp.service.PMPService" >
                 </action>

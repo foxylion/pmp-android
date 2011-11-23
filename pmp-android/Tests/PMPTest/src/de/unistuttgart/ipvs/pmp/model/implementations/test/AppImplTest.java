@@ -106,14 +106,14 @@ public class AppImplTest extends AndroidTestCase {
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG2_IDENT, TEST_RG2_NAME,
                 TEST_RG2_DESC });
         
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
                 TEST_APP1_SL0_NAME, TEST_APP1_SL0_DESC });
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP1_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 1, ?, ?);", new String[] { TEST_APP1_IDENT,
                 TEST_APP1_SL1_NAME, TEST_APP1_SL1_DESC });
         
-        DB.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
+        DB.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
                 TEST_PL1_NAME, TEST_PL1_DESC });
-        DB.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL2_IDENT,
+        DB.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL2_IDENT,
                 TEST_PL2_NAME, TEST_PL2_DESC });
         
         DB.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 0, ?, ?, ?);", new String[] { TEST_APP1_IDENT,

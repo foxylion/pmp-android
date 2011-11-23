@@ -80,7 +80,7 @@ public class ServiceLvlActivityTest extends ActivityInstrumentationTestCase2<Ser
                 this.TEST_APP_DESC });
         
         // Fill Service Lvl for App
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { this.TEST_APP_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { this.TEST_APP_IDENT,
                 this.TEST_SERLVL_NAME, this.TEST_SERLVL_DESC });
         
         Intent intent = new Intent();

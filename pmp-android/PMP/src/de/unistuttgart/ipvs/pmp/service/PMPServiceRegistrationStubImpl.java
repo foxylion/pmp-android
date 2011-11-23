@@ -22,7 +22,6 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
 
 /**
@@ -51,8 +50,9 @@ public class PMPServiceRegistrationStubImpl extends IPMPServiceRegistration.Stub
             
             @Override
             public void run() {
-                ModelSingleton.getInstance().getModel()
-                        .addApp(PMPServiceRegistrationStubImpl.this.identifier, publicKey);
+                //ModelSingleton.getInstance().getModel()
+                 //       .addApp(PMPServiceRegistrationStubImpl.this.identifier, publicKey);
+                // TODO
             }
         }).start();
         
@@ -71,8 +71,9 @@ public class PMPServiceRegistrationStubImpl extends IPMPServiceRegistration.Stub
             
             @Override
             public void run() {
-                ModelSingleton.getInstance().getModel()
-                        .addResourceGroup(PMPServiceRegistrationStubImpl.this.identifier, publicKey);
+                //ModelSingleton.getInstance().getModel()
+                        //.addResourceGroup(PMPServiceRegistrationStubImpl.this.identifier, publicKey);
+                // TODO
             }
         }).start();
         

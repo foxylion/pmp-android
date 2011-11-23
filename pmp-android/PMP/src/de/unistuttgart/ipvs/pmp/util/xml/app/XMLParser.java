@@ -68,7 +68,7 @@ public class XMLParser extends AbstractXMLParser {
 			Document doc = db.parse(xmlStream);
 			doc.getDocumentElement().normalize();
 
-			// The main nodes "appInformation" and "serviceLevels" are required
+			// The main nodes "appInformation" and "serviceFeatures" are required
 			// once.
 			NodeList appInformation = doc
 					.getElementsByTagName("appInformation");

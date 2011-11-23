@@ -50,17 +50,8 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.activities.StartActivity;
-import de.unistuttgart.ipvs.pmp.model.DatabaseSingleton;
-import de.unistuttgart.ipvs.pmp.model.ModelSingleton;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IApp;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IModel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPreset;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IPrivacyLevel;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.interfaces.IServiceLevel;
-import de.unistuttgart.ipvs.pmp.model2.Model;
-import de.unistuttgart.ipvs.pmp.model2.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
 public class PMPDeveloperConsoleActivity extends Activity {
@@ -119,14 +110,15 @@ public class PMPDeveloperConsoleActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PMPDeveloperConsoleActivity.this.self.getApplicationContext(),
-                        StartActivity.class));
+                //startActivity(new Intent(PMPDeveloperConsoleActivity.this.self.getApplicationContext(),
+                        //StartActivity.class));
+                // TODO
             }
         });
         
         /*
          * Sample Data installation.
-         */
+         *
         Button addSampleData = (Button) findViewById(R.id.pmp_developer_console_button_add_sample_data);
         addSampleData.setEnabled(!DatabaseSingleton.getInstance().isSampleDataInstalled());
         addSampleData.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +137,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
         
         /*
          * Sample Data cleaning.
-         */
+         *
         Button removeSampleData = (Button) findViewById(R.id.pmp_developer_console_button_remove_sample_data);
         removeSampleData.setEnabled(DatabaseSingleton.getInstance().isSampleDataInstalled());
         removeSampleData.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +156,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
         
         /**
          * Truncate database (cleaning)
-         */
+         *
         Button truncateDatabase = (Button) findViewById(R.id.pmp_developer_console_button_truncate_database);
         truncateDatabase.setOnClickListener(new View.OnClickListener() {
             
@@ -248,34 +240,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 builder.create().show();
             }
         });
-        
-        /* *** performance tests ***/
-        Button modelPerformance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model);
-        modelPerformance.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                performanceTests(ModelSingleton.getInstance().getModel(), null);
-            }
-        });
-        
-        Button model2Performance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model2);
-        model2Performance.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                performanceTests(Model.getInstance(), null);
-            }
-        });
-        
-        Button model2pcPerformance = (Button) findViewById(R.id.pmp_developer_console_button_performance_model2_pc);
-        model2pcPerformance.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                performanceTests(Model.getInstance(), PersistenceProvider.getInstance());
-            }
-        });
+             
         
     }
     
@@ -328,238 +293,8 @@ public class PMPDeveloperConsoleActivity extends Activity {
         }
     }
     
-    
-    /**
-     * @param useModel
-     *            {@link IModel} to be used
-     * @param persistenceProvider
-     *            if available, will be called to pre-cache
-     * 
-     */
-    private void performanceTests(IModel useModel, PersistenceProvider persistenceProvider) {
-        long[] indexTimes = new long[5];
-        long[] pathTimes = new long[5];
-        
-        // memory stuff
-        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        MemoryInfo[] miBefore = am.getProcessMemoryInfo(new int[] { Process.myPid() });
-        
-        long pPinit = 0L;
-        if (persistenceProvider != null) {
-            long start = System.nanoTime();
-            persistenceProvider.cacheEverythingNow();
-            pPinit = System.nanoTime() - start;
-        }
-        
-        // index run = get all apps + all rgs
-        for (int i = 0; i < 5; i++) {
-            long start = System.nanoTime();
-            
-            IApp[] apps = useModel.getApps();
-            for (IApp app : apps) {
-                app.getName();
-                app.getActiveServiceLevel();
-            }
-            IResourceGroup[] rgs = useModel.getResourceGroups();
-            for (IResourceGroup rg : rgs) {
-                rg.getDescription();
-                rg.getPrivacyLevels();
-            }
-            
-            indexTimes[i] = System.nanoTime() - start;
-        }
-        // path run = wild calls running through every class
-        for (int i = 0; i < 5; i++) {
-            long start = System.nanoTime();
-            
-            IResourceGroup rg = useModel.getResourceGroup("de.unistuttgart.ipvs.pmp.resourcegroups.database");
-            if (rg == null) {
-                throw new IllegalArgumentException();
-            }
-            IPrivacyLevel pl = rg.getPrivacyLevel("read");
-            pl.getValue();
-            rg = pl.getResourceGroup();
-            IApp app = rg.getAllAppsUsingThisResourceGroup()[0];
-            IPreset p = app.getAssignedPresets()[0];
-            p.getType();
-            p.getUsedPrivacyLevels();
-            p.isAppAssigned(app);
-            IServiceLevel sl = app.getServiceLevel(1);
-            pl = sl.getPrivacyLevels()[0];
-            rg = pl.getResourceGroup();
-            
-            pathTimes[i] = System.nanoTime() - start;
-        }
-        
-        MemoryInfo[] miAfter = am.getProcessMemoryInfo(new int[] { Process.myPid() });
-        
-        // create the message
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 5; i++) {
-            sb.append("Index-Run #");
-            sb.append(i + 1);
-            sb.append(" took ");
-            sb.append(indexTimes[i] / 1E6);
-            sb.append(" ms");
-            sb.append(System.getProperty("line.separator"));
-        }
-        sb.append(System.getProperty("line.separator"));
-        for (int i = 0; i < 5; i++) {
-            sb.append("Path-Run #");
-            sb.append(i + 1);
-            sb.append(" took ");
-            sb.append(pathTimes[i] / 1E6);
-            sb.append(" ms");
-            sb.append(System.getProperty("line.separator"));
-        }
-        sb.append(System.getProperty("line.separator"));
-        if (persistenceProvider != null) {
-            sb.append("Precaching: ");
-            sb.append(pPinit / 1E6);
-            sb.append(" ms");
-            sb.append(System.getProperty("line.separator"));
-        }
-        
-        // memory info
-        int dpb = miBefore[0].dalvikPrivateDirty;
-        int dpa = miAfter[0].dalvikPrivateDirty;
-        sb.append("Dalvik private dirty memory: ");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("before ");
-        sb.append(dpb);
-        sb.append(" kB / after ");
-        sb.append(dpa);
-        sb.append(" kB");
-        
-        // show the dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(PMPDeveloperConsoleActivity.this);
-        builder.setMessage(sb.toString()).setCancelable(false)
-                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.create().show();
-    }
-
-
-/**
- * @param useModel
- *            {@link IModel} to be used
- * @param persistenceProvider
- *            if available, will be called to pre-cache
- * 
- */
-private void performanceTests(de.unistuttgart.ipvs.pmp.model2.IModel useModel, PersistenceProvider persistenceProvider) {
-    long[] indexTimes = new long[5];
-    long[] pathTimes = new long[5];
-    
-    // memory stuff
-    ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-    MemoryInfo[] miBefore = am.getProcessMemoryInfo(new int[] { Process.myPid() });
-    
-    long pPinit = 0L;
-    if (persistenceProvider != null) {
-        long start = System.nanoTime();
-        persistenceProvider.cacheEverythingNow();
-        pPinit = System.nanoTime() - start;
-    }
-    
-    // index run = get all apps + all rgs
-    for (int i = 0; i < 5; i++) {
-        long start = System.nanoTime();
-        
-        de.unistuttgart.ipvs.pmp.model2.element.app.IApp[] apps = useModel.getApps();
-        for (de.unistuttgart.ipvs.pmp.model2.element.app.IApp app : apps) {
-            app.getName();
-            app.getActiveServiceLevel();
-        }
-        de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup[] rgs = useModel.getResourceGroups();
-        for (de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup rg : rgs) {
-            rg.getDescription();
-            rg.getPrivacyLevels();
-        }
-        
-        indexTimes[i] = System.nanoTime() - start;
-    }
-    // path run = wild calls running through every class
-    for (int i = 0; i < 5; i++) {
-        long start = System.nanoTime();
-        
-        de.unistuttgart.ipvs.pmp.model2.element.resourcegroup.IResourceGroup rg = useModel.getResourceGroup("de.unistuttgart.ipvs.pmp.resourcegroups.database");
-        if (rg == null) {
-            throw new IllegalArgumentException();
-        }
-        de.unistuttgart.ipvs.pmp.model2.element.privacylevel.IPrivacyLevel pl = rg.getPrivacyLevel("read");
-        pl.getValue();
-        rg = pl.getResourceGroup();
-        de.unistuttgart.ipvs.pmp.model2.element.app.IApp app = rg.getAllAppsUsingThisResourceGroup()[0];
-        de.unistuttgart.ipvs.pmp.model2.element.preset.IPreset p = app.getAssignedPresets()[0];
-        p.getType();
-        p.getGrantedPrivacyLevels();
-        p.isAppAssigned(app);
-        de.unistuttgart.ipvs.pmp.model2.element.servicelevel.IServiceLevel sl = app.getServiceLevel(1);
-        pl = sl.getPrivacyLevels()[0];
-        rg = pl.getResourceGroup();
-        
-        pathTimes[i] = System.nanoTime() - start;
-    }
-    
-    MemoryInfo[] miAfter = am.getProcessMemoryInfo(new int[] { Process.myPid() });
-    
-    // create the message
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 5; i++) {
-        sb.append("Index-Run #");
-        sb.append(i + 1);
-        sb.append(" took ");
-        sb.append(indexTimes[i] / 1E6);
-        sb.append(" ms");
-        sb.append(System.getProperty("line.separator"));
-    }
-    sb.append(System.getProperty("line.separator"));
-    for (int i = 0; i < 5; i++) {
-        sb.append("Path-Run #");
-        sb.append(i + 1);
-        sb.append(" took ");
-        sb.append(pathTimes[i] / 1E6);
-        sb.append(" ms");
-        sb.append(System.getProperty("line.separator"));
-    }
-    sb.append(System.getProperty("line.separator"));
-    if (persistenceProvider != null) {
-        sb.append("Precaching: ");
-        sb.append(pPinit / 1E6);
-        sb.append(" ms");
-        sb.append(System.getProperty("line.separator"));
-    }
-    
-    // memory info
-    int dpb = miBefore[0].dalvikPrivateDirty;
-    int dpa = miAfter[0].dalvikPrivateDirty;
-    sb.append("Dalvik private dirty memory: ");
-    sb.append(System.getProperty("line.separator"));
-    sb.append("before ");
-    sb.append(dpb);
-    sb.append(" kB / after ");
-    sb.append(dpa);
-    sb.append(" kB");
-    
-    // show the dialog
-    AlertDialog.Builder builder = new AlertDialog.Builder(PMPDeveloperConsoleActivity.this);
-    builder.setMessage(sb.toString()).setCancelable(false)
-            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            });
-    builder.create().show();
 }
-}
+ 
 
 /**
  * An abstract implementation of the AsyncTask.

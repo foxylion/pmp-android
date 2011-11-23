@@ -63,10 +63,10 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_RG1_NAME,
                 TEST_RG1_DESC });
         
-        DB.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
+        DB.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
                 TEST_PL1_NAME, TEST_PL1_DESC });
         
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
                 TEST_APP1_SL0_NAME, TEST_APP1_SL0_DESC });
         
         DB.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 0, ?, ?, ?);", new String[] { TEST_APP1_IDENT,
@@ -112,7 +112,7 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         assertNull(this.res);
         this.res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(this.res);
-        assertEquals(TEST_PL1_NAME, this.res.getPrivacyLevel(TEST_PL1_IDENT).getName());
+        assertEquals(TEST_PL1_NAME, this.res.getPrivacySetting(TEST_PL1_IDENT).getName());
     }
     
     
@@ -120,6 +120,6 @@ public class ResourceGroupImplTest extends AndroidTestCase {
         assertNull(this.res);
         this.res = ModelSingleton.getInstance().getModel().getResourceGroup(TEST_RG1_IDENT);
         assertNotNull(this.res);
-        assertEquals(1, this.res.getPrivacyLevels().length);
+        assertEquals(1, this.res.getPrivacySettings().length);
     }
 }

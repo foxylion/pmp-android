@@ -113,7 +113,7 @@ public class TestApp implements IApp {
     /**
      * Creates the service level for the test app
      * 
-     * @return {@link IServiceLevel} array
+     * @return {@link IServiceFeature} array
      */
     private IServiceLevel[] createServiceLevels() {
         IServiceLevel[] serviceLevels = new IServiceLevel[5];

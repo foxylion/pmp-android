@@ -104,6 +104,7 @@ public abstract class App extends Application {
      *            the new service level level according to your specification in {@link App#getXMLInputStream()}.
      */
     public abstract void setActiveServiceLevel(int level);
+    // TODO fix this
     
     
     /**

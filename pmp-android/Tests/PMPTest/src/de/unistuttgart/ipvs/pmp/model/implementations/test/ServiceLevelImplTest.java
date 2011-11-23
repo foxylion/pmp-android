@@ -62,10 +62,10 @@ public class ServiceLevelImplTest extends AndroidTestCase {
         DB.execSQL("INSERT INTO \"ResourceGroup\" VALUES(?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_RG1_NAME,
                 TEST_RG1_DESC });
         
-        DB.execSQL("INSERT INTO \"ServiceLevel\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
+        DB.execSQL("INSERT INTO \"ServiceFeature\" VALUES(?, 0, ?, ?);", new String[] { TEST_APP1_IDENT,
                 TEST_APP1_SL0_NAME, TEST_APP1_SL0_DESC });
         
-        DB.execSQL("INSERT INTO \"PrivacyLevel\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
+        DB.execSQL("INSERT INTO \"PrivacySetting\" VALUES(?, ?, ?, ?);", new String[] { TEST_RG1_IDENT, TEST_PL1_IDENT,
                 TEST_PL1_NAME, TEST_PL1_DESC });
         
         DB.execSQL("INSERT INTO \"ServiceLevel_PrivacyLevels\" VALUES(?, 0, ?, ?, ?);", new String[] { TEST_APP1_IDENT,
@@ -101,8 +101,8 @@ public class ServiceLevelImplTest extends AndroidTestCase {
         assertNull(this.slevel);
         this.slevel = ModelSingleton.getInstance().getModel().getApp(TEST_APP1_IDENT).getServiceLevel(0);
         assertNotNull(this.slevel);
-        assertEquals(1, this.slevel.getPrivacyLevels().length);
-        assertEquals(TEST_PL1_IDENT, this.slevel.getPrivacyLevels()[0].getIdentifier());
+        assertEquals(1, this.slevel.getPrivacySettings().length);
+        assertEquals(TEST_PL1_IDENT, this.slevel.getPrivacySettings()[0].getIdentifier());
     }
     
     
