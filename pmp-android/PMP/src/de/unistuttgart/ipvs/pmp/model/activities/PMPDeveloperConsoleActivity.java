@@ -47,7 +47,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.Log; 
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.Model;

@@ -46,7 +46,10 @@ public class PMPApplication extends Application {
         
         PMPApplication.instance = this;
         
-        Log.setTagSufix(Constants.PMP_LOG_SUFIX);
+        //Log.setTagSufix(Constants.PMP_LOG_SUFIX);
+        // TODO
+        // uncommenting this line results in the PMPTest suite to fail.
+        // sorry, idk why... workaround: don't log here
     }
     
     
