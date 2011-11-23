@@ -103,7 +103,7 @@
            author="true"
            version="true"
            use="true"
-           windowtitle="PMP">
+           windowtitle="PMP-API">
 		</javadoc>
 	</target>
 
