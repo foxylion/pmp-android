@@ -83,7 +83,7 @@
     <import file="${sdk.dir}/tools/ant/build.xml" />
 	
 	<property name="test.runner" value="com.zutubi.android.junitreport.JUnitReportTestRunner" />
-	<target name="coverage" depends="installi"
+	<target name="coverage" depends="instrument, installi"
                 description="Runs the tests against the instrumented code and generates
                             code coverage report">
         <run-tests-helper emma.enabled="true">
