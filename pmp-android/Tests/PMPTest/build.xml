@@ -124,9 +124,7 @@
         <echo>Saving the report file in ${basedir}/coverage/coverage.html</echo>
 		<echo>Saving the report file in ${basedir}/coverage/coverage.xml</echo>
     </target>
-	
-    <setup />
-	
+	    
 	<target name="fetch-test-report">
     <echo>Downloading XML test report...</echo>
     <exec executable="${adb}" failonerror="true">
