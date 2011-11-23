@@ -47,6 +47,24 @@
             </intent-filter>
         </activity>
 
+        <!-- TEST -->
+        <activity
+            android:icon="@drawable/icon_undefined"
+            android:label="PMP-App"
+            android:name=".gui2.activities.AppActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".gui2.tabs.AppDetailsTab"></activity>
+        <activity android:name=".gui2.tabs.AppServiceFeaturesTab"></activity>
+        <activity android:name=".gui2.tabs.AppPresetsTab"></activity>
+        <!-- // TEST -->
+
+
         <!-- Starting OLD Activities for OLD gui... -->
         <activity
             android:label="PMP"
