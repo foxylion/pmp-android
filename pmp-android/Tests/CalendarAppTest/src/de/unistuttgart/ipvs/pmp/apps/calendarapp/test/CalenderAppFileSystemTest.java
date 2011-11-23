@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import de.unistuttgart.ipvs.pmp.Log;
+//import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -66,7 +66,7 @@ public class CalenderAppFileSystemTest extends ActivityInstrumentationTestCase2<
         desc = "Test 1,2,3";
         fileName = "NotEmpty_File";
         
-        Log.setTagSufix("ExportTest");
+        //Log.setTagSufix("ExportTest");
     }
     
     
@@ -135,7 +135,7 @@ public class CalenderAppFileSystemTest extends ActivityInstrumentationTestCase2<
         while (m.getFileList().isEmpty() && i++ < 20) {
             signal.await(500, TimeUnit.MILLISECONDS);
         }
-        Log.d("Waited " + (i-1)*500 + " milliseconds");
+        //Log.d("Waited " + (i-1)*500 + " milliseconds");
         assertFalse(m.getFileList().isEmpty());
         FileDetails fd = m.getFileForName(fileName);
         assertNotNull(fd);
