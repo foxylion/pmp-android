@@ -1,7 +1,7 @@
-package de.unistuttgart.ipvs.pmp.gui2.activities;
+package de.unistuttgart.ipvs.pmp.gui.activity;
 
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui2.utils.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,10 +1,11 @@
-package de.unistuttgart.ipvs.pmp.gui2.adapters;
+package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui2.activities.AppsActivity;
-import de.unistuttgart.ipvs.pmp.gui2.placeholder.App;
+import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,10 +24,10 @@ import android.widget.TextView;;
 public class AppsAdapter extends BaseAdapter {
     
     private Context context;
-    private List<App> apps;
+    private List<IApp> apps;
     
     
-    public AppsAdapter(Context context, List<App> apps) {
+    public AppsAdapter(Context context, List<IApp> apps) {
         this.context = context;
         this.apps = apps;
     }
@@ -52,7 +53,7 @@ public class AppsAdapter extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        App app = apps.get(position);
+        IApp app = apps.get(position);
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,7 +61,7 @@ public class AppsAdapter extends BaseAdapter {
         
         /* Set icon, name, description of the requested App */
         ImageView icon = (ImageView) entryView.findViewById(R.id.ImageView_Icon);
-        icon.setImageBitmap(app.getIcon());
+        icon.setImageBitmap(((App) app).getIcon()); // TODO temporary FIX THAT when Model has this method!!
         
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(app.getName());
