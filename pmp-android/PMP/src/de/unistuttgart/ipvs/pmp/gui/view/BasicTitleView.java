@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui2.views;
+package de.unistuttgart.ipvs.pmp.gui.view;
 
 import de.unistuttgart.ipvs.pmp.R;
 import android.content.Context;
@@ -47,7 +47,7 @@ public class BasicTitleView extends LinearLayout {
         /* Load the styles from the xml assigned values */
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
         name = a.getString(R.styleable.BasicTitleView_name);
-        icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.app);
+        icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
     }
     
     
@@ -97,6 +97,7 @@ public class BasicTitleView extends LinearLayout {
      */
     public void setIcon(int icon) {
         this.icon = icon;
+        refresh();
     }
     
     
@@ -109,18 +110,19 @@ public class BasicTitleView extends LinearLayout {
      */
     public void setIcon(Bitmap icon) {
         this.iconBitmap = icon;
+        refresh();
     }
     
     /**
      * Refreshes the icon and name after a change.
      */
     private void refresh() {
-        TextView tv = (TextView) findViewById(R.id.textView1);
+        TextView tv = (TextView) findViewById(R.id.TextView_Title);
         if (tv != null) {
             tv.setText(name);
         }
         
-        ImageView iv = (ImageView) findViewById(R.id.imageView1);
+        ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
         if (iv != null) {
             if (iconBitmap == null) {
                 iv.setImageResource(icon);

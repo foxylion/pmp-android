@@ -1,15 +1,18 @@
-package de.unistuttgart.ipvs.pmp.gui2.activities;
+package de.unistuttgart.ipvs.pmp.gui.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui2.adapters.AppsAdapter;
-import de.unistuttgart.ipvs.pmp.gui2.placeholder.App;
+import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -19,12 +22,19 @@ import android.widget.ListView;
 public class AppsActivity extends Activity {
     
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.pmp_apps);
+    }
+    
+    @Override
     protected void onResume() {
         super.onResume();
         
         /* Temporary bad stuff, to Test the Activity */
         
-        List<App> apps = new ArrayList<App>();
+        List<IApp> apps = new ArrayList<IApp>();
         apps.add(new App("Barcode Scanner",
                 "Barcode Scanner can scan barcodes and view details about the scanned product.",
                 loadBitmap(R.drawable.test_icon1)));
@@ -47,8 +57,6 @@ public class AppsActivity extends Activity {
         apps.add(new App("Wikipedia", "Become access to the greatest lexica in the world.",
                 loadBitmap(R.drawable.test_icon10)));
         
-        setContentView(R.layout.pmp_apps);
-        
         ListView appsList = (ListView) findViewById(R.id.ListView_Apps);
         appsList.setClickable(true);
         
@@ -60,6 +68,8 @@ public class AppsActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Toast.makeText(AppsActivity.this, "Tapped on item " + arg2, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(AppsActivity.this, AppActivity.class);
+                AppsActivity.this.startActivity(i);
             }
         });
     }

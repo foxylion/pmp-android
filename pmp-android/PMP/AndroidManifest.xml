@@ -16,7 +16,7 @@
         <activity
             android:icon="@drawable/icon"
             android:label="PMP v2"
-            android:name=".gui2.activities.MainActivity"
+            android:name=".gui.activity.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
@@ -25,88 +25,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:icon="@drawable/icon_settings"
-            android:label="@string/settings_title"
-            android:name=".gui2.activities.SettingsActivity"
+            android:name=".gui.activity.SettingsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.activity.AppsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.activity.AppActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:icon="@drawable/icon_settings"
-            android:label="@string/apps_title"
-            android:name=".gui2.activities.AppsActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
-        <!-- TEST -->
-        <activity
-            android:icon="@drawable/icon_undefined"
-            android:label="PMP-App"
-            android:name=".gui2.activities.AppActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".gui2.tabs.AppDetailsTab"></activity>
-        <activity android:name=".gui2.tabs.AppServiceFeaturesTab"></activity>
-        <activity android:name=".gui2.tabs.AppPresetsTab"></activity>
-        <!-- // TEST -->
-
-
-        <!-- Starting OLD Activities for OLD gui... -->
-        <activity
-            android:label="PMP"
-            android:name=".gui.activities.StartActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="Applications"
-            android:name=".gui.activities.ApplicationsActivity" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="Ressources"
-            android:name=".gui.activities.RessourcesActivity" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:label="Service Levels"
-            android:name=".gui.activities.ServiceLvlActivity" >
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <!-- Tabs -->
+        <activity android:name=".gui.tab.AppDetailsTab" />
+        <activity android:name=".gui.tab.AppPresetsTab" />
+        <activity android:name=".gui.tab.AppServiceFeaturesTab" />
+        
+        <!-- Developer Console -->
         <activity
             android:icon="@drawable/icon_dev_console"
             android:label="PMP Dev Console"
-            android:name=".model2.activities.PMPDeveloperConsoleActivity">
+            android:name=".model2.activities.PMPDeveloperConsoleActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -121,7 +59,7 @@
 
 
         <!-- Broadcast Receivers -->
-        <receiver android:name="...broadcastreceiver.ResourceGroupInstall">
+        <receiver android:name="...broadcastreceiver.ResourceGroupInstall" >
             <intent-filter >
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -132,14 +70,14 @@
         </receiver>
         <!-- // end of Broadcast Receivers -->
 
- 
+
         <!--
              The PMPService can be loaded by using the intent action name declared 
 			3 lines below
         -->
         <service
             android:exported="true"
-            android:name="...service.PMPService">
+            android:name="...service.PMPService" >
             <intent-filter >
                 <action android:name="de.unistuttgart.ipvs.pmp.service.PMPService" >
                 </action>
