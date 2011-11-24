@@ -52,7 +52,6 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
-import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
 public class PMPDeveloperConsoleActivity extends Activity {
     
@@ -204,7 +203,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                                 | PackageManager.GET_INTENT_FILTERS);
                         if (pi.activities != null) {
                             for (ActivityInfo ai : pi.activities) {
-                                if (ai.name.equals(ResourceGroupActivity.class.getName())) {
+                                /*if (ai.name.equals(ResourceGroupActivity.class.getName())) {
                                     Log.d(info.packageName + " :: " + ai.name);
                                     Intent i = new Intent();
                                     i.setClassName(info.packageName, ai.name);
@@ -212,7 +211,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                                     i.putExtra("rgName", info.loadLabel(pm));
                                     Log.d(info.name);
                                     intents.add(i);
-                                }
+                                }*/
                             }
                         }
                     } catch (NameNotFoundException e) {

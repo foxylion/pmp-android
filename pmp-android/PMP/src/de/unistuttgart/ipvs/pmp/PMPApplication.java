@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * This acts like an internal provider for {@link Context}.
@@ -47,7 +46,6 @@ public class PMPApplication extends Application {
         PMPApplication.instance = this;
         
         //Log.setTagSufix(Constants.PMP_LOG_SUFIX);
-        // TODO
         // uncommenting this line results in the PMPTest suite to fail.
         // sorry, idk why... workaround: don't log here
     }
@@ -60,10 +58,4 @@ public class PMPApplication extends Application {
         return instance.getApplicationContext();
     }
     
-    
-    public static PMPSignee getSignee() {
-        PMPSignee signee = new PMPSignee(PMPComponentType.PMP, Constants.PMP_IDENTIFIER, getContext());
-        
-        return signee;
-    }
 }

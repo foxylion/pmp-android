@@ -56,7 +56,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
 
 public class CalendarAppActivity extends ListActivity {
     

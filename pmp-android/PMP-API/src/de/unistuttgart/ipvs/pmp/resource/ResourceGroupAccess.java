@@ -22,10 +22,8 @@ package de.unistuttgart.ipvs.pmp.resource;
 import java.io.Serializable;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.service.resource.IResourceGroupServicePMP;
-
 /**
- * A App representation for the {@link IResourceGroupServicePMP}.
+ * An App representation for the {@link IResourceGroupServicePMP}.
  * 
  * @author Jakob Jarosch
  */

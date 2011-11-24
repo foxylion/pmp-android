@@ -31,9 +31,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.service.INullService;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to services. Add your
@@ -71,11 +69,6 @@ public abstract class AbstractConnector {
      * The context used to initiate the binding.
      */
     private Context context;
-    
-    /**
-     * The signee used to sign the connection to the service.
-     */
-    private PMPSignee signee;
     
     /**
      * The identifier of the service to which the connection should go.
@@ -120,12 +113,11 @@ public abstract class AbstractConnector {
     };
     
     
-    public AbstractConnector(Context context, PMPSignee signee, String targetIdentifier) {
+    public AbstractConnector(Context context, String targetIdentifier) {
         this.context = context;
-        this.signee = signee;
         this.targetIdentifier = targetIdentifier;
         
-        Log.v("Created AbstractConnector for " + signee.getType().toString() + "::" + signee.getIdentifier()
+        Log.v("Created AbstractConnector "
                 + "; connection will go to " + targetIdentifier);
     }
     
@@ -138,10 +130,6 @@ public abstract class AbstractConnector {
     public void bind() {
         if (!isBound()) {
             final Intent intent = new Intent(this.targetIdentifier);
-            
-            intent.putExtra(Constants.INTENT_TYPE, this.signee.getType());
-            intent.putExtra(Constants.INTENT_IDENTIFIER, this.signee.getIdentifier());
-            intent.putExtra(Constants.INTENT_SIGNATURE, this.signee.signContent(this.targetIdentifier.getBytes()));
             
             new Thread(new Runnable() {
                 
@@ -225,7 +213,7 @@ public abstract class AbstractConnector {
      *         Service returned a {@link INullService}- {@link IBinder}.
      */
     protected IBinder getService() {
-        return (isCorrectBinder(INullService.class) ? null : this.connectedService);
+        return this.connectedService;
     }
     
     

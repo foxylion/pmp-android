@@ -31,8 +31,8 @@ import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
  */
 public class AppServiceConnector extends AbstractConnector {
     
-    public AppServiceConnector(Context context, PMPSignee signee, String targetIdentifier) {
-        super(context, signee, targetIdentifier);
+    public AppServiceConnector(Context context, String targetIdentifier) {
+        super(context, targetIdentifier);
     }
     
     

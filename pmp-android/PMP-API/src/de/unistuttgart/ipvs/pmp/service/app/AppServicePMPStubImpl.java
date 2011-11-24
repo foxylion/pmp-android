@@ -19,9 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.service.app;
 
+import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.app.AppInformationSetParcelable;
 import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
@@ -43,14 +43,6 @@ public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
     
     
     @Override
-    public AppInformationSetParcelable getAppInformationSet() throws RemoteException {
-        // Convert the AppInformationset into an AppInformationSetParcelable
-        AppInformationSetParcelable appInfoSetParcelable = new AppInformationSetParcelable(this.app.getInfoSet());
-        return appInfoSetParcelable;
-    }
-    
-    
-    @Override
     public void setActiveServiceLevel(int level) throws RemoteException {
         this.app.setActiveServiceLevel(level);
     }
@@ -63,6 +55,14 @@ public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
         } else {
             this.app.onRegistrationFailed(state.getMessage());
         }
+    }
+
+
+    @Override
+    public IBinder getRessource(String resourceGroup, String resource) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+        
     }
     
 }

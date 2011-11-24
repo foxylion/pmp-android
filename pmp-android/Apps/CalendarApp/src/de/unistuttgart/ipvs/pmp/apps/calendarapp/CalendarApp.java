@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,26 +44,9 @@ public class CalendarApp extends App {
     
     
     @Override
-    protected String getServiceAndroidName() {
-        return "de.unistuttgart.ipvs.pmp.apps.calendarapp";
-    }
-    
-    
-    @Override
     public void setActiveServiceLevel(int level) {
         Log.v("ServiceLevel set to: " + String.valueOf(level));
         Model.getInstance().setServiceLevel(level);
-    }
-    
-    
-    @Override
-    protected InputStream getXMLInputStream() {
-        try {
-            return getAssets().open("AppInformation.xml");
-        } catch (IOException e) {
-            Log.e("IOException during loading App XML", e);
-            return null;
-        }
     }
     
     
@@ -79,7 +62,7 @@ public class CalendarApp extends App {
         Log.d("Registration succeed");
         
         // Connector to get the initial service level
-        final PMPServiceConnector connector = new PMPServiceConnector(getApplicationContext(), getSignee());
+        final PMPServiceConnector connector = new PMPServiceConnector(getApplicationContext());
         connector.addCallbackHandler(new IConnectorCallback() {
             
             @Override
@@ -152,4 +135,5 @@ public class CalendarApp extends App {
         });
         
     }
+
 }
