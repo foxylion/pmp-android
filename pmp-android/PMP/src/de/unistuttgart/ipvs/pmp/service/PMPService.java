@@ -19,16 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.service;
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * <p>
@@ -57,36 +55,13 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
  * 
  * @author Jakob Jarosch
  */
-public class PMPService extends PMPSignedService {
+public class PMPService extends Service {
     
     @Override
-    public IBinder onSignedBind(Intent intent) {
-        PMPComponentType type = (PMPComponentType) intent.getSerializableExtra(Constants.INTENT_TYPE);
+    public IBinder onBind(Intent intent) {
         String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
         
-        /* Should be a normal authentification */
-        if (type.equals(PMPComponentType.APP)) {
-            return new PMPServiceAppStubImpl(identifier);
-        } else if (type.equals(PMPComponentType.RESOURCE_GROUP)) {
-            return new PMPServiceResourceGroupStubImpl(identifier);
-        } else {
-            /* no valid type identifier found */
-            return new NullServiceStubImpl("The bound Type is does not allow any Service at the PMPService");
-        }
-    }
-    
-    
-    @Override
-    public IBinder onUnsignedBind(Intent intent) {
-        String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-        
-        return new PMPServiceRegistrationStubImpl(identifier);
-    }
-    
-    
-    @Override
-    protected PMPSignee createSignee() {
-        return PMPApplication.getSignee();
+        return new PMPServiceAppStubImpl(identifier);
     }
     
 }

@@ -33,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.ResourceGroupServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class SqlConnector {
     
@@ -93,9 +93,10 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+        /*final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+                .getApplicationContext()).getSignee(), this.resGroupIdentifier);*/
+        final PMPServiceConnector pmpsc = new PMPServiceConnector();
         
         resGroupCon.addCallbackHandler(new IConnectorCallback() {
             

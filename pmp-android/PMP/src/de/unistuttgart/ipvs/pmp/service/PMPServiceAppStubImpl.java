@@ -49,4 +49,20 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
         PMPApplication.getContext().startActivity(intent);*/
         // TODO
     }
+
+
+    @Override
+    public void registerApp() throws RemoteException {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public boolean isRegistered() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+   
 }

@@ -33,16 +33,14 @@ import java.util.Properties;
 
 import android.content.Context;
 import android.os.RemoteException;
+import android.test.mock.MockContext;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceRegistration;
-import de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 
 /**
  * <p>
@@ -63,11 +61,6 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPSignee;
 public abstract class ResourceGroup {
     
     /**
-     * Stores the associated signee.
-     */
-    private PMPSignee signee;
-    
-    /**
      * The resources present in that resource group.
      */
     private final Map<String, Resource> resources;
@@ -85,8 +78,6 @@ public abstract class ResourceGroup {
      *            context of the service for this resource group
      */
     public ResourceGroup(Context serviceContext) {
-        this.signee = new PMPSignee(PMPComponentType.RESOURCE_GROUP, getServiceAndroidName(), serviceContext);
-        
         this.resources = new HashMap<String, Resource>();
         this.privacyLevels = new HashMap<String, PrivacyLevel<?>>();
     }
@@ -119,14 +110,6 @@ public abstract class ResourceGroup {
      */
     protected abstract String getServiceAndroidName();
     
-    
-    /**
-     * 
-     * @return the signee
-     */
-    public PMPSignee getSignee() {
-        return this.signee;
-    }
     
     
     /**
@@ -228,7 +211,7 @@ public abstract class ResourceGroup {
      * 
      */
     public ResourceRegistrationState isRegistered(Context context) {
-        final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(context);
         
         // required due to final pointer
         class ResultObject {
@@ -246,7 +229,11 @@ public abstract class ResourceGroup {
             
             @Override
             public void connected() {
-                ro.result = pmpsc.isRegistered();
+                try {
+                    ro.result = pmpsc.getAppService().isRegistered();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 pmpsc.unbind();
             }
             
@@ -298,7 +285,7 @@ public abstract class ResourceGroup {
     public void register(Context context) {
         
         // connect to PMP
-        final PMPServiceConnector pmpsc = new PMPServiceConnector(context, this.signee);
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(context);
         
         pmpsc.addCallbackHandler(new IConnectorCallback() {
             
@@ -309,7 +296,7 @@ public abstract class ResourceGroup {
             
             @Override
             public void connected() {
-                if (!pmpsc.isRegistered()) {
+                /*if (!pmpsc.isRegistered()) {
                     // register with PMP
                     IPMPServiceRegistration ipmpsr = pmpsc.getRegistrationService();
                     try {
@@ -324,7 +311,7 @@ public abstract class ResourceGroup {
                         Log.e("RemoteException during registering resource group", e);
                     }
                 }
-                pmpsc.unbind();
+                pmpsc.unbind();*/
             }
             
             
@@ -351,8 +338,8 @@ public abstract class ResourceGroup {
             props.putAll(privacyLevelValues);
         }
         FileOutputStream fos;
-        try {
-            fos = this.signee.getContext().openFileOutput(privacyLevelIdentifier, 0);
+        try {            
+            fos = new MockContext().openFileOutput(privacyLevelIdentifier, 0);
             props.storeToXML(fos, null);
             fos.close();
         } catch (FileNotFoundException e) {
@@ -374,7 +361,7 @@ public abstract class ResourceGroup {
     private Map<String, String> loadPrivacyLevel(String privacyLevelIdentifier) {
         Properties props = new Properties();
         try {
-            FileInputStream fis = this.signee.getContext().openFileInput(privacyLevelIdentifier);
+            FileInputStream fis = new MockContext().openFileInput(privacyLevelIdentifier);
             props.loadFromXML(fis);
             fis.close();
             

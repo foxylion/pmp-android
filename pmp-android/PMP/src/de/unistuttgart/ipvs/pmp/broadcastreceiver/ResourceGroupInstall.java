@@ -27,7 +27,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity;
 
 public class ResourceGroupInstall extends BroadcastReceiver {
     
@@ -43,14 +42,14 @@ public class ResourceGroupInstall extends BroadcastReceiver {
                     | PackageManager.GET_INTENT_FILTERS);
             if (pi.activities != null) {
                 for (ActivityInfo ai : pi.activities) {
-                    if (ai.name.equals(ResourceGroupActivity.class.getName())) {
+                    /*if (ai.name.equals(ResourceGroupActivity.class.getName())) {
                         Log.d(packageName + " :: " + ai.name + " will be started now.");
                         Intent i = new Intent();
                         i.setClassName(packageName, ai.name);
                         i.setPackage(packageName);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(i);
-                    }
+                    }*/
                 }
             }
         } catch (NameNotFoundException e) {
