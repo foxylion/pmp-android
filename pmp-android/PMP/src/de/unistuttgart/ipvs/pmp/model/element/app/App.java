@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.graphics.drawable.Drawable;
+
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
@@ -93,6 +95,13 @@ public class App extends ModelElement implements IApp {
     @Override
     public IPreset[] getAssignedPresets() {
         return this.assignedPresets.toArray(new IPreset[0]);
+    }
+
+
+    @Override
+    public Drawable getIcon() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

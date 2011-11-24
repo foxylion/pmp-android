@@ -61,7 +61,8 @@ public class AppsAdapter extends BaseAdapter {
         
         /* Set icon, name, description of the requested App */
         ImageView icon = (ImageView) entryView.findViewById(R.id.ImageView_Icon);
-        icon.setImageBitmap(((App) app).getIcon()); // TODO temporary FIX THAT when Model has this method!!
+        //icon.setImageBitmap(((App) app).getIcon()); // TODO temporary FIX THAT when Model has this method!!
+        // FIXME
         
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(app.getName());

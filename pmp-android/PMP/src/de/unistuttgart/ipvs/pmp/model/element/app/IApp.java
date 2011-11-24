@@ -19,39 +19,50 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
+import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 /**
- * <p>This represents an {@link IApp} registered at PMP.</p>
+ * <p>
+ * This represents an {@link IApp} registered at PMP.
+ * </p>
  * 
- * <p>You can identify an {@link IApp} by its identifier, use {@link IApp#getIdentifier()}. With only an identifier you can
- * get the {@link IApp} object from {@link IModel#getApp(String)}.</p>
+ * <p>
+ * You can identify an {@link IApp} by its identifier, use {@link IApp#getIdentifier()}. With only an identifier you can
+ * get the {@link IApp} object from {@link IModel#getApp(String)}.
+ * </p>
  * 
  * @author Jakob Jarosch
  */
 public interface IApp {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IApp}.
+     * @return the <b>unique</b> identifier of the {@link IApp}.
      */
     public String getIdentifier();
     
     
     /**
-     * @return Returns the localized name of the {@link IApp}.
+     * @return the localized name of the {@link IApp}.
      */
     public String getName();
     
     
     /**
-     * @return Returns the localized description of the {@link IApp}.
+     * @return the localized description of the {@link IApp}.
      */
     public String getDescription();
     
     
     /**
-     * @return Returns the service features provided by the {@link IApp}.
+     * @return an icon associated with this application
+     */
+    public Drawable getIcon();
+    
+    
+    /**
+     * @return the service features provided by the {@link IApp}.
      */
     public IServiceFeature[] getServiceFeatures();
     

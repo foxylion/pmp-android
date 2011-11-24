@@ -35,7 +35,7 @@ public class AppsActivity extends Activity {
         /* Temporary bad stuff, to Test the Activity */
         
         List<IApp> apps = new ArrayList<IApp>();
-        apps.add(new App("Barcode Scanner",
+        /*apps.add(new App("Barcode Scanner",
                 "Barcode Scanner can scan barcodes and view details about the scanned product.",
                 loadBitmap(R.drawable.test_icon1)));
         apps.add(new App("Calendar", "The Calendar allows you to manage your appointments.",
@@ -55,7 +55,8 @@ public class AppsActivity extends Activity {
         apps.add(new App("RSS Feeds", "Access news feeds directly without any troubles.",
                 loadBitmap(R.drawable.test_icon9)));
         apps.add(new App("Wikipedia", "Become access to the greatest lexica in the world.",
-                loadBitmap(R.drawable.test_icon10)));
+                loadBitmap(R.drawable.test_icon10)));*/
+        // FIXME
         
         ListView appsList = (ListView) findViewById(R.id.ListView_Apps);
         appsList.setClickable(true);

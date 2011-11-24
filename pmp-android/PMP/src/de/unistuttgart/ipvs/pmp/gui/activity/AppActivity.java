@@ -43,7 +43,7 @@ public class AppActivity extends Activity {
         mTabHost.setup(lam);
         
         //app = handleIntent(getIntent());
-        app = new App(
+        /*app = new App(
                 "Barcode Scanner",
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
@@ -56,7 +56,8 @@ public class AppActivity extends Activity {
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
         title.setName(app.getName());
-        title.setIcon(app.getIcon());
+        title.setIcon(app.getIcon());*/
+        // FIXME
     }
     
     

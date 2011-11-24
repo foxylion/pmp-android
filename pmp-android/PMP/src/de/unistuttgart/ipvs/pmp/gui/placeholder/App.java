@@ -4,15 +4,16 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 
 public class App implements IApp {
     
     private String name;
     private String description;
-    private Bitmap icon;
+    private Drawable icon;
 
-    public App(String name, String description, Bitmap icon) {
+    public App(String name, String description, Drawable icon) {
         this.name = name;
         this.description = description;
         this.icon = icon;
@@ -28,7 +29,7 @@ public class App implements IApp {
         return description;
     }
     
-    public Bitmap getIcon() {
+    public Drawable getIcon() {
         return icon;
     }
 

@@ -25,13 +25,14 @@ public class AppDetailsTab extends Activity {
         
         
       //app = handleIntent(getIntent());
-        app = new App(
+        /*app = new App(
                 "Barcode Scanner",
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
                         + "can also get the direction to the next store where the item is available. Facebook Feature "
                         + "allows you to share the product with your friends.", BitmapFactory.decodeResource(
-                        getResources(), R.drawable.test_icon1));
+                        getResources(), R.drawable.test_icon1));*/
+        // FIXME
         
         TextView description = (TextView) findViewById(R.id.TextView_Description);
         description.setText(app.getDescription());
