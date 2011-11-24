@@ -1,10 +1,9 @@
 package de.unistuttgart.ipvs.pmp.gui.placeholder;
 
+import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 
 public class App implements IApp {

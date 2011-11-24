@@ -1,5 +1,13 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
+import android.app.Activity;
+import android.app.LocalActivityManager;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppDetailsTab;
@@ -9,15 +17,6 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-import android.app.Activity;
-import android.app.LocalActivityManager;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 
 public class AppActivity extends Activity {
     
@@ -43,21 +42,19 @@ public class AppActivity extends Activity {
         mTabHost.setup(lam);
         
         //app = handleIntent(getIntent());
-        /*app = new App(
+        app = new App(
                 "Barcode Scanner",
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
                         + "can also get the direction to the next store where the item is available. Facebook Feature "
-                        + "allows you to share the product with your friends.", BitmapFactory.decodeResource(
-                        getResources(), R.drawable.test_icon1));
+                        + "allows you to share the product with your friends.", getResources().getDrawable(R.drawable.test_icon1));
         
         setupTabs();
         
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
         title.setName(app.getName());
-        title.setIcon(app.getIcon());*/
-        // FIXME
+        title.setIcon(app.getIcon());
     }
     
     

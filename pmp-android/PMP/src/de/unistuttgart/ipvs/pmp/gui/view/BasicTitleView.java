@@ -1,16 +1,17 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
 
 /**
  * Basic Title for layouts. Very similar to the Android 4.0 titles (compare to settings-menu).
@@ -28,7 +29,7 @@ public class BasicTitleView extends LinearLayout {
      * The icon displayed on the left side of the title.
      */
     private int icon;
-    private Bitmap iconBitmap = null;
+    private Drawable iconDrawable = null;
     
     /**
      * The title which should be displayed.
@@ -77,6 +78,7 @@ public class BasicTitleView extends LinearLayout {
         }
     }
     
+    
     /**
      * Assign an new name to the title.
      * 
@@ -108,10 +110,11 @@ public class BasicTitleView extends LinearLayout {
      * @param icon
      *            new icon as {@link Bitmap} to be set
      */
-    public void setIcon(Bitmap icon) {
-        this.iconBitmap = icon;
+    public void setIcon(Drawable icon) {
+        this.iconDrawable = icon;
         refresh();
     }
+    
     
     /**
      * Refreshes the icon and name after a change.
@@ -124,10 +127,10 @@ public class BasicTitleView extends LinearLayout {
         
         ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
         if (iv != null) {
-            if (iconBitmap == null) {
+            if (iconDrawable == null) {
                 iv.setImageResource(icon);
             } else {
-                iv.setImageBitmap(iconBitmap);
+                iv.setImageDrawable(iconDrawable);
             }
         }
     }

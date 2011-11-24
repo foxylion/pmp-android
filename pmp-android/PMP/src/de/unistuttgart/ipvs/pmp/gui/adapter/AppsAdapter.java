@@ -2,11 +2,6 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
-import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;;
+import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 /**
  * The {@link AppsAdapter} is the list of Apps in the {@link AppsActivity}.
@@ -61,8 +59,7 @@ public class AppsAdapter extends BaseAdapter {
         
         /* Set icon, name, description of the requested App */
         ImageView icon = (ImageView) entryView.findViewById(R.id.ImageView_Icon);
-        //icon.setImageBitmap(((App) app).getIcon()); // TODO temporary FIX THAT when Model has this method!!
-        // FIXME
+        icon.setImageDrawable(app.getIcon());
         
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(app.getName());
