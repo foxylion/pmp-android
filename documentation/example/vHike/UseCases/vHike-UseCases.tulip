@@ -1,0 +1,1368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project type="tulip" version="1.2.1">
+  <id>1</id>
+  <name>vHike - Use Case</name>
+  <description>&lt;p style="margin-top: 0"&gt; Beispiel-App zur PMP - Privacy Management Platform &lt;/p&gt;</description>
+  <systemName>vHike</systemName>
+  <priorities>
+    <priority>Niedrig</priority>
+    <priority>Mittel</priority>
+    <priority>Hoch</priority>
+  </priorities>
+  <levels>
+    <level>Technische Details</level>
+    <level>Benutzersicht</level>
+    <level>Übersicht</level>
+    <level/>
+  </levels>
+  <actorsFolder>
+    <name>Akteure</name>
+    <id>5</id>
+    <children>
+      <actor>
+        <id>37</id>
+        <name>Benutzer</name>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </actor>
+      <actor>
+        <id>7</id>
+        <name>Mitfahrer</name>
+        <description>&lt;p style="margin-top: 0"&gt; Person, nach einer Fahrt sucht bzw. die sich bei einer Fahrt mitnehmen l&amp;#228;sst, eventuell gegen Fahrtkostenbeteiligung. Wird vom Fahrer eingeladen. &lt;/p&gt;</description>
+      </actor>
+      <actor>
+        <id>6</id>
+        <name>Fahrer</name>
+        <description>&lt;p style="margin-top: 0"&gt; Ein Fahrer sucht nach einem Mitfahrer bzw. f&amp;#228;hrt einen oder mehrere Mitfahrer. L&amp;#228;dt einen Mitfahrer ein. &lt;/p&gt;</description>
+      </actor>
+    </children>
+  </actorsFolder>
+  <usabilityPatternsFolder>
+    <name>Usability Patterns</name>
+    <id>4</id>
+  </usabilityPatternsFolder>
+  <useCasesFolder>
+    <name>Use Cases</name>
+    <id>3</id>
+    <children>
+      <useCase>
+        <id>35</id>
+        <name>Registrierung</name>
+        <useCaseId>01</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte einen Account f&amp;#252;r vHike erstellen. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte einen Account f&amp;#252;r vHike erstellen. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 12:39</created>
+        <author/>
+        <lastUpdate>25-11-2011 13:57</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer hat noch keinen Account</description>
+            </preCondition>
+            <preCondition>
+              <description>Niemand ist in vHike eingelogt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt die Registrierungsoption aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt das Fenster mit den Anmeldedaten an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>37</actorId>
+              <description>fühlt das Formular aus und bestehtigt es</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId/>
+              <description>erstelt den Login-Account für den Benutzer</description>
+            </step>
+            <step>
+              <stepNumber>5</stepNumber>
+              <actorId/>
+              <description>zeigt wieder den Login-Screen an</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Benutzer hat einen Account erstellt</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>38</id>
+        <name>Einloggen</name>
+        <useCaseId>02</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte sich in vHike einloggen. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte sich in vHike einloggen. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 12:44</created>
+        <author/>
+        <lastUpdate>25-11-2011 13:57</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Niemand ist in vHike eingeloggt</description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer hat bereits einen Account</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>trägt seinen Account-Namen und Account-Passwort ein und bestehtigt die Eingabe</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt das vHike-Hauptmenü an</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description/>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>2</associatedStep>
+            <name>2a</name>
+            <preConditions>
+              <preCondition>
+                <description>die Eingabe stimmt nicht überein</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>2a1</stepNumber>
+                <actorId/>
+                <description>gibt eine Fehlermeldung aus</description>
+              </step>
+              <step>
+                <stepNumber>2a2</stepNumber>
+                <actorId/>
+                <description>zeigt wieder den Login-Screen an</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Benutzer ist nicht eingeloggt</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>41</id>
+        <name>Fahrt starten (Fahrer)</name>
+        <useCaseId>03</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte in vHike eine Fahrt starten. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte in vHike eine Fahrt starten. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 12:54</created>
+        <author/>
+        <lastUpdate>25-11-2011 14:54</lastUpdate>
+        <actors>
+          <actorId>6</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Fahrer ist in vHike eingeloggt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>6</actorId>
+              <description>wählt die "Fahrt starten"-Option im vHike-Hauptmenü aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt das "Fahrt"-Menü an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>6</actorId>
+              <description>wählt den Zielort aus</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId/>
+              <description>zeigt das "Karten"-Menü an</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Fahrt wurde gestartet</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>44</id>
+        <name>Profil anzeigen</name>
+        <useCaseId>04</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte einen Profil anzeigen. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte einen Profil anzeigen. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 13:05</created>
+        <author/>
+        <lastUpdate>25-11-2011 13:51</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+          <actorId>6</actorId>
+          <actorId>7</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer ist in vHike eingeloggt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt im vHike-Hauptmenü die Funktion "Profil" aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt das "Profil"-Menü an</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description/>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>1</associatedStep>
+            <name>1a</name>
+            <preConditions>
+              <preCondition>
+                <description>ein Fahrer möchte den Profil von einem "Fahrtsuchenden" anzeigen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>1a1</stepNumber>
+                <actorId>6</actorId>
+                <description>Fahrer startet eine Fahrt</description>
+              </step>
+              <step>
+                <stepNumber>1a2</stepNumber>
+                <actorId/>
+                <description>findet einen "Fahrtsuchenden" auf dem Radar</description>
+              </step>
+              <step>
+                <stepNumber>1a3</stepNumber>
+                <actorId/>
+                <description>zeigt den gefundenen "Fahrtsuchenden" an</description>
+              </step>
+              <step>
+                <stepNumber>1a4</stepNumber>
+                <actorId>6</actorId>
+                <description>wählt den "Fahrtsuchenden" an</description>
+              </step>
+              <step>
+                <stepNumber>1a5</stepNumber>
+                <actorId/>
+                <description>zeigt den Profil von dem angewählten "Fahrtsuchenden" an</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Profil von einem "Fahrtsuchenden" wurde angezeigt</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+          <extensionScenario>
+            <associatedStep>1</associatedStep>
+            <name>1b</name>
+            <preConditions>
+              <preCondition>
+                <description>ein Mitfahrer möchte den Profil von einem Fahrer anzeigen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>1b1</stepNumber>
+                <actorId>7</actorId>
+                <description>Startet die Fahrtensuche</description>
+              </step>
+              <step>
+                <stepNumber>1b2</stepNumber>
+                <actorId/>
+                <description>findet einen passenden Fahrer</description>
+              </step>
+              <step>
+                <stepNumber>1b3</stepNumber>
+                <actorId/>
+                <description>zeigt den gefundenen Fahrer an</description>
+              </step>
+              <step>
+                <stepNumber>1b4</stepNumber>
+                <actorId>7</actorId>
+                <description>wählt den gefundenen Fahrer an</description>
+              </step>
+              <step>
+                <stepNumber>1b5</stepNumber>
+                <actorId/>
+                <description>zeigt den Profil von dem angewählten Fahrer an</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Profil von einem Fahrer wurde angezeigt</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>50</id>
+        <name>Profil editieren</name>
+        <useCaseId>05</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte sinen Profil editieren. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte sinen Profil editieren. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 13:52</created>
+        <author/>
+        <lastUpdate>25-11-2011 13:57</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer ist in vHike eingeloggt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt im vHike-Hauptmenü die Funktion "Profil" aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt das Fenster mit den Profilinformationen an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>37</actorId>
+              <description>editiert seine Angaben im Profil und bestätigt die Änderungen</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Benutzerprofil wurde editiert</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>10</id>
+        <name>Profil bewerten (Fahrer)</name>
+        <useCaseId>06</useCaseId>
+        <goal>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt; Fahrer will einen oder mehrere Mitfahrer bewerten. (Fahrer sich selbst) &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Fahrer kann nach pers&amp;#246;nlichem Empfinden seine Mitfahrer mit einer Skala von einem bis f&amp;#252;nf Autos (Sternen) bewerten &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 21:03</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:24</lastUpdate>
+        <actors>
+          <actorId>6</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>History-Ansicht ist geöffnet</description>
+            </preCondition>
+            <preCondition>
+              <description>Mindestens eine Fahrt mit einem oder mehreren Mitfahrern abgeschlossen</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId/>
+              <description>schaltet Bewertung für 24 Stunden frei</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId>6</actorId>
+              <description>Tippt auf eine Fahrt</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId/>
+              <description>Öffnet die Historiy- Rides -Ansicht und zeigt alle anwesenden Mitfahrer an</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId>6</actorId>
+              <description>Tippt auf den zu bewertenden Mitfahrer</description>
+            </step>
+            <step>
+              <stepNumber>5</stepNumber>
+              <actorId/>
+              <description>Öffnet Profile -Ansicht des Mitfahrers</description>
+            </step>
+            <step>
+              <stepNumber>6</stepNumber>
+              <actorId>6</actorId>
+              <description>Tipp auf die gewünschte Anzahl von Autos (Sternen) und bestätigt seine Bewertung</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Bewertung wurde erfolgreich abgegeben</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>12</id>
+        <name>Profil bewerten (Mitfahrer)</name>
+        <useCaseId>07</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Mitfahrer will den Fahrer oder einen Mitfahrer bewerten &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Ein Mitfahrer will den Fahrer oder einen Mitfahrer nach pers&amp;#246;nlichem Empfinden mit einer Skala von einem bis f&amp;#252;nf Autos (Sternen) bewerten. &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 21:13</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:24</lastUpdate>
+        <actors>
+          <actorId>7</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>Mindestens eine Fahrt ist abgeschlossen</description>
+            </preCondition>
+            <preCondition>
+              <description>History-Ansicht geöffnet</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId/>
+              <description>schaltet Bewertung für 24 Stunden frei</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf eine Fahrt</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId/>
+              <description>Öffnet die Historiy- Rides -Ansicht und zeigt Fahrer und alle anwesenden Mitfahrer an</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf zu bewertenden Fahrer oder Mitfahrer</description>
+            </step>
+            <step>
+              <stepNumber>5</stepNumber>
+              <actorId/>
+              <description>Öffnet die Profile -Ansicht des Fahrers bzw. Mitfahrers</description>
+            </step>
+            <step>
+              <stepNumber>6</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf die gewünschte Anzahl von Autos (Sternen) und bestätigt seine Bewertung</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Fahrer oder Mitfahrer wurde erfolgreich bewertet</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>14</id>
+        <name>Fahrt suchen (Mitfahrer)</name>
+        <useCaseId>08</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Mitfahrer sucht einem Fahrer und Fahrt, um von seinem jetzigem Standort A nach Ziel B zu gelangen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Mitfahrer gibt seinen GPS -Standort frei, gibt sein Reiseziel an und wartet auf Einladung eines Fahrers &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 21:31</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 15:04</lastUpdate>
+        <actors>
+          <actorId>7</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>"Fahrt suchen"-Ansicht ist geöffnet</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf "Ziel" -Button</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>Zeigt alle möglichen Ziele bzw. Städte an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>7</actorId>
+              <description>wählt die gewünschte Stadt aus und bestätigt die Eingabe</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId/>
+              <description>Gibt über GPS die Koordinate des Mitfahrers frei</description>
+            </step>
+            <step>
+              <stepNumber>5</stepNumber>
+              <actorId/>
+              <description>wechselt zu der "Search"-Ansicht</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>GPS-Standort ist frei für Fahrer mit gleichem Reiseziel</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>16</id>
+        <name>Einladung annehmen</name>
+        <useCaseId>09</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Mitfahrer will eine Einladung eines Fahrers annehmen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Mitfahrer wird von einem Fahrer eingeladen und erh&amp;#228;lt eine Benachrichtigung &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 21:45</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:28</lastUpdate>
+        <actors>
+          <actorId>7</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>"Fahrt suchen"-Ansicht geöffnet</description>
+            </preCondition>
+            <preCondition>
+              <description>Wurde benachrichtigt und von einem Fahrer eingeladen</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId/>
+              <description>Zeigt Einladung des Fahrers mit Namen und Bewertung an</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf "Annehmen"-Button (grüner Haken)</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId/>
+              <description>Mitfahrer wird kurz über erfolgreiche Annahme informiert und schickt eine Benachrichtigung an den Fahrer</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Einladung wurde erfolgreich angenommen und Fahrer wird daraufhin benachrichtigt</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>2</associatedStep>
+            <name>2a</name>
+            <preConditions>
+              <preCondition>
+                <description>Mitfahrer will Profil von Fahrer anzeigen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>2a1</stepNumber>
+                <actorId>7</actorId>
+                <description>Tippt auf Namen des Fahrers</description>
+              </step>
+              <step>
+                <stepNumber>2a2</stepNumber>
+                <actorId/>
+                <description>Öffnet Profile -Ansicht des Fahrers</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Profile -Ansicht des Fahrers geöffnet</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>18</id>
+        <name>Einladung ablehnen (Mitfahrer)</name>
+        <useCaseId>10</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Mitfahrer will eine Einladung ablehnen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Mitfahrer hat eine Einladung erhalten und will diese ablehnen &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 21:50</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:29</lastUpdate>
+        <actors>
+          <actorId>7</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>Wurde von einem Fahrer eingeladen und benachrichtigt</description>
+            </preCondition>
+            <preCondition>
+              <description>"Fahr suchen"-Ansicht geöffnet</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId/>
+              <description>Zeigt Einladung des Fahrers mit Namen und Bewertung an</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId>7</actorId>
+              <description>Tippt auf "Ablehnen" -Button (rotes Kreuz)</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId/>
+              <description>Sendet verwirft Einladung und sendet Fahrer Benachrichtigung</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Einladung wurde abgelehnt und in der "Fahrt suchen"-Ansicht verworfen und Fahrer erhält Ablehn -Bescheid</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>2</associatedStep>
+            <name>2a</name>
+            <preConditions>
+              <preCondition>
+                <description>Will Profile -Ansicht des Fahrers anzeigen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>2a1</stepNumber>
+                <actorId>7</actorId>
+                <description>Tippt auf Namen des Fahrers</description>
+              </step>
+              <step>
+                <stepNumber>2a2</stepNumber>
+                <actorId/>
+                <description>Öffnet Profile -Ansicht des Fahrers</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Profile-Ansicht des Fahrers geöffnet</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>27</id>
+        <name>Einladung verschicken</name>
+        <useCaseId>11</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Fahrer will einen Mitfahrer einladen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Fahrer hat mindestens einen Mitfahrer gefunden und will eine Einladung verschicken &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 22:07</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:30</lastUpdate>
+        <actors>
+          <actorId>6</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>Mindestens ein Mitfahrer wurde gefunden</description>
+            </preCondition>
+            <preCondition>
+              <description>Karten-Ansicht ist geöffnet</description>
+            </preCondition>
+            <preCondition>
+              <description>Gefundene Mitfahrer Dialog ist aufgeklappt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>6</actorId>
+              <description>Tippt auf "Ausrufezeichen" um Einladung an Mitfahrer zu verschicken</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>Ändert das "Ausrufezeichen" zu einem "Fragezeichen"</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Einladung wurde verschickt, Fahrer wartet auf Antwort des Mitfahrers</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>2</associatedStep>
+            <name>2a</name>
+            <preConditions>
+              <preCondition>
+                <description>Fahrer will Einladen-Vorgang abbrechen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>2a1</stepNumber>
+                <actorId>6</actorId>
+                <description>Tippt auf Ausrufezeichen</description>
+              </step>
+              <step>
+                <stepNumber>2a2</stepNumber>
+                <actorId/>
+                <description>Bricht Einladung ab bzw. sendet Mitfahrer eine Benachrichtigung das Einladung nicht aktuell ist kehrt zu Karten -Ansicht zurück</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Einladung abgebrochen, kehrt zu Karten-Ansicht zurück</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>33</id>
+        <name>Mitfahrer verwerfen (Fahrer)</name>
+        <useCaseId>12</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Will einen Mitfahrer aus der Liste entfernen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Fahrer hat eine Liste mit suchenden Mitfahrern erhalten und will einen davon aus der List entfernen &lt;/p&gt;</description>
+        <priority>Mittel</priority>
+        <level>Technische Details</level>
+        <created>24-11-2011 22:18</created>
+        <author>Andre</author>
+        <lastUpdate>25-11-2011 14:32</lastUpdate>
+        <actors>
+          <actorId>6</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>Karten-Ansicht geöffnet</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>6</actorId>
+              <description>Tippt auf "Verwerfen"-Button (rotes Kreuz)</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>Entfernt suchenden Mitfahrer aus Liste</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Suchenden Mitfahrer aus Liste entfernt</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>1</associatedStep>
+            <name>1a</name>
+            <preConditions>
+              <preCondition>
+                <description>Will Profil von suchenden Mitfahrer anzeigen</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>1a1</stepNumber>
+                <actorId>6</actorId>
+                <description>Tippt auf suchenden Mitfahrer</description>
+              </step>
+              <step>
+                <stepNumber>1a2</stepNumber>
+                <actorId/>
+                <description>Öffnet Profile-Ansicht des suchenden Mitfahrers</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>Profile -Ansicht des Mitfahrers geöffnet</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>57</id>
+        <name>History anzeigen</name>
+        <useCaseId>13</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die vergangene Fahrten annsehen. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte die vergangene Fahrten annsehen. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 14:32</created>
+        <author/>
+        <lastUpdate>25-11-2011 14:35</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet </description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer ist in vHike eingeloggt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description> wählt "History" im Hauptmenu aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt alle erfolgten Fahrten an</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Es werden die vergangenen Fahrten aufgelistet</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>61</id>
+        <name>Historyeinträge löschen</name>
+        <useCaseId>14</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Historyeintr&amp;#228;ge l&amp;#246;schen. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Historyeintr&amp;#228;ge l&amp;#246;schen. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 14:42</created>
+        <author/>
+        <lastUpdate>25-11-2011 14:57</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>"History"-Ansicht ist geöffnet</description>
+            </preCondition>
+            <preCondition>
+              <description>Mindestens eine Fahrt befindet sich bereits in der Liste</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>tippt auf einen Eintrag</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt ein Dialog an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt im Dialog "Eintrag löschen" aus</description>
+            </step>
+            <step>
+              <stepNumber>4</stepNumber>
+              <actorId/>
+              <description>löscht den ausgewählten Eintrag</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Eintrag ist gelöscht</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions>
+          <extensionScenario>
+            <associatedStep>3</associatedStep>
+            <name>3a</name>
+            <preConditions>
+              <preCondition>
+                <description>Benutzer wählt im Dialog "Alle Einträge löschen" aus</description>
+              </preCondition>
+            </preConditions>
+            <steps>
+              <step>
+                <stepNumber>3a1</stepNumber>
+                <actorId/>
+                <description>löscht alle Einträge</description>
+              </step>
+            </steps>
+            <postConditions>
+              <postCondition>
+                <description>alle Einträge sind gelöscht worden</description>
+              </postCondition>
+            </postConditions>
+          </extensionScenario>
+        </extensions>
+      </useCase>
+      <useCase>
+        <id>59</id>
+        <name>Fahrtendetails anzeigen</name>
+        <useCaseId>15</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Fahrtendetails einer Fahrt ansehen &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Fahrtendetails einer Fahrt ansehen &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 14:36</created>
+        <author/>
+        <lastUpdate>25-11-2011 14:45</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>"History"-Ansicht ist geöffnet</description>
+            </preCondition>
+            <preCondition>
+              <description>Mindestens eine Fahrt befindet sich bereits in der Liste</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>tippt auf einen Eintrag in der Liste</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>zeigt ein Dialog an</description>
+            </step>
+            <step>
+              <stepNumber>3</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt "Details anzeigen" in dem erschienenem Dialog aus</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Details einer Fahrt werden angezeigt</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+      <useCase>
+        <id>65</id>
+        <name>Einstellungen</name>
+        <useCaseId>16</useCaseId>
+        <goal>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Einstellungen von vHike aufrufen bzw. &amp;#228;ndern. &lt;/p&gt;</goal>
+        <description>&lt;p style="margin-top: 0"&gt; Benutzer m&amp;#246;chte die Einstellungen von vHike aufrufen bzw. &amp;#228;ndern. &lt;/p&gt;</description>
+        <priority>Niedrig</priority>
+        <level>Technische Details</level>
+        <created>25-11-2011 14:47</created>
+        <author/>
+        <lastUpdate>25-11-2011 15:00</lastUpdate>
+        <actors>
+          <actorId>37</actorId>
+        </actors>
+        <mainScenario>
+          <name/>
+          <preConditions>
+            <preCondition>
+              <description>vHike ist gestartet</description>
+            </preCondition>
+            <preCondition>
+              <description>Benutzer ist in vHike eingeloggt</description>
+            </preCondition>
+          </preConditions>
+          <steps>
+            <step>
+              <stepNumber>1</stepNumber>
+              <actorId>37</actorId>
+              <description>wählt im vHike-Hauptmenü "Einstellungen" aus</description>
+            </step>
+            <step>
+              <stepNumber>2</stepNumber>
+              <actorId/>
+              <description>wechselt zu PMP</description>
+            </step>
+          </steps>
+          <postConditions>
+            <postCondition>
+              <description>Benutzer kann jetzt seine privacy Einstellungen bezüglich vHike ansehen bzw. ändern</description>
+            </postCondition>
+          </postConditions>
+        </mainScenario>
+        <extensions/>
+      </useCase>
+    </children>
+  </useCasesFolder>
+  <useCaseDiagramsFolder>
+    <name>Use-Case-Diagramme</name>
+    <id>2</id>
+    <children>
+      <useCaseDiagram>
+        <id>69</id>
+        <name>vHike(Usecase-Diagramm)</name>
+        <description/>
+        <diagramData>
+          <model>
+            <name>Benutzer</name>
+            <type>ACTOR</type>
+            <reference>37</reference>
+            <position>
+              <x>5</x>
+              <y>18</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Registrierung</name>
+            <type>USE_CASE</type>
+            <reference>35</reference>
+            <position>
+              <x>302</x>
+              <y>24</y>
+            </position>
+            <size>
+              <width>96</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Einloggen</name>
+            <type>USE_CASE</type>
+            <reference>38</reference>
+            <position>
+              <x>218</x>
+              <y>54</y>
+            </position>
+            <size>
+              <width>69</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Fahrer</name>
+            <type>ACTOR</type>
+            <reference>6</reference>
+            <position>
+              <x>9</x>
+              <y>160</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Fahrt starten (Fahrer)</name>
+            <type>USE_CASE</type>
+            <reference>41</reference>
+            <position>
+              <x>364</x>
+              <y>161</y>
+            </position>
+            <size>
+              <width>160</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Mitfahrer</name>
+            <type>ACTOR</type>
+            <reference>7</reference>
+            <position>
+              <x>12</x>
+              <y>309</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Profil anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>44</reference>
+            <position>
+              <x>118</x>
+              <y>261</y>
+            </position>
+            <size>
+              <width>105</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Profil editieren</name>
+            <type>USE_CASE</type>
+            <reference>50</reference>
+            <position>
+              <x>293</x>
+              <y>96</y>
+            </position>
+            <size>
+              <width>103</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Profil bewerten (Fahrer)</name>
+            <type>USE_CASE</type>
+            <reference>10</reference>
+            <position>
+              <x>288</x>
+              <y>225</y>
+            </position>
+            <size>
+              <width>174</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Profil bewerten (Mitfahrer)</name>
+            <type>USE_CASE</type>
+            <reference>12</reference>
+            <position>
+              <x>131</x>
+              <y>340</y>
+            </position>
+            <size>
+              <width>192</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Fahrt suchen (Mitfahrer)</name>
+            <type>USE_CASE</type>
+            <reference>14</reference>
+            <position>
+              <x>133</x>
+              <y>418</y>
+            </position>
+            <size>
+              <width>177</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Einladung annehmen</name>
+            <type>USE_CASE</type>
+            <reference>16</reference>
+            <position>
+              <x>305</x>
+              <y>387</y>
+            </position>
+            <size>
+              <width>148</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Einladung ablehnen (Mitfahrer)</name>
+            <type>USE_CASE</type>
+            <reference>18</reference>
+            <position>
+              <x>300</x>
+              <y>459</y>
+            </position>
+            <size>
+              <width>222</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Einladung verschicken</name>
+            <type>USE_CASE</type>
+            <reference>27</reference>
+            <position>
+              <x>389</x>
+              <y>297</y>
+            </position>
+            <size>
+              <width>157</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Mitfahrer verwerfen (Fahrer)</name>
+            <type>USE_CASE</type>
+            <reference>33</reference>
+            <position>
+              <x>488</x>
+              <y>211</y>
+            </position>
+            <size>
+              <width>210</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>History anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>57</reference>
+            <position>
+              <x>405</x>
+              <y>81</y>
+            </position>
+            <size>
+              <width>120</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Historyeinträge löschen</name>
+            <type>USE_CASE</type>
+            <reference>61</reference>
+            <position>
+              <x>493</x>
+              <y>24</y>
+            </position>
+            <size>
+              <width>169</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Fahrtendetails anzeigen</name>
+            <type>USE_CASE</type>
+            <reference>59</reference>
+            <position>
+              <x>523</x>
+              <y>113</y>
+            </position>
+            <size>
+              <width>172</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Einstellungen</name>
+            <type>USE_CASE</type>
+            <reference>65</reference>
+            <position>
+              <x>151</x>
+              <y>116</y>
+            </position>
+            <size>
+              <width>94</width>
+              <height>64</height>
+            </size>
+          </model>
+        </diagramData>
+      </useCaseDiagram>
+    </children>
+  </useCaseDiagramsFolder>
+</project>
