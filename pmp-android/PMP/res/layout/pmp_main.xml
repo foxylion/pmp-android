@@ -58,7 +58,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_rgs"
+                        android:drawableTop="@drawable/icon_rgs2"
                         android:paddingTop="25sp"
                         android:text="@string/main_rgs" >
                     </Button>
@@ -74,7 +74,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_presets"
+                        android:drawableTop="@drawable/icon_presets2"
                         android:paddingTop="25sp"
                         android:text="@string/main_presets" >
                     </Button>
@@ -91,11 +91,22 @@
                     </Button>
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="-3dp"
-                    android:text="@string/main_statistics" />
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_marginRight="3dp"
+                        android:src="@drawable/icon_statistics" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="-3dp"
+                        android:text="@string/main_statistics" />
+                </LinearLayout>
 
                 <include layout="@layout/divider_strong" >
                 </include>

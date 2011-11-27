@@ -117,11 +117,11 @@ public class ServiceFeatureView extends LinearLayout {
             }
             
             if (active && isAvailable()) {
-                setBackgroundColor(Color.parseColor("#005500"));
+                setBackgroundColor(Color.parseColor("#001100"));
             } else if (!active && isAvailable()) {
-                setBackgroundColor(Color.parseColor("#550000"));
+                setBackgroundColor(Color.parseColor("#110000"));
             } else {
-                setBackgroundColor(Color.parseColor("#555555"));
+                setBackgroundColor(Color.parseColor("#111111"));
             }
             
         }

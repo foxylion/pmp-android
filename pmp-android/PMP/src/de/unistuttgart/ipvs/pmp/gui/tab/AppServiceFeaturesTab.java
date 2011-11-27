@@ -21,14 +21,14 @@ public class AppServiceFeaturesTab extends Activity {
         
         /* Temporary bad stuff, to Test the Activity */
         List<IServiceFeature> sfs_enabled = new ArrayList<IServiceFeature>();
-        sfs_enabled.add(new ServiceFeature("Read Entries", "The Bronze Service Feature", true, true));
-        sfs_enabled.add(new ServiceFeature("Write Entries", "The Bronze Service Feature", true, true));
-        sfs_enabled.add(new ServiceFeature("Share Entries", "The Bronze Service Feature", false, false));
+        sfs_enabled.add(new ServiceFeature("Use Camera", "Must be enabled to get any functionality.", true, true));
+        sfs_enabled.add(new ServiceFeature("Internet Connection", "Required to fetch details for a scanned product.", true, true));
+        sfs_enabled.add(new ServiceFeature("Facebook Share", "Enable it to share a product on facebook.", true, true));
         
         List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
-        sfs_enabled.add(new ServiceFeature("Read Entries", "The Bronze Service Feature", true, true));
-        sfs_enabled.add(new ServiceFeature("Write Entries", "The Bronze Service Feature", false, true));
-        sfs_enabled.add(new ServiceFeature("Share Entries", "The Bronze Service Feature", false, true));
+        sfs_enabled.add(new ServiceFeature("Personal Information", "If it is enabled you can post product ratings.", false, true));
+        sfs_enabled.add(new ServiceFeature("Credit Card-Details", "Allows you to directly buy and pay a scanned product.", false, false));
+        sfs_enabled.add(new ServiceFeature("Email Account", "Send product via email to your friends.", false, true));
         
         List<IServiceFeature> sfs = new ArrayList<IServiceFeature>();
         sfs.addAll(sfs_enabled);

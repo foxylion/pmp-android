@@ -47,7 +47,8 @@ public class AppActivity extends Activity {
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
                         + "can also get the direction to the next store where the item is available. Facebook Feature "
-                        + "allows you to share the product with your friends.", getResources().getDrawable(R.drawable.test_icon1));
+                        + "allows you to share the product with your friends.", getResources().getDrawable(
+                        R.drawable.test_icon1));
         
         setupTabs();
         
@@ -129,23 +130,6 @@ public class AppActivity extends Activity {
         lp.width = LayoutParams.WRAP_CONTENT;
         tab1.setLayoutParams(lp);
         
-        /* Presets Tab */
-        TabSpec presets = mTabHost.newTabSpec("tab_details");
-        presets.setIndicator("Presets");
-        
-        // Create an Intent to start the inner activity
-        Intent intentPresets = new Intent(this, AppPresetsTab.class);
-        intentPresets.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
-        
-        presets.setContent(intentPresets);
-        mTabHost.addTab(presets);
-        
-        // Change the preferred size of the Tab-header
-        View tab2 = mTabHost.getTabWidget().getChildAt(1);
-        lp = tab2.getLayoutParams();
-        lp.width = LayoutParams.WRAP_CONTENT;
-        tab2.setLayoutParams(lp);
-        
         /* Service Features Tab */
         TabSpec sfs = mTabHost.newTabSpec("tab_sfs");
         sfs.setIndicator("Service Features");
@@ -156,6 +140,23 @@ public class AppActivity extends Activity {
         
         sfs.setContent(intentSfs);
         mTabHost.addTab(sfs);
+        
+        // Change the preferred size of the Tab-header
+        View tab2 = mTabHost.getTabWidget().getChildAt(1);
+        lp = tab2.getLayoutParams();
+        lp.width = LayoutParams.WRAP_CONTENT;
+        tab2.setLayoutParams(lp);
+        
+        /* Presets Tab */
+        TabSpec presets = mTabHost.newTabSpec("tab_details");
+        presets.setIndicator("Presets");
+        
+        // Create an Intent to start the inner activity
+        Intent intentPresets = new Intent(this, AppPresetsTab.class);
+        intentPresets.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        
+        presets.setContent(intentPresets);
+        mTabHost.addTab(presets);
         
         // Change the preferred size of the Tab-header
         View tab3 = mTabHost.getTabWidget().getChildAt(2);

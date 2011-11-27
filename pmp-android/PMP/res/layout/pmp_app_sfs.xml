@@ -8,8 +8,8 @@
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_success"
-        pmp:name="Enabled Service Features" >
+        pmp:icon="@drawable/icon_sfs"
+        pmp:name="Service Features" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <TextView

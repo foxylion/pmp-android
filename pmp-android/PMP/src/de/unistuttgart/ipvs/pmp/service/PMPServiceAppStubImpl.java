@@ -51,14 +51,12 @@ public class PMPServiceAppStubImpl extends IPMPServiceApp.Stub {
     }
 
 
-    @Override
     public void registerApp() throws RemoteException {
         // TODO Auto-generated method stub
         
     }
 
 
-    @Override
     public boolean isRegistered() throws RemoteException {
         // TODO Auto-generated method stub
         return false;
