@@ -203,7 +203,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                                 | PackageManager.GET_INTENT_FILTERS);
                         if (pi.activities != null) {
                             for (ActivityInfo ai : pi.activities) {
-                                /*if (ai.name.equals(ResourceGroupActivity.class.getName())) {
+                                /*if (ai.name.equals(RGsActivity.class.getName())) {
                                     Log.d(info.packageName + " :: " + ai.name);
                                     Intent i = new Intent();
                                     i.setClassName(info.packageName, ai.name);
