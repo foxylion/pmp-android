@@ -17,50 +17,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.service;
+package de.unistuttgart.ipvs.pmp.service.app;
 
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * A RegistrationState representation for the registration at {@link IPMPServiceRegistration}.
+ * A RegistrationResult representation for the registration at {@link IPMPServiceRegistration}.
  * 
  * @author Jakob Jarosch
  */
-public class RegistrationState implements Parcelable {
+public class RegistrationResult implements Parcelable {
     
-    private boolean state;
+    private boolean success;
     private String message;
     
     
     /**
-     * @see RegistrationState#RegistrationState(boolean, String)
+     * @see RegistrationResult#RegistrationState(boolean, String)
      */
-    public RegistrationState(boolean state) {
-        this.state = state;
+    public RegistrationResult(boolean success) {
+        this.success = success;
     }
     
     
     /**
-     * Creates a new {@link RegistrationState} object, with given values.
+     * Creates a new {@link RegistrationResult} object, with given values.
      * 
-     * @param state
-     *            The state of the registration, true means successful, false means registration failed.
+     * @param success
+     *            The success of the registration, true means successful, false means registration failed.
      * @param message
      *            A message which describes what exactly is the reason for a failed registration.
      */
-    public RegistrationState(boolean state, String message) {
-        this.state = state;
+    public RegistrationResult(boolean success, String message) {
+        this.success = success;
         this.message = message;
     }
     
     
     /**
-     * @return Returns the state of the registration, true means successful, false means registration failed.
+     * @return Returns the success of the registration, true means successful, false means registration failed.
      */
-    public boolean getState() {
-        return this.state;
+    public boolean getSuccess() {
+        return this.success;
     }
     
     
@@ -74,27 +74,27 @@ public class RegistrationState implements Parcelable {
     
     /**
      * Constructor for regenerating Java object of an parcel from this object. Normally called by
-     * {@link Parcelable.Creator#createFromParcel(Parcel)} of the {@link RegistrationState#CREATOR} variable.
+     * {@link Parcelable.Creator#createFromParcel(Parcel)} of the {@link RegistrationResult#CREATOR} variable.
      * 
      * @param source
      *            Parcel-Source
      */
-    private RegistrationState(Parcel source) {
+    private RegistrationResult(Parcel source) {
         boolean[] bools = new boolean[1];
         source.readBooleanArray(bools);
-        this.state = bools[0];
+        this.success = bools[0];
         
         this.message = source.readString();
     }
     
     
     /**
-     * {@link RegistrationState#writeToParcel(Parcel, int)} is called when the App Object is sent through an
+     * {@link RegistrationResult#writeToParcel(Parcel, int)} is called when the App Object is sent through an
      * {@link IBinder}. Therefore all data of the object have to be written into the {@link Parcel}.
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeBooleanArray(new boolean[] { this.state });
+        dest.writeBooleanArray(new boolean[] { this.success });
         dest.writeString(this.message);
     }
     
@@ -107,17 +107,17 @@ public class RegistrationState implements Parcelable {
     /**
      * Required Creator for the {@link Parcelable} regeneration.
      */
-    public static final Parcelable.Creator<RegistrationState> CREATOR = new Parcelable.Creator<RegistrationState>() {
+    public static final Parcelable.Creator<RegistrationResult> CREATOR = new Parcelable.Creator<RegistrationResult>() {
         
         @Override
-        public RegistrationState createFromParcel(Parcel source) {
-            return new RegistrationState(source);
+        public RegistrationResult createFromParcel(Parcel source) {
+            return new RegistrationResult(source);
         }
         
         
         @Override
-        public RegistrationState[] newArray(int size) {
-            return new RegistrationState[size];
+        public RegistrationResult[] newArray(int size) {
+            return new RegistrationResult[size];
         }
     };
 }

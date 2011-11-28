@@ -21,7 +21,7 @@ package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 /**
  * {@link PMPServiceConnector} is used for connecting (in this case binding) to the PMP service. Add your
@@ -37,9 +37,9 @@ public class PMPServiceConnector extends AbstractConnector {
     }
     
     
-    public IPMPServiceApp getAppService() {
-        if (isCorrectBinder(IPMPServiceApp.class)) {
-            return IPMPServiceApp.Stub.asInterface(getService());
+    public IPMPService getAppService() {
+        if (isCorrectBinder(IPMPService.class)) {
+            return IPMPService.Stub.asInterface(getService());
         } else {
             return null;
         }

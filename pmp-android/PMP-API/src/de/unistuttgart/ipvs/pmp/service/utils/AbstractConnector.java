@@ -117,8 +117,7 @@ public abstract class AbstractConnector {
         this.context = context;
         this.targetIdentifier = targetIdentifier;
         
-        Log.v("Created AbstractConnector "
-                + "; connection will go to " + targetIdentifier);
+        Log.v("Created AbstractConnector " + "; connection will go to " + targetIdentifier);
     }
     
     

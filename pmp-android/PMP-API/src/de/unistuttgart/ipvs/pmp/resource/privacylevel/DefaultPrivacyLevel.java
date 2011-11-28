@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 import java.util.Comparator;
 
 /**
- * {@link ComparablePrivacyLevel} that uses the basic methods of the type T.
+ * {@link ComparablePrivacyLevel} that uses the basic toString() method of the type T for human readable values.
  * 
  * @author Tobias Kuhn
  * 

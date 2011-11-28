@@ -25,7 +25,7 @@ import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
@@ -59,9 +59,7 @@ public class PMPService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
-        String identifier = intent.getStringExtra(Constants.INTENT_IDENTIFIER);
-        
-        return new PMPServiceAppStubImpl(identifier);
+        return new PMPServiceStubImpl();
     }
     
 }

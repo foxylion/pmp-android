@@ -19,32 +19,40 @@
  */
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.os.Bundle;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.app.App;
 
 /**
- * The {@link AppService} is used to provide PMPService with a connection to the app where the information about the app
- * is stored.
+ * Implementation of the {@link IAppService.Stub} stub.
  * 
- * @author Jakob Jarosch
+ * @author Thorsten Berberich
  */
-public class AppService extends Service {
+public class AppServiceStubImpl extends IAppService.Stub {
     
-    @Override
-    public IBinder onBind(Intent intent) {
-        AppServiceStubImpl assi = new AppServiceStubImpl();
-        assi.setApp(findContextApp());
-        return assi;
+    /**
+     * The {@link App} referenced.
+     */
+    private App app;
+    
+    
+    public void setApp(App app) {
+        this.app = app;
     }
     
     
-    private App findContextApp() {
-        if (!(getApplication() instanceof App)) {
-            throw new RuntimeException("AppService started without appropriate App class in getApplication().");
+    @Override
+    public void updateServiceFeatures(Bundle features) throws RemoteException {
+        this.app.updateServiceFeatures(features);
+    }
+    
+    
+    @Override
+    public void replyRegistrationResult(RegistrationResult result) throws RemoteException {
+        if (result.getSuccess()) {
+            this.app.onRegistrationSuccess();
         } else {
-            return (App) getApplication();
+            this.app.onRegistrationFailed(result.getMessage());
         }
     }
     

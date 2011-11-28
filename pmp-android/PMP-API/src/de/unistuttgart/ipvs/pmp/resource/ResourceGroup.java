@@ -230,7 +230,7 @@ public abstract class ResourceGroup {
             @Override
             public void connected() {
                 try {
-                    ro.result = pmpsc.getAppService().isRegistered();
+                    ro.result = pmpsc.getAppService().isRegistered("");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

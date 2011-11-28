@@ -27,25 +27,11 @@ package de.unistuttgart.ipvs.pmp.resource.privacylevel;
  */
 public class FaultyPrivacyLevel extends PrivacyLevel<IllegalArgumentException> {
     
-    private boolean faultyNameDesc;
     private boolean throwExcep;
     
     
-    public FaultyPrivacyLevel(boolean faultyNameDesc, boolean throwExcep) {
-        this.faultyNameDesc = faultyNameDesc;
+    public FaultyPrivacyLevel(boolean throwExcep) {
         this.throwExcep = throwExcep;
-    }
-    
-    
-    @Override
-    public String getName(String locale) {
-        return (this.faultyNameDesc ? null : "");
-    }
-    
-    
-    @Override
-    public String getDescription(String locale) {
-        return (this.faultyNameDesc ? null : "");
     }
     
     

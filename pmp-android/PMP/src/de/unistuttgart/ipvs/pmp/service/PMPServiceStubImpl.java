@@ -1,6 +1,6 @@
 /*
  * Copyright 2011 pmp-android development team
- * Project: SwitchesResourceGroup
+ * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -17,44 +17,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.service.app;
+package de.unistuttgart.ipvs.pmp.service;
 
 import android.os.IBinder;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.service.RegistrationState;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 /**
- * Implementation of the {@link IAppService.Stub} stub.
+ * Implementation of the {@link IPMPServiceApp.Stub} stub.
  * 
- * @author Thorsten Berberich
+ * @author Jakob Jarosch
  */
-public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
-    
-    /**
-     * The {@link App} referenced.
-     */
-    private App app;
-    
-    
-    public void setApp(App app) {
-        this.app = app;
-    }
+public class PMPServiceStubImpl extends IPMPService.Stub {
     
     
     @Override
-    public void setActiveServiceLevel(int level) throws RemoteException {
-        this.app.setActiveServiceLevel(level);
+    public void getServiceFeatureUpdate(String identifier) throws RemoteException {
+        
+            /*Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
+            intent.putExtra(Constants.INTENT_IDENTIFIER, this.identifier);
+            PMPApplication.getContext().startActivity(intent);*/
+            // TODO
+        
+
+        // TODO Auto-generated method stub
+        
     }
-    
-    
+
+
     @Override
-    public void setRegistrationState(RegistrationState state) throws RemoteException {
-        if (state.getState()) {
-            this.app.onRegistrationSuccess();
-        } else {
-            this.app.onRegistrationFailed(state.getMessage());
-        }
+    public void registerApp(String identifier) throws RemoteException {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public boolean isRegistered(String identifier) throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 
@@ -62,7 +65,7 @@ public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
     public IBinder getRessource(String resourceGroup, String resource) throws RemoteException {
         // TODO Auto-generated method stub
         return null;
-        
     }
     
+   
 }
