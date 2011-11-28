@@ -20,10 +20,10 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.content.Context;
-import de.unistuttgart.ipvs.pmp.service.app.IAppServicePMP;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**
- * {@link AppServiceConnector} is used for connecting (in this case binding) to services. Add your
+ * {@link AppServiceConnector} is used for connecting (in this case binding) to app services. Add your
  * {@link IConnectorCallback} for interacting with the service. Call {@link AppServiceConnector#bind} to start the
  * connection.
  * 
@@ -39,9 +39,9 @@ public class AppServiceConnector extends AbstractConnector {
     /**
      * @return Returns the AppService or null if no Service was returned (authentication failed?).
      */
-    public IAppServicePMP getAppService() {
-        if (isCorrectBinder(IAppServicePMP.class)) {
-            return IAppServicePMP.Stub.asInterface(getService());
+    public IAppService getAppService() {
+        if (isCorrectBinder(IAppService.class)) {
+            return IAppService.Stub.asInterface(getService());
         } else {
             return null;
         }

@@ -20,10 +20,11 @@
 package de.unistuttgart.ipvs.pmp.app;
 
 import android.app.Application;
-import android.content.Context;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPServiceApp;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
@@ -36,29 +37,26 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 public abstract class App extends Application {
     
     /**
-     * Overwrite this method to react whenever PMP changes your active service level. When not received any service
-     * level yet, assume you are on level 0.
+     * By overriding this method you can react whenever PMP has to change the active service features of this app. Do
+     * only activate service features which were granted by this function. Before that, assume all service features are
+     * deactivated. You can fetch an arbitrary update by calling {@link IPMPService#getServiceFeatureUpdate(String)}.
      * 
-     * @param level
-     *            the new service level level according to your specification in {@link App#getXMLInputStream()}.
+     * @param features
+     *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
+     *            description XML) to booleans (true for granted i.e. active, false for not granted)
      */
-    public abstract void setActiveServiceLevel(int level);
+    public abstract void updateServiceFeatures(Bundle features);
     
-    
-    // TODO fix this
     
     /**
-     * Effectively starts this app and registers it with PMP. You can implement reacting to the result of this operation
-     * by implementing onRegistrationSuccess() or onRegistrationFailed()
-     * 
-     * @param context
-     *            {@link Context} to use for the connection
+     * Registers this app with PMP. You must implement reacting to the result of this operation
+     * by overriding {@link App#onRegistrationSuccess()} or {@link App#onRegistrationFailed(String)}.
      * 
      */
-    public void register(Context context) {
-        
+    protected void register() {
         // connect to PMP
-        final PMPServiceConnector pmpsc = new PMPServiceConnector(context);
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
+        final String name = getApplicationContext().getPackageName();
         
         pmpsc.addCallbackHandler(new IConnectorCallback() {
             
@@ -70,11 +68,10 @@ public abstract class App extends Application {
             @Override
             public void connected() {
                 try {
-                    IPMPServiceApp ipmpsa = pmpsc.getAppService();
-                    if (!ipmpsa.isRegistered()) {
+                    IPMPService ipmps = pmpsc.getAppService();
+                    if (!ipmps.isRegistered(name)) {
                         // register with PMP
-                        ipmpsa.registerApp();
-                        
+                        ipmps.registerApp(name);
                     }
                 } catch (RemoteException e) {
                     Log.e("RemoteException during registering app", e);
@@ -94,17 +91,154 @@ public abstract class App extends Application {
     
     
     /**
-     * Callback called when the preceding call to start() registered this app successfully with PMP.
+     * Retrieves a resource from PMP in blocking mode, i.e. your app will block until this call has completed. You do
+     * <b>not</b> have to implement receiveResource() for this call to work.
+     * 
+     * @param resourceGroup
+     * @param resource
+     * @return the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
+     *         resource not found)
+     */
+    protected IBinder getResourceBlocking(final String resourceGroup, final String resource) {
+        // connect to PMP
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
+        final String name = getApplicationContext().getPackageName();
+        final ResultObject<IBinder> result = new ResultObject<IBinder>();
+        
+        pmpsc.addCallbackHandler(new IConnectorCallback() {
+            
+            @Override
+            public void disconnected() {
+            }
+            
+            
+            @Override
+            public void connected() {
+                try {
+                    IPMPService ipmps = pmpsc.getAppService();
+                    if (!ipmps.isRegistered(name)) {
+                        result.result = null;
+                    } else {
+                        result.result = ipmps.getRessource(resourceGroup, resource);
+                    }
+                } catch (RemoteException e) {
+                    Log.e("RemoteException during registering app", e);
+                }
+                
+                pmpsc.unbind();
+            }
+            
+            
+            @Override
+            public void bindingFailed() {
+                Log.e("Binding failed during registering app.");
+            }
+        });
+        pmpsc.bind(true);
+        
+        return result.result;
+    }
+    
+    
+    /**
+     * <p>
+     * Retrieves a resource from PMP in non-blocking mode, i.e. your app will <b>not</b> block until this call has
+     * completed. This implies you have to override {@link App#receiveResource(String, String, IBinder)} in order to
+     * receive the result of the non-blocking concurrent call.
+     * </p>
+     * 
+     * <p>
+     * Simply said: Call this method, it will return immediately, and then receive the actual binder in
+     * receiveResource().
+     * </p>
+     * 
+     * @param resourceGroup
+     * @param resource
+     */
+    protected void getResourceNonblocking(final String resourceGroup, final String resource) {
+        // connect to PMP
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
+        final String name = getApplicationContext().getPackageName();
+        
+        pmpsc.addCallbackHandler(new IConnectorCallback() {
+            
+            @Override
+            public void disconnected() {
+            }
+            
+            
+            @Override
+            public void connected() {
+                try {
+                    IPMPService ipmps = pmpsc.getAppService();
+                    if (!ipmps.isRegistered(name)) {
+                        receiveResource(resourceGroup, resource, null);
+                    } else {
+                        receiveResource(resourceGroup, resource, ipmps.getRessource(resourceGroup, resource));
+                    }
+                } catch (RemoteException e) {
+                    Log.e("RemoteException during registering app", e);
+                }
+                
+                pmpsc.unbind();
+            }
+            
+            
+            @Override
+            public void bindingFailed() {
+                Log.e("Binding failed during registering app.");
+            }
+        });
+        pmpsc.bind(true);
+    }
+    
+    
+    /**
+     * <p>
+     * Receives the result of a non-blocking resource request from PMP. This implies you have called
+     * {@link App#getResourceNonblocking(String, String)} in order to start the non-blocking request.
+     * </p>
+     * 
+     * <p>
+     * Simply said: Call getResourceNonblocking(), it will return immediately, and then receive the actual binder in
+     * this method.
+     * </p>
+     * 
+     * @param resourceGroup
+     * @param resource
+     * @param binder
+     *            the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
+     *            resource not found)
+     */
+    protected void receiveResource(String resourceGroup, String resource, IBinder binder) {
+        // override me
+    }
+    
+    
+    /**
+     * Callback called when the preceding call to register() registered this app successfully with PMP.
      */
     public abstract void onRegistrationSuccess();
     
     
     /**
-     * Callback called when the preceding call to start() could not register this app with PMP due to errors.
+     * Callback called when the preceding call to register() could not register this app with PMP due to errors.
      * 
      * @param message
-     *            returned message from the PMP service
+     *            returned error message from the PMP service
      */
     public abstract void onRegistrationFailed(String message);
+    
+    /**
+     * Quick and dirty result object to use in methods in anonymous event handlers.
+     * 
+     * @author Tobias Kuhn
+     * 
+     * @param <T>
+     */
+    private class ResultObject<T> {
+        
+        protected T result;
+    }
     
 }

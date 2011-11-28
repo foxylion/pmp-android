@@ -19,17 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import android.os.IBinder;
+import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.service.RegistrationState;
 
 /**
  * Implementation of the {@link IAppService.Stub} stub.
  * 
  * @author Thorsten Berberich
  */
-public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
+public class AppServiceStubImpl extends IAppService.Stub {
     
     /**
      * The {@link App} referenced.
@@ -43,26 +42,18 @@ public class AppServicePMPStubImpl extends IAppServicePMP.Stub {
     
     
     @Override
-    public void setActiveServiceLevel(int level) throws RemoteException {
-        this.app.setActiveServiceLevel(level);
+    public void updateServiceFeatures(Bundle features) throws RemoteException {
+        this.app.updateServiceFeatures(features);
     }
     
     
     @Override
-    public void setRegistrationState(RegistrationState state) throws RemoteException {
-        if (state.getState()) {
+    public void replyRegistrationResult(RegistrationResult result) throws RemoteException {
+        if (result.getSuccess()) {
             this.app.onRegistrationSuccess();
         } else {
-            this.app.onRegistrationFailed(state.getMessage());
+            this.app.onRegistrationFailed(result.getMessage());
         }
-    }
-
-
-    @Override
-    public IBinder getRessource(String resourceGroup, String resource) throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
-        
     }
     
 }
