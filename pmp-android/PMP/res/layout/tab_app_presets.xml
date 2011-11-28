@@ -8,30 +8,40 @@
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_sfs"
-        pmp:name="Service Features" >
+        pmp:icon="@drawable/icon_info"
+        pmp:name="Presets" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact>
 
     <TextView
         android:id="@+id/TextView_Description_Normal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why."
+        android:text="You can only use the Presets feature if you enable the Expert Mode in the settings."
         android:visibility="gone" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/TextView_Description_Expert"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App."
-        android:visibility="gone" />
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="You can tap on a Preset to change it or use the plus icon to assign a Preset to the App."
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_add" />
+    </LinearLayout>
 
     <include layout="@layout/view_divider_strong" />
 
-    <ListView
-        android:id="@+id/ListView_SFs"
+    <TextView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="wrap_content"
+        android:text="List of assigned Presets:\n- GPS Detailed\n- Network usage\n- Personal informations" />
 
 </LinearLayout>

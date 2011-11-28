@@ -54,7 +54,7 @@ public class AppActivity extends Activity {
         
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
-        title.setName(app.getName());
+        title.setTitle(app.getName());
         title.setIcon(app.getIcon());
     }
     

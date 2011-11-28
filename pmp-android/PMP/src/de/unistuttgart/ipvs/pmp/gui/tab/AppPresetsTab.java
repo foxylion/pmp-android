@@ -1,10 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import android.app.Activity;
-import android.view.ViewGroup.LayoutParams;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 public class AppPresetsTab extends Activity {
     
@@ -12,14 +13,17 @@ public class AppPresetsTab extends Activity {
     protected void onResume() {
         super.onResume();
         
-        TextView tv = new TextView(this);
+        setContentView(R.layout.tab_app_presets);
         
-        if(PMPPreferences.getInstanace().isExpertMode()) {
-            tv.setText("You can now select an assigned Preset and change it.");
+        /* Switch between Expert Mode and Normal Mode */
+        TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
+        LinearLayout tvDescriptionExpertMode = (LinearLayout) findViewById(R.id.TextView_Description_Expert);
+        if (PMPPreferences.getInstanace().isExpertMode()) {
+            tvDescriptionNormalMode.setVisibility(View.GONE);
+            tvDescriptionExpertMode.setVisibility(View.VISIBLE);
         } else {
-            tv.setText("You must enable the Expert Mode to use the Preset feature.");
+            tvDescriptionNormalMode.setVisibility(View.VISIBLE);
+            tvDescriptionExpertMode.setVisibility(View.GONE);
         }
-        
-        addContentView(tv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
     }
 }
