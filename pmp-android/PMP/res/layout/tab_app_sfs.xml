@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why." />
 
-    <include layout="@layout/divider_strong" />
+    <include layout="@layout/view_divider_strong" />
 
     <ListView
         android:id="@+id/ListView_SFs"

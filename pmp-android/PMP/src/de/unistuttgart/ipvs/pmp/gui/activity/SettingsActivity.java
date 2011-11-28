@@ -22,7 +22,7 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_settings);
+        setContentView(R.layout.activity_settings);
         
         registerListener();
     }

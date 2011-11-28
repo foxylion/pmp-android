@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ public class ServiceFeatureView extends LinearLayout {
             /* Not in edit mode, load the xml-layout. */
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            View v = layoutInflater.inflate(R.layout.pmp_app_sf_list_item, null);
+            View v = layoutInflater.inflate(R.layout.listitem_app_sf, null);
             addView(v);
             
             addListener();

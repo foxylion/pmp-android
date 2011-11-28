@@ -17,7 +17,7 @@ public class AppServiceFeaturesTab extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_app_sfs);
+        setContentView(R.layout.tab_app_sfs);
         
         /* Temporary bad stuff, to Test the Activity */
         List<IServiceFeature> sfs_enabled = new ArrayList<IServiceFeature>();

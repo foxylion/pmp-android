@@ -15,7 +15,7 @@ public class AppDetailsTab extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_app_details);
+        setContentView(R.layout.tab_app_details);
     }
     
     

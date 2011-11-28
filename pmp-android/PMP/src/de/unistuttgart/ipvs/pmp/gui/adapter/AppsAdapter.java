@@ -55,7 +55,7 @@ public class AppsAdapter extends BaseAdapter {
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.pmp_apps_list_item, null);
+        LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_apps, null);
         
         /* Set icon, name, description of the requested App */
         ImageView icon = (ImageView) entryView.findViewById(R.id.ImageView_Icon);

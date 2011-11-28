@@ -33,7 +33,7 @@ public class AppActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_app);
+        setContentView(R.layout.activity_app);
         
         lam = new LocalActivityManager(this, true);
         lam.dispatchCreate(savedInstanceState);

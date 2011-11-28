@@ -23,7 +23,7 @@ public class AppsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_apps);
+        setContentView(R.layout.activity_apps);
     }
     
     
