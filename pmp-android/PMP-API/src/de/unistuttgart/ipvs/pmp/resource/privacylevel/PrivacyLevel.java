@@ -46,24 +46,6 @@ public abstract class PrivacyLevel<T> {
      * 
      * @param locale
      *            the ISO-639 locale string available from {@link Locale#getLanguage()}
-     * @return the name of this privacy level for the given locale
-     */
-    public abstract String getName(String locale);
-    
-    
-    /**
-     * 
-     * @param locale
-     *            the ISO-639 locale string available from {@link Locale#getLanguage()}
-     * @return the description of this privacy level for the given locale
-     */
-    public abstract String getDescription(String locale);
-    
-    
-    /**
-     * 
-     * @param locale
-     *            the ISO-639 locale string available from {@link Locale#getLanguage()}
      * @return the human readable representation of the value for this privacy level for the given locale
      * @throws PrivacyLevelValueException
      *             if the supplied value does not match the format criteria.
