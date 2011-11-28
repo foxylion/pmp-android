@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.gui.util;
 
-import de.unistuttgart.ipvs.pmp.PMPApplication;
 import android.content.Context;
 import android.content.SharedPreferences;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 
 
 

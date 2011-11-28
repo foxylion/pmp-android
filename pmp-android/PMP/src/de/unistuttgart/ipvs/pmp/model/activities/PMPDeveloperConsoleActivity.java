@@ -67,7 +67,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_developer_console_activity);
+        setContentView(R.layout.activity_developer_console);
         setTitle("PMP Developer Console");
         registerListener();
     }

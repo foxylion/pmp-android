@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/apps_description" />
 
-        <include layout="@layout/divider_strong" />
+        <include layout="@layout/view_divider_strong" />
 
         <ListView
             android:id="@+id/ListView_Apps"

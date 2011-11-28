@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +7,8 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
  * The {@link SettingsActivity} enables the user to select between the expert mode and the normal mode.
@@ -22,7 +22,7 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_settings);
+        setContentView(R.layout.activity_settings);
         
         registerListener();
     }

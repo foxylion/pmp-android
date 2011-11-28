@@ -1,0 +1,32 @@
+- Einleitung
+Zweck
+Motivation
+
+- Funkt. Anforderungen
+Use Case
+
+- Prototyp
+
+
+USE CASES
++ Registrieren
++ Einloggen
++ Fahrt starten
++ Profil editieren
++ Profil anzeigen
+
++ Profil bewerten
++ Fahrten suchen
++ Einladungen bestätigen/ablehnen(Suchender)
++ Einladung verschicken/ ablehnen(Fahrer)
+
++ History anzeigen
++ Fahrtendetails in der History anzeigen
++ Historyeinträge löschen
++ Settings aufrufen
+
+
+Ressource Groups:
+	Profil Anonymität
+	GPS
+	Notifications(Android Notifications, Email, Toast)

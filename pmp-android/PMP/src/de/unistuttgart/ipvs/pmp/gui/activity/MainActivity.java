@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
  * The {@link MainActivity} is the startup activity for PMP. It is also available in the App-Drawer.
@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.pmp_main);
+        setContentView(R.layout.activity_main);
         
         registerListener();
         
