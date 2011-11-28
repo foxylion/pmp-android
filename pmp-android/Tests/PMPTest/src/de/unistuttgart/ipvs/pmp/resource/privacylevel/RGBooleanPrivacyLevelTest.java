@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: PMPTest
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,24 +33,6 @@ import de.unistuttgart.ipvs.pmp.Constants;
 public class RGBooleanPrivacyLevelTest extends AndroidTestCase {
     
     /**
-     * Default name and description
-     */
-    private static final String BPL_NAME = "BPL_NAME";
-    private static final String BPL_DESC = "BPL_DESC";
-    
-    /**
-     * Further locales, undefined should be undefined
-     */
-    private static final String STUPID_LOCALE = "ed";
-    private static final String UNDEFINED_LOCALE = "ede";
-    
-    /**
-     * Further name and description
-     */
-    private static final String BPL_STUPID_NAME = "BPL_EMAN";
-    private static final String BPL_STUPID_DESC = "BPL_CSED";
-    
-    /**
      * App idents, NO_APP_IDENT should not be an app
      */
     private static final String APP_1_IDENT = "APP_1";
@@ -69,7 +51,7 @@ public class RGBooleanPrivacyLevelTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.bpl = new BooleanPrivacyLevel(BPL_NAME, BPL_DESC);
+        this.bpl = new BooleanPrivacyLevel();
         this.hm = new HashMap<String, String>();
     }
     
@@ -93,66 +75,6 @@ public class RGBooleanPrivacyLevelTest extends AndroidTestCase {
             this.bpl.parseValue(NON_BOOLEAN_VALUE);
             fail();
         } catch (PrivacyLevelValueException plve) {
-        }
-    }
-    
-    
-    public void testGetName() {
-        assertEquals(BPL_NAME, this.bpl.getName(Constants.DEFAULT_LOCALE));
-    }
-    
-    
-    public void testGetDescription() {
-        assertEquals(BPL_NAME, this.bpl.getName(Constants.DEFAULT_LOCALE));
-    }
-    
-    
-    public void testSetNames() {
-        this.hm.put(Constants.DEFAULT_LOCALE, BPL_NAME);
-        this.hm.put(STUPID_LOCALE, BPL_STUPID_NAME);
-        this.bpl.setNames(this.hm);
-        
-        assertEquals(BPL_NAME, this.bpl.getName(Constants.DEFAULT_LOCALE));
-        assertEquals(BPL_STUPID_NAME, this.bpl.getName(STUPID_LOCALE));
-        assertEquals(BPL_NAME, this.bpl.getName(UNDEFINED_LOCALE));
-    }
-    
-    
-    /**
-     * Tests whether setNames() throws exceptions
-     */
-    public void testSetNamesFaulty() {
-        this.hm.put(STUPID_LOCALE, BPL_STUPID_NAME);
-        
-        try {
-            this.bpl.setNames(this.hm);
-            fail();
-        } catch (IllegalArgumentException iae) {
-        }
-    }
-    
-    
-    public void testSetDescriptions() {
-        this.hm.put(Constants.DEFAULT_LOCALE, BPL_DESC);
-        this.hm.put(STUPID_LOCALE, BPL_STUPID_DESC);
-        this.bpl.setDescriptions(this.hm);
-        
-        assertEquals(BPL_DESC, this.bpl.getDescription(Constants.DEFAULT_LOCALE));
-        assertEquals(BPL_STUPID_DESC, this.bpl.getDescription(STUPID_LOCALE));
-        assertEquals(BPL_DESC, this.bpl.getDescription(UNDEFINED_LOCALE));
-    }
-    
-    
-    /**
-     * Tests whether setDescriptions() throws exceptions
-     */
-    public void testSetDescriptionsFaulty() {
-        this.hm.put(STUPID_LOCALE, BPL_STUPID_NAME);
-        
-        try {
-            this.bpl.setDescriptions(this.hm);
-            fail();
-        } catch (IllegalArgumentException iae) {
         }
     }
     

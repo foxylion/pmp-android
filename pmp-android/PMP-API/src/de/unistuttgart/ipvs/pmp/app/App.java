@@ -236,7 +236,7 @@ public abstract class App extends Application {
      * 
      * @param <T>
      */
-    private class ResultObject<T> {
+    private static class ResultObject<T> {
         
         protected T result;
     }

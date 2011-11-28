@@ -42,7 +42,7 @@ public class ResourceGroupInstall extends BroadcastReceiver {
                     | PackageManager.GET_INTENT_FILTERS);
             if (pi.activities != null) {
                 for (ActivityInfo ai : pi.activities) {
-                    /*if (ai.name.equals(ResourceGroupActivity.class.getName())) {
+                    /*if (ai.name.equals(RGsActivity.class.getName())) {
                         Log.d(packageName + " :: " + ai.name + " will be started now.");
                         Intent i = new Intent();
                         i.setClassName(packageName, ai.name);

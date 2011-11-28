@@ -23,7 +23,7 @@ public class BasicTitleView extends LinearLayout {
     /**
      * Context referenced in some methods.
      */
-    private Context context;
+    protected Context context;
     
     /**
      * The icon displayed on the left side of the title.
@@ -34,8 +34,20 @@ public class BasicTitleView extends LinearLayout {
     /**
      * The title which should be displayed.
      */
-    private String name;
+    private String title;
     
+    
+    /**
+     * @see LinearLayout#LinearLayout(Context)
+     */
+    public BasicTitleView(Context context) {
+        super(context);
+        
+        this.context = context;
+        
+        title = "";
+        icon = R.drawable.icon_undefined;
+    }
     
     /**
      * @see LinearLayout#LinearLayout(Context, AttributeSet)
@@ -47,7 +59,7 @@ public class BasicTitleView extends LinearLayout {
         
         /* Load the styles from the xml assigned values */
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
-        name = a.getString(R.styleable.BasicTitleView_name);
+        title = a.getString(R.styleable.BasicTitleView_name);
         icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
     }
     
@@ -57,10 +69,7 @@ public class BasicTitleView extends LinearLayout {
         super.onFinishInflate();
         
         if (!isInEditMode()) {
-            /* Not in edit mode, load the xml-layout. */
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            addView(layoutInflater.inflate(R.layout.view_basictitle, null));
-            
+            createLayout();
             refresh();
         } else {
             /* In edit mode, just load a very basic representation of the real contents. */
@@ -78,15 +87,21 @@ public class BasicTitleView extends LinearLayout {
         }
     }
     
+    protected void createLayout() {
+        /* load the xml-layout. */
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        addView(layoutInflater.inflate(R.layout.view_basictitle, null));
+    }
+    
     
     /**
-     * Assign an new name to the title.
+     * Assign an new title to the view.
      * 
-     * @param name
-     *            new name to be set
+     * @param title
+     *            new title to be set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
         refresh();
     }
     
@@ -117,12 +132,12 @@ public class BasicTitleView extends LinearLayout {
     
     
     /**
-     * Refreshes the icon and name after a change.
+     * Refreshes the icon and title after a change.
      */
-    private void refresh() {
+    protected void refresh() {
         TextView tv = (TextView) findViewById(R.id.TextView_Title);
         if (tv != null) {
-            tv.setText(name);
+            tv.setText(title);
         }
         
         ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);

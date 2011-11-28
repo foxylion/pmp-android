@@ -5,10 +5,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
 import de.unistuttgart.ipvs.pmp.gui.placeholder.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class AppServiceFeaturesTab extends Activity {
@@ -18,6 +21,22 @@ public class AppServiceFeaturesTab extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.tab_app_sfs);
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        /* Switch between Expert Mode and Normal Mode */
+        TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
+        TextView tvDescriptionExpertMode = (TextView) findViewById(R.id.TextView_Description_Expert);
+        if (PMPPreferences.getInstanace().isExpertMode()) {
+            tvDescriptionNormalMode.setVisibility(View.GONE);
+            tvDescriptionExpertMode.setVisibility(View.VISIBLE);
+        } else {
+            tvDescriptionNormalMode.setVisibility(View.VISIBLE);
+            tvDescriptionExpertMode.setVisibility(View.GONE);
+        }
         
         /* Temporary bad stuff, to Test the Activity */
         List<IServiceFeature> sfs_enabled = new ArrayList<IServiceFeature>();
