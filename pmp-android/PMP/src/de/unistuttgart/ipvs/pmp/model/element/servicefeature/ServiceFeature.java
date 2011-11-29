@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -19,6 +20,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
      * identifying attributes
      */
     protected IApp app;
+    protected String localIdentifier;
     
     /**
      * localized values
@@ -31,24 +33,23 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
      */
     protected Map<PrivacySetting, String> privacyLevelValues;
     protected boolean available;
-
     
     
     /* organizational */
     
-    public ServiceFeature(String identifier) {
-        super(identifier);
+    public ServiceFeature(App app, String identifier) {
+        super(app.getIdentifier() + PersistenceConstants.PACKAGE_SEPARATOR + identifier);
+        this.app = app;
+        this.localIdentifier = identifier;
     }
     
     
     /* interface */
     
-    
     @Override
     public IApp getApp() {
         return this.app;
     }
-    
     
     
     @Override
@@ -80,18 +81,17 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public boolean isAvailable() {
-        checkCached();
-        return this.available;
+        checkCached(); // TODO
+        return false;
     }
-
-
+    
+    
     @Override
     public String getLocalIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.localIdentifier;
     }
-
-
+    
+    
     @Override
     public boolean isActive() {
         // TODO Auto-generated method stub

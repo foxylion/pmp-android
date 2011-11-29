@@ -22,35 +22,14 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.Constants;
-import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
+import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
  * <p>
- * External service for communication between PMP, the {@link IResourceGroup} and {@link IApp}. <br>
+ * External service for communication between PMP and the {@link App}. <br>
  * <b>Normally you will use the {@link PMPServiceConnector} for connection the {@link PMPService}. </b>
- * </p>
- * 
- * <p>
- * The Service requires several informations in the intent, used to bind the {@link PMPService}, put as extra into the
- * {@link Intent}.
- * </p>
- * 
- * <pre>
- * intent.putExtraString(Constants.INTENT_TYPE, PMPComponentType.*.toString());
- * intent.putExtraString(Constants.INTENT_IDENTIFIER, &lt;App/ResourceGroup-Identifier>);
- * intent.putExtraByteArray(Constants.INTENT_SIGNATURE, {@link PMPSignee} signing {@link PMPService} identifier);
- * </pre>
- * 
- * <p>
- * The signature is optional, if you do not sent a signature, the Service will handle the binding as an registration and
- * gives back the {@link IPMPServiceRegistration} Binder.<br/>
- * With a valid token the {@link IPMPServiceResourceGroup} or {@link IPMPServiceApp} Binder will be given back.<br>
- * 
- * If an authentification fails the Service will give back null.
  * </p>
  * 
  * @author Jakob Jarosch

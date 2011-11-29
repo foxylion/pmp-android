@@ -28,6 +28,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 
 /**
@@ -47,7 +48,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     /**
      * Current database version.
      */
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     
     /**
      * The context used to open the files from assets folder.
@@ -55,15 +56,19 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private Context context;
     
     /**
+     * The query builder
+     */
+    private SQLiteQueryBuilder sqlqb;
+    
+    /**
      * List of all SQL-files for database-creation, the key is the version of the database.
      */
-    private static final String[] SQL_FILES = new String[] { null, "database-v1.sql" };
+    private static final String[] SQL_FILES = new String[] { null, "database-v1.sql", "database-v2.sql" };
     
     /**
      * List of all SQL-files for database-clean, the key is the version of the database.
      */
-    private static final String[] CLEAN_SQL_FILES = new String[] { null, "database-v1-clean.sql" };
-    
+    private static final String[] CLEAN_SQL_FILES = new String[] { null, "database-v1-clean.sql", "database-v2-clean.sql" };       
     
     /**
      * DatabaseHelper-Constructor.
@@ -71,6 +76,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public DatabaseOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+        this.sqlqb = new SQLiteQueryBuilder();
     }
     
     
@@ -81,12 +87,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("creating database structure.");
         
-        String sqlQueries = readSqlFile(SQL_FILES[1]);
+        String sqlQueries = readSqlFile(SQL_FILES[DB_VERSION]);
         
         if (sqlQueries != null) {
-            Log.d("Successfully read the database from " + SQL_FILES[1] + ", executing now...");
+            Log.d("Successfully read the database from " + SQL_FILES[DB_VERSION] + ", executing now...");
             DatabaseOpenHelper.executeMultipleQueries(db, sqlQueries);
-            Log.d("Created the database (with, or without errors, see above).");
+            Log.d("Created the database (with or without errors, see above).");
         }
     }
     
@@ -96,7 +102,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        throw new UnsupportedOperationException("only version 1 of database exists.");
+        throw new UnsupportedOperationException("Upgrading of databases is not supported in development stage.");
     }
     
     
@@ -106,10 +112,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void cleanTables() {
         Log.d("Cleaning database.");
         
-        String sqlQueries = readSqlFile(CLEAN_SQL_FILES[1]);
+        String sqlQueries = readSqlFile(CLEAN_SQL_FILES[DB_VERSION]);
         
         if (sqlQueries != null) {
-            Log.d("Successfully read the queries from " + CLEAN_SQL_FILES[1] + ", executing now...");
+            Log.d("Successfully read the queries from " + CLEAN_SQL_FILES[DB_VERSION] + ", executing now...");
             DatabaseOpenHelper.executeMultipleQueries(getWritableDatabase(), sqlQueries);
             Log.d("Cleaned database (with, or without errors, see above).");
         }
@@ -184,4 +190,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         
         Log.v("-------     End of SQL-Queries     ------");
     }
+    
+    public SQLiteQueryBuilder builder() {
+        return this.sqlqb;
+    }
+    
 }

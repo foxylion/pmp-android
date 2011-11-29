@@ -9,9 +9,9 @@ import java.util.Observer;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -30,7 +30,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersi
  * @author Tobias Kuhn
  * 
  */
-public class PersistenceProvider extends Observable {
+public class PersistenceProvider extends Observable implements PersistenceConstants {
     
     /**
      * Singleton stuff
@@ -159,7 +159,7 @@ public class PersistenceProvider extends Observable {
         
         SQLiteDatabase db = this.doh.getReadableDatabase();
         
-        cacheAppsSLs(db);
+        cacheAppsSFs(db);
         cacheRGsPLs(db);
         cachePresets(db);
         
@@ -175,34 +175,39 @@ public class PersistenceProvider extends Observable {
      * 
      * @param db
      */
-    private void cacheAppsSLs(SQLiteDatabase db) {
-        Cursor appCursor = db.rawQuery("SELECT Identifier FROM App", null);
+    private void cacheAppsSFs(SQLiteDatabase db) {
+        SQLiteQueryBuilder builder = this.doh.builder();
+        builder.setTables(TBL_APP);
+        
+        Cursor appCursor = builder.query(db, new String[] { PACKAGE }, null, null, null, null, null);
         appCursor.moveToNext();
         
         while (!appCursor.isAfterLast()) {
-            String appIdentifier = appCursor.getString(appCursor.getColumnIndex("Identifier"));
-            App app = new App(appIdentifier);
+            String appPackage = appCursor.getString(appCursor.getColumnIndex(PACKAGE));
+            App app = new App(appPackage);
             app.setPersistenceProvider(new AppPersistenceProvider(app));
             
-            List<ServiceFeature> thisAppsSLs = new ArrayList<ServiceFeature>();
+            List<ServiceFeature> thisAppsSFs = new ArrayList<ServiceFeature>();
             
-            // find the local SLs (don't think join is a wise idea)
-            Cursor slCursor = db.rawQuery("SELECT Level FROM ServiceFeature WHERE App_Identifier = ? ORDER BY Level ASC",
-                    new String[] { appIdentifier });
-            slCursor.moveToNext();
-            while (!slCursor.isAfterLast()) {
-                int slLevel = slCursor.getInt(slCursor.getColumnIndex("Level"));
-                ServiceFeature sl = new ServiceFeature("STFU");
-                // TODO
-                sl.setPersistenceProvider(new ServiceFeaturePersistenceProvider(sl));
+            // find the local SFs (don't think join is a wise idea)
+            builder.setTables(TBL_SERVICEFEATURE);
+            
+            Cursor sfCursor = builder.query(db, new String[] { IDENTIFIER }, APP_PACKAGE + " = ?",
+                    new String[] { appPackage }, null, null, null);
+            sfCursor.moveToNext();
+            while (!sfCursor.isAfterLast()) {
+                String sfIdentifier = sfCursor.getString(sfCursor.getColumnIndex(IDENTIFIER));
+                ServiceFeature sf = new ServiceFeature(app, sfIdentifier);
+                sf.setPersistenceProvider(new ServiceFeaturePersistenceProvider(sf));
                 
-                thisAppsSLs.add(sl);
-                slCursor.moveToNext();
+                thisAppsSFs.add(sf);
+                sfCursor.moveToNext();
             }
+            sfCursor.close();
             
             // finalize App
-            this.cache.getServiceLevels().put(app, thisAppsSLs);
-            this.cache.getApps().put(appIdentifier, app);
+            this.cache.getServiceLevels().put(app, thisAppsSFs);
+            this.cache.getApps().put(appPackage, app);
             appCursor.moveToNext();
         }
         appCursor.close();
@@ -215,33 +220,36 @@ public class PersistenceProvider extends Observable {
      * @param db
      */
     private void cacheRGsPLs(SQLiteDatabase db) {
-        Cursor rgCursor = db.rawQuery("SELECT Identifier FROM ResourceGroup", null);
+        SQLiteQueryBuilder builder = this.doh.builder();
+        builder.setTables(TBL_RESOURCEGROUP);
+        
+        Cursor rgCursor = builder.query(db, new String[] { PACKAGE }, null, null, null, null, null);
         rgCursor.moveToNext();
         
         while (!rgCursor.isAfterLast()) {
-            String rgIdentifier = rgCursor.getString(rgCursor.getColumnIndex("Identifier"));
-            ResourceGroup rg = new ResourceGroup(rgIdentifier);
+            String rgPackage = rgCursor.getString(rgCursor.getColumnIndex(PACKAGE));
+            ResourceGroup rg = new ResourceGroup(rgPackage);
             rg.setPersistenceProvider(new ResourceGroupPersistenceProvider(rg));
             
             Map<String, PrivacySetting> thisRGsPLs = new HashMap<String, PrivacySetting>();
             
-            // find the local PLs (don't think join is a wise idea)
-            Cursor plCursor = db.rawQuery("SELECT Identifier FROM PrivacySetting WHERE ResourceGroup_Identifier = ?",
-                    new String[] { rgIdentifier });
-            plCursor.moveToNext();
-            while (!plCursor.isAfterLast()) {
-                String plIdentifier = plCursor.getString(plCursor.getColumnIndex("Identifier"));
-                // TODO
-                PrivacySetting pl = new PrivacySetting("STFU");
-                pl.setPersistenceProvider(new PrivacySettingPersistenceProvider(pl));
+            // find the local PSs (don't think join is a wise idea)
+            builder.setTables(TBL_PRIVACYSETTING);
+            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?", new String[] { rgPackage }, null, null, null);
+            psCursor.moveToNext();
+            while (!psCursor.isAfterLast()) {
+                String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
+                PrivacySetting ps = new PrivacySetting(rg, plIdentifier);
+                ps.setPersistenceProvider(new PrivacySettingPersistenceProvider(ps));
                 
-                thisRGsPLs.put(plIdentifier, pl);
-                plCursor.moveToNext();
+                thisRGsPLs.put(plIdentifier, ps);
+                psCursor.moveToNext();
             }
+            psCursor.close();
             
             // finalize RG
             this.cache.getPrivacyLevels().put(rg, thisRGsPLs);
-            this.cache.getResourceGroups().put(rgIdentifier, rg);
+            this.cache.getResourceGroups().put(rgPackage, rg);
             rgCursor.moveToNext();
         }
         rgCursor.close();
@@ -254,19 +262,23 @@ public class PersistenceProvider extends Observable {
      * @param db
      */
     private void cachePresets(SQLiteDatabase db) {
-        Cursor cursor = db.rawQuery("SELECT Identifier, Type FROM Preset", null);
+        SQLiteQueryBuilder builder = this.doh.builder();
+        builder.setTables(TBL_PRESET);
+        
+       
+        Cursor cursor = builder.query(db, new String[] { CREATOR, IDENTIFIER }, null, null, null, null, null);
         cursor.moveToNext();
         
         while (!cursor.isAfterLast()) {
-            String identifier = cursor.getString(cursor.getColumnIndex("Identifier"));
-            String type = cursor.getString(cursor.getColumnIndex("Type"));
-            Preset p = new Preset("STFU");
-            // TODO
+            String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
+            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
+            Preset p = new Preset(creator, identifier);
             p.setPersistenceProvider(new PresetPersistenceProvider(p));
             
             this.cache.getPresets().add(p);
             cursor.moveToNext();
         }
+        cursor.close();
         
     }
     

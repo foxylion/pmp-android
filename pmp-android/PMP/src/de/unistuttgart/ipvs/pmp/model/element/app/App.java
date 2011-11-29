@@ -39,8 +39,8 @@ public class App extends ModelElement implements IApp {
     
     /* organizational */
     
-    public App(String identifier) {
-        super(identifier);
+    public App(String appPackage) {
+        super(appPackage);
     }
     
     

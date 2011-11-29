@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.IPCProvider;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -15,6 +16,12 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
  * 
  */
 public class Preset extends ModelElement implements IPreset {
+    
+    /**
+     * identifying attributes
+     */
+    protected String creator;
+    protected String localIdentifier;
     
     /**
      * localized values
@@ -33,8 +40,10 @@ public class Preset extends ModelElement implements IPreset {
     
     /* organizational */
     
-    public Preset(String identifier) {
-        super(identifier);
+    public Preset(String creator, String identifier) {
+        super(creator + PersistenceConstants.PACKAGE_SEPARATOR + identifier);
+        this.creator = creator;
+        this.localIdentifier = identifier;
     }
     
     

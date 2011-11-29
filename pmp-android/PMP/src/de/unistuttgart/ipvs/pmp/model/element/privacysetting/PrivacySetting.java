@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -16,6 +17,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
      * identifying attributes
      */
     private ResourceGroup resourceGroup;
+    private String localIdentifier;
     
     /**
      * localized values
@@ -30,8 +32,10 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     /* organizational */
     
-    public PrivacySetting(String identifier) {
-        super(identifier);
+    public PrivacySetting(ResourceGroup resourceGroup, String identifier) {
+        super(resourceGroup.getIdentifier() + PersistenceConstants.PACKAGE_SEPARATOR + identifier);
+        this.resourceGroup = resourceGroup;
+        this.localIdentifier = identifier;
     }
     
     
@@ -59,8 +63,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public String getLocalIdentifier() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.localIdentifier;
     }
     
     

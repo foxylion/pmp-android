@@ -35,8 +35,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     /* organizational */
     
-    public ResourceGroup(String identifier) {
-        super(identifier);
+    public ResourceGroup(String rgPackage) {
+        super(rgPackage);
     }
     
     
