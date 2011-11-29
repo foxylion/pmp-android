@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/driverview_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,7 +13,7 @@
         android:clickable="true" />
 
     <Button
-        android:id="@+id/btn1"
+        android:id="@+id/Button_MyLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -52,4 +52,4 @@
         </LinearLayout>
     </SlidingDrawer>
 
-</LinearLayout>
+</RelativeLayout>
