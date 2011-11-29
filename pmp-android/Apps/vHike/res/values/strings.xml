@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World!</string>
-    <string name="app_name">vHike</string>
+    <string name="hello">Hello World, VHike_PrototypActivity!</string>
+    <string name="app_name">VHike_Prototyp</string>
+    <string name="main_title">vHike</string>
+    <string name="main_profile">Profile</string>
+    <string name="main_history">History</string>
+    <string name="main_settings">Settings</string>
+    <string name="main_drive">Drive</string>
+    <string name="main_ride">Ride</string>
+    <string name="main_searchingpassenger">Search</string>
 
 </resources>
