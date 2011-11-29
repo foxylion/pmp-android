@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/passengerview_layout"
+    android:id="@+id/driverview_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -11,6 +11,14 @@
         android:layout_height="fill_parent"
         android:apiKey="0g5_Yo4upMXGAgd_dztapbHX3eTL7U2-lt37yPQ"
         android:clickable="true" />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="My Location" />
 
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
@@ -23,7 +31,7 @@
             android:id="@+id/drawerHandle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:src="@layout/passenger_tab_selector" >
+            android:src="@drawable/passenger_tab_selector" >
         </ImageView>
 
         <LinearLayout
@@ -39,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:cacheColorHint="#00000000"
-                android:src="@layout/passenger_tab_selector" >
+                android:src="@drawable/passenger_tab_selector" >
             </ListView>
         </LinearLayout>
     </SlidingDrawer>
