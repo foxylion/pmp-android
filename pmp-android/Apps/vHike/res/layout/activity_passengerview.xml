@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/passengerview_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <com.google.android.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="0g5_Yo4upMXGAgd_dztapbHX3eTL7U2-lt37yPQ"
+        android:clickable="true" />
+
+    <SlidingDrawer
+        android:id="@+id/slidingDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:content="@+id/contentLayout"
+        android:handle="@+id/drawerHandle" >
+
+        <ImageView
+            android:id="@+id/drawerHandle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@layout/passenger_tab_selector" >
+        </ImageView>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/contentLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/slider_bg"
+            android:gravity="center" >
+
+            <ListView
+                android:id="@+id/ListView_Passengers"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"
+                android:src="@layout/passenger_tab_selector" >
+            </ListView>
+        </LinearLayout>
+    </SlidingDrawer>
+
+</LinearLayout>
