@@ -70,8 +70,8 @@
 <pre>
 {
   "successfull": false,
-  "error": &lt;FEHLER_CODE&gt;,
-  "msg": &lt;FEHLER_BESCHREIBUNG&gt;
+  "error": String,
+  "msg": String;
 }                                 
 </pre>
       <p>
@@ -80,10 +80,10 @@
         <ul>
           <li><code>NOT_LOGGED_IN</code> - der Benutzer ist nicht angemeldet, die
             Ausführung der Anfrage erfordert dies jedoch</li>
-          <li><code>DB-TABLE_NOT_FOUND</code> - interner Fehler. Die für die Bearbeitung
+          <li><code>DATABASE-TABLE_NOT_FOUND</code> - interner Fehler. Die für die Bearbeitung
             der Anfrage benötigte Tabelle in der Datenbank konnte nicht gefunden bzw.
             geöffnet werden</li>
-          <li><code>CANNOT_CONNECT_TO_DB</code> - interner Fehler. Die Verbindung
+          <li><code>CANNOT_CONNECT_TO_DATABASE</code> - interner Fehler. Die Verbindung
             zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>
         </ul>
         Diese Fehler-Codes dienen hauptsächlich zur einfachen Fallunterscheidung
@@ -114,7 +114,95 @@
         Fehler zurückgegeben (siehe vorhergehender Abschnitt).
       </p>
       
-      <h3 id="interface_query_login">Login</h3>
+      <h3 id="interface_query_types">Wertetypen</h3>
+      <p>
+        Gegenwärtig werden folgende Wertetypen für die Parameter verwendet:
+        <ul>
+          <li>Boolean: Wird als Zeichenkette <code>true</code> oder <code>false</code>
+            übergeben. Zeichenketten, die nicht <code>true</code> entsprechen, darunter
+            auch leere Zeichenketten, werden (sofern nichts anderes vermerkt), als
+            <code>false</code> interpretiert</li>
+          <li>Integer</li>
+          <li>Float</li>
+          <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>
+          <li>Data</li>
+        </ul>
+      </p>
+
+      <h3 id="interface_query_register">Registrieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>register.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Registriert einen neuen Benutzer im System. Nach erfolgreicher Registrierung
+            wird dem Benutzer an seine angegebene E-Mail-Adresse ein Link zu geschickt.
+            Durch öffnen dieses Links wird das Benutzerkonto aktiviert. Danach
+            kann sich der Benutzer im System anmelden.</td>
+        </tr>     
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>username</code> - String: Der gewünschte Benutzername des neuen Kontos</li>
+              <li><code>password</code> - String: Das gewünschte Passwort als Reintext (nicht gehasht)</li>
+              <li><code>email</code> - String: Die E-Mail-Adresse des Benutzer</li>
+              <li><code>firstname</code> - String: Vorname des Benutzers</li>
+              <li><code>lastname</code> - String: Nachname des Benutzers</li>
+              <li><code>tel</code> - String: Telefonnummer des Benutzers</li>
+              <li><code>description</code> - String: Eine kurze Beschreibung, die
+                der Benutzer seinem Konto hinzufügen kann</li>
+              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefonnummer
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successfull": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>status</code> - Gibt an, ob das Konto angelegt werden konnte.
+                Wurde das Konto angelegt, ist <code>status</code> auf <code>registered</code>
+                gesetzt. War die Registrierung nicht möglich, ist das Feld auf
+                <code>invalid: {(username_exists|email_exists|<br />invalid_(username|password|firstname|lastname|tel)),}</code>gesetzt.
+                Ein Fehlschlag tritt u.A. auf, wenn ein Pflichtfeld (alle außer
+                <code>description</code>) nicht angegeben wurde, es in ungültiges 
+                Format hat (z.B. die angegebene E-Mail kein "@" enthält) oder zu lang
+                ist (i.A. max. 100 Zeichen je Feld)</li>
+              </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_query_login">Anmelden</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -147,7 +235,7 @@
 <pre>
 {
   "successfull": true,
-  "logged_in": true/false,
+  "status": String,
   "sid": HEX-String
 }                                 
 </pre>  
@@ -157,8 +245,12 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
             <ul>
-              <li><code>logged_in</code> - true, wenn der Benutzer erfolgreich
-                angemeldet wurde, sonst false</li>
+              <li><code>status</code> - gibt an, ob der Benutzer angemeldet wurde.
+                Konnte die Anmeldung durchgeführt werden, so ist <code>status</code>
+                auf <code>logged_in</code> gesetzt. Waren Benutzername oder Passwort
+                ungültig, ist das Feld auf <code>invalid</code> gesetzt. Sind die 
+                Daten korrekt, der Benutzer hat sein Konto aber noch nicht aktiviert,
+                wird der Wert auf <code>inactivated</code> gesetzt</li>
               <li><code>sid</code> - Session-ID, unter der die Daten des soeben
                 angemeldeten Benutzer auf dem Server zwischengespeichert wurden.
                 Genau dieser HEX-String muss allen Nachfolgenden Skripten im
@@ -169,7 +261,7 @@
       </table>
       
           
-      <h3 id="interface_query_logout">Logout</h3>
+      <h3 id="interface_query_logout">Abmelden</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
