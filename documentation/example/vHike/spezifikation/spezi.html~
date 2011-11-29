@@ -42,6 +42,12 @@
 			Rahmen dieses Projektes als Beispiel App implementiert werden.
 			„vHike“ sollte die Funktionalitäten von „PMP“ aufzeigen und diese in den Vordergrund stellen.
 		</p>
+		<h1 id="ext_libs">Externe Bibliotheken</h1>
+		<p>
+			Beim Einsatz werden unteranderem auch externe Bibliotheken eingesetzt.
+			In diesem Falle ist es die GSON Bilbiothek von Google.
+			
+		</p>
       <h1 id="funkt_anforderungen">Funktionale Anforderungen</h1>
       <h2 id="use_cases">Use Cases</h2>
       <p>
