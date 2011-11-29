@@ -91,8 +91,6 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         this.cache = null;
         setChanged();
         notifyObservers(this.cache);
-        
-        System.gc();
     }
     
     
