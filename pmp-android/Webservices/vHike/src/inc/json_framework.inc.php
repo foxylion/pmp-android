@@ -17,6 +17,7 @@ require ("../inc/config.inc.php");
 // Load class-files
 require ("../inc/class/database.class.php");
 require ("../inc/class/json.class.php");
+require ("../inc/class/user.class.php");
 
 // Connect to database
 try {

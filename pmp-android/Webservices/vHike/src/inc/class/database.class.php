@@ -75,6 +75,15 @@ class Database {
 
         return $result;
     }
+    
+    /**
+     * Escapes dangerous squences in a user input to avoid SQL injection
+     * @param type $input
+     * @return type 
+     */
+    public function secureInput($input) {
+        return mysql_real_escape_string($input);
+    }
 
     /**
      * Disconnects from the database if connection has been established before

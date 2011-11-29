@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+        <h1>Register form</h1>
+        <form action="register.php" method="post">
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><input name="username" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input name="password" type="password" /></td>
+                </tr>
+                <tr>
+                    <td>E-Mail:</td>
+                    <td><input name="email" type="text" /></td>
+                    <td><input type="checkbox" name="email_public" value="true" />Public</td>
+                </tr>
+                <tr>
+                    <td>Firstname:</td>
+                    <td><input name="firstname" type="text" /></td>
+                    <td><input type="checkbox" name="firstname_public" value="true" />Public</td>
+                </tr>
+                <tr>
+                    <td>Lastname:</td>
+                    <td><input name="lastname" type="text" /></td>
+                    <td><input type="checkbox" name="lastname_public" value="true" />Public</td>
+                </tr>
+                <tr>
+                    <td>Tel.:</td>
+                    <td><input name="tel" type="text" /></td>
+                    <td><input type="checkbox" name="tel_public" value="true" />Public</td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td><input name="description" type="text" /></td>
+                    <td>(Optional)</td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td colspan="2"><input type="submit" /><input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
