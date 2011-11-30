@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		btnRide.setOnClickListener(new OnClickListener(){
+		btnHistory.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
