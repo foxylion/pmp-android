@@ -56,7 +56,7 @@ public interface IApp {
     
     
     /**
-     * @return an icon associated with this application
+     * @return an icon associated with this application or null if none found
      */
     public Drawable getIcon();
     
@@ -72,7 +72,7 @@ public interface IApp {
      * 
      * @param serviceFeatureIdentifier
      *            identifier of the {@link IServiceFeature}
-     * @return the {@link IServiceFeature} with the specified identifier for this app
+     * @return the {@link IServiceFeature} with the specified identifier for this app, or null, if none exists
      */
     public IServiceFeature getServiceFeature(String serviceFeatureIdentifier);
     

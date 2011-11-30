@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -28,7 +29,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb) {/*
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {/*
         Cursor c = rdb.rawQuery("SELECT Name, Description FROM Preset WHERE Identifier = ? AND Type = ? LIMIT 1",
                 new String[] { this.element.getIdentifier(), this.element.getType().toString() });
         
@@ -91,7 +92,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb) {/*
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {/*
         ContentValues cv = new ContentValues();
         cv.put("Name", this.element.name);
         cv.put("Description", this.element.description);
@@ -102,7 +103,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    protected void deleteElementData(SQLiteDatabase wdb) {
+    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // TODO Auto-generated method stub
         
     }

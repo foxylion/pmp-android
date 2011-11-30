@@ -27,7 +27,7 @@ public class ModelCache {
     private List<Preset> presets;
     private Map<ResourceGroup, Map<String, PrivacySetting>> privacySettings;
     private Map<String, ResourceGroup> resourceGroups;
-    private Map<App, List<ServiceFeature>> serviceFeatures;
+    private Map<App, Map<String, ServiceFeature>> serviceFeatures;
     
     
     public ModelCache() {
@@ -35,7 +35,7 @@ public class ModelCache {
         this.presets = new ArrayList<Preset>();
         this.privacySettings = new HashMap<ResourceGroup, Map<String, PrivacySetting>>();
         this.resourceGroups = new HashMap<String, ResourceGroup>();
-        this.serviceFeatures = new HashMap<App, List<ServiceFeature>>();
+        this.serviceFeatures = new HashMap<App, Map<String, ServiceFeature>>();
     }
     
     
@@ -59,7 +59,7 @@ public class ModelCache {
     }
     
     
-    public Map<App, List<ServiceFeature>> getServiceLevels() {
+    public Map<App, Map<String, ServiceFeature>> getServiceLevels() {
         return this.serviceFeatures;
     }
     

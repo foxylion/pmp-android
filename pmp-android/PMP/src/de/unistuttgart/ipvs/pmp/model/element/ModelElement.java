@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.model.element;
 
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 
 /**
@@ -107,6 +112,28 @@ public abstract class ModelElement {
     
     
     /**
+     * <p>
+     * Deletes this element non-reversibly. Does not update the {@link ModelCache}.
+     * </p>
+     * 
+     * <p>
+     * <b>You should NEVER need to call this method outside of the model.</b> It will be automatically called for you by
+     * the {@link PersistenceProvider}.
+     * </p>
+     * 
+     */
+    public void delete() {
+        // assure persistence != null and all data available
+        if (!checkCached()) {
+            Log.e("Could not cache an item which should be deleted.");
+            throw new IllegalAccessError();
+        }
+        
+        persistenceProvider.deleteElementData();
+    }
+    
+    
+    /**
      * Persists this element, i.e. writes its contents to the persistence layer.
      * 
      * @throws IllegalStateException
@@ -135,6 +162,22 @@ public abstract class ModelElement {
      */
     public boolean isCached() {
         return this.cached;
+    }
+    
+    
+    /**
+     * Fetches the resources that the identifier package contains.
+     * 
+     * @param context
+     *            context to fetch the package manager
+     * @return the {@link Resources} for the identifier package
+     */
+    public Resources resourcesOfIdentifierPackage(Context context) {
+        try {
+            return context.getPackageManager().getResourcesForApplication(getIdentifier());
+        } catch (NameNotFoundException nnfe) {
+            return null;
+        }
     }
     
 }

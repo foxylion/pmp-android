@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 
@@ -22,7 +23,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         Cursor c = rdb.rawQuery("SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
                 new String[] { this.element.getIdentifier() });
         
@@ -44,7 +45,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
@@ -54,7 +55,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
 
 
     @Override
-    protected void deleteElementData(SQLiteDatabase wdb) {
+    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // TODO Auto-generated method stub
         
     }

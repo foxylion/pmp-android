@@ -87,4 +87,14 @@ public interface PersistenceConstants {
      * constant that should never appear in package names.
      */
     static final String PACKAGE_SEPARATOR = "$";
+
+    /**
+     * The XML file name for apps.
+     */
+    public static final String APP_XML_NAME = "AppInformation.xml";
+    
+    /**
+     * The XML file name for rgs.
+     */
+    public static final String RG_XML_NAME = "RGInformation.xml";
 }
