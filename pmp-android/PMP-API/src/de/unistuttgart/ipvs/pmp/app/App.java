@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
@@ -48,7 +47,7 @@ public abstract class App extends Application {
      *            description XML) to booleans (true for granted i.e. active, false for not granted)
      */
     public final void updateServiceFeatures(Bundle features) {
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences app_preferences = this.getSharedPreferences("serviceFeatures", 0);
         SharedPreferences.Editor editor = app_preferences.edit();
         // Storing all key value pairs at the preferences
         for (String key : features.keySet()) {
@@ -266,7 +265,7 @@ public abstract class App extends Application {
     public final Boolean isServiceFeatureEnabled(String featureIdentifier) {
         // Putting the prefix in front the key
         String prefixKey = Constants.SERVICE_FEATURE_PREFIX + featureIdentifier;
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences app_preferences = this.getSharedPreferences("serviceFeatures", 0);
         return app_preferences.getBoolean(prefixKey, false);
     }
     
