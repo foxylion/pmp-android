@@ -145,11 +145,11 @@ public class ImportActivity extends ListActivity {
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
-            if (Model.getInstance().getServiceLevel() >= 6) {
-                FileSystemConnector.getInstance().deleteFile(clicked);
-            } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-            }
+//            if (Model.getInstance().getServiceLevel() >= 6) {
+//                FileSystemConnector.getInstance().deleteFile(clicked);
+//            } else {
+//                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+//            }
             return true;
         }
         return false;

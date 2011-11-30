@@ -45,8 +45,7 @@ public class CalendarApp extends App {
     
     @Override
     public void updateServiceFeatures(Bundle features) {
-        // TODO Auto-generated method stub
-        
+        Model.getInstance().setServiceFeatures(features);
     }
     
     /*
@@ -105,18 +104,14 @@ public class CalendarApp extends App {
      * Changes the functionality of the app according to its set ServiceLevel
      */
     public void changeFunctionalityAccordingToServiceLevel() {
-        Log.d("Changing ServiceLevel to level " + String.valueOf(Model.getInstance().getServiceLevel()));
         
-        // Get the service level
-        final int serviceLevel = Model.getInstance().getServiceLevel();
-        
-        if (serviceLevel == 0) {
-            // null level
-            Model.getInstance().clearLocalList();
-        } else {
-            // Read files
-            SqlConnector.getInstance().loadAppointments();
-        }
+//        if (serviceLevel == 0) {
+//            // null level
+//            Model.getInstance().clearLocalList();
+//        } else {
+//            // Read files
+//            SqlConnector.getInstance().loadAppointments();
+//        }
         
         /*
          * Listener for clicking one item. Opens a new dialog where the user can
@@ -126,10 +121,10 @@ public class CalendarApp extends App {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (serviceLevel >= 2) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
-                    changeDateDialog.show();
-                }
+//                if (serviceLevel >= 2) {
+//                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
+//                    changeDateDialog.show();
+//                }
             }
         });
         
