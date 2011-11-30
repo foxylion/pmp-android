@@ -23,26 +23,12 @@ public class HistoryActivity extends Activity {
 	}
 
 	private void registerListener() {
-		Button btnDrive = (Button) findViewById(R.id.Button_Drive);
-		Button btnSearch = (Button) findViewById(R.id.Button_Search);
+//		Button btnDrive = (Button) findViewById(R.id.Button_Drive);
+//		Button btnSearch = (Button) findViewById(R.id.Button_Search);
 
-		btnDrive.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HistoryActivity.this,
-						DriverViewActivity.class);
-				HistoryActivity.this.startActivity(intent);
-			}
-		});
 
-		btnSearch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HistoryActivity.this,
-						PassengerViewActivity.class);
-				HistoryActivity.this.startActivity(intent);
-			}
-		});
+
+
 	}
 
 }

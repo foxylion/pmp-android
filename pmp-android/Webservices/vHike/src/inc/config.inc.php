@@ -8,6 +8,9 @@ error_reporting(E_ALL);
 define("DEBUG",     true);
 define("FORMAT_JSON", true);
 
+define("BASE_URL", "vhike.no-ip.org");
+define("ADMIN_EMAIL", "admin@vhike.no-ip.org");
+
 define("DB_HOST",   "localhost");
 define("DB_USER",   "root");
 define("DB_PASSW",  "");

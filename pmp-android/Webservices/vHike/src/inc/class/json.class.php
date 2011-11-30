@@ -21,16 +21,9 @@ class Json {
      *                        after the message has been printed
      */
     public static function printError($error, $msg, $exit = true) {
-        $json = array("successfull" => false, "error" => $error, "msg" => $msg);
-        //echo json_encode($json);
-        // TODO
+        $json = array("successful" => false, "error" => $error, "msg" => $msg);
         echo self::arrayToJson($json);
-        /*echo "{\n";
-        echo "  \"successfull\": false,\n";
-        echo "  \"error\": \"" . $error . "\"\n";
-        echo "  \"msg\": \"" . $msg . "\"\n";
-        echo "}";
-        */
+        
         // Exit script if required
         if($exit) {
             Database::getInstance()->disconnect();
