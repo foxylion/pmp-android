@@ -20,9 +20,12 @@
 package de.unistuttgart.ipvs.pmp.app;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
@@ -37,15 +40,26 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 public abstract class App extends Application {
     
     /**
-     * By overriding this method you can react whenever PMP has to change the active service features of this app. Do
-     * only activate service features which were granted by this function. Before that, assume all service features are
-     * deactivated. You can fetch an arbitrary update by calling {@link IPMPService#getServiceFeatureUpdate(String)}.
+     * This method is called when the service features are changed. The service features will automatically stored at the
+     * {@link SharedPreferences}.
      * 
      * @param features
      *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
      *            description XML) to booleans (true for granted i.e. active, false for not granted)
      */
-    public abstract void updateServiceFeatures(Bundle features);
+    public final void updateServiceFeatures(Bundle features) {
+        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = app_preferences.edit();
+        // Storing all key value pairs at the preferences
+        for (String key : features.keySet()) {
+            // Putting the prefix in front of the key
+            String prefixKey = Constants.SERVICE_FEATURE_PREFIX + key;
+            editor.putBoolean(prefixKey, features.getBoolean(key));
+            if (!editor.commit()){
+                Log.e("Service feature couldn't be stored");
+            }
+        }
+    }
     
     
     /**
@@ -239,6 +253,21 @@ public abstract class App extends Application {
     private static class ResultObject<T> {
         
         protected T result;
+    }
+    
+    
+    /**
+     * Checks if a service feature is enabled or not
+     * 
+     * @param featureIdentifier
+     *            the identifier of the service feature
+     * @return true if the service feature is enabled, false if not enabled, false if the identifier doesn't exist
+     */
+    public final Boolean isServiceFeatureEnabled(String featureIdentifier) {
+        // Putting the prefix in front the key
+        String prefixKey = Constants.SERVICE_FEATURE_PREFIX + featureIdentifier;
+        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return app_preferences.getBoolean(prefixKey, false);
     }
     
 }
