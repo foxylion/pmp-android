@@ -19,21 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import android.app.Dialog;
-import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
@@ -41,11 +33,6 @@ public class CalendarApp extends App {
     
     static {
         Log.setTagSufix("CalendarApp");
-    }
-    
-    @Override
-    public void updateServiceFeatures(Bundle features) {
-        Model.getInstance().setServiceFeatures(features);
     }
     
     /*
