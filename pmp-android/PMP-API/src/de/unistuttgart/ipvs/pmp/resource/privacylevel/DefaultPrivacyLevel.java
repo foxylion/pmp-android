@@ -51,7 +51,7 @@ public abstract class DefaultPrivacyLevel<T extends Comparable<T>> extends Compa
     
     
     @Override
-    public String getHumanReadableValue(String locale, String value) throws PrivacyLevelValueException {
+    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
         return parseValue(value).toString();
     }
     
