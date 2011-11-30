@@ -50,7 +50,7 @@
      in between standard targets -->
 
     <target name="-pre-build">
-	<unjar src="lib/gson-2.0.jar" dst="src" />
+	<copy file="lib/gson-2.0.jar" todir="${jar.libs.absolute.dir}" />
     </target><!--
     <target name="-pre-compile">
     </target>
