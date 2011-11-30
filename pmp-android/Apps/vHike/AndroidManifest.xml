@@ -36,6 +36,9 @@
         <activity android:name=".apps.vhike.gui.DriverViewActivity" />
         <activity android:name=".apps.vhike.gui.PassengerViewActivity" >
         </activity>
+        <activity
+            android:name=".apps.vhike.gui.HistoryActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>
