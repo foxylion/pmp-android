@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 
 /**
@@ -19,7 +20,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb) {
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         Cursor c = rdb
                 .rawQuery(
                         "SELECT Name_Cache, Description_Cache FROM PrivacySetting WHERE Identifier = ? AND ResourceGroup_Identifier = ? LIMIT 1",
@@ -39,7 +40,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb) {
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
@@ -50,7 +51,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
 
 
     @Override
-    protected void deleteElementData(SQLiteDatabase wdb) {
+    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // TODO Auto-generated method stub
         
     }

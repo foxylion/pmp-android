@@ -19,20 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import android.app.Dialog;
-import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
@@ -41,14 +34,6 @@ public class CalendarApp extends App {
     static {
         Log.setTagSufix("CalendarApp");
     }
-    
-    
-    @Override
-    public void setActiveServiceLevel(int level) {
-        Log.v("ServiceLevel set to: " + String.valueOf(level));
-        Model.getInstance().setServiceLevel(level);
-    }
-    
     
     /*
      * (non-Javadoc)
@@ -74,11 +59,11 @@ public class CalendarApp extends App {
             @Override
             public void connected() {
                 // Try to get the initial service level
-                try {
-                    connector.getAppService().getInitialServiceLevel();
-                } catch (RemoteException e) {
-                    Log.e("RemoteException during getting initial ServiceLevel", e);
-                }
+//                try {
+//                    connector.getAppService().getInitialServiceLevel();
+//                } catch (RemoteException e) {
+//                    Log.e("RemoteException during getting initial ServiceLevel", e);
+//                }
                 DialogManager.getInstance().dismissWaitingDialog();
                 connector.unbind();
             }
@@ -106,18 +91,14 @@ public class CalendarApp extends App {
      * Changes the functionality of the app according to its set ServiceLevel
      */
     public void changeFunctionalityAccordingToServiceLevel() {
-        Log.d("Changing ServiceLevel to level " + String.valueOf(Model.getInstance().getServiceLevel()));
         
-        // Get the service level
-        final int serviceLevel = Model.getInstance().getServiceLevel();
-        
-        if (serviceLevel == 0) {
-            // null level
-            Model.getInstance().clearLocalList();
-        } else {
-            // Read files
-            SqlConnector.getInstance().loadAppointments();
-        }
+//        if (serviceLevel == 0) {
+//            // null level
+//            Model.getInstance().clearLocalList();
+//        } else {
+//            // Read files
+//            SqlConnector.getInstance().loadAppointments();
+//        }
         
         /*
          * Listener for clicking one item. Opens a new dialog where the user can
@@ -127,10 +108,10 @@ public class CalendarApp extends App {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (serviceLevel >= 2) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
-                    changeDateDialog.show();
-                }
+//                if (serviceLevel >= 2) {
+//                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
+//                    changeDateDialog.show();
+//                }
             }
         });
         

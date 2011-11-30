@@ -170,5 +170,19 @@ public class Preset extends ModelElement implements IPreset {
         // TODO Auto-generated method stub
         
     }
+
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void isDeleted() {
+        // TODO Auto-generated method stub
+        
+    }
     
 }

@@ -1,8 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,7 +8,6 @@ import java.util.Observer;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
@@ -127,17 +124,16 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         for (ResourceGroup rg : this.cache.getResourceGroups().values()) {
             rg.checkCached();
         }
-        Log.d("");
-        for (Map<String, PrivacySetting> plMap : this.cache.getPrivacyLevels().values()) {
-            for (PrivacySetting pl : plMap.values()) {
+        for (Map<String, PrivacySetting> psMap : this.cache.getPrivacyLevels().values()) {
+            for (PrivacySetting pl : psMap.values()) {
                 pl.checkCached();
             }
         }
         for (App a : this.cache.getApps().values()) {
             a.checkCached();
         }
-        for (List<ServiceFeature> slList : this.cache.getServiceLevels().values()) {
-            for (ServiceFeature sl : slList) {
+        for (Map<String, ServiceFeature> sfMap : this.cache.getServiceLevels().values()) {
+            for (ServiceFeature sl : sfMap.values()) {
                 sl.checkCached();
             }
         }
@@ -185,7 +181,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             App app = new App(appPackage);
             app.setPersistenceProvider(new AppPersistenceProvider(app));
             
-            List<ServiceFeature> thisAppsSFs = new ArrayList<ServiceFeature>();
+            Map<String, ServiceFeature> thisAppsSFs = new HashMap<String, ServiceFeature>();
             
             // find the local SFs (don't think join is a wise idea)
             builder.setTables(TBL_SERVICEFEATURE);
@@ -198,7 +194,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 ServiceFeature sf = new ServiceFeature(app, sfIdentifier);
                 sf.setPersistenceProvider(new ServiceFeaturePersistenceProvider(sf));
                 
-                thisAppsSFs.add(sf);
+                thisAppsSFs.put(sfIdentifier, sf);
                 sfCursor.moveToNext();
             }
             sfCursor.close();

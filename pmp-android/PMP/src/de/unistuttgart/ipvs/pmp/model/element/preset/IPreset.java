@@ -26,8 +26,8 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 /**
- * {@link IPreset} is the chain link between the {@link IResourceGroup}, its {@link IPrivacySetting}s and the {@link IApp}
- * . It grants the assigned {@link IApp} access to the assigned {@link IPrivacySetting}s.
+ * {@link IPreset} is the chain link between the {@link IResourceGroup}, its {@link IPrivacySetting}s and the
+ * {@link IApp} . It grants the assigned {@link IApp} access to the assigned {@link IPrivacySetting}s.
  * 
  * @author Jakob Jarosch
  */
@@ -174,6 +174,18 @@ public interface IPreset {
      * Ends a cumulative update session started by {@link IPreset#startUpdate()}.
      */
     public void endUpdate();
+    
+    
+    /**
+     * Stores the deleted property for this preset.
+     * 
+     * @param deleted
+     *            whether this preset is currently deleted
+     */
+    public void setDeleted(boolean deleted);
+    
+    
+    public void isDeleted();
     
     
     /**

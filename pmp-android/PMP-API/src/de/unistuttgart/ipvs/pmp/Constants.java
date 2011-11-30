@@ -70,4 +70,9 @@ public class Constants {
      * 
      */
     public static final String PMP_RESOURCE_GROUP_INTENT_CATEGROY = "de.unistuttgart.ipvs.pmp.categories.registration.rg";
+    
+    /**
+     * The prefix that will be put in front of the key of the service feature
+     */
+    public static final String SERVICE_FEATURE_PREFIX ="[app-sf]-";
 }
