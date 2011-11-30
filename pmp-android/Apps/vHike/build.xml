@@ -48,10 +48,10 @@
 
 <!-- extension targets. Uncomment the ones where you want to do custom work
      in between standard targets -->
-<!--
+
     <target name="-pre-build">
 	<unjar src="lib/gson-2.0.jar" dst="src" />
-    </target>
+    </target><!--
     <target name="-pre-compile">
     </target>
 
