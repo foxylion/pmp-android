@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 
+import android.view.View;
+
 /**
  * This privacy level only exists to be faulty for system testing.
  * 
@@ -36,7 +38,7 @@ public class FaultyPrivacyLevel extends PrivacyLevel<IllegalArgumentException> {
     
     
     @Override
-    public String getHumanReadableValue(String locale, String value) throws PrivacyLevelValueException {
+    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
         if (this.throwExcep) {
             throw new PrivacyLevelValueException();
         } else {
@@ -58,6 +60,27 @@ public class FaultyPrivacyLevel extends PrivacyLevel<IllegalArgumentException> {
         } else {
             return null;
         }
+    }
+
+
+    @Override
+    public View getView() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public IllegalArgumentException getViewValue(View view) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public void setViewValue(View view, IllegalArgumentException value) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

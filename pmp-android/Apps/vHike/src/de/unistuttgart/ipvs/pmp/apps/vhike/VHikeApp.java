@@ -23,11 +23,6 @@ public class VHikeApp extends App {
 	}
 
 	@Override
-	public void updateServiceFeatures(Bundle features) {
-		Log.d("Updating ServiceFeatures");
-	}
-
-	@Override
 	public void onRegistrationSuccess() {
 		Log.d("Registration succes!");
 	}

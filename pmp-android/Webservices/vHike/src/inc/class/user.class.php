@@ -22,10 +22,58 @@ class RegistrationData {
     private $lastname;
     private $tel;
     private $description;
-    private $email_public;
-    private $firstname_public;
-    private $lastname_public;
-    private $tel_public;
+    private $emailPublic;
+    private $firstnamePublic;
+    private $lastnamePublic;
+    private $telPublic;
+    
+    public function getUsername() {
+        return $this->username;
+    }
+    
+    public function getPassword() {
+        return $this->password;
+    }
+    
+    public function getPasswordHash() {
+        return md5($this->password);
+    }
+    
+    public function getEmail() {
+        return $this->email;
+    }
+    
+    public function getFirstname() {
+        return $this->firstname;
+    }
+    
+    public function getLastname() {
+        return $this->lastname;
+    }
+    
+    public function getTel() {
+        return $this->tel;
+    }
+    
+    public function getDescription() {
+        return $this->description;
+    }
+    
+    public function isEmailPublic() {
+        return $this->emailPublic;
+    }
+    
+    public function isFirstnamePublic() {
+        return $this->firstnamePublic;
+    }
+    
+    public function isLastnamePublic() {
+        return $this->lastnamePublic;
+    }
+    
+    public function isTelPublic() {
+        return $this->telPublic;
+    }
     
     /**
      *
@@ -35,7 +83,7 @@ class RegistrationData {
     public function setUsername($value) {
         $value = Database::getInstance()->secureInput($value);
         if ($this->validLength($value)) {
-            $this->username = $username;
+            $this->username = $value;
             return true;
         } else {
             return false;
@@ -63,6 +111,7 @@ class RegistrationData {
      * @return boolean 
      */
     public function setEmail($value) {
+        // TODO: Check format
         $value = Database::getInstance()->secureInput($value);
         if ($this->validLength($value)) {
             $this->email = $value;
@@ -93,6 +142,7 @@ class RegistrationData {
      * @return boolean 
      */
     public function setTel($value) {
+        // TODO: Check format e.g. only numbers, "-", "+"
         $value = Database::getInstance()->secureInput($value);
         if ($this->validLength($value)) {
             $this->tel = $value;
@@ -131,7 +181,7 @@ class RegistrationData {
      */
     public function setEmailPublic($public) {
         if (strcasecmp($public, "true") == 0) {
-            $this->email_public = true;
+            $this->emailPublic = true;
         }
     }
     
@@ -141,7 +191,7 @@ class RegistrationData {
      */
     public function setFirstnamePublic($public) {
         if (strcasecmp($public, "true") == 0) {
-            $this->firstname_public = true;
+            $this->firstnamePublic = true;
         }
     }
     
@@ -151,7 +201,7 @@ class RegistrationData {
      */
     public function setLastnamePublic($public) {
         if (strcasecmp($public, "true") == 0) {
-            $this->lastname_public = true;
+            $this->lastnamePublic = true;
         }
     }
     
@@ -161,7 +211,7 @@ class RegistrationData {
      */
     public function setTelPublic($public) {
         if (strcasecmp($public, "true") == 0) {
-            $this->tel_public = true;
+            $this->telPublic = true;
         }
     }
     
@@ -179,19 +229,51 @@ class RegistrationData {
         
 /**
  * Handles access to user data and allow to create a new user
+ * Most of the method's may throw a DatabaseException if quering the database fails
  *
  * @author Patrick
  */
 class user {
-    
+
     /**
      * Registers a user to the system. This does not check if there is already a
      * user with the same email or password.
      * @param RegistrationDate $regdata Object holding data used for user registration
      */
     public static function register($regdata) {
-        
         $db = Database::getInstance();
+        
+        $regdate = Date("Y-m-d H:i:s", time());
+               
+        //echo "Insert new User into db";
+        
+        $db->query("INSERT INTO `".DB_PREFIX."_user` (
+                        `username`,
+                        `password`,
+                        `email`,
+                        `firstname`,
+                        `lastname`,
+                        `tel`,
+                        `description`,
+                        `email_public`,
+                        `firstname_public`,
+                        `lastname_public`,
+                        `tel_public`,
+                        `regdate`
+                    ) VALUES (
+                        \"".$regdata->getUsername()."\",
+                        \"".$regdata->getPasswordHash()."\",
+                        \"".$regdata->getEmail()."\",
+                        \"".$regdata->getFirstname()."\",
+                        \"".$regdata->getLastname()."\",
+                        \"".$regdata->getTel()."\",
+                        \"".$regdata->getDescription()."\",
+                        \"".$regdata->isEmailPublic()."\",
+                        \"".$regdata->isFirstnamePublic()."\",
+                        \"".$regdata->isLastnamePublic()."\",
+                        \"".$regdata->isTelPublic()."\",
+                        \"$regdate\"
+                    )");
         
        
         
@@ -201,21 +283,45 @@ class user {
     /**
      * Checks if the given username is already in use.
      * @param String $username
-     * @return boolean 
+     * @return boolean True, if user exists
      */
     public static function usernameExists($username) {
-        // TODO escape
-        return true;
+        return self::getUserId($username) < 0 ? false : true;
+    }
+    
+    /**
+     * Returns the id of a given user
+     * @param String $username  User's name to get the id for
+     * @return int  The user's id or negative, if id wasn't found
+     */
+    public static function getUserId($username) {
+        $db = Database::getInstance();
+        
+        // Escape input data
+        $username = $db->secureInput($username);
+        
+        // Execute query and fetch result-array
+        $result = $db->query("SELECT `id` FROM `".DB_PREFIX."_user` WHERE `username` = \"$username\"");
+        $row = $row = $db->fetch($result);
+        
+        // Return -1 if there's no user with this name
+        return $row == null ? -1 : $row['id'];
     }
     
     /**
      * Checks if the given e-mail is already in use.
      * @param String $username
-     * @return boolean 
+     * @return boolean True, if e-mail is in use
      */
     public static function emailExists($email) {
-        // TODO escpae
-        return true;
+        $db = Database::getInstance();
+        
+        $email = $db->secureInput($email);
+        
+        $result = $db->query("SELECT count(*) AS count FROM `".DB_PREFIX."_user` WHERE `email` = \"$email\"");
+        $row = $db->fetch($result);
+        
+        return $row['count'] > 0 ? true : false;
     }
 }
 

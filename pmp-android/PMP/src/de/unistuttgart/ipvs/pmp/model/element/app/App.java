@@ -57,9 +57,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getName() {
         checkCached();
-        String name = ais.getNames().get(Locale.getDefault().getLanguage());
+        String name = ais.getNames().get(Locale.getDefault());
         if (name == null) {
-            name = ais.getNames().get(Locale.US.getLanguage());
+            name = ais.getNames().get(Locale.US);
         }
         return name;
     }
@@ -68,9 +68,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getDescription() {
         checkCached();
-        String description = ais.getDescriptions().get(Locale.getDefault().getLanguage());
+        String description = ais.getDescriptions().get(Locale.getDefault());
         if (description == null) {
-            description = ais.getDescriptions().get(Locale.US.getLanguage());
+            description = ais.getDescriptions().get(Locale.US);
         }
         return description;
     }

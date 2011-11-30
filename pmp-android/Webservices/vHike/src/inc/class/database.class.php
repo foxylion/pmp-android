@@ -77,6 +77,15 @@ class Database {
     }
     
     /**
+     * Retrieves the next data row of an given query-result handler
+     * @param MySQL_result $result SQL result handler
+     * @return array    Associated array. Key's are the column's names 
+     */
+    public function fetch($result) {
+        return mysql_fetch_assoc($result);
+    }
+    
+    /**
      * Escapes dangerous squences in a user input to avoid SQL injection
      * @param type $input
      * @return type 

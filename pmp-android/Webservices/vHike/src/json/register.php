@@ -41,6 +41,7 @@ if (!$data->setTel($_POST["tel"])) {
     $invalidString .= "invalid_tel,";
 }
 
+$data->setDescription($_POST["description"]);
 
 // Set boolean input data
 $data->setEmailPublic($_POST["email_public"]);
@@ -48,11 +49,7 @@ $data->setFirstnamePublic($_POST["firstname_public"]);
 $data->setLastnamePublic($_POST["lastname_public"]);
 $data->setTelPublic($_POST["tel_public"]);
 
-try {
-    User::register($data);
-} catch (DatabaseException $de) {
-    
-}
+
 
 // If there where errors -> print error
 if ($invalidString != null) {
@@ -61,6 +58,11 @@ if ($invalidString != null) {
     echo $invalidString;
     
 } else {
+    //try {
+        User::register($data);
+   // } catch (DatabaseException $de) {
+
+    //}
     echo "alles OK";
 }
 ?>

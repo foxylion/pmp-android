@@ -19,12 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import android.app.Activity;
+import android.view.View;
 
 /**
  * An internal PrivacyLevel interface for a standard of accessing privacy levels. Note that this class saves the parsing
@@ -37,20 +32,12 @@ import android.app.Activity;
 public abstract class PrivacyLevel<T> {
     
     /**
-     * The values that are stored in this privacy level for the apps.
-     */
-    private Map<String, T> values = new HashMap<String, T>();
-    
-    
-    /**
      * 
-     * @param locale
-     *            the ISO-639 locale string available from {@link Locale#getLanguage()}
      * @return the human readable representation of the value for this privacy level for the given locale
      * @throws PrivacyLevelValueException
      *             if the supplied value does not match the format criteria.
      */
-    public abstract String getHumanReadableValue(String locale, String value) throws PrivacyLevelValueException;
+    public abstract String getHumanReadableValue(String value) throws PrivacyLevelValueException;
     
     
     /**
@@ -92,9 +79,10 @@ public abstract class PrivacyLevel<T> {
      * @param reference
      *            the reference instance of T for the check
      * @return true, if value permits more or equal to reference
+     * @throws PrivacyLevelValueException
      */
-    public boolean permits(String appIdentifier, T reference) {
-        T value = this.values.get(appIdentifier);
+    public boolean permits(String appIdentifier, T reference) throws PrivacyLevelValueException {
+        T value = parseValue(getValue(appIdentifier));
         if (value == null) {
             return false;
         } else {
@@ -108,52 +96,26 @@ public abstract class PrivacyLevel<T> {
      * 
      * @param value
      *            the value stored in PMP
-     * @throws IllegalArgumentException
+     * @throws PrivacyLevelValueException
      *             if the supplied value does not match the format criteria.
      */
     public abstract T parseValue(String value) throws PrivacyLevelValueException;
     
     
-    /**
-     * Sets the values that are stored in this {@link PrivacyLevel} for the apps.
-     * 
-     * @param values
-     *            Map from appIdentifier to actual value.
-     * @throws PrivacyLevelValueException
-     *             if any of the supplied values does not match the format criteria.
-     */
-    public void setValues(Map<String, String> values) throws PrivacyLevelValueException {
-        this.values.clear();
-        if (values != null) {
-            for (Entry<String, String> entry : values.entrySet()) {
-                this.values.put(entry.getKey(), parseValue(entry.getValue()));
-            }
-        }
-    }
-    
-    
-    /**
-     * Gets the value for a specific app.
-     * 
-     * @param appIdentifier
-     * @return
-     */
-    public final T getValue(String appIdentifier) {
-        return this.values.get(appIdentifier);
-    }
-    
-    
-    /**
-     * Should internally call an {@link Activity} which enables the user to change the oldValue to a new value.
-     * 
-     * (tk: I suppose the upper comment is wrong and the Activity should be called in ResourceGroup)
-     * 
-     * @param oldValue
-     *            old value which should be initially displayed
-     * @return Returns the new value which has been set.
-     */
-    public String changeValue(String oldValue) {
+    public String getValue(String appIdentifier) {
+        // TODO model access
         return null;
     }
     
+    
+    public abstract View getView();
+    
+    
+    public abstract T getViewValue(View view);
+    
+    
+    /**
+     * 
+     */
+    public abstract void setViewValue(View view, T value);
 }
