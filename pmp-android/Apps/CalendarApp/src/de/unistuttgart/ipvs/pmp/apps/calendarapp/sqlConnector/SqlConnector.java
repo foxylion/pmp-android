@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -96,85 +96,86 @@ public class SqlConnector {
         /*final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
                 .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
                 .getApplicationContext()).getSignee(), this.resGroupIdentifier);*/
-        final PMPServiceConnector pmpsc = new PMPServiceConnector();
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(Model.getInstance().getContext()
+                .getApplicationContext());
         
-        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                if (resGroupCon.getAppService() == null) {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                } else {
-                    // Get resource
-                    IDatabaseConnection idc = null;
-                    try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-                                SqlConnector.this.resIdentifier));
-                        
-                        ArrayList<Appointment> todoList = new ArrayList<Appointment>();
-                        
-                        // Getting the number of the rows
-                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
-                                SqlConnector.this.DATE);
-                        
-                        // Getting the rows 
-                        for (int itr = 0; itr < rowCount; itr++) {
-                            String[] columns = {};
-                            try {
-                                columns = idc.getRowAt(itr);
-                                int id = Integer.valueOf(columns[0]);
-                                
-                                Date date = new Date(Long.valueOf(columns[2]));
-                                todoList.add(new Appointment(id, columns[1], date));
-                                Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
-                                        + " description: " + columns[1]);
-                                // Check if there's a new highest id
-                                if (id > SqlConnector.this.highestId) {
-                                    SqlConnector.this.highestId = id;
-                                }
-                            } catch (Exception e) {
-                                Log.e("Load appointment failed. Skipped: " + columns.toString());
-                                Log.v(e.toString());
-                            }
-                        }
-                        Model.getInstance().loadAppointments(todoList);
-                    } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Remote Exception", e);
-                    } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Exception", e);
-                    } finally {
-                        if (idc != null) {
-                            try {
-                                idc.close();
-                            } catch (RemoteException e) {
-                                Log.e("Cannot close the DatabaseConnection: ", e);
-                            }
-                        }
-                        resGroupCon.unbind();
-                    }
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-            }
-        });
-        resGroupCon.bind();
+//        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+//                if (resGroupCon.getAppService() == null) {
+//                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+//                } else {
+//                    // Get resource
+//                    IDatabaseConnection idc = null;
+//                    try {
+//                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+//                                SqlConnector.this.resIdentifier));
+//                        
+//                        ArrayList<Appointment> todoList = new ArrayList<Appointment>();
+//                        
+//                        // Getting the number of the rows
+//                        long rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
+//                                SqlConnector.this.DATE);
+//                        
+//                        // Getting the rows 
+//                        for (int itr = 0; itr < rowCount; itr++) {
+//                            String[] columns = {};
+//                            try {
+//                                columns = idc.getRowAt(itr);
+//                                int id = Integer.valueOf(columns[0]);
+//                                
+//                                Date date = new Date(Long.valueOf(columns[2]));
+//                                todoList.add(new Appointment(id, columns[1], date));
+//                                Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
+//                                        + " description: " + columns[1]);
+//                                // Check if there's a new highest id
+//                                if (id > SqlConnector.this.highestId) {
+//                                    SqlConnector.this.highestId = id;
+//                                }
+//                            } catch (Exception e) {
+//                                Log.e("Load appointment failed. Skipped: " + columns.toString());
+//                                Log.v(e.toString());
+//                            }
+//                        }
+//                        Model.getInstance().loadAppointments(todoList);
+//                    } catch (RemoteException e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Remote Exception", e);
+//                    } catch (Exception e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Exception", e);
+//                    } finally {
+//                        if (idc != null) {
+//                            try {
+//                                idc.close();
+//                            } catch (RemoteException e) {
+//                                Log.e("Cannot close the DatabaseConnection: ", e);
+//                            }
+//                        }
+//                        resGroupCon.unbind();
+//                    }
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+//            }
+//        });
+//        resGroupCon.bind();
     }
     
     
@@ -188,79 +189,79 @@ public class SqlConnector {
      */
     public void storeNewAppointment(final Date date, final String description) {
         
-        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-        
-        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                if (resGroupCon.getAppService() == null) {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                } else {
-                    // Get resource
-                    IDatabaseConnection idc = null;
-                    try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-                                SqlConnector.this.resIdentifier));
-                        
-                        // The values to add
-                        Map<String, String> values = new HashMap<String, String>();
-                        int id = getNewId();
-                        values.put(SqlConnector.this.ID, String.valueOf(id));
-                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
-                        values.put(SqlConnector.this.DESC, description);
-                        
-                        long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
-                        Log.v("Return value of insert: " + result);
-                        if (result != -1) {
-                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
-                                    + " description: " + description);
-                            Model.getInstance().addAppointment(new Appointment(id, description, date));
-                        } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                    .show();
-                            Log.e("Appointment not stored");
-                        }
-                    } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Remote Exception", e);
-                    } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Exception", e);
-                    } finally {
-                        if (idc != null) {
-                            try {
-                                idc.close();
-                            } catch (RemoteException e) {
-                                Log.e("Cannot close connection: ", e);
-                            }
-                        }
-                        resGroupCon.unbind();
-                    }
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-            }
-        });
-        resGroupCon.bind();
+//        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+//                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
+//                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+//        
+//        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+//                if (resGroupCon.getAppService() == null) {
+//                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+//                } else {
+//                    // Get resource
+//                    IDatabaseConnection idc = null;
+//                    try {
+//                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+//                                SqlConnector.this.resIdentifier));
+//                        
+//                        // The values to add
+//                        Map<String, String> values = new HashMap<String, String>();
+//                        int id = getNewId();
+//                        values.put(SqlConnector.this.ID, String.valueOf(id));
+//                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
+//                        values.put(SqlConnector.this.DESC, description);
+//                        
+//                        long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+//                        Log.v("Return value of insert: " + result);
+//                        if (result != -1) {
+//                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
+//                                    + " description: " + description);
+//                            Model.getInstance().addAppointment(new Appointment(id, description, date));
+//                        } else {
+//                            Toast.makeText(Model.getInstance().getContext(),
+//                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+//                                    .show();
+//                            Log.e("Appointment not stored");
+//                        }
+//                    } catch (RemoteException e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Remote Exception", e);
+//                    } catch (Exception e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Exception", e);
+//                    } finally {
+//                        if (idc != null) {
+//                            try {
+//                                idc.close();
+//                            } catch (RemoteException e) {
+//                                Log.e("Cannot close connection: ", e);
+//                            }
+//                        }
+//                        resGroupCon.unbind();
+//                    }
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+//            }
+//        });
+//        resGroupCon.bind();
     }
     
     
@@ -272,73 +273,73 @@ public class SqlConnector {
      */
     public void deleteAppointment(final int id) {
         
-        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-        
-        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                if (resGroupCon.getAppService() == null) {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                } else {
-                    // Get resource
-                    IDatabaseConnection idc = null;
-                    try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-                                SqlConnector.this.resIdentifier));
-                        String[] args = new String[1];
-                        args[0] = String.valueOf(id);
-                        /*
-                         * Delete the date out of the database and if exactly
-                         * once removed then remove it out of the model
-                         */
-                        if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
-                            Log.v("Deleting date: id: " + String.valueOf(id));
-                            Model.getInstance().deleteAppointmentByID(id);
-                        } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Remote Exception", e);
-                    } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Exception", e);
-                    } finally {
-                        if (idc != null) {
-                            try {
-                                idc.close();
-                            } catch (RemoteException e) {
-                                Log.e("Cannot close connection: ", e);
-                            }
-                        }
-                        resGroupCon.unbind();
-                    }
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-            }
-        });
-        resGroupCon.bind();
+//        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+//                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
+//                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+//        
+//        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+//                if (resGroupCon.getAppService() == null) {
+//                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+//                } else {
+//                    // Get resource
+//                    IDatabaseConnection idc = null;
+//                    try {
+//                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+//                                SqlConnector.this.resIdentifier));
+//                        String[] args = new String[1];
+//                        args[0] = String.valueOf(id);
+//                        /*
+//                         * Delete the date out of the database and if exactly
+//                         * once removed then remove it out of the model
+//                         */
+//                        if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
+//                            Log.v("Deleting date: id: " + String.valueOf(id));
+//                            Model.getInstance().deleteAppointmentByID(id);
+//                        } else {
+//                            Toast.makeText(Model.getInstance().getContext(),
+//                                    Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+//                                    .show();
+//                        }
+//                    } catch (RemoteException e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Remote Exception", e);
+//                    } catch (Exception e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Exception", e);
+//                    } finally {
+//                        if (idc != null) {
+//                            try {
+//                                idc.close();
+//                            } catch (RemoteException e) {
+//                                Log.e("Cannot close connection: ", e);
+//                            }
+//                        }
+//                        resGroupCon.unbind();
+//                    }
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+//            }
+//        });
+//        resGroupCon.bind();
     }
     
     
@@ -354,77 +355,77 @@ public class SqlConnector {
      */
     public void changeAppointment(final Integer id, final Date date, final String description) {
         
-        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-        
-        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                if (resGroupCon.getAppService() == null) {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                } else {
-                    // Get resource
-                    IDatabaseConnection idc = null;
-                    try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-                                SqlConnector.this.resIdentifier));
-                        Map<String, String> values = new HashMap<String, String>();
-                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
-                        values.put(SqlConnector.this.DESC, description);
-                        
-                        /*
-                         * Change the date in the database and only if one row
-                         * was changed change, then change it in the model
-                         */
-                        if (idc.update(SqlConnector.this.DB_TABLE_NAME, values,
-                                SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
-                            Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
-                                    + " description: " + description);
-                            Model.getInstance().changeAppointment(id, date, description);
-                        } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Remote Exception", e);
-                    } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Exception", e);
-                    } finally {
-                        if (idc != null) {
-                            try {
-                                idc.close();
-                            } catch (RemoteException e) {
-                                Log.e("Cannot close connection: ", e);
-                            }
-                        }
-                        resGroupCon.unbind();
-                    }
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-            }
-        });
-        resGroupCon.bind();
+//        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+//                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
+//                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+//        
+//        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+//                if (resGroupCon.getAppService() == null) {
+//                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+//                } else {
+//                    // Get resource
+//                    IDatabaseConnection idc = null;
+//                    try {
+//                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+//                                SqlConnector.this.resIdentifier));
+//                        Map<String, String> values = new HashMap<String, String>();
+//                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
+//                        values.put(SqlConnector.this.DESC, description);
+//                        
+//                        /*
+//                         * Change the date in the database and only if one row
+//                         * was changed change, then change it in the model
+//                         */
+//                        if (idc.update(SqlConnector.this.DB_TABLE_NAME, values,
+//                                SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
+//                            Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
+//                                    + " description: " + description);
+//                            Model.getInstance().changeAppointment(id, date, description);
+//                        } else {
+//                            Toast.makeText(Model.getInstance().getContext(),
+//                                    Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+//                                    .show();
+//                        }
+//                    } catch (RemoteException e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Remote Exception", e);
+//                    } catch (Exception e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Exception", e);
+//                    } finally {
+//                        if (idc != null) {
+//                            try {
+//                                idc.close();
+//                            } catch (RemoteException e) {
+//                                Log.e("Cannot close connection: ", e);
+//                            }
+//                        }
+//                        resGroupCon.unbind();
+//                    }
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+//            }
+//        });
+//        resGroupCon.bind();
     }
     
     
@@ -432,75 +433,75 @@ public class SqlConnector {
      * Creates a table if there exists none. The table name is "Appointment".
      */
     private void createTable() {
-        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-                if (resGroupCon.getAppService() == null) {
-                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-                } else {
-                    // Get resource
-                    IDatabaseConnection idc = null;
-                    try {
-                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-                                SqlConnector.this.resIdentifier));
-                        
-                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
-                            Map<String, String> columns = new HashMap<String, String>();
-                            columns.put(SqlConnector.this.ID, "TEXT");
-                            columns.put(SqlConnector.this.DATE, "TEXT");
-                            columns.put(SqlConnector.this.DESC, "TEXT");
-                            // Creates the table
-                            Log.v("Creating table");
-                            if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
-                                Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
-                                Model.getInstance().tableCreated(true);
-                            } else {
-                                Log.e("Couldn't create table");
-                            }
-                        } else {
-                            Log.v("Table already exists");
-                        }
-                    } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Remote Exception", e);
-                    } catch (Exception e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                .show();
-                        Log.e("Exception", e);
-                    } finally {
-                        if (idc != null) {
-                            try {
-                                idc.close();
-                            } catch (RemoteException e) {
-                                Log.e("Cannot close connection: ", e);
-                            }
-                        }
-                        resGroupCon.unbind();
-                    }
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-            }
-        });
-        resGroupCon.bind();
+//        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
+//                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
+//                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
+//        resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
+//                if (resGroupCon.getAppService() == null) {
+//                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
+//                } else {
+//                    // Get resource
+//                    IDatabaseConnection idc = null;
+//                    try {
+//                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
+//                                SqlConnector.this.resIdentifier));
+//                        
+//                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
+//                            Map<String, String> columns = new HashMap<String, String>();
+//                            columns.put(SqlConnector.this.ID, "TEXT");
+//                            columns.put(SqlConnector.this.DATE, "TEXT");
+//                            columns.put(SqlConnector.this.DESC, "TEXT");
+//                            // Creates the table
+//                            Log.v("Creating table");
+//                            if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
+//                                Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
+//                                Model.getInstance().tableCreated(true);
+//                            } else {
+//                                Log.e("Couldn't create table");
+//                            }
+//                        } else {
+//                            Log.v("Table already exists");
+//                        }
+//                    } catch (RemoteException e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Remote Exception", e);
+//                    } catch (Exception e) {
+//                        Toast.makeText(Model.getInstance().getContext(),
+//                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
+//                                .show();
+//                        Log.e("Exception", e);
+//                    } finally {
+//                        if (idc != null) {
+//                            try {
+//                                idc.close();
+//                            } catch (RemoteException e) {
+//                                Log.e("Cannot close connection: ", e);
+//                            }
+//                        }
+//                        resGroupCon.unbind();
+//                    }
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
+//            }
+//        });
+//        resGroupCon.bind();
     }
     
     
