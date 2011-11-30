@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Dialog;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,13 +43,11 @@ public class CalendarApp extends App {
         Log.setTagSufix("CalendarApp");
     }
     
-    
     @Override
-    public void setActiveServiceLevel(int level) {
-        Log.v("ServiceLevel set to: " + String.valueOf(level));
-        Model.getInstance().setServiceLevel(level);
+    public void updateServiceFeatures(Bundle features) {
+        // TODO Auto-generated method stub
+        
     }
-    
     
     /*
      * (non-Javadoc)
@@ -74,11 +73,11 @@ public class CalendarApp extends App {
             @Override
             public void connected() {
                 // Try to get the initial service level
-                try {
-                    connector.getAppService().getInitialServiceLevel();
-                } catch (RemoteException e) {
-                    Log.e("RemoteException during getting initial ServiceLevel", e);
-                }
+//                try {
+//                    connector.getAppService().getInitialServiceLevel();
+//                } catch (RemoteException e) {
+//                    Log.e("RemoteException during getting initial ServiceLevel", e);
+//                }
                 DialogManager.getInstance().dismissWaitingDialog();
                 connector.unbind();
             }

@@ -82,43 +82,43 @@ public class CalendarAppActivity extends ListActivity {
         
         this.appContext = getApplicationContext();
         
-        // Connector to check if the app is registered yet
-        final PMPServiceConnector connector = new PMPServiceConnector(this.appContext,
-                ((CalendarApp) this.appContext).getSignee());
-        connector.addCallbackHandler(new IConnectorCallback() {
-            
-            @Override
-            public void disconnected() {
-                Log.e("Disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                
-                // Check if the service is registered yet
-                if (!connector.isRegistered()) {
-                    DialogManager.getInstance().showWaitingDialog();
-                    
-                    // Register the service
-                    ((App) getApplication()).register(getApplicationContext());
-                    
-                    connector.unbind();
-                } else {
-                    Log.v("App already registered");
-                    connector.unbind();
-                }
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e("Binding failed during registering app.");
-            }
-        });
-        
-        // Connect to the service
-        connector.bind();
+//        // Connector to check if the app is registered yet
+//        final PMPServiceConnector connector = new PMPServiceConnector(this.appContext,
+//                ((CalendarApp) this.appContext).getSignee());
+//        connector.addCallbackHandler(new IConnectorCallback() {
+//            
+//            @Override
+//            public void disconnected() {
+//                Log.e("Disconnected");
+//            }
+//            
+//            
+//            @Override
+//            public void connected() {
+//                
+//                // Check if the service is registered yet
+//                if (!connector.isRegistered()) {
+//                    DialogManager.getInstance().showWaitingDialog();
+//                    
+//                    // Register the service
+//                    ((App) getApplication()).register(getApplicationContext());
+//                    
+//                    connector.unbind();
+//                } else {
+//                    Log.v("App already registered");
+//                    connector.unbind();
+//                }
+//            }
+//            
+//            
+//            @Override
+//            public void bindingFailed() {
+//                Log.e("Binding failed during registering app.");
+//            }
+//        });
+//        
+//        // Connect to the service
+//        connector.bind();
         
         setContentView(R.layout.list_layout);
         
@@ -190,48 +190,48 @@ public class CalendarAppActivity extends ListActivity {
                  * Connect to the EmailResourceGroup and send an mail with the date
                  */
                 final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
-                final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(this.appContext,
-                        ((CalendarApp) this.appContext).getSignee(), resGroupId);
-                resGroupCon.addCallbackHandler(new IConnectorCallback() {
-                    
-                    @Override
-                    public void disconnected() {
-                        Log.d("Disconnected from " + resGroupId);
-                    }
-                    
-                    
-                    @Override
-                    public void connected() {
-                        Log.d("Connected to " + resGroupId);
-                        try {
-                            IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
-                                    .getResource("emailOperations"));
-                            if (emailOP != null) {
-                                Calendar cal = new GregorianCalendar();
-                                cal.setTime(clicked.getDate());
-                                SimpleDateFormat formatter;
-                                formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
-                                        + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
-                                        + clicked.getDescrpition());
-                            }
-                        } catch (RemoteException e) {
-                            Log.e("Remote Exception: ", e);
-                        } finally {
-                            resGroupCon.unbind();
-                        }
-                    }
-                    
-                    
-                    @Override
-                    public void bindingFailed() {
-                        Log.e("Binding failed to " + resGroupId);
-                    }
-                });
-                resGroupCon.bind();
-                return true;
-            } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+//                final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(this.appContext,
+//                        ((CalendarApp) this.appContext).getSignee(), resGroupId);
+//                resGroupCon.addCallbackHandler(new IConnectorCallback() {
+//                    
+//                    @Override
+//                    public void disconnected() {
+//                        Log.d("Disconnected from " + resGroupId);
+//                    }
+//                    
+//                    
+//                    @Override
+//                    public void connected() {
+//                        Log.d("Connected to " + resGroupId);
+//                        try {
+//                            IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
+//                                    .getResource("emailOperations"));
+//                            if (emailOP != null) {
+//                                Calendar cal = new GregorianCalendar();
+//                                cal.setTime(clicked.getDate());
+//                                SimpleDateFormat formatter;
+//                                formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+//                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
+//                                        + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
+//                                        + clicked.getDescrpition());
+//                            }
+//                        } catch (RemoteException e) {
+//                            Log.e("Remote Exception: ", e);
+//                        } finally {
+//                            resGroupCon.unbind();
+//                        }
+//                    }
+//                    
+//                    
+//                    @Override
+//                    public void bindingFailed() {
+//                        Log.e("Binding failed to " + resGroupId);
+//                    }
+//                });
+//                resGroupCon.bind();
+//                return true;
+//            } else {
+//                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
             }
             
         }
