@@ -144,7 +144,7 @@ public class CalendarAppActivity extends ListActivity {
             }
         });
         
-        // Update the visibility of the "no appointments avaiable" textview
+        // Update the visibility of the "no appointments available" textview
         updateNoAvaiableAppointmentsTextView();
     }
     

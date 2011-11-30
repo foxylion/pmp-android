@@ -252,20 +252,6 @@ public class Model {
     }
     
     
-    /**
-     * Stores the service features in the preferences
-     * 
-     * @param features
-     *            all service features
-     */
-    public void setServiceFeatures(Bundle features) {
-        for (String key: features.keySet()) {
-            SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-            SharedPreferences.Editor editor = app_preferences.edit();
-            editor.putBoolean(key, features.getBoolean(key));
-        }
-    }
-    
     
     /**
      * Sets the status if the table exists or not
