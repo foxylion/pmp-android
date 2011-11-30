@@ -26,13 +26,21 @@ public class MainActivity extends Activity {
 	private void registerListener() {
 		Button btnRide = (Button) findViewById(R.id.Button_Ride);
 //		Button btnProfile = (Button) findViewById(R.id.Button_Profile);
-//		Button btnHistory = (Button) findViewById(R.id.Button_History);
+		Button btnHistory = (Button) findViewById(R.id.Button_History);
 //		Button btnSettings = (Button) findViewById(R.id.Button_Settings);
 		
 		btnRide.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, RideActivity.class);
+				MainActivity.this.startActivity(intent);
+			}
+		});
+		
+		btnRide.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
