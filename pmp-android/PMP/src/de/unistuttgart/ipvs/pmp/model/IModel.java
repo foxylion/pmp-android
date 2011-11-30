@@ -64,6 +64,15 @@ public interface IModel {
     
     
     /**
+     * Removes the registration of a registered {@link IApp}.
+     * 
+     * @param identifier
+     *            The identifier for the {@link IApp} which should be unregistered.
+     */
+    public void unregisterApp(String identifier);
+    
+    
+    /**
      * @return Returns all {@link IResourceGroup}s known by PMP.
      */
     public IResourceGroup[] getResourceGroups();
@@ -103,11 +112,19 @@ public interface IModel {
      * 
      * @param identifier
      *            The identifier for the {@link IResourceGroup} which should be registered.
-     * @param publicKey
-     *            The publicKey for the {@link IResourceGroup} which should be registered.
      * @return true, if the installation was successful, false if an error occurred
      */
     public boolean installResourceGroup(String identifier);
+    
+    
+    /**
+     * Uninstalls an installed {@link IResourceGroup} at PMP.
+     * 
+     * @param identifier
+     *            The identifier for the {@link IResourceGroup} which should be registered.
+     * @return true, if the uninstallation was successful, false if an error occurred
+     */
+    public boolean uninstallResourceGroup(String identifier);
     
     
     /**
@@ -123,7 +140,7 @@ public interface IModel {
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
      * @param identifier
-     *            a unique identifier for this preset
+     *            a unique (for creator) identifier for this preset
      * @param name
      *            The name of the {@link IPreset}.
      * @param description
@@ -131,5 +148,18 @@ public interface IModel {
      * @return the {@link IPreset} that was created
      */
     public IPreset addPreset(ModelElement creator, String identifier, String name, String description);
+    
+    
+    /**
+     * Removes an existing {@link IPreset} ultimately from PMP. This cannot be undone. Consider using
+     * {@link IPreset#setDeleted(boolean)} alternatively.
+     * 
+     * @param creator
+     *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
+     *            {@link IPreset} is bundled.
+     * @param identifier
+     *            a unique identifier for this preset
+     */
+    public void removePreset(ModelElement creator, String identifier);
     
 }

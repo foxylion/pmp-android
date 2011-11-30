@@ -142,5 +142,26 @@ public class Model implements IModel, Observer {
         // TODO Auto-generated method stub
         return null;
     }
+
+
+    @Override
+    public boolean uninstallResourceGroup(String identifier) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+ 
+    @Override
+    public void removePreset(ModelElement creator, String identifier) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void unregisterApp(String identifier) {
+        // TODO Auto-generated method stub
+        
+    }
     
 }

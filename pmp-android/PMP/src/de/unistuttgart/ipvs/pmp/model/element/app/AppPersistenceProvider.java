@@ -1,12 +1,18 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
 
 /**
  * The persistence provider for {@link App}s.
@@ -22,48 +28,48 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb) {/*
-        Cursor c = rdb.rawQuery(
-                "SELECT Name_Cache, Description_Cache, ServiceLevel_Active FROM App WHERE Identifier = ? LIMIT 1",
-                new String[] { this.element.getIdentifier() });
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         
-        if (!c.moveToFirst()) {
-            throw new IllegalAccessError("The Identifier " + this.element.getIdentifier()
-                    + " was not found in the database.");
-        } else {
-            this.element.name = c.getString(c.getColumnIndex("Name_Cache"));
-            this.element.description = c.getString(c.getColumnIndex("Description_Cache"));
-            this.element.activeServiceFeatures = c.getInt(c.getColumnIndex("ServiceLevel_Active"));
-            
-            this.element.serviceFeatures = getCache().getServiceLevels().get(this.element);
-            
-            this.element.assignedPresets = new ArrayList<Preset>();
-            for (Preset p : getCache().getPresets()) {
-                if (p.isAppAssigned(this.element)) {
-                    this.element.assignedPresets.add(p);
-                }
+        this.element.serviceFeatures = getCache().getServiceLevels().get(this.element);
+        
+        this.element.assignedPresets = new ArrayList<Preset>();
+        for (Preset p : getCache().getPresets()) {
+            if (p.isAppAssigned(this.element)) {
+                this.element.assignedPresets.add(p);
             }
         }
         
-        c.close();*/
+        InputStream is = null;
+        try {
+            is = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext()).getAssets()
+                    .open(PersistenceConstants.APP_XML_NAME);
+        } catch (IOException e) {
+            Log.e("Did no longer find the app XML during loading its data.");
+            e.printStackTrace();
+        }
+        this.element.ais = AppInformationSetParser.createAppInformationSet(is);
     }
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb) {
-        /*ContentValues cv = new ContentValues();
-        cv.put("Name_Cache", this.element.name);
-        cv.put("Description_Cache", this.element.description);
-        cv.put("ServiceLevel_Active", this.element.activeServiceFeatures);
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
+        // this method should never be called
+        throw new UnsupportedOperationException();
+    }
+    
+    
+    @Override
+    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {        
+        // delete service features
+        for (ServiceFeature sf : this.element.serviceFeatures.values()) {
+            sf.delete();
+        }
         
-        wdb.update("App", cv, "Identifier = ?", new String[] { this.element.getIdentifier() });
-        */
-    }
-    
-    
-    @Override
-    protected void deleteElementData(SQLiteDatabase wdb) {
-        // TODO Auto-generated method stub
+        // delete app preset references
+        wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?", new String[] { this.element.getIdentifier() });        
+        
+        // delete app
+        wdb.rawQuery("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?", new String[] { this.element.getIdentifier() });
         
     }
     

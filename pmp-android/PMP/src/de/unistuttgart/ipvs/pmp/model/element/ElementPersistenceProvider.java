@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 
@@ -36,7 +37,7 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void loadElementData() {
         SQLiteDatabase rdb = getDoh().getReadableDatabase();
-        loadElementData(rdb);
+        loadElementData(rdb, getDoh().builder());
         rdb.close();
     }
     
@@ -46,7 +47,7 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void storeElementData() {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        storeElementData(wdb);
+        storeElementData(wdb, getDoh().builder());
         wdb.close();
     }
     
@@ -56,7 +57,7 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void deleteElementData() {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        deleteElementData(wdb);
+        deleteElementData(wdb, getDoh().builder());
         wdb.close();
     }
     
@@ -66,17 +67,20 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      * 
      * @param rdb
      *            a correctly initialized readable {@link SQLiteDatabase} that will be closed afterwards
+     * @param qb TODO
      */
-    protected abstract void loadElementData(SQLiteDatabase rdb);
+    protected abstract void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb);
     
     
     /**
-     * Stores the data of <b>THIS</b> element and nothing else to the persistence.
+     * Stores the data of <b>THIS</b> element and all possible references that are held on it and that it holds to the
+     * persistence.
      * 
      * @param wdb
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
+     * @param qb TODO
      */
-    protected abstract void storeElementData(SQLiteDatabase wdb);
+    protected abstract void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb);
     
     
     /**
@@ -84,7 +88,8 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      * 
      * @param wdb
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
+     * @param qb TODO
      */
-    protected abstract void deleteElementData(SQLiteDatabase wdb);
+    protected abstract void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb);
     
 }
