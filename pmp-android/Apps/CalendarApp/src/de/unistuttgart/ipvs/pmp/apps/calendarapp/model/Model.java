@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -241,28 +242,27 @@ public class Model {
     
     
     /**
-     * Returns the service level of the app
+     * Returns true if the service feature is set or not
      * 
-     * @return the service level
+     * @return true if set, false if not set or not found
      */
-    public int getServiceLevel() {
+    public Boolean getServiceLevel(String featureKey) {
         SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-        return app_preferences.getInt("servicelevel", 0);
+        return app_preferences.getBoolean(featureKey, false);
     }
     
     
     /**
-     * Sets the service level and stores it at the preferences of the app
+     * Stores the service features in the preferences
      * 
-     * @param serviceLevel
-     *            the service level to set
+     * @param features
+     *            all service features
      */
-    public void setServiceLevel(int serviceLevel) {
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-        SharedPreferences.Editor editor = app_preferences.edit();
-        editor.putInt("servicelevel", serviceLevel);
-        if (!editor.commit()) {
-            Log.e("Error while commiting preferences");
+    public void setServiceFeatures(Bundle features) {
+        for (String key: features.keySet()) {
+            SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
+            SharedPreferences.Editor editor = app_preferences.edit();
+            editor.putBoolean(key, features.getBoolean(key));
         }
     }
     
