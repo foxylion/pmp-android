@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestProvider;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		JSonRequestReader.dummyMethod("Andre", "perfekt");
 		
 		registerListener();
 	}
