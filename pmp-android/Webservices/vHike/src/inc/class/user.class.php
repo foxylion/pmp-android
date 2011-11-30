@@ -1,42 +1,202 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-class UserException extends Exception {
-
-}
+class UserException extends Exception {}
 
 /**
- * Stores information about a user used for registration functionality.
- * This class' method escapes strings and verifies their length but does
- * not check if the user's name or email is already in use.
+ * Handles access to user data and allows to create a new user
+ * Most of the method's may throw a DatabaseException if quering the database fails
+ *
+ * @author Patrick
  */
-class RegistrationData {
-    private $username;
-    private $password;
-    private $email;
-    private $firstname;
-    private $lastname;
-    private $tel;
-    private $description;
-    private $emailPublic;
-    private $firstnamePublic;
-    private $lastnamePublic;
-    private $telPublic;
+class user {
+    
+    private $id = -1;
+    private $username = null;
+    private $passwordHash = null;
+    private $email = null;
+    private $firstname = null;
+    private $lastname = null;
+    private $tel = null;
+    private $description = null;
+    private $emailPublic = false;
+    private $firstnamePublic = false;
+    private $lastnamePublic = false;
+    private $telPublic = false;
+    
+    /**
+     * Loads a user from the database and returns a user-object storing the information
+     * of the loaded user
+     * @param int $id  ID of the user to load from the database
+     * @return User Object storing data of the loaded user or null, if user with the
+     *              given id does not exists or parameter id is not numeric 
+     */
+    public static function loadUser($id) {
+        if (!is_numeric($id)) {
+            return null;
+        }
+        
+        $result = $db->query("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
+        $row = $db->fetch($result);
+        
+        if (!$row) {
+            return null;
+        }
+        
+        // Write data into attributes
+        $this->id = $row["id"];
+        $this->username = $row["username"];
+        $this->passwordHash = $row["passwordHash"];
+        $this->email = $row["email"];
+        $this->firstname = $row["firstname"];
+        $this->lastname = $row["lastname"];
+        $this->tel = $row["tel"];
+        $this->description = $row["description"];
+        $this->emailPublic = $row["email_public"];
+        $this->firstnamePublic = $row["firstname_public"];
+        $this->lastnamePublic = $row["lastname_public"];
+        $this->telPublic = $row["tel_public"];
+    }
+    
+    
+    /**
+     * Registers a user to the system. This does not check if there is already a
+     * user with the same email or password.
+     * @param UserDate $regdata Object holding data used for user registration
+     * @throws UserEception Thrown, if a mandatory field (like "username") or a
+     *                      visibility field (like "email_public") is not set 
+     *  
+     */
+    public function register() {
+        
+        // Verify that all data is set
+        if ($this->username == null || $this->passwordHash == null || 
+                $this->email == null || $this->firstname == null || 
+                $this->lastname == null || $this->tel == null) {
+            throw new UserException("Some mandatory fields not set.");
+        }
+      
+        
+        // Write data into table
+        $db = Database::getInstance();
+        $regdate = Date("Y-m-d H:i:s", time());
+        
+        $db->query("INSERT INTO `".DB_PREFIX."_user` (
+                        `username`,
+                        `password`,
+                        `email`,
+                        `firstname`,
+                        `lastname`,
+                        `tel`,
+                        `description`,
+                        `email_public`,
+                        `firstname_public`,
+                        `lastname_public`,
+                        `tel_public`,
+                        `regdate`
+                    ) VALUES (
+                        \"".$this->username."\",
+                        \"".$this->passwordHash."\",
+                        \"".$this->email."\",
+                        \"".$this->firstname."\",
+                        \"".$this->lastname."\",
+                        \"".$this->tel."\",
+                        \"".$this->description."\",
+                        \"".$this->emailPublic."\",
+                        \"".$this->firstnamePublic."\",
+                        \"".$this->lastnamePublic."\",
+                        \"".$this->isTelPublic()."\",
+                        \"$regdate\"
+                    )");
+        
+       $this->id = $db->getId();      
+    }
+    
+    
+     /**
+     * Generates a verification key for the user and send's the key
+     * to the users email address. If there's already a verification key in
+     * the database for the given user, the key is send to the user's
+     * email address once again
+     */
+    public function sendVerificationKey() {
+        // Cancel if no user existing in the database is linked to this object
+        if ($this->id < 0) {
+            return;
+        }
+        
+        $db = Database::getInstance();
+        
+        // Check if key has already been written to the database
+        $result = $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
+                              WHERE `user` = ".$this->id);
+        $row = $db->fetch($result);
+        
+        $key;
+        
+        // If key is in database, use it. Otherwise generate new one
+        if ($row) {
+            $key = $row["key"];
+        } else {
+            $key = General::randomString(32);
+            $db->query("INSERT INTO `".DB_PREFIX."_verification` (
+                            `user`,
+                            `key`
+                        ) VALUES (
+                            $this->id,
+                            \"$key\"
+                        )");
+        }
+
+
+       // Create verification url and send it via e-mail
+       $url = "http://".BASE_URL."/verification.php?userid=$this->id&key=$key";
+       $message = "Hello $this->firstname $this->lastname,\n\n" .
+                  "your account has been created. To be able to log in, you have to verify your e-mail address. " .
+                  "To verify your e-mail address, open the following URL:\n\n" .
+                  "$url\n\n" .
+                  "Regards,\n" .
+                  "Your vHike-System";
+        
+        mail($email, "Account verification", $message, "From: ".ADMIN_EMAIL);
+        
+    }
+    
+    
+    /**
+     * Checks if the given verification key matches the give user id and
+     * activates the account if they match.
+     * @param int $id       Userid to match with the given key
+     * @param String $key   Key to match with the given userid
+     * @return boolean  True, if id and key matched, otherwise false
+     */
+    public static function verifyUser($id, $key) {
+        $result = $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
+                              WHERE `user` = $id AND
+                                    `key` = \"$key\"");
+        $row = $db->fetch($result);
+        
+        // If the verification key is valid, activate user account
+        if (row) {
+            // Activate account
+            $db->query("UPDATE `".DB_PREFIX."_user`
+                        SET `activated` = 1
+                        WHERE `id` = $id");
+            
+            // Remove key
+            $db->query("DELETE FROM `".DB_PREFIX."_user`
+                        WHERE `user` = $id");
+            
+        }
+        
+    }
+    
     
     public function getUsername() {
         return $this->username;
     }
     
-    public function getPassword() {
-        return $this->password;
-    }
-    
     public function getPasswordHash() {
-        return md5($this->password);
+        return $this->passwordHash;
     }
     
     public function getEmail() {
@@ -98,7 +258,7 @@ class RegistrationData {
     public function setPassword($value) {
         $value = Database::getInstance()->secureInput($value);
         if ($this->validLength($value)) {
-            $this->password = $value;
+            $this->passwordHash = md5($value);
             return true;
         } else {
             return false;
@@ -215,6 +375,11 @@ class RegistrationData {
         }
     }
     
+    /**
+     * Checks if the length of an input string is valid 
+     * @param String $input Input
+     * @return boolean  True, if length is valid
+     */
     private function validLength($input) {
         $length = strlen($input);
         
@@ -225,60 +390,7 @@ class RegistrationData {
         }
         
     }
-}
-        
-/**
- * Handles access to user data and allow to create a new user
- * Most of the method's may throw a DatabaseException if quering the database fails
- *
- * @author Patrick
- */
-class user {
-
-    /**
-     * Registers a user to the system. This does not check if there is already a
-     * user with the same email or password.
-     * @param RegistrationDate $regdata Object holding data used for user registration
-     */
-    public static function register($regdata) {
-        $db = Database::getInstance();
-        
-        $regdate = Date("Y-m-d H:i:s", time());
-               
-        //echo "Insert new User into db";
-        
-        $db->query("INSERT INTO `".DB_PREFIX."_user` (
-                        `username`,
-                        `password`,
-                        `email`,
-                        `firstname`,
-                        `lastname`,
-                        `tel`,
-                        `description`,
-                        `email_public`,
-                        `firstname_public`,
-                        `lastname_public`,
-                        `tel_public`,
-                        `regdate`
-                    ) VALUES (
-                        \"".$regdata->getUsername()."\",
-                        \"".$regdata->getPasswordHash()."\",
-                        \"".$regdata->getEmail()."\",
-                        \"".$regdata->getFirstname()."\",
-                        \"".$regdata->getLastname()."\",
-                        \"".$regdata->getTel()."\",
-                        \"".$regdata->getDescription()."\",
-                        \"".$regdata->isEmailPublic()."\",
-                        \"".$regdata->isFirstnamePublic()."\",
-                        \"".$regdata->isLastnamePublic()."\",
-                        \"".$regdata->isTelPublic()."\",
-                        \"$regdate\"
-                    )");
-        
-       
-        
-        
-    }
+    
     
     /**
      * Checks if the given username is already in use.

@@ -70,7 +70,7 @@ class Database {
         
         $result = mysql_query($query);
         if (!$result) {
-            throw new DatabaseException('Invalid database query "$query". MySQL says "' . mysql_error() . '"');
+            throw new DatabaseException("Invalid database query \"$query\". MySQL says \"" . mysql_error() . "\"");
         }
 
         return $result;
@@ -85,6 +85,15 @@ class Database {
         return mysql_fetch_assoc($result);
     }
     
+    /**
+     * Returns the auto-increment value of the new dataset
+     * @return int Auto-increment value
+     */
+    public function getId() {
+        return mysql_insert_id();
+    }
+
+
     /**
      * Escapes dangerous squences in a user input to avoid SQL injection
      * @param type $input

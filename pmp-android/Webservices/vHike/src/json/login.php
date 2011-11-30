@@ -4,5 +4,7 @@
  */
 
 define("INCLUDE", true);
-require("/../inc/json_framework.inc.php");
+require("./../inc/json_framework.inc.php");
+
+Database::getInstance()->disconnect();
 ?>
