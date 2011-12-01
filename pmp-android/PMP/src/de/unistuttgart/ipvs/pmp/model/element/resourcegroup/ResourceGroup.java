@@ -1,14 +1,12 @@
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
-import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
  * @see IResourceGroup
@@ -18,14 +16,9 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     /**
-     * identifying attributes
-     */
-    
-    /**
      * localized values
      */
-    protected String name;
-    protected String description;
+    protected RgInformationSet rgis;
     
     /**
      * internal data & links
@@ -45,14 +38,22 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String getName() {
         checkCached();
-        return this.name;
+        String name = this.rgis.getNames().get(Locale.getDefault());
+        if (name == null) {
+            name = this.rgis.getNames().get(Locale.US);
+        }
+        return name;
     }
     
     
     @Override
     public String getDescription() {
         checkCached();
-        return this.description;
+        String description = this.rgis.getDescriptions().get(Locale.getDefault());
+        if (description == null) {
+            description = this.rgis.getDescriptions().get(Locale.US);
+        }
+        return description;
     }
     
     

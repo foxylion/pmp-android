@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+
 /**
  * This Activity gives user freedom to act as a Driver or Passenger
  * 
@@ -23,6 +26,14 @@ public class RideActivity extends Activity {
 	}
 
 	private void registerListener() {
+
+		Spinner spinner = (Spinner) findViewById(R.id.spinner);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.array_cities,
+				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+
 		Button btnDrive = (Button) findViewById(R.id.Button_Drive);
 		Button btnSearch = (Button) findViewById(R.id.Button_Search);
 

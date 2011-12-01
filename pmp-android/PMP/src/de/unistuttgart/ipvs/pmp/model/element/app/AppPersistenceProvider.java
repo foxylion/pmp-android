@@ -43,11 +43,11 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         try {
             is = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext()).getAssets()
                     .open(PersistenceConstants.APP_XML_NAME);
+            this.element.ais = AppInformationSetParser.createAppInformationSet(is);
         } catch (IOException e) {
             Log.e("Did no longer find the app XML during loading its data.");
             e.printStackTrace();
         }
-        this.element.ais = AppInformationSetParser.createAppInformationSet(is);
     }
     
     
@@ -59,17 +59,19 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     
     @Override
-    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {        
+    protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete service features
         for (ServiceFeature sf : this.element.serviceFeatures.values()) {
             sf.delete();
         }
         
         // delete app preset references
-        wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?", new String[] { this.element.getIdentifier() });        
+        wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?",
+                new String[] { this.element.getIdentifier() });
         
         // delete app
-        wdb.rawQuery("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?", new String[] { this.element.getIdentifier() });
+        wdb.rawQuery("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?",
+                new String[] { this.element.getIdentifier() });
         
     }
     
@@ -77,15 +79,17 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     /**
      * Creates the data <b>in the persistence</b> for the {@link App} specified with the parameters.
      * 
+     * @param appPackage
+     *            package of the app
      * @return an {@link App} object that is linked to the newly created persistence data and this
      *         {@link AppPersistenceProvider}, or null, if the creation was not possible
      */
-    public App createElementData(String identifier) {
+    public App createElementData(String appPackage) {
         
         // TODO store in db
         
         // create associated object
-        App result = new App(identifier);
+        App result = new App(appPackage);
         result.setPersistenceProvider(this);
         
         return result;

@@ -23,7 +23,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
