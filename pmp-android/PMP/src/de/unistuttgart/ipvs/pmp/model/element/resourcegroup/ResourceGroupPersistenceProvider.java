@@ -2,8 +2,6 @@ package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
 import java.util.HashMap;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
@@ -24,39 +22,52 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
-        Cursor c = rdb.rawQuery("SELECT Name_Cache, Description_Cache FROM ResourceGroup WHERE Identifier = ? LIMIT 1",
-                new String[] { this.element.getIdentifier() });
         
-        if (!c.moveToFirst()) {
-            throw new IllegalAccessError("The Identifier " + this.element.getIdentifier()
-                    + " was not found in the database.");
-        } else {
-            this.element.name = c.getString(c.getColumnIndex("Name_Cache"));
-            this.element.description = c.getString(c.getColumnIndex("Description_Cache"));
-            
-            this.element.privacySettings = new HashMap<String, PrivacySetting>();
-            for (PrivacySetting pl : getCache().getPrivacyLevels().get(this.element).values()) {
-                this.element.privacySettings.put(pl.getIdentifier(), pl);
-            }
+        this.element.privacySettings = new HashMap<String, PrivacySetting>();
+        for (PrivacySetting pl : getCache().getPrivacyLevels().get(this.element).values()) {
+            this.element.privacySettings.put(pl.getIdentifier(), pl);
         }
-        
-        c.close();
     }
     
     
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        ContentValues cv = new ContentValues();
-        cv.put("Name_Cache", this.element.name);
-        cv.put("Description_Cache", this.element.description);
-        
-        wdb.update("ResourceGroup", cv, "Identifier = ?", new String[] { this.element.getIdentifier() });
+        // this method should never be called
+        throw new UnsupportedOperationException();
     }
-
-
+    
+    
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // TODO Auto-generated method stub
+        // delete privacy settings
+        for (PrivacySetting ps : this.element.privacySettings.values()) {
+            ps.delete();
+        }
+        
+        // delete resource group
+        wdb.rawQuery("DELETE FROM " + TBL_RESOURCEGROUP + " WHERE " + PACKAGE + " = ?",
+                new String[] { this.element.getIdentifier() });
+        
+    }
+    
+    
+    /**
+     * Creates the data <b>in the persistence</b> for the {@link ResourceGroup} specified with the parameters.
+     * 
+     * @param rgPackage
+     *            package of the resource group.
+     * @return a {@link ResourceGroup} object that is linked to the newly created persistence data and this
+     *         {@link ResourceGroupPersistenceProvider}, or null, if the creation was not possible
+     */
+    public ResourceGroup createElementData(String rgPackage) {
+        
+        // TODO store in db
+        
+        // create associated object
+        ResourceGroup result = new ResourceGroup(rgPackage);
+        result.setPersistenceProvider(this);
+        
+        return result;
         
     }
     

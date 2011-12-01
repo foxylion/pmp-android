@@ -1,30 +1,19 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
-
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.Model;
-import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
-import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
 
 /**
  * @see IApp
@@ -57,9 +46,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getName() {
         checkCached();
-        String name = ais.getNames().get(Locale.getDefault());
+        String name = this.ais.getNames().get(Locale.getDefault());
         if (name == null) {
-            name = ais.getNames().get(Locale.US);
+            name = this.ais.getNames().get(Locale.US);
         }
         return name;
     }
@@ -68,9 +57,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getDescription() {
         checkCached();
-        String description = ais.getDescriptions().get(Locale.getDefault());
+        String description = this.ais.getDescriptions().get(Locale.getDefault());
         if (description == null) {
-            description = ais.getDescriptions().get(Locale.US);
+            description = this.ais.getDescriptions().get(Locale.US);
         }
         return description;
     }
@@ -82,9 +71,10 @@ public class App extends ModelElement implements IApp {
         return this.serviceFeatures.values().toArray(new IServiceFeature[0]);
     }
     
+    
     @Override
     public IServiceFeature getServiceFeature(String serviceFeatureIdentifier) {
-        checkCached();        
+        checkCached();
         return this.serviceFeatures.get(serviceFeatureIdentifier);
     }
     
@@ -125,8 +115,5 @@ public class App extends ModelElement implements IApp {
             return null;
         }
     }
-
-
- 
     
 }
