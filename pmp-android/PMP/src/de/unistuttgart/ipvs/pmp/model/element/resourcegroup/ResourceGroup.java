@@ -69,4 +69,11 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         return this.privacySettings.get(privacyLevelIdentifier);
     }
     
+    
+    /* inter-model communication */
+    
+    public RgInformationSet getRgis() {
+        return this.rgis;
+    }
+    
 }

@@ -48,7 +48,7 @@ public class BooleanPrivacyLevel extends DefaultPrivacyLevel<Boolean> {
     }
 
     @Override
-    public Boolean getViewValue(View view) {
+    public String getViewValue(View view) {
         // TODO Auto-generated method stub
         return null;
     }

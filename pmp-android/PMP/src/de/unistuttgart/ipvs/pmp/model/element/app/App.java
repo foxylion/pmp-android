@@ -95,7 +95,12 @@ public class App extends ModelElement implements IApp {
     @Override
     public void verifyServiceFeatures() {
         checkCached();
-        // TODO also here
+        
+        // TODO something like this
+        for (ServiceFeature sf : this.serviceFeatures.values()) {
+            sf.isActive();
+        }
+        // TODO IPC here
         
     }
     
@@ -114,6 +119,14 @@ public class App extends ModelElement implements IApp {
         } catch (NameNotFoundException e) {
             return null;
         }
+    }
+    
+    
+    /* inter-model communication */
+    
+    
+    public AppInformationSet getAis() {
+        return this.ais;
     }
     
 }

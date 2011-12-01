@@ -26,7 +26,9 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {/*
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
+        
+        /*
         Cursor c = rdb
                 .rawQuery(
                         "SELECT Name_Cache, Description_Cache FROM ServiceFeature WHERE App_Identifier = ? AND Level = ? LIMIT 1",
@@ -77,13 +79,9 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {/*
-        ContentValues cv = new ContentValues();
-        cv.put("Name_Cache", this.element.name);
-        cv.put("Description_Cache", this.element.description);
-        
-        wdb.update("ServiceFeature", cv, "App_Identifier = ? AND Level = ?", new String[] {
-                this.element.getApp().getIdentifier(), String.valueOf(this.element.getLevel()) });*/
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
+        // this method should never be called
+        throw new UnsupportedOperationException();
     }
 
 

@@ -1,13 +1,18 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 
 /**
  * @see IServiceFeature
@@ -19,20 +24,14 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     /**
      * identifying attributes
      */
-    protected IApp app;
+    protected App app;
     protected String localIdentifier;
-    
-    /**
-     * localized values
-     */
-    protected String name;
-    protected String description;
     
     /**
      * internal data & links
      */
     protected Map<PrivacySetting, String> privacyLevelValues;
-    protected boolean available;
+    protected boolean containsUnknownPrivacySettings;
     
     
     /* organizational */
@@ -53,16 +52,20 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     
     @Override
+    public String getLocalIdentifier() {
+        return this.localIdentifier;
+    }
+    
+    
+    @Override
     public String getName() {
-        checkCached();
-        return this.name;
+        return null;
     }
     
     
     @Override
     public String getDescription() {
-        checkCached();
-        return this.description;
+        return null;
     }
     
     
@@ -75,27 +78,57 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getRequiredPrivacyLevelValue(IPrivacySetting privacySetting) {
+        checkCached();
         return this.privacyLevelValues.get(privacySetting);
     }
     
     
     @Override
     public boolean isAvailable() {
-        checkCached(); // TODO
-        return false;
-    }
-    
-    
-    @Override
-    public String getLocalIdentifier() {
-        return this.localIdentifier;
+        checkCached();
+        return !this.containsUnknownPrivacySettings;
     }
     
     
     @Override
     public boolean isActive() {
-        // TODO Auto-generated method stub
-        return false;
+        checkCached();
+        try {
+            Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
+            // for all presets
+            for (IPreset p : this.app.getAssignedPresets()) {
+                // all granted privacy settings
+                for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
+                    
+                    String existing = granted.get(ps);
+                    String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                    
+                    if (existing == null) {
+                        granted.put(ps, grantNow);
+                    } else {
+                        if (ps.permits(existing, grantNow)) {
+                            // grantNow allows more
+                            granted.put(ps, grantNow);
+                        } /* else existing allows more, do nothing */
+                    }
+                    
+                }
+            }
+            
+            // actual check against granted
+            for (Entry<PrivacySetting, String> e : this.privacyLevelValues.entrySet()) {
+                if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
+                    return false;
+                }
+            }
+            
+            return true;
+            
+        } catch (PrivacyLevelValueException plve) {
+            Log.e("Could not check whether service feature is active.");
+            plve.printStackTrace();
+            return false;
+        }
     }
     
 }

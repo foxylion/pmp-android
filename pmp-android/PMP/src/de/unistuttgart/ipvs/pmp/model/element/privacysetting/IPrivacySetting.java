@@ -19,8 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
+import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 
 /**
  * The {@link IPrivacySetting} interface represents a PrivacySetting of a {@link IResourceGroup}. It can be fetched from
@@ -79,7 +81,7 @@ public interface IPrivacySetting {
      * @throws IllegalArgumentException
      *             if the given value is not a valid string for this privacy setting.
      */
-    public String getHumanReadableValue(String value) throws IllegalArgumentException;
+    public String getHumanReadableValue(String value) throws PrivacyLevelValueException;
     
     
     /**
@@ -95,6 +97,15 @@ public interface IPrivacySetting {
      * @throws IllegalArgumentException
      *             if the given value is not a valid string for this privacy setting.
      */
-    public boolean permits(String reference, String value) throws IllegalArgumentException;
+    public boolean permits(String reference, String value) throws PrivacyLevelValueException;
+    
+    
+    public View getView();
+    
+    
+    public String getViewValue(View view);
+    
+    
+    public void setViewValue(View view, String value) throws PrivacyLevelValueException;
     
 }

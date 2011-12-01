@@ -113,6 +113,28 @@ public abstract class ModelElement {
     
     /**
      * <p>
+     * Forces the model to re-cache this element, <i>only if it was already cached</i>. This means all the changed data
+     * associated with the component may get lost and the persistence state is read once again.
+     * </p>
+     * <p>
+     * <b>You should NEVER need to call this method outside of the model.</b>
+     * </p>
+     * 
+     * @return whether the object was cached again
+     */
+    public boolean forceRecache() {
+        if (isCached()) {
+            if (this.persistenceProvider != null) {
+                this.persistenceProvider.loadElementData();
+                return true;
+            }
+        }        
+        return false;
+    }
+    
+    
+    /**
+     * <p>
      * Deletes this element non-reversibly. Does not update the {@link ModelCache}.
      * </p>
      * 

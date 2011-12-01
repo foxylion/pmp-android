@@ -1,14 +1,16 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestProvider;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 /**
  * The main menu after user logged in
  * 
@@ -21,8 +23,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		JSonRequestReader.dummyMethod("Andre", "gut");
 		
 		registerListener();
 	}
