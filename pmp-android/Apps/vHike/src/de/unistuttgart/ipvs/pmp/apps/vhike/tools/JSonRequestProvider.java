@@ -1,131 +1,108 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 
 /**
  * Provides all the JSonRequests that are possible between vHike and webservice
- * outside. 
- * It connects to the webservice and getting the JsonObject. After the JsonObject
- * was get, return the JsonObject to the caller class.
+ * outside. It connects to the webservice and getting the JsonObject. After the
+ * JsonObject was get, return the JsonObject to the caller class.
+ * 
+ * Version: FINAL, don't touch this class
  * 
  * @author Alexander Wassiljew
  * 
  */
 public class JSonRequestProvider {
 
-	
 	/**
 	 * private constructor cause of singleton
 	 */
 	public JSonRequestProvider() {
 
 	}
-	
+
 	/**
-	 * Get the JSONData from the webservice
+	 * Sending a request to the WEBSERVICE_URL defined in {@link Constants}
 	 * 
-	 * @param url indicates which script and which parameters will be
-	 * send to the webservice
-	 * @return JsonObject to the caller class
+	 * @param listToParse
+	 *            contains all the parameters, which have to be parsed
+	 * @return JsonObject
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 */
-	public static JsonObject getJSONData(String url){
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		URI uri;
-		InputStream data = null;
-		try {
-			uri = new URI(url);
-			HttpGet method = new HttpGet(uri);
-			HttpResponse response = httpClient.execute(method);
-			data = response.getEntity().getContent();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static JsonObject doRequest(List<ParamObject> listToParse)
+			throws ClientProtocolException, IOException {
+
+		String getParam = "?";
+		// GET REQUESTS
+		for (ParamObject object : listToParse) {
+
+			if (!(object.isPost())) {
+				getParam = getParam + object.getKey() + "=" + object.getValue();
+			}
+			getParam = getParam + "&";
 		}
-		
-		Reader r = new InputStreamReader(data);
-		JsonParser parser = new JsonParser();
-		JsonObject jsonObject = parser.parse(r).getAsJsonObject();
-		
-		return jsonObject;
-	}
-	
-	
-	// TODO: 
-	// Diese Methode muss man allgemein implementieren, so dass man 
-	// nur Parameter parsen muss.
-	// Wird bis Freitag aufjedenfall fertig sein.
-	public void postData() throws JSONException{  
-		String text;
+		// Cut the last '&' out
+		getParam = getParam.substring(0, getParam.length() - 1);
+
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL +"");
-		JSONObject json = new JSONObject();
 
-		try {
-			// JSON data:
-			json.put("name", "Fahmi Rahman");
-			json.put("position", "sysdev");
+		HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL + getParam);
 
-			JSONArray postjson=new JSONArray();
-			postjson.put(json);
+		List<NameValuePair> namelist = new ArrayList<NameValuePair>();
 
-			// Post the data:
-			httppost.setHeader("json",json.toString());
-			httppost.getParams().setParameter("jsonpost",postjson);
-
-			// Execute HTTP Post Request
-			System.out.print(json);
-			HttpResponse response = httpclient.execute(httppost);
-
-			// for JSON:
-			if(response != null)
-			{
-				InputStream is = response.getEntity().getContent();
-
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-				StringBuilder sb = new StringBuilder();
-
-				String line = null;
-				try {
-					while ((line = reader.readLine()) != null) {
-						sb.append(line + "\n");
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						is.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				text = sb.toString();
+		// Iterate over objects, wich have to be post to the webservice
+		// POST REQUESTS
+		for (ParamObject object : listToParse) {
+			if ((object.isPost())) {
+				namelist.add(new BasicNameValuePair(object.getKey(), object
+						.getValue()));
 			}
+		}
 
-		}catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-		} catch (IOException e) {
-    		// TODO Auto-generated catch block
-    	}
+		httppost.setEntity(new UrlEncodedFormEntity(namelist, "UTF-8"));
+
+		// Execute HTTP Post Request
+		HttpResponse response;
+		JsonObject jsonObject = null;
+
+		response = httpclient.execute(httppost);
+		// for JSON:
+		if (response != null) {
+			InputStream is = response.getEntity().getContent();
+
+			Reader r = new InputStreamReader(is);
+			JsonParser parser = new JsonParser();
+
+			jsonObject = parser.parse(r).getAsJsonObject();
+		}
+
+		return jsonObject;
 	}
-	
+
 }
