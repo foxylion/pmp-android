@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,6 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -27,6 +30,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
  * DriverViewActivity displays drivers current location on google maps
@@ -36,6 +41,7 @@ import de.unistuttgart.ipvs.pmp.R;
  */
 public class DriverViewActivity extends MapActivity {
 
+	private List<Profile> hitchhikers;
 	private MapController mapController;
 	private MapView mapView;
 	private LocationManager locationManager;
@@ -48,11 +54,42 @@ public class DriverViewActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
+		showHitchhikers();
 		setMapView();
 	}
 
+	/**
+	 * adds passengers (hitchhikers) to the notification slider
+	 */
+	private void showHitchhikers() {
+		hitchhikers = new ArrayList<Profile>();
+
+		addHitchhiker(new Profile("bestHitchhiker", "Hitch", "Hiker",
+				"hitch@hiker.com", "I'm living a gangster Life", "successfull",
+				5, new Date()));
+
+		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
+		pLV.setClickable(true);
+
+		NotificationAdapter appsAdapter = new NotificationAdapter(this,
+				hitchhikers);
+		pLV.setAdapter(appsAdapter);
+	}
+
+	/**
+	 * adds hitchhiker/passenger to hitchiker list
+	 * 
+	 * @param hitchhiker
+	 */
+	private void addHitchhiker(Profile hitchhiker) {
+		hitchhikers.add(hitchhiker);
+	}
+
+	/**
+	 * set map view
+	 */
 	private void setMapView() {
-		mapView = (MapView) findViewById(R.id.mapView);
+		mapView = (MapView) findViewById(R.id.driverMapView);
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
 
@@ -69,8 +106,8 @@ public class DriverViewActivity extends MapActivity {
 		Toast.makeText(DriverViewActivity.this, currentLoc, Toast.LENGTH_LONG)
 				.show();
 
-		Button btnMyLocation = (Button) findViewById(R.id.Button_MyLocation);
-		btnMyLocation.setOnClickListener(new OnClickListener() {
+		Button btnDriverLocation = (Button) findViewById(R.id.Button_DriverLocation);
+		btnDriverLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -187,7 +224,7 @@ public class DriverViewActivity extends MapActivity {
 
 			// add marker
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-					R.drawable.passenger_logo);
+					R.drawable.icon_ride);
 			canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 24, null);
 			return true;
 		}
