@@ -68,7 +68,8 @@ public class XMLParser extends AbstractXMLParser {
 			Document doc = db.parse(xmlStream);
 			doc.getDocumentElement().normalize();
 
-			// The main nodes "appInformation" and "serviceFeatures" are required
+			// The main nodes "appInformation" and "serviceFeatures" are
+			// required
 			// once.
 			NodeList appInformation = doc
 					.getElementsByTagName("appInformation");
@@ -175,6 +176,9 @@ public class XMLParser extends AbstractXMLParser {
 	 */
 	private void parseOneServiceFeature(Element serviceFeaturesElement) {
 
+		// Get the identifier
+		String identifier = serviceFeaturesElement.getAttribute("identifier");
+
 		// Create results
 		List<String[]> defaultNameList = parseNodes(serviceFeaturesElement,
 				"defaultName", 1, 1, "lang");
@@ -190,10 +194,11 @@ public class XMLParser extends AbstractXMLParser {
 		validateLocaleAttribute(nameList);
 		validateLocaleAttribute(defaultDescriptionList);
 		validateLocaleAttribute(descriptionList);
+		validateSFIdentifier(identifier);
 
 		// Add to the app information set
 		ServiceFeature sf = new ServiceFeature();
-		this.ais.addServiceFeature(sf);
+		this.ais.addServiceFeature(identifier, sf);
 
 		sf.addName(
 				new Locale(defaultNameList.get(0)[1]),
@@ -234,6 +239,11 @@ public class XMLParser extends AbstractXMLParser {
 
 	}
 
+	private void validateSFIdentifier(String identifier) {
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * This method is used to are one required resource group element.
 	 * 
@@ -252,7 +262,8 @@ public class XMLParser extends AbstractXMLParser {
 
 		// Add to the app information set (building objects)
 		for (String[] privacySettingArray : privacySettingList) {
-			rrg.addPrivacySetting(privacySettingArray[1], privacySettingArray[0]);
+			rrg.addPrivacySetting(privacySettingArray[1],
+					privacySettingArray[0]);
 		}
 	}
 

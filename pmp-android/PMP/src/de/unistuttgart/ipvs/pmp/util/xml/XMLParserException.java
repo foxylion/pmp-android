@@ -73,6 +73,11 @@ public class XMLParserException extends RuntimeException {
 		PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
 
 		/**
+		 * A service feature with the same identifier already exists
+		 */
+		SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+		
+		/**
 		 * The parser crashed, unknown reason
 		 */
 		CONFIGURATION_EXCEPTION,

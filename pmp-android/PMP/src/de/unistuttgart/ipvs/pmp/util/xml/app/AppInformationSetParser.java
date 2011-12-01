@@ -66,9 +66,10 @@ public class AppInformationSetParser {
         }
         Log.d("-----------------------");
         Log.d("-- Service Features: --");
-        Log.d("-----------------------");
-        
-        for (ServiceFeature sf : ais.getServiceFeatures()) {
+        Log.d("-----------------------");        
+        for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
+        	ServiceFeature sf = ais.getServiceFeaturesMap().get(sfIdentifier);
+        	Log.d("Identifier: " + sfIdentifier);
             for (Locale l : sf.getNames().keySet()) {
                 Log.d("Name: " + sf.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
             }
