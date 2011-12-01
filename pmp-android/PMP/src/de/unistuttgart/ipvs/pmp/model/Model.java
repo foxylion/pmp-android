@@ -68,11 +68,13 @@ public class Model implements IModel, Observer {
         }
     }
     
+    
     @Override
     public void update(Observable observable, Object data) {
         // new ModelCache from the PersistenceProvider
         this.cache = (ModelCache) data;
     }
+    
     
     /*
      * Actual overridden content
@@ -95,6 +97,7 @@ public class Model implements IModel, Observer {
     @Override
     public void registerApp(String identifier) {
         // TODO Auto-generated method stub
+        // TODO remember that illegal presets have to be reenabled once their missing apps get installed
         
     }
     
@@ -102,7 +105,7 @@ public class Model implements IModel, Observer {
     @Override
     public boolean unregisterApp(String identifier) {
         return false;
-        // TODO Auto-generated method stub
+        // TODO remember that  presets have to be disabled once their required apps get uninstalled
         
     }
     
@@ -152,11 +155,13 @@ public class Model implements IModel, Observer {
         return this.cache.getAllPresets().toArray(new IPreset[0]);
     }
     
+    
     @Override
     public IPreset[] getPresets(ModelElement creator) {
         checkCached();
         return this.cache.getPresets().get(creator).values().toArray(new IPreset[0]);
     }
+    
     
     @Override
     public IPreset getPreset(ModelElement creator, String identifier) {
@@ -178,7 +183,5 @@ public class Model implements IModel, Observer {
         // TODO Auto-generated method stub
         
     }
-    
-       
     
 }

@@ -68,7 +68,7 @@ public interface IModel {
      * 
      * @param identifier
      *            The identifier for the {@link IApp} which should be unregistered.
-     *            @return true, if and only if the app was found and removed
+     * @return true, if and only if the app was found and removed
      */
     public boolean unregisterApp(String identifier);
     
@@ -182,7 +182,7 @@ public interface IModel {
      *            {@link IPreset} is bundled.
      * @param identifier
      *            a unique identifier for this preset
-     *            @return true, if and only if the preset was found and removed
+     * @return true, if and only if the preset was found and removed
      */
     public boolean removePreset(ModelElement creator, String identifier);
     

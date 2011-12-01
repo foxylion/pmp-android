@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model;
 
-
 /**
  * General IPC provider which provides all the inter process communciation necessary for the model.
  * 
@@ -40,5 +39,5 @@ public class IPCProvider {
      */
     public void endUpdate() {
     }
-
+    
 }

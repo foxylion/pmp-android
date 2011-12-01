@@ -33,7 +33,7 @@ public class ModelCache {
     
     public ModelCache() {
         this.apps = new HashMap<String, App>();
-        this.presets = new HashMap<ModelElement, Map<String,Preset>>();
+        this.presets = new HashMap<ModelElement, Map<String, Preset>>();
         this.privacySettings = new HashMap<ResourceGroup, Map<String, PrivacySetting>>();
         this.resourceGroups = new HashMap<String, ResourceGroup>();
         this.serviceFeatures = new HashMap<App, Map<String, ServiceFeature>>();
@@ -63,8 +63,8 @@ public class ModelCache {
     public Map<App, Map<String, ServiceFeature>> getServiceLevels() {
         return this.serviceFeatures;
     }
-
-
+    
+    
     public List<Preset> getAllPresets() {
         List<Preset> result = new ArrayList<Preset>();
         for (ModelElement me : this.presets.keySet()) {
