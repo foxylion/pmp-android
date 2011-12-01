@@ -71,7 +71,7 @@ public class FaultyPrivacyLevel extends PrivacyLevel<IllegalArgumentException> {
 
 
     @Override
-    public IllegalArgumentException getViewValue(View view) {
+    public String getViewValue(View view) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -1,4 +1,7 @@
 <?php
+if (!defined("INCLUDE")) {
+    exit;
+}
 
 class UserException extends Exception {}
 
@@ -22,6 +25,8 @@ class user {
     private $firstnamePublic = false;
     private $lastnamePublic = false;
     private $telPublic = false;
+    private $activated = false;
+    
     
     /**
      * Loads a user from the database and returns a user-object storing the information
@@ -35,8 +40,29 @@ class user {
             return null;
         }
         
-        $result = $db->query("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
-        $row = $db->fetch($result);
+        $user = new User();
+        $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
+        return $user;
+    }
+    
+    /**
+     * Loads a user from the database and returns a user-object storing the information
+     * of the loaded user
+     * @param String $name  Name of the user to load from the database
+     * @return User Object storing data of the loaded user or null, if user with the
+     *              given id does not exists or parameter id is not numeric 
+     */
+    public static function loadUserByName($name) {
+        $name = Database::getInstance()->secureInput($name);
+        
+        $user = new User();
+        $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `username` = \"$name\"");
+        return $user;    
+    }
+    
+    private function fillAttributes($sqlQuery) {
+        $db = Database::getInstance();
+        $row = $db->fetch($db->query($sqlQuery));
         
         if (!$row) {
             return null;
@@ -45,7 +71,7 @@ class user {
         // Write data into attributes
         $this->id = $row["id"];
         $this->username = $row["username"];
-        $this->passwordHash = $row["passwordHash"];
+        $this->passwordHash = $row["password"];
         $this->email = $row["email"];
         $this->firstname = $row["firstname"];
         $this->lastname = $row["lastname"];
@@ -55,7 +81,8 @@ class user {
         $this->firstnamePublic = $row["firstname_public"];
         $this->lastnamePublic = $row["lastname_public"];
         $this->telPublic = $row["tel_public"];
-    }
+        $this->activated = $row["activated"];
+    } 
     
     
     /**
@@ -235,6 +262,10 @@ class user {
         return $this->telPublic;
     }
     
+    public function isActivated() {
+        return $this->activated;
+    }
+    
     /**
      *
      * @param String $value
@@ -242,7 +273,7 @@ class user {
      */
     public function setUsername($value) {
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
+        if (self::validLength($value)) {
             $this->username = $value;
             return true;
         } else {
@@ -257,8 +288,8 @@ class user {
      */
     public function setPassword($value) {
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
-            $this->passwordHash = md5($value);
+        if (self::validLength($value)) {
+            $this->passwordHash = self::hashPassword($value);
             return true;
         } else {
             return false;
@@ -273,7 +304,7 @@ class user {
     public function setEmail($value) {
         // TODO: Check format
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
+        if (self::validLength($value)) {
             $this->email = $value;
             return true;
         } else {
@@ -288,7 +319,7 @@ class user {
      */
     public function setFirstname($value) {
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
+        if (self::validLength($value)) {
             $this->firstname = $value;
             return true;
         } else {
@@ -304,7 +335,7 @@ class user {
     public function setTel($value) {
         // TODO: Check format e.g. only numbers, "-", "+"
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
+        if (self::validLength($value)) {
             $this->tel = $value;
             return true;
         } else {
@@ -319,7 +350,7 @@ class user {
      */
     public function setLastname($value) {
         $value = Database::getInstance()->secureInput($value);
-        if ($this->validLength($value)) {
+        if (self::validLength($value)) {
             $this->lastname = $value;
             return true;
         } else {
@@ -383,7 +414,7 @@ class user {
     private function validLength($input) {
         $length = strlen($input);
         
-        if ($length > 3 && $length <= 100) {
+        if ($length > 2 && $length <= 100) {
             return true;
         } else {
             return false;
@@ -434,6 +465,10 @@ class user {
         $row = $db->fetch($result);
         
         return $row['count'] > 0 ? true : false;
+    }
+    
+    public static function hashPassword($password) {
+        return md5($password);
     }
 }
 

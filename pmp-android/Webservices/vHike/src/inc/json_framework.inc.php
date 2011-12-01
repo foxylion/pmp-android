@@ -18,12 +18,13 @@ require ("./../inc/config.inc.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
 require ("./../inc/class/json.class.php");
+require ("./../inc/class/session.class.php");
 require ("./../inc/class/user.class.php");
 
 // Connect to database
 try {
     Database::getInstance()->connect();
 } catch (DatabaseException $de) {
-    Json::printError("CANNOT_CONNECT_TO_DATABASE", $de->__toString());
+    Json::printError("cannot_connect_to_database", $de->__toString());
 }
 ?>

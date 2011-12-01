@@ -78,11 +78,11 @@
         Der Wert des Schlüssels <code>error</code> definiert die Ursache des Fehlers.
         Momentan sind folgende Werte vorgesehen:
         <ul>
-          <li><code>NOT_LOGGED_IN</code> - der Benutzer ist nicht angemeldet, die
+          <li><code>not_logged_in</code> - der Benutzer ist nicht angemeldet, die
             Ausführung der Anfrage erfordert dies jedoch</li>
-          <li><code>INVALID_DATABASE-QUERY</code> - interner Fehler. Die für die Bearbeitung
+          <li><code>invalid_database-query</code> - interner Fehler. Die für die Bearbeitung
             der Anfrage durchgeführte Datanbankabfrage ist fehlerhaft</li>
-          <li><code>CANNOT_CONNECT_TO_DATABASE</code> - interner Fehler. Die Verbindung
+          <li><code>cannot_connect_to_database</code> - interner Fehler. Die Verbindung
             zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>
         </ul>
         Diese Fehler-Codes dienen hauptsächlich zur einfachen Fallunterscheidung
@@ -197,6 +197,10 @@
                 ist (i.A. max. 100 Zeichen je Feld)</li>
               </ul>
           </td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -206,7 +210,7 @@
         <tr>
           <th class="left">PHP-Skript</th>
           <td>login.php</td>
-        </tr> 
+        </tr>                        
         <tr>
           <th class="left">Beschreibung</th>
           <td>Meldet einen bereits registrierten Benutzer im System an</td>
@@ -256,6 +260,10 @@
                 GET-Parameter <code>sid</code> übergeben werden</li>
               </ul>
           </td>
+        </tr>          
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -299,6 +307,10 @@
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       

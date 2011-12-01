@@ -134,6 +134,28 @@ public interface IModel {
     
     
     /**
+     * @param creator
+     *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
+     *            {@link IPreset} is bundled.
+     * @return Returns all {@link IPreset}s which were created by creator.
+     */
+    public IPreset[] getPresets(ModelElement creator);
+    
+    
+    /**
+     * Returns a specific existing {@link IPreset}.
+     * 
+     * @param creator
+     *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
+     *            {@link IPreset} is bundled.
+     * @param identifier
+     *            a unique (for creator) identifier for this preset
+     * @return the corresponding {@link IPreset} or null, if none found
+     */
+    public IPreset getPreset(ModelElement creator, String identifier);
+    
+    
+    /**
      * Adds a new {@link IPreset} to PMP.
      * 
      * @param creator

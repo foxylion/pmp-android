@@ -111,11 +111,21 @@ public abstract class PrivacyLevel<T> {
     public abstract View getView();
     
     
-    public abstract T getViewValue(View view);
+    public abstract String getViewValue(View view);
     
     
     /**
      * 
      */
-    public abstract void setViewValue(View view, T value);
+    public abstract void setViewValue(View view, T value) throws PrivacyLevelValueException;
+    
+    
+    /**
+     * Convenience method for {@link PrivacyLevel#setViewValue(View, Object)} if you only have a string.
+     * 
+     * @throws PrivacyLevelValueException
+     */
+    public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+        setViewValue(view, parseValue(value));
+    }
 }
