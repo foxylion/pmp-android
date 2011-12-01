@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,6 +22,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -49,22 +53,29 @@ public class JSonRequestProvider {
 	 * 
 	 * @param listToParse
 	 *            contains all the parameters, which have to be parsed
+	 * @param url
 	 * @return JsonObject
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static JsonObject doRequest(List<ParamObject> listToParse)
+	public static JsonObject doRequest(List<ParamObject> listToParse, String url)
 			throws ClientProtocolException, IOException {
 
-		String getParam = "?";
+		String getParam ="";
 		// GET REQUESTS
+		StringBuffer buf = new StringBuffer();
+		buf.append("?");
+		buf.append(url);
 		for (ParamObject object : listToParse) {
 
 			if (!(object.isPost())) {
-				getParam = getParam + object.getKey() + "=" + object.getValue();
+				buf.append(object.getKey() +"=" + object.getValue());
+				buf.append("&");
+				//getParam = getParam + object.getKey() + "=" + object.getValue();
+				//getParam = getParam + "&";
 			}
-			getParam = getParam + "&";
 		}
+		getParam = buf.toString();
 		// Cut the last '&' out
 		getParam = getParam.substring(0, getParam.length() - 1);
 
@@ -75,9 +86,6 @@ public class JSonRequestProvider {
 
 		List<NameValuePair> namelist = new ArrayList<NameValuePair>();
 
-		
-		
-		
 		// Iterate over objects, wich have to be post to the webservice
 		// POST REQUESTS
 		for (ParamObject object : listToParse) {
@@ -92,13 +100,12 @@ public class JSonRequestProvider {
 		// Execute HTTP Post Request
 		HttpResponse response;
 		JsonObject jsonObject = null;
-
 		response = httpclient.execute(httppost);
 		// for JSON:
 		if (response != null) {
 			InputStream is = response.getEntity().getContent();
 
-			Reader r = new InputStreamReader(is);
+			BufferedReader r = new BufferedReader(new InputStreamReader(is));
 			JsonParser parser = new JsonParser();
 
 			jsonObject = parser.parse(r).getAsJsonObject();

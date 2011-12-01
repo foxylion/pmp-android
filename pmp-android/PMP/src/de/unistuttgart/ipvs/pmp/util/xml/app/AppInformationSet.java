@@ -20,10 +20,12 @@
 package de.unistuttgart.ipvs.pmp.util.xml.app;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.util.xml.AbstractInformationSet;
+import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
+import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -32,7 +34,8 @@ import de.unistuttgart.ipvs.pmp.util.xml.AbstractInformationSet;
  * 
  * @author Marcus Vetter
  */
-public class AppInformationSet extends AbstractInformationSet implements Serializable {
+public class AppInformationSet extends AbstractInformationSet implements
+		Serializable {
 
 	/**
 	 * Serial
@@ -40,35 +43,42 @@ public class AppInformationSet extends AbstractInformationSet implements Seriali
 	private static final long serialVersionUID = 2629559699588037711L;
 
 	/**
-	 * This list contains all service features of the app.
+	 * This map contains all service features of the app. key = identifier of
+	 * the service feature
 	 */
-	private List<ServiceFeature> serviceFeatures;
+	private Map<String, ServiceFeature> serviceFeaturesMap;
 
 	/**
 	 * Constructor is used to instantiate the data structures.
 	 */
 	protected AppInformationSet() {
 		super();
-		this.serviceFeatures = new ArrayList<ServiceFeature>();
-	}
-
-	/**
-	 * Get all service features of the app
-	 * 
-	 * @return list of service featues
-	 */
-	public List<ServiceFeature> getServiceFeatures() {
-		return this.serviceFeatures;
+		this.serviceFeaturesMap = new HashMap<String, ServiceFeature>();
 	}
 
 	/**
 	 * Add a service feature to the app
 	 * 
+	 * @param identifier
+	 *            of the service feature
 	 * @param sf
 	 *            service feature
 	 */
-	protected void addServiceFeature(ServiceFeature sf) {
-		this.serviceFeatures.add(sf);
+	protected void addServiceFeature(String identifier, ServiceFeature sf) {
+        if (this.serviceFeaturesMap.containsKey(identifier)) {
+            throw new XMLParserException(Type.SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+                    "A Service Feature with the identifier " + identifier + " already exists.");
+        }
+		this.serviceFeaturesMap.put(identifier, sf);
+	}
+
+	/**
+	 * Get the map which contains all service features
+	 * 
+	 * @return map with service features
+	 */
+	public Map<String, ServiceFeature> getServiceFeaturesMap() {
+		return serviceFeaturesMap;
 	}
 
 }

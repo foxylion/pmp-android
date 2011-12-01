@@ -23,8 +23,11 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         
+        // TODO set RGIS via XML file somewhere
+        // TODO set link 
+        
         this.element.privacySettings = new HashMap<String, PrivacySetting>();
-        for (PrivacySetting pl : getCache().getPrivacyLevels().get(this.element).values()) {
+        for (PrivacySetting pl : getCache().getPrivacySettings().get(this.element).values()) {
             this.element.privacySettings.put(pl.getIdentifier(), pl);
         }
     }

@@ -5,12 +5,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <!--android:apiKey="0g5_Yo4upMXGAgd_dztapbHX3eTL7U2-lt37yPQ"-->
+    <!--Andre: android:apiKey="0g5_Yo4upMXGAgd_dztapbHX3eTL7U2-lt37yPQ"-->
+    <!--Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ"-->
     <com.google.android.maps.MapView
         android:id="@+id/passengerMapView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ"
+        android:layout_height="fill_parent"   
+        android:apiKey="0g5_Yo4upMXGAgd_dztapbHX3eTL7U2-lt37yPQ"
         android:clickable="true" />
 
     <Button

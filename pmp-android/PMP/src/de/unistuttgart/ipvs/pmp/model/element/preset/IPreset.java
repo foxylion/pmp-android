@@ -40,15 +40,10 @@ public interface IPreset {
     
     
     /**
-     * @return Returns the name of the {@link IPreset}.
+     * 
+     * @return the unique identifier for creator
      */
-    public String getName();
-    
-    
-    /**
-     * @return Returns the description of the {@link IPreset}.
-     */
-    public String getDescription();
+    public String getLocalIdentifier();
     
     
     /**
@@ -70,6 +65,33 @@ public interface IPreset {
      *         bundled
      */
     public ModelElement getCreator();
+    
+    
+    /**
+     * @return Returns the name of the {@link IPreset}.
+     */
+    public String getName();
+    
+    
+    /**
+     * Sets the name of this {@link IPreset} to name.
+     * 
+     * @param name
+     */
+    public void setName(String name);
+    
+    
+    /**
+     * @return Returns the description of the {@link IPreset}.
+     */
+    public String getDescription();
+    
+    /**
+     * Sets the description of this {@link IPreset} to description.
+     * 
+     * @param description
+     */
+    public void setDescription(String description);
     
     
     /**
@@ -185,7 +207,11 @@ public interface IPreset {
     public void setDeleted(boolean deleted);
     
     
-    public void isDeleted();
+    /**
+     * 
+     * @return true, if and only if this preset is marked as deleted
+     */
+    public boolean isDeleted();
     
     
     /**

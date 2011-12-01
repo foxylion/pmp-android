@@ -35,7 +35,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * {@link AbstractConnector} is used for connecting (in this case binding) to services. Add your
- * {@link IConnectorCallback} for interacting with the service. Call {@link AbstractConnector#bind} to start the
+ * {@link AbstractConnectorCallback} for interacting with the service. Call {@link AbstractConnector#bind} to start the
  * connection.
  * 
  * @author Jakob Jarosch
@@ -61,9 +61,9 @@ public abstract class AbstractConnector {
     private boolean connected = false;
     
     /**
-     * List of all {@link IConnectorCallback} handler which will receive a connection message.
+     * List of all {@link AbstractConnectorCallback} handler which will receive a connection message.
      */
-    private List<IConnectorCallback> callbackHandler = new ArrayList<IConnectorCallback>();
+    private List<AbstractConnectorCallback> callbackHandler = new ArrayList<AbstractConnectorCallback>();
     
     /**
      * The context used to initiate the binding.
@@ -186,23 +186,23 @@ public abstract class AbstractConnector {
     
     
     /**
-     * Adds a {@link IConnectorCallback} instance to the list.
+     * Adds a {@link AbstractConnectorCallback} instance to the list.
      * 
      * @param connectorCallback
-     *            {@link IConnectorCallback} object which should be added
+     *            {@link AbstractConnectorCallback} object which should be added
      */
-    public void addCallbackHandler(IConnectorCallback connectorCallback) {
+    public void addCallbackHandler(AbstractConnectorCallback connectorCallback) {
         this.callbackHandler.add(connectorCallback);
     }
     
     
     /**
-     * Removes an {@link IConnectorCallback} instance from the list.
+     * Removes an {@link AbstractConnectorCallback} instance from the list.
      * 
      * @param connectorCallback
-     *            {@link IConnectorCallback} object which should be removed
+     *            {@link AbstractConnectorCallback} object which should be removed
      */
-    public void removeCallbackHandler(IConnectorCallback connectorCallback) {
+    public void removeCallbackHandler(AbstractConnectorCallback connectorCallback) {
         this.callbackHandler.remove(connectorCallback);
     }
     
@@ -255,21 +255,21 @@ public abstract class AbstractConnector {
     
     
     /**
-     * Inform all {@link IConnectorCallback} instances which are registered that something has changed.
+     * Inform all {@link AbstractConnectorCallback} instances which are registered that something has changed.
      */
     private void informCallback(ConnectionState state) {
-        for (IConnectorCallback handler : this.callbackHandler) {
+        for (AbstractConnectorCallback handler : this.callbackHandler) {
             switch (state) {
                 case CONNECTED:
-                    handler.connected();
+                    handler.onConnect();
                     break;
                 
                 case DISCONNECTED:
-                    handler.disconnected();
+                    handler.onDisconnect();
                     break;
                 
                 case BINDING_FAILED:
-                    handler.bindingFailed();
+                    handler.onBindingFailed();
                     break;
             }
         }

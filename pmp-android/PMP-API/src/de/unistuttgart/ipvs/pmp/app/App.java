@@ -27,7 +27,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
@@ -39,8 +39,8 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 public abstract class App extends Application {
     
     /**
-     * This method is called when the service features are changed. The service features will automatically stored at the
-     * {@link SharedPreferences}.
+     * This method is called when the service features are changed. The service features will automatically stored at
+     * the {@link SharedPreferences}.
      * 
      * @param features
      *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
@@ -49,12 +49,13 @@ public abstract class App extends Application {
     public final void updateServiceFeatures(Bundle features) {
         SharedPreferences app_preferences = this.getSharedPreferences("serviceFeatures", 0);
         SharedPreferences.Editor editor = app_preferences.edit();
+        
         // Storing all key value pairs at the preferences
         for (String key : features.keySet()) {
             // Putting the prefix in front of the key
             String prefixKey = Constants.SERVICE_FEATURE_PREFIX + key;
             editor.putBoolean(prefixKey, features.getBoolean(key));
-            if (!editor.commit()){
+            if (!editor.commit()) {
                 Log.e("Service feature couldn't be stored");
             }
         }
@@ -71,15 +72,10 @@ public abstract class App extends Application {
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
         final String name = getApplicationContext().getPackageName();
         
-        pmpsc.addCallbackHandler(new IConnectorCallback() {
+        pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void disconnected() {
-            }
-            
-            
-            @Override
-            public void connected() {
+            public void onConnect() {
                 try {
                     IPMPService ipmps = pmpsc.getAppService();
                     if (!ipmps.isRegistered(name)) {
@@ -93,11 +89,6 @@ public abstract class App extends Application {
                 pmpsc.unbind();
             }
             
-            
-            @Override
-            public void bindingFailed() {
-                Log.e("Binding failed during registering app.");
-            }
         });
         pmpsc.bind();
     }
@@ -118,21 +109,16 @@ public abstract class App extends Application {
         final String name = getApplicationContext().getPackageName();
         final ResultObject<IBinder> result = new ResultObject<IBinder>();
         
-        pmpsc.addCallbackHandler(new IConnectorCallback() {
+        pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void disconnected() {
-            }
-            
-            
-            @Override
-            public void connected() {
+            public void onConnect() {
                 try {
                     IPMPService ipmps = pmpsc.getAppService();
                     if (!ipmps.isRegistered(name)) {
                         result.result = null;
                     } else {
-                        result.result = ipmps.getRessource(resourceGroup, resource);
+                        result.result = ipmps.getRessource(name, resourceGroup, resource);
                     }
                 } catch (RemoteException e) {
                     Log.e("RemoteException during registering app", e);
@@ -141,11 +127,6 @@ public abstract class App extends Application {
                 pmpsc.unbind();
             }
             
-            
-            @Override
-            public void bindingFailed() {
-                Log.e("Binding failed during registering app.");
-            }
         });
         pmpsc.bind(true);
         
@@ -173,21 +154,16 @@ public abstract class App extends Application {
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
         final String name = getApplicationContext().getPackageName();
         
-        pmpsc.addCallbackHandler(new IConnectorCallback() {
+        pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void disconnected() {
-            }
-            
-            
-            @Override
-            public void connected() {
+            public void onConnect() {
                 try {
                     IPMPService ipmps = pmpsc.getAppService();
                     if (!ipmps.isRegistered(name)) {
                         receiveResource(resourceGroup, resource, null);
                     } else {
-                        receiveResource(resourceGroup, resource, ipmps.getRessource(resourceGroup, resource));
+                        receiveResource(resourceGroup, resource, ipmps.getRessource(name, resourceGroup, resource));
                     }
                 } catch (RemoteException e) {
                     Log.e("RemoteException during registering app", e);
@@ -196,11 +172,6 @@ public abstract class App extends Application {
                 pmpsc.unbind();
             }
             
-            
-            @Override
-            public void bindingFailed() {
-                Log.e("Binding failed during registering app.");
-            }
         });
         pmpsc.bind(true);
     }

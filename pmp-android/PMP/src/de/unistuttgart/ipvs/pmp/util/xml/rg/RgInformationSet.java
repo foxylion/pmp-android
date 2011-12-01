@@ -1,10 +1,12 @@
 package de.unistuttgart.ipvs.pmp.util.xml.rg;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.util.xml.AbstractInformationSet;
+import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
+import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
 public class RgInformationSet extends AbstractInformationSet implements
 		Serializable {
@@ -15,35 +17,43 @@ public class RgInformationSet extends AbstractInformationSet implements
 	private static final long serialVersionUID = -5127998017294446211L;
 
 	/**
-	 * This list contains all privacy settings of the rg.
+	 * This map contains all privacy settings of the resourcegroup. key =
+	 * identifier
 	 */
-	private List<PrivacySetting> privacySettings;
+	private Map<String, PrivacySetting> privacySettingsMap;
 
 	/**
 	 * Constructor is used to instantiate the data structures.
 	 */
 	protected RgInformationSet() {
 		super();
-		this.privacySettings = new ArrayList<PrivacySetting>();
+		this.privacySettingsMap = new HashMap<String, PrivacySetting>();
 	}
 
 	/**
-	 * Get all privacy settings of the rg
+	 * Add a privacy setting to the resourcegroup
 	 * 
-	 * @return all privacy settings
-	 */
-	public List<PrivacySetting> getPrivacySettings() {
-		return privacySettings;
-	}
-
-	/**
-	 * Add a privacy setting to the rg
-	 * 
+	 * @param identifier
+	 *            of the privacy setting
 	 * @param ps
-	 *            the privacy setting
+	 *            privacy setting
 	 */
-	public void addPrivacySetting(PrivacySetting ps) {
-		this.privacySettings.add(ps);
+	protected void addPrivacySetting(String identifier, PrivacySetting ps) {
+		if (this.privacySettingsMap.containsKey(identifier)) {
+			throw new XMLParserException(
+					Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+					"A Privacy Setting with the identifier " + identifier
+							+ " already exists.");
+		}
+		this.privacySettingsMap.put(identifier, ps);
 	}
 
+	/**
+	 * Get the map which contains all privacy settings
+	 * 
+	 * @return map with privacy settings
+	 */
+	public Map<String, PrivacySetting> getPrivacySettingsMap() {
+		return privacySettingsMap;
+	}
 }

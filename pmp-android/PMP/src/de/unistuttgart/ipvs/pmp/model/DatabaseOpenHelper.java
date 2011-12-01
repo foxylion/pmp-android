@@ -68,7 +68,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     /**
      * List of all SQL-files for database-clean, the key is the version of the database.
      */
-    private static final String[] CLEAN_SQL_FILES = new String[] { null, "database-v1-clean.sql", "database-v2-clean.sql" };       
+    private static final String[] CLEAN_SQL_FILES = new String[] { null, "database-v1-clean.sql",
+            "database-v2-clean.sql" };
+    
     
     /**
      * DatabaseHelper-Constructor.
@@ -190,6 +192,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         
         Log.v("-------     End of SQL-Queries     ------");
     }
+    
     
     public SQLiteQueryBuilder builder() {
         return this.sqlqb;

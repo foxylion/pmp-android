@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -30,10 +31,10 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         
-        this.element.serviceFeatures = getCache().getServiceLevels().get(this.element);
+        this.element.serviceFeatures = getCache().getServiceFeatures().get(this.element);
         
         this.element.assignedPresets = new ArrayList<Preset>();
-        for (Preset p : getCache().getPresets()) {
+        for (Preset p : getCache().getAllPresets()) {
             if (p.isAppAssigned(this.element)) {
                 this.element.assignedPresets.add(p);
             }
@@ -77,7 +78,8 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     
     /**
-     * Creates the data <b>in the persistence</b> for the {@link App} specified with the parameters.
+     * Creates the data <b>in the persistence</b> for the {@link App} specified with the parameters. Links this
+     * {@link AppPersistenceProvider} to the newly created object.
      * 
      * @param appPackage
      *            package of the app
@@ -85,12 +87,16 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
      *         {@link AppPersistenceProvider}, or null, if the creation was not possible
      */
     public App createElementData(String appPackage) {
-        
-        // TODO store in db
+        // store in db
+        ContentValues cv = new ContentValues();
+        if (getDoh().getWritableDatabase().insert(TBL_APP, null, cv) == -1) {
+            return null;
+        }
         
         // create associated object
         App result = new App(appPackage);
         result.setPersistenceProvider(this);
+        this.element = result;
         
         return result;
         

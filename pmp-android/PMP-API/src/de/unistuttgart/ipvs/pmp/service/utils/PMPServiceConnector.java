@@ -25,7 +25,8 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 /**
  * {@link PMPServiceConnector} is used for connecting (in this case binding) to the PMP service. Add your
- * {@link IConnectorCallback} for interacting with the service. Call {@link PMPServiceConnector#bind} to start the
+ * {@link AbstractConnectorCallback} for interacting with the service. Call {@link PMPServiceConnector#bind} to start
+ * the
  * connection.
  * 
  * @author Jakob Jarosch

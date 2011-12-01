@@ -19,19 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.util.xml.app;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.util.xml.AbstractXMLParser;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
@@ -52,57 +45,44 @@ public class XMLParser extends AbstractXMLParser {
 	private AppInformationSet ais = new AppInformationSet();
 
 	/**
+	 * Constructor
+	 */
+	protected XMLParser(InputStream xmlStream) {
+		super(xmlStream);
+	}
+
+	/**
 	 * This method parses a given xml (by the xml url) and returns a created app
 	 * information set
 	 * 
-	 * @param xmlURL
-	 *            url for the xml
 	 * @return created app information set
 	 */
-	public AppInformationSet parse(InputStream xmlStream) {
+	protected AppInformationSet parse() {
 
-		try {
-			// Instantiate the document builder and get the document
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(xmlStream);
-			doc.getDocumentElement().normalize();
+		// The main nodes "appInformation" and "serviceFeatures" are
+		// required once.
+		NodeList appInformation = doc.getElementsByTagName("appInformation");
+		NodeList serviceFeatures = doc.getElementsByTagName("serviceFeatures");
 
-			// The main nodes "appInformation" and "serviceFeatures" are required
-			// once.
-			NodeList appInformation = doc
-					.getElementsByTagName("appInformation");
-			NodeList serviceFeatures = doc
-					.getElementsByTagName("serviceFeatures");
-
-			// Check, if there is exactly one appInformation and one service
-			// features node
-			if (appInformation.getLength() < 1) {
-				throw new XMLParserException(Type.NODE_MISSING,
-						"The node appInformation is missing!");
-			} else if (appInformation.getLength() > 1) {
-				throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN,
-						"The node appInformation occurred too often!");
-			}
-			if (serviceFeatures.getLength() < 1) {
-				throw new XMLParserException(Type.NODE_MISSING,
-						"The node serviceFeatures is missing!");
-			} else if (serviceFeatures.getLength() > 1) {
-				throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN,
-						"The node serviceFeatures occurred too often!");
-			}
-
-			parseAppInformationNode((Element) appInformation.item(0));
-			parseServiceFeaturesNode((Element) serviceFeatures.item(0));
-
-		} catch (ParserConfigurationException e) {
-			throw new XMLParserException(Type.CONFIGURATION_EXCEPTION,
-					"ParserConfigurationException", e);
-		} catch (SAXException e) {
-			throw new XMLParserException(Type.SAX_EXCEPTION, "SAXException", e);
-		} catch (IOException e) {
-			throw new XMLParserException(Type.IO_EXCEPTION, "IOException", e);
+		// Check, if there is exactly one appInformation and one service
+		// features node
+		if (appInformation.getLength() < 1) {
+			throw new XMLParserException(Type.NODE_MISSING,
+					"The node appInformation is missing!");
+		} else if (appInformation.getLength() > 1) {
+			throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN,
+					"The node appInformation occurred too often!");
 		}
+		if (serviceFeatures.getLength() < 1) {
+			throw new XMLParserException(Type.NODE_MISSING,
+					"The node serviceFeatures is missing!");
+		} else if (serviceFeatures.getLength() > 1) {
+			throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN,
+					"The node serviceFeatures occurred too often!");
+		}
+
+		parseAppInformationNode((Element) appInformation.item(0));
+		parseServiceFeaturesNode((Element) serviceFeatures.item(0));
 
 		return this.ais;
 	}
@@ -115,8 +95,6 @@ public class XMLParser extends AbstractXMLParser {
 	 */
 	private void parseAppInformationNode(Element appInformationElement) {
 		// Create results
-		List<String[]> identifier = parseNodes(appInformationElement,
-				"identifier", 1, 1);
 		List<String[]> defaultNameList = parseNodes(appInformationElement,
 				"defaultName", 1, 1, "lang");
 		List<String[]> nameList = parseNodes(appInformationElement, "name", 0,
@@ -133,7 +111,6 @@ public class XMLParser extends AbstractXMLParser {
 		validateLocaleAttribute(descriptionList);
 
 		// Add to the app information set
-		this.ais.setIdentifier(identifier.get(0)[0]);
 		this.ais.addName(
 				new Locale(defaultNameList.get(0)[1]),
 				defaultNameList.get(0)[0].replaceAll("\t", "")
@@ -178,6 +155,9 @@ public class XMLParser extends AbstractXMLParser {
 	 */
 	private void parseOneServiceFeature(Element serviceFeaturesElement) {
 
+		// Get the identifier
+		String identifier = serviceFeaturesElement.getAttribute("identifier");
+
 		// Create results
 		List<String[]> defaultNameList = parseNodes(serviceFeaturesElement,
 				"defaultName", 1, 1, "lang");
@@ -196,7 +176,7 @@ public class XMLParser extends AbstractXMLParser {
 
 		// Add to the app information set
 		ServiceFeature sf = new ServiceFeature();
-		this.ais.addServiceFeature(sf);
+		this.ais.addServiceFeature(identifier, sf);
 
 		sf.addName(
 				new Locale(defaultNameList.get(0)[1]),
@@ -255,7 +235,8 @@ public class XMLParser extends AbstractXMLParser {
 
 		// Add to the app information set (building objects)
 		for (String[] privacySettingArray : privacySettingList) {
-			rrg.addPrivacySetting(privacySettingArray[1], privacySettingArray[0]);
+			rrg.addPrivacySetting(privacySettingArray[1],
+					privacySettingArray[0]);
 		}
 	}
 

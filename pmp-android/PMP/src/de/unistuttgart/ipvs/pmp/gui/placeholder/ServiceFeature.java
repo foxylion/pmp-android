@@ -51,7 +51,7 @@ public class ServiceFeature implements IServiceFeature {
     
     
     @Override
-    public IPrivacySetting[] getRequiredPrivacyLevels() {
+    public IPrivacySetting[] getRequiredPrivacySettings() {
         return null;
     }
     
@@ -63,7 +63,7 @@ public class ServiceFeature implements IServiceFeature {
     
     
     @Override
-    public String getRequiredPrivacyLevelValue(IPrivacySetting privacySetting) {
+    public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
         return null;
     }
     

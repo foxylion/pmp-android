@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 import java.util.Locale;
 import java.util.Map;
 
+import android.os.IBinder;
+
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -24,6 +26,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
      * internal data & links
      */
     protected Map<String, PrivacySetting> privacySettings;
+    protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     
     
     /* organizational */
@@ -66,7 +69,22 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     @Override
     public IPrivacySetting getPrivacySetting(String privacyLevelIdentifier) {
+        checkCached();
         return this.privacySettings.get(privacyLevelIdentifier);
+    }
+    
+    
+    @Override
+    public IBinder getResource(String appPackage, String resource) {
+        return this.link.getResource(resource).getAndroidInterface(appPackage);
+    }
+    
+    
+    /* inter-model communication */
+    
+    public RgInformationSet getRgis() {
+        checkCached();
+        return this.rgis;
     }
     
 }

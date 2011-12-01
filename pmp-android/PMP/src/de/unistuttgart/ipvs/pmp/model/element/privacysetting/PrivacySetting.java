@@ -1,10 +1,14 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import android.os.RemoteException;
+import java.util.Locale;
+
+import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 
 /**
  * @see IPrivacySetting
@@ -16,19 +20,14 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     /**
      * identifying attributes
      */
-    private ResourceGroup resourceGroup;
-    private String localIdentifier;
-    
-    /**
-     * localized values
-     */
-    protected String name;
-    protected String description;
-    
+    protected ResourceGroup resourceGroup;
+    protected String localIdentifier;
     
     /**
      * internal data & links
      */
+    protected PrivacyLevel<?> link;
+    
     
     /* organizational */
     
@@ -49,15 +48,24 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public String getName() {
-        checkCached();
-        return this.name;
+        String name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getNames()
+                .get(Locale.getDefault());
+        if (name == null) {
+            name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getNames().get(Locale.US);
+        }
+        return name;
     }
     
     
     @Override
     public String getDescription() {
-        checkCached();
-        return this.description;
+        String description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier())
+                .getDescriptions().get(Locale.getDefault());
+        if (description == null) {
+            description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getDescriptions()
+                    .get(Locale.US);
+        }
+        return description;
     }
     
     
@@ -69,22 +77,48 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public boolean isValueValid(String value) {
-        // TODO Auto-generated method stub
-        return false;
+        checkCached();
+        try {
+            link.parseValue(value);
+            return true;
+        } catch (PrivacyLevelValueException plve) {
+            return false;
+        }
     }
     
     
     @Override
-    public String getHumanReadableValue(String value) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        return null;
+    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
+        checkCached();
+        return link.getHumanReadableValue(value);
     }
     
     
     @Override
-    public boolean permits(String reference, String value) throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean permits(String reference, String value) throws PrivacyLevelValueException {
+        checkCached();
+        return link.permits(value, reference);
+    }
+    
+    
+    @Override
+    public View getView() {
+        checkCached();
+        return link.getView();
+    }
+    
+    
+    @Override
+    public String getViewValue(View view) {
+        checkCached();
+        return link.getViewValue(view);
+    }
+    
+    
+    @Override
+    public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+        checkCached();
+        link.setViewValue(view, value);
     }
     
 }

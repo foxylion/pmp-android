@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -124,7 +125,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         for (ResourceGroup rg : this.cache.getResourceGroups().values()) {
             rg.checkCached();
         }
-        for (Map<String, PrivacySetting> psMap : this.cache.getPrivacyLevels().values()) {
+        for (Map<String, PrivacySetting> psMap : this.cache.getPrivacySettings().values()) {
             for (PrivacySetting pl : psMap.values()) {
                 pl.checkCached();
             }
@@ -132,13 +133,15 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         for (App a : this.cache.getApps().values()) {
             a.checkCached();
         }
-        for (Map<String, ServiceFeature> sfMap : this.cache.getServiceLevels().values()) {
+        for (Map<String, ServiceFeature> sfMap : this.cache.getServiceFeatures().values()) {
             for (ServiceFeature sl : sfMap.values()) {
                 sl.checkCached();
             }
         }
-        for (Preset p : this.cache.getPresets()) {
-            p.checkCached();
+        for (Map<String, Preset> pMap : this.cache.getPresets().values()) {
+            for (Preset p : pMap.values()) {
+                p.checkCached();
+            }
         }
         
     }
@@ -200,7 +203,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             sfCursor.close();
             
             // finalize App
-            this.cache.getServiceLevels().put(app, thisAppsSFs);
+            this.cache.getServiceFeatures().put(app, thisAppsSFs);
             this.cache.getApps().put(appPackage, app);
             appCursor.moveToNext();
         }
@@ -229,7 +232,8 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             
             // find the local PSs (don't think join is a wise idea)
             builder.setTables(TBL_PRIVACYSETTING);
-            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?", new String[] { rgPackage }, null, null, null);
+            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?",
+                    new String[] { rgPackage }, null, null, null);
             psCursor.moveToNext();
             while (!psCursor.isAfterLast()) {
                 String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
@@ -242,7 +246,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             psCursor.close();
             
             // finalize RG
-            this.cache.getPrivacyLevels().put(rg, thisRGsPLs);
+            this.cache.getPrivacySettings().put(rg, thisRGsPLs);
             this.cache.getResourceGroups().put(rgPackage, rg);
             rgCursor.moveToNext();
         }
@@ -259,17 +263,29 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         SQLiteQueryBuilder builder = this.doh.builder();
         builder.setTables(TBL_PRESET);
         
-       
         Cursor cursor = builder.query(db, new String[] { CREATOR, IDENTIFIER }, null, null, null, null, null);
         cursor.moveToNext();
         
         while (!cursor.isAfterLast()) {
+            // find the data, translate it
             String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
+            ModelElement creatorElement = this.cache.getApps().get(creator);
+            if (creatorElement == null) {
+                creatorElement = this.cache.getResourceGroups().get(creator);
+            }
             String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
-            Preset p = new Preset(creator, identifier);
+            
+            // create item
+            Preset p = new Preset(creatorElement, identifier);
             p.setPersistenceProvider(new PresetPersistenceProvider(p));
             
-            this.cache.getPresets().add(p);
+            // apply to cache
+            Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
+            if (creatorMap == null) {
+                creatorMap = new HashMap<String, Preset>();
+                this.cache.getPresets().put(creatorElement, creatorMap);
+            }
+            creatorMap.put(identifier, p);
             cursor.moveToNext();
         }
         cursor.close();

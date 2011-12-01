@@ -42,7 +42,7 @@ public class AppInformationSetParser {
      * @return app information set
      */
     public static AppInformationSet createAppInformationSet(InputStream xmlStream) {
-        return new XMLParser().parse(xmlStream);
+        return new XMLParser(xmlStream).parse();
     }
     
     
@@ -58,7 +58,6 @@ public class AppInformationSetParser {
         Log.d("-----------------------");
         Log.d("-- App-Information: ---");
         Log.d("-----------------------");
-        Log.d("Identifier: " + ais.getIdentifier());
         for (Locale l : ais.getNames().keySet()) {
             Log.d("Name: " + ais.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
         }
@@ -67,9 +66,10 @@ public class AppInformationSetParser {
         }
         Log.d("-----------------------");
         Log.d("-- Service Features: --");
-        Log.d("-----------------------");
-        
-        for (ServiceFeature sf : ais.getServiceFeatures()) {
+        Log.d("-----------------------");        
+        for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
+        	ServiceFeature sf = ais.getServiceFeaturesMap().get(sfIdentifier);
+        	Log.d("Identifier: " + sfIdentifier);
             for (Locale l : sf.getNames().keySet()) {
                 Log.d("Name: " + sf.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
             }

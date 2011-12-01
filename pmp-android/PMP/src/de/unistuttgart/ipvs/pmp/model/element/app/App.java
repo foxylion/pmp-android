@@ -1,18 +1,25 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 
 /**
@@ -95,8 +102,48 @@ public class App extends ModelElement implements IApp {
     @Override
     public void verifyServiceFeatures() {
         checkCached();
-        // TODO also here
-        
+        try {
+            Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
+            // for all presets
+            for (IPreset p : getAssignedPresets()) {
+                // all granted privacy settings
+                for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
+                    
+                    String existing = granted.get(ps);
+                    String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                    
+                    if (existing == null) {
+                        granted.put(ps, grantNow);
+                    } else {
+                        if (ps.permits(existing, grantNow)) {
+                            // grantNow allows more
+                            granted.put(ps, grantNow);
+                        } /* else existing allows more, do nothing */
+                    }
+                    
+                }
+            }
+            
+            Map<ServiceFeature, Boolean> verification = new HashMap<ServiceFeature, Boolean>();
+            // actual check against granted
+            sfLoop:
+            for (ServiceFeature sf : this.serviceFeatures.values()) {
+                verification.put(sf, true);
+                
+                for (Entry<PrivacySetting, String> e : sf.getRequiredPrivacySettingValues().entrySet()) {
+                    if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
+                        verification.put(sf, false);
+                        continue sfLoop;
+                    }
+                }
+            }
+            
+            // TODO IPC here
+            IPCProvider.getInstance().queue(getIdentifier(), verification);
+            
+        } catch (PrivacyLevelValueException plve) {
+            Log.e("Could not check whether service feature is active.", plve);
+        }
     }
     
     
@@ -114,6 +161,14 @@ public class App extends ModelElement implements IApp {
         } catch (NameNotFoundException e) {
             return null;
         }
+    }
+    
+    
+    /* inter-model communication */
+    
+    public AppInformationSet getAis() {
+        checkCached();
+        return this.ais;
     }
     
 }
