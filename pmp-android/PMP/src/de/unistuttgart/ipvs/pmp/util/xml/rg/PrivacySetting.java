@@ -10,8 +10,8 @@ import de.unistuttgart.ipvs.pmp.util.xml.AbstractInformationSet;
  */
 public class PrivacySetting extends AbstractInformationSet {
 
-	public PrivacySetting() {
-		super();
-	}
+    public PrivacySetting() {
+        super();
+    }
 
 }

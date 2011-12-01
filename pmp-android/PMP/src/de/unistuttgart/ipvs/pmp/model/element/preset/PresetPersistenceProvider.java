@@ -29,140 +29,159 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {/*
-        Cursor c = rdb.rawQuery("SELECT Name, Description FROM Preset WHERE Identifier = ? AND Type = ? LIMIT 1",
-                new String[] { this.element.getIdentifier(), this.element.getType().toString() });
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
+        qb.setTables(TBL_PRESET);
+        Cursor c = qb.query(rdb, new String[] { NAME, DESCRIPTION, DELETED }, CREATOR + " = ? AND " + IDENTIFIER
+                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null,
+                null, null);
         
         if (!c.moveToFirst()) {
-            throw new IllegalAccessError("The Identifier " + this.element.getIdentifier()
-                    + " was not found in the database.");
+            throw new IllegalAccessError("The preset was not found in the database.");
         } else {
-            this.element.name = c.getString(c.getColumnIndex("Name"));
-            this.element.description = c.getString(c.getColumnIndex("Description"));
-            
-            // load privacy level values
-            Cursor cpl = rdb.rawQuery(
-                    "SELECT ResourceGroup_Identifier, PrivacyLevel_Identifier, Value FROM Preset_PrivacyLevels"
-                            + " WHERE Preset_Identifier = ? AND Preset_Type = ?",
-                    new String[] { this.element.getIdentifier(), this.element.getType().toString() });
-            cpl.moveToFirst();
-            
-            this.element.privacyLevelValues = new HashMap<IPrivacySetting, String>();
-            while (!cpl.isAfterLast()) {
-                String rgId = cpl.getString(cpl.getColumnIndex("ResourceGroup_Identifier"));
-                String plId = cpl.getString(cpl.getColumnIndex("PrivacyLevel_Identifier"));
-                String value = cpl.getString(cpl.getColumnIndex("Value"));
-                
-                ResourceGroup rg = getCache().getResourceGroups().get(rgId);
-                this.element.available = true;
-                if (rg == null) {
-                    Log.w("Invalid preset cached (rg does not exist)");
-                    
-                    this.element.available = false;
-                } else {
-                    PrivacySetting pl = getCache().getPrivacyLevels().get(rg).get(plId);
-                    
-                    this.element.privacyLevelValues.put(pl, value);
-                }
-                cpl.moveToNext();
-            }
-            cpl.close();
-            
-            // load assigned apps
-            Cursor capp = rdb.rawQuery("SELECT App_Identifier FROM Preset_Apps"
-                    + " WHERE Preset_Identifier = ? AND Preset_Type = ?", new String[] { this.element.getIdentifier(),
-                    this.element.getType().toString() });
-            capp.moveToFirst();
-            
-            this.element.assignedApps = new ArrayList<IApp>();
-            while (!capp.isAfterLast()) {
-                String appId = capp.getString(capp.getColumnIndex("App_Identifier"));
-                
-                App app = getCache().getApps().get(appId);
-                
-                this.element.assignedApps.add(app);
-                capp.moveToNext();
-            }
-            capp.close();
-            
+            this.element.name = c.getString(c.getColumnIndex(NAME));
+            this.element.description = c.getString(c.getColumnIndex(DESCRIPTION));
+            this.element.deleted = Boolean.valueOf(c.getString(c.getColumnIndex(DELETED)));
         }
+        c.close();
         
-        c.close();*/
+        // load privacy level values
+        qb.setTables(TBL_GrantPSValue);
+        Cursor cps = qb.query(rdb, new String[] { PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER,
+                GRANTEDVALUE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
+                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null, null, null);
+        
+        this.element.privacySettingValues = new HashMap<IPrivacySetting, String>();
+        this.element.containsUnknownElements = false;
+        
+        cps.moveToFirst();
+        while (!cps.isAfterLast()) {
+            String rgPackage = cps.getString(cps.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
+            String psIdentifier = cps.getString(cps.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+            String grantValue = cps.getString(cps.getColumnIndex(GRANTEDVALUE));
+            
+            ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
+            if (rg == null) {
+                Log.w("Unavailable preset cached (RG not present).");
+                this.element.containsUnknownElements = true;
+            } else {
+                PrivacySetting ps = getCache().getPrivacyLevels().get(rg).get(psIdentifier);
+                if (ps == null) {
+                    Log.w("Unavailable preset cached (PS not found in RG).");
+                    this.element.containsUnknownElements = true;
+                } else {
+                    this.element.privacySettingValues.put(ps, grantValue);
+                }
+            }
+            cps.moveToNext();
+        }
+        cps.close();
+        
+        // load assigned apps
+        qb.setTables(TBL_PresetAssignedApp);
+        Cursor capp = qb.query(rdb, new String[] { APP_PACKAGE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null,
+                null, null);
+        this.element.assignedApps = new ArrayList<IApp>();
+        
+        capp.moveToFirst();
+        while (!capp.isAfterLast()) {
+            String appId = capp.getString(capp.getColumnIndex(APP_PACKAGE));
+            
+            App app = getCache().getApps().get(appId);
+            if (app == null) {
+                Log.w("Unavailable preset cached (App not found).");
+                this.element.containsUnknownElements = true;
+            } else {
+                this.element.assignedApps.add(app);
+            }
+            capp.moveToNext();
+        }
+        capp.close();
+        
     }
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {/*
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         ContentValues cv = new ContentValues();
-        cv.put("Name", this.element.name);
-        cv.put("Description", this.element.description);
+        cv.put(NAME, this.element.name);
+        cv.put(DESCRIPTION, this.element.description);
+        cv.put(DELETED, String.valueOf(this.element.deleted));
         
-        wdb.update("Preset", cv, "Identifier = ? AND Type = ?", new String[] { this.element.getIdentifier(),
-                this.element.getType().toString() });*/
+        wdb.update(TBL_PRESET, cv, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
+                this.element.getCreatorString(), this.element.getLocalIdentifier() });
     }
     
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // TODO Auto-generated method stub
+        // delete preset granted privacy setting value references
+        wdb.rawQuery("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        
+        // delete preset assigned apps references
+        wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
+                + PRESET_IDENTIFIER + " = ?",
+                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        
+        // delete preset
+        wdb.rawQuery("DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
     }
     
     
-    protected void assignApp(IApp app) {/*
+    protected void assignApp(IApp app) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         ContentValues cv = new ContentValues();
-        cv.put("Preset_Name", this.element.getName());
-        cv.put("Preset_Type", this.element.getType().toString());
-        cv.put("Preset_Identifier", this.element.getIdentifier());
-        cv.put("App_Identifier", app.getIdentifier());
+        cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
+        cv.put(PRESET_CREATOR, this.element.getCreatorString());
+        cv.put(APP_PACKAGE, app.getIdentifier());
         
-        wdb.insert("Preset_Apps", null, cv);*/
+        wdb.insert("Preset_Apps", null, cv);
     }
     
     
-    protected void removeApp(IApp app) {/*
+    protected void removeApp(IApp app) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         wdb.rawQuery(
-                "DELETE FROM Preset_Apps WHERE Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND App_Identifier = ?",
-                new String[] { this.element.getName(), this.element.getType().toString(), this.element.getIdentifier(),
-                        app.getIdentifier() });
-        */
+                "DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                        + " = ? AND " + APP_PACKAGE + " = ?",
+                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier(), app.getIdentifier() });
     }
     
     
-    protected void assignPrivacyLevel(IPrivacySetting pl, String value) {/*
+    protected void assignPrivacyLevel(IPrivacySetting ps, String value) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         ContentValues cv = new ContentValues();
-        cv.put("Preset_Name", this.element.getName());
-        cv.put("Preset_Type", this.element.getType().toString());
-        cv.put("Preset_Identifier", this.element.getIdentifier());
-        cv.put("ResourceGroup_Identifier", pl.getResourceGroup().getIdentifier());
-        cv.put("PrivacyLevel_Identifier", pl.getIdentifier());
-        cv.put("Value", value);
+        cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, ps.getResourceGroup().getIdentifier());
+        cv.put(PRIVACYSETTING_IDENTIFIER, ps.getLocalIdentifier());
+        cv.put(PRESET_CREATOR, this.element.getCreatorString());
+        cv.put(PRESET_IDENTIFIER, this.element.getIdentifier());
+        cv.put(GRANTEDVALUE, value);
         
-        if (wdb.insert("Preset_PrivacyLevels", null, cv) == -1) {
+        if (wdb.insert(TBL_GrantPSValue, null, cv) == -1) {
             
-            wdb.update(
-                    "Preset_PrivacyLevels",
-                    cv,
-                    "Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
-                    new String[] { this.element.getName(), this.element.getType().toString(),
-                            this.element.getIdentifier(), pl.getResourceGroup().getIdentifier(), pl.getIdentifier() });
-        }*/
+            wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                    + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                    + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
+                    this.element.getCreatorString(), this.element.getIdentifier() });
+        }
     }
     
     
-    protected void removePrivacyLevel(IPrivacySetting pl) {/*
+    protected void removePrivacyLevel(IPrivacySetting ps) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         wdb.rawQuery(
-                "DELETE FROM Preset_PrivacyLevels WHERE Preset_Name = ? AND Preset_Type = ? AND Preset_Identifier = ? AND ResourceGroup_Identifier = ? AND PrivacyLevel_Identifier = ?",
-                new String[] { this.element.getName(), this.element.getType().toString(), this.element.getIdentifier(),
-                        pl.getResourceGroup().getIdentifier(), pl.getIdentifier() });*/
+                "DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                        + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                        + " = ?",
+                new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
+                        this.element.getCreatorString(), this.element.getIdentifier() });
     }
     
 }

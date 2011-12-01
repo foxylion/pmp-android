@@ -232,7 +232,8 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             
             // find the local PSs (don't think join is a wise idea)
             builder.setTables(TBL_PRIVACYSETTING);
-            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?", new String[] { rgPackage }, null, null, null);
+            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?",
+                    new String[] { rgPackage }, null, null, null);
             psCursor.moveToNext();
             while (!psCursor.isAfterLast()) {
                 String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
@@ -262,21 +263,23 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         SQLiteQueryBuilder builder = this.doh.builder();
         builder.setTables(TBL_PRESET);
         
-       
         Cursor cursor = builder.query(db, new String[] { CREATOR, IDENTIFIER }, null, null, null, null, null);
         cursor.moveToNext();
         
         while (!cursor.isAfterLast()) {
+            // find the data, translate it
             String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
-            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
-            Preset p = new Preset(creator, identifier);
-            p.setPersistenceProvider(new PresetPersistenceProvider(p));
-
             ModelElement creatorElement = this.cache.getApps().get(creator);
             if (creatorElement == null) {
                 creatorElement = this.cache.getResourceGroups().get(creator);
             }
+            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
             
+            // create item
+            Preset p = new Preset(creatorElement, identifier);
+            p.setPersistenceProvider(new PresetPersistenceProvider(p));
+            
+            // apply to cache
             Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
             if (creatorMap == null) {
                 creatorMap = new HashMap<String, Preset>();

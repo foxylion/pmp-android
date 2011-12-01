@@ -42,7 +42,7 @@ public class AppInformationSetParser {
      * @return app information set
      */
     public static AppInformationSet createAppInformationSet(InputStream xmlStream) {
-        return new XMLParser().parse(xmlStream);
+        return new XMLParser(xmlStream).parse();
     }
     
     

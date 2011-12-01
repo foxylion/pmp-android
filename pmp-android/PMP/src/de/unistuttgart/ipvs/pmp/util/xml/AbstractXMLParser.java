@@ -19,23 +19,64 @@
  */
 package de.unistuttgart.ipvs.pmp.util.xml;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
 /**
- * This class abstracts common used methods for the xml parsers of an app or resourcegroup
+ * This class abstracts common used methods for the xml parsers of an app or
+ * resourcegroup
  * 
  * @author Marcus Vetter
  * 
  */
 public abstract class AbstractXMLParser {
+
+	/**
+	 * The XML document
+	 */
+	protected Document doc = null;
+
+	/**
+	 * The constructor to instantiate the parser
+	 * 
+	 * @param xmlStream
+	 *            the xml input stream
+	 */
+	protected AbstractXMLParser(InputStream xmlStream) {
+		
+		try {
+			// Instantiate the document builder and get the document
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db;
+			db = dbf.newDocumentBuilder();
+			this.doc = db.parse(xmlStream);
+			doc.getDocumentElement().normalize();
+
+		} catch (ParserConfigurationException e) {
+			throw new XMLParserException(Type.CONFIGURATION_EXCEPTION,
+					"ParserConfigurationException", e);
+		} catch (SAXException e) {
+			throw new XMLParserException(Type.SAX_EXCEPTION, "SAXException", e);
+		} catch (IOException e) {
+			throw new XMLParserException(Type.IO_EXCEPTION, "IOException", e);
+		}
+
+	}
 
 	/**
 	 * This method is used to parse nodes directly. (optional with given

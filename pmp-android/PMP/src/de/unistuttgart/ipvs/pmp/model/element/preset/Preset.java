@@ -3,8 +3,6 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 import java.util.List;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
-import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -20,7 +18,7 @@ public class Preset extends ModelElement implements IPreset {
     /**
      * identifying attributes
      */
-    protected String creator;
+    protected ModelElement creator;
     protected String localIdentifier;
     
     /**
@@ -35,12 +33,13 @@ public class Preset extends ModelElement implements IPreset {
     protected Map<IPrivacySetting, String> privacySettingValues;
     protected List<IApp> assignedApps;
     
-    protected boolean available;
+    protected boolean containsUnknownElements;
+    protected boolean deleted;
     
     
     /* organizational */
     
-    public Preset(String creator, String identifier) {
+    public Preset(ModelElement creator, String identifier) {
         super(creator + PersistenceConstants.PACKAGE_SEPARATOR + identifier);
         this.creator = creator;
         this.localIdentifier = identifier;
@@ -50,6 +49,33 @@ public class Preset extends ModelElement implements IPreset {
     /* interface */
     
     @Override
+    public String getLocalIdentifier() {
+        return this.localIdentifier;
+    }
+    
+    
+    @Override
+    public boolean isBundled() {
+        return this.creator == null;
+    }
+    
+    
+    @Override
+    public ModelElement getCreator() {
+        return this.creator;
+    }
+    
+    
+    protected String getCreatorString() {
+        if (getCreator() == null) {
+            return PersistenceConstants.PACKAGE_SEPARATOR;
+        } else {
+            return getCreator().getIdentifier();
+        }
+    }
+    
+    
+    @Override
     public String getName() {
         checkCached();
         return this.name;
@@ -57,9 +83,25 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
+    public void setName(String name) {
+        checkCached();
+        this.name = name;
+        persist();
+    }
+    
+    
+    @Override
     public String getDescription() {
         checkCached();
         return this.description;
+    }
+    
+    
+    @Override
+    public void setDescription(String description) {
+        checkCached();
+        this.description = description;
+        persist();
     }
     
     
@@ -72,6 +114,7 @@ public class Preset extends ModelElement implements IPreset {
     
     @Override
     public String getGrantedPrivacyLevelValue(IPrivacySetting privacySetting) {
+        checkCached();
         return this.privacySettingValues.get(privacySetting);
     }
     
@@ -140,21 +183,8 @@ public class Preset extends ModelElement implements IPreset {
     
     @Override
     public boolean isAvailable() {
-        return this.available;
-    }
-    
-    
-    @Override
-    public boolean isBundled() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    
-    @Override
-    public ModelElement getCreator() {
-        // TODO Auto-generated method stub
-        return null;
+        checkCached();
+        return !this.containsUnknownElements;
     }
     
     
@@ -170,19 +200,20 @@ public class Preset extends ModelElement implements IPreset {
         // TODO Auto-generated method stub
         
     }
-
-
+    
+    
     @Override
     public void setDeleted(boolean deleted) {
-        // TODO Auto-generated method stub
-        
+        checkCached();
+        this.deleted = deleted;
+        persist();
     }
-
-
+    
+    
     @Override
-    public void isDeleted() {
-        // TODO Auto-generated method stub
-        
+    public boolean isDeleted() {
+        checkCached();
+        return this.deleted;
     }
     
 }

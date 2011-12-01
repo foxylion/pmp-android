@@ -66,6 +66,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     @Override
     public IPrivacySetting getPrivacySetting(String privacyLevelIdentifier) {
+        checkCached();
         return this.privacySettings.get(privacyLevelIdentifier);
     }
     
@@ -73,6 +74,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     /* inter-model communication */
     
     public RgInformationSet getRgis() {
+        checkCached();
         return this.rgis;
     }
     
