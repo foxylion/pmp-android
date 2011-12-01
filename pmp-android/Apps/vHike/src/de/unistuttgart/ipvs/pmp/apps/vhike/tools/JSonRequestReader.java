@@ -2,13 +2,16 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
@@ -62,7 +65,7 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse);
+			object = JSonRequestProvider.doRequest(listToParse, "register.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -70,25 +73,26 @@ public class JSonRequestReader {
 		}
 		String status = "";
 		if (object != null) {
-			String suc = object.get("successful").toString();
-			if (suc.equals("true")) {
-				status = object.get("status").toString();
+			boolean suc = object.get("successful").getAsBoolean();
+			if (suc) {
+				status = object.get("status").getAsString();
 			}
 			return status;
 		} else {
-			return "Registration failed!";
+			return status;
 		}
 
 	}
 
 	/**
 	 * Try to login into the app with given username and password
+	 * 
 	 * @param name
 	 *            username
 	 * @param pw
 	 *            password
 	 * 
-	 * @return session_id
+	 * @return status (see vHike/webservice/design.html)
 	 */
 	public static String login(String username, String pw) {
 
@@ -98,30 +102,24 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse);
+			object = JSonRequestProvider.doRequest(listToParse, "login.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String suc = object.get("successful").toString();
+		boolean suc = object.get("successful").getAsBoolean();
 		String sid = null;
 		String status = null;
-		if (suc.equals("true")) {
-			status = object.get("status").toString();
-			sid = object.get("sid").toString();
-			
-			if(sid != null){
-				Log.i("Session ID: "+sid);
-				return sid;
-				//TODO  Aufruf von eigenem Profil holen
-				// getOwnProfile(); 
-			}
+		if (suc) {
+			status = object.get("status").getAsString();
+			sid = object.get("sid").getAsString();
+			Model.getInstance().setSid(sid);
+			return status;
+				// TODO Aufruf von eigenem Profil holen
+				// getOwnProfile();
 		}
-
-		Log.i("SID:" + sid + " STATUS:" + status + " SUCCESSFUL:" + suc);
-
-		return sid;
+		return status;
 	}
 
 	/**
@@ -130,27 +128,28 @@ public class JSonRequestReader {
 	 * @param session_id
 	 * @return true, if logout succeeded
 	 */
-	public static boolean logout(String session_id) {
+	public static String logout(String session_id) {
 
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", session_id, false));
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse);
-			
+			object = JSonRequestProvider.doRequest(listToParse, "logout.php");
+
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		String suc = object.get("successful").toString();
-		if(suc.equals("true")){
-			return true;
-		}else{
-			return false;	
+		boolean suc = object.get("successful").getAsBoolean();
+		String status = object.get("status").getAsString();
+		if (suc) {
+			return status;
+		} else {
+			return status;
 		}
-		
+
 	}
 
 	/**
@@ -162,23 +161,39 @@ public class JSonRequestReader {
 	 *            of an user
 	 */
 	public static Profile getProfile(String session_id, int id) {
-		
+
 		listToParse.clear();
 		listToParse.add(new ParamObject("id", String.valueOf(id), false));
 		listToParse.add(new ParamObject("sid", session_id, false));
-		
+
 		JsonObject object = null;
+		JsonArray array = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse);
-			
+			object = JSonRequestProvider.doRequest(listToParse,"getProfile.php");
+
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		String suc = object.get("").toString();
-		return null;
+
+		boolean suc = object.get("successful").getAsBoolean();
+		String userid = object.get("id").getAsString();
+		String username = object.get("username").getAsString();
+		String regdate = object.get("regdate").getAsString();
+		double rating = object.get("rating").getAsDouble();
+		// Test TODO
+		Date date = new Date();
+		Profile profile;
+		if (suc) {
+			profile = new Profile(username, "email", "firstname", "lastname",
+					"tel", "description", rating, date,
+					false, false, false, false);
+			return profile;
+		} else {
+			return null;
+		}
+
 	}
 
 	/**
@@ -186,9 +201,27 @@ public class JSonRequestReader {
 	 * 
 	 * @return true if succeeded
 	 */
-	public static boolean announceTrip(String session_id) {
+	public static boolean announceTrip(String session_id, String destination) {
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", session_id, false));
+		listToParse.add(new ParamObject("destination", destination, true));
 
-		return false;
+		JsonObject object = null;
+		try {
+			object = JSonRequestProvider.doRequest(listToParse, "announceTrip.php");
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String suc = object.get("successful").toString();
+		if (suc.equals("true")) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -206,7 +239,7 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse);
+			object = JSonRequestProvider.doRequest(listToParse, "test.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
