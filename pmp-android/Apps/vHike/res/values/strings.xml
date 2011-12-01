@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, VHike_PrototypActivity!</string>
-    <string name="app_name">VHike_Prototyp</string>
+    <string name="app_name">VHike</string>
     <string name="main_title">vHike</string>
     <string name="main_profile">Profile</string>
     <string name="main_history">History</string>

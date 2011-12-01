@@ -31,7 +31,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
  * outside. It connects to the webservice and getting the JsonObject. After the
  * JsonObject was get, return the JsonObject to the caller class.
  * 
- * Version: FINAL, don't touch this class
  * 
  * @author Alexander Wassiljew
  * 
@@ -76,6 +75,9 @@ public class JSonRequestProvider {
 
 		List<NameValuePair> namelist = new ArrayList<NameValuePair>();
 
+		
+		
+		
 		// Iterate over objects, wich have to be post to the webservice
 		// POST REQUESTS
 		for (ParamObject object : listToParse) {
