@@ -37,7 +37,15 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  */
 public class ServiceFeature implements Serializable {
     
+    /**
+     * Serial
+     */
     private static final long serialVersionUID = -3279934293726339125L;
+    
+    /**
+     * This variable contains the identifier
+     */
+    protected String identifier;
     
     /**
      * This map contains all names of the app. key = locale
@@ -62,6 +70,26 @@ public class ServiceFeature implements Serializable {
         this.names = new HashMap<Locale, String>();
         this.descriptions = new HashMap<Locale, String>();
         this.requiredResourceGroups = new ArrayList<RequiredResourceGroup>();
+    }
+    
+
+    /**
+     * Get the identifier.
+     * 
+     * @return the identifier
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     * Set the identifier
+     * 
+     * @param identifier
+     *            identifier
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
     
     
