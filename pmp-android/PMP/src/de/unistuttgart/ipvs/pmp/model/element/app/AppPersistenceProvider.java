@@ -33,7 +33,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         this.element.serviceFeatures = getCache().getServiceLevels().get(this.element);
         
         this.element.assignedPresets = new ArrayList<Preset>();
-        for (Preset p : getCache().getPresets()) {
+        for (Preset p : getCache().getAllPresets()) {
             if (p.isAppAssigned(this.element)) {
                 this.element.assignedPresets.add(p);
             }

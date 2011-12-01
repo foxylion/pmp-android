@@ -20,7 +20,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {/*
         Cursor c = rdb
                 .rawQuery(
                         "SELECT Name_Cache, Description_Cache FROM PrivacySetting WHERE Identifier = ? AND ResourceGroup_Identifier = ? LIMIT 1",
@@ -35,18 +35,18 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
             
         }
         
-        c.close();
+        c.close();*/
     }
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {/*
         ContentValues cv = new ContentValues();
         cv.put("Name_Cache", this.element.name);
         cv.put("Description_Cache", this.element.description);
         
         wdb.update("PrivacySetting", cv, "Identifier = ? AND ResourceGroup_Identifier",
-                new String[] { this.element.getIdentifier(), this.element.getResourceGroup().getIdentifier() });
+                new String[] { this.element.getIdentifier(), this.element.getResourceGroup().getIdentifier() });*/
     }
 
 
