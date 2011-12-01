@@ -142,10 +142,12 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
+		String status = null;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
+			status = object.get("status").getAsString();
 		}
-		String status = object.get("status").getAsString();
+		
 		if (suc) {
 			return status;
 		} else {
@@ -174,15 +176,16 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
+		String username = null;
+		double rating = 0 ;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
+			username = object.get("username").getAsString();
+			 rating = object.get("rating").getAsDouble();
 		}
 		//String userid = object.get("id").getAsString();
-		String username = object.get("username").getAsString();
 		//TODO
 		//String regdate = object.get("regdate").getAsString();
-		double rating = object.get("rating").getAsDouble();
-
 		Profile profile;
 
 		Date date = new Date();
@@ -220,14 +223,16 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
+		String username = null;
+		double rating = 0;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
+			username = object.get("username").getAsString();
+			rating = object.get("rating").getAsDouble();
 		}
 		//String userid = object.get("id").getAsString();
-		String username = object.get("username").getAsString();
 		//TODO
 		//String regdate = object.get("regdate").getAsString();
-		double rating = object.get("rating").getAsDouble();
 		// Test TODO
 		Date date = new Date();
 		Profile profile;
