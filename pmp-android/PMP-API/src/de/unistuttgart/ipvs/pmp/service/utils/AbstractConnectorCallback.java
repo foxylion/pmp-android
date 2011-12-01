@@ -20,29 +20,36 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.app.Service;
+import de.unistuttgart.ipvs.pmp.Log;
 
 /**
- * {@link IConnectorCallback} is used in {@link AbstractConnector}s to get informed when a Service has connected after
+ * {@link AbstractConnectorCallback} is used in {@link AbstractConnector}s to get informed when a Service has connected
+ * after
  * the binding command.
  * 
  * @author Jakob Jarosch
  */
-public interface IConnectorCallback {
+public abstract class AbstractConnectorCallback {
     
     /**
      * Is called when the {@link Service} has connected.
      */
-    public void connected();
-    
-    
-    /**
-     * Is called when the binding of the {@link Service} failed.
-     */
-    public void bindingFailed();
+    public void onConnect() {
+    }
     
     
     /**
      * Is called when the {@link Service} disconnected.
      */
-    public void disconnected();
+    public void onDisconnect() {
+    }
+    
+    
+    /**
+     * Is called when the binding of the {@link Service} failed.
+     */
+    public void onBindingFailed() {
+        Log.e("Failed to bind.");
+    }
+    
 }

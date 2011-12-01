@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 import java.util.List;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -162,9 +163,7 @@ public class Preset extends ModelElement implements IPreset {
         ((PresetPersistenceProvider) persistenceProvider).assignPrivacyLevel(privacySetting, value);
         this.privacySettingValues.put(privacySetting, value);
         
-        for (IApp app : getAssignedApps()) {
-            app.verifyServiceFeatures();
-        }
+        rollout();
     }
     
     
@@ -175,9 +174,7 @@ public class Preset extends ModelElement implements IPreset {
         ((PresetPersistenceProvider) persistenceProvider).removePrivacyLevel(privacySetting);
         this.privacySettingValues.remove(privacySetting);
         
-        for (IApp app : getAssignedApps()) {
-            app.verifyServiceFeatures();
-        }
+        rollout();
     }
     
     
@@ -190,15 +187,13 @@ public class Preset extends ModelElement implements IPreset {
     
     @Override
     public void startUpdate() {
-        // TODO Auto-generated method stub
-        
+        IPCProvider.getInstance().startUpdate();
     }
     
     
     @Override
     public void endUpdate() {
-        // TODO Auto-generated method stub
-        
+        IPCProvider.getInstance().endUpdate();
     }
     
     
@@ -214,6 +209,17 @@ public class Preset extends ModelElement implements IPreset {
     public boolean isDeleted() {
         checkCached();
         return this.deleted;
+    }
+    
+    /* inter-model communication */
+    
+    /**
+     * Forces a rollout to all the affected apps. Useful when this preset changed its active state.
+     */
+    public void rollout() {
+        for (IApp app : getAssignedApps()) {
+            app.verifyServiceFeatures();
+        }
     }
     
 }

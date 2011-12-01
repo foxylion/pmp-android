@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 
@@ -34,7 +36,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 + " = ?", new String[] { this.element.app.getIdentifier(), this.element.getLocalIdentifier() }, null,
                 null, null);
         
-        this.element.privacyLevelValues = new HashMap<PrivacySetting, String>();
+        this.element.privacySettingValues = new HashMap<PrivacySetting, String>();
         this.element.containsUnknownPrivacySettings = false;
         
         while (!c.isAfterLast()) {
@@ -48,14 +50,14 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 this.element.containsUnknownPrivacySettings = true;
                 
             } else {
-                Map<String, PrivacySetting> pss = getCache().getPrivacyLevels().get(rg);
+                Map<String, PrivacySetting> pss = getCache().getPrivacySettings().get(rg);
                 PrivacySetting ps = pss.get(psIdentifier);
                 
                 if (ps == null) {
                     Log.w("Unavailable service feature cached (PS not found in RG).");
                     this.element.containsUnknownPrivacySettings = true;
                 } else {
-                    this.element.privacyLevelValues.put(ps, reqValue);
+                    this.element.privacySettingValues.put(ps, reqValue);
                 }
             }
             c.moveToNext();
@@ -84,6 +86,23 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 + SERVICEFEATURE_IDENTIFIER + " = ?", new String[] { this.element.getApp().getIdentifier(),
                 this.element.getLocalIdentifier() });
         
+    }
+    
+    
+    /**
+     * Creates the data <b>in the persistence</b> for the {@link ServiceFeature} specified with the parameters. Links
+     * this {@link ServiceFeaturePersistenceProvider} to the newly created object.
+     * 
+     * @param app
+     *            the app whom this service feature belongs to
+     * @param identifier
+     *            the identifier of this service feature
+     * @return an {@link App} object that is linked to the newly created persistence data and this
+     *         {@link AppPersistenceProvider}, or null, if the creation was not possible
+     */
+    public ServiceFeature createElementData(App app, String identifier) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

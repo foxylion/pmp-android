@@ -72,7 +72,7 @@ public interface IServiceFeature {
     /**
      * @return Returns the required {@link IPrivacySetting}s for the {@link IServiceFeature}.
      */
-    public IPrivacySetting[] getRequiredPrivacyLevels();
+    public IPrivacySetting[] getRequiredPrivacySettings();
     
     
     /**
@@ -87,7 +87,7 @@ public interface IServiceFeature {
      *            the privacy level in question
      * @return the required minimum value of the {@link IPrivacySetting} for this service feature
      */
-    public String getRequiredPrivacyLevelValue(IPrivacySetting privacySetting);
+    public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting);
     
     
     /**

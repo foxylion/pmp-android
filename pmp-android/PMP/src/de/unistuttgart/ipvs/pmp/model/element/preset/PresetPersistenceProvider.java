@@ -64,7 +64,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 Log.w("Unavailable preset cached (RG not present).");
                 this.element.containsUnknownElements = true;
             } else {
-                PrivacySetting ps = getCache().getPrivacyLevels().get(rg).get(psIdentifier);
+                PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                 if (ps == null) {
                     Log.w("Unavailable preset cached (PS not found in RG).");
                     this.element.containsUnknownElements = true;

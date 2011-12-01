@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
+import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
 /**
@@ -61,5 +62,17 @@ public interface IResourceGroup {
      *         with that identifier.
      */
     public IPrivacySetting getPrivacySetting(String privacySettingIdentifier);
+    
+    
+    /**
+     * Returns the {@link IBinder} AIDL interface for a resource of this {@link IResourceGroup}.
+     * 
+     * @param appPackage
+     *            the package of the requesting app
+     * @param resource
+     *            the name of the resource
+     * @return the AIDL binder for the specified resource, or null, if none such resource is present
+     */
+    public IBinder getResource(String appPackage, String resource);
     
 }

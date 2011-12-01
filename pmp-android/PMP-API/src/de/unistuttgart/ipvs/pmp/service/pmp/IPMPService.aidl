@@ -37,10 +37,14 @@ interface IPMPService {
     
     
     /**
+     * @param identifier
+     *            the identifier for the app that requests the resource
      * @param resourceGroup
+     *            the name of the RG
      * @param resource
+     *            the name of the resource
      * @return the IBinder interface for the resource of the resourceGroup, or null, if an error happened
      *         (e.g. resource not found)
      */
-    IBinder getRessource(String resourceGroup, String resource);
+    IBinder getRessource(String identifier, String resourceGroup, String resource);
 }

@@ -31,7 +31,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     /**
      * internal data & links
      */
-    protected Map<PrivacySetting, String> privacyLevelValues;
+    protected Map<PrivacySetting, String> privacySettingValues;
     protected boolean containsUnknownPrivacySettings;
     
     
@@ -82,16 +82,16 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     
     @Override
-    public IPrivacySetting[] getRequiredPrivacyLevels() {
+    public IPrivacySetting[] getRequiredPrivacySettings() {
         checkCached();
-        return this.privacyLevelValues.keySet().toArray(new IPrivacySetting[0]);
+        return this.privacySettingValues.keySet().toArray(new IPrivacySetting[0]);
     }
     
     
     @Override
-    public String getRequiredPrivacyLevelValue(IPrivacySetting privacySetting) {
+    public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
         checkCached();
-        return this.privacyLevelValues.get(privacySetting);
+        return this.privacySettingValues.get(privacySetting);
     }
     
     
@@ -128,7 +128,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             }
             
             // actual check against granted
-            for (Entry<PrivacySetting, String> e : this.privacyLevelValues.entrySet()) {
+            for (Entry<PrivacySetting, String> e : this.privacySettingValues.entrySet()) {
                 if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
                     return false;
                 }
@@ -137,10 +137,15 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             return true;
             
         } catch (PrivacyLevelValueException plve) {
-            Log.e("Could not check whether service feature is active.");
-            plve.printStackTrace();
+            Log.e("Could not check whether service feature is active.", plve);
             return false;
         }
+    }
+
+    /* inter-model communication */
+
+    public Map<PrivacySetting, String> getRequiredPrivacySettingValues() {
+        return this.privacySettingValues;
     }
     
 }

@@ -125,7 +125,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         for (ResourceGroup rg : this.cache.getResourceGroups().values()) {
             rg.checkCached();
         }
-        for (Map<String, PrivacySetting> psMap : this.cache.getPrivacyLevels().values()) {
+        for (Map<String, PrivacySetting> psMap : this.cache.getPrivacySettings().values()) {
             for (PrivacySetting pl : psMap.values()) {
                 pl.checkCached();
             }
@@ -133,7 +133,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         for (App a : this.cache.getApps().values()) {
             a.checkCached();
         }
-        for (Map<String, ServiceFeature> sfMap : this.cache.getServiceLevels().values()) {
+        for (Map<String, ServiceFeature> sfMap : this.cache.getServiceFeatures().values()) {
             for (ServiceFeature sl : sfMap.values()) {
                 sl.checkCached();
             }
@@ -203,7 +203,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             sfCursor.close();
             
             // finalize App
-            this.cache.getServiceLevels().put(app, thisAppsSFs);
+            this.cache.getServiceFeatures().put(app, thisAppsSFs);
             this.cache.getApps().put(appPackage, app);
             appCursor.moveToNext();
         }
@@ -246,7 +246,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             psCursor.close();
             
             // finalize RG
-            this.cache.getPrivacyLevels().put(rg, thisRGsPLs);
+            this.cache.getPrivacySettings().put(rg, thisRGsPLs);
             this.cache.getResourceGroups().put(rgPackage, rg);
             rgCursor.moveToNext();
         }

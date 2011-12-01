@@ -24,7 +24,8 @@ import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**
  * {@link AppServiceConnector} is used for connecting (in this case binding) to app services. Add your
- * {@link IConnectorCallback} for interacting with the service. Call {@link AppServiceConnector#bind} to start the
+ * {@link AbstractConnectorCallback} for interacting with the service. Call {@link AppServiceConnector#bind} to start
+ * the
  * connection.
  * 
  * @author Jakob Jarosch

@@ -50,7 +50,7 @@ public class ModelCache {
     }
     
     
-    public Map<ResourceGroup, Map<String, PrivacySetting>> getPrivacyLevels() {
+    public Map<ResourceGroup, Map<String, PrivacySetting>> getPrivacySettings() {
         return this.privacySettings;
     }
     
@@ -60,7 +60,7 @@ public class ModelCache {
     }
     
     
-    public Map<App, Map<String, ServiceFeature>> getServiceLevels() {
+    public Map<App, Map<String, ServiceFeature>> getServiceFeatures() {
         return this.serviceFeatures;
     }
     

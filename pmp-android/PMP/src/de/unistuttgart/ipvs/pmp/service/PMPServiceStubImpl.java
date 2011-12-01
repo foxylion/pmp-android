@@ -21,6 +21,8 @@ package de.unistuttgart.ipvs.pmp.service;
 
 import android.os.IBinder;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 /**
@@ -49,22 +51,23 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
 
     @Override
     public void registerApp(String identifier) throws RemoteException {
-        // TODO Auto-generated method stub
-        
+        Model.getInstance().registerApp(identifier);
     }
 
 
     @Override
     public boolean isRegistered(String identifier) throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        return Model.getInstance().getApp(identifier) != null;
     }
 
-
     @Override
-    public IBinder getRessource(String resourceGroup, String resource) throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+    public IBinder getRessource(String identifier, String resourceGroup, String resource) throws RemoteException {
+        IResourceGroup rg = Model.getInstance().getResourceGroup(resourceGroup);
+        if (rg == null) {
+            return null;
+        } else {
+            return rg.getResource(identifier, resource);
+        }
     }
     
    
