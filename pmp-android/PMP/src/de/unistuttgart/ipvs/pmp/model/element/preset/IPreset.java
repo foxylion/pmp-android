@@ -86,6 +86,7 @@ public interface IPreset {
      */
     public String getDescription();
     
+    
     /**
      * Sets the description of this {@link IPreset} to description.
      * 

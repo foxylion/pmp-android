@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.os.IBinder;
-
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;

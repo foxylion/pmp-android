@@ -6,6 +6,7 @@ import java.util.Map;
 import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
@@ -138,7 +139,7 @@ public class Preset extends ModelElement implements IPreset {
     public void assignApp(IApp app) {
         checkCached();
         
-        ((PresetPersistenceProvider) persistenceProvider).assignApp(app);
+        ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
         this.assignedApps.add(app);
         
         app.verifyServiceFeatures();
@@ -149,7 +150,7 @@ public class Preset extends ModelElement implements IPreset {
     public void removeApp(IApp app) {
         checkCached();
         
-        ((PresetPersistenceProvider) persistenceProvider).removeApp(app);
+        ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
         this.assignedApps.remove(app);
         
         app.verifyServiceFeatures();
@@ -160,7 +161,7 @@ public class Preset extends ModelElement implements IPreset {
     public void assignPrivacyLevel(IPrivacySetting privacySetting, String value) {
         checkCached();
         
-        ((PresetPersistenceProvider) persistenceProvider).assignPrivacyLevel(privacySetting, value);
+        ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacyLevel(privacySetting, value);
         this.privacySettingValues.put(privacySetting, value);
         
         rollout();
@@ -171,7 +172,7 @@ public class Preset extends ModelElement implements IPreset {
     public void removePrivacyLevel(IPrivacySetting privacySetting) {
         checkCached();
         
-        ((PresetPersistenceProvider) persistenceProvider).removePrivacyLevel(privacySetting);
+        ((PresetPersistenceProvider) this.persistenceProvider).removePrivacyLevel(privacySetting);
         this.privacySettingValues.remove(privacySetting);
         
         rollout();
@@ -211,6 +212,7 @@ public class Preset extends ModelElement implements IPreset {
         return this.deleted;
     }
     
+    
     /* inter-model communication */
     
     /**
@@ -220,6 +222,16 @@ public class Preset extends ModelElement implements IPreset {
         for (IApp app : getAssignedApps()) {
             app.verifyServiceFeatures();
         }
+    }
+    
+    
+    /**
+     * Removes the app when it gets deleted.
+     * 
+     * @param p
+     */
+    public void removeDeletedApp(App a) {
+        this.assignedApps.remove(a);
     }
     
 }

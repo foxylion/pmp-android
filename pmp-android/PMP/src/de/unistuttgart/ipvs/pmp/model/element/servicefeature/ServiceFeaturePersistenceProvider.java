@@ -1,17 +1,20 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
-import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.xml.app.RequiredResourceGroup;
 
 /**
  * The persistence provider for {@link ServiceFeature}s.
@@ -97,12 +100,41 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
      *            the app whom this service feature belongs to
      * @param identifier
      *            the identifier of this service feature
-     * @return an {@link App} object that is linked to the newly created persistence data and this
-     *         {@link AppPersistenceProvider}, or null, if the creation was not possible
+     * @return an {@link ServiceFeature} object that is linked to the newly created persistence data and this
+     *         {@link ServiceFeaturePersistenceProvider}, or null, if the creation was not possible
      */
-    public ServiceFeature createElementData(App app, String identifier) {
-        // TODO Auto-generated method stub
-        return null;
+    public ServiceFeature createElementData(App app, String identifier,
+            List<RequiredResourceGroup> requiredResourceGroups) {
+        // store in db
+        ContentValues cv = new ContentValues();
+        cv.put(APP_PACKAGE, app.getIdentifier());
+        cv.put(IDENTIFIER, identifier);
+        if (getDoh().getWritableDatabase().insert(TBL_SERVICEFEATURE, null, cv) == -1) {
+            Log.e("Could not write service feature.");
+            return null;
+        }
+        
+        // refer to all the required resource groups
+        for (RequiredResourceGroup rrg : requiredResourceGroups) {
+            for (Entry<String, String> e : rrg.getPrivacySettingsMap().entrySet()) {
+                cv = new ContentValues();
+                cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getRgIdentifier());
+                cv.put(PRIVACYSETTING_IDENTIFIER, e.getKey());
+                cv.put(SERVICEFEATURE_APP_PACKAGE, app.getIdentifier());
+                cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
+                cv.put(REQUIREDVALUE, e.getValue());
+                if (getDoh().getWritableDatabase().insert(TBL_SFReqPSValue, null, cv) == -1) {
+                    Log.e("Could not write required privacy setting for service feature. Corruption of database very likely.");
+                    return null;
+                }
+            }
+        }
+        
+        // create associated object
+        ServiceFeature result = new ServiceFeature(app, identifier);
+        this.element = result;
+        result.setPersistenceProvider(this);
+        
+        return result;
     }
-    
 }

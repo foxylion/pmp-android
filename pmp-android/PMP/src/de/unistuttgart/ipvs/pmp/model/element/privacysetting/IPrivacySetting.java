@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 
 /**

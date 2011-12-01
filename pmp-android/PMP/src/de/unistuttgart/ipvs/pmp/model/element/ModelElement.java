@@ -128,7 +128,7 @@ public abstract class ModelElement {
                 this.persistenceProvider.loadElementData();
                 return true;
             }
-        }        
+        }
         return false;
     }
     
@@ -151,7 +151,7 @@ public abstract class ModelElement {
             throw new IllegalAccessError();
         }
         
-        persistenceProvider.deleteElementData();
+        this.persistenceProvider.deleteElementData();
     }
     
     

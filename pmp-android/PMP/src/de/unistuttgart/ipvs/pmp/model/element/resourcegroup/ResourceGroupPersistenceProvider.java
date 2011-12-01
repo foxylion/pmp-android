@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
 import java.util.HashMap;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
@@ -63,15 +64,19 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
      *         {@link ResourceGroupPersistenceProvider}, or null, if the creation was not possible
      */
     public ResourceGroup createElementData(String rgPackage) {
-        
-        // TODO store in db
+        // store in db
+        ContentValues cv = new ContentValues();
+        cv.put(PACKAGE, rgPackage);
+        if (getDoh().getWritableDatabase().insert(TBL_RESOURCEGROUP, null, cv) == -1) {
+            return null;
+        }
         
         // create associated object
         ResourceGroup result = new ResourceGroup(rgPackage);
+        this.element = result;
         result.setPersistenceProvider(this);
         
         return result;
-        
     }
     
 }

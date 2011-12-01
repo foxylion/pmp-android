@@ -89,17 +89,17 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     public App createElementData(String appPackage) {
         // store in db
         ContentValues cv = new ContentValues();
+        cv.put(PACKAGE, appPackage);
         if (getDoh().getWritableDatabase().insert(TBL_APP, null, cv) == -1) {
             return null;
         }
         
         // create associated object
         App result = new App(appPackage);
-        result.setPersistenceProvider(this);
         this.element = result;
+        result.setPersistenceProvider(this);
         
         return result;
-        
     }
     
 }

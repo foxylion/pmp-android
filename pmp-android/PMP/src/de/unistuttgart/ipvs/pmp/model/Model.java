@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -128,7 +130,7 @@ public class Model implements IModel, Observer {
             // apply new SF to DB, then model
             for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
-                        sfIdentifier);
+                        sfIdentifier, ais.getServiceFeaturesMap().get(sfIdentifier).getRequiredResourceGroups());
                 this.cache.getServiceFeatures().get(newApp).put(sfIdentifier, newSF);
             }
             
@@ -211,9 +213,27 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean unregisterApp(String identifier) {
-        return false;
-        // TODO remember that  presets have to be disabled once their required apps get uninstalled
-        
+        App app = this.cache.getApps().get(identifier);
+        if (app == null) {
+            return false;
+        } else {
+            
+            app.delete();
+            this.cache.getApps().remove(identifier);
+            
+            // remember that presets have to be disabled once their required apps get uninstalled
+            for (IPreset preset : app.getAssignedPresets()) {
+                // this time, there's no way but to cast (or run manually through all apps) 
+                if (!(preset instanceof Preset)) {
+                    Log.e("IPreset != Preset. Someone definitely screwed with the model since this should never happen.");
+                } else {
+                    Preset castPreset = (Preset) preset;
+                    castPreset.removeDeletedApp(app);
+                }
+            }
+            
+            return true;
+        }
     }
     
     
@@ -242,7 +262,7 @@ public class Model implements IModel, Observer {
     public boolean installResourceGroup(String identifier) {
         // TODO Auto-generated method stub
         // TODO remember that illegal service features have to be reenabled once their missing PS get installed
-        // TODO Presets as well
+        // TODO remember that illegal presets have to be enabled once their missing PS get installed
         return false;
     }
     
@@ -251,7 +271,7 @@ public class Model implements IModel, Observer {
     public boolean uninstallResourceGroup(String identifier) {
         // TODO Auto-generated method stub
         // TODO remember that  service features have to be disabled once their required PS get uninstalled
-        // TODO Presets as well
+        // TODO remember that  presets have to be disabled once their required PS get uninstalled
         return false;
     }
     
@@ -279,16 +299,54 @@ public class Model implements IModel, Observer {
     
     @Override
     public IPreset addPreset(ModelElement creator, String identifier, String name, String description) {
-        // TODO Auto-generated method stub
-        return null;
+        Preset newPreset = new PresetPersistenceProvider(null)
+                .createElementData(creator, identifier, name, description);
+        Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
+        if (creatorMap == null) {
+            creatorMap = new HashMap<String, Preset>();
+            this.cache.getPresets().put(creator, creatorMap);
+        }
+        creatorMap.put(identifier, newPreset);
+        return newPreset;
     }
     
     
     @Override
     public boolean removePreset(ModelElement creator, String identifier) {
-        return false;
-        // TODO Auto-generated method stub
-        
+        // does the creator map exist?
+        Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
+        if (creatorMap == null) {
+            return false;
+        } else {
+            // does the preset exist?
+            Preset p = creatorMap.get(identifier);
+            
+            if (p == null) {
+                return false;
+            } else {
+                p.delete();
+                
+                // update model
+                creatorMap.remove(identifier);
+                
+                IPCProvider.getInstance().startUpdate();
+                try {
+                    for (IApp app : p.getAssignedApps()) {
+                        // this time, there's no way but to cast (or run manually through all apps) 
+                        if (!(app instanceof App)) {
+                            Log.e("IApp != App. Someone definitely screwed with the model since this should never happen.");
+                        } else {
+                            App castApp = (App) app;
+                            castApp.removePreset(p);
+                        }
+                    }
+                } finally {
+                    IPCProvider.getInstance().endUpdate();
+                }
+                
+                return true;
+            }
+        }
     }
     
 }

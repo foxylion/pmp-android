@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -182,6 +183,41 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                         + " = ?",
                 new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
                         this.element.getCreatorString(), this.element.getIdentifier() });
+    }
+    
+    
+    /**
+     * Creates the data <b>in the persistence</b> for the {@link Preset} specified with the parameters. Links this
+     * {@link PresetPersistenceProvider} to the newly created object.
+     * 
+     * @param creator
+     *            creator of the preset, null for user
+     * @param identifier
+     *            identifier of the preset
+     * @param name
+     *            name of the preset
+     * @param description
+     *            description of the preset
+     * @return a {@link Preset} object that is linked to the newly created persistence data and this
+     *         {@link PresetPersistenceProvider}, or null, if the creation was not possible
+     */
+    public Preset createElementData(ModelElement creator, String identifier, String name, String description) {
+        // store in db
+        ContentValues cv = new ContentValues();
+        cv.put(CREATOR, creator == null ? PACKAGE_SEPARATOR : creator.getIdentifier());
+        cv.put(IDENTIFIER, identifier);
+        cv.put(NAME, name);
+        cv.put(DESCRIPTION, description);
+        if (getDoh().getWritableDatabase().insert(TBL_PRESET, null, cv) == -1) {
+            return null;
+        }
+        
+        // create associated object
+        Preset result = new Preset(creator, identifier);
+        this.element = result;
+        result.setPersistenceProvider(this);
+        
+        return result;
     }
     
 }

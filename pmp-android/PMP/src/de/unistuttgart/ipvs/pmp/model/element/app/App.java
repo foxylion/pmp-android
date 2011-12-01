@@ -126,8 +126,7 @@ public class App extends ModelElement implements IApp {
             
             Map<ServiceFeature, Boolean> verification = new HashMap<ServiceFeature, Boolean>();
             // actual check against granted
-            sfLoop:
-            for (ServiceFeature sf : this.serviceFeatures.values()) {
+            sfLoop: for (ServiceFeature sf : this.serviceFeatures.values()) {
                 verification.put(sf, true);
                 
                 for (Entry<PrivacySetting, String> e : sf.getRequiredPrivacySettingValues().entrySet()) {
@@ -138,7 +137,6 @@ public class App extends ModelElement implements IApp {
                 }
             }
             
-            // TODO IPC here
             IPCProvider.getInstance().queue(getIdentifier(), verification);
             
         } catch (PrivacyLevelValueException plve) {
@@ -169,6 +167,17 @@ public class App extends ModelElement implements IApp {
     public AppInformationSet getAis() {
         checkCached();
         return this.ais;
+    }
+    
+    
+    /**
+     * Removes the preset when it gets deleted.
+     * 
+     * @param p
+     */
+    public void removePreset(Preset p) {
+        this.assignedPresets.remove(p);
+        verifyServiceFeatures();
     }
     
 }

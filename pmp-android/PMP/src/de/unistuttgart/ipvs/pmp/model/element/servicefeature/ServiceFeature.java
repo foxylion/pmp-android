@@ -141,9 +141,10 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             return false;
         }
     }
-
+    
+    
     /* inter-model communication */
-
+    
     public Map<PrivacySetting, String> getRequiredPrivacySettingValues() {
         return this.privacySettingValues;
     }

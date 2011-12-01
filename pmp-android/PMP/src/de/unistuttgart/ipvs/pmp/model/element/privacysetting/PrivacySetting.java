@@ -79,7 +79,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     public boolean isValueValid(String value) {
         checkCached();
         try {
-            link.parseValue(value);
+            this.link.parseValue(value);
             return true;
         } catch (PrivacyLevelValueException plve) {
             return false;
@@ -90,35 +90,35 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     @Override
     public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
         checkCached();
-        return link.getHumanReadableValue(value);
+        return this.link.getHumanReadableValue(value);
     }
     
     
     @Override
     public boolean permits(String reference, String value) throws PrivacyLevelValueException {
         checkCached();
-        return link.permits(value, reference);
+        return this.link.permits(value, reference);
     }
     
     
     @Override
     public View getView() {
         checkCached();
-        return link.getView();
+        return this.link.getView();
     }
     
     
     @Override
     public String getViewValue(View view) {
         checkCached();
-        return link.getViewValue(view);
+        return this.link.getViewValue(view);
     }
     
     
     @Override
     public void setViewValue(View view, String value) throws PrivacyLevelValueException {
         checkCached();
-        link.setViewValue(view, value);
+        this.link.setViewValue(view, value);
     }
     
 }

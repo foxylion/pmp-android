@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -38,20 +37,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug.MemoryInfo;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Process;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log; 
-import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.model.Model;
-import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 
 public class PMPDeveloperConsoleActivity extends Activity {
     
@@ -110,7 +104,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(PMPDeveloperConsoleActivity.this.self.getApplicationContext(),
-                        //StartActivity.class));
+                //StartActivity.class));
                 // TODO
             }
         });
@@ -239,7 +233,6 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 builder.create().show();
             }
         });
-             
         
     }
     
@@ -293,7 +286,6 @@ public class PMPDeveloperConsoleActivity extends Activity {
     }
     
 }
- 
 
 /**
  * An abstract implementation of the AsyncTask.

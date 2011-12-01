@@ -67,7 +67,8 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      * 
      * @param rdb
      *            a correctly initialized readable {@link SQLiteDatabase} that will be closed afterwards
-     * @param qb TODO
+     * @param qb
+     *            TODO
      */
     protected abstract void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb);
     
@@ -77,7 +78,8 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      * 
      * @param wdb
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
-     * @param qb TODO
+     * @param qb
+     *            TODO
      */
     protected abstract void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb);
     
@@ -87,7 +89,8 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      * 
      * @param wdb
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards
-     * @param qb TODO
+     * @param qb
+     *            TODO
      */
     protected abstract void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb);
     
