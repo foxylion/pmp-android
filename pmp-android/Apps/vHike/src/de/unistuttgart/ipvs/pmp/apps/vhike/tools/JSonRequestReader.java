@@ -288,16 +288,22 @@ public class JSonRequestReader {
 		listToParse.add(new ParamObject("mood", mood, false));
 
 		JsonObject object = null;
+		String out_pos = null;
+		String out_get = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse, "test.php");
+			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String out_pos = object.get("output_pos").toString();
-		String out_get = object.get("output_get").toString();
-
+		if(object!= null){
+			out_pos = object.get("output_pos").toString();
+			out_get = object.get("output_get").toString();	
+		}
+		
+		
 		Log.i("Postoutput:" + out_pos);
 		Log.i("Getoutput:" + out_get);
 		return null;
