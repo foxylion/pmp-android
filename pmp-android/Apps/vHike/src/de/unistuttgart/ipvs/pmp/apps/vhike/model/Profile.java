@@ -2,16 +2,15 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
 import java.util.Date;
 
-import android.provider.ContactsContract.CommonDataKinds.Email;
 /**
  * {@link Profile} represent an user.
  * 
  * @author Alexander Wassiljew
- *
+ * 
  */
 public class Profile {
 
-	/** 
+	/**
 	 * Fields
 	 */
 	private String username;
@@ -20,6 +19,7 @@ public class Profile {
 	private String firstname;
 	private String lastname;
 	private String tel;
+	
 	private String description;
 	
 	private double rating;
@@ -34,10 +34,13 @@ public class Profile {
 	
 	/**
 	 * Constructor to initialize a profile
+	 * 
 	 * @param user_name
 	 * @param firstname
 	 * @param lastname
 	 * @param email
+	 * @param description
+	 * @param validationStatus
 	 * @param rating
 	 * @param regDate
 	 * 
@@ -50,6 +53,7 @@ public class Profile {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.tel = tel;
+	
 		this.rating = rating;
 		this.regDate = regDate;
 		this.email_pub = email_pub;
@@ -65,13 +69,6 @@ public class Profile {
 		return username;
 	}
 	/**
-	 * 
-	 * @return description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	/**
 	 * Returns true, if email is public
 	 * @return 
 	 */
@@ -85,9 +82,10 @@ public class Profile {
 	public boolean isFirstname_pub() {
 		return firstname_pub;
 	}
+
 	/**
 	 * Returns true, if lastname is public
-	 * @return
+	 * @return  lastname of a user
 	 */
 	public boolean isLastname_pub() {
 		return lastname_pub;
@@ -113,24 +111,42 @@ public class Profile {
 	public String getEmail() {
 		return email;
 	}
+
 	/**
-	 * @return firstname of a user 
+	 * @return firstname of a user
 	 */
 	public String getFirstname() {
 		return firstname;
 	}
+
 	/**
-	 * @return lastname of a user 
+	 * @return lastname of a user
 	 */
 	public String getLastname() {
 		return lastname;
 	}
+
 	/**
-	 * @return rating of a user 
+	 * email address of a user
+	 * 
+	 * @return
+	 */
+
+	/**
+	 * 
+	 * @return description of a user
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return rating of a user
 	 */
 	public double getRating() {
 		return rating;
 	}
+
 	/**
 	 * @return registration date of a user
 	 */
@@ -152,5 +168,5 @@ public class Profile {
 	public void setOwnStatus(String ownStatus) {
 		this.ownStatus = ownStatus;
 	}
-	
+
 }

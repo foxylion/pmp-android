@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import android.graphics.drawable.Drawable;
+import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 

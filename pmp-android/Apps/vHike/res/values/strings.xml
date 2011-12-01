@@ -10,5 +10,13 @@
     <string name="main_drive">Drive</string>
     <string name="main_ride">Ride</string>
     <string name="main_searchingpassenger">Search</string>
+    <string name="ride_destination">Destination</string>
+    <string name="ride_promptDestination">Choose destination</string>
+    <string-array name="array_cities">
+        <item >Berlin</item>
+        <item >München</item>
+        <item >Stuttgart</item>
+        <item >Vaihingen</item>
+    </string-array>
 
 </resources>
