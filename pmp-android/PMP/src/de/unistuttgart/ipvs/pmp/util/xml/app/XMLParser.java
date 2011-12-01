@@ -115,8 +115,6 @@ public class XMLParser extends AbstractXMLParser {
 	 */
 	private void parseAppInformationNode(Element appInformationElement) {
 		// Create results
-		List<String[]> identifier = parseNodes(appInformationElement,
-				"identifier", 1, 1);
 		List<String[]> defaultNameList = parseNodes(appInformationElement,
 				"defaultName", 1, 1, "lang");
 		List<String[]> nameList = parseNodes(appInformationElement, "name", 0,
@@ -133,7 +131,6 @@ public class XMLParser extends AbstractXMLParser {
 		validateLocaleAttribute(descriptionList);
 
 		// Add to the app information set
-		this.ais.setIdentifier(identifier.get(0)[0]);
 		this.ais.addName(
 				new Locale(defaultNameList.get(0)[1]),
 				defaultNameList.get(0)[0].replaceAll("\t", "")

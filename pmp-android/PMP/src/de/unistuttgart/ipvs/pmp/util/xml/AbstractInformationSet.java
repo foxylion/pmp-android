@@ -15,11 +15,6 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 public abstract class AbstractInformationSet {
 
 	/**
-	 * This variable contains the identifier
-	 */
-	protected String identifier;
-
-	/**
 	 * This map contains all names. key = locale
 	 */
 	protected Map<Locale, String> names;
@@ -35,25 +30,6 @@ public abstract class AbstractInformationSet {
 	protected AbstractInformationSet() {
 		this.names = new HashMap<Locale, String>();
 		this.descriptions = new HashMap<Locale, String>();
-	}
-
-	/**
-	 * Get the identifier.
-	 * 
-	 * @return the identifier
-	 */
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	/**
-	 * Set the identifier of the app
-	 * 
-	 * @param identifier
-	 *            identifier of the app
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
 	}
 
 	/**
