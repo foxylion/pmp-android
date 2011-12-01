@@ -28,6 +28,28 @@
     <div id="content">
       
 
+      <h1 id="databse">Datenbank</h1>          
+      <p>                                      
+        Nachfolgendes ER-Diagramm beschreibt den Aufbau der Datenbank und die 
+        Relationen zwischen den Tabellen.
+      </p>
+      <p>
+        Entgegen dem dargestellten Aufbau wurde die <code>rating</code>-Tabelle
+        nicht übernommen. Um trotzdem feststellen zu können, ob eine Bewertung 
+        bereits durchgeführt, wurde der Tabelle <code>ride</code> die Spalten
+        (vom Typ <code>BOOLEAN</code>) <code>driver_rated</code> und <code>passenger_rated</code>
+        hinzugefügt. Ist dieser Wert auf "1" gesetzt, wurde die Bewertung des
+        Fahrers bzw. des Mitfahrers bereits durchgeführt.
+      </p>
+      <p>
+        Zur Speicherung der Bewertung wurde der <code>user</code>-Tabelle
+        die Spalten <code>rating_acg</code> und <code>rating_num</code> hinzugefügt.
+        Diese speichern die Durchschnittsbewertung bzw. die Anzahl der abgegebenen
+        Bewertungen.
+      </p>
+      <p>    
+        <img src="./db-layout.png" style="width:100%;" />
+      </p>
       
       <h1 id="interface">Schnittstelle</h1>
       <p>
@@ -286,7 +308,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>
-              <li><code>sid</code> - HEX-String: Sessen-ID des Benutzers, der abgemeldet werden soll</li>
+              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der abgemeldet werden soll</li>
             </ul>
           </td>
         </tr>     
@@ -315,7 +337,86 @@
       </table>
       
       
-      <h3 id="interface_get_profile">Profil-Daten abrufen</h3>
+      <h3 id="interface_own_profile">Eigene Profil-Daten abrufen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>own_profile.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Der angemeldete Benutzer möchte Informationen über sein Profil 
+            abrufen.</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>           
+              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>-</td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful":true,
+  "id": Integer,
+  "username": String,
+  "email": String,
+  "fistname": String,
+  "lastname": String,
+  "tel": String,
+  "description": String,
+  "regdate": Date,
+  "email_public": Boolean,
+  "firstname_public": Boolean,
+  "lastname_public": Boolean,
+  "tel_public": Boolean,
+  "rating_avg": Float,
+  "rating_num": Integer
+}                               
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>id</code> - Integer: Die ID des Benutzers</li>
+              <li><code>username</code> - String: Der Name des Benutzers</li>  
+              <li><code>email</code> - String: Die E-Mail-Adresse des Benutzers</li>
+              <li><code>firstname</code> - String: Der Vorname des Benutzers</li>
+              <li><code>lastname</code> - String: Der Nachname des Benutzers</li> 
+              <li><code>tel</code> - String: Die Telefon-Nr. des Benutzers</li> 
+              <li><code>description</code> - String: Die Beschreibung, die der Benutzer über sich hinterlegt hat</li>
+              <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>  
+              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere Sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere Sichtbar sein soll</li>    
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere Sichtbar sein soll</li>  
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefon-Nr. für andere Sichtbar sein soll</li>
+              <li><code>rating_avg</code> - Float: Durchschnittsbewertung des Benutzers</li>        
+              <li><code>rating_num</code> - Integer: Anzahl der für den Benutzer abgegebenen Bewertungen</li>
+            </ul>
+          </td>
+        </tr>             
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_get_profile">Profil-Daten abrufen (unvollständig)</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -335,7 +436,7 @@
           <td>
             <ul>           
               <li><code>id</code> - Integer: Die ID des Benutzers, dessen Profildaten abgerufen werden sollen</li>
-              <li><code>sid</code> - HEX-String: Sessen-ID des Benutzers, der die Profildaten abrufen möchte</li>
+              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
             </ul>
           </td>
         </tr>     
@@ -371,7 +472,7 @@
       </table>
       
       
-      <h3 id="interface_announce_trip">Fahrt bekannt geben</h3>
+      <h3 id="interface_announce_trip">Fahrt bekannt geben (unvollständig)</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -390,7 +491,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>
-              <li><code>sid</code> - HEX-String: Sessen-ID des Benutzers, der die Fahrt bekannt gibt</li>
+              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
             </ul>
           </td>
         </tr>     

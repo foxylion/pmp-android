@@ -21,10 +21,13 @@ class user {
     private $lastname = null;
     private $tel = null;
     private $description = null;
+    private $regdate = null;
     private $emailPublic = false;
     private $firstnamePublic = false;
     private $lastnamePublic = false;
     private $telPublic = false;
+    private $ratingAvg = 0;
+    private $ratingNum = 0;
     private $activated = false;
     
     
@@ -69,7 +72,7 @@ class user {
         }
         
         // Write data into attributes
-        $this->id = $row["id"];
+        $this->id = (int)$row["id"];
         $this->username = $row["username"];
         $this->passwordHash = $row["password"];
         $this->email = $row["email"];
@@ -77,10 +80,13 @@ class user {
         $this->lastname = $row["lastname"];
         $this->tel = $row["tel"];
         $this->description = $row["description"];
-        $this->emailPublic = $row["email_public"];
-        $this->firstnamePublic = $row["firstname_public"];
-        $this->lastnamePublic = $row["lastname_public"];
-        $this->telPublic = $row["tel_public"];
+        $this->regdate = $row["regdate"];
+        $this->emailPublic = (bool)$row["email_public"];
+        $this->firstnamePublic = (bool)$row["firstname_public"];
+        $this->lastnamePublic = (bool)$row["lastname_public"];
+        $this->telPublic = (bool)$row["tel_public"];
+        $this->ratingAvg = (float)$row["rating_avg"];
+        $this->ratingNum = (int)$row["rating_num"];
         $this->activated = $row["activated"];
     } 
     
@@ -217,6 +223,9 @@ class user {
         
     }
     
+    public function getId() {
+        return $this->id;
+    }
     
     public function getUsername() {
         return $this->username;
@@ -246,6 +255,10 @@ class user {
         return $this->description;
     }
     
+    public function getRegdate() {
+        return $this->regdate;
+    }
+    
     public function isEmailPublic() {
         return $this->emailPublic;
     }
@@ -260,6 +273,14 @@ class user {
     
     public function isTelPublic() {
         return $this->telPublic;
+    }
+    
+    public function getRatingAvg() {
+        return $this->ratingAvg;
+    }
+    
+    public function getRatingNum() {
+        return $this->ratingNum;
     }
     
     public function isActivated() {
