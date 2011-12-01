@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
@@ -45,6 +46,12 @@ public interface IResourceGroup {
      * @return Returns the localized description of the {@link IResourceGroup}.
      */
     public String getDescription();
+    
+    
+    /**
+     * @return an icon associated with this resource group or null if none found
+     */
+    public Drawable getIcon();
     
     
     /**

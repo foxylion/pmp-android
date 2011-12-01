@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 import java.util.Locale;
 import java.util.Map;
 
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -56,6 +57,13 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
             description = this.rgis.getDescriptions().get(Locale.US);
         }
         return description;
+    }
+    
+    
+    @Override
+    public Drawable getIcon() {
+        // TODO
+        return null;
     }
     
     
