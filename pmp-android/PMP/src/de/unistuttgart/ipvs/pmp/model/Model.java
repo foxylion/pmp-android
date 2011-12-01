@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.model;
 import java.util.Observable;
 import java.util.Observer;
 
-import de.unistuttgart.ipvs.pmp.PMPComponentType;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -69,6 +68,11 @@ public class Model implements IModel, Observer {
         }
     }
     
+    @Override
+    public void update(Observable observable, Object data) {
+        // new ModelCache from the PersistenceProvider
+        this.cache = (ModelCache) data;
+    }
     
     /*
      * Actual overridden content
@@ -89,6 +93,20 @@ public class Model implements IModel, Observer {
     
     
     @Override
+    public void registerApp(String identifier) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    @Override
+    public void unregisterApp(String identifier) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    @Override
     public IResourceGroup[] getResourceGroups() {
         checkCached();
         return this.cache.getResourceGroups().values().toArray(new IResourceGroup[0]);
@@ -103,27 +121,6 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IPreset[] getPresets() {
-        checkCached();
-        return this.cache.getPresets().toArray(new IPreset[0]);
-    }
-    
-    
-    @Override
-    public void update(Observable observable, Object data) {
-        // new ModelCache from the PersistenceProvider
-        this.cache = (ModelCache) data;
-    }
-    
-    
-    @Override
-    public void registerApp(String identifier) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    
-    @Override
     public String[] findResourceGroup(String searchString) {
         // TODO Auto-generated method stub
         return null;
@@ -133,7 +130,35 @@ public class Model implements IModel, Observer {
     @Override
     public boolean installResourceGroup(String identifier) {
         // TODO Auto-generated method stub
+        // TODO remember that illegal service features have to be reenabled once their missing PS get installed
         return false;
+    }
+    
+    
+    @Override
+    public boolean uninstallResourceGroup(String identifier) {
+        // TODO Auto-generated method stub
+        // TODO remember that  service features have to be disabled once their required PS get uninstalled
+        return false;
+    }
+    
+    
+    @Override
+    public IPreset[] getPresets() {
+        checkCached();
+        return this.cache.getAllPresets().toArray(new IPreset[0]);
+    }
+    
+    @Override
+    public IPreset[] getPresets(ModelElement creator) {
+        checkCached();
+        return this.cache.getPresets().get(creator).values().toArray(new IPreset[0]);
+    }
+    
+    @Override
+    public IPreset getPreset(ModelElement creator, String identifier) {
+        checkCached();
+        return this.cache.getPresets().get(creator).get(identifier);
     }
     
     
@@ -142,26 +167,14 @@ public class Model implements IModel, Observer {
         // TODO Auto-generated method stub
         return null;
     }
-
-
-    @Override
-    public boolean uninstallResourceGroup(String identifier) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
- 
+    
+    
     @Override
     public void removePreset(ModelElement creator, String identifier) {
         // TODO Auto-generated method stub
         
     }
-
-
-    @Override
-    public void unregisterApp(String identifier) {
-        // TODO Auto-generated method stub
-        
-    }
+    
+       
     
 }

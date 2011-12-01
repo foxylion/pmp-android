@@ -35,6 +35,9 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  */
 public class RequiredResourceGroup implements Serializable {
     
+    /**
+     * Serial
+     */
     private static final long serialVersionUID = 5951904689151789055L;
     
     /**

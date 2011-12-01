@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -137,8 +138,10 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 sl.checkCached();
             }
         }
-        for (Preset p : this.cache.getPresets()) {
-            p.checkCached();
+        for (Map<String, Preset> pMap : this.cache.getPresets().values()) {
+            for (Preset p : pMap.values()) {
+                p.checkCached();
+            }
         }
         
     }
@@ -268,8 +271,18 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
             Preset p = new Preset(creator, identifier);
             p.setPersistenceProvider(new PresetPersistenceProvider(p));
+
+            ModelElement creatorElement = this.cache.getApps().get(creator);
+            if (creatorElement == null) {
+                creatorElement = this.cache.getResourceGroups().get(creator);
+            }
             
-            this.cache.getPresets().add(p);
+            Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
+            if (creatorMap == null) {
+                creatorMap = new HashMap<String, Preset>();
+                this.cache.getPresets().put(creatorElement, creatorMap);
+            }
+            creatorMap.put(identifier, p);
             cursor.moveToNext();
         }
         cursor.close();

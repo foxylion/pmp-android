@@ -91,7 +91,8 @@ public interface IServiceFeature {
     
     
     /**
-     * @return Returns true, if and only if this {@link IServiceFeature} can be used.
+     * @return Returns true, if and only if this {@link IServiceFeature} can be used, i.e. all resource groups are
+     *         present.
      */
     public boolean isAvailable();
     

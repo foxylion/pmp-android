@@ -58,7 +58,6 @@ public class AppInformationSetParser {
         Log.d("-----------------------");
         Log.d("-- App-Information: ---");
         Log.d("-----------------------");
-        Log.d("Identifier: " + ais.getIdentifier());
         for (Locale l : ais.getNames().keySet()) {
             Log.d("Name: " + ais.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
         }
