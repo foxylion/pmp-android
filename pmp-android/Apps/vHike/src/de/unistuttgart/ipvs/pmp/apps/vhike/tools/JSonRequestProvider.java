@@ -61,16 +61,21 @@ public class JSonRequestProvider {
 	public static JsonObject doRequest(List<ParamObject> listToParse, String url)
 			throws ClientProtocolException, IOException {
 
-		String getParam = url + "?";
+		String getParam ="";
 		// GET REQUESTS
+		StringBuffer buf = new StringBuffer();
+		buf.append("?");
+		buf.append(url);
 		for (ParamObject object : listToParse) {
 
 			if (!(object.isPost())) {
-				getParam = getParam + object.getKey() + "=" + object.getValue();
-				getParam = getParam + "&";
+				buf.append(object.getKey() +"=" + object.getValue());
+				buf.append("&");
+				//getParam = getParam + object.getKey() + "=" + object.getValue();
+				//getParam = getParam + "&";
 			}
-			
 		}
+		getParam = buf.toString();
 		// Cut the last '&' out
 		getParam = getParam.substring(0, getParam.length() - 1);
 

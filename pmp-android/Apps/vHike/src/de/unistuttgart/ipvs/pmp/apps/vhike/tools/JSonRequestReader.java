@@ -6,10 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -108,16 +105,19 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();	
+		}
 		String sid = null;
 		String status = null;
 		if (suc) {
 			status = object.get("status").getAsString();
 			sid = object.get("sid").getAsString();
 			Model.getInstance().setSid(sid);
+			Model.getInstance().setOwnProfile(getOwnProfile(sid));
+
 			return status;
-				// TODO Aufruf von eigenem Profil holen
-				// getOwnProfile();
 		}
 		return status;
 	}
@@ -141,15 +141,61 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
-		String status = object.get("status").getAsString();
+		boolean suc = false;
+		String status = null;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+			status = object.get("status").getAsString();
+		}
+		
 		if (suc) {
 			return status;
 		} else {
 			return status;
 		}
+	}
 
+	/**
+	 * Returns the Profile of the logged user
+	 * 
+	 * @param sid
+	 * @return Profile
+	 */
+	public static Profile getOwnProfile(String sid) {
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+
+		JsonObject object = null;
+
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"getOwnProfile.php");
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String username = null;
+		double rating = 0 ;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+			username = object.get("username").getAsString();
+			 rating = object.get("rating").getAsDouble();
+		}
+		//String userid = object.get("id").getAsString();
+		//TODO
+		//String regdate = object.get("regdate").getAsString();
+		Profile profile;
+
+		Date date = new Date();
+		if (suc) {
+			profile = new Profile(username, "email", "firstname", "lastname",
+					"tel", "description", rating, date, false, false, false,
+					false);
+			return profile;
+		}
+		return null;
 	}
 
 	/**
@@ -167,28 +213,33 @@ public class JSonRequestReader {
 		listToParse.add(new ParamObject("sid", session_id, false));
 
 		JsonObject object = null;
-		JsonArray array = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse,"getProfile.php");
+			object = JSonRequestProvider.doRequest(listToParse,
+					"getProfile.php");
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
-		String userid = object.get("id").getAsString();
-		String username = object.get("username").getAsString();
-		String regdate = object.get("regdate").getAsString();
-		double rating = object.get("rating").getAsDouble();
+		boolean suc = false;
+		String username = null;
+		double rating = 0;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+			username = object.get("username").getAsString();
+			rating = object.get("rating").getAsDouble();
+		}
+		//String userid = object.get("id").getAsString();
+		//TODO
+		//String regdate = object.get("regdate").getAsString();
 		// Test TODO
 		Date date = new Date();
 		Profile profile;
 		if (suc) {
 			profile = new Profile(username, "email", "firstname", "lastname",
-					"tel", "description", rating, date,
-					false, false, false, false);
+					"tel", "description", rating, date, false, false, false,
+					false);
 			return profile;
 		} else {
 			return null;
@@ -208,20 +259,19 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "announceTrip.php");
+			object = JSonRequestProvider.doRequest(listToParse,
+					"announceTrip.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		String suc = object.get("successful").toString();
-		if (suc.equals("true")) {
-			return true;
-		} else {
-			return false;
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
 		}
 
+		return suc;
 	}
 
 	/**
@@ -238,16 +288,22 @@ public class JSonRequestReader {
 		listToParse.add(new ParamObject("mood", mood, false));
 
 		JsonObject object = null;
+		String out_pos = null;
+		String out_get = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse, "test.php");
+			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String out_pos = object.get("output_pos").toString();
-		String out_get = object.get("output_get").toString();
-
+		if(object!= null){
+			out_pos = object.get("output_pos").toString();
+			out_get = object.get("output_get").toString();	
+		}
+		
+		
 		Log.i("Postoutput:" + out_pos);
 		Log.i("Getoutput:" + out_get);
 		return null;
