@@ -105,7 +105,12 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		try{
+			suc = object.get("successful").getAsBoolean();
+		}catch(NullPointerException exc){
+			//TODO
+		}
 		String sid = null;
 		String status = null;
 		if (suc) {
@@ -170,9 +175,10 @@ public class JSonRequestReader {
 		}
 
 		boolean suc = object.get("successful").getAsBoolean();
-		String userid = object.get("id").getAsString();
+		//String userid = object.get("id").getAsString();
 		String username = object.get("username").getAsString();
-		String regdate = object.get("regdate").getAsString();
+		//TODO
+		//String regdate = object.get("regdate").getAsString();
 		double rating = object.get("rating").getAsDouble();
 
 		Profile profile;
@@ -213,9 +219,10 @@ public class JSonRequestReader {
 		}
 
 		boolean suc = object.get("successful").getAsBoolean();
-		String userid = object.get("id").getAsString();
+		//String userid = object.get("id").getAsString();
 		String username = object.get("username").getAsString();
-		String regdate = object.get("regdate").getAsString();
+		//TODO
+		//String regdate = object.get("regdate").getAsString();
 		double rating = object.get("rating").getAsDouble();
 		// Test TODO
 		Date date = new Date();
