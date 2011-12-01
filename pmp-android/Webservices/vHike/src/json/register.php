@@ -63,8 +63,7 @@ if ($invalidString != null) {
         $user->register();
         $user->sendVerificationKey();
     } catch (DatabaseException $de) {
-        Json::printError("INVALID_DATABASE-QUERY", $de->__toString());
-
+        Json::printDatabaseError($de);
     }
     $output = array("successful" => true, "status" => "registered");
     echo Json::arrayToJson($output);

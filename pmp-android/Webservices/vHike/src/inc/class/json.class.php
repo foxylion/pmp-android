@@ -32,6 +32,25 @@ class Json {
     }
     
     /**
+     * Prints an error exception for given DatabaseException
+     * @param DatabaseException $exception 
+     */
+    public static function printDatabaseError($exception, $exit = true) {
+        self::printError("invalid_database-query", $exception->__toString(), $exit);
+    }
+    
+    /**
+     * This function checks if a user is logged in at the moment. If the user
+     * is not logged in, it will print a error-message and stop the execution
+     * of the script
+     */
+    public static function printErrorIfNotLoggedIn() {
+        if (!Session::getInstance()->isLoggedIn()) {
+            self::printError("not_logged_in", "This service is only available for logged in users.");
+        }
+    }
+    
+    /**
      * Converts an array to a JSON string
      * @param type $array   Array to convert
      * @return type Generated JSON string

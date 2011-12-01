@@ -1,4 +1,7 @@
 <?php
+if (!defined("INCLUDE")) {
+    exit;
+}
 
 /*
  * To change this template, choose Tools | Templates
