@@ -126,6 +126,7 @@ public class App extends ModelElement implements IApp {
     
     
     public AppInformationSet getAis() {
+        checkCached();
         return this.ais;
     }
     

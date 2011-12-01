@@ -73,8 +73,7 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
     
     
     /**
-     * Stores the data of <b>THIS</b> element and all possible references that are held on it and that it holds to the
-     * persistence.
+     * Stores the data of <b>THIS</b> element and only this element.
      * 
      * @param wdb
      *            a correctly initialized writable {@link SQLiteDatabase} that will be closed afterwards

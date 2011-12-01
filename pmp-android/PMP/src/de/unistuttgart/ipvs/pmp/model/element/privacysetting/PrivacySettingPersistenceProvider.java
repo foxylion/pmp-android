@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
@@ -20,39 +18,34 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     
     @Override
-    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {/*
-        Cursor c = rdb
-                .rawQuery(
-                        "SELECT Name_Cache, Description_Cache FROM PrivacySetting WHERE Identifier = ? AND ResourceGroup_Identifier = ? LIMIT 1",
-                        new String[] { this.element.getIdentifier(), this.element.getResourceGroup().getIdentifier() });
-        
-        if (!c.moveToFirst()) {
-            throw new IllegalAccessError("The Identifier " + this.element.getIdentifier() + "of "
-                    + this.element.getResourceGroup().getIdentifier() + " was not found in the database.");
-        } else {
-            this.element.name = c.getString(c.getColumnIndex("Name_Cache"));
-            this.element.description = c.getString(c.getColumnIndex("Description_Cache"));
-            
-        }
-        
-        c.close();*/
+    protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
+        // TODO set the pointer to element.link
     }
     
     
     @Override
-    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {/*
-        ContentValues cv = new ContentValues();
-        cv.put("Name_Cache", this.element.name);
-        cv.put("Description_Cache", this.element.description);
-        
-        wdb.update("PrivacySetting", cv, "Identifier = ? AND ResourceGroup_Identifier",
-                new String[] { this.element.getIdentifier(), this.element.getResourceGroup().getIdentifier() });*/
+    protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
+        // this method should never be called
+        throw new UnsupportedOperationException();
     }
-
-
+    
+    
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // TODO Auto-generated method stub
+        // delete service feature required privacy setting values references
+        wdb.rawQuery("DELETE FROM " + TBL_SFReqPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
+                this.element.getLocalIdentifier() });
+        
+        // delete preset granted privacy setting values references
+        wdb.rawQuery("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
+                this.element.getLocalIdentifier() });
+        
+        // delete privacy settings
+        wdb.rawQuery("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
+                + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] {
+                this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
         
     }
     

@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -59,13 +60,24 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getName() {
-        return null;
+        String name = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getNames()
+                .get(Locale.getDefault());
+        if (name == null) {
+            name = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getNames().get(Locale.US);
+        }
+        return name;
     }
     
     
     @Override
     public String getDescription() {
-        return null;
+        String description = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getDescriptions()
+                .get(Locale.getDefault());
+        if (description == null) {
+            description = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getDescriptions()
+                    .get(Locale.US);
+        }
+        return description;
     }
     
     

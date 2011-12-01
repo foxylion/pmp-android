@@ -267,16 +267,19 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         cursor.moveToNext();
         
         while (!cursor.isAfterLast()) {
+            // find the data, translate it
             String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
-            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
-            Preset p = new Preset(creator, identifier);
-            p.setPersistenceProvider(new PresetPersistenceProvider(p));
-
             ModelElement creatorElement = this.cache.getApps().get(creator);
             if (creatorElement == null) {
                 creatorElement = this.cache.getResourceGroups().get(creator);
             }
+            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));           
             
+            // create item
+            Preset p = new Preset(creatorElement, identifier);
+            p.setPersistenceProvider(new PresetPersistenceProvider(p));
+            
+            // apply to cache
             Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
             if (creatorMap == null) {
                 creatorMap = new HashMap<String, Preset>();

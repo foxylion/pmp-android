@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import android.os.RemoteException;
+import java.util.Locale;
+
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
@@ -27,6 +28,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
      */
     protected PrivacyLevel<?> link;
     
+    
     /* organizational */
     
     public PrivacySetting(ResourceGroup resourceGroup, String identifier) {
@@ -46,13 +48,24 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public String getName() {
-        return null;
+        String name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getNames()
+                .get(Locale.getDefault());
+        if (name == null) {
+            name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getNames().get(Locale.US);
+        }
+        return name;
     }
     
     
     @Override
     public String getDescription() {
-        return null;
+        String description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier())
+                .getDescriptions().get(Locale.getDefault());
+        if (description == null) {
+            description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getIdentifier()).getDescriptions()
+                    .get(Locale.US);
+        }
+        return description;
     }
     
     
@@ -64,6 +77,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public boolean isValueValid(String value) {
+        checkCached();
         try {
             link.parseValue(value);
             return true;
@@ -74,33 +88,37 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {        
+    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
+        checkCached();
         return link.getHumanReadableValue(value);
     }
     
     
     @Override
     public boolean permits(String reference, String value) throws PrivacyLevelValueException {
+        checkCached();
         return link.permits(value, reference);
     }
-
-
+    
+    
     @Override
     public View getView() {
-        return link.getView();        
+        checkCached();
+        return link.getView();
     }
-
-
+    
+    
     @Override
     public String getViewValue(View view) {
+        checkCached();
         return link.getViewValue(view);
     }
-
-
+    
+    
     @Override
     public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+        checkCached();
         link.setViewValue(view, value);
-        
     }
     
 }

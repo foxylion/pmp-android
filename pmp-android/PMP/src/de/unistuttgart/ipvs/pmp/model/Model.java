@@ -100,7 +100,8 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public void unregisterApp(String identifier) {
+    public boolean unregisterApp(String identifier) {
+        return false;
         // TODO Auto-generated method stub
         
     }
@@ -131,6 +132,7 @@ public class Model implements IModel, Observer {
     public boolean installResourceGroup(String identifier) {
         // TODO Auto-generated method stub
         // TODO remember that illegal service features have to be reenabled once their missing PS get installed
+        // TODO Presets as well
         return false;
     }
     
@@ -139,6 +141,7 @@ public class Model implements IModel, Observer {
     public boolean uninstallResourceGroup(String identifier) {
         // TODO Auto-generated method stub
         // TODO remember that  service features have to be disabled once their required PS get uninstalled
+        // TODO Presets as well
         return false;
     }
     
@@ -170,7 +173,8 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public void removePreset(ModelElement creator, String identifier) {
+    public boolean removePreset(ModelElement creator, String identifier) {
+        return false;
         // TODO Auto-generated method stub
         
     }
