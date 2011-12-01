@@ -106,10 +106,8 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-		try{
-			suc = object.get("successful").getAsBoolean();
-		}catch(NullPointerException exc){
-			//TODO
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();	
 		}
 		String sid = null;
 		String status = null;
@@ -143,8 +141,10 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+		}
 		String status = object.get("status").getAsString();
 		if (suc) {
 			return status;
@@ -173,8 +173,10 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+		}
 		//String userid = object.get("id").getAsString();
 		String username = object.get("username").getAsString();
 		//TODO
@@ -217,8 +219,10 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+		}
 		//String userid = object.get("id").getAsString();
 		String username = object.get("username").getAsString();
 		//TODO
@@ -257,8 +261,10 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		boolean suc = object.get("successful").getAsBoolean();
+		boolean suc = false;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+		}
 
 		return suc;
 	}
