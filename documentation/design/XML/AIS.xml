@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<defaultName lang="en">Calendar</defaultName>
+		<name lang="de">Kalender</name>
+		<defaultDescription lang="en">This App is used to test
+			the privacy management platform. It provides simple calendar
+			functionalities.
+		</defaultDescription>
+		<description lang="de">Die App wird verwendet um die Privacy
+			Manangement Platform zu testen. Sie stellt einfache Funktionalitäten
+			eines Kalenders zur Verfügung.
+		</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="1">
+			<defaultName lang="en">Read calendar entries</defaultName>
+			<name lang="de">Kalendereinträge lesen</name>
+			<defaultDescription lang="en">I can read calendar
+				entries.
+			</defaultDescription>
+			<description lang="de">Ich kann Kalendereinträge lesen.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacySetting identifier="read">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="2">
+			<defaultName lang="en">Write calendar entries
+			</defaultName>
+			<name lang="de">Kalendereinträge schreiben</name>
+			<defaultDescription lang="en">I can write
+				calendar entries.
+			</defaultDescription>
+			<description lang="de">Ich kann Kalendereinträge schreiben.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+				<privacySetting identifier="modify">true</privacySetting>
+				<privacySetting identifier="create">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="3">
+			<defaultName lang="en">Send calendar entries via email
+			</defaultName>
+			<name lang="de">Kalendereinträge per E-Mail
+				versenden
+			</name>
+			<defaultDescription lang="en">I can send calendar entries via email.
+			</defaultDescription>
+			<description lang="de">Ich kann Kalendereinträge per E-Mail versenden.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+				<privacySetting identifier="canSendEmail">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="4">
+			<defaultName lang="en">Import calendar entries
+			</defaultName>
+			<name lang="de">Kalendereinträge importieren
+			</name>
+			<defaultDescription lang="en">I can	import calendar entries.
+			</defaultDescription>
+			<description lang="de">Ich Kalendereinträge importieren.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacySetting identifier="ext_download_l">true</privacySetting>
+				<privacySetting identifier="ext_download_r">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="5">
+			<defaultName lang="en">Export calendar entries
+			</defaultName>
+			<name lang="de">Kalendereinträge exportieren
+			</name>
+			<defaultDescription lang="en">I can export calendar entries.
+			</defaultDescription>
+			<description lang="de">Ich kann Kalendereinträge exportieren.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
+				<privacySetting identifier="ext_download_d">true</privacySetting>
+				<privacySetting identifier="ext_download_w">true</privacySetting>
+				<privacySetting identifier="ext_download_mkdirs">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>
