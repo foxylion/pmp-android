@@ -45,6 +45,16 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
 public abstract class ResourceGroup {
     
     /**
+     * The package of this ResourceGroup.
+     */
+    private final String rgPackage;
+    
+    /**
+     * The connection interface to PMP.
+     */
+    private final IPMPConnectionInterface pmpci;
+    
+    /**
      * The resources present in that resource group.
      */
     private final Map<String, Resource> resources;
@@ -58,10 +68,14 @@ public abstract class ResourceGroup {
     /**
      * Creates a new {@link ResourceGroup}.
      * 
-     * @param serviceContext
-     *            context of the service for this resource group
+     * @param rgPackage
+     *            the package which identifies this RG
+     * @param pmpci
+     *            interface for connecting to PMP
      */
-    public ResourceGroup() {
+    public ResourceGroup(String rgPackage, IPMPConnectionInterface pmpci) {
+        this.rgPackage = rgPackage;
+        this.pmpci = pmpci;
         this.resources = new HashMap<String, Resource>();
         this.privacyLevels = new HashMap<String, PrivacyLevel<?>>();
     }
@@ -105,6 +119,7 @@ public abstract class ResourceGroup {
      * @param privacyLevel
      */
     public void registerPrivacyLevel(String identifier, PrivacyLevel<?> privacyLevel) {
+        privacyLevel.assignResourceGroup(this, identifier);
         this.privacyLevels.put(identifier, privacyLevel);
     }
     
@@ -127,4 +142,12 @@ public abstract class ResourceGroup {
         return new ArrayList<String>(this.privacyLevels.keySet());
     }
     
+    
+    /**
+     * @see IPMPConnectionInterface#getPrivacySettingValue(String, String, String)
+     */
+    public String getPMPPrivacyLevelValue(String privacyLevelIdentifier, String appIdentifier) {
+        return this.pmpci.getPrivacySettingValue(this.rgPackage, privacyLevelIdentifier, appIdentifier);
+        
+    }
 }

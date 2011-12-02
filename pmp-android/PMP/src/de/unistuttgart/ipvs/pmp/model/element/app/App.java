@@ -11,7 +11,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -19,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 
@@ -116,13 +116,15 @@ public class App extends ModelElement implements IApp {
                     String existing = granted.get(ps);
                     String grantNow = p.getGrantedPrivacyLevelValue(ps);
                     
-                    if (existing == null) {
-                        granted.put(ps, grantNow);
-                    } else {
-                        if (ps.permits(existing, grantNow)) {
-                            // grantNow allows more
+                    if (grantNow != null) {
+                        if (existing == null) {
                             granted.put(ps, grantNow);
-                        } /* else existing allows more, do nothing */
+                        } else {
+                            if (ps.permits(existing, grantNow)) {
+                                // grantNow allows more
+                                granted.put(ps, grantNow);
+                            } /* else existing allows more, do nothing */
+                        }
                     }
                     
                 }

@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 
 import android.view.View;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
  * An internal PrivacyLevel interface for a standard of accessing privacy levels. Note that this class saves the parsing
@@ -30,6 +31,39 @@ import android.view.View;
  *            the type that is stored in this {@link PrivacyLevel}.
  */
 public abstract class PrivacyLevel<T> {
+    
+    /**
+     * The resource group that this resource is assigned to.
+     */
+    private ResourceGroup resourceGroup;
+    
+    /**
+     * The identifier of this privacy setting in resource group.
+     */
+    private String identifier;
+    
+    
+    /**
+     * Assigns the resource group during registration.
+     * 
+     * <b>Do not call this method.</b>
+     * 
+     * @param resourceGroup
+     */
+    public final void assignResourceGroup(ResourceGroup resourceGroup, String identifier) {
+        this.resourceGroup = resourceGroup;
+        this.identifier = identifier;
+    }
+    
+    
+    /**
+     * 
+     * @return the associated {@link ResourceGroup}.
+     */
+    public final ResourceGroup getResourceGroup() {
+        return this.resourceGroup;
+    }
+    
     
     /**
      * 
@@ -93,18 +127,27 @@ public abstract class PrivacyLevel<T> {
     
     /**
      * Should create the representation of the string value for this {@link PrivacyLevel} based on a given String value.
+     * If value is null, it should create an object that corresponds to "no privacy level value set".
      * 
      * @param value
      *            the value stored in PMP
+     * @return an object corresponding to value, an object corresponding to "no privacy level value set", if value is
+     *         null
      * @throws PrivacyLevelValueException
      *             if the supplied value does not match the format criteria.
      */
     public abstract T parseValue(String value) throws PrivacyLevelValueException;
     
     
+    /**
+     * Gets the value for this {@link PrivacyLevel} from PMP, if this {@link PrivacyLevel} is registered on a
+     * {@link ResourceGroup}.
+     * 
+     * @param appIdentifier
+     * @return the value as stored in PMP for this privacy setting for appIdentifier, or null, if none found or none set
+     */
     public String getValue(String appIdentifier) {
-        // TODO model access
-        return null;
+        return getResourceGroup().getPMPPrivacyLevelValue(this.identifier, appIdentifier);
     }
     
     

@@ -119,13 +119,15 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
                     String existing = granted.get(ps);
                     String grantNow = p.getGrantedPrivacyLevelValue(ps);
                     
-                    if (existing == null) {
-                        granted.put(ps, grantNow);
-                    } else {
-                        if (ps.permits(existing, grantNow)) {
-                            // grantNow allows more
+                    if (grantNow != null) {
+                        if (existing == null) {
                             granted.put(ps, grantNow);
-                        } /* else existing allows more, do nothing */
+                        } else {
+                            if (ps.permits(existing, grantNow)) {
+                                // grantNow allows more
+                                granted.put(ps, grantNow);
+                            } /* else existing allows more, do nothing */
+                        }
                     }
                     
                 }

@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.resource.privacylevel;
 
 import android.view.View;
 
-
 /**
  * {@link DefaultPrivacyLevel} for {@link Boolean}.
  * 
@@ -32,6 +31,10 @@ public class BooleanPrivacyLevel extends DefaultPrivacyLevel<Boolean> {
     
     @Override
     public Boolean parseValue(String value) throws PrivacyLevelValueException {
+        if (value == null) {
+            return false;
+        }
+        
         boolean result = Boolean.valueOf(value);
         
         if (!result && !value.equalsIgnoreCase(Boolean.FALSE.toString())) {
@@ -40,19 +43,22 @@ public class BooleanPrivacyLevel extends DefaultPrivacyLevel<Boolean> {
         
         return result;
     }
-
+    
+    
     @Override
     public View getView() {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
+    
     @Override
     public String getViewValue(View view) {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
+    
     @Override
     public void setViewValue(View view, Boolean value) {
         // TODO Auto-generated method stub

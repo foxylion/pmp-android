@@ -3,12 +3,12 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 import java.util.List;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.model.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 
 /**
  * @see IPreset

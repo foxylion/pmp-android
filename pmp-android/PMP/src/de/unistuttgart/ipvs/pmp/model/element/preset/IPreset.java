@@ -104,7 +104,7 @@ public interface IPreset {
     /**
      * @param privacySetting
      *            the privacy level in question
-     * @return the granted minimum value of the {@link IPrivacySetting} for this service level
+     * @return the granted minimum value of the {@link IPrivacySetting} for this service level or null if none set
      */
     public String getGrantedPrivacyLevelValue(IPrivacySetting privacySetting);
     
