@@ -106,6 +106,10 @@ public class App extends ModelElement implements IApp {
             Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
             // for all presets
             for (IPreset p : getAssignedPresets()) {
+                if (!p.isAvailable() || p.isDeleted()) {
+                    continue;
+                }
+                
                 // all granted privacy settings
                 for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
                     

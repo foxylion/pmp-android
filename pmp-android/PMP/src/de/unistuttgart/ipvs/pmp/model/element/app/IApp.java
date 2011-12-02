@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 
 /**
  * <p>
@@ -87,11 +88,11 @@ public interface IApp {
     /**
      * <p>
      * Queues the verification of all service features of this app which will publish the results to the app when
-     * finished.
+     * finished. This method is independent of {@link ServiceFeature#isActive()} which actually returns information.
      * </p>
      * 
      * <p>
-     * The verification itself is concurrent, the method will return without any information of the success of the
+     * The publishing itself is concurrent, the method will return without any information of the success of the
      * verification or the publishing.
      * </p>
      */

@@ -109,6 +109,10 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
             // for all presets
             for (IPreset p : this.app.getAssignedPresets()) {
+                if (!p.isAvailable() || p.isDeleted()) {
+                    continue;
+                }
+                
                 // all granted privacy settings
                 for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
                     

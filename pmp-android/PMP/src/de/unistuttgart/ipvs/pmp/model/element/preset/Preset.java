@@ -203,6 +203,8 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         this.deleted = deleted;
         persist();
+        forceRecache();
+        rollout();
     }
     
     
@@ -228,7 +230,7 @@ public class Preset extends ModelElement implements IPreset {
     /**
      * Removes the app when it gets deleted.
      * 
-     * @param p
+     * @param a
      */
     public void removeDeletedApp(App a) {
         this.assignedApps.remove(a);

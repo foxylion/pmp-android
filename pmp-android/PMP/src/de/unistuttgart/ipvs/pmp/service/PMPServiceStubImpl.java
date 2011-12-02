@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
@@ -32,34 +33,32 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
  */
 public class PMPServiceStubImpl extends IPMPService.Stub {
     
-    
     @Override
-    public void getServiceFeatureUpdate(String identifier) throws RemoteException {
+    public boolean getServiceFeatureUpdate(String identifier) throws RemoteException {
         
-            /*Intent intent = new Intent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setClass(PMPApplication.getContext(), ServiceLvlActivity.class);
-            intent.putExtra(Constants.INTENT_IDENTIFIER, this.identifier);
-            PMPApplication.getContext().startActivity(intent);*/
-            // TODO
-        
-
-        // TODO Auto-generated method stub
-        
+        IApp app = Model.getInstance().getApp(identifier);
+        if (app == null) {
+            return false;
+        } else {
+            
+            app.verifyServiceFeatures();
+            return true;
+        }
     }
-
-
+    
+    
     @Override
     public void registerApp(String identifier) throws RemoteException {
         Model.getInstance().registerApp(identifier);
     }
-
-
+    
+    
     @Override
     public boolean isRegistered(String identifier) throws RemoteException {
         return Model.getInstance().getApp(identifier) != null;
     }
-
+    
+    
     @Override
     public IBinder getRessource(String identifier, String resourceGroup, String resource) throws RemoteException {
         IResourceGroup rg = Model.getInstance().getResourceGroup(resourceGroup);
@@ -70,5 +69,4 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
         }
     }
     
-   
 }

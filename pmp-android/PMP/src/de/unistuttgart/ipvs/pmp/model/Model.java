@@ -20,8 +20,10 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySettingPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroupPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
@@ -31,6 +33,8 @@ import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
 /**
  * <p>
@@ -139,11 +143,11 @@ public class Model implements IModel, Observer {
             IPCProvider.getInstance().startUpdate();
             try {
                 for (Preset p : this.cache.getAllPresets()) {
-                    if (!p.isAvailable()) {
+                    if (!p.isAvailable() && !p.isDeleted()) {
                         p.forceRecache();
                         
                         // if the preset was only missing this app, rollout the changes
-                        if (p.isAvailable()) {
+                        if (p.isAvailable() && !p.isDeleted()) {
                             p.rollout();
                         }
                     }
@@ -218,15 +222,25 @@ public class Model implements IModel, Observer {
             app.delete();
             this.cache.getApps().remove(identifier);
             
-            // remember that presets have to be disabled once their required apps get uninstalled
-            for (IPreset preset : app.getAssignedPresets()) {
-                // this time, there's no way but to cast (or run manually through all apps) 
-                if (!(preset instanceof Preset)) {
-                    Log.e("IPreset != Preset. Someone definitely screwed with the model since this should never happen.");
-                } else {
-                    Preset castPreset = (Preset) preset;
-                    castPreset.removeDeletedApp(app);
+            IPCProvider.getInstance().startUpdate();
+            try {
+                // remember that presets have to be disabled once their required apps get uninstalled
+                for (IPreset preset : app.getAssignedPresets()) {
+                    // this time, there's no way but to cast (or run manually through all apps) 
+                    if (!(preset instanceof Preset)) {
+                        Log.e("IPreset != Preset. Someone definitely screwed with the model since this should never happen.");
+                    } else {
+                        Preset castPreset = (Preset) preset;
+                        
+                        // since these presets were assigned to the app they now are guaranteed not to be available.
+                        if (!castPreset.isDeleted()) {
+                            castPreset.forceRecache();
+                            castPreset.rollout();
+                        }
+                    }
                 }
+            } finally {
+                IPCProvider.getInstance().endUpdate();
             }
             
             return true;
@@ -257,19 +271,123 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean installResourceGroup(String identifier) {
-        // TODO Auto-generated method stub
-        // TODO remember that illegal service features have to be reenabled once their missing PS get installed
-        // TODO remember that illegal presets have to be enabled once their missing PS get installed
-        return false;
+        try {
+            // TODO download, unpack, install RG
+            
+            // TODO give correct xml stream here
+            InputStream xmlStream = null;
+            
+            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(xmlStream);
+            
+            // apply new RG to DB, then model
+            ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(identifier);
+            this.cache.getResourceGroups().put(identifier, newRG);
+            this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
+            
+            // apply new PS to DB, then model
+            for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
+                PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
+                        psIdentifier);
+                this.cache.getPrivacySettings().get(newRG).put(psIdentifier, newPS);
+            }
+            
+            IPCProvider.getInstance().startUpdate();
+            try {
+                // remember that illegal service features have to be enabled once their missing PS get installed
+                for (App app : this.cache.getApps().values()) {
+                    boolean appChanged = false;
+                    
+                    for (ServiceFeature sf : this.cache.getServiceFeatures().get(app).values()) {
+                        if (!sf.isAvailable()) {
+                            sf.forceRecache();
+                            
+                            // if the service feature was only missing this RG, rollout the changes
+                            if (sf.isAvailable()) {
+                                appChanged = true;
+                            }
+                        }
+                    }
+                    
+                    if (appChanged) {
+                        app.verifyServiceFeatures();
+                    }
+                }
+                
+                // remember that illegal presets have to be enabled once their missing PS get installed
+                for (Preset p : this.cache.getAllPresets()) {
+                    if (!p.isAvailable()) {
+                        p.forceRecache();
+                        
+                        // if the preset was only missing this RG, rollout the changes
+                        if (p.isAvailable()) {
+                            p.rollout();
+                        }
+                    }
+                }
+                
+            } finally {
+                IPCProvider.getInstance().endUpdate();
+            }
+            return true;
+        } catch (XMLParserException xmlpe) {
+            /* error during XML validation */
+            Log.w(identifier + " has failed registration with PMP.", xmlpe);
+            return false;
+        }
     }
     
     
     @Override
     public boolean uninstallResourceGroup(String identifier) {
-        // TODO Auto-generated method stub
-        // TODO remember that  service features have to be disabled once their required PS get uninstalled
-        // TODO remember that  presets have to be disabled once their required PS get uninstalled
-        return false;
+        ResourceGroup rg = this.cache.getResourceGroups().get(identifier);
+        if (rg == null) {
+            return false;
+        } else {
+            
+            // TODO delete the class files / jar / etc
+            
+            rg.delete();
+            this.cache.getApps().remove(identifier);
+            
+            IPCProvider.getInstance().startUpdate();
+            try {
+                // remember that service features have to be disabled once their required PS get uninstalled
+                for (App app : this.cache.getApps().values()) {
+                    boolean appChanged = false;
+                    
+                    for (ServiceFeature sf : this.cache.getServiceFeatures().get(app).values()) {
+                        if (sf.isAvailable()) {
+                            sf.forceRecache();
+                            
+                            // if the service feature will be missing this RG, rollout the changes
+                            if (!sf.isAvailable()) {
+                                appChanged = true;
+                            }
+                        }
+                    }
+                    
+                    if (appChanged) {
+                        app.verifyServiceFeatures();
+                    }
+                }
+                
+                // remember that presets have to be disabled once their required PS get uninstalled
+                for (Preset preset : this.cache.getAllPresets()) {
+                    if (preset.isAvailable() && !preset.isDeleted()) {
+                        preset.forceRecache();
+                        
+                        // if the preset will be missing this RG, rollout the changes
+                        if (!preset.isAvailable()) {
+                            preset.rollout();
+                        }
+                    }
+                }
+            } finally {
+                IPCProvider.getInstance().endUpdate();
+            }
+            
+            return true;
+        }
     }
     
     
