@@ -400,10 +400,10 @@
               <li><code>tel</code> - String: Die Telefon-Nr. des Benutzers</li> 
               <li><code>description</code> - String: Die Beschreibung, die der Benutzer über sich hinterlegt hat</li>
               <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>  
-              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere Sichtbar sein soll</li>
-              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere Sichtbar sein soll</li>    
-              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere Sichtbar sein soll</li>  
-              <li><code>tel_public</code> - Boolean: True, wenn die Telefon-Nr. für andere Sichtbar sein soll</li>
+              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere sichtbar sein soll</li>    
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere sichtbar sein soll</li>  
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefon-Nr. für andere sichtbar sein soll</li>
               <li><code>rating_avg</code> - Float: Durchschnittsbewertung des Benutzers</li>        
               <li><code>rating_num</code> - Integer: Anzahl der für den Benutzer abgegebenen Bewertungen</li>
             </ul>
@@ -416,7 +416,7 @@
       </table>
       
       
-      <h3 id="interface_get_profile">Profil-Daten abrufen (unvollständig)</h3>
+      <h3 id="interface_get_profile">Profil-Daten abrufen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -449,12 +449,23 @@
           <td>
 <pre>
 {
-  "successful": true
+  "successful":true,
   "id": Integer,
-  "username": String
-  "regdate": Date
-  "rating": Integer
-}                                 
+  "username": String,
+  "email": String,
+  "fistname": String,
+  "lastname": String,
+  "tel": String,
+  "description": String,
+  "regdate": Date,
+  "email_public": Boolean,
+  "firstname_public": Boolean,
+  "lastname_public": Boolean,
+  "tel_public": Boolean,
+  "rating_avg": Float,
+  "rating_num": Integer
+}                               
+                            
 </pre>  
           </td>
         </tr>
@@ -463,16 +474,34 @@
           <td>
            <ul>           
               <li><code>id</code> - Integer: Die ID des Benutzers</li>
-              <li><code>username</code> - String: Der Name des Benutzers</li>
-              <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>
-              <li><code>rating</code> - Integer: Durchschnittsbewertung des Benutzers</li>
+              <li><code>username</code> - String: Der Name des Benutzers</li>  
+              <li><code>email</code> - String: Die E-Mail-Adresse des Benutzers, 
+                sofern diese für andere Mitglieder öffentlich ist (<code>"email_public": true</code>)
+                andernfalls wird dieser Schlüssel nicht ausgegeben</li>
+              <li><code>firstname</code> - String: Der Vorname des Benutzers, 
+                sofern diese für andere Mitglieder öffentlich ist (<code>"firstname_public": true</code>)
+                andernfalls wird dieser Schlüssel nicht ausgegeben</li>
+              <li><code>lastname</code> - String: Der Nachname des Benutzers, 
+                sofern diese für andere Mitglieder öffentlich ist (<code>"lastname_public": true</code>)
+                andernfalls wird dieser Schlüssel nicht ausgegeben</li> 
+              <li><code>tel</code> - String: Die Telefon-Nr. des Benutzers, 
+                sofern diese für andere Mitglieder öffentlich ist (<code>"tel_public": true</code>)
+                andernfalls wird dieser Schlüssel nicht ausgegeben</li> 
+              <li><code>description</code> - String: Die Beschreibung, die der Benutzer über sich hinterlegt hat</li>
+              <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>  
+              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere sichtbar sein soll</li>    
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere sichtbar sein soll</li>  
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefon-Nr. für andere sichtbar sein soll</li>
+              <li><code>rating_avg</code> - Float: Durchschnittsbewertung des Benutzers</li>        
+              <li><code>rating_num</code> - Integer: Anzahl der für den Benutzer abgegebenen Bewertungen</li>
             </ul>
           </td>
         </tr>
       </table>
       
       
-      <h3 id="interface_announce_trip">Fahrt bekannt geben (unvollständig)</h3>
+      <h3 id="interface_announce_trip">Fahrt bekannt geben</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -499,7 +528,10 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>destination</code> - String: Name des Zielortes</li>
+              <li><code>destination</code> - String: Name des Zielortes</li>  
+              <li><code>current_lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
+              <li><code>current_lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li>      
+              <li><code>avail_seats</code> - Integer: Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
             </ul>
           </td>
         </tr>      
@@ -508,14 +540,78 @@
           <td>
 <pre>
 {
-  "successful": true
+  "successful": true,
+  "id": Integer
 }                                 
 </pre>  
           </td>
         </tr>
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
+          <td>
+           <ul>           
+              <li><code>id</code> - Integer: Die ID der soeben angelegten Fahrt</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_update_trip">Fahrer-Position aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_trip_pos.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Die Position des Fahrers soll geändert werden, damit potentielle
+            Mitfahrer ihn sehen können</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>trip_id</code> - Integer: ID der Fahrt, zu denen die Position aktualisiert werden soll</li>  
+              <li><code>current_lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
+              <li><code>current_lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li> 
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
+                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,
+                <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist,
+                <code>has_ended</code>, wenn die Fahrt bereits beendet wurde oder
+                <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
+            </ul>
+          </td>
         </tr>
       </table>
       
