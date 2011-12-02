@@ -186,6 +186,7 @@ public interface IModel {
      */
     public boolean removePreset(ModelElement creator, String identifier);
     
+    
     /**
      * Will clear the complete model on both data and persistence layer.
      */

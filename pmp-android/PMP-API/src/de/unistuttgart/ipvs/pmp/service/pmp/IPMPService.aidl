@@ -14,8 +14,9 @@ interface IPMPService {
      * 
      * @param identifier
      *            the identifier for the app to receive the service feature update
+     * @return true, if the service feature will be performed, false, if the app wasn't found
      */
-    void getServiceFeatureUpdate(String identifier);
+    boolean getServiceFeatureUpdate(String identifier);
     
     
     /**

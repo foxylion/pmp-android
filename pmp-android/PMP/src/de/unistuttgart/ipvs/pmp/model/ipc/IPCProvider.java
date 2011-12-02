@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.model;
+package de.unistuttgart.ipvs.pmp.model.ipc;
 
 import java.util.HashMap;
 import java.util.Map;

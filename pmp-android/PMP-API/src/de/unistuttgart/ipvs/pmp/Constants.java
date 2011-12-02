@@ -19,8 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp;
 
-import android.content.Intent;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
@@ -36,21 +34,6 @@ public class Constants {
     public static final String LOG_NAME = "PMP";
     
     /**
-     * The key for the type of the connection inside the {@link Intent}, used by {@link AbstractConnector}.
-     */
-    public static final String INTENT_TYPE = "connection.type";
-    
-    /**
-     * The key for the App/RG identifier inside the {@link Intent}, used by {@link AbstractConnector}.
-     */
-    public static final String INTENT_IDENTIFIER = "connection.identifier";
-    
-    /**
-     * The key for the signature inside the {@link Intent}, used by {@link AbstractConnector}.
-     */
-    public static final String INTENT_SIGNATURE = "connection.signature";
-    
-    /**
      * The Android-wide identifier for the PMP (also used to connect to the Service inside the
      * {@link PMPServiceConnector}.
      */
@@ -62,17 +45,7 @@ public class Constants {
     public static final String PMP_LOG_SUFIX = "PMP";
     
     /**
-     * The default locale required to be present at all times
-     */
-    public static final String DEFAULT_LOCALE = "en";
-    
-    /**
-     * 
-     */
-    public static final String PMP_RESOURCE_GROUP_INTENT_CATEGROY = "de.unistuttgart.ipvs.pmp.categories.registration.rg";
-    
-    /**
      * The prefix that will be put in front of the key of the service feature
      */
-    public static final String SERVICE_FEATURE_PREFIX ="[app-sf]-";
+    public static final String SERVICE_FEATURE_PREFIX = "[app-sf]-";
 }

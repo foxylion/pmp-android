@@ -22,8 +22,7 @@ package de.unistuttgart.ipvs.pmp.util.xml.app;
 import java.io.InputStream;
 import java.util.Locale;
 
-
-// import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * This Class provides the functionality to parse a given xml file (information set of the app) and return a complete
@@ -66,10 +65,10 @@ public class AppInformationSetParser {
         }
         Log.d("-----------------------");
         Log.d("-- Service Features: --");
-        Log.d("-----------------------");        
+        Log.d("-----------------------");
         for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
-        	ServiceFeature sf = ais.getServiceFeaturesMap().get(sfIdentifier);
-        	Log.d("Identifier: " + sfIdentifier);
+            ServiceFeature sf = ais.getServiceFeaturesMap().get(sfIdentifier);
+            Log.d("Identifier: " + sfIdentifier);
             for (Locale l : sf.getNames().keySet()) {
                 Log.d("Name: " + sf.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
             }
@@ -88,14 +87,5 @@ public class AppInformationSetParser {
         }
         Log.d("-----------------------");
     }
-   
- /**
-  * Workaround for non android projects
-  */
- static class Log {
-	 public static void d(String msg) {
-		 System.out.println(msg);
-	 }
- }
     
 }
