@@ -43,7 +43,7 @@
       </p>
       <p>
         Zur Speicherung der Bewertung wurde der <code>user</code>-Tabelle
-        die Spalten <code>rating_acg</code> und <code>rating_num</code> hinzugefügt.
+        die Spalten <code>rating_avg</code> und <code>rating_num</code> hinzugefügt.
         Diese speichern die Durchschnittsbewertung bzw. die Anzahl der abgegebenen
         Bewertungen.
       </p>
@@ -175,12 +175,12 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>username</code> - String: Der gewünschte Benutzername des neuen Kontos</li>
-              <li><code>password</code> - String: Das gewünschte Passwort als Reintext (nicht gehasht)</li>
-              <li><code>email</code> - String: Die E-Mail-Adresse des Benutzer</li>
-              <li><code>firstname</code> - String: Vorname des Benutzers</li>
-              <li><code>lastname</code> - String: Nachname des Benutzers</li>
-              <li><code>tel</code> - String: Telefonnummer des Benutzers</li>
+              <li><code>username</code> - String (3 &le; Zeichen &le; 100): Der gewünschte Benutzername des neuen Kontos</li>
+              <li><code>password</code> - String (3 &le; Zeichen &le; 100): Das gewünschte Passwort als Reintext (nicht gehasht)</li>
+              <li><code>email</code> - String (3 &le; Zeichen &le; 100): Die E-Mail-Adresse des Benutzer</li>
+              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100): Vorname des Benutzers</li>
+              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100): Nachname des Benutzers</li>
+              <li><code>tel</code> - String (3 &le; Zeichen &le; 100): Telefonnummer des Benutzers</li>
               <li><code>description</code> - String: Eine kurze Beschreibung, die
                 der Benutzer seinem Konto hinzufügen kann</li>
               <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
@@ -528,10 +528,10 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>destination</code> - String: Name des Zielortes</li>  
+              <li><code>destination</code> - String (3 &le; Zeichen &le; 100): Name des Zielortes</li>  
               <li><code>current_lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
               <li><code>current_lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li>      
-              <li><code>avail_seats</code> - Integer: Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
+              <li><code>avail_seats</code> - Integer (1 &le; x &le; 99): Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
             </ul>
           </td>
         </tr>      
