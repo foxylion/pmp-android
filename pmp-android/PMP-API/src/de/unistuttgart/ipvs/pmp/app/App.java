@@ -27,6 +27,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
@@ -75,18 +76,18 @@ public abstract class App extends Application {
         pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void onConnect() {
-                try {
-                    IPMPService ipmps = pmpsc.getAppService();
-                    if (!ipmps.isRegistered(name)) {
-                        // register with PMP
-                        ipmps.registerApp(name);
-                    }
-                } catch (RemoteException e) {
-                    Log.e("RemoteException during registering app", e);
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IPMPService ipmps = pmpsc.getAppService();
+                if (!ipmps.isRegistered(name)) {
+                    // register with PMP
+                    ipmps.registerApp(name);
                 }
-                
-                pmpsc.unbind();
+            }
+            
+            
+            @Override
+            public void onBindingFailed(AbstractConnector connector) {
+                onRegistrationFailed("PMP not found on device.");
             }
             
         });
@@ -112,19 +113,13 @@ public abstract class App extends Application {
         pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void onConnect() {
-                try {
-                    IPMPService ipmps = pmpsc.getAppService();
-                    if (!ipmps.isRegistered(name)) {
-                        result.result = null;
-                    } else {
-                        result.result = ipmps.getRessource(name, resourceGroup, resource);
-                    }
-                } catch (RemoteException e) {
-                    Log.e("RemoteException during registering app", e);
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IPMPService ipmps = pmpsc.getAppService();
+                if (!ipmps.isRegistered(name)) {
+                    result.result = null;
+                } else {
+                    result.result = ipmps.getRessource(name, resourceGroup, resource);
                 }
-                
-                pmpsc.unbind();
             }
             
         });
@@ -157,19 +152,19 @@ public abstract class App extends Application {
         pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
-            public void onConnect() {
-                try {
-                    IPMPService ipmps = pmpsc.getAppService();
-                    if (!ipmps.isRegistered(name)) {
-                        receiveResource(resourceGroup, resource, null);
-                    } else {
-                        receiveResource(resourceGroup, resource, ipmps.getRessource(name, resourceGroup, resource));
-                    }
-                } catch (RemoteException e) {
-                    Log.e("RemoteException during registering app", e);
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IPMPService ipmps = pmpsc.getAppService();
+                if (!ipmps.isRegistered(name)) {
+                    receiveResource(resourceGroup, resource, null);
+                } else {
+                    receiveResource(resourceGroup, resource, ipmps.getRessource(name, resourceGroup, resource));
                 }
-                
-                pmpsc.unbind();
+            }
+            
+            
+            @Override
+            public void onBindingFailed(AbstractConnector connector) {
+                receiveResource(resourceGroup, resource, null);
             }
             
         });

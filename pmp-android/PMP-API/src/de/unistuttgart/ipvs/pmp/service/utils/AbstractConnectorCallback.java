@@ -20,12 +20,15 @@
 package de.unistuttgart.ipvs.pmp.service.utils;
 
 import android.app.Service;
-import de.unistuttgart.ipvs.pmp.Log;
+import android.os.RemoteException;
 
 /**
  * {@link AbstractConnectorCallback} is used in {@link AbstractConnector}s to get informed when a Service has connected
  * after
  * the binding command.
+ * 
+ * @param T
+ *            the type of connector to be used in the callbacks.
  * 
  * @author Jakob Jarosch
  */
@@ -33,23 +36,32 @@ public abstract class AbstractConnectorCallback {
     
     /**
      * Is called when the {@link Service} has connected.
+     * 
+     * @param connector
+     *            the {@link AbstractConnector} from which this method was invoked
      */
-    public void onConnect() {
+    public void onConnect(AbstractConnector connector) throws RemoteException {
     }
     
     
     /**
      * Is called when the {@link Service} disconnected.
+     * 
+     * @param connector
+     *            the {@link AbstractConnector} from which this method was invoked
      */
-    public void onDisconnect() {
+    public void onDisconnect(AbstractConnector connector) {
     }
     
     
     /**
      * Is called when the binding of the {@link Service} failed.
+     * 
+     * @param connector
+     *            the {@link AbstractConnector} from which this method was invoked
      */
-    public void onBindingFailed() {
-        Log.e("Failed to bind.");
+    public void onBindingFailed(AbstractConnector connector) {
+        // the only time this is called there is already a log written from the AbstractConnector
     }
     
 }

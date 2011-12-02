@@ -48,8 +48,6 @@ public abstract class AbstractConnector {
         BINDING_FAILED
     };
     
-    private AbstractConnector self = this;
-    
     /**
      * Reference to the connected service {@link IBinder}.
      */
@@ -101,7 +99,7 @@ public abstract class AbstractConnector {
             AbstractConnector.this.connectedService = service;
             AbstractConnector.this.connected = true;
             
-            Log.v(AbstractConnector.this.self.getClass().getSimpleName() + " - Service connected, received the binder "
+            Log.v(AbstractConnector.this.getClass().getSimpleName() + " - Service connected, received the binder "
                     + getInterfaceDescriptor() + " for connected service " + AbstractConnector.this.targetIdentifier);
             
             serviceConnected();
@@ -122,9 +120,7 @@ public abstract class AbstractConnector {
     
     
     /**
-     * Bind the {@link Service}.
-     * 
-     * @return Returns true if a binding is on the way, otherwise false.
+     * Binds the {@link Service} asynchronously.
      */
     public void bind() {
         if (!isBound()) {
@@ -140,8 +136,8 @@ public abstract class AbstractConnector {
                         Log.d("AbstractConnector successfully sent bind command to "
                                 + AbstractConnector.this.targetIdentifier);
                     } else {
-                        Log.d("AbstractConnector recognized that binding for "
-                                + AbstractConnector.this.targetIdentifier + " has failed");
+                        Log.d("AbstractConnector failed binding to " + AbstractConnector.this.targetIdentifier);
+                        informCallback(ConnectionState.BINDING_FAILED);
                         AbstractConnector.this.semaphore.release();
                     }
                 }
@@ -209,7 +205,7 @@ public abstract class AbstractConnector {
     
     /**
      * @return Returns the Service as {@link IBinder}, should be casted to the correct interface. Returns null if the
-     *         Service returned a {@link INullService}- {@link IBinder}.
+     *         Service returned a {@link INullService} - {@link IBinder}.
      */
     protected IBinder getService() {
         return this.connectedService;
@@ -228,11 +224,6 @@ public abstract class AbstractConnector {
             Log.e("Got an RemoteException while checking the Type of the returned IBinder");
         }
         return "";
-    }
-    
-    
-    protected Context getContext() {
-        return this.context;
     }
     
     
@@ -261,17 +252,22 @@ public abstract class AbstractConnector {
         for (AbstractConnectorCallback handler : this.callbackHandler) {
             switch (state) {
                 case CONNECTED:
-                    handler.onConnect();
+                    try {
+                        handler.onConnect(this);
+                    } catch (RemoteException re) {
+                        Log.e("Remote exception during connected callback handling.", re);
+                    }
                     break;
                 
                 case DISCONNECTED:
-                    handler.onDisconnect();
+                    handler.onDisconnect(this);
                     break;
                 
                 case BINDING_FAILED:
-                    handler.onBindingFailed();
+                    handler.onBindingFailed(this);
                     break;
             }
         }
+        unbind();
     }
 }

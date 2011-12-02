@@ -42,7 +42,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.IFileAccess;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
 
 /**
  * This class is implemented with the singleton pattern and provides the interface to the resource group "file system"

@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
+import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,7 +27,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class CalendarApp extends App {
@@ -47,36 +49,16 @@ public class CalendarApp extends App {
         Log.d("Registration succeed");
         
         // Connector to get the initial service level
-        final PMPServiceConnector connector = new PMPServiceConnector(getApplicationContext());
-        connector.addCallbackHandler(new IConnectorCallback() {
-            
+        final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
+        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             @Override
-            public void disconnected() {
-                Log.e("Disconnected");
-            }
-            
-            
-            @Override
-            public void connected() {
-                // Try to get the initial service level
-//                try {
-//                    connector.getAppService().getInitialServiceLevel();
-//                } catch (RemoteException e) {
-//                    Log.e("RemoteException during getting initial ServiceLevel", e);
-//                }
-                DialogManager.getInstance().dismissWaitingDialog();
-                connector.unbind();
-            }
-            
-            
-            @Override
-            public void bindingFailed() {
-                Log.e("Binding failed during getting initial service level.");
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
             }
         });
         
         // Connect to the service
-        connector.bind();
+        pmpconnector.bind();
     }
     
     

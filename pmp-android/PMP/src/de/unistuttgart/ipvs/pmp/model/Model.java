@@ -25,6 +25,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
@@ -112,7 +113,7 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public void registerApp(String identifier) {
+    public void registerApp(final String identifier) {
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), identifier);
         
         // check XML
@@ -135,75 +136,71 @@ public class Model implements IModel, Observer {
             }
             
             // remember that illegal presets have to be enabled once their missing apps get installed
-            for (Preset p : this.cache.getAllPresets()) {
-                if (!p.isAvailable()) {
-                    p.forceRecache();
-                    
-                    // if the preset was only missing this app, rollout the changes
-                    if (p.isAvailable()) {
-                        p.rollout();
+            IPCProvider.getInstance().startUpdate();
+            try {
+                for (Preset p : this.cache.getAllPresets()) {
+                    if (!p.isAvailable()) {
+                        p.forceRecache();
+                        
+                        // if the preset was only missing this app, rollout the changes
+                        if (p.isAvailable()) {
+                            p.rollout();
+                        }
                     }
                 }
+            } finally {
+                IPCProvider.getInstance().endUpdate();
             }
             
             // "Hello thar, App!"
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
-                public void onConnect() {
-                    try {
-                        asc.getAppService().replyRegistrationResult(new RegistrationResult(true));
-                    } catch (RemoteException e) {
-                        Log.e("Remote exception during reply registration success.", e);
-                    }
+                public void onConnect(AbstractConnector connector) throws RemoteException {
+                    asc.getAppService().replyRegistrationResult(new RegistrationResult(true));
+                    Log.d(identifier + " has successfully registered with PMP.");
+                }
+                
+                
+                @Override
+                public void onBindingFailed(AbstractConnector connector) {
+                    Log.d(identifier
+                            + " would have been successfully registered with PMP, but could not connect to its service.");
                 }
             });
-            Log.d(identifier + " has successfully registered with PMP.");
             
         } catch (final IOException ioe) {
             /* error during finding files */
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
-                public void onConnect() {
-                    try {
-                        asc.getAppService().replyRegistrationResult(new RegistrationResult(false, ioe.getMessage()));
-                    } catch (RemoteException e) {
-                        Log.e("Remote exception during reply registration failure.", e);
-                    }
+                public void onConnect(AbstractConnector connector) throws RemoteException {
+                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, ioe.getMessage()));
                 }
             });
-            Log.w(identifier + " has failed registered with PMP.", ioe);
+            Log.w(identifier + " has failed registration with PMP.", ioe);
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
-                public void onConnect() {
-                    try {
-                        asc.getAppService().replyRegistrationResult(new RegistrationResult(false, nnfe.getMessage()));
-                    } catch (RemoteException e) {
-                        Log.e("Remote exception during reply registration failure.", e);
-                    }
+                public void onConnect(AbstractConnector connector) throws RemoteException {
+                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, nnfe.getMessage()));
                 }
             });
-            Log.w(identifier + " has failed registered with PMP.", nnfe);
+            Log.w(identifier + " has failed registration with PMP.", nnfe);
             
         } catch (final XMLParserException xmlpe) {
             /* error during XML validation */
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
-                public void onConnect() {
-                    try {
-                        asc.getAppService().replyRegistrationResult(new RegistrationResult(false, xmlpe.getDetails()));
-                    } catch (RemoteException e) {
-                        Log.e("Remote exception during reply registration failure.", e);
-                    }
+                public void onConnect(AbstractConnector connector) throws RemoteException {
+                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, xmlpe.getDetails()));
                 }
             });
-            Log.w(identifier + " has failed registered with PMP.", xmlpe);
+            Log.w(identifier + " has failed registration with PMP.", xmlpe);
         }
         
         // and off you go
@@ -347,6 +344,13 @@ public class Model implements IModel, Observer {
                 return true;
             }
         }
+    }
+    
+    
+    @Override
+    public void clearAll() {
+        PersistenceProvider.getInstance().getDoh().cleanTables();
+        PersistenceProvider.getInstance().releaseCache();
     }
     
 }

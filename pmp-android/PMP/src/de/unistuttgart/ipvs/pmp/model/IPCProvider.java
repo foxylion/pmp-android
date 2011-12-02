@@ -6,9 +6,9 @@ import java.util.Map.Entry;
 
 import android.os.Bundle;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 
@@ -21,9 +21,9 @@ import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 public class IPCProvider {
     
     /**
-     * Whether a cumulative update session is in progress and no rollout should be done.
+     * How many cumulative update sessions are in progress, for > 0 no rollout should be done.
      */
-    private boolean updateSession;
+    private int updateSession;
     
     /**
      * The map containing the IPC operations to be performed.
@@ -45,26 +45,30 @@ public class IPCProvider {
      * Singleton constructor
      */
     private IPCProvider() {
-        this.updateSession = false;
+        this.updateSession = 0;
         this.queue = new HashMap<String, Bundle>();
     }
     
     
     /**
-     * Starts a cumulative update session. This means, the IPC provider will start buffering IPC messages instead of
+     * Starts one cumulative update session. This means, the IPC provider will start buffering IPC messages instead of
      * directly delivering them directly. Be sure to always call {@link IPCProvider#endUpdate()} afterwards.
      */
     public synchronized void startUpdate() {
-        this.updateSession = true;
+        this.updateSession++;
     }
     
     
     /**
-     * Ends a cumulative update session started by {@link IPCProvider#startUpdate()}.
+     * Ends one cumulative update session started by {@link IPCProvider#startUpdate()}.
      */
     public synchronized void endUpdate() {
-        this.updateSession = false;
-        rollout();
+        if (this.updateSession > 0) {
+            this.updateSession--;
+        }
+        if (this.updateSession == 0) {
+            rollout();
+        }
     }
     
     
@@ -78,14 +82,11 @@ public class IPCProvider {
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
-                public void onConnect() {
-                    try {
-                        asc.getAppService().updateServiceFeatures(e.getValue());
-                    } catch (RemoteException e) {
-                        Log.e("Remote exception during updating service features.", e);
-                    }
+                public void onConnect(AbstractConnector connector) throws RemoteException {
+                    asc.getAppService().updateServiceFeatures(e.getValue());
                 }
             });
+            // this call is asynchronous
             asc.bind();
             
             this.queue.remove(e.getKey());
@@ -112,7 +113,7 @@ public class IPCProvider {
         this.queue.put(appPackage, b);
         
         // run, if no session
-        if (!this.updateSession) {
+        if (this.updateSession == 0) {
             rollout();
         }
     }
