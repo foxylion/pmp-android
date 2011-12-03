@@ -1,22 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
-	<DatePicker android:layout_width="fill_parent" android:id="@+id/datePickerNew"
-		android:layout_height="fill_parent"></DatePicker>
-	<TextView android:text="@string/desc" android:layout_width="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_height="wrap_content" android:id="@+id/description"></TextView>
-	<EditText android:layout_width="fill_parent"
-		android:scrollbars="vertical" android:id="@+id/descriptionNew"
-		android:layout_height="60dp">
-		<requestFocus></requestFocus>
-	</EditText>
-	<LinearLayout android:id="@+id/linearLayout1"
-		android:baselineAligned="true" android:gravity="center_horizontal|bottom"
-		android:layout_width="fill_parent" android:layout_gravity="center_horizontal"
-		android:orientation="horizontal" android:layout_height="fill_parent">
-		<Button android:layout_height="wrap_content" android:id="@+id/ConfirmButton"
-			android:text="@string/conf" android:layout_width="wrap_content"></Button>
-	</LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <DatePicker
+                android:id="@+id/datePickerNew"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+            </DatePicker>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/desc"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/descriptionNew"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <requestFocus >
+                </requestFocus>
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:baselineAligned="true"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/ConfirmButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/conf" >
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
