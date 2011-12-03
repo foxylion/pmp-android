@@ -111,7 +111,6 @@ public class NewAppointmentDialog extends Dialog {
             int day = NewAppointmentDialog.this.dPicker.getDayOfMonth();
             
             Calendar cal = new GregorianCalendar(year, month, day);
-            Model.getInstance().addAppointment(new Appointment(23, desc.getText().toString(), cal.getTime()));
             
             // Stores the date
             SqlConnector.getInstance().storeNewAppointment(cal.getTime(),
