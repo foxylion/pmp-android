@@ -19,11 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -43,7 +38,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
@@ -55,7 +49,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
-import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
@@ -108,8 +101,16 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onBindingFailed(AbstractConnector connector) {
                 Looper.prepare();
-                Toast toast = Toast.makeText(self, "Could not register app", Toast.LENGTH_LONG);
-                toast.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(self);
+                builder.setMessage(R.string.no_register).setTitle(R.string.error).setCancelable(true)
+                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
                 Looper.loop();
                 
             }
@@ -253,69 +254,66 @@ public class CalendarAppActivity extends ListActivity {
      * @author Marcus Vetter
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return false;
-        // Get the service level
-        //        int serviceLevel = Model.getInstance().getServiceLevel();
-        //        
-        //        // Handle item selection
-        //        switch (item.getItemId()) {
-        //            case R.id.new_appointment:
-        //                if (serviceLevel >= 2) {
-        //                    // Show the new appointment dialog
-        //                    Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-        //                    dialog.setTitle("Create new appointment");
-        //                    dialog.show();
-        //                } else {
-        //                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-        //                }
-        //                return true;
-        //            case R.id.delete_all_appointments:
-        //                if (serviceLevel >= 2) {
-        //                    // Show the confirm dialog for deleting all appointments
-        //                    new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
-        //                            .setTitle(R.string.delete_all_appointments)
-        //                            .setMessage(R.string.delete_all_appointments_question)
-        //                            .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
-        //                                
-        //                                @Override
-        //                                public void onClick(DialogInterface dialog, int which) {
-        //                                    Model.getInstance().deleteAllAppointments();
-        //                                }
-        //                                
-        //                            }).show();
-        //                } else {
-        //                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-        //                }
-        //                return true;
-        //            case R.id.import_appointments:
-        //                if (serviceLevel >= 4) {
-        //                    /*
-        //                     * Fill the list of files for importing.
-        //                     * It is also used to check for exporting, if a file already exists.
-        //                     */
-        //                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
-        //                    
-        //                } else {
-        //                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-        //                }
-        //                return true;
-        //            case R.id.export_appointments:
-        //                if (serviceLevel >= 6) {
-        //                    /*
-        //                     * Fill the list of files for importing.
-        //                     * It is also used to check for exporting, if a file already exists.
-        //                     */
-        //                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
-        //                    
-        //                } else {
-        //                    DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-        //                }
-        //                
-        //                return true;
-        //            default:
-        //                return super.onOptionsItemSelected(item);
-        //        }
+    public boolean onOptionsItemSelected(MenuItem item) {  
+        App app = (App) self.getApplication();
+                // Handle item selection
+                switch (item.getItemId()) {
+                    case R.id.new_appointment:
+                        if (app.isServiceFeatureEnabled("write")) {
+                            // Show the new appointment dialog
+                            Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
+                            dialog.setTitle("Create new appointment");
+                            dialog.show();
+                        } else {
+                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                        }
+                        return true;
+                    case R.id.delete_all_appointments:
+                        if (app.isServiceFeatureEnabled("write")) {
+                            // Show the confirm dialog for deleting all appointments
+                            new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setTitle(R.string.delete_all_appointments)
+                                    .setMessage(R.string.delete_all_appointments_question)
+                                    .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
+                                        
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Model.getInstance().deleteAllAppointments();
+                                        }
+                                        
+                                    }).show();
+                        } else {
+                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                        }
+                        return true;
+                    case R.id.import_appointments:
+                        if (app.isServiceFeatureEnabled("import")) {
+                            /*
+                             * Fill the list of files for importing.
+                             * It is also used to check for exporting, if a file already exists.
+                             */
+                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
+                            
+                        } else {
+                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                        }
+                        return true;
+                    case R.id.export_appointments:
+                        if (app.isServiceFeatureEnabled("export")) {
+                            /*
+                             * Fill the list of files for importing.
+                             * It is also used to check for exporting, if a file already exists.
+                             */
+                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                            
+                        } else {
+                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                        }
+                        
+                        return true;
+                    default:
+                        return super.onOptionsItemSelected(item);
+                }
     }
     
     

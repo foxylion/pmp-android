@@ -84,8 +84,8 @@ public class DialogManager {
     public void showServiceLevelInsufficientDialog(Context context) {
         
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(context.getString(R.string.insufficent_sl))
-                .setMessage(context.getString(R.string.insufficent_sl_message))
+        builder.setTitle(context.getString(R.string.insufficent_sf))
+                .setMessage(context.getString(R.string.insufficent_sf_message))
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     
                     // Close the dialog
@@ -93,7 +93,7 @@ public class DialogManager {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
-                }).setNegativeButton(context.getString(R.string.change_sl), new DialogInterface.OnClickListener() {
+                }).setNegativeButton(context.getString(R.string.change_sf), new DialogInterface.OnClickListener() {
                     
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
