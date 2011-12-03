@@ -63,17 +63,9 @@
     <string name="empty_list_title">Keine Termineinträge vorhanden</string>
     <string name="empty_list_message">Termineinträge können nicht exportiert werden. Es
 		sind keine Termineinträge vorhanden.</string>
-<<<<<<< HEAD
     <string name="invalid_file_name_title">Ungültiger Dateiname</string>
     <string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
     <string name="error">Fehler</string>
     <string name="no_register">Die App konnte nicht registriert werden</string>
 
 </resources>
-=======
-	<string name="invalid_file_name_title">Ungültiger Dateiname</string>
-	<string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
-	<string name="error">Fehler</string>
-	<string name="no_register">Die App konnte nicht registriert werden</string>
-</resources>
->>>>>>> 4a75013cbc2374e68622101098d01245e0f7e497
