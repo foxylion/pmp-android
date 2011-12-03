@@ -1,62 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Calendar</string>
-	<string name="new_todo">New appointment</string>
-	<string name="desc">Description</string>
-	<string name="conf">Confirm</string>
-	<string name="add_todo_dialog">Add new appointment</string>
-	<string name="change_todo_dialog">Change appointment</string>
-	<string name="delete">Delete</string>
-	<string name="send">Send via E-Mail</string>
-	<string name="subject">I am sending you a new appointment</string>
-	<string name="menu">Menu</string>
-	<string name="wait">Please wait...</string>
-	<string name="registration">Registration is running.</string>
-	<string name="err_load">Error loading appointments</string>
-	<string name="err_store">Error while storing in database</string>
-	<string name="err_del">Error while deleting date in database</string>
-	<string name="err_change">Error while changing appointment in database
+
+    <string name="app_name">Calendar</string>
+    <string name="new_todo">New appointment</string>
+    <string name="desc">Description</string>
+    <string name="conf">Confirm</string>
+    <string name="add_todo_dialog">Add new appointment</string>
+    <string name="change_todo_dialog">Change appointment</string>
+    <string name="delete">Delete</string>
+    <string name="send">Send via E-Mail</string>
+    <string name="subject">New appointment.</string>
+    <string name="menu">Menu</string>
+    <string name="wait">Please wait...</string>
+    <string name="registration">Registration is running.</string>
+    <string name="err_load">Error loading appointments</string>
+    <string name="err_store">Error while storing in database</string>
+    <string name="err_del">Error while deleting date in database</string>
+    <string name="err_change">Error while changing appointment in database
 	</string>
-	<string name="no_appointments_available">No appointments available. Press menu to add or
+    <string name="no_appointments_available">No appointments available. Press menu to add or
 	import appointments.</string>
-	<string name="no_files_available">There are no files available.</string>
-	<string name="empty_list_title">No appointments available</string>
-	<string name="empty_list_message">Can not export appointments. There are no appointments available</string>
-	<string name="err_create">Calendar couldn\'t create a database table. The app
+    <string name="no_files_available">There are no files available.</string>
+    <string name="empty_list_title">No appointments available</string>
+    <string name="empty_list_message">Can not export appointments. There are no appointments available</string>
+    <string name="err_create">Calendar couldn\'t create a database table. The app
 		will not function correctly.
 	</string>
-	<string name="sd_card_missing">If you want to use the import/export functionality,
+    <string name="sd_card_missing">If you want to use the import/export functionality,
 		you have to insert a SD-Card!
 	</string>
-	<string name="import_succeed_toast">Importing appointments succeed.</string>
-	<string name="import_data_invalid_toast">Import data invalid.</string>
-	<string name="delete_file_toast">File deleted.</string>
-	<string name="export_toast_succeed">Exporting appointments succeed.</string>
-	<string name="export_toast_cancel">Canceled exporting appointments.</string>
-	<string name="export_toast_failed">Exporting appointments failed.</string>
-	<string name="export_override_cancel">Cancel</string>
-	<string name="export_override_conf">Override</string>
-	<string name="export_override_attention">A file with this file name already exists. Do you
+    <string name="import_succeed_toast">Importing appointments succeed.</string>
+    <string name="import_data_invalid_toast">Import data invalid.</string>
+    <string name="delete_file_toast">File deleted.</string>
+    <string name="export_toast_succeed">Exporting appointments succeed.</string>
+    <string name="export_toast_cancel">Canceled exporting appointments.</string>
+    <string name="export_toast_failed">Exporting appointments failed.</string>
+    <string name="export_override_cancel">Cancel</string>
+    <string name="export_override_conf">Override</string>
+    <string name="export_override_attention">A file with this file name already exists. Do you
 		want to override the file?
 	</string>
-	<string name="export_override_question">Override existing file?</string>
-	<string name="insufficent_sl_message">The actual service level is insufficient for this
-		operation. To enable this operation change to a higher service level.
+    <string name="export_override_question">Override existing file?</string>
+    <string name="insufficent_sf_message">The actual service features are insufficient for this
+		operation. To enable this operation activate the corresponding service features.
 	</string>
-	<string name="insufficent_sl">Insufficient service level</string>
-	<string name="ok">OK</string>
-	<string name="change_sl">Change service level</string>
-	<string name="delete_all_appointments_question">Do you really want to delete all appointments?
+    <string name="insufficent_sf">Insufficient service features</string>
+    <string name="ok">OK</string>
+    <string name="change_sf">Change service feature</string>
+    <string name="delete_all_appointments_question">Do you really want to delete all appointments?
 	</string>
-	<string name="delete_all_appointments">Delete all appointments</string>
-	<string name="import_attention">Attention: Your current appointment list will be
+    <string name="delete_all_appointments">Delete all appointments</string>
+    <string name="import_attention">Attention: Your current appointment list will be
 		lost!
 	</string>
-	<string name="import_question">Import this file?</string>
-	<string name="file_name">Filename:</string>
-	<string name="export_appointments">Export appointments</string>
-	<string name="import_appointments">Import appointments</string>
-	<string name="appoint">Appointment:</string>
-	<string name="invalid_file_name_title">Invalid file name</string>
-	<string name="invalid_file_name_message">The entered file name is invalid.</string>
+    <string name="import_question">Import this file?</string>
+    <string name="file_name">Filename:</string>
+    <string name="export_appointments">Export appointments</string>
+    <string name="import_appointments">Import appointments</string>
+    <string name="appoint">Appointment:</string>
+    <string name="invalid_file_name_title">Invalid file name</string>
+    <string name="invalid_file_name_message">The entered file name is invalid.</string>
+    <string name="error">Error</string>
+    <string name="no_register">Could not register the app.</string>
 </resources>

@@ -31,6 +31,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 /**
@@ -73,12 +74,12 @@ public class NewAppointmentDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.newdate);
+        setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.add_todo_dialog);
         
-        this.dPicker = (DatePicker) findViewById(R.id.datePickerNew);
-        this.desc = (TextView) findViewById(R.id.descriptionNew);
+        this.dPicker = (DatePicker) findViewById(R.id.datePicker);
+        this.desc = (TextView) findViewById(R.id.description);
         this.confirm = (Button) findViewById(R.id.ConfirmButton);
         
         this.confirm.setOnClickListener(new ConfirmListener());
