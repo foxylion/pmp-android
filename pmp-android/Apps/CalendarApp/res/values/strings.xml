@@ -53,6 +53,7 @@
     <string name="import_attention">Attention: Your current appointment list will be
 		lost!
 	</string>
+<<<<<<< HEAD
     <string name="import_question">Import this file?</string>
     <string name="file_name">Filename:</string>
     <string name="export_appointments">Export appointments</string>
@@ -64,3 +65,15 @@
     <string name="no_register">Could not register the app.</string>
 
 </resources>
+=======
+	<string name="import_question">Import this file?</string>
+	<string name="file_name">Filename:</string>
+	<string name="export_appointments">Export appointments</string>
+	<string name="import_appointments">Import appointments</string>
+	<string name="appoint">Appointment:</string>
+	<string name="invalid_file_name_title">Invalid file name</string>
+	<string name="invalid_file_name_message">The entered file name is invalid.</string>
+	<string name="error">Error</string>
+	<string name="no_register">Could not register the app.</string>
+</resources>
+>>>>>>> 4a75013cbc2374e68622101098d01245e0f7e497
