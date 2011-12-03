@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">28. November 2011</div>
+    <div id="page-head-date">03. Dezember 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Entwurf - Webservice vHike</div>
-    <div id="page-version">Version 0.1</div>
+    <div id="page-version">Version 0.2</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -26,6 +26,14 @@
     
     <!-- here comes the content of the specification -->
     <div id="content">
+    
+      <h1 id="introduction">Einleitung</h1>
+      <p>
+        Dieses Dokument stellt den Aufbau des Webservices und dessen
+        Schnittstellen dar. Es richtet sich daher auch an die Entwickler der
+        Applikationen, die die zur Verfügung gestellten Schnittstellen verwenden
+        möchten.
+      </p>
       
 
       <h1 id="databse">Datenbank</h1>          
@@ -261,7 +269,7 @@
 {
   "successful": true,
   "status": String,
-  "sid": HEX-String
+  "sid": String
 }                                 
 </pre>  
           </td>
@@ -278,7 +286,7 @@
                 wird der Wert auf <code>inactivated</code> gesetzt</li>
               <li><code>sid</code> - Session-ID, unter der die Daten des soeben
                 angemeldeten Benutzer auf dem Server zwischengespeichert wurden.
-                Genau dieser HEX-String muss allen Nachfolgenden Skripten im
+                Genau dieser String muss allen Nachfolgenden Skripten im
                 GET-Parameter <code>sid</code> übergeben werden</li>
               </ul>
           </td>
@@ -308,7 +316,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>
-              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der abgemeldet werden soll</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der abgemeldet werden soll</li>
             </ul>
           </td>
         </tr>     
@@ -356,7 +364,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>           
-              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
             </ul>
           </td>
         </tr>     
@@ -436,7 +444,7 @@
           <td>
             <ul>           
               <li><code>id</code> - Integer: Die ID des Benutzers, dessen Profildaten abgerufen werden sollen</li>
-              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Profildaten abrufen möchte</li>
             </ul>
           </td>
         </tr>     
@@ -505,7 +513,7 @@
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>announce_trip.php</td>
+          <td>trip_announce.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
@@ -520,7 +528,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>
-              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
             </ul>
           </td>
         </tr>     
@@ -557,11 +565,11 @@
       </table>
       
       
-      <h3 id="interface_update_trip">Fahrer-Position aktualisieren</h3>
+      <h3 id="interface_trip_update_pos">Fahrer-Position aktualisieren</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>update_trip_pos.php</td>
+          <td>trip_update_pos.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
@@ -576,7 +584,7 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>
-              <li><code>sid</code> - HEX-String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
             </ul>
           </td>
         </tr>     
@@ -615,6 +623,472 @@
         </tr>
       </table>
       
+      
+      <h3 id="interface_trip_update_data">Fahrt Daten ändern</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>trip_update_data.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Der Fahrer möchte das Ziel seiner Fahrt oder die Anzahl der verfügbaren Sitze 
+            ändern.<br />
+            <b>Hinweis:</b> Die Anzeige der noch verfübaren Sitze wird aus der
+            Angabe <code>avail_seats</code> und den momentan angenommenen Mitfahr-Anfragen
+            dynamisch berechnet. Daher darf das Feld <code>avail_seats</code> bei
+            Mitnahme eines Fahrtsuchenden NICHT aktualisiert werden. Dies würde zu
+            einer falschen Anzeige der noch verfügbaren Sitze führen.</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>                              
+              <li><code>trip_id</code> - Integer: ID der Fahrt, zu denen die Daten aktualisiert werden sollen</li>  
+              <li><code>destination</code> - String (3 &le; Zeichen &le; 100): Name des Zielortes</li>     
+              <li><code>avail_seats</code> - Integer (1 &le; x &le; 99): Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
+                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,
+                <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist,
+                <code>has_ended</code>, wenn die Fahrt bereits beendet wurde oder
+                <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_trip_ended">Fahrt beenden</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>trip_ended.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Der Fahrer hat seine Fahrt beendet.</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>      
+              <li><code>trip_id</code> - Integer: ID der Fahrt, die beendet werden soll</li>  
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob die Fahrt beendet wurde.
+                <code>ended</code>, wenn die Fahrt erfolgreich beendet wurde,
+                <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist oder
+                <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_query_start">Anfrage starten</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>query_start.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Mitfahrer sucht einen Fahrer</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>destination</code> - String (3 &le; Zeichen &le; 100): Name des Zielortes</li>  
+              <li><code>current_lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
+              <li><code>current_lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li>      
+              <li><code>seats</code> - Integer (1 &le; x &le; 99): Anzahl der Sitze, die der Mitfahrer benötigt</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "id": Integer
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>id</code> - Integer: ID der soeben angelegten Anfrage</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_query_delete">Anfrage löschen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>query_delete.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Mitfahrer möchte eine angelegte Anfrage löschen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>id</code> - Integer: ID der Anfrage, die gelöscht werden soll</li>  
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob die Anfrage geöscht wurde.
+                <code>deleted</code>, wenn die Anfrage gelöscht wurde,
+                <code>no_query</code>, wenn die Anfrage-ID auf eine nicht vorhandene Anfrage verweist oder
+                <code>invalid_user</code>, wenn die Anfrage nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      
+      <h3 id="interface_search_queries">Anfragen suchen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>query_search.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Fahrer möchte Anfragen in einem bestimmten Umkreis suchen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>                                                                                             
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>     
+              <li><code>trip_id</code> - Integer: ID der Fahrt, zu der der Fahrer Anfragen suchen möchte (wird zum Vergleichen des Ziels benötigt)</li>   
+              <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad und...</li>   
+              <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): ...Längengrad an denen nach Anfragen gesucht werden soll</li>  
+              <li><code>perimeter</code> - Integer (1 &le; x &le; 10.000): Umkreis in Meter, in dem gesucht werden soll</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>-</td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "queries": [
+    {"userid": Integer, "username": String, "rating": Float, 
+      "lat": Float, "lon": Float, "seats", Integer},   
+    {"userid": Integer, "username": String, "rating": Float, 
+      "lat": Float, "lon": Float, "seats", Integer},
+    ...
+  ]
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>queries</code> - Array: Array mit allen gefundenen Anfragen:
+                <ul>
+                  <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>  
+                  <li><code>username</code> - String: Name des anfragenden Benutzers</li>   
+                  <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
+                  <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>    
+                  <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>  
+                  <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
+                </ul>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_offer">Mitfahrer einladen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>offer.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Fahrer möchte einen Mitfahrer auf eine Fahrt einladen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>query</code> - Integer: ID der Anfrage, für die der Fahrer eine Einladung erstellen möchte</li>  
+              <li><code>message</code> - String: Eine Nachricht, die der Fahrer dem Suchenden hinerlassen möchte</li>  
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob die Anfrage geöscht wurde.
+                <code>sent</code>, wenn die Einladung abgesendet wurde oder
+                <code>invalid_query</code>, wenn die Anfrage-ID auf eine nicht vorhandene Anfrage verweist</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_offer_view">Einladungen/Angebote anzeigen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>offer_view.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Anfragender möchte die erhaltenen Einladungen/Angebote angezeigt bekommen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>-</td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "offers": [
+    {"offer": Integer, "userid": Integer, "username": String, 
+      "rating": Float},   
+    {"offer": Integer, "userid": Integer, "username": String, 
+      "rating": Float},
+    ...
+  ]
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td><ul>           
+              <li><code>offers</code> - Array: Array mit allen gefundenen Angeboten:
+                <ul>                                                                    
+                  <li><code>offer</code> - Integer: ID der Anfrage</li>  
+                  <li><code>userid</code> - Integer: ID des anbietenden Benutzers</li>  
+                  <li><code>username</code> - String: Name des anbietenden Benutzers</li>   
+                  <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
+                </ul>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      
+      
+      
+      <h3 id="interface_offer">Einladung/Angebot annhemen oder ablehnen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>offer_handle.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Mitfahrer hat ein Angebot erhalten und möchte dieses annehmen oder ablehnen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>offer</code> - Integer: ID des Angebots, die der Benutzer annhemen bzw. ablehnen möchte</li>  
+              <li><code>accept</code> - Boolean: True, um das Angebot anzunehmen, False um es abzulehnen</li>  
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob die Angebot angenommen oder abgeleht wurde.
+                <code>handled</code>, wenn das Angebot behandelt wurde,
+                <code>invalid_offer</code>, wenn die Angebots-ID auf ein nicht vorhandenes Angebot verweist oder</li>           
+                <code>invalid_user</code>, wenn die Angebots-ID auf ein Angebot verweist, dass nicht dem angemelden Benutzer gilt</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
       
     </div>
     <!-- // end of specification's content -->
