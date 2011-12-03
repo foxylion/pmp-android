@@ -3,9 +3,11 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class NotificationAdapter extends BaseAdapter {
 
@@ -52,24 +53,35 @@ public class NotificationAdapter extends BaseAdapter {
 				R.layout.hitchhiker_list, null);
 
 		Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
+		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
+		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+
 		// dismiss.setText("Dismiss");
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, "Dismiss", Toast.LENGTH_LONG);
+				accept.setBackgroundResource(R.drawable.bg_check);
+				accept.refreshDrawableState();
 			}
 		});
 
-		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
-	//	name.setText(hitchhiker.getUser_name());
-		name.setClickable(true);
+		name.setText(hitchhiker.getUsername());
+		name.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ProfileActivity.class);
+				context.startActivity(intent);
+			}
+		});
 
-		Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
 		// accept.setText("Accept");
+//		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
 		accept.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, "Accept", Toast.LENGTH_SHORT);
+//				accept.setBackgroundColor(R.drawable.waiting);
+				accept.setBackgroundResource(R.drawable.bg_waiting);
+				accept.refreshDrawableState();
 			}
 		});
 

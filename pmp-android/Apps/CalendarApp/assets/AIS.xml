@@ -13,7 +13,7 @@
 		</description>
 	</appInformation>
 	<serviceFeatures>
-		<serviceFeature identifier="1">
+		<serviceFeature identifier="read">
 			<defaultName lang="en">Read calendar entries</defaultName>
 			<name lang="de">Kalendereinträge lesen</name>
 			<defaultDescription lang="en">I can read calendar
@@ -26,7 +26,7 @@
 				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="2">
+		<serviceFeature identifier="write">
 			<defaultName lang="en">Write calendar entries
 			</defaultName>
 			<name lang="de">Kalendereinträge schreiben</name>
@@ -41,7 +41,7 @@
 				<privacySetting identifier="create">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="3">
+		<serviceFeature identifier="send">
 			<defaultName lang="en">Send calendar entries via email
 			</defaultName>
 			<name lang="de">Kalendereinträge per E-Mail
@@ -56,7 +56,7 @@
 				<privacySetting identifier="canSendEmail">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="4">
+		<serviceFeature identifier="import">
 			<defaultName lang="en">Import calendar entries
 			</defaultName>
 			<name lang="de">Kalendereinträge importieren
@@ -71,7 +71,7 @@
 				<privacySetting identifier="ext_download_r">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="5">
+		<serviceFeature identifier="export">
 			<defaultName lang="en">Export calendar entries
 			</defaultName>
 			<name lang="de">Kalendereinträge exportieren

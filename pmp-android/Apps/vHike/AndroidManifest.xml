@@ -19,8 +19,7 @@
         <activity
             android:icon="@drawable/logo"
             android:label="vHike"
-            android:name=".apps.vhike.gui.LoginActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:name=".apps.vhike.gui.LoginActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,9 +34,17 @@
             android:name=".apps.vhike.gui.RideActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name=".apps.vhike.gui.DriverViewActivity" >
+        <activity
+            android:name=".apps.vhike.gui.DriverViewActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name=".apps.vhike.gui.PassengerViewActivity" >
+        <activity
+            android:name=".apps.vhike.gui.PassengerViewActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".apps.vhike.gui.ProfileActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".apps.vhike.gui.HistoryActivity"
