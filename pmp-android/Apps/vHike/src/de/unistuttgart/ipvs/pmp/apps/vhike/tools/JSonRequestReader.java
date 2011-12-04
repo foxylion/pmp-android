@@ -169,7 +169,7 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"getOwnProfile.php");
+					"own_profile.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
