@@ -58,7 +58,7 @@ public class DriverViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		Profile profile = new Profile("user1", null, null, null, null, null, lat, null, false, false, false, false);
+		Profile profile = new Profile("User1", null, null, null, null, null, null, false, false, false, false, lat, lat);
 		addHitchhiker(profile);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
