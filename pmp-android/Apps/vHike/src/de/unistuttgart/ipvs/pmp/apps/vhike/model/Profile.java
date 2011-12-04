@@ -22,7 +22,8 @@ public class Profile {
 	
 	private String description;
 	
-	private double rating;
+	private double rating_avg;
+	private double rating_num;
 	private Date regDate;
 	
 	private String ownStatus;
@@ -41,20 +42,22 @@ public class Profile {
 	 * @param email
 	 * @param description
 	 * @param validationStatus
-	 * @param rating
+	 * @param rating_avg
+	 * @param rating_num
 	 * @param regDate
 	 * 
 	 */
 	public Profile(String username, String email, String firstname, String lastname,
-			String tel, String description, double rating, Date regDate,
-			boolean email_pub, boolean firstname_pub, boolean lastname_pub, boolean tel_pub) {
+			String tel, String description, Date regDate,
+			boolean email_pub, boolean firstname_pub, boolean lastname_pub, boolean tel_pub, double rating_avg, double rating_num) {
 		this.username = username;
 		this.email = email;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.tel = tel;
 	
-		this.rating = rating;
+		this.rating_avg = rating_avg;
+		this.rating_num = rating_num;
 		this.regDate = regDate;
 		this.email_pub = email_pub;
 		this.firstname_pub = firstname_pub;
@@ -141,12 +144,18 @@ public class Profile {
 	}
 
 	/**
-	 * @return rating of a user
+	 * @return average rating of a user
 	 */
-	public double getRating() {
-		return rating;
+	public double getRating_avg() {
+		return rating_avg;
 	}
-
+	
+	/**
+	 * @return the number how many times a user was rated
+	 */
+	public double getRating_num(){
+		return rating_num;
+	}
 	/**
 	 * @return registration date of a user
 	 */

@@ -16,6 +16,18 @@ public class Model {
 	private String sid;
 	
 	/**
+	 * This is the trip id, in which the user participate at the moment
+	 */
+	private int tripId;
+	
+	public int getTripId() {
+		return tripId;
+	}
+
+	public void setTripId(int tripId) {
+		this.tripId = tripId;
+	}
+	/**
 	 * Own profile 
 	 */
 	private Profile ownProfile;
