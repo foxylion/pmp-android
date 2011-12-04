@@ -52,7 +52,7 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public IPrivacySetting[] getRequiredPrivacySettings() {
-        return null;
+        return SampleModel.privacySettings.toArray(new IPrivacySetting[SampleModel.privacySettings.size()]);
     }
     
     
@@ -64,7 +64,7 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
-        return null;
+        return "true";
     }
     
     

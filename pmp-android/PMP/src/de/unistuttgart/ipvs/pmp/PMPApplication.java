@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp;
 
+import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
 import android.app.Application;
 import android.content.Context;
 
@@ -44,6 +45,8 @@ public class PMPApplication extends Application {
         super.onCreate();
         
         PMPApplication.instance = this;
+        
+        new SampleModel(getApplicationContext());
         
         //Log.setTagSufix(Constants.PMP_LOG_SUFIX);
         // uncommenting this line results in the PMPTest suite to fail.

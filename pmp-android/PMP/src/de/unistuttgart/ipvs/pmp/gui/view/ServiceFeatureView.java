@@ -9,18 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.dialog.ServiceFeatureDialog;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetMananger;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class ServiceFeatureView extends LinearLayout {
     
-    private String name;
-    private String description;
-    private boolean active;
-    private boolean editable;
-    private boolean available;
+    private IServiceFeature serviceFeature;
     
     
-    public ServiceFeatureView(Context context) {
+    public ServiceFeatureView(Context context, IServiceFeature serviceFeature) {
         super(context);
+        
+        this.serviceFeature = serviceFeature;
         
         if (!isInEditMode()) {
             /* Not in edit mode, load the xml-layout. */
@@ -44,83 +46,38 @@ public class ServiceFeatureView extends LinearLayout {
     }
     
     
-    public void setName(String name) {
-        this.name = name;
-        
-        refresh();
-    }
-    
-    
-    public void setDescription(String description) {
-        this.description = description;
-        
-        refresh();
-    }
-    
-    
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-        
-        refresh();
-    }
-    
-    
-    public void setActive(boolean active) {
-        this.active = active;
-        
-        refresh();
-    }
-    
-    
-    public void setAvailable(boolean avaiblabe) {
-        this.available = avaiblabe;
-        
-        refresh();
-    }
-    
-    
-    public boolean isAvailable() {
-        return available;
-    }
-    
-    
-    public boolean getActive() {
-        return active;
-    }
-    
-    
-    private void refresh() {
+    public void refresh() {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
         CheckBox cb = (CheckBox) findViewById(R.id.CheckBox_SFState);
         
         // Update name
         if (tvName != null) {
-            tvName.setText(this.name);
+            tvName.setText(serviceFeature.getName());
         }
         
         // Update description
         if (tvDescription != null) {
-            tvDescription.setText(description);
+            tvDescription.setText(serviceFeature.getDescription());
         }
         
         // Update Checkbox
         if (cb != null) {
-            cb.setChecked(active);
-            cb.setEnabled(available);
+            cb.setChecked(serviceFeature.isActive());
+            cb.setEnabled(serviceFeature.isAvailable());
             
-            if (editable) {
+            if (!PMPPreferences.getInstanace().isExpertMode()) {
                 cb.setVisibility(View.VISIBLE);
             } else {
                 cb.setVisibility(View.INVISIBLE);
             }
             
-            if (active && isAvailable()) {
-                setBackgroundColor(Color.parseColor("#001100"));
-            } else if (!active && isAvailable()) {
-                setBackgroundColor(Color.parseColor("#110000"));
+            if (serviceFeature.isActive() && serviceFeature.isAvailable()) {
+                setBackgroundColor(Color.parseColor("#002200"));
+            } else if (!serviceFeature.isActive() && serviceFeature.isAvailable()) {
+                setBackgroundColor(Color.parseColor("#220000"));
             } else {
-                setBackgroundColor(Color.parseColor("#111111"));
+                setBackgroundColor(Color.parseColor("#222222"));
             }
             
         }
@@ -132,6 +89,9 @@ public class ServiceFeatureView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
+                new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), serviceFeature, ServiceFeatureView.this)
+                        .show();
+                
                 Toast.makeText(ServiceFeatureView.this.getContext(), "Tapped on the Service Feature View",
                         Toast.LENGTH_SHORT).show();
             }
@@ -141,20 +101,20 @@ public class ServiceFeatureView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                ServiceFeatureView.this.active = ((CheckBox) v).isChecked();
+                boolean newState = ((CheckBox) v).isChecked();
                 
-                Toast.makeText(ServiceFeatureView.this.getContext(), "The Checkbox is now set to " + getActive(),
+                if (newState) {
+                    PresetMananger.enableServiceFeature(serviceFeature);
+                } else {
+                    PresetMananger.disableServiceFeature(serviceFeature);
+                }
+                
+                Toast.makeText(ServiceFeatureView.this.getContext(),
+                        "The Service Feature has been " + (serviceFeature.isActive() ? "enabled" : "disabled"),
                         Toast.LENGTH_SHORT).show();
                 
-                activeChangedCallback();
+                refresh();
             }
         });
-    }
-    
-    
-    private void activeChangedCallback() {
-        // TODO inform the model, or so
-        
-        refresh();
     }
 }
