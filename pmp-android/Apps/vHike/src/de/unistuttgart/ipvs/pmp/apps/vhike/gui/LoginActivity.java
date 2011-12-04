@@ -23,12 +23,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
  */
 public class LoginActivity extends Activity {
 
-	private Controller ctrl;
-	private EditText et_username;
-	private EditText et_pw;
-	private String username;
-	private String pw;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,16 +32,17 @@ public class LoginActivity extends Activity {
 
 		Button btnLogin = (Button) findViewById(R.id.button_login);
 
-		ctrl = new Controller();
-		et_username = (EditText) findViewById(R.id.edit_login);
-		et_pw = (EditText) findViewById(R.id.edit_password);
-		username = et_username.getText().toString();
-		pw = et_pw.getText().toString();
+		final Controller ctrl = new Controller();
+		final EditText et_username = (EditText) findViewById(R.id.edit_login);
+		final EditText et_pw = (EditText) findViewById(R.id.edit_password);
 
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (username != null && pw != null) {
+				final String username = et_username.getText().toString();
+				final String pw = et_pw.getText().toString();
+
+				if (!username.equals("") && !pw.equals("")) {
 					if (ctrl.login(username, pw)) {
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
