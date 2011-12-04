@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+
 /**
  * LoginActivity the startup activity for vHike
  * 
@@ -18,6 +22,12 @@ import de.unistuttgart.ipvs.pmp.R;
  * 
  */
 public class LoginActivity extends Activity {
+
+	private Controller ctrl;
+	private EditText et_username;
+	private EditText et_pw;
+	private String username;
+	private String pw;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +37,30 @@ public class LoginActivity extends Activity {
 		registerLink();
 
 		Button btnLogin = (Button) findViewById(R.id.button_login);
-		
+
+		ctrl = new Controller();
+		et_username = (EditText) findViewById(R.id.edit_login);
+		et_pw = (EditText) findViewById(R.id.edit_password);
+		username = et_username.getText().toString();
+		pw = et_pw.getText().toString();
+
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
-				LoginActivity.this.startActivity(intent);
+				if (username != null || pw != null) {
+					if (ctrl.login(username, pw)) {
+						Intent intent = new Intent(LoginActivity.this,
+								MainActivity.class);
+						LoginActivity.this.startActivity(intent);
+					} else {
+						Toast.makeText(LoginActivity.this, "Login failed",
+								Toast.LENGTH_LONG);
+					}
+				} else {
+					Toast.makeText(LoginActivity.this,
+							"Username or password field empty",
+							Toast.LENGTH_LONG);
+				}
 			}
 		});
 	}
@@ -45,7 +72,7 @@ public class LoginActivity extends Activity {
 		// Turn pattern "Register" into clickable
 		Pattern pattern = Pattern.compile("Register");
 		// prefix our pattern with http://
-		//Linkify.addLinks(view_register, pattern, "http://www.google.com");
+		// Linkify.addLinks(view_register, pattern, "http://www.google.com");
 	}
 
 }
