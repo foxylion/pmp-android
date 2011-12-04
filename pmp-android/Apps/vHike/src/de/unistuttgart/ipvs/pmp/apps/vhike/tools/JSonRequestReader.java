@@ -286,8 +286,15 @@ public class JSonRequestReader {
 
 		return suc;
 	}
-	
-	public static boolean updatePosTrip(String sid, int trip_id, float current_lat, float current_lon){
+	/**
+	 * update the position of the user (driver)
+	 * @param sid
+	 * @param trip_id
+	 * @param current_lat
+	 * @param current_lon
+	 * @return
+	 */
+	public static String updatePosTrip(String sid, int trip_id, float current_lat, float current_lon){
 		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
@@ -310,10 +317,10 @@ public class JSonRequestReader {
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
 			status = object.get("status").getAsString();
+			return status;
 		}
 		
-		return true;
-		
+		return status;
 	}
 	/**
 	 * Dummy method don't touch it
