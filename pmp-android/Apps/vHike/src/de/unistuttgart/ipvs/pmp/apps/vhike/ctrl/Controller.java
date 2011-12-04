@@ -31,6 +31,8 @@ public class Controller {
 	 */
 	public boolean login(String username, String pw) {
 
+		Log.i("USERNAME: " + username);
+		Log.i("PASSSWORD: " + pw);
 		String status = JSonRequestReader.login(username, pw);
 		Log.i("Status im CTRL: " + status);
 		if (status.equals("logged_in")) {

@@ -64,8 +64,9 @@ public class JSonRequestProvider {
 		String getParam ="";
 		// GET REQUESTS
 		StringBuffer buf = new StringBuffer();
-		buf.append("?");
 		buf.append(url);
+		buf.append("?");
+		
 		for (ParamObject object : listToParse) {
 
 			if (!(object.isPost())) {
@@ -79,6 +80,9 @@ public class JSonRequestProvider {
 		// Cut the last '&' out
 		getParam = getParam.substring(0, getParam.length() - 1);
 
+		
+		Log.i("Parameter :" + getParam);
+		
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 

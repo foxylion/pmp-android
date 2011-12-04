@@ -47,7 +47,7 @@ public class LoginActivity extends Activity {
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (username != null || pw != null) {
+				if (username != null && pw != null) {
 					if (ctrl.login(username, pw)) {
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
