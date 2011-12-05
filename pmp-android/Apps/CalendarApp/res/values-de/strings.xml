@@ -66,6 +66,6 @@
     <string name="invalid_file_name_title">Ungültiger Dateiname</string>
     <string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
     <string name="error">Fehler</string>
-    <string name="no_register">Die App konnte nicht registriert werden</string>
+    <string name="no_register">Die App konnte nicht bei PMP registriert werden</string>
 
 </resources>
