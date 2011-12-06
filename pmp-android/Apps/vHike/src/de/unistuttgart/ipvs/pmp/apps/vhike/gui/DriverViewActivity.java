@@ -49,7 +49,7 @@ public class DriverViewActivity extends MapActivity {
 	}
 
 	public DriverViewActivity() {
-		this.context = this;
+		this.context = DriverViewActivity.this;
 	}
 
 	/**

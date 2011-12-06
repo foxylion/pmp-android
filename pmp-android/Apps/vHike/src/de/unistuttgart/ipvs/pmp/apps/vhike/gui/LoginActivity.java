@@ -42,19 +42,22 @@ public class LoginActivity extends Activity {
 				final String username = et_username.getText().toString();
 				final String pw = et_pw.getText().toString();
 
-				if (!username.equals("") && !pw.equals("")) {
+				if (username.equals("") || pw.equals("")) {
+					Toast.makeText(LoginActivity.this,
+							"Username or password field empty",
+							Toast.LENGTH_LONG).show();
+				} else {
+
 					if (ctrl.login(username, pw)) {
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
 						LoginActivity.this.startActivity(intent);
 					} else {
-						Toast.makeText(LoginActivity.this, "Login failed",
-								Toast.LENGTH_LONG);
+						Toast.makeText(
+								LoginActivity.this,
+								"Login failed. Username or password not valid.",
+								Toast.LENGTH_LONG).show();
 					}
-				} else {
-					Toast.makeText(LoginActivity.this,
-							"Username or password field empty",
-							Toast.LENGTH_LONG);
 				}
 			}
 		});

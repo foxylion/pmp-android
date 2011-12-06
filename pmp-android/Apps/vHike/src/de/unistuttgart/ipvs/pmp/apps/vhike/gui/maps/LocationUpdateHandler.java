@@ -10,6 +10,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -71,8 +72,15 @@ public class LocationUpdateHandler implements LocationListener {
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
 		listOfOverlays.add(mapOverlay);
-		
+
 		showCurrentLocation();
+
+//		Intent intent = new Intent("com.google.android.radar.SHOW_RADAR");
+//		intent.putExtra("Latitude",
+//				(float) (gPosition.getLatitudeE6() / 1000000f));
+//		intent.putExtra("Longitude",
+//				(float) (gPosition.getLongitudeE6() / 1000000f));
+//		context.startActivity(intent);
 	}
 
 	public void onProviderDisabled(String provider) {
@@ -135,6 +143,7 @@ public class LocationUpdateHandler implements LocationListener {
 
 	/**
 	 * get longtitude and latitude of current location
+	 * 
 	 * @return
 	 */
 	public int[] getCoordinates() {
@@ -143,8 +152,8 @@ public class LocationUpdateHandler implements LocationListener {
 		int lng = (int) (location.getLongitude() * 1E6);
 		int lat = (int) (location.getLatitude() * 1E6);
 		int coordinates[] = { lat, lng };
-		
+
 		return coordinates;
 	}
-	
+
 }
