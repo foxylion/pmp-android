@@ -24,7 +24,7 @@ public class AppDetailsTab extends Activity {
         super.onResume();
         
         //app = handleIntent(getIntent());
-        app = new App(
+        this.app = new App(
                 "Barcode Scanner",
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
@@ -33,6 +33,6 @@ public class AppDetailsTab extends Activity {
                         R.drawable.test_icon1));
         
         TextView description = (TextView) findViewById(R.id.TextView_Description);
-        description.setText(app.getDescription());
+        description.setText(this.app.getDescription());
     }
 }

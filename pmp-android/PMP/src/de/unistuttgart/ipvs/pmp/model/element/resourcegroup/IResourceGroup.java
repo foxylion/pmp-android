@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
 /**
@@ -28,11 +29,12 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
  * 
  * @author Jakob Jarosch
  */
-public interface IResourceGroup {
+public interface IResourceGroup extends IModelElement {
     
     /**
      * @return Returns the <b>unique</b> identifier of the {@link IResourceGroup}.
      */
+    @Override
     public String getIdentifier();
     
     

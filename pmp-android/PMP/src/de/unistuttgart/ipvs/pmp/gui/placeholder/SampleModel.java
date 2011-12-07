@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -26,7 +25,7 @@ public class SampleModel {
     
     
     public SampleModel(Context context) {
-        this.context = context;
+        SampleModel.context = context;
         
         apps.add(new App("Barcode Scanner",
                 "Barcode Scanner can scan barcodes and view details about the scanned product.",
@@ -50,19 +49,23 @@ public class SampleModel {
         apps.add(new App("Wikipedia", "Become access to the greatest lexica in the world.",
                 loadBitmap(R.drawable.test_icon10)));
         
-        rgs.add(new ResourceGroup("test.rg1", "Database Resource", "The Database Resource provides a basic database for storing data",
-                loadBitmap(R.drawable.icon_rgs)));
+        rgs.add(new ResourceGroup("test.rg1", "Database Resource",
+                "The Database Resource provides a basic database for storing data", loadBitmap(R.drawable.icon_rgs)));
         
         sfEnabled.add(new ServiceFeature("Use Camera", "Must be enabled to get any functionality.", true, true));
-        sfEnabled.add(new ServiceFeature("Internet Connection", "Required to fetch details for a scanned product.", true, true));
+        sfEnabled.add(new ServiceFeature("Internet Connection", "Required to fetch details for a scanned product.",
+                true, true));
         sfEnabled.add(new ServiceFeature("Facebook Share", "Enable it to share a product on facebook.", true, true));
         
-        sfDisabled.add(new ServiceFeature("Personal Information", "If it is enabled you can post product ratings.", false, true));
-        sfDisabled.add(new ServiceFeature("Credit Card-Details", "Allows you to directly buy and pay a scanned product.", false, false));
+        sfDisabled.add(new ServiceFeature("Personal Information", "If it is enabled you can post product ratings.",
+                false, true));
+        sfDisabled.add(new ServiceFeature("Credit Card-Details",
+                "Allows you to directly buy and pay a scanned product.", false, false));
         sfDisabled.add(new ServiceFeature("Email Account", "Send product via email to your friends.", false, true));
         
         privacySettings.add(new PrivacySetting("test1", rgs.get(0), "Read Entries", "Read entries from the database"));
-        privacySettings.add(new PrivacySetting("test2", rgs.get(0), "Write Entries", "Write entries from the database"));
+        privacySettings
+                .add(new PrivacySetting("test2", rgs.get(0), "Write Entries", "Write entries from the database"));
         privacySettings.add(new PrivacySetting("test3", rgs.get(0), "Create Database", "Create a database for tables"));
     }
     

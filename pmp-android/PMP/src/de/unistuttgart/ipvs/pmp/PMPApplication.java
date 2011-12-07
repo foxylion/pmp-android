@@ -19,9 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp;
 
-import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
 import android.app.Application;
 import android.content.Context;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
 
 /**
  * This acts like an internal provider for {@link Context}.

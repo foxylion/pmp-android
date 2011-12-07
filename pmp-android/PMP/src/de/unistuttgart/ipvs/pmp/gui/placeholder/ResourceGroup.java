@@ -23,25 +23,25 @@ public class ResourceGroup implements IResourceGroup {
     
     @Override
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
     @Override
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     
     @Override
     public Drawable getIcon() {
-        return icon;
+        return this.icon;
     }
     
     

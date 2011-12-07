@@ -53,18 +53,18 @@ public class ServiceFeatureView extends LinearLayout {
         
         // Update name
         if (tvName != null) {
-            tvName.setText(serviceFeature.getName());
+            tvName.setText(this.serviceFeature.getName());
         }
         
         // Update description
         if (tvDescription != null) {
-            tvDescription.setText(serviceFeature.getDescription());
+            tvDescription.setText(this.serviceFeature.getDescription());
         }
         
         // Update Checkbox
         if (cb != null) {
-            cb.setChecked(serviceFeature.isActive());
-            cb.setEnabled(serviceFeature.isAvailable());
+            cb.setChecked(this.serviceFeature.isActive());
+            cb.setEnabled(this.serviceFeature.isAvailable());
             
             if (!PMPPreferences.getInstanace().isExpertMode()) {
                 cb.setVisibility(View.VISIBLE);
@@ -72,9 +72,9 @@ public class ServiceFeatureView extends LinearLayout {
                 cb.setVisibility(View.INVISIBLE);
             }
             
-            if (serviceFeature.isActive() && serviceFeature.isAvailable()) {
+            if (this.serviceFeature.isActive() && this.serviceFeature.isAvailable()) {
                 setBackgroundColor(Color.parseColor("#002200"));
-            } else if (!serviceFeature.isActive() && serviceFeature.isAvailable()) {
+            } else if (!this.serviceFeature.isActive() && this.serviceFeature.isAvailable()) {
                 setBackgroundColor(Color.parseColor("#220000"));
             } else {
                 setBackgroundColor(Color.parseColor("#222222"));
@@ -89,8 +89,8 @@ public class ServiceFeatureView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), serviceFeature, ServiceFeatureView.this)
-                        .show();
+                new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), ServiceFeatureView.this.serviceFeature,
+                        ServiceFeatureView.this).show();
                 
                 Toast.makeText(ServiceFeatureView.this.getContext(), "Tapped on the Service Feature View",
                         Toast.LENGTH_SHORT).show();
@@ -104,13 +104,15 @@ public class ServiceFeatureView extends LinearLayout {
                 boolean newState = ((CheckBox) v).isChecked();
                 
                 if (newState) {
-                    PresetMananger.enableServiceFeature(serviceFeature);
+                    PresetMananger.enableServiceFeature(ServiceFeatureView.this.serviceFeature);
                 } else {
-                    PresetMananger.disableServiceFeature(serviceFeature);
+                    PresetMananger.disableServiceFeature(ServiceFeatureView.this.serviceFeature);
                 }
                 
-                Toast.makeText(ServiceFeatureView.this.getContext(),
-                        "The Service Feature has been " + (serviceFeature.isActive() ? "enabled" : "disabled"),
+                Toast.makeText(
+                        ServiceFeatureView.this.getContext(),
+                        "The Service Feature has been "
+                                + (ServiceFeatureView.this.serviceFeature.isActive() ? "enabled" : "disabled"),
                         Toast.LENGTH_SHORT).show();
                 
                 refresh();

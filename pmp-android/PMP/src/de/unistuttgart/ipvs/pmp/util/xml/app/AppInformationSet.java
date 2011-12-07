@@ -80,7 +80,7 @@ public class AppInformationSet extends AbstractInformationSet implements Seriali
      * @return map with service features
      */
     public Map<String, ServiceFeature> getServiceFeaturesMap() {
-        return serviceFeaturesMap;
+        return this.serviceFeaturesMap;
     }
     
 }

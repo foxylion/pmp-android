@@ -19,7 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
-import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -31,11 +31,12 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
  * 
  * @author Jakob Jarosch
  */
-public interface IPreset {
+public interface IPreset extends IModelElement {
     
     /**
      * @return Returns the <b>unique</b> identifier of the {@link IPreset}.
      */
+    @Override
     public String getIdentifier();
     
     
@@ -64,7 +65,7 @@ public interface IPreset {
      * @return the {@link IApp} or {@link IResourceGroup} with which this preset was bundled, or null, if it was not
      *         bundled
      */
-    public ModelElement getCreator();
+    public IModelElement getCreator();
     
     
     /**

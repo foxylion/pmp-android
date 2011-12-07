@@ -40,13 +40,13 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
     @Override
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     
@@ -58,7 +58,7 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public boolean isActive() {
-        return active;
+        return this.active;
     }
     
     
@@ -70,7 +70,7 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public boolean isAvailable() {
-        return available;
+        return this.available;
     }
     
 }
