@@ -87,9 +87,7 @@ public class CalendarAppActivity extends ListActivity {
                 // Check if the service is registered yet
                 if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
                     Log.v("Registering");
-                    Looper.prepare();
                     DialogManager.getInstance().showWaitingDialog();
-                    Looper.loop();
                     pmpconnector.getAppService().registerApp(getPackageName());
                     pmpconnector.unbind();
                 } else {

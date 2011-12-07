@@ -21,6 +21,7 @@ public class BasicTitleViewCompact extends BasicTitleView {
         super(context, attrs);
     }
     
+    
     @Override
     protected void createLayout() {
         /* load the xml-layout. */

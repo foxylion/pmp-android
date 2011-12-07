@@ -15,8 +15,6 @@ import de.unistuttgart.ipvs.pmp.gui.tab.AppPresetsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppServiceFeaturesTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.model.Model;
-import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppActivity extends Activity {
     
@@ -35,14 +33,14 @@ public class AppActivity extends Activity {
         
         setContentView(R.layout.activity_app);
         
-        lam = new LocalActivityManager(this, true);
-        lam.dispatchCreate(savedInstanceState);
+        this.lam = new LocalActivityManager(this, true);
+        this.lam.dispatchCreate(savedInstanceState);
         
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup(lam);
+        this.mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+        this.mTabHost.setup(this.lam);
         
         //app = handleIntent(getIntent());
-        app = new App(
+        this.app = new App(
                 "Barcode Scanner",
                 "With the Barcode Scanner you can scan your products and get more informations about them. "
                         + "Especially you can find the best price for products. If you enable the Location Feature you "
@@ -54,8 +52,8 @@ public class AppActivity extends Activity {
         
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
-        title.setTitle(app.getName());
-        title.setIcon(app.getIcon());
+        title.setTitle(this.app.getName());
+        title.setIcon(this.app.getIcon());
     }
     
     
@@ -63,9 +61,9 @@ public class AppActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        lam.dispatchResume();
+        this.lam.dispatchResume();
         
-        mTabHost.setCurrentTab(currentTab);
+        this.mTabHost.setCurrentTab(this.currentTab);
     }
     
     
@@ -73,9 +71,9 @@ public class AppActivity extends Activity {
     protected void onPause() {
         super.onPause();
         
-        lam.dispatchPause(isFinishing());
+        this.lam.dispatchPause(isFinishing());
         
-        currentTab = mTabHost.getCurrentTab();
+        this.currentTab = this.mTabHost.getCurrentTab();
     }
     
     
@@ -83,83 +81,58 @@ public class AppActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         
-        lam.dispatchDestroy(isFinishing());
-    }
-    
-    
-    private IApp handleIntent(Intent intent) {
-        /* Intent should never be null */
-        if (intent == null) {
-            throw new IllegalArgumentException("Intent can't be null");
-        }
-        
-        String appIdentifier = intent.getExtras().getString(GUIConstants.APP_IDENTIFIER);
-        
-        /* App Identifier should never be null */
-        if (appIdentifier == null) {
-            throw new IllegalArgumentException("Intent should have the GUIConstants.APP_IDENTIFIER packed with it");
-        }
-        
-        IApp app = Model.getInstance().getApp(appIdentifier);
-        
-        /* App should exists in the model */
-        if (app == null) {
-            throw new IllegalArgumentException("The given App (" + appIdentifier
-                    + ") in the Intent does not exist in the model");
-        }
-        
-        return app;
+        this.lam.dispatchDestroy(isFinishing());
     }
     
     
     private void setupTabs() {
         /* Details Tab */
-        TabSpec details = mTabHost.newTabSpec("tab_details");
+        TabSpec details = this.mTabHost.newTabSpec("tab_details");
         details.setIndicator("Details");
         
         // Create an Intent to start the inner activity
         Intent intentDetails = new Intent(this, AppDetailsTab.class);
-        intentDetails.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        intentDetails.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
         
         details.setContent(intentDetails);
-        mTabHost.addTab(details);
+        this.mTabHost.addTab(details);
         
         // Change the preferred size of the Tab-header
-        View tab1 = mTabHost.getTabWidget().getChildAt(0);
+        View tab1 = this.mTabHost.getTabWidget().getChildAt(0);
         LayoutParams lp = tab1.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab1.setLayoutParams(lp);
         
         /* Service Features Tab */
-        TabSpec sfs = mTabHost.newTabSpec("tab_sfs");
+        TabSpec sfs = this.mTabHost.newTabSpec("tab_sfs");
         sfs.setIndicator("Service Features");
         
         // Create an Intent to start the inner activity
         Intent intentSfs = new Intent(this, AppServiceFeaturesTab.class);
-        intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
         
         sfs.setContent(intentSfs);
-        mTabHost.addTab(sfs);
+        this.mTabHost.addTab(sfs);
         
         // Change the preferred size of the Tab-header
-        View tab2 = mTabHost.getTabWidget().getChildAt(1);
+        View tab2 = this.mTabHost.getTabWidget().getChildAt(1);
         lp = tab2.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab2.setLayoutParams(lp);
         
         /* Presets Tab */
-        TabSpec presets = mTabHost.newTabSpec("tab_details");
+        TabSpec presets = this.mTabHost.newTabSpec("tab_details");
         presets.setIndicator("Presets");
         
         // Create an Intent to start the inner activity
         Intent intentPresets = new Intent(this, AppPresetsTab.class);
-        intentPresets.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        intentPresets.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
         
         presets.setContent(intentPresets);
-        mTabHost.addTab(presets);
+        this.mTabHost.addTab(presets);
         
         // Change the preferred size of the Tab-header
-        View tab3 = mTabHost.getTabWidget().getChildAt(2);
+        View tab3 = this.mTabHost.getTabWidget().getChildAt(2);
         lp = tab3.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab3.setLayoutParams(lp);

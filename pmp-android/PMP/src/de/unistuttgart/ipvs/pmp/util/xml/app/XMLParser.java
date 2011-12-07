@@ -63,8 +63,8 @@ public class XMLParser extends AbstractXMLParser {
         
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
-        NodeList appInformation = doc.getElementsByTagName("appInformation");
-        NodeList serviceFeatures = doc.getElementsByTagName("serviceFeatures");
+        NodeList appInformation = this.doc.getElementsByTagName("appInformation");
+        NodeList serviceFeatures = this.doc.getElementsByTagName("serviceFeatures");
         
         // Check, if there is exactly one appInformation and one service
         // features node

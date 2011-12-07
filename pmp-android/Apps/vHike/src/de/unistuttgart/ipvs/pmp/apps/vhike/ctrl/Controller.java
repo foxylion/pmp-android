@@ -31,6 +31,8 @@ public class Controller {
 	 */
 	public boolean login(String username, String pw) {
 
+		Log.i("USERNAME: " + username);
+		Log.i("PASSSWORD: " + pw);
 		String status = JSonRequestReader.login(username, pw);
 		Log.i("Status im CTRL: " + status);
 		if (status.equals("logged_in")) {
@@ -108,7 +110,7 @@ public class Controller {
 	 * @param destination
 	 * @return true, if announcing a trip is succeeded
 	 */
-	public boolean announceTrip(String session_id, String destination) {
-		return JSonRequestReader.announceTrip(session_id, destination);
+	public boolean announceTrip(String session_id, String destination, float current_lat, float current_lon, int avail_seats) {
+		return JSonRequestReader.announceTrip(session_id, destination, current_lat,  current_lon, avail_seats);
 	}
 }

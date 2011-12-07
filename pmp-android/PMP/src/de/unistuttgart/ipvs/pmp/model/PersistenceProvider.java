@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -269,7 +269,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         while (!cursor.isAfterLast()) {
             // find the data, translate it
             String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
-            ModelElement creatorElement = this.cache.getApps().get(creator);
+            IModelElement creatorElement = this.cache.getApps().get(creator);
             if (creatorElement == null) {
                 creatorElement = this.cache.getResourceGroups().get(creator);
             }

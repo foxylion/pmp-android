@@ -45,9 +45,10 @@ public class BasicTitleView extends LinearLayout {
         
         this.context = context;
         
-        title = "";
-        icon = R.drawable.icon_undefined;
+        this.title = "";
+        this.icon = R.drawable.icon_undefined;
     }
+    
     
     /**
      * @see LinearLayout#LinearLayout(Context, AttributeSet)
@@ -59,8 +60,8 @@ public class BasicTitleView extends LinearLayout {
         
         /* Load the styles from the xml assigned values */
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
-        title = a.getString(R.styleable.BasicTitleView_name);
-        icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
+        this.title = a.getString(R.styleable.BasicTitleView_name);
+        this.icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
     }
     
     
@@ -75,21 +76,22 @@ public class BasicTitleView extends LinearLayout {
             /* In edit mode, just load a very basic representation of the real contents. */
             setOrientation(LinearLayout.VERTICAL);
             
-            TextView tv = new TextView(context);
+            TextView tv = new TextView(this.context);
             tv.setText("[EditViewMode] BasicTitleView");
             tv.setPadding(5, 10, 5, 10);
             addView(tv);
             
-            View view = new View(context);
-            view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 2));
+            View view = new View(this.context);
+            view.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
             view.setBackgroundColor(Color.parseColor("#ff8c00"));
             addView(view);
         }
     }
     
+    
     protected void createLayout() {
         /* load the xml-layout. */
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         addView(layoutInflater.inflate(R.layout.view_basictitle, null));
     }
     
@@ -137,15 +139,15 @@ public class BasicTitleView extends LinearLayout {
     protected void refresh() {
         TextView tv = (TextView) findViewById(R.id.TextView_Title);
         if (tv != null) {
-            tv.setText(title);
+            tv.setText(this.title);
         }
         
         ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
         if (iv != null) {
-            if (iconDrawable == null) {
-                iv.setImageResource(icon);
+            if (this.iconDrawable == null) {
+                iv.setImageResource(this.icon);
             } else {
-                iv.setImageDrawable(iconDrawable);
+                iv.setImageDrawable(this.iconDrawable);
             }
         }
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -20,7 +21,7 @@ public class Preset extends ModelElement implements IPreset {
     /**
      * identifying attributes
      */
-    protected ModelElement creator;
+    protected IModelElement creator;
     protected String localIdentifier;
     
     /**
@@ -41,7 +42,7 @@ public class Preset extends ModelElement implements IPreset {
     
     /* organizational */
     
-    public Preset(ModelElement creator, String identifier) {
+    public Preset(IModelElement creator, String identifier) {
         super(creator + PersistenceConstants.PACKAGE_SEPARATOR + identifier);
         this.creator = creator;
         this.localIdentifier = identifier;
@@ -63,16 +64,16 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public ModelElement getCreator() {
+    public IModelElement getCreator() {
         return this.creator;
     }
     
     
     protected String getCreatorString() {
-        if (getCreator() == null) {
+        if (this.creator == null) {
             return PersistenceConstants.PACKAGE_SEPARATOR;
         } else {
-            return getCreator().getIdentifier();
+            return this.creator.getIdentifier();
         }
     }
     

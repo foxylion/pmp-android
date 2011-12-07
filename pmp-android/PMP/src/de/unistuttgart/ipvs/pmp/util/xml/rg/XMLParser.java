@@ -63,8 +63,8 @@ public class XMLParser extends AbstractXMLParser {
         
         // The main nodes "resourceGroupInformation" and "privacySettings" are
         // required once.
-        NodeList rgInformation = doc.getElementsByTagName("resourceGroupInformation");
-        NodeList privacySettings = doc.getElementsByTagName("privacySettings");
+        NodeList rgInformation = this.doc.getElementsByTagName("resourceGroupInformation");
+        NodeList privacySettings = this.doc.getElementsByTagName("privacySettings");
         
         // Check, if there is exactly one resourceGroupInformation and one
         // privacySettings node

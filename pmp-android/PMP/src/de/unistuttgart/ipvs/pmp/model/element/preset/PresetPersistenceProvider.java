@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
-import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -201,7 +201,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
      * @return a {@link Preset} object that is linked to the newly created persistence data and this
      *         {@link PresetPersistenceProvider}, or null, if the creation was not possible
      */
-    public Preset createElementData(ModelElement creator, String identifier, String name, String description) {
+    public Preset createElementData(IModelElement creator, String identifier, String name, String description) {
         // store in db
         ContentValues cv = new ContentValues();
         cv.put(CREATOR, creator == null ? PACKAGE_SEPARATOR : creator.getIdentifier());

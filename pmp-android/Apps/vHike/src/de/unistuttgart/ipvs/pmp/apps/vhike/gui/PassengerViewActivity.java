@@ -58,7 +58,7 @@ public class PassengerViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		Profile pro = new Profile("driver1", null, null, null, null, null, lat, null, false, false, false, false);
+		Profile pro = new Profile("User2", null, null, null, null, null, null, false, false, false, false, lat, lat);
 		addHitchhiker(pro);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);

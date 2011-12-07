@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -22,6 +22,7 @@ public class AppServiceFeaturesTab extends Activity {
         
         setContentView(R.layout.tab_app_sfs);
     }
+    
     
     @Override
     protected void onResume() {
@@ -39,15 +40,8 @@ public class AppServiceFeaturesTab extends Activity {
         }
         
         /* Temporary bad stuff, to Test the Activity */
-        List<IServiceFeature> sfs_enabled = new ArrayList<IServiceFeature>();
-        sfs_enabled.add(new ServiceFeature("Use Camera", "Must be enabled to get any functionality.", true, true));
-        sfs_enabled.add(new ServiceFeature("Internet Connection", "Required to fetch details for a scanned product.", true, true));
-        sfs_enabled.add(new ServiceFeature("Facebook Share", "Enable it to share a product on facebook.", true, true));
-        
-        List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
-        sfs_enabled.add(new ServiceFeature("Personal Information", "If it is enabled you can post product ratings.", false, true));
-        sfs_enabled.add(new ServiceFeature("Credit Card-Details", "Allows you to directly buy and pay a scanned product.", false, false));
-        sfs_enabled.add(new ServiceFeature("Email Account", "Send product via email to your friends.", false, true));
+        List<IServiceFeature> sfs_enabled = SampleModel.sfEnabled;
+        List<IServiceFeature> sfs_disabled = SampleModel.sfDisabled;
         
         List<IServiceFeature> sfs = new ArrayList<IServiceFeature>();
         sfs.addAll(sfs_enabled);

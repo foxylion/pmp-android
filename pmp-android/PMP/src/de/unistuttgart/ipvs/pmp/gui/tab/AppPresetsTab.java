@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 public class AppPresetsTab extends Activity {
     

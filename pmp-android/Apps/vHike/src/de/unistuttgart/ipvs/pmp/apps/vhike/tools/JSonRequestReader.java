@@ -169,7 +169,7 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"getOwnProfile.php");
+					"own_profile.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -177,11 +177,13 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String username = null;
-		double rating = 0 ;
+		double rating_avg = 0 ;
+		int rating_num = 0 ;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
-			 rating = object.get("rating").getAsDouble();
+			 rating_avg = object.get("rating_avg").getAsFloat();
+			 rating_num = object.get("rating_num").getAsInt();
 		}
 		//String userid = object.get("id").getAsString();
 		//TODO
@@ -191,8 +193,8 @@ public class JSonRequestReader {
 		Date date = new Date();
 		if (suc) {
 			profile = new Profile(username, "email", "firstname", "lastname",
-					"tel", "description", rating, date, false, false, false,
-					false);
+					"tel", "description", date, false, false, false,
+					false, rating_avg, rating_num);
 			return profile;
 		}
 		return null;
@@ -224,11 +226,13 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String username = null;
-		double rating = 0;
+		double rating_avg = 0 ;
+		int rating_num = 0 ;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
-			rating = object.get("rating").getAsDouble();
+			rating_avg = object.get("rating_avg").getAsFloat();
+			rating_num = object.get("rating_num").getAsInt();
 		}
 		//String userid = object.get("id").getAsString();
 		//TODO
@@ -238,8 +242,8 @@ public class JSonRequestReader {
 		Profile profile;
 		if (suc) {
 			profile = new Profile(username, "email", "firstname", "lastname",
-					"tel", "description", rating, date, false, false, false,
-					false);
+					"tel", "description", date, false, false, false,
+					false, rating_avg, rating_num);
 			return profile;
 		} else {
 			return null;
@@ -252,11 +256,17 @@ public class JSonRequestReader {
 	 * 
 	 * @return true if succeeded
 	 */
-	public static boolean announceTrip(String session_id, String destination) {
+	public static boolean announceTrip(String session_id, String destination, float current_lat, float current_lon,
+			int avail_seats) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", session_id, false));
+		
+		
 		listToParse.add(new ParamObject("destination", destination, true));
-
+		listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat), true));
+		listToParse.add(new ParamObject("current_lon", String.valueOf(current_lon), true));
+		listToParse.add(new ParamObject("avail_seats", String.valueOf(avail_seats), true));
+		
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
@@ -267,13 +277,54 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
+		int tripId = 0;
 		if(object != null){
 			suc = object.get("successful").getAsBoolean();
+			tripId = object.get("id").getAsInt();
+			Model.getInstance().setTripId(tripId);
 		}
 
 		return suc;
 	}
-
+	/**
+	 * update the position of the user (driver)
+	 * @param sid
+	 * @param trip_id
+	 * @param current_lat
+	 * @param current_lon
+	 * @return
+	 */
+	public static String updatePosTrip(String sid, int trip_id, float current_lat, float current_lon){
+		
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		
+		listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id), true));
+		listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat), true));
+		listToParse.add(new ParamObject("current_lon", String.valueOf(current_lon), true));
+		
+		JsonObject object = null;
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"trip_update_pos.php");
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String status =null;
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+			status = object.get("status").getAsString();
+			return status;
+		}
+		
+		return status;
+	}
+	
+	
+//	public static String
 	/**
 	 * Dummy method don't touch it
 	 * 
