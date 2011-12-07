@@ -31,13 +31,13 @@ public class ServiceFeaturesAdapter extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return serviceFeatures.size();
+        return this.serviceFeatures.size();
     }
     
     
     @Override
     public Object getItem(int position) {
-        return serviceFeatures.get(position);
+        return this.serviceFeatures.get(position);
     }
     
     
@@ -49,9 +49,9 @@ public class ServiceFeaturesAdapter extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        IServiceFeature serviceFeature = serviceFeatures.get(position);
+        IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ServiceFeatureView entryView = new ServiceFeatureView(context, serviceFeature);
+        ServiceFeatureView entryView = new ServiceFeatureView(this.context, serviceFeature);
         
         return entryView;
     }

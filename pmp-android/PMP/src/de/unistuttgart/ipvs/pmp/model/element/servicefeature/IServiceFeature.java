@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -37,11 +38,12 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
  * 
  * @author Jakob Jarosch
  */
-public interface IServiceFeature {
+public interface IServiceFeature extends IModelElement {
     
     /**
      * @return Returns the <b>unique</b> identifier of the {@link IServiceFeature}.
      */
+    @Override
     public String getIdentifier();
     
     

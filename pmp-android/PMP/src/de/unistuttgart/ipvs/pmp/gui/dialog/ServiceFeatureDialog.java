@@ -1,5 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.dialog;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.text.Html;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetMananger;
@@ -8,12 +14,6 @@ import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
-import android.app.Dialog;
-import android.content.Context;
-import android.text.Html;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class ServiceFeatureDialog extends Dialog {
     
@@ -54,7 +54,6 @@ public class ServiceFeatureDialog extends Dialog {
         
         requiredPSTv.setText(Html.fromHtml(text));
         
-        
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
         enableDisableButton.setEnabled(!PMPPreferences.getInstanace().isExpertMode());
         
@@ -83,13 +82,13 @@ public class ServiceFeatureDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                if (serviceFeature.isActive()) {
-                    PresetMananger.disableServiceFeature(serviceFeature);
+                if (ServiceFeatureDialog.this.serviceFeature.isActive()) {
+                    PresetMananger.disableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
                 } else {
-                    PresetMananger.enableServiceFeature(serviceFeature);
+                    PresetMananger.enableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
                 }
                 
-                serviceFeatureView.refresh();
+                ServiceFeatureDialog.this.serviceFeatureView.refresh();
                 ServiceFeatureDialog.this.cancel();
             }
         });

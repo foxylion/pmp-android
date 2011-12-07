@@ -31,7 +31,7 @@ public class AppsActivity extends Activity {
         
         /* Temporary bad stuff, to Test the Activity */
         
-       List<IApp> apps = SampleModel.apps;
+        List<IApp> apps = SampleModel.apps;
         
         ListView appsList = (ListView) findViewById(R.id.ListView_Apps);
         appsList.setClickable(true);

@@ -81,6 +81,6 @@ public class RgInformationSet extends AbstractInformationSet implements Serializ
      * @return map with privacy settings
      */
     public Map<String, PrivacySetting> getPrivacySettingsMap() {
-        return privacySettingsMap;
+        return this.privacySettingsMap;
     }
 }

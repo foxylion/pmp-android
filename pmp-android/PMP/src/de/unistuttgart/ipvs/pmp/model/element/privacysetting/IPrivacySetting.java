@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
 import android.view.View;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -31,11 +32,12 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException
  * 
  * @author Jakob Jarosch
  */
-public interface IPrivacySetting {
+public interface IPrivacySetting extends IModelElement {
     
     /**
      * @return Returns the <b>unique</b> identifier of the {@link IPrivacySetting}.
      */
+    @Override
     public String getIdentifier();
     
     

@@ -19,32 +19,32 @@
  */
 package de.unistuttgart.ipvs.pmp.pluginmanager;
 
-import java.util.ArrayList;
-
-
 public class PluginManager {
-    
-    private ArrayList<String> plugins;
     
     public void isOutdated() {
         
     }
     
+    
     public void getPluginList() {
         
     }
+    
     
     public void updatePluginList() {
         
     }
     
+    
     public void updatePlugin() {
         
     }
     
+    
     public void addPlugin() {
         
     }
+    
     
     public void removePlugin() {
         

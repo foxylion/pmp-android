@@ -11,7 +11,6 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
 import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -23,6 +22,7 @@ public class AppServiceFeaturesTab extends Activity {
         
         setContentView(R.layout.tab_app_sfs);
     }
+    
     
     @Override
     protected void onResume() {
