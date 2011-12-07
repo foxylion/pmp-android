@@ -62,7 +62,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     @Override
     public Drawable getIcon() {
-        // TODO
+        // TODO: Resourcegroup contains icon in root folder of the jar-file with name "icon.png"
         return null;
     }
     
