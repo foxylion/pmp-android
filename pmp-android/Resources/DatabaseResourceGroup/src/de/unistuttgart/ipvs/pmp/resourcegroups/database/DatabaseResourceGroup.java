@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
  * @author Dang Huynh
@@ -34,14 +34,14 @@ public class DatabaseResourceGroup extends ResourceGroup {
     
     private Context context;
     
-    public static final String PRIVACY_LEVEL_READ = "read";
-    public static final String PRIVACY_LEVEL_MODIFY = "modify";
-    public static final String PRIVACY_LEVEL_CREATE = "create";
+    public static final String PRIVACY_SETTING_READ = "read";
+    public static final String PRIVACY_SETTING_MODIFY = "modify";
+    public static final String PRIVACY_SETTING_CREATE = "create";
     
     private DatabaseResource dbr;
     
-    // PL
-    private BooleanPrivacyLevel read, modify, create;
+    // Privacy Setting
+    private BooleanPrivacySetting read, modify, create;
     
     
     public DatabaseResourceGroup(Context context) {
@@ -51,19 +51,19 @@ public class DatabaseResourceGroup extends ResourceGroup {
         // TODO Remove Log
         Log.d(context.getResources().getString(R.string.resource_group_name) + getDescription("en"));
         
-        // Prepare the privacy levels and resource
-        this.read = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_read_name), context
-                .getResources().getString(R.string.privacy_level_read_description));
-        this.modify = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_modify_name),
-                context.getResources().getString(R.string.privacy_level_modify_description));
-        this.create = new BooleanPrivacyLevel(context.getResources().getString(R.string.privacy_level_create_name),
-                context.getResources().getString(R.string.privacy_level_create_description));
+        // Prepare the privacy settings and resource
+        this.read = new BooleanPrivacySetting(context.getResources().getString(R.string.privacy_setting_read_name), context
+                .getResources().getString(R.string.privacy_setting_read_description));
+        this.modify = new BooleanPrivacySetting(context.getResources().getString(R.string.privacy_setting_modify_name),
+                context.getResources().getString(R.string.privacy_setting_modify_description));
+        this.create = new BooleanPrivacySetting(context.getResources().getString(R.string.privacy_setting_create_name),
+                context.getResources().getString(R.string.privacy_setting_create_description));
         this.dbr = new DatabaseResource(context);
         
-        // Register the privacy levels
-        registerPrivacyLevel(PRIVACY_LEVEL_READ, this.read);
-        registerPrivacyLevel(PRIVACY_LEVEL_MODIFY, this.modify);
-        registerPrivacyLevel(PRIVACY_LEVEL_CREATE, this.create);
+        // Register the privacy settings
+        registerPrivacySetting(PRIVACY_SETTING_READ, this.read);
+        registerPrivacySetting(PRIVACY_SETTING_MODIFY, this.modify);
+        registerPrivacySetting(PRIVACY_SETTING_CREATE, this.create);
         
         // Register the resource
         // TODO: Where should the resource be created? Only when an authorized

@@ -30,7 +30,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
  * <p>
  * A resource group that bundles {@link Resource}s and {@link AbstractPrivacySetting}s. You can register them by using the methods
  * {@link ResourceGroup#registerResource(String, Resource)} and
- * {@link ResourceGroup#registerPrivacyLevel(String, AbstractPrivacySetting)}.
+ * {@link ResourceGroup#registerPrivacySetting(String, AbstractPrivacySetting)}.
  * </p>
  * 
  * <p>
@@ -60,9 +60,9 @@ public abstract class ResourceGroup {
     private final Map<String, Resource> resources;
     
     /**
-     * The privacy levels present in that resource group.
+     * The privacy settings present in that resource group.
      */
-    private final Map<String, AbstractPrivacySetting<?>> privacyLevels;
+    private final Map<String, AbstractPrivacySetting<?>> privacySettings;
     
     
     /**
@@ -77,7 +77,7 @@ public abstract class ResourceGroup {
         this.rgPackage = rgPackage;
         this.pmpci = pmpci;
         this.resources = new HashMap<String, Resource>();
-        this.privacyLevels = new HashMap<String, AbstractPrivacySetting<?>>();
+        this.privacySettings = new HashMap<String, AbstractPrivacySetting<?>>();
     }
     
     
@@ -113,24 +113,24 @@ public abstract class ResourceGroup {
     
     
     /**
-     * Registers privacyLevel as privacy level "identifier" in this resource group.
+     * Registers privacySetting as privacy setting "identifier" in this resource group.
      * 
      * @param identifier
-     * @param privacyLevel
+     * @param privacySetting
      */
-    public void registerPrivacyLevel(String identifier, AbstractPrivacySetting<?> privacyLevel) {
-        privacyLevel.assignResourceGroup(this, identifier);
-        this.privacyLevels.put(identifier, privacyLevel);
+    public void registerPrivacySetting(String identifier, AbstractPrivacySetting<?> privacySetting) {
+        privacySetting.assignResourceGroup(this, identifier);
+        this.privacySettings.put(identifier, privacySetting);
     }
     
     
     /**
      * 
      * @param identifier
-     * @return the privacy level identified by "identifier", if present, null otherwise
+     * @return the privacy setting identified by "identifier", if present, null otherwise
      */
-    public AbstractPrivacySetting<?> getPrivacyLevel(String identifier) {
-        return this.privacyLevels.get(identifier);
+    public AbstractPrivacySetting<?> getPrivacySetting(String identifier) {
+        return this.privacySettings.get(identifier);
     }
     
     
@@ -138,16 +138,16 @@ public abstract class ResourceGroup {
      * 
      * @return a list of all the valid resource identifiers.
      */
-    public List<String> getPrivacyLevels() {
-        return new ArrayList<String>(this.privacyLevels.keySet());
+    public List<String> getPrivacySettings() {
+        return new ArrayList<String>(this.privacySettings.keySet());
     }
     
     
     /**
      * @see IPMPConnectionInterface#getPrivacySettingValue(String, String, String)
      */
-    public String getPMPPrivacyLevelValue(String privacyLevelIdentifier, String appIdentifier) {
-        return this.pmpci.getPrivacySettingValue(this.rgPackage, privacyLevelIdentifier, appIdentifier);
+    public String getPMPPrivacySettingValue(String privacySettingIdentifier, String appIdentifier) {
+        return this.pmpci.getPrivacySettingValue(this.rgPackage, privacySettingIdentifier, appIdentifier);
         
     }
 }
