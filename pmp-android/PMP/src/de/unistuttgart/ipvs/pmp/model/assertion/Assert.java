@@ -15,9 +15,11 @@ public class Assert {
     /*
      * all kinds of strings used in error messages
      */
-    public static String ILLEGAL_NULL = "'%s' (%s) was expected to be an Object, found null instead.";
-    public static String ILLEGAL_NOT_NULL = "'%s' (%s) was expected to be null, found Object instead.";
+    public static final String ILLEGAL_NULL = "'%s' (%s) was expected to be an Object, found null instead.";
+    public static final String ILLEGAL_NOT_NULL = "'%s' (%s) was expected to be null, found Object instead.";
     public static final String ILLEGAL_CREATOR = "'%s' (%s) was expected to be a Creator parameter, found something else instead.";
+    public static final String ILLEGAL_METHOD = "'%s' (%s) was expecting this call to never happen, found call anyhow.";
+    public static final String ILLEGAL_DB = "'%s' (%s) was expecting a database query to return results, found none instead.";
     
     
     /**

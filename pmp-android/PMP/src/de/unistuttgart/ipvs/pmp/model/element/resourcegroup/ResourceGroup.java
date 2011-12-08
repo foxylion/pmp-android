@@ -5,6 +5,8 @@ import java.util.Map;
 
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -77,12 +79,17 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public IPrivacySetting getPrivacySetting(String privacyLevelIdentifier) {
         checkCached();
+        Assert.nonNull(privacyLevelIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacyLevelIdentifier",
+                privacyLevelIdentifier));
         return this.privacySettings.get(privacyLevelIdentifier);
     }
     
     
     @Override
     public IBinder getResource(String appPackage, String resource) {
+        checkCached();
+        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.nonNull(resource, new ModelMisuseError(Assert.ILLEGAL_NULL, "resource", resource));
         return this.link.getResource(resource).getAndroidInterface(appPackage);
     }
     

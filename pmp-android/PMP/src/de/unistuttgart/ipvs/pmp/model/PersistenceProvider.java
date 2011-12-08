@@ -177,35 +177,36 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         builder.setTables(TBL_APP);
         
         Cursor appCursor = builder.query(db, new String[] { PACKAGE }, null, null, null, null, null);
-        appCursor.moveToNext();
         
-        while (!appCursor.isAfterLast()) {
-            String appPackage = appCursor.getString(appCursor.getColumnIndex(PACKAGE));
-            App app = new App(appPackage);
-            app.setPersistenceProvider(new AppPersistenceProvider(app));
-            
-            Map<String, ServiceFeature> thisAppsSFs = new HashMap<String, ServiceFeature>();
-            
-            // find the local SFs (don't think join is a wise idea)
-            builder.setTables(TBL_SERVICEFEATURE);
-            
-            Cursor sfCursor = builder.query(db, new String[] { IDENTIFIER }, APP_PACKAGE + " = ?",
-                    new String[] { appPackage }, null, null, null);
-            sfCursor.moveToNext();
-            while (!sfCursor.isAfterLast()) {
-                String sfIdentifier = sfCursor.getString(sfCursor.getColumnIndex(IDENTIFIER));
-                ServiceFeature sf = new ServiceFeature(app, sfIdentifier);
-                sf.setPersistenceProvider(new ServiceFeaturePersistenceProvider(sf));
+        if (appCursor.moveToFirst()) {
+            do {
+                String appPackage = appCursor.getString(appCursor.getColumnIndex(PACKAGE));
+                App app = new App(appPackage);
+                app.setPersistenceProvider(new AppPersistenceProvider(app));
                 
-                thisAppsSFs.put(sfIdentifier, sf);
-                sfCursor.moveToNext();
-            }
-            sfCursor.close();
-            
-            // finalize App
-            this.cache.getServiceFeatures().put(app, thisAppsSFs);
-            this.cache.getApps().put(appPackage, app);
-            appCursor.moveToNext();
+                Map<String, ServiceFeature> thisAppsSFs = new HashMap<String, ServiceFeature>();
+                
+                // find the local SFs (don't think join is a wise idea)
+                builder.setTables(TBL_SERVICEFEATURE);
+                
+                Cursor sfCursor = builder.query(db, new String[] { IDENTIFIER }, APP_PACKAGE + " = ?",
+                        new String[] { appPackage }, null, null, null);
+                
+                if (sfCursor.moveToFirst()) {
+                    do {
+                        String sfIdentifier = sfCursor.getString(sfCursor.getColumnIndex(IDENTIFIER));
+                        ServiceFeature sf = new ServiceFeature(app, sfIdentifier);
+                        sf.setPersistenceProvider(new ServiceFeaturePersistenceProvider(sf));
+                        
+                        thisAppsSFs.put(sfIdentifier, sf);
+                    } while (sfCursor.moveToNext());
+                }
+                sfCursor.close();
+                
+                // finalize App
+                this.cache.getServiceFeatures().put(app, thisAppsSFs);
+                this.cache.getApps().put(appPackage, app);
+            } while (appCursor.moveToNext());
         }
         appCursor.close();
     }
@@ -221,34 +222,37 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         builder.setTables(TBL_RESOURCEGROUP);
         
         Cursor rgCursor = builder.query(db, new String[] { PACKAGE }, null, null, null, null, null);
-        rgCursor.moveToNext();
         
-        while (!rgCursor.isAfterLast()) {
-            String rgPackage = rgCursor.getString(rgCursor.getColumnIndex(PACKAGE));
-            ResourceGroup rg = new ResourceGroup(rgPackage);
-            rg.setPersistenceProvider(new ResourceGroupPersistenceProvider(rg));
-            
-            Map<String, PrivacySetting> thisRGsPLs = new HashMap<String, PrivacySetting>();
-            
-            // find the local PSs (don't think join is a wise idea)
-            builder.setTables(TBL_PRIVACYSETTING);
-            Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?",
-                    new String[] { rgPackage }, null, null, null);
-            psCursor.moveToNext();
-            while (!psCursor.isAfterLast()) {
-                String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
-                PrivacySetting ps = new PrivacySetting(rg, plIdentifier);
-                ps.setPersistenceProvider(new PrivacySettingPersistenceProvider(ps));
+        if (rgCursor.moveToFirst()) {
+            do {
+                String rgPackage = rgCursor.getString(rgCursor.getColumnIndex(PACKAGE));
+                ResourceGroup rg = new ResourceGroup(rgPackage);
+                rg.setPersistenceProvider(new ResourceGroupPersistenceProvider(rg));
                 
-                thisRGsPLs.put(plIdentifier, ps);
-                psCursor.moveToNext();
-            }
-            psCursor.close();
-            
-            // finalize RG
-            this.cache.getPrivacySettings().put(rg, thisRGsPLs);
-            this.cache.getResourceGroups().put(rgPackage, rg);
-            rgCursor.moveToNext();
+                Map<String, PrivacySetting> thisRGsPLs = new HashMap<String, PrivacySetting>();
+                
+                // find the local PSs (don't think join is a wise idea)
+                builder.setTables(TBL_PRIVACYSETTING);
+                Cursor psCursor = builder.query(db, new String[] { IDENTIFIER }, RESOURCEGROUP_PACKAGE + " = ?",
+                        new String[] { rgPackage }, null, null, null);
+                
+                if (psCursor.moveToFirst()) {
+                    do {
+                        String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
+                        PrivacySetting ps = new PrivacySetting(rg, plIdentifier);
+                        ps.setPersistenceProvider(new PrivacySettingPersistenceProvider(ps));
+                        
+                        thisRGsPLs.put(plIdentifier, ps);
+                        psCursor.moveToNext();
+                    } while (psCursor.moveToNext());
+                }
+                psCursor.close();
+                
+                // finalize RG
+                this.cache.getPrivacySettings().put(rg, thisRGsPLs);
+                this.cache.getResourceGroups().put(rgPackage, rg);
+                rgCursor.moveToNext();
+            } while (rgCursor.moveToNext());
         }
         rgCursor.close();
     }
@@ -264,29 +268,29 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         builder.setTables(TBL_PRESET);
         
         Cursor cursor = builder.query(db, new String[] { CREATOR, IDENTIFIER }, null, null, null, null, null);
-        cursor.moveToNext();
         
-        while (!cursor.isAfterLast()) {
-            // find the data, translate it
-            String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
-            IModelElement creatorElement = this.cache.getApps().get(creator);
-            if (creatorElement == null) {
-                creatorElement = this.cache.getResourceGroups().get(creator);
-            }
-            String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
-            
-            // create item
-            Preset p = new Preset(creatorElement, identifier);
-            p.setPersistenceProvider(new PresetPersistenceProvider(p));
-            
-            // apply to cache
-            Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
-            if (creatorMap == null) {
-                creatorMap = new HashMap<String, Preset>();
-                this.cache.getPresets().put(creatorElement, creatorMap);
-            }
-            creatorMap.put(identifier, p);
-            cursor.moveToNext();
+        if (cursor.moveToFirst()) {
+            do {
+                // find the data, translate it
+                String creator = cursor.getString(cursor.getColumnIndex(CREATOR));
+                IModelElement creatorElement = this.cache.getApps().get(creator);
+                if (creatorElement == null) {
+                    creatorElement = this.cache.getResourceGroups().get(creator);
+                }
+                String identifier = cursor.getString(cursor.getColumnIndex(IDENTIFIER));
+                
+                // create item
+                Preset p = new Preset(creatorElement, identifier);
+                p.setPersistenceProvider(new PresetPersistenceProvider(p));
+                
+                // apply to cache
+                Map<String, Preset> creatorMap = this.cache.getPresets().get(creatorElement);
+                if (creatorMap == null) {
+                    creatorMap = new HashMap<String, Preset>();
+                    this.cache.getPresets().put(creatorElement, creatorMap);
+                }
+                creatorMap.put(identifier, p);
+            } while (cursor.moveToNext());
         }
         cursor.close();
         

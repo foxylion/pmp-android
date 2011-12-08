@@ -419,7 +419,7 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IPreset[] getPresets(ModelElement creator) {               
+    public IPreset[] getPresets(ModelElement creator) {
         checkCached();
         Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
         

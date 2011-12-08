@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -42,28 +44,29 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
         this.element.privacySettingValues = new HashMap<PrivacySetting, String>();
         this.element.containsUnknownPrivacySettings = false;
         
-        while (!c.isAfterLast()) {
-            String rgPackage = c.getString(c.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
-            String psIdentifier = c.getString(c.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
-            String reqValue = c.getString(c.getColumnIndex(REQUIREDVALUE));
-            
-            ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
-            if (rg == null) {
-                Log.w("Unavailable service feature cached (RG not present).");
-                this.element.containsUnknownPrivacySettings = true;
+        if (c.moveToFirst()) {
+            do {
+                String rgPackage = c.getString(c.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
+                String psIdentifier = c.getString(c.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+                String reqValue = c.getString(c.getColumnIndex(REQUIREDVALUE));
                 
-            } else {
-                Map<String, PrivacySetting> pss = getCache().getPrivacySettings().get(rg);
-                PrivacySetting ps = pss.get(psIdentifier);
-                
-                if (ps == null) {
-                    Log.w("Unavailable service feature cached (PS not found in RG).");
+                ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
+                if (rg == null) {
+                    Log.w("Unavailable service feature cached (RG not present).");
                     this.element.containsUnknownPrivacySettings = true;
+                    
                 } else {
-                    this.element.privacySettingValues.put(ps, reqValue);
+                    Map<String, PrivacySetting> pss = getCache().getPrivacySettings().get(rg);
+                    PrivacySetting ps = pss.get(psIdentifier);
+                    
+                    if (ps == null) {
+                        Log.w("Unavailable service feature cached (PS not found in RG).");
+                        this.element.containsUnknownPrivacySettings = true;
+                    } else {
+                        this.element.privacySettingValues.put(ps, reqValue);
+                    }
                 }
-            }
-            c.moveToNext();
+            } while (c.moveToNext());
         }
         c.close();
         
@@ -73,7 +76,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new UnsupportedOperationException();
+        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
     }
     
     

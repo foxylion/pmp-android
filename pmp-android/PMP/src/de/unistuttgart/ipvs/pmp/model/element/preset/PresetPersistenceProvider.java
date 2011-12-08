@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -36,12 +38,12 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null,
                 null, null);
         
-        if (!c.moveToFirst()) {
-            throw new IllegalAccessError("The preset was not found in the database.");
-        } else {
+        if (c.moveToFirst()) {
             this.element.name = c.getString(c.getColumnIndex(NAME));
             this.element.description = c.getString(c.getColumnIndex(DESCRIPTION));
             this.element.deleted = Boolean.valueOf(c.getString(c.getColumnIndex(DELETED)));
+        } else {
+            throw new ModelIntegrityError(Assert.ILLEGAL_DB, "Preset", this);
         }
         c.close();
         
@@ -54,26 +56,26 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         this.element.privacySettingValues = new HashMap<IPrivacySetting, String>();
         this.element.containsUnknownElements = false;
         
-        cps.moveToFirst();
-        while (!cps.isAfterLast()) {
-            String rgPackage = cps.getString(cps.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
-            String psIdentifier = cps.getString(cps.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
-            String grantValue = cps.getString(cps.getColumnIndex(GRANTEDVALUE));
-            
-            ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
-            if (rg == null) {
-                Log.w("Unavailable preset cached (RG not present).");
-                this.element.containsUnknownElements = true;
-            } else {
-                PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
-                if (ps == null) {
-                    Log.w("Unavailable preset cached (PS not found in RG).");
+        if (cps.moveToFirst()) {
+            do {
+                String rgPackage = cps.getString(cps.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
+                String psIdentifier = cps.getString(cps.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+                String grantValue = cps.getString(cps.getColumnIndex(GRANTEDVALUE));
+                
+                ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
+                if (rg == null) {
+                    Log.w("Unavailable preset cached (RG not present).");
                     this.element.containsUnknownElements = true;
                 } else {
-                    this.element.privacySettingValues.put(ps, grantValue);
+                    PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
+                    if (ps == null) {
+                        Log.w("Unavailable preset cached (PS not found in RG).");
+                        this.element.containsUnknownElements = true;
+                    } else {
+                        this.element.privacySettingValues.put(ps, grantValue);
+                    }
                 }
-            }
-            cps.moveToNext();
+            } while (cps.moveToNext());
         }
         cps.close();
         
@@ -84,18 +86,18 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 null, null);
         this.element.assignedApps = new ArrayList<IApp>();
         
-        capp.moveToFirst();
-        while (!capp.isAfterLast()) {
-            String appId = capp.getString(capp.getColumnIndex(APP_PACKAGE));
-            
-            App app = getCache().getApps().get(appId);
-            if (app == null) {
-                Log.w("Unavailable preset cached (App not found).");
-                this.element.containsUnknownElements = true;
-            } else {
-                this.element.assignedApps.add(app);
-            }
-            capp.moveToNext();
+        if (capp.moveToFirst()) {
+            do {
+                String appId = capp.getString(capp.getColumnIndex(APP_PACKAGE));
+                
+                App app = getCache().getApps().get(appId);
+                if (app == null) {
+                    Log.w("Unavailable preset cached (App not found).");
+                    this.element.containsUnknownElements = true;
+                } else {
+                    this.element.assignedApps.add(app);
+                }
+            } while (capp.moveToNext());
         }
         capp.close();
         

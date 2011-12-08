@@ -14,5 +14,5 @@ public class ModelIntegrityError extends Error {
     public ModelIntegrityError(String errString, String refName, Object reference) {
         super(Assert.format(errString, refName, reference));
     }
-
+    
 }

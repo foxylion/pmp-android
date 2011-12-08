@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 
@@ -29,7 +31,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new UnsupportedOperationException();
+        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
     }
     
     

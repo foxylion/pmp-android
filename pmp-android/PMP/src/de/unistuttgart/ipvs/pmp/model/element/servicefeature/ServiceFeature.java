@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -91,6 +93,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
         checkCached();
+        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         return this.privacySettingValues.get(privacySetting);
     }
     

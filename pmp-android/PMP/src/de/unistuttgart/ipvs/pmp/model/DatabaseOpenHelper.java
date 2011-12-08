@@ -109,12 +109,14 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         
         if ((newVersion == 2) && (oldVersion < 2)) {
             // delete everything in sight
-            Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata';", null);
+            Cursor c = db.rawQuery(
+                    "SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata';", null);
             if (c.moveToFirst()) {
                 do {
                     db.execSQL("DROP TABLE " + c.getString(c.getColumnIndex("name")));
                 } while (c.moveToNext());
             }
+            c.close();
             
             // rerun creation
             onCreate(db);

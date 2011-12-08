@@ -1,10 +1,10 @@
 package de.unistuttgart.ipvs.pmp.model.element;
 
 /**
- * Most generic interface for any interface for a {@link ModelElement}. 
+ * Most generic interface for any interface for a {@link ModelElement}.
  * 
  * @author Tobias Kuhn
- *
+ * 
  */
 public interface IModelElement {
     

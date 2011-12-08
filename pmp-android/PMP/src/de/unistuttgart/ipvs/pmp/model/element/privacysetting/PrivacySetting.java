@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -111,6 +113,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     @Override
     public String getViewValue(View view) {
         checkCached();
+        Assert.nonNull(view, new ModelMisuseError(Assert.ILLEGAL_NULL, "view", view));
         return this.link.getViewValue(view);
     }
     
@@ -118,6 +121,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     @Override
     public void setViewValue(View view, String value) throws PrivacyLevelValueException {
         checkCached();
+        Assert.nonNull(view, new ModelMisuseError(Assert.ILLEGAL_NULL, "view", view));
         this.link.setViewValue(view, value);
     }
     

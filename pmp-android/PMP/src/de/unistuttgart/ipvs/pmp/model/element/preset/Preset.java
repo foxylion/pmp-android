@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -89,6 +92,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void setName(String name) {
         checkCached();
+        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
         this.name = name;
         persist();
     }
@@ -104,6 +108,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void setDescription(String description) {
         checkCached();
+        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
         this.description = description;
         persist();
     }
@@ -119,6 +124,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public String getGrantedPrivacyLevelValue(IPrivacySetting privacySetting) {
         checkCached();
+        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         return this.privacySettingValues.get(privacySetting);
     }
     
@@ -133,6 +139,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public boolean isAppAssigned(IApp app) {
         checkCached();
+        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
         return this.assignedApps.contains(app);
     }
     
@@ -140,6 +147,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void assignApp(IApp app) {
         checkCached();
+        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
         
         ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
         this.assignedApps.add(app);
@@ -151,6 +159,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void removeApp(IApp app) {
         checkCached();
+        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
         
         ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
         this.assignedApps.remove(app);
@@ -162,6 +171,8 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void assignPrivacyLevel(IPrivacySetting privacySetting, String value) {
         checkCached();
+        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
+        Assert.nonNull(value, new ModelMisuseError(Assert.ILLEGAL_NULL, "value", value));
         
         ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacyLevel(privacySetting, value);
         this.privacySettingValues.put(privacySetting, value);
@@ -173,6 +184,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void removePrivacyLevel(IPrivacySetting privacySetting) {
         checkCached();
+        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         
         ((PresetPersistenceProvider) this.persistenceProvider).removePrivacyLevel(privacySetting);
         this.privacySettingValues.remove(privacySetting);
@@ -180,15 +192,21 @@ public class Preset extends ModelElement implements IPreset {
         rollout();
     }
     
+    
     @Override
     public void assignServiceFeature(IServiceFeature serviceFeature) {
+        checkCached();
+        Assert.nonNull(serviceFeature, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature));
+        
         startUpdate();
-        
-        for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
-            assignPrivacyLevel(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
+        try {
+            for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
+                assignPrivacyLevel(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
+            }
+            
+        } finally {
+            endUpdate();
         }
-        
-        endUpdate();
     }
     
     
@@ -246,6 +264,7 @@ public class Preset extends ModelElement implements IPreset {
      * @param a
      */
     public void removeDeletedApp(App a) {
+        Assert.nonNull(a, new ModelIntegrityError(Assert.ILLEGAL_NULL, "a", a));
         this.assignedApps.remove(a);
     }
     

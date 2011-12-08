@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
@@ -55,7 +57,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new UnsupportedOperationException();
+        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
     }
     
     

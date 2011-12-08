@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 
 /**
  * The basic model element functions to provide access to the persistence layer by dynamic data fetching.
@@ -33,6 +35,7 @@ public abstract class ModelElement {
     
     
     public ModelElement(String identifier) {
+        Assert.nonNull(identifier, new ModelIntegrityError(Assert.ILLEGAL_NULL, "identifier", identifier));
         this.cached = false;
         
         if (identifier == null) {
