@@ -20,6 +20,8 @@ public class Assert {
     public static final String ILLEGAL_CREATOR = "'%s' (%s) was expected to be a Creator parameter, found something else instead.";
     public static final String ILLEGAL_METHOD = "'%s' (%s) was expecting this call to never happen, found call anyhow.";
     public static final String ILLEGAL_DB = "'%s' (%s) was expecting a database query to return results, found none instead.";
+    public static final String ILLEGAL_CLASS = "'%s' (%s) was expected to be a model class, found a different one instead.";
+    public static final String ILLEGAL_UNCACHED = "'%s' (%s) was expected to be cached, found no cache however.";
     
     
     /**

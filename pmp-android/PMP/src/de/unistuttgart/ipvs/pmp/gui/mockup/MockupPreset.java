@@ -37,4 +37,22 @@ public class MockupPreset extends Preset {
     public void setAvailable(boolean available) {
         this.containsUnknownElements = !available;
     }
+    
+    
+    @Override
+    public void assignApp(IApp app) {
+        try {
+            super.assignApp(app);
+        } catch (Throwable t) {
+        }
+    }
+    
+    
+    @Override
+    public void removeApp(IApp app) {
+        try {
+            super.removeApp(app);
+        } catch (Throwable t) {
+        }
+    }
 }

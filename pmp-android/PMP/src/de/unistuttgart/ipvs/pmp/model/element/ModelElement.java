@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.model.element;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
@@ -154,8 +153,7 @@ public abstract class ModelElement {
         
         // assure persistence != null and all data available
         if (!checkCached()) {
-            Log.e("Could not cache an item which should be deleted.");
-            throw new IllegalAccessError();
+            throw new ModelIntegrityError(Assert.ILLEGAL_UNCACHED, "ModelElement", this);
         }
         
         this.persistenceProvider.deleteElementData();
@@ -177,8 +175,8 @@ public abstract class ModelElement {
         }
         
         if (!isCached()) {
-            throw new IllegalStateException("Cannot persist an uncached element.");
-        }               
+            throw new ModelIntegrityError(Assert.ILLEGAL_UNCACHED, "ModelElement", this);
+        }
         
         this.persistenceProvider.storeElementData();
         return true;

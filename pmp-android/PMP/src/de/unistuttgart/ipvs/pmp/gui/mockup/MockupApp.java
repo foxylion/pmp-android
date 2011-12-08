@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 
 /**
  * 
@@ -20,7 +21,7 @@ public class MockupApp extends App {
     private Drawable icon;
     
     
-    public MockupApp(String appPackage, Drawable icon, MockupAppInformationSet ais) {
+    public MockupApp(String appPackage, Drawable icon, AppInformationSet ais) {
         super(appPackage);
         
         this.icon = icon;

@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.mockup;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
  * 
@@ -12,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
  */
 public class MockupPrivacySetting extends PrivacySetting {
     
-    public MockupPrivacySetting(MockupRG resourceGroup, String identifier, PrivacyLevel<?> link) {
+    public MockupPrivacySetting(MockupRG resourceGroup, String identifier, AbstractPrivacySetting<?> link) {
         super(resourceGroup, identifier);
         this.link = link;
     }

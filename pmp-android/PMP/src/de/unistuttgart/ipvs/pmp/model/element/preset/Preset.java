@@ -155,7 +155,7 @@ public class Preset extends ModelElement implements IPreset {
         if (app instanceof App) {
             ((App) app).addPreset(this);
         } else {
-            throw new ModelIntegrityError("TODO", "TODO", null); // TODO
+            throw new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app);
         }
     }
     
@@ -171,7 +171,7 @@ public class Preset extends ModelElement implements IPreset {
         if (app instanceof App) {
             ((App) app).removePreset(this);
         } else {
-            throw new ModelIntegrityError("TODO", "TODO", null); // TODO
+            throw new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app);
         }
     }
     

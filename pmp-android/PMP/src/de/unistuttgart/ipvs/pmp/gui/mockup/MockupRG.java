@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
  * 
@@ -19,7 +20,7 @@ public class MockupRG extends ResourceGroup {
     private Drawable icon;
     
     
-    public MockupRG(String rgPackage, Drawable icon, MockupRgInformationSet rgis) {
+    public MockupRG(String rgPackage, Drawable icon, RgInformationSet rgis) {
         super(rgPackage);
         this.privacySettings = new HashMap<String, PrivacySetting>();
         this.icon = icon;
