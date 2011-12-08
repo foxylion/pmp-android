@@ -19,7 +19,7 @@ public class PresetMananger {
         preset.assignApp(serviceFeature.getApp());
         
         for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
-            preset.assignPrivacyLevel(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
+            preset.assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
         }
         
         preset.endUpdate();

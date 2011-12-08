@@ -10,7 +10,7 @@ interface IPMPService {
     /**
      * A registered app can call this method to gain an arbitrary (but most likely the first initial) update on all
      * the service features. The {@link PMPService} will then call concurrently the app service's
-     * {@link IAppServicePMP#setServiceLevel(Integer)}.
+     * {@link IAppServicePMP#setServiceFeature(Integer)}.
      * 
      * @param identifier
      *            the identifier for the app to receive the service feature update

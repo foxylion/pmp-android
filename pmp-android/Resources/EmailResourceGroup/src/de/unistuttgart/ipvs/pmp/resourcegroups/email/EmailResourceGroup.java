@@ -22,13 +22,13 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.email;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 public class EmailResourceGroup extends ResourceGroup {
     
     private Context context;
     
-    public static final String PRIVACY_LEVEL_SEND_EMAIL = "canSendEmail";
+    public static final String PRIVACY_SETTING_SEND_EMAIL = "canSendEmail";
     public static final String RESOURCE_EMAIL_OPERATIONS = "emailOperations";
     
     
@@ -36,7 +36,7 @@ public class EmailResourceGroup extends ResourceGroup {
         super(serviceContext);
         this.context = serviceContext;
         
-        registerPrivacyLevel(PRIVACY_LEVEL_SEND_EMAIL, new BooleanPrivacyLevel("Send Email",
+        registerPrivacySetting(PRIVACY_SETTING_SEND_EMAIL, new BooleanPrivacySetting("Send Email",
                 "Is allowed to send emails."));
         
         registerResource(RESOURCE_EMAIL_OPERATIONS, new EmailResource());

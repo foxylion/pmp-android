@@ -86,7 +86,7 @@ public interface IServiceFeature extends IModelElement {
     
     /**
      * @param privacySetting
-     *            the privacy level in question
+     *            the privacy setting in question
      * @return the required minimum value of the {@link IPrivacySetting} for this service feature
      */
     public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting);

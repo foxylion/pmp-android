@@ -77,9 +77,9 @@ public class AppInformationSetParser {
             }
             for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
                 Log.d("Required Resource Group ID: " + rrg.getRgIdentifier());
-                for (String privacyLevelIdentifier : rrg.getPrivacySettingsMap().keySet()) {
-                    Log.d("- Privacy Setting Value: " + rrg.getPrivacySettingsMap().get(privacyLevelIdentifier)
-                            + " (Identifier: " + privacyLevelIdentifier + ")");
+                for (String privacySettingIdentifier : rrg.getPrivacySettingsMap().keySet()) {
+                    Log.d("- Privacy Setting Value: " + rrg.getPrivacySettingsMap().get(privacySettingIdentifier)
+                            + " (Identifier: " + privacySettingIdentifier + ")");
                     
                 }
             }

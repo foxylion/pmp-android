@@ -149,11 +149,11 @@ public class CalendarAppActivity extends ListActivity {
     protected void onResume() {
         super.onResume();
         /*
-         * Changes the functionality according to the service level that is set.
+         * Changes the functionality according to the service feature that is set.
          * Will be called when the activity is started after on create and
          * called when the activity is shown again.
          */
-        ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceLevel();
+        ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
         
         // Update the visibility of the "no appointments avaiable" textview
         updateNoAvaiableAppointmentsTextView();
@@ -172,7 +172,7 @@ public class CalendarAppActivity extends ListActivity {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
                 SqlConnector.getInstance().deleteAppointment(clicked.getId());
             } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
             }
             
             return true;
@@ -225,7 +225,7 @@ public class CalendarAppActivity extends ListActivity {
                 //                        resGroupCon.bind();
                 return true;
             } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
             }
             
         }
@@ -263,7 +263,7 @@ public class CalendarAppActivity extends ListActivity {
                             dialog.setTitle("Create new appointment");
                             dialog.show();
                         } else {
-                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
                         }
                         return true;
                     case R.id.delete_all_appointments:
@@ -281,7 +281,7 @@ public class CalendarAppActivity extends ListActivity {
                                         
                                     }).show();
                         } else {
-                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
                         }
                         return true;
                     case R.id.import_appointments:
@@ -293,7 +293,7 @@ public class CalendarAppActivity extends ListActivity {
                             FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
                             
                         } else {
-                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
                         }
                         return true;
                     case R.id.export_appointments:
@@ -305,7 +305,7 @@ public class CalendarAppActivity extends ListActivity {
                             FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
                             
                         } else {
-                            DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
                         }
                         
                         return true;

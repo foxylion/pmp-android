@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.email;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     
@@ -40,10 +40,10 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     
     @Override
     public void sendEmail(String to, String subject, String body) throws RemoteException {
-        BooleanPrivacyLevel bpl = (BooleanPrivacyLevel) this.resource
-                .getPrivacyLevel(EmailResourceGroup.PRIVACY_LEVEL_SEND_EMAIL);
+    	BooleanPrivacySetting bps = (BooleanPrivacySetting) this.resource
+                .getPrivacySetting(EmailResourceGroup.PRIVACY_SETTING_SEND_EMAIL);
         
-        if (!bpl.permits(this.appIdentifier, true)) {
+        if (!bps.permits(this.appIdentifier, true)) {
             throw new IllegalAccessError();
         }
         

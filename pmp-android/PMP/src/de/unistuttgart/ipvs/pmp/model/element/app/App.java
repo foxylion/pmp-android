@@ -116,10 +116,10 @@ public class App extends ModelElement implements IApp {
                 }
                 
                 // all granted privacy settings
-                for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
+                for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
                     
                     String existing = granted.get(ps);
-                    String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                    String grantNow = p.getGrantedPrivacySettingValue(ps);
                     
                     if (grantNow != null) {
                         if (existing == null) {

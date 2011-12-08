@@ -101,15 +101,15 @@ public interface IPreset extends IModelElement {
     /**
      * @return Returns the used {@link IPrivacySetting}s by this preset.
      */
-    public IPrivacySetting[] getGrantedPrivacyLevels();
+    public IPrivacySetting[] getGrantedPrivacySettings();
     
     
     /**
      * @param privacySetting
-     *            the privacy level in question
-     * @return the granted minimum value of the {@link IPrivacySetting} for this service level or null if none set
+     *            the privacy setting in question
+     * @return the granted minimum value of the {@link IPrivacySetting} for this service feature or null if none set
      */
-    public String getGrantedPrivacyLevelValue(IPrivacySetting privacySetting);
+    public String getGrantedPrivacySettingValue(IPrivacySetting privacySetting);
     
     
     /**
@@ -168,9 +168,9 @@ public interface IPreset extends IModelElement {
      * @param privacySetting
      *            The {@link IPrivacySetting} which should be set.
      * @param the
-     *            value of the privacy level
+     *            value of the privacy setting
      */
-    public void assignPrivacyLevel(IPrivacySetting privacySetting, String value);
+    public void assignPrivacySetting(IPrivacySetting privacySetting, String value);
     
     
     /**
@@ -185,12 +185,12 @@ public interface IPreset extends IModelElement {
      * @param privacySetting
      *            The {@link IPrivacySetting} which should be removed.
      */
-    public void removePrivacyLevel(IPrivacySetting privacySetting);
+    public void removePrivacySetting(IPrivacySetting privacySetting);
     
     
     /**
      * Convenience method to add all required {@link PrivacySetting} values for a {@link ServiceFeature}.
-     * Will subsequently call {@link IPreset#assignPrivacyLevel(IPrivacySetting, String)}.
+     * Will subsequently call {@link IPreset#assignPrivacySetting(IPrivacySetting, String)}.
      * 
      * @param serviceFeature
      *            the service feature that shall be enabled by using this plugin

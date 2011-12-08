@@ -58,14 +58,14 @@ public abstract class Resource {
     
     
     /**
-     * Retrieves an actual privacy level class.
+     * Retrieves an actual privacy setting class.
      * 
-     * @param privacyLevelIdentifier
-     *            the identifier of the privacy level
-     * @return the privacy level with the the identifier in the resource group.
+     * @param privacySettingIdentifier
+     *            the identifier of the privacy setting
+     * @return the privacy setting with the the identifier in the resource group.
      */
-    public final AbstractPrivacySetting<?> getPrivacyLevel(String privacyLevelIdentifier) {
-        return this.resourceGroup.getPrivacyLevel(privacyLevelIdentifier);
+    public final AbstractPrivacySetting<?> getPrivacySetting(String privacySettingIdentifier) {
+        return this.resourceGroup.getPrivacySetting(privacySettingIdentifier);
     }
     
     

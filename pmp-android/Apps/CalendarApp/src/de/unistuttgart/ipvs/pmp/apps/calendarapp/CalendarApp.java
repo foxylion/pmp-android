@@ -45,13 +45,13 @@ public class CalendarApp extends App {
      * 
      * @see de.unistuttgart.ipvs.pmp.app.App#onRegistrationSuccess() Is called
      * when the registration was successful. The method then tries to receive
-     * the initial service level from the PMP service.
+     * the initial service feature from the PMP service.
      */
     @Override
     public void onRegistrationSuccess() {
         Log.d("Registration succeed");
         
-        // Connector to get the initial service level
+        // Connector to get the initial service feature
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             @Override
@@ -73,9 +73,9 @@ public class CalendarApp extends App {
     
     
     /**
-     * Changes the functionality of the app according to its set ServiceLevel
+     * Changes the functionality of the app according to its set ServiceFeature
      */
-    public void changeFunctionalityAccordingToServiceLevel() {
+    public void changeFunctionalityAccordingToServiceFeature() {
         
         final Boolean read = this.isServiceFeatureEnabled("read");
         final Boolean write = this.isServiceFeatureEnabled("write");
@@ -84,7 +84,7 @@ public class CalendarApp extends App {
         final Boolean send = this.isServiceFeatureEnabled("send");
         
         if (!read && !write && !importEntries && !export && !send) {
-            // null level
+            // no feature
             Model.getInstance().clearLocalList();
         } else {
             // Read files
