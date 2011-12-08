@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
@@ -407,14 +408,14 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IPreset getPreset(ModelElement creator, String identifier) {
+    public IPreset getPreset(IModelElement creator, String identifier) {
         checkCached();
         return this.cache.getPresets().get(creator).get(identifier);
     }
     
     
     @Override
-    public IPreset addPreset(ModelElement creator, String identifier, String name, String description) {
+    public IPreset addPreset(IModelElement creator, String identifier, String name, String description) {
         Preset newPreset = new PresetPersistenceProvider(null)
                 .createElementData(creator, identifier, name, description);
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
@@ -428,7 +429,7 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean removePreset(ModelElement creator, String identifier) {
+    public boolean removePreset(IModelElement creator, String identifier) {
         // does the creator map exist?
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
         if (creatorMap == null) {

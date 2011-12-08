@@ -33,13 +33,13 @@ public class AppsAdapter extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return apps.size();
+        return this.apps.size();
     }
     
     
     @Override
     public Object getItem(int position) {
-        return apps.get(position);
+        return this.apps.get(position);
     }
     
     
@@ -51,10 +51,10 @@ public class AppsAdapter extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        IApp app = apps.get(position);
+        IApp app = this.apps.get(position);
         
         /* load the layout from the xml file */
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_apps, null);
         
         /* Set icon, name, description of the requested App */

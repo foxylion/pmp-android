@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.IModel;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
@@ -37,11 +38,12 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
  * 
  * @author Jakob Jarosch
  */
-public interface IApp {
+public interface IApp extends IModelElement {
     
     /**
      * @return the <b>unique</b> identifier of the {@link IApp}.
      */
+    @Override
     public String getIdentifier();
     
     

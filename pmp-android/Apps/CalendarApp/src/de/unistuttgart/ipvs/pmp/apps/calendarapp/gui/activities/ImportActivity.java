@@ -34,6 +34,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
@@ -145,11 +146,11 @@ public class ImportActivity extends ListActivity {
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
-//            if (Model.getInstance().getServiceLevel() >= 6) {
-//                FileSystemConnector.getInstance().deleteFile(clicked);
-//            } else {
-//                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
-//            }
+            if (((App) this.getApplication()).isServiceFeatureEnabled("export")) {
+                FileSystemConnector.getInstance().deleteFile(clicked);
+            } else {
+                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+            }
             return true;
         }
         return false;

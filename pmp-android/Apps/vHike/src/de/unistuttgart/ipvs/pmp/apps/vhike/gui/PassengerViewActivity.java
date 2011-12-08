@@ -57,9 +57,9 @@ public class PassengerViewActivity extends MapActivity {
 	 */
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
-		// addHitchhiker(new Profile("bestHitchhiker", "Hitch", "Hiker",
-		// "hitch@hiker.com", "I'm living a gangster Life", "successfull",
-		// 5, new Date()));
+
+		Profile pro = new Profile("User2", null, null, null, null, null, null, false, false, false, false, lat, lat);
+		addHitchhiker(pro);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
 		pLV.setClickable(true);

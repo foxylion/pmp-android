@@ -40,37 +40,37 @@ public class ServiceFeature implements IServiceFeature {
     
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
     @Override
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     
     @Override
     public IPrivacySetting[] getRequiredPrivacySettings() {
-        return null;
+        return SampleModel.privacySettings.toArray(new IPrivacySetting[SampleModel.privacySettings.size()]);
     }
     
     
     @Override
     public boolean isActive() {
-        return active;
+        return this.active;
     }
     
     
     @Override
     public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
-        return null;
+        return "true";
     }
     
     
     @Override
     public boolean isAvailable() {
-        return available;
+        return this.available;
     }
     
 }

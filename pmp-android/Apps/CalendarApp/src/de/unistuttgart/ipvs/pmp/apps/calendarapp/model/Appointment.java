@@ -19,22 +19,21 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  * Represents one date object that is stored
  * 
- * @author Thorsten
+ * @author Thorsten Berberich
  * 
  */
 public class Appointment {
     
     /**
-     * The descrption of the date
+     * The description of the date
      */
     private String descrpition;
     
@@ -53,7 +52,7 @@ public class Appointment {
      * Constructor to create a new date object
      * 
      * @param descrpition
-     *            descrpition of the date
+     *            Description of the date
      * @param date
      *            date as String
      */
@@ -67,7 +66,7 @@ public class Appointment {
     /**
      * Getter for the description
      * 
-     * @return the descrpition of the date
+     * @return the description of the date
      */
     public String getDescrpition() {
         return this.descrpition;
@@ -117,14 +116,13 @@ public class Appointment {
     
     
     /**
-     * Returns the string represetation for the list view
+     * Returns the string representation for the list view
      */
     @Override
     public String toString() {
         Calendar cal = new GregorianCalendar();
         cal.setTime(this.date);
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        return this.descrpition + "\n" + formatter.format(cal.getTime());
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        return this.descrpition + "\n" + dateFormat.format(cal.getTime());
     }
 }

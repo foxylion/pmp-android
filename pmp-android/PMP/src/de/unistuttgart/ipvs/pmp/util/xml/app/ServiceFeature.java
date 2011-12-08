@@ -65,7 +65,8 @@ public class ServiceFeature implements Serializable {
         this.names = new HashMap<Locale, String>();
         this.descriptions = new HashMap<Locale, String>();
         this.requiredResourceGroups = new ArrayList<RequiredResourceGroup>();
-    }   
+    }
+    
     
     /**
      * Get all names of the service feature

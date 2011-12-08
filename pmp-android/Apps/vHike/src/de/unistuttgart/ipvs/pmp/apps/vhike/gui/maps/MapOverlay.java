@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Point;
 
 import com.google.android.maps.GeoPoint;
@@ -13,9 +16,11 @@ import com.google.android.maps.Overlay;
 import de.unistuttgart.ipvs.pmp.R;
 
 /**
- * Sets a marker on current location through a corresponding user (driver or passenger)
+ * Sets a marker on current location through a corresponding user (driver or
+ * passenger)
+ * 
  * @author Andre
- *
+ * 
  */
 public class MapOverlay extends Overlay {
 
@@ -50,6 +55,14 @@ public class MapOverlay extends Overlay {
 		Point screenPts = new Point();
 		mapView.getProjection().toPixels(gPosition, screenPts);
 
+		/**
+		 * draw radius circle
+		 */
+		Paint myCircle = new Paint();
+		myCircle.setColor(Color.BLUE);
+		myCircle.setAntiAlias(true);
+		myCircle.setStyle(Style.STROKE);
+
 		// add marker
 		if (whichHitchhiker == 1) {
 			bmp = BitmapFactory.decodeResource(context.getResources(),
@@ -58,8 +71,11 @@ public class MapOverlay extends Overlay {
 			bmp = BitmapFactory.decodeResource(context.getResources(),
 					R.drawable.passenger_logo);
 		}
-		
-		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 24, null);
+
+		canvas.drawBitmap(bmp, screenPts.x - 24, screenPts.y - 24, null);
+		canvas.drawCircle(screenPts.x, screenPts.y, 100,
+				myCircle);
+		mapView.invalidate();
 		return true;
 	}
 }

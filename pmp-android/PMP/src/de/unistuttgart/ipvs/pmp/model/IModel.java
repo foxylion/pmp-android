@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model;
 
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -153,7 +154,7 @@ public interface IModel {
      *            a unique (for creator) identifier for this preset
      * @return the corresponding {@link IPreset} or null, if none found
      */
-    public IPreset getPreset(ModelElement creator, String identifier);
+    public IPreset getPreset(IModelElement creator, String identifier);
     
     
     /**
@@ -170,7 +171,7 @@ public interface IModel {
      *            The description of the {@link IPreset}.
      * @return the {@link IPreset} that was created
      */
-    public IPreset addPreset(ModelElement creator, String identifier, String name, String description);
+    public IPreset addPreset(IModelElement creator, String identifier, String name, String description);
     
     
     /**
@@ -184,7 +185,7 @@ public interface IModel {
      *            a unique identifier for this preset
      * @return true, if and only if the preset was found and removed
      */
-    public boolean removePreset(ModelElement creator, String identifier);
+    public boolean removePreset(IModelElement creator, String identifier);
     
     
     /**

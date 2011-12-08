@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
-import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -32,13 +31,13 @@ public class ServiceFeaturesAdapter extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return serviceFeatures.size();
+        return this.serviceFeatures.size();
     }
     
     
     @Override
     public Object getItem(int position) {
-        return serviceFeatures.get(position);
+        return this.serviceFeatures.get(position);
     }
     
     
@@ -50,15 +49,9 @@ public class ServiceFeaturesAdapter extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        IServiceFeature serviceFeature = serviceFeatures.get(position);
+        IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ServiceFeatureView entryView = new ServiceFeatureView(context);
-       
-        entryView.setName(serviceFeature.getName());
-        entryView.setDescription(serviceFeature.getDescription());
-        entryView.setActive(serviceFeature.isActive());
-        entryView.setEditable(!PMPPreferences.getInstanace().isExpertMode());
-        entryView.setAvailable(serviceFeature.isAvailable());
+        ServiceFeatureView entryView = new ServiceFeatureView(this.context, serviceFeature);
         
         return entryView;
     }

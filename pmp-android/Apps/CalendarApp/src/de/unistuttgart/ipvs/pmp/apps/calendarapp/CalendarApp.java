@@ -19,14 +19,17 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
+import android.app.Dialog;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
@@ -74,13 +77,19 @@ public class CalendarApp extends App {
      */
     public void changeFunctionalityAccordingToServiceLevel() {
         
-//        if (serviceLevel == 0) {
-//            // null level
-//            Model.getInstance().clearLocalList();
-//        } else {
-//            // Read files
-//            SqlConnector.getInstance().loadAppointments();
-//        }
+        final Boolean read = this.isServiceFeatureEnabled("read");
+        final Boolean write = this.isServiceFeatureEnabled("write");
+        final Boolean importEntries = this.isServiceFeatureEnabled("import");
+        final Boolean export = this.isServiceFeatureEnabled("export");
+        final Boolean send = this.isServiceFeatureEnabled("send");
+        
+        if (!read && !write && !importEntries && !export && !send) {
+            // null level
+            Model.getInstance().clearLocalList();
+        } else {
+            // Read files
+            SqlConnector.getInstance().loadAppointments();
+        }
         
         /*
          * Listener for clicking one item. Opens a new dialog where the user can
@@ -90,10 +99,10 @@ public class CalendarApp extends App {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (serviceLevel >= 2) {
-//                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
-//                    changeDateDialog.show();
-//                }
+                if (write) {
+                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
+                    changeDateDialog.show();
+                }
             }
         });
         

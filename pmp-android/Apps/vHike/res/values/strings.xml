@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, VHike_PrototypActivity!</string>
     <string name="app_name">VHike</string>
     <string name="main_title">vHike</string>
     <string name="main_profile">Profile</string>
@@ -18,5 +16,12 @@
         <item >Stuttgart</item>
         <item >Vaihingen</item>
     </string-array>
+    <string name="profile_recent_rides">Recent rides</string>
+    <string name="profile_username">Username</string>
+    <string name="profile_first_name">First name</string>
+    <string name="profile_last_name">Last name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_mobile">Mobile</string>
+    <string name="profile_car">Car</string>
 
 </resources>

@@ -49,7 +49,7 @@ public class DriverViewActivity extends MapActivity {
 	}
 
 	public DriverViewActivity() {
-		this.context = this;
+		this.context = DriverViewActivity.this;
 	}
 
 	/**
@@ -58,9 +58,8 @@ public class DriverViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		// addHitchhiker(new Profile("bestHitchhiker", "Hitch", "Hiker",
-		// "hitch@hiker.com", "I'm living a gangster Life", "successfull",
-		// 5, new Date()));
+		Profile profile = new Profile("User1", null, null, null, null, null, null, false, false, false, false, lat, lat);
+		addHitchhiker(profile);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);

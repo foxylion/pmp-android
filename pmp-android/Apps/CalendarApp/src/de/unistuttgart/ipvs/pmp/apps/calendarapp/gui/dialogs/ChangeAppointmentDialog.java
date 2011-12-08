@@ -80,7 +80,7 @@ public class ChangeAppointmentDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.changedate);
+        setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.change_todo_dialog);
         
@@ -94,13 +94,13 @@ public class ChangeAppointmentDialog extends Dialog {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         
-        this.dPicker = (DatePicker) findViewById(R.id.datePickerChange);
+        this.dPicker = (DatePicker) findViewById(R.id.datePicker);
         this.dPicker.init(year, month, day, null);
         
-        this.desc = (TextView) findViewById(R.id.descriptionChangeDate);
+        this.desc = (TextView) findViewById(R.id.description);
         this.desc.setText(this.appointment.getDescrpition());
         
-        this.confirm = (Button) findViewById(R.id.ConfirmButtonChange);
+        this.confirm = (Button) findViewById(R.id.ConfirmButton);
         this.confirm.setOnClickListener(new ConfirmListener());
         
         /*

@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
+
 /**
  * The main menu after user logged in
  * 
@@ -23,31 +20,41 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		registerListener();
 	}
 
 	private void registerListener() {
 		Button btnRide = (Button) findViewById(R.id.Button_Ride);
-//		Button btnProfile = (Button) findViewById(R.id.Button_Profile);
+		Button btnProfile = (Button) findViewById(R.id.Button_Profile);
 		Button btnHistory = (Button) findViewById(R.id.Button_History);
-//		Button btnSettings = (Button) findViewById(R.id.Button_Settings);
-		
-		btnRide.setOnClickListener(new OnClickListener(){
+		// Button btnSettings = (Button) findViewById(R.id.Button_Settings);
+
+		btnRide.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, RideActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						RideActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-		
-		btnHistory.setOnClickListener(new OnClickListener(){
+
+		btnProfile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+				Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+				MainActivity.this.startActivity(intent);
+			}
+		});
+
+		btnHistory.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						HistoryActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
 	}
-	
+
 }

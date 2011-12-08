@@ -34,51 +34,53 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  * 
  * @author Marcus Vetter
  */
-public class AppInformationSet extends AbstractInformationSet implements
-		Serializable {
-
-	/**
-	 * Serial
-	 */
-	private static final long serialVersionUID = 2629559699588037711L;
-
-	/**
-	 * This map contains all service features of the app. key = identifier of
-	 * the service feature
-	 */
-	private Map<String, ServiceFeature> serviceFeaturesMap;
-
-	/**
-	 * Constructor is used to instantiate the data structures.
-	 */
-	protected AppInformationSet() {
-		super();
-		this.serviceFeaturesMap = new HashMap<String, ServiceFeature>();
-	}
-
-	/**
-	 * Add a service feature to the app
-	 * 
-	 * @param identifier
-	 *            of the service feature
-	 * @param sf
-	 *            service feature
-	 */
-	protected void addServiceFeature(String identifier, ServiceFeature sf) {
+public class AppInformationSet extends AbstractInformationSet implements Serializable {
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = 2629559699588037711L;
+    
+    /**
+     * This map contains all service features of the app. key = identifier of
+     * the service feature
+     */
+    private Map<String, ServiceFeature> serviceFeaturesMap;
+    
+    
+    /**
+     * Constructor is used to instantiate the data structures.
+     */
+    protected AppInformationSet() {
+        super();
+        this.serviceFeaturesMap = new HashMap<String, ServiceFeature>();
+    }
+    
+    
+    /**
+     * Add a service feature to the app
+     * 
+     * @param identifier
+     *            of the service feature
+     * @param sf
+     *            service feature
+     */
+    protected void addServiceFeature(String identifier, ServiceFeature sf) {
         if (this.serviceFeaturesMap.containsKey(identifier)) {
             throw new XMLParserException(Type.SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
                     "A Service Feature with the identifier " + identifier + " already exists.");
         }
-		this.serviceFeaturesMap.put(identifier, sf);
-	}
-
-	/**
-	 * Get the map which contains all service features
-	 * 
-	 * @return map with service features
-	 */
-	public Map<String, ServiceFeature> getServiceFeaturesMap() {
-		return serviceFeaturesMap;
-	}
-
+        this.serviceFeaturesMap.put(identifier, sf);
+    }
+    
+    
+    /**
+     * Get the map which contains all service features
+     * 
+     * @return map with service features
+     */
+    public Map<String, ServiceFeature> getServiceFeaturesMap() {
+        return this.serviceFeaturesMap;
+    }
+    
 }

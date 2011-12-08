@@ -10,7 +10,7 @@
 
         <Button
             android:id="@+id/dismissBtn"
-            android:background="@drawable/dismiss"
+            android:background="@drawable/bg_dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true" />
@@ -25,7 +25,7 @@
 
         <Button
             android:id="@+id/acceptBtn"
-            android:background="@drawable/check"
+            android:background="@drawable/bg_foundhitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
