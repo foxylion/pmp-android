@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -104,7 +105,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        throw new UnsupportedOperationException("Upgrading of databases is not supported in development stage.");
+        Log.d("Will try to update database from " + oldVersion + " to " + newVersion);
+        
+        if ((newVersion == 2) && (oldVersion < 2)) {
+            // delete everything in sight
+            Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata';", null);
+            if (c.moveToFirst()) {
+                do {
+                    db.execSQL("DROP TABLE " + c.getString(c.getColumnIndex("name")));
+                } while (c.moveToNext());
+            }
+            
+            // rerun creation
+            onCreate(db);
+        }
     }
     
     

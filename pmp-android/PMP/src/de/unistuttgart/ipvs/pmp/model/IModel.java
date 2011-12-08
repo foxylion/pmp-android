@@ -139,7 +139,7 @@ public interface IModel {
      * @param creator
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
-     * @return Returns all {@link IPreset}s which were created by creator.
+     * @return Returns all {@link IPreset}s which were created by creator or null, if none found
      */
     public IPreset[] getPresets(ModelElement creator);
     

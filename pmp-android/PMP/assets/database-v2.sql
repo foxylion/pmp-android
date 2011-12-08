@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS App (
 
 CREATE TABLE IF NOT EXISTS ServiceFeature (
 	AppPackage TEXT NOT NULL,
-	Identifier TEXT NOT NULL
+	Identifier TEXT NOT NULL,
 	PRIMARY KEY(AppPackage,
 	            Identifier)
 );
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Preset (
 	Identifier TEXT NOT NULL,
 	Name TEXT NOT NULL,
 	Description TEXT NOT NULL,
-	Deleted TEXT NOT NULL
+	Deleted TEXT NOT NULL,
 	PRIMARY KEY(Creator,
 	            Identifier)
 );

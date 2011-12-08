@@ -403,14 +403,24 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset[] getPresets(ModelElement creator) {
         checkCached();
-        return this.cache.getPresets().get(creator).values().toArray(new IPreset[0]);
+        Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
+        if (creatorPresets == null) {
+            return null;
+        } else {
+            return creatorPresets.values().toArray(new IPreset[0]);
+        }
     }
     
     
     @Override
     public IPreset getPreset(IModelElement creator, String identifier) {
         checkCached();
-        return this.cache.getPresets().get(creator).get(identifier);
+        Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
+        if (creatorPresets == null) {
+            return null;
+        } else {
+            return creatorPresets.get(identifier);
+        }
     }
     
     
