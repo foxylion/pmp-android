@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
@@ -40,6 +41,7 @@ public class CalendarApp extends App {
         Log.setTagSufix("CalendarApp");
     }
     
+    
     /*
      * (non-Javadoc)
      * 
@@ -54,10 +56,13 @@ public class CalendarApp extends App {
         // Connector to get the initial service feature
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+            
             @Override
             public void onConnect(AbstractConnector connector) throws RemoteException {
                 pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
                 DialogManager.getInstance().dismissWaitingDialog();
+                Toast.makeText(Model.getInstance().getContext(), R.string.registration_succeed, Toast.LENGTH_LONG)
+                        .show();
             }
         });
         
@@ -108,5 +113,5 @@ public class CalendarApp extends App {
         });
         
     }
-
+    
 }

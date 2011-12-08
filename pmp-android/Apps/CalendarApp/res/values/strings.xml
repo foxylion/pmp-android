@@ -13,6 +13,7 @@
     <string name="menu">Menu</string>
     <string name="wait">Please wait...</string>
     <string name="registration">Registration is running.</string>
+    <string name="registration_succeed">Successful registered to PMP</string>
     <string name="err_load">Error loading appointments</string>
     <string name="err_store">Error while storing in database</string>
     <string name="err_del">Error while deleting date in database</string>
