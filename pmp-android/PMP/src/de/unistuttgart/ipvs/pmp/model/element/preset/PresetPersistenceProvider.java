@@ -208,6 +208,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(IDENTIFIER, identifier);
         cv.put(NAME, name);
         cv.put(DESCRIPTION, description);
+        cv.put(DELETED, Boolean.FALSE.toString());
         if (getDoh().getWritableDatabase().insert(TBL_PRESET, null, cv) == -1) {
             return null;
         }

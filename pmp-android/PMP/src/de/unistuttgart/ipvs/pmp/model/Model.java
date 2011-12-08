@@ -349,7 +349,7 @@ public class Model implements IModel, Observer {
             // TODO delete the class files / jar / etc
             
             rg.delete();
-            this.cache.getApps().remove(identifier);
+            this.cache.getResourceGroups().remove(identifier);
             
             IPCProvider.getInstance().startUpdate();
             try {
