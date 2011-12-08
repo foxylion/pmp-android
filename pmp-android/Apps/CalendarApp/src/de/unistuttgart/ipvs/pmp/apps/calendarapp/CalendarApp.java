@@ -57,6 +57,8 @@ public class CalendarApp extends App {
             @Override
             public void onConnect(AbstractConnector connector) throws RemoteException {
                 pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
+                DialogManager.getInstance().dismissWaitingDialog();
+                pmpconnector.unbind();
             }
         });
         
