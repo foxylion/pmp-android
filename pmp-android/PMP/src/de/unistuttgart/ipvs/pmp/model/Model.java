@@ -11,6 +11,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
@@ -114,12 +116,17 @@ public class Model implements IModel, Observer {
     @Override
     public IApp getApp(String identifier) {
         checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         return this.cache.getApps().get(identifier);
     }
     
     
     @Override
     public void registerApp(final String identifier) {
+        checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), identifier);
         
         // check XML
@@ -216,6 +223,9 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean unregisterApp(String identifier) {
+        checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         App app = this.cache.getApps().get(identifier);
         if (app == null) {
             return false;
@@ -260,12 +270,14 @@ public class Model implements IModel, Observer {
     @Override
     public IResourceGroup getResourceGroup(String identifier) {
         checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
         return this.cache.getResourceGroups().get(identifier);
     }
     
     
     @Override
     public String[] findResourceGroup(String searchString) {
+        Assert.nonNull(searchString, new ModelMisuseError(Assert.ILLEGAL_NULL, "searchString", searchString));
         // TODO Auto-generated method stub
         return null;
     }
@@ -273,6 +285,9 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean installResourceGroup(String identifier) {
+        checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         try {
             // TODO download, unpack, install RG
             
@@ -341,6 +356,9 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean uninstallResourceGroup(String identifier) {
+        checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         ResourceGroup rg = this.cache.getResourceGroups().get(identifier);
         if (rg == null) {
             return false;
@@ -401,8 +419,10 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IPreset[] getPresets(ModelElement creator) {
+    public IPreset[] getPresets(ModelElement creator) {               
         checkCached();
+        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
             return null;
@@ -415,6 +435,9 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset getPreset(IModelElement creator, String identifier) {
         checkCached();
+        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
             return null;
@@ -426,6 +449,12 @@ public class Model implements IModel, Observer {
     
     @Override
     public IPreset addPreset(IModelElement creator, String identifier, String name, String description) {
+        checkCached();
+        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
+        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
+        
         Preset newPreset = new PresetPersistenceProvider(null)
                 .createElementData(creator, identifier, name, description);
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
@@ -440,6 +469,10 @@ public class Model implements IModel, Observer {
     
     @Override
     public boolean removePreset(IModelElement creator, String identifier) {
+        checkCached();
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        
         // does the creator map exist?
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
         if (creatorMap == null) {
