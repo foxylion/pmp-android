@@ -79,9 +79,9 @@ public class DialogManager {
     
     
     /**
-     * Shows a dialog when the user wants to do sth. that is not allowed in this service level
+     * Shows a dialog when the user wants to do sth. that is not allowed in this service feature
      */
-    public void showServiceLevelInsufficientDialog(Context context) {
+    public void showServiceFeatureInsufficientDialog(Context context) {
         
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.insufficent_sf))
@@ -98,7 +98,7 @@ public class DialogManager {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         /*
-                         * Call Privacy Level Activity with the specified Intent
+                         * Call Privacy Setting Activity with the specified Intent
                          */
                         Intent intent = new Intent();
                         intent.setComponent(new ComponentName("de.unistuttgart.ipvs.pmp",
