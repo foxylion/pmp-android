@@ -22,8 +22,10 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 
 /**
  * {@link IPreset} is the chain link between the {@link IResourceGroup}, its {@link IPrivacySetting}s and the
@@ -184,6 +186,16 @@ public interface IPreset extends IModelElement {
      *            The {@link IPrivacySetting} which should be removed.
      */
     public void removePrivacyLevel(IPrivacySetting privacySetting);
+    
+    
+    /**
+     * Convenience method to add all required {@link PrivacySetting} values for a {@link ServiceFeature}.
+     * Will subsequently call {@link IPreset#assignPrivacyLevel(IPrivacySetting, String)}.
+     * 
+     * @param serviceFeature
+     *            the service feature that shall be enabled by using this plugin
+     */
+    public void assignServiceFeature(IServiceFeature serviceFeature);
     
     
     /**
