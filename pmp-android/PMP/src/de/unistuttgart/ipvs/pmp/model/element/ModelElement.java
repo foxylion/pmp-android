@@ -63,7 +63,7 @@ public abstract class ModelElement {
             try {
                 ModelElement me = (ModelElement) o;
                 return this.identifier.equals(me.identifier);
-            } catch (ClassCastException e) {
+            } catch (ClassCastException cce) {
                 return false;
             }
         }
@@ -148,6 +148,10 @@ public abstract class ModelElement {
      * 
      */
     public void delete() {
+        if (this.persistenceProvider == null) {
+            return;
+        }
+        
         // assure persistence != null and all data available
         if (!checkCached()) {
             Log.e("Could not cache an item which should be deleted.");
@@ -168,13 +172,13 @@ public abstract class ModelElement {
      *         {@link ElementPersistenceProvider} was assigned.
      */
     protected boolean persist() {
-        if (!isCached()) {
-            throw new IllegalStateException("Cannot persist an uncached element.");
-        }
-        
         if (this.persistenceProvider == null) {
             return false;
         }
+        
+        if (!isCached()) {
+            throw new IllegalStateException("Cannot persist an uncached element.");
+        }               
         
         this.persistenceProvider.storeElementData();
         return true;

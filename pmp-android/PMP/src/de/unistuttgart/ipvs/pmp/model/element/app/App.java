@@ -193,4 +193,10 @@ public class App extends ModelElement implements IApp {
         verifyServiceFeatures();
     }
     
+    public void addPreset (Preset p) {
+        checkCached();
+        Assert.nonNull(p, new ModelIntegrityError(Assert.ILLEGAL_NULL, "p", p));
+        this.assignedPresets.add(p);
+        verifyServiceFeatures();
+    }
 }

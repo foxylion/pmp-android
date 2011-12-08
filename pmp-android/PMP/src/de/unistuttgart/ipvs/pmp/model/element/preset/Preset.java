@@ -152,7 +152,11 @@ public class Preset extends ModelElement implements IPreset {
         ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
         this.assignedApps.add(app);
         
-        app.verifyServiceFeatures();
+        if (app instanceof App) {
+            ((App) app).addPreset(this);
+        } else {
+            throw new ModelIntegrityError("TODO", "TODO", null); // TODO
+        }
     }
     
     
@@ -164,7 +168,11 @@ public class Preset extends ModelElement implements IPreset {
         ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
         this.assignedApps.remove(app);
         
-        app.verifyServiceFeatures();
+        if (app instanceof App) {
+            ((App) app).removePreset(this);
+        } else {
+            throw new ModelIntegrityError("TODO", "TODO", null); // TODO
+        }
     }
     
     
