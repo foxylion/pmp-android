@@ -23,8 +23,8 @@ import android.view.View;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
- * An internal PrivacyLevel interface for a standard of accessing privacy levels. Note that this class saves the parsing
- * of the privacy levels. It's only needed implementing feature however is the {@link AbstractPrivacySetting#parseValue(String)}
+ * An internal PrivacySetting interface for a standard of accessing privacy settings. Note that this class saves the parsing
+ * of the privacy settings. It's only needed implementing feature however is the {@link AbstractPrivacySetting#parseValue(String)}
  * function.
  * 
  * @param <T>
@@ -67,7 +67,7 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * 
-     * @return the human readable representation of the value for this privacy level for the given locale
+     * @return the human readable representation of the value for this privacy setting for the given locale
      * @throws PrivacySettingValueException
      *             if the supplied value does not match the format criteria.
      */
@@ -127,11 +127,11 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given String value.
-     * If value is null, it should create an object that corresponds to "no privacy level value set".
+     * If value is null, it should create an object that corresponds to "no privacy setting value set".
      * 
      * @param value
      *            the value stored in PMP
-     * @return an object corresponding to value, an object corresponding to "no privacy level value set", if value is
+     * @return an object corresponding to value, an object corresponding to "no privacy setting value set", if value is
      *         null
      * @throws PrivacySettingValueException
      *             if the supplied value does not match the format criteria.
@@ -147,7 +147,7 @@ public abstract class AbstractPrivacySetting<T> {
      * @return the value as stored in PMP for this privacy setting for appIdentifier, or null, if none found or none set
      */
     public String getValue(String appIdentifier) {
-        return getResourceGroup().getPMPPrivacyLevelValue(this.identifier, appIdentifier);
+        return getResourceGroup().getPMPPrivacySettingValue(this.identifier, appIdentifier);
     }
     
     
