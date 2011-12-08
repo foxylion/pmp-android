@@ -31,7 +31,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 @SuppressWarnings("rawtypes")
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
@@ -63,7 +63,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
         
         // TODO Feature: Allow access to other databases
-        // TODO Feature: New Privacy Level for the maximum size of the DB.
+        // TODO Feature: New Privacy Setting for the maximum size of the DB.
     }
     
     
@@ -121,19 +121,19 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     private boolean isCreate() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_CREATE))
+        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_CREATE))
                 .permits(this.appID, true);
     }
     
     
     private boolean isModify() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_MODIFY))
+        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_MODIFY))
                 .permits(this.appID, true);
     }
     
     
     private boolean isRead() {
-        return ((BooleanPrivacyLevel) this.resource.getPrivacyLevel(DatabaseResourceGroup.PRIVACY_LEVEL_READ)).permits(
+        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_READ)).permits(
                 this.appID, true);
     }
     

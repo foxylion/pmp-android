@@ -136,7 +136,7 @@ public abstract class AbstractXMLParser {
             int resultArrayLength = attributeNames.length + 1;
             String[] resultArray = new String[resultArrayLength];
             
-            // cdata sections are allowed as content of the privacy level nodes
+            // cdata sections are allowed as content of the privacy setting nodes
             if (nodeName.equals("privacySetting")) {
                 for (int i = 0; i < element.getChildNodes().getLength(); i++) {
                     if (element.getChildNodes().item(i).getNodeType() == Node.CDATA_SECTION_NODE) {

@@ -9,8 +9,8 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * @see IPrivacySetting
@@ -28,7 +28,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     /**
      * internal data & links
      */
-    protected PrivacyLevel<?> link;
+    protected AbstractPrivacySetting<?> link;
     
     
     /* organizational */
@@ -83,21 +83,21 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         try {
             this.link.parseValue(value);
             return true;
-        } catch (PrivacyLevelValueException plve) {
+        } catch (PrivacySettingValueException plve) {
             return false;
         }
     }
     
     
     @Override
-    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
+    public String getHumanReadableValue(String value) throws PrivacySettingValueException {
         checkCached();
         return this.link.getHumanReadableValue(value);
     }
     
     
     @Override
-    public boolean permits(String reference, String value) throws PrivacyLevelValueException {
+    public boolean permits(String reference, String value) throws PrivacySettingValueException {
         checkCached();
         return this.link.permits(value, reference);
     }
@@ -119,7 +119,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+    public void setViewValue(View view, String value) throws PrivacySettingValueException {
         checkCached();
         Assert.nonNull(view, new ModelMisuseError(Assert.ILLEGAL_NULL, "view", view));
         this.link.setViewValue(view, value);

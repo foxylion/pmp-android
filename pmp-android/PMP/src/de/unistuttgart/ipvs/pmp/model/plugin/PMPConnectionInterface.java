@@ -7,7 +7,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * A singleton for the PMP model to connect to the RG plugins.
@@ -59,7 +59,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
                     continue;
                 }
                 
-                String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                String grantNow = p.getGrantedPrivacySettingValue(ps);
                 
                 if (bestValue == null) {
                     bestValue = grantNow;
@@ -70,8 +70,8 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
                     } /* else bestValue allows more, do nothing */
                 }
             }
-        } catch (PrivacyLevelValueException plve) {
-            Log.e("Error while calculating privacy level value.", plve);
+        } catch (PrivacySettingValueException plve) {
+            Log.e("Error while calculating privacy setting value.", plve);
         }
         
         return bestValue;

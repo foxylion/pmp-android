@@ -53,7 +53,7 @@ public class ServiceFeature implements Serializable {
     private Map<Locale, String> descriptions;
     
     /**
-     * This list contains all required resource groups of the service level.
+     * This list contains all required resource groups of the service feature.
      */
     private List<RequiredResourceGroup> requiredResourceGroups;
     

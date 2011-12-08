@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.placeholder;
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class PrivacySetting implements IPrivacySetting {
     
@@ -58,13 +58,13 @@ public class PrivacySetting implements IPrivacySetting {
     
     
     @Override
-    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
+    public String getHumanReadableValue(String value) throws PrivacySettingValueException {
         return value;
     }
     
     
     @Override
-    public boolean permits(String reference, String value) throws PrivacyLevelValueException {
+    public boolean permits(String reference, String value) throws PrivacySettingValueException {
         return false;
     }
     
@@ -82,7 +82,7 @@ public class PrivacySetting implements IPrivacySetting {
     
     
     @Override
-    public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+    public void setViewValue(View view, String value) throws PrivacySettingValueException {
         return;
     }
     

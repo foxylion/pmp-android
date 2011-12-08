@@ -28,7 +28,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
 /**
  * This is a representation of a resource group, which is required for a specific service feature. It contains the
- * identifier of a assign privacy level and its required value.
+ * identifier of a assign privacy setting and its required value.
  * 
  * @author Marcus Vetter
  * 
@@ -105,7 +105,7 @@ public class RequiredResourceGroup implements Serializable {
     protected void addPrivacySetting(String identifier, String requiredValue) {
         if (this.privacySettings.containsKey(identifier)) {
             throw new XMLParserException(Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
-                    "The privacy setting of a service level with the identifier " + identifier + " already exists.");
+                    "The privacy setting of a service feature with the identifier " + identifier + " already exists.");
         }
         this.privacySettings.put(identifier, requiredValue);
     }

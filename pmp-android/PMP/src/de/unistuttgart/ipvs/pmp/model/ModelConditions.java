@@ -76,7 +76,7 @@ public class ModelConditions extends PMPConditions {
      * @throws IllegalArgumentException
      *             when assertion fails
      */
-    public static void assertServiceLevelIdNotNegative(int level) {
+    public static void assertServiceFeatureIdNotNegative(int level) {
         if (level < 0) {
             throw_IllegalArgumentException("The level must be a non negative int.");
         }

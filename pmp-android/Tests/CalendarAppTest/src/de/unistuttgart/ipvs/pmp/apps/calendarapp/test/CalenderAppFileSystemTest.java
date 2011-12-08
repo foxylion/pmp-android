@@ -95,8 +95,8 @@ public class CalenderAppFileSystemTest extends ActivityInstrumentationTestCase2<
         fsconn = FileSystemConnector.getInstance();
         assertNotNull(fsconn);
         
-        /*if (m.getServiceLevel()<6) {
-            m.setServiceLevel(6);
+        /*if (m.getServiceFeature()<6) {
+            m.setServiceFeature(6);
         }*/
         
         // fsconn.exportAppointments(null, null); // Test not necessary

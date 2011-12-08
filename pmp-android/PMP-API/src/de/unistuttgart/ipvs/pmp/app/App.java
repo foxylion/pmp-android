@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
- * A PMP-compatible App that uses the parsed service levels.
+ * A PMP-compatible App that uses the parsed service features.
  * 
  * @author Tobias Kuhn
  * 

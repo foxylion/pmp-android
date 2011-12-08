@@ -22,7 +22,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 
 /**
@@ -116,10 +116,10 @@ public class App extends ModelElement implements IApp {
                 }
                 
                 // all granted privacy settings
-                for (IPrivacySetting ps : p.getGrantedPrivacyLevels()) {
+                for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
                     
                     String existing = granted.get(ps);
-                    String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                    String grantNow = p.getGrantedPrivacySettingValue(ps);
                     
                     if (grantNow != null) {
                         if (existing == null) {
@@ -150,7 +150,7 @@ public class App extends ModelElement implements IApp {
             
             IPCProvider.getInstance().queue(getIdentifier(), verification);
             
-        } catch (PrivacyLevelValueException plve) {
+        } catch (PrivacySettingValueException plve) {
             Log.e("Could not check whether service feature is active.", plve);
         }
     }

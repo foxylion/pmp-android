@@ -17,16 +17,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacylevel;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 /**
- * Exception that is thrown if a String value is supplied to a {@link PrivacyLevel} which is not valid according to the
- * {@link PrivacyLevel} s format criteria.
+ * Exception that is thrown if a String value is supplied to a {@link AbstractPrivacySetting} which is not valid according to the
+ * {@link AbstractPrivacySetting} s format criteria.
  * 
  * @author Tobias Kuhn
  * 
  */
-public class PrivacyLevelValueException extends Exception {
+public class PrivacySettingValueException extends Exception {
     
     private static final long serialVersionUID = -6411892866985727591L;
     
