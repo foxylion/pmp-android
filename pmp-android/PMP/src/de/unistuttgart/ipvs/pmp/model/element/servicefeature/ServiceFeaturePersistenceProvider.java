@@ -35,7 +35,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         qb.setTables(TBL_SFReqPSValue);
         
-        // load privacy level values
+        // load privacy setting values
         Cursor c = qb.query(rdb, new String[] { REQUIREDVALUE, PRIVACYSETTING_RESOURCEGROUP_PACKAGE,
                 PRIVACYSETTING_IDENTIFIER }, SERVICEFEATURE_APP_PACKAGE + " = ? AND " + SERVICEFEATURE_IDENTIFIER
                 + " = ?", new String[] { this.element.app.getIdentifier(), this.element.getLocalIdentifier() }, null,

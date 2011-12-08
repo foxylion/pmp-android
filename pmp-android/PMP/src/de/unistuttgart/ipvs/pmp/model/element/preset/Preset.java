@@ -115,14 +115,14 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IPrivacySetting[] getGrantedPrivacyLevels() {
+    public IPrivacySetting[] getGrantedPrivacySettings() {
         checkCached();
         return this.privacySettingValues.keySet().toArray(new IPrivacySetting[0]);
     }
     
     
     @Override
-    public String getGrantedPrivacyLevelValue(IPrivacySetting privacySetting) {
+    public String getGrantedPrivacySettingValue(IPrivacySetting privacySetting) {
         checkCached();
         Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         return this.privacySettingValues.get(privacySetting);
@@ -169,12 +169,12 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public void assignPrivacyLevel(IPrivacySetting privacySetting, String value) {
+    public void assignPrivacySetting(IPrivacySetting privacySetting, String value) {
         checkCached();
         Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         Assert.nonNull(value, new ModelMisuseError(Assert.ILLEGAL_NULL, "value", value));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacyLevel(privacySetting, value);
+        ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
         this.privacySettingValues.put(privacySetting, value);
         
         rollout();
@@ -182,11 +182,11 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public void removePrivacyLevel(IPrivacySetting privacySetting) {
+    public void removePrivacySetting(IPrivacySetting privacySetting) {
         checkCached();
         Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).removePrivacyLevel(privacySetting);
+        ((PresetPersistenceProvider) this.persistenceProvider).removePrivacySetting(privacySetting);
         this.privacySettingValues.remove(privacySetting);
         
         rollout();
@@ -201,7 +201,7 @@ public class Preset extends ModelElement implements IPreset {
         startUpdate();
         try {
             for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
-                assignPrivacyLevel(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
+                assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
             }
             
         } finally {

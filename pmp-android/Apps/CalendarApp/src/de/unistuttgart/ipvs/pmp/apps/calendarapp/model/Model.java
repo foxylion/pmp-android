@@ -246,7 +246,7 @@ public class Model {
      * 
      * @return true if set, false if not set or not found
      */
-    public Boolean getServiceLevel(String featureKey) {
+    public Boolean getServiceFeature(String featureKey) {
         SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
         return app_preferences.getBoolean(featureKey, false);
     }

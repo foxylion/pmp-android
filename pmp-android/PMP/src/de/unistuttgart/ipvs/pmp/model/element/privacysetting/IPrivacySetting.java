@@ -70,7 +70,7 @@ public interface IPrivacySetting extends IModelElement {
      * 
      * @param value
      *            the value to be checked
-     * @return true, if and only if the passed value is valid in this privacy level.
+     * @return true, if and only if the passed value is valid in this privacy setting.
      */
     public boolean isValueValid(String value);
     

@@ -77,11 +77,11 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     @Override
-    public IPrivacySetting getPrivacySetting(String privacyLevelIdentifier) {
+    public IPrivacySetting getPrivacySetting(String privacySettingIdentifier) {
         checkCached();
-        Assert.nonNull(privacyLevelIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacyLevelIdentifier",
-                privacyLevelIdentifier));
-        return this.privacySettings.get(privacyLevelIdentifier);
+        Assert.nonNull(privacySettingIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySettingIdentifier",
+                privacySettingIdentifier));
+        return this.privacySettings.get(privacySettingIdentifier);
     }
     
     

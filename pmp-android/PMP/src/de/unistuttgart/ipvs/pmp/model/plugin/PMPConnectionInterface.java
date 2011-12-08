@@ -59,7 +59,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
                     continue;
                 }
                 
-                String grantNow = p.getGrantedPrivacyLevelValue(ps);
+                String grantNow = p.getGrantedPrivacySettingValue(ps);
                 
                 if (bestValue == null) {
                     bestValue = grantNow;
@@ -71,7 +71,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
                 }
             }
         } catch (PrivacySettingValueException plve) {
-            Log.e("Error while calculating privacy level value.", plve);
+            Log.e("Error while calculating privacy setting value.", plve);
         }
         
         return bestValue;

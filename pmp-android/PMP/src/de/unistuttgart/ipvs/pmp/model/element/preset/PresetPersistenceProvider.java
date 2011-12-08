@@ -47,7 +47,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         }
         c.close();
         
-        // load privacy level values
+        // load privacy setting values
         qb.setTables(TBL_GrantPSValue);
         Cursor cps = qb.query(rdb, new String[] { PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER,
                 GRANTEDVALUE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
@@ -156,7 +156,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     }
     
     
-    protected void assignPrivacyLevel(IPrivacySetting ps, String value) {
+    protected void assignPrivacySetting(IPrivacySetting ps, String value) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         ContentValues cv = new ContentValues();
@@ -176,7 +176,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     }
     
     
-    protected void removePrivacyLevel(IPrivacySetting ps) {
+    protected void removePrivacySetting(IPrivacySetting ps) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         
         wdb.rawQuery(

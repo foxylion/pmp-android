@@ -149,7 +149,7 @@ public class ImportActivity extends ListActivity {
             if (((App) this.getApplication()).isServiceFeatureEnabled("export")) {
                 FileSystemConnector.getInstance().deleteFile(clicked);
             } else {
-                DialogManager.getInstance().showServiceLevelInsufficientDialog(this);
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
             }
             return true;
         }

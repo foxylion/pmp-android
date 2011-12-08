@@ -153,7 +153,7 @@ public class XMLParser extends AbstractXMLParser {
         List<String[]> defaultDescriptionList = parseNodes(serviceFeaturesElement, "defaultDescription", 1, 1, "lang");
         List<String[]> descriptionList = parseNodes(serviceFeaturesElement, "description", 0, Integer.MAX_VALUE, "lang");
         
-        // Validate the service level node
+        // Validate the service feature node
         validateLocaleAttribute(defaultNameList);
         validateLocaleAttribute(nameList);
         validateLocaleAttribute(defaultDescriptionList);
