@@ -56,8 +56,9 @@ public abstract class App extends Application {
             // Putting the prefix in front of the key
             String prefixKey = Constants.SERVICE_FEATURE_PREFIX + key;
             editor.putBoolean(prefixKey, features.getBoolean(key));
+            Log.v("Storing ServiceFeature " + key + " : " + String.valueOf(features.getBoolean(key)));
             if (!editor.commit()) {
-                Log.e("Service feature couldn't be stored");
+                Log.e("Service feature " + key + " couldn't be stored");
             }
         }
     }
