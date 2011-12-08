@@ -20,7 +20,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
  * An individual Resource of a {@link ResourceGroup}.
@@ -64,7 +64,7 @@ public abstract class Resource {
      *            the identifier of the privacy level
      * @return the privacy level with the the identifier in the resource group.
      */
-    public final PrivacyLevel<?> getPrivacyLevel(String privacyLevelIdentifier) {
+    public final AbstractPrivacySetting<?> getPrivacyLevel(String privacyLevelIdentifier) {
         return this.resourceGroup.getPrivacyLevel(privacyLevelIdentifier);
     }
     

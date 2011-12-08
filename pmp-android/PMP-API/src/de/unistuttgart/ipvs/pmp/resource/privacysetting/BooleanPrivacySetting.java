@@ -17,20 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacylevel;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 import android.view.View;
 
 /**
- * {@link DefaultPrivacyLevel} for {@link Boolean}.
+ * {@link DefaultPrivacySetting} for {@link Boolean}.
  * 
  * @author Tobias Kuhn
  * 
  */
-public class BooleanPrivacyLevel extends DefaultPrivacyLevel<Boolean> {
+public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     @Override
-    public Boolean parseValue(String value) throws PrivacyLevelValueException {
+    public Boolean parseValue(String value) throws PrivacySettingValueException {
         if (value == null) {
             return false;
         }
@@ -38,7 +38,7 @@ public class BooleanPrivacyLevel extends DefaultPrivacyLevel<Boolean> {
         boolean result = Boolean.valueOf(value);
         
         if (!result && !value.equalsIgnoreCase(Boolean.FALSE.toString())) {
-            throw new PrivacyLevelValueException();
+            throw new PrivacySettingValueException();
         }
         
         return result;

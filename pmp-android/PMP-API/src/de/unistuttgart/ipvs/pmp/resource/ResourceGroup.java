@@ -24,13 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
  * <p>
- * A resource group that bundles {@link Resource}s and {@link PrivacyLevel}s. You can register them by using the methods
+ * A resource group that bundles {@link Resource}s and {@link AbstractPrivacySetting}s. You can register them by using the methods
  * {@link ResourceGroup#registerResource(String, Resource)} and
- * {@link ResourceGroup#registerPrivacyLevel(String, PrivacyLevel)}.
+ * {@link ResourceGroup#registerPrivacyLevel(String, AbstractPrivacySetting)}.
  * </p>
  * 
  * <p>
@@ -62,7 +62,7 @@ public abstract class ResourceGroup {
     /**
      * The privacy levels present in that resource group.
      */
-    private final Map<String, PrivacyLevel<?>> privacyLevels;
+    private final Map<String, AbstractPrivacySetting<?>> privacyLevels;
     
     
     /**
@@ -77,7 +77,7 @@ public abstract class ResourceGroup {
         this.rgPackage = rgPackage;
         this.pmpci = pmpci;
         this.resources = new HashMap<String, Resource>();
-        this.privacyLevels = new HashMap<String, PrivacyLevel<?>>();
+        this.privacyLevels = new HashMap<String, AbstractPrivacySetting<?>>();
     }
     
     
@@ -118,7 +118,7 @@ public abstract class ResourceGroup {
      * @param identifier
      * @param privacyLevel
      */
-    public void registerPrivacyLevel(String identifier, PrivacyLevel<?> privacyLevel) {
+    public void registerPrivacyLevel(String identifier, AbstractPrivacySetting<?> privacyLevel) {
         privacyLevel.assignResourceGroup(this, identifier);
         this.privacyLevels.put(identifier, privacyLevel);
     }
@@ -129,7 +129,7 @@ public abstract class ResourceGroup {
      * @param identifier
      * @return the privacy level identified by "identifier", if present, null otherwise
      */
-    public PrivacyLevel<?> getPrivacyLevel(String identifier) {
+    public AbstractPrivacySetting<?> getPrivacyLevel(String identifier) {
         return this.privacyLevels.get(identifier);
     }
     

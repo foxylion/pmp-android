@@ -17,41 +17,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacylevel;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 import java.util.Comparator;
 
 /**
- * {@link ComparablePrivacyLevel} that uses the basic toString() method of the type T for human readable values.
+ * {@link ComparablePrivacySetting} that uses the basic toString() method of the type T for human readable values.
  * 
  * @author Tobias Kuhn
  * 
  * @param <T>
- *            the type that is stored in this {@link DefaultPrivacyLevel}.
+ *            the type that is stored in this {@link DefaultPrivacySetting}.
  */
-public abstract class DefaultPrivacyLevel<T extends Comparable<T>> extends ComparablePrivacyLevel<T> {
+public abstract class DefaultPrivacySetting<T extends Comparable<T>> extends ComparablePrivacySetting<T> {
     
     /**
-     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparable} implementation of T.
+     * Creates a {@link DefaultPrivacySetting} using the {@link Comparable} implementation of T.
      */
-    public DefaultPrivacyLevel() {
+    public DefaultPrivacySetting() {
         super();
     }
     
     
     /**
-     * Creates a {@link DefaultPrivacyLevel} using the {@link Comparator} implementation for T.
+     * Creates a {@link DefaultPrivacySetting} using the {@link Comparator} implementation for T.
      * 
      * @param comparator
      *            Comparator to represent the "permit more or equal" partial order.
      */
-    public DefaultPrivacyLevel(Comparator<T> comparator) {
+    public DefaultPrivacySetting(Comparator<T> comparator) {
         super(comparator);
     }
     
     
     @Override
-    public String getHumanReadableValue(String value) throws PrivacyLevelValueException {
+    public String getHumanReadableValue(String value) throws PrivacySettingValueException {
         return parseValue(value).toString();
     }
     

@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * @see IServiceFeature
@@ -145,7 +145,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             
             return true;
             
-        } catch (PrivacyLevelValueException plve) {
+        } catch (PrivacySettingValueException plve) {
             Log.e("Could not check whether service feature is active.", plve);
             return false;
         }

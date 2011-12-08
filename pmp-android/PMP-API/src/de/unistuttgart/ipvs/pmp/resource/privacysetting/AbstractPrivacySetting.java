@@ -17,20 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacylevel;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
  * An internal PrivacyLevel interface for a standard of accessing privacy levels. Note that this class saves the parsing
- * of the privacy levels. It's only needed implementing feature however is the {@link PrivacyLevel#parseValue(String)}
+ * of the privacy levels. It's only needed implementing feature however is the {@link AbstractPrivacySetting#parseValue(String)}
  * function.
  * 
  * @param <T>
- *            the type that is stored in this {@link PrivacyLevel}.
+ *            the type that is stored in this {@link AbstractPrivacySetting}.
  */
-public abstract class PrivacyLevel<T> {
+public abstract class AbstractPrivacySetting<T> {
     
     /**
      * The resource group that this resource is assigned to.
@@ -68,10 +68,10 @@ public abstract class PrivacyLevel<T> {
     /**
      * 
      * @return the human readable representation of the value for this privacy level for the given locale
-     * @throws PrivacyLevelValueException
+     * @throws PrivacySettingValueException
      *             if the supplied value does not match the format criteria.
      */
-    public abstract String getHumanReadableValue(String value) throws PrivacyLevelValueException;
+    public abstract String getHumanReadableValue(String value) throws PrivacySettingValueException;
     
     
     /**
@@ -94,28 +94,28 @@ public abstract class PrivacyLevel<T> {
     
     
     /**
-     * Convenience method for checking {@link PrivacyLevel#permits(Object, Object)} on String representations.
+     * Convenience method for checking {@link AbstractPrivacySetting#permits(Object, Object)} on String representations.
      * 
-     * @see {@link PrivacyLevel#permits(Object, Object)}
-     * @throws PrivacyLevelValueException
+     * @see {@link AbstractPrivacySetting#permits(Object, Object)}
+     * @throws PrivacySettingValueException
      *             if either reference or value do not meet the format criteria.
      */
-    public boolean permits(String value, String reference) throws PrivacyLevelValueException {
+    public boolean permits(String value, String reference) throws PrivacySettingValueException {
         return permits(parseValue(value), parseValue(reference));
     }
     
     
     /**
-     * Convenience method for checking {@link PrivacyLevel#permits(Object, Object)} for a specific app.
+     * Convenience method for checking {@link AbstractPrivacySetting#permits(Object, Object)} for a specific app.
      * 
      * @param appIdentifier
      *            identifier of the app.
      * @param reference
      *            the reference instance of T for the check
      * @return true, if value permits more or equal to reference
-     * @throws PrivacyLevelValueException
+     * @throws PrivacySettingValueException
      */
-    public boolean permits(String appIdentifier, T reference) throws PrivacyLevelValueException {
+    public boolean permits(String appIdentifier, T reference) throws PrivacySettingValueException {
         T value = parseValue(getValue(appIdentifier));
         if (value == null) {
             return false;
@@ -126,21 +126,21 @@ public abstract class PrivacyLevel<T> {
     
     
     /**
-     * Should create the representation of the string value for this {@link PrivacyLevel} based on a given String value.
+     * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given String value.
      * If value is null, it should create an object that corresponds to "no privacy level value set".
      * 
      * @param value
      *            the value stored in PMP
      * @return an object corresponding to value, an object corresponding to "no privacy level value set", if value is
      *         null
-     * @throws PrivacyLevelValueException
+     * @throws PrivacySettingValueException
      *             if the supplied value does not match the format criteria.
      */
-    public abstract T parseValue(String value) throws PrivacyLevelValueException;
+    public abstract T parseValue(String value) throws PrivacySettingValueException;
     
     
     /**
-     * Gets the value for this {@link PrivacyLevel} from PMP, if this {@link PrivacyLevel} is registered on a
+     * Gets the value for this {@link AbstractPrivacySetting} from PMP, if this {@link AbstractPrivacySetting} is registered on a
      * {@link ResourceGroup}.
      * 
      * @param appIdentifier
@@ -160,15 +160,15 @@ public abstract class PrivacyLevel<T> {
     /**
      * 
      */
-    public abstract void setViewValue(View view, T value) throws PrivacyLevelValueException;
+    public abstract void setViewValue(View view, T value) throws PrivacySettingValueException;
     
     
     /**
-     * Convenience method for {@link PrivacyLevel#setViewValue(View, Object)} if you only have a string.
+     * Convenience method for {@link AbstractPrivacySetting#setViewValue(View, Object)} if you only have a string.
      * 
-     * @throws PrivacyLevelValueException
+     * @throws PrivacySettingValueException
      */
-    public void setViewValue(View view, String value) throws PrivacyLevelValueException {
+    public void setViewValue(View view, String value) throws PrivacySettingValueException {
         setViewValue(view, parseValue(value));
     }
 }

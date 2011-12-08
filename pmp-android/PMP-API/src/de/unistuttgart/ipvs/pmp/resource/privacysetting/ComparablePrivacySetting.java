@@ -17,13 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacylevel;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 import java.util.Comparator;
 
 /**
  * <p>
- * A {@link PrivacyLevel} which has the "permits more or equal" partial order built into the generic type which must
+ * A {@link AbstractPrivacySetting} which has the "permits more or equal" partial order built into the generic type which must
  * extend Comparable.
  * </p>
  * <p>
@@ -35,9 +35,9 @@ import java.util.Comparator;
  * @author Tobias Kuhn
  * 
  * @param <T>
- *            the type that is stored in this {@link ComparablePrivacyLevel}.
+ *            the type that is stored in this {@link ComparablePrivacySetting}.
  */
-public abstract class ComparablePrivacyLevel<T extends Comparable<T>> extends PrivacyLevel<T> {
+public abstract class ComparablePrivacySetting<T extends Comparable<T>> extends AbstractPrivacySetting<T> {
     
     /**
      * Additional comparator, if necessary
@@ -46,20 +46,20 @@ public abstract class ComparablePrivacyLevel<T extends Comparable<T>> extends Pr
     
     
     /**
-     * Creates a {@link ComparablePrivacyLevel} using the {@link Comparable} implementation of T.
+     * Creates a {@link ComparablePrivacySetting} using the {@link Comparable} implementation of T.
      */
-    public ComparablePrivacyLevel() {
+    public ComparablePrivacySetting() {
         this.comparator = null;
     }
     
     
     /**
-     * Creates a {@link ComparablePrivacyLevel} using the {@link Comparator} implementation for T.
+     * Creates a {@link ComparablePrivacySetting} using the {@link Comparator} implementation for T.
      * 
      * @param comparator
      *            Comparator to represent the "permit more or equal" partial order.
      */
-    public ComparablePrivacyLevel(Comparator<T> comparator) {
+    public ComparablePrivacySetting(Comparator<T> comparator) {
         this.comparator = comparator;
     }
     

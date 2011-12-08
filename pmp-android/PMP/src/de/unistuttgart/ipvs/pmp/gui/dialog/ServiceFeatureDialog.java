@@ -13,7 +13,7 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.PrivacyLevelValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class ServiceFeatureDialog extends Dialog {
     
@@ -45,7 +45,7 @@ public class ServiceFeatureDialog extends Dialog {
             try {
                 text += "required value: "
                         + ps.getHumanReadableValue(serviceFeature.getRequiredPrivacySettingValue(ps));
-            } catch (PrivacyLevelValueException e) {
+            } catch (PrivacySettingValueException e) {
                 text += "<span style=\"color:red;\">required value is invalid</span>";
             }
             text += "</p>";
