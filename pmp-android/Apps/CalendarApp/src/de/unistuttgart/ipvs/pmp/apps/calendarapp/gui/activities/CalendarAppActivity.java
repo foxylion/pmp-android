@@ -89,7 +89,6 @@ public class CalendarAppActivity extends ListActivity {
                     Log.v("Registering");
                     DialogManager.getInstance().showWaitingDialog();
                     pmpconnector.getAppService().registerApp(getPackageName());
-                    pmpconnector.unbind();
                 } else {
                     Log.v("App registered");
                 }

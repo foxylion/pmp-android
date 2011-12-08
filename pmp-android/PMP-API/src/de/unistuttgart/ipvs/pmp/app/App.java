@@ -168,7 +168,7 @@ public abstract class App extends Application {
             }
             
         });
-        pmpsc.bind(true);
+        pmpsc.bind();
     }
     
     

@@ -155,6 +155,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     /* inter-model communication */
     
     public Map<PrivacySetting, String> getRequiredPrivacySettingValues() {
+        checkCached();
         return this.privacySettingValues;
     }
     

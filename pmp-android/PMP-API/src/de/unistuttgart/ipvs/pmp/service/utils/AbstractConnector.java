@@ -169,7 +169,10 @@ public abstract class AbstractConnector {
      * Unbind the {@link Service}.
      */
     public void unbind() {
-        this.context.unbindService(this.serviceConnection);
+        if (isBound()) {
+            this.context.unbindService(this.serviceConnection);
+            this.connected = false;
+        }
     }
     
     
@@ -257,6 +260,7 @@ public abstract class AbstractConnector {
                     } catch (RemoteException re) {
                         Log.e("Remote exception during connected callback handling.", re);
                     }
+                    unbind();
                     break;
                 
                 case DISCONNECTED:
@@ -268,6 +272,5 @@ public abstract class AbstractConnector {
                     break;
             }
         }
-        unbind();
     }
 }

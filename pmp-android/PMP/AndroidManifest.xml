@@ -59,7 +59,7 @@
 
 
         <!-- Broadcast Receivers -->
-        <receiver android:name="...broadcastreceiver.ResourceGroupInstall" >
+        <receiver android:name=".broadcastreceiver.ResourceGroupInstall" >
             <intent-filter >
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -77,7 +77,7 @@
         -->
         <service
             android:exported="true"
-            android:name="...service.PMPService" >
+            android:name=".service.PMPService" >
             <intent-filter >
                 <action android:name="de.unistuttgart.ipvs.pmp.service.PMPService" >
                 </action>
