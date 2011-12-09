@@ -5,11 +5,11 @@
     <string name="description">Beschreibung</string>
     <string name="apply">Bestätigen</string>
     <string name="cancel">Abbrechen</string>
-    <string name="servive_level_for">Service Levels für </string>
-    <string name="service_level">Service Level</string><string name="service_level_apply_hint">Um das Service Level zu setzen \&quot;Bestätigen\&quot; antippen, oder \&quot;Abbrechen\&quot; um zur Übersicht zurück zu kehren.</string>
-    <string name="set_service_level">Service Level wird gesetzt.</string>
+    <string name="servive_feature_for">Service Feature für </string>
+    <string name="service_feature">Service Feature</string><string name="service_feature_apply_hint">Um das Service Feature zu setzen \&quot;Bestätigen\&quot; antippen, oder \&quot;Abbrechen\&quot; um zur Übersicht zurück zu kehren.</string>
+    <string name="set_service_feature">Service Feature wird gesetzt.</string>
     <string name="please_wait">Bitte warten!</string>
     <string name="required_resource">Benötigte Ressource-Gruppen</string>
-    <string name="change_sl">Service Level ändern</string><string name="set_service_level_hint">Tipp: Durch antippen des Service Levels können mehr Details angezeigt werden. Sollte das Service Level zusagen kann es bestätigt werden.</string>
+    <string name="change_sl">Service Feature ändern</string><string name="set_service_feature_hint">Tipp: Durch antippen des Service Features können mehr Details angezeigt werden. Sollte das Service Feature zusagen kann es bestätigt werden.</string>
     <string name="close">Schließen</string>
 </resources>
