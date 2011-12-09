@@ -25,7 +25,7 @@ interface IFileAccess {
      *			  Path to the file beginning from the device's root folder.
      * @return Data of the selected file.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>) (only in "ext_" resources).
      * @throws RemoteException
      *             Thrown, if file is not readable (e.g. does not exist).
@@ -50,7 +50,7 @@ interface IFileAccess {
      *            True, if data should be appended to the existing file data. Otherwise it's data will be overwritten.
      * @return True, if data was successfully written.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>) (only in "ext_" resources).
      */
     boolean write(String path, String data, boolean append);
@@ -68,7 +68,7 @@ interface IFileAccess {
      *			  Path to the file or directory beginning from the device's root folder.
      * @return True, if file or directory was deleted successfully.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>) (only in "ext_" resources).
      */
     boolean delete(String path);
@@ -87,7 +87,7 @@ interface IFileAccess {
      *			  Path to the file or directory beginning from the device's root folder.
      * @return List of detailed file information data or null, if path points to a non existing directory or a file
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
      *             for switching into a upper directory (typically <code>../</code>) (only in "ext_" resources).
      */
     List<FileDetails> list(String directory);
@@ -105,7 +105,7 @@ interface IFileAccess {
      *			  Path to the file or directory beginning from the device's root folder.
      * @return True, if directories where created successfully.
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
      *             for switching into a upper directory (typically <code>../</code>) (only in "ext_" resources).
      */
     boolean makeDirs(String path);

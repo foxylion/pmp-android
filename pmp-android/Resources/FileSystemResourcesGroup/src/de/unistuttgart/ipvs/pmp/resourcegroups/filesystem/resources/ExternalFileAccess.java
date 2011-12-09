@@ -27,7 +27,7 @@ import java.util.List;
 import android.os.Environment;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacyLevels;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacySettings;
 
 /**
  * Handles the access to external directories.
@@ -92,7 +92,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            set to <code>example/testFile.txt</code>, then <code>Music/example/testFile.txt</code> will be read).
      * @return Data of the selected file.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>).
      * @throws RemoteException
      *             Thrown, if file is not readable (e.g. does not exist).
@@ -100,7 +100,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     @Override
     public String read(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(Functions.READ)) {
+        if (!privacySettingSet(Functions.READ)) {
             throw new IllegalAccessError("External file reading not allowed");
         }
         
@@ -134,13 +134,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            True, if data should be appended to the existing file data. Otherwise it's data will be overwritten.
      * @return True, if data was successfully written.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean write(String path, String data, boolean append) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(Functions.WRITE)) {
+        if (!privacySettingSet(Functions.WRITE)) {
             throw new IllegalAccessError("External file reading not allowed");
         }
         
@@ -167,13 +167,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            <code>Music/example/testDir</code> will be deleted).
      * @return True, if file or directory was deleted successfully.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy level is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
      *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean delete(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(Functions.DELETE)) {
+        if (!privacySettingSet(Functions.DELETE)) {
             throw new IllegalAccessError("External file reading not allowed");
         }
         try {
@@ -194,13 +194,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            in <code>Music/example/testDir</code> will be generated).
      * @return List of detailed file information data or null, if path points to a non existing directory or a file.
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
      *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public List<FileDetails> list(String directory) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(Functions.LIST)) {
+        if (!privacySettingSet(Functions.LIST)) {
             throw new IllegalAccessError("External file reading not allowed");
         }
         
@@ -223,13 +223,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            will be created).
      * @return True, if directories where created successfully.
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
      *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean makeDirs(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(Functions.MAKE_DIRS)) {
+        if (!privacySettingSet(Functions.MAKE_DIRS)) {
             throw new IllegalAccessError("External file reading not allowed");
         }
         
@@ -296,45 +296,45 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     
     
     /**
-     * Checks if a specific privacy-level is set for an application.
+     * Checks if a specific privacy setting is set for an application.
      * 
-     * @param privacyLevelName
-     *            The privacy-level to check.
-     * @return True, if privacy-level is set for this application.
+     * @param privacySettingName
+     *            The privacy setting to check.
+     * @return True, if privacy setting is set for this application.
      */
-    private boolean privacyLevelSet(Functions function) {
-        String privacyLevelName = null;
+    private boolean privacySettingSet(Functions function) {
+        String privacySettingName = null;
         
         switch (function) {
         // Read function
             case READ:
                 switch (this.directory) {
                     case BASE_DIR:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_BASE_DIR_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_BASE_DIR_READ;
                         break;
                     case MUSIC:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MUSIC_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_MUSIC_READ;
                         break;
                     case PODCASTS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PODCASTS_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_PODCASTS_READ;
                         break;
                     case RINGTONES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_RINGTONES_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_RINGTONES_READ;
                         break;
                     case ALARMS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_ALARMS_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_ALARMS_READ;
                         break;
                     case NOTIFICATIONS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_NOTIFICATIONS_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_NOTIFICATIONS_READ;
                         break;
                     case PICTURES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PICTURES_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_PICTURES_READ;
                         break;
                     case MOVIES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MOVIES_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_MOVIES_READ;
                         break;
                     case DOWNLOAD:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_DOWNLOAD_READ;
+                        privacySettingName = PrivacySettings.EXTERNAL_DOWNLOAD_READ;
                         break;
                 }
                 break;
@@ -342,31 +342,31 @@ public class ExternalFileAccess extends IFileAccess.Stub {
                 // Write function
                 switch (this.directory) {
                     case BASE_DIR:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_BASE_DIR_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_BASE_DIR_WRITE;
                         break;
                     case MUSIC:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MUSIC_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_MUSIC_WRITE;
                         break;
                     case PODCASTS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PODCASTS_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_PODCASTS_WRITE;
                         break;
                     case RINGTONES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_RINGTONES_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_RINGTONES_WRITE;
                         break;
                     case ALARMS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_ALARMS_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_ALARMS_WRITE;
                         break;
                     case NOTIFICATIONS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_NOTIFICATIONS_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_NOTIFICATIONS_WRITE;
                         break;
                     case PICTURES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PICTURES_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_PICTURES_WRITE;
                         break;
                     case MOVIES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MOVIES_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_MOVIES_WRITE;
                         break;
                     case DOWNLOAD:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_DOWNLOAD_WRITE;
+                        privacySettingName = PrivacySettings.EXTERNAL_DOWNLOAD_WRITE;
                         break;
                 }
                 break;
@@ -374,31 +374,31 @@ public class ExternalFileAccess extends IFileAccess.Stub {
                 // List function
                 switch (this.directory) {
                     case BASE_DIR:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_BASE_DIR_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_BASE_DIR_LIST;
                         break;
                     case MUSIC:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MUSIC_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_MUSIC_LIST;
                         break;
                     case PODCASTS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PODCASTS_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_PODCASTS_LIST;
                         break;
                     case RINGTONES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_RINGTONES_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_RINGTONES_LIST;
                         break;
                     case ALARMS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_ALARMS_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_ALARMS_LIST;
                         break;
                     case NOTIFICATIONS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_NOTIFICATIONS_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_NOTIFICATIONS_LIST;
                         break;
                     case PICTURES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PICTURES_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_PICTURES_LIST;
                         break;
                     case MOVIES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MOVIES_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_MOVIES_LIST;
                         break;
                     case DOWNLOAD:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_DOWNLOAD_LIST;
+                        privacySettingName = PrivacySettings.EXTERNAL_DOWNLOAD_LIST;
                         break;
                 }
                 break;
@@ -406,31 +406,31 @@ public class ExternalFileAccess extends IFileAccess.Stub {
                 // Delete function
                 switch (this.directory) {
                     case BASE_DIR:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_BASE_DIR_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_BASE_DIR_DELETE;
                         break;
                     case MUSIC:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MUSIC_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_MUSIC_DELETE;
                         break;
                     case PODCASTS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PODCASTS_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_PODCASTS_DELETE;
                         break;
                     case RINGTONES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_RINGTONES_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_RINGTONES_DELETE;
                         break;
                     case ALARMS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_ALARMS_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_ALARMS_DELETE;
                         break;
                     case NOTIFICATIONS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_NOTIFICATIONS_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_NOTIFICATIONS_DELETE;
                         break;
                     case PICTURES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PICTURES_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_PICTURES_DELETE;
                         break;
                     case MOVIES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MOVIES_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_MOVIES_DELETE;
                         break;
                     case DOWNLOAD:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_DOWNLOAD_DELETE;
+                        privacySettingName = PrivacySettings.EXTERNAL_DOWNLOAD_DELETE;
                         break;
                 }
                 break;
@@ -439,36 +439,36 @@ public class ExternalFileAccess extends IFileAccess.Stub {
                 // Delete function
                 switch (this.directory) {
                     case BASE_DIR:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_BASE_DIR_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_BASE_DIR_MAKE_DIRS;
                         break;
                     case MUSIC:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MUSIC_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_MUSIC_MAKE_DIRS;
                         break;
                     case PODCASTS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PODCASTS_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_PODCASTS_MAKE_DIRS;
                         break;
                     case RINGTONES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_RINGTONES_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_RINGTONES_MAKE_DIRS;
                         break;
                     case ALARMS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_ALARMS_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_ALARMS_MAKE_DIRS;
                         break;
                     case NOTIFICATIONS:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_NOTIFICATIONS_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_NOTIFICATIONS_MAKE_DIRS;
                         break;
                     case PICTURES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_PICTURES_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_PICTURES_MAKE_DIRS;
                         break;
                     case MOVIES:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_MOVIES_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_MOVIES_MAKE_DIRS;
                         break;
                     case DOWNLOAD:
-                        privacyLevelName = PrivacyLevels.EXTERNAL_DOWNLOAD_MAKE_DIRS;
+                        privacySettingName = PrivacySettings.EXTERNAL_DOWNLOAD_MAKE_DIRS;
                         break;
                 }
                 break;
         }
         
-        return PrivacyLevels.privacyLevelSet(privacyLevelName, this.app, this.resource);
+        return PrivacySettings.privacySettingSet(privacySettingName, this.app, this.resource);
     }
 }
