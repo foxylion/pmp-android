@@ -53,7 +53,8 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         String name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getNames()
                 .get(Locale.getDefault());
         if (name == null) {
-            name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getNames().get(Locale.ENGLISH);
+            name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getNames()
+                    .get(Locale.ENGLISH);
         }
         return name;
     }
@@ -64,8 +65,8 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         String description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier())
                 .getDescriptions().get(Locale.getDefault());
         if (description == null) {
-            description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getDescriptions()
-                    .get(Locale.ENGLISH);
+            description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier())
+                    .getDescriptions().get(Locale.ENGLISH);
         }
         return description;
     }

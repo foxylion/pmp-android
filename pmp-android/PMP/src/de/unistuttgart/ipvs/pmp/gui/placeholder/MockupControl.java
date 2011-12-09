@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.gui.placeholder;
 import java.io.IOException;
 import java.util.Map.Entry;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupApp;
@@ -20,8 +22,6 @@ import de.unistuttgart.ipvs.pmp.util.xml.app.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 
 /**
  * 
@@ -148,7 +148,7 @@ public class MockupControl {
                         if (ps == null) {
                             available = false;
                             break;
-                        } 
+                        }
                     }
                 }
             }

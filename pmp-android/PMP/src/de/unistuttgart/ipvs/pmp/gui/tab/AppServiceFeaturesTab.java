@@ -40,7 +40,7 @@ public class AppServiceFeaturesTab extends Activity {
             tvDescriptionExpertMode.setVisibility(View.GONE);
         }
         
-        /* Temporary bad stuff, to Test the Activity */      
+        /* Temporary bad stuff, to Test the Activity */
         IServiceFeature[] sfs = MockupModel.instance.getApp("org.barcode.scanner").getServiceFeatures();
         IServiceFeature[] sfs_enabled = MockupModel.instance.getApp("org.barcode.scanner").getActiveServiceFeatures();
         List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();

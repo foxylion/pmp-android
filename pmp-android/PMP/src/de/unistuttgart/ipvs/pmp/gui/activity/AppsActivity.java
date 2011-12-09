@@ -1,8 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;

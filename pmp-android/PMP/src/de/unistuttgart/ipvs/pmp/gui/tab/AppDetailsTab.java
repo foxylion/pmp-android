@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.MockupControl;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppDetailsTab extends Activity {

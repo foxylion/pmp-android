@@ -45,7 +45,7 @@ public class PMPApplication extends Application {
         super.onCreate();
         
         PMPApplication.instance = this;
-                
+        
         // TODO remove this once real model works
         MockupControl.init(getApplicationContext());
         

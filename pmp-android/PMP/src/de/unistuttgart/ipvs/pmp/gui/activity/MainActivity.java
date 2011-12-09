@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.MockupControl;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
