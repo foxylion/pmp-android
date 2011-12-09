@@ -119,6 +119,24 @@ public class MockupControl {
         createSF(ais, app);
         MockupModel.instance.registerApp(ident, app);
         
+        /* ************** Preset ************* */
+        String name;
+        String description;
+        
+        ident = "preset_1";
+        name = "My first Preset";
+        description = "Wooohooo, I've created a cool preset.. wow!";
+        MockupModel.instance.addPreset(null, ident, name, description);
+        
+        ident = "preset_2";
+        name = "My second Preset";
+        description = "Wooohooo, I've created another very cool preset.. wow!";
+        MockupModel.instance.addPreset(null, ident, name, description);
+        
+        ident = "preset_3";
+        name = "My third Preset";
+        description = "Yeah, now I know how to create presets! I'm an expert!!! And therfore I write a veeeeeeeeery long description... can the gui show this?! Yes, of course!";
+        MockupModel.instance.addPreset(null, ident, name, description);
     }
     
     

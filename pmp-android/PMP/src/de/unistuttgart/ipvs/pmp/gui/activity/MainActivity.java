@@ -97,6 +97,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Tapped on Presets-Button", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, PresetsActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
         
