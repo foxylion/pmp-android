@@ -24,8 +24,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
- * This resource gives access to files saved on the user's Andorid device. To do so, it defines several privacy-levels,
- * such as privacy-levels for reading or writing files on the device's file system. It also registers all corresponding
+ * This resource gives access to files saved on the user's Andorid device. To do so, it defines several privacy settings,
+ * such as privacy-settings for reading or writing files on the device's file system. It also registers all corresponding
  * resources.
  * 
  * @author Patrick Strobel
@@ -42,14 +42,14 @@ public class FileSystemResourceGroup extends ResourceGroup {
     
     
     /**
-     * Creates the resource-group including its privacy-levels and resources
+     * Creates the resource-group including its privacy settings and resources
      * 
      * @param context
      *            Context of the service giving access to our resource-group
      * @param service
      *            Class of our service.
      * @throws Exception
-     *             Throws if at least one privacy-level could not be instantiated.
+     *             Throws if at least one privacy setting could not be instantiated.
      */
     public FileSystemResourceGroup(Context context) {
         super(context);
@@ -57,9 +57,9 @@ public class FileSystemResourceGroup extends ResourceGroup {
         // Store the service' context, because we will need it later
         this.context = context;
         
-        // Generate privacy-levels and register them
-        PrivacyLevels privacyLevels = new PrivacyLevels(context);
-        privacyLevels.addToResourceGroup(this);
+        // Generate privacy settings and register them
+        PrivacySettings privacySettings = new PrivacySettings(context);
+        privacySettings.addToResourceGroup(this);
         
         // Generate resources and register them
         Resources resources = new Resources();

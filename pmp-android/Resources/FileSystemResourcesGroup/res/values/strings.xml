@@ -17,7 +17,7 @@
     <string name="pl_generic_mkdirs_desc">Allows the application to create directories everywhere on the device.</string>
     
     <string name="pl_external_base_dir">External base directory</string>
-    <string name="pl_external_base_dir_notice">If this is enabled, privacy-levels for sub-directories (like "music") will be ignored.</string>
+    <string name="pl_external_base_dir_notice">If this is enabled, privacy settings for sub-directories (like "music") will be ignored.</string>
     <string name="pl_external_base_dir_read_desc">Allows the application to read every files stored in the external directory.</string>
     <string name="pl_external_base_dir_write_desc">Allows the application to write files everywhere in the external directory.</string>
     <string name="pl_external_base_dir_list_desc">Allows the application to receive a list of all files stored in the external directory.</string>
