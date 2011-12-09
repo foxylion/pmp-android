@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppsActivity extends Activity {
@@ -31,7 +31,7 @@ public class AppsActivity extends Activity {
         
         /* Temporary bad stuff, to Test the Activity */
         
-        IApp[] apps = MockupModel.instance.getApps();
+        IApp[] apps = ModelProxy.get().getApps();
         
         ListView appsList = (ListView) findViewById(R.id.ListView_Apps);
         appsList.setClickable(true);

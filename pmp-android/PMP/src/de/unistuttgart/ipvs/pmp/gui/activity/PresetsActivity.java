@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
@@ -36,7 +36,7 @@ public class PresetsActivity extends Activity {
         
         /* Temporary bad stuff, to Test the Activity */
         
-        IPreset[] presets = MockupModel.instance.getPresets();
+        IPreset[] presets = ModelProxy.get().getPresets();
         
         ListView presetsList = (ListView) findViewById(R.id.ListView_Presets);
         presetsList.setClickable(true);

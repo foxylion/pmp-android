@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
-import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -41,8 +41,8 @@ public class AppServiceFeaturesTab extends Activity {
         }
         
         /* Temporary bad stuff, to Test the Activity */
-        IServiceFeature[] sfs = MockupModel.instance.getApp("org.barcode.scanner").getServiceFeatures();
-        IServiceFeature[] sfs_enabled = MockupModel.instance.getApp("org.barcode.scanner").getActiveServiceFeatures();
+        IServiceFeature[] sfs = ModelProxy.get().getApp("org.barcode.scanner").getServiceFeatures();
+        IServiceFeature[] sfs_enabled = ModelProxy.get().getApp("org.barcode.scanner").getActiveServiceFeatures();
         List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
         for (IServiceFeature sf : sfs) {
             if (!sf.isActive()) {

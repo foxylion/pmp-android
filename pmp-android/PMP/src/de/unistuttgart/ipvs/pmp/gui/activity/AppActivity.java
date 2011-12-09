@@ -9,7 +9,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppDetailsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppPresetsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppServiceFeaturesTab;
@@ -41,7 +41,7 @@ public class AppActivity extends Activity {
         this.mTabHost.setup(this.lam);
         
         //app = handleIntent(getIntent());
-        this.app = MockupModel.instance.getApp("org.barcode.scanner");
+        this.app = ModelProxy.get().getApp("org.barcode.scanner");
         
         setupTabs();
         

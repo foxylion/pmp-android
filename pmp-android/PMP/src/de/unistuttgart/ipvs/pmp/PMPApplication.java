@@ -21,7 +21,7 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.MockupControl;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 
 /**
  * This acts like an internal provider for {@link Context}.
@@ -47,7 +47,7 @@ public class PMPApplication extends Application {
         PMPApplication.instance = this;
         
         // TODO remove this once real model works
-        MockupControl.init(getApplicationContext());
+        ModelProxy.set(true, getApplicationContext());
         
         //Log.setTagSufix(Constants.PMP_LOG_SUFIX);
         // uncommenting this line results in the PMPTest suite to fail.
