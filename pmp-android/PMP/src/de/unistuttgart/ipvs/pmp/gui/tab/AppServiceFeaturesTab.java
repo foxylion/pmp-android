@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -10,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
+import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -39,25 +40,27 @@ public class AppServiceFeaturesTab extends Activity {
             tvDescriptionExpertMode.setVisibility(View.GONE);
         }
         
-        /* Temporary bad stuff, to Test the Activity */
-        List<IServiceFeature> sfs_enabled = SampleModel.sfEnabled;
-        List<IServiceFeature> sfs_disabled = SampleModel.sfDisabled;
-        
-        List<IServiceFeature> sfs = new ArrayList<IServiceFeature>();
-        sfs.addAll(sfs_enabled);
-        sfs.addAll(sfs_disabled);
+        /* Temporary bad stuff, to Test the Activity */      
+        IServiceFeature[] sfs = MockupModel.instance.getApp("org.barcode.scanner").getServiceFeatures();
+        IServiceFeature[] sfs_enabled = MockupModel.instance.getApp("org.barcode.scanner").getActiveServiceFeatures();
+        List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
+        for (IServiceFeature sf : sfs) {
+            if (!sf.isActive()) {
+                sfs_disabled.add(sf);
+            }
+        }
         
         ListView sFs = (ListView) findViewById(R.id.ListView_SFs);
         if (sFs != null) {
             sFs.setClickable(true);
-            ServiceFeaturesAdapter sFsAdapter = new ServiceFeaturesAdapter(this, sfs);
+            ServiceFeaturesAdapter sFsAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs));
             sFs.setAdapter(sFsAdapter);
         }
         
         ListView enabledSFs = (ListView) findViewById(R.id.ListView_EnabledSFs);
         if (enabledSFs != null) {
             enabledSFs.setClickable(true);
-            ServiceFeaturesAdapter enabledAdapter = new ServiceFeaturesAdapter(this, sfs_enabled);
+            ServiceFeaturesAdapter enabledAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs_enabled));
             enabledSFs.setAdapter(enabledAdapter);
         }
         

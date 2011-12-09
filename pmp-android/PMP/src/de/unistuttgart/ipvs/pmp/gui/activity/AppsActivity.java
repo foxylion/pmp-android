@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.SampleModel;
+import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppsActivity extends Activity {
@@ -31,12 +33,12 @@ public class AppsActivity extends Activity {
         
         /* Temporary bad stuff, to Test the Activity */
         
-        List<IApp> apps = SampleModel.apps;
+        IApp[] apps = MockupModel.instance.getApps();
         
         ListView appsList = (ListView) findViewById(R.id.ListView_Apps);
         appsList.setClickable(true);
         
-        AppsAdapter appsAdapter = new AppsAdapter(this, apps);
+        AppsAdapter appsAdapter = new AppsAdapter(this, Arrays.asList(apps));
         appsList.setAdapter(appsAdapter);
         
         appsList.setOnItemClickListener(new OnItemClickListener() {

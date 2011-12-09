@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
+import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.MockupControl;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppDetailsTab extends Activity {
     
-    private App app;
+    private IApp app;
     
     
     @Override
@@ -24,13 +26,7 @@ public class AppDetailsTab extends Activity {
         super.onResume();
         
         //app = handleIntent(getIntent());
-        this.app = new App(
-                "Barcode Scanner",
-                "With the Barcode Scanner you can scan your products and get more informations about them. "
-                        + "Especially you can find the best price for products. If you enable the Location Feature you "
-                        + "can also get the direction to the next store where the item is available. Facebook Feature "
-                        + "allows you to share the product with your friends.", getResources().getDrawable(
-                        R.drawable.test_icon1));
+        this.app = MockupModel.instance.getApp("org.barcode.scanner");
         
         TextView description = (TextView) findViewById(R.id.TextView_Description);
         description.setText(this.app.getDescription());

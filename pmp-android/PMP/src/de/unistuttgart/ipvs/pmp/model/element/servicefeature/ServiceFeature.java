@@ -62,10 +62,10 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getName() {
-        String name = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getNames()
+        String name = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getNames()
                 .get(Locale.getDefault());
         if (name == null) {
-            name = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getNames().get(Locale.US);
+            name = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getNames().get(Locale.ENGLISH);
         }
         return name;
     }
@@ -73,11 +73,11 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getDescription() {
-        String description = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getDescriptions()
+        String description = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getDescriptions()
                 .get(Locale.getDefault());
         if (description == null) {
-            description = this.app.getAis().getServiceFeaturesMap().get(getIdentifier()).getDescriptions()
-                    .get(Locale.US);
+            description = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getDescriptions()
+                    .get(Locale.ENGLISH);
         }
         return description;
     }
@@ -108,6 +108,10 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public boolean isActive() {
         checkCached();
+        if (this.containsUnknownPrivacySettings) {
+            return false;
+        }
+        
         try {
             Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
             // for all presets

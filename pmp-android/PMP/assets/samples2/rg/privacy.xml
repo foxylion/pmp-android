@@ -12,12 +12,12 @@
 			<defaultName lang="en">Facebook</defaultName>
 			<defaultDescription lang="en">Lebenslauf.</defaultDescription>
 		</privacySetting>
-		<privacySetting identifier="modify">
+		<privacySetting identifier="psw">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Passwort-Tresor</defaultName>
 			<defaultDescription lang="en">Zugangsdaten.</defaultDescription>
 		</privacySetting>
-		<privacySetting identifier="missiles">
+		<privacySetting identifier="kk">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Krankenkasse</defaultName>
 			<defaultDescription lang="en">Gesundheitsakte.</defaultDescription>

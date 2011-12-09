@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.MockupControl;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
@@ -27,7 +29,8 @@ public class MainActivity extends Activity {
         registerListener();
         
         // TODO Replace the statistics with the real statistics from model
-        updateStatistics(12, 23, 7);
+        updateStatistics(MockupModel.instance.getApps().length, MockupModel.instance.getResourceGroups().length,
+                MockupModel.instance.getPresets().length);
     }
     
     

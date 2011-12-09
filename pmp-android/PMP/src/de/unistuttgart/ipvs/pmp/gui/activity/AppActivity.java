@@ -9,16 +9,17 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.App;
+import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppDetailsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppPresetsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppServiceFeaturesTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class AppActivity extends Activity {
     
-    private App app;
+    private IApp app;
     
     private LocalActivityManager lam;
     
@@ -40,13 +41,7 @@ public class AppActivity extends Activity {
         this.mTabHost.setup(this.lam);
         
         //app = handleIntent(getIntent());
-        this.app = new App(
-                "Barcode Scanner",
-                "With the Barcode Scanner you can scan your products and get more informations about them. "
-                        + "Especially you can find the best price for products. If you enable the Location Feature you "
-                        + "can also get the direction to the next store where the item is available. Facebook Feature "
-                        + "allows you to share the product with your friends.", getResources().getDrawable(
-                        R.drawable.test_icon1));
+        this.app = MockupModel.instance.getApp("org.barcode.scanner");
         
         setupTabs();
         

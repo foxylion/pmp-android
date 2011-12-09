@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<defaultName lang="en">Compass</defaultName>
+		<defaultDescription lang="en">Gives you the ability to get your current position. Or to completely get lost.</defaultDescription>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="fb">
+			<defaultName lang="en">Facebook</defaultName>
+			<defaultDescription lang="en">Tell all your friends where you are.</defaultDescription>
+			<requiredResourceGroup identifier="gov.gps">
+				<privacySetting identifier="findloc">true</privacySetting>
+			</requiredResourceGroup>
+			<requiredResourceGroup identifier="de.bka.bundestrojaner">
+				<privacySetting identifier="facebook">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="store">
+			<defaultName lang="en">Record route</defaultName>
+			<defaultDescription lang="en">Record all your straying and odysseys in the database.</defaultDescription>
+			<requiredResourceGroup identifier="gov.gps">
+				<privacySetting identifier="findloc">true</privacySetting>
+			</requiredResourceGroup>
+			<requiredResourceGroup identifier="org.oracle.db">
+				<privacySetting identifier="read">true</privacySetting>
+				<privacySetting identifier="modify">true</privacySetting>
+				<privacySetting identifier="create">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="militarycommand">
+			<defaultName lang="en">Give orders</defaultName>
+			<defaultDescription lang="en">Tired of always screaming at the dumb soldiers below you? Use this to give the missile command directly!</defaultDescription>			
+			<requiredResourceGroup identifier="gov.gps">
+				<privacySetting identifier="findloc">true</privacySetting>
+				<privacySetting identifier="missiles">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="taxipickup">
+			<defaultName lang="en">Taxi Pick up</defaultName>
+			<defaultDescription lang="en">Still lost? Just wanna go home? Get a taxi right now that directly gets paid!</defaultDescription>
+			<requiredResourceGroup identifier="gov.gps">
+				<privacySetting identifier="findloc">true</privacySetting>
+			</requiredResourceGroup>
+			<requiredResourceGroup identifier="com.americanexpress.leyman">
+				<privacySetting identifier="balance">true</privacySetting>
+				<privacySetting identifier="charge">true</privacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		
+	</serviceFeatures>
+</appInformationSet>

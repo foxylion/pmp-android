@@ -45,7 +45,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         checkCached();
         String name = this.rgis.getNames().get(Locale.getDefault());
         if (name == null) {
-            name = this.rgis.getNames().get(Locale.US);
+            name = this.rgis.getNames().get(Locale.ENGLISH);
         }
         return name;
     }
@@ -56,7 +56,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         checkCached();
         String description = this.rgis.getDescriptions().get(Locale.getDefault());
         if (description == null) {
-            description = this.rgis.getDescriptions().get(Locale.US);
+            description = this.rgis.getDescriptions().get(Locale.ENGLISH);
         }
         return description;
     }
