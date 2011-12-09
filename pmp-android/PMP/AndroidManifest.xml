@@ -32,6 +32,12 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.activity.AppActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.activity.PresetsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.activity.PresetActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 

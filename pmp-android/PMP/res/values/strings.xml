@@ -38,6 +38,9 @@
     <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
     
     <string name="apps_title">Registered Apps</string>
-    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more informations.</string>
+    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
 	
+    <string name="presets_title">Presets</string>
+    <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
+        
 </resources>
