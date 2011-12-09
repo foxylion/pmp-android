@@ -7,15 +7,15 @@
     <string name="description">Description</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
-    <string name="servive_level_for">Service Levels for </string>
-    <string name="service_level">Service Level</string>
-    <string name="set_service_level">Setting Service Level.</string>
+    <string name="servive_feature_for">Service Features for </string>
+    <string name="service_feature">Service Feature</string>
+    <string name="set_service_feature">Setting Service Feature.</string>
     <string name="please_wait">Please wait!</string>
     <string name="required_resource">Required resource groups:</string>
-    <string name="change_sl">Change Service Level</string>
+    <string name="change_sl">Change Service Feature</string>
     <string name="close">Close</string>
-    <string name="set_service_level_hint">Hint: You can tap on a service level to view more deatils about it. If it meets your needs, you can apply it</string>
-    <string name="service_level_apply_hint">To apply the service level press \"Apply\", or press \"Cancel\" to get back to the service level list.</string>
+    <string name="set_service_feature_hint">Hint: You can tap on a service feature to view more deatils about it. If it meets your needs, you can apply it</string>
+    <string name="service_feature_apply_hint">To apply the service feature press \"Apply\", or press \"Cancel\" to get back to the service feature list.</string>
 
     <!-- New GUI-Language variables -->
     

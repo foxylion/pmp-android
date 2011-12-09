@@ -22,13 +22,13 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
- * Resource Group for typical switches in Android (wifi, etc.). Has the privacy levels
+ * Resource Group for typical switches in Android (wifi, etc.). Has the privacy settings
  * 
  * <ul>
- * <li>SwitchesResourceGroup.PRIVACY_LEVEL_WIFI_SWITCH (true or false)</li>
+ * <li>SwitchesResourceGroup.PRIVACY_SETTING_WIFI_SWITCH (true or false)</li>
  * </ul>
  * 
  * And the resources
@@ -42,7 +42,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacylevel.BooleanPrivacyLevel;
  */
 public class SwitchesResourceGroup extends ResourceGroup {
     
-    public static final String PRIVACY_LEVEL_WIFI_SWITCH = "CanWifiSwitch";
+    public static final String PRIVACY_SETTING_WIFI_SWITCH = "CanWifiSwitch";
     public static final String RESOURCE_WIFI_SWITCH = "WifiSwitch";
     
     /**
@@ -54,7 +54,7 @@ public class SwitchesResourceGroup extends ResourceGroup {
     public SwitchesResourceGroup(Context serviceContext) {
         super(serviceContext);
         
-        registerPrivacyLevel(PRIVACY_LEVEL_WIFI_SWITCH, new BooleanPrivacyLevel("Wifi Switch",
+        registerPrivacySetting(PRIVACY_SETTING_WIFI_SWITCH, new BooleanPrivacySetting("Wifi Switch",
                 "Is allowed to toggle the wifi switch."));
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());

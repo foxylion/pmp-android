@@ -26,7 +26,7 @@ import java.util.List;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacyLevels;
+import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.PrivacySettings;
 
 /**
  * This class handled the access to all file stored on the device
@@ -62,14 +62,14 @@ public class GenericFileAccess extends IFileAccess.Stub {
      *            File to read
      * @return Read data of the selected file
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy-level is not set
+     *             Thrown, if app's privacy setting is not set
      * @throws RemoteException
      *             Thrown, if file is not readable
      */
     @Override
     public String read(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(PrivacyLevels.GENERIC_READ)) {
+        if (!privacySettingSet(PrivacySettings.GENERIC_READ)) {
             throw new IllegalAccessError("Generic file reading not allowed");
         }
         
@@ -96,12 +96,12 @@ public class GenericFileAccess extends IFileAccess.Stub {
      *            True, if data should be appended to the current file's data
      * @return True, if data was written
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy levels is not set
+     *             Thrown, if app's privacy settings is not set
      */
     @Override
     public boolean write(String path, String data, boolean append) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(PrivacyLevels.GENERIC_WRITE)) {
+        if (!privacySettingSet(PrivacySettings.GENERIC_WRITE)) {
             throw new IllegalAccessError("Generic file writing not allowed");
         }
         
@@ -123,12 +123,12 @@ public class GenericFileAccess extends IFileAccess.Stub {
      *            File or directory to delete
      * @return True, if deleting was successful
      * @throws IllegalAccessError
-     *             Throw, if the app's privacy level is not set
+     *             Throw, if the app's privacy setting is not set
      */
     @Override
     public boolean delete(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(PrivacyLevels.GENERIC_DELETE)) {
+        if (!privacySettingSet(PrivacySettings.GENERIC_DELETE)) {
             throw new IllegalAccessError("Generic file deleting not allowed");
         }
         
@@ -143,12 +143,12 @@ public class GenericFileAccess extends IFileAccess.Stub {
      *            Path of the parent directory
      * @return List of detailed file information data or null, if path points to a non existing directory or a file
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set
+     *             Thrown, if the app's privacy setting is not set
      */
     @Override
     public List<FileDetails> list(String directory) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(PrivacyLevels.GENERIC_LIST)) {
+        if (!privacySettingSet(PrivacySettings.GENERIC_LIST)) {
             throw new IllegalAccessError("Generic file listing not allowed");
         }
         
@@ -164,12 +164,12 @@ public class GenericFileAccess extends IFileAccess.Stub {
      *            Directory path
      * @return True, if directories where created successfully
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy level is not set
+     *             Thrown, if the app's privacy setting is not set
      */
     @Override
     public boolean makeDirs(String path) throws RemoteException {
         // Check if application is allowed to use this function
-        if (!privacyLevelSet(PrivacyLevels.GENERIC_MAKE_DIRS)) {
+        if (!privacySettingSet(PrivacySettings.GENERIC_MAKE_DIRS)) {
             throw new IllegalAccessError("Generic file listing not allowed");
         }
         
@@ -178,14 +178,14 @@ public class GenericFileAccess extends IFileAccess.Stub {
     
     
     /**
-     * Checks if a specific privacy-level is set for an application
+     * Checks if a specific privacy setting is set for an application
      * 
-     * @param privacyLevelName
-     *            The privacy-level to check
-     * @return True, if privacy-level is set for this application
+     * @param privacySettingName
+     *            The privacy setting to check
+     * @return True, if privacy setting is set for this application
      */
-    private boolean privacyLevelSet(String privacyLevelName) {
-        return PrivacyLevels.privacyLevelSet(privacyLevelName, this.app, this.resource);
+    private boolean privacySettingSet(String privacySettingName) {
+        return PrivacySettings.privacySettingSet(privacySettingName, this.app, this.resource);
     }
     
 }
