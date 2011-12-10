@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,12 @@ public class PresetsAdapter extends BaseAdapter {
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
         description.setText(preset.getDescription());
+        
+        /* Set text color to dark gray, if item is deleted */
+        if (preset.isDeleted()) {
+            name.setTextColor(Color.DKGRAY);
+            description.setTextColor(Color.DKGRAY);
+        }
         
         return entryView;
     }

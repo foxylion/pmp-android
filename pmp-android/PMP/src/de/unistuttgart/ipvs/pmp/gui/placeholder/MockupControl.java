@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.gui.mockup.MockupPrivacySetting;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupRG;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupServiceFeature;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
@@ -74,6 +75,12 @@ public class MockupControl {
         name = "My third Preset";
         description = "Yeah, now I know how to create presets! I'm an expert!!! And therfore I write a veeeeeeeeery long description... can the gui show this?! Yes, of course!";
         MockupModel.instance.addPreset(null, ident, name, description);
+        
+        ident = "preset_4";
+        name = "My first deleted Preset";
+        description = "Wow, i was able to delete a preset!";
+        IPreset p = MockupModel.instance.addPreset(null, ident, name, description);
+        p.setDeleted(true);
     }
     
     

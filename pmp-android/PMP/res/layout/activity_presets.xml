@@ -3,26 +3,42 @@
     xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp" >
-
-    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_presets"
-        pmp:name="@string/presets_title" >
-    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+    android:layout_marginRight="3dp"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
+        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/presets_description" />
+            pmp:icon="@drawable/icon_presets"
+            pmp:name="@string/presets_title" >
+        </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+
+            <TextView
+                android:layout_width="204dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.00"
+                android:text="@string/presets_description" />
+
+            <ToggleButton
+                android:id="@+id/presets_deleted_toggle"
+                android:layout_width="110dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="fill_vertical"
+                android:textOff="@string/presets_show_deleted"
+                android:textOn="@string/presets_hide_deleted" />
+        </LinearLayout>
 
         <include layout="@layout/view_divider_strong" />
 
