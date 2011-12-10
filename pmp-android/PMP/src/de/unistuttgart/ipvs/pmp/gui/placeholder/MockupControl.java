@@ -38,6 +38,7 @@ public class MockupControl {
         ProgressDialog pd = new ProgressDialog(activityContext);
         pd.setTitle("Mocking Model");
         pd.setMessage("Loading mockups...");
+        pd.setCancelable(false);
         LongTaskProgressDialog<Void, Void, Void> ltpd = new LongTaskProgressDialog<Void, Void, Void>(pd) {
             
             @Override
