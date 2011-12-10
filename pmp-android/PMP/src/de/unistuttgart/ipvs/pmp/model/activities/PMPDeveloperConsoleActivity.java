@@ -19,43 +19,34 @@
  */
 package de.unistuttgart.ipvs.pmp.model.activities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.activity.MainActivity;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
+import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 
 public class PMPDeveloperConsoleActivity extends Activity {
-    
-    private PMPDeveloperConsoleActivity self = this;
-    
-    /**
-     * The dialog which overlays the UI while executing.
-     */
-    private ProgressDialog dialog = null;
-    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,268 +58,160 @@ public class PMPDeveloperConsoleActivity extends Activity {
     }
     
     
-    /**
-     * Open the Wait dialog with a specific message.
-     * 
-     * @param message
-     *            Message which should be displayed, if null, a default message is used.
-     */
-    protected void openWaitDialog(String message) {
-        if (message == null) {
-            message = "Executing the requested operations.";
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
         
-        this.dialog = ProgressDialog.show(this, "Please wait...", message, true);
-        
+        ToggleButton mockup = (ToggleButton) findViewById(R.id.pdc_switch_mockup_btn);
+        mockup.setChecked(ModelProxy.isMockup());
+        setRealModelBtnStates(mockup.isChecked());
     }
     
     
     /**
-     * Close the wait dialog.
+     * dis/enables the buttons that only operate on the real model
+     * 
+     * @param isMockup
      */
-    protected void hideWaitDialog() {
-        if (this.dialog != null) {
-            this.dialog.hide();
-            this.dialog = null;
+    private void setRealModelBtnStates(boolean isMockup) {
+        int[] ids = new int[] { R.id.pdc_precache_btn, R.id.pdc_clearcache_btn, R.id.pdc_clean_tables_btn };
+        
+        for (int id : ids) {
+            Button b = (Button) findViewById(id);
+            b.setEnabled(!isMockup);
         }
     }
     
     
     protected void registerListener() {
         /*
-         * Open PMP Button
+         * Launcher Activity
          */
-        Button openPMP = (Button) findViewById(R.id.pmp_developer_console_open_pmp_button);
-        openPMP.setOnClickListener(new View.OnClickListener() {
+        Button launcherActivity = (Button) findViewById(R.id.pdc_main_activity_btn);
+        launcherActivity.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(PMPDeveloperConsoleActivity.this.self.getApplicationContext(),
-                //StartActivity.class));
-                // TODO
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
         
         /*
-         * Sample Data installation.
-         *
-        Button addSampleData = (Button) findViewById(R.id.pmp_developer_console_button_add_sample_data);
-        addSampleData.setEnabled(!DatabaseSingleton.getInstance().isSampleDataInstalled());
-        addSampleData.setOnClickListener(new View.OnClickListener() {
+         * Switch mockup
+         */
+        ToggleButton mockup = (ToggleButton) findViewById(R.id.pdc_switch_mockup_btn);
+        mockup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             
             @Override
-            public void onClick(View v) {
-                new SimpleAsyncTask(PMPDeveloperConsoleActivity.this.self, "Inserting sample datas.") {
-                    
-                    @Override
-                    protected void toBeExecuted() {
-                        DatabaseSingleton.getInstance().createSampleData();
-                    }
-                }.execute();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ModelProxy.set(isChecked, PMPDeveloperConsoleActivity.this);
+                setRealModelBtnStates(isChecked);
             }
         });
         
         /*
-         * Sample Data cleaning.
-         *
-        Button removeSampleData = (Button) findViewById(R.id.pmp_developer_console_button_remove_sample_data);
-        removeSampleData.setEnabled(DatabaseSingleton.getInstance().isSampleDataInstalled());
-        removeSampleData.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                new SimpleAsyncTask(PMPDeveloperConsoleActivity.this.self, "Cleaning sample datas") {
-                    
-                    @Override
-                    protected void toBeExecuted() {
-                        DatabaseSingleton.getInstance().removeSampleData();
-                    }
-                }.execute();
-            }
-        });
-        
-        /**
-         * Truncate database (cleaning)
-         *
-        Button truncateDatabase = (Button) findViewById(R.id.pmp_developer_console_button_truncate_database);
-        truncateDatabase.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                new SimpleAsyncTask(PMPDeveloperConsoleActivity.this.self, "Cleaning database tables") {
-                    
-                    @Override
-                    protected void toBeExecuted() {
-                        DatabaseSingleton.getInstance().getDatabaseHelper().cleanTables();
-                        PMPApplication.getSignee().clearRemotePublicKeys();
-                    }
-                }.execute();
-            }
-        });
-        
-        /**
-         * Bind Service
+         * precache real model
          */
-        Button bindService = (Button) findViewById(R.id.pmp_developer_console_button_bind_service);
-        bindService.setOnClickListener(new View.OnClickListener() {
+        Button precache = (Button) findViewById(R.id.pdc_precache_btn);
+        precache.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                EditText serviceName = (EditText) findViewById(R.id.pmp_developer_console_edit_service_name);
-                PMPDeveloperConsoleActivity.this.self.bindService(serviceName.getText().toString());
+                PersistenceProvider.getInstance().cacheEverythingNow();
             }
         });
         
-        /**
-         * Register ResourceGroup.
+        /*
+         * clearcache real model
          */
-        Button registerRg = (Button) findViewById(R.id.pmp_developer_console_button_register_rg);
-        registerRg.setOnClickListener(new View.OnClickListener() {
+        Button clearcache = (Button) findViewById(R.id.pdc_clearcache_btn);
+        clearcache.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                final List<Intent> intents = new ArrayList<Intent>();
-                
-                final PackageManager pm = getPackageManager();
-                List<ApplicationInfo> pkgs = pm.getInstalledApplications(0);
-                for (ApplicationInfo info : pkgs) {
-                    try {
-                        PackageInfo pi = pm.getPackageInfo(info.packageName, PackageManager.GET_ACTIVITIES
-                                | PackageManager.GET_INTENT_FILTERS);
-                        if (pi.activities != null) {
-                            for (ActivityInfo ai : pi.activities) {
-                                /*if (ai.name.equals(RGsActivity.class.getName())) {
-                                    Log.d(info.packageName + " :: " + ai.name);
-                                    Intent i = new Intent();
-                                    i.setClassName(info.packageName, ai.name);
-                                    i.setPackage(info.packageName);
-                                    i.putExtra("rgName", info.loadLabel(pm));
-                                    Log.d(info.name);
-                                    intents.add(i);
-                                }*/
-                            }
-                        }
-                    } catch (NameNotFoundException e) {
-                        Log.e(info.packageName + " not found.", e);
-                    }
+                PersistenceProvider.getInstance().releaseCache();
+            }
+        });
+        
+        /*
+         * cleantables real model
+         */
+        Button cleantables = (Button) findViewById(R.id.pdc_clean_tables_btn);
+        cleantables.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                PersistenceProvider pp = PersistenceProvider.getInstance();
+                try {
+                    // it's a developer console, what'ya expect?
                     
+                    Field dohf = pp.getClass().getDeclaredField("doh");
+                    dohf.setAccessible(true);
+                    DatabaseOpenHelper doh = (DatabaseOpenHelper) dohf.get(pp);
+                    doh.cleanTables();
+                    
+                } catch (Throwable t) {
+                    Log.e("While cleaning tables: ", t);
                 }
-                
-                CharSequence[] items = new CharSequence[intents.size()];
-                for (int i = 0; i < items.length; i++) {
-                    items[i] = intents.get(i).getStringExtra("rgName");
-                    Log.d("" + items[i]);
-                }
-                
-                AlertDialog.Builder builder = new AlertDialog.Builder(PMPDeveloperConsoleActivity.this.self);
-                builder.setTitle("Pick a ResourceGroup");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
+            }
+        });
+        
+        /*
+         * bind app service
+         */
+        Button bindService = (Button) findViewById(R.id.pdc_appservice_bind_btn);
+        bindService.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                EditText nameEdit = (EditText) findViewById(R.id.pdc_appservice_name_edit);
+                testBindService(nameEdit.getText().toString());
+            }
+        });
+    }
+    
+    
+    private void testBindService(final String serviceName) {
+        ProgressDialog pd = new ProgressDialog(this);
+        pd.setTitle("Binding service");
+        pd.setMessage("Please wait while Android tries to talk to the service.");
+        
+        LongTaskProgressDialog<Void, Void, Void> ltpd = new LongTaskProgressDialog<Void, Void, Void>(pd) {
+            
+            @Override
+            public Void run(Void... params) {
+                AppServiceConnector asc = new AppServiceConnector(getApplicationContext(), serviceName);
+                asc.addCallbackHandler(new AbstractConnectorCallback() {
                     
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int item) {
-                        startActivity(intents.get(item));
-                        return;
+                    public void onConnect(AbstractConnector connector) throws RemoteException {
+                        new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection successful.")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).setCancelable(true).show();
+                    }
+                    
+                    
+                    @Override
+                    public void onBindingFailed(AbstractConnector connector) {
+                        new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection failed.")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).setCancelable(true).show();
                     }
                 });
-                builder.create().show();
+                asc.bind(true);
+                return null;
             }
-        });
-        
+        };
+        ltpd.execute();
     }
-    
-    
-    private void bindService(String serviceName) {
-        final ProgressBar progress = (ProgressBar) findViewById(R.id.pmp_developer_console_cicle_bind);
-        final TextView status = (TextView) findViewById(R.id.pmp_developer_console_bind_status);
-        
-        if (serviceName == null || serviceName.length() == 0) {
-            
-        } else {
-            progress.setVisibility(View.VISIBLE);
-            status.setText("Now trying to bind " + serviceName);
-            
-            ServiceConnection sc = new ServiceConnection() {
-                
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    
-                }
-                
-                
-                @Override
-                public void onServiceConnected(ComponentName name, final IBinder service) {
-                    new Handler().post(new Runnable() {
-                        
-                        @Override
-                        public void run() {
-                            if (service == null) {
-                                status.setText("Service has connected to ServiceConnection: null");
-                            } else {
-                                status.setText("Service has connected to ServiceConnection: "
-                                        + service.getClass().getName());
-                            }
-                            progress.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                    
-                    unbindService(this);
-                }
-            };
-            
-            Intent intent = new Intent(serviceName);
-            if (bindService(intent, sc, Context.BIND_AUTO_CREATE)) {
-                status.setText("Service bound was sent successfully, waiting for connection...");
-            } else {
-                status.setText("Service bound was sent unsuccessfully. (see LogCat)");
-                progress.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-    
-}
-
-/**
- * An abstract implementation of the AsyncTask.
- * 
- * @author Jakob Jarosch
- */
-abstract class SimpleAsyncTask extends AsyncTask<Void, Void, Void> {
-    
-    private String message;
-    private PMPDeveloperConsoleActivity activity;
-    
-    
-    public SimpleAsyncTask(PMPDeveloperConsoleActivity activity, String message) {
-        this.message = message;
-        this.activity = activity;
-    }
-    
-    
-    protected abstract void toBeExecuted();
-    
-    
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        
-        this.activity.openWaitDialog(this.message);
-    }
-    
-    
-    @Override
-    protected Void doInBackground(Void... params) {
-        toBeExecuted();
-        
-        return null;
-    }
-    
-    
-    @Override
-    protected void onPostExecute(Void result) {
-        super.onPostExecute(result);
-        
-        this.activity.registerListener();
-        this.activity.hideWaitDialog();
-    }
-    
 }

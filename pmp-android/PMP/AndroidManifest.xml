@@ -50,7 +50,7 @@
         <activity
             android:icon="@drawable/icon_dev_console"
             android:label="PMP Dev Console"
-            android:name=".model2.activities.PMPDeveloperConsoleActivity" >
+            android:name=".model.activities.PMPDeveloperConsoleActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />

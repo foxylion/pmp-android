@@ -6,115 +6,155 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:orientation="vertical">
 
-		<LinearLayout android:id="@+id/linearLayout1"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:baselineAligned="false">
-			<Button android:id="@+id/pmp_developer_console_open_pmp_button"
-				android:text="Open PMP" android:layout_height="fill_parent"
-				android:layout_width="wrap_content"></Button>
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:baselineAligned="false" >
+
+			<Button
+			    android:id="@+id/pdc_main_activity_btn"
+			    android:layout_width="86dp"
+			    android:layout_height="fill_parent"
+			    android:text="Launcher Activity" >
+</Button>
 			<TextView
-				android:text="This is the developer console for PMP. Caution, some of the actions can't be undone."
+				android:text="Developer debugging controls. If you don't know what a button does, don't push it!"
 				android:layout_height="wrap_content" android:paddingLeft="5dp"
 				android:layout_width="wrap_content"></TextView>
 		</LinearLayout>
-		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
-			android:text="Sample Data" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:background="#555555"
-			android:layout_width="fill_parent" android:paddingLeft="5dp"></TextView>
-		<LinearLayout android:layout_height="wrap_content"
-			android:background="#555555" android:padding="5dp"
-			android:layout_width="fill_parent">
-			<Button android:text="Install Sample Data"
-				android:id="@+id/pmp_developer_console_button_add_sample_data"
-				android:layout_width="wrap_content" android:layout_height="fill_parent"></Button>
-			<Button android:text="Remove Sample Data"
-				android:id="@+id/pmp_developer_console_button_remove_sample_data"
-				android:layout_width="wrap_content" android:layout_height="fill_parent"></Button>
-		</LinearLayout>
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			<LinearLayout android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:orientation="vertical">
-				<TextView android:paddingLeft="5dp" android:text="Database"
-					android:layout_marginTop="5dp" android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/pmp_developer_console_button_truncate_database"
-					android:text="Clean Database"></Button>
-			</LinearLayout>
-			<LinearLayout android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:orientation="vertical">
-				<TextView android:text="ResourceGroups"
-					android:layout_marginTop="5dp" android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/pmp_developer_console_button_register_rg"
-					android:text="Register ResourceGroup"></Button>
-			</LinearLayout>
-		</LinearLayout>
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:padding="5dp">
-		</LinearLayout>
-		<TextView android:textAppearance="?android:attr/textAppearanceLarge"
-			android:text="Bind Service" android:layout_height="wrap_content"
-			android:layout_width="fill_parent"></TextView>
-
-		<LinearLayout android:layout_height="wrap_content"
-			android:layout_width="fill_parent">
-			<EditText android:layout_weight="1" android:layout_width="fill_parent"
-				android:id="@+id/pmp_developer_console_edit_service_name"
-				android:layout_height="wrap_content">
-			</EditText>
-			<Button android:id="@+id/pmp_developer_console_button_bind_service"
-				android:layout_height="wrap_content" android:text="Bind"
-				android:layout_width="wrap_content"></Button>
-		</LinearLayout>
-
-		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-			<ProgressBar android:id="@+id/pmp_developer_console_cicle_bind"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:visibility="invisible"></ProgressBar>
-			<TextView android:text=""
-				android:id="@+id/pmp_developer_console_bind_status"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-		</LinearLayout>
-
-		<TextView
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_marginTop="5dp"
-		    android:background="#555555"
-		    android:paddingLeft="5dp"
-		    android:text="Performance Tests"
-		    android:textAppearance="?android:attr/textAppearanceLarge" />
 
 		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
+		    android:layout_marginTop="4px"
 		    android:background="#555555"
-		    android:padding="5dp" >
+		    android:orientation="vertical" >
 
-		    <Button
-		        android:id="@+id/pmp_developer_console_button_performance_model"
-		        android:layout_width="wrap_content"
-		        android:layout_height="fill_parent"
-		        android:text="Test Model" />
+			<TextView
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginTop="5dp"
+			    android:paddingLeft="5dp"
+			    android:text="Model"
+			    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-		    <Button
-		        android:id="@+id/pmp_developer_console_button_performance_model2"
-		        android:layout_width="wrap_content"
-		        android:layout_height="fill_parent"
-		        android:text="Test Model2" />
+			<LinearLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" >
 
-		    <Button
-		        android:id="@+id/pmp_developer_console_button_performance_model2_pc"
-		        android:layout_width="wrap_content"
-		        android:layout_height="fill_parent"
-		        android:text="Test Model2 PC" />
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="ModelProxy's mockup state:" android:layout_marginTop="12px" android:layout_marginLeft="12px" android:layout_marginRight="16px"/>
+
+				<ToggleButton
+				    android:id="@+id/pdc_switch_mockup_btn"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="ToggleButton" android:checked="false"/>
+
+			</LinearLayout>
+
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="fill_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:layout_marginLeft="4px" >
+
+				<Button
+				    android:id="@+id/pdc_precache_btn"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Precache model" />
+
+				<Button
+				    android:id="@+id/pdc_clearcache_btn"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Clear model cache" />
+
+			</LinearLayout>
+
+			<LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="fill_parent"
+			    android:layout_gravity="center_horizontal"
+			    android:layout_marginLeft="4px"
+			    android:gravity="center_horizontal" >
+
+				<Button
+				    android:id="@+id/pdc_clean_tables_btn"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Clean database tables" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" android:layout_marginBottom="8px">
+
+			<TextView
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginBottom="4px"
+			    android:layout_marginTop="8px"
+			    android:text="App Service"
+			    android:textAppearance="?android:attr/textAppearanceLarge" android:paddingLeft="5dp"/>
+
+			<LinearLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" >
+
+			    <EditText
+			        android:id="@+id/pdc_appservice_name_edit"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_weight="1"
+			        android:text="de.unistuttgart.ipvs.pmp.apps."
+			        android:textSize="20px" >
+
+			        <requestFocus />
+			    </EditText>
+
+			    <Button
+			        android:id="@+id/pdc_appservice_bind_btn"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="Bind" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" android:background="#555555">
+
+			<TextView
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginTop="5dp"
+			    android:paddingLeft="5dp"
+			    android:text="Resource Groups"
+			    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+			<LinearLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content" >
+
+				<ProgressBar
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content" android:layout_margin="8px"/>
+
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Waiting for Frieder ..." android:layout_marginTop="12px"/>
+
+			</LinearLayout>
 
 		</LinearLayout>
 

@@ -23,11 +23,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // TODO remove this once real model works
+        ModelProxy.set(true, this);
+        
         setContentView(R.layout.activity_main);
         
         registerListener();
         
-        // TODO Replace the statistics with the real statistics from model
         updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
                 .get().getPresets().length);
     }

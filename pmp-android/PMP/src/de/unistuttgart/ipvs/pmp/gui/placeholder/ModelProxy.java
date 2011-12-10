@@ -17,6 +17,7 @@ public class ModelProxy {
     protected static final IModel real = Model.getInstance();
     protected static final IModel mockup = MockupModel.instance;
     
+    private static boolean isMockup = false;
     private static IModel instance = real;
     
     
@@ -35,13 +36,19 @@ public class ModelProxy {
      *            true for mockup, false for real
      * @param context
      */
-    public static void set(boolean toMockup, Context context) {
+    public static void set(boolean toMockup, Context activityContext) {
+        isMockup = toMockup;
         if (toMockup) {
             instance = mockup;
-            MockupControl.init(context);
+            MockupControl.init(activityContext);
         } else {
             instance = real;
         }
+    }
+    
+    
+    public static boolean isMockup() {
+        return isMockup;
     }
     
     
