@@ -53,5 +53,8 @@
     <string name="presets_dialog_description">Description</string>
     <string name="presets_dialog_cancel">Cancel</string>
     <string name="presets_dialog_name_missing">Please enter a name!</string>
+    
+    <string name="preset_tab_apps">Assigned Apps</string>
+    <string name="preset_tab_ps">Assigned Privacy Settings</string>
 
 </resources>

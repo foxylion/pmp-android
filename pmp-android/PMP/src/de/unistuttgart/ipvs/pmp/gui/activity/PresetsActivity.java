@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddDialog;
 import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
@@ -160,6 +161,7 @@ public class PresetsActivity extends Activity {
      */
     public void openPreset(IPreset preset) {
         Intent i = new Intent(PresetsActivity.this, PresetActivity.class);
+        i.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
         PresetsActivity.this.startActivity(i);
     }
     

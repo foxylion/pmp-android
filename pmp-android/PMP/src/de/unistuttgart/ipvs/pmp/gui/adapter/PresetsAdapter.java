@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activity.PresetsActivity;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
@@ -66,8 +66,8 @@ public class PresetsAdapter extends BaseAdapter {
         
         /* Set text color to dark gray, if item is deleted */
         if (preset.isDeleted()) {
-            name.setTextColor(Color.DKGRAY);
-            description.setTextColor(Color.DKGRAY);
+            name.setTextColor(GUIConstants.COLOR_GRAYED_OUT);
+            description.setTextColor(GUIConstants.COLOR_GRAYED_OUT);
         }
         
         return entryView;
