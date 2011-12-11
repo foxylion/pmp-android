@@ -149,7 +149,9 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
+        if (this.persistenceProvider != null) {
+            ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
+        }
         this.assignedApps.add(app);
         
         if (app instanceof App) {
@@ -165,7 +167,9 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
+        if (this.persistenceProvider != null) {
+            ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
+        }
         this.assignedApps.remove(app);
         
         if (app instanceof App) {
@@ -182,7 +186,9 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         Assert.nonNull(value, new ModelMisuseError(Assert.ILLEGAL_NULL, "value", value));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
+        if (this.persistenceProvider != null) {
+            ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
+        }
         this.privacySettingValues.put(privacySetting, value);
         
         rollout();
@@ -194,7 +200,9 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
         
-        ((PresetPersistenceProvider) this.persistenceProvider).removePrivacySetting(privacySetting);
+        if (this.persistenceProvider != null) {
+            ((PresetPersistenceProvider) this.persistenceProvider).removePrivacySetting(privacySetting);
+        }
         this.privacySettingValues.remove(privacySetting);
         
         rollout();
