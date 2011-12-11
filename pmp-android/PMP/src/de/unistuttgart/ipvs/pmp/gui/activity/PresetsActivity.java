@@ -7,19 +7,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddDialog;
 import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -51,6 +54,11 @@ public class PresetsActivity extends Activity {
      */
     private ToggleButton toggle;
     
+    /**
+     * Add Preset button
+     */
+    private Button addPresetButton;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +85,7 @@ public class PresetsActivity extends Activity {
         /*
          * ToggleButton
          */
-        toggle = (ToggleButton) findViewById(R.id.presets_deleted_toggle);
+        toggle = (ToggleButton) findViewById(R.id.presets_deleted_toggle_button);
         toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             
             @Override
@@ -129,6 +137,19 @@ public class PresetsActivity extends Activity {
             }
         });
         
+        // Setup the add preset button
+        addPresetButton = (Button) findViewById(R.id.presets_add_button);
+        addPresetButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                PresetAddDialog dialog = new PresetAddDialog(PresetsActivity.this);
+                dialog.setTitle(R.string.presets_add);
+                dialog.setActivity(PresetsActivity.this);
+                dialog.show();
+            }
+        });
+        
     }
     
     
@@ -176,7 +197,7 @@ public class PresetsActivity extends Activity {
                 return true;
             } else if (menuItem.getItemId() == 1) {
                 // Clicked on "delete permanently"
-                ModelProxy.get().removePreset(null, preset.getIdentifier());
+                ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
                 showPresets();
                 return true;
             }
@@ -190,4 +211,13 @@ public class PresetsActivity extends Activity {
         return false;
         
     }
+    
+    
+    /**
+     * Method for updating the list entries (presets)
+     */
+    public void updateList() {
+        showPresets();
+    }
+    
 }

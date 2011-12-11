@@ -30,14 +30,30 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.00"
                 android:text="@string/presets_description" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/presets_add_button"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.5"
+                android:drawableLeft="@drawable/icon_add_preset"
+                android:text="@string/presets_add" />
 
             <ToggleButton
-                android:id="@+id/presets_deleted_toggle"
-                android:layout_width="110dp"
+                android:id="@+id/presets_deleted_toggle_button"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_gravity="fill_vertical"
+                android:layout_weight="0.5"
                 android:textOff="@string/presets_show_deleted"
-                android:textOn="@string/presets_hide_deleted" />
+                android:textOn="@string/presets_show_deleted" />
         </LinearLayout>
 
         <include layout="@layout/view_divider_strong" />

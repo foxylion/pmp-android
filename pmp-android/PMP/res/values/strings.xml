@@ -42,11 +42,16 @@
     <string name="presets_title">Presets</string>
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
     <string name="presets_show_deleted">Show deleted</string>
-    <string name="presets_hide_deleted">Hide deleted</string>
     <string name="presets_deleted_context_menu">Edit deleted Preset</string>
     <string name="presets_delete_permanent">Delete permanently</string>
     <string name="presets_restore">Restore</string>
     <string name="presets_context_menu">Edit Preset</string>
     <string name="presets_delete">Delete Preset</string>
+    <string name="presets_add">Add Preset</string>
+    <string name="presets_dialog_confirm">Confirm</string>
+    <string name="presets_dialog_name">Name</string>
+    <string name="presets_dialog_description">Description</string>
+    <string name="presets_dialog_cancel">Cancel</string>
+    <string name="presets_dialog_name_missing">Please enter a name!</string>
 
 </resources>
