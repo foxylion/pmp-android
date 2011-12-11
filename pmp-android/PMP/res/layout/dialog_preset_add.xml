@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/presets_dialog_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/presets_dialog_name"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/presets_dialog_name_textfield"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <requestFocus >
+                </requestFocus>
+            </EditText>
+
+            <TextView
+                android:id="@+id/presets_dialog_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/presets_dialog_description"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/presets_dialog_description_textfield"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:baselineAligned="true"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/presets_dialog_confirm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/presets_dialog_confirm" />
+
+                <Button
+                    android:id="@+id/presets_dialog_cancel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/presets_dialog_cancel" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
