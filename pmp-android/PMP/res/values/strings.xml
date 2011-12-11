@@ -56,5 +56,9 @@
     
     <string name="preset_tab_apps">Assigned Apps</string>
     <string name="preset_tab_ps">Assigned Privacy Settings</string>
+    <string name="preset_tab_apps_assign_app">Assign App</string>
+    <string name="preset_tab_apps_description">All assigned Apps are listed here.</string>
+    <string name="preset_tab_pss_assign_ps">Assign\nPrivacy Setting</string>
+    <string name="preset_tab_pss_description">All assigned Privacy Settings are listed here.</string>
 
 </resources>

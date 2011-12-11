@@ -12,6 +12,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:orientation="horizontal" >
+
+
+
+
+    </LinearLayout>
+
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
