@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetMananger;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetManager;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -83,9 +83,9 @@ public class ServiceFeatureDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (ServiceFeatureDialog.this.serviceFeature.isActive()) {
-                    PresetMananger.disableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
+                    PresetManager.disableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
                 } else {
-                    PresetMananger.enableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
+                    PresetManager.enableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
                 }
                 
                 ServiceFeatureDialog.this.serviceFeatureView.refresh();

@@ -1,12 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.activity;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
-import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
-import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
-import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
-import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
@@ -15,6 +8,13 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
  * Activity of one Preset. It contains two tabs: "Assigned Apps" and "Assigned Privacy Settings"
@@ -43,7 +43,7 @@ public class PresetActivity extends Activity {
         
         // Get the preset
         String presetIdentifier = super.getIntent().getStringExtra(GUIConstants.PRESET_IDENTIFIER);
-        preset = ModelProxy.get().getPreset(null, presetIdentifier);
+        this.preset = ModelProxy.get().getPreset(null, presetIdentifier);
         
         // Set view
         setContentView(R.layout.activity_preset);
@@ -60,7 +60,7 @@ public class PresetActivity extends Activity {
         // Set up title view
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
-        title.setTitle(preset.getName());
+        title.setTitle(this.preset.getName());
         title.setIcon(R.drawable.icon_presets);
         
     }

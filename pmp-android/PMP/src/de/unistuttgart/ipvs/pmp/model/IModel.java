@@ -175,6 +175,19 @@ public interface IModel {
     
     
     /**
+     * Convenience function to simply add a new preset created by a user. This function guarantees the preset will get
+     * an identifier that is not yet taken, based on the name of the preset.
+     * 
+     * @param name
+     *            The name of the {@link IPreset}.
+     * @param description
+     *            The description of the {@link IPreset}.
+     * @return the {@link IPreset} that was created
+     */
+    public IPreset addUserPreset(String name, String description);
+    
+    
+    /**
      * Removes an existing {@link IPreset} ultimately from PMP. This cannot be undone. Consider using
      * {@link IPreset#setDeleted(boolean)} alternatively.
      * 

@@ -101,25 +101,24 @@ public class PresetAddDialog extends Dialog {
         @Override
         public void onClick(View v) {
             
-            if (name.getText().length() == 0) {
+            if (PresetAddDialog.this.name.getText().length() == 0) {
                 // no name set
-                Toast.makeText(PresetAddDialog.this.getContext(), R.string.presets_dialog_name_missing,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.presets_dialog_name_missing, Toast.LENGTH_SHORT).show();
                 return;
             }
             
             // Store
-            IPreset createdPreset = ModelProxy.get().addPreset(null, name.getText().toString(),
-                    name.getText().toString(), desc.getText().toString());
+            IPreset createdPreset = ModelProxy.get().addPreset(null, PresetAddDialog.this.name.getText().toString(),
+                    PresetAddDialog.this.name.getText().toString(), PresetAddDialog.this.desc.getText().toString());
             
             // Dismiss
             dismiss();
             
             // Update the Presets
-            activity.updateList();
+            PresetAddDialog.this.activity.updateList();
             
             // Open Preset
-            activity.openPreset(createdPreset);
+            PresetAddDialog.this.activity.openPreset(createdPreset);
         }
         
     }

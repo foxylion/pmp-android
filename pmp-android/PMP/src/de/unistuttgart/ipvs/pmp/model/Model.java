@@ -468,6 +468,28 @@ public class Model implements IModel, Observer {
     
     
     @Override
+    public IPreset addUserPreset(String name, String description) {
+        checkCached();
+        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
+        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
+        
+        // prepare standard
+        Map<String, Preset> creatorMap = this.cache.getPresets().get(null);
+        int suffix = 1;
+        String identifier = name;
+        
+        // find free identifier
+        while (creatorMap.get(identifier) != null) {
+            suffix++;
+            identifier = name + suffix;
+        }
+        
+        // create
+        return addPreset(null, identifier, name, description);
+    }
+    
+    
+    @Override
     public boolean removePreset(IModelElement creator, String identifier) {
         checkCached();
         Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));

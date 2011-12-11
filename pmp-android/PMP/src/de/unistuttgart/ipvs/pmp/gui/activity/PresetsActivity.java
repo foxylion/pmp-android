@@ -86,8 +86,8 @@ public class PresetsActivity extends Activity {
         /*
          * ToggleButton
          */
-        toggle = (ToggleButton) findViewById(R.id.presets_deleted_toggle_button);
-        toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        this.toggle = (ToggleButton) findViewById(R.id.presets_deleted_toggle_button);
+        this.toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -96,18 +96,18 @@ public class PresetsActivity extends Activity {
         });
         
         // Setup the presetsListView
-        presetListView = (ListView) findViewById(R.id.ListView_Presets);
-        presetListView.setClickable(true);
-        presetListView.setLongClickable(false);
-        registerForContextMenu(presetListView);
+        this.presetListView = (ListView) findViewById(R.id.ListView_Presets);
+        this.presetListView.setClickable(true);
+        this.presetListView.setLongClickable(false);
+        registerForContextMenu(this.presetListView);
         
         // Add a context menu listener for long clicks
-        presetListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+        this.presetListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
                 AdapterContextMenuInfo menuInfoAdapter = (AdapterContextMenuInfo) menuInfo;
-                IPreset preset = presetList.get(menuInfoAdapter.position);
+                IPreset preset = PresetsActivity.this.presetList.get(menuInfoAdapter.position);
                 
                 if (preset.isDeleted()) {
                     menu.setHeaderTitle(getString(R.string.presets_deleted_context_menu));
@@ -121,12 +121,12 @@ public class PresetsActivity extends Activity {
         });
         
         // React on clicked item
-        presetListView.setOnItemClickListener(new OnItemClickListener() {
+        this.presetListView.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
                 
-                IPreset preset = presetList.get(pos);
+                IPreset preset = PresetsActivity.this.presetList.get(pos);
                 
                 if (!preset.isDeleted()) {
                     openPreset(preset);
@@ -138,8 +138,8 @@ public class PresetsActivity extends Activity {
         });
         
         // Setup the add preset button
-        addPresetButton = (Button) findViewById(R.id.presets_add_button);
-        addPresetButton.setOnClickListener(new OnClickListener() {
+        this.addPresetButton = (Button) findViewById(R.id.presets_add_button);
+        this.addPresetButton.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
@@ -176,18 +176,19 @@ public class PresetsActivity extends Activity {
         this.presetList = new ArrayList<IPreset>();
         
         // Show deleted presets or not
-        boolean showDeleted = toggle.isChecked();
+        boolean showDeleted = this.toggle.isChecked();
         
         // Fill the list
-        for (IPreset preset : presets) {
-            if (!showDeleted && preset.isDeleted())
+        for (IPreset preset : this.presets) {
+            if (!showDeleted && preset.isDeleted()) {
                 continue;
-            presetList.add(preset);
+            }
+            this.presetList.add(preset);
         }
         
         // Set adapter
-        PresetsAdapter presetsAdapter = new PresetsAdapter(this, presetList);
-        presetListView.setAdapter(presetsAdapter);
+        PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
+        this.presetListView.setAdapter(presetsAdapter);
         
     }
     

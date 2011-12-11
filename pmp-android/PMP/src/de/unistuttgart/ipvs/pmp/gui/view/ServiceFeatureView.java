@@ -11,7 +11,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.dialog.ServiceFeatureDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetMananger;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetManager;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class ServiceFeatureView extends LinearLayout {
@@ -104,9 +104,9 @@ public class ServiceFeatureView extends LinearLayout {
                 boolean newState = ((CheckBox) v).isChecked();
                 
                 if (newState) {
-                    PresetMananger.enableServiceFeature(ServiceFeatureView.this.serviceFeature);
+                    PresetManager.enableServiceFeature(ServiceFeatureView.this.serviceFeature);
                 } else {
-                    PresetMananger.disableServiceFeature(ServiceFeatureView.this.serviceFeature);
+                    PresetManager.disableServiceFeature(ServiceFeatureView.this.serviceFeature);
                 }
                 
                 Toast.makeText(

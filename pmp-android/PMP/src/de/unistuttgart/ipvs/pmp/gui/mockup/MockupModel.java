@@ -141,6 +141,24 @@ public class MockupModel implements IModel {
     
     
     @Override
+    public IPreset addUserPreset(String name, String description) {
+        // prepare standard
+        Map<String, Preset> creatorMap = this.mc.getPresets().get(null);
+        int suffix = 1;
+        String identifier = name;
+        
+        // find free identifier
+        while (creatorMap.get(identifier) != null) {
+            suffix++;
+            identifier = name + suffix;
+        }
+        
+        // create
+        return addPreset(null, identifier, name, description);
+    }
+    
+    
+    @Override
     public boolean removePreset(IModelElement creator, String identifier) {
         // does the creator map exist?
         Map<String, Preset> creatorMap = this.mc.getPresets().get(creator);

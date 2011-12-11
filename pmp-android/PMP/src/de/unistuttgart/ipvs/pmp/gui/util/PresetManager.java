@@ -6,7 +6,11 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
-public class PresetMananger {
+/**
+ * Someone comment this please?
+ * 
+ */
+public class PresetManager {
     
     public static IModel model = Model.getInstance();
     
