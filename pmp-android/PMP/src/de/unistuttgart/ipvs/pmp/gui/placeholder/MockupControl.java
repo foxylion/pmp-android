@@ -33,6 +33,20 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
  */
 public class MockupControl {
     
+    private static MockupApp app1;
+    private static MockupApp app2;
+    private static MockupApp app3;
+    private static MockupApp app4;
+    
+    private static IPreset p1;
+    private static IPreset p2;
+    private static IPreset p3;
+    private static IPreset p4;  
+    
+    private static MockupRG rg1;
+    private static MockupRG rg2;
+    private static MockupRG rg3;
+    
     public static void init(final Context activityContext) {
         
         ProgressDialog pd = new ProgressDialog(activityContext);
@@ -65,23 +79,39 @@ public class MockupControl {
         ident = "preset_1";
         name = "My first Preset";
         description = "Wooohooo, I've created a cool preset.. wow!";
-        MockupModel.instance.addPreset(null, ident, name, description);
+        p1 = MockupModel.instance.addPreset(null, ident, name, description);
+        p1.assignApp(app1);
+        p1.assignApp(app2);
+        p1.assignApp(app3);
+        p1.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+        p1.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
+        p1.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         
         ident = "preset_2";
         name = "My second Preset";
         description = "Wooohooo, I've created another very cool preset.. wow!";
-        MockupModel.instance.addPreset(null, ident, name, description);
+        p2 = MockupModel.instance.addPreset(null, ident, name, description);
+        p2.assignApp(app3);
+        p2.assignApp(app4); 
+        p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+        p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         
         ident = "preset_3";
         name = "My third Preset";
         description = "Yeah, now I know how to create presets! I'm an expert!!! And therfore I write a veeeeeeeeery long description... can the gui show this?! Yes, of course!";
-        MockupModel.instance.addPreset(null, ident, name, description);
+        p3 = MockupModel.instance.addPreset(null, ident, name, description);
+        p3.assignApp(app1);
+        p3.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
+        p3.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         
         ident = "preset_4";
         name = "My first deleted Preset";
         description = "Wow, i was able to delete a preset!";
-        IPreset p = MockupModel.instance.addPreset(null, ident, name, description);
-        p.setDeleted(true);
+        p4 = MockupModel.instance.addPreset(null, ident, name, description);
+        p4.assignApp(app1);
+        p4.assignApp(app3);
+        p4.setDeleted(true);
+        p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
     }
     
     
@@ -95,27 +125,27 @@ public class MockupControl {
         
         ident = "org.barcode.scanner";
         ais = getAIS(activityContext, "barcode.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon1), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        app1 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon1), ais);
+        createSF(ais, app1);
+        MockupModel.instance.registerApp(ident, app1);
         
         ident = "com.google.calendar";
         ais = getAIS(activityContext, "calendar.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon2), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        app2 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon2), ais);
+        createSF(ais, app2);
+        MockupModel.instance.registerApp(ident, app2);
         
         ident = "com.facebook.apps";
         ais = getAIS(activityContext, "facebook.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon3), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        app3 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon3), ais);
+        createSF(ais, app3);
+        MockupModel.instance.registerApp(ident, app3);
         
         ident = "com.google.mail";
         ais = getAIS(activityContext, "gmail.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon4), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        app4 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon4), ais);
+        createSF(ais, app4);
+        MockupModel.instance.registerApp(ident, app4);
         
         ident = "com.imdb.android";
         ais = getAIS(activityContext, "imdb.xml");
@@ -160,26 +190,25 @@ public class MockupControl {
      */
     private static void initRGs(Context activityContext) {
         String ident;
-        MockupRG rg;
         RgInformationSet rgis;
         
         ident = "org.oracle.db";
         rgis = getRGIS(activityContext, "db.xml");
-        rg = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
-        createPS(rgis, rg);
-        MockupModel.instance.installResourceGroup(ident, rg);
+        rg1 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
+        createPS(rgis, rg1);
+        MockupModel.instance.installResourceGroup(ident, rg1);
         
         ident = "gov.gps";
         rgis = getRGIS(activityContext, "gps.xml");
-        rg = new MockupRG(ident, getDrawable(activityContext, R.drawable.test_icon8), rgis);
-        createPS(rgis, rg);
-        MockupModel.instance.installResourceGroup(ident, rg);
+        rg2 = new MockupRG(ident, getDrawable(activityContext, R.drawable.test_icon8), rgis);
+        createPS(rgis, rg2);
+        MockupModel.instance.installResourceGroup(ident, rg2);
         
         ident = "de.bka.bundestrojaner";
         rgis = getRGIS(activityContext, "privacy.xml");
-        rg = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_search), rgis);
-        createPS(rgis, rg);
-        MockupModel.instance.installResourceGroup(ident, rg);
+        rg3 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_search), rgis);
+        createPS(rgis, rg3);
+        MockupModel.instance.installResourceGroup(ident, rg3);
     }
     
     
