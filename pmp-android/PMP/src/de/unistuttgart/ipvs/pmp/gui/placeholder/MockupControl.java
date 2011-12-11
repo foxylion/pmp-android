@@ -41,11 +41,12 @@ public class MockupControl {
     private static IPreset p1;
     private static IPreset p2;
     private static IPreset p3;
-    private static IPreset p4;  
+    private static IPreset p4;
     
     private static MockupRG rg1;
     private static MockupRG rg2;
     private static MockupRG rg3;
+    
     
     public static void init(final Context activityContext) {
         
@@ -92,7 +93,7 @@ public class MockupControl {
         description = "Wooohooo, I've created another very cool preset.. wow!";
         p2 = MockupModel.instance.addPreset(null, ident, name, description);
         p2.assignApp(app3);
-        p2.assignApp(app4); 
+        p2.assignApp(app4);
         p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
         p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         
