@@ -109,8 +109,8 @@ public class PresetAddDialog extends Dialog {
             }
             
             // Store
-            IPreset createdPreset = ModelProxy.get().addPreset(null, name.getText().toString(), name.getText().toString(),
-                    desc.getText().toString());
+            IPreset createdPreset = ModelProxy.get().addPreset(null, name.getText().toString(),
+                    name.getText().toString(), desc.getText().toString());
             
             // Dismiss
             dismiss();
