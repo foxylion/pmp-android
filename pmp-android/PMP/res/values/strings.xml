@@ -55,6 +55,15 @@
     <string name="required_privacy_settings">Required Privacy Settings</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
+    <string name="details">Details</string>
+    <string name="service_features">Service Features</string>
+    <string name="presets">Presets</string>
+    <string name="ps_invalid_value">required value is invalid</string>
+    <string name="required_value">required value</string>
+    <string name="app_context_menu">Choose an action</string>
+    <string name="remove_app">Remove App</string>
+    <string name="app_removed">App has been successfully unregistred from PMP.</string>
+    <string name="details_app">App details</string>
 
 
 </resources>

@@ -46,10 +46,11 @@ public class ServiceFeatureDialog extends Dialog {
             text += "<b>" + ps.getResourceGroup().getName() + " - <i>" + ps.getName() + "</i></b><br/>";
             
             try {
-                text += "required value: "
+                text += getContext().getResources().getString(R.string.required_value) + ": "
                         + ps.getHumanReadableValue(serviceFeature.getRequiredPrivacySettingValue(ps));
             } catch (PrivacySettingValueException e) {
-                text += "<span style=\"color:red;\">required value is invalid</span>";
+                text += "<span style=\"color:red;\">"
+                        + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>";
             }
             text += "</p>";
         }
@@ -58,7 +59,12 @@ public class ServiceFeatureDialog extends Dialog {
         requiredPSTv.setText(Html.fromHtml(text));
         
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
-        enableDisableButton.setEnabled(!PMPPreferences.getInstanace().isExpertMode() && serviceFeature.isAvailable());
+        if (PMPPreferences.getInstanace().isExpertMode()) {
+            enableDisableButton.setVisibility(View.INVISIBLE);
+        } else {
+            enableDisableButton.setVisibility(View.VISIBLE);
+        }
+        enableDisableButton.setEnabled(serviceFeature.isAvailable());
         
         if (serviceFeature.isActive()) {
             enableDisableButton.setText(getContext().getResources().getString(R.string.disable));

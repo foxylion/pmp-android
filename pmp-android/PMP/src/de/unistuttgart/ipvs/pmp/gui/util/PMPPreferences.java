@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.gui.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
 
 public class PMPPreferences {
     
@@ -39,5 +41,9 @@ public class PMPPreferences {
         SharedPreferences.Editor editor = this.settings.edit();
         editor.putBoolean(KEY_EXPERT_MODE, mode);
         editor.commit();
+        
+        if(!mode) {
+            SimpleModel.getInstance().convertExpertToSimple(ModelProxy.get());
+        }
     }
 }

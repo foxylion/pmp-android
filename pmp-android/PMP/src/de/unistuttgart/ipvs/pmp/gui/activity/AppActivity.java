@@ -81,8 +81,8 @@ public class AppActivity extends Activity {
     
     private void setupTabs() {
         /* Details Tab */
-        TabSpec details = this.mTabHost.newTabSpec("tab_details");
-        details.setIndicator("Details");
+        TabSpec details = this.mTabHost.newTabSpec("tab_detail");
+        details.setIndicator(getResources().getString(R.string.details));
         
         // Create an Intent to start the inner activity
         Intent intentDetails = new Intent(this, AppDetailsTab.class);
@@ -98,8 +98,8 @@ public class AppActivity extends Activity {
         tab1.setLayoutParams(lp);
         
         /* Service Features Tab */
-        TabSpec sfs = this.mTabHost.newTabSpec("tab_sfs");
-        sfs.setIndicator("Service Features");
+        TabSpec sfs = this.mTabHost.newTabSpec("tab_sf");
+        sfs.setIndicator(getResources().getString(R.string.service_features));
         
         // Create an Intent to start the inner activity
         Intent intentSfs = new Intent(this, AppServiceFeaturesTab.class);
@@ -115,8 +115,8 @@ public class AppActivity extends Activity {
         tab2.setLayoutParams(lp);
         
         /* Presets Tab */
-        TabSpec presets = this.mTabHost.newTabSpec("tab_details");
-        presets.setIndicator("Presets");
+        TabSpec presets = this.mTabHost.newTabSpec("tab_preset");
+        presets.setIndicator(getResources().getString(R.string.presets));
         
         // Create an Intent to start the inner activity
         Intent intentPresets = new Intent(this, AppPresetsTab.class);
