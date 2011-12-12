@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.simple;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +139,7 @@ public class SimpleModel implements ISimpleModel {
             p = a.getAssignedPresets()[0];
         }
         
-        List<IServiceFeature> actives = Arrays.asList(a.getActiveServiceFeatures());
+        List<IServiceFeature> actives = new ArrayList<IServiceFeature>(Arrays.asList(a.getActiveServiceFeatures()));
         // check whether the active setting is already the case
         boolean contained = actives.contains(serviceFeature);
         if ((contained && active) || (!contained && !active)) {
