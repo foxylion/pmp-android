@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
-                android:drawableLeft="@drawable/icon_add_preset"
+                android:drawableLeft="@drawable/icon_add_32"
                 android:text="@string/preset_tab_apps_assign_app" />
         </LinearLayout>
 
