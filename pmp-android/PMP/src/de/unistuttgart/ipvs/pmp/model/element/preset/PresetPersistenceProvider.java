@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
@@ -142,7 +143,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(PRESET_CREATOR, this.element.getCreatorString());
         cv.put(APP_PACKAGE, app.getIdentifier());
         
-        wdb.insert("Preset_Apps", null, cv);
+        wdb.insert(PersistenceConstants.TBL_PresetAssignedApp, null, cv);
     }
     
     
