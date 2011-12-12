@@ -13,6 +13,8 @@ class DatabaseException extends Exception {
  */
 class Database {
 
+    const DATE_FORMAT = "Y-m-d H:i:s";
+    
     private static $instance = null;
 
     private $handler = null;

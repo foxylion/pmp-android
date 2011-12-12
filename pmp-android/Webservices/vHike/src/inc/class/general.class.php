@@ -3,15 +3,26 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- * 
- * 
- */
+class InputException extends Exception {}
 
 class General {
 
+    /**
+     * Checks if the length of an input string is valid 
+     * @param String $input Input
+     * @return boolean  True, if length is valid
+     */
+    public static function validLength($input) {
+        $length = strlen($input);
+        
+        if ($length > 2 && $length <= 100) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
     /**
      * Generates a random string.
      * Usefull for greating passwords or activation strings  

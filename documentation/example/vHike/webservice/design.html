@@ -458,6 +458,7 @@
 <pre>
 {
   "successful":true,
+  "status": String,
   "id": Integer,
   "username": String,
   "email": String,
@@ -481,6 +482,9 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
            <ul>           
+              <li><code>status</code> - String: <code>found</code> wenn zur 
+                angegebenen ID ein Benutzer gefunden wurde, sonst <code>not_found</code>.
+                Nachfolgende Felder werden nur beim Status <code>found</code> ausgegeben</li>
               <li><code>id</code> - Integer: Die ID des Benutzers</li>
               <li><code>username</code> - String: Der Name des Benutzers</li>  
               <li><code>email</code> - String: Die E-Mail-Adresse des Benutzers, 
@@ -505,6 +509,10 @@
               <li><code>rating_num</code> - Integer: Anzahl der für den Benutzer abgegebenen Bewertungen</li>
             </ul>
           </td>
+        </tr>              
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -549,6 +557,7 @@
 <pre>
 {
   "successful": true,
+  "status": String,
   "id": Integer
 }                                 
 </pre>  
@@ -558,9 +567,16 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
            <ul>           
-              <li><code>id</code> - Integer: Die ID der soeben angelegten Fahrt</li>
+              <li><code>status</code> - String: <code>announced</code> wenn die Fahrt angelegt wurde,
+                <code>invalid_input</code> wenn ein POST-Parameter ungültig ist  oder
+                <code>open_trip_exists</code> wenn der Fahrer noch eine nicht beendete Fahrt offen hat
+              <li><code>id</code> - Integer: Die ID der soeben angelegten Fahrt (nur wenn <code>"status": "announced"</code>)</li>
             </ul>
           </td>
+        </tr>              
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
