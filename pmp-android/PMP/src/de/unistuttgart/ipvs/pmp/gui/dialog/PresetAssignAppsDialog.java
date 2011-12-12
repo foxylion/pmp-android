@@ -21,7 +21,7 @@ import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
 import de.unistuttgart.ipvs.pmp.gui.activity.PresetsActivity;
 import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAssignAppsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;

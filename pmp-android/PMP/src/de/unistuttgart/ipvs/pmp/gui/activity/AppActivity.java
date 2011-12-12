@@ -9,11 +9,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppDetailsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppPresetsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppServiceFeaturesTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
@@ -40,8 +40,7 @@ public class AppActivity extends Activity {
         this.mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         this.mTabHost.setup(this.lam);
         
-        //app = handleIntent(getIntent());
-        this.app = ModelProxy.get().getApp("org.barcode.scanner");
+        this.app = GUITools.handleIntent(getIntent());
         
         setupTabs();
         
@@ -132,4 +131,5 @@ public class AppActivity extends Activity {
         lp.width = LayoutParams.WRAP_CONTENT;
         tab3.setLayoutParams(lp);
     }
+    
 }

@@ -10,9 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.dialog.ServiceFeatureDialog;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetManager;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
 
 public class ServiceFeatureView extends LinearLayout {
     
@@ -91,9 +92,6 @@ public class ServiceFeatureView extends LinearLayout {
             public void onClick(View v) {
                 new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), ServiceFeatureView.this.serviceFeature,
                         ServiceFeatureView.this).show();
-                
-                Toast.makeText(ServiceFeatureView.this.getContext(), "Tapped on the Service Feature View",
-                        Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -103,20 +101,21 @@ public class ServiceFeatureView extends LinearLayout {
             public void onClick(View v) {
                 boolean newState = ((CheckBox) v).isChecked();
                 
-                if (newState) {
-                    PresetManager.enableServiceFeature(ServiceFeatureView.this.serviceFeature);
-                } else {
-                    PresetManager.disableServiceFeature(ServiceFeatureView.this.serviceFeature);
-                }
+                reactOnChange(newState);
                 
-                Toast.makeText(
-                        ServiceFeatureView.this.getContext(),
-                        "The Service Feature has been "
-                                + (ServiceFeatureView.this.serviceFeature.isActive() ? "enabled" : "disabled"),
-                        Toast.LENGTH_SHORT).show();
-                
-                refresh();
             }
         });
+    }
+    
+    
+    public void reactOnChange(boolean newState) {
+        SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(), ServiceFeatureView.this.serviceFeature,
+                newState);
+        
+        String toastText = getResources().getString(
+                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled));
+        Toast.makeText(ServiceFeatureView.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
+        
+        refresh();
     }
 }

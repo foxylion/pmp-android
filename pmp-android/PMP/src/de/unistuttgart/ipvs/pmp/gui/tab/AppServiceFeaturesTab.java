@@ -11,11 +11,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class AppServiceFeaturesTab extends Activity {
+    
+    private IApp app;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,8 @@ public class AppServiceFeaturesTab extends Activity {
     protected void onResume() {
         super.onResume();
         
+        this.app = GUITools.handleIntent(getIntent());
+        
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
         TextView tvDescriptionExpertMode = (TextView) findViewById(R.id.TextView_Description_Expert);
@@ -41,8 +46,8 @@ public class AppServiceFeaturesTab extends Activity {
         }
         
         /* Temporary bad stuff, to Test the Activity */
-        IServiceFeature[] sfs = ModelProxy.get().getApp("org.barcode.scanner").getServiceFeatures();
-        IServiceFeature[] sfs_enabled = ModelProxy.get().getApp("org.barcode.scanner").getActiveServiceFeatures();
+        IServiceFeature[] sfs = app.getServiceFeatures();
+        IServiceFeature[] sfs_enabled = app.getActiveServiceFeatures();
         List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
         for (IServiceFeature sf : sfs) {
             if (!sf.isActive()) {

@@ -9,7 +9,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;

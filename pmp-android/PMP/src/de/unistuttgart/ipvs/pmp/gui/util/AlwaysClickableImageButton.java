@@ -49,7 +49,7 @@ public class AlwaysClickableImageButton extends ImageButton {
     }
     
     
-    public void setDisabledClickListener(OnClickListener disabledClickListener) {
+    public void setOnDisabledClickListener(OnClickListener disabledClickListener) {
         this.disabledClickListener = disabledClickListener;
     }
     

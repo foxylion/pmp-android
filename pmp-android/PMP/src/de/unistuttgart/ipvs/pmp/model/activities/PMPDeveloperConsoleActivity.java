@@ -38,7 +38,7 @@ import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activity.MainActivity;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;

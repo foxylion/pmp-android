@@ -49,7 +49,7 @@ public class AlwaysClickableButton extends Button {
     }
     
     
-    public void setDisabledClickListener(OnClickListener disabledClickListener) {
+    public void setDisabledOnClickListener(OnClickListener disabledClickListener) {
         this.disabledClickListener = disabledClickListener;
     }
     

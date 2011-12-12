@@ -4,12 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Html;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetManager;
-import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact;
+import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -27,10 +27,13 @@ public class ServiceFeatureDialog extends Dialog {
         this.serviceFeature = serviceFeature;
         this.serviceFeatureView = serviceFeatureView;
         
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         setContentView(R.layout.dialog_sf);
         
-        BasicTitleViewCompact btvc = (BasicTitleViewCompact) findViewById(R.id.Title);
-        btvc.setTitle(serviceFeature.getName());
+        BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
+        btv.setTitle(String.format(getContext().getResources().getString(R.string.service_feature_title),
+                this.serviceFeature.getName()));
         
         TextView descriptionTv = (TextView) findViewById(R.id.TextView_Description);
         descriptionTv.setText(serviceFeature.getDescription());
@@ -55,12 +58,12 @@ public class ServiceFeatureDialog extends Dialog {
         requiredPSTv.setText(Html.fromHtml(text));
         
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
-        enableDisableButton.setEnabled(!PMPPreferences.getInstanace().isExpertMode());
+        enableDisableButton.setEnabled(!PMPPreferences.getInstanace().isExpertMode() && serviceFeature.isAvailable());
         
         if (serviceFeature.isActive()) {
-            enableDisableButton.setText("Disable");
+            enableDisableButton.setText(getContext().getResources().getString(R.string.disable));
         } else {
-            enableDisableButton.setText("Enable");
+            enableDisableButton.setText(getContext().getResources().getString(R.string.enable));
         }
         
         addListener();
@@ -82,13 +85,9 @@ public class ServiceFeatureDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                if (ServiceFeatureDialog.this.serviceFeature.isActive()) {
-                    PresetManager.disableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
-                } else {
-                    PresetManager.enableServiceFeature(ServiceFeatureDialog.this.serviceFeature);
-                }
+                boolean newState = !ServiceFeatureDialog.this.serviceFeature.isActive();
                 
-                ServiceFeatureDialog.this.serviceFeatureView.refresh();
+                ServiceFeatureDialog.this.serviceFeatureView.reactOnChange(newState);
                 ServiceFeatureDialog.this.cancel();
             }
         });
