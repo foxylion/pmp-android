@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
     private void checkExpertMode() {
         Button buttonPresets = (Button) findViewById(R.id.Button_Presets);
         
-        if (PMPPreferences.getInstanace().isExpertMode()) {
+        if (PMPPreferences.getInstance().isExpertMode()) {
             buttonPresets.setEnabled(true);
         } else {
             buttonPresets.setEnabled(false);

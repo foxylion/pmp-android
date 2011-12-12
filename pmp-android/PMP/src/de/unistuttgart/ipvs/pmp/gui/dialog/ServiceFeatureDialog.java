@@ -2,18 +2,18 @@ package de.unistuttgart.ipvs.pmp.gui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.gui.view.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class ServiceFeatureDialog extends Dialog {
     
@@ -38,28 +38,15 @@ public class ServiceFeatureDialog extends Dialog {
         TextView descriptionTv = (TextView) findViewById(R.id.TextView_Description);
         descriptionTv.setText(serviceFeature.getDescription());
         
-        TextView requiredPSTv = (TextView) findViewById(R.id.TextView_PrivacySettings);
-        String text = "<html>";
+        LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
+        psLayout.removeAllViews();
         
-        for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
-            text += "<p>";
-            text += "<b>" + ps.getResourceGroup().getName() + " - <i>" + ps.getName() + "</i></b><br/>";
-            
-            try {
-                text += getContext().getResources().getString(R.string.required_value) + ": "
-                        + ps.getHumanReadableValue(serviceFeature.getRequiredPrivacySettingValue(ps));
-            } catch (PrivacySettingValueException e) {
-                text += "<span style=\"color:red;\">"
-                        + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>";
-            }
-            text += "</p>";
+        for(IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
+            psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
         }
-        text += "</html>";
-        
-        requiredPSTv.setText(Html.fromHtml(text));
         
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
-        if (PMPPreferences.getInstanace().isExpertMode()) {
+        if (PMPPreferences.getInstance().isExpertMode()) {
             enableDisableButton.setVisibility(View.INVISIBLE);
         } else {
             enableDisableButton.setVisibility(View.VISIBLE);

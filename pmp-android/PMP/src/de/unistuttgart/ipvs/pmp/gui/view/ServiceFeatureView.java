@@ -67,7 +67,7 @@ public class ServiceFeatureView extends LinearLayout {
             cb.setChecked(this.serviceFeature.isActive());
             cb.setEnabled(this.serviceFeature.isAvailable());
             
-            if (!PMPPreferences.getInstanace().isExpertMode()) {
+            if (!PMPPreferences.getInstance().isExpertMode()) {
                 cb.setVisibility(View.VISIBLE);
             } else {
                 cb.setVisibility(View.INVISIBLE);
@@ -102,7 +102,6 @@ public class ServiceFeatureView extends LinearLayout {
                 boolean newState = ((CheckBox) v).isChecked();
                 
                 reactOnChange(newState);
-                
             }
         });
     }

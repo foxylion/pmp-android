@@ -23,7 +23,7 @@ public class PMPPreferences {
     }
     
     
-    public static PMPPreferences getInstanace() {
+    public static PMPPreferences getInstance() {
         if (PMPPreferences.instance == null) {
             PMPPreferences.instance = new PMPPreferences();
         }

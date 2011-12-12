@@ -37,7 +37,7 @@ public class AppServiceFeaturesTab extends Activity {
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
         TextView tvDescriptionExpertMode = (TextView) findViewById(R.id.TextView_Description_Expert);
-        if (PMPPreferences.getInstanace().isExpertMode()) {
+        if (PMPPreferences.getInstance().isExpertMode()) {
             tvDescriptionNormalMode.setVisibility(View.GONE);
             tvDescriptionExpertMode.setVisibility(View.VISIBLE);
         } else {

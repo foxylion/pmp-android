@@ -80,7 +80,7 @@ public class SettingsActivity extends Activity {
      */
     private void loadFromPMPPrefernces() {
         CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-        checkboxExpertMode.setChecked(PMPPreferences.getInstanace().isExpertMode());
+        checkboxExpertMode.setChecked(PMPPreferences.getInstance().isExpertMode());
     }
     
     
@@ -90,7 +90,7 @@ public class SettingsActivity extends Activity {
      */
     private void saveToPMPPreferences() {
         CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-        PMPPreferences.getInstanace().setExpertMode(checkboxExpertMode.isChecked());
+        PMPPreferences.getInstance().setExpertMode(checkboxExpertMode.isChecked());
     }
     
     
