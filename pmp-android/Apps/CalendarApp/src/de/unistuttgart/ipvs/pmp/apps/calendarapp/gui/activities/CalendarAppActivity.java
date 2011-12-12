@@ -78,43 +78,6 @@ public class CalendarAppActivity extends ListActivity {
         
         this.appContext = getApplicationContext();
         
-        // Connector to check if the app is registered yet
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
-            
-            @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                // Check if the service is registered yet
-                if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
-                    Log.v("Registering");
-                    DialogManager.getInstance().showWaitingDialog();
-                    pmpconnector.getAppService().registerApp(getPackageName());
-                } else {
-                    Log.v("App registered");
-                }
-            }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Looper.prepare();
-                AlertDialog.Builder builder = new AlertDialog.Builder(self);
-                builder.setMessage(R.string.no_register).setTitle(R.string.error).setCancelable(true)
-                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-                Looper.loop();
-                
-            }
-        });
-        // Connect to the service
-        pmpconnector.bind();
-        
         setContentView(R.layout.list_layout);
         
         // Array adapter that is needed to show the list of dates
@@ -147,15 +110,53 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*
-         * Changes the functionality according to the service feature that is set.
-         * Will be called when the activity is started after on create and
-         * called when the activity is shown again.
-         */
-        ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
-        
-        // Update the visibility of the "no appointments avaiable" textview
-        updateNoAvaiableAppointmentsTextView();
+     // Connector to check if the app is registered yet
+        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
+        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+            
+            @Override
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                // Check if the service is registered yet
+                if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
+                    Log.v("Registering");
+                    DialogManager.getInstance().showWaitingDialog();
+                    pmpconnector.getAppService().registerApp(getPackageName());
+                } else {
+                    Log.v("App registered");
+                }
+                /*
+                 * Changes the functionality according to the service feature that is set.
+                 * Will be called when the activity is started after on create and
+                 * called when the activity is shown again.
+                 */
+                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
+                
+                // Update the visibility of the "no appointments avaiable" textview
+                updateNoAvaiableAppointmentsTextView();
+            }
+            
+            
+            @Override
+            public void onBindingFailed(AbstractConnector connector) {
+                Looper.prepare();
+                AlertDialog.Builder builder = new AlertDialog.Builder(self);
+                builder.setMessage(R.string.not_found).setTitle(R.string.error).setCancelable(true)
+                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Close the dialog and close the calendar app
+                                dialog.cancel();
+                                self.finish();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                Looper.loop();
+                
+            }
+        });
+        // Connect to the service
+        pmpconnector.bind();
     }
     
     

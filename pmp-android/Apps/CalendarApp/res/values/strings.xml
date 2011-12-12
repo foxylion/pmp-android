@@ -62,5 +62,5 @@
     <string name="invalid_file_name_title">Invalid file name</string>
     <string name="invalid_file_name_message">The entered file name is invalid.</string>
     <string name="error">Error</string>
-    <string name="no_register">Could not register to PMP.</string>
+    <string name="not_found">Could not find PMP. \n The Calendar will be closed.</string>
 </resources>
