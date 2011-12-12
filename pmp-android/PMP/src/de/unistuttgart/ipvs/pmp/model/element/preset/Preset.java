@@ -63,7 +63,7 @@ public class Preset extends ModelElement implements IPreset {
     
     @Override
     public boolean isBundled() {
-        return this.creator == null;
+        return this.creator != null;
     }
     
     
