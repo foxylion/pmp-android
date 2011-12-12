@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
@@ -74,18 +75,21 @@ public class SimpleModel implements ISimpleModel {
         for (IPreset p : model.getPresets()) {
             // check that each non-user preset is deleted
             if (p.isBundled() && !p.isDeleted()) {
+                Log.d("Model was not in simple mode due to non-deleted bundled preset.");
                 return false;
             }
             
             // check that all existing presets correspond to one app only
             if (p.getAssignedApps().length != 1) {
+                Log.d("Model was not in simple mode due to presets containing unequal to one app.");
                 return false;
             }
         }
         
         for (IApp a : model.getApps()) {
             // check that all apps correspond to maximum one preset only
-            if (a.getAssignedPresets().length <= 1) {
+            if (a.getAssignedPresets().length > 1) {
+                Log.d("Model was not in simple mode due to apps containing more than one app.");
                 return false;
             }
         }
