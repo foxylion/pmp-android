@@ -86,7 +86,7 @@ public interface PersistenceConstants {
     /**
      * constant that should never appear in package names.
      */
-    static final String PACKAGE_SEPARATOR = "@";
+    static final String PACKAGE_SEPARATOR = ":";
     
     /**
      * The XML file name for apps.

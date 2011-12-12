@@ -225,7 +225,7 @@ public abstract class ModelElement {
             return "empty";
         }
         
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("{");
         
         boolean firstLoopDone = false;
         for (Entry<?, ?> e : map.entrySet()) {
@@ -240,7 +240,7 @@ public abstract class ModelElement {
             firstLoopDone = true;
         }
         
-        return sb.toString();
+        return sb.append("}").toString();
     }
     
     
@@ -251,7 +251,7 @@ public abstract class ModelElement {
             return "empty";
         }
         
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("{");
         
         boolean firstLoopDone = false;
         for (Object o : list) {
@@ -262,7 +262,7 @@ public abstract class ModelElement {
             firstLoopDone = true;
         }
         
-        return sb.toString();
+        return sb.append("}").toString();
     }
     
     
