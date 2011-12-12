@@ -22,6 +22,8 @@ public class Assert {
     public static final String ILLEGAL_DB = "'%s' (%s) was expecting a database query to return results, found none instead.";
     public static final String ILLEGAL_CLASS = "'%s' (%s) was expected to be a model class, found a different one instead.";
     public static final String ILLEGAL_UNCACHED = "'%s' (%s) was expected to be cached, found no cache however.";
+    public static final String ILLEGAL_SIMPLE_MODE = "'%s' (%s) was expected to be prepared for simple model, found expert mode configuration instead.";
+    public static final String ILLEGAL_TYPE = "'%s' (%s) was expected to be of a type known to the model, found an unknown instead.";
     
     
     /**
@@ -77,6 +79,21 @@ public class Assert {
      */
     public static void isValidCreator(Object check, Error reaction) {
         if ((check != null) && !(check instanceof IApp) && !(check instanceof IResourceGroup)) {
+            Log.e("Assertion", reaction);
+            throw reaction;
+        }
+    }
+    
+    
+    /**
+     * Checks whether check is instanceof clazz. Throws reaction, if check is not.
+     * 
+     * @param check
+     * @param clazz
+     * @param reaction
+     */
+    public static void instanceOf(Object check, Class<?> clazz, Error reaction) {
+        if (!clazz.isAssignableFrom(check.getClass())) {
             Log.e("Assertion", reaction);
             throw reaction;
         }

@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
@@ -238,18 +239,17 @@ public class Model implements IModel, Observer {
             try {
                 // remember that presets have to be disabled once their required apps get uninstalled
                 for (IPreset preset : app.getAssignedPresets()) {
-                    // this time, there's no way but to cast (or run manually through all apps) 
-                    if (!(preset instanceof Preset)) {
-                        Log.e("IPreset != Preset. Someone definitely screwed with the model since this should never happen.");
-                    } else {
-                        Preset castPreset = (Preset) preset;
-                        
-                        // since these presets were assigned to the app they now are guaranteed not to be available.
-                        if (!castPreset.isDeleted()) {
-                            castPreset.forceRecache();
-                            castPreset.rollout();
-                        }
+                    // this time, there's no way but to cast (or run manually through all apps)                     
+                    Assert.instanceOf(preset, Preset.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "preset",
+                            preset));
+                    Preset castPreset = (Preset) preset;
+                    
+                    // since these presets were assigned to the app they now are guaranteed not to be available.
+                    if (!castPreset.isDeleted()) {
+                        castPreset.forceRecache();
+                        castPreset.rollout();
                     }
+                    
                 }
             } finally {
                 IPCProvider.getInstance().endUpdate();
@@ -514,13 +514,10 @@ public class Model implements IModel, Observer {
                 IPCProvider.getInstance().startUpdate();
                 try {
                     for (IApp app : p.getAssignedApps()) {
-                        // this time, there's no way but to cast (or run manually through all apps) 
-                        if (!(app instanceof App)) {
-                            Log.e("IApp != App. Someone definitely screwed with the model since this should never happen.");
-                        } else {
-                            App castApp = (App) app;
-                            castApp.removePreset(p);
-                        }
+                        // this time, there's no way but to cast (or run manually through all apps)
+                        Assert.instanceOf(app, App.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app));
+                        App castApp = (App) app;
+                        castApp.removePreset(p);
                     }
                 } finally {
                     IPCProvider.getInstance().endUpdate();

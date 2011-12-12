@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
@@ -70,26 +69,49 @@ public class SimpleModel implements ISimpleModel {
     
     @Override
     public boolean isSimpleMode(IModel model) {
+        return isSimpleMode(model, false);
+    }
+    
+    
+    /**
+     * @see ISimpleModel#isSimpleMode(IModel)
+     * @param allergic
+     *            if true, will throw {@link ModelMisuseError}s.
+     */
+    public boolean isSimpleMode(IModel model, boolean allergic) {
         Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
         
         for (IPreset p : model.getPresets()) {
             // check that each non-user preset is deleted
             if (p.isBundled() && !p.isDeleted()) {
-                Log.d("Model was not in simple mode due to non-deleted bundled preset.");
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                }
                 return false;
             }
             
             // check that all existing presets correspond to one app only
             if (p.getAssignedApps().length != 1) {
-                Log.d("Model was not in simple mode due to presets containing unequal to one app.");
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                }
                 return false;
             }
         }
         
         for (IApp a : model.getApps()) {
             // check that all apps correspond to maximum one preset only
-            if (a.getAssignedPresets().length > 1) {
-                Log.d("Model was not in simple mode due to apps containing more than one app.");
+            int activePresets = 0;
+            for (IPreset p : a.getAssignedPresets()) {
+                if (!p.isDeleted()) {
+                    activePresets++;
+                }
+            }
+            
+            if (activePresets > 1) {
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "a", a);
+                }
                 return false;
             }
         }
@@ -103,7 +125,7 @@ public class SimpleModel implements ISimpleModel {
         Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
         Assert.nonNull(serviceFeature, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature));
         
-        if (!isSimpleMode(model)) {
+        if (!isSimpleMode(model, true)) {
             return false;
         }
         
