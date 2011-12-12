@@ -53,6 +53,16 @@ public class Preset extends ModelElement implements IPreset {
     }
     
     
+    @Override
+    public String toString() {
+        return super.toString()
+                + String.format(" [name = %s, desc = %s, psv = %s, aa = %s, cue = %s, d = %s]", this.name,
+                        this.description, ModelElement.collapseMapToString(this.privacySettingValues),
+                        ModelElement.collapseListToString(this.assignedApps),
+                        String.valueOf(this.containsUnknownElements), String.valueOf(this.deleted));
+    }
+    
+    
     /* interface */
     
     @Override
