@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.placeholder;
+package de.unistuttgart.ipvs.pmp.gui.model;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.gui.mockup.MockupModel;

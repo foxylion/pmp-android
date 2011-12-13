@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.simple;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -69,23 +70,49 @@ public class SimpleModel implements ISimpleModel {
     
     @Override
     public boolean isSimpleMode(IModel model) {
+        return isSimpleMode(model, false);
+    }
+    
+    
+    /**
+     * @see ISimpleModel#isSimpleMode(IModel)
+     * @param allergic
+     *            if true, will throw {@link ModelMisuseError}s.
+     */
+    public boolean isSimpleMode(IModel model, boolean allergic) {
         Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
         
         for (IPreset p : model.getPresets()) {
             // check that each non-user preset is deleted
             if (p.isBundled() && !p.isDeleted()) {
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                }
                 return false;
             }
             
             // check that all existing presets correspond to one app only
             if (p.getAssignedApps().length != 1) {
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                }
                 return false;
             }
         }
         
         for (IApp a : model.getApps()) {
             // check that all apps correspond to maximum one preset only
-            if (a.getAssignedPresets().length <= 1) {
+            int activePresets = 0;
+            for (IPreset p : a.getAssignedPresets()) {
+                if (!p.isDeleted()) {
+                    activePresets++;
+                }
+            }
+            
+            if (activePresets > 1) {
+                if (allergic) {
+                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "a", a);
+                }
                 return false;
             }
         }
@@ -99,7 +126,7 @@ public class SimpleModel implements ISimpleModel {
         Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
         Assert.nonNull(serviceFeature, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature));
         
-        if (!isSimpleMode(model)) {
+        if (!isSimpleMode(model, true)) {
             return false;
         }
         
@@ -112,7 +139,7 @@ public class SimpleModel implements ISimpleModel {
             p = a.getAssignedPresets()[0];
         }
         
-        List<IServiceFeature> actives = Arrays.asList(a.getActiveServiceFeatures());
+        List<IServiceFeature> actives = new ArrayList<IServiceFeature>(Arrays.asList(a.getActiveServiceFeatures()));
         // check whether the active setting is already the case
         boolean contained = actives.contains(serviceFeature);
         if ((contained && active) || (!contained && !active)) {

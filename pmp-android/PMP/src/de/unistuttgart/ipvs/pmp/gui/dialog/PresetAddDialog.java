@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.activity.PresetsActivity;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**

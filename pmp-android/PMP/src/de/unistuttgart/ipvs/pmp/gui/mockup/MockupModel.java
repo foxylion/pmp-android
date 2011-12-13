@@ -8,8 +8,11 @@ import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -61,6 +64,21 @@ public class MockupModel implements IModel {
     
     @Override
     public boolean unregisterApp(String identifier) {
+        
+        App app = this.mc.getApps().get(identifier);
+        
+        for (IPreset preset : app.getAssignedPresets()) {
+            // this time, there's no way but to cast (or run manually through all apps)                     
+            Assert.instanceOf(preset, Preset.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "preset", preset));
+            Preset castPreset = (Preset) preset;
+            
+            // since these presets were assigned to the app they now are guaranteed not to be available.
+            if (!castPreset.isDeleted()) {
+                castPreset.forceRecache();
+                castPreset.rollout();
+            }
+        }
+        
         return this.mc.getApps().remove(identifier) != null;
     }
     
@@ -181,9 +199,19 @@ public class MockupModel implements IModel {
     public boolean removePreset(IModelElement creator, String identifier) {
         // does the creator map exist?
         Map<String, Preset> creatorMap = this.mc.getPresets().get(creator);
+        
         if (creatorMap == null) {
             return false;
         } else {
+            Preset p = creatorMap.get(identifier);
+            
+            for (IApp app : p.getAssignedApps()) {
+                // this time, there's no way but to cast (or run manually through all apps)
+                Assert.instanceOf(app, App.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app));
+                App castApp = (App) app;
+                castApp.removePreset(p);
+            }
+            
             return creatorMap.remove(identifier) != null;
         }
     }

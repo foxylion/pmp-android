@@ -44,7 +44,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.5"
-                android:drawableLeft="@drawable/icon_add_preset"
+                android:drawableLeft="@drawable/icon_add_32"
                 android:text="@string/presets_add" />
 
             <ToggleButton

@@ -3,7 +3,6 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
-class UserException extends Exception {}
 
 /**
  * Handles access to user data and allows to create a new user
@@ -44,8 +43,7 @@ class user {
         }
         
         $user = new User();
-        $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
-        return $user;
+        return $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
     }
     
     /**
@@ -59,15 +57,14 @@ class user {
         $name = Database::getInstance()->secureInput($name);
         
         $user = new User();
-        $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `username` = \"$name\"");
-        return $user;    
+        return $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `username` = \"$name\"");
     }
     
     private function fillAttributes($sqlQuery) {
         $db = Database::getInstance();
         $row = $db->fetch($db->query($sqlQuery));
         
-        if (!$row) {
+        if ($row["id"] == null) {
             return null;
         }
         
@@ -88,6 +85,8 @@ class user {
         $this->ratingAvg = (float)$row["rating_avg"];
         $this->ratingNum = (int)$row["rating_num"];
         $this->activated = $row["activated"];
+        
+        return $this;
     } 
     
     
@@ -95,7 +94,7 @@ class user {
      * Registers a user to the system. This does not check if there is already a
      * user with the same email or password.
      * @param UserDate $regdata Object holding data used for user registration
-     * @throws UserEception Thrown, if a mandatory field (like "username") or a
+     * @throws InputEception Thrown, if a mandatory field (like "username") or a
      *                      visibility field (like "email_public") is not set 
      *  
      */
@@ -105,13 +104,13 @@ class user {
         if ($this->username == null || $this->passwordHash == null || 
                 $this->email == null || $this->firstname == null || 
                 $this->lastname == null || $this->tel == null) {
-            throw new UserException("Some mandatory fields not set.");
+            throw new InputException("Some mandatory fields not set.");
         }
       
         
         // Write data into table
         $db = Database::getInstance();
-        $regdate = Date("Y-m-d H:i:s", time());
+        $regdate = Date(Database::DATE_FORMAT, time());
         
         $db->query("INSERT INTO `".DB_PREFIX."_user` (
                         `username`,
@@ -190,7 +189,7 @@ class user {
                   "Regards,\n" .
                   "Your vHike-System";
         
-        mail($email, "Account verification", $message, "From: ".ADMIN_EMAIL);
+        mail($this->email, "Account verification", $message, "From: ".ADMIN_EMAIL);
         
     }
     
@@ -294,7 +293,7 @@ class user {
      */
     public function setUsername($value) {
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->username = $value;
             return true;
         } else {
@@ -309,7 +308,7 @@ class user {
      */
     public function setPassword($value) {
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->passwordHash = self::hashPassword($value);
             return true;
         } else {
@@ -325,7 +324,7 @@ class user {
     public function setEmail($value) {
         // TODO: Check format
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->email = $value;
             return true;
         } else {
@@ -340,7 +339,7 @@ class user {
      */
     public function setFirstname($value) {
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->firstname = $value;
             return true;
         } else {
@@ -356,7 +355,7 @@ class user {
     public function setTel($value) {
         // TODO: Check format e.g. only numbers, "-", "+"
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->tel = $value;
             return true;
         } else {
@@ -371,7 +370,7 @@ class user {
      */
     public function setLastname($value) {
         $value = Database::getInstance()->secureInput($value);
-        if (self::validLength($value)) {
+        if (General::validLength($value)) {
             $this->lastname = $value;
             return true;
         } else {
@@ -427,21 +426,7 @@ class user {
         }
     }
     
-    /**
-     * Checks if the length of an input string is valid 
-     * @param String $input Input
-     * @return boolean  True, if length is valid
-     */
-    private function validLength($input) {
-        $length = strlen($input);
-        
-        if ($length > 2 && $length <= 100) {
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
+    
     
     
     /**

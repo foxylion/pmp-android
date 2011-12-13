@@ -23,7 +23,7 @@ import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddDialog;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 

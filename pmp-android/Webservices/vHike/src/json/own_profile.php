@@ -5,7 +5,7 @@
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");
 
-// Stop execution of script and print error messsge if user is not logged in
+// Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
 try {

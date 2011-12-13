@@ -15,13 +15,15 @@ public class Assert {
     /*
      * all kinds of strings used in error messages
      */
-    public static final String ILLEGAL_NULL = "'%s' (%s) was expected to be an Object, found null instead.";
-    public static final String ILLEGAL_NOT_NULL = "'%s' (%s) was expected to be null, found Object instead.";
-    public static final String ILLEGAL_CREATOR = "'%s' (%s) was expected to be a Creator parameter, found something else instead.";
-    public static final String ILLEGAL_METHOD = "'%s' (%s) was expecting this call to never happen, found call anyhow.";
-    public static final String ILLEGAL_DB = "'%s' (%s) was expecting a database query to return results, found none instead.";
-    public static final String ILLEGAL_CLASS = "'%s' (%s) was expected to be a model class, found a different one instead.";
-    public static final String ILLEGAL_UNCACHED = "'%s' (%s) was expected to be cached, found no cache however.";
+    public static final String ILLEGAL_NULL = "'%s' was expected to be an Object, found null instead. (%s)";
+    public static final String ILLEGAL_NOT_NULL = "'%s' was expected to be null, found Object instead. (%s)";
+    public static final String ILLEGAL_CREATOR = "'%s' was expected to be a Creator parameter, found something else instead. (%s)";
+    public static final String ILLEGAL_METHOD = "'%s' was expecting this call to never happen, found call anyhow. (%s)";
+    public static final String ILLEGAL_DB = "'%s' was expecting a database query to return results, found none instead. (%s)";
+    public static final String ILLEGAL_CLASS = "'%s' was expected to be a model class, found a different one instead. (%s)";
+    public static final String ILLEGAL_UNCACHED = "'%s' was expected to be cached, found no cache however. (%s)";
+    public static final String ILLEGAL_SIMPLE_MODE = "'%s' was expected to be prepared for simple model, found expert mode configuration instead. (%s)";
+    public static final String ILLEGAL_TYPE = "'%s' was expected to be of a type known to the model, found an unknown instead. (%s)";
     
     
     /**
@@ -77,6 +79,21 @@ public class Assert {
      */
     public static void isValidCreator(Object check, Error reaction) {
         if ((check != null) && !(check instanceof IApp) && !(check instanceof IResourceGroup)) {
+            Log.e("Assertion", reaction);
+            throw reaction;
+        }
+    }
+    
+    
+    /**
+     * Checks whether check is instanceof clazz. Throws reaction, if check is not.
+     * 
+     * @param check
+     * @param clazz
+     * @param reaction
+     */
+    public static void instanceOf(Object check, Class<?> clazz, Error reaction) {
+        if (!clazz.isAssignableFrom(check.getClass())) {
             Log.e("Assertion", reaction);
             throw reaction;
         }

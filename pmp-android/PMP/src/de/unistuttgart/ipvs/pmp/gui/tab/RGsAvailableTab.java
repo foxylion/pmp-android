@@ -11,7 +11,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.gui.activity.RGDetailsActivity;
 import de.unistuttgart.ipvs.pmp.gui.adapter.RGsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 public class RGsAvailableTab extends ListActivity {

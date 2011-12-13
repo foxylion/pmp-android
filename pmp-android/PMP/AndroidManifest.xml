@@ -15,7 +15,7 @@
         <!-- Activities can be declared here -->
         <activity
             android:icon="@drawable/icon"
-            android:label="PMP v2"
+            android:label="PMP"
             android:name=".gui.activity.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >

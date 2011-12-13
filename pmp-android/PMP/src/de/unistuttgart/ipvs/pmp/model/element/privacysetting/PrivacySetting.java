@@ -40,6 +40,12 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     }
     
     
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" [link = %s]", this.link.toString());
+    }
+    
+    
     /* interface */
     
     @Override

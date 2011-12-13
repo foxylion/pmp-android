@@ -8,15 +8,11 @@
     android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        android:id="@+id/Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_sfs"
-        pmp:name="Service Feature Details" />
-
-    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
-        android:id="@+id/Title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        pmp:name="@string/service_feature_title" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -25,7 +21,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/TextView_Description"
@@ -37,13 +34,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 pmp:icon="@drawable/icon_rgs2"
-                pmp:name="Required Privacy Settings" />
-            
-            <TextView
-                android:id="@+id/TextView_PrivacySettings"
+                pmp:name="@string/required_privacy_settings" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_PrivacySettings"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -46,6 +46,14 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     }
     
     
+    @Override
+    public String toString() {
+        return super.toString()
+                + String.format(" [psv = %s, cups = %s]", ModelElement.collapseMapToString(this.privacySettingValues),
+                        String.valueOf(this.containsUnknownPrivacySettings));
+    }
+    
+    
     /* interface */
     
     @Override

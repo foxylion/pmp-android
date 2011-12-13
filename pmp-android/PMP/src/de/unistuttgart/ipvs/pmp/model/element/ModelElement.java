@@ -1,5 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.element;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
@@ -72,6 +76,12 @@ public abstract class ModelElement {
     @Override
     public int hashCode() {
         return this.identifier.hashCode();
+    }
+    
+    
+    @Override
+    public String toString() {
+        return getClass().getName() + '@' + getIdentifier();
     }
     
     
@@ -204,6 +214,64 @@ public abstract class ModelElement {
             return context.getPackageManager().getResourcesForApplication(getIdentifier());
         } catch (NameNotFoundException nnfe) {
             return null;
+        }
+    }
+    
+    
+    protected static String collapseMapToString(Map<?, ?> map) {
+        if (map == null) {
+            return "null";
+        } else if (map.isEmpty()) {
+            return "empty";
+        }
+        
+        StringBuilder sb = new StringBuilder("{");
+        
+        boolean firstLoopDone = false;
+        for (Entry<?, ?> e : map.entrySet()) {
+            if (firstLoopDone) {
+                sb.append(", ");
+            }
+            sb.append("<");
+            sb.append(objToString(e.getKey()));
+            sb.append(" = ");
+            sb.append(objToString(e.getValue()));
+            sb.append(">");
+            firstLoopDone = true;
+        }
+        
+        return sb.append("}").toString();
+    }
+    
+    
+    protected static String collapseListToString(List<?> list) {
+        if (list == null) {
+            return "null";
+        } else if (list.isEmpty()) {
+            return "empty";
+        }
+        
+        StringBuilder sb = new StringBuilder("{");
+        
+        boolean firstLoopDone = false;
+        for (Object o : list) {
+            if (firstLoopDone) {
+                sb.append(", ");
+            }
+            sb.append(objToString(o));
+            firstLoopDone = true;
+        }
+        
+        return sb.append("}").toString();
+    }
+    
+    
+    private static String objToString(Object o) {
+        if (o instanceof ModelElement) {
+            ModelElement me = (ModelElement) o;
+            return me.getClass().getName() + '@' + me.getIdentifier();
+        } else {
+            return o.toString();
         }
     }
     

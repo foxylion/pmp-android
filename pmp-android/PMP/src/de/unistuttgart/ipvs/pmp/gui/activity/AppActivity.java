@@ -9,11 +9,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppDetailsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppPresetsTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.AppServiceFeaturesTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
@@ -40,8 +40,7 @@ public class AppActivity extends Activity {
         this.mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         this.mTabHost.setup(this.lam);
         
-        //app = handleIntent(getIntent());
-        this.app = ModelProxy.get().getApp("org.barcode.scanner");
+        this.app = GUITools.handleIntent(getIntent());
         
         setupTabs();
         
@@ -82,8 +81,8 @@ public class AppActivity extends Activity {
     
     private void setupTabs() {
         /* Details Tab */
-        TabSpec details = this.mTabHost.newTabSpec("tab_details");
-        details.setIndicator("Details");
+        TabSpec details = this.mTabHost.newTabSpec("tab_detail");
+        details.setIndicator(getResources().getString(R.string.details));
         
         // Create an Intent to start the inner activity
         Intent intentDetails = new Intent(this, AppDetailsTab.class);
@@ -99,8 +98,8 @@ public class AppActivity extends Activity {
         tab1.setLayoutParams(lp);
         
         /* Service Features Tab */
-        TabSpec sfs = this.mTabHost.newTabSpec("tab_sfs");
-        sfs.setIndicator("Service Features");
+        TabSpec sfs = this.mTabHost.newTabSpec("tab_sf");
+        sfs.setIndicator(getResources().getString(R.string.service_features));
         
         // Create an Intent to start the inner activity
         Intent intentSfs = new Intent(this, AppServiceFeaturesTab.class);
@@ -116,8 +115,8 @@ public class AppActivity extends Activity {
         tab2.setLayoutParams(lp);
         
         /* Presets Tab */
-        TabSpec presets = this.mTabHost.newTabSpec("tab_details");
-        presets.setIndicator("Presets");
+        TabSpec presets = this.mTabHost.newTabSpec("tab_preset");
+        presets.setIndicator(getResources().getString(R.string.presets));
         
         // Create an Intent to start the inner activity
         Intent intentPresets = new Intent(this, AppPresetsTab.class);
@@ -132,4 +131,5 @@ public class AppActivity extends Activity {
         lp.width = LayoutParams.WRAP_CONTENT;
         tab3.setLayoutParams(lp);
     }
+    
 }

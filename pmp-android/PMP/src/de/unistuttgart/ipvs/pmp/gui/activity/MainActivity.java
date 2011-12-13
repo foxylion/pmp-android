@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
@@ -29,9 +30,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         registerListener();
-        
-        updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
-                .get().getPresets().length);
     }
     
     
@@ -40,6 +38,9 @@ public class MainActivity extends Activity {
         super.onResume();
         
         checkExpertMode();
+        
+        updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
+                .get().getPresets().length);
     }
     
     
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
      * @param appsCount
      *            Count of the registered apps.
      * @param rgsCount
-     *            Count of the installed resource-groups.
+     *            Count of the installed resource groups.
      * @param presetsCount
      *            Count of the created presets.
      */
@@ -71,7 +72,7 @@ public class MainActivity extends Activity {
     private void registerListener() {
         Button buttonApps = (Button) findViewById(R.id.Button_Apps);
         Button buttonRgs = (Button) findViewById(R.id.Button_RGs);
-        Button buttonPresets = (Button) findViewById(R.id.Button_Presets);
+        AlwaysClickableButton buttonPresets = (AlwaysClickableButton) findViewById(R.id.Button_Presets);
         Button buttonSettings = (Button) findViewById(R.id.Button_Settings);
         
         /* The Apps-Button OnClickListener */
@@ -99,9 +100,15 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on Presets-Button", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, PresetsActivity.class);
                 MainActivity.this.startActivity(intent);
+            }
+        });
+        buttonPresets.setDisabledOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, R.string.main_presets_disabled, Toast.LENGTH_LONG).show();
             }
         });
         
@@ -123,7 +130,7 @@ public class MainActivity extends Activity {
     private void checkExpertMode() {
         Button buttonPresets = (Button) findViewById(R.id.Button_Presets);
         
-        if (PMPPreferences.getInstanace().isExpertMode()) {
+        if (PMPPreferences.getInstance().isExpertMode()) {
             buttonPresets.setEnabled(true);
         } else {
             buttonPresets.setEnabled(false);

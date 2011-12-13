@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.placeholder;
+package de.unistuttgart.ipvs.pmp.gui.model;
 
 import java.io.IOException;
 import java.util.Map.Entry;

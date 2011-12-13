@@ -2,20 +2,6 @@
 <resources>
 
     <string name="app_name">Privacy Management Platform</string>
-    <string name="apps">Applications</string>
-    <string name="ress">Resources</string>
-    <string name="description">Description</string>
-    <string name="apply">Apply</string>
-    <string name="cancel">Cancel</string>
-    <string name="servive_feature_for">Service Features for </string>
-    <string name="service_feature">Service Feature</string>
-    <string name="set_service_feature">Setting Service Feature.</string>
-    <string name="please_wait">Please wait!</string>
-    <string name="required_resource">Required resource groups:</string>
-    <string name="change_sl">Change Service Feature</string>
-    <string name="close">Close</string>
-    <string name="set_service_feature_hint">Hint: You can tap on a service feature to view more deatils about it. If it meets your needs, you can apply it</string>
-    <string name="service_feature_apply_hint">To apply the service feature press \"Apply\", or press \"Cancel\" to get back to the service feature list.</string>
 
     <!-- New GUI-Language variables -->
 
@@ -57,9 +43,28 @@
     <string name="preset_tab_apps">Assigned Apps</string>
     <string name="preset_tab_ps">Assigned Privacy Settings</string>
     <string name="preset_tab_apps_assign_app">Assign App</string>
-    <string name="preset_tab_apps_description">All assigned Apps are listed here.</string>
+    <string name="preset_tab_apps_description">All assigned Apps are listed here.</string>    
+    <string name="preset_tab_apps_remove_app_msg">Do you want to remove this App?</string>
+    <string name="preset_tab_apps_remove_app_title">Remove App</string>
     <string name="preset_tab_pss_assign_ps">Assign\nPrivacy Setting</string>
     <string name="preset_tab_pss_description">All assigned Privacy Settings are listed here.</string>
+    <string name="main_presets_disabled">The Prests are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
+    <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
+    <string name="app_servicefeature_disabled">The Service Feature is now disabled.</string><string name="service_feature_title">Details: %1$s</string>
+    
+    <string name="required_privacy_settings">Required Privacy Settings</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="details">Details</string>
+    <string name="service_features">Service Features</string>
+    <string name="presets">Presets</string>
+    <string name="ps_invalid_value">required value is invalid</string>
+    <string name="required_value">required value</string>
+    <string name="app_context_menu">Choose an action</string>
+    <string name="remove_app">Remove App</string>
+    <string name="app_removed">App has been successfully unregistred from PMP.</string>
+    <string name="details_app">App details</string>
+
 
     <string name="rgs_available">Available</string>
     <string name="rgs_installed">Installed</string>
