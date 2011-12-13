@@ -11,6 +11,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.dialog.ServiceFeatureDialog;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
@@ -74,11 +75,11 @@ public class ServiceFeatureView extends LinearLayout {
             }
             
             if (this.serviceFeature.isActive() && this.serviceFeature.isAvailable()) {
-                setBackgroundColor(Color.parseColor("#002200"));
+                setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
             } else if (!this.serviceFeature.isActive() && this.serviceFeature.isAvailable()) {
-                setBackgroundColor(Color.parseColor("#220000"));
+                setBackgroundColor(GUIConstants.COLOR_BG_RED);
             } else {
-                setBackgroundColor(Color.parseColor("#222222"));
+                setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
             }
             
         }

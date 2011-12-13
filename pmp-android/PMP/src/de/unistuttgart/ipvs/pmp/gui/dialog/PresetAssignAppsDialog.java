@@ -6,20 +6,17 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
-import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
-import de.unistuttgart.ipvs.pmp.gui.activity.PresetsActivity;
-import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAssignAppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
@@ -92,9 +89,10 @@ public class PresetAssignAppsDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_preset_assign_apps);
         
-        this.setTitle("Assign Apps");
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        setContentView(R.layout.dialog_preset_assign_apps);
         
         this.confirm = (Button) findViewById(R.id.presets_dialog_confirm);
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
@@ -103,12 +101,12 @@ public class PresetAssignAppsDialog extends Dialog {
         this.cancel.setOnClickListener(new CancelListener());
         
         // Apps
-        IApp[] apps = calcDisplayApps();
+        List<IApp> apps = calcDisplayApps();
         
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
         appsList.setClickable(true);
         
-        PresetAssignAppsAdapter appsAdapter = new PresetAssignAppsAdapter(activity, Arrays.asList(apps));
+        PresetAssignAppsAdapter appsAdapter = new PresetAssignAppsAdapter(activity, apps);
         appsList.setAdapter(appsAdapter);
         
         appsList.setOnItemClickListener(new OnItemClickListener() {
@@ -120,30 +118,29 @@ public class PresetAssignAppsDialog extends Dialog {
         });
         
     }
-    
-    
+
+
+
     /**
      * Calc Apps to display = All registered Apps without assigned Apps
      * 
      * @return Apps to display
      */
-    private IApp[] calcDisplayApps() {
+    private List<IApp> calcDisplayApps() {
         List<IApp> allAppsList = Arrays.asList(ModelProxy.get().getApps());
         List<IApp> allAssignedAppsList = Arrays.asList(preset.getAssignedApps());
-        IApp[] displayArray = new IApp[allAppsList.size() - allAssignedAppsList.size()];
+        List<IApp> displayList = new ArrayList<IApp>();
         
-        int itr = 0;
         Loop: for (IApp app : allAppsList) {
             for (IApp assignedApp : allAssignedAppsList) {
                 if (app.equals(assignedApp))
                     continue Loop;
             }
-            displayArray[itr] = app;
-            itr++;
+            displayList.add(app);
             
         }
         
-        return displayArray;
+        return displayList;
     }
     
     /**

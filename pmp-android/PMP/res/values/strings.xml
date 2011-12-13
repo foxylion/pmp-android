@@ -43,11 +43,14 @@
     <string name="preset_tab_apps">Assigned Apps</string>
     <string name="preset_tab_ps">Assigned Privacy Settings</string>
     <string name="preset_tab_apps_assign_app">Assign App</string>
+    <string name="preset_tab_apps_assign_apps">Assign Apps</string>
     <string name="preset_tab_apps_description">All assigned Apps are listed here.</string>    
     <string name="preset_tab_apps_remove_app_msg">Do you want to remove this App?</string>
     <string name="preset_tab_apps_remove_app_title">Remove App</string>
+
     <string name="preset_tab_pss_assign_ps">Assign\nPrivacy Setting</string>
     <string name="preset_tab_pss_description">All assigned Privacy Settings are listed here.</string>
+   
     <string name="main_presets_disabled">The Prests are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
     <string name="app_servicefeature_disabled">The Service Feature is now disabled.</string><string name="service_feature_title">Details: %1$s</string>

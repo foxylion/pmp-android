@@ -89,8 +89,9 @@ public class MockupModel implements IModel {
     }
     
     
-    @Override
+    @Override   
     public IResourceGroup[] getInstalledResourceGroups() {
+        // FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
         List<IResourceGroup> resourceGroups = new ArrayList<IResourceGroup>(this.mc.getResourceGroups().values());
         // TODO we should not cast so many times. better just use list and hashmap?
         Iterator<IResourceGroup> it = resourceGroups.iterator();

@@ -2,16 +2,21 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.List;
 
+import android.R.color;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAssignAppsDialog;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 /**
@@ -55,7 +60,8 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_preset_assign_app, null);
+        final LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_preset_assign_app, null);
+
         
         /* Set icon, name, description of the requested App */
         ImageView icon = (ImageView) entryView.findViewById(R.id.ImageView_Icon);
@@ -64,6 +70,45 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(app.getName());
         
+        /* CheckBox and LinearLayout */
+        final CheckBox checkBox = (CheckBox) entryView.findViewById(R.id.CheckBox_AssignApp);
+        final LinearLayout linlay = (LinearLayout) entryView.findViewById(R.id.LinearLayout);
+        
+        // Add Listener
+        checkBox.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (checkBox.isChecked()) {
+                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
+                } else {
+                    linlay.setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+            
+        });
+        
+
+        linlay.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (checkBox.isChecked()) {
+                    linlay.setBackgroundColor(Color.TRANSPARENT);
+                    checkBox.setChecked(false);
+                } else {
+                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
+                    checkBox.setChecked(true);
+                }
+            }
+        });
+        
         return entryView;
+    }
+    
+    
+    
+    private void registerListener() {
+
     }
 }

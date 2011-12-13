@@ -66,8 +66,8 @@ public class PresetsAdapter extends BaseAdapter {
         
         /* Set text color to dark gray, if item is deleted */
         if (preset.isDeleted()) {
-            name.setTextColor(GUIConstants.COLOR_GRAYED_OUT);
-            description.setTextColor(GUIConstants.COLOR_GRAYED_OUT);
+            name.setTextColor(GUIConstants.COLOR_TEXT_GRAYED_OUT);
+            description.setTextColor(GUIConstants.COLOR_TEXT_GRAYED_OUT);
         }
         
         return entryView;

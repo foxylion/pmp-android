@@ -23,7 +23,7 @@
                 android:text="@string/preset_tab_apps_description" />
 
             <Button
-                android:id="@+id/preset_tab_apps_assign_app"
+                android:id="@+id/preset_tab_apps_assign_app_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
