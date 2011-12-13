@@ -7,7 +7,7 @@
 
 class Trip {
     private $id = -1;
-    private $driver = null;
+    private $driver = -1;
     private $availSeats = 0;
     private $currentLat = 0.0;
     private $currentLon = 0.0;
@@ -17,7 +17,7 @@ class Trip {
     
     /**
      * Loads a trip from the database and returns a trip-object storing the information
-     * of the loaded user
+     * of the loaded trip
      * @param int $id  ID of the user to load from the database
      * @return Trip Object storing data of the loaded trip or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
@@ -27,8 +27,8 @@ class Trip {
             return null;
         }
         
-        $user = new User();
-        return $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_trip` WHERE `id` = $id");
+        $trip = new Trip();
+        return $trip->fillAttributes("SELECT * FROM `".DB_PREFIX."_trip` WHERE `id` = $id");
     }
     
     private function fillAttributes($sqlQuery) {
@@ -48,7 +48,6 @@ class Trip {
         $this->destination = $row["destination"];
         $this->creation = $row["creation"];
         $this->ending = $row["ending"];
-        $this->regdate = $row["regdate"];
         
         return $this;
     } 
@@ -88,6 +87,64 @@ class Trip {
        return $this->id = $db->getId();      
     }
     
+    /**
+     * Updates the driver's current position
+     * @param int $tripid The driver's id
+     * @return boolean  True, if data was updated successfully 
+     */
+    public function updatePosition($tripid) {
+        if (!is_numeric($tripid) || $tripid < 1) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $updated = $db->query("UPDATE `".DB_PREFIX."_trip` 
+                               SET `current_lat` = '".$this->currentLat."',
+                                   `current_lon` = '".$this->currentLon."'
+                               WHERE `id` = ".$tripid."
+                               AND `driver` = ".$this->driver."
+                               AND `ending` = 0");
+        return ($updated && $db->getAffectedRows() > 0);
+    }
+    
+    /**
+     * Updates the number of available seats in the driver car
+     * @param int $tripid The driver's id
+     * @return boolean  True, if data was updated successfully 
+     */
+    public function updateAvailSeats($tripid) {
+        if (!is_numeric($tripid) || $tripid < 1) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $updated = $db->query("UPDATE `".DB_PREFIX."_trip` 
+                               SET `avail_seats` = '".$this->availSeats."'
+                               WHERE `id` = ".$tripid."
+                               AND `driver` = ".$this->driver."
+                               AND `ending` = 0");
+        return ($updated && $db->getAffectedRows() > 0);
+    }
+    
+    /**
+     * Ends/closes the trip so that rating is now activated
+     * @param int $tripid The driver's id
+     * @return boolean  True, if data was updated successfully 
+     */
+    public function updateEndTrip($tripid) {
+        if (!is_numeric($tripid) || $tripid < 1) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $updated = $db->query("UPDATE `".DB_PREFIX."_trip` 
+                               SET `ending` = '".Date(Database::DATE_FORMAT, time())."'
+                               WHERE `id` = ".$tripid."
+                               AND `driver` = ".$this->driver."
+                               AND `ending` = 0");
+        return ($updated && $db->getAffectedRows() > 0);
+    }
+    
     public static function openTripExists($driver) {
         if (!is_numeric($driver)) {
             throw new InputException("Driver id has to be numeric");
@@ -109,7 +166,7 @@ class Trip {
     
     /**
      *
-     * @return User 
+     * @return int 
      */
     public function getDriver() {
         return $this->driver;
@@ -140,12 +197,20 @@ class Trip {
     }
     
     /**
+     * Returns if this trip has ended
+     * @return boolean True, if trip has ended
+     */
+    public function hasEnded() {
+        return !($this->ending == Database::DATA_NULL);
+    }
+    
+    /**
      *
-     * @param User $user 
+     * @param int $user 
      * @return boolean
      */
     public function setDriver($user) {
-        if ($user instanceof User) {
+        if (is_numeric($user) && $user > 0) {
             $this->driver = $user;
             return true;
         } else {
@@ -159,7 +224,7 @@ class Trip {
      * @return boolean
      */
     public function setAvailSeats($seats) {
-        if (is_numeric($seats)) {
+        if (is_numeric($seats) && $seats >= 1 && $seats <= 99) {
             $this->availSeats = $seats;
             return true;
         } else {

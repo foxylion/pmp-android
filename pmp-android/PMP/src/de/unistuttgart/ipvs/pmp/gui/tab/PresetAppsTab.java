@@ -55,7 +55,7 @@ public class PresetAppsTab extends Activity {
         updateList();
         
         // Setup the add preset button
-        this.assignAppButton = (Button) findViewById(R.id.preset_tab_apps_assign_app);
+        this.assignAppButton = (Button) findViewById(R.id.preset_tab_apps_assign_app_button);
         this.assignAppButton.setOnClickListener(new android.view.View.OnClickListener() {
             
             @Override

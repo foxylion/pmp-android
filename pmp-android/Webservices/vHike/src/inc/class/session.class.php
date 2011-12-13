@@ -41,6 +41,10 @@ class Session {
         }
     }
 
+    /**
+     * Returns the single instance of the session-object
+     * @return Session Session-Object
+     */
     public static function getInstance() {
         if(self::$instance == null) {
             self::$instance = new Session();

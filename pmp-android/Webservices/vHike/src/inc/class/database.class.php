@@ -14,6 +14,7 @@ class DatabaseException extends Exception {
 class Database {
 
     const DATE_FORMAT = "Y-m-d H:i:s";
+    const DATA_NULL = "0000-00-00 00:00:00";
     
     private static $instance = null;
 
@@ -23,6 +24,10 @@ class Database {
         
     }
 
+    /**
+     *
+     * @return Database Instance
+     */
     public static function getInstance() {
         if(self::$instance == null) {
             self::$instance = new Database();
@@ -93,6 +98,14 @@ class Database {
      */
     public function getId() {
         return mysql_insert_id();
+    }
+    
+    /**
+     * Returns the number of rows that have been changed by the update or insert statement
+     * @return int  Number of rows 
+     */
+    public function getAffectedRows() {
+        return mysql_affected_rows();
     }
 
 

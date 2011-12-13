@@ -15,13 +15,14 @@ try {
     // Set user input. Cancel if there's a invalid value in a input string
     if (!$trip->setDestination($_POST["destination"]) || !$trip->setCurrentLat($_POST["current_lat"]) ||
             !$trip->setCurrentLon($_POST["current_lon"]) || !$trip->setAvailSeats($_POST["avail_seats"])) {
-        $output = array("successful" => true, 
-                        "status" => "invalid_input");
-    } if (Trip::openTripExists($user->getId())) {
+        Json::printError("invalid_input", "At least one POST-Parameter is invalid");
+    } 
+    
+    if (Trip::openTripExists($user->getId())) {
         $output = array("successful" => true, 
                         "status" => "open_trip_exists");        
     } else {
-        $trip->setDriver($user);
+        $trip->setDriver($user->getId());
         $id = $trip->create();
         $output = array("successful" => true, 
                         "status" => "announced",
@@ -31,4 +32,5 @@ try {
 } catch (DatabaseException $de) {
     Json::printDatabaseError($de);
 }
+Database::getInstance()->disconnect();
 ?>

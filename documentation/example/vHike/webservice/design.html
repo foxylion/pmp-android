@@ -113,7 +113,9 @@
           <li><code>invalid_database-query</code> - interner Fehler. Die für die Bearbeitung
             der Anfrage durchgeführte Datanbankabfrage ist fehlerhaft</li>
           <li><code>cannot_connect_to_database</code> - interner Fehler. Die Verbindung
-            zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>
+            zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>   
+          <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
+            ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
         </ul>
         Diese Fehler-Codes dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
@@ -567,8 +569,7 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
            <ul>           
-              <li><code>status</code> - String: <code>announced</code> wenn die Fahrt angelegt wurde,
-                <code>invalid_input</code> wenn ein POST-Parameter ungültig ist  oder
+              <li><code>status</code> - String: <code>announced</code> wenn die Fahrt angelegt wurde oder
                 <code>open_trip_exists</code> wenn der Fahrer noch eine nicht beendete Fahrt offen hat
               <li><code>id</code> - Integer: Die ID der soeben angelegten Fahrt (nur wenn <code>"status": "announced"</code>)</li>
             </ul>
@@ -608,7 +609,7 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>trip_id</code> - Integer: ID der Fahrt, zu denen die Position aktualisiert werden soll</li>  
+              <li><code>id</code> - Integer: ID der Fahrt, zu denen die Position aktualisiert werden soll</li>  
               <li><code>current_lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
               <li><code>current_lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li> 
             </ul>
@@ -631,11 +632,16 @@
            <ul>           
               <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
                 <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,
+                <code>already_uptodate</code>, wenn der Datensatz bereits auf die gegebenen Werte aktualisiert wurde,
                 <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist,
                 <code>has_ended</code>, wenn die Fahrt bereits beendet wurde oder
                 <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -672,7 +678,7 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>                              
-              <li><code>trip_id</code> - Integer: ID der Fahrt, zu denen die Daten aktualisiert werden sollen</li>  
+              <li><code>id</code> - Integer: ID der Fahrt, zu denen die Daten aktualisiert werden sollen</li>  
               <li><code>avail_seats</code> - Integer (1 &le; x &le; 99): Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
             </ul>
           </td>
@@ -693,12 +699,17 @@
           <td>
            <ul>           
               <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
-                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,
+                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,                   
+                <code>already_uptodate</code>, wenn der Datensatz bereits auf die gegebenen Werte aktualisiert wurde,
                 <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist,
                 <code>has_ended</code>, wenn die Fahrt bereits beendet wurde oder
                 <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -729,7 +740,7 @@
           <th class="left">POST-Parameter</th>
           <td>
             <ul>      
-              <li><code>trip_id</code> - Integer: ID der Fahrt, die beendet werden soll</li>  
+              <li><code>id</code> - Integer: ID der Fahrt, die beendet werden soll</li>  
             </ul>
           </td>
         </tr>      
@@ -748,12 +759,18 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
            <ul>           
-              <li><code>status</code> - String: Gibt an, ob die Fahrt beendet wurde.
-                <code>ended</code>, wenn die Fahrt erfolgreich beendet wurde,
-                <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist oder
+              <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
+                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,                   
+                <code>already_uptodate</code>, wenn der Datensatz bereits auf die gegebenen Werte aktualisiert wurde,
+                <code>no_trip</code>, wenn die Fahrt-ID auf eine nicht vorhandene Fahrt verweist,
+                <code>has_ended</code>, wenn die Fahrt bereits beendet wurde oder
                 <code>invalid_user</code>, wenn die Fahrt nicht dem momentan angemeldeten Benutzer zugeordnet ist</li>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       

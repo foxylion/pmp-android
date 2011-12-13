@@ -8,8 +8,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.R;
@@ -85,9 +89,10 @@ public class PresetAssignAppsDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_preset_assign_apps);
         
-        this.setTitle("Assign Apps");
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        setContentView(R.layout.dialog_preset_assign_apps);
         
         this.confirm = (Button) findViewById(R.id.presets_dialog_confirm);
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
@@ -113,8 +118,9 @@ public class PresetAssignAppsDialog extends Dialog {
         });
         
     }
-    
-    
+
+
+
     /**
      * Calc Apps to display = All registered Apps without assigned Apps
      * 
