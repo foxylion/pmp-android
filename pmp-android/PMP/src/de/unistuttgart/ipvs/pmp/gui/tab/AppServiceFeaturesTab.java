@@ -1,8 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -45,35 +43,13 @@ public class AppServiceFeaturesTab extends Activity {
             tvDescriptionExpertMode.setVisibility(View.GONE);
         }
         
-        /* Temporary bad stuff, to Test the Activity */
         IServiceFeature[] sfs = app.getServiceFeatures();
-        IServiceFeature[] sfs_enabled = app.getActiveServiceFeatures();
-        List<IServiceFeature> sfs_disabled = new ArrayList<IServiceFeature>();
-        for (IServiceFeature sf : sfs) {
-            if (!sf.isActive()) {
-                sfs_disabled.add(sf);
-            }
-        }
         
         ListView sFs = (ListView) findViewById(R.id.ListView_SFs);
         if (sFs != null) {
             sFs.setClickable(true);
             ServiceFeaturesAdapter sFsAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs));
             sFs.setAdapter(sFsAdapter);
-        }
-        
-        ListView enabledSFs = (ListView) findViewById(R.id.ListView_EnabledSFs);
-        if (enabledSFs != null) {
-            enabledSFs.setClickable(true);
-            ServiceFeaturesAdapter enabledAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs_enabled));
-            enabledSFs.setAdapter(enabledAdapter);
-        }
-        
-        ListView disabledSFs = (ListView) findViewById(R.id.ListView_DisabledSFs);
-        if (disabledSFs != null) {
-            enabledSFs.setClickable(true);
-            ServiceFeaturesAdapter disabledAdapter = new ServiceFeaturesAdapter(this, sfs_disabled);
-            disabledSFs.setAdapter(disabledAdapter);
         }
     }
 }

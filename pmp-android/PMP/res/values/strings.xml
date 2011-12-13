@@ -71,4 +71,9 @@
 
     <string name="rgs_available">Available</string>
     <string name="rgs_installed">Installed</string>
+    <string name="description">Description</string>
+    <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
+    <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the plus icon to assign a Preset to the App.</string>
+    <string name="tab_sfs_description_simplemode">Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why.</string>
+    <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
 </resources>
