@@ -13,6 +13,6 @@ public class GUIConstants {
     /**
      * Color
      */
-    public static final int COLOR_GRAYED_OUT = Color.DKGRAY;
+    public static final int COLOR_TEXT_GRAYED_OUT = Color.DKGRAY;
     
 }
