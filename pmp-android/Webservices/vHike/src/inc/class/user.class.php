@@ -183,8 +183,8 @@ class user {
        // Create verification url and send it via e-mail
        $url = "http://".BASE_URL."/verification.php?userid=$this->id&key=$key";
        $message = "Hello $this->firstname $this->lastname,\n\n" .
-                  "your account has been created. To be able to log in, you have to verify your e-mail address. " .
-                  "To verify your e-mail address, open the following URL:\n\n" .
+                  "your account has been created. In order to log in, you have to verify your e-mail address. " .
+                  "To do so, open the following link:\n\n" .
                   "$url\n\n" .
                   "Regards,\n" .
                   "Your vHike-System";
