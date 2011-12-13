@@ -1,10 +1,13 @@
 package de.unistuttgart.ipvs.pmp.gui.model;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
@@ -18,6 +21,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
 import de.unistuttgart.ipvs.pmp.util.xml.app.RequiredResourceGroup;
@@ -32,6 +36,8 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
  * 
  */
 public class MockupControl {
+    
+    private static final List<Throwable> youreDoingItWrong = new ArrayList<Throwable>();
     
     private static MockupApp app1;
     private static MockupApp app2;
@@ -62,6 +68,29 @@ public class MockupControl {
                 initApps(activityContext);
                 initPresets();
                 return null;
+            }
+            
+            
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+                for (Throwable t : youreDoingItWrong) {
+                    String msg = t.getMessage();
+                    if (t instanceof XMLParserException) {
+                        // yeah cause we like it intricate
+                        msg = ((XMLParserException) t).getDetails();
+                    }
+                    
+                    new AlertDialog.Builder(activityContext).setTitle("Mockup Error")
+                            .setMessage(t.getClass().getCanonicalName() + ": " + msg + " (see LogCat)")
+                            .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }
             }
             
         };
@@ -125,64 +154,74 @@ public class MockupControl {
         AppInformationSet ais;
         
         ident = "org.barcode.scanner";
-        ais = getAIS(activityContext, "barcode.xml");
-        app1 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon1), ais);
-        createSF(ais, app1);
-        MockupModel.instance.registerApp(ident, app1);
+        if ((ais = getAIS(activityContext, "barcode.xml")) != null) {
+            app1 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon1), ais);
+            createSF(ais, app1);
+            MockupModel.instance.registerApp(ident, app1);
+        }
         
         ident = "com.google.calendar";
-        ais = getAIS(activityContext, "calendar.xml");
-        app2 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon2), ais);
-        createSF(ais, app2);
-        MockupModel.instance.registerApp(ident, app2);
+        if ((ais = getAIS(activityContext, "calendar.xml")) != null) {
+            app2 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon2), ais);
+            createSF(ais, app2);
+            MockupModel.instance.registerApp(ident, app2);
+        }
         
         ident = "com.facebook.apps";
-        ais = getAIS(activityContext, "facebook.xml");
-        app3 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon3), ais);
-        createSF(ais, app3);
-        MockupModel.instance.registerApp(ident, app3);
+        if ((ais = getAIS(activityContext, "facebook.xml")) != null) {
+            app3 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon3), ais);
+            createSF(ais, app3);
+            MockupModel.instance.registerApp(ident, app3);
+        }
         
         ident = "com.google.mail";
-        ais = getAIS(activityContext, "gmail.xml");
-        app4 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon4), ais);
-        createSF(ais, app4);
-        MockupModel.instance.registerApp(ident, app4);
+        if ((ais = getAIS(activityContext, "gmail.xml")) != null) {
+            app4 = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon4), ais);
+            createSF(ais, app4);
+            MockupModel.instance.registerApp(ident, app4);
+        }
         
         ident = "com.imdb.android";
-        ais = getAIS(activityContext, "imdb.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon5), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "imdb.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon5), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
         
         ident = "com.google.sms";
-        ais = getAIS(activityContext, "sms.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon6), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "sms.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon6), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
         
         ident = "tv.sony.android";
-        ais = getAIS(activityContext, "tv.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon7), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "tv.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon7), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
         
         ident = "com.google.compass";
-        ais = getAIS(activityContext, "compass.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon8), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "compass.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon8), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
         
         ident = "com.adobe.rss";
-        ais = getAIS(activityContext, "rss.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon9), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "rss.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon9), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
         
         ident = "org.wikipedia.android";
-        ais = getAIS(activityContext, "wikipedia.xml");
-        app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon10), ais);
-        createSF(ais, app);
-        MockupModel.instance.registerApp(ident, app);
+        if ((ais = getAIS(activityContext, "wikipedia.xml")) != null) {
+            app = new MockupApp(ident, getDrawable(activityContext, R.drawable.test_icon10), ais);
+            createSF(ais, app);
+            MockupModel.instance.registerApp(ident, app);
+        }
     }
     
     
@@ -194,23 +233,26 @@ public class MockupControl {
         RgInformationSet rgis;
         
         ident = "org.oracle.db";
-        rgis = getRGIS(activityContext, "db.xml");
-        rg1 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
-        createPS(rgis, rg1);
-        rg1.setInstalled(true);
-        MockupModel.instance.installResourceGroup(ident, rg1);
+        if ((rgis = getRGIS(activityContext, "db.xml")) != null) {
+            rg1 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
+            createPS(rgis, rg1);
+            rg1.setInstalled(true);
+            MockupModel.instance.installResourceGroup(ident, rg1);
+        }
         
         ident = "gov.gps";
-        rgis = getRGIS(activityContext, "gps.xml");
-        rg2 = new MockupRG(ident, getDrawable(activityContext, R.drawable.test_icon8), rgis);
-        createPS(rgis, rg2);
-        MockupModel.instance.installResourceGroup(ident, rg2);
+        if ((rgis = getRGIS(activityContext, "gps.xml")) != null) {
+            rg2 = new MockupRG(ident, getDrawable(activityContext, R.drawable.test_icon8), rgis);
+            createPS(rgis, rg2);
+            MockupModel.instance.installResourceGroup(ident, rg2);
+        }
         
         ident = "de.bka.bundestrojaner";
-        rgis = getRGIS(activityContext, "privacy.xml");
-        rg3 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_search), rgis);
-        createPS(rgis, rg3);
-        MockupModel.instance.installResourceGroup(ident, rg3);
+        if ((rgis = getRGIS(activityContext, "privacy.xml")) != null) {
+            rg3 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_search), rgis);
+            createPS(rgis, rg3);
+            MockupModel.instance.installResourceGroup(ident, rg3);
+        }
     }
     
     
@@ -266,8 +308,9 @@ public class MockupControl {
         RgInformationSet result = null;
         try {
             result = RgInformationSetParser.createRgInformationSet(context.getAssets().open("samples2/rg/" + fileName));
-        } catch (IOException e) {
-            Log.e("Could not mock RGIS", e);
+        } catch (Throwable t) {
+            youreDoingItWrong.add(t);
+            Log.e("Could not mock RGIS", t);
         }
         return result;
     }
@@ -278,8 +321,9 @@ public class MockupControl {
         try {
             result = AppInformationSetParser.createAppInformationSet(context.getAssets().open(
                     "samples2/app/" + fileName));
-        } catch (IOException e) {
-            Log.e("Could not mock AIS", e);
+        } catch (Throwable t) {
+            youreDoingItWrong.add(t);
+            Log.e("Could not mock AIS", t);
         }
         return result;
     }
@@ -288,4 +332,5 @@ public class MockupControl {
     private static Drawable getDrawable(Context context, int id) {
         return context.getResources().getDrawable(id);
     }
+    
 }
