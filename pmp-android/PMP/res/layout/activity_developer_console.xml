@@ -131,31 +131,51 @@
 		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:orientation="vertical" android:background="#555555">
+		    android:background="#555555"
+		    android:orientation="vertical" >
 
-			<TextView
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginTop="5dp"
-			    android:paddingLeft="5dp"
-			    android:text="Resource Groups"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:paddingLeft="5dp"
+		        android:text="Resource Groups"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-			<LinearLayout
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content" >
+		    <LinearLayout
+		        android:id="@+id/linearLayout1"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
 
-				<ProgressBar
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content" android:layout_margin="8px"/>
+		        <EditText
+		            android:id="@+id/pdc_rg_path"
+		            android:layout_width="268dp"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1" />
 
-				<TextView
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:text="Waiting for Frieder ..." android:layout_marginTop="12px"/>
+		        <Button
+		            android:id="@+id/pdc_rg_install_btn"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Install" />
 
-			</LinearLayout>
+		    </LinearLayout>
 
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content" >
+
+		        <ProgressBar
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="8px" />
+
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="12px"
+		            android:text="Waiting for Frieder ..." />
+		    </LinearLayout>
 		</LinearLayout>
 
 	</LinearLayout>

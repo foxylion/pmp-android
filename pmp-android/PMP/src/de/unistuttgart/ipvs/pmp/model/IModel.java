@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model;
 
+import java.io.InputStream;
+
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -79,11 +81,14 @@ public interface IModel {
      */
     public IResourceGroup[] getResourceGroups();
     
+    
     /**
      * @return Returns all {@link IResourceGroup}s installed by PMP.
-     * FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
+     *         FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
      */
     public IResourceGroup[] getInstalledResourceGroups();
+    
+    
     /**
      * Returns the corresponding {@link IResourceGroup} to an identifier of a {@link IResourceGroup}.
      * 
@@ -110,7 +115,7 @@ public interface IModel {
     
     
     /**
-     * Downloads and installs a new {@link IResourceGroup} at PMP.
+     * Installs a previously downloaded, new {@link IResourceGroup} at PMP.
      * 
      * <p>
      * <b>This method will cause a network connection to the resource group server.</b>
@@ -118,9 +123,11 @@ public interface IModel {
      * 
      * @param identifier
      *            The identifier for the {@link IResourceGroup} which should be registered.
+     * @param input
+     *            The input file which should be the jar or apk where the ResourceGroup API is stored.
      * @return true, if the installation was successful, false if an error occurred
      */
-    public boolean installResourceGroup(String identifier);
+    public boolean installResourceGroup(String identifier, InputStream input);
     
     
     /**
