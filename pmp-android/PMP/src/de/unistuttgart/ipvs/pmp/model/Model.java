@@ -272,6 +272,7 @@ public class Model implements IModel, Observer {
     
     @Override
     public IResourceGroup[] getInstalledResourceGroups() {
+        // FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
         checkCached();
         List<IResourceGroup> resourceGroups = new ArrayList<IResourceGroup>(this.cache.getResourceGroups().values());
         // TODO we should not cast so many times. better just use list and hashmap?

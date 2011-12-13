@@ -31,6 +31,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     
     protected int version;
+    // FIXME: Warum gibt es dieses Attribut? Alle im Model registrierten Komponenten müssen installiert sein.
     protected boolean isInstalled;
     
     
@@ -88,12 +89,14 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     @Override
     public boolean isInstalled() {
+        // FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
         checkCached();
         return this.isInstalled;
     }
     
     @Override
     public void setInstalled(boolean flag) {
+       // FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
        this.isInstalled = flag;
     }
     

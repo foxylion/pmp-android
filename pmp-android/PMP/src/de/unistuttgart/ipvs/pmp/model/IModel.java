@@ -81,6 +81,7 @@ public interface IModel {
     
     /**
      * @return Returns all {@link IResourceGroup}s installed by PMP.
+     * FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
      */
     public IResourceGroup[] getInstalledResourceGroups();
     /**

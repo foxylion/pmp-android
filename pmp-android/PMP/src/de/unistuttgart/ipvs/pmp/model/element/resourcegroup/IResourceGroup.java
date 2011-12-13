@@ -63,11 +63,13 @@ public interface IResourceGroup extends IModelElement {
     
     /**
      * @return true if rg is installed
+     * FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
      */
     public boolean isInstalled();
     
     /**
      * @return void
+     * FIXME: Warum gibt es diese Funktion? Alle im Model registrierten Komponenten müssen installiert sein.
      */
     public void setInstalled(boolean flag);
     
