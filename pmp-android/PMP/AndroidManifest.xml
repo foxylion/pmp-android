@@ -42,6 +42,9 @@
         <activity
             android:name=".gui.activity.RGsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.activity.RGDetailsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <!-- Tabs -->
         <activity android:name=".gui.tab.AppDetailsTab" />
