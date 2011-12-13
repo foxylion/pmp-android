@@ -2,7 +2,10 @@ package de.unistuttgart.ipvs.pmp.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -264,6 +267,23 @@ public class Model implements IModel, Observer {
     public IResourceGroup[] getResourceGroups() {
         checkCached();
         return this.cache.getResourceGroups().values().toArray(new IResourceGroup[0]);
+    }
+    
+    
+    @Override
+    public IResourceGroup[] getInstalledResourceGroups() {
+        checkCached();
+        List<IResourceGroup> resourceGroups = new ArrayList<IResourceGroup>(this.cache.getResourceGroups().values());
+        // TODO we should not cast so many times. better just use list and hashmap?
+        Iterator<IResourceGroup> it = resourceGroups.iterator();
+        while (it.hasNext()) {
+            
+            IResourceGroup resourceGroup = it.next();
+            if (resourceGroup.isInstalled() == false) {
+                it.remove();
+            }
+        }
+        return resourceGroups.toArray(new IResourceGroup[0]);
     }
     
     

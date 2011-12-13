@@ -23,6 +23,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resourcegroups.switches.IWifiSwitch.Stub;
 
 /**
@@ -81,6 +82,12 @@ public class WifiSwitchStubImpl extends Stub {
     private boolean verifyAccessAllowed() {
         BooleanPrivacySetting bpl = (BooleanPrivacySetting) this.resource
                 .getPrivacySetting(SwitchesResourceGroup.PRIVACY_SETTING_WIFI_SWITCH);
-        return bpl.permits(this.appIdentifier, true);
+        try {
+            return bpl.permits(this.appIdentifier, true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
     }
 }

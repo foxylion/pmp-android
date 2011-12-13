@@ -55,6 +55,22 @@ public interface IResourceGroup extends IModelElement {
      */
     public Drawable getIcon();
     
+    /**
+     * @return the version number
+     */
+    public int getVersion();
+    
+    
+    /**
+     * @return true if rg is installed
+     */
+    public boolean isInstalled();
+    
+    /**
+     * @return void
+     */
+    public void setInstalled(boolean flag);
+    
     
     /**
      * @return Returns all {@link IPrivacySetting}s contained in this {@link IResourceGroup}.

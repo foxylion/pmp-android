@@ -1,7 +1,20 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
-import android.app.Activity;
+import java.util.Arrays;
 
-public class RGsInstalledTab extends Activity {
+import android.app.ListActivity;
+import android.os.Bundle;
+import de.unistuttgart.ipvs.pmp.gui.adapter.RGsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.placeholder.ModelProxy;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+
+public class RGsInstalledTab extends ListActivity {
     
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        IResourceGroup[] resourceGroups = ModelProxy.get().getInstalledResourceGroups();
+        RGsAdapter rgsAdapter = new RGsAdapter(this, Arrays.asList(resourceGroups));
+        this.setListAdapter(rgsAdapter);
+    }
 }

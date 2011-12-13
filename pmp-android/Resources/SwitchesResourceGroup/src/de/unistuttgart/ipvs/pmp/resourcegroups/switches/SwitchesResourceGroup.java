@@ -21,8 +21,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
  * Resource Group for typical switches in Android (wifi, etc.). Has the privacy settings
@@ -51,41 +51,33 @@ public class SwitchesResourceGroup extends ResourceGroup {
     private Context context;
     
     
-    public SwitchesResourceGroup(Context serviceContext) {
-        super(serviceContext);
-        
-        registerPrivacySetting(PRIVACY_SETTING_WIFI_SWITCH, new BooleanPrivacySetting("Wifi Switch",
-                "Is allowed to toggle the wifi switch."));
+    public SwitchesResourceGroup(IPMPConnectionInterface pmpci) {
+        super("de.unistuttgart.ipvs.pmp.resourcegroups.switches", pmpci);
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());
     }
     
     
-    @Override
     public String getName(String locale) {
         return "Switches Resource Group";
     }
     
     
-    @Override
     public String getDescription(String locale) {
         return "Resource group for using the switches available in Android.";
     }
     
     
-    @Override
     protected String getServiceAndroidName() {
         return "de.unistuttgart.ipvs.pmp.resourcegroups.switches";
     }
     
     
-    @Override
     public void onRegistrationSuccess() {
         Log.d("Registration success.");
     }
     
     
-    @Override
     public void onRegistrationFailed(String message) {
         Log.e("Registration failed with \"" + message + "\"");
     }

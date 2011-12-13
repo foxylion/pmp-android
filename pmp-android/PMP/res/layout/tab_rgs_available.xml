@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp" >
 
-    
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/icon_rgs"
+        pmp:name="@string/main_rgs" >
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apps_description" />
+
+        <include layout="@layout/view_divider_strong" />
+
+    <ListView android:id="@+id/ListView_RGsAvailable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+    </LinearLayout>
 
 </LinearLayout>

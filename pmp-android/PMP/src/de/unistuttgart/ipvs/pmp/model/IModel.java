@@ -79,7 +79,10 @@ public interface IModel {
      */
     public IResourceGroup[] getResourceGroups();
     
-    
+    /**
+     * @return Returns all {@link IResourceGroup}s installed by PMP.
+     */
+    public IResourceGroup[] getInstalledResourceGroups();
     /**
      * Returns the corresponding {@link IResourceGroup} to an identifier of a {@link IResourceGroup}.
      * 

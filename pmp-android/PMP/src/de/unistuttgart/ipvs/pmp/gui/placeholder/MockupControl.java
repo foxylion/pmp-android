@@ -197,6 +197,7 @@ public class MockupControl {
         rgis = getRGIS(activityContext, "db.xml");
         rg1 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
         createPS(rgis, rg1);
+        rg1.setInstalled(true);
         MockupModel.instance.installResourceGroup(ident, rg1);
         
         ident = "gov.gps";

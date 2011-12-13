@@ -1,6 +1,9 @@
 package de.unistuttgart.ipvs.pmp.gui.mockup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
@@ -65,6 +68,22 @@ public class MockupModel implements IModel {
     @Override
     public IResourceGroup[] getResourceGroups() {
         return this.mc.getResourceGroups().values().toArray(new IResourceGroup[0]);
+    }
+    
+    
+    @Override
+    public IResourceGroup[] getInstalledResourceGroups() {
+        List<IResourceGroup> resourceGroups = new ArrayList<IResourceGroup>(this.mc.getResourceGroups().values());
+        // TODO we should not cast so many times. better just use list and hashmap?
+        Iterator<IResourceGroup> it = resourceGroups.iterator();
+        while (it.hasNext()) {
+            
+            IResourceGroup resourceGroup = it.next();
+            if (resourceGroup.isInstalled() == false) {
+                it.remove();
+            }
+        }
+        return resourceGroups.toArray(new IResourceGroup[0]);
     }
     
     

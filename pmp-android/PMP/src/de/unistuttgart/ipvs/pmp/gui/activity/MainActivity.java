@@ -89,7 +89,8 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Tapped on RGs-Button", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, RGsActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
         

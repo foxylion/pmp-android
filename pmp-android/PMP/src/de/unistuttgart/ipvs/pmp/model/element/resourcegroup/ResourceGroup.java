@@ -30,13 +30,17 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     protected Map<String, PrivacySetting> privacySettings;
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     
+    protected int version;
+    protected boolean isInstalled;
+    
     
     /* organizational */
     
     public ResourceGroup(String rgPackage) {
         super(rgPackage);
+        this.version = 0;
+        this.isInstalled = false;
     }
-    
     
     /* interface */
     
@@ -68,6 +72,22 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         return null;
     }
     
+    @Override
+    public int getVersion() {
+        checkCached();
+        return this.version;
+    }
+    
+    @Override
+    public boolean isInstalled() {
+        checkCached();
+        return this.isInstalled;
+    }
+    
+    @Override
+    public void setInstalled(boolean flag) {
+       this.isInstalled = flag;
+    }
     
     @Override
     public IPrivacySetting[] getPrivacySettings() {
@@ -95,7 +115,6 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     /* inter-model communication */
-    
     public RgInformationSet getRgis() {
         checkCached();
         return this.rgis;
