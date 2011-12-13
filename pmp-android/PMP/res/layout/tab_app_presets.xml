@@ -5,18 +5,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_info"
-        pmp:name="Presets" >
-    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact>
-
     <TextView
         android:id="@+id/TextView_Description_Normal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="You can only use the Presets feature if you enable the Expert Mode in the settings."
+        android:text="@string/tab_presets_description_simplemode"
         android:visibility="gone" />
 
     <LinearLayout
@@ -28,8 +21,8 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="You can tap on a Preset to change it or use the plus icon to assign a Preset to the App."
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="@string/tab_presets_description_expertmode" />
 
         <ImageView
             android:layout_width="35dp"
