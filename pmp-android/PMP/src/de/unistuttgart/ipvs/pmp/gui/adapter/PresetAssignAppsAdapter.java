@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.List;
 
-import android.R.color;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -104,11 +103,5 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
         });
         
         return entryView;
-    }
-    
-    
-    
-    private void registerListener() {
-
     }
 }
