@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.model.activities;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 
 import android.app.Activity;
@@ -27,6 +30,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +58,8 @@ public class PMPDeveloperConsoleActivity extends Activity {
         
         setContentView(R.layout.activity_developer_console);
         setTitle("PMP Developer Console");
+        EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
+        rgPath.setText(Environment.getExternalStorageDirectory().getAbsolutePath());
         registerListener();
     }
     
@@ -166,6 +172,26 @@ public class PMPDeveloperConsoleActivity extends Activity {
             public void onClick(View v) {
                 EditText nameEdit = (EditText) findViewById(R.id.pdc_appservice_name_edit);
                 testBindService(nameEdit.getText().toString());
+            }
+        });
+        
+        /*
+         * install rg
+         */
+        Button installRG = (Button) findViewById(R.id.pdc_rg_install_btn);
+        installRG.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                try {
+                    EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
+                    InputStream is = new FileInputStream(rgPath.getText().toString());
+                    // TODO get identifier
+                    ModelProxy.get().installResourceGroup("todo", is);
+                } catch (IOException ioe) {
+                    Log.e("Cannot install RG.", ioe);
+                }
+                
             }
         });
     }
