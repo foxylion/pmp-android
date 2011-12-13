@@ -85,6 +85,16 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
+    public Drawable getIcon() {
+        try {
+            return PMPApplication.getContext().getPackageManager().getApplicationIcon(getIdentifier());
+        } catch (NameNotFoundException e) {
+            return null;
+        }
+    }
+    
+    
+    @Override
     public IServiceFeature[] getServiceFeatures() {
         checkCached();
         return this.serviceFeatures.values().toArray(new IServiceFeature[0]);
@@ -173,12 +183,19 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
-    public Drawable getIcon() {
-        try {
-            return PMPApplication.getContext().getPackageManager().getApplicationIcon(getIdentifier());
-        } catch (NameNotFoundException e) {
-            return null;
+    public String getBestAssignedPrivacySettingValue(IPrivacySetting privacySetting)
+            throws PrivacySettingValueException {
+        String result = null;
+        
+        for (IPreset p : this.assignedPresets) {
+            String psetting = p.getGrantedPrivacySettingValue(privacySetting);
+            
+            if (privacySetting.permits(result, psetting)) {
+                result = psetting;
+            }
         }
+        
+        return result;
     }
     
     
@@ -209,4 +226,5 @@ public class App extends ModelElement implements IApp {
         this.assignedPresets.add(p);
         verifyServiceFeatures();
     }
+    
 }

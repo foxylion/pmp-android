@@ -23,8 +23,10 @@ import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * <p>
@@ -105,5 +107,18 @@ public interface IApp extends IModelElement {
      * @return Returns all {@link IPreset}s which were assigned to the {@link IApp}.
      */
     public IPreset[] getAssignedPresets();
+    
+    
+    /**
+     * Searches through all assigned presets and finds the best {@link IPrivacySetting} value avilable for this app.
+     * 
+     * @param privacySetting
+     * @return the best value for privacySetting in all the presets, determined by
+     *         {@link IPrivacySetting#permits(String, String)} or null, if none set or none allowed
+     * @throws PrivacySettingValueException
+     *             if any stored value is not a valid string for this privacy setting.
+     */
+    public String getBestAssignedPrivacySettingValue(IPrivacySetting privacySetting)
+            throws PrivacySettingValueException;
     
 }
