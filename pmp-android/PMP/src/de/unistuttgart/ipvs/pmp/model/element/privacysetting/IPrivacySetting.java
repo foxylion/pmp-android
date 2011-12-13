@@ -81,7 +81,7 @@ public interface IPrivacySetting extends IModelElement {
      * @param value
      *            Value which should be returned as a human readable representation.
      * @return the human readable representation of the given value.
-     * @throws IllegalArgumentException
+     * @throws PrivacySettingValueException
      *             if the given value is not a valid string for this privacy setting.
      */
     public String getHumanReadableValue(String value) throws PrivacySettingValueException;
@@ -97,7 +97,7 @@ public interface IPrivacySetting extends IModelElement {
      * @param value
      *            The value which should be checked against the reference value.
      * @return true, if and only if value permits reference, i.e. "value >= reference"
-     * @throws IllegalArgumentException
+     * @throws PrivacySettingValueException
      *             if the given value is not a valid string for this privacy setting.
      */
     public boolean permits(String reference, String value) throws PrivacySettingValueException;
