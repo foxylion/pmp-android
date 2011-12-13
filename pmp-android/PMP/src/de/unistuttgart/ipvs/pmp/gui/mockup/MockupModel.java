@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.mockup;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -120,7 +121,7 @@ public class MockupModel implements IModel {
     
     @Override
     @Deprecated
-    public boolean installResourceGroup(String identifier) {
+    public boolean installResourceGroup(String identifier, InputStream input) {
         return false;
     }
     

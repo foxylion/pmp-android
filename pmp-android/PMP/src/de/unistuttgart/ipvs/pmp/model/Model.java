@@ -305,12 +305,13 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean installResourceGroup(String identifier) {
+    public boolean installResourceGroup(String identifier, InputStream input) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(input, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(input, new ModelMisuseError(Assert.ILLEGAL_NULL, "input", input));
         
         try {
-            // TODO download, unpack, install RG
+            // TODO unpack(?), install RG
             
             // TODO give correct xml stream here
             InputStream xmlStream = null;
