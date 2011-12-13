@@ -2,7 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
 		<identifier>de.bka.bundestrojaner</identifier>
-		<defaultName lang="de">Persönlichkeitsdateninterface</defaultName>
+		<defaultName lang="en">Persönlichkeitsdateninterface</defaultName>
 		<defaultDescription lang="en">Speichert alle persönlichen Daten.</defaultDescription>
 	</resourceGroupInformation>
 	<privacySettings>

@@ -106,6 +106,10 @@ public class XMLParser extends AbstractXMLParser {
         validateLocaleAttribute(defaultDescriptionList);
         validateLocaleAttribute(descriptionList);
         
+        // Check, if the lang attributes of the default name and description is "en"
+        validateLocaleAttributeEN(defaultNameList.get(0)[1]);
+        validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
+        
         // Add to the rg information set
         this.rgis.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
                 .replaceAll("\n", " ").trim());
@@ -159,6 +163,10 @@ public class XMLParser extends AbstractXMLParser {
         validateLocaleAttribute(nameList);
         validateLocaleAttribute(defaultDescriptionList);
         validateLocaleAttribute(descriptionList);
+        
+        // Check, if the lang attributes of the default name and description is "en"
+        validateLocaleAttributeEN(defaultNameList.get(0)[1]);
+        validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
         
         // Add to the rg information set
         PrivacySetting ps = new PrivacySetting();

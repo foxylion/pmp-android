@@ -204,4 +204,18 @@ public abstract class AbstractXMLParser {
         return false;
     }
     
+    
+    /**
+     * Check, if the lang attribute value of a given lang attribute equals "en"
+     * 
+     * @param langAttributeValue
+     *            the lang attribute value
+     */
+    public void validateLocaleAttributeEN(String langAttributeValue) {
+        if (!langAttributeValue.equals("en"))
+            throw new XMLParserException(Type.LOCALE_INVALID,
+                    "The lang attribute value of the default name/description has to be \"en\"");
+        
+    }
+    
 }
