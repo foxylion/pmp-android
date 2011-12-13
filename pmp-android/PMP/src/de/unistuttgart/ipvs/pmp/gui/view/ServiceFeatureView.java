@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
