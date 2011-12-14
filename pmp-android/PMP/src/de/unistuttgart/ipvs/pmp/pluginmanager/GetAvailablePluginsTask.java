@@ -32,7 +32,9 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
         context.pd.setIndeterminate(false);
         context.pd.setMax(100);
         context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        context.pd.show();
+        if (PluginManager.getInstance().getAvailablePlugins() == null) {
+            context.pd.show();
+        }
     }
     
     

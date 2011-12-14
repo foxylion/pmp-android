@@ -111,7 +111,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public int getRevision() {
         // TODO Auto-generated method stub
-        return 0;
+        return 1;
     }
     
 }
