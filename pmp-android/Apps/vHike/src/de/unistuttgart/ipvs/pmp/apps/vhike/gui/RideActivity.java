@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
  * This Activity gives user freedom to act as a Driver or Passenger
@@ -26,8 +27,7 @@ public class RideActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ride);
-		
-		
+
 		registerListener();
 	}
 
@@ -46,11 +46,15 @@ public class RideActivity extends Activity {
 		btnDrive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
+				Controller ctrl = new Controller();
+				ctrl.announceTrip(Model.getInstance().getSid(), "Berlin", 0, 0,
+						3);
+
 				Intent intent = new Intent(RideActivity.this,
 						DriverViewActivity.class);
 				RideActivity.this.startActivity(intent);
-				
+
 			}
 		});
 
