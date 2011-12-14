@@ -17,8 +17,8 @@ public class ModelProxy {
     protected static final IModel real = Model.getInstance();
     protected static final IModel mockup = MockupModel.instance;
     
-    private static boolean isMockup = true;
-    private static IModel instance = mockup;
+    private static boolean isMockup = false;
+    private static IModel instance = real;
     
     
     /**
