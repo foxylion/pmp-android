@@ -2,14 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
     android:background="@color/white"
-    android:gravity="center"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/listView1"
+    <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:icon="@drawable/logo"
+        android:name="@string/main_ride" >
+    </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
+
+    <TextView
+        android:id="@+id/row_city"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22dip" />
+
+    <TextView
+        android:id="@+id/row_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dip" />
 
 </LinearLayout>

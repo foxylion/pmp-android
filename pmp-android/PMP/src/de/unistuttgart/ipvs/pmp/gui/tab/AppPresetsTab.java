@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 public class AppPresetsTab extends Activity {
     
+    @SuppressWarnings("unused")
     private IApp app;
     
     @Override

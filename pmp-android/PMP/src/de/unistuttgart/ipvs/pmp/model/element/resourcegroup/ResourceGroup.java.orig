@@ -31,6 +31,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     
     protected int version;
+    protected boolean isInstalled;
     
     
     /* organizational */
@@ -38,8 +39,11 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     public ResourceGroup(String rgPackage) {
         super(rgPackage);
         this.version = 0;
+        this.isInstalled = false;
     }
     
+<<<<<<< HEAD
+=======
     
     @Override
     public String toString() {
@@ -49,6 +53,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     }
     
     
+>>>>>>> 4e9da0e9bc49f056325c0de615da833fdfe5a0c4
     /* interface */
     
     @Override
@@ -79,13 +84,22 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         return null;
     }
     
-    
     @Override
     public int getVersion() {
         checkCached();
         return this.version;
     }
     
+    @Override
+    public boolean isInstalled() {
+        checkCached();
+        return this.isInstalled;
+    }
+    
+    @Override
+    public void setInstalled(boolean flag) {
+       this.isInstalled = flag;
+    }
     
     @Override
     public IPrivacySetting[] getPrivacySettings() {

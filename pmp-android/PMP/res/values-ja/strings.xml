@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps">アプリケーション</string>
+    <string name="ress">リソース</string>
+    <string name="description">説明</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="servive_level_for">のためのサービスレベル</string>
+    <string name="apply_service_level">サービスレベルを適用する?</string>
+    <string name="set_service_level">サービスレベルの設定.</string>
+    <string name="please_wait">しばらくお待ちください!</string>
+    <string name="required_resource">必要なリソースグループ:</string>
+    <string name="change_sl">サービスレベルを変更する</string>
+    <string name="close">閉じる</string>
+</resources>

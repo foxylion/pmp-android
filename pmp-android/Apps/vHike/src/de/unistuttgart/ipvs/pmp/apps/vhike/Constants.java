@@ -30,4 +30,10 @@ public class Constants {
 	public static final int REG_STAT_INVALID_LASTNAME = 23;
 	public static final int REG_STAT_INVALID_TEL = 24;
 
+	
+	public static final int STATUS_UPDATED = 50;
+	public static final int STATUS_UPTODATE = 51;
+	public static final int STATUS_NOTRIP = 52;
+	public static final int STATUS_HASENDED = 53;
+	public static final int STATUS_INVALID_USER = 54;
 }

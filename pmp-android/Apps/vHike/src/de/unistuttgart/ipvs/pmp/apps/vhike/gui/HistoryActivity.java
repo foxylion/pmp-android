@@ -1,8 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.ArrayList;
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+
+//import android.widget.ArrayAdapter;
 
 //import de.unistuttgart.ipvs.pmp.R;
 //import android.app.Activity;
@@ -29,22 +31,45 @@ import android.widget.ArrayAdapter;
 //import android.widget.TextView;
 //import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
 //import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+
 /**
  * This Activity gives user the List of all driven journeys
  * 
  * @author Anton Makarov
  * 
  */
+
 public class HistoryActivity extends ListActivity {
 
-	
-	static final String[] DRIVES = new String[] {
-        "Berlin 12.03.2002", "Stuttgart 28.09.2010", "..."};
-	
+	private HistoryActivityAdapter mAdapter;
+
+	private ArrayList<AWName> mData;
+
+	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, DRIVES));
+		super.onCreate(savedInstanceState);
+
+		initiateData();
+
+		mAdapter = new HistoryActivityAdapter(this, mData);
+		this.setListAdapter(mAdapter);
+
 	}
 
+	private void initiateData() {
+		mData = new ArrayList<AWName>();
+
+		AWName name = new AWName("Berlin", "12.03.2002");
+		mData.add(name);
+
+		name = new AWName("Stuttgart", "28.09.2010");
+		mData.add(name);
+
+		name = new AWName("München", "23.11.2011");
+		mData.add(name);
+
+		name = new AWName("Vaihingen", "01.12.2011");
+		mData.add(name);
+	}
 }

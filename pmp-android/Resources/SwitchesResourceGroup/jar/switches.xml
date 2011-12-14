@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation>
+		<identifier>com.google.android.wifi</identifier>
+		<defaultName lang="en">Wifi Switch</defaultName>
+		<name lang="de">WLAN Schalter</name>
+		<defaultDescription lang="en">You can turn your WiFi on and off.</defaultDescription>
+		<description lang="de">WLAN ein und ausschalten.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="read">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Read</defaultName>
+			<name lang="de">Lesen</name>
+			<defaultDescription lang="en">Read WiFi status</defaultDescription>
+			<description lang="de">WLAN Status auslesen.</description>
+		</privacySetting>
+		<privacySetting identifier="modify">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Modify</defaultName>
+			<name lang="de">Ändern</name>
+			<defaultDescription lang="en">Change WiFi status.</defaultDescription>
+			<description lang="de">Ändere den WLAN Status.</description>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>

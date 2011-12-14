@@ -110,7 +110,90 @@ public class Controller {
 	 * @param destination
 	 * @return true, if announcing a trip is succeeded
 	 */
-	public boolean announceTrip(String session_id, String destination, float current_lat, float current_lon, int avail_seats) {
-		return JSonRequestReader.announceTrip(session_id, destination, current_lat,  current_lon, avail_seats);
+	public boolean announceTrip(String session_id, String destination,
+			float current_lat, float current_lon, int avail_seats) {
+		return JSonRequestReader.announceTrip(session_id, destination,
+				current_lat, current_lon, avail_seats);
 	}
+
+	/**
+	 * Updates the position of the driver
+	 * 
+	 * @param sid
+	 * @param trip_id
+	 * @param current_lat
+	 * @param current_lon
+	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
+	 *         STATUS_INVALID_USER see {@link Constants} and design.html
+	 */
+	public int tripUpdatePos(String sid, int trip_id, float current_lat,
+			float current_lon) {
+		String status = JSonRequestReader.tripUpdatePos(sid, trip_id,
+				current_lat, current_lon);
+
+		if (status.equals("updated")) {
+			return Constants.STATUS_UPDATED;
+		} else if (status.equals("already_uptodate")) {
+			return Constants.STATUS_UPTODATE;
+		} else if (status.equals("no_trip")) {
+			return Constants.STATUS_NOTRIP;
+		} else if (status.equals("has_ended")) {
+			return Constants.STATUS_HASENDED;
+		} else if (status.equals("invalid_user")) {
+			return Constants.STATUS_INVALID_USER;
+		}
+		return 0;
+	}
+
+	/**
+	 * Updates the data of the trip
+	 * 
+	 * @param sid
+	 * @param trip_id
+	 * @param avail_seats
+	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
+	 *         STATUS_INVALID_USER see {@link Constants} and design.html
+	 */
+	public int tripUpdateData(String sid, int trip_id, int avail_seats) {
+		String status = JSonRequestReader.tripUpdateData(sid, trip_id,
+				avail_seats);
+
+		if (status.equals("updated")) {
+			return Constants.STATUS_UPDATED;
+		} else if (status.equals("already_uptodate")) {
+			return Constants.STATUS_UPTODATE;
+		} else if (status.equals("no_trip")) {
+			return Constants.STATUS_NOTRIP;
+		} else if (status.equals("has_ended")) {
+			return Constants.STATUS_HASENDED;
+		} else if (status.equals("invalid_user")) {
+			return Constants.STATUS_INVALID_USER;
+		}
+		return 0;
+	}
+	/**
+	 * End the active trip
+	 * @param sid
+	 * @param trip_id
+	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
+	 *         STATUS_INVALID_USER see {@link Constants} and design.html
+	 */
+	public int endTrip(String sid, int trip_id) {
+		String status = JSonRequestReader.endTrip(sid, trip_id);
+
+		if (status.equals("updated")) {
+			return Constants.STATUS_UPDATED;
+		} else if (status.equals("already_uptodate")) {
+			return Constants.STATUS_UPTODATE;
+		} else if (status.equals("no_trip")) {
+			return Constants.STATUS_NOTRIP;
+		} else if (status.equals("has_ended")) {
+			return Constants.STATUS_HASENDED;
+		} else if (status.equals("invalid_user")) {
+			return Constants.STATUS_INVALID_USER;
+		}
+		return 0;
+	}
+	
+	
 }

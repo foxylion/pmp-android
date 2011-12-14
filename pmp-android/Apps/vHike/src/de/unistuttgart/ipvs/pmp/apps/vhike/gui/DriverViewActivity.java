@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -17,9 +18,11 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
@@ -44,6 +47,14 @@ public class DriverViewActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
+		Location loc = locationManager
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		float lat = (float) loc.getLatitude();
+		float lng = (float) loc.getLongitude();
+		Controller ctrl = new Controller();
+		ctrl.tripUpdatePos(Model.getInstance().getSid(), Model.getInstance()
+				.getTripId(), lat, lng);
+
 		showHitchhikers();
 		setMapView();
 	}
@@ -58,8 +69,15 @@ public class DriverViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		Profile profile = new Profile("User1", null, null, null, null, null, null, false, false, false, false, lat, lat);
+		Profile profile = new Profile("User1", null, null, null, null, null,
+				null, false, false, false, false, lat, 2.5);
+		Profile profile2 = new Profile("User3", null, null, null, null, null,
+				null, false, false, false, false, lat, 4);
+		Profile profile3 = Model.getInstance().getOwnProfile();
+
 		addHitchhiker(profile);
+		addHitchhiker(profile2);
+		addHitchhiker(profile3);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
@@ -79,7 +97,8 @@ public class DriverViewActivity extends MapActivity {
 	}
 
 	/**
-	 * displays the map from xml file including a button to get current user location
+	 * displays the map from xml file including a button to get current user
+	 * location
 	 */
 	private void setMapView() {
 		mapView = (MapView) findViewById(R.id.driverMapView);

@@ -176,15 +176,38 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
+		int id = 0;
 		String username = null;
+		String email = null;
+		String firstname = null;
+		String lastname = null;
+		String tel = null;
+		String description = null;
+		String regdate = null;
+		boolean email_public = false;
+		boolean firstname_public = false;
+		boolean lastname_public = false;
+		boolean tel_public = false;
+		
 		double rating_avg = 0;
 		int rating_num = 0;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
+			email = object.get("email").getAsString();
+			//firstname = object.get("firstname").getAsString();
+			lastname = object.get("lastname").getAsString();
+			tel = object.get("tel").getAsString();
+			description = object.get("description").getAsString();
+			regdate = object.get("regdate").getAsString();
 			rating_avg = object.get("rating_avg").getAsFloat();
 			rating_num = object.get("rating_num").getAsInt();
+			email_public = object.get("email_public").getAsBoolean();
+			firstname_public = object.get("firstname_public").getAsBoolean();
+			lastname_public = object.get("lastname_public").getAsBoolean();
+			tel_public = object.get("tel_public").getAsBoolean();
 		}
+		
 		// String userid = object.get("id").getAsString();
 		// TODO
 		// String regdate = object.get("regdate").getAsString();
@@ -192,8 +215,8 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, "email", "firstname", "lastname",
-					"tel", "description", date, false, false, false, false,
+			profile = new Profile(username, email, "firstname", lastname,
+					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
 		}
@@ -214,11 +237,12 @@ public class JSonRequestReader {
 		listToParse.add(new ParamObject("id", String.valueOf(id), false));
 		listToParse.add(new ParamObject("sid", session_id, false));
 
+
 		JsonObject object = null;
+
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"getProfile.php");
-
+					"get_profile.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -226,29 +250,49 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String username = null;
+		String email = null;
+		String firstname = null;
+		String lastname = null;
+		String tel = null;
+		String description = null;
+		String regdate = null;
+		boolean email_public = false;
+		boolean firstname_public = false;
+		boolean lastname_public = false;
+		boolean tel_public = false;
+		
 		double rating_avg = 0;
 		int rating_num = 0;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
+			email = object.get("email").getAsString();
+			//firstname = object.get("firstname").getAsString();
+			lastname = object.get("lastname").getAsString();
+			tel = object.get("tel").getAsString();
+			description = object.get("description").getAsString();
+			regdate = object.get("regdate").getAsString();
 			rating_avg = object.get("rating_avg").getAsFloat();
 			rating_num = object.get("rating_num").getAsInt();
+			email_public = object.get("email_public").getAsBoolean();
+			firstname_public = object.get("firstname_public").getAsBoolean();
+			lastname_public = object.get("lastname_public").getAsBoolean();
+			tel_public = object.get("tel_public").getAsBoolean();
 		}
+		
 		// String userid = object.get("id").getAsString();
 		// TODO
 		// String regdate = object.get("regdate").getAsString();
-		// Test TODO
-		Date date = new Date();
 		Profile profile;
+
+		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, "email", "firstname", "lastname",
-					"tel", "description", date, false, false, false, false,
+			profile = new Profile(username, email, "firstname", lastname,
+					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
-		} else {
-			return null;
 		}
-
+		return null;
 	}
 
 	/**
@@ -272,7 +316,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"announceTrip.php");
+					"trip_announce.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -280,10 +324,16 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		int tripId = 0;
+		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			tripId = object.get("id").getAsInt();
-			Model.getInstance().setTripId(tripId);
+			status = object.get("status").getAsString();
+			if(status.equals("announced")){
+				tripId = object.get("id").getAsInt();
+				Model.getInstance().setTripId(tripId);
+				Log.i(String.valueOf(Model.getInstance().getTripId()));	
+			}
+			
 		}
 
 		return suc;
@@ -372,7 +422,7 @@ public class JSonRequestReader {
 	 * @param trip_id
 	 * @return
 	 */
-	public String endTrip(String sid, int trip_id) {
+	public static String endTrip(String sid, int trip_id) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 

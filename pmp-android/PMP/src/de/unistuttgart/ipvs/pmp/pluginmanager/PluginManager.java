@@ -21,32 +21,26 @@ package de.unistuttgart.ipvs.pmp.pluginmanager;
 
 public class PluginManager {
     
-    public void isOutdated() {
-        
+    private static PluginManager instance = new PluginManager();
+    private AvailablePlugins availablePlugins = new AvailablePlugins();
+
+    private PluginManager() {}
+ 
+    public static PluginManager getInstance() {
+        return instance;
     }
     
-    
-    public void getPluginList() {
-        
+    public AvailablePlugins getAvailablePlugins() {
+
+        if (availablePlugins.getPlugins().size() == 0) {
+            updatePluginList();
+        }
+        return availablePlugins;
     }
     
     
     public void updatePluginList() {
-        
+
     }
     
-    
-    public void updatePlugin() {
-        
-    }
-    
-    
-    public void addPlugin() {
-        
-    }
-    
-    
-    public void removePlugin() {
-        
-    }
 }
