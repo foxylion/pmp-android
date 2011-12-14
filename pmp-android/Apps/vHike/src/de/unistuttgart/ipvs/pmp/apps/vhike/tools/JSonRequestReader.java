@@ -316,7 +316,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"announceTrip.php");
+					"trip_announce.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

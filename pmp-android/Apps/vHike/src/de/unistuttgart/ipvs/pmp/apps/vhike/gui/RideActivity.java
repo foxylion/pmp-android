@@ -1,14 +1,19 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
+import java.util.concurrent.ConcurrentHashMap;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 
 /**
  * This Activity gives user freedom to act as a Driver or Passenger
@@ -21,7 +26,8 @@ public class RideActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ride);
-
+		
+		
 		registerListener();
 	}
 
@@ -40,9 +46,11 @@ public class RideActivity extends Activity {
 		btnDrive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				Intent intent = new Intent(RideActivity.this,
 						DriverViewActivity.class);
 				RideActivity.this.startActivity(intent);
+				
 			}
 		});
 
