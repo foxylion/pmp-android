@@ -131,7 +131,7 @@ public class MockupControl {
             p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
             p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         } else {
-            Log.e("app3, app4 or rg1 was null. Could not assign the preset 1.");
+            Log.e("app3, app4 or rg1 was null. Could not assign the preset 2.");
         }
         
         ident = "preset_3";
@@ -143,7 +143,7 @@ public class MockupControl {
             p3.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
             p3.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
         } else {
-            Log.e("app1 or rg1 was null. Could not assign the preset 1.");
+            Log.e("app1 or rg1 was null. Could not assign the preset 3.");
         }
         
         ident = "preset_4";
@@ -156,7 +156,7 @@ public class MockupControl {
             p4.setDeleted(true);
             p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
         } else {
-            Log.e("app1, app3 or rg1 was null. Could not assign the preset 1.");
+            Log.e("app1, app3 or rg1 was null. Could not assign the preset 4.");
         }
     }
     
