@@ -324,11 +324,15 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		int tripId = 0;
+		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			tripId = object.get("id").getAsInt();
-			Model.getInstance().setTripId(tripId);
-			Log.i(String.valueOf(Model.getInstance().getTripId()));
+			if(status.equals("announced")){
+				tripId = object.get("id").getAsInt();
+				Model.getInstance().setTripId(tripId);
+				Log.i(String.valueOf(Model.getInstance().getTripId()));	
+			}
+			
 		}
 
 		return suc;
