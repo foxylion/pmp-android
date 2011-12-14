@@ -15,7 +15,7 @@ try {
                     "id" => $user->getId(), 
                     "username" => $user->getUsername(),
                     "email" => $user->getEmail(),
-                    "fistname" => $user->getFirstname(),
+                    "firstname" => $user->getFirstname(),
                     "lastname" => $user->getLastname(),
                     "tel" => $user->getTel(),
                     "description" => $user->getDescription(),

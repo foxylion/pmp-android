@@ -22,7 +22,7 @@ try {
         }
         
         if ($user->isFirstnamePublic()) {
-            $output["fistname"] = $user->getFirstname();
+            $output["firstname"] = $user->getFirstname();
         }
         
         if ($user->isLastnamePublic()) {
