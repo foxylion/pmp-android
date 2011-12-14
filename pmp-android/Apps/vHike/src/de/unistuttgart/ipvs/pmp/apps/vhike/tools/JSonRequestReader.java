@@ -328,6 +328,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			tripId = object.get("id").getAsInt();
 			Model.getInstance().setTripId(tripId);
+			Log.i(String.valueOf(Model.getInstance().getTripId()));
 		}
 
 		return suc;
@@ -416,7 +417,7 @@ public class JSonRequestReader {
 	 * @param trip_id
 	 * @return
 	 */
-	public String endTrip(String sid, int trip_id) {
+	public static String endTrip(String sid, int trip_id) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
