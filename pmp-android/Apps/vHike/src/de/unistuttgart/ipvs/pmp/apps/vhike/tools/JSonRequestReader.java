@@ -327,6 +327,7 @@ public class JSonRequestReader {
 		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
+			status = object.get("status").getAsString();
 			if(status.equals("announced")){
 				tripId = object.get("id").getAsInt();
 				Model.getInstance().setTripId(tripId);
