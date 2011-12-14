@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class NotificationAdapter extends BaseAdapter {
@@ -53,8 +54,10 @@ public class NotificationAdapter extends BaseAdapter {
 				R.layout.hitchhiker_list, null);
 
 		Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
-		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
+		RatingBar noti_rb = (RatingBar) entryView
+				.findViewById(R.id.notification_ratingbar);
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
 
 		// dismiss.setText("Dismiss");
 		dismiss.setOnClickListener(new OnClickListener() {
@@ -74,12 +77,15 @@ public class NotificationAdapter extends BaseAdapter {
 			}
 		});
 
+		noti_rb.setRating((float) hitchhiker.getRating_num());
+
 		// accept.setText("Accept");
-//		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
+		// final Button accept = (Button)
+		// entryView.findViewById(R.id.acceptBtn);
 		accept.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				accept.setBackgroundColor(R.drawable.waiting);
+				// accept.setBackgroundColor(R.drawable.waiting);
 				accept.setBackgroundResource(R.drawable.bg_waiting);
 				accept.refreshDrawableState();
 			}

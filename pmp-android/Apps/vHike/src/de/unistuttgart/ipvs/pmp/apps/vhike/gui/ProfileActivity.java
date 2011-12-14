@@ -17,13 +17,15 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 public class ProfileActivity extends Activity {
-
+	
 	static final String[] RECENT_RIDES = new String[] {
 			"01.01.2011, Stuttgart", "02.01.2011, Berlin",
 			"03.01.2011, Vaihingen", "..." };
 
-	private TabHost mTabHost;
-
+	public ProfileActivity() {
+		
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
@@ -34,6 +36,7 @@ public class ProfileActivity extends Activity {
 
 	private void setUpMyProfile() {
 		Profile myProfile = Model.getInstance().getOwnProfile();
+		
 		TextView tv_username = (TextView) findViewById(R.id.tv_username);
 		tv_username.setText(myProfile.getUsername());
 

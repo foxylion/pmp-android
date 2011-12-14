@@ -316,7 +316,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"announceTrip.php");
+					"trip_announce.php");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -324,10 +324,16 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		int tripId = 0;
+		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			tripId = object.get("id").getAsInt();
-			Model.getInstance().setTripId(tripId);
+			status = object.get("status").getAsString();
+			if(status.equals("announced")){
+				tripId = object.get("id").getAsInt();
+				Model.getInstance().setTripId(tripId);
+				Log.i(String.valueOf(Model.getInstance().getTripId()));	
+			}
+			
 		}
 
 		return suc;
@@ -416,7 +422,7 @@ public class JSonRequestReader {
 	 * @param trip_id
 	 * @return
 	 */
-	public String endTrip(String sid, int trip_id) {
+	public static String endTrip(String sid, int trip_id) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
