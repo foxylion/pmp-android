@@ -35,6 +35,11 @@ public class LoginActivity extends Activity {
 		final Controller ctrl = new Controller();
 		final EditText et_username = (EditText) findViewById(R.id.edit_login);
 		final EditText et_pw = (EditText) findViewById(R.id.edit_password);
+		
+		//------------Provisorisch-----------
+		et_username.setText("demo");
+		et_pw.setText("test");
+		//------------Provisorisch-----------
 
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
@@ -64,13 +69,14 @@ public class LoginActivity extends Activity {
 	}
 
 	private void registerLink() {
-		TextView view_register = (TextView) findViewById(R.id.view_register);
-		String text = "Register";
-		view_register.setText(text);
-		// Turn pattern "Register" into clickable
-		Pattern pattern = Pattern.compile("Register");
-		// prefix our pattern with http://
-		// Linkify.addLinks(view_register, pattern, "http://www.google.com");
+		Button button_register = (Button) findViewById(R.id.button_register);
+		button_register.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+				LoginActivity.this.startActivity(intent);
+			}
+		});
 	}
 
 }
