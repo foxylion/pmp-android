@@ -2,6 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
 		<identifier>gov.gps</identifier>
+		<revision>1</revision>
 		<defaultName lang="en">GPS</defaultName>
 		<defaultDescription lang="en">The official GPS resource from the DoD that can track you - I mean - you can track your position.</defaultDescription>
 	</resourceGroupInformation>

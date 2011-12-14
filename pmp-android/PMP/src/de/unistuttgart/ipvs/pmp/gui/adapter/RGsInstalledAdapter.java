@@ -70,7 +70,7 @@ public class RGsInstalledAdapter extends BaseAdapter {
         String text;
         if (/*resourceGroup.isInstalled() == */true) {
             status.setTextColor(Color.GREEN);
-            String version = String.valueOf(resourceGroup.getVersion());
+            String version = String.valueOf(resourceGroup.getRevision());
             text = "Already installed (V." + version + ")";
         } else {
             status.setTextColor(Color.YELLOW);

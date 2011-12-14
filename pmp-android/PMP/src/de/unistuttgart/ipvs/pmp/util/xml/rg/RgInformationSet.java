@@ -43,6 +43,16 @@ public class RgInformationSet extends AbstractInformationSet implements Serializ
     private static final long serialVersionUID = -5127998017294446211L;
     
     /**
+     * The identifier of the resource group
+     */
+    private String identifier;
+    
+    /**
+     * The revision of the resource group
+     */
+    private String revision;
+    
+    /**
      * This map contains all privacy settings of the resourcegroup. key =
      * identifier
      */
@@ -82,5 +92,47 @@ public class RgInformationSet extends AbstractInformationSet implements Serializ
      */
     public Map<String, PrivacySetting> getPrivacySettingsMap() {
         return this.privacySettingsMap;
+    }
+    
+    
+    /**
+     * Get the identifier of the resource group
+     * 
+     * @return the identifier
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+    
+    
+    /**
+     * Set the identifier of the resource group
+     * 
+     * @param identifier
+     *            the identifier of the resource group
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
+    /**
+     * Get the revision of the resource group
+     * 
+     * @return the revision
+     */
+    public String getRevision() {
+        return revision;
+    }
+    
+    
+    /**
+     * Set the revision of the resource group
+     * 
+     * @param revision
+     *            the revision of the resource group
+     */
+    public void setRevision(String revision) {
+        this.revision = revision;
     }
 }

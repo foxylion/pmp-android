@@ -95,6 +95,8 @@ public class XMLParser extends AbstractXMLParser {
      */
     private void parseRgInformationNode(Element rgInformationElement) {
         // Create results
+        List<String[]> identifierList = parseNodes(rgInformationElement, "identifier", 1, 1);
+        List<String[]> revisionList = parseNodes(rgInformationElement, "revision", 1, 1);
         List<String[]> defaultNameList = parseNodes(rgInformationElement, "defaultName", 1, 1, "lang");
         List<String[]> nameList = parseNodes(rgInformationElement, "name", 0, Integer.MAX_VALUE, "lang");
         List<String[]> defaultDescriptionList = parseNodes(rgInformationElement, "defaultDescription", 1, 1, "lang");
@@ -111,6 +113,8 @@ public class XMLParser extends AbstractXMLParser {
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
         
         // Add to the rg information set
+        this.rgis.setIdentifier(identifierList.get(0)[0]);
+        this.rgis.setRevision(revisionList.get(0)[0]);
         this.rgis.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
                 .replaceAll("\n", " ").trim());
         for (String[] nameArray : nameList) {
