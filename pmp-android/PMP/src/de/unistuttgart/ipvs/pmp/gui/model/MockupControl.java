@@ -236,7 +236,7 @@ public class MockupControl {
         if ((rgis = getRGIS(activityContext, "db.xml")) != null) {
             rg1 = new MockupRG(ident, getDrawable(activityContext, R.drawable.icon_rgs), rgis);
             createPS(rgis, rg1);
-            rg1.setInstalled(true);
+            /*rg1.setInstalled(true);*/
             MockupModel.instance.installResourceGroup(ident, rg1);
         }
         

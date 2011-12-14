@@ -30,7 +30,7 @@ public class RGDetailsActivity extends Activity {
         
         TextView status = (TextView) findViewById(R.id.TextView_Status);
         String text;
-        if (resourceGroup.isInstalled() == true) {
+        if (/* resourceGroup.isInstalled() == */true) {
             status.setTextColor(Color.GREEN);
             String version = String.valueOf(resourceGroup.getVersion());
             text = "Already installed (V." + version + ")";
