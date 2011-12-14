@@ -57,9 +57,9 @@ public interface IResourceGroup extends IModelElement {
     
     
     /**
-     * @return the version number
+     * @return the revision number
      */
-    public int getVersion();
+    public int getRevision();
     
     
     /**

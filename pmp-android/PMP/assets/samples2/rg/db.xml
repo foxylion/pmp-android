@@ -6,6 +6,7 @@
 		<name lang="de">Datenbank</name>
 		<defaultDescription lang="en">The Database resource group provides easy access to the central managed databases.</defaultDescription>
 		<description lang="de">Die Datenbankressourcengruppe bietet einfachen Zugriff auf zentral verwaltete Datenbanken.</description>
+		<revision>23</revision>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting identifier="read">
