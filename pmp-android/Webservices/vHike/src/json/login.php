@@ -11,7 +11,7 @@ try {
 
     $status;
     
-    switch ($session->logIn($_GET["username"], $_GET["password"])) {
+    switch ($session->logIn($_POST["username"], $_POST["password"])) {
         case Session::USER_INACTIVATED:
             $status = "inactivated";
             break;

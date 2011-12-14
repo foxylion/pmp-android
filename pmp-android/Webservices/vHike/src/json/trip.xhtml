@@ -10,6 +10,35 @@ and open the template in the editor.
     </head>
     <body>
         <h1>Trip management</h1>
+        <h2>Announce trip</h2>
+        <form action="trip_announce.php" method="post">
+
+            <table>
+                <tr>
+                    <td>Destination</td>
+                    <td><input name="destination" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Current lat.:</td>
+                    <td><input name="current_lat" type="text" /></td>
+
+                </tr>
+                <tr>
+                    <td>Current lon.:</td>
+                    <td><input name="current_lon" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Available seats:</td>
+                    <td><input name="avail_seats" type="text" /></td>
+
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td colspan="2"><input type="submit" /><input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+        
         <h2>Update position</h2>
         <form action="trip_update_pos.php" method="post">
             <table>
