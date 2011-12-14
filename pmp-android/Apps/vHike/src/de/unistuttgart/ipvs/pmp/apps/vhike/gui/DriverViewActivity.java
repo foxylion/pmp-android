@@ -20,6 +20,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
@@ -58,8 +59,13 @@ public class DriverViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		Profile profile = new Profile("User1", null, null, null, null, null, null, false, false, false, false, lat, lat);
+		Profile profile = new Profile("User1", null, null, null, null, null, null, false, false, false, false, lat, 2.5);
+		Profile profile2 = new Profile("User3", null, null, null, null, null, null, false, false, false, false, lat, 4);
+		Profile profile3 = Model.getInstance().getOwnProfile();
+		
 		addHitchhiker(profile);
+		addHitchhiker(profile2);
+		addHitchhiker(profile3);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
