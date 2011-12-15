@@ -59,6 +59,9 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="details">Details</string>
+    <string name="install">Install</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="update">Update</string>
     <string name="service_features">Service Features</string>
     <string name="presets">Presets</string>
     <string name="ps_invalid_value">required value is invalid</string>
@@ -68,10 +71,11 @@
     <string name="app_removed">App has been successfully unregistred from PMP.</string>
     <string name="details_app">App details</string>
 
-
     <string name="rgs_available">Available</string>
     <string name="rgs_installed">Installed</string>
-    <string name="rgs_getting_resource_groups">Getting Resource Groups...</string>
+    <string name="rgs_task_getting">Getting available Resource Groups</string>
+    <string name="rgs_task_installing">Installing Resource Group</string>
+    <string name="rgs_task_uninstalling">Removing Resource Group</string>
     <string name="rgs_uptodate">Up to date!</string>
     <string name="rgs_outdated">Outdated!</string>
     <string name="rgs_notinstalled">Not installed.</string>  
