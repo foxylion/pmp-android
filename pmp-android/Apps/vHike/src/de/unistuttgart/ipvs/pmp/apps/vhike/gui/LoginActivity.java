@@ -35,11 +35,11 @@ public class LoginActivity extends Activity {
 		final Controller ctrl = new Controller();
 		final EditText et_username = (EditText) findViewById(R.id.edit_login);
 		final EditText et_pw = (EditText) findViewById(R.id.edit_password);
-		
-		//------------Provisorisch-----------
+
+		// ------------Provisorisch-----------
 		et_username.setText("demo");
 		et_pw.setText("test");
-		//------------Provisorisch-----------
+		// ------------Provisorisch-----------
 
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
@@ -54,6 +54,8 @@ public class LoginActivity extends Activity {
 				} else {
 
 					if (ctrl.login(username, pw)) {
+						Toast.makeText(LoginActivity.this, "Login successfull",
+								Toast.LENGTH_LONG);
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
 						LoginActivity.this.startActivity(intent);
@@ -70,10 +72,11 @@ public class LoginActivity extends Activity {
 
 	private void registerLink() {
 		Button button_register = (Button) findViewById(R.id.button_register);
-		button_register.setOnClickListener(new OnClickListener(){
+		button_register.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+				Intent intent = new Intent(LoginActivity.this,
+						RegisterActivity.class);
 				LoginActivity.this.startActivity(intent);
 			}
 		});
