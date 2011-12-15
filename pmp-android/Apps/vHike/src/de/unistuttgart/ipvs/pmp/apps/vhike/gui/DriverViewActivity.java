@@ -47,6 +47,7 @@ public class DriverViewActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location loc = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		float lat = (float) loc.getLatitude();

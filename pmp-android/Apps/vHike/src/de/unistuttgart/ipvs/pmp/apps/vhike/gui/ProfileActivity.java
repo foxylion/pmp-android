@@ -37,8 +37,8 @@ public class ProfileActivity extends Activity {
 	private void setUpMyProfile() {
 		Profile myProfile = Model.getInstance().getOwnProfile();
 		
-		TextView tv_username = (TextView) findViewById(R.id.tv_username);
-		tv_username.setText(myProfile.getUsername());
+		EditText et_username = (EditText) findViewById(R.id.et_username);
+		et_username.setText(myProfile.getUsername());
 
 		EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
 		et_firstname.setText(myProfile.getFirstname());

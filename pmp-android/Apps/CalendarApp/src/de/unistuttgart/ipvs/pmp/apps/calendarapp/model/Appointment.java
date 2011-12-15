@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -116,13 +116,14 @@ public class Appointment {
     
     
     /**
-     * Returns the string representation for the list view
+     * String representation of the stored date
+     * 
+     * @return string representation
      */
-    @Override
-    public String toString() {
+    public String getDateString() {
         Calendar cal = new GregorianCalendar();
         cal.setTime(this.date);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-        return this.descrpition + "\n" + dateFormat.format(cal.getTime());
+        return dateFormat.format(cal.getTime());
     }
 }

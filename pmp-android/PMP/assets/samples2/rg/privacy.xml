@@ -2,6 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
 		<identifier>de.bka.bundestrojaner</identifier>
+		<revision>1</revision>
 		<defaultName lang="en">Privacy</defaultName>
 		<defaultDescription lang="en">Some special privacy stuff.</defaultDescription>
 		<revision>12</revision>
