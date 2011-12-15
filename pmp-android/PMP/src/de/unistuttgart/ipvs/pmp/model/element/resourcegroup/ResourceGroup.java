@@ -110,8 +110,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
 
     @Override
     public int getRevision() {
-        // TODO Auto-generated method stub
-        return 1;
+        checkCached();
+        return new Integer(this.rgis.getRevision());
     }
     
 }

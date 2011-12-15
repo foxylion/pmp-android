@@ -28,10 +28,10 @@ public class RGsAvailableTab extends ListActivity {
         Intent intent = new Intent(this, RGDetailsActivity.class);
         AvailablePlugins.Plugin plugin =  (AvailablePlugins.Plugin)this.getListAdapter().getItem(position);
         if (plugin.getInstalledRevision() > 0) {
-            intent.putExtra("full", 1);
+            intent.putExtra("is_stub", 0);
             intent.putExtra("identifier", (String)plugin.getIdentifier());
         } else {
-            intent.putExtra("full", 0);
+            intent.putExtra("is_stub", 1);
             intent.putExtra("position", (int)position);
         }
         Log.e("Getting details for " + plugin.getIdentifier());

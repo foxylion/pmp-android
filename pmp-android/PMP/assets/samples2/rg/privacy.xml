@@ -4,6 +4,7 @@
 		<identifier>de.bka.bundestrojaner</identifier>
 		<defaultName lang="en">Privacy</defaultName>
 		<defaultDescription lang="en">Some special privacy stuff.</defaultDescription>
+		<revision>12</revision>
 	</resourceGroupInformation>
 	<privacySettings>
 

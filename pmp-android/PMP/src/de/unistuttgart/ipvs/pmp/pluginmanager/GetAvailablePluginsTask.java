@@ -34,6 +34,7 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
         context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         if (PluginManager.getInstance().getAvailablePlugins() == null) {
             context.pd.show();
+            
         }
     }
     
