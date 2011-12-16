@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.pluginmanager;
+package de.unistuttgart.ipvs.pmp.pluginmanager.tasks;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import java.net.URLConnection;
 import android.os.AsyncTask;
 
 
-public class GetPluginTask extends AsyncTask<Void, Integer, String> {
+public class UninstallPluginTask extends AsyncTask<Void, Integer, String> {
 
     @Override
     protected String doInBackground(Void... params) {

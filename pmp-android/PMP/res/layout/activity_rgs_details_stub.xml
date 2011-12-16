@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/Description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/Status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp" />
+
+    <Button
+        android:id="@+id/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/install" />
+
+</LinearLayout>

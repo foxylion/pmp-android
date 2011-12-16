@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -35,8 +38,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
@@ -44,6 +45,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.AppointmentArrayAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -60,7 +62,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The arrayAdapter of the list
      */
-    private static ArrayAdapter<Appointment> arrayAdapter;
+    private static AppointmentArrayAdapter arrayAdapter;
     
     /**
      * The actual context
@@ -81,18 +83,19 @@ public class CalendarAppActivity extends ListActivity {
         setContentView(R.layout.list_layout);
         
         // Array adapter that is needed to show the list of dates
-        arrayAdapter = new ArrayAdapter<Appointment>(this, R.layout.list_item, Model.getInstance().getAppointmentList());
+        //        arrayAdapter = new ArrayAdapter<Appointment>(this, R.layout.list_item, Model.getInstance().getAppointmentList());
+        //        Model.getInstance().setArrayAdapter(arrayAdapter);
+        //        setListAdapter(arrayAdapter);
+        
+        arrayAdapter = new AppointmentArrayAdapter(this, R.layout.list_item, Model.getInstance().getAppointmentList());
         Model.getInstance().setArrayAdapter(arrayAdapter);
         setListAdapter(arrayAdapter);
-        
-        ListView listView = getListView();
-        listView.setTextFilterEnabled(true);
         
         /*
          * Listener for long clicking on one item. Opens a context menu where
          * the user can delete a appointment or send it via email
          */
-        listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+        this.getListView().setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -104,13 +107,14 @@ public class CalendarAppActivity extends ListActivity {
         
         // Update the visibility of the "no appointments available" textview
         updateNoAvaiableAppointmentsTextView();
+        
     }
     
     
     @Override
     protected void onResume() {
         super.onResume();
-     // Connector to check if the app is registered yet
+        // Connector to check if the app is registered yet
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             
@@ -133,6 +137,9 @@ public class CalendarAppActivity extends ListActivity {
                 
                 // Update the visibility of the "no appointments avaiable" textview
                 updateNoAvaiableAppointmentsTextView();
+                
+                // TESTING ONLY
+                setSFAddAppToModel();
             }
             
             
@@ -252,66 +259,66 @@ public class CalendarAppActivity extends ListActivity {
      * @author Marcus Vetter
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {  
+    public boolean onOptionsItemSelected(MenuItem item) {
         App app = (App) self.getApplication();
-                // Handle item selection
-                switch (item.getItemId()) {
-                    case R.id.new_appointment:
-                        if (app.isServiceFeatureEnabled("write")) {
-                            // Show the new appointment dialog
-                            Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-                            dialog.setTitle("Create new appointment");
-                            dialog.show();
-                        } else {
-                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
-                        }
-                        return true;
-                    case R.id.delete_all_appointments:
-                        if (app.isServiceFeatureEnabled("write")) {
-                            // Show the confirm dialog for deleting all appointments
-                            new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
-                                    .setTitle(R.string.delete_all_appointments)
-                                    .setMessage(R.string.delete_all_appointments_question)
-                                    .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
-                                        
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Model.getInstance().deleteAllAppointments();
-                                        }
-                                        
-                                    }).show();
-                        } else {
-                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
-                        }
-                        return true;
-                    case R.id.import_appointments:
-                        if (app.isServiceFeatureEnabled("import")) {
-                            /*
-                             * Fill the list of files for importing.
-                             * It is also used to check for exporting, if a file already exists.
-                             */
-                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
-                            
-                        } else {
-                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
-                        }
-                        return true;
-                    case R.id.export_appointments:
-                        if (app.isServiceFeatureEnabled("export")) {
-                            /*
-                             * Fill the list of files for importing.
-                             * It is also used to check for exporting, if a file already exists.
-                             */
-                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
-                            
-                        } else {
-                            DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
-                        }
-                        
-                        return true;
-                    default:
-                        return super.onOptionsItemSelected(item);
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.new_appointment:
+                if (app.isServiceFeatureEnabled("write")) {
+                    // Show the new appointment dialog
+                    Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
+                    dialog.setTitle("Create new appointment");
+                    dialog.show();
+                } else {
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
                 }
+                return true;
+            case R.id.delete_all_appointments:
+                if (app.isServiceFeatureEnabled("write")) {
+                    // Show the confirm dialog for deleting all appointments
+                    new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.delete_all_appointments)
+                            .setMessage(R.string.delete_all_appointments_question)
+                            .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Model.getInstance().deleteAllAppointments();
+                                }
+                                
+                            }).show();
+                } else {
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                }
+                return true;
+            case R.id.import_appointments:
+                if (app.isServiceFeatureEnabled("import")) {
+                    /*
+                     * Fill the list of files for importing.
+                     * It is also used to check for exporting, if a file already exists.
+                     */
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
+                    
+                } else {
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                }
+                return true;
+            case R.id.export_appointments:
+                if (app.isServiceFeatureEnabled("export")) {
+                    /*
+                     * Fill the list of files for importing.
+                     * It is also used to check for exporting, if a file already exists.
+                     */
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                    
+                } else {
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                }
+                
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     
@@ -325,6 +332,20 @@ public class CalendarAppActivity extends ListActivity {
             tv.setVisibility(View.GONE);
         } else {
             tv.setVisibility(View.VISIBLE);
+        }
+    }
+    
+    
+    public void setSFAddAppToModel() {
+        Bundle b = new Bundle();
+        b.putBoolean("read", true);
+        b.putBoolean("write", true);
+        ((App) getApplication()).updateServiceFeatures(b);
+        if (Model.getInstance().getAppointmentList().size() == 0) {
+            Model.getInstance().addAppointment(new Appointment(1, "teest", new Date()));
+            Model.getInstance().addAppointment(new Appointment(2, "teest", new Date()));
+            Model.getInstance().addAppointment(new Appointment(3, "teest", new Date()));
+            Model.getInstance().addAppointment(new Appointment(4, "teest", new Date()));
         }
     }
 }

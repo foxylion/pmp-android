@@ -51,7 +51,7 @@ public class RGsAvailableAdapter extends BaseAdapter {
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups, null);
+        LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
                 
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(plugin.getName());

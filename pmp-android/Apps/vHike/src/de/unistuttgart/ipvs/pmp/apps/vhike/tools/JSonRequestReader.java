@@ -94,8 +94,8 @@ public class JSonRequestReader {
 	public static String login(String username, String pw) {
 
 		listToParse.clear();
-		listToParse.add(new ParamObject("username", username, false));
-		listToParse.add(new ParamObject("password", pw, false));
+		listToParse.add(new ParamObject("username", username, true));
+		listToParse.add(new ParamObject("password", pw, true));
 
 		JsonObject object = null;
 		try {
