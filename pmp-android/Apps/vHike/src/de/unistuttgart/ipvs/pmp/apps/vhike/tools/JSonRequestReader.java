@@ -113,10 +113,12 @@ public class JSonRequestReader {
 		String status = null;
 		if (suc) {
 			status = object.get("status").getAsString();
-			sid = object.get("sid").getAsString();
-			Model.getInstance().setSid(sid);
-			Model.getInstance().setOwnProfile(getOwnProfile(sid));
-
+			Log.i("STATUS NACH DEM LOGIN:" + status);
+			if(status.equals("invalid")){
+				sid = object.get("sid").getAsString();
+				Model.getInstance().setSid(sid);
+				Model.getInstance().setOwnProfile(getOwnProfile(sid));		
+			}
 			return status;
 		}
 		return status;
@@ -215,7 +217,7 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, "firstname", lastname,
+			profile = new Profile(username, email, firstname, lastname,
 					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
@@ -287,7 +289,7 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, "firstname", lastname,
+			profile = new Profile(username, email, firstname, lastname,
 					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
