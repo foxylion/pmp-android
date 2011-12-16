@@ -50,8 +50,7 @@ public class RideActivity extends Activity {
 			public void onClick(View v) {
 
 				Controller ctrl = new Controller();
-				ctrl.announceTrip(Model.getInstance().getSid(), "Berlin", 0, 0,
-						3);
+
 				switch (ctrl.announceTrip(Model.getInstance().getSid(),
 						"Berlin", 0, 0, 3)) {
 				case Constants.TRIP_STATUS_ANNOUNCED:
