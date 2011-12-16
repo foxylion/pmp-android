@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -41,20 +43,28 @@ public class DriverViewActivity extends MapActivity {
 	private GeoPoint p;
 
 	double lat;
-	double lng;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Location loc = locationManager
-				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		float lat = (float) loc.getLatitude();
-		float lng = (float) loc.getLongitude();
-		Controller ctrl = new Controller();
-		ctrl.tripUpdatePos(Model.getInstance().getSid(), Model.getInstance()
-				.getTripId(), lat, lng);
+		Criteria criteria = new Criteria();
+		String provider = locationManager.getBestProvider(criteria, false);
+		Location loc = locationManager.getLastKnownLocation(provider);
+
+		float lati = 0;
+		float longi = 0;
+		if (loc != null) {
+			lati = (float) loc.getLatitude();
+			longi = (float) loc.getLongitude();
+			Controller ctrl = new Controller();
+			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+					.getInstance().getTripId(), lati, longi);
+		} else {
+			Toast.makeText(DriverViewActivity.this, "Fehler",
+					Toast.LENGTH_SHORT).show();
+		}
 
 		showHitchhikers();
 		setMapView();
