@@ -54,18 +54,22 @@ public class RideActivity extends Activity {
 						3);
 				switch (ctrl.announceTrip(Model.getInstance().getSid(),
 						"Berlin", 0, 0, 3)) {
-				case Constants.TRIP_STATUS_ANNOUNCED: {
+				case Constants.TRIP_STATUS_ANNOUNCED:
 					Toast.makeText(RideActivity.this, "Announced trip",
 							Toast.LENGTH_LONG).show();
-				}
-				case Constants.TRIP_STATUS_OPEN_TRIP: {
+
+					break;
+
+				case Constants.TRIP_STATUS_OPEN_TRIP:
 					Toast.makeText(RideActivity.this, "Trip already exists",
 							Toast.LENGTH_LONG).show();
-				}
-				case Constants.STATUS_ERROR: {
+
+					break;
+				case Constants.STATUS_ERROR:
 					Toast.makeText(RideActivity.this, "Error anouncing trip",
 							Toast.LENGTH_LONG).show();
-				}
+
+					break;
 
 				}
 
