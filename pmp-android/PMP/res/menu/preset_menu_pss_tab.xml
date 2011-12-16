@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/preset_tab_pss_assign_pss"
+        android:icon="@drawable/icon_add_32"
+        android:title="@string/preset_tab_pss_assign_pss"/>
+
+</menu>

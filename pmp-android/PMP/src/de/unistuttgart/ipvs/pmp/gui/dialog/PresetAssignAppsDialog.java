@@ -9,10 +9,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAssignAppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
@@ -46,6 +44,11 @@ public class PresetAssignAppsDialog extends Dialog {
      * The Preset
      */
     private IPreset preset;
+    
+    /**
+     * The instance of the adapter
+     */
+    private PresetAssignAppsAdapter appsAdapter;
     
     
     /**
@@ -94,36 +97,27 @@ public class PresetAssignAppsDialog extends Dialog {
         this.confirm = (Button) findViewById(R.id.presets_dialog_confirm);
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
         
-        this.confirm.setOnClickListener(new ConfirmListener());
+        this.confirm.setOnClickListener(new ConfirmListener(activity));
         this.cancel.setOnClickListener(new CancelListener());
         
         // Apps
         List<IApp> apps = calcDisplayApps();
-        
+
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
         appsList.setClickable(true);
         
-        PresetAssignAppsAdapter appsAdapter = new PresetAssignAppsAdapter(activity, apps);
+        appsAdapter = new PresetAssignAppsAdapter(activity, apps);
         appsList.setAdapter(appsAdapter);
         
-        appsList.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                
-            }
-        });
-        
     }
-
-
-
+    
+    
     /**
      * Calc Apps to display = All registered Apps without assigned Apps
      * 
      * @return Apps to display
      */
-    private List<IApp> calcDisplayApps() {
+    public List<IApp> calcDisplayApps() {
         List<IApp> allAppsList = Arrays.asList(ModelProxy.get().getApps());
         List<IApp> allAssignedAppsList = Arrays.asList(preset.getAssignedApps());
         List<IApp> displayList = new ArrayList<IApp>();
@@ -146,12 +140,26 @@ public class PresetAssignAppsDialog extends Dialog {
      */
     private class ConfirmListener implements android.view.View.OnClickListener {
         
+        /**
+         * The PresetAppsTabActivity
+         */
+        private PresetAppsTab activity;
+        
+        public ConfirmListener(PresetAppsTab activity) {
+            this.activity = activity;
+        }
+        
         @Override
         public void onClick(View v) {
             
             // Store
-            // TODO: Store
-            
+            for (IApp app : appsAdapter.getCheckBoxMap().keySet()) {
+                if (appsAdapter.getCheckBoxMap().get(app)) {
+                    preset.assignApp(app);
+                }
+            }
+            activity.updateList();
+
             // Dismiss
             dismiss();
             

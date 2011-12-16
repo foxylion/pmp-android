@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.gui.tab;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
@@ -32,6 +34,16 @@ public class PresetPSsTab extends Activity {
         // Set view
         setContentView(R.layout.tab_preset_pss);
         
+    }
+    
+    /**
+     * Create the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.preset_menu_pss_tab, menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
 }

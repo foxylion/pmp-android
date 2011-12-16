@@ -8,31 +8,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
+        
+        <TextView 
+            android:id="@+id/preset_tab_apps_no_assigned"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:text="@string/preset_tab_apps_description" />
-
-            <Button
-                android:id="@+id/preset_tab_apps_assign_app_button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:drawableLeft="@drawable/icon_add_32"
-                android:text="@string/preset_tab_apps_assign_app" />
-        </LinearLayout>
-
-        <include layout="@layout/view_divider_strong" />
+            android:text="@string/preset_tab_apps_no_apps_assigned"
+            android:layout_marginTop="10dp"/>
 
         <ListView
             android:id="@+id/listview_assigned_apps"
