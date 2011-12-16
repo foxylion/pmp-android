@@ -21,24 +21,19 @@ public class ProfileActivity extends Activity {
 	static final String[] RECENT_RIDES = new String[] {
 			"01.01.2011, Stuttgart", "02.01.2011, Berlin",
 			"03.01.2011, Vaihingen", "..." };
-
-	public ProfileActivity() {
-		
-	}
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 
 		setUpMyProfile();
-
 	}
 
 	private void setUpMyProfile() {
 		Profile myProfile = Model.getInstance().getOwnProfile();
 		
-		EditText et_username = (EditText) findViewById(R.id.et_username);
-		et_username.setText(myProfile.getUsername());
+		TextView tv_username = (TextView) findViewById(R.id.tv_username);
+		tv_username.setText(myProfile.getUsername());
 
 		EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
 		et_firstname.setText(myProfile.getFirstname());
