@@ -50,7 +50,6 @@ public class RideActivity extends Activity {
 				Intent intent = new Intent(RideActivity.this,
 						DriverViewActivity.class);
 				RideActivity.this.startActivity(intent);
-				
 			}
 		});
 
