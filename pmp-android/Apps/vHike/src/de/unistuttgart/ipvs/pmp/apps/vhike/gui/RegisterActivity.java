@@ -37,7 +37,9 @@ public class RegisterActivity extends Activity {
 	EditText et_mobile;
 	EditText et_desc;
 
-	boolean correctForm = false;
+	boolean cEmail = false;
+	boolean cPw = false;
+	boolean cMobile = false;
 	boolean registrationSuccessfull = false;
 
 	private final Pattern email_pattern = Pattern
@@ -71,9 +73,9 @@ public class RegisterActivity extends Activity {
 			public void afterTextChanged(Editable arg0) {
 				if (et_pw_confirm.getText().toString()
 						.equals(et_password.getText().toString())) {
-					correctForm = true;
+					cPw = true;
 				} else {
-					correctForm = false;
+					cPw = false;
 					et_pw_confirm.setError("Passwords do not match");
 				}
 			}
@@ -89,8 +91,11 @@ public class RegisterActivity extends Activity {
 			}
 
 		});
-		et_email.addTextChangedListener(new InputValidator(et_email, ""));
-		et_mobile.addTextChangedListener(new InputValidator(et_mobile, ""));
+		
+		et_email.addTextChangedListener(new InputValidator(et_email, "",
+				cEmail, cMobile));
+		et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
+				cEmail, cMobile));
 	}
 
 	private void register() {
@@ -104,10 +109,10 @@ public class RegisterActivity extends Activity {
 				EditText et_username = (EditText) findViewById(R.id.et_username);
 
 				et_email = (EditText) findViewById(R.id.et_email);
-				EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
-				EditText et_lastname = (EditText) findViewById(R.id.et_lastname);
-				EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-				EditText et_desc = (EditText) findViewById(R.id.et_description);
+				et_firstname = (EditText) findViewById(R.id.et_firstname);
+				et_lastname = (EditText) findViewById(R.id.et_lastname);
+				et_mobile = (EditText) findViewById(R.id.et_mobile);
+				et_desc = (EditText) findViewById(R.id.et_description);
 
 				map.put("username", et_username.getText().toString());
 				map.put("password", et_password.getText().toString());
@@ -117,7 +122,7 @@ public class RegisterActivity extends Activity {
 				map.put("tel", et_mobile.getText().toString());
 				map.put("description", et_desc.getText().toString());
 
-				if (correctForm) {
+				if (validRegistrationForm(cMobile, cEmail, cPw)) {
 					ctrl.register(map);
 
 					Toast.makeText(RegisterActivity.this,
@@ -137,6 +142,22 @@ public class RegisterActivity extends Activity {
 	}
 
 	/**
+	 * Check if users input is correct
+	 * @param mobile
+	 * @param email
+	 * @param pw
+	 * @return rather user input is correct or invalid
+	 */
+	private boolean validRegistrationForm(boolean mobile, boolean email,
+			boolean pw) {
+		if (mobile && email && pw) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * validate user input in register form
 	 * 
 	 * @author andres
@@ -146,10 +167,15 @@ public class RegisterActivity extends Activity {
 
 		private EditText editText;
 		private String t;
+		private boolean cEmail;
+		private boolean cMobile;
 
-		public InputValidator(EditText editText, String toMatch) {
+		public InputValidator(EditText editText, String toMatch,
+				boolean cEmail, boolean cMobile) {
 			this.editText = editText;
 			t = toMatch;
+			this.cEmail = cEmail;
+			this.cMobile = cMobile;
 		}
 
 		@Override
@@ -159,9 +185,9 @@ public class RegisterActivity extends Activity {
 				if (!email_pattern.matcher(editText.getText().toString())
 						.matches()) {
 					editText.setError("Invalid email");
-					correctForm = false;
+					cEmail = false;
 				} else {
-					correctForm = true;
+					cEmail = true;
 				}
 			}
 				break;
@@ -170,19 +196,9 @@ public class RegisterActivity extends Activity {
 				if (!mobile_pattern.matcher(editText.getText().toString())
 						.matches()) {
 					editText.setError("Invalid phone number");
-					correctForm = false;
+					cMobile = false;
 				} else {
-					correctForm = true;
-				}
-			}
-				break;
-
-			case R.id.et_pw_confirm: {
-				if (editText.getText().toString().equals(t)) {
-					correctForm = true;
-				} else {
-					editText.setError("Passwords do not match");
-					correctForm = false;
+					cMobile = true;
 				}
 			}
 				break;

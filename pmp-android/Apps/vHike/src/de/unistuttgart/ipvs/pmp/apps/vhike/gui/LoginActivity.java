@@ -54,8 +54,8 @@ public class LoginActivity extends Activity {
 				} else {
 
 					if (ctrl.login(username, pw)) {
-						Toast.makeText(LoginActivity.this, "Login successfull",
-								Toast.LENGTH_LONG);
+						Toast.makeText(LoginActivity.this, "Login successful",
+								Toast.LENGTH_LONG).show();
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
 						LoginActivity.this.startActivity(intent);
