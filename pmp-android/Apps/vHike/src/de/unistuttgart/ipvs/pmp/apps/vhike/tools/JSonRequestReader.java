@@ -114,7 +114,7 @@ public class JSonRequestReader {
 		if (suc) {
 			status = object.get("status").getAsString();
 			Log.i("STATUS NACH DEM LOGIN:" + status);
-			if(status.equals("invalid")){
+			if(!status.equals("invalid")){
 				sid = object.get("sid").getAsString();
 				Model.getInstance().setSid(sid);
 				Model.getInstance().setOwnProfile(getOwnProfile(sid));		
@@ -196,6 +196,7 @@ public class JSonRequestReader {
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
+			Log.i("USERNAME:" + username);
 			email = object.get("email").getAsString();
 			firstname = object.get("firstname").getAsString();
 			lastname = object.get("lastname").getAsString();
