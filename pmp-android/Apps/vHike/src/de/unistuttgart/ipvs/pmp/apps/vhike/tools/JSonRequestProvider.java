@@ -111,8 +111,20 @@ public class JSonRequestProvider {
 
 			BufferedReader r = new BufferedReader(new InputStreamReader(is));
 			JsonParser parser = new JsonParser();
-
-			jsonObject = parser.parse(r).getAsJsonObject();
+			
+			try{
+				jsonObject = parser.parse(r).getAsJsonObject();	
+			}catch (Exception e) {
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				
+			}
+			
+			
 		}
 
 		return jsonObject;

@@ -113,10 +113,12 @@ public class JSonRequestReader {
 		String status = null;
 		if (suc) {
 			status = object.get("status").getAsString();
-			sid = object.get("sid").getAsString();
-			Model.getInstance().setSid(sid);
-			Model.getInstance().setOwnProfile(getOwnProfile(sid));
-
+			Log.i("STATUS NACH DEM LOGIN:" + status);
+			if(!status.equals("invalid")){
+				sid = object.get("sid").getAsString();
+				Model.getInstance().setSid(sid);
+				Model.getInstance().setOwnProfile(getOwnProfile(sid));		
+			}
 			return status;
 		}
 		return status;
@@ -194,8 +196,9 @@ public class JSonRequestReader {
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
+			Log.i("USERNAME:" + username);
 			email = object.get("email").getAsString();
-			//firstname = object.get("firstname").getAsString();
+			firstname = object.get("firstname").getAsString();
 			lastname = object.get("lastname").getAsString();
 			tel = object.get("tel").getAsString();
 			description = object.get("description").getAsString();
@@ -215,7 +218,7 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, "firstname", lastname,
+			profile = new Profile(username, email, firstname, lastname,
 					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
@@ -267,7 +270,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
 			email = object.get("email").getAsString();
-			//firstname = object.get("firstname").getAsString();
+			firstname = object.get("firstname").getAsString();
 			lastname = object.get("lastname").getAsString();
 			tel = object.get("tel").getAsString();
 			description = object.get("description").getAsString();
@@ -287,7 +290,7 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, "firstname", lastname,
+			profile = new Profile(username, email, firstname, lastname,
 					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
 					rating_avg, rating_num);
 			return profile;
@@ -300,7 +303,7 @@ public class JSonRequestReader {
 	 * 
 	 * @return true if succeeded
 	 */
-	public static boolean announceTrip(String session_id, String destination,
+	public static String announceTrip(String session_id, String destination,
 			float current_lat, float current_lon, int avail_seats) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", session_id, false));
@@ -336,7 +339,7 @@ public class JSonRequestReader {
 			
 		}
 
-		return suc;
+		return status;
 	}
 
 	/**

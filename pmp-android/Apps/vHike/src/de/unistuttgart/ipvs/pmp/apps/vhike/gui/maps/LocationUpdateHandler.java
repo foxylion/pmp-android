@@ -74,13 +74,6 @@ public class LocationUpdateHandler implements LocationListener {
 		listOfOverlays.add(mapOverlay);
 
 		showCurrentLocation();
-
-//		Intent intent = new Intent("com.google.android.radar.SHOW_RADAR");
-//		intent.putExtra("Latitude",
-//				(float) (gPosition.getLatitudeE6() / 1000000f));
-//		intent.putExtra("Longitude",
-//				(float) (gPosition.getLongitudeE6() / 1000000f));
-//		context.startActivity(intent);
 	}
 
 	public void onProviderDisabled(String provider) {
