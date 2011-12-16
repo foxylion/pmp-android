@@ -8,18 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddDialog;
@@ -51,15 +48,9 @@ public class PresetsActivity extends Activity {
     private ListView presetListView;
     
     /**
-     * ToggleButton
+     * Flag for showing deleted presets
      */
-    private ToggleButton toggle;
-    
-    /**
-     * Add Preset button
-     */
-    private Button addPresetButton;
-    
+    private boolean showDeleted = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +74,6 @@ public class PresetsActivity extends Activity {
      * Initialize the components
      */
     private void init() {
-        /*
-         * ToggleButton
-         */
-        this.toggle = (ToggleButton) findViewById(R.id.presets_deleted_toggle_button);
-        this.toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                showPresets();
-            }
-        });
         
         // Setup the presetsListView
         this.presetListView = (ListView) findViewById(R.id.ListView_Presets);
@@ -137,19 +117,6 @@ public class PresetsActivity extends Activity {
             }
         });
         
-        // Setup the add preset button
-        this.addPresetButton = (Button) findViewById(R.id.presets_add_button);
-        this.addPresetButton.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                PresetAddDialog dialog = new PresetAddDialog(PresetsActivity.this);
-                dialog.setTitle(R.string.presets_add);
-                dialog.setActivity(PresetsActivity.this);
-                dialog.show();
-            }
-        });
-        
     }
     
     
@@ -175,12 +142,9 @@ public class PresetsActivity extends Activity {
         this.presets = ModelProxy.get().getPresets();
         this.presetList = new ArrayList<IPreset>();
         
-        // Show deleted presets or not
-        boolean showDeleted = this.toggle.isChecked();
-        
         // Fill the list
         for (IPreset preset : this.presets) {
-            if (!showDeleted && preset.isDeleted()) {
+            if (!this.showDeleted && preset.isDeleted()) {
                 continue;
             }
             this.presetList.add(preset);
@@ -190,6 +154,42 @@ public class PresetsActivity extends Activity {
         PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
         
+    }
+    
+    
+    /**
+     * Create the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.presets_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.presets_menu_add:
+                PresetAddDialog dialog = new PresetAddDialog(PresetsActivity.this);
+                dialog.setTitle(R.string.presets_add);
+                dialog.setActivity(PresetsActivity.this);
+                dialog.show();
+                break;
+            case R.id.presets_menu_show_deleted:
+                System.out.println(showDeleted);
+                if (showDeleted) {
+                    showDeleted = false;
+                    item.setTitle(R.string.presets_show_deleted);
+                } else {
+                    showDeleted = true;
+                    item.setTitle(R.string.presets_hide_deleted);
+                }
+                updateList();
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
     
     
