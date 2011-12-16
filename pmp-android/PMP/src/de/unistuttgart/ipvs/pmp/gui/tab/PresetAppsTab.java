@@ -8,11 +8,15 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAssignAppsDialog;
@@ -34,11 +38,6 @@ public class PresetAppsTab extends Activity {
      */
     private IPreset preset;
     
-    /**
-     * The Assign Apps Button
-     */
-    private Button assignAppButton;
-    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +52,42 @@ public class PresetAppsTab extends Activity {
         
         // Fill the list
         updateList();
-        
-        // Setup the add preset button
-        this.assignAppButton = (Button) findViewById(R.id.preset_tab_apps_assign_app_button);
-        this.assignAppButton.setOnClickListener(new android.view.View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
+    }
+    
+    
+    /**
+     * Create the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.preset_menu_apps_tab, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    
+    /**
+     * React to a selected menu item
+     */
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.preset_tab_apps_assign_apps:
                 PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this);
-                dialog.setTitle("bla");
                 dialog.setActivity(PresetAppsTab.this);
                 dialog.setPreset(preset);
-                dialog.show();
-            }
-
-        });
+                
+                // Check, if there are Apps available which are not assigned yet
+                if (dialog.calcDisplayApps().size() > 0) {
+                    dialog.show();
+                } else {
+                    Toast.makeText(this, getString(R.string.preset_tab_apps_all_apps_assigned), Toast.LENGTH_LONG)
+                            .show();
+                }
+                
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
     
     
@@ -75,7 +95,7 @@ public class PresetAppsTab extends Activity {
      * Update the list of apps
      * 
      */
-    private void updateList() {
+    public void updateList() {
         final IApp[] apps = preset.getAssignedApps();
         
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
@@ -83,6 +103,14 @@ public class PresetAppsTab extends Activity {
         
         PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, Arrays.asList(apps));
         appsList.setAdapter(presetAppsAdapter);
+        
+        // Show or hide the text view about no apps assigned
+        TextView noAssignedApps = (TextView) findViewById(R.id.preset_tab_apps_no_assigned);
+        if (apps.length == 0) {
+            noAssignedApps.setVisibility(TextView.VISIBLE);
+        } else {
+            noAssignedApps.setVisibility(TextView.GONE);
+        }
         
         // Add the listner and dialog
         appsList.setOnItemClickListener(new OnItemClickListener() {

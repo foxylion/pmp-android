@@ -74,7 +74,7 @@ class Trip {
                         `destination`,
                         `creation`
                     ) VALUES (
-                        \"".$this->driver->getId()."\",
+                        \"".$this->driver."\",
                         \"".$this->availSeats."\",
                         \"".$this->currentLat."\",
                         \"".$this->currentLon."\",

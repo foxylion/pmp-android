@@ -120,12 +120,16 @@ public class DriverViewActivity extends MapActivity {
 				0, new LocationUpdateHandler(context, locationManager, mapView,
 						mapController, new MapOverlay(context, p, 1), p));
 		Controller ctrl = new Controller();
-		if (p != null) {
+		Location location = locationManager
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		if (location != null) {
 			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-					.getInstance().getTripId(), p.getLatitudeE6(), p
-					.getLongitudeE6());
+					.getInstance().getTripId(), (float) location.getLatitude(),
+					(float) location.getLongitude());
 		} else {
-			Toast.makeText(DriverViewActivity.this, "FEHLER", Toast.LENGTH_LONG);
+			Toast.makeText(DriverViewActivity.this, "FEHLER", Toast.LENGTH_LONG)
+					.show();
 		}
 
 	}
