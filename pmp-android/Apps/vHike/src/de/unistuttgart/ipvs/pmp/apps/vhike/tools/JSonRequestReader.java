@@ -195,7 +195,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
 			email = object.get("email").getAsString();
-			//firstname = object.get("firstname").getAsString();
+			firstname = object.get("firstname").getAsString();
 			lastname = object.get("lastname").getAsString();
 			tel = object.get("tel").getAsString();
 			description = object.get("description").getAsString();
@@ -267,7 +267,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			username = object.get("username").getAsString();
 			email = object.get("email").getAsString();
-			//firstname = object.get("firstname").getAsString();
+			firstname = object.get("firstname").getAsString();
 			lastname = object.get("lastname").getAsString();
 			tel = object.get("tel").getAsString();
 			description = object.get("description").getAsString();
