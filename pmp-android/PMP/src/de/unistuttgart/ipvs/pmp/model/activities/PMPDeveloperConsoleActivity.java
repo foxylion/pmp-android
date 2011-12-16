@@ -187,7 +187,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
                     InputStream is = new FileInputStream(rgPath.getText().toString());
                     // TODO get identifier
-                    ModelProxy.get().installResourceGroup("todo", is);
+                    ModelProxy.get().installResourceGroup("todo");
                 } catch (IOException ioe) {
                     Log.e("Cannot install RG.", ioe);
                 }
