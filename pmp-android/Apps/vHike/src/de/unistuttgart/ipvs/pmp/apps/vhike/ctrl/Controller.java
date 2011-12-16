@@ -112,6 +112,7 @@ public class Controller {
 	 */
 	public boolean announceTrip(String session_id, String destination,
 			float current_lat, float current_lon, int avail_seats) {
+		Log.i(session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " +avail_seats);
 		return JSonRequestReader.announceTrip(session_id, destination,
 				current_lat, current_lon, avail_seats);
 	}
