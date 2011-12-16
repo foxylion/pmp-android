@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,9 +73,9 @@ public class PresetAddDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_preset_add);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        this.setTitle(R.string.presets_add);
+        setContentView(R.layout.dialog_preset_add);
         
         this.name = (TextView) findViewById(R.id.presets_dialog_name_textfield);
         this.desc = (TextView) findViewById(R.id.presets_dialog_description_textfield);
