@@ -48,26 +48,9 @@ public class DriverViewActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Criteria criteria = new Criteria();
-		String provider = locationManager.getBestProvider(criteria, false);
-		Location loc = locationManager.getLastKnownLocation(provider);
-
-		float lati = 0;
-		float longi = 0;
-		if (loc != null) {
-			lati = (float) loc.getLatitude();
-			longi = (float) loc.getLongitude();
-			Controller ctrl = new Controller();
-			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-					.getInstance().getTripId(), lati, longi);
-		} else {
-			Toast.makeText(DriverViewActivity.this, "Fehler",
-					Toast.LENGTH_SHORT).show();
-		}
-
 		showHitchhikers();
 		setMapView();
+		startTripByAnnouncing();
 	}
 
 	public DriverViewActivity() {
@@ -129,6 +112,22 @@ public class DriverViewActivity extends MapActivity {
 
 			}
 		});
+	}
+
+	private void startTripByAnnouncing() {
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				0, new LocationUpdateHandler(context, locationManager, mapView,
+						mapController, new MapOverlay(context, p, 1), p));
+		Controller ctrl = new Controller();
+		if (p != null) {
+			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+					.getInstance().getTripId(), p.getLatitudeE6(), p
+					.getLongitudeE6());
+		} else {
+			Toast.makeText(DriverViewActivity.this, "FEHLER", Toast.LENGTH_LONG);
+		}
+
 	}
 
 	@Override
