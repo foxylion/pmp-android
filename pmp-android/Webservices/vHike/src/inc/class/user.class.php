@@ -58,7 +58,7 @@ class user {
         
         $user = new User();
         return $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `username` = \"$name\"");
-    }
+    } 
     
     private function fillAttributes($sqlQuery) {
         $db = Database::getInstance();

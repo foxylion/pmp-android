@@ -1,9 +1,7 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined("INCLUDE")) {
+    exit;
+}
 
 class Query {
     private $id = -1;
@@ -14,19 +12,19 @@ class Query {
     private $destination = null;
     
     /**
-     * Loads a trip from the database and returns a trip-object storing the information
-     * of the loaded trip
-     * @param int $id  ID of the user to load from the database
-     * @return Trip Object storing data of the loaded trip or null, if trip with the
+     * Loads a query from the database and returns a query-object storing the information
+     * of the loaded query
+     * @param int $id  ID of the query to load from the database
+     * @return Trip Object storing data of the loaded query or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
      */
-    public static function loadTrip($id) {
+    public static function loadQuery($id) {
         if (!is_numeric($id)) {
             return null;
         }
         
-        $trip = new Trip();
-        return $trip->fillAttributes("SELECT * FROM `".DB_PREFIX."_query` WHERE `id` = $id");
+        $query = new Query();
+        return $query->fillAttributes("SELECT * FROM `".DB_PREFIX."_query` WHERE `id` = $id");
     }
     
     private function fillAttributes($sqlQuery) {
@@ -49,14 +47,14 @@ class Query {
     } 
     
     /**
-     * Creates a new trip using the data set with the setX()-methods
-     * @return int ID of the new trip
+     * Creates a new query using the data set with the setX()-methods
+     * @return int ID of the new query
      * @throws InputException Thrown, if an important field (e.g. destination) is missing
      */
     public function create() {
         // Cancel if important information is missing
         if ($this->seats <= 0 || $this->destination == null || 
-                $this->passenger == null) {
+                $this->passenger <= 0) {
             throw new InputException("Some mandatory fields not set.");
         }
         
