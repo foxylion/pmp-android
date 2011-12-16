@@ -1,6 +1,6 @@
 <?php
 /**
- * This service is used to to announce a new trip
+ * This service is used to announce a new trip
  */
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");

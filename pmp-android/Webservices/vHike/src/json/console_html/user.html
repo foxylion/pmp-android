@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>User management</title>
+<style type="text/css">
+body, td, th {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: small;
+}
+body {
+	background-color: #EEE;
+}
+</style>
+</head>
+
+<body bgcolor="#D5EAFF">
+<h1>User management</h1>
+<h2>Login/Logout</h2>
+<table>
+  <form action="../login.php" method="post" target="r">
+    <tr>
+      <td>Username</td>
+      <td><input name="username" type="text" value="demo" size="8" /></td>
+      <td>Password</td>
+      <td><input name="password" type="text" size="4" /></td>
+      <td><input value="login" type="submit" /></td>
+      <td><a href="../logout.php" target="r">logout</a></td>
+    </tr>
+  </form>
+</table>
+<table>
+  <form action="../login.php" method="post" target="r">
+    <tr>
+      <td>Username</td>
+      <td><input name="username" type="text" value="bestHitcher" size="8" /></td>
+      <td>Password</td>
+      <td><input name="password" type="text" size="4" /></td>
+      <td><input value="login" type="submit" /></td>
+      <td><a href="../logout.php" target="r">logout</a></td>
+    </tr>
+  </form>
+</table>
+<h2>Register</h2>
+<form action="../register.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Username</td>
+      <td><input name="username" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><input name="password" type="password" /></td>
+    </tr>
+    <tr>
+      <td>E-Mail</td>
+      <td><input name="email" type="text" /></td>
+      <td><input type="checkbox" name="email_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Firstname</td>
+      <td><input name="firstname" type="text" /></td>
+      <td><input type="checkbox" name="firstname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Lastname</td>
+      <td><input name="lastname" type="text" /></td>
+      <td><input type="checkbox" name="lastname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Tel.</td>
+      <td><input name="tel" type="text" /></td>
+      <td><input type="checkbox" name="tel_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td><input name="description" type="text" /></td>
+      <td>(Optional)</td>
+    </tr>
+    <tr>
+      <td>Buttons</td>
+      <td colspan="2"><input value="register" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+<h2>View profile</h2>
+<table>
+  <tr>
+    <form action="../get_profile.php" method="get" target="r">
+      <td>User-ID</td>
+      <td><input name="id" type="text" value="1" size="4" /></td>
+      <td><input value="show" type="submit" /></td>
+      <td><a href="../own_profile.php" target="r">own profile</a></td>
+    </form>
+  </tr>
+</table>
+</body>
+</html>
