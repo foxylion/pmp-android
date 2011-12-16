@@ -120,7 +120,7 @@ public interface IModel {
      *            The input file which should be the jar or apk where the ResourceGroup API is stored.
      * @return true, if the installation was successful, false if an error occurred
      */
-    public boolean installResourceGroup(String identifier, InputStream input);
+    public boolean installResourceGroup(String identifier);
     
     
     /**

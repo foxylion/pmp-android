@@ -101,7 +101,7 @@ public class MockupModel implements IModel {
     
     @Override
     @Deprecated
-    public boolean installResourceGroup(String identifier, InputStream input) {
+    public boolean installResourceGroup(String identifier) {
         return false;
     }
     

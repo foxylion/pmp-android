@@ -30,7 +30,7 @@ public class RGDetailsActivity extends Activity {
     
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);  
-        
+       
         extras = getIntent().getExtras();
         int isStub = extras.getInt("is_stub");
         
