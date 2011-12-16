@@ -115,12 +115,12 @@ public class JSonRequestProvider {
 			try{
 				jsonObject = parser.parse(r).getAsJsonObject();	
 			}catch (Exception e) {
-				Log.i("Corrupt Json " +r.readLine());
-				Log.i("Corrupt Json " +r.readLine());
-				Log.i("Corrupt Json " +r.readLine());
-				Log.i("Corrupt Json " +r.readLine());
-				Log.i("Corrupt Json " +r.readLine());
-				Log.i("Corrupt Json " +r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
+				Log.i("Corrupt Json " + r.readLine());
 				
 			}
 			

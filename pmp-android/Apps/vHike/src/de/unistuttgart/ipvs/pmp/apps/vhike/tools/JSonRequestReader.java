@@ -303,7 +303,7 @@ public class JSonRequestReader {
 	 * 
 	 * @return true if succeeded
 	 */
-	public static boolean announceTrip(String session_id, String destination,
+	public static String announceTrip(String session_id, String destination,
 			float current_lat, float current_lon, int avail_seats) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", session_id, false));
@@ -339,7 +339,7 @@ public class JSonRequestReader {
 			
 		}
 
-		return suc;
+		return status;
 	}
 
 	/**
