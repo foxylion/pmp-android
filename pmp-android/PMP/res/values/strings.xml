@@ -28,6 +28,7 @@
     <string name="presets_title">Presets</string>
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
     <string name="presets_show_deleted">Show deleted</string>
+    <string name="presets_hide_deleted">Hide deleted</string>
     <string name="presets_deleted_context_menu">Edit deleted Preset</string>
     <string name="presets_delete_permanent">Delete permanently</string>
     <string name="presets_restore">Restore</string>
