@@ -11,7 +11,7 @@ import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
-import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPrivacySettingsTab;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -117,7 +117,7 @@ public class PresetActivity extends Activity {
         pss.setIndicator(getString(R.string.preset_tab_ps));
         
         // Create an Intent to start the inner activity
-        Intent intentPss = new Intent(this, PresetPSsTab.class);
+        Intent intentPss = new Intent(this, PresetPrivacySettingsTab.class);
         intentPss.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
         
         pss.setContent(intentPss);

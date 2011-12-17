@@ -67,7 +67,7 @@ public class PresetsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        showPresets();
+        updateList();
     }
     
     
@@ -139,7 +139,7 @@ public class PresetsActivity extends Activity {
      * Invoke method to show the presets
      * 
      */
-    private void showPresets() {
+    public void updateList() {
         // Get the presets
         this.presets = ModelProxy.get().getPresets();
         this.presetList = new ArrayList<IPreset>();
@@ -170,6 +170,9 @@ public class PresetsActivity extends Activity {
     }
     
     
+    /**
+     * React on a selected menu item
+     */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
@@ -209,11 +212,11 @@ public class PresetsActivity extends Activity {
             switch (menuItem.getItemId()) {
                 case 0: // Clicked on "restore" 
                     preset.setDeleted(false);
-                    showPresets();
+                    updateList();
                     return true;
                 case 1: // Clicked on "delete permanently"
                     ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    showPresets();
+                    updateList();
                     return true;
             }
             
@@ -222,11 +225,11 @@ public class PresetsActivity extends Activity {
                 case 0: // Clicked on "delete (trash bin)"
                     // Context menu of a preset
                     preset.setDeleted(true);
-                    showPresets();
+                    updateList();
                     return true;
                 case 1: // Clicked on "delete permanently"
                     ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    showPresets();
+                    updateList();
                     return true;
             }
             
@@ -234,14 +237,6 @@ public class PresetsActivity extends Activity {
         
         return false;
         
-    }
-    
-    
-    /**
-     * Method for updating the list entries (presets)
-     */
-    public void updateList() {
-        showPresets();
     }
     
 }

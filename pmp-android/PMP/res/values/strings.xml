@@ -44,11 +44,11 @@
     <string name="preset_tab_apps">Assigned Apps</string>
     <string name="preset_tab_ps">Assigned Privacy Settings</string>
     <string name="preset_tab_apps_assign_apps">Assign Apps</string>
-    <string name="preset_tab_apps_remove_app_msg">Do you want to remove this App?</string>
-    <string name="preset_tab_apps_remove_app_title">Remove App</string>
     <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
 	<string name="preset_tab_apps_all_apps_assigned">All currently available Apps are assigned yet.</string>
-        
+    <string name="preset_tab_apps_context_menu_show_details">Show App details</string>
+    <string name="preset_tab_apps_context_menu_remove_app">Remove App</string>
+    
     <string name="preset_tab_pss_assign_pss">Assign Privacy Settings</string>
  	<string name="preset_tab_pss_no_pss_assigned">There are currently no Privacy Settings assigned.\nClick on menu to assign Privacy Settings.</string>
         
