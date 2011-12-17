@@ -16,11 +16,12 @@
             android:layout_marginTop="10dp"
             android:text="@string/preset_tab_pss_no_pss_assigned" />
 
-        <ListView
-            android:id="@+id/listview_assigned_pss"
+        <ExpandableListView
+            android:id="@+id/expandable_list_view_assigned_pss"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+        </ExpandableListView>
     </LinearLayout>
 
 </LinearLayout>
