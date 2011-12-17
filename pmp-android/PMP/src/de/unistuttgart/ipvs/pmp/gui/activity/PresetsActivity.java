@@ -52,6 +52,7 @@ public class PresetsActivity extends Activity {
      */
     private boolean showDeleted = false;
     
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +96,8 @@ public class PresetsActivity extends Activity {
                     menu.add(1, 1, 0, R.string.presets_delete_permanent);
                 } else {
                     menu.setHeaderTitle(getString(R.string.presets_context_menu));
-                    menu.add(1, 1, 0, R.string.presets_delete);
+                    menu.add(0, 0, 0, R.string.presets_delete);
+                    menu.add(1, 1, 0, R.string.presets_delete_permanent);
                 }
             }
         });
@@ -204,22 +206,30 @@ public class PresetsActivity extends Activity {
         
         if (preset.isDeleted()) {
             // Context menu of a deleted preset
-            if (menuItem.getItemId() == 0) {
-                // Clicked on "restore" 
-                preset.setDeleted(false);
-                showPresets();
-                return true;
-            } else if (menuItem.getItemId() == 1) {
-                // Clicked on "delete permanently"
-                ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                showPresets();
-                return true;
+            switch (menuItem.getItemId()) {
+                case 0: // Clicked on "restore" 
+                    preset.setDeleted(false);
+                    showPresets();
+                    return true;
+                case 1: // Clicked on "delete permanently"
+                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
+                    showPresets();
+                    return true;
             }
+            
         } else {
-            // Context menu of a preset
-            preset.setDeleted(true);
-            showPresets();
-            return true;
+            switch (menuItem.getItemId()) {
+                case 0: // Clicked on "delete (trash bin)"
+                    // Context menu of a preset
+                    preset.setDeleted(true);
+                    showPresets();
+                    return true;
+                case 1: // Clicked on "delete permanently"
+                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
+                    showPresets();
+                    return true;
+            }
+            
         }
         
         return false;

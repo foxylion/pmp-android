@@ -30,10 +30,10 @@
     <string name="presets_show_deleted">Show deleted</string>
     <string name="presets_hide_deleted">Hide deleted</string>
     <string name="presets_deleted_context_menu">Edit deleted Preset</string>
-    <string name="presets_delete_permanent">Delete permanently</string>
-    <string name="presets_restore">Restore</string>
+    <string name="presets_delete_permanent">Delete Preset permanently</string>
+    <string name="presets_restore">Restore Preset</string>
     <string name="presets_context_menu">Edit Preset</string>
-    <string name="presets_delete">Delete Preset</string>
+    <string name="presets_delete">Delete Preset (trash bin)</string>
     <string name="presets_add">Add Preset</string>
     <string name="presets_dialog_confirm">Confirm</string>
     <string name="presets_dialog_name">Name</string>
