@@ -117,6 +117,12 @@ public class MockupControl {
             p1.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
             p1.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
             p1.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("modify"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("facebook"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("psw"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
             Log.e("app1, app2, app3 or rg1 was null. Could not assign the preset 1.");
         }
@@ -130,6 +136,8 @@ public class MockupControl {
             p2.assignApp(app4);
             p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
             p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+            p2.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p2.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
         } else {
             Log.e("app3, app4 or rg1 was null. Could not assign the preset 2.");
         }
@@ -141,7 +149,9 @@ public class MockupControl {
         if ((app1 != null) && (rg1 != null)) {
             p3.assignApp(app1);
             p3.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
-            p3.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+            p3.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p3.assignPrivacySetting(rg3.getPrivacySetting("facebook"), "true");
+            p3.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
             Log.e("app1 or rg1 was null. Could not assign the preset 3.");
         }
@@ -155,6 +165,7 @@ public class MockupControl {
             p4.assignApp(app3);
             p4.setDeleted(true);
             p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p4.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
             Log.e("app1, app3 or rg1 was null. Could not assign the preset 4.");
         }

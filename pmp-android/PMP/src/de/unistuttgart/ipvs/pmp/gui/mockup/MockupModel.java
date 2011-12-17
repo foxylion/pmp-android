@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.mockup;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
