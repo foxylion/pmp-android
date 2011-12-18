@@ -26,6 +26,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
@@ -191,12 +192,34 @@ public class DriverViewActivity extends MapActivity {
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 		if (location != null) {
-			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+			switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
 					.getInstance().getTripId(), (float) location.getLatitude(),
-					(float) location.getLongitude());
+					(float) location.getLongitude())) {
+			case Constants.STATUS_UPDATED:
+				Toast.makeText(DriverViewActivity.this, "Status updated",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_UPTODATE:
+				Toast.makeText(DriverViewActivity.this, "Status Up to date",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_NOTRIP:
+				Toast.makeText(DriverViewActivity.this, "Status no trip",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_HASENDED:
+				Toast.makeText(DriverViewActivity.this, "Status trip ended",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_INVALID_USER:
+				Toast.makeText(DriverViewActivity.this, "Status invalid user",
+						Toast.LENGTH_LONG).show();
+
+			}
+
 		} else {
-			Toast.makeText(DriverViewActivity.this, "FEHLER", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(DriverViewActivity.this,
+					"Location could not be updated", Toast.LENGTH_LONG).show();
 		}
 
 	}

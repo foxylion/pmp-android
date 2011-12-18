@@ -47,13 +47,15 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     
     
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View entryView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
+            ViewGroup parent) {
+        
         // Get the Privacy Setting
         IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
         
         // Inflate the layout
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        entryView = infalInflater.inflate(R.layout.listitem_preset_ps, null);
+        View entryView = infalInflater.inflate(R.layout.listitem_preset_ps, null);
         
         // Set name and value of one Privacy Setting
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name_PS);
@@ -90,14 +92,16 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
     
+    
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View entryView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        
         // Get the ResourceGroup
         IResourceGroup rg = (IResourceGroup) getGroup(groupPosition);
         
         // Inflate the layout
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        entryView = infalInflater.inflate(R.layout.listitem_preset_rg, null);
+        View entryView = infalInflater.inflate(R.layout.listitem_preset_rg, null);
         
         // Set name and icon of the ResourceGrouop
         TextView name = (TextView) entryView.findViewById(R.id.TextView_RG_Name);

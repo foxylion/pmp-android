@@ -56,34 +56,34 @@ public class RideActivity extends Activity {
 		btnDrive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//
-//				Controller ctrl = new Controller();
-//
-//				switch (ctrl.announceTrip(Model.getInstance().getSid(), spinner
-//						.getSelectedItem().toString(), 0, 0, (int) spinnerSeats
-//						.getSelectedItemPosition())) {
-//				case Constants.TRIP_STATUS_ANNOUNCED:
-//					Toast.makeText(RideActivity.this, "Announced trip",
-//							Toast.LENGTH_LONG).show();
-//
-//					break;
-//
-//				case Constants.TRIP_STATUS_OPEN_TRIP:
-//					Toast.makeText(RideActivity.this, "Trip already exists",
-//							Toast.LENGTH_LONG).show();
-//
-//					break;
-//				case Constants.STATUS_ERROR:
-//					Toast.makeText(RideActivity.this, "Error anouncing trip",
-//							Toast.LENGTH_LONG).show();
-//
-//					break;
-//
-//				}
-//
-				Intent intent = new Intent(RideActivity.this,
-						DriverViewActivity.class);
-				RideActivity.this.startActivity(intent);
+
+				Controller ctrl = new Controller();
+
+				switch (ctrl.announceTrip(Model.getInstance().getSid(), spinner
+						.getSelectedItem().toString(), 0, 0, (int) spinnerSeats
+						.getSelectedItemPosition())) {
+				case Constants.TRIP_STATUS_ANNOUNCED:
+					Toast.makeText(RideActivity.this, "Announced trip",
+							Toast.LENGTH_LONG).show();
+					
+					Intent intent = new Intent(RideActivity.this,
+							DriverViewActivity.class);
+					RideActivity.this.startActivity(intent);
+
+					break;
+
+				case Constants.TRIP_STATUS_OPEN_TRIP:
+					Toast.makeText(RideActivity.this, "Trip already exists",
+							Toast.LENGTH_LONG).show();
+
+					break;
+				case Constants.STATUS_ERROR:
+					Toast.makeText(RideActivity.this, "Error anouncing trip",
+							Toast.LENGTH_LONG).show();
+
+					break;
+
+				}
 
 			}
 		});

@@ -9,6 +9,11 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.DriverViewActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -74,6 +79,32 @@ public class LocationUpdateHandler implements LocationListener {
 		listOfOverlays.add(mapOverlay);
 
 		showCurrentLocation();
+		
+		Controller ctrl = new Controller();
+		switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+				.getInstance().getTripId(), (float) lat,
+				(float) lng)) {
+		case Constants.STATUS_UPDATED:
+			Toast.makeText(context, "Status updated",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_UPTODATE:
+			Toast.makeText(context, "Status Up to date",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_NOTRIP:
+			Toast.makeText(context, "Status no trip ",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_HASENDED:
+			Toast.makeText(context, "Status trip ended",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_INVALID_USER:
+			Toast.makeText(context, "Status invalid user",
+					Toast.LENGTH_LONG).show();
+
+		}
 	}
 
 	public void onProviderDisabled(String provider) {
