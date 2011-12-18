@@ -2,11 +2,13 @@ package de.unistuttgart.ipvs.pmp.gui.view;
 
 import java.util.Random;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,15 +55,26 @@ public class PrivacySettingView extends LinearLayout {
                     + this.privacySetting.getHumanReadableValue(this.serviceFeature
                             .getRequiredPrivacySettingValue(this.privacySetting)));
         } catch (PrivacySettingValueException e) {
+            Log.e("The Privacy Setting '" + privacySetting.getName() + "' of Service Feature '"
+                    + serviceFeature.getName() + " (" + serviceFeature.getApp().getName()
+                    + ")' has an invalid value set '" + serviceFeature.getRequiredPrivacySettingValue(privacySetting)
+                    + "'", e);
+            
             tvDescription.setText(Html.fromHtml("<span style=\"color:red;\">"
                     + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>"));
         }
         
-        // TODO Implement that! (very important for final release)
-        if (new Random().nextBoolean()) {
-            stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_success));
-        } else {
-            stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_delete));
+        try {
+            String assignedPSValue = this.serviceFeature.getApp().getBestAssignedPrivacySettingValue(privacySetting);
+            
+            if (privacySetting.permits(this.serviceFeature.getRequiredPrivacySettingValue(privacySetting),
+                    assignedPSValue)) {
+                stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_success));
+            } else {
+                stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_delete));
+            }
+        } catch (PrivacySettingValueException e) {
+            Log.e("A given Privacy Setting could not be compared with another one (ps.permits() failed).", e);
         }
     }
     

@@ -33,6 +33,7 @@
             android:name=".gui.activity.AppsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.AppActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
@@ -56,7 +57,7 @@
         <activity android:name=".gui.tab.PresetPrivacySettingsTab" />
         <activity android:name=".gui.tab.RGsAvailableTab" />
         <activity android:name=".gui.tab.RGsInstalledTab" />
-        
+
         <!-- Developer Console -->
         <activity
             android:icon="@drawable/icon_dev_console"
