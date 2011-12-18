@@ -194,6 +194,10 @@ public class DriverViewActivity extends MapActivity {
 			ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
 					.getInstance().getTripId(), (float) location.getLatitude(),
 					(float) location.getLongitude());
+			Toast.makeText(
+					DriverViewActivity.this,
+					"Lat: " + location.getLatitude() + ", Long: "
+							+ location.getLongitude(), Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(DriverViewActivity.this, "FEHLER", Toast.LENGTH_LONG)
 					.show();
