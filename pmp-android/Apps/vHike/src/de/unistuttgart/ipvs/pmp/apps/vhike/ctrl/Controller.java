@@ -108,12 +108,20 @@ public class Controller {
 	 * 
 	 * @param session_id
 	 * @param destination
-	 * @return true, if announcing a trip is succeeded
+	 * @return TRIP_STATUS_ANNOUNCED, TRIP_STATUS_OPEN_TRIP,STATUS_ERROR
 	 */
-	public boolean announceTrip(String session_id, String destination,
+	public int announceTrip(String session_id, String destination,
 			float current_lat, float current_lon, int avail_seats) {
-		return JSonRequestReader.announceTrip(session_id, destination,
+		Log.i(session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " +avail_seats);
+		String status = JSonRequestReader.announceTrip(session_id, destination,
 				current_lat, current_lon, avail_seats);
+		
+		if(status.equals("announced")){
+			return Constants.TRIP_STATUS_ANNOUNCED;
+		}else if(status.equals("open_trip_exists")){
+			return Constants.TRIP_STATUS_OPEN_TRIP;
+		}
+		return Constants.STATUS_ERROR;
 	}
 
 	/**

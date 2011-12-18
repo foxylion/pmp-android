@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -7,6 +10,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -129,7 +133,7 @@ public class Model implements IModel, Observer {
         Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
         
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), identifier);
-        
+
         // check XML
         try {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
@@ -283,16 +287,17 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean installResourceGroup(String identifier, InputStream input) {
+    public boolean installResourceGroup(String identifier) {
         checkCached();
-        Assert.nonNull(input, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
-        Assert.nonNull(input, new ModelMisuseError(Assert.ILLEGAL_NULL, "input", input));
+        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
         
         try {
-            // TODO unpack(?), install RG
             
             // TODO give correct xml stream here
-            InputStream xmlStream = null;
+            File path = PMPApplication.getContext().getDir("plugins", 0);            
+            File file = new File(path, identifier + ".jar");
+            
+            InputStream xmlStream = new FileInputStream(file);
             
             RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(xmlStream);
             
@@ -349,6 +354,9 @@ public class Model implements IModel, Observer {
         } catch (XMLParserException xmlpe) {
             /* error during XML validation */
             Log.w(identifier + " has failed registration with PMP.", xmlpe);
+            return false;
+        } catch (FileNotFoundException e) {
+            Log.e(e.toString());
             return false;
         }
     }

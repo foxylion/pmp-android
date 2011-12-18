@@ -2,6 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
 		<identifier>org.oracle.db</identifier>
+		<revision>33</revision>
 		<defaultName lang="en">Database</defaultName>
 		<name lang="de">Datenbank</name>
 		<defaultDescription lang="en">The Database resource group provides easy access to the central managed databases.</defaultDescription>

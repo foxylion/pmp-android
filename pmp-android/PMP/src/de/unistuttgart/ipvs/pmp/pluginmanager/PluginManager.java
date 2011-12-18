@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.pluginmanager;
 public class PluginManager {
     
     private static PluginManager instance = new PluginManager();
-    private AvailablePlugins availablePlugins = new AvailablePlugins();
+    private AvailablePlugins availablePlugins;
 
     private PluginManager() {}
  
@@ -31,16 +31,12 @@ public class PluginManager {
     }
     
     public AvailablePlugins getAvailablePlugins() {
-
-        if (availablePlugins.getPlugins().size() == 0) {
-            updatePluginList();
-        }
         return availablePlugins;
     }
     
-    
-    public void updatePluginList() {
-
+    public void setAvailablePlugins(AvailablePlugins availablePlugins) {
+        this.availablePlugins = availablePlugins;
     }
+    
     
 }

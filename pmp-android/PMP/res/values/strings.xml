@@ -25,32 +25,43 @@
     <string name="apps_title">Registered Apps</string>
     <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
     
+    <!-- Overview of Presets -->
     <string name="presets_title">Presets</string>
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
     <string name="presets_show_deleted">Show deleted</string>
+    <string name="presets_hide_deleted">Hide deleted</string>
     <string name="presets_deleted_context_menu">Edit deleted Preset</string>
-    <string name="presets_delete_permanent">Delete permanently</string>
-    <string name="presets_restore">Restore</string>
+    <string name="presets_delete_permanent">Delete Preset permanently</string>
+    <string name="presets_restore">Restore Preset</string>
     <string name="presets_context_menu">Edit Preset</string>
-    <string name="presets_delete">Delete Preset</string>
+    <string name="presets_delete">Delete Preset (trash bin)</string>
     <string name="presets_add">Add Preset</string>
+    
+    <!--  Add a new Preset (Dialog) -->
     <string name="presets_dialog_confirm">Confirm</string>
     <string name="presets_dialog_name">Name</string>
     <string name="presets_dialog_description">Description</string>
     <string name="presets_dialog_cancel">Cancel</string>
     <string name="presets_dialog_name_missing">Please enter a name!</string>
     
+    <!--  One Preset / Headings of tabs -->
     <string name="preset_tab_apps">Assigned Apps</string>
     <string name="preset_tab_ps">Assigned Privacy Settings</string>
-    <string name="preset_tab_apps_assign_app">Assign App</string>
+    
+    <!-- One Preset / Tab: Assigned Apps -->
     <string name="preset_tab_apps_assign_apps">Assign Apps</string>
-    <string name="preset_tab_apps_description">All assigned Apps are listed here.</string>    
-    <string name="preset_tab_apps_remove_app_msg">Do you want to remove this App?</string>
-    <string name="preset_tab_apps_remove_app_title">Remove App</string>
-
-    <string name="preset_tab_pss_assign_ps">Assign\nPrivacy Setting</string>
-    <string name="preset_tab_pss_description">All assigned Privacy Settings are listed here.</string>
-   
+    <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
+	<string name="preset_tab_apps_all_apps_assigned">All currently available Apps are assigned yet.</string>
+    <string name="preset_tab_apps_context_menu_show_details">Show App details</string>
+    <string name="preset_tab_apps_context_menu_remove_app">Remove App</string>
+    
+    <!-- One Preset / Tab: Assigned Privacy Settings -->
+    <string name="preset_tab_pss_assign_pss">Assign Privacy Setting</string>
+ 	<string name="preset_tab_pss_no_pss_assigned">There are currently no Privacy Settings assigned.\nClick on menu to assign Privacy Settings.</string>
+    <string name="preset_tab_pss_context_menu_change_value">Change value</string>
+    <string name="preset_tab_pss_context_menu_remove_pss">Remove Privacy Setting</string>
+ 	<string name="preset_tab_pss_all_pss_already_assigned">All Privacy Settings of this Resource are already assigned.</string>   
+ 	    
     <string name="main_presets_disabled">The Prests are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
     <string name="app_servicefeature_disabled">The Service Feature is now disabled.</string><string name="service_feature_title">Details: %1$s</string>
@@ -59,6 +70,9 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="details">Details</string>
+    <string name="install">Install</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="update">Update</string>
     <string name="service_features">Service Features</string>
     <string name="presets">Presets</string>
     <string name="ps_invalid_value">required value is invalid</string>
@@ -68,10 +82,11 @@
     <string name="app_removed">App has been successfully unregistred from PMP.</string>
     <string name="details_app">App details</string>
 
-
     <string name="rgs_available">Available</string>
     <string name="rgs_installed">Installed</string>
-    <string name="rgs_getting_resource_groups">Getting Resource Groups...</string>
+    <string name="rgs_task_getting">Getting available Resource Groups</string>
+    <string name="rgs_task_installing">Installing Resource Group</string>
+    <string name="rgs_task_uninstalling">Removing Resource Group</string>
     <string name="rgs_uptodate">Up to date!</string>
     <string name="rgs_outdated">Outdated!</string>
     <string name="rgs_notinstalled">Not installed.</string>  

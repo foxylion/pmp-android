@@ -1,9 +1,7 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined("INCLUDE")) {
+    exit;
+}
 
 class Trip {
     private $id = -1;
@@ -76,7 +74,7 @@ class Trip {
                         `destination`,
                         `creation`
                     ) VALUES (
-                        \"".$this->driver->getId()."\",
+                        \"".$this->driver."\",
                         \"".$this->availSeats."\",
                         \"".$this->currentLat."\",
                         \"".$this->currentLon."\",

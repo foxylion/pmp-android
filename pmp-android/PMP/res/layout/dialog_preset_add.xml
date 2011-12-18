@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
+    
+        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        android:id="@+id/Title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/icon_add_32"
+        pmp:name="@string/presets_add" />
 
     <ScrollView
         android:id="@+id/ScrollView01"
@@ -43,8 +51,12 @@
             <EditText
                 android:id="@+id/presets_dialog_description_textfield"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-            </EditText>
+                android:layout_height="wrap_content"
+				android:lines="5"
+				android:gravity="top|left"
+				android:inputType="textMultiLine"
+				android:scrollHorizontally="false"> 
+	        </EditText>
 
             <LinearLayout
                 android:id="@+id/linearLayout1"

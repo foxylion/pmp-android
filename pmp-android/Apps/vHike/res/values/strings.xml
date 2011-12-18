@@ -23,5 +23,8 @@
     <string name="profile_email">Email</string>
     <string name="profile_mobile">Mobile</string>
     <string name="profile_car">Car</string>
+    <string name="profile_description">Description</string>
+    <string name="profile_pw">Password</string>
+    <string name="profile_pw_confirm">Confirm password</string>
 
 </resources>

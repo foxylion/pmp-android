@@ -110,38 +110,65 @@ public class MockupControl {
         name = "My first Preset";
         description = "Wooohooo, I've created a cool preset.. wow!";
         p1 = MockupModel.instance.addPreset(null, ident, name, description);
-        p1.assignApp(app1);
-        p1.assignApp(app2);
-        p1.assignApp(app3);
-        p1.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
-        p1.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
-        p1.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+        if ((app1 != null) && (app2 != null) && (app3 != null) && (rg1 != null)) {
+            p1.assignApp(app1);
+            p1.assignApp(app2);
+            p1.assignApp(app3);
+            p1.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p1.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
+            p1.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("modify"), "true");
+            p1.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("facebook"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("psw"), "true");
+            p1.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
+        } else {
+            Log.e("app1, app2, app3 or rg1 was null. Could not assign the preset 1.");
+        }
         
         ident = "preset_2";
         name = "My second Preset";
         description = "Wooohooo, I've created another very cool preset.. wow!";
         p2 = MockupModel.instance.addPreset(null, ident, name, description);
-        p2.assignApp(app3);
-        p2.assignApp(app4);
-        p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
-        p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+        if ((app3 != null) && (app4 != null) && (rg1 != null)) {
+            p2.assignApp(app3);
+            p2.assignApp(app4);
+            p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+            p2.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p2.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
+        } else {
+            Log.e("app3, app4 or rg1 was null. Could not assign the preset 2.");
+        }
         
         ident = "preset_3";
         name = "My third Preset";
         description = "Yeah, now I know how to create presets! I'm an expert!!! And therfore I write a veeeeeeeeery long description... can the gui show this?! Yes, of course!";
         p3 = MockupModel.instance.addPreset(null, ident, name, description);
-        p3.assignApp(app1);
-        p3.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
-        p3.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
+        if ((app1 != null) && (rg1 != null)) {
+            p3.assignApp(app1);
+            p3.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
+            p3.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
+            p3.assignPrivacySetting(rg3.getPrivacySetting("facebook"), "true");
+            p3.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
+        } else {
+            Log.e("app1 or rg1 was null. Could not assign the preset 3.");
+        }
         
         ident = "preset_4";
         name = "My first deleted Preset";
         description = "Wow, i was able to delete a preset!";
         p4 = MockupModel.instance.addPreset(null, ident, name, description);
-        p4.assignApp(app1);
-        p4.assignApp(app3);
-        p4.setDeleted(true);
-        p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+        if ((app1 != null) && (app3 != null) && (rg1 != null)) {
+            p4.assignApp(app1);
+            p4.assignApp(app3);
+            p4.setDeleted(true);
+            p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p4.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
+        } else {
+            Log.e("app1, app3 or rg1 was null. Could not assign the preset 4.");
+        }
     }
     
     

@@ -36,4 +36,9 @@ public class Constants {
 	public static final int STATUS_NOTRIP = 52;
 	public static final int STATUS_HASENDED = 53;
 	public static final int STATUS_INVALID_USER = 54;
+	
+	public static final int TRIP_STATUS_ANNOUNCED = 60;
+	public static final int TRIP_STATUS_OPEN_TRIP = 61;
+	
+	public static final int STATUS_ERROR = 999;
 }

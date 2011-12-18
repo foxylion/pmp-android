@@ -1,18 +1,23 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAssignAppsDialog;
@@ -35,9 +40,14 @@ public class PresetAppsTab extends Activity {
     private IPreset preset;
     
     /**
-     * The Assign Apps Button
+     * ListView of all Apps
      */
-    private Button assignAppButton;
+    private ListView appsListView;
+    
+    /**
+     * List of all Apps
+     */
+    private List<IApp> appList;
     
     
     @Override
@@ -51,22 +61,92 @@ public class PresetAppsTab extends Activity {
         // Set view
         setContentView(R.layout.tab_preset_apps);
         
+        // Initialize
+        init();
+        
         // Fill the list
         updateList();
-        
-        // Setup the add preset button
-        this.assignAppButton = (Button) findViewById(R.id.preset_tab_apps_assign_app_button);
-        this.assignAppButton.setOnClickListener(new android.view.View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
+    }
+    
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateList();
+    }
+    
+    
+    /**
+     * Create the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.preset_menu_apps_tab, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    
+    /**
+     * React to a selected menu item
+     */
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.preset_tab_apps_assign_apps:
                 PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this);
-                dialog.setTitle("bla");
                 dialog.setActivity(PresetAppsTab.this);
                 dialog.setPreset(preset);
-                dialog.show();
+                
+                // Check, if there are Apps available which are not assigned yet
+                if (dialog.calcDisplayApps().size() > 0) {
+                    dialog.show();
+                } else {
+                    Toast.makeText(this, getString(R.string.preset_tab_apps_all_apps_assigned), Toast.LENGTH_LONG)
+                            .show();
+                }
+                
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+    
+    
+    /**
+     * Initialize the data structures
+     */
+    private void init() {
+        
+        // Setup the appsListView
+        this.appsListView = (ListView) findViewById(R.id.listview_assigned_apps);
+        this.appsListView.setClickable(true);
+        this.appsListView.setLongClickable(false);
+        registerForContextMenu(this.appsListView);
+        
+        // Add a context menu listener for long clicks
+        this.appsListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+            
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                AdapterContextMenuInfo menuInfoAdapter = (AdapterContextMenuInfo) menuInfo;
+                IApp app = PresetAppsTab.this.appList.get(menuInfoAdapter.position);
+                
+                menu.setHeaderTitle(app.getName());               
+                menu.setHeaderIcon(app.getIcon());
+                menu.add(0, 0, 0, R.string.preset_tab_apps_context_menu_show_details);
+                menu.add(1, 1, 0, R.string.preset_tab_apps_context_menu_remove_app);
             }
-
+        });
+        
+        // React on clicked item
+        this.appsListView.setOnItemClickListener(new OnItemClickListener() {
+            
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
+                
+                openContextMenu(view);
+                
+            }
         });
     }
     
@@ -75,47 +155,50 @@ public class PresetAppsTab extends Activity {
      * Update the list of apps
      * 
      */
-    private void updateList() {
-        final IApp[] apps = preset.getAssignedApps();
+    public void updateList() {
         
-        ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
-        appsList.setClickable(true);
+        appList = new ArrayList<IApp>();
         
-        PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, Arrays.asList(apps));
-        appsList.setAdapter(presetAppsAdapter);
+        for (IApp app : preset.getAssignedApps()) {
+            appList.add(app);
+        }
         
-        // Add the listner and dialog
-        appsList.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
-                Builder alertBuilder = new Builder(PresetAppsTab.this);
-                alertBuilder.setMessage(getString(R.string.preset_tab_apps_remove_app_msg));
-                alertBuilder.setCancelable(false);
-                alertBuilder.setPositiveButton(R.string.presets_dialog_confirm, new OnClickListener() {
-                    
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Action for 'Yes' Button
-                        preset.removeApp(apps[arg2]);
-                        updateList();
-                        dialog.dismiss();
-                    }
-                });
-                alertBuilder.setNegativeButton(R.string.presets_dialog_cancel, new DialogInterface.OnClickListener() {
-                    
-                    public void onClick(DialogInterface dialog, int id) {
-                        //  Action for 'NO' Button
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = alertBuilder.create();
-                // Title for AlertDialog
-                alert.setTitle(getString(R.string.preset_tab_apps_remove_app_title));
-                // Icon for AlertDialog
-                alert.setIcon(R.drawable.icon_delete_32);
-                alert.show();
-            }
-        });
+        PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, appList);
+        appsListView.setAdapter(presetAppsAdapter);
+        
+        // Show or hide the text view about no apps assigned
+        TextView noAssignedApps = (TextView) findViewById(R.id.preset_tab_apps_no_assigned);
+        if (appList.size() == 0) {
+            noAssignedApps.setVisibility(TextView.VISIBLE);
+        } else {
+            noAssignedApps.setVisibility(TextView.GONE);
+        }
+    }
+    
+    
+    /**
+     * React on a clicked item of the context menu
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        // The menu information
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
+        IApp app = this.appList.get(menuInfo.position);
+        
+        // Context menu of a deleted preset
+        switch (menuItem.getItemId()) {
+            case 0: // Clicked on "Show App details" 
+                
+                // TODO: Show App details!
+                
+                return true;
+            case 1: // Clicked on "Delete App"
+                preset.removeApp(app);
+                updateList();
+                return true;
+        }
+        
+        return false;
     }
     
 }
