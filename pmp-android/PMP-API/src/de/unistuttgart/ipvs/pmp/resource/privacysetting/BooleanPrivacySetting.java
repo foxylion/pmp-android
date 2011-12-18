@@ -19,7 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 /**
  * {@link DefaultPrivacySetting} for {@link Boolean}.
@@ -46,23 +51,57 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     
     @Override
-    public View getView() {
-        // TODO Auto-generated method stub
-        return null;
+    public View getView(Context context) {
+        return new BooleanPrivacyLevelView(context);
     }
     
     
     @Override
     public String getViewValue(View view) {
-        // TODO Auto-generated method stub
-        return null;
+        return ((BooleanPrivacyLevelView) view).getValue().toString();
     }
     
     
     @Override
     public void setViewValue(View view, Boolean value) {
-        // TODO Auto-generated method stub
-        
+        ((BooleanPrivacyLevelView) view).setValue(value);
     }
     
+}
+
+class BooleanPrivacyLevelView extends LinearLayout {
+    
+    private CheckBox checkBox;
+    private Boolean value;
+    
+    
+    public BooleanPrivacyLevelView(Context context) {
+        super(context);
+        
+        
+        checkBox = new CheckBox(context);
+        
+        addView(checkBox);
+        
+        checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                value = isChecked;
+            }
+        });
+
+        setValue(false);
+    }
+    
+    
+    public void setValue(Boolean bool) {
+        value = bool;
+        checkBox.setChecked(bool);
+    }
+    
+    
+    public Boolean getValue() {
+        return value;
+    }
 }

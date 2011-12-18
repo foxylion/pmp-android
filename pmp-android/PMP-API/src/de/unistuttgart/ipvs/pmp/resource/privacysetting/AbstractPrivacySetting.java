@@ -19,13 +19,15 @@
  */
 package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
+import android.content.Context;
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
- * An internal PrivacySetting interface for a standard of accessing privacy settings. Note that this class saves the parsing
- * of the privacy settings. It's only needed implementing feature however is the {@link AbstractPrivacySetting#parseValue(String)}
- * function.
+ * An internal PrivacySetting interface for a standard of accessing privacy settings. Note that this class saves the
+ * parsing
+ * of the privacy settings. It's only needed implementing feature however is the
+ * {@link AbstractPrivacySetting#parseValue(String)} function.
  * 
  * @param <T>
  *            the type that is stored in this {@link AbstractPrivacySetting}.
@@ -126,7 +128,8 @@ public abstract class AbstractPrivacySetting<T> {
     
     
     /**
-     * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given String value.
+     * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given
+     * String value.
      * If value is null, it should create an object that corresponds to "no privacy setting value set".
      * 
      * @param value
@@ -140,8 +143,8 @@ public abstract class AbstractPrivacySetting<T> {
     
     
     /**
-     * Gets the value for this {@link AbstractPrivacySetting} from PMP, if this {@link AbstractPrivacySetting} is registered on a
-     * {@link ResourceGroup}.
+     * Gets the value for this {@link AbstractPrivacySetting} from PMP, if this {@link AbstractPrivacySetting} is
+     * registered on a {@link ResourceGroup}.
      * 
      * @param appIdentifier
      * @return the value as stored in PMP for this privacy setting for appIdentifier, or null, if none found or none set
@@ -151,7 +154,7 @@ public abstract class AbstractPrivacySetting<T> {
     }
     
     
-    public abstract View getView();
+    public abstract View getView(Context context);
     
     
     public abstract String getViewValue(View view);

@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
 import java.util.Locale;
 
+import android.content.Context;
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
@@ -111,9 +112,9 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public View getView() {
+    public View getView(Context context) {
         checkCached();
-        return this.link.getView();
+        return this.link.getView(context);
     }
     
     

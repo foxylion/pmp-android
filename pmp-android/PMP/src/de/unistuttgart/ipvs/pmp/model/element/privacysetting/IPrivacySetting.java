@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
+import android.content.Context;
 import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -103,7 +104,7 @@ public interface IPrivacySetting extends IModelElement {
     public boolean permits(String reference, String value) throws PrivacySettingValueException;
     
     
-    public View getView();
+    public View getView(Context context);
     
     
     public String getViewValue(View view);
