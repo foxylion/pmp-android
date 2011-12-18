@@ -30,17 +30,51 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1" />
 
-            <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+            <LinearLayout
+                android:id="@+id/LinearLayout_Container_PS_Information"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                pmp:icon="@drawable/icon_rgs2"
-                pmp:name="@string/required_privacy_settings" />
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    pmp:icon="@drawable/icon_rgs2"
+                    pmp:name="@string/required_privacy_settings" />
+
+                <LinearLayout
+                    android:id="@+id/LinearLayout_PrivacySettings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/LinearLayout_PrivacySettings"
+                android:id="@+id/LinearLayout_Container_RG_Information"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    pmp:icon="@drawable/icon_rgs2"
+                    pmp:name="@string/required_rgs" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/missing_rgs_description" />
+
+                <LinearLayout
+                    android:id="@+id/LinearLayout_required_ResourceGroups"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

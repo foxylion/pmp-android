@@ -13,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.gui.view.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class ServiceFeatureDialog extends Dialog {
@@ -38,12 +39,29 @@ public class ServiceFeatureDialog extends Dialog {
         TextView descriptionTv = (TextView) findViewById(R.id.TextView_Description);
         descriptionTv.setText(serviceFeature.getDescription());
         
-        LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
-        psLayout.removeAllViews();
+        LinearLayout psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
+        LinearLayout rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
         
-        for(IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
-            psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
+        if(serviceFeature.isAvailable()) {
+            psContainer.setVisibility(View.VISIBLE);
+            rgContainer.setVisibility(View.GONE);
+            
+            LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
+            psLayout.removeAllViews();
+            
+            for(IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
+                psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
+            }
+        } else {
+            rgContainer.setVisibility(View.VISIBLE);
+            psContainer.setVisibility(View.GONE);
+            
+            LinearLayout rgLayout = (LinearLayout) findViewById(R.id.LinearLayout_required_ResourceGroups);
+            rgLayout.removeAllViews();
+            
+            // TODO Implement displaying the missing resource groups
         }
+        
         
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
         if (PMPPreferences.getInstance().isExpertMode()) {
