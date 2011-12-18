@@ -21,7 +21,14 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
  */
 public class AppsAdapter extends BaseAdapter {
     
+    /**
+     * {@link Context} which is used to create the Views of each App.
+     */
     private Context context;
+    
+    /**
+     * List of all apps which should be displayed.
+     */
     private List<IApp> apps;
     
     

@@ -18,15 +18,28 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
+/**
+ * The {@link AppActivity} displays a at PMP registered App.
+ * For Details, Service Features and Presets is a tab available to display it.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppActivity extends Activity {
     
+    /**
+     * The reference to the real App in the model.
+     */
     private IApp app;
     
+    /**
+     * Activity manager is used to setup the {@link TabHost}.
+     */
     private LocalActivityManager lam;
     
+    /**
+     * {@link TabHost} for the displayed tabs in the GUI.
+     */
     private TabHost mTabHost;
-    
-    private int currentTab = 0;
     
     
     @Override
@@ -41,7 +54,7 @@ public class AppActivity extends Activity {
         this.mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         this.mTabHost.setup(this.lam);
         
-        this.app = GUITools.handleIntent(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         setupTabs();
         
@@ -57,9 +70,8 @@ public class AppActivity extends Activity {
         super.onResume();
         
         this.lam.dispatchResume();
-        
-        this.mTabHost.setCurrentTab(this.currentTab);
     }
+    
     
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -72,8 +84,6 @@ public class AppActivity extends Activity {
         super.onPause();
         
         this.lam.dispatchPause(isFinishing());
-        
-        this.currentTab = this.mTabHost.getCurrentTab();
     }
     
     

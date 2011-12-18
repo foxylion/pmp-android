@@ -2,21 +2,24 @@ package de.unistuttgart.ipvs.pmp.gui.util;
 
 import android.graphics.Color;
 
+/**
+ * {@link GUIConstants} provides some general guidelines as consistent background colors or equal text colors.
+ */
 public class GUIConstants {
     
     /**
-     * Identifier
+     * Identifiers
      */
     public static final String APP_IDENTIFIER = "appIdentifier";
     public static final String PRESET_IDENTIFIER = "presetIdentifier";
     
     /**
-     * Text Color
+     * Text colors
      */
     public static final int COLOR_TEXT_GRAYED_OUT = Color.DKGRAY;
     
     /**
-     * Backgroup Color
+     * Background colors
      */
     public static final int COLOR_BG_GREEN = Color.parseColor("#004800");
     public static final int COLOR_BG_RED = Color.parseColor("#480000");

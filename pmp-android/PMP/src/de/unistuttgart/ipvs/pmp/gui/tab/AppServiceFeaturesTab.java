@@ -14,8 +14,16 @@ import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
+/**
+ * The {@link AppServiceFeaturesTab} displays all Service Features which are offered by the App.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppServiceFeaturesTab extends Activity {
     
+    /**
+     * The reference to the real App in the model.
+     */
     private IApp app;
     
     @Override
@@ -30,7 +38,7 @@ public class AppServiceFeaturesTab extends Activity {
     protected void onResume() {
         super.onResume();
         
-        this.app = GUITools.handleIntent(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
@@ -43,6 +51,7 @@ public class AppServiceFeaturesTab extends Activity {
             tvDescriptionExpertMode.setVisibility(View.GONE);
         }
         
+        /* Load the offered Service Features into the list. */
         IServiceFeature[] sfs = app.getServiceFeatures();
         
         ListView sFs = (ListView) findViewById(R.id.ListView_SFs);

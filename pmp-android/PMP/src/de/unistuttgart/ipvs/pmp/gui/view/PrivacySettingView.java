@@ -1,14 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
-import java.util.Random;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +14,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The {@link PrivacySettingView} displays basic informations about an Privacy Setting (name, value, statisfied or not).
+ * 
+ * @author Jakob Jarosch
+ */
 public class PrivacySettingView extends LinearLayout {
     
+    /**
+     * The Service Feature which uses the Privacy Setting. It is used to display the satisfaction of the current setting
+     * in the Presets.
+     */
     public IServiceFeature serviceFeature;
+    
+    /**
+     * The reference to the real Privacy Setting in the model.
+     */
     public IPrivacySetting privacySetting;
     
     
+    /**
+     * Creates a new {@link PrivacySettingView} with the given {@link IServiceFeature} and {@link IPrivacySetting} as
+     * display configuration.
+     * 
+     * @param context
+     *            The context of the Activity which invoked the dialog.
+     * @param serviceFeature
+     *            The Service Feature which uses the {@link IPrivacySetting}
+     * @param privacySetting
+     *            The Privacy Setting which should be displayed
+     */
     public PrivacySettingView(Context context, IServiceFeature serviceFeature, IPrivacySetting privacySetting) {
         super(context);
         
@@ -39,6 +60,9 @@ public class PrivacySettingView extends LinearLayout {
     }
     
     
+    /**
+     * Refreshes all displayed contents in the view.
+     */
     public void refresh() {
         TextView tvTitle = (TextView) findViewById(R.id.TextView_Title);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
@@ -64,6 +88,7 @@ public class PrivacySettingView extends LinearLayout {
                     + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>"));
         }
         
+        // Try to updated the displayed Privacy Settings state (tick or cross).
         try {
             String assignedPSValue = this.serviceFeature.getApp().getBestAssignedPrivacySettingValue(privacySetting);
             
@@ -78,13 +103,16 @@ public class PrivacySettingView extends LinearLayout {
         }
     }
     
-    
+    /**
+     * Adds the listeners to the GUI components.
+     */
     private void addListener() {
         setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Tapped on an item", Toast.LENGTH_SHORT).show();
+                // TODO Display the Description of the Privacy Setting in a new Dialog or so.
+                //Toast.makeText(getContext(), "Tapped on an item", Toast.LENGTH_SHORT).show();
             }
         });
     }
