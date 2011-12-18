@@ -93,7 +93,7 @@ public class LocationUpdateHandler implements LocationListener {
 					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_NOTRIP:
-			Toast.makeText(context, "Status no trip " + Model.getInstance().getTripId(),
+			Toast.makeText(context, "Status no trip ",
 					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_HASENDED:
