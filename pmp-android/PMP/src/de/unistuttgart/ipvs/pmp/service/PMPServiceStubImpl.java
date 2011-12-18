@@ -19,8 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.service;
 
+import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -40,7 +44,6 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
         if (app == null) {
             return false;
         } else {
-            
             app.verifyServiceFeatures();
             return true;
         }
@@ -66,6 +69,23 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
             return null;
         } else {
             return rg.getResource(identifier, resource);
+        }
+    }
+    
+    
+    @Override
+    public boolean requestServiceFeature(String identifier, String[] requiredServiceFeature) throws RemoteException {
+        IApp app = Model.getInstance().getApp(identifier);
+        if (app == null) {
+            return false;
+        } else {
+            Intent intent = new Intent(PMPApplication.getContext(), AppActivity.class);
+            intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+            intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.CHANGE_SERVICEFEATURE);
+            intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeature);
+            PMPApplication.getContext().startActivity(intent);
+            
+            return true;
         }
     }
     

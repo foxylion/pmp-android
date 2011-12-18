@@ -48,4 +48,6 @@ interface IPMPService {
      *         (e.g. resource not found)
      */
     IBinder getRessource(String identifier, String resourceGroup, String resource);
+    
+    boolean requestServiceFeature(String appIdentifier, in String[] requiredServiceFeatures);
 }

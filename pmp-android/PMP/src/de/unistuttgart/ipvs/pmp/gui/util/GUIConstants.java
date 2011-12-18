@@ -25,4 +25,11 @@ public class GUIConstants {
     public static final int COLOR_BG_RED = Color.parseColor("#480000");
     public static final int COLOR_BG_GRAY = Color.parseColor("#333333");
     
+    /**
+     * Actions
+     */
+    public static final String ACTIVITY_ACTION = "activityAction";
+    public static final String CHANGE_SERVICEFEATURE = "changeServiceFeature";
+    public static final String REQUIRED_SERVICE_FEATURE = "requiredServiceFeature";
+    
 }
