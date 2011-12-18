@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -23,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAssignAppsDialog;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -189,7 +191,8 @@ public class PresetAppsTab extends Activity {
         switch (menuItem.getItemId()) {
             case 0: // Clicked on "Show App details" 
                 
-                // TODO: Show App details!
+                Intent intent = GUITools.createAppActivityIntent(app);
+                GUITools.startIntent(intent);
                 
                 return true;
             case 1: // Clicked on "Delete App"

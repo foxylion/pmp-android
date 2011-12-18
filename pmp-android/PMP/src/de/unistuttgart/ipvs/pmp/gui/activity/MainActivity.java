@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // TODO remove this once real model works
+        // TODO GUI: remove this once real model works
         ModelProxy.set(true, this);
         
         setContentView(R.layout.activity_main);

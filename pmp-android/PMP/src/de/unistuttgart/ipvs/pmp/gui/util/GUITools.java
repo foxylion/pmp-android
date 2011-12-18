@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.gui.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
@@ -36,5 +38,44 @@ public class GUITools {
         }
         
         return app;
+    }
+    
+    
+    public static String handleIntentAction(Intent intent) {
+        /* Intent should never be null */
+        if (intent == null) {
+            throw new IllegalArgumentException("Intent can't be null");
+        }
+        
+        String action = intent.getExtras().getString(GUIConstants.ACTIVITY_ACTION);
+        
+        /* App Identifier should never be null */
+        if (action == null) {
+            throw new IllegalArgumentException("Intent should have the GUIConstants.ACTIVITY_ACTION packed with it");
+        }
+        
+        return action;
+    }
+    
+    
+    /**
+     * Opens the App details of the given App.
+     * 
+     * @param app
+     *            the App which should be opened
+     */
+    public static Intent createAppActivityIntent(IApp app) {
+        Intent intent = new Intent(PMPApplication.getContext(), AppActivity.class);
+        intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        return intent;
+    }
+    
+    /**
+     * Starts the given {@link Intent}.
+     * 
+     * @param intent {@link Intent} which should be started.
+     */
+    public static void startIntent(Intent intent) {
+        PMPApplication.getContext().startActivity(intent);
     }
 }

@@ -19,7 +19,7 @@ import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 /**
@@ -71,7 +71,8 @@ public class AppsActivity extends Activity {
                 IApp app = ((IApp) appsAdapter.getItem(position));
                 
                 // create intent and start AppActivity
-                openApp(app);
+                Intent intent = GUITools.createAppActivityIntent(app);
+                GUITools.startIntent(intent);
             }
         });
         
@@ -98,7 +99,9 @@ public class AppsActivity extends Activity {
         
         if (menuItem.getItemId() == 0) {
             // open details
-            openApp(app);
+            Intent intent = GUITools.createAppActivityIntent(app);
+            GUITools.startIntent(intent);
+            
         } else if (menuItem.getItemId() == 1) {
             // remove app from model
             ModelProxy.get().unregisterApp(app.getIdentifier());
@@ -121,18 +124,5 @@ public class AppsActivity extends Activity {
         appsList = Arrays.asList(ModelProxy.get().getApps());
         appsAdapter = new AppsAdapter(this, appsList);
         appsViewList.setAdapter(appsAdapter);
-    }
-    
-    
-    /**
-     * Opens the App details of the given App.
-     * 
-     * @param app
-     *            the App which should be opened
-     */
-    private void openApp(IApp app) {
-        Intent intent = new Intent(AppsActivity.this, AppActivity.class);
-        intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
-        AppsActivity.this.startActivity(intent);
     }
 }

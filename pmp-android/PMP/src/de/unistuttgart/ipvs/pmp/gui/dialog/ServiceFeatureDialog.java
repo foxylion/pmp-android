@@ -93,7 +93,7 @@ public class ServiceFeatureDialog extends Dialog {
             LinearLayout rgLayout = (LinearLayout) findViewById(R.id.LinearLayout_required_ResourceGroups);
             rgLayout.removeAllViews();
             
-            // TODO Implement displaying the missing resource groups
+            // TODO GUI: Implement displaying the missing resource groups
         }
         
         /* Decide between displaying the Disable/Enable button or not */

@@ -111,7 +111,7 @@ public class PrivacySettingView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                // TODO Display the Description of the Privacy Setting in a new Dialog or so.
+                // TODO GUI: Display the Description of the Privacy Setting in a new Dialog or so.
                 //Toast.makeText(getContext(), "Tapped on an item", Toast.LENGTH_SHORT).show();
             }
         });

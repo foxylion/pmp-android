@@ -25,6 +25,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -79,11 +80,10 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
         if (app == null) {
             return false;
         } else {
-            Intent intent = new Intent(PMPApplication.getContext(), AppActivity.class);
-            intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+            Intent intent = GUITools.createAppActivityIntent(app);
             intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.CHANGE_SERVICEFEATURE);
             intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeature);
-            PMPApplication.getContext().startActivity(intent);
+            GUITools.startIntent(intent);
             
             return true;
         }

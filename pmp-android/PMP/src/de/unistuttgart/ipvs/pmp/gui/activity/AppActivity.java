@@ -41,6 +41,13 @@ public class AppActivity extends Activity {
      */
     private TabHost mTabHost;
     
+    /**
+     * Tab tags
+     */
+    private static final String TAB_DETAIL = "tab_detail";
+    private static final String TAB_SF = "tab_sf";
+    private static final String TAB_PRESET = "tab_preset";
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +61,14 @@ public class AppActivity extends Activity {
         this.mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         this.mTabHost.setup(this.lam);
         
-        this.app = GUITools.handleAppIntent(getIntent());
-        
         setupTabs();
         
         BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
         
         title.setTitle(this.app.getName());
         title.setIcon(this.app.getIcon());
+        
+        checkExtendedIntentActions();
     }
     
     
@@ -97,7 +104,7 @@ public class AppActivity extends Activity {
     
     private void setupTabs() {
         /* Details Tab */
-        TabSpec details = this.mTabHost.newTabSpec("tab_detail");
+        TabSpec details = this.mTabHost.newTabSpec(TAB_DETAIL);
         details.setIndicator(getResources().getString(R.string.details));
         
         // Create an Intent to start the inner activity
@@ -114,7 +121,7 @@ public class AppActivity extends Activity {
         tab1.setLayoutParams(lp);
         
         /* Service Features Tab */
-        TabSpec sfs = this.mTabHost.newTabSpec("tab_sf");
+        TabSpec sfs = this.mTabHost.newTabSpec(TAB_SF);
         sfs.setIndicator(getResources().getString(R.string.service_features));
         
         // Create an Intent to start the inner activity
@@ -131,7 +138,7 @@ public class AppActivity extends Activity {
         tab2.setLayoutParams(lp);
         
         /* Presets Tab */
-        TabSpec presets = this.mTabHost.newTabSpec("tab_preset");
+        TabSpec presets = this.mTabHost.newTabSpec(TAB_PRESET);
         presets.setIndicator(getResources().getString(R.string.presets));
         
         // Create an Intent to start the inner activity
@@ -146,6 +153,19 @@ public class AppActivity extends Activity {
         lp = tab3.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab3.setLayoutParams(lp);
+    }
+    
+    
+    /**
+     * Checks if the Activity has been started with extended parameters like requested service features.
+     */
+    private void checkExtendedIntentActions() {
+        this.app = GUITools.handleAppIntent(getIntent());
+        if (GUITools.handleIntentAction(getIntent()) == GUIConstants.CHANGE_SERVICEFEATURE) {
+            this.mTabHost.setCurrentTabByTag(TAB_SF);
+            
+            // TODO GUI: Show "Save & Close" button for getting back to the Apps last Activity
+        }
     }
     
 }
