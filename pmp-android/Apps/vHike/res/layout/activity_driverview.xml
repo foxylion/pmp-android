@@ -5,25 +5,39 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <!--Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"-->
-    <!--Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ"-->
+    <!-- Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" -->
+    <!-- Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ" -->
+
     <com.google.android.maps.MapView
         android:id="@+id/driverMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" 
+        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
 
-    <Button
-        android:id="@+id/Button_DriverLocation"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="My Location" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/Button_SimulateNoti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simulate Notification" >
+        </Button>
+
+        <Button
+            android:id="@+id/Button_DriverLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Location" />
+    </LinearLayout>
 
     <SlidingDrawer
-        android:id="@+id/slidingDrawer"
+        android:id="@+id/notiSlider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:content="@+id/contentLayout"

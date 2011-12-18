@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
-    android:background="@color/white"
+    android:background="@drawable/main_background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -13,10 +13,11 @@
         android:orientation="vertical" >
 
         <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
+            android:name="vHike"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/logo"
-            android:name="@string/main_title" >
+            android:background="@drawable/balken"
+            android:icon="@drawable/logo" >
         </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
 
         <LinearLayout

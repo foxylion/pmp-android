@@ -26,6 +26,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  */
 public class RideActivity extends Activity {
 
+	private Spinner spinner;
+	private Spinner spinnerSeats;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ride);
@@ -35,12 +38,17 @@ public class RideActivity extends Activity {
 
 	private void registerListener() {
 
-		Spinner spinner = (Spinner) findViewById(R.id.spinner);
+		spinner = (Spinner) findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.array_cities,
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+
+		spinnerSeats = (Spinner) findViewById(R.id.spinner_numSeats);
+		adapter = ArrayAdapter.createFromResource(this, R.array.array_numSeats,
+				android.R.layout.simple_spinner_item);
+		spinnerSeats.setAdapter(adapter);
 
 		Button btnDrive = (Button) findViewById(R.id.Button_Drive);
 		Button btnSearch = (Button) findViewById(R.id.Button_Search);
@@ -48,30 +56,31 @@ public class RideActivity extends Activity {
 		btnDrive.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				Controller ctrl = new Controller();
-
-				switch (ctrl.announceTrip(Model.getInstance().getSid(),
-						"Berlin", 0, 0, 3)) {
-				case Constants.TRIP_STATUS_ANNOUNCED:
-					Toast.makeText(RideActivity.this, "Announced trip",
-							Toast.LENGTH_LONG).show();
-
-					break;
-
-				case Constants.TRIP_STATUS_OPEN_TRIP:
-					Toast.makeText(RideActivity.this, "Trip already exists",
-							Toast.LENGTH_LONG).show();
-
-					break;
-				case Constants.STATUS_ERROR:
-					Toast.makeText(RideActivity.this, "Error anouncing trip",
-							Toast.LENGTH_LONG).show();
-
-					break;
-
-				}
-
+//
+//				Controller ctrl = new Controller();
+//
+//				switch (ctrl.announceTrip(Model.getInstance().getSid(), spinner
+//						.getSelectedItem().toString(), 0, 0, (int) spinnerSeats
+//						.getSelectedItemPosition())) {
+//				case Constants.TRIP_STATUS_ANNOUNCED:
+//					Toast.makeText(RideActivity.this, "Announced trip",
+//							Toast.LENGTH_LONG).show();
+//
+//					break;
+//
+//				case Constants.TRIP_STATUS_OPEN_TRIP:
+//					Toast.makeText(RideActivity.this, "Trip already exists",
+//							Toast.LENGTH_LONG).show();
+//
+//					break;
+//				case Constants.STATUS_ERROR:
+//					Toast.makeText(RideActivity.this, "Error anouncing trip",
+//							Toast.LENGTH_LONG).show();
+//
+//					break;
+//
+//				}
+//
 				Intent intent = new Intent(RideActivity.this,
 						DriverViewActivity.class);
 				RideActivity.this.startActivity(intent);
@@ -88,5 +97,4 @@ public class RideActivity extends Activity {
 			}
 		});
 	}
-
 }

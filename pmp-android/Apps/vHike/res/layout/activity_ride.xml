@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
-    android:background="@color/white"
+    android:background="@drawable/main_background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -13,10 +13,10 @@
         android:orientation="vertical" >
 
         <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
+            android:name="@string/main_ride"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/logo"
-            android:name="@string/main_ride" >
+            android:icon="@drawable/logo" >
         </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
 
         <LinearLayout
@@ -28,7 +28,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="@string/ride_destination" />
+                android:text="@string/ride_destination"
+                android:textColor="@color/dark_blue"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -39,30 +41,58 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/Button_Drive"
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_ride"
-                android:paddingTop="25sp"
-                android:text="@string/main_drive" >
-            </Button>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/available_seats"
+                android:textColor="@color/dark_blue"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/Button_Search"
+            <Spinner
+                android:id="@+id/spinner_numSeats"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/passenger_logo"
-                android:paddingTop="25sp"
-                android:text="@string/main_searchingpassenger" >
-            </Button>
+                android:layout_height="wrap_content"
+                android:prompt="@string/ride_promptSeats" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center" >
+
+                <Button
+                    android:id="@+id/Button_Drive"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_ride"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_drive" />
+
+                <Button
+                    android:id="@+id/Button_Search"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/passenger_logo"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_searchingpassenger" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

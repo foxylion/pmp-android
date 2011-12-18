@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import android.app.Activity;
@@ -31,6 +32,8 @@ public class ProfileActivity extends Activity {
 
 	private void setUpMyProfile() {
 		Profile myProfile = Model.getInstance().getOwnProfile();
+//		Controller c = new Controller();
+//		c.getProfile(Model.getInstance().getSid(), user_id);
 		
 		TextView tv_username = (TextView) findViewById(R.id.tv_username);
 		tv_username.setText(myProfile.getUsername());

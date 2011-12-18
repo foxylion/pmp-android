@@ -59,7 +59,6 @@ public class NotificationAdapter extends BaseAdapter {
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
 		final Button accept = (Button) entryView.findViewById(R.id.acceptBtn);
 
-		// dismiss.setText("Dismiss");
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -79,9 +78,6 @@ public class NotificationAdapter extends BaseAdapter {
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
 
-		// accept.setText("Accept");
-		// final Button accept = (Button)
-		// entryView.findViewById(R.id.acceptBtn);
 		accept.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
