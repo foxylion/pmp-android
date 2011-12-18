@@ -10,8 +10,6 @@ import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
-;
-
 /**
  * The {@link ServiceFeaturesAdapter} is the list of Apps in the {@link AppsActivity}.
  * 
@@ -19,7 +17,14 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
  */
 public class ServiceFeaturesAdapter extends BaseAdapter {
     
+    /**
+     * {@link Context} which is used to create the Views of each App.
+     */
     private Context context;
+    
+    /**
+     * List of all Service Features which should be displayed.
+     */
     private List<IServiceFeature> serviceFeatures;
     
     

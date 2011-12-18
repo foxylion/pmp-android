@@ -22,10 +22,27 @@ import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
+/**
+ * The {@link AppsActivity} displays all at PMP registered Apps.
+ * If the user may tab on one of the listed Apps he will get the {@link AppActivity}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppsActivity extends Activity {
     
+    /**
+     * List of all registered Apps.
+     */
     private List<IApp> appsList;
+    
+    /**
+     * {@link ListView} is the view reference for the Apps list.
+     */
     private ListView appsViewList;
+    
+    /**
+     * {@link AppsAdapter} for displaying the appsList.
+     */
     private AppsAdapter appsAdapter;
     
     
@@ -70,6 +87,9 @@ public class AppsActivity extends Activity {
     }
     
     
+    /**
+     * Is called when a long press on an App was done.
+     */
     @Override
     public boolean onContextItemSelected(MenuItem menuItem) {
         // The menu information
@@ -93,6 +113,10 @@ public class AppsActivity extends Activity {
         return true;
     }
     
+    
+    /**
+     * Updates the AppsList, when a change occurred (like an App was installed or removed).
+     */
     private void updateAppsList() {
         appsList = Arrays.asList(ModelProxy.get().getApps());
         appsAdapter = new AppsAdapter(this, appsList);
@@ -100,6 +124,12 @@ public class AppsActivity extends Activity {
     }
     
     
+    /**
+     * Opens the App details of the given App.
+     * 
+     * @param app
+     *            the App which should be opened
+     */
     private void openApp(IApp app) {
         Intent intent = new Intent(AppsActivity.this, AppActivity.class);
         intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());

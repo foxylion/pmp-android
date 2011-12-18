@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
                 MainActivity.this.startActivity(intent);
             }
         });
+        // React when a touch occurs and the button is disabled.
         buttonPresets.setDisabledOnClickListener(new OnClickListener() {
             
             @Override

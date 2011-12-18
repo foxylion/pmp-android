@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,27 @@ import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
 
+/**
+ * Displays the some Basic informations (name, description, state) about a Service Feature.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ServiceFeatureView extends LinearLayout {
     
+    /**
+     * The reference to the real Service Feature in the model.
+     */
     private IServiceFeature serviceFeature;
     
     
+    /**
+     * Creates a new {@link ServiceFeatureView}.
+     * 
+     * @param context
+     *            The context of the {@link Activity} which creates this view
+     * @param serviceFeature
+     *            The corresponding {@link IServiceFeature}
+     */
     public ServiceFeatureView(Context context, IServiceFeature serviceFeature) {
         super(context);
         
@@ -47,6 +64,10 @@ public class ServiceFeatureView extends LinearLayout {
     }
     
     
+    /**
+     * Updates all displayed informations of the {@link ServiceFeatureView}.
+     * Informations are directly fetched from the model.
+     */
     public void refresh() {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
@@ -80,12 +101,14 @@ public class ServiceFeatureView extends LinearLayout {
             } else {
                 setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
             }
-            
         }
     }
     
-    
+    /**
+     * Adds the listeners to all components in the view.
+     */
     private void addListener() {
+        // Listener of the whole view component
         setOnClickListener(new OnClickListener() {
             
             @Override
@@ -95,6 +118,7 @@ public class ServiceFeatureView extends LinearLayout {
             }
         });
         
+        // Listener of the check box
         ((CheckBox) findViewById(R.id.CheckBox_SFState)).setOnClickListener(new OnClickListener() {
             
             @Override
@@ -106,7 +130,11 @@ public class ServiceFeatureView extends LinearLayout {
         });
     }
     
-    
+    /**
+     * Method is invoked when the state of the Service Feature has changed.
+     * 
+     * @param newState The new State of the Service Feature.
+     */
     public void reactOnChange(boolean newState) {
         SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(), ServiceFeatureView.this.serviceFeature,
                 newState);

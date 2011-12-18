@@ -7,8 +7,16 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
+/**
+ * The {@link AppDetailsTab} displays the description of an App.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppDetailsTab extends Activity {
     
+    /**
+     * The reference to the real App in the model.
+     */
     private IApp app;
     
     
@@ -24,7 +32,7 @@ public class AppDetailsTab extends Activity {
     protected void onResume() {
         super.onResume();
         
-        this.app = GUITools.handleIntent(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         TextView description = (TextView) findViewById(R.id.TextView_Description);
         description.setText(this.app.getDescription());

@@ -20,10 +20,18 @@ import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
+/**
+ * The {@link AppPresetsTab} displays all Presets which are assigned to this App.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AppPresetsTab extends Activity {
     
-    @SuppressWarnings("unused")
+    /**
+     * The reference to the real App in the model.
+     */
     private IApp app;
+    
     
     @Override
     protected void onResume() {
@@ -31,7 +39,7 @@ public class AppPresetsTab extends Activity {
         
         setContentView(R.layout.tab_app_presets);
         
-        this.app = GUITools.handleIntent(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
@@ -46,7 +54,10 @@ public class AppPresetsTab extends Activity {
             tvDescriptionExpertMode.setVisibility(View.GONE);
         }
     }
-
+    
+    /**
+     * Initiates the list of all assigned Presets.
+     */
     private void initPresetList() {
         final List<IPreset> presetsList = Arrays.asList(app.getAssignedPresets());
         
@@ -56,13 +67,14 @@ public class AppPresetsTab extends Activity {
         presetListView.setAdapter(presetsAdapter);
         
         presetListView.setOnItemClickListener(new OnItemClickListener() {
-
+            
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg3) {
                 openPreset(presetsList.get(position));
             }
         });
     }
+    
     
     /**
      * Open the PresetActivity for one Preset

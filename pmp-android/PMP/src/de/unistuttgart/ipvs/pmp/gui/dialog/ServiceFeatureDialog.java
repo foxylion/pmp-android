@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -13,15 +14,47 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.gui.view.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
+/**
+ * The {@link ServiceFeatureDialog} displays details about a {@link IServiceFeature}.
+ * The User gets the name, a description and all required Privacy Settings.
+ * For each Privacy Setting is also the required value (in a human readable representation)
+ * and the current state (satisfied or not) shown.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ServiceFeatureDialog extends Dialog {
     
+    /**
+     * The Service Feature which is displayed in the dialog.
+     */
     private IServiceFeature serviceFeature;
-    private ServiceFeatureView serviceFeatureView;
+    
+    /**
+     * The View of the Service Feature (in the Service Feature list) which corresponds to the current displayed one.
+     */
+    private ServiceFeatureView serviceFeatureView = null;
     
     
+    /**
+     * @see ServiceFeatureDialog#ServiceFeatureDialog(Context, IServiceFeature, ServiceFeatureView)
+     */
+    public ServiceFeatureDialog(Context context, IServiceFeature serviceFeature) {
+        this(context, serviceFeature, null);
+    }
+    
+    
+    /**
+     * Creates a new {@link ServiceFeatureDialog}.
+     * 
+     * @param context
+     *            the {@link Context} is required for Dialog creation
+     * @param serviceFeature
+     *            the {@link IServiceFeature} which should be displayed
+     * @param serviceFeatureView
+     *            the corresponding view of the {@link IServiceFeature} in the {@link ListView}.
+     */
     public ServiceFeatureDialog(Context context, IServiceFeature serviceFeature, ServiceFeatureView serviceFeatureView) {
         super(context);
         
@@ -42,14 +75,15 @@ public class ServiceFeatureDialog extends Dialog {
         LinearLayout psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
         LinearLayout rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
         
-        if(serviceFeature.isAvailable()) {
+        /* Decide between displaying the required privacy settings or the missing resource groups */
+        if (serviceFeature.isAvailable()) {
             psContainer.setVisibility(View.VISIBLE);
             rgContainer.setVisibility(View.GONE);
             
             LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
             psLayout.removeAllViews();
             
-            for(IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
+            for (IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
                 psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
             }
         } else {
@@ -62,7 +96,7 @@ public class ServiceFeatureDialog extends Dialog {
             // TODO Implement displaying the missing resource groups
         }
         
-        
+        /* Decide between displaying the Disable/Enable button or not */
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
         if (PMPPreferences.getInstance().isExpertMode()) {
             enableDisableButton.setVisibility(View.INVISIBLE);
@@ -81,7 +115,11 @@ public class ServiceFeatureDialog extends Dialog {
     }
     
     
+    /**
+     * Adds the listeners to all the GUI components.
+     */
     private void addListener() {
+        /* Add a listener to the close button */
         Button closeButton = (Button) findViewById(R.id.Button_Close);
         closeButton.setOnClickListener(new View.OnClickListener() {
             
@@ -91,6 +129,7 @@ public class ServiceFeatureDialog extends Dialog {
             }
         });
         
+        /* Add a listener to the enable/disable button */
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             
@@ -98,7 +137,10 @@ public class ServiceFeatureDialog extends Dialog {
             public void onClick(View v) {
                 boolean newState = !ServiceFeatureDialog.this.serviceFeature.isActive();
                 
-                ServiceFeatureDialog.this.serviceFeatureView.reactOnChange(newState);
+                if (ServiceFeatureDialog.this.serviceFeatureView != null) {
+                    ServiceFeatureDialog.this.serviceFeatureView.reactOnChange(newState);
+                }
+                
                 ServiceFeatureDialog.this.cancel();
             }
         });
