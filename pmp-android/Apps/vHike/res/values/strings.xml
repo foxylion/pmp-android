@@ -26,5 +26,18 @@
     <string name="profile_description">Description</string>
     <string name="profile_pw">Password</string>
     <string name="profile_pw_confirm">Confirm password</string>
+    <string name="available_seats">Available seats</string>
+    <string name="ride_promptSeats">Available seats</string>
+    <string-array name="array_numSeats">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+        <item >6</item>
+        <item >7</item>
+        <item >8</item>
+    </string-array>
 
 </resources>
