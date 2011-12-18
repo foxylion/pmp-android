@@ -357,7 +357,7 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id),
+		listToParse.add(new ParamObject("id", String.valueOf(trip_id),
 				true));
 		listToParse.add(new ParamObject("current_lat", String
 				.valueOf(current_lat), true));
@@ -394,7 +394,7 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id),
+		listToParse.add(new ParamObject("id", String.valueOf(trip_id),
 				true));
 		listToParse.add(new ParamObject("avail_seats", String
 				.valueOf(avail_seats), true));
