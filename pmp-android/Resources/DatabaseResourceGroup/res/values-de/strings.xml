@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Datenbank ResourceGroup</string><string name="service_name">Datenbank-Service</string><string name="resource_group_name">Datenbank</string>
-    
-    
-    <string name="resource_group_description">Die Datenbankresourcengruppe bietet Funtionalität für die einfache Zugriffe auf den zentral verwalte Datenbanken</string>
-    <string name="privacy_setting_read_name">Lesen</string>
-    <string name="privacy_setting_read_description">Indicate the right to read an existed database</string>
-    <string name="privacy_setting_modify_name">Bearbeiten</string>
-    <string name="privacy_setting_modify_description">Indicate the right to modify the data of a database, including inserting, updating and deleting data in tables but not deletion from tables</string>
-    <string name="privacy_setting_create_name">Erstellen</string>
-    <string name="privacy_setting_create_description">Indicate the right to create and delete new tables</string>
+
+    <string name="app_name">Datenbank Ressource</string>
+
 </resources>
