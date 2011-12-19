@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +98,8 @@ public class App extends ModelElement implements IApp {
     @Override
     public IServiceFeature[] getServiceFeatures() {
         checkCached();
-        return this.serviceFeatures.values().toArray(new IServiceFeature[0]);
+        Collection<ServiceFeature> result = this.serviceFeatures.values();
+        return result.toArray(new IServiceFeature[result.size()]);
     }
     
     
@@ -119,7 +121,7 @@ public class App extends ModelElement implements IApp {
                 actives.add(sf);
             }
         }
-        return actives.toArray(new IServiceFeature[0]);
+        return actives.toArray(new IServiceFeature[actives.size()]);
     }
     
     
@@ -178,7 +180,7 @@ public class App extends ModelElement implements IApp {
     @Override
     public IPreset[] getAssignedPresets() {
         checkCached();
-        return this.assignedPresets.toArray(new IPreset[0]);
+        return this.assignedPresets.toArray(new IPreset[this.assignedPresets.size()]);
     }
     
     

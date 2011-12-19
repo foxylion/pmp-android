@@ -43,7 +43,7 @@ public class AppsActivity extends Activity {
     /**
      * {@link AppsAdapter} for displaying the appsList.
      */
-    private AppsAdapter appsAdapter;
+    protected AppsAdapter appsAdapter;
     
     
     @Override

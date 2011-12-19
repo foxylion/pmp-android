@@ -43,12 +43,12 @@ public class PresetAssignAppsDialog extends Dialog {
     /**
      * The Preset
      */
-    private IPreset preset;
+    protected IPreset preset;
     
     /**
      * The instance of the adapter
      */
-    private PresetAssignAppsAdapter appsAdapter;
+    protected PresetAssignAppsAdapter appsAdapter;
     
     
     /**

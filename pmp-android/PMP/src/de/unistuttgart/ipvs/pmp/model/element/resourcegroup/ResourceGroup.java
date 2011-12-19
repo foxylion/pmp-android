@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -88,7 +89,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public IPrivacySetting[] getPrivacySettings() {
         checkCached();
-        return this.privacySettings.values().toArray(new IPrivacySetting[0]);
+        Collection<PrivacySetting> result = this.privacySettings.values(); 
+        return result.toArray(new IPrivacySetting[result.size()]);
     }
     
     

@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -110,7 +111,8 @@ public class Model implements IModel, Observer {
     @Override
     public IApp[] getApps() {
         checkCached();
-        return this.cache.getApps().values().toArray(new IApp[0]);
+        Collection<App> result = this.cache.getApps().values();
+        return result.toArray(new IApp[result.size()]);
     }
     
     
@@ -263,7 +265,8 @@ public class Model implements IModel, Observer {
     @Override
     public IResourceGroup[] getResourceGroups() {
         checkCached();
-        return this.cache.getResourceGroups().values().toArray(new IResourceGroup[0]);
+        Collection<ResourceGroup> result = this.cache.getResourceGroups().values(); 
+        return result.toArray(new IResourceGroup[result.size()]);
     }
     
     
@@ -409,7 +412,8 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset[] getPresets() {
         checkCached();
-        return this.cache.getAllPresets().toArray(new IPreset[0]);
+        Collection<Preset> result = this.cache.getAllPresets(); 
+        return result.toArray(new IPreset[result.size()]);
     }
     
     
@@ -422,7 +426,7 @@ public class Model implements IModel, Observer {
         if (creatorPresets == null) {
             return new IPreset[0];
         } else {
-            return creatorPresets.values().toArray(new IPreset[0]);
+            return creatorPresets.values().toArray(new IPreset[creatorPresets.values().size()]);
         }
     }
     

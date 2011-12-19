@@ -26,7 +26,7 @@ public class PresetAssignAppsView extends LinearLayout {
     /**
      * The CheckBox
      */
-    private final CheckBox checkBox;
+    protected final CheckBox checkBox;
     
     /**
      * Linear layout of this view

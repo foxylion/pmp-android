@@ -26,7 +26,7 @@ public class ServiceFeatureView extends LinearLayout {
     /**
      * The reference to the real Service Feature in the model.
      */
-    private IServiceFeature serviceFeature;
+    protected IServiceFeature serviceFeature;
     
     
     /**
