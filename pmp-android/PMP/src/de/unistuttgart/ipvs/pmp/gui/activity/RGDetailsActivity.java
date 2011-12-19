@@ -6,15 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-//import de.unistuttgart.ipvs.pmp.pluginmanager.AvailablePlugins;
-//import de.unistuttgart.ipvs.pmp.pluginmanager.PluginManager;
-//import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.GetAvailablePluginsTask;
-//import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.InstallPluginTask;
 
 public class RGDetailsActivity extends Activity {
     
@@ -22,42 +15,45 @@ public class RGDetailsActivity extends Activity {
     public ProgressDialog pd;
     
     private OnClickListener installListener = new OnClickListener() {
+        
+        @Override
         public void onClick(View v) {
-//            InstallPluginTask task = new InstallPluginTask(RGDetailsActivity.this);
-//            task.execute(extras.getString("identifier"));
+            //            InstallPluginTask task = new InstallPluginTask(RGDetailsActivity.this);
+            //            task.execute(extras.getString("identifier"));
         }
     };
     
+    
+    @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);  
-       
-        extras = getIntent().getExtras();
-        int isStub = extras.getInt("is_stub");
+        super.onCreate(savedInstanceState);
+        
+        this.extras = getIntent().getExtras();
+        int isStub = this.extras.getInt("is_stub");
         
         if (isStub == 0) {
-            createFullView(extras.getString("identifier"));
+            createFullView(this.extras.getString("identifier"));
             Log.e("Full View");
         } else if (isStub == 1) {
-            createStubView(extras.getInt("position"));
+            createStubView(this.extras.getInt("position"));
             Log.e("Stub View");
         }
     }
-
+    
+    
     private void createStubView(int position) {
         setContentView(R.layout.activity_rgs_details_stub);
-//        AvailablePlugins.Plugin plugin = PluginManager.getInstance().getAvailablePlugins().getPlugins().get(position);
+        //        AvailablePlugins.Plugin plugin = PluginManager.getInstance().getAvailablePlugins().getPlugins().get(position);
         
-        TextView name = (TextView) findViewById(R.id.Name);
-//        name.setText(plugin.getName());
+        findViewById(R.id.Name);
         
-        TextView description = (TextView) findViewById(R.id.Description);
-//        description.setText(plugin.getDescription());
+        findViewById(R.id.Description);
         
         Button button = (Button) findViewById(R.id.Button);
-        button.setOnClickListener(installListener);
+        button.setOnClickListener(this.installListener);
     }
-
-
+    
+    
     private void createFullView(String string) {
         setContentView(R.layout.activity_rgs_details);
         // lol, that was already commented out

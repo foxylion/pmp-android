@@ -13,7 +13,6 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
-import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 
@@ -129,7 +128,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public IPrivacySetting[] getGrantedPrivacySettings() {
         checkCached();
-        Collection<IPrivacySetting> result = this.privacySettingValues.keySet(); 
+        Collection<IPrivacySetting> result = this.privacySettingValues.keySet();
         return result.toArray(new IPrivacySetting[result.size()]);
     }
     

@@ -104,6 +104,7 @@ public class ServiceFeatureView extends LinearLayout {
         }
     }
     
+    
     /**
      * Adds the listeners to all components in the view.
      */
@@ -130,10 +131,12 @@ public class ServiceFeatureView extends LinearLayout {
         });
     }
     
+    
     /**
      * Method is invoked when the state of the Service Feature has changed.
      * 
-     * @param newState The new State of the Service Feature.
+     * @param newState
+     *            The new State of the Service Feature.
      */
     public void reactOnChange(boolean newState) {
         SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(), ServiceFeatureView.this.serviceFeature,

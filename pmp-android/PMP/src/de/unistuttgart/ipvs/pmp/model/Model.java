@@ -265,7 +265,7 @@ public class Model implements IModel, Observer {
     @Override
     public IResourceGroup[] getResourceGroups() {
         checkCached();
-        Collection<ResourceGroup> result = this.cache.getResourceGroups().values(); 
+        Collection<ResourceGroup> result = this.cache.getResourceGroups().values();
         return result.toArray(new IResourceGroup[result.size()]);
     }
     
@@ -412,7 +412,7 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset[] getPresets() {
         checkCached();
-        Collection<Preset> result = this.cache.getAllPresets(); 
+        Collection<Preset> result = this.cache.getAllPresets();
         return result.toArray(new IPreset[result.size()]);
     }
     

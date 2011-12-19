@@ -89,7 +89,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public IPrivacySetting[] getPrivacySettings() {
         checkCached();
-        Collection<PrivacySetting> result = this.privacySettings.values(); 
+        Collection<PrivacySetting> result = this.privacySettings.values();
         return result.toArray(new IPrivacySetting[result.size()]);
     }
     

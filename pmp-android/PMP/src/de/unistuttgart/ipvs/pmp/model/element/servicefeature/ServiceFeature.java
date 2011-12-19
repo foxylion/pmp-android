@@ -95,7 +95,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public IPrivacySetting[] getRequiredPrivacySettings() {
         checkCached();
-        Collection<PrivacySetting> result = this.privacySettingValues.keySet(); 
+        Collection<PrivacySetting> result = this.privacySettingValues.keySet();
         return result.toArray(new IPrivacySetting[result.size()]);
     }
     

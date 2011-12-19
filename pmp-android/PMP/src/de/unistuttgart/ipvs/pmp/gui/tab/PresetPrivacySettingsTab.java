@@ -8,11 +8,11 @@ import java.util.Map.Entry;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -157,7 +157,7 @@ public class PresetPrivacySettingsTab extends Activity {
             case 1: // Change PS value
                 return true;
             case 2: // Remove PS
-                preset.removePrivacySetting(ps);
+                this.preset.removePrivacySetting(ps);
                 updateList();
                 return true;
         }
@@ -171,16 +171,16 @@ public class PresetPrivacySettingsTab extends Activity {
      * 
      */
     public void updateList() {
-        allPSList = new ArrayList<IPrivacySetting>();
+        this.allPSList = new ArrayList<IPrivacySetting>();
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
         
-        for (IPrivacySetting ps : preset.getGrantedPrivacySettings()) {
+        for (IPrivacySetting ps : this.preset.getGrantedPrivacySettings()) {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
-            allPSList.add(ps);
+            this.allPSList.add(ps);
             
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
@@ -197,23 +197,24 @@ public class PresetPrivacySettingsTab extends Activity {
         
         /* Build two lists, separated into RGs and PSs out of the map */
         ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
-        psList = new ArrayList<ArrayList<IPrivacySetting>>();
-
+        this.psList = new ArrayList<ArrayList<IPrivacySetting>>();
+        
         for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
             rgList.add(entry.getKey());
-            psList.add(entry.getValue());
+            this.psList.add(entry.getValue());
         }
         
         // Add the adapter
-        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, preset, rgList, psList);
-        psExpandableListView.setAdapter(ppsAdapter);
+        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList,
+                this.psList);
+        this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
-        if (allPSList.size() == 0) {
-            noAssignedPSs.setVisibility(TextView.VISIBLE);
+        if (this.allPSList.size() == 0) {
+            noAssignedPSs.setVisibility(View.VISIBLE);
         } else {
-            noAssignedPSs.setVisibility(TextView.GONE);
+            noAssignedPSs.setVisibility(View.GONE);
         }
     }
 }

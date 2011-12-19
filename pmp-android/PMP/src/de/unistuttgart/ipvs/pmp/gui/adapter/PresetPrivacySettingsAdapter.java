@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPrivacySettingsTab;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -64,7 +66,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return psList.get(groupPosition).get(childPosition);
+        return this.psList.get(groupPosition).get(childPosition);
     }
     
     
@@ -82,7 +84,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
         
         // Inflate the layout
-        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View entryView = infalInflater.inflate(R.layout.listitem_preset_ps, null);
         
         // Set name and value of one Privacy Setting
@@ -90,7 +92,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-        value.setText(preset.getGrantedPrivacySettingValue(ps));
+        value.setText(this.preset.getGrantedPrivacySettingValue(ps));
         
         return entryView;
     }
@@ -98,19 +100,19 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     
     @Override
     public int getChildrenCount(int groupPosition) {
-        return psList.get(groupPosition).size();
+        return this.psList.get(groupPosition).size();
     }
     
     
     @Override
     public Object getGroup(int groupPosition) {
-        return rgList.get(groupPosition);
+        return this.rgList.get(groupPosition);
     }
     
     
     @Override
     public int getGroupCount() {
-        return rgList.size();
+        return this.rgList.size();
     }
     
     
@@ -127,7 +129,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         IResourceGroup rg = (IResourceGroup) getGroup(groupPosition);
         
         // Inflate the layout
-        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View entryView = infalInflater.inflate(R.layout.listitem_preset_rg, null);
         
         // Set name and icon of the ResourceGrouop

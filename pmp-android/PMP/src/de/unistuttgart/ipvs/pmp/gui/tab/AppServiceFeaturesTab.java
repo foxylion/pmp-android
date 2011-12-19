@@ -26,6 +26,7 @@ public class AppServiceFeaturesTab extends Activity {
      */
     private IApp app;
     
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class AppServiceFeaturesTab extends Activity {
         }
         
         /* Load the offered Service Features into the list. */
-        IServiceFeature[] sfs = app.getServiceFeatures();
+        IServiceFeature[] sfs = this.app.getServiceFeatures();
         
         ListView sFs = (ListView) findViewById(R.id.ListView_SFs);
         if (sFs != null) {

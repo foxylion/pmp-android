@@ -85,7 +85,7 @@ public class MockupModel implements IModel {
     
     @Override
     public IResourceGroup[] getResourceGroups() {
-        Collection<ResourceGroup> result = this.mc.getResourceGroups().values(); 
+        Collection<ResourceGroup> result = this.mc.getResourceGroups().values();
         return result.toArray(new IResourceGroup[result.size()]);
     }
     

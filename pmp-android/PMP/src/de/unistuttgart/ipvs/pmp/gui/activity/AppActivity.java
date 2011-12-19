@@ -54,7 +54,7 @@ public class AppActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_app);
-         
+        
         checkExtendedIntentActions();
         
         this.lam = new LocalActivityManager(this, true);

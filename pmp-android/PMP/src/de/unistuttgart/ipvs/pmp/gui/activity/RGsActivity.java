@@ -9,6 +9,8 @@ import de.unistuttgart.ipvs.pmp.gui.tab.RGsAvailableTab;
 import de.unistuttgart.ipvs.pmp.gui.tab.RGsInstalledTab;
 
 public class RGsActivity extends TabActivity {
+    
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rgs);
@@ -21,14 +23,12 @@ public class RGsActivity extends TabActivity {
         
         // Do the same for the other tabs
         intent = new Intent().setClass(this, RGsAvailableTab.class);
-        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.rgs_available))
-                .setContent(intent);
+        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.rgs_available)).setContent(intent);
         tabHost.addTab(spec);
-        tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;        
+        tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;
         
         intent = new Intent().setClass(this, RGsInstalledTab.class);
-        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rgs_installed))
-                .setContent(intent);
+        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rgs_installed)).setContent(intent);
         tabHost.addTab(spec);
         tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
         tabHost.setCurrentTab(0);

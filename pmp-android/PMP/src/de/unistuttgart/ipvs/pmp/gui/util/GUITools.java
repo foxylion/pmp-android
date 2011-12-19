@@ -65,10 +65,12 @@ public class GUITools {
         return intent;
     }
     
+    
     /**
      * Starts the given {@link Intent}.
      * 
-     * @param intent {@link Intent} which should be started.
+     * @param intent
+     *            {@link Intent} which should be started.
      */
     public static void startIntent(Intent intent) {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
