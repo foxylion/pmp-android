@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.pmp;
 
+import android.os.IBinder;
+
 /**
  * The Service of PMP provided for an app.
  * 
@@ -12,42 +14,55 @@ interface IPMPService {
      * the service features. The {@link PMPService} will then call concurrently the app service's
      * {@link IAppServicePMP#setServiceFeature(Integer)}.
      * 
-     * @param identifier
+     * @param appPackage
      *            the identifier for the app to receive the service feature update
      * @return true, if the service feature will be performed, false, if the app wasn't found
      */
-    boolean getServiceFeatureUpdate(String identifier);
+    boolean getServiceFeatureUpdate(String appPackage);
     
     
     /**
      * Method for registering a new app at PMP.
      * 
-     * @param identifier
+     * @param appPackage
      *            the identifier for the app to register
      */
-    void registerApp(String identifier);
+    void registerApp(String appPackage);
     
     
     /**
+     * Method for checking whether an app is registered with PMP or not.
      * 
-     * @param identifier
+     * @param appPackage
      *            the identifier for the app to check registration for
      * @return true, if and only if the app with identifier is registered with PMP
      */
-    boolean isRegistered(String identifier);
+    boolean isRegistered(String appPackage);
     
     
     /**
-     * @param identifier
+     * Gets an AIDL resource.
+     * 
+     * @param appPackage
      *            the identifier for the app that requests the resource
-     * @param resourceGroup
-     *            the name of the RG
+     * @param rgPackage
+     *            the identifier for the RG that is requested
      * @param resource
      *            the name of the resource
      * @return the IBinder interface for the resource of the resourceGroup, or null, if an error happened
      *         (e.g. resource not found)
      */
-    IBinder getRessource(String identifier, String resourceGroup, String resource);
+    IBinder getRessource(String appPackage, String rgPackage, String resource);
     
-    boolean requestServiceFeature(String appIdentifier, in String[] requiredServiceFeatures);
+    
+    /**
+     * A registered app can call this method to request several service features to be enabled for functionality to
+     * work.
+     * 
+     * @param appPackage
+     *            the identifier for the app that requests the service features
+     * @param requiredServiceFeatures
+     *            the names of the service features to request
+     */
+    boolean requestServiceFeature(String appPackage, in String[] requiredServiceFeatures);
 }

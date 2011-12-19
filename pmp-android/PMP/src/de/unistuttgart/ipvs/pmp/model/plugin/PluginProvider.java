@@ -86,22 +86,22 @@ public class PluginProvider implements IPluginProvider {
     /**
      * Assures that the identified resource group is loaded.
      * 
-     * @param identifier
+     * @param rgPackage
      */
-    private void checkCached(String identifier) {
-        if (this.cache.get(identifier) == null) {
-            install(identifier);
+    private void checkCached(String rgPackage) {
+        if (this.cache.get(rgPackage) == null) {
+            install(rgPackage);
         }
     }
     
     
     /**
      * 
-     * @param identifier
+     * @param rgPackage
      * @return the must-have class name of the main class for that package
      */
-    private String getClassName(String identifier) {
-        String[] packageNames = identifier.split("\\.");
+    private String getClassName(String rgPackage) {
+        String[] packageNames = rgPackage.split("\\.");
         String result = packageNames[packageNames.length - 1];
         return Character.toUpperCase(result.charAt(0)) + result.substring(1);
     }

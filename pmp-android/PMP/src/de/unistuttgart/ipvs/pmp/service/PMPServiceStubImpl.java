@@ -37,9 +37,9 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 public class PMPServiceStubImpl extends IPMPService.Stub {
     
     @Override
-    public boolean getServiceFeatureUpdate(String identifier) throws RemoteException {
+    public boolean getServiceFeatureUpdate(String appPackage) throws RemoteException {
         
-        IApp app = Model.getInstance().getApp(identifier);
+        IApp app = Model.getInstance().getApp(appPackage);
         if (app == null) {
             return false;
         } else {
@@ -50,37 +50,37 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
     
     
     @Override
-    public void registerApp(String identifier) throws RemoteException {
-        Model.getInstance().registerApp(identifier);
+    public void registerApp(String appPackage) throws RemoteException {
+        Model.getInstance().registerApp(appPackage);
     }
     
     
     @Override
-    public boolean isRegistered(String identifier) throws RemoteException {
-        return Model.getInstance().getApp(identifier) != null;
+    public boolean isRegistered(String appPackage) throws RemoteException {
+        return Model.getInstance().getApp(appPackage) != null;
     }
     
     
     @Override
-    public IBinder getRessource(String identifier, String resourceGroup, String resource) throws RemoteException {
-        IResourceGroup rg = Model.getInstance().getResourceGroup(resourceGroup);
+    public IBinder getRessource(String appPackage, String rgPackage, String resource) throws RemoteException {
+        IResourceGroup rg = Model.getInstance().getResourceGroup(rgPackage);
         if (rg == null) {
             return null;
         } else {
-            return rg.getResource(identifier, resource);
+            return rg.getResource(appPackage, resource);
         }
     }
     
     
     @Override
-    public boolean requestServiceFeature(String identifier, String[] requiredServiceFeature) throws RemoteException {
-        IApp app = Model.getInstance().getApp(identifier);
+    public boolean requestServiceFeature(String appPackage, String[] requiredServiceFeatures) throws RemoteException {
+        IApp app = Model.getInstance().getApp(appPackage);
         if (app == null) {
             return false;
         } else {
             Intent intent = GUITools.createAppActivityIntent(app);
             intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.CHANGE_SERVICEFEATURE);
-            intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeature);
+            intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeatures);
             GUITools.startIntent(intent);
             
             return true;
