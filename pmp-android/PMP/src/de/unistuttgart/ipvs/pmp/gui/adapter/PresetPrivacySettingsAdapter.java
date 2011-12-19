@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
@@ -19,16 +20,43 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
  */
 public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     
+    /**
+     * Context of the {@link PresetPrivacySettingsTab}
+     */
     private Context context;
     
+    /**
+     * The Preset
+     */
+    private IPreset preset;
+    
+    /**
+     * List of all assigned ResourceGroups
+     */
     private ArrayList<IResourceGroup> rgList;
     
+    /**
+     * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
+     */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
     
     
-    public PresetPrivacySettingsAdapter(Context context, ArrayList<IResourceGroup> rgList,
+    /**
+     * Constructor to setup parameter
+     * 
+     * @param context
+     *            context of the {@link PresetPrivacySettingsTab}
+     * @param preset
+     *            the Preset
+     * @param rgList
+     *            List of all assigned ResourceGroups
+     * @param psList
+     *            List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
+     */
+    public PresetPrivacySettingsAdapter(Context context, IPreset preset, ArrayList<IResourceGroup> rgList,
             ArrayList<ArrayList<IPrivacySetting>> psList) {
         this.context = context;
+        this.preset = preset;
         this.rgList = rgList;
         this.psList = psList;
     }
@@ -62,8 +90,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-        // TODO: value.setText(ps.getViewValue(ps.getView()));
-        value.setText("Value");
+        value.setText(preset.getGrantedPrivacySettingValue(ps));
         
         return entryView;
     }

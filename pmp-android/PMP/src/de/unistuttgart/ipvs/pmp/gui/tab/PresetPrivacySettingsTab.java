@@ -110,18 +110,13 @@ public class PresetPrivacySettingsTab extends Activity {
                 
                 ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
                 int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-                int rgPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-                int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
                 
                 // Open a context menu, if this was a click on a Privacy Setting (type=1)
                 if (type == 1) {
-                    
-                    IPrivacySetting ps = PresetPrivacySettingsTab.this.psList.get(rgPos).get(psPos);
-                    
-                    menu.setHeaderTitle(ps.getName());
-                    menu.setHeaderIcon(ps.getResourceGroup().getIcon());
-                    menu.add(0, 0, 0, R.string.preset_tab_pss_context_menu_change_value);
-                    menu.add(1, 1, 0, R.string.preset_tab_pss_context_menu_remove_pss);
+                    menu.setHeaderTitle(R.string.choose_your_action);
+                    menu.add(0, 0, 0, R.string.show_details);
+                    menu.add(1, 1, 1, R.string.change_value);
+                    menu.add(2, 2, 2, R.string.remove);
                 }
             }
         });
@@ -156,9 +151,11 @@ public class PresetPrivacySettingsTab extends Activity {
         
         // Handle
         switch (item.getItemId()) {
-            case 0: // Change PS value
+            case 0: // Show details of PS
                 return true;
-            case 1: // Remove PS
+            case 1: // Change PS value
+                return true;
+            case 2: // Remove PS
                 preset.removePrivacySetting(ps);
                 updateList();
                 return true;
@@ -207,7 +204,7 @@ public class PresetPrivacySettingsTab extends Activity {
         }
         
         // Add the adapter
-        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, rgList, psList);
+        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, preset, rgList, psList);
         psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
