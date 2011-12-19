@@ -162,7 +162,7 @@ public class AppActivity extends Activity {
      */
     private void checkExtendedIntentActions() {
         this.app = GUITools.handleAppIntent(getIntent());
-        if (GUITools.handleIntentAction(getIntent()) == GUIConstants.CHANGE_SERVICEFEATURE) {
+        if (GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             this.mTabHost.setCurrentTabByTag(TAB_SF);
             
             // TODO GUI: Show "Save & Close" button for getting back to the Apps last Activity
