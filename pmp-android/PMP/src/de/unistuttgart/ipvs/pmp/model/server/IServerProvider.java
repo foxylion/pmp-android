@@ -28,7 +28,7 @@ public interface IServerProvider {
      * 
      * @param rgPackage
      *            the main package of the resource group's apk
-     * @return the file where the resource group is contained.
+     * @return the file where the resource group is contained or null, if an error occurred
      */
     public File downloadResourceGroup(String rgPackage);
     

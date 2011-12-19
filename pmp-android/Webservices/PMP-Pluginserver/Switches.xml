@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation>
+		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches
+		</identifier>
+		<defaultName lang="en">Device Switches</defaultName>
+		<name lang="de">Geräteschalter</name>
+		<defaultDescription lang="en">Three Swiss witch bitches,
+			which wished to be switched Swiss
+			witch bitches, wish to watch three
+			Swiss Swatch watch switches. Which
+			Swiss witch-bitch which wishes to
+			be a switched Swiss witch bitch, wishes
+			to watch which Swiss Swatch
+			watch switch?
+		</defaultDescription>
+		<description lang="de">Drei Schweizer Hexen-Hündinnen, die
+			ausgewechselte Schweizer Hexen-Hündinnen sein wollten, würden sich
+			gerne drei Schweizer Swatch-Uhr-Schalter anschauen.
+			Welche Schweizer
+			Hexen-Hündin, die eine ausgewechselte Schweizer
+			Hexen-Hündin sein
+			will, würde gerne welchen Schweizer
+			Swatch-Uhren-Schalter anschauen?
+		</description>
+		<revision>1</revision>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="CanWifiSwitch">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">WiFi switch</defaultName>
+			<name lang="de">WLAN-Status</name>
+			<defaultDescription lang="en">Allows to switch the WiFi
+				switch.
+			</defaultDescription>
+			<description lang="de">Erlaubt den WLAN-Schalter umzuschalten.
+			</description>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>
