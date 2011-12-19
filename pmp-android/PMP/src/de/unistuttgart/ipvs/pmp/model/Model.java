@@ -40,7 +40,6 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
 /**
  * <p>
@@ -296,9 +295,8 @@ public class Model implements IModel, Observer {
                 return false;
             }
             
-            // get the XML stream
-            InputStream xmlStream = PluginProvider.getInstance().getXMLStream(identifier);
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(xmlStream);
+            // get the RGIS
+            RgInformationSet rgis = PluginProvider.getInstance().getRGIS(identifier);
             
             // apply new RG to DB, then model
             ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(identifier);

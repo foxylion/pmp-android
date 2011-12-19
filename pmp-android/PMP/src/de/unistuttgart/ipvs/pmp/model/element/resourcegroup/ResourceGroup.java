@@ -28,6 +28,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
      * internal data & links
      */
     protected Map<String, PrivacySetting> privacySettings;
+    protected Drawable icon;
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     
     
@@ -71,9 +72,15 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     @Override
-    public Drawable getIcon() {
-        // TODO: Resourcegroup contains icon in root folder of the jar-file with name "icon.png"
-        return null;
+    public Drawable getIcon() {        
+        checkCached();
+        return this.icon;
+    }
+    
+    @Override
+    public int getRevision() {
+        checkCached();
+        return new Integer(this.rgis.getRevision());
     }
     
     
@@ -109,10 +116,6 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     }
     
     
-    @Override
-    public int getRevision() {
-        checkCached();
-        return new Integer(this.rgis.getRevision());
-    }
+
     
 }

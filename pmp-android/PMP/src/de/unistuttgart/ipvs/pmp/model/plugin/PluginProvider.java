@@ -2,12 +2,10 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +19,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
 /**
  * Provider for managing all {@link ResourceGroup} plugins in PMP.
@@ -57,6 +57,7 @@ public class PluginProvider {
      * fields
      */
     private Map<String, ResourceGroup> cache;
+    private Map<String, RgInformationSet> cacheRGIS;
     
     /*
      * singleton stuff
@@ -72,6 +73,7 @@ public class PluginProvider {
     
     private PluginProvider() {
         this.cache = new HashMap<String, ResourceGroup>();
+        this.cacheRGIS = new HashMap<String, RgInformationSet>();
         
         PLUGIN_BASE_DIR.mkdirs();
         PLUGIN_APK_DIR.mkdirs();
@@ -161,21 +163,12 @@ public class PluginProvider {
      * @return true, if and only if the operation succeeded
      */
     public boolean install(String identifier) {
-        // TODO there a lot of this should actually be changeable right in the XML
         try {
+            // identify the important attributes first
             String apkName = PLUGIN_APK_DIR_STR + identifier + APK_STR;
             String className = getClassName(identifier);
             
-            DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
-            try {
-                Field f = classLoader.getClass().getDeclaredField("VERBOSE_DEBUG");
-                f.setAccessible(true);
-                f.setBoolean(null, true);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-            
-            // extract xml
+            // extract the XML, so we have the information from there
             ZipFile zipApk = new ZipFile(apkName);
             ZipEntry xmlEntry = zipApk.getEntry("assets/" + className + XML_STR);
             if (xmlEntry != null) {
@@ -184,7 +177,14 @@ public class PluginProvider {
                 throw new IOException("assets/" + className + XML_STR + " missing.");
             }
             
+            // create the RGIS
+            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(new FileInputStream(
+                    PLUGIN_ASSET_DIR_STR + identifier + ".xml"));
+            
+            DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
+           
             // extract icon
+            // TODO Marcus should include an <icon> Tag sooner or later
             ZipEntry iconEntry = zipApk.getEntry("res/drawable-hdpi/icon.png");
             if (iconEntry == null) {
                 iconEntry = zipApk.getEntry("res/drawable-mdpi/icon.png");
@@ -203,11 +203,13 @@ public class PluginProvider {
             Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
             Constructor<? extends ResourceGroup> rgConstruct = rgClazz.getConstructor(IPMPConnectionInterface.class);
             
+            // store in cache
             this.cache.put(identifier, rgConstruct.newInstance(PMPConnectionInterface.getInstance()));
+            this.cacheRGIS.put(identifier, rgis);
             
             return true;
             
-            // TODO we might wanna handle some of these nicer?
+            // TODO we might wanna handle some of these nicer? 
         } catch (ClassNotFoundException cnfe) {
             Log.e("Could not find class for " + identifier, cnfe);
         } catch (ClassCastException cce) {
@@ -259,14 +261,10 @@ public class PluginProvider {
      * @param identifier
      * @return the XML stream for the specified resource group or null if it wasn't found which should not happen
      */
-    public InputStream getXMLStream(String identifier) {
-        try {
-            checkCached(identifier);
-            return new FileInputStream(PLUGIN_ASSET_DIR_STR + identifier + ".xml");
-        } catch (FileNotFoundException fnfe) {
-            Log.e("Could not find XML file for " + identifier, fnfe);
-            return null;
-        }
+    public RgInformationSet getRGIS(String identifier) {
+        checkCached(identifier);
+        return this.cacheRGIS.get(identifier);
+        
     }
     
     
