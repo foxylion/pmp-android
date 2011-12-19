@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.util.xml.rg;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,11 +35,6 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  * 
  */
 public class RgInformationSet extends AbstractInformationSet {
-    
-    /**
-     * Serial
-     */
-    private static final long serialVersionUID = -5127998017294446211L;
     
     /**
      * The identifier of the resource group

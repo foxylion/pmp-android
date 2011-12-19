@@ -72,10 +72,11 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     @Override
-    public Drawable getIcon() {        
+    public Drawable getIcon() {
         checkCached();
         return this.icon;
     }
+    
     
     @Override
     public int getRevision() {
@@ -114,8 +115,5 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         checkCached();
         return this.rgis;
     }
-    
-    
-
     
 }
