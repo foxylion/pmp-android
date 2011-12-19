@@ -76,9 +76,20 @@ public class PluginProvider implements IPluginProvider {
         this.cache = new HashMap<String, ResourceGroup>();
         this.cacheRGIS = new HashMap<String, RgInformationSet>();
         
-        if (!PLUGIN_BASE_DIR.mkdirs() || !PLUGIN_APK_DIR.mkdirs() || !PLUGIN_DEX_DIR.mkdirs()
-                || !PLUGIN_ASSET_DIR.mkdirs()) {
-            Log.e("Error while creating directories in PluginProvider.");
+        if (!PLUGIN_BASE_DIR.mkdirs() && !PLUGIN_BASE_DIR.exists()) {
+            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
+        }
+        
+        if (!PLUGIN_APK_DIR.mkdirs() && !PLUGIN_APK_DIR.exists()) {
+            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_APK_DIR.getAbsolutePath());
+        }
+        
+        if (!PLUGIN_DEX_DIR.mkdirs() && !PLUGIN_DEX_DIR.exists()) {
+            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_DEX_DIR.getAbsolutePath());
+        }
+        
+        if (!PLUGIN_ASSET_DIR.mkdirs() && !PLUGIN_ASSET_DIR.exists()) {
+            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_ASSET_DIR.getAbsolutePath());
         }
     }
     
