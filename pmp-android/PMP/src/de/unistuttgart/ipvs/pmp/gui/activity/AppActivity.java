@@ -54,6 +54,8 @@ public class AppActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_app);
+         
+        checkExtendedIntentActions();
         
         this.lam = new LocalActivityManager(this, true);
         this.lam.dispatchCreate(savedInstanceState);
@@ -68,7 +70,6 @@ public class AppActivity extends Activity {
         title.setTitle(this.app.getName());
         title.setIcon(this.app.getIcon());
         
-        checkExtendedIntentActions();
     }
     
     

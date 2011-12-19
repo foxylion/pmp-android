@@ -49,11 +49,6 @@ public class GUITools {
         
         String action = intent.getExtras().getString(GUIConstants.ACTIVITY_ACTION);
         
-        /* App Identifier should never be null */
-        if (action == null) {
-            throw new IllegalArgumentException("Intent should have the GUIConstants.ACTIVITY_ACTION packed with it");
-        }
-        
         return action;
     }
     
@@ -76,6 +71,7 @@ public class GUITools {
      * @param intent {@link Intent} which should be started.
      */
     public static void startIntent(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PMPApplication.getContext().startActivity(intent);
     }
 }
