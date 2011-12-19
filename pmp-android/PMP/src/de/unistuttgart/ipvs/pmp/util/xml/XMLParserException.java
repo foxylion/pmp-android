@@ -152,6 +152,13 @@ public class XMLParserException extends RuntimeException {
     }
     
     
+    @Override
+    public String getMessage() {
+        // please use this instead of details, because only this way the details will actually be visible in the stack trace.
+        return getDetails();
+    }
+    
+    
     /**
      * Get the throwable
      * 

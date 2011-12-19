@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -166,6 +167,13 @@ public class PluginProvider {
             String className = getClassName(identifier);
             
             DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
+            try {
+                Field f = classLoader.getClass().getDeclaredField("VERBOSE_DEBUG");
+                f.setAccessible(true);
+                f.setBoolean(null, true);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
             
             // extract xml
             ZipFile zipApk = new ZipFile(apkName);
@@ -193,10 +201,9 @@ public class PluginProvider {
             // load main class
             Class<?> clazz = classLoader.loadClass(identifier + "." + className);
             Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
-            Constructor<? extends ResourceGroup> rgConstruct = rgClazz.getConstructor(String.class,
-                    IPMPConnectionInterface.class);
+            Constructor<? extends ResourceGroup> rgConstruct = rgClazz.getConstructor(IPMPConnectionInterface.class);
             
-            this.cache.put(identifier, rgConstruct.newInstance(identifier, PMPConnectionInterface.getInstance()));
+            this.cache.put(identifier, rgConstruct.newInstance(PMPConnectionInterface.getInstance()));
             
             return true;
             
@@ -208,7 +215,7 @@ public class PluginProvider {
         } catch (SecurityException se) {
             Log.e("Security manager denied loading constructor for " + identifier, se);
         } catch (NoSuchMethodException nsme) {
-            Log.e("Could not find constructor(String, IPMPCI) for main class for " + identifier, nsme);
+            Log.e("Could not find constructor(IPMPCI) for main class for " + identifier, nsme);
         } catch (IllegalArgumentException iae) {
             Log.e("Could not pass arguments to constructor for " + identifier, iae);
         } catch (InstantiationException ie) {
