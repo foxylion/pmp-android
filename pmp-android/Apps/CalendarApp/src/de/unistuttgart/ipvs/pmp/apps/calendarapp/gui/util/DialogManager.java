@@ -22,15 +22,11 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
-import android.widget.Toast;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
@@ -116,11 +112,23 @@ public class DialogManager {
                             
                             @Override
                             public void onBindingFailed(AbstractConnector connector) {
-                                // Should not happen
-                                Toast.makeText(context, R.string.not_found, Toast.LENGTH_LONG);
-                                context.finish();
+                                Looper.prepare();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage(R.string.not_found).setTitle(R.string.error).setCancelable(true)
+                                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                            
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // Close the dialog and close the calendar app
+                                                dialog.cancel();
+                                                context.finish();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                                Looper.loop();
                             }
                         });
+                        pmpconnector.bind();
                     }
                     
                     
