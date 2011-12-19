@@ -80,13 +80,6 @@ public class AppActivity extends Activity {
         this.lam.dispatchResume();
     }
     
-    
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-    
-    
     @Override
     protected void onPause() {
         super.onPause();
