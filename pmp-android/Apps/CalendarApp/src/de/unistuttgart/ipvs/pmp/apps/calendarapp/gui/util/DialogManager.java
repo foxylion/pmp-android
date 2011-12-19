@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,16 +22,20 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class DialogManager {
     
@@ -81,8 +85,8 @@ public class DialogManager {
     /**
      * Shows a dialog when the user wants to do sth. that is not allowed in this service feature
      */
-    public void showServiceFeatureInsufficientDialog(Context context) {
-        
+    public void showServiceFeatureInsufficientDialog(final String[] requested) {
+        final CalendarAppActivity context = Model.getInstance().getContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.insufficent_sf))
                 .setMessage(context.getString(R.string.insufficent_sf_message))
@@ -96,19 +100,40 @@ public class DialogManager {
                 }).setNegativeButton(context.getString(R.string.change_sf), new DialogInterface.OnClickListener() {
                     
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        /*
-                         * Call Privacy Setting Activity with the specified Intent
-                         */
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName("de.unistuttgart.ipvs.pmp",
-                                "de.unistuttgart.ipvs.pmp.gui.activities.ServiceLvlActivity"));
-                        intent.putExtra("connection.identifier", "de.unistuttgart.ipvs.pmp.apps.calendarapp");
-                        
-                        Model.getInstance().getContext().startActivity(intent);
-                        dialog.dismiss();
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        final PMPServiceConnector pmpconnector = new PMPServiceConnector(Model.getInstance()
+                                .getContext());
+                        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+                            
+                            @Override
+                            public void onConnect(AbstractConnector connector) throws RemoteException {
+                                pmpconnector.getAppService().requestServiceFeature(context.getPackageName(), requested);
+                            }
+                            
+                            @Override
+                            public void onBindingFailed(AbstractConnector connector) {
+                                Looper.prepare();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage(R.string.not_found).setTitle(R.string.error).setCancelable(true)
+                                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                            
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // Close the dialog and close the calendar app
+                                                dialog.cancel();
+                                                context.finish();
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                                Looper.loop();
+                            }
+                        });
+                        pmpconnector.bind();
                     }
+                    
+                    
                 });
+        
         AlertDialog alert = builder.create();
         alert.show();
     }
