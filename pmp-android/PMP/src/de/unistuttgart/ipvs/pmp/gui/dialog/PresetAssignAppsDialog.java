@@ -56,33 +56,13 @@ public class PresetAssignAppsDialog extends Dialog {
      * 
      * @param context
      *            the context
+     * @param preset2 
      */
-    public PresetAssignAppsDialog(Context context) {
+    public PresetAssignAppsDialog(Context context, IPreset preset) {
         super(context);
-    }
-    
-    
-    /**
-     * Set the activity
-     * 
-     * @param presetAppsTab
-     *            PresetsActivity
-     */
-    public void setActivity(PresetAppsTab presetAppsTab) {
-        this.activity = presetAppsTab;
-    }
-    
-    
-    /**
-     * Set the preset
-     * 
-     * @param preset
-     *            Preset to set
-     */
-    public void setPreset(IPreset preset) {
         this.preset = preset;
-    }
-    
+        this.activity = (PresetAppsTab) context;
+    }    
     
     /**
      * Called when the dialog is first created. Gets all elements of the gui
@@ -102,7 +82,7 @@ public class PresetAssignAppsDialog extends Dialog {
         
         // Apps
         List<IApp> apps = calcDisplayApps();
-
+        
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
         appsList.setClickable(true);
         
@@ -145,9 +125,11 @@ public class PresetAssignAppsDialog extends Dialog {
          */
         private PresetAppsTab activity;
         
+        
         public ConfirmListener(PresetAppsTab activity) {
             this.activity = activity;
         }
+        
         
         @Override
         public void onClick(View v) {
@@ -159,7 +141,7 @@ public class PresetAssignAppsDialog extends Dialog {
                 }
             }
             activity.updateList();
-
+            
             // Dismiss
             dismiss();
             

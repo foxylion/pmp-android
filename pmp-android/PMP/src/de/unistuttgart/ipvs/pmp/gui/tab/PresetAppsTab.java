@@ -96,9 +96,7 @@ public class PresetAppsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_apps_assign_apps:
-                PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this);
-                dialog.setActivity(PresetAppsTab.this);
-                dialog.setPreset(preset);
+                PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this, preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.calcDisplayApps().size() > 0) {
@@ -186,10 +184,8 @@ public class PresetAppsTab extends Activity {
         // Context menu of a deleted preset
         switch (menuItem.getItemId()) {
             case 0: // Clicked on "Show App details" 
-                
                 Intent intent = GUITools.createAppActivityIntent(app);
                 GUITools.startIntent(intent);
-                
                 return true;
             case 1: // Clicked on "Delete App"
                 preset.removeApp(app);

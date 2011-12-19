@@ -83,6 +83,11 @@ public class PresetAssignAppsView extends LinearLayout {
     
     private void checkBoxChanged(boolean checked) {
         adapter.getCheckBoxMap().put(app, checked);
+        if (checked) {
+            linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
+        } else {
+            linlay.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
     
     
@@ -95,12 +100,6 @@ public class PresetAssignAppsView extends LinearLayout {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 checkBoxChanged(isChecked);
-                if (isChecked) {
-                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
-                } else {
-                    linlay.setBackgroundColor(Color.TRANSPARENT);
-                    
-                }
             }
         });
         
@@ -108,13 +107,8 @@ public class PresetAssignAppsView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked()) {
-                    linlay.setBackgroundColor(Color.TRANSPARENT);
-                    checkBox.setChecked(false);
-                } else {
-                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
-                    checkBox.setChecked(true);
-                }
+                checkBoxChanged(!checkBox.isChecked());
+                checkBox.setChecked(!checkBox.isChecked());
             }
         });
     }

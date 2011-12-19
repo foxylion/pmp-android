@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.tab;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -197,10 +198,10 @@ public class PresetPrivacySettingsTab extends Activity {
         /* Build two lists, separated into RGs and PSs out of the map */
         ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
         psList = new ArrayList<ArrayList<IPrivacySetting>>();
-        
-        for (IResourceGroup rg : RGPSMap.keySet()) {
-            rgList.add(rg);
-            psList.add(RGPSMap.get(rg));
+
+        for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
+            rgList.add(entry.getKey());
+            psList.add(entry.getValue());
         }
         
         // Add the adapter
