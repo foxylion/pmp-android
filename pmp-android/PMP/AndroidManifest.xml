@@ -27,9 +27,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.SettingsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.AppsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
@@ -37,15 +39,19 @@
             android:name=".gui.activity.AppActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.PresetsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.PresetActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.RGsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.activity.RGDetailsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
 
