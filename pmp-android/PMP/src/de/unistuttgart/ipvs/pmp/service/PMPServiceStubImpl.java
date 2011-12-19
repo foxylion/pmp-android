@@ -22,8 +22,6 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.Model;

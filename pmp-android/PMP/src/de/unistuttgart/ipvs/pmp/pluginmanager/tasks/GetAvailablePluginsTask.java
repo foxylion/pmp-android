@@ -4,9 +4,12 @@ import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
-import com.google.gson.Gson;
+
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+
+import com.google.gson.Gson;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.RGsAvailableAdapter;
@@ -21,21 +24,22 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
     private RGsAvailableTab context;
     private String json;
     
+    
     public GetAvailablePluginsTask(RGsAvailableTab context) {
         this.context = context;
-        json = "";
+        this.json = "";
     }
     
     
     @Override
     protected void onPreExecute() {
-        context.pd = new ProgressDialog(context);
-        context.pd.setMessage(context.getString(R.string.rgs_task_getting));
-        context.pd.setIndeterminate(false);
-        context.pd.setMax(100);
-        context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        this.context.pd = new ProgressDialog(this.context);
+        this.context.pd.setMessage(this.context.getString(R.string.rgs_task_getting));
+        this.context.pd.setIndeterminate(false);
+        this.context.pd.setMax(100);
+        this.context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         if (PluginManager.getInstance().getAvailablePlugins() == null) {
-            context.pd.show();
+            this.context.pd.show();
             
         }
     }
@@ -43,16 +47,17 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
     
     @Override
     protected Void doInBackground(Void... arg0) {
-
+        
         if (PluginManager.getInstance().getAvailablePlugins() == null) {
             AvailablePlugins availablePlugins = fetchAvailablePlugins();
-            for(AvailablePlugins.Plugin plugin : availablePlugins.getPlugins()) {
+            for (AvailablePlugins.Plugin plugin : availablePlugins.getPlugins()) {
                 IResourceGroup rg = ModelProxy.get().getResourceGroup(plugin.getIdentifier());
                 if (rg != null) {
                     plugin.setInstalledRevision(rg.getRevision());
-                    Log.e("Plugin " + plugin.getIdentifier() +" installed, Version set to " + plugin.getInstalledRevision());
+                    Log.e("Plugin " + plugin.getIdentifier() + " installed, Version set to "
+                            + plugin.getInstalledRevision());
                 } else {
-                    Log.e("Plugin " + plugin.getIdentifier() +" not installed, nothing to do.");
+                    Log.e("Plugin " + plugin.getIdentifier() + " not installed, nothing to do.");
                 }
             }
             PluginManager.getInstance().setAvailablePlugins(availablePlugins);
@@ -62,17 +67,17 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
     
     
     public void onProgressUpdate(int... args) {
-        context.pd.setProgress(args[0]);
+        this.context.pd.setProgress(args[0]);
     }
     
     
     @Override
     public void onPostExecute(Void args) {
-        context.pd.setProgress(100);
-        context.pd.dismiss();
+        this.context.pd.setProgress(100);
+        this.context.pd.dismiss();
         AvailablePlugins availablePlugins = PluginManager.getInstance().getAvailablePlugins();
-        RGsAvailableAdapter adapter = new RGsAvailableAdapter(context, availablePlugins);
-        context.setListAdapter(adapter);
+        RGsAvailableAdapter adapter = new RGsAvailableAdapter(this.context, availablePlugins);
+        this.context.setListAdapter(adapter);
         
     }
     
@@ -94,13 +99,13 @@ public class GetAvailablePluginsTask extends AsyncTask<Void, Integer, Void> {
             while ((bytesRead = input.read(data)) != -1) {
                 totalBytesRead += bytesRead;
                 publishProgress((int) (totalBytesRead * 100 / lenghtOfFile));
-                json += new String(data, 0, bytesRead);
+                this.json += new String(data, 0, bytesRead);
             }
             
             input.close();
         } catch (Exception e) {
             Log.e(e.toString());
         }
-        return new Gson().fromJson(json, AvailablePlugins.class);
+        return new Gson().fromJson(this.json, AvailablePlugins.class);
     }
 }

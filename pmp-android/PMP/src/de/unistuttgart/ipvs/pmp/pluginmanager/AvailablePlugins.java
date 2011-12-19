@@ -20,7 +20,7 @@ public class AvailablePlugins {
     
     
     public List<Plugin> getPlugins() {
-        return plugins;
+        return this.plugins;
     }
     
     public class Plugin {
@@ -33,7 +33,7 @@ public class AvailablePlugins {
         
         
         public String getIdentifier() {
-            return identifier;
+            return this.identifier;
         }
         
         
@@ -43,7 +43,7 @@ public class AvailablePlugins {
         
         
         public String getName() {
-            return name;
+            return this.name;
         }
         
         
@@ -53,7 +53,7 @@ public class AvailablePlugins {
         
         
         public String getDescription() {
-            return description;
+            return this.description;
         }
         
         
@@ -63,7 +63,7 @@ public class AvailablePlugins {
         
         
         public int getLatestRevision() {
-            return latestRevision;
+            return this.latestRevision;
         }
         
         
@@ -73,7 +73,7 @@ public class AvailablePlugins {
         
         
         public int getInstalledRevision() {
-            return installedRevision;
+            return this.installedRevision;
         }
         
         

@@ -33,7 +33,7 @@ public class WifiSwitchResource extends Resource {
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
         // we want to pass some value from the RG
-        SwitchesResourceGroup srg = (SwitchesResourceGroup) getResourceGroup();
+        Switches srg = (Switches) getResourceGroup();
         return new WifiSwitchStubImpl(appIdentifier, this, srg.getContext());
     }
     

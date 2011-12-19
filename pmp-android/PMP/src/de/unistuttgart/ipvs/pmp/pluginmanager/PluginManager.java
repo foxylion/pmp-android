@@ -23,20 +23,24 @@ public class PluginManager {
     
     private static PluginManager instance = new PluginManager();
     private AvailablePlugins availablePlugins;
-
-    private PluginManager() {}
- 
+    
+    
+    private PluginManager() {
+    }
+    
+    
     public static PluginManager getInstance() {
         return instance;
     }
     
+    
     public AvailablePlugins getAvailablePlugins() {
-        return availablePlugins;
+        return this.availablePlugins;
     }
+    
     
     public void setAvailablePlugins(AvailablePlugins availablePlugins) {
         this.availablePlugins = availablePlugins;
     }
-    
     
 }

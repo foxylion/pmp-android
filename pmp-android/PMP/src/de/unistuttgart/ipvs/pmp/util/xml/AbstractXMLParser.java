@@ -212,9 +212,10 @@ public abstract class AbstractXMLParser {
      *            the lang attribute value
      */
     public void validateLocaleAttributeEN(String langAttributeValue) {
-        if (!langAttributeValue.equals("en"))
+        if (!langAttributeValue.equals("en")) {
             throw new XMLParserException(Type.LOCALE_INVALID,
                     "The lang attribute value of the default name/description has to be \"en\"");
+        }
         
     }
     

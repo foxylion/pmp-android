@@ -165,17 +165,20 @@
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content" >
 
-		        <ProgressBar
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_margin="8px" />
-
 		        <TextView
+		            android:id="@+id/textView1"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:layout_marginTop="12px"
-		            android:text="Waiting for Frieder ..." />
+		            android:text="Id:" />
+
+		        <EditText
+		            android:id="@+id/pdc_rg_name"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="20px"/>
+
 		    </LinearLayout>
+
 		</LinearLayout>
 
 	</LinearLayout>

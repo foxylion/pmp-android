@@ -28,7 +28,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
      * internal data & links
      */
     protected Map<String, PrivacySetting> privacySettings;
-    protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;    
+    protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
+    
     
     /* organizational */
     
@@ -106,8 +107,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         checkCached();
         return this.rgis;
     }
-
-
+    
+    
     @Override
     public int getRevision() {
         checkCached();

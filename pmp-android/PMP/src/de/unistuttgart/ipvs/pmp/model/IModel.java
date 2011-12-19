@@ -19,8 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.model;
 
-import java.io.InputStream;
-
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -116,8 +114,6 @@ public interface IModel {
      * 
      * @param identifier
      *            The identifier for the {@link IResourceGroup} which should be registered.
-     * @param input
-     *            The input file which should be the jar or apk where the ResourceGroup API is stored.
      * @return true, if the installation was successful, false if an error occurred
      */
     public boolean installResourceGroup(String identifier);

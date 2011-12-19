@@ -46,6 +46,7 @@ import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
@@ -185,9 +186,11 @@ public class PMPDeveloperConsoleActivity extends Activity {
             public void onClick(View v) {
                 try {
                     EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
-                    InputStream is = new FileInputStream(rgPath.getText().toString());
-                    // TODO get identifier
-                    ModelProxy.get().installResourceGroup("todo");
+                    EditText rgId = (EditText) findViewById(R.id.pdc_rg_name);
+                    InputStream rgStream = new FileInputStream(rgPath.getText().toString());
+                    
+                    PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
+                    ModelProxy.get().installResourceGroup(rgId.getText().toString());
                 } catch (IOException ioe) {
                     Log.e("Cannot install RG.", ioe);
                 }

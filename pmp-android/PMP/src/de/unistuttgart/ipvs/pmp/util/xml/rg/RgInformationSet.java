@@ -101,7 +101,7 @@ public class RgInformationSet extends AbstractInformationSet implements Serializ
      * @return the identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     
@@ -122,7 +122,7 @@ public class RgInformationSet extends AbstractInformationSet implements Serializ
      * @return the revision
      */
     public String getRevision() {
-        return revision;
+        return this.revision;
     }
     
     

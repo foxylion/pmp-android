@@ -40,7 +40,7 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
  * @author Tobias Kuhn
  * 
  */
-public class SwitchesResourceGroup extends ResourceGroup {
+public class Switches extends ResourceGroup {
     
     public static final String PRIVACY_SETTING_WIFI_SWITCH = "CanWifiSwitch";
     public static final String RESOURCE_WIFI_SWITCH = "WifiSwitch";
@@ -51,7 +51,7 @@ public class SwitchesResourceGroup extends ResourceGroup {
     private Context context;
     
     
-    public SwitchesResourceGroup(IPMPConnectionInterface pmpci) {
+    public Switches(IPMPConnectionInterface pmpci) {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.switches", pmpci);
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());

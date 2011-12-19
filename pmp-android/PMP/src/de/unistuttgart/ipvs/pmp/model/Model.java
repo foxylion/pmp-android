@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -10,7 +7,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -35,6 +31,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroupPersist
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
+import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -133,7 +130,7 @@ public class Model implements IModel, Observer {
         Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
         
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), identifier);
-
+        
         // check XML
         try {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
@@ -270,6 +267,7 @@ public class Model implements IModel, Observer {
         return this.cache.getResourceGroups().values().toArray(new IResourceGroup[0]);
     }
     
+    
     @Override
     public IResourceGroup getResourceGroup(String identifier) {
         checkCached();
@@ -293,12 +291,13 @@ public class Model implements IModel, Observer {
         
         try {
             
-            // TODO give correct xml stream here
-            File path = PMPApplication.getContext().getDir("plugins", 0);            
-            File file = new File(path, identifier + ".jar");
+            // install the plugin
+            if (!PluginProvider.getInstance().install(identifier)) {
+                return false;
+            }
             
-            InputStream xmlStream = new FileInputStream(file);
-            
+            // get the XML stream
+            InputStream xmlStream = PluginProvider.getInstance().getXMLStream(identifier);
             RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(xmlStream);
             
             // apply new RG to DB, then model
@@ -355,9 +354,6 @@ public class Model implements IModel, Observer {
             /* error during XML validation */
             Log.w(identifier + " has failed registration with PMP.", xmlpe);
             return false;
-        } catch (FileNotFoundException e) {
-            Log.e(e.toString());
-            return false;
         }
     }
     
@@ -372,7 +368,8 @@ public class Model implements IModel, Observer {
             return false;
         } else {
             
-            // TODO delete the class files / jar / etc
+            // delete the class files / apk / etc
+            PluginProvider.getInstance().uninstall(identifier);
             
             rg.delete();
             this.cache.getResourceGroups().remove(identifier);

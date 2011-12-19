@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 
 /**
  * The persistence provider for {@link PrivacySetting}s.
@@ -24,7 +25,9 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
-        // TODO set the pointer to element.link
+        this.element.link = PluginProvider.getInstance()
+                .getResourceGroupClass(this.element.getResourceGroup().getIdentifier())
+                .getPrivacySetting(this.element.getLocalIdentifier());
     }
     
     

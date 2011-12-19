@@ -4,16 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import android.app.ProgressDialog;
@@ -36,12 +33,12 @@ public class InstallPluginTask extends AsyncTask<String, Integer, Void> {
     
     @Override
     protected void onPreExecute() {
-        context.pd = new ProgressDialog(context);
-        context.pd.setMessage(context.getString(R.string.rgs_task_installing));
-        context.pd.setIndeterminate(false);
-        context.pd.setMax(100);
-        context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        context.pd.show();
+        this.context.pd = new ProgressDialog(this.context);
+        this.context.pd.setMessage(this.context.getString(R.string.rgs_task_installing));
+        this.context.pd.setIndeterminate(false);
+        this.context.pd.setMax(100);
+        this.context.pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        this.context.pd.show();
     }
     
     
@@ -57,15 +54,15 @@ public class InstallPluginTask extends AsyncTask<String, Integer, Void> {
     
     
     public void onProgressUpdate(int... args) {
-        context.pd.setProgress(args[0]);
+        this.context.pd.setProgress(args[0]);
     }
     
     
     @Override
     public void onPostExecute(Void args) {
-        context.pd.setProgress(100);
-        context.pd.dismiss();
-        context.finish();
+        this.context.pd.setProgress(100);
+        this.context.pd.dismiss();
+        this.context.finish();
         //AvailablePlugins availablePlugins = PluginManager.getInstance().getAvailablePlugins();
         //RGsAvailableAdapter adapter = new RGsAvailableAdapter(context, availablePlugins);
         //context.setListAdapter(adapter);

@@ -9,6 +9,8 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
 /**
  * The persistence provider for {@link ResourceGroup}s.
@@ -26,8 +28,10 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         
-        // TODO set RGIS via XML file somewhere
-        // TODO set link 
+        // set RGIS via XML file        
+        this.element.rgis = RgInformationSetParser.createRgInformationSet(PluginProvider.getInstance().getXMLStream(
+                this.element.getIdentifier()));
+        this.element.link = PluginProvider.getInstance().getResourceGroupClass(this.element.getIdentifier());
         
         this.element.privacySettings = new HashMap<String, PrivacySetting>();
         for (PrivacySetting pl : getCache().getPrivacySettings().get(this.element).values()) {

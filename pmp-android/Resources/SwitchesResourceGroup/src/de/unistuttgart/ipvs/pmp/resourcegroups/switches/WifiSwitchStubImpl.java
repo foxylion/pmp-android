@@ -81,11 +81,10 @@ public class WifiSwitchStubImpl extends Stub {
      */
     private boolean verifyAccessAllowed() {
         BooleanPrivacySetting bpl = (BooleanPrivacySetting) this.resource
-                .getPrivacySetting(SwitchesResourceGroup.PRIVACY_SETTING_WIFI_SWITCH);
+                .getPrivacySetting(Switches.PRIVACY_SETTING_WIFI_SWITCH);
         try {
             return bpl.permits(this.appIdentifier, true);
         } catch (PrivacySettingValueException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
