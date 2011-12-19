@@ -420,7 +420,7 @@ public class Model implements IModel, Observer {
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
-            return null;
+            return new IPreset[0];
         } else {
             return creatorPresets.values().toArray(new IPreset[0]);
         }

@@ -25,7 +25,7 @@ import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
  */
 public class MockupModel implements IModel {
     
-    public static MockupModel instance = new MockupModel();
+    public static final MockupModel instance = new MockupModel();
     
     private ModelCache mc;
     
@@ -121,7 +121,7 @@ public class MockupModel implements IModel {
     public IPreset[] getPresets(ModelElement creator) {
         Map<String, Preset> creatorPresets = this.mc.getPresets().get(creator);
         if (creatorPresets == null) {
-            return null;
+            return new IPreset[0];
         } else {
             return creatorPresets.values().toArray(new IPreset[0]);
         }

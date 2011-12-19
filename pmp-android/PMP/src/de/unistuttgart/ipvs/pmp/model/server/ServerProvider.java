@@ -110,7 +110,7 @@ public class ServerProvider implements IServerProvider {
         this.callback.tasks(0, -1);
         
         // load the package names of all RGs
-        String[] rgs = new String[0];
+        String[] rgs;
         RgInformationSet[] result;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
@@ -174,8 +174,18 @@ public class ServerProvider implements IServerProvider {
             this.callback.tasks(0, 1);
             
             File tmp = new File(TEMPORARY_PATH + rgPackage + APK_STR);
-            if (!downloadFile(rgPackage + APK_STR, new FileOutputStream(tmp))) {
-                return null;
+            FileOutputStream fos = new FileOutputStream(tmp);
+            try {
+                if (!downloadFile(rgPackage + APK_STR, fos)) {
+                    return null;
+                }
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
             
             this.callback.tasks(1, 1);

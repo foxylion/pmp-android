@@ -34,7 +34,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  * 
  * @author Marcus Vetter
  */
-public class AppInformationSet extends AbstractInformationSet implements Serializable {
+public class AppInformationSet extends AbstractInformationSet {
     
     /**
      * Serial

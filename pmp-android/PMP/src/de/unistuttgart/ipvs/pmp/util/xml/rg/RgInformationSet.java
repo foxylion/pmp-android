@@ -35,7 +35,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  * @author Marcus Vetter
  * 
  */
-public class RgInformationSet extends AbstractInformationSet implements Serializable {
+public class RgInformationSet extends AbstractInformationSet {
     
     /**
      * Serial
