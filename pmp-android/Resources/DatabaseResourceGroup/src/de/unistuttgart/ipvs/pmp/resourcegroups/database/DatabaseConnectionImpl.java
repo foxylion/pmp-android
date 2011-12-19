@@ -32,6 +32,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 @SuppressWarnings("rawtypes")
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
@@ -121,20 +122,38 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     
     private boolean isCreate() {
-        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_CREATE))
-                .permits(this.appID, true);
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_CREATE))
+                    .permits(this.appID, true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
     
     
     private boolean isModify() {
-        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_MODIFY))
-                .permits(this.appID, true);
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_MODIFY))
+                    .permits(this.appID, true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
     
     
     private boolean isRead() {
-        return ((BooleanPrivacySetting) this.resource.getPrivacySetting(DatabaseResourceGroup.PRIVACY_SETTING_READ)).permits(
-                this.appID, true);
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_READ)).permits(
+                    this.appID, true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
     
     
