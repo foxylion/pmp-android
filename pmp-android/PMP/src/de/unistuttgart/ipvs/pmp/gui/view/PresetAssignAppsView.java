@@ -76,11 +76,22 @@ public class PresetAssignAppsView extends LinearLayout {
         this.checkBox = (CheckBox) entryView.findViewById(R.id.CheckBox_AssignApp);
         this.linlay = (LinearLayout) entryView.findViewById(R.id.LinearLayout);
         
+        /* Update check box */
+        boolean checked = adapter.getCheckBoxMap().get(app);
+        checkBoxChanged(checked);
+        checkBox.setChecked(checked);
+        
         /* Add Listener */
         addListener();
     }
     
     
+    /**
+     * Update the Linear Layout (Color) and the HashMap, when the CheckBox has changed
+     * 
+     * @param checked
+     *            true, if the CheckBox is now selected
+     */
     private void checkBoxChanged(boolean checked) {
         adapter.getCheckBoxMap().put(app, checked);
         if (checked) {
