@@ -16,11 +16,11 @@ public interface IServerProvider {
     /**
      * Finds a list of {@link IResourceGroup}s for that search string.
      * 
-     * @param searchString
+     * @param searchPattern
      *            the string for which shall be searched
      * @return an array of RGIS for all resource groups fitting that pattern
      */
-    public RgInformationSet[] findResourceGroups(String searchString);
+    public RgInformationSet[] findResourceGroups(String searchPattern);
     
     
     /**
