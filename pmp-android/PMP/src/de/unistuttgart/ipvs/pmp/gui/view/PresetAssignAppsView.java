@@ -26,7 +26,7 @@ public class PresetAssignAppsView extends LinearLayout {
     /**
      * The CheckBox
      */
-    private final CheckBox checkBox;
+    protected final CheckBox checkBox;
     
     /**
      * Linear layout of this view
@@ -62,7 +62,7 @@ public class PresetAssignAppsView extends LinearLayout {
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View entryView = (LinearLayout) inflater.inflate(R.layout.listitem_preset_assign_app, null);
+        View entryView = inflater.inflate(R.layout.listitem_preset_assign_app, null);
         addView(entryView);
         
         /* Set icon, name, description of the requested App */
@@ -76,13 +76,29 @@ public class PresetAssignAppsView extends LinearLayout {
         this.checkBox = (CheckBox) entryView.findViewById(R.id.CheckBox_AssignApp);
         this.linlay = (LinearLayout) entryView.findViewById(R.id.LinearLayout);
         
+        /* Update check box */
+        boolean checked = this.adapter.getCheckBoxMap().get(app);
+        checkBoxChanged(checked);
+        this.checkBox.setChecked(checked);
+        
         /* Add Listener */
         addListener();
     }
     
     
+    /**
+     * Update the Linear Layout (Color) and the HashMap, when the CheckBox has changed
+     * 
+     * @param checked
+     *            true, if the CheckBox is now selected
+     */
     private void checkBoxChanged(boolean checked) {
-        adapter.getCheckBoxMap().put(app, checked);
+        this.adapter.getCheckBoxMap().put(this.app, checked);
+        if (checked) {
+            this.linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
+        } else {
+            this.linlay.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
     
     
@@ -90,31 +106,20 @@ public class PresetAssignAppsView extends LinearLayout {
      * Add listener to the CheckBox and LinearLayout
      */
     private void addListener() {
-        checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        this.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 checkBoxChanged(isChecked);
-                if (isChecked) {
-                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
-                } else {
-                    linlay.setBackgroundColor(Color.TRANSPARENT);
-                    
-                }
             }
         });
         
-        linlay.setOnClickListener(new OnClickListener() {
+        this.linlay.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked()) {
-                    linlay.setBackgroundColor(Color.TRANSPARENT);
-                    checkBox.setChecked(false);
-                } else {
-                    linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
-                    checkBox.setChecked(true);
-                }
+                checkBoxChanged(!PresetAssignAppsView.this.checkBox.isChecked());
+                PresetAssignAppsView.this.checkBox.setChecked(!PresetAssignAppsView.this.checkBox.isChecked());
             }
         });
     }

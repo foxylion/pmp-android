@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.mockup;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 
 /**
@@ -25,7 +27,7 @@ import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
  */
 public class MockupModel implements IModel {
     
-    public static MockupModel instance = new MockupModel();
+    public static final MockupModel instance = new MockupModel();
     
     private ModelCache mc;
     
@@ -38,7 +40,8 @@ public class MockupModel implements IModel {
     
     @Override
     public IApp[] getApps() {
-        return this.mc.getApps().values().toArray(new IApp[0]);
+        Collection<App> result = this.mc.getApps().values();
+        return result.toArray(new IApp[result.size()]);
     }
     
     
@@ -82,7 +85,8 @@ public class MockupModel implements IModel {
     
     @Override
     public IResourceGroup[] getResourceGroups() {
-        return this.mc.getResourceGroups().values().toArray(new IResourceGroup[0]);
+        Collection<ResourceGroup> result = this.mc.getResourceGroups().values();
+        return result.toArray(new IResourceGroup[result.size()]);
     }
     
     
@@ -113,7 +117,8 @@ public class MockupModel implements IModel {
     
     @Override
     public IPreset[] getPresets() {
-        return this.mc.getAllPresets().toArray(new IPreset[0]);
+        Collection<Preset> result = this.mc.getAllPresets();
+        return result.toArray(new IPreset[result.size()]);
     }
     
     
@@ -121,9 +126,10 @@ public class MockupModel implements IModel {
     public IPreset[] getPresets(ModelElement creator) {
         Map<String, Preset> creatorPresets = this.mc.getPresets().get(creator);
         if (creatorPresets == null) {
-            return null;
+            return new IPreset[0];
         } else {
-            return creatorPresets.values().toArray(new IPreset[0]);
+            Collection<Preset> result = creatorPresets.values();
+            return result.toArray(new IPreset[result.size()]);
         }
     }
     

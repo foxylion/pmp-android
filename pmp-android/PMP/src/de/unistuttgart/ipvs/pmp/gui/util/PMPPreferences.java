@@ -20,7 +20,7 @@ public class PMPPreferences {
     private SharedPreferences settings;
     
     /* singleton pattern */
-    private static PMPPreferences instance = null;
+    private static volatile PMPPreferences instance = null;
     
     
     private PMPPreferences() {

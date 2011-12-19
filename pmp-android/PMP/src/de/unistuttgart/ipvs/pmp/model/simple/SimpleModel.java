@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
@@ -57,11 +58,11 @@ public class SimpleModel implements ISimpleModel {
         }
         
         // install the simple mode presets for the apps
-        for (IApp a : actives.keySet()) {
-            IPreset p = createPresetForApp(model, a);
+        for (Entry<IApp, IServiceFeature[]> a : actives.entrySet()) {
+            IPreset p = createPresetForApp(model, a.getKey());
             
             // assign all previously active SF to this one preset
-            for (IServiceFeature sf : actives.get(a)) {
+            for (IServiceFeature sf : a.getValue()) {
                 p.assignServiceFeature(sf);
             }
         }

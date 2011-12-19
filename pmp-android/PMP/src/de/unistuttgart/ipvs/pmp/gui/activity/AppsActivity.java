@@ -7,15 +7,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.AppsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
@@ -43,7 +43,7 @@ public class AppsActivity extends Activity {
     /**
      * {@link AppsAdapter} for displaying the appsList.
      */
-    private AppsAdapter appsAdapter;
+    protected AppsAdapter appsAdapter;
     
     
     @Override
@@ -58,17 +58,17 @@ public class AppsActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        appsViewList = (ListView) findViewById(R.id.ListView_Apps);
-        appsViewList.setClickable(true);
+        this.appsViewList = (ListView) findViewById(R.id.ListView_Apps);
+        this.appsViewList.setClickable(true);
         
         updateAppsList();
         
-        appsViewList.setOnItemClickListener(new OnItemClickListener() {
+        this.appsViewList.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 // recover App identifier
-                IApp app = ((IApp) appsAdapter.getItem(position));
+                IApp app = ((IApp) AppsActivity.this.appsAdapter.getItem(position));
                 
                 // create intent and start AppActivity
                 Intent intent = GUITools.createAppActivityIntent(app);
@@ -76,7 +76,7 @@ public class AppsActivity extends Activity {
             }
         });
         
-        appsViewList.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+        this.appsViewList.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -121,8 +121,8 @@ public class AppsActivity extends Activity {
      * Updates the AppsList, when a change occurred (like an App was installed or removed).
      */
     private void updateAppsList() {
-        appsList = Arrays.asList(ModelProxy.get().getApps());
-        appsAdapter = new AppsAdapter(this, appsList);
-        appsViewList.setAdapter(appsAdapter);
+        this.appsList = Arrays.asList(ModelProxy.get().getApps());
+        this.appsAdapter = new AppsAdapter(this, this.appsList);
+        this.appsViewList.setAdapter(this.appsAdapter);
     }
 }

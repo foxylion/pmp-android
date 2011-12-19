@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.util.xml.app;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +33,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
  * 
  * @author Marcus Vetter
  */
-public class AppInformationSet extends AbstractInformationSet implements Serializable {
-    
-    /**
-     * Serial
-     */
-    private static final long serialVersionUID = 2629559699588037711L;
+public class AppInformationSet extends AbstractInformationSet {
     
     /**
      * This map contains all service features of the app. key = identifier of

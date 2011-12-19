@@ -43,12 +43,12 @@ public class PresetAssignAppsDialog extends Dialog {
     /**
      * The Preset
      */
-    private IPreset preset;
+    protected IPreset preset;
     
     /**
      * The instance of the adapter
      */
-    private PresetAssignAppsAdapter appsAdapter;
+    protected PresetAssignAppsAdapter appsAdapter;
     
     
     /**
@@ -56,31 +56,12 @@ public class PresetAssignAppsDialog extends Dialog {
      * 
      * @param context
      *            the context
+     * @param preset2
      */
-    public PresetAssignAppsDialog(Context context) {
+    public PresetAssignAppsDialog(Context context, IPreset preset) {
         super(context);
-    }
-    
-    
-    /**
-     * Set the activity
-     * 
-     * @param presetAppsTab
-     *            PresetsActivity
-     */
-    public void setActivity(PresetAppsTab presetAppsTab) {
-        this.activity = presetAppsTab;
-    }
-    
-    
-    /**
-     * Set the preset
-     * 
-     * @param preset
-     *            Preset to set
-     */
-    public void setPreset(IPreset preset) {
         this.preset = preset;
+        this.activity = (PresetAppsTab) context;
     }
     
     
@@ -97,17 +78,17 @@ public class PresetAssignAppsDialog extends Dialog {
         this.confirm = (Button) findViewById(R.id.presets_dialog_confirm);
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
         
-        this.confirm.setOnClickListener(new ConfirmListener(activity));
+        this.confirm.setOnClickListener(new ConfirmListener(this.activity));
         this.cancel.setOnClickListener(new CancelListener());
         
         // Apps
         List<IApp> apps = calcDisplayApps();
-
+        
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
         appsList.setClickable(true);
         
-        appsAdapter = new PresetAssignAppsAdapter(activity, apps);
-        appsList.setAdapter(appsAdapter);
+        this.appsAdapter = new PresetAssignAppsAdapter(this.activity, apps);
+        appsList.setAdapter(this.appsAdapter);
         
     }
     
@@ -119,13 +100,14 @@ public class PresetAssignAppsDialog extends Dialog {
      */
     public List<IApp> calcDisplayApps() {
         List<IApp> allAppsList = Arrays.asList(ModelProxy.get().getApps());
-        List<IApp> allAssignedAppsList = Arrays.asList(preset.getAssignedApps());
+        List<IApp> allAssignedAppsList = Arrays.asList(this.preset.getAssignedApps());
         List<IApp> displayList = new ArrayList<IApp>();
         
         Loop: for (IApp app : allAppsList) {
             for (IApp assignedApp : allAssignedAppsList) {
-                if (app.equals(assignedApp))
+                if (app.equals(assignedApp)) {
                     continue Loop;
+                }
             }
             displayList.add(app);
             
@@ -145,21 +127,23 @@ public class PresetAssignAppsDialog extends Dialog {
          */
         private PresetAppsTab activity;
         
+        
         public ConfirmListener(PresetAppsTab activity) {
             this.activity = activity;
         }
+        
         
         @Override
         public void onClick(View v) {
             
             // Store
-            for (IApp app : appsAdapter.getCheckBoxMap().keySet()) {
-                if (appsAdapter.getCheckBoxMap().get(app)) {
-                    preset.assignApp(app);
+            for (IApp app : PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().keySet()) {
+                if (PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().get(app)) {
+                    PresetAssignAppsDialog.this.preset.assignApp(app);
                 }
             }
-            activity.updateList();
-
+            this.activity.updateList();
+            
             // Dismiss
             dismiss();
             

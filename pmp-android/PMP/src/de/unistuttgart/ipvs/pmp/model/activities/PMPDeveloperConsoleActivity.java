@@ -188,8 +188,11 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
                     EditText rgId = (EditText) findViewById(R.id.pdc_rg_name);
                     InputStream rgStream = new FileInputStream(rgPath.getText().toString());
-                    
-                    PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
+                    try {
+                        PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
+                    } finally {
+                        rgStream.close();
+                    }
                     ModelProxy.get().installResourceGroup(rgId.getText().toString());
                 } catch (IOException ioe) {
                     Log.e("Cannot install RG.", ioe);

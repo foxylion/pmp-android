@@ -23,12 +23,12 @@ public class PresetAddDialog extends Dialog {
     /**
      * The TextView with the name
      */
-    private TextView name;
+    protected TextView name;
     
     /**
      * The TextView with the description
      */
-    private TextView desc;
+    protected TextView desc;
     
     /**
      * The button to confirm the dialog
@@ -43,7 +43,7 @@ public class PresetAddDialog extends Dialog {
     /**
      * The PresetsActivity
      */
-    private PresetsActivity activity;
+    protected PresetsActivity activity;
     
     
     /**

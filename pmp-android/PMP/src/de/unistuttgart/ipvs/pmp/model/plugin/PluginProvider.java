@@ -74,10 +74,10 @@ public class PluginProvider implements IPluginProvider {
         this.cache = new HashMap<String, ResourceGroup>();
         this.cacheRGIS = new HashMap<String, RgInformationSet>();
         
-        PLUGIN_BASE_DIR.mkdirs();
-        PLUGIN_APK_DIR.mkdirs();
-        PLUGIN_DEX_DIR.mkdirs();
-        PLUGIN_ASSET_DIR.mkdirs();
+        if (!PLUGIN_BASE_DIR.mkdirs() || !PLUGIN_APK_DIR.mkdirs() || !PLUGIN_DEX_DIR.mkdirs()
+                || !PLUGIN_ASSET_DIR.mkdirs()) {
+            Log.e("Error while creating directories in PluginProvider.");
+        }
     }
     
     
@@ -140,7 +140,9 @@ public class PluginProvider implements IPluginProvider {
      * @param string
      */
     private void deleteFile(String fileName) {
-        new File(fileName).delete();
+        if (!(new File(fileName).delete())) {
+            Log.e("Error while deleting " + fileName);
+        }
     }
     
     
@@ -159,42 +161,48 @@ public class PluginProvider implements IPluginProvider {
             
             // extract the XML, so we have the information from there
             ZipFile zipApk = new ZipFile(apkName);
-            ZipEntry xmlEntry = zipApk.getEntry("assets/" + className + XML_STR);
-            if (xmlEntry != null) {
-                copyFile(zipApk.getInputStream(xmlEntry), PLUGIN_ASSET_DIR_STR + identifier + XML_STR);
-            } else {
-                throw new IOException("assets/" + className + XML_STR + " missing.");
-            }
-            
-            // create the RGIS
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(new FileInputStream(
-                    PLUGIN_ASSET_DIR_STR + identifier + ".xml"));
-            
-            DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
-            
-            // extract icon
-            // TODO Marcus should include an <icon> Tag sooner or later
-            ZipEntry iconEntry = zipApk.getEntry("res/drawable-hdpi/icon.png");
-            if (iconEntry == null) {
-                iconEntry = zipApk.getEntry("res/drawable-mdpi/icon.png");
-                if (iconEntry == null) {
-                    iconEntry = zipApk.getEntry("res/drawable-ldpi/icon.png");
+            try {
+                ZipEntry xmlEntry = zipApk.getEntry("assets/" + className + XML_STR);
+                if (xmlEntry != null) {
+                    copyFile(zipApk.getInputStream(xmlEntry), PLUGIN_ASSET_DIR_STR + identifier + XML_STR);
+                } else {
+                    throw new IOException("assets/" + className + XML_STR + " missing.");
                 }
+                
+                // create the RGIS
+                RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(new FileInputStream(
+                        PLUGIN_ASSET_DIR_STR + identifier + ".xml"));
+                
+                DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
+                
+                // extract icon
+                // TODO Marcus should include an <icon> Tag sooner or later
+                ZipEntry iconEntry = zipApk.getEntry("res/drawable-hdpi/icon.png");
+                if (iconEntry == null) {
+                    iconEntry = zipApk.getEntry("res/drawable-mdpi/icon.png");
+                    if (iconEntry == null) {
+                        iconEntry = zipApk.getEntry("res/drawable-ldpi/icon.png");
+                    }
+                }
+                if (iconEntry != null) {
+                    copyFile(zipApk.getInputStream(iconEntry), PLUGIN_ASSET_DIR_STR + identifier + PNG_STR);
+                } else {
+                    throw new IOException("res/drawable-*dpi/icon.png missing.");
+                }
+                
+                // load main class
+                Class<?> clazz = classLoader.loadClass(identifier + "." + className);
+                Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
+                Constructor<? extends ResourceGroup> rgConstruct = rgClazz
+                        .getConstructor(IPMPConnectionInterface.class);
+                
+                // store in cache
+                this.cache.put(identifier, rgConstruct.newInstance(PMPConnectionInterface.getInstance()));
+                this.cacheRGIS.put(identifier, rgis);
+                
+            } finally {
+                zipApk.close();
             }
-            if (iconEntry != null) {
-                copyFile(zipApk.getInputStream(iconEntry), PLUGIN_ASSET_DIR_STR + identifier + PNG_STR);
-            } else {
-                throw new IOException("res/drawable-*dpi/icon.png missing.");
-            }
-            
-            // load main class
-            Class<?> clazz = classLoader.loadClass(identifier + "." + className);
-            Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
-            Constructor<? extends ResourceGroup> rgConstruct = rgClazz.getConstructor(IPMPConnectionInterface.class);
-            
-            // store in cache
-            this.cache.put(identifier, rgConstruct.newInstance(PMPConnectionInterface.getInstance()));
-            this.cacheRGIS.put(identifier, rgis);
             
             return true;
             

@@ -8,7 +8,7 @@ package de.unistuttgart.ipvs.pmp.model.server;
  */
 public class NullServerDownloadCallback implements IServerDownloadCallback {
     
-    protected static NullServerDownloadCallback instance = new NullServerDownloadCallback();
+    protected static final NullServerDownloadCallback instance = new NullServerDownloadCallback();
     
     
     private NullServerDownloadCallback() {

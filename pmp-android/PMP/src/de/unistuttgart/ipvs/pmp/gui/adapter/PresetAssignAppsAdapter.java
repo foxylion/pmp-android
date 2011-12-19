@@ -24,13 +24,14 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
     
     private Map<IApp, Boolean> checkBoxMap = new HashMap<IApp, Boolean>();
     
+    
     public PresetAssignAppsAdapter(Context context, List<IApp> apps) {
         this.context = context;
         this.apps = apps;
         
         // Initialize the checkBoxMap
         for (int pos = 0; pos < getCount(); pos++) {
-            checkBoxMap.put((IApp) getItem(pos), false);
+            this.checkBoxMap.put((IApp) getItem(pos), false);
         }
     }
     
@@ -61,10 +62,10 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
         
         return entryView;
     }
-
-
+    
+    
     public Map<IApp, Boolean> getCheckBoxMap() {
-        return checkBoxMap;
+        return this.checkBoxMap;
     }
-
+    
 }

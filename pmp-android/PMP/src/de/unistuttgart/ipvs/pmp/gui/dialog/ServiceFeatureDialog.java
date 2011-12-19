@@ -29,12 +29,12 @@ public class ServiceFeatureDialog extends Dialog {
     /**
      * The Service Feature which is displayed in the dialog.
      */
-    private IServiceFeature serviceFeature;
+    protected IServiceFeature serviceFeature;
     
     /**
      * The View of the Service Feature (in the Service Feature list) which corresponds to the current displayed one.
      */
-    private ServiceFeatureView serviceFeatureView = null;
+    protected ServiceFeatureView serviceFeatureView = null;
     
     
     /**

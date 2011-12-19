@@ -97,7 +97,7 @@ public class SettingsActivity extends Activity {
     /**
      * Can be called when the changed state of the Expert Mode should be displayed as a toast message.
      */
-    private void changedStateExpertMode() {
+    protected void changedStateExpertMode() {
         CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
         
         /* Show a toast that the expert mode state has been changed */

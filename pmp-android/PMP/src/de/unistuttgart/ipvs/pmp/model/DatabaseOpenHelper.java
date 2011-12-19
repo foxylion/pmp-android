@@ -155,17 +155,19 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             InputStream is = this.context.getAssets().open(filename);
             InputStreamReader bis = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(bis);
-            
             StringBuilder sb = new StringBuilder();
-            String curLine = null;
-            while ((curLine = br.readLine()) != null) {
-                sb.append(curLine);
-                sb.append("\n");
+            try {
+                String curLine = null;
+                while ((curLine = br.readLine()) != null) {
+                    sb.append(curLine);
+                    sb.append("\n");
+                }
+                
+            } finally {
+                br.close();
+                bis.close();
+                is.close();
             }
-            
-            br.close();
-            bis.close();
-            br.close();
             
             sqlQuery = sb.toString();
             
