@@ -11,10 +11,10 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.pluginmanager.AvailablePlugins;
-import de.unistuttgart.ipvs.pmp.pluginmanager.PluginManager;
-import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.GetAvailablePluginsTask;
-import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.InstallPluginTask;
+//import de.unistuttgart.ipvs.pmp.pluginmanager.AvailablePlugins;
+//import de.unistuttgart.ipvs.pmp.pluginmanager.PluginManager;
+//import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.GetAvailablePluginsTask;
+//import de.unistuttgart.ipvs.pmp.pluginmanager.tasks.InstallPluginTask;
 
 public class RGDetailsActivity extends Activity {
     
@@ -23,8 +23,8 @@ public class RGDetailsActivity extends Activity {
     
     private OnClickListener installListener = new OnClickListener() {
         public void onClick(View v) {
-            InstallPluginTask task = new InstallPluginTask(RGDetailsActivity.this);
-            task.execute(extras.getString("identifier"));
+//            InstallPluginTask task = new InstallPluginTask(RGDetailsActivity.this);
+//            task.execute(extras.getString("identifier"));
         }
     };
     
@@ -45,13 +45,13 @@ public class RGDetailsActivity extends Activity {
 
     private void createStubView(int position) {
         setContentView(R.layout.activity_rgs_details_stub);
-        AvailablePlugins.Plugin plugin = PluginManager.getInstance().getAvailablePlugins().getPlugins().get(position);
+//        AvailablePlugins.Plugin plugin = PluginManager.getInstance().getAvailablePlugins().getPlugins().get(position);
         
         TextView name = (TextView) findViewById(R.id.Name);
-        name.setText(plugin.getName());
+//        name.setText(plugin.getName());
         
         TextView description = (TextView) findViewById(R.id.Description);
-        description.setText(plugin.getDescription());
+//        description.setText(plugin.getDescription());
         
         Button button = (Button) findViewById(R.id.Button);
         button.setOnClickListener(installListener);
@@ -60,6 +60,7 @@ public class RGDetailsActivity extends Activity {
 
     private void createFullView(String string) {
         setContentView(R.layout.activity_rgs_details);
+        // lol, that was already commented out
         /*
         TextView name = (TextView) findViewById(R.id.TextView_Name);
         name.setText(resourceGroup.getName());

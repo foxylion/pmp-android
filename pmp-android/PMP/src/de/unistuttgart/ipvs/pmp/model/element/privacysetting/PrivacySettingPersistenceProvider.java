@@ -26,7 +26,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         this.element.link = PluginProvider.getInstance()
-                .getResourceGroupClass(this.element.getResourceGroup().getIdentifier())
+                .getResourceGroupObject(this.element.getResourceGroup().getIdentifier())
                 .getPrivacySetting(this.element.getLocalIdentifier());
     }
     

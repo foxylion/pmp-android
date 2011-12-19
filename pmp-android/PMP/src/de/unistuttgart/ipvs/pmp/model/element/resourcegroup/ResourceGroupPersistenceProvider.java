@@ -29,7 +29,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
         
         // set RGIS via XML file        
         this.element.rgis = PluginProvider.getInstance().getRGIS(this.element.getIdentifier());
-        this.element.link = PluginProvider.getInstance().getResourceGroupClass(this.element.getIdentifier());
+        this.element.link = PluginProvider.getInstance().getResourceGroupObject(this.element.getIdentifier());
         this.element.icon = PluginProvider.getInstance().getIcon(this.element.getIdentifier());
         
         this.element.privacySettings = new HashMap<String, PrivacySetting>();

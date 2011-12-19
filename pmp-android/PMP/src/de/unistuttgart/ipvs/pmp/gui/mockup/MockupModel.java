@@ -93,12 +93,6 @@ public class MockupModel implements IModel {
     
     
     @Override
-    public String[] findResourceGroup(String searchString) {
-        return new String[] { "test" };
-    }
-    
-    
-    @Override
     @Deprecated
     public boolean installResourceGroup(String identifier) {
         return false;

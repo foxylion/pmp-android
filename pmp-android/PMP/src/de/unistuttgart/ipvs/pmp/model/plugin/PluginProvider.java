@@ -23,12 +23,11 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
 /**
- * Provider for managing all {@link ResourceGroup} plugins in PMP.
- * 
+ * @see IPluginProvider
  * @author Tobias Kuhn
  * 
  */
-public class PluginProvider {
+public class PluginProvider implements IPluginProvider {
     
     /*
      * constants 
@@ -63,10 +62,10 @@ public class PluginProvider {
      * singleton stuff
      */
     
-    private static final PluginProvider instance = new PluginProvider();
+    private static final IPluginProvider instance = new PluginProvider();
     
     
-    public static PluginProvider getInstance() {
+    public static IPluginProvider getInstance() {
         return instance;
     }
     
@@ -145,23 +144,13 @@ public class PluginProvider {
     }
     
     
-    /**
-     * Injects a random apk from an {@link InputStream}. Does not install it.
-     * 
-     * @param identifier
-     * @param input
-     */
+    @Override
     public void injectFile(String identifier, InputStream input) {
         copyFile(input, PLUGIN_APK_DIR_STR + identifier + APK_STR);
     }
     
     
-    /**
-     * Installs a specific resource group from input apk.
-     * 
-     * @param identifier
-     * @return true, if and only if the operation succeeded
-     */
+    @Override
     public boolean install(String identifier) {
         try {
             // identify the important attributes first
@@ -182,7 +171,7 @@ public class PluginProvider {
                     PLUGIN_ASSET_DIR_STR + identifier + ".xml"));
             
             DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
-           
+            
             // extract icon
             // TODO Marcus should include an <icon> Tag sooner or later
             ZipEntry iconEntry = zipApk.getEntry("res/drawable-hdpi/icon.png");
@@ -233,11 +222,7 @@ public class PluginProvider {
     }
     
     
-    /**
-     * Uninstalls all data associated with the identified resource group.
-     * 
-     * @param identifier
-     */
+    @Override
     public void uninstall(String identifier) {
         deleteFile(PLUGIN_ASSET_DIR_STR + identifier + PNG_STR);
         deleteFile(PLUGIN_ASSET_DIR_STR + identifier + XML_STR);
@@ -245,22 +230,14 @@ public class PluginProvider {
     }
     
     
-    /**
-     * 
-     * @param identifier
-     * @return the one and only instance of the identified resource group in PMP
-     */
-    public ResourceGroup getResourceGroupClass(String identifier) {
+    @Override
+    public ResourceGroup getResourceGroupObject(String identifier) {
         checkCached(identifier);
         return this.cache.get(identifier);
     }
     
     
-    /**
-     * 
-     * @param identifier
-     * @return the XML stream for the specified resource group or null if it wasn't found which should not happen
-     */
+    @Override
     public RgInformationSet getRGIS(String identifier) {
         checkCached(identifier);
         return this.cacheRGIS.get(identifier);
@@ -268,11 +245,7 @@ public class PluginProvider {
     }
     
     
-    /**
-     * 
-     * @param identifier
-     * @return the icon for the specified resource group or null if it wasn't found which should not happen
-     */
+    @Override
     public Drawable getIcon(String identifier) {
         checkCached(identifier);
         return Drawable.createFromPath(PLUGIN_ASSET_DIR_STR + identifier + ".png");

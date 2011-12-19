@@ -276,14 +276,6 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public String[] findResourceGroup(String searchString) {
-        Assert.nonNull(searchString, new ModelMisuseError(Assert.ILLEGAL_NULL, "searchString", searchString));
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    
-    @Override
     public boolean installResourceGroup(String identifier) {
         checkCached();
         Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));

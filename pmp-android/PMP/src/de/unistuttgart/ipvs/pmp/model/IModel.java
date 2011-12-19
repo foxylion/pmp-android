@@ -92,20 +92,6 @@ public interface IModel {
     
     
     /**
-     * Finds a list of {@link IResourceGroup}s for that search string.
-     * 
-     * <p>
-     * <b>This method will cause a network connection to the resource group server.</b>
-     * </p>
-     * 
-     * @param searchString
-     *            the string for which shall be searched
-     * @return some information about the results yet to be decided (TODO)
-     */
-    public String[] findResourceGroup(String searchString);
-    
-    
-    /**
      * Installs a previously downloaded, new {@link IResourceGroup} at PMP.
      * 
      * <p>
