@@ -234,26 +234,16 @@ public class CalendarAppActivity extends ListActivity {
                 //                        resGroupCon.bind();
                 return true;
             } else {
+                ArrayList<String> sfs = new ArrayList<String>(); 
                 int itr = 0;
                 if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
-                    itr++;
+                    sfs.add("send");
                 }
                 if (!((App) getApplication()).isServiceFeatureEnabled("read")) {
-                    itr++;
-                }
-                String[] req = new String[itr];
-                if (itr == 2) {
-                    req[0] = "send";
-                    req[1] = "read";
-                }
-                if (itr == 1 && !((App) getApplication()).isServiceFeatureEnabled("send")) {
-                    req[0] = "send";
-                }
-                if (itr == 1 && !((App) getApplication()).isServiceFeatureEnabled("read")) {
-                    req[0] = "read";
+                    sfs.add("read");
                 }
                 
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
             }
             
         }
