@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +45,7 @@ public class LoginActivity extends Activity {
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
 				final String username = et_username.getText().toString();
 				final String pw = et_pw.getText().toString();
 

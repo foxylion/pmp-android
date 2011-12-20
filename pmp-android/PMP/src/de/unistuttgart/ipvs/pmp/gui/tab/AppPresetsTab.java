@@ -55,11 +55,12 @@ public class AppPresetsTab extends Activity {
         }
     }
     
+    
     /**
      * Initiates the list of all assigned Presets.
      */
     private void initPresetList() {
-        final List<IPreset> presetsList = Arrays.asList(app.getAssignedPresets());
+        final List<IPreset> presetsList = Arrays.asList(this.app.getAssignedPresets());
         
         PresetsAdapter presetsAdapter = new PresetsAdapter(getApplicationContext(), presetsList);
         

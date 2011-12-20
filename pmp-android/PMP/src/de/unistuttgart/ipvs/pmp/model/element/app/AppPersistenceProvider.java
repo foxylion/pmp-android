@@ -90,10 +90,15 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
      */
     public App createElementData(String appPackage) {
         // store in db
-        ContentValues cv = new ContentValues();
-        cv.put(PACKAGE, appPackage);
-        if (getDoh().getWritableDatabase().insert(TBL_APP, null, cv) == -1) {
-            return null;
+        SQLiteDatabase sqldb = getDoh().getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(PACKAGE, appPackage);
+            if (sqldb.insert(TBL_APP, null, cv) == -1) {
+                return null;
+            }
+        } finally {
+            sqldb.close();
         }
         
         // create associated object

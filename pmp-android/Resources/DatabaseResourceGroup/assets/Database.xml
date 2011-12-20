@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation>
+		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.database</identifier>
+		<defaultName lang="en">Database Resource</defaultName>
+		<name lang="de">Datenbank Ressource</name>
+		<defaultDescription lang="en">Database Resource to
+			provide basic functions like read and write into a database.
+		</defaultDescription>
+		<description lang="de">Datenbank Ressource die grundlegende
+			Funktionen bietet wie z.B. lesen und schreiben in eine Datenbank
+		</description>
+		<revision>1</revision>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="read">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Read out of database</defaultName>
+			<name lang="de">Aus Datenbank lesen</name>
+			<defaultDescription lang="en">Allows to read out of a
+				database
+			</defaultDescription>
+			<description lang="de">Erlaubt aus einer Datenbank zu lesen.
+			</description>
+		</privacySetting>
+		<privacySetting identifier="modify">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Modify database</defaultName>
+			<name lang="de">Datenbank modifizieren</name>
+			<defaultDescription lang="en">Allows to modify a
+				database.
+			</defaultDescription>
+			<description lang="de">Erlaubt eine Datenbank zu modifizieren.
+			</description>
+		</privacySetting>
+		<privacySetting identifier="create">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Create tables</defaultName>
+			<name lang="de">Tabellen erstellen</name>
+			<defaultDescription lang="en">Allows to create new
+				tables.
+			</defaultDescription>
+			<description lang="de">Erlaubt neue Tabellen zu erstellen
+			</description>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>

@@ -23,6 +23,7 @@ import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
  * Resource Group for typical switches in Android (wifi, etc.). Has the privacy settings
@@ -55,6 +56,7 @@ public class Switches extends ResourceGroup {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.switches", pmpci);
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());
+        registerPrivacySetting(PRIVACY_SETTING_WIFI_SWITCH, new BooleanPrivacySetting());
     }
     
     

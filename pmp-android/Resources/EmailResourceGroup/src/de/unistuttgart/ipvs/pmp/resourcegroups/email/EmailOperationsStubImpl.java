@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     
@@ -41,11 +42,19 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     @Override
     public void sendEmail(String to, String subject, String body) throws RemoteException {
     	BooleanPrivacySetting bps = (BooleanPrivacySetting) this.resource
-                .getPrivacySetting(EmailResourceGroup.PRIVACY_SETTING_SEND_EMAIL);
+                .getPrivacySetting(Email.PRIVACY_SETTING_SEND_EMAIL);
         
-        if (!bps.permits(this.appIdentifier, true)) {
-            throw new IllegalAccessError();
-        }
+        try {
+	    if (!bps.permits(this.appIdentifier, true)) {
+	        throw new IllegalAccessError();
+	    }
+	} catch (IllegalAccessError e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (PrivacySettingValueException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
         
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

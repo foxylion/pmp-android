@@ -35,7 +35,7 @@ public class PresetsActivity extends Activity {
     /**
      * List of all Presets
      */
-    private List<IPreset> presetList;
+    protected List<IPreset> presetList;
     
     /**
      * Array of all Presets
@@ -183,12 +183,12 @@ public class PresetsActivity extends Activity {
                 dialog.show();
                 break;
             case R.id.presets_menu_show_deleted:
-                System.out.println(showDeleted);
-                if (showDeleted) {
-                    showDeleted = false;
+                System.out.println(this.showDeleted);
+                if (this.showDeleted) {
+                    this.showDeleted = false;
                     item.setTitle(R.string.presets_show_deleted);
                 } else {
-                    showDeleted = true;
+                    this.showDeleted = true;
                     item.setTitle(R.string.presets_hide_deleted);
                 }
                 updateList();

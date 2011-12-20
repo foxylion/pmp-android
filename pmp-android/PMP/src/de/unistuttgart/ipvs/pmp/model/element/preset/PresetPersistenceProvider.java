@@ -206,14 +206,19 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
      */
     public Preset createElementData(IModelElement creator, String identifier, String name, String description) {
         // store in db
-        ContentValues cv = new ContentValues();
-        cv.put(CREATOR, creator == null ? PACKAGE_SEPARATOR : creator.getIdentifier());
-        cv.put(IDENTIFIER, identifier);
-        cv.put(NAME, name);
-        cv.put(DESCRIPTION, description);
-        cv.put(DELETED, Boolean.FALSE.toString());
-        if (getDoh().getWritableDatabase().insert(TBL_PRESET, null, cv) == -1) {
-            return null;
+        SQLiteDatabase sqldb = getDoh().getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(CREATOR, creator == null ? PACKAGE_SEPARATOR : creator.getIdentifier());
+            cv.put(IDENTIFIER, identifier);
+            cv.put(NAME, name);
+            cv.put(DESCRIPTION, description);
+            cv.put(DELETED, Boolean.FALSE.toString());
+            if (sqldb.insert(TBL_PRESET, null, cv) == -1) {
+                return null;
+            }
+        } finally {
+            sqldb.close();
         }
         
         // create associated object

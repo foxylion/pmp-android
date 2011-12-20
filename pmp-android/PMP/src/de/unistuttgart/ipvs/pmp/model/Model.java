@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -30,8 +31,11 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroupPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -110,36 +114,42 @@ public class Model implements IModel, Observer {
     @Override
     public IApp[] getApps() {
         checkCached();
-        return this.cache.getApps().values().toArray(new IApp[0]);
+        Collection<App> result = this.cache.getApps().values();
+        return result.toArray(new IApp[result.size()]);
     }
     
     
     @Override
-    public IApp getApp(String identifier) {
+    public IApp getApp(String appPackage) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
         
-        return this.cache.getApps().get(identifier);
+        return this.cache.getApps().get(appPackage);
     }
     
     
     @Override
-    public void registerApp(final String identifier) {
+    public void registerApp(final String appPackage) throws InvalidXMLException {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.isNull(getApp(appPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "appPackage",
+                appPackage));
         
-        final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), identifier);
+        final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), appPackage);
+        
+        // some strange construct because of some other strange construct
+        InvalidXMLException throwAfterCatch = null;
         
         // check XML
         try {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
-                    .getResourcesForApplication(identifier).getAssets().open(PersistenceConstants.APP_XML_NAME);
+                    .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
             AppInformationSet ais = AppInformationSetParser.createAppInformationSet(xmlStream);
             
             // apply new app to DB, then model
-            App newApp = new AppPersistenceProvider(null).createElementData(identifier);
-            this.cache.getApps().put(identifier, newApp);
+            App newApp = new AppPersistenceProvider(null).createElementData(appPackage);
+            this.cache.getApps().put(appPackage, newApp);
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
             // apply new SF to DB, then model
@@ -172,13 +182,13 @@ public class Model implements IModel, Observer {
                 @Override
                 public void onConnect(AbstractConnector connector) throws RemoteException {
                     asc.getAppService().replyRegistrationResult(new RegistrationResult(true));
-                    Log.d(identifier + " has successfully registered with PMP.");
+                    Log.d(appPackage + " has successfully registered with PMP.");
                 }
                 
                 
                 @Override
                 public void onBindingFailed(AbstractConnector connector) {
-                    Log.d(identifier
+                    Log.d(appPackage
                             + " would have been successfully registered with PMP, but could not connect to its service.");
                 }
             });
@@ -192,7 +202,8 @@ public class Model implements IModel, Observer {
                     asc.getAppService().replyRegistrationResult(new RegistrationResult(false, ioe.getMessage()));
                 }
             });
-            Log.w(identifier + " has failed registration with PMP.", ioe);
+            Log.w(appPackage + " has failed registration with PMP.", ioe);
+            throwAfterCatch = new InvalidXMLException(ioe.getMessage(), ioe);
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
@@ -203,7 +214,8 @@ public class Model implements IModel, Observer {
                     asc.getAppService().replyRegistrationResult(new RegistrationResult(false, nnfe.getMessage()));
                 }
             });
-            Log.w(identifier + " has failed registration with PMP.", nnfe);
+            Log.w(appPackage + " has failed registration with PMP.", nnfe);
+            throwAfterCatch = new InvalidXMLException(nnfe.getMessage(), nnfe);
             
         } catch (final XMLParserException xmlpe) {
             /* error during XML validation */
@@ -214,26 +226,31 @@ public class Model implements IModel, Observer {
                     asc.getAppService().replyRegistrationResult(new RegistrationResult(false, xmlpe.getDetails()));
                 }
             });
-            Log.w(identifier + " has failed registration with PMP.", xmlpe);
+            Log.w(appPackage + " has failed registration with PMP.", xmlpe);
+            throwAfterCatch = new InvalidXMLException(xmlpe.getMessage(), xmlpe);
         }
         
         // and off you go
         asc.bind();
+        
+        if (throwAfterCatch != null) {
+            throw throwAfterCatch;
+        }
     }
     
     
     @Override
-    public boolean unregisterApp(String identifier) {
+    public boolean unregisterApp(String appPackage) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
         
-        App app = this.cache.getApps().get(identifier);
+        App app = this.cache.getApps().get(appPackage);
         if (app == null) {
             return false;
         } else {
             
             app.delete();
-            this.cache.getApps().remove(identifier);
+            this.cache.getApps().remove(appPackage);
             
             IPCProvider.getInstance().startUpdate();
             try {
@@ -263,36 +280,54 @@ public class Model implements IModel, Observer {
     @Override
     public IResourceGroup[] getResourceGroups() {
         checkCached();
-        return this.cache.getResourceGroups().values().toArray(new IResourceGroup[0]);
+        Collection<ResourceGroup> result = this.cache.getResourceGroups().values();
+        return result.toArray(new IResourceGroup[result.size()]);
     }
     
     
     @Override
-    public IResourceGroup getResourceGroup(String identifier) {
+    public IResourceGroup getResourceGroup(String rgPackage) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
-        return this.cache.getResourceGroups().get(identifier);
+        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        return this.cache.getResourceGroups().get(rgPackage);
     }
     
     
     @Override
-    public boolean installResourceGroup(String identifier) {
+    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.isNull(getResourceGroup(rgPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "rgPackage",
+                rgPackage));
         
         try {
             
             // install the plugin
-            if (!PluginProvider.getInstance().install(identifier)) {
-                return false;
-            }
+            PluginProvider.getInstance().install(rgPackage);
             
             // get the RGIS
-            RgInformationSet rgis = PluginProvider.getInstance().getRGIS(identifier);
+            RgInformationSet rgis = PluginProvider.getInstance().getRGIS(rgPackage);
+            
+            // check it is valid
+            de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
+                    rgPackage);
+            if (!rgPackage.equals(rgis.getIdentifier())) {
+                throw new InvalidXMLException("ResourceGroup package (parameter, XML)", rgPackage, rgis.getIdentifier());
+            }
+            if (!rgis.getIdentifier().equals(rg.getRgPackage())) {
+                throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
+                        rg.getRgPackage());
+            }
+            for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
+                AbstractPrivacySetting<?> aps = rg.getPrivacySetting(psIdentifier);
+                if (aps == null) {
+                    throw new InvalidXMLException("PrivacySetting (XML, objects)", psIdentifier, aps);
+                }
+            }
             
             // apply new RG to DB, then model
-            ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(identifier);
-            this.cache.getResourceGroups().put(identifier, newRG);
+            ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(rgPackage);
+            this.cache.getResourceGroups().put(rgPackage, newRG);
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
             // apply new PS to DB, then model
@@ -342,27 +377,27 @@ public class Model implements IModel, Observer {
             return true;
         } catch (XMLParserException xmlpe) {
             /* error during XML validation */
-            Log.w(identifier + " has failed registration with PMP.", xmlpe);
+            Log.w(rgPackage + " has failed installation with PMP.", xmlpe);
             return false;
         }
     }
     
     
     @Override
-    public boolean uninstallResourceGroup(String identifier) {
+    public boolean uninstallResourceGroup(String rgPackage) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         
-        ResourceGroup rg = this.cache.getResourceGroups().get(identifier);
+        ResourceGroup rg = this.cache.getResourceGroups().get(rgPackage);
         if (rg == null) {
             return false;
         } else {
             
             // delete the class files / apk / etc
-            PluginProvider.getInstance().uninstall(identifier);
+            PluginProvider.getInstance().uninstall(rgPackage);
             
             rg.delete();
-            this.cache.getResourceGroups().remove(identifier);
+            this.cache.getResourceGroups().remove(rgPackage);
             
             IPCProvider.getInstance().startUpdate();
             try {
@@ -409,7 +444,8 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset[] getPresets() {
         checkCached();
-        return this.cache.getAllPresets().toArray(new IPreset[0]);
+        Collection<Preset> result = this.cache.getAllPresets();
+        return result.toArray(new IPreset[result.size()]);
     }
     
     
@@ -420,44 +456,44 @@ public class Model implements IModel, Observer {
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
-            return null;
+            return new IPreset[0];
         } else {
-            return creatorPresets.values().toArray(new IPreset[0]);
+            return creatorPresets.values().toArray(new IPreset[creatorPresets.values().size()]);
         }
     }
     
     
     @Override
-    public IPreset getPreset(IModelElement creator, String identifier) {
+    public IPreset getPreset(IModelElement creator, String presetIdentifier) {
         checkCached();
         Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
             return null;
         } else {
-            return creatorPresets.get(identifier);
+            return creatorPresets.get(presetIdentifier);
         }
     }
     
     
     @Override
-    public IPreset addPreset(IModelElement creator, String identifier, String name, String description) {
+    public IPreset addPreset(IModelElement creator, String presetIdentifier, String name, String description) {
         checkCached();
         Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
         Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
         Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
         
-        Preset newPreset = new PresetPersistenceProvider(null)
-                .createElementData(creator, identifier, name, description);
+        Preset newPreset = new PresetPersistenceProvider(null).createElementData(creator, presetIdentifier, name,
+                description);
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
         if (creatorMap == null) {
             creatorMap = new HashMap<String, Preset>();
             this.cache.getPresets().put(creator, creatorMap);
         }
-        creatorMap.put(identifier, newPreset);
+        creatorMap.put(presetIdentifier, newPreset);
         return newPreset;
     }
     
@@ -485,9 +521,9 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean removePreset(IModelElement creator, String identifier) {
+    public boolean removePreset(IModelElement creator, String presetIdentifier) {
         checkCached();
-        Assert.nonNull(identifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
         Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
         
         // does the creator map exist?
@@ -496,7 +532,7 @@ public class Model implements IModel, Observer {
             return false;
         } else {
             // does the preset exist?
-            Preset p = creatorMap.get(identifier);
+            Preset p = creatorMap.get(presetIdentifier);
             
             if (p == null) {
                 return false;
@@ -504,7 +540,7 @@ public class Model implements IModel, Observer {
                 p.delete();
                 
                 // update model
-                creatorMap.remove(identifier);
+                creatorMap.remove(presetIdentifier);
                 
                 IPCProvider.getInstance().startUpdate();
                 try {

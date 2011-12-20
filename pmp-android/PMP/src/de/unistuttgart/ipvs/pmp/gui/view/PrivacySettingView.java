@@ -1,10 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
-import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,7 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link PrivacySettingView} displays basic informations about an Privacy Setting (name, value, statisfied or not).
@@ -79,10 +78,10 @@ public class PrivacySettingView extends LinearLayout {
                     + this.privacySetting.getHumanReadableValue(this.serviceFeature
                             .getRequiredPrivacySettingValue(this.privacySetting)));
         } catch (PrivacySettingValueException e) {
-            Log.e("The Privacy Setting '" + privacySetting.getName() + "' of Service Feature '"
-                    + serviceFeature.getName() + " (" + serviceFeature.getApp().getName()
-                    + ")' has an invalid value set '" + serviceFeature.getRequiredPrivacySettingValue(privacySetting)
-                    + "'", e);
+            Log.e("The Privacy Setting '" + this.privacySetting.getName() + "' of Service Feature '"
+                    + this.serviceFeature.getName() + " (" + this.serviceFeature.getApp().getName()
+                    + ")' has an invalid value set '"
+                    + this.serviceFeature.getRequiredPrivacySettingValue(this.privacySetting) + "'", e);
             
             tvDescription.setText(Html.fromHtml("<span style=\"color:red;\">"
                     + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>"));
@@ -90,9 +89,10 @@ public class PrivacySettingView extends LinearLayout {
         
         // Try to updated the displayed Privacy Settings state (tick or cross).
         try {
-            String assignedPSValue = this.serviceFeature.getApp().getBestAssignedPrivacySettingValue(privacySetting);
+            String assignedPSValue = this.serviceFeature.getApp().getBestAssignedPrivacySettingValue(
+                    this.privacySetting);
             
-            if (privacySetting.permits(this.serviceFeature.getRequiredPrivacySettingValue(privacySetting),
+            if (this.privacySetting.permits(this.serviceFeature.getRequiredPrivacySettingValue(this.privacySetting),
                     assignedPSValue)) {
                 stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_success));
             } else {
@@ -102,6 +102,7 @@ public class PrivacySettingView extends LinearLayout {
             Log.e("A given Privacy Setting could not be compared with another one (ps.permits() failed).", e);
         }
     }
+    
     
     /**
      * Adds the listeners to the GUI components.

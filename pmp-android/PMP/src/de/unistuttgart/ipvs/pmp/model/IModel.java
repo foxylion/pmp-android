@@ -24,6 +24,8 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 
 /**
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and {@link IResourceGroup}s known by PMP.
@@ -43,11 +45,11 @@ public interface IModel {
     /**
      * Returns the corresponding {@link IApp} to an identifier of an {@link IApp}.
      * 
-     * @param identifier
+     * @param appPackage
      *            Corresponding {@link IApp} identifier
      * @return Returns the requested {@link IApp} or null if the {@link IApp} does not exists in PMP.
      */
-    public IApp getApp(String identifier);
+    public IApp getApp(String appPackage);
     
     
     /**
@@ -58,20 +60,22 @@ public interface IModel {
      * registration has succeeded.</b>
      * </p>
      * 
-     * @param identifier
+     * @param appPackage
      *            The identifier for the {@link IApp} which should be registered.
+     * @throws InvalidXMLException
+     *             if the XML of the app is somehow corrupt
      */
-    public void registerApp(String identifier);
+    public void registerApp(String appPackage) throws InvalidXMLException;
     
     
     /**
      * Removes the registration of a registered {@link IApp}.
      * 
-     * @param identifier
+     * @param appPackage
      *            The identifier for the {@link IApp} which should be unregistered.
      * @return true, if and only if the app was found and removed
      */
-    public boolean unregisterApp(String identifier);
+    public boolean unregisterApp(String appPackage);
     
     
     /**
@@ -83,12 +87,12 @@ public interface IModel {
     /**
      * Returns the corresponding {@link IResourceGroup} to an identifier of a {@link IResourceGroup}.
      * 
-     * @param identifier
+     * @param rgPackage
      *            Corresponding {@link IResourceGroup} identifier
      * @return Returns the requested {@link IResourceGroup} or null if the {@link IResourceGroup} does not exists in
      *         PMP.
      */
-    public IResourceGroup getResourceGroup(String identifier);
+    public IResourceGroup getResourceGroup(String rgPackage);
     
     
     /**
@@ -98,21 +102,25 @@ public interface IModel {
      * <b>This method will cause a network connection to the resource group server.</b>
      * </p>
      * 
-     * @param identifier
+     * @param rgPackage
      *            The identifier for the {@link IResourceGroup} which should be registered.
      * @return true, if the installation was successful, false if an error occurred
+     * @throws InvalidXMLException
+     *             if the XML of the supplied resource group is somehow corrupt
+     * @throws InvalidPluginException
+     *             if the supplied resource group is somehow corrupt
      */
-    public boolean installResourceGroup(String identifier);
+    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException;
     
     
     /**
      * Uninstalls an installed {@link IResourceGroup} at PMP.
      * 
-     * @param identifier
+     * @param rgPackage
      *            The identifier for the {@link IResourceGroup} which should be registered.
      * @return true, if the uninstallation was successful, false if an error occurred
      */
-    public boolean uninstallResourceGroup(String identifier);
+    public boolean uninstallResourceGroup(String rgPackage);
     
     
     /**
@@ -136,11 +144,11 @@ public interface IModel {
      * @param creator
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
-     * @param identifier
+     * @param presetIdentifier
      *            a unique (for creator) identifier for this preset
      * @return the corresponding {@link IPreset} or null, if none found
      */
-    public IPreset getPreset(IModelElement creator, String identifier);
+    public IPreset getPreset(IModelElement creator, String presetIdentifier);
     
     
     /**
@@ -149,7 +157,7 @@ public interface IModel {
      * @param creator
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
-     * @param identifier
+     * @param presetIdentifier
      *            a unique (for creator) identifier for this preset
      * @param name
      *            The name of the {@link IPreset}.
@@ -157,7 +165,7 @@ public interface IModel {
      *            The description of the {@link IPreset}.
      * @return the {@link IPreset} that was created
      */
-    public IPreset addPreset(IModelElement creator, String identifier, String name, String description);
+    public IPreset addPreset(IModelElement creator, String presetIdentifier, String name, String description);
     
     
     /**
@@ -180,11 +188,11 @@ public interface IModel {
      * @param creator
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
-     * @param identifier
+     * @param presetIdentifier
      *            a unique identifier for this preset
      * @return true, if and only if the preset was found and removed
      */
-    public boolean removePreset(IModelElement creator, String identifier);
+    public boolean removePreset(IModelElement creator, String presetIdentifier);
     
     
     /**

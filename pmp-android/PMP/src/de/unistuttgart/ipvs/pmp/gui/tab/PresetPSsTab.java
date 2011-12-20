@@ -181,7 +181,7 @@ public class PresetPSsTab extends Activity {
             case 1: // Change PS value
                 return true;
             case 2: // Remove PS
-                preset.removePrivacySetting(ps);
+                this.preset.removePrivacySetting(ps);
                 updateList();
                 return true;
         }
@@ -195,16 +195,24 @@ public class PresetPSsTab extends Activity {
      * 
      */
     public void updateList() {
+<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
         allassignedPSList = new ArrayList<IPrivacySetting>();
+=======
+        this.allPSList = new ArrayList<IPrivacySetting>();
+>>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
         
-        for (IPrivacySetting ps : preset.getGrantedPrivacySettings()) {
+        for (IPrivacySetting ps : this.preset.getGrantedPrivacySettings()) {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
+<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
             allassignedPSList.add(ps);
+=======
+            this.allPSList.add(ps);
+>>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
             
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
@@ -221,23 +229,29 @@ public class PresetPSsTab extends Activity {
         
         /* Build two lists, separated into RGs and PSs out of the map */
         ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
-        psList = new ArrayList<ArrayList<IPrivacySetting>>();
-
+        this.psList = new ArrayList<ArrayList<IPrivacySetting>>();
+        
         for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
             rgList.add(entry.getKey());
-            psList.add(entry.getValue());
+            this.psList.add(entry.getValue());
         }
         
         // Add the adapter
-        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, preset, rgList, psList);
-        psExpandableListView.setAdapter(ppsAdapter);
+        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList,
+                this.psList);
+        this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
+<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
         if (allassignedPSList.size() == 0) {
             noAssignedPSs.setVisibility(TextView.VISIBLE);
+=======
+        if (this.allPSList.size() == 0) {
+            noAssignedPSs.setVisibility(View.VISIBLE);
+>>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         } else {
-            noAssignedPSs.setVisibility(TextView.GONE);
+            noAssignedPSs.setVisibility(View.GONE);
         }
     }
 }

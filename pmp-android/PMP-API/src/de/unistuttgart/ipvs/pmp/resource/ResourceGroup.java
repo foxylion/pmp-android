@@ -28,8 +28,8 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
  * <p>
- * A resource group that bundles {@link Resource}s and {@link AbstractPrivacySetting}s. You can register them by using the methods
- * {@link ResourceGroup#registerResource(String, Resource)} and
+ * A resource group that bundles {@link Resource}s and {@link AbstractPrivacySetting}s. You can register them by using
+ * the methods {@link ResourceGroup#registerResource(String, Resource)} and
  * {@link ResourceGroup#registerPrivacySetting(String, AbstractPrivacySetting)}.
  * </p>
  * 
@@ -148,6 +148,14 @@ public abstract class ResourceGroup {
      */
     public String getPMPPrivacySettingValue(String privacySettingIdentifier, String appIdentifier) {
         return this.pmpci.getPrivacySettingValue(this.rgPackage, privacySettingIdentifier, appIdentifier);
-        
+    }
+    
+    
+    /**
+     * 
+     * @return the set package name for communication with PMP
+     */
+    public String getRgPackage() {
+        return this.rgPackage;
     }
 }

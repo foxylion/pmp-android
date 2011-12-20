@@ -14,6 +14,8 @@ import java.net.URLConnection;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
 
@@ -106,15 +108,16 @@ public class ServerProvider implements IServerProvider {
     
     
     @Override
-    public RgInformationSet[] findResourceGroups(String searchString) {
+    public RgInformationSet[] findResourceGroups(String searchPattern) {
+        Assert.nonNull(searchPattern, new ModelMisuseError(Assert.ILLEGAL_NULL, "searchString", searchPattern));
         this.callback.tasks(0, -1);
         
         // load the package names of all RGs
-        String[] rgs = new String[0];
+        String[] rgs;
         RgInformationSet[] result;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            if (!downloadFile(SEARCH_FOR + searchString, baos)) {
+            if (!downloadFile(SEARCH_FOR + searchPattern, baos)) {
                 return new RgInformationSet[0];
             }
             rgs = baos.toString().split("\n");
@@ -170,12 +173,23 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public File downloadResourceGroup(String rgPackage) {
+        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         try {
             this.callback.tasks(0, 1);
             
             File tmp = new File(TEMPORARY_PATH + rgPackage + APK_STR);
-            if (!downloadFile(rgPackage + APK_STR, new FileOutputStream(tmp))) {
-                return null;
+            FileOutputStream fos = new FileOutputStream(tmp);
+            try {
+                if (!downloadFile(rgPackage + APK_STR, fos)) {
+                    return null;
+                }
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
             
             this.callback.tasks(1, 1);
@@ -190,6 +204,7 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public void setCallback(IServerDownloadCallback callback) {
+        Assert.nonNull(callback, new ModelMisuseError(Assert.ILLEGAL_NULL, "callback", callback));
         if (callback == null) {
             this.callback = NullServerDownloadCallback.instance;
         } else {

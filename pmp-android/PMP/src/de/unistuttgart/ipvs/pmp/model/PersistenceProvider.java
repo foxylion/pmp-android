@@ -155,12 +155,15 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         this.cache = new ModelCache();
         
         SQLiteDatabase db = this.doh.getReadableDatabase();
-        
-        cacheAppsSFs(db);
-        cacheRGsPLs(db);
-        cachePresets(db);
-        
-        db.close();
+        try {
+            
+            cacheAppsSFs(db);
+            cacheRGsPLs(db);
+            cachePresets(db);
+            
+        } finally {
+            db.close();
+        }
         
         setChanged();
         notifyObservers(this.cache);

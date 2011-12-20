@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +128,8 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public IPrivacySetting[] getGrantedPrivacySettings() {
         checkCached();
-        return this.privacySettingValues.keySet().toArray(new IPrivacySetting[0]);
+        Collection<IPrivacySetting> result = this.privacySettingValues.keySet();
+        return result.toArray(new IPrivacySetting[result.size()]);
     }
     
     
@@ -142,7 +144,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public IApp[] getAssignedApps() {
         checkCached();
-        return this.assignedApps.toArray(new IApp[0]);
+        return this.assignedApps.toArray(new IApp[this.assignedApps.size()]);
     }
     
     

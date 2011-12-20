@@ -179,7 +179,9 @@ public class CalendarAppActivity extends ListActivity {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
                 SqlConnector.getInstance().deleteAppointment(clicked.getId());
             } else {
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                String[] req = new String[1];
+                req[0] = "write";
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
             }
             
             return true;
@@ -232,7 +234,16 @@ public class CalendarAppActivity extends ListActivity {
                 //                        resGroupCon.bind();
                 return true;
             } else {
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                ArrayList<String> sfs = new ArrayList<String>(); 
+                int itr = 0;
+                if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
+                    sfs.add("send");
+                }
+                if (!((App) getApplication()).isServiceFeatureEnabled("read")) {
+                    sfs.add("read");
+                }
+                
+                DialogManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
             }
             
         }
@@ -270,7 +281,9 @@ public class CalendarAppActivity extends ListActivity {
                     dialog.setTitle("Create new appointment");
                     dialog.show();
                 } else {
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                    String[] req = new String[1];
+                    req[0] = "write";
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.delete_all_appointments:
@@ -288,7 +301,9 @@ public class CalendarAppActivity extends ListActivity {
                                 
                             }).show();
                 } else {
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                    String[] req = new String[1];
+                    req[0] = "write";
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.import_appointments:
@@ -300,7 +315,9 @@ public class CalendarAppActivity extends ListActivity {
                     FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
                     
                 } else {
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                    String[] req = new String[1];
+                    req[0] = "import";
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.export_appointments:
@@ -312,7 +329,9 @@ public class CalendarAppActivity extends ListActivity {
                     FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
                     
                 } else {
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(this);
+                    String[] req = new String[1];
+                    req[0] = "export";
+                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 
                 return true;
@@ -338,8 +357,10 @@ public class CalendarAppActivity extends ListActivity {
     
     public void setSFAddAppToModel() {
         Bundle b = new Bundle();
-        b.putBoolean("read", true);
-        b.putBoolean("write", true);
+        b.putBoolean("read", false);
+        b.putBoolean("write", false);
+        b.putBoolean("import", false);
+        b.putBoolean("export", false);
         ((App) getApplication()).updateServiceFeatures(b);
         if (Model.getInstance().getAppointmentList().size() == 0) {
             Model.getInstance().addAppointment(new Appointment(1, "teest", new Date()));

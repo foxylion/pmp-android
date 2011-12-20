@@ -21,60 +21,51 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.email;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
-public class EmailResourceGroup extends ResourceGroup {
-    
+public class Email extends ResourceGroup {
+
     private Context context;
-    
+
     public static final String PRIVACY_SETTING_SEND_EMAIL = "canSendEmail";
     public static final String RESOURCE_EMAIL_OPERATIONS = "emailOperations";
-    
-    
-    public EmailResourceGroup(Context serviceContext) {
-        super(serviceContext);
-        this.context = serviceContext;
-        
-        registerPrivacySetting(PRIVACY_SETTING_SEND_EMAIL, new BooleanPrivacySetting("Send Email",
-                "Is allowed to send emails."));
-        
-        registerResource(RESOURCE_EMAIL_OPERATIONS, new EmailResource());
+
+    public Email(IPMPConnectionInterface pmpci) {
+	super("de.unistuttgart.ipvs.pmp.resourcegroups.email", pmpci);
+
+	registerResource(RESOURCE_EMAIL_OPERATIONS, new EmailResource());
+	registerPrivacySetting(PRIVACY_SETTING_SEND_EMAIL,
+		new BooleanPrivacySetting());
     }
-    
-    
-    @Override
+
     public String getName(String locale) {
-        return "Email ResourceGroup";
+	return "Email ResourceGroup";
     }
-    
-    
-    @Override
+
     public String getDescription(String locale) {
-        return "Allows some basic interactions with Androids Mail app.";
+	return "Allows some basic interactions with Androids Mail app.";
     }
-    
-    
-    @Override
+
     protected String getServiceAndroidName() {
-        return "de.unistuttgart.ipvs.pmp.resourcegroups.email";
+	return "de.unistuttgart.ipvs.pmp.resourcegroups.email";
     }
-    
-    
-    @Override
+
     public void onRegistrationSuccess() {
-        Log.d("Registration success.");
+	Log.d("Registration success.");
     }
-    
-    
-    @Override
+
     public void onRegistrationFailed(String message) {
-        Log.e("Registration failed with \"" + message + "\"");
+	Log.e("Registration failed with \"" + message + "\"");
     }
-    
-    
+
+    public void setContext(Context context) {
+	this.context = context;
+    }
+
     public Context getContext() {
-        return this.context;
+	return this.context;
     }
-    
+
 }

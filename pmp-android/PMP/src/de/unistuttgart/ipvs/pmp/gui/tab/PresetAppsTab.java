@@ -96,7 +96,7 @@ public class PresetAppsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_apps_assign_apps:
-                PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this, preset);
+                PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this, this.preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.calcDisplayApps().size() > 0) {
@@ -128,7 +128,7 @@ public class PresetAppsTab extends Activity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle(R.string.preset_tab_apps_context_menu_title); 
+                menu.setHeaderTitle(R.string.preset_tab_apps_context_menu_title);
                 menu.add(0, 0, 0, R.string.preset_tab_apps_context_menu_show_details);
                 menu.add(1, 1, 0, R.string.preset_tab_apps_context_menu_remove_app);
             }
@@ -153,21 +153,21 @@ public class PresetAppsTab extends Activity {
      */
     public void updateList() {
         
-        appList = new ArrayList<IApp>();
+        this.appList = new ArrayList<IApp>();
         
-        for (IApp app : preset.getAssignedApps()) {
-            appList.add(app);
+        for (IApp app : this.preset.getAssignedApps()) {
+            this.appList.add(app);
         }
         
-        PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, appList);
-        appsListView.setAdapter(presetAppsAdapter);
+        PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, this.appList);
+        this.appsListView.setAdapter(presetAppsAdapter);
         
         // Show or hide the text view about no apps assigned
         TextView noAssignedApps = (TextView) findViewById(R.id.preset_tab_apps_no_assigned);
-        if (appList.size() == 0) {
-            noAssignedApps.setVisibility(TextView.VISIBLE);
+        if (this.appList.size() == 0) {
+            noAssignedApps.setVisibility(View.VISIBLE);
         } else {
-            noAssignedApps.setVisibility(TextView.GONE);
+            noAssignedApps.setVisibility(View.GONE);
         }
     }
     
@@ -188,7 +188,7 @@ public class PresetAppsTab extends Activity {
                 GUITools.startIntent(intent);
                 return true;
             case 1: // Clicked on "Delete App"
-                preset.removeApp(app);
+                this.preset.removeApp(app);
                 updateList();
                 return true;
         }

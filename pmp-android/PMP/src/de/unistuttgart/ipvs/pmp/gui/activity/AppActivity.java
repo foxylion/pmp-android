@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.activity;
 import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -54,7 +53,7 @@ public class AppActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_app);
-         
+        
         checkExtendedIntentActions();
         
         this.lam = new LocalActivityManager(this, true);
@@ -78,12 +77,6 @@ public class AppActivity extends Activity {
         super.onResume();
         
         this.lam.dispatchResume();
-    }
-    
-    
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
     
     
@@ -162,7 +155,7 @@ public class AppActivity extends Activity {
      */
     private void checkExtendedIntentActions() {
         this.app = GUITools.handleAppIntent(getIntent());
-        if (GUITools.handleIntentAction(getIntent()) == GUIConstants.CHANGE_SERVICEFEATURE) {
+        if (GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             this.mTabHost.setCurrentTabByTag(TAB_SF);
             
             // TODO GUI: Show "Save & Close" button for getting back to the Apps last Activity

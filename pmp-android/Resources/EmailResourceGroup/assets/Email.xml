@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation>
+		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.email</identifier>
+		<defaultName lang="en">E-Mail</defaultName>
+		<name lang="de">E-Mail</name>
+		<defaultDescription lang="en">Can send E-Mails.
+		</defaultDescription>
+		<description lang="de">Kann E-Mails versenden.
+		</description>
+		<revision>1</revision>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="canSendEmail">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">E-Mail send</defaultName>
+			<name lang="de">E-Mail senden</name>
+			<defaultDescription lang="en">Allows to send E-Mails.
+			</defaultDescription>
+			<description lang="de">Erlaubt es E-Mail zu senden.</description>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>

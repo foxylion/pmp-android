@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
@@ -46,6 +47,8 @@ import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -125,6 +128,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 PersistenceProvider.getInstance().cacheEverythingNow();
+                Toast.makeText(PMPDeveloperConsoleActivity.this, "Precached", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -137,6 +141,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 PersistenceProvider.getInstance().releaseCache();
+                Toast.makeText(PMPDeveloperConsoleActivity.this, "Cache cleaned", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -151,11 +156,13 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 PersistenceProvider pp = PersistenceProvider.getInstance();
                 try {
                     // it's a developer console, what'ya expect?
-                    
+                    pp.reloadDatabaseConnection();
                     Field dohf = pp.getClass().getDeclaredField("doh");
                     dohf.setAccessible(true);
                     DatabaseOpenHelper doh = (DatabaseOpenHelper) dohf.get(pp);
                     doh.cleanTables();
+                    
+                    Toast.makeText(PMPDeveloperConsoleActivity.this, "Cleaned tables", Toast.LENGTH_SHORT).show();
                     
                 } catch (Throwable t) {
                     Log.e("While cleaning tables: ", t);
@@ -187,16 +194,65 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 try {
                     EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
                     EditText rgId = (EditText) findViewById(R.id.pdc_rg_name);
-                    InputStream rgStream = new FileInputStream(rgPath.getText().toString());
                     
-                    PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
-                    ModelProxy.get().installResourceGroup(rgId.getText().toString());
+                    if (ModelProxy.get().getResourceGroup(rgId.getText().toString()) != null) {
+                        complain("Already installed",
+                                "Installing the same thing twice, eh? Unexpected UserIntelligenceTooLow"
+                                        + " Exception...");
+                        return;
+                    }
+                    
+                    InputStream rgStream = new FileInputStream(rgPath.getText().toString());
+                    try {
+                        PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
+                    } finally {
+                        rgStream.close();
+                    }
+                    try {
+                        ModelProxy.get().installResourceGroup(rgId.getText().toString());
+                    } catch (InvalidXMLException ixmle) {
+                        Log.e("Invalid XML", ixmle);
+                        complain("Invalid XML", ixmle);
+                    } catch (InvalidPluginException ipe) {
+                        Log.e("Invalid Plugin", ipe);
+                        complain("Invalid Plugin", ipe);
+                    }
                 } catch (IOException ioe) {
-                    Log.e("Cannot install RG.", ioe);
+                    Log.e("Cannot install RG", ioe);
+                    complain("Cannot install RG", ioe);
                 }
                 
             }
         });
+    }
+    
+    
+    /**
+     * Complains about an exception
+     * 
+     * @param title
+     * @param t
+     */
+    protected void complain(String title, Throwable t) {
+        complain(title, t.getClass().getCanonicalName() + ": " + t.getMessage() + " (see LogCat)");
+    }
+    
+    
+    /**
+     * Complains to the user (mostly about the user being dumb as ****.
+     * 
+     * @param title
+     * @param msg
+     */
+    protected void complain(String title, String msg) {
+        new AlertDialog.Builder(this).setTitle(title).setMessage(msg)
+                .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false).show();
     }
     
     

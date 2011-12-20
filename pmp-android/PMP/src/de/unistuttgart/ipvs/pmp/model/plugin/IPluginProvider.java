@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 import java.io.InputStream;
 
 import android.graphics.drawable.Drawable;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
@@ -30,9 +31,10 @@ public interface IPluginProvider {
      * 
      * @param rgPackage
      *            the main package of the resource group's apk
-     * @return true, if and only if the operation succeeded
+     * @throws InvalidPluginException
+     *             if the supplied plugin is somehow corrupt
      */
-    public abstract boolean install(String rgPackage);
+    public abstract void install(String rgPackage) throws InvalidPluginException;
     
     
     /**

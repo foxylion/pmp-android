@@ -37,8 +37,11 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void loadElementData() {
         SQLiteDatabase rdb = getDoh().getReadableDatabase();
-        loadElementData(rdb, getDoh().builder());
-        rdb.close();
+        try {
+            loadElementData(rdb, getDoh().builder());
+        } finally {
+            rdb.close();
+        }
     }
     
     
@@ -47,8 +50,11 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void storeElementData() {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        storeElementData(wdb, getDoh().builder());
-        wdb.close();
+        try {
+            storeElementData(wdb, getDoh().builder());
+        } finally {
+            wdb.close();
+        }
     }
     
     
@@ -57,8 +63,11 @@ public abstract class ElementPersistenceProvider<T extends ModelElement> extends
      */
     public void deleteElementData() {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        deleteElementData(wdb, getDoh().builder());
-        wdb.close();
+        try {
+            deleteElementData(wdb, getDoh().builder());
+        } finally {
+            wdb.close();
+        }
     }
     
     

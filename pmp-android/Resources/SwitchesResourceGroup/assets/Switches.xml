@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
-		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches
-		</identifier>
+		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches</identifier>
 		<defaultName lang="en">Device Switches</defaultName>
 		<name lang="de">Geräteschalter</name>
 		<defaultDescription lang="en">Three Swiss witch bitches,
