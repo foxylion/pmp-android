@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
@@ -127,6 +128,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 PersistenceProvider.getInstance().cacheEverythingNow();
+                Toast.makeText(PMPDeveloperConsoleActivity.this, "Precached", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -139,6 +141,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             @Override
             public void onClick(View v) {
                 PersistenceProvider.getInstance().releaseCache();
+                Toast.makeText(PMPDeveloperConsoleActivity.this, "Cache cleaned", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -153,11 +156,13 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 PersistenceProvider pp = PersistenceProvider.getInstance();
                 try {
                     // it's a developer console, what'ya expect?
-                    
+                    pp.reloadDatabaseConnection();
                     Field dohf = pp.getClass().getDeclaredField("doh");
                     dohf.setAccessible(true);
                     DatabaseOpenHelper doh = (DatabaseOpenHelper) dohf.get(pp);
                     doh.cleanTables();
+                    
+                    Toast.makeText(PMPDeveloperConsoleActivity.this, "Cleaned tables", Toast.LENGTH_SHORT).show();
                     
                 } catch (Throwable t) {
                     Log.e("While cleaning tables: ", t);
@@ -189,6 +194,13 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 try {
                     EditText rgPath = (EditText) findViewById(R.id.pdc_rg_path);
                     EditText rgId = (EditText) findViewById(R.id.pdc_rg_name);
+                    
+                    if (ModelProxy.get().getResourceGroup(rgId.getText().toString()) != null) {
+                        complain("Already installed",
+                                "Installing the same thing twice, eh? Unexpected UserIntelligenceTooLow" + " Exception...");
+                        return;
+                    }
+                    
                     InputStream rgStream = new FileInputStream(rgPath.getText().toString());
                     try {
                         PluginProvider.getInstance().injectFile(rgId.getText().toString(), rgStream);
@@ -214,10 +226,25 @@ public class PMPDeveloperConsoleActivity extends Activity {
     }
     
     
+    /**
+     * Complains about an exception
+     * 
+     * @param title
+     * @param t
+     */
     protected void complain(String title, Throwable t) {
-        
-        new AlertDialog.Builder(this).setTitle(title)
-                .setMessage(t.getClass().getCanonicalName() + ": " + t.getMessage() + " (see LogCat)")
+        complain(title, t.getClass().getCanonicalName() + ": " + t.getMessage() + " (see LogCat)");
+    }
+    
+    
+    /**
+     * Complains to the user (mostly about the user being dumb as ****.
+     * 
+     * @param title
+     * @param msg
+     */
+    protected void complain(String title, String msg) {
+        new AlertDialog.Builder(this).setTitle(title).setMessage(msg)
                 .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
                     
                     @Override

@@ -132,6 +132,8 @@ public class Model implements IModel, Observer {
     public void registerApp(final String appPackage) throws InvalidXMLException {
         checkCached();
         Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.isNull(getApp(appPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "appPackage",
+                appPackage));
         
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), appPackage);
         
@@ -295,6 +297,8 @@ public class Model implements IModel, Observer {
     public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException {
         checkCached();
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.isNull(getResourceGroup(rgPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "rgPackage",
+                rgPackage));
         
         try {
             
