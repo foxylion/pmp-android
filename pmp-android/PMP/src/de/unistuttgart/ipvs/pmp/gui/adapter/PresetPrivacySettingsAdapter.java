@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -36,15 +35,12 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     /**
      * List of all assigned ResourceGroups
      */
-    private ArrayList<IResourceGroup> rgList;
+    private ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
     
     /**
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
-    private ArrayList<ArrayList<IPrivacySetting>> psList;
-    
-    
-    private HashMap<Integer, Boolean> expandedMap = new HashMap<Integer, Boolean>();
+    private ArrayList<ArrayList<IPrivacySetting>> psList = new ArrayList<ArrayList<IPrivacySetting>>();
     
     
     /**
@@ -54,17 +50,10 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
      *            context of the {@link PresetPSsTab}
      * @param preset
      *            the Preset
-     * @param rgList
-     *            List of all assigned ResourceGroups
-     * @param psList
-     *            List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
-    public PresetPrivacySettingsAdapter(Context context, IPreset preset, ArrayList<IResourceGroup> rgList,
-            ArrayList<ArrayList<IPrivacySetting>> psList) {
+    public PresetPrivacySettingsAdapter(Context context, IPreset preset) {
         this.context = context;
         this.preset = preset;
-        this.rgList = rgList;
-        this.psList = psList;
     }
     
     
@@ -97,7 +86,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
         value.setText(context.getString(R.string.value) + ": " + preset.getGrantedPrivacySettingValue(ps));
-
+        
         return entryView;
     }
     
@@ -164,21 +153,26 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         return true;
     }
     
-    @Override
-    public void onGroupCollapsed(int groupPosition) {
-        super.onGroupCollapsed(groupPosition);
-        expandedMap.put(groupPosition, false);
+    
+    /**
+     * Set the ResourceGroupList for the adapter
+     * 
+     * @param rgList
+     *            the ResourceGroupList
+     */
+    public void setRgList(ArrayList<IResourceGroup> rgList) {
+        this.rgList = rgList;
     }
     
-    @Override
-    public void onGroupExpanded(int groupPosition) {
-        super.onGroupExpanded(groupPosition);
-        expandedMap.put(groupPosition, true);
-    }
     
-    public HashMap<Integer, Boolean> getExpandedNodes() {
-        return expandedMap;
-
-    }  
+    /**
+     * Set the ResourceGroupList with a list of their Privacy Settings
+     * 
+     * @param psList
+     *            list with ResourceGroups and their Privacy Settings
+     */
+    public void setPsList(ArrayList<ArrayList<IPrivacySetting>> psList) {
+        this.psList = psList;
+    }
     
 }

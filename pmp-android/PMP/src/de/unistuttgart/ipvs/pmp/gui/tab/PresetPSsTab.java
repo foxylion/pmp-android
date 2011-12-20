@@ -50,13 +50,16 @@ public class PresetPSsTab extends Activity {
      * The list with all RGs and their PSs
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
-    
+    private ArrayList<IResourceGroup> rgList;
     /**
      * The Privacy Setting expandable list view
      */
     private ExpandableListView psExpandableListView;
     
-    PresetPrivacySettingsAdapter ppsAdapter;
+    /**
+     * The Adapter
+     */
+    private PresetPrivacySettingsAdapter ppsAdapter;
     
     
     @Override
@@ -122,6 +125,58 @@ public class PresetPSsTab extends Activity {
     
     
     /**
+     * React on a selected context menu item
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        
+        // Parse the menu info
+        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item
+                .getMenuInfo();
+        int rgPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+        int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+        
+        // Get the Privacy Setting
+        IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
+        
+        // Handle
+        switch (item.getItemId()) {
+            case 0: // Show details of PS
+                return true;
+            case 1: // Change PS value
+                return true;
+            case 2:
+                /*
+                 *  Remove PS
+                 */
+                
+                // Save expanded states
+                ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
+                for (int groupID = 0; groupID < this.ppsAdapter.getGroupCount(); groupID++) {
+                    expandedStates.add(this.psExpandableListView.isGroupExpanded(groupID));
+                }
+                // Save index of RG, if this RG will disappear later
+                int tmpIndexOfRG = this.rgList.indexOf(ps.getResourceGroup());
+                
+                // Remove the PS
+                this.preset.removePrivacySetting(ps);
+                
+                // Update the list
+                updateList();
+                
+                // Restore the expanded states of the groups
+                if (!this.rgList.contains(ps.getResourceGroup())) {
+                    propagateExpandedGroups(expandedStates, tmpIndexOfRG);
+                }
+                
+                return true;
+        }
+        
+        return false;
+    }
+    
+    
+    /**
      * Initialize the data structures
      */
     private void init() {
@@ -161,44 +216,15 @@ public class PresetPSsTab extends Activity {
             }
         });
         
+        // Add the adapter
+        ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset);
+        this.psExpandableListView.setAdapter(ppsAdapter);
+        
     }
     
     
     /**
-     * React on a selected context menu item
-     */
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        
-        // Parse the menu info
-        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item
-                .getMenuInfo();
-        int rgPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
-        
-        // Get the Privacy Setting
-        IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
-        
-        // Handle
-        switch (item.getItemId()) {
-            case 0: // Show details of PS
-                return true;
-            case 1: // Change PS value
-                return true;
-            case 2: // Remove PS
-                HashMap<Integer, Boolean> tempMap = this.ppsAdapter.getExpandedNodes();
-                this.preset.removePrivacySetting(ps);
-                updateList();
-                this.restoreExpandedNodes(tempMap);
-                return true;
-        }
-        
-        return false;
-    }
-    
-    
-    /**
-     * Update the list of apps
+     * Update the list of Apps and notify the addapter
      * 
      */
     public void updateList() {
@@ -227,17 +253,13 @@ public class PresetPSsTab extends Activity {
         }
         
         /* Build two lists, separated into RGs and PSs out of the map */
-        ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
+        this.rgList = new ArrayList<IResourceGroup>();
         this.psList = new ArrayList<ArrayList<IPrivacySetting>>();
         
         for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
             rgList.add(entry.getKey());
             this.psList.add(entry.getValue());
         }
-        
-        // Add the adapter
-        ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList, this.psList);
-        this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
@@ -247,20 +269,30 @@ public class PresetPSsTab extends Activity {
         } else {
             noAssignedPSs.setVisibility(View.GONE);
         }
+        
+        ppsAdapter.setPsList(this.psList);
+        ppsAdapter.setRgList(rgList);
+        ppsAdapter.notifyDataSetChanged();
     }
     
     
-    private void restoreExpandedNodes(HashMap<Integer, Boolean> expandedMap) {
-        for (Entry<Integer, Boolean> entry : expandedMap.entrySet()) {
-            if (entry.getValue()) {
-                try {
-                    this.psExpandableListView.expandGroup(entry.getKey());
-                } catch (Exception e) {
-                    // Node is not available anymore.
-                }
-
+    /**
+     * Restore the expanded-state of the nodes by using a list with the expanded states before removing one.
+     * 
+     * @param oldExpandedStates
+     *            a list with the old expanded states
+     * @param startByGroupID
+     *            the start index (start with propagating by this groupID)
+     */
+    private void propagateExpandedGroups(ArrayList<Boolean> oldExpandedStates, int startByGroupID) {
+        for (int groupID = startByGroupID; groupID < ppsAdapter.getGroupCount(); groupID++) {
+            if (oldExpandedStates.get(groupID + 1)) {
+                this.psExpandableListView.expandGroup(groupID);
+                System.out.println("Expanded" + groupID);
+            } else {
+                this.psExpandableListView.collapseGroup(groupID);
+                System.out.println("Collapsed " + groupID);
             }
-
         }
     }
 }
