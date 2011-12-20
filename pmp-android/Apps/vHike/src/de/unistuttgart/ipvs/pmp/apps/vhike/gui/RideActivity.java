@@ -1,19 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,6 +12,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
@@ -66,11 +58,7 @@ public class RideActivity extends Activity {
 				if (numSeats == 0) {
 					numSeats = 1;
 				}
-				ProgressDialog dialog = ProgressDialog.show(RideActivity.this,
-						"Announcing tripe",
-						"Announcing trip and locating current position...",
-						true);
-				
+
 				Controller ctrl = new Controller();
 
 				switch (ctrl.announceTrip(Model.getInstance().getSid(),
@@ -79,21 +67,22 @@ public class RideActivity extends Activity {
 					Toast.makeText(RideActivity.this, "Announced trip",
 							Toast.LENGTH_LONG).show();
 
+					vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this)
+							.show();
+
 					Intent intent = new Intent(RideActivity.this,
 							DriverViewActivity.class);
 					RideActivity.this.startActivity(intent);
-					dialog.dismiss();
+
 					break;
 				}
 				case Constants.TRIP_STATUS_OPEN_TRIP:
 					Toast.makeText(RideActivity.this, "Trip already exists",
 							Toast.LENGTH_LONG).show();
-					dialog.dismiss();
 					break;
 				case Constants.STATUS_ERROR:
 					Toast.makeText(RideActivity.this, "Error anouncing trip",
 							Toast.LENGTH_LONG).show();
-					dialog.dismiss();
 					break;
 
 				}

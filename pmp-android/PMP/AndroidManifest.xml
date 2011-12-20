@@ -60,7 +60,7 @@
         <activity android:name=".gui.tab.AppPresetsTab" />
         <activity android:name=".gui.tab.AppServiceFeaturesTab" />
         <activity android:name=".gui.tab.PresetAppsTab" />
-        <activity android:name=".gui.tab.PresetPrivacySettingsTab" />
+        <activity android:name=".gui.tab.PresetPSsTab" />
         <activity android:name=".gui.tab.RGsAvailableTab" />
         <activity android:name=".gui.tab.RGsInstalledTab" />
 
