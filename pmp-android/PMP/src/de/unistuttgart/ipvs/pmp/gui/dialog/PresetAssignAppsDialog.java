@@ -19,7 +19,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
- * Dialog for adding a Preset
+ * Dialog for assigning Apps to the Preset
  * 
  * @author Marcus Vetter
  */
@@ -36,7 +36,7 @@ public class PresetAssignAppsDialog extends Dialog {
     private Button cancel;
     
     /**
-     * The PresetAppsTabActivity
+     * The PresetAppsTab
      */
     private PresetAppsTab activity;
     
@@ -56,13 +56,15 @@ public class PresetAssignAppsDialog extends Dialog {
      * 
      * @param context
      *            the context
-     * @param preset2 
+     * @param preset
+     *            the Preset
      */
     public PresetAssignAppsDialog(Context context, IPreset preset) {
         super(context);
         this.preset = preset;
         this.activity = (PresetAppsTab) context;
-    }    
+    }
+    
     
     /**
      * Called when the dialog is first created. Gets all elements of the gui

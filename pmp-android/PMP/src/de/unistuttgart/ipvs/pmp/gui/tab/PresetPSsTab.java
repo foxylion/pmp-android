@@ -8,17 +8,19 @@ import java.util.Map.Entry;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetPrivacySettingsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAssignPSsDialog;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -31,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
  * @author Marcus Vetter
  * 
  */
-public class PresetPrivacySettingsTab extends Activity {
+public class PresetPSsTab extends Activity {
     
     /**
      * The preset instance
@@ -41,7 +43,7 @@ public class PresetPrivacySettingsTab extends Activity {
     /**
      * The Priavcy Setting list
      */
-    private List<IPrivacySetting> allPSList;
+    private List<IPrivacySetting> allassignedPSList;
     
     /**
      * The list with all RGs and their PSs
@@ -49,7 +51,7 @@ public class PresetPrivacySettingsTab extends Activity {
     private ArrayList<ArrayList<IPrivacySetting>> psList;
     
     /**
-     * The Privacy Setting list view
+     * The Privacy Setting expandable list view
      */
     private ExpandableListView psExpandableListView;
     
@@ -91,12 +93,34 @@ public class PresetPrivacySettingsTab extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
     
+    /**
+     * React to a selected menu item
+     */
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.preset_tab_pss_assign_pss:
+                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, preset);
+                
+                // Check, if there are Apps available which are not assigned yet
+                if (dialog.getSizeOfRGList() > 0) {
+                    dialog.show();
+                } else {
+                    Toast.makeText(this, getString(R.string.preset_tab_pss_all_pss_already_assigned), Toast.LENGTH_LONG)
+                            .show();
+                }
+                
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+    
     
     /**
      * Initialize the data structures
      */
     private void init() {
-        // Setup the appsListView
+        // Setup the Preset ExpandableListView
         this.psExpandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view_assigned_pss);
         
         this.psExpandableListView.setClickable(true);
@@ -148,7 +172,7 @@ public class PresetPrivacySettingsTab extends Activity {
         int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         
         // Get the Privacy Setting
-        IPrivacySetting ps = PresetPrivacySettingsTab.this.psList.get(rgPos).get(psPos);
+        IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
         
         // Handle
         switch (item.getItemId()) {
@@ -171,7 +195,7 @@ public class PresetPrivacySettingsTab extends Activity {
      * 
      */
     public void updateList() {
-        allPSList = new ArrayList<IPrivacySetting>();
+        allassignedPSList = new ArrayList<IPrivacySetting>();
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
@@ -180,7 +204,7 @@ public class PresetPrivacySettingsTab extends Activity {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
-            allPSList.add(ps);
+            allassignedPSList.add(ps);
             
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
@@ -210,7 +234,7 @@ public class PresetPrivacySettingsTab extends Activity {
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
-        if (allPSList.size() == 0) {
+        if (allassignedPSList.size() == 0) {
             noAssignedPSs.setVisibility(TextView.VISIBLE);
         } else {
             noAssignedPSs.setVisibility(TextView.GONE);
