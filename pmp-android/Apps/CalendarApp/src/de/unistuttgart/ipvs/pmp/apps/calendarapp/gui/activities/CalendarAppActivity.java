@@ -19,8 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -51,6 +55,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
@@ -193,49 +198,35 @@ public class CalendarAppActivity extends ListActivity {
                  * Connect to the EmailResourceGroup and send an mail with the date
                  */
                 final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
-                //                        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(this.appContext,
-                //                                ((CalendarApp) this.appContext).getSignee(), resGroupId);
-                //                        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-                //                            
-                //                            @Override
-                //                            public void disconnected() {
-                //                                Log.d("Disconnected from " + resGroupId);
-                //                            }
-                //                            
-                //                            
-                //                            @Override
-                //                            public void connected() {
-                //                                Log.d("Connected to " + resGroupId);
-                //                                try {
-                //                                    IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService()
-                //                                            .getResource("emailOperations"));
-                //                                    if (emailOP != null) {
-                //                                        Calendar cal = new GregorianCalendar();
-                //                                        cal.setTime(clicked.getDate());
-                //                                        SimpleDateFormat formatter;
-                //                                        formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                //                                        emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
-                //                                                + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
-                //                                                + clicked.getDescrpition());
-                //                                    }
-                //                                } catch (RemoteException e) {
-                //                                    Log.e("Remote Exception: ", e);
-                //                                } finally {
-                //                                    resGroupCon.unbind();
-                //                                }
-                //                            }
-                //                            
-                //                            
-                //                            @Override
-                //                            public void bindingFailed() {
-                //                                Log.e("Binding failed to " + resGroupId);
-                //                            }
-                //                        });
-                //                        resGroupCon.bind();
+                final PMPServiceConnector resGroupCon = new PMPServiceConnector(this.appContext);
+                resGroupCon.addCallbackHandler(new AbstractConnectorCallback() {
+                    
+                    @Override
+                    public void onConnect(AbstractConnector connector) throws RemoteException {
+                        Log.d("Connected to " + resGroupId);
+                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService().getRessource("de.unistuttgart.ipvs.pmp.apps.calendarapp",
+                                    resGroupId, "emailOperations"));
+                            if (emailOP != null) {
+                                Calendar cal = new GregorianCalendar();
+                                cal.setTime(clicked.getDate());
+                                SimpleDateFormat formatter;
+                                formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
+                                        + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
+                                        + clicked.getDescrpition());
+                            }
+                    }
+                    
+                    
+                        @Override
+                        public void onBindingFailed(AbstractConnector connector) {
+                        Log.e("Binding failed to " + resGroupId);
+                    }
+                });
+                resGroupCon.bind();
                 return true;
             } else {
-                ArrayList<String> sfs = new ArrayList<String>(); 
-                int itr = 0;
+                ArrayList<String> sfs = new ArrayList<String>();
                 if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
                     sfs.add("send");
                 }
@@ -357,10 +348,11 @@ public class CalendarAppActivity extends ListActivity {
     
     public void setSFAddAppToModel() {
         Bundle b = new Bundle();
-        b.putBoolean("read", false);
+        b.putBoolean("read", true);
         b.putBoolean("write", false);
         b.putBoolean("import", false);
         b.putBoolean("export", false);
+        b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
         if (Model.getInstance().getAppointmentList().size() == 0) {
             Model.getInstance().addAppointment(new Appointment(1, "teest", new Date()));
