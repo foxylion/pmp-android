@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -41,6 +42,9 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
+    
+    
+    private HashMap<Integer, Boolean> expandedMap = new HashMap<Integer, Boolean>();
     
     
     /**
@@ -159,5 +163,22 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     public boolean areAllItemsEnabled() {
         return true;
     }
+    
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+        super.onGroupCollapsed(groupPosition);
+        expandedMap.put(groupPosition, false);
+    }
+    
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+        expandedMap.put(groupPosition, true);
+    }
+    
+    public HashMap<Integer, Boolean> getExpandedNodes() {
+        return expandedMap;
+
+    }  
     
 }

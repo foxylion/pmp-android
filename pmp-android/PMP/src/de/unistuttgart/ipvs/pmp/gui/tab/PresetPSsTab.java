@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,6 +56,8 @@ public class PresetPSsTab extends Activity {
      */
     private ExpandableListView psExpandableListView;
     
+    PresetPrivacySettingsAdapter ppsAdapter;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class PresetPSsTab extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
     
+    
     /**
      * React to a selected menu item
      */
@@ -105,6 +109,7 @@ public class PresetPSsTab extends Activity {
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
                     dialog.show();
+                    dialog.getWindow().setGravity(Gravity.TOP);
                 } else {
                     Toast.makeText(this, getString(R.string.preset_tab_pss_all_pss_already_assigned), Toast.LENGTH_LONG)
                             .show();
@@ -181,8 +186,10 @@ public class PresetPSsTab extends Activity {
             case 1: // Change PS value
                 return true;
             case 2: // Remove PS
+                HashMap<Integer, Boolean> tempMap = this.ppsAdapter.getExpandedNodes();
                 this.preset.removePrivacySetting(ps);
                 updateList();
+                this.restoreExpandedNodes(tempMap);
                 return true;
         }
         
@@ -205,7 +212,7 @@ public class PresetPSsTab extends Activity {
             
             // Add the PS to the allPsList
             allassignedPSList.add(ps);
-
+            
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
                 ArrayList<IPrivacySetting> newList = new ArrayList<IPrivacySetting>();
@@ -229,17 +236,31 @@ public class PresetPSsTab extends Activity {
         }
         
         // Add the adapter
-        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList,
-                this.psList);
+        ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList, this.psList);
         this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
-
+        
         if (allassignedPSList.size() == 0) {
             noAssignedPSs.setVisibility(TextView.VISIBLE);
         } else {
             noAssignedPSs.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    private void restoreExpandedNodes(HashMap<Integer, Boolean> expandedMap) {
+        for (Entry<Integer, Boolean> entry : expandedMap.entrySet()) {
+            if (entry.getValue()) {
+                try {
+                    this.psExpandableListView.expandGroup(entry.getKey());
+                } catch (Exception e) {
+                    // Node is not available anymore.
+                }
+
+            }
+
         }
     }
 }

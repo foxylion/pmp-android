@@ -35,7 +35,7 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
-    
+  
     
     /**
      * Constructor to setup parameter
@@ -151,6 +151,6 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean areAllItemsEnabled() {
         return true;
-    }
+    }  
     
 }
