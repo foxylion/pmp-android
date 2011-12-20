@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General terms (sorted alphabetically)-->
+    <string name="change_value">Change value</string>
+    <string name="choose_your_action">Choose your action</string>
+    <string name="description">Description</string>
+    <string name="details">Details</string>
+    <string name="disable">Disable</string>
+    <string name="enable">Enable</string>
+    <string name="identifier">Identifier</string>
+    <string name="install">Install</string>
+    <string name="presets">Presets</string>
+    <string name="remove">Remove</string>
+    <string name="remove_app">Remove App</string>
+    <string name="required_privacy_settings">Required Privacy Settings</string>
+    <string name="required_value">required value</string>
+    <string name="resource_group">Resourcegroup</string>
+    <string name="service_features">Service Features</string>
+    <string name="show_details">Show details</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="update">Update</string>
+    <string name="value">Value</string>
+            
+    
     <string name="app_name">Privacy Management Platform</string>
 
     <!-- New GUI-Language variables -->
@@ -69,30 +91,12 @@
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
     <string name="app_servicefeature_disabled">The Service Feature is now disabled.</string><string name="service_feature_title">Details: %1$s</string>
     
-    <string name="value">Value</string>
-    <string name="remove">Remove</string>
-    <string name="show_details">Show details</string>
-    <string name="choose_your_action">Choose your action</string>
-    <string name="change_value">Change value</string>
-   	<string name="resource_group">Resourcegroup</string>
-    <string name="identifier">Identifier</string>
-   	    
-    <string name="required_privacy_settings">Required Privacy Settings</string>
-    <string name="enable">Enable</string>
-    <string name="disable">Disable</string>
-    <string name="details">Details</string>
-    <string name="install">Install</string>
-    <string name="uninstall">Uninstall</string>
-    <string name="update">Update</string>
-    <string name="service_features">Service Features</string>
-    <string name="presets">Presets</string>
-    <string name="ps_invalid_value">required value is invalid</string>
-    <string name="required_value">required value</string>
     <string name="app_context_menu">Choose an action</string>
-    <string name="remove_app">Remove App</string>
     <string name="app_removed">App has been successfully unregistred from PMP.</string>
     <string name="details_app">App details</string>
-
+    
+    <string name="ps_invalid_value">required value is invalid</string>
+        
     <string name="rgs_available">Available</string>
     <string name="rgs_installed">Installed</string>
     <string name="rgs_task_getting">Getting available Resource Groups</string>
@@ -102,7 +106,6 @@
     <string name="rgs_outdated">Outdated!</string>
     <string name="rgs_notinstalled">Not installed.</string>  
     
-    <string name="description">Description</string>
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
     <string name="tab_sfs_description_simplemode">Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why.</string>
