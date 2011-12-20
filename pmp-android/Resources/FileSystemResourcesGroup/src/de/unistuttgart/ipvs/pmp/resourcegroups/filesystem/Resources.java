@@ -106,7 +106,7 @@ public class Resources {
      * @param rg
      *            Resource-group to which the resource should be added to
      */
-    public void addToResourceGroup(ResourceGroup rg) {
+    public void registerResources(ResourceGroup rg) {
         rg.registerResource(GENERIC, this.generic);
         rg.registerResource(EXTERNAL_BASE_DIR, this.extBaseDir);
         rg.registerResource(EXTERNAL_MUSIC, this.extMusic);
