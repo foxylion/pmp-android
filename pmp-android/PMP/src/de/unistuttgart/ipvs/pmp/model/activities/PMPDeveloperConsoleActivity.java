@@ -197,7 +197,8 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     
                     if (ModelProxy.get().getResourceGroup(rgId.getText().toString()) != null) {
                         complain("Already installed",
-                                "Installing the same thing twice, eh? Unexpected UserIntelligenceTooLow" + " Exception...");
+                                "Installing the same thing twice, eh? Unexpected UserIntelligenceTooLow"
+                                        + " Exception...");
                         return;
                     }
                     

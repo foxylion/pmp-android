@@ -134,8 +134,13 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         
         if (sqlQueries != null) {
             Log.d("Successfully read the queries from " + CLEAN_SQL_FILES[DB_VERSION] + ", executing now...");
-            DatabaseOpenHelper.executeMultipleQueries(getWritableDatabase(), sqlQueries);
-            Log.d("Cleaned database (with, or without errors, see above).");
+            SQLiteDatabase sqldb = getWritableDatabase();
+            try {
+                DatabaseOpenHelper.executeMultipleQueries(sqldb, sqlQueries);
+                Log.d("Cleaned database (with, or without errors, see above).");
+            } finally {
+                sqldb.close();
+            }
         }
     }
     

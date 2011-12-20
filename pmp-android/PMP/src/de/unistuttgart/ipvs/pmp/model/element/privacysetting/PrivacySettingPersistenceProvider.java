@@ -71,12 +71,17 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
      */
     public PrivacySetting createElementData(ResourceGroup rg, String identifier) {
         // store in db
-        ContentValues cv = new ContentValues();
-        cv.put(RESOURCEGROUP_PACKAGE, rg.getIdentifier());
-        cv.put(IDENTIFIER, identifier);
-        if (getDoh().getWritableDatabase().insert(TBL_PRIVACYSETTING, null, cv) == -1) {
-            Log.e("Could not write service feature.");
-            return null;
+        SQLiteDatabase sqldb = getDoh().getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(RESOURCEGROUP_PACKAGE, rg.getIdentifier());
+            cv.put(IDENTIFIER, identifier);
+            if (sqldb.insert(TBL_PRIVACYSETTING, null, cv) == -1) {
+                Log.e("Could not write service feature.");
+                return null;
+            }
+        } finally {
+            sqldb.close();
         }
         
         // create associated object
