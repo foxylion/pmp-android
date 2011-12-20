@@ -109,28 +109,34 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     public ServiceFeature createElementData(App app, String identifier,
             List<RequiredResourceGroup> requiredResourceGroups) {
         // store in db
-        ContentValues cv = new ContentValues();
-        cv.put(APP_PACKAGE, app.getIdentifier());
-        cv.put(IDENTIFIER, identifier);
-        if (getDoh().getWritableDatabase().insert(TBL_SERVICEFEATURE, null, cv) == -1) {
-            Log.e("Could not write service feature.");
-            return null;
-        }
-        
-        // refer to all the required resource groups
-        for (RequiredResourceGroup rrg : requiredResourceGroups) {
-            for (Entry<String, String> e : rrg.getPrivacySettingsMap().entrySet()) {
-                cv = new ContentValues();
-                cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getRgIdentifier());
-                cv.put(PRIVACYSETTING_IDENTIFIER, e.getKey());
-                cv.put(SERVICEFEATURE_APP_PACKAGE, app.getIdentifier());
-                cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
-                cv.put(REQUIREDVALUE, e.getValue());
-                if (getDoh().getWritableDatabase().insert(TBL_SFReqPSValue, null, cv) == -1) {
-                    Log.e("Could not write required privacy setting for service feature. Corruption of database very likely.");
-                    return null;
+        SQLiteDatabase sqldb = getDoh().getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(APP_PACKAGE, app.getIdentifier());
+            cv.put(IDENTIFIER, identifier);
+            
+            if (sqldb.insert(TBL_SERVICEFEATURE, null, cv) == -1) {
+                Log.e("Could not write service feature.");
+                return null;
+            }
+            
+            // refer to all the required resource groups
+            for (RequiredResourceGroup rrg : requiredResourceGroups) {
+                for (Entry<String, String> e : rrg.getPrivacySettingsMap().entrySet()) {
+                    cv = new ContentValues();
+                    cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getRgIdentifier());
+                    cv.put(PRIVACYSETTING_IDENTIFIER, e.getKey());
+                    cv.put(SERVICEFEATURE_APP_PACKAGE, app.getIdentifier());
+                    cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
+                    cv.put(REQUIREDVALUE, e.getValue());
+                    if (sqldb.insert(TBL_SFReqPSValue, null, cv) == -1) {
+                        Log.e("Could not write required privacy setting for service feature. Corruption of database very likely.");
+                        return null;
+                    }
                 }
             }
+        } finally {
+            sqldb.close();
         }
         
         // create associated object

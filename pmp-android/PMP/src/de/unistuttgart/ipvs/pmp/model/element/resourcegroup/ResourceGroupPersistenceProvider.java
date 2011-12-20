@@ -70,10 +70,15 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
      */
     public ResourceGroup createElementData(String rgPackage) {
         // store in db
-        ContentValues cv = new ContentValues();
-        cv.put(PACKAGE, rgPackage);
-        if (getDoh().getWritableDatabase().insert(TBL_RESOURCEGROUP, null, cv) == -1) {
-            return null;
+        SQLiteDatabase sqldb = getDoh().getWritableDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(PACKAGE, rgPackage);
+            if (sqldb.insert(TBL_RESOURCEGROUP, null, cv) == -1) {
+                return null;
+            }
+        } finally {
+            sqldb.close();
         }
         
         // create associated object
