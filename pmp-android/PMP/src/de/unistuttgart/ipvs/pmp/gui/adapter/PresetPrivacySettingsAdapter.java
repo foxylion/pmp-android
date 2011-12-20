@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.tab.PresetPrivacySettingsTab;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -41,6 +42,9 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
+    
+    
+    private HashMap<Integer, Boolean> expandedMap = new HashMap<Integer, Boolean>();
     
     
     /**
@@ -92,12 +96,8 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-<<<<<<< HEAD
         value.setText(context.getString(R.string.value) + ": " + preset.getGrantedPrivacySettingValue(ps));
-=======
-        value.setText(this.preset.getGrantedPrivacySettingValue(ps));
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d
-        
+
         return entryView;
     }
     
@@ -163,5 +163,22 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
     public boolean areAllItemsEnabled() {
         return true;
     }
+    
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+        super.onGroupCollapsed(groupPosition);
+        expandedMap.put(groupPosition, false);
+    }
+    
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+        expandedMap.put(groupPosition, true);
+    }
+    
+    public HashMap<Integer, Boolean> getExpandedNodes() {
+        return expandedMap;
+
+    }  
     
 }

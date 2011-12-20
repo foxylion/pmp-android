@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,6 +56,8 @@ public class PresetPSsTab extends Activity {
      */
     private ExpandableListView psExpandableListView;
     
+    PresetPrivacySettingsAdapter ppsAdapter;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class PresetPSsTab extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
     
+    
     /**
      * React to a selected menu item
      */
@@ -105,6 +109,7 @@ public class PresetPSsTab extends Activity {
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
                     dialog.show();
+                    dialog.getWindow().setGravity(Gravity.TOP);
                 } else {
                     Toast.makeText(this, getString(R.string.preset_tab_pss_all_pss_already_assigned), Toast.LENGTH_LONG)
                             .show();
@@ -181,8 +186,10 @@ public class PresetPSsTab extends Activity {
             case 1: // Change PS value
                 return true;
             case 2: // Remove PS
+                HashMap<Integer, Boolean> tempMap = this.ppsAdapter.getExpandedNodes();
                 this.preset.removePrivacySetting(ps);
                 updateList();
+                this.restoreExpandedNodes(tempMap);
                 return true;
         }
         
@@ -195,11 +202,7 @@ public class PresetPSsTab extends Activity {
      * 
      */
     public void updateList() {
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
         allassignedPSList = new ArrayList<IPrivacySetting>();
-=======
-        this.allPSList = new ArrayList<IPrivacySetting>();
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
@@ -208,11 +211,7 @@ public class PresetPSsTab extends Activity {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
             allassignedPSList.add(ps);
-=======
-            this.allPSList.add(ps);
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
             
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
@@ -237,21 +236,31 @@ public class PresetPSsTab extends Activity {
         }
         
         // Add the adapter
-        PresetPrivacySettingsAdapter ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList,
-                this.psList);
+        ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset, rgList, this.psList);
         this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
+        
         if (allassignedPSList.size() == 0) {
             noAssignedPSs.setVisibility(TextView.VISIBLE);
-=======
-        if (this.allPSList.size() == 0) {
-            noAssignedPSs.setVisibility(View.VISIBLE);
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         } else {
             noAssignedPSs.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    private void restoreExpandedNodes(HashMap<Integer, Boolean> expandedMap) {
+        for (Entry<Integer, Boolean> entry : expandedMap.entrySet()) {
+            if (entry.getValue()) {
+                try {
+                    this.psExpandableListView.expandGroup(entry.getKey());
+                } catch (Exception e) {
+                    // Node is not available anymore.
+                }
+
+            }
+
         }
     }
 }
