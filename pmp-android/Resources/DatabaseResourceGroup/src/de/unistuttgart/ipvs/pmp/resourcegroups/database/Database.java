@@ -23,6 +23,7 @@ import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
  * @author Thorsten Berberich
@@ -46,6 +47,9 @@ public class Database extends ResourceGroup {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.database", pmpci);
         
         registerResource(RESOURCE_DATABASE, new DatabaseResource());
+        registerPrivacySetting(PRIVACY_LEVEL_READ, new BooleanPrivacySetting());
+        registerPrivacySetting(PRIVACY_LEVEL_MODIFY, new BooleanPrivacySetting());
+        registerPrivacySetting(PRIVACY_LEVEL_CREATE, new BooleanPrivacySetting());
     }
     
     
