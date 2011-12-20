@@ -74,7 +74,9 @@
     <string name="show_details">Show details</string>
     <string name="choose_your_action">Choose your action</string>
     <string name="change_value">Change value</string>
-        
+   	<string name="resource_group">Resourcegroup</string>
+    <string name="identifier">Identifier</string>
+   	    
     <string name="required_privacy_settings">Required Privacy Settings</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>

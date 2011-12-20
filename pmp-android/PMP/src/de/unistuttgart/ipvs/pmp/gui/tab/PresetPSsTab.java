@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -141,9 +143,33 @@ public class PresetPSsTab extends Activity {
         
         // Handle
         switch (item.getItemId()) {
-            case 0: // Show details of PS
+            case 0:
+                /*
+                 * Show details of PS with an AlertDialog
+                 */
+                
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setMessage(getString(R.string.description) + ":\n" + ps.getDescription() + "\n\n"
+                        + getString(R.string.resource_group) + ":\n" + ps.getResourceGroup().getName() + "\n\n"
+                        + getString(R.string.identifier) + ":\n" + ps.getIdentifier());
+                alertDialog.setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                    
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = alertDialog.create();
+                alert.setTitle(ps.getName());
+                alert.show();
+                
                 return true;
-            case 1: // Change PS value
+            case 1:
+                /*
+                 *  Change PS value
+                 */
+                
+                //TODO:
+                
                 return true;
             case 2:
                 /*
@@ -288,10 +314,8 @@ public class PresetPSsTab extends Activity {
         for (int groupID = startByGroupID; groupID < ppsAdapter.getGroupCount(); groupID++) {
             if (oldExpandedStates.get(groupID + 1)) {
                 this.psExpandableListView.expandGroup(groupID);
-                System.out.println("Expanded" + groupID);
             } else {
                 this.psExpandableListView.collapseGroup(groupID);
-                System.out.println("Collapsed " + groupID);
             }
         }
     }
