@@ -79,30 +79,36 @@ public class LocationUpdateHandler implements LocationListener {
 		listOfOverlays.add(mapOverlay);
 
 		showCurrentLocation();
-		
+
 		Controller ctrl = new Controller();
 		switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-				.getInstance().getTripId(), (float) lat,
-				(float) lng)) {
+				.getInstance().getTripId(), (float) location.getLatitude(),
+				(float) location.getLongitude())) {
 		case Constants.STATUS_UPDATED:
-			Toast.makeText(context, "Status updated",
+			Toast.makeText(
+					context,
+					"Status updated" + " Lat: " + location.getLatitude()
+							+ ", Lon: " + location.getLongitude(),
 					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_UPTODATE:
-			Toast.makeText(context, "Status Up to date",
+			Toast.makeText(
+					context,
+					"Status up to date" + " Lat: " + location.getLatitude()
+							+ ", Lon: " + location.getLongitude(),
 					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_NOTRIP:
-			Toast.makeText(context, "Status no trip ",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Status no trip ", Toast.LENGTH_LONG)
+					.show();
 			break;
 		case Constants.STATUS_HASENDED:
-			Toast.makeText(context, "Status trip ended",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Status trip ended", Toast.LENGTH_LONG)
+					.show();
 			break;
 		case Constants.STATUS_INVALID_USER:
-			Toast.makeText(context, "Status invalid user",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Status invalid user", Toast.LENGTH_LONG)
+					.show();
 
 		}
 	}

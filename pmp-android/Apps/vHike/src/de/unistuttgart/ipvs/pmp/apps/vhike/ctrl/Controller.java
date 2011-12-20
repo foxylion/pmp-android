@@ -138,7 +138,7 @@ public class Controller {
 			float current_lon) {
 		String status = JSonRequestReader.tripUpdatePos(sid, trip_id,
 				current_lat, current_lon);
-
+		Log.i(current_lat + " " + current_lon);
 		if (status.equals("updated")) {
 			return Constants.STATUS_UPDATED;
 		} else if (status.equals("already_uptodate")) {

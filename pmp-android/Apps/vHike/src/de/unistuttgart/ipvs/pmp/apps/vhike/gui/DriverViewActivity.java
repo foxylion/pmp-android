@@ -196,7 +196,10 @@ public class DriverViewActivity extends MapActivity {
 					.getInstance().getTripId(), (float) location.getLatitude(),
 					(float) location.getLongitude())) {
 			case Constants.STATUS_UPDATED:
-				Toast.makeText(DriverViewActivity.this, "Status updated",
+				Toast.makeText(
+						DriverViewActivity.this,
+						"Status updated" + " Lat: " + location.getLatitude()
+								+ ", Lon: " + location.getLongitude(),
 						Toast.LENGTH_LONG).show();
 				break;
 			case Constants.STATUS_UPTODATE:
