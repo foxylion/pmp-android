@@ -46,6 +46,8 @@ import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -193,13 +195,36 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     } finally {
                         rgStream.close();
                     }
-                    ModelProxy.get().installResourceGroup(rgId.getText().toString());
+                    try {
+                        ModelProxy.get().installResourceGroup(rgId.getText().toString());
+                    } catch (InvalidXMLException ixmle) {
+                        Log.e("Invalid XML", ixmle);
+                        complain("Invalid XML", ixmle);
+                    } catch (InvalidPluginException ipe) {
+                        Log.e("Invalid Plugin", ipe);
+                        complain("Invalid Plugin", ipe);
+                    }
                 } catch (IOException ioe) {
-                    Log.e("Cannot install RG.", ioe);
+                    Log.e("Cannot install RG", ioe);
+                    complain("Cannot install RG", ioe);
                 }
                 
             }
         });
+    }
+    
+    
+    protected void complain(String title, Throwable t) {
+        
+        new AlertDialog.Builder(this).setTitle(title)
+                .setMessage(t.getClass().getCanonicalName() + ": " + t.getMessage() + " (see LogCat)")
+                .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false).show();
     }
     
     

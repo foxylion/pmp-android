@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.activity;
 import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -79,6 +78,7 @@ public class AppActivity extends Activity {
         
         this.lam.dispatchResume();
     }
+    
     
     @Override
     protected void onPause() {

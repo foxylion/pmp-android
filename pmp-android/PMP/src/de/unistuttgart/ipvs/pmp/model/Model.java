@@ -31,8 +31,11 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroupPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -126,11 +129,14 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public void registerApp(final String appPackage) {
+    public void registerApp(final String appPackage) throws InvalidXMLException {
         checkCached();
         Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
         
         final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), appPackage);
+        
+        // some strange construct because of some other strange construct
+        InvalidXMLException throwAfterCatch = null;
         
         // check XML
         try {
@@ -195,6 +201,7 @@ public class Model implements IModel, Observer {
                 }
             });
             Log.w(appPackage + " has failed registration with PMP.", ioe);
+            throwAfterCatch = new InvalidXMLException(ioe.getMessage(), ioe);
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
@@ -206,6 +213,7 @@ public class Model implements IModel, Observer {
                 }
             });
             Log.w(appPackage + " has failed registration with PMP.", nnfe);
+            throwAfterCatch = new InvalidXMLException(nnfe.getMessage(), nnfe);
             
         } catch (final XMLParserException xmlpe) {
             /* error during XML validation */
@@ -217,10 +225,15 @@ public class Model implements IModel, Observer {
                 }
             });
             Log.w(appPackage + " has failed registration with PMP.", xmlpe);
+            throwAfterCatch = new InvalidXMLException(xmlpe.getMessage(), xmlpe);
         }
         
         // and off you go
         asc.bind();
+        
+        if (throwAfterCatch != null) {
+            throw throwAfterCatch;
+        }
     }
     
     
@@ -279,19 +292,34 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean installResourceGroup(String rgPackage) {
+    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException {
         checkCached();
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         
         try {
             
             // install the plugin
-            if (!PluginProvider.getInstance().install(rgPackage)) {
-                return false;
-            }
+            PluginProvider.getInstance().install(rgPackage);
             
             // get the RGIS
             RgInformationSet rgis = PluginProvider.getInstance().getRGIS(rgPackage);
+            
+            // check it is valid
+            de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
+                    rgPackage);
+            if (!rgPackage.equals(rgis.getIdentifier())) {
+                throw new InvalidXMLException("ResourceGroup package (parameter, XML)", rgPackage, rgis.getIdentifier());
+            }
+            if (!rgis.getIdentifier().equals(rg.getRgPackage())) {
+                throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
+                        rg.getRgPackage());
+            }
+            for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
+                AbstractPrivacySetting<?> aps = rg.getPrivacySetting(psIdentifier);
+                if (aps == null) {
+                    throw new InvalidXMLException("PrivacySetting (XML, objects)", psIdentifier, aps);
+                }
+            }
             
             // apply new RG to DB, then model
             ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(rgPackage);
@@ -345,7 +373,7 @@ public class Model implements IModel, Observer {
             return true;
         } catch (XMLParserException xmlpe) {
             /* error during XML validation */
-            Log.w(rgPackage + " has failed registration with PMP.", xmlpe);
+            Log.w(rgPackage + " has failed installation with PMP.", xmlpe);
             return false;
         }
     }

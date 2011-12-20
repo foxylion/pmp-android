@@ -24,6 +24,7 @@ public class Assert {
     public static final String ILLEGAL_UNCACHED = "'%s' was expected to be cached, found no cache however. (%s)";
     public static final String ILLEGAL_SIMPLE_MODE = "'%s' was expected to be prepared for simple model, found expert mode configuration instead. (%s)";
     public static final String ILLEGAL_TYPE = "'%s' was expected to be of a type known to the model, found an unknown instead. (%s)";
+    public static final String ILLEGAL_UNINSTALLED_ACCESS = "'%s' was expected to be installed, found nothing instead. (%s)";
     
     
     /**

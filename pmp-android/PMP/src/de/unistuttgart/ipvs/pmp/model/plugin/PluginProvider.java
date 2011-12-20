@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
@@ -53,6 +55,22 @@ public class PluginProvider implements IPluginProvider {
     private static final String PNG_STR = ".png";
     
     private static final ClassLoader CLASS_LOADER = context.getClassLoader();
+    
+    // errors
+    private static final String ERROR = " (Trying to install '%s' from '%s' using main class '%s')";
+    private static final String ERROR_CLASS_NOT_FOUND = "Main class not found" + ERROR;
+    private static final String ERROR_CLASS_NOT_CASTABLE = "Main class of wrong type" + ERROR;
+    private static final String ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED = "Accessing constructor of main class not allowed"
+            + ERROR;
+    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_FOUND = "Constructor of main class not found" + ERROR;
+    private static final String ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT = "Constructor of main class expects invalid arguments"
+            + ERROR;
+    private static final String ERROR_CLASS_NOT_INSTANTIABLE = "Main class is not instantiable" + ERROR;
+    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE = "Constructor of main class not accessible"
+            + ERROR;
+    private static final String ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION = "Constructor of main class throws exception"
+            + ERROR;
+    private static final String ERROR_ASSETS_NOT_ACCESSIBLE = "Accessing the assets failed" + ERROR;
     
     /*
      * fields
@@ -100,8 +118,38 @@ public class PluginProvider implements IPluginProvider {
      * @param rgPackage
      */
     private void checkCached(String rgPackage) {
+        // object
         if (this.cache.get(rgPackage) == null) {
-            install(rgPackage);
+            String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
+            String className = getClassName(rgPackage);
+            
+            try {
+                this.cache.put(rgPackage, loadRGObject(rgPackage, apkName, className));
+            } catch (ClassNotFoundException cnfe) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, cnfe);
+            } catch (NoSuchMethodException nsme) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, nsme);
+            } catch (InstantiationException ie) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ie);
+            } catch (IllegalAccessException iae) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, iae);
+            } catch (InvocationTargetException ite) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ite);
+            }
+            
+        }
+        
+        // RGIS
+        if (this.cacheRGIS.get(rgPackage) == null) {
+            
+            try {
+                this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
+            } catch (FileNotFoundException fnfe) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe);
+            } catch (IOException ioe) {
+                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe);
+            }
+            
         }
     }
     
@@ -168,12 +216,15 @@ public class PluginProvider implements IPluginProvider {
     
     
     @Override
-    public boolean install(String rgPackage) {
+    public void install(String rgPackage) throws InvalidPluginException {
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        
+        // identify the important attributes first
+        String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
+        String className = getClassName(rgPackage);
+        String errorMsg;
+        
         try {
-            // identify the important attributes first
-            String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
-            String className = getClassName(rgPackage);
             
             // extract the XML, so we have the information from there
             ZipFile zipApk = new ZipFile(apkName);
@@ -186,10 +237,7 @@ public class PluginProvider implements IPluginProvider {
                 }
                 
                 // create the RGIS
-                RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(new FileInputStream(
-                        PLUGIN_ASSET_DIR_STR + rgPackage + ".xml"));
-                
-                DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
+                RgInformationSet rgis = loadRGIS(rgPackage);
                 
                 // extract icon
                 // TODO Marcus should include an <icon> Tag sooner or later
@@ -207,42 +255,101 @@ public class PluginProvider implements IPluginProvider {
                 }
                 
                 // load main class
-                Class<?> clazz = classLoader.loadClass(rgPackage + "." + className);
-                Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
-                Constructor<? extends ResourceGroup> rgConstruct = rgClazz
-                        .getConstructor(IPMPConnectionInterface.class);
+                ResourceGroup rg = loadRGObject(rgPackage, apkName, className);
                 
                 // store in cache
-                this.cache.put(rgPackage, rgConstruct.newInstance(PMPConnectionInterface.getInstance()));
+                this.cache.put(rgPackage, rg);
                 this.cacheRGIS.put(rgPackage, rgis);
                 
             } finally {
                 zipApk.close();
             }
             
-            return true;
-            
-            // TODO we might wanna handle some of these nicer? 
         } catch (ClassNotFoundException cnfe) {
-            Log.e("Could not find class for " + rgPackage, cnfe);
+            errorMsg = String.format(ERROR_CLASS_NOT_FOUND, rgPackage, apkName, className);
+            Log.e(errorMsg, cnfe);
+            throw new InvalidPluginException(errorMsg, cnfe);
         } catch (ClassCastException cce) {
-            Log.e("Could not cast main class for " + rgPackage, cce);
+            errorMsg = String.format(ERROR_CLASS_NOT_CASTABLE, rgPackage, apkName, className);
+            Log.e(errorMsg, cce);
+            throw new InvalidPluginException(errorMsg, cce);
         } catch (SecurityException se) {
-            Log.e("Security manager denied loading constructor for " + rgPackage, se);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED, rgPackage, apkName, className);
+            Log.e(errorMsg, se);
+            throw new InvalidPluginException(errorMsg, se);
         } catch (NoSuchMethodException nsme) {
-            Log.e("Could not find constructor(IPMPCI) for main class for " + rgPackage, nsme);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_FOUND, rgPackage, apkName, className);
+            Log.e(errorMsg, nsme);
+            throw new InvalidPluginException(errorMsg, nsme);
         } catch (IllegalArgumentException iae) {
-            Log.e("Could not pass arguments to constructor for " + rgPackage, iae);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT, rgPackage, apkName, className);
+            Log.e(errorMsg, iae);
+            throw new InvalidPluginException(errorMsg, iae);
         } catch (InstantiationException ie) {
-            Log.e("Cannot instantiate main class for " + rgPackage, ie);
+            errorMsg = String.format(ERROR_CLASS_NOT_INSTANTIABLE, rgPackage, apkName, className);
+            Log.e(errorMsg, ie);
+            throw new InvalidPluginException(errorMsg, ie);
         } catch (IllegalAccessException iae) {
-            Log.e("Could not access constructor for " + rgPackage, iae);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE, rgPackage, apkName, className);
+            Log.e(errorMsg, iae);
+            throw new InvalidPluginException(errorMsg, iae);
         } catch (InvocationTargetException ite) {
-            Log.e("Constructor threw exception for " + rgPackage, ite);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION, rgPackage, apkName, className);
+            Log.e(errorMsg, ite);
+            throw new InvalidPluginException(errorMsg, ite);
         } catch (IOException ioe) {
-            Log.e("IO exception for " + rgPackage, ioe);
+            errorMsg = String.format(ERROR_ASSETS_NOT_ACCESSIBLE, rgPackage, apkName, className);
+            Log.e(errorMsg, ioe);
+            throw new InvalidPluginException(errorMsg, ioe);
         }
-        return false;
+    }
+    
+    
+    /**
+     * Creates a new {@link ResourceGroup} object for a resource group.
+     * 
+     * @param rgPackage
+     *            the package identifying the resource group
+     * @param apkName
+     *            the apk containing the resource group
+     * @param className
+     *            the name of the main class of the resource group
+     * @return a (new) object for the resource group
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    private ResourceGroup loadRGObject(String rgPackage, String apkName, String className)
+            throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException,
+            InvocationTargetException {
+        DexClassLoader classLoader = new DexClassLoader(apkName, PLUGIN_DEX_DIR_STR, null, CLASS_LOADER);
+        
+        Class<?> clazz = classLoader.loadClass(rgPackage + "." + className);
+        Class<? extends ResourceGroup> rgClazz = clazz.asSubclass(ResourceGroup.class);
+        Constructor<? extends ResourceGroup> rgConstruct = rgClazz.getConstructor(IPMPConnectionInterface.class);
+        ResourceGroup rg = rgConstruct.newInstance(PMPConnectionInterface.getInstance());
+        return rg;
+    }
+    
+    
+    /**
+     * Loads the RGIS for a specific resource group.
+     * 
+     * @param rgPackage
+     *            identifier of the resource group
+     * @return the RGIS for the resource group
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    private RgInformationSet loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
+        FileInputStream fis = new FileInputStream(PLUGIN_ASSET_DIR_STR + rgPackage + ".xml");
+        try {
+            return RgInformationSetParser.createRgInformationSet(fis);
+        } finally {
+            fis.close();
+        }
     }
     
     

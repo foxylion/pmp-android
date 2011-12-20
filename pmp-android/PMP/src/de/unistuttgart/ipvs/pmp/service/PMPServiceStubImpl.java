@@ -27,6 +27,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 /**
@@ -51,7 +52,11 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
     
     @Override
     public void registerApp(String appPackage) throws RemoteException {
-        Model.getInstance().registerApp(appPackage);
+        try {
+            Model.getInstance().registerApp(appPackage);
+        } catch (InvalidXMLException e) {
+            // if desired one could inform the GUI here
+        }
     }
     
     

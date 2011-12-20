@@ -24,6 +24,8 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 
 /**
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and {@link IResourceGroup}s known by PMP.
@@ -60,8 +62,10 @@ public interface IModel {
      * 
      * @param appPackage
      *            The identifier for the {@link IApp} which should be registered.
+     * @throws InvalidXMLException
+     *             if the XML of the app is somehow corrupt
      */
-    public void registerApp(String appPackage);
+    public void registerApp(String appPackage) throws InvalidXMLException;
     
     
     /**
@@ -101,8 +105,12 @@ public interface IModel {
      * @param rgPackage
      *            The identifier for the {@link IResourceGroup} which should be registered.
      * @return true, if the installation was successful, false if an error occurred
+     * @throws InvalidXMLException
+     *             if the XML of the supplied resource group is somehow corrupt
+     * @throws InvalidPluginException
+     *             if the supplied resource group is somehow corrupt
      */
-    public boolean installResourceGroup(String rgPackage);
+    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException;
     
     
     /**
