@@ -8,7 +8,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -23,15 +22,14 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.SearchingHitchhikers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -56,12 +54,15 @@ public class DriverViewActivity extends MapActivity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_driverview);
 
+		setContentView(R.layout.activity_driverview);
 		showHitchhikers();
 		setMapView();
 		setUpNotiBar();
 		startTripByAnnouncing();
+
+		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
+				.dismiss();
 	}
 
 	public DriverViewActivity() {
@@ -196,10 +197,7 @@ public class DriverViewActivity extends MapActivity {
 					.getInstance().getTripId(), (float) location.getLatitude(),
 					(float) location.getLongitude())) {
 			case Constants.STATUS_UPDATED:
-				Toast.makeText(
-						DriverViewActivity.this,
-						"Status updated" + " Lat: " + location.getLatitude()
-								+ ", Lon: " + location.getLongitude(),
+				Toast.makeText(DriverViewActivity.this, "Status updated",
 						Toast.LENGTH_LONG).show();
 				break;
 			case Constants.STATUS_UPTODATE:
