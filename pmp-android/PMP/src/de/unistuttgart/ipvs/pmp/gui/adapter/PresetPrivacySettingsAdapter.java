@@ -10,7 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.tab.PresetPrivacySettingsTab;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -92,12 +92,8 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-<<<<<<< HEAD
         value.setText(context.getString(R.string.value) + ": " + preset.getGrantedPrivacySettingValue(ps));
-=======
-        value.setText(this.preset.getGrantedPrivacySettingValue(ps));
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d
-        
+
         return entryView;
     }
     

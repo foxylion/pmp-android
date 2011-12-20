@@ -195,11 +195,7 @@ public class PresetPSsTab extends Activity {
      * 
      */
     public void updateList() {
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
         allassignedPSList = new ArrayList<IPrivacySetting>();
-=======
-        this.allPSList = new ArrayList<IPrivacySetting>();
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
@@ -208,12 +204,8 @@ public class PresetPSsTab extends Activity {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
             allassignedPSList.add(ps);
-=======
-            this.allPSList.add(ps);
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
-            
+
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
                 ArrayList<IPrivacySetting> newList = new ArrayList<IPrivacySetting>();
@@ -243,13 +235,9 @@ public class PresetPSsTab extends Activity {
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
-<<<<<<< HEAD:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPSsTab.java
+
         if (allassignedPSList.size() == 0) {
             noAssignedPSs.setVisibility(TextView.VISIBLE);
-=======
-        if (this.allPSList.size() == 0) {
-            noAssignedPSs.setVisibility(View.VISIBLE);
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d:pmp-android/PMP/src/de/unistuttgart/ipvs/pmp/gui/tab/PresetPrivacySettingsTab.java
         } else {
             noAssignedPSs.setVisibility(View.GONE);
         }
