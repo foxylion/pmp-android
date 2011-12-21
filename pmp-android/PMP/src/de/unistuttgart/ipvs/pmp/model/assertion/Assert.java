@@ -26,6 +26,7 @@ public class Assert {
     public static final String ILLEGAL_TYPE = "'%s' was expected to be of a type known to the model, found an unknown instead. (%s)";
     public static final String ILLEGAL_UNINSTALLED_ACCESS = "'%s' was expected to be installed, found nothing instead. (%s)";
     public static final String ILLEGAL_ALREADY_INSTALLED = "'%s' was expected to be not installed, found it in the model however. (%s)";
+    public static final String ILLEGAL_MISSING_FILE = "'%s' was expected to be an existing file, found it missing however. (%s)";
     
     
     /**

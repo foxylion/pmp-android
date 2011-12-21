@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.plugin;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;

@@ -26,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 
 /**
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and {@link IResourceGroup}s known by PMP.
@@ -96,10 +97,10 @@ public interface IModel {
     
     
     /**
-     * Installs a previously downloaded, new {@link IResourceGroup} at PMP.
+     * Installs an arbitrary new {@link IResourceGroup} at PMP.
      * 
      * <p>
-     * <b>This method will cause a network connection to the resource group server.</b>
+     * <b>This method will cause a network connection to the resource group server via the {@link ServerProvider}.</b>
      * </p>
      * 
      * @param rgPackage
