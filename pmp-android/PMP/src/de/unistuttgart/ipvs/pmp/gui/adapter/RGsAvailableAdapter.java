@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
@@ -59,16 +60,35 @@ public class RGsAvailableAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         RgInformationSet rgis = this.rgs.get(position);
         
+        String rgId = rgis.getIdentifier();
+        int rgRev = Integer.parseInt(rgis.getRevision());
+        
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
         
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
-        name.setText(rgis.getNames().get(Locale.getDefault().getLanguage()));
+        name.setText(rgis.getNames().get(Locale.ENGLISH));
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
-        description.setText(rgis.getDescriptions().get(Locale.getDefault().getLanguage()));
+        description.setText(rgis.getDescriptions().get(Locale.ENGLISH));
+        
+        TextView state = (TextView) entryView.findViewById(R.id.TextView_Status);
+        if(ModelProxy.get().getResourceGroup(rgId) != null) {
+            /* RG is already installed. */
+            if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
+                /* A newer version is available */
+                state.setText(context.getResources().getString(R.string.rg_state_update) + " - rev. " + rgRev);
+            } else {
+                /* already up to date */
+                state.setText(context.getResources().getString(R.string.rg_state_installed));
+            }
+        } else {
+            /* RG is not installed. */
+            state.setText(context.getResources().getString(R.string.rg_state_new) + " - rev. " + rgRev);
+        }
+        
         
         return entryView;
     }
