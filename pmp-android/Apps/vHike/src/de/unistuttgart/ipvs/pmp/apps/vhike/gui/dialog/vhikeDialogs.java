@@ -2,13 +2,23 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Handler;
 
+/**
+ * This class provides access to all dialogs in vHike
+ * 
+ * @author andres
+ * 
+ */
 public class vhikeDialogs {
 
 	private static vhikeDialogs instance;
 
 	private ProgressDialog dLogin;
 	private ProgressDialog dAnnounce;
+	private ProgressDialog dSearch;
+
+	private Handler ahandler;
 
 	public static vhikeDialogs getInstance() {
 		if (instance == null) {
@@ -17,6 +27,12 @@ public class vhikeDialogs {
 		return instance;
 	}
 
+	/**
+	 * ProgressDialog when logging in
+	 * 
+	 * @param context
+	 * @return login progress dialog
+	 */
 	public ProgressDialog getLoginPD(Context context) {
 		if (dLogin == null) {
 			dLogin = new ProgressDialog(context);
@@ -28,6 +44,13 @@ public class vhikeDialogs {
 		return dLogin;
 	}
 
+	/**
+	 * ProgressDialog for driver when announcing a trip and calculating current
+	 * position
+	 * 
+	 * @param context
+	 * @return announce progress dialog
+	 */
 	public ProgressDialog getAnnouncePD(Context context) {
 		if (dAnnounce == null) {
 			dAnnounce = new ProgressDialog(context);
@@ -38,6 +61,32 @@ public class vhikeDialogs {
 		dAnnounce.setCancelable(false);
 
 		return dAnnounce;
+	}
+
+	/**
+	 * ProgressDialog when searching for drivers and calculating current
+	 * position
+	 * 
+	 * @param context
+	 * @return search progress dialog
+	 */
+	public ProgressDialog getSearchPD(Context context) {
+		if (dSearch == null) {
+			dSearch = new ProgressDialog(context);
+		}
+		dSearch.setTitle("Thumbs up");
+		dSearch.setMessage("Getting current location...\nHolding thumb up...");
+		dSearch.setIndeterminate(true);
+		dSearch.setCancelable(false);
+
+		return dSearch;
+	}
+
+	public Handler getAnnounceHandler() {
+		if (ahandler == null) {
+			ahandler = new Handler();
+		}
+		return ahandler;
 	}
 
 }

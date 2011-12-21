@@ -226,6 +226,50 @@ public class DriverViewActivity extends MapActivity {
 	}
 
 	@Override
+	public void onBackPressed() {
+
+		Controller ctrl = new Controller();
+		switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance()
+				.getTripId())) {
+		case (Constants.STATUS_UPDATED): {
+			Toast.makeText(DriverViewActivity.this, "Updated",
+					Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(DriverViewActivity.this,
+					RideActivity.class);
+			DriverViewActivity.this.startActivity(intent);
+			break;
+		}
+		case (Constants.STATUS_UPTODATE): {
+			Toast.makeText(DriverViewActivity.this, "Up to date",
+					Toast.LENGTH_LONG).show();
+			break;
+		}
+		case (Constants.STATUS_NOTRIP): {
+			Toast.makeText(DriverViewActivity.this, "No trip",
+					Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(DriverViewActivity.this,
+					RideActivity.class);
+			DriverViewActivity.this.startActivity(intent);
+			break;
+		}
+		case (Constants.STATUS_HASENDED): {
+			Toast.makeText(DriverViewActivity.this, "Trip ended",
+					Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(DriverViewActivity.this,
+					RideActivity.class);
+			DriverViewActivity.this.startActivity(intent);
+			break;
+		}
+		case (Constants.STATUS_INVALID_USER):
+			Toast.makeText(DriverViewActivity.this, "Invalid user",
+					Toast.LENGTH_LONG).show();
+			break;
+		}
+
+		return;
+	}
+
+	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
