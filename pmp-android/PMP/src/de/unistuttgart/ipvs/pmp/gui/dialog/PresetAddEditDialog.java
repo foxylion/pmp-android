@@ -18,7 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * 
  * @author Marcus Vetter
  */
-public class PresetAddDialog extends Dialog {
+public class PresetAddEditDialog extends Dialog {
     
     /**
      * The TextView with the name
@@ -45,26 +45,26 @@ public class PresetAddDialog extends Dialog {
      */
     protected PresetsActivity activity;
     
+    /**
+     * The Preset, if this dialog is used to modify the name and description of a Preset
+     */
+    protected IPreset preset;
+    
     
     /**
-     * Necessary constructor
+     * * Necessary constructor
      * 
      * @param context
      *            the context
-     */
-    public PresetAddDialog(Context context) {
-        super(context);
-    }
-    
-    
-    /**
-     * Set the activity
      * 
-     * @param activity
-     *            PresetsActivity
+     * @param preset
+     *            if it's null, an empty dialog will be created (add a new Preset); if it's not null, a dialog with
+     *            prefilled text areas will be created (edit a Preset)
      */
-    public void setActivity(PresetsActivity activity) {
+    public PresetAddEditDialog(Context context, PresetsActivity activity, IPreset preset) {
+        super(context);
         this.activity = activity;
+        this.preset = preset;
     }
     
     
@@ -82,14 +82,14 @@ public class PresetAddDialog extends Dialog {
         this.confirm = (Button) findViewById(R.id.presets_dialog_confirm);
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
         
+        // Fill text fields, if it's an edit of a Preset
+        if (preset != null) {
+            this.name.setText(preset.getName());
+            this.desc.setText(preset.getDescription());
+        }
+        
         this.confirm.setOnClickListener(new ConfirmListener());
         this.cancel.setOnClickListener(new CancelListener());
-        
-        /*
-         * Needed to fill the width of the screen
-         */
-        getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         
     }
     
@@ -102,26 +102,34 @@ public class PresetAddDialog extends Dialog {
         @Override
         public void onClick(View v) {
             
-            if (PresetAddDialog.this.name.getText().length() == 0) {
+            if (PresetAddEditDialog.this.name.getText().length() == 0) {
                 // no name set
                 Toast.makeText(getContext(), R.string.presets_dialog_name_missing, Toast.LENGTH_SHORT).show();
                 return;
             }
             
-            // Store
-            IPreset createdPreset = ModelProxy.get().addPreset(null, PresetAddDialog.this.name.getText().toString(),
-                    PresetAddDialog.this.name.getText().toString(), PresetAddDialog.this.desc.getText().toString());
+            String name = PresetAddEditDialog.this.name.getText().toString();
+            String descr = PresetAddEditDialog.this.desc.getText().toString();
+            
+            if (preset == null) {
+                // Add a new Preset
+                IPreset createdPreset = ModelProxy.get().addUserPreset(name, descr);
+                
+                // Open Preset
+                PresetAddEditDialog.this.activity.openPreset(createdPreset);
+            } else {
+                // Edit the Preset
+                PresetAddEditDialog.this.preset.setName(name);
+                PresetAddEditDialog.this.preset.setDescription(descr);
+                
+                // Update the Presets
+                PresetAddEditDialog.this.activity.updateList();
+            }
             
             // Dismiss
             dismiss();
             
-            // Update the Presets
-            PresetAddDialog.this.activity.updateList();
-            
-            // Open Preset
-            PresetAddDialog.this.activity.openPreset(createdPreset);
         }
-        
     }
     
     /**
