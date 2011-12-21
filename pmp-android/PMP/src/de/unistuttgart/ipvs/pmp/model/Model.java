@@ -308,6 +308,7 @@ public class Model implements IModel, Observer {
             
             // download the plugin
             File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
+            Assert.nonNull(temp, new ModelMisuseError(Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage));
             
             // add it
             FileInputStream fis;
