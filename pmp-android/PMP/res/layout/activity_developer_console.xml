@@ -3,7 +3,7 @@
 	android:layout_height="fill_parent" android:layout_width="fill_parent">
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="vertical">
 
 		<LinearLayout
@@ -26,7 +26,7 @@
 		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="4px"
+		    android:layout_marginTop="4dp"
 		    android:background="#555555"
 		    android:orientation="vertical" >
 
@@ -45,7 +45,7 @@
 				<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="ModelProxy's mockup state:" android:layout_marginTop="12px" android:layout_marginLeft="12px" android:layout_marginRight="16px"/>
+				    android:text="ModelProxy's mockup state:" android:layout_marginTop="12dp" android:layout_marginLeft="12dp" android:layout_marginRight="16dp"/>
 
 				<ToggleButton
 				    android:id="@+id/pdc_switch_mockup_btn"
@@ -59,7 +59,7 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="fill_parent"
 			    android:layout_gravity="center_horizontal"
-			    android:layout_marginLeft="4px" >
+			    android:layout_marginLeft="4dp" >
 
 				<Button
 				    android:id="@+id/pdc_precache_btn"
@@ -79,7 +79,7 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="fill_parent"
 			    android:layout_gravity="center_horizontal"
-			    android:layout_marginLeft="4px"
+			    android:layout_marginLeft="4dp"
 			    android:gravity="center_horizontal" >
 
 				<Button
@@ -94,13 +94,13 @@
 		<LinearLayout
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:orientation="vertical" android:layout_marginBottom="8px">
+		    android:orientation="vertical" android:layout_marginBottom="8dp">
 
 			<TextView
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="4px"
-			    android:layout_marginTop="8px"
+			    android:layout_marginBottom="4dp"
+			    android:layout_marginTop="8dp"
 			    android:text="App Service"
 			    android:textAppearance="?android:attr/textAppearanceLarge" android:paddingLeft="5dp"/>
 
@@ -110,11 +110,12 @@
 
 			    <EditText
 			        android:id="@+id/pdc_appservice_name_edit"
-			        android:layout_width="fill_parent"
+			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
 			        android:text="de.unistuttgart.ipvs.pmp.apps."
-			        android:textSize="20px" >
+			        android:textSize="20dp" 
+			        android:inputType="text">
 
 			        <requestFocus />
 			    </EditText>
@@ -149,9 +150,10 @@
 
 		        <EditText
 		            android:id="@+id/pdc_rg_path"
-		            android:layout_width="268dp"
+		            android:layout_width="0dip"
 		            android:layout_height="wrap_content"
-		            android:layout_weight="1" />
+		            android:layout_weight="1"
+		            android:inputType="text" />
 
 		        <Button
 		            android:id="@+id/pdc_rg_install_btn"
@@ -173,9 +175,10 @@
 
 		        <EditText
 		            android:id="@+id/pdc_rg_name"
-		            android:layout_width="fill_parent"
+		            android:layout_width="0dip"
 		            android:layout_height="wrap_content"
-		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="20px"/>
+		            android:inputType="text"
+		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="20dp"/>
 
 		    </LinearLayout>
 

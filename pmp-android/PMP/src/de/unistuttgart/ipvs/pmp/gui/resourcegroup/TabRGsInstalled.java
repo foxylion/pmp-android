@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +28,13 @@ public class TabRGsInstalled extends Activity {
         installedRgsListView = (ListView) findViewById(R.id.ListView_RGs);
         
         addListener();
+        
+    }
+    
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
         
         refreshList();
     }
