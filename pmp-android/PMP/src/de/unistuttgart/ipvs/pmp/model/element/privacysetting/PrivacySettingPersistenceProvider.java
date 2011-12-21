@@ -51,8 +51,8 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
                 this.element.getLocalIdentifier() });
         
         // delete privacy settings
-        wdb.rawQuery("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
-                + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] {
+        wdb.rawQuery("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE
+                + " = ? AND " + IDENTIFIER + " = ?", new String[] {
                 this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
         
     }
