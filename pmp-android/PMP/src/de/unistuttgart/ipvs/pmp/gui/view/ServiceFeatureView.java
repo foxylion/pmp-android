@@ -109,16 +109,6 @@ public class ServiceFeatureView extends LinearLayout {
      * Adds the listeners to all components in the view.
      */
     private void addListener() {
-        // Listener of the whole view component
-        setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), ServiceFeatureView.this.serviceFeature,
-                        ServiceFeatureView.this).show();
-            }
-        });
-        
         // Listener of the check box
         ((CheckBox) findViewById(R.id.CheckBox_SFState)).setOnClickListener(new OnClickListener() {
             
@@ -147,5 +137,11 @@ public class ServiceFeatureView extends LinearLayout {
         Toast.makeText(ServiceFeatureView.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
         
         refresh();
+    }
+
+
+    public void reactOnMouseClick() {
+        new ServiceFeatureDialog(ServiceFeatureView.this.getContext(), ServiceFeatureView.this.serviceFeature,
+                ServiceFeatureView.this).show();
     }
 }

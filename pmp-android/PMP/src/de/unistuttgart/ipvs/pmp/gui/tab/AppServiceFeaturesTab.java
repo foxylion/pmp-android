@@ -5,12 +5,15 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.ServiceFeaturesAdapter;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.view.ServiceFeatureView;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -55,11 +58,18 @@ public class AppServiceFeaturesTab extends Activity {
         /* Load the offered Service Features into the list. */
         IServiceFeature[] sfs = this.app.getServiceFeatures();
         
-        ListView sFs = (ListView) findViewById(R.id.ListView_SFs);
-        if (sFs != null) {
-            sFs.setClickable(true);
-            ServiceFeaturesAdapter sFsAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs));
-            sFs.setAdapter(sFsAdapter);
-        }
+        ListView serviceFeaturesView = (ListView) findViewById(R.id.ListView_SFs);
+        
+        final ServiceFeaturesAdapter sFsAdapter = new ServiceFeaturesAdapter(this, Arrays.asList(sfs));
+        serviceFeaturesView.setAdapter(sFsAdapter);
+        
+        serviceFeaturesView.setClickable(true);
+        serviceFeaturesView.setOnItemClickListener(new OnItemClickListener() {
+            
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+                ((ServiceFeatureView) view).reactOnMouseClick();
+            }
+        });
     }
 }

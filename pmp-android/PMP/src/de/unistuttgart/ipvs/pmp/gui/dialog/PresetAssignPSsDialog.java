@@ -7,11 +7,14 @@ import java.util.Map.Entry;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetAssignPSsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.tab.PresetPSsTab;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -43,6 +46,11 @@ public class PresetAssignPSsDialog extends Dialog {
      */
     private ExpandableListView psExpandableListView;
     
+    /**
+     * The PresetPSsTab
+     */
+    private PresetPSsTab presetPSsTab;
+    
     
     /**
      * Necessary constructor
@@ -52,10 +60,11 @@ public class PresetAssignPSsDialog extends Dialog {
      * @param preset
      *            the Preset
      */
-    public PresetAssignPSsDialog(Context context, IPreset preset) {
+    public PresetAssignPSsDialog(Context context, PresetPSsTab presetPSsTab, IPreset preset) {
         super(context);
         this.preset = preset;
-
+        this.presetPSsTab = presetPSsTab;
+        
         // Create the list
         updateList();
     }
@@ -76,6 +85,7 @@ public class PresetAssignPSsDialog extends Dialog {
         init();
         
     }
+    
     
     private void updateList() {
         /* Build a hash map with all unassigned RGs and their PSs */
@@ -115,6 +125,7 @@ public class PresetAssignPSsDialog extends Dialog {
         }
     }
     
+    
     private void init() {
         // Setup the Preset ExpandableListView
         this.psExpandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view_assign_pss);
@@ -122,6 +133,17 @@ public class PresetAssignPSsDialog extends Dialog {
         // Add the adapter
         PresetAssignPSsAdapter ppsAdapter = new PresetAssignPSsAdapter(this.getContext(), preset, rgList, psList);
         psExpandableListView.setAdapter(ppsAdapter);
+        
+        // Add the listener
+        psExpandableListView.setOnChildClickListener(new OnChildClickListener() {
+            
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                presetPSsTab.showChangeValueDialog(psList.get(groupPosition).get(childPosition));
+                dismiss();
+                return true;
+            }
+        });
     }
     
     

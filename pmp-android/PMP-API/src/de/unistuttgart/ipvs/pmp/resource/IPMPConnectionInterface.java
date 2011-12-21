@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
+import android.content.Context;
+
 /**
  * Interface for communication from the {@link ResourceGroup} plugin to the PMP model.
  * 
@@ -18,5 +20,14 @@ public interface IPMPConnectionInterface {
      * @return the value of the privacy setting identified for appPackage, or null, if it is not set or was not found
      */
     public String getPrivacySettingValue(String rgPackage, String psIdentifier, String appPackage);
+    
+    
+    /**
+     * Ability to get a context for a resource group.
+     * 
+     * @param rgPackage
+     * @return an Android context
+     */
+    public Context getContext(String rgPackage);
     
 }

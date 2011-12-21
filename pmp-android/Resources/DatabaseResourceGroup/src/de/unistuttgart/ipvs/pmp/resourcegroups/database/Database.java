@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: DatabaseResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
-import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
@@ -35,12 +34,6 @@ public class Database extends ResourceGroup {
     public static final String PRIVACY_LEVEL_READ = "read";
     public static final String PRIVACY_LEVEL_MODIFY = "modify";
     public static final String PRIVACY_LEVEL_CREATE = "create";
-
-    
-    /**
-     * Context for forwarding to resources
-     */
-    private Context context;
     
     
     public Database(IPMPConnectionInterface pmpci) {
@@ -53,21 +46,6 @@ public class Database extends ResourceGroup {
     }
     
     
-    public String getName(String locale) {
-        return "Database Resource Group";
-    }
-    
-    
-    public String getDescription(String locale) {
-        return "Resource group for using a database.";
-    }
-    
-    
-    protected String getServiceAndroidName() {
-        return "de.unistuttgart.ipvs.pmp.resourcegroups.database";
-    }
-    
-    
     public void onRegistrationSuccess() {
         Log.d("Registration success.");
     }
@@ -75,16 +53,6 @@ public class Database extends ResourceGroup {
     
     public void onRegistrationFailed(String message) {
         Log.e("Registration failed with \"" + message + "\"");
-    }
-    
-    
-    public void setContext(Context context) {
-        this.context = context;
-    }
-    
-    
-    public Context getContext() {
-        return this.context;
     }
     
 }

@@ -1,6 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.plugin;
 
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -76,4 +79,12 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
         
         return bestValue;
     }
+    
+    
+    @Override
+    public Context getContext(String rgPackage) {
+        // here it would be nice to have a security-wise adapter
+        return PMPApplication.getContext();
+    }
+    
 }

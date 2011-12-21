@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,17 +65,6 @@ public class RGsInstalledAdapter extends BaseAdapter {
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
         description.setText(resourceGroup.getDescription());
         
-        TextView status = (TextView) entryView.findViewById(R.id.TextView_Status);
-        String text;
-        if (/*resourceGroup.isInstalled() == */true) {
-            status.setTextColor(Color.GREEN);
-            String version = String.valueOf(resourceGroup.getRevision());
-            text = "Already installed (V." + version + ")";
-        } else {
-            status.setTextColor(Color.YELLOW);
-            text = "Available for install";
-        }
-        status.setText(text);
         return entryView;
     }
 }
