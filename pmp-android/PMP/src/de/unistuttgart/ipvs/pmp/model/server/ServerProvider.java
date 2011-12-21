@@ -85,8 +85,12 @@ public class ServerProvider implements IServerProvider {
             long lastCallback = System.currentTimeMillis();
             this.callback.download(0, length);
             
-            while (inputStream.available() > 0) {
+            while (position < length) {
                 int read = inputStream.read(buffer);
+                if (read < 0) {
+                    // not finished, but end of stream reached
+                    break;
+                }
                 writeTo.write(buffer, 0, read);
                 
                 // just callback
@@ -207,7 +211,6 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public void setCallback(IServerDownloadCallback callback) {
-        Assert.nonNull(callback, new ModelMisuseError(Assert.ILLEGAL_NULL, "callback", callback));
         if (callback == null) {
             this.callback = NullServerDownloadCallback.instance;
         } else {
