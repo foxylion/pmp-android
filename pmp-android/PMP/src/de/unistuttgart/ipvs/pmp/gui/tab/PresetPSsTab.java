@@ -29,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The "Assigned Privacy Settings" tab of a Preset
@@ -109,7 +110,7 @@ public class PresetPSsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_pss_assign_pss:
-                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, preset);
+                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, this, preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
@@ -139,7 +140,7 @@ public class PresetPSsTab extends Activity {
         int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         
         // Get the Privacy Setting
-        IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
+        final IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
         
         // Handle
         switch (item.getItemId()) {
@@ -167,8 +168,7 @@ public class PresetPSsTab extends Activity {
                 /*
                  *  Change PS value
                  */
-                
-                //TODO:
+                showChangeValueDialog(ps);
                 
                 return true;
             case 2:
@@ -199,6 +199,54 @@ public class PresetPSsTab extends Activity {
         }
         
         return false;
+    }
+    
+    
+    /**
+     * Show a dialog to change the value of the given Privacy Setting
+     * 
+     * @param ps
+     *            change value of the given Privacy Setting
+     */
+    public void showChangeValueDialog(final IPrivacySetting ps) {
+        
+        AlertDialog.Builder alertDialogChangeValue = new AlertDialog.Builder(this);
+        
+        final View psView = ps.getView(this);
+        
+        // Set currentValue, if the Privacy Setting is already assigned
+        String currentValue = this.preset.getGrantedPrivacySettingValue(ps);
+        String title = null;
+        if (currentValue != null) {
+            try {
+                title = getString(R.string.change_value);
+                ps.setViewValue(psView, currentValue);
+            } catch (PrivacySettingValueException e) {
+                // not possible
+            }
+        } else {
+            title = getString(R.string.set_value);
+        }
+        alertDialogChangeValue.setView(psView);
+        alertDialogChangeValue.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                PresetPSsTab.this.preset.assignPrivacySetting(ps, ps.getViewValue(psView));
+                PresetPSsTab.this.updateList();
+                dialog.dismiss();
+            }
+        });
+        alertDialogChangeValue.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertChangeValue = alertDialogChangeValue.create();
+        alertChangeValue.setTitle(title);
+        alertChangeValue.show();
     }
     
     
