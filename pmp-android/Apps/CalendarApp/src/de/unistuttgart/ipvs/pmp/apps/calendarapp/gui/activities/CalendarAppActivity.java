@@ -204,7 +204,7 @@ public class CalendarAppActivity extends ListActivity {
                     @Override
                     public void onConnect(AbstractConnector connector) throws RemoteException {
                         Log.d("Connected to " + resGroupId);
-                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService().getRessource("de.unistuttgart.ipvs.pmp.apps.calendarapp",
+                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService().getResource("de.unistuttgart.ipvs.pmp.apps.calendarapp",
                                     resGroupId, "emailOperations"));
                             if (emailOP != null) {
                                 Calendar cal = new GregorianCalendar();
