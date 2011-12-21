@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
 
 /**
