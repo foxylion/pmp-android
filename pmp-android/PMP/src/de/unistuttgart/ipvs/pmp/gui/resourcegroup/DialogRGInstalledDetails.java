@@ -1,20 +1,21 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 public class DialogRGInstalledDetails extends Dialog {
     
     private IResourceGroup resourcegroup;
     private TabRGsInstalled parent;
+    
     
     public DialogRGInstalledDetails(Context context, TabRGsInstalled parent, IResourceGroup resourcegroup) {
         super(context);
@@ -41,11 +42,11 @@ public class DialogRGInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                ModelProxy.get().uninstallResourceGroup(resourcegroup.getIdentifier());
+                ModelProxy.get().uninstallResourceGroup(DialogRGInstalledDetails.this.resourcegroup.getIdentifier());
                 DialogRGInstalledDetails.this.dismiss();
                 
-                if(parent != null) {
-                    parent.refreshList();
+                if (DialogRGInstalledDetails.this.parent != null) {
+                    DialogRGInstalledDetails.this.parent.refreshList();
                 }
             }
         });

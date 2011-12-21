@@ -54,7 +54,8 @@ public class DialogServiceFeature extends Dialog {
      * @param serviceFeatureView
      *            the corresponding view of the {@link IServiceFeature} in the {@link ListView}.
      */
-    public DialogServiceFeature(Context context, IServiceFeature serviceFeature, ListItemServiceFeature serviceFeatureView) {
+    public DialogServiceFeature(Context context, IServiceFeature serviceFeature,
+            ListItemServiceFeature serviceFeatureView) {
         super(context);
         
         this.serviceFeature = serviceFeature;

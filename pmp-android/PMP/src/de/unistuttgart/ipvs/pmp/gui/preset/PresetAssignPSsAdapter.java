@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList;
-  
+    
     
     /**
      * Constructor to setup parameter
@@ -58,7 +59,7 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
     
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return psList.get(groupPosition).get(childPosition);
+        return this.psList.get(groupPosition).get(childPosition);
     }
     
     
@@ -76,7 +77,7 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
         IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
         
         // Inflate the layout
-        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View entryView = infalInflater.inflate(R.layout.listitem_preset_assign_ps, null);
         
         // Set name and description of one Privacy Setting
@@ -85,26 +86,26 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
         
         TextView descr = (TextView) entryView.findViewById(R.id.TextView_Description);
         descr.setText(ps.getDescription());
-
+        
         return entryView;
     }
     
     
     @Override
     public int getChildrenCount(int groupPosition) {
-        return psList.get(groupPosition).size();
+        return this.psList.get(groupPosition).size();
     }
     
     
     @Override
     public Object getGroup(int groupPosition) {
-        return rgList.get(groupPosition);
+        return this.rgList.get(groupPosition);
     }
     
     
     @Override
     public int getGroupCount() {
-        return rgList.size();
+        return this.rgList.size();
     }
     
     
@@ -121,7 +122,7 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
         IResourceGroup rg = (IResourceGroup) getGroup(groupPosition);
         
         // Inflate the layout
-        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View entryView = infalInflater.inflate(R.layout.listitem_preset_rg, null);
         
         // Set name and icon of the ResourceGrouop
@@ -150,6 +151,6 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean areAllItemsEnabled() {
         return true;
-    }  
+    }
     
 }

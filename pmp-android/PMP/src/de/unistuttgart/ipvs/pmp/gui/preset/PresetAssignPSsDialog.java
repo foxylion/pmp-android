@@ -93,7 +93,7 @@ public class PresetAssignPSsDialog extends Dialog {
         for (IResourceGroup rg : ModelProxy.get().getResourceGroups()) {
             Loop: for (IPrivacySetting ps : rg.getPrivacySettings()) {
                 // Check, if this Privacy Setting is an assigned Privacy Setting
-                for (IPrivacySetting assignedPS : preset.getGrantedPrivacySettings()) {
+                for (IPrivacySetting assignedPS : this.preset.getGrantedPrivacySettings()) {
                     if (ps == assignedPS) {
                         continue Loop;
                     }
@@ -114,12 +114,12 @@ public class PresetAssignPSsDialog extends Dialog {
         }
         
         /* Build two lists, separated into RGs and PSs out of the map */
-        rgList = new ArrayList<IResourceGroup>();
-        psList = new ArrayList<ArrayList<IPrivacySetting>>();
+        this.rgList = new ArrayList<IResourceGroup>();
+        this.psList = new ArrayList<ArrayList<IPrivacySetting>>();
         
         for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
-            rgList.add(entry.getKey());
-            psList.add(entry.getValue());
+            this.rgList.add(entry.getKey());
+            this.psList.add(entry.getValue());
         }
     }
     
@@ -129,15 +129,17 @@ public class PresetAssignPSsDialog extends Dialog {
         this.psExpandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view_assign_pss);
         
         // Add the adapter
-        PresetAssignPSsAdapter ppsAdapter = new PresetAssignPSsAdapter(this.getContext(), preset, rgList, psList);
-        psExpandableListView.setAdapter(ppsAdapter);
+        PresetAssignPSsAdapter ppsAdapter = new PresetAssignPSsAdapter(getContext(), this.preset, this.rgList,
+                this.psList);
+        this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Add the listener
-        psExpandableListView.setOnChildClickListener(new OnChildClickListener() {
+        this.psExpandableListView.setOnChildClickListener(new OnChildClickListener() {
             
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                presetPSsTab.showChangeValueDialog(psList.get(groupPosition).get(childPosition));
+                PresetAssignPSsDialog.this.presetPSsTab.showChangeValueDialog(PresetAssignPSsDialog.this.psList.get(
+                        groupPosition).get(childPosition));
                 dismiss();
                 return true;
             }
@@ -151,7 +153,7 @@ public class PresetAssignPSsDialog extends Dialog {
      * @return size of RG-List
      */
     public int getSizeOfRGList() {
-        return rgList.size();
+        return this.rgList.size();
     }
     
 }

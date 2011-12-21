@@ -6,12 +6,10 @@ import java.util.Locale;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
@@ -76,18 +74,18 @@ public class AdapterRGsAvailable extends BaseAdapter {
         description.setText(rgis.getDescriptions().get(Locale.ENGLISH));
         
         TextView state = (TextView) entryView.findViewById(R.id.TextView_Status);
-        if(ModelProxy.get().getResourceGroup(rgId) != null) {
+        if (ModelProxy.get().getResourceGroup(rgId) != null) {
             /* RG is already installed. */
             if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
                 /* A newer version is available */
-                state.setText(context.getResources().getString(R.string.rg_state_update) + " - rev. " + rgRev);
+                state.setText(this.context.getResources().getString(R.string.rg_state_update) + " - rev. " + rgRev);
             } else {
                 /* already up to date */
-                state.setText(context.getResources().getString(R.string.rg_state_installed));
+                state.setText(this.context.getResources().getString(R.string.rg_state_installed));
             }
         } else {
             /* RG is not installed. */
-            state.setText(context.getResources().getString(R.string.rg_state_new) + " - rev. " + rgRev);
+            state.setText(this.context.getResources().getString(R.string.rg_state_new) + " - rev. " + rgRev);
         }
         
         return entryView;

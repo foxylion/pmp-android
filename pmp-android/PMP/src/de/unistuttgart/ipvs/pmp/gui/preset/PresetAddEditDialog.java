@@ -82,9 +82,9 @@ public class PresetAddEditDialog extends Dialog {
         this.cancel = (Button) findViewById(R.id.presets_dialog_cancel);
         
         // Fill text fields, if it's an edit of a Preset
-        if (preset != null) {
-            this.name.setText(preset.getName());
-            this.desc.setText(preset.getDescription());
+        if (this.preset != null) {
+            this.name.setText(this.preset.getName());
+            this.desc.setText(this.preset.getDescription());
         }
         
         this.confirm.setOnClickListener(new ConfirmListener());
@@ -110,7 +110,7 @@ public class PresetAddEditDialog extends Dialog {
             String name = PresetAddEditDialog.this.name.getText().toString();
             String descr = PresetAddEditDialog.this.desc.getText().toString();
             
-            if (preset == null) {
+            if (PresetAddEditDialog.this.preset == null) {
                 // Add a new Preset
                 IPreset createdPreset = ModelProxy.get().addUserPreset(name, descr);
                 

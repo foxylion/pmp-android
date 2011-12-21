@@ -54,12 +54,8 @@ public class PresetAssignAppsDialog extends Dialog {
      * 
      * @param context
      *            the context
-<<<<<<< HEAD
      * @param preset
      *            the Preset
-=======
-     * @param preset2
->>>>>>> fb2f691cca6dd2f18b1df88e99d43976a6c2b38d
      */
     public PresetAssignAppsDialog(Context context, IPreset preset) {
         super(context);

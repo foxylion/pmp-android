@@ -129,8 +129,9 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
         // delete preset
-        wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        wdb.execSQL(
+                "DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
+                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
     }
     

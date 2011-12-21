@@ -108,7 +108,7 @@ public class PresetPSsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_pss_assign_pss:
-                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, this, preset);
+                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, this, this.preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
@@ -153,6 +153,7 @@ public class PresetPSsTab extends Activity {
                         + getString(R.string.identifier) + ":\n" + ps.getIdentifier());
                 alertDialog.setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
                     
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -289,8 +290,8 @@ public class PresetPSsTab extends Activity {
         });
         
         // Add the adapter
-        ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset);
-        this.psExpandableListView.setAdapter(ppsAdapter);
+        this.ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset);
+        this.psExpandableListView.setAdapter(this.ppsAdapter);
         
     }
     
@@ -300,7 +301,7 @@ public class PresetPSsTab extends Activity {
      * 
      */
     public void updateList() {
-        allassignedPSList = new ArrayList<IPrivacySetting>();
+        this.allassignedPSList = new ArrayList<IPrivacySetting>();
         
         /* Build a hash map with the RGs and their PSs */
         HashMap<IResourceGroup, ArrayList<IPrivacySetting>> RGPSMap = new HashMap<IResourceGroup, ArrayList<IPrivacySetting>>();
@@ -309,7 +310,7 @@ public class PresetPSsTab extends Activity {
             IResourceGroup rg = ps.getResourceGroup();
             
             // Add the PS to the allPsList
-            allassignedPSList.add(ps);
+            this.allassignedPSList.add(ps);
             
             if (!RGPSMap.containsKey(ps.getResourceGroup())) {
                 // The map does not contain the RG: Add it as key and the PS as value
@@ -329,22 +330,22 @@ public class PresetPSsTab extends Activity {
         this.psList = new ArrayList<ArrayList<IPrivacySetting>>();
         
         for (Entry<IResourceGroup, ArrayList<IPrivacySetting>> entry : RGPSMap.entrySet()) {
-            rgList.add(entry.getKey());
+            this.rgList.add(entry.getKey());
             this.psList.add(entry.getValue());
         }
         
         // Show or hide the text view about no pss assigned
         TextView noAssignedPSs = (TextView) findViewById(R.id.preset_tab_pss_no_assigned);
         
-        if (allassignedPSList.size() == 0) {
-            noAssignedPSs.setVisibility(TextView.VISIBLE);
+        if (this.allassignedPSList.size() == 0) {
+            noAssignedPSs.setVisibility(View.VISIBLE);
         } else {
             noAssignedPSs.setVisibility(View.GONE);
         }
         
-        ppsAdapter.setPsList(this.psList);
-        ppsAdapter.setRgList(rgList);
-        ppsAdapter.notifyDataSetChanged();
+        this.ppsAdapter.setPsList(this.psList);
+        this.ppsAdapter.setRgList(this.rgList);
+        this.ppsAdapter.notifyDataSetChanged();
     }
     
     
@@ -357,7 +358,7 @@ public class PresetPSsTab extends Activity {
      *            the start index (start with propagating by this groupID)
      */
     private void propagateExpandedGroups(ArrayList<Boolean> oldExpandedStates, int startByGroupID) {
-        for (int groupID = startByGroupID; groupID < ppsAdapter.getGroupCount(); groupID++) {
+        for (int groupID = startByGroupID; groupID < this.ppsAdapter.getGroupCount(); groupID++) {
             if (oldExpandedStates.get(groupID + 1)) {
                 this.psExpandableListView.expandGroup(groupID);
             } else {

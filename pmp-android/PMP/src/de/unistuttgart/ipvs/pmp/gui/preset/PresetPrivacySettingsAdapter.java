@@ -84,7 +84,7 @@ public class PresetPrivacySettingsAdapter extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-        value.setText(context.getString(R.string.value) + ": " + preset.getGrantedPrivacySettingValue(ps));
+        value.setText(this.context.getString(R.string.value) + ": " + this.preset.getGrantedPrivacySettingValue(ps));
         
         return entryView;
     }

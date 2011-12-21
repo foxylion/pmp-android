@@ -104,13 +104,13 @@ public class PresetActivity extends Activity {
     private void updateDescriptionVisibility() {
         // Set up description of the Preset
         TextView descr = (TextView) findViewById(R.id.TextView_Preset_Description);
-        View divider = (View) findViewById(R.id.View_Divider_Strong);
+        View divider = findViewById(R.id.View_Divider_Strong);
         if (!this.preset.getDescription().equals("")) {
             descr.setText(this.preset.getDescription());
-            descr.setVisibility(TextView.VISIBLE);
+            descr.setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);
         } else {
-            descr.setVisibility(TextView.GONE);
+            descr.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
         }
     }

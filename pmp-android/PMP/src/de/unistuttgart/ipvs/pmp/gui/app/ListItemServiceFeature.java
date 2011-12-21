@@ -48,7 +48,7 @@ public class ListItemServiceFeature extends LinearLayout {
             View v = layoutInflater.inflate(R.layout.listitem_app_sf, null);
             addView(v);
             
-            this.setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
             
             addListener();
             
@@ -139,8 +139,8 @@ public class ListItemServiceFeature extends LinearLayout {
         
         refresh();
     }
-
-
+    
+    
     public void reactOnMouseClick() {
         new DialogServiceFeature(ListItemServiceFeature.this.getContext(), ListItemServiceFeature.this.serviceFeature,
                 ListItemServiceFeature.this).show();
