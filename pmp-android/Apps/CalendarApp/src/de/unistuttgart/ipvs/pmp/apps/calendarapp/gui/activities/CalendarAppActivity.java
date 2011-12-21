@@ -50,6 +50,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.AppointmentArrayAdapter;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.SeparatedListAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -87,14 +88,13 @@ public class CalendarAppActivity extends ListActivity {
         
         setContentView(R.layout.list_layout);
         
-        // Array adapter that is needed to show the list of dates
-        //        arrayAdapter = new ArrayAdapter<Appointment>(this, R.layout.list_item, Model.getInstance().getAppointmentList());
+        //        arrayAdapter = new AppointmentArrayAdapter(this, R.layout.list_item, Model.getInstance().getAppointmentList());
         //        Model.getInstance().setArrayAdapter(arrayAdapter);
         //        setListAdapter(arrayAdapter);
         
-        arrayAdapter = new AppointmentArrayAdapter(this, R.layout.list_item, Model.getInstance().getAppointmentList());
-        Model.getInstance().setArrayAdapter(arrayAdapter);
-        setListAdapter(arrayAdapter);
+        SeparatedListAdapter spa = new SeparatedListAdapter(this.appContext);
+        setListAdapter(spa);
+        Model.getInstance().setArrayAdapter(spa);
         
         /*
          * Listener for long clicking on one item. Opens a context menu where
@@ -176,13 +176,13 @@ public class CalendarAppActivity extends ListActivity {
     public boolean onContextItemSelected(MenuItem aItem) {
         // The menu information
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
-        final Appointment clicked = Model.getInstance().getAppointmentByIndex(menuInfo.position);
+        final Appointment clicked = (Appointment) Model.getInstance().getArrayAdapter().getItem(menuInfo.position);
         /*
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
-                SqlConnector.getInstance().deleteAppointment(clicked.getId());
+                SqlConnector.getInstance().deleteAppointment(clicked);
             } else {
                 String[] req = new String[1];
                 req[0] = "write";
@@ -204,22 +204,23 @@ public class CalendarAppActivity extends ListActivity {
                     @Override
                     public void onConnect(AbstractConnector connector) throws RemoteException {
                         Log.d("Connected to " + resGroupId);
-                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(resGroupCon.getAppService().getResource("de.unistuttgart.ipvs.pmp.apps.calendarapp",
-                                    resGroupId, "emailOperations"));
-                            if (emailOP != null) {
-                                Calendar cal = new GregorianCalendar();
-                                cal.setTime(clicked.getDate());
-                                SimpleDateFormat formatter;
-                                formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
-                                        + formatter.format(cal.getTime()) + "\n" + getString(R.string.desc) + ": "
-                                        + clicked.getDescrpition());
-                            }
+                        IEmailOperations emailOP = IEmailOperations.Stub
+                                .asInterface(resGroupCon.getAppService().getResource(
+                                        "de.unistuttgart.ipvs.pmp.apps.calendarapp", resGroupId, "emailOperations"));
+                        if (emailOP != null) {
+                            Calendar cal = new GregorianCalendar();
+                            cal.setTime(clicked.getDate());
+                            SimpleDateFormat formatter;
+                            formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                            emailOP.sendEmail("", getString(R.string.subject),
+                                    getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
+                                            + getString(R.string.desc) + ": " + clicked.getDescrpition());
+                        }
                     }
                     
                     
-                        @Override
-                        public void onBindingFailed(AbstractConnector connector) {
+                    @Override
+                    public void onBindingFailed(AbstractConnector connector) {
                         Log.e("Binding failed to " + resGroupId);
                     }
                 });
@@ -244,8 +245,6 @@ public class CalendarAppActivity extends ListActivity {
     
     /**
      * Add the menu
-     * 
-     * @author Marcus Vetter
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -257,8 +256,6 @@ public class CalendarAppActivity extends ListActivity {
     
     /**
      * Respond to user interaction with the menu
-     * 
-     * @author Marcus Vetter
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -349,16 +346,16 @@ public class CalendarAppActivity extends ListActivity {
     public void setSFAddAppToModel() {
         Bundle b = new Bundle();
         b.putBoolean("read", true);
-        b.putBoolean("write", false);
-        b.putBoolean("import", false);
-        b.putBoolean("export", false);
+        b.putBoolean("write", true);
+        b.putBoolean("import", true);
+        b.putBoolean("export", true);
         b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
         if (Model.getInstance().getAppointmentList().size() == 0) {
-            Model.getInstance().addAppointment(new Appointment(1, "teest", new Date()));
-            Model.getInstance().addAppointment(new Appointment(2, "teest", new Date()));
-            Model.getInstance().addAppointment(new Appointment(3, "teest", new Date()));
-            Model.getInstance().addAppointment(new Appointment(4, "teest", new Date()));
+            Model.getInstance().addAppointment(new Appointment(1, "teest1", new Date()));
+            Model.getInstance().addAppointment(new Appointment(2, "teest2", new Date()));
+            Model.getInstance().addAppointment(new Appointment(3, "teest3", new Date()));
+            Model.getInstance().addAppointment(new Appointment(4, "teest4", new Date()));
         }
     }
 }

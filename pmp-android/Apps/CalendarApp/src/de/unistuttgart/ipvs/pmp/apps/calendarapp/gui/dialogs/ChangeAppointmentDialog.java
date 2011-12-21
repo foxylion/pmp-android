@@ -69,9 +69,9 @@ public class ChangeAppointmentDialog extends Dialog {
      * @param context
      *            the context
      */
-    public ChangeAppointmentDialog(Context context, int id) {
+    public ChangeAppointmentDialog(Context context, Appointment clicked) {
         super(context);
-        this.dateIndex = id;
+        this.appointment = clicked;
     }
     
     
@@ -84,7 +84,6 @@ public class ChangeAppointmentDialog extends Dialog {
         
         this.setTitle(R.string.change_todo_dialog);
         
-        this.appointment = Model.getInstance().getAppointmentByIndex(this.dateIndex);
         Date date = this.appointment.getDate();
         
         Calendar cal = new GregorianCalendar();
