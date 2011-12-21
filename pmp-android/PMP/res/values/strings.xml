@@ -17,7 +17,7 @@
     <string name="remove_app">Remove App</string>
     <string name="required_privacy_settings">Required Privacy Settings</string>
     <string name="required_value">required value</string>
-    <string name="resource_group">Resourcegroup</string>
+    <string name="resource_group">Resource</string>
     <string name="service_features">Service Features</string>
     <string name="set_value">Set value</string>
     <string name="show_details">Show details</string>
@@ -32,7 +32,7 @@
 
     <string name="main_title">Privacy Management Platform</string>
     <string name="main_apps">Apps</string>
-    <string name="main_rgs">Resourcegroups</string>
+    <string name="main_rgs">Resources</string>
     <string name="main_presets">Presets</string>
     <string name="main_settings">Settings</string>
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
@@ -115,6 +115,8 @@
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
     <string name="required_rgs">Required Resources</string>
     <string name="missing_rgs_description">There are some resources missing, you have install them over the Resources menu.</string>
+    
+    <!-- ResourceGroups -->
     <string name="rg_state_new">New</string>
     <string name="rg_state_installed">Installed</string>
     <string name="rg_state_update">Update</string>
