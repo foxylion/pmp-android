@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -35,6 +38,7 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -301,6 +305,32 @@ public class Model implements IModel, Observer {
                 rgPackage));
         
         try {
+            
+            // download the plugin
+            File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
+            Assert.nonNull(temp, new ModelMisuseError(Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage));
+            
+            // add it
+            FileInputStream fis;
+            try {
+                fis = new FileInputStream(temp);
+                try {
+                    PluginProvider.getInstance().injectFile(rgPackage, fis);
+                } finally {
+                    try {
+                        fis.close();
+                    } catch (IOException ioe) {
+                        Log.e("IO exception during install RG", ioe);
+                    }
+                }
+            } catch (FileNotFoundException fnfe) {
+                throw new ModelIntegrityError(Assert.ILLEGAL_MISSING_FILE, rgPackage, rgPackage);
+            }
+            
+            // remove temporary file
+            if (!temp.delete()) {
+                Log.e("Could not delete temporary file: " + temp.getAbsolutePath());
+            }
             
             // install the plugin
             PluginProvider.getInstance().install(rgPackage);

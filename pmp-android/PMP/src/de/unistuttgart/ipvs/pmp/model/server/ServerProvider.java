@@ -36,7 +36,7 @@ public class ServerProvider implements IServerProvider {
     private static final String APK_STR = ".apk";
     private static final String XML_STR = ".xml";
     
-    private static final String TEMPORARY_PATH = PMPApplication.getContext().getCacheDir().getAbsolutePath();
+    private static final String TEMPORARY_PATH = PMPApplication.getContext().getCacheDir().getAbsolutePath() + "/";
     
     /*
      * fields
@@ -56,6 +56,9 @@ public class ServerProvider implements IServerProvider {
     
     
     private ServerProvider() {
+        if (!PMPApplication.getContext().getCacheDir().mkdirs() && !PMPApplication.getContext().getCacheDir().exists()) {
+            Log.e("Error while creating directory in ServerProvider.");
+        }
         this.callback = NullServerDownloadCallback.instance;
     }
     
