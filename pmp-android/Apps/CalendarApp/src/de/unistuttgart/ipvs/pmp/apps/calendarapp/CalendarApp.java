@@ -29,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -105,8 +106,10 @@ public class CalendarApp extends App {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (write) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(), position);
+                Object clicked = Model.getInstance().getArrayAdapter().getItem(position);
+                if (clicked instanceof Appointment && write) {
+                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
+                            (Appointment) clicked);
                     changeDateDialog.show();
                 }
             }

@@ -18,7 +18,7 @@
         <activity
             android:icon="@drawable/icon"
             android:label="PMP"
-            android:name=".gui.activity.MainActivity"
+            android:name=".gui.main.ActivityMain"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
@@ -28,41 +28,37 @@
         </activity>
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.SettingsActivity"
+            android:name=".gui.settings.ActivitySettings"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.AppsActivity"
+            android:name=".gui.app.ActivityApps"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.AppActivity"
+            android:name=".gui.app.ActivityApp"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.PresetsActivity"
+            android:name=".gui.preset.PresetsActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.PresetActivity"
+            android:name=".gui.preset.PresetActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.RGsActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:configChanges="keyboardHidden|orientation"
-            android:name=".gui.activity.RGDetailsActivity"
+            android:name=".gui.resourcegroup.ActivityRGs"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <!-- Tabs -->
-        <activity android:name=".gui.tab.AppDetailsTab" />
-        <activity android:name=".gui.tab.AppPresetsTab" />
-        <activity android:name=".gui.tab.AppServiceFeaturesTab" />
-        <activity android:name=".gui.tab.PresetAppsTab" />
-        <activity android:name=".gui.tab.PresetPSsTab" />
-        <activity android:name=".gui.tab.RGsAvailableTab" />
-        <activity android:name=".gui.tab.RGsInstalledTab" />
+        <activity android:name=".gui.app.TabDetails" />
+        <activity android:name=".gui.app.TabPresets" />
+        <activity android:name=".gui.app.TabServiceFeatures" />
+        <activity android:name=".gui.preset.PresetAppsTab" />
+        <activity android:name=".gui.preset.PresetPSsTab" />
+        <activity android:name=".gui.resourcegroup.TabRGsAvailable" />
+        <activity android:name=".gui.resourcegroup.TabRGsInstalled" />
 
         <!-- Developer Console -->
         <activity

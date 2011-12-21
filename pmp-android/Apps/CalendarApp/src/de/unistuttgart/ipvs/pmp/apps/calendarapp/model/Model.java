@@ -19,18 +19,25 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.AppointmentArrayAdapter;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.SeparatedListAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
@@ -45,6 +52,16 @@ public class Model {
      * Holds all stored dates
      */
     private ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
+    
+    /**
+     * Stores for every existing day a list of {@link Appointment}s
+     */
+    private HashMap<String, ArrayList<Appointment>> dayAppointments = new HashMap<String, ArrayList<Appointment>>();
+    
+    /**
+     * Stores for every existing day a list of {@link Appointment}s
+     */
+    private HashMap<String, AppointmentArrayAdapter> adapters = new HashMap<String, AppointmentArrayAdapter>();
     
     /**
      * Holds all files for importing
@@ -64,7 +81,7 @@ public class Model {
     /**
      * Array adapter of the list to refresh it
      */
-    private ArrayAdapter<Appointment> arrayAdapter;
+    private SeparatedListAdapter arrayAdapter;
     
     /**
      * Array adapter of the import file list to refresh it
@@ -96,11 +113,11 @@ public class Model {
     /**
      * Called from {@link SqlConnector#loadAppointments()}
      */
-    public void loadAppointments(ArrayList<Appointment> tList) {
+    public void loadAppointments(ArrayList<Appointment> appList) {
         
-        this.appointmentList.clear();
-        for (Appointment date : tList) {
-            this.appointmentList.add(date);
+        dayAppointments.clear();
+        for (Appointment app : appList) {
+            addAppointment(app);
         }
         
         Collections.sort(this.appointmentList, new DateComparator());
@@ -117,8 +134,19 @@ public class Model {
      * @param adapter
      *            the ArrayAdapter of the list with dates
      */
-    public void setArrayAdapter(ArrayAdapter<Appointment> adapter) {
+    public void setArrayAdapter(SeparatedListAdapter adapter) {
         this.arrayAdapter = adapter;
+    }
+    
+    
+    /**
+     * Sets the array adapter that the model can refresh the list when something is changed
+     * 
+     * @param adapter
+     *            the ArrayAdapter of the list with dates
+     */
+    public SeparatedListAdapter getArrayAdapter() {
+        return this.arrayAdapter;
     }
     
     
@@ -144,38 +172,31 @@ public class Model {
     
     
     /**
-     * Called from {@link SqlConnector#storeNewDate(String, String)}. Adds the appointment to de model.
+     * Called from {@link SqlConnector#storeNewDate(String, String)}. Adds the appointment to the {@link Appointment}
+     * list of the day or creates the list if it doesn't exist
      * 
-     * @param date
-     *            date to store
+     * @param Appointment
+     *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
-        this.appointmentList.add(appointment);
-        Collections.sort(this.appointmentList, new DateComparator());
-        this.arrayAdapter.notifyDataSetChanged();
-        
-        // Update the visibility of the "no appointments avaiable" textview
-        getContext().updateNoAvaiableAppointmentsTextView();
-    }
-    
-    
-    /**
-     * Called when the appointment is deleted out of the model. Called from {@link SqlConnector#deleteDate(int)}
-     * 
-     * @param id
-     *            id of the date to delete
-     */
-    public void deleteAppointmentByID(int id) {
-        Appointment toDelete = null;
-        for (Appointment todo : this.appointmentList) {
-            if (todo.getId() == id) {
-                toDelete = todo;
-            }
+        String key = creatKey(appointment.getDate());
+        if (dayAppointments.containsKey(key)) {
+            dayAppointments.get(key).add(appointment);
+            adapters.get(key).notifyDataSetChanged();
+        } else {
+            ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
+            appointmentList.add(appointment);
+            dayAppointments.put(key, appointmentList);
+            AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext, R.layout.list_item,
+                    appointmentList);
+            arrayAdapter.addSection(appointment.getDateString(), adapter);
+            adapters.put(key, adapter);
+            adapter.notifyDataSetChanged();
         }
-        this.appointmentList.remove(toDelete);
+        
         this.arrayAdapter.notifyDataSetChanged();
         
-        // Update the visibility of the "no appointments avaiable" textview
+        // Update the visibility of the "no appointments available" textview
         getContext().updateNoAvaiableAppointmentsTextView();
     }
     
@@ -185,14 +206,11 @@ public class Model {
      */
     public void deleteAllAppointments() {
         // Get all ids
-        List<Integer> idList = new ArrayList<Integer>();
-        for (Appointment appointment : this.appointmentList) {
-            idList.add(appointment.getId());
-        }
-        
-        // Delete all appointments
-        for (int id : idList) {
-            SqlConnector.getInstance().deleteAppointment(id);
+        // TODO
+        for (Entry<String, ArrayList<Appointment>> appointments : dayAppointments.entrySet()) {
+            for (Appointment appointment : appointments.getValue()) {
+                SqlConnector.getInstance().deleteAppointment(appointment);
+            }
         }
     }
     
@@ -205,52 +223,37 @@ public class Model {
      * @param date
      *            {@link Date}
      * @param description
-     *            descrpition of the date
+     *            Description of the date
      */
     public void changeAppointment(int id, Date date, String description) {
-        for (Appointment appointment : this.appointmentList) {
-            if (appointment.getId() == id) {
-                appointment.setDate(date);
-                appointment.setDescription(description);
-                Collections.sort(this.appointmentList, new DateComparator());
+        String key = creatKey(date);
+        if (dayAppointments.containsKey(key)) {
+            ArrayList<Appointment> appList = dayAppointments.get(key);
+            for (Appointment appointment : appList) {
+                if (appointment.getId() == id) {
+                    appointment.setDate(date);
+                    appointment.setDescription(description);
+                }
+                this.arrayAdapter.notifyDataSetChanged();
             }
+        } else {
+            Log.e("List of this day not found");
         }
-        this.arrayAdapter.notifyDataSetChanged();
-    }
-    
-    
-    /**
-     * Returns the appointment at the given index of the list
-     * 
-     * @param index
-     *            index of the date
-     * @return the date
-     */
-    public Appointment getAppointmentByIndex(int index) {
-        return this.appointmentList.get(index);
     }
     
     
     /**
      * Returns the whole list of appointments
      * 
-     * @return
+     * @return all appointments at all days
      */
     public ArrayList<Appointment> getAppointmentList() {
-        return this.appointmentList;
+        appointmentList.clear();
+        for (Entry<String, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
+            appointmentList.addAll(entry.getValue());
+        }
+        return appointmentList;
     }
-    
-    
-    /**
-     * Returns true if the service feature is set or not
-     * 
-     * @return true if set, false if not set or not found
-     */
-    public Boolean getServiceFeature(String featureKey) {
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-        return app_preferences.getBoolean(featureKey, false);
-    }
-    
     
     
     /**
@@ -419,5 +422,55 @@ public class Model {
      */
     public void setImportContext(ImportActivity importContext) {
         this.importContext = importContext;
+    }
+    
+    
+    /**
+     * Creates a key for getting an arraylist of {@link Appointment}s.
+     * 
+     * @return string representation
+     */
+    private String creatKey(Date date) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        return dateFormat.format(cal.getTime());
+    }
+    
+    
+    /**
+     * Deletes a appointment out of the day list
+     * 
+     * @param appointment
+     *            appointment to delete
+     */
+    public void deleteAppointment(Appointment appointment) {
+        ArrayList<String> toDelete = new ArrayList<String>();
+        
+        // Search the correct list of this day
+        for (Entry<String, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
+            if (dayList.getValue().contains(appointment)) {
+                
+                // Delete the entry out of this day list
+                dayList.getValue().remove(appointment);
+                
+                /*
+                 * If this daylist is empty then remove the header and the adapter,
+                 * remember what to delete out of the list of days
+                 */
+                if (dayList.getValue().isEmpty()) {
+                    adapters.remove(dayList.getKey());
+                    arrayAdapter.removeEmptyHeadersAndSections();
+                    toDelete.add(dayList.getKey());
+                }
+            }
+        }
+        
+        // Delete the day lists out of the whole list
+        for (String del : toDelete) {
+            dayAppointments.remove(del);
+        }
+        arrayAdapter.notifyDataSetChanged();
+        appContext.updateNoAvaiableAppointmentsTextView();
     }
 }

@@ -23,11 +23,13 @@ import java.util.ArrayList;
 
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 /**
@@ -67,12 +69,19 @@ public class AppointmentArrayAdapter extends ArrayAdapter<Appointment> {
     
     
     @Override
+    public int getCount() {
+        return items.size();
+    }
+    
+    
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_item, null);
         }
+        
         Appointment appointm = items.get(position);
         if (appointm != null) {
             TextView textTop = (TextView) view.findViewById(R.id.toptext);

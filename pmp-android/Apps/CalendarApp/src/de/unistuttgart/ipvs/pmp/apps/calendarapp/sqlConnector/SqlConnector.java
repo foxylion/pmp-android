@@ -187,7 +187,6 @@ public class SqlConnector {
      *            the description
      */
     public void storeNewAppointment(final Date date, final String description) {
-        
 //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
 //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
 //                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
@@ -214,7 +213,7 @@ public class SqlConnector {
 //                        
 //                        // The values to add
 //                        Map<String, String> values = new HashMap<String, String>();
-//                        int id = getNewId();
+                        int id = getNewId();
 //                        values.put(SqlConnector.this.ID, String.valueOf(id));
 //                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
 //                        values.put(SqlConnector.this.DESC, description);
@@ -224,7 +223,7 @@ public class SqlConnector {
 //                        if (result != -1) {
 //                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
 //                                    + " description: " + description);
-//                            Model.getInstance().addAppointment(new Appointment(id, description, date));
+                            Model.getInstance().addAppointment(new Appointment(id, description, date));
 //                        } else {
 //                            Toast.makeText(Model.getInstance().getContext(),
 //                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
@@ -270,7 +269,7 @@ public class SqlConnector {
      * @param id
      *            id of the appointment to delete
      */
-    public void deleteAppointment(final int id) {
+    public void deleteAppointment(final Appointment app) {
         
 //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
 //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -303,7 +302,7 @@ public class SqlConnector {
 //                         */
 //                        if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
 //                            Log.v("Deleting date: id: " + String.valueOf(id));
-//                            Model.getInstance().deleteAppointmentByID(id);
+                            Model.getInstance().deleteAppointment(app);
 //                        } else {
 //                            Toast.makeText(Model.getInstance().getContext(),
 //                                    Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
@@ -389,7 +388,7 @@ public class SqlConnector {
 //                                SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
 //                            Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
 //                                    + " description: " + description);
-//                            Model.getInstance().changeAppointment(id, date, description);
+                            Model.getInstance().changeAppointment(id, date, description);
 //                        } else {
 //                            Toast.makeText(Model.getInstance().getContext(),
 //                                    Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
