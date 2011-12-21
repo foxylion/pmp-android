@@ -29,7 +29,7 @@ public class ServerProvider implements IServerProvider {
     /*
      * constants
      */
-    private static final String SERVER_URL = "http://???/";
+    private static final String SERVER_URL = "http://pmp-android.no-ip.org//";
     private static final String SEARCH_FOR = "?q=";
     private static final long CALLBACK_INTERVAL = 100L;
     

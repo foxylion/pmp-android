@@ -71,11 +71,8 @@ public class RGsInstalledAdapter extends BaseAdapter {
         if (/*resourceGroup.isInstalled() == */true) {
             status.setTextColor(Color.GREEN);
             String version = String.valueOf(resourceGroup.getRevision());
-            text = "Already installed (V." + version + ")";
-        } else {
-            status.setTextColor(Color.YELLOW);
-            text = "Available for install";
-        }
+            text = "Already installed (v." + version + ")";
+        } 
         status.setText(text);
         return entryView;
     }

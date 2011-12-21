@@ -1,41 +1,134 @@
 package de.unistuttgart.ipvs.pmp.gui.tab;
 
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
-import de.unistuttgart.ipvs.pmp.gui.activity.RGDetailsActivity;
+import java.util.Arrays;
+import java.util.List;
 
-public class RGsAvailableTab extends ListActivity {
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Looper;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.adapter.RGsAvailableAdapter;
+import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
+import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+
+public class RGsAvailableTab extends Activity {
     
-    public ProgressDialog pd;
+    private ProgressBar updateTaskProgressBar;
+    private ProgressBar updateDownloadProgressBar;
+    
+    private LinearLayout updateProgressContainer;
+    private LinearLayout updateFailedContainer;
+    
+    /**
+     * List of all registered Apps.
+     */
+    private List<RgInformationSet> rgisList;
+    
+    /**
+     * {@link ListView} is the view reference for the Resource Groups list.
+     */
+    private ListView rgisViewList;
+    
+    /**
+     * {@link RGsAvailableAdapter} for displaying the rgisList.
+     */
+    protected RGsAvailableAdapter rgisAdapter;
     
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //        GetAvailablePluginsTask task = new GetAvailablePluginsTask(this);
-        //        task.execute();
+        setContentView(R.layout.tab_rgs_available);
         
-        // TODO better handling, only show pd when fetching first time
+        updateDownloadProgressBar = (ProgressBar) findViewById(R.id.ProgressBar_DownloadState);
+        updateTaskProgressBar = (ProgressBar) findViewById(R.id.ProgressBar_TaskState);
+        updateFailedContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingFailed);
+        updateProgressContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingList);
+        
+        addListeners();
     }
     
     
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(this, RGDetailsActivity.class);
-        //        AvailablePlugins.Plugin plugin =  (AvailablePlugins.Plugin)this.getListAdapter().getItem(position);
-        //        intent.putExtra("identifier", (String)plugin.getIdentifier());
-        //        if (plugin.getInstalledRevision() > 0) {
-        //            intent.putExtra("is_stub", 0);
-        //        } else {
-        //            intent.putExtra("is_stub", 1);
-        //            intent.putExtra("position", (int)position);
-        //        }
-        //        Log.e("Getting details for " + plugin.getIdentifier());
-        startActivity(intent);
+    protected void onResume() {
+        super.onResume();
+        
+        startDownloadList();
+    }
+    
+    
+    private void startDownloadList() {
+        updateFailedContainer.setVisibility(View.GONE);
+        updateProgressContainer.setVisibility(View.VISIBLE);
+        
+        new Thread() {
+            
+            public void run() {
+                ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
+                    
+                    @Override
+                    public void tasks(int position, int length) {
+                        Looper.prepare();
+                        updateTaskProgressBar.setMax(length);
+                        updateTaskProgressBar.setProgress(position);
+                        Looper.loop();
+                    }
+                    
+                    
+                    @Override
+                    public void download(int position, int length) {
+                        Looper.prepare();
+                        updateDownloadProgressBar.setMax(length);
+                        updateDownloadProgressBar.setProgress(position);
+                        Looper.loop();
+                    }
+                });
+                RgInformationSet[] informationSets = ServerProvider.getInstance().findResourceGroups("");
+                
+                parseDownloadedList(informationSets);
+            }
+            
+        }.start();
+        
+    }
+    
+    
+    private void parseDownloadedList(RgInformationSet[] informationSets) {
+        Looper.prepare();
+        
+        rgisList = Arrays.asList(informationSets);
+        
+        if (informationSets != null && informationSets.length > 0) {
+            this.updateProgressContainer.setVisibility(View.GONE);
+            
+            this.rgisViewList = (ListView) findViewById(R.id.ListView_RGs);
+            this.rgisViewList.setClickable(true);
+            
+            this.rgisViewList.setAdapter(new RGsAvailableAdapter(this, rgisList));
+        } else {
+            this.updateProgressContainer.setVisibility(View.GONE);
+            this.updateFailedContainer.setVisibility(View.VISIBLE);
+        }
+        
+        Looper.loop();
+    }
+    
+    
+    private void addListeners() {
+        ((Button) findViewById(R.id.Button_RefreshList)).setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                startDownloadList();
+            }
+        });
     }
 }

@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
 /**
  * {@link DefaultPrivacySetting} for {@link Boolean}.
  * 
- * @author Tobias Kuhn
+ * @author Tobias Kuhn, Jakob Jarosch
  * 
  */
 public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
