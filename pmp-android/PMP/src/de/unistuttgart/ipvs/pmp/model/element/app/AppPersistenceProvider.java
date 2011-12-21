@@ -63,11 +63,6 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // delete service features
-        for (ServiceFeature sf : this.element.serviceFeatures.values()) {
-            sf.delete();
-        }
-        
         // delete app preset references
         wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?",
                 new String[] { this.element.getIdentifier() });
@@ -76,6 +71,10 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         wdb.rawQuery("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?",
                 new String[] { this.element.getIdentifier() });
         
+        // delete service features
+        for (ServiceFeature sf : this.element.serviceFeatures.values()) {
+            sf.delete();
+        }
     }
     
     
