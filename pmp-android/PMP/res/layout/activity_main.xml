@@ -7,138 +7,132 @@
     android:layout_marginRight="3dp"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="@string/main_title"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/icon" >
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
-        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            pmp:icon="@drawable/icon"
-            pmp:name="@string/main_title" >
-        </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+            android:orientation="vertical" >
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_description" >
+            </TextView>
+
+            <include layout="@layout/view_divider_strong" >
+            </include>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content" >
 
-                <TextView
+                <Button
+                    android:id="@+id/Button_Apps"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_description" >
-                </TextView>
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_apps"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_apps" >
+                </Button>
 
-                <include layout="@layout/view_divider_strong" >
-                </include>
-
-                <LinearLayout
+                <Button
+                    android:id="@+id/Button_RGs"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_rgs2"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_rgs" >
+                </Button>
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/Button_Apps"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_apps"
-                        android:paddingTop="25sp"
-                        android:text="@string/main_apps" >
-                    </Button>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
 
-                    <Button
-                        android:id="@+id/Button_RGs"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_rgs2"
-                        android:paddingTop="25sp"
-                        android:text="@string/main_rgs" >
-                    </Button>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
-
-                    <de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton
-                        android:id="@+id/Button_Presets"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_presets2"
-                        android:paddingTop="25sp"
-                        android:text="@string/main_presets" >
-                    </de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton>
-
-                    <Button
-                        android:id="@+id/Button_Settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/icon_settings"
-                        android:paddingTop="25sp"
-                        android:text="@string/main_settings" >
-                    </Button>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
-                        android:layout_marginRight="3dp"
-                        android:src="@drawable/icon_statistics" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="-3dp"
-                        android:text="@string/main_statistics" />
-                </LinearLayout>
-
-                <include layout="@layout/view_divider_strong" >
-                </include>
-
-                <TextView
-                    android:id="@+id/TextView_Apps"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_statistics_apps" />
-
-                <TextView
-                    android:id="@+id/TextView_RGs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_statistics_rgs" />
-
-                <TextView
-                    android:id="@+id/TextView_Presets"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_statistics_presets" />
-
-                <TextView
+                <de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton
+                    android:id="@+id/Button_Presets"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:layout_gravity="bottom|right"
                     android:layout_weight="1"
-                    android:text="version 2.0"
-                    android:textColor="#777777"
-                    android:textSize="10dp" />
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_presets2"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_presets" >
+                </de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton>
+
+                <Button
+                    android:id="@+id/Button_Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_settings"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_settings" >
+                </Button>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/icon_statistics" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-3dp"
+                    android:text="@string/main_statistics" />
+            </LinearLayout>
+
+            <include layout="@layout/view_divider_strong" >
+            </include>
+
+            <TextView
+                android:id="@+id/TextView_Apps"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_statistics_apps" />
+
+            <TextView
+                android:id="@+id/TextView_RGs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_statistics_rgs" />
+
+            <TextView
+                android:id="@+id/TextView_Presets"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_statistics_presets" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="bottom|right"
+                android:layout_weight="1"
+                android:text="version 2.0"
+                android:textColor="#777777"
+                android:textSize="10dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

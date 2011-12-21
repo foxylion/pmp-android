@@ -100,7 +100,7 @@ public class ActivityApp extends Activity {
         
         // Create an Intent to start the inner activity
         Intent intentDetails = new Intent(this, TabDetails.class);
-        intentDetails.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
+        intentDetails.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
         
         details.setContent(intentDetails);
         this.mTabHost.addTab(details);
@@ -117,7 +117,8 @@ public class ActivityApp extends Activity {
         
         // Create an Intent to start the inner activity
         Intent intentSfs = new Intent(this, TabServiceFeatures.class);
-        intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
+        intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        intentSfs.putExtra(GUIConstants.ACTIVITY_ACTION, getIntent().getStringExtra(GUIConstants.ACTIVITY_ACTION));
         
         sfs.setContent(intentSfs);
         this.mTabHost.addTab(sfs);
@@ -155,8 +156,6 @@ public class ActivityApp extends Activity {
         if (GUITools.handleIntentAction(getIntent()) != null
                 && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             this.mTabHost.setCurrentTabByTag(TAB_SF);
-            
-            // TODO GUI: Show "Save & Close" button for getting back to the Apps last Activity
         }
     }
     

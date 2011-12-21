@@ -4,23 +4,17 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/preset_tab_apps_no_assigned"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-        
-        <TextView 
-            android:id="@+id/preset_tab_apps_no_assigned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/preset_tab_apps_no_apps_assigned"
-            android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/preset_tab_apps_no_apps_assigned" />
 
-        <ListView
-            android:id="@+id/listview_assigned_apps"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
+    <ListView
+        android:id="@+id/listview_assigned_apps"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

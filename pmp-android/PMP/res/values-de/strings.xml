@@ -1,15 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="apps">Applikationen</string>
-    <string name="ress">Ressourcen</string>
-    <string name="description">Beschreibung</string>
-    <string name="apply">Bestätigen</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="servive_feature_for">Service Feature für </string>
-    <string name="service_feature">Service Feature</string><string name="service_feature_apply_hint">Um das Service Feature zu setzen \&quot;Bestätigen\&quot; antippen, oder \&quot;Abbrechen\&quot; um zur Übersicht zurück zu kehren.</string>
-    <string name="set_service_feature">Service Feature wird gesetzt.</string>
-    <string name="please_wait">Bitte warten!</string>
-    <string name="required_resource">Benötigte Ressource-Gruppen</string>
-    <string name="change_sl">Service Feature ändern</string><string name="set_service_feature_hint">Tipp: Durch antippen des Service Features können mehr Details angezeigt werden. Sollte das Service Feature zusagen kann es bestätigt werden.</string>
-    <string name="close">Schließen</string>
 </resources>

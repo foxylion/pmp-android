@@ -5,11 +5,14 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -40,7 +43,9 @@ public class TabServiceFeatures extends Activity {
     protected void onResume() {
         super.onResume();
         
-        this.app = GUITools.handleAppIntent(getIntent());
+        addListener();
+        
+        checkExtendedIntentActions();
         
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
@@ -70,5 +75,28 @@ public class TabServiceFeatures extends Activity {
         
         AdapterServiceFeatures sFsAdapter = new AdapterServiceFeatures(this, Arrays.asList(sfs));
         serviceFeaturesView.setAdapter(sFsAdapter);
+    }
+    
+    
+    private void addListener() {
+        ((Button) findViewById(R.id.Button_Close)).setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                TabServiceFeatures.this.finish();
+            }
+        });
+    }
+    
+    
+    /**
+     * Checks if the Activity has been started with extended parameters like requested service features.
+     */
+    private void checkExtendedIntentActions() {
+        this.app = GUITools.handleAppIntent(getIntent());
+        if (GUITools.handleIntentAction(getIntent()) != null
+                && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
+            ((Button) findViewById(R.id.Button_Close)).setVisibility(View.VISIBLE);
+        }
     }
 }

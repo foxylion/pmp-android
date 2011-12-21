@@ -24,6 +24,8 @@
     <string name="uninstall">Uninstall</string>
     <string name="update">Update</string>
     <string name="value">Value</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
             
     
     <string name="app_name">Privacy Management Platform</string>
@@ -99,15 +101,6 @@
     <string name="details_app">App details</string>
     
     <string name="ps_invalid_value">required value is invalid</string>
-        
-    <string name="rgs_available">Available</string>
-    <string name="rgs_installed">Installed</string>
-    <string name="rgs_task_getting">Getting available Resource Groups</string>
-    <string name="rgs_task_installing">Installing Resource Group</string>
-    <string name="rgs_task_uninstalling">Removing Resource Group</string>
-    <string name="rgs_uptodate">Up to date!</string>
-    <string name="rgs_outdated">Outdated!</string>
-    <string name="rgs_notinstalled">Not installed.</string>  
     
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
@@ -117,8 +110,10 @@
     <string name="missing_rgs_description">There are some resources missing, you have install them over the Resources menu.</string>
     
     <!-- ResourceGroups -->
-    <string name="rg_state_new">New</string>
+    <string name="rg_installed">Installed</string>
+    <string name="rg_available">Available</string>
     <string name="rg_state_installed">Installed</string>
+    <string name="rg_state_new">New</string>
     <string name="rg_state_update">Update</string>
     <string name="rg_last_update">Last update at</string>
 </resources>

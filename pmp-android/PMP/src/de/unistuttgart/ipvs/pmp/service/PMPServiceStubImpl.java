@@ -88,6 +88,7 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
             Intent intent = GUITools.createAppActivityIntent(app);
             intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.CHANGE_SERVICEFEATURE);
             intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeatures);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             GUITools.startIntent(intent);
             
             return true;

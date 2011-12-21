@@ -1,5 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ps_boolean_name">boolean value</string>
-    <string name="ps_boolean_description">a valid value can be true or false</string>
 </resources>

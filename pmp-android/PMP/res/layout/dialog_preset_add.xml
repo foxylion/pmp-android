@@ -4,13 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    
-        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:id="@+id/Title"
+        pmp:name="@string/presets_add"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_add_32"
-        pmp:name="@string/presets_add" />
+        pmp:icon="@drawable/icon_add_32" />
 
     <ScrollView
         android:id="@+id/ScrollView01"
@@ -34,9 +34,10 @@
             <EditText
                 android:id="@+id/presets_dialog_name_textfield"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:inputType="text" >
 
-                <requestFocus >
+                <requestFocus>
                 </requestFocus>
             </EditText>
 
@@ -52,11 +53,11 @@
                 android:id="@+id/presets_dialog_description_textfield"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-				android:lines="5"
-				android:gravity="top|left"
-				android:inputType="textMultiLine"
-				android:scrollHorizontally="false"> 
-	        </EditText>
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:scrollHorizontally="false" >
+            </EditText>
 
             <LinearLayout
                 android:id="@+id/linearLayout1"

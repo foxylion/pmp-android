@@ -19,16 +19,12 @@ public class ActivityRGs extends TabActivity {
         TabHost.TabSpec spec; // Resusable TabSpec for each tab
         Intent intent; // Reusable Intent for each tab
         
-        // Do the same for the other tabs
-        intent = new Intent().setClass(this, TabRGsAvailable.class);
-        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.rgs_available)).setContent(intent);
-        tabHost.addTab(spec);
-        tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;
-        
         intent = new Intent().setClass(this, TabRGsInstalled.class);
-        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rgs_installed)).setContent(intent);
+        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rg_installed)).setContent(intent);
         tabHost.addTab(spec);
-        tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
-        tabHost.setCurrentTab(0);
+        
+        intent = new Intent().setClass(this, TabRGsAvailable.class);
+        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.rg_available)).setContent(intent);
+        tabHost.addTab(spec);
     }
 }
