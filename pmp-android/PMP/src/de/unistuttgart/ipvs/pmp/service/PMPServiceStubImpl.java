@@ -67,7 +67,7 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
     
     
     @Override
-    public IBinder getRessource(String appPackage, String rgPackage, String resource) throws RemoteException {
+    public IBinder getResource(String appPackage, String rgPackage, String resource) throws RemoteException {
         IResourceGroup rg = Model.getInstance().getResourceGroup(rgPackage);
         if (rg == null) {
             return null;

@@ -67,7 +67,7 @@ public interface IPluginProvider {
     
     
     /**
-     * Looks for the cached icon of the resource group.
+     * Looks for the cached icon of terhe resource group.
      * 
      * @param rgPackage
      *            the main package of the resource group's apk

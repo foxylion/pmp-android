@@ -119,7 +119,7 @@ public abstract class App extends Application {
                 if (!ipmps.isRegistered(name)) {
                     result.result = null;
                 } else {
-                    result.result = ipmps.getRessource(name, resourceGroup, resource);
+                    result.result = ipmps.getResource(name, resourceGroup, resource);
                 }
             }
             
@@ -158,7 +158,7 @@ public abstract class App extends Application {
                 if (!ipmps.isRegistered(name)) {
                     receiveResource(resourceGroup, resource, null);
                 } else {
-                    receiveResource(resourceGroup, resource, ipmps.getRessource(name, resourceGroup, resource));
+                    receiveResource(resourceGroup, resource, ipmps.getResource(name, resourceGroup, resource));
                 }
             }
             

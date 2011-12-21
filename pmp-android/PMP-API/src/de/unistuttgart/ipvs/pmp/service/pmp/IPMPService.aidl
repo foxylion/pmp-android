@@ -52,7 +52,7 @@ interface IPMPService {
      * @return the IBinder interface for the resource of the resourceGroup, or null, if an error happened
      *         (e.g. resource not found)
      */
-    IBinder getRessource(String appPackage, String rgPackage, String resource);
+    IBinder getResource(String appPackage, String rgPackage, String resource);
     
     
     /**
