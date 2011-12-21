@@ -249,9 +249,6 @@ public class Model {
                 } else if (appointment.getId() == id) {
                     // Store appointment to delete later
                     toDel = appointment;
-                    
-                    // Add new appointment
-                    addAppointment(new Appointment(id, description, date));
                     break;
                 }
             }
@@ -259,7 +256,11 @@ public class Model {
             // Delete appointment if necessary if the date has changed
             if (toDel != null) {
                 deleteAppointment(toDel);
+                
+                // Add new appointment
+                addAppointment(new Appointment(id, description, date));
             }
+            
             this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");

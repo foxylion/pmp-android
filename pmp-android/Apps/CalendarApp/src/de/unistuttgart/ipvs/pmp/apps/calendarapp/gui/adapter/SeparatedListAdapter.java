@@ -173,7 +173,6 @@ public class SeparatedListAdapter extends BaseAdapter {
                 convertView = null;
                 // check if position inside this section
                 if (position == 0) {
-                    System.out.println(sectionnum);
                     return headers.getView(sectionnum, convertView, parent);
                 }
                 if (position < size)
@@ -199,7 +198,9 @@ public class SeparatedListAdapter extends BaseAdapter {
         public int compare(String lhs, String rhs) {
             long d1 = Date.parse(lhs);
             long d2 = Date.parse(rhs);
-            return (int) (d1 - d2);
+            Date d11 = new Date(d1);
+            Date d12 = new Date(d2);
+            return d11.compareTo(d12);
         }
         
     }
