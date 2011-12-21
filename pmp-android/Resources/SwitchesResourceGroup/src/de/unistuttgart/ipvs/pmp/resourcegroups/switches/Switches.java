@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 
-import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
@@ -46,32 +45,12 @@ public class Switches extends ResourceGroup {
     public static final String PRIVACY_SETTING_WIFI_SWITCH = "CanWifiSwitch";
     public static final String RESOURCE_WIFI_SWITCH = "WifiSwitch";
     
-    /**
-     * Context for forwarding to resources
-     */
-    private Context context;
-    
     
     public Switches(IPMPConnectionInterface pmpci) {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.switches", pmpci);
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());
         registerPrivacySetting(PRIVACY_SETTING_WIFI_SWITCH, new BooleanPrivacySetting());
-    }
-    
-    
-    public String getName(String locale) {
-        return "Switches Resource Group";
-    }
-    
-    
-    public String getDescription(String locale) {
-        return "Resource group for using the switches available in Android.";
-    }
-    
-    
-    protected String getServiceAndroidName() {
-        return "de.unistuttgart.ipvs.pmp.resourcegroups.switches";
     }
     
     
@@ -82,16 +61,6 @@ public class Switches extends ResourceGroup {
     
     public void onRegistrationFailed(String message) {
         Log.e("Registration failed with \"" + message + "\"");
-    }
-    
-    
-    public void setContext(Context context) {
-        this.context = context;
-    }
-    
-    
-    public Context getContext() {
-        return this.context;
     }
     
 }

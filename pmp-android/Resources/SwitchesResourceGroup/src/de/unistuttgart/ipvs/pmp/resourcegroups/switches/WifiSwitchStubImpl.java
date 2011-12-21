@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: SwitchesResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@ public class WifiSwitchStubImpl extends Stub {
     @Override
     public boolean getState() throws RemoteException {
         if (!verifyAccessAllowed()) {
-            throw new IllegalAccessError();
+            throw new SecurityException();
         }
         
         WifiManager wm = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
@@ -66,7 +66,7 @@ public class WifiSwitchStubImpl extends Stub {
     @Override
     public void setState(boolean newState) throws RemoteException {
         if (!verifyAccessAllowed()) {
-            throw new IllegalAccessError();
+            throw new SecurityException();
         }
         
         WifiManager wm = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
