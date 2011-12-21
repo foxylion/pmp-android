@@ -93,10 +93,20 @@ public class RideActivity extends Activity {
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
+						.show();
 				Intent intent = new Intent(RideActivity.this,
 						PassengerViewActivity.class);
 				RideActivity.this.startActivity(intent);
 			}
 		});
 	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(RideActivity.this, MainActivity.class);
+		RideActivity.this.startActivity(intent);
+	}
+
 }

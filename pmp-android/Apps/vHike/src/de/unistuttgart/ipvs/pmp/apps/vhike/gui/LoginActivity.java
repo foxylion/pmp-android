@@ -2,7 +2,9 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 
 /**
- * LoginActivity the startup activity for vHike
+ * LoginActivity: the startup activity for vHike
  * 
  * @author Andre Nguyen
  * 
@@ -54,11 +56,26 @@ public class LoginActivity extends Activity {
 					if (ctrl.login(username, pw)) {
 						vhikeDialogs.getInstance()
 								.getLoginPD(LoginActivity.this).show();
+
 						Toast.makeText(LoginActivity.this, "Login successful",
 								Toast.LENGTH_LONG).show();
-						Intent intent = new Intent(LoginActivity.this,
-								MainActivity.class);
-						LoginActivity.this.startActivity(intent);
+
+						Thread t = new Thread() {
+							public void run() {
+								Looper.prepare();
+
+								Intent intent = new Intent(LoginActivity.this,
+										MainActivity.class);
+								LoginActivity.this.startActivity(intent);
+
+								Looper.loop();
+
+								vhikeDialogs.getInstance()
+										.getLoginPD(LoginActivity.this)
+										.dismiss();
+							}
+						};
+						t.start();
 					} else {
 						Toast.makeText(
 								LoginActivity.this,
@@ -70,6 +87,9 @@ public class LoginActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Set up Button for registration, starts RegisterActivity
+	 */
 	private void registerLink() {
 		Button button_register = (Button) findViewById(R.id.button_register);
 		button_register.setOnClickListener(new OnClickListener() {
@@ -80,6 +100,12 @@ public class LoginActivity extends Activity {
 				LoginActivity.this.startActivity(intent);
 			}
 		});
+	}
+
+	public boolean isConnected() {
+		@SuppressWarnings("static-access")
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo().isConnected();
 	}
 
 }

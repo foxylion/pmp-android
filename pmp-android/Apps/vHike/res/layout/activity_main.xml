@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_marginLeft="3dp"
@@ -13,7 +14,8 @@
         android:orientation="vertical" >
 
         <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
-            android:name="vHike"
+            pmp:name="@string/main_title"
+            android:textStyle="bold"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/balken"

@@ -11,14 +11,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TextView.OnEditorActionListener;
 
 /**
  * Users can register an account when register form is filled in correctly
@@ -91,7 +88,7 @@ public class RegisterActivity extends Activity {
 			}
 
 		});
-		
+
 		et_email.addTextChangedListener(new InputValidator(et_email, "",
 				cEmail, cMobile));
 		et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
@@ -143,6 +140,7 @@ public class RegisterActivity extends Activity {
 
 	/**
 	 * Check if users input is correct
+	 * 
 	 * @param mobile
 	 * @param email
 	 * @param pw

@@ -10,6 +10,7 @@ import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -46,6 +47,9 @@ public class PassengerViewActivity extends MapActivity {
 
 		showHitchhikers();
 		setMapView();
+
+		vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
+				.dismiss();
 	}
 
 	public PassengerViewActivity() {
@@ -58,7 +62,8 @@ public class PassengerViewActivity extends MapActivity {
 	private void showHitchhikers() {
 		hitchhikers = new ArrayList<Profile>();
 
-		Profile pro = new Profile("User2", null, null, null, null, null, null, false, false, false, false, lat, lat);
+		Profile pro = new Profile("User2", null, null, null, null, null, null,
+				false, false, false, false, lat, lat);
 		addHitchhiker(pro);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
@@ -79,7 +84,8 @@ public class PassengerViewActivity extends MapActivity {
 	}
 
 	/**
-	 * displays the map from xml file including a button to get current user location
+	 * displays the map from xml file including a button to get current user
+	 * location
 	 */
 	private void setMapView() {
 		mapView = (MapView) findViewById(R.id.passengerMapView);
