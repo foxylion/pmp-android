@@ -358,7 +358,7 @@ public class PluginProvider implements IPluginProvider {
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         deleteFile(PLUGIN_ASSET_DIR_STR + rgPackage + PNG_STR);
         deleteFile(PLUGIN_ASSET_DIR_STR + rgPackage + XML_STR);
-        deleteFile(PLUGIN_APK_DIR + rgPackage + APK_STR);
+        deleteFile(PLUGIN_APK_DIR_STR + rgPackage + APK_STR);
     }
     
     

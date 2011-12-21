@@ -540,9 +540,11 @@ public class Model implements IModel, Observer {
         String identifier = name;
         
         // find free identifier
-        while (creatorMap.get(identifier) != null) {
-            suffix++;
-            identifier = name + suffix;
+        if (creatorMap != null) {
+            while (creatorMap.get(identifier) != null) {
+                suffix++;
+                identifier = name + suffix;
+            }
         }
         
         // create
