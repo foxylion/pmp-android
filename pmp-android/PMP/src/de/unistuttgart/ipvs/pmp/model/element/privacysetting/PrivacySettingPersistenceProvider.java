@@ -41,17 +41,17 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete service feature required privacy setting values references
-        wdb.rawQuery("DELETE FROM " + TBL_SFReqPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+        wdb.execSQL("DELETE FROM " + TBL_SFReqPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                 + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
                 this.element.getLocalIdentifier() });
         
         // delete preset granted privacy setting values references
-        wdb.rawQuery("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+        wdb.execSQL("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                 + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
                 this.element.getLocalIdentifier() });
         
         // delete privacy settings
-        wdb.rawQuery("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE
+        wdb.execSQL("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE
                 + " = ? AND " + IDENTIFIER + " = ?", new String[] {
                 this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
         

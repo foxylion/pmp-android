@@ -120,16 +120,16 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete preset granted privacy setting value references
-        wdb.rawQuery("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+        wdb.execSQL("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                 + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
         // delete preset assigned apps references
-        wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
+        wdb.execSQL("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
                 + PRESET_IDENTIFIER + " = ?",
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
         // delete preset
-        wdb.rawQuery("DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+        wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                 + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
     }
