@@ -6,10 +6,12 @@ import java.util.Locale;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
@@ -66,7 +68,6 @@ public class RGsAvailableAdapter extends BaseAdapter {
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
-        
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         name.setText(rgis.getNames().get(Locale.ENGLISH));
@@ -88,7 +89,6 @@ public class RGsAvailableAdapter extends BaseAdapter {
             /* RG is not installed. */
             state.setText(context.getResources().getString(R.string.rg_state_new) + " - rev. " + rgRev);
         }
-        
         
         return entryView;
     }

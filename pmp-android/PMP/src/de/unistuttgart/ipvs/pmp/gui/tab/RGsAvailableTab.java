@@ -8,11 +8,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.RGsAvailableAdapter;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
@@ -26,7 +29,7 @@ public class RGsAvailableTab extends Activity {
     private LinearLayout updateProgressContainer;
     private LinearLayout updateFailedContainer;
     private LinearLayout lastUpdateContainer;
-
+    
     private TextView lastUpdateTextView;
     
     /**
@@ -115,11 +118,13 @@ public class RGsAvailableTab extends Activity {
         this.updateProgressContainer.setVisibility(View.GONE);
         
         if (informationSets != null && informationSets.length > 0) {
-            lastUpdateTextView.setText(getResources().getString(R.string.rg_last_update) + ": " + new Date().toString());
+            lastUpdateTextView
+                    .setText(getResources().getString(R.string.rg_last_update) + ": " + new Date().toString());
             
             this.rgisList = Arrays.asList(informationSets);
             
             this.rgisViewList.setAdapter(new RGsAvailableAdapter(this, rgisList));
+            
         } else {
             this.updateFailedContainer.setVisibility(View.VISIBLE);
         }
@@ -132,6 +137,15 @@ public class RGsAvailableTab extends Activity {
             @Override
             public void onClick(View v) {
                 startDownloadList();
+            }
+        });
+        
+        /* Add the listener for the Items in the list */
+        rgisViewList.setOnItemClickListener(new OnItemClickListener() {
+            
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
+                Toast.makeText(RGsAvailableTab.this, "Tapped on item " + rgisList.get(item).getIdentifier(), Toast.LENGTH_SHORT).show();
             }
         });
     }
