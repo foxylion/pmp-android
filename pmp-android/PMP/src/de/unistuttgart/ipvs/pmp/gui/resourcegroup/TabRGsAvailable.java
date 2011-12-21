@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
@@ -144,7 +143,7 @@ public class TabRGsAvailable extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                Toast.makeText(TabRGsAvailable.this, "Tapped on item " + rgisList.get(item).getIdentifier(), Toast.LENGTH_SHORT).show();
+                new DialogRGAvailableDetails(TabRGsAvailable.this, rgisList.get(item)).show();
             }
         });
     }
