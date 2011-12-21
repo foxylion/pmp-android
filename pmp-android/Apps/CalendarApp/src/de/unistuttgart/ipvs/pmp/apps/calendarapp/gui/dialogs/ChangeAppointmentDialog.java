@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,11 +38,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 public class ChangeAppointmentDialog extends Dialog {
     
     /**
-     * Index of the date to edit
-     */
-    private int dateIndex;
-    
-    /**
      * The date picker
      */
     private DatePicker dPicker;
@@ -61,6 +56,8 @@ public class ChangeAppointmentDialog extends Dialog {
      * Original date
      */
     private Appointment appointment;
+    
+    private Date oldDate;
     
     
     /**
@@ -84,10 +81,10 @@ public class ChangeAppointmentDialog extends Dialog {
         
         this.setTitle(R.string.change_todo_dialog);
         
-        Date date = this.appointment.getDate();
+        oldDate = this.appointment.getDate();
         
         Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
+        cal.setTime(oldDate);
         
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -131,6 +128,9 @@ public class ChangeAppointmentDialog extends Dialog {
             
             SqlConnector.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
                     cal.getTime(), ChangeAppointmentDialog.this.desc.getText().toString());
+            
+            Model.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
+                    cal.getTime(),oldDate, ChangeAppointmentDialog.this.desc.getText().toString());
             dismiss();
         }
         

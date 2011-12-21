@@ -49,7 +49,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.AppointmentArrayAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.SeparatedListAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
@@ -64,11 +63,6 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 public class CalendarAppActivity extends ListActivity {
     
     private CalendarAppActivity self = this;
-    
-    /**
-     * The arrayAdapter of the list
-     */
-    private static AppointmentArrayAdapter arrayAdapter;
     
     /**
      * The actual context
@@ -183,6 +177,7 @@ public class CalendarAppActivity extends ListActivity {
         if (aItem.getItemId() == 0) {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
                 SqlConnector.getInstance().deleteAppointment(clicked);
+                Model.getInstance().deleteAppointment(clicked);
             } else {
                 String[] req = new String[1];
                 req[0] = "write";
