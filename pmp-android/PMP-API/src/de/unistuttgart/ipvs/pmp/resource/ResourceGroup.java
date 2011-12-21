@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
+
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
@@ -148,6 +150,14 @@ public abstract class ResourceGroup {
      */
     public String getPMPPrivacySettingValue(String privacySettingIdentifier, String appIdentifier) {
         return this.pmpci.getPrivacySettingValue(this.rgPackage, privacySettingIdentifier, appIdentifier);
+    }
+    
+    
+    /**
+     * @see IPMPConnectionInterface#getContext(String)
+     */
+    public Context getContext() {
+        return this.pmpci.getContext(this.rgPackage);
     }
     
     

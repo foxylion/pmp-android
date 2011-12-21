@@ -61,15 +61,10 @@ public class MainActivity extends Activity {
 		});
 	}
 
-	// @Override
-	// public boolean onKeyDown(int keyCode, KeyEvent event) {
-	// if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-	// Controller ctrl = new Controller();
-	// ctrl.logout(Model.getInstance().getSid());
-	// Toast.makeText(MainActivity.this, "Logged Out",
-	// Toast.LENGTH_LONG).show();
-	// }
-	// return true;
-	// }
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+		MainActivity.this.startActivity(intent);
+	}
 
 }

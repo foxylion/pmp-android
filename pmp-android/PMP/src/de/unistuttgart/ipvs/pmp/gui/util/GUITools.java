@@ -3,8 +3,8 @@ package de.unistuttgart.ipvs.pmp.gui.util;
 import android.app.Activity;
 import android.content.Intent;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.gui.activity.AppActivity;
-import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.app.ActivityApp;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class GUITools {
@@ -60,7 +60,7 @@ public class GUITools {
      *            the App which should be opened
      */
     public static Intent createAppActivityIntent(IApp app) {
-        Intent intent = new Intent(PMPApplication.getContext(), AppActivity.class);
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityApp.class);
         intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
         return intent;
     }

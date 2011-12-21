@@ -42,9 +42,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.activity.MainActivity;
-import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.main.ActivityMain;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
@@ -102,7 +102,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), ActivityMain.class));
             }
         });
         
