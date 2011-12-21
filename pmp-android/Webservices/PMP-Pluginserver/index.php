@@ -7,7 +7,7 @@
 	
 		// wow, that was some complex coding
 		foreach (glob('*'.$query.'*.xml') as $rg) {
-			printf('%s\n', basename($rg, ".xml"));
+			printf('%s\n', basename($rg, '.xml'));
 		}				
 		// in the future we could read all the XMLs and search in there as well
 	}
