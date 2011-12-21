@@ -115,4 +115,8 @@
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
     <string name="required_rgs">Required Resources</string>
     <string name="missing_rgs_description">There are some resources missing, you have install them over the Resources menu.</string>
+    <string name="rg_state_new">New</string>
+    <string name="rg_state_installed">Installed</string>
+    <string name="rg_state_update">Update</string>
+    <string name="rg_last_update">Last update at</string>
 </resources>
