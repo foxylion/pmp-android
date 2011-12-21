@@ -19,7 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.adapter.PresetsAdapter;
-import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddDialog;
+import de.unistuttgart.ipvs.pmp.gui.dialog.PresetAddEditDialog;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -72,6 +72,98 @@ public class PresetsActivity extends Activity {
     
     
     /**
+     * Create the menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.presets_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    
+    /**
+     * React on a selected menu item
+     */
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.presets_menu_add:
+                PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, null);
+                dialog.setTitle(R.string.presets_add);
+                dialog.show();
+                break;
+            case R.id.presets_menu_show_deleted:
+                System.out.println(this.showDeleted);
+                if (this.showDeleted) {
+                    this.showDeleted = false;
+                    item.setTitle(R.string.presets_show_deleted);
+                } else {
+                    this.showDeleted = true;
+                    item.setTitle(R.string.presets_hide_deleted);
+                }
+                updateList();
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+    
+    
+    /**
+     * React on a clicked item of the context menu
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        // The menu information
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
+        IPreset preset = this.presetList.get(menuInfo.position);
+        
+        if (preset.isDeleted()) {
+            // Context menu of a deleted preset
+            switch (menuItem.getItemId()) {
+                case 0: // Clicked on "restore" 
+                    preset.setDeleted(false);
+                    updateList();
+                    return true;
+                case 1: // Clicked on "delete permanently"
+                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
+                    updateList();
+                    return true;
+            }
+            
+        } else {
+            switch (menuItem.getItemId()) {
+                case 0:
+                    /*
+                     * Clicked on "Edit name and description"
+                     */
+                    PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, preset);
+                    dialog.show();
+                    return true;
+                case 1:
+                    /*
+                     * Clicked on "delete (trash bin)"
+                     */
+                    preset.setDeleted(true);
+                    updateList();
+                    return true;
+                case 2:
+                    /*
+                     * Clicked on "delete permanently"
+                     */
+                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
+                    updateList();
+                    return true;
+            }
+            
+        }
+        
+        return false;
+        
+    }
+    
+    
+    /**
      * Initialize the components
      */
     private void init() {
@@ -93,11 +185,12 @@ public class PresetsActivity extends Activity {
                 if (preset.isDeleted()) {
                     menu.setHeaderTitle(getString(R.string.presets_deleted_context_menu));
                     menu.add(0, 0, 0, R.string.presets_restore);
-                    menu.add(1, 1, 0, R.string.presets_delete_permanent);
+                    menu.add(1, 1, 1, R.string.presets_delete_permanent);
                 } else {
                     menu.setHeaderTitle(getString(R.string.presets_context_menu));
-                    menu.add(0, 0, 0, R.string.presets_delete);
-                    menu.add(1, 1, 0, R.string.presets_delete_permanent);
+                    menu.add(0, 0, 0, R.string.edit_name_and_description);
+                    menu.add(1, 1, 1, R.string.presets_delete);
+                    menu.add(2, 2, 2, R.string.presets_delete_permanent);
                 }
             }
         });
@@ -155,87 +248,6 @@ public class PresetsActivity extends Activity {
         // Set adapter
         PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
-        
-    }
-    
-    
-    /**
-     * Create the menu
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.presets_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    
-    
-    /**
-     * React on a selected menu item
-     */
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.presets_menu_add:
-                PresetAddDialog dialog = new PresetAddDialog(PresetsActivity.this);
-                dialog.setTitle(R.string.presets_add);
-                dialog.setActivity(PresetsActivity.this);
-                dialog.show();
-                break;
-            case R.id.presets_menu_show_deleted:
-                System.out.println(this.showDeleted);
-                if (this.showDeleted) {
-                    this.showDeleted = false;
-                    item.setTitle(R.string.presets_show_deleted);
-                } else {
-                    this.showDeleted = true;
-                    item.setTitle(R.string.presets_hide_deleted);
-                }
-                updateList();
-                break;
-        }
-        return super.onMenuItemSelected(featureId, item);
-    }
-    
-    
-    /**
-     * React on a clicked item of the context menu
-     */
-    @Override
-    public boolean onContextItemSelected(MenuItem menuItem) {
-        // The menu information
-        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        IPreset preset = this.presetList.get(menuInfo.position);
-        
-        if (preset.isDeleted()) {
-            // Context menu of a deleted preset
-            switch (menuItem.getItemId()) {
-                case 0: // Clicked on "restore" 
-                    preset.setDeleted(false);
-                    updateList();
-                    return true;
-                case 1: // Clicked on "delete permanently"
-                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    updateList();
-                    return true;
-            }
-            
-        } else {
-            switch (menuItem.getItemId()) {
-                case 0: // Clicked on "delete (trash bin)"
-                    // Context menu of a preset
-                    preset.setDeleted(true);
-                    updateList();
-                    return true;
-                case 1: // Clicked on "delete permanently"
-                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    updateList();
-                    return true;
-            }
-            
-        }
-        
-        return false;
         
     }
     

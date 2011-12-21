@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.tab.PresetAppsTab;
@@ -63,6 +64,8 @@ public class PresetActivity extends Activity {
         title.setTitle(this.preset.getName());
         title.setIcon(R.drawable.icon_presets);
         
+        updateDescriptionVisibility();
+        
     }
     
     
@@ -73,6 +76,8 @@ public class PresetActivity extends Activity {
         this.lam.dispatchResume();
         
         this.mTabHost.setCurrentTab(this.currentTab);
+        
+        updateDescriptionVisibility();
     }
     
     
@@ -94,6 +99,28 @@ public class PresetActivity extends Activity {
     }
     
     
+    /**
+     * Update the visibility of the description TextView and the strong divider.
+     * If no description of the Preset is available, set those elements invisible (gone).
+     */
+    private void updateDescriptionVisibility() {
+        // Set up description of the Preset
+        TextView descr = (TextView) findViewById(R.id.TextView_Preset_Description);
+        View divider = (View) findViewById(R.id.View_Divider_Strong);
+        if (!this.preset.getDescription().equals("")) {
+            descr.setText(this.preset.getDescription());
+            descr.setVisibility(TextView.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+        } else {
+            descr.setVisibility(TextView.GONE);
+            divider.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    /**
+     * Set up all tabs
+     */
     private void setupTabs() {
         /* Assigned Apps Tab */
         TabSpec assignedApps = this.mTabHost.newTabSpec("tab_assigned_apps");
