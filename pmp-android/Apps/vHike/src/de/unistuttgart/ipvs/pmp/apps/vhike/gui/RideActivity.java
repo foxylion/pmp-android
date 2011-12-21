@@ -105,8 +105,7 @@ public class RideActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(RideActivity.this, MainActivity.class);
-		RideActivity.this.startActivity(intent);
+		RideActivity.this.finish();
 	}
 
 }

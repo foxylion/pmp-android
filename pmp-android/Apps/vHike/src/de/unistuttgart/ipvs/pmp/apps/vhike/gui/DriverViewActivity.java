@@ -234,9 +234,7 @@ public class DriverViewActivity extends MapActivity {
 		case (Constants.STATUS_UPDATED): {
 			Toast.makeText(DriverViewActivity.this, "Updated",
 					Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(DriverViewActivity.this,
-					RideActivity.class);
-			DriverViewActivity.this.startActivity(intent);
+			DriverViewActivity.this.finish();
 			break;
 		}
 		case (Constants.STATUS_UPTODATE): {
@@ -247,17 +245,13 @@ public class DriverViewActivity extends MapActivity {
 		case (Constants.STATUS_NOTRIP): {
 			Toast.makeText(DriverViewActivity.this, "No trip",
 					Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(DriverViewActivity.this,
-					RideActivity.class);
-			DriverViewActivity.this.startActivity(intent);
+			DriverViewActivity.this.finish();
 			break;
 		}
 		case (Constants.STATUS_HASENDED): {
 			Toast.makeText(DriverViewActivity.this, "Trip ended",
 					Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(DriverViewActivity.this,
-					RideActivity.class);
-			DriverViewActivity.this.startActivity(intent);
+			DriverViewActivity.this.finish();
 			break;
 		}
 		case (Constants.STATUS_INVALID_USER):

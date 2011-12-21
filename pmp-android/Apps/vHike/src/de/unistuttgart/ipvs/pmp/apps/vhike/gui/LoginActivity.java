@@ -102,6 +102,11 @@ public class LoginActivity extends Activity {
 		});
 	}
 
+	@Override
+	public void onBackPressed() {
+		LoginActivity.this.finish();
+	}
+	
 	public boolean isConnected() {
 		@SuppressWarnings("static-access")
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);

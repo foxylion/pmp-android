@@ -38,5 +38,6 @@
         <item >7</item>
         <item >8</item>
     </string-array>
+    <string name="profile_save">Save changes</string>
 
 </resources>
