@@ -48,15 +48,14 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // delete privacy settings
-        for (PrivacySetting ps : this.element.privacySettings.values()) {
-            ps.delete();
-        }
-        
         // delete resource group
         wdb.rawQuery("DELETE FROM " + TBL_RESOURCEGROUP + " WHERE " + PACKAGE + " = ?",
                 new String[] { this.element.getIdentifier() });
         
+        // delete privacy settings
+        for (PrivacySetting ps : this.element.privacySettings.values()) {
+            ps.delete();
+        }
     }
     
     
