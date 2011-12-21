@@ -1,15 +1,14 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,56 +16,94 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/**
+ * Adds separate sections with a header to the list of appointments
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class SeparatedListAdapter extends BaseAdapter {
     
-    public final Map<String, AppointmentArrayAdapter> sections = new LinkedHashMap<String, AppointmentArrayAdapter>();
+    /**
+     * Stores the information of the sections
+     */
+    public final TreeMap<String, AppointmentArrayAdapter> sections = new TreeMap<String, AppointmentArrayAdapter>(
+            new StringComparator());
+    
+    /**
+     * {@link ArrayAdapter} with the headers
+     */
     public final ArrayAdapter<String> headers;
-    public final static int TYPE_SECTION_HEADER = 0;
+    
+    public final static int TYPE_HEADER_OF_A_SECTION = 0;
     
     
+    /**
+     * Initializes the headers {@link ArrayAdapter}
+     * 
+     * @param context
+     *            context of the app to load the layout with {@link R}
+     */
     public SeparatedListAdapter(Context context) {
         headers = new ArrayAdapter<String>(context, R.layout.list_header);
     }
     
     
+    /**
+     * Adds a new section and a new header, header and sections will be ordered by date
+     * 
+     * @param section
+     *            will be shown in the header
+     * @param adapter
+     *            {@link AppointmentArrayAdapter} with the {@link Appointment}s to show
+     */
     public void addSection(String section, AppointmentArrayAdapter adapter) {
         this.headers.add(section);
-        // TODO Sortieren -> Header der richtigen Section zuweisenF
-        headers.sort(new Comparator<String>() {
-
-            @Override
-            public int compare(String lhs, String rhs) {
-                long d1 = Date.parse(lhs);
-                long d2 = Date.parse(rhs);
-                return (int) (d1-d2);
-            }
-        });
+        headers.sort(new StringComparator());
         this.sections.put(section, adapter);
     }
     
-    public void removeEmptyHeadersAndSections(){
-        for (Entry<String, AppointmentArrayAdapter> entry: sections.entrySet()){
-            if (entry.getValue().getCount() == 0){
+    
+    /**
+     * Removes all empty stuff out of the sections and headers
+     */
+    public void removeEmptyHeadersAndSections() {
+        
+        // Stores the things that will be deleted out of the sections
+        ArrayList<String> toDel = new ArrayList<String>();
+        for (Entry<String, AppointmentArrayAdapter> entry : sections.entrySet()) {
+            
+            // Delete the headers if the section is empty
+            if (entry.getValue().getCount() == 0) {
                 headers.remove(entry.getKey());
-                sections.remove(entry.getKey());
+                
+                // Remember the section to delete
+                toDel.add(entry.getKey());
             }
+        }
+        
+        // Delete the sections
+        for (String del : toDel) {
+            sections.remove(del);
         }
     }
     
     
     @Override
     public int getCount() {
-        // total together all sections, plus one for each section header  
-        int total = 0;
-        for (AppointmentArrayAdapter adapter : this.sections.values())
-            total += adapter.getCount() + 1;
-        return total;
+        int totalSections = 0;
+        for (AppointmentArrayAdapter adapter : this.sections.values()) {
+            // Counts the sections + one header for every section
+            totalSections += adapter.getCount() + 1;
+        }
+        return totalSections;
     }
     
     
     @Override
     public boolean isEnabled(int position) {
-        return (getItemViewType(position) != TYPE_SECTION_HEADER);
+        // Headers are disabled
+        return (getItemViewType(position) != TYPE_HEADER_OF_A_SECTION);
     }
     
     
@@ -76,13 +113,13 @@ public class SeparatedListAdapter extends BaseAdapter {
             AppointmentArrayAdapter adapter = sections.get(section);
             int size = adapter.getCount() + 1;
             
-            // check if position inside this section  
+            // check if the position is inside this section  
             if (position == 0)
                 return section;
             if (position < size)
                 return adapter.getItem(position - 1);
             
-            // otherwise jump into next section  
+            // otherwise jump into the next section  
             position -= size;
         }
         return null;
@@ -91,10 +128,10 @@ public class SeparatedListAdapter extends BaseAdapter {
     
     @Override
     public int getViewTypeCount() {
-        // assume that headers count as one, then total all sections  
         int total = 1;
-        for (AppointmentArrayAdapter adapter : this.sections.values())
+        for (AppointmentArrayAdapter adapter : this.sections.values()) {
             total += adapter.getViewTypeCount();
+        }
         return total;
     }
     
@@ -108,7 +145,7 @@ public class SeparatedListAdapter extends BaseAdapter {
             
             // check if position inside this section  
             if (position == 0)
-                return TYPE_SECTION_HEADER;
+                return TYPE_HEADER_OF_A_SECTION;
             if (position < size)
                 return type + adapter.getItemViewType(position - 1);
             
@@ -135,7 +172,7 @@ public class SeparatedListAdapter extends BaseAdapter {
                 int size = adapter.getCount() + 1;
                 convertView = null;
                 // check if position inside this section
-                if (position == 0){
+                if (position == 0) {
                     System.out.println(sectionnum);
                     return headers.getView(sectionnum, convertView, parent);
                 }
@@ -148,5 +185,22 @@ public class SeparatedListAdapter extends BaseAdapter {
             }
         }
         return new TextView(Model.getInstance().getContext());
+    }
+    
+    /**
+     * Comparator to sort the headers and sections
+     * 
+     * @author Thorsten Berberich
+     * 
+     */
+    private class StringComparator implements Comparator<String> {
+        
+        @Override
+        public int compare(String lhs, String rhs) {
+            long d1 = Date.parse(lhs);
+            long d2 = Date.parse(rhs);
+            return (int) (d1 - d2);
+        }
+        
     }
 }

@@ -205,13 +205,18 @@ public class Model {
      * Delete all appointments from the database and model
      */
     public void deleteAllAppointments() {
-        // Get all ids
-        // TODO
         for (Entry<String, ArrayList<Appointment>> appointments : dayAppointments.entrySet()) {
             for (Appointment appointment : appointments.getValue()) {
                 SqlConnector.getInstance().deleteAppointment(appointment);
             }
         }
+        
+        //Delete everything out of he model
+        dayAppointments.clear();
+        adapters.clear();
+        arrayAdapter.removeEmptyHeadersAndSections();
+        arrayAdapter.notifyDataSetChanged();
+        appContext.updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -225,17 +230,37 @@ public class Model {
      * @param description
      *            Description of the date
      */
-    public void changeAppointment(int id, Date date, String description) {
-        String key = creatKey(date);
+    public void changeAppointment(int id, Date date, Date oldDate, String description) {
+        String key = creatKey(oldDate);
+        
+        Appointment toDel = null;
+        
         if (dayAppointments.containsKey(key)) {
             ArrayList<Appointment> appList = dayAppointments.get(key);
             for (Appointment appointment : appList) {
-                if (appointment.getId() == id) {
+                
+                // The date remains the same
+                if (appointment.getId() == id && oldDate.equals(date)) {
                     appointment.setDate(date);
                     appointment.setDescription(description);
+                    break;
+                    
+                    // The date changes
+                } else if (appointment.getId() == id) {
+                    // Store appointment to delete later
+                    toDel = appointment;
+                    
+                    // Add new appointment
+                    addAppointment(new Appointment(id, description, date));
+                    break;
                 }
-                this.arrayAdapter.notifyDataSetChanged();
             }
+            
+            // Delete appointment if necessary if the date has changed
+            if (toDel != null) {
+                deleteAppointment(toDel);
+            }
+            this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");
         }
