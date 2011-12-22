@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Offer Management</title>
+<style type="text/css">
+body, td, th {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: small;
+}
+body {
+	background-color: #EEE;
+}
+</style>
+</head>
+<body>
+<h1>Offer Management</h1>
+<h2>Send an offer</h2>
+<form action="../offer.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Query:</td>
+      <td><input name="query" type="text" value="0" /></td>
+    </tr>
+    <tr>
+      <td>Message:</td>
+      <td><textarea scrollbar="auto" name="message" rows="5">Hello</textarea></td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+
+<h2><a href="../offer_view.php" target="r">View offes</a></h2>
+
+<h2>Handle offer</h2>
+<form action="../offer_handle.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Offer:</td>
+      <td><input name="offer" type="text" value="0" /></td>
+    </tr>
+    <tr>
+      <td>Accept:</td>
+      <td>
+          <input type="radio" name="accept" value="true"> Yes
+          <input type="radio" name="accept" value="false"> No</td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

@@ -40,6 +40,14 @@ class Json {
     }
     
     /**
+     *
+     * @param boolean $exit 
+     */
+    public static function printInvalidInputError($exit = true) {
+        self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);
+    }
+    
+    /**
      * This function checks if a user is logged in at the moment. If the user
      * is not logged in, it will print a error-message and stop the execution
      * of the script
