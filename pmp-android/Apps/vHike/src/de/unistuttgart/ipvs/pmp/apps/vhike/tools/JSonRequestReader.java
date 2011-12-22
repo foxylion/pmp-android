@@ -3,9 +3,13 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -337,7 +341,7 @@ public class JSonRequestReader {
 					Model.getInstance().setTripId(tripId);
 					Log.i(String.valueOf(Model.getInstance().getTripId()));
 				}
-			}else{
+			} else {
 				return status = object.get("msg").getAsString();
 			}
 
@@ -468,8 +472,8 @@ public class JSonRequestReader {
 	 * @param seats
 	 * @return int id of the query
 	 */
-	public static  int startQuery(String sid, String destination, float current_lat,
-			float current_lon, int seats) {
+	public static int startQuery(String sid, String destination,
+			float current_lat, float current_lon, int seats) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
@@ -493,7 +497,7 @@ public class JSonRequestReader {
 		int id = Constants.QUERY_ID_ERROR;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			if(suc){
+			if (suc) {
 				id = object.get("id").getAsInt();
 				return id;
 			}
@@ -501,10 +505,13 @@ public class JSonRequestReader {
 
 		return id;
 	}
+
 	/**
 	 * Delete the active query
+	 * 
 	 * @param sid
-	 * @param id query id
+	 * @param id
+	 *            query id
 	 * @return String status
 	 */
 	public static String stopQuery(String sid, int id) {
@@ -527,14 +534,44 @@ public class JSonRequestReader {
 		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			if(suc){
+			if (suc) {
 				status = object.get("status").getAsString();
 				return status;
 			}
-			
+
 		}
 
 		return status;
+	}
+
+	public static void searchQuery(String sid, int trip_id, float lat,
+			float lon, int perimeter) {
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id),
+				false));
+		listToParse.add(new ParamObject("lat", String.valueOf(lat), false));
+		listToParse.add(new ParamObject("lon", String.valueOf(lon), false));
+		listToParse.add(new ParamObject("perimeter", String.valueOf(perimeter),
+				false));
+		
+		JsonObject object = null;
+		
+		try {
+			object = JSonRequestProvider.doRequest(listToParse, "query_search.php");
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		
+		if(object != null){
+			suc = object.get("successful").getAsBoolean();
+			if(suc){
+				Log.i(object.get("queries").getAsString());
+			}
+		}
 	}
 
 	/**

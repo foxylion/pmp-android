@@ -251,4 +251,9 @@ public class Controller {
 		}
 		return Constants.STATUS_ERROR;
 	}
+	
+	public void searchQuery(String sid, int trip_id, float lat, float lon, int perimeter){
+		JSonRequestReader.searchQuery(sid, trip_id, lat, lon, perimeter);
+	}
 }
+
