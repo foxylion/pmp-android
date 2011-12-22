@@ -15,7 +15,7 @@ class Query {
      * Loads a query from the database and returns a query-object storing the information
      * of the loaded query
      * @param int $id  ID of the query to load from the database
-     * @return Trip Object storing data of the loaded query or null, if trip with the
+     * @return Query Object storing data of the loaded query or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
      */
     public static function loadQuery($id) {
@@ -138,7 +138,7 @@ class Query {
      *
      * @return int 
      */
-    public function getDriver() {
+    public function getPassanger() {
         return $this->passenger;
     }
     

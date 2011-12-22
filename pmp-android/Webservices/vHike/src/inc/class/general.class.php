@@ -23,6 +23,10 @@ class General {
         
     }
     
+    public static function validId($input) {
+        return (isset($input) && is_numeric($input) && $input > 0);
+    }
+    
     /**
      * Generates a random string.
      * Usefull for greating passwords or activation strings  

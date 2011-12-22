@@ -89,10 +89,68 @@ public class RegisterActivity extends Activity {
 
 		});
 
-		et_email.addTextChangedListener(new InputValidator(et_email, "",
-				cEmail, cMobile));
-		et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
-				cEmail, cMobile));
+		et_email.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				if (!email_pattern.matcher(et_email.getText().toString())
+						.matches()) {
+					et_email.setError("Invalid email");
+					cEmail = false;
+				} else {
+					cEmail = true;
+				}
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		et_mobile.addTextChangedListener(new TextWatcher(){
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!mobile_pattern.matcher(et_mobile.getText().toString())
+						.matches()) {
+					et_mobile.setError("Invalid phone number");
+					cMobile = false;
+				} else {
+					cMobile = true;
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		// et_email.addTextChangedListener(new InputValidator(et_email, "",
+		// cEmail, cMobile));
+		// et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
+		// cEmail, cMobile));
 	}
 
 	private void register() {
@@ -123,7 +181,7 @@ public class RegisterActivity extends Activity {
 					ctrl.register(map);
 
 					Toast.makeText(RegisterActivity.this,
-							"Registration successfull", Toast.LENGTH_LONG)
+							"Registration successful", Toast.LENGTH_LONG)
 							.show();
 					Intent intent = new Intent(RegisterActivity.this,
 							MainActivity.class);
