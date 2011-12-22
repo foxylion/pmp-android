@@ -127,6 +127,7 @@ public class CalendarAppActivity extends ListActivity {
                 } else {
                     Log.v("App registered");
                 }
+                
                 /*
                  * Changes the functionality according to the service feature that is set.
                  * Will be called when the activity is started after on create and
@@ -160,12 +161,13 @@ public class CalendarAppActivity extends ListActivity {
         });
         // Connect to the service
         pmpconnector.bind();
-        // TESTING ONLY
-        setSFAddAppToModel();
-        
-     ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
     }
     
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Model.getInstance().clearLocalListWithoutTextViewUpdate();
+    }
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
@@ -331,10 +333,10 @@ public class CalendarAppActivity extends ListActivity {
     public void updateNoAvaiableAppointmentsTextView() {
         // add text view "no appointments available", if the list is empty
         TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
-        if (Model.getInstance().getAppointmentList().size() > 0) {
-            tv.setVisibility(View.GONE);
-        } else {
+        if (Model.getInstance().isModelEmpty()) {
             tv.setVisibility(View.VISIBLE);
+        } else {
+            tv.setVisibility(View.GONE);
         }
     }
     
@@ -348,7 +350,7 @@ public class CalendarAppActivity extends ListActivity {
         b.putBoolean("export", false);
         b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
-        if (Model.getInstance().getAppointmentList().size() == 0) {
+        if (Model.getInstance().isModelEmpty()) {
             Model.getInstance().addAppointment(new Appointment(1, "teest1", new Date()));
             Model.getInstance().addAppointment(new Appointment(2, "teest2", new Date()));
             Model.getInstance().addAppointment(new Appointment(3, "teest3", new Date()));

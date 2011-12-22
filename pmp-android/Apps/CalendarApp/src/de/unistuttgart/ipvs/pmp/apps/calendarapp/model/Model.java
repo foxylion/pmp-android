@@ -22,7 +22,6 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -47,11 +46,6 @@ public class Model {
      * Instance of this class
      */
     private static Model instance;
-    
-    /**
-     * Holds all stored dates
-     */
-    private ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
     /**
      * Stores for every existing day a list of {@link Appointment}s
@@ -114,8 +108,7 @@ public class Model {
         for (Appointment app : appList) {
             addAppointment(app);
         }
-        
-        Collections.sort(this.appointmentList, new DateComparator());
+       
         this.arrayAdapter.notifyDataSetChanged();
         
         // Update the visibility of the "no appointments avaiable" textview
@@ -247,11 +240,15 @@ public class Model {
      * @return all appointments at all days
      */
     public ArrayList<Appointment> getAppointmentList() {
-        appointmentList.clear();
+        ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
         for (Entry<String, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
             appointmentList.addAll(entry.getValue());
         }
         return appointmentList;
+    }
+    
+    public Boolean isModelEmpty(){
+        return dayAppointments.isEmpty();
     }
     
     
@@ -279,6 +276,14 @@ public class Model {
         arrayAdapter.removeEmptyHeadersAndSections();
         this.arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
+    }
+    
+    /**
+     * Clears the local stored list of dates but not the dates stored at the database
+     */
+    public void clearLocalListWithoutTextViewUpdate() {
+        this.dayAppointments.clear();
+        arrayAdapter.removeEmptyHeadersAndSections();
     }
     
     
