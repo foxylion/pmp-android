@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation>
-		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches</identifier>
-		<revision>2</revision>
+		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches
+		</identifier>
+		<revision>3</revision>
 		<defaultName lang="en">Device Switches</defaultName>
 		<name lang="de">Geräteschalter</name>
 		<defaultDescription lang="en">Three Swiss witch bitches,
@@ -25,10 +26,20 @@
 		</description>
 	</resourceGroupInformation>
 	<privacySettings>
+		<privacySetting identifier="CanWifiState">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">WiFi state</defaultName>
+			<name lang="de">WLAN-Status</name>
+			<defaultDescription lang="en">Allows to view the WiFi
+				state.
+			</defaultDescription>
+			<description lang="de">Erlaubt den WLAN-Status anzuzeigen.
+			</description>
+		</privacySetting>
 		<privacySetting identifier="CanWifiSwitch">
 			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">WiFi switch</defaultName>
-			<name lang="de">WLAN-Status</name>
+			<defaultName lang="en">Change WiFi state</defaultName>
+			<name lang="de">WLAN-Status ändern</name>
 			<defaultDescription lang="en">Allows to switch the WiFi
 				switch.
 			</defaultDescription>

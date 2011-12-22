@@ -48,7 +48,8 @@ public class WifiSwitchStubImpl extends Stub {
     
     @Override
     public boolean getState() throws RemoteException {
-        if (!verifyAccessAllowed()) {
+        if (!verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_SWITCH)
+                && !verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_STATE)) {
             throw new SecurityException();
         }
         
@@ -65,7 +66,7 @@ public class WifiSwitchStubImpl extends Stub {
     
     @Override
     public void setState(boolean newState) throws RemoteException {
-        if (!verifyAccessAllowed()) {
+        if (!verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_SWITCH)) {
             throw new SecurityException();
         }
         
@@ -79,9 +80,8 @@ public class WifiSwitchStubImpl extends Stub {
      * 
      * @return True, iff the access was allowed.
      */
-    private boolean verifyAccessAllowed() {
-        BooleanPrivacySetting bpl = (BooleanPrivacySetting) this.resource
-                .getPrivacySetting(Switches.PRIVACY_SETTING_WIFI_SWITCH);
+    private boolean verifyAccessAllowed(String privacySetting) {
+        BooleanPrivacySetting bpl = (BooleanPrivacySetting) this.resource.getPrivacySetting(privacySetting);
         try {
             return bpl.permits(this.appIdentifier, true);
         } catch (PrivacySettingValueException e) {

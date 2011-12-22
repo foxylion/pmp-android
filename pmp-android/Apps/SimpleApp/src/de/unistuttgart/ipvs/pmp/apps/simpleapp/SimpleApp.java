@@ -19,55 +19,96 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.simpleapp;
 
+import android.os.IBinder;
 import android.os.RemoteException;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
+import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
+import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class SimpleApp extends App {
-    
-    static {
-        Log.setTagSufix("SimpleApp");
-    }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.unistuttgart.ipvs.pmp.app.App#onRegistrationSuccess() Is called
-     * when the registration was successful. The method then tries to receive
-     * the initial service level from the PMP service.
-     */
-    @Override
-    public void onRegistrationSuccess() {
-        Log.d("Registration succeed");
-        
-        // Connector to get the initial service level
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
-            @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
-            }
-        });
-        
-        // Connect to the service
-        pmpconnector.bind();
-    }
-    
-    
-    @Override
-    public void onRegistrationFailed(String message) {
-        Log.d("Registration failed:" + message);
-    }
-    
-    
-    /**
-     * Changes the functionality of the app according to its set ServiceLevel
-     */
-    public void changeFunctionalityAccordingToServiceLevel() {
-        // TODO   
-    }
 
+	static {
+		Log.setTagSufix("SimpleApp");
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		Model.getInstance().setApp(this);
+	}
+
+	@Override
+	public void onRegistrationSuccess() {
+		Log.v("Registration succeed");
+
+		if (Model.getInstance().getActivity() != null) {
+			Model.getInstance().getActivity().registrationEnded();
+		}
+
+		Toast.makeText(getApplicationContext(),
+				"SimpleApp: Registration successed.", Toast.LENGTH_SHORT)
+				.show();
+	}
+
+	@Override
+	public void onRegistrationFailed(String message) {
+		Log.e("Registration failed: " + message);
+
+		if (Model.getInstance().getActivity() != null) {
+			Model.getInstance().getActivity().registrationEnded();
+		}
+
+		Toast.makeText(
+				getApplicationContext(),
+				"SimpleApp: Registration failed with the following message: "
+						+ message, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public IBinder getResourceBlocking(String resourceGroup, String resource) {
+		return super.getResourceBlocking(resourceGroup, resource);
+	}
+
+	public void requestServiceFeatures() {
+		new Thread() {
+			@Override
+			public void run() {
+				final PMPServiceConnector pmpsc = new PMPServiceConnector(
+						getApplicationContext());
+				final String name = getApplicationContext().getPackageName();
+
+				pmpsc.bind(true);
+				IPMPService pmpservice = pmpsc.getAppService();
+				try {
+					pmpservice.requestServiceFeature(name, new String[0]);
+				} catch (RemoteException e) {
+					Log.e("Could not update the Service Features", e);
+				}		
+			}
+		}.start();
+	}
+
+	public boolean isRegistered() {
+		final PMPServiceConnector pmpsc = new PMPServiceConnector(
+				getApplicationContext());
+		final String name = getApplicationContext().getPackageName();
+
+		pmpsc.bind(true);
+		IPMPService pmpservice = pmpsc.getAppService();
+		try {
+			return pmpservice.isRegistered(name);
+		} catch (RemoteException e) {
+			Log.e("Could not check registration state", e);
+		}
+
+		return false;
+	}
+
+	public void registerAtPMP() {
+		SimpleApp.this.register();
+	}
 }
