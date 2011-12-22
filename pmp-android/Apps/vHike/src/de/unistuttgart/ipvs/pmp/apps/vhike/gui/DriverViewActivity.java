@@ -30,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.SearchingHitchhikers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -115,13 +116,16 @@ public class DriverViewActivity extends MapActivity {
 		btnDriverLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-				locationManager.requestLocationUpdates(
-						LocationManager.GPS_PROVIDER, 0, 0,
-						new LocationUpdateHandler(context, locationManager,
-								mapView, mapController, new MapOverlay(context,
-										p, 1), p));
-
+				Controller ctrl = new Controller();
+				ctrl.searchQuery(Model.getInstance().getSid(), Model
+						.getInstance().getTripId(), 0, 0, 10);
+				// locationManager = (LocationManager)
+				// getSystemService(Context.LOCATION_SERVICE);
+				// locationManager.requestLocationUpdates(
+				// LocationManager.GPS_PROVIDER, 0, 0,
+				// new LocationUpdateHandler(context, locationManager,
+				// mapView, mapController, new MapOverlay(context,
+				// p, 1), p));
 			}
 		});
 	}
@@ -135,13 +139,6 @@ public class DriverViewActivity extends MapActivity {
 		notiButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// // add marker
-				// SearchingHitchhikers hitch2Draw = new
-				// SearchingHitchhikers(DriverViewActivity.this);
-				// // hitch2Draw.setPointToDraw(gPosition);
-				// List<Overlay> listOfOverlays = mapView.getOverlays();
-				// listOfOverlays.clear();
-				// listOfOverlays.add(hitch2Draw);
 
 				// get reference to notificationManager
 				String ns = Context.NOTIFICATION_SERVICE;
