@@ -136,9 +136,6 @@ public class CalendarAppActivity extends ListActivity {
                 
                 // Update the visibility of the "no appointments avaiable" textview
                 updateNoAvaiableAppointmentsTextView();
-                
-                // TESTING ONLY
-                setSFAddAppToModel();
             }
             
             
@@ -163,6 +160,10 @@ public class CalendarAppActivity extends ListActivity {
         });
         // Connect to the service
         pmpconnector.bind();
+        // TESTING ONLY
+        setSFAddAppToModel();
+        
+     ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
     }
     
     
@@ -343,7 +344,8 @@ public class CalendarAppActivity extends ListActivity {
         b.putBoolean("read", true);
         b.putBoolean("write", true);
         b.putBoolean("import", false);
-        b.putBoolean("export", true);
+        b.putBoolean("export", false);
+        b.putBoolean("export", false);
         b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
         if (Model.getInstance().getAppointmentList().size() == 0) {

@@ -302,8 +302,11 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        this.appointmentList.clear();
+        this.dayAppointments.clear();
+        adapters.clear();
+        arrayAdapter.removeEmptyHeadersAndSections();
         this.arrayAdapter.notifyDataSetChanged();
+        appContext.updateNoAvaiableAppointmentsTextView();
     }
     
     

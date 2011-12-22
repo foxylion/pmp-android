@@ -8,7 +8,9 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.DriverViewActivity;
@@ -16,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -73,10 +76,15 @@ public class LocationUpdateHandler implements LocationListener {
 		mapView.invalidate();
 
 		// add marker
+		GeoPoint point = new GeoPoint((int) 37.4221, (int) -122.0842);
+		SearchingHitchhikers itemizedoverlay = new SearchingHitchhikers(context, point, 2);
 		mapOverlay.setPointToDraw(gPosition);
+		itemizedoverlay.setPointToDraw(point);
+		
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
 		listOfOverlays.add(mapOverlay);
+		listOfOverlays.add(itemizedoverlay);
 
 		showCurrentLocation();
 
