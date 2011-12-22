@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.DriverViewActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -39,9 +41,10 @@ public class LocationUpdateHandler implements LocationListener {
 	private LocationManager locationManager;
 	private MapView mapView;
 	private MapController mapController;
-	private MapOverlay mapOverlay;
 	private GeoPoint gPosition;
 	private Location location;
+
+	private List<Overlay> mapOverlay;
 
 	/**
 	 * 
@@ -54,37 +57,51 @@ public class LocationUpdateHandler implements LocationListener {
 	 */
 	public LocationUpdateHandler(Context context,
 			LocationManager locationManager, MapView mapView,
-			MapController mapController, MapOverlay mapOverlay,
-			GeoPoint gPosition) {
-
+			MapController mapController, GeoPoint gPosition) {
 		this.context = context;
 		this.locationManager = locationManager;
 		this.mapView = mapView;
 		this.mapController = mapController;
-		this.mapOverlay = mapOverlay;
+		// this.mapOverlay = mapOverlay;
 		this.gPosition = gPosition;
 	}
 
 	public void onLocationChanged(Location location) {
 		mapController = mapView.getController();
+		mapOverlay = mapView.getOverlays();
+
 		int lat = (int) (location.getLatitude() * 1E6);
 		int lng = (int) (location.getLongitude() * 1E6);
 		gPosition = new GeoPoint(lat, lng);
+
+		Drawable drawable = context.getResources().getDrawable(
+				R.drawable.icon_ride);
+		DriverOverlay dOverlay = new DriverOverlay(drawable, context, gPosition);
+
+		Profile me = Model.getInstance().getOwnProfile();
+		OverlayItem oItem = new OverlayItem(gPosition, "Who wants a ride?",
+				"User: " + me.getUsername() + "/nRating: " + me.getRating_avg());
+		dOverlay.addOverlay(oItem);
+		mapOverlay.add(dOverlay);
+		MapModel.getInstance().getOverlayList(mapView).add(dOverlay);
+
+		mapController = mapView.getController();
+		mapController.setZoom(17);
 		mapController.animateTo(gPosition);
 		mapController.setCenter(gPosition);
-		mapController.setZoom(17);
 		mapView.invalidate();
 
 		// add marker
-		GeoPoint point = new GeoPoint((int) 37.4221, (int) -122.0842);
-		SearchingHitchhikers itemizedoverlay = new SearchingHitchhikers(context, point, 2);
-		mapOverlay.setPointToDraw(gPosition);
-		itemizedoverlay.setPointToDraw(point);
-		
-		List<Overlay> listOfOverlays = mapView.getOverlays();
-		listOfOverlays.clear();
-		listOfOverlays.add(mapOverlay);
-		listOfOverlays.add(itemizedoverlay);
+		// GeoPoint point = new GeoPoint((int) 37.4221, (int) -122.0842);
+		// SearchingHitchhikers itemizedoverlay = new SearchingHitchhikers(
+		// context, point, 2);
+		// mapOverlay.setPointToDraw(gPosition);
+		// itemizedoverlay.setPointToDraw(point);
+		//
+		// List<Overlay> listOfOverlays = mapView.getOverlays();
+		// listOfOverlays.clear();
+		// listOfOverlays.add(mapOverlay);
+		// listOfOverlays.add(itemizedoverlay);
 
 		showCurrentLocation();
 
@@ -93,18 +110,11 @@ public class LocationUpdateHandler implements LocationListener {
 				.getInstance().getTripId(), (float) location.getLatitude(),
 				(float) location.getLongitude())) {
 		case Constants.STATUS_UPDATED:
-			Toast.makeText(
-					context,
-					"Status updated" + " Lat: " + location.getLatitude()
-							+ ", Lon: " + location.getLongitude(),
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Status updated", Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_UPTODATE:
-			Toast.makeText(
-					context,
-					"Status up to date" + " Lat: " + location.getLatitude()
-							+ ", Lon: " + location.getLongitude(),
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Status up to date", Toast.LENGTH_LONG)
+					.show();
 			break;
 		case Constants.STATUS_NOTRIP:
 			Toast.makeText(context, "Status no trip ", Toast.LENGTH_LONG)
