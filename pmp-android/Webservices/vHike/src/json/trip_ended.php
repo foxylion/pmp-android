@@ -28,7 +28,7 @@ try {
         } elseif ($loadedTrip->getDriver() != Session::getInstance()->getLoggedInUser()->getId()) {
             $status = "invalid_user";
         } elseif ($loadedTrip->hasEnded()) {
-            $status = "has_ende";
+            $status = "has_ended";
         } else {
             $status = "already_uptodate";
         }

@@ -14,14 +14,15 @@ try {
     // Cancel if input is invalid
     if(!$offer->setDriver(Session::getInstance()->getLoggedInUser()) ||
             !$offer->setQueryId($_POST["query"])) {
-        Json::printError("invalid_input", "At least one POST-Parameter is invalid");
+        Json::printInvalidInputError();
     }
     
+    $offer->setMessage($_POST['message']);
     $offer->create();
     $output = array("successful" => true, "status" => "sent");
     echo Json::arrayToJson($output);
     
-} catch(OfferEception $oe) {
+} catch(OfferException $oe) {
     switch($oe->getCode()) {
         case OfferException::EXISTS_ALREADY:
             $status = "already_sent";
@@ -33,7 +34,8 @@ try {
     $output = array("successful" => true, "status" => $status);
     echo Json::arrayToJson($output);
     
-} catch(DatabaseException $de) {
-    
+} catch (DatabaseException $de) {
+    Json::printDatabaseError($de);
 }
+Database::getInstance()->disconnect();
 ?>

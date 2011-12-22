@@ -1004,6 +1004,10 @@
                 <code>already_sent</code>, wenn der Benutzer für die angegebene Anfrage bereits eine Einladung erstellt hat</li>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
         </tr>
       </table>
       
@@ -1042,9 +1046,9 @@
   "successful": true,
   "offers": [
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float},   
+      "rating": Float, "rating_num": Integer},   
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float},
+      "rating": Float, "rating_num": Integer},
     ...
   ]
 }                                 
@@ -1059,16 +1063,21 @@
                   <li><code>offer</code> - Integer: ID der Anfrage</li>  
                   <li><code>userid</code> - Integer: ID des anbietenden Benutzers</li>  
                   <li><code>username</code> - String: Name des anbietenden Benutzers</li>   
-                  <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
+                  <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li>      
+                  <li><code>rating_num</code> - Float: Anzahl der Bewertungen</li> 
                 </ul>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet. Auch noch nicht mit mehreren Anfragen und Benutzern getestet (TODO!)</td>
         </tr>
       </table>
       
       
       
-      <h3 id="interface_offer">Einladung/Angebot annhemen oder ablehnen</h3>
+      <h3 id="interface_offer">Einladung/Angebot annehmen oder ablehnen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>

@@ -18,9 +18,10 @@ require ("./../inc/config.inc.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
 require ("./../inc/class/json.class.php");
+require ("./../inc/class/offer.class.php");
 require ("./../inc/class/query.class.php");
-require ("./../inc/class/trip.class.php");
 require ("./../inc/class/session.class.php");
+require ("./../inc/class/trip.class.php");
 require ("./../inc/class/user.class.php");
 
 // Connect to database
