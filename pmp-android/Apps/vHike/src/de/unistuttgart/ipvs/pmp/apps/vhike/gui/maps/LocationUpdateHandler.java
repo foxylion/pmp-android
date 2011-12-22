@@ -70,13 +70,13 @@ public class LocationUpdateHandler implements LocationListener {
 		mapController = mapView.getController();
 		mapOverlay = mapView.getOverlays();
 
-		Drawable drawable = context.getResources().getDrawable(
-				R.drawable.icon_ride);
-		DriverOverlay dOverlay = new DriverOverlay(drawable, context);
-
 		int lat = (int) (location.getLatitude() * 1E6);
 		int lng = (int) (location.getLongitude() * 1E6);
 		gPosition = new GeoPoint(lat, lng);
+
+		Drawable drawable = context.getResources().getDrawable(
+				R.drawable.icon_ride);
+		DriverOverlay dOverlay = new DriverOverlay(drawable, context, gPosition);
 
 		Profile me = Model.getInstance().getOwnProfile();
 		OverlayItem oItem = new OverlayItem(gPosition, "Who wants a ride?",
@@ -86,9 +86,9 @@ public class LocationUpdateHandler implements LocationListener {
 		MapModel.getInstance().getOverlayList(mapView).add(dOverlay);
 
 		mapController = mapView.getController();
+		mapController.setZoom(17);
 		mapController.animateTo(gPosition);
 		mapController.setCenter(gPosition);
-		mapController.setZoom(17);
 		mapView.invalidate();
 
 		// add marker
