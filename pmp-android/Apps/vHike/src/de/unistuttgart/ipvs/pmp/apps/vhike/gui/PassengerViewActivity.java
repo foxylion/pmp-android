@@ -100,8 +100,7 @@ public class PassengerViewActivity extends MapActivity {
 				locationManager.requestLocationUpdates(
 						LocationManager.GPS_PROVIDER, 0, 0,
 						new LocationUpdateHandler(context, locationManager,
-								mapView, mapController, new MapOverlay(context,
-										p, 2), p));
+								mapView, mapController, p));
 			}
 		});
 	}
