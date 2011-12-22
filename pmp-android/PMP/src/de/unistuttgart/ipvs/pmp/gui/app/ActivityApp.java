@@ -51,7 +51,7 @@ public class ActivityApp extends Activity {
         
         setContentView(R.layout.activity_app);
         
-        checkExtendedIntentActions();
+        String activeTab = checkExtendedIntentActions();
         
         this.lam = new LocalActivityManager(this, true);
         this.lam.dispatchCreate(savedInstanceState);
@@ -66,6 +66,7 @@ public class ActivityApp extends Activity {
         title.setTitle(this.app.getName());
         title.setIcon(this.app.getIcon());
         
+        this.mTabHost.setCurrentTabByTag(activeTab);
     }
     
     
@@ -151,12 +152,14 @@ public class ActivityApp extends Activity {
     /**
      * Checks if the Activity has been started with extended parameters like requested service features.
      */
-    private void checkExtendedIntentActions() {
+    private String checkExtendedIntentActions() {
         this.app = GUITools.handleAppIntent(getIntent());
         if (GUITools.handleIntentAction(getIntent()) != null
                 && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
-            this.mTabHost.setCurrentTabByTag(TAB_SF);
+            return TAB_SF;
         }
+        
+        return TAB_DETAIL;
     }
     
 }

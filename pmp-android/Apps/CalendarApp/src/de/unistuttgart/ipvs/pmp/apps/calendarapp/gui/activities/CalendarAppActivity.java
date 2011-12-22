@@ -342,7 +342,7 @@ public class CalendarAppActivity extends ListActivity {
         Bundle b = new Bundle();
         b.putBoolean("read", true);
         b.putBoolean("write", true);
-        b.putBoolean("import", true);
+        b.putBoolean("import", false);
         b.putBoolean("export", true);
         b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
