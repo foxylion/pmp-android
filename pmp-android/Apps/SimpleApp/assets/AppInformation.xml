@@ -14,7 +14,7 @@
 			<description lang="de">Zeigt den akutellen WLAN-Status an.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches">
-				<privacySetting identifier="CanWifiSwitch">true</privacySetting>
+				<privacySetting identifier="CanWifiState">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="wifiChange">

@@ -74,6 +74,25 @@ public class SimpleApp extends App {
 	}
 
 	public void requestServiceFeatures() {
+		new Thread() {
+			@Override
+			public void run() {
+				final PMPServiceConnector pmpsc = new PMPServiceConnector(
+						getApplicationContext());
+				final String name = getApplicationContext().getPackageName();
+
+				pmpsc.bind(true);
+				IPMPService pmpservice = pmpsc.getAppService();
+				try {
+					pmpservice.requestServiceFeature(name, new String[0]);
+				} catch (RemoteException e) {
+					Log.e("Could not update the Service Features", e);
+				}		
+			}
+		}.start();
+	}
+
+	public boolean isRegistered() {
 		final PMPServiceConnector pmpsc = new PMPServiceConnector(
 				getApplicationContext());
 		final String name = getApplicationContext().getPackageName();
@@ -81,10 +100,12 @@ public class SimpleApp extends App {
 		pmpsc.bind(true);
 		IPMPService pmpservice = pmpsc.getAppService();
 		try {
-			pmpservice.requestServiceFeature(name, new String[0]);
+			return pmpservice.isRegistered(name);
 		} catch (RemoteException e) {
-			Log.e("Could not update the Service Features", e);
+			Log.e("Could not check registration state", e);
 		}
+
+		return false;
 	}
 
 	public void registerAtPMP() {
