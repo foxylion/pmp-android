@@ -112,16 +112,18 @@ public class Controller {
 	 */
 	public int announceTrip(String session_id, String destination,
 			float current_lat, float current_lon, int avail_seats) {
-		Log.i(session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " +avail_seats);
+		Log.i(session_id + ", " + destination + ", " + current_lat + ", "
+				+ current_lat + ", " + avail_seats);
 		String status = JSonRequestReader.announceTrip(session_id, destination,
 				current_lat, current_lon, avail_seats);
-		
-		if(status.equals("announced")){
+
+		if (status.equals("announced")) {
 			return Constants.TRIP_STATUS_ANNOUNCED;
-		}else if(status.equals("open_trip_exists")){
+		} else if (status.equals("open_trip_exists")) {
 			return Constants.TRIP_STATUS_OPEN_TRIP;
 		}
 		return Constants.STATUS_ERROR;
+
 	}
 
 	/**
@@ -179,8 +181,10 @@ public class Controller {
 		}
 		return 0;
 	}
+
 	/**
 	 * End the active trip
+	 * 
 	 * @param sid
 	 * @param trip_id
 	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
@@ -202,6 +206,49 @@ public class Controller {
 		}
 		return 0;
 	}
-	
-	
+
+	/**
+	 * Starts the Query and returns the id, if the creation succeeded
+	 * 
+	 * @param sid
+	 * @param destination
+	 * @param current_lat
+	 * @param current_lon
+	 * @param avail_seats
+	 * @return QUERY_ID_ERROR || queryId
+	 */
+	public int startQuery(String sid, String destination, float current_lat,
+			float current_lon, int avail_seats) {
+		int queryId = JSonRequestReader.startQuery(sid, destination,
+				current_lat, current_lon, avail_seats);
+		if (queryId != Constants.QUERY_ID_ERROR) {
+			Model.getInstance().setQueryId(queryId);
+			return queryId;
+		} else {
+			return Constants.QUERY_ID_ERROR;
+		}
+	}
+
+	/**
+	 * Delete the active query.
+	 * 
+	 * @param sid
+	 * @param queryId
+	 * @return 
+	 *         STATUS_QUERY_DELETED,STATUS_NO_QUERY,STATUS_INVALID_USER,STATUS_ERROR
+	 */
+	public int stopQuery(String sid, int queryId) {
+		String status = JSonRequestReader.stopQuery(sid, queryId);
+
+		if (status != null) {
+			if (status.equals("deleted")) {
+				return Constants.STATUS_QUERY_DELETED;
+			} else if (status.equals("no_query")) {
+				return Constants.STATUS_NO_QUERY;
+			} else if (status.equals("invalid_user")) {
+				return Constants.STATUS_INVALID_USER;
+			}
+		}
+		return Constants.STATUS_ERROR;
+	}
 }

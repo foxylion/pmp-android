@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import com.google.gson.JsonObject;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -114,10 +115,10 @@ public class JSonRequestReader {
 		if (suc) {
 			status = object.get("status").getAsString();
 			Log.i("STATUS NACH DEM LOGIN:" + status);
-			if(!status.equals("invalid")){
+			if (!status.equals("invalid")) {
 				sid = object.get("sid").getAsString();
 				Model.getInstance().setSid(sid);
-				Model.getInstance().setOwnProfile(getOwnProfile(sid));		
+				Model.getInstance().setOwnProfile(getOwnProfile(sid));
 			}
 			return status;
 		}
@@ -190,7 +191,7 @@ public class JSonRequestReader {
 		boolean firstname_public = false;
 		boolean lastname_public = false;
 		boolean tel_public = false;
-		
+
 		double rating_avg = 0;
 		int rating_num = 0;
 		if (object != null) {
@@ -210,7 +211,7 @@ public class JSonRequestReader {
 			lastname_public = object.get("lastname_public").getAsBoolean();
 			tel_public = object.get("tel_public").getAsBoolean();
 		}
-		
+
 		// String userid = object.get("id").getAsString();
 		// TODO
 		// String regdate = object.get("regdate").getAsString();
@@ -218,9 +219,9 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, firstname, lastname,
-					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
-					rating_avg, rating_num);
+			profile = new Profile(username, email, firstname, lastname, tel,
+					description, date, email_public, firstname_public,
+					lastname_public, tel_public, rating_avg, rating_num);
 			return profile;
 		}
 		return null;
@@ -239,7 +240,6 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("id", String.valueOf(id), false));
 		listToParse.add(new ParamObject("sid", session_id, false));
-
 
 		JsonObject object = null;
 
@@ -263,7 +263,7 @@ public class JSonRequestReader {
 		boolean firstname_public = false;
 		boolean lastname_public = false;
 		boolean tel_public = false;
-		
+
 		double rating_avg = 0;
 		int rating_num = 0;
 		if (object != null) {
@@ -282,7 +282,7 @@ public class JSonRequestReader {
 			lastname_public = object.get("lastname_public").getAsBoolean();
 			tel_public = object.get("tel_public").getAsBoolean();
 		}
-		
+
 		// String userid = object.get("id").getAsString();
 		// TODO
 		// String regdate = object.get("regdate").getAsString();
@@ -290,9 +290,9 @@ public class JSonRequestReader {
 
 		Date date = new Date();
 		if (suc) {
-			profile = new Profile(username, email, firstname, lastname,
-					tel, description, date, email_public, firstname_public, lastname_public, tel_public,
-					rating_avg, rating_num);
+			profile = new Profile(username, email, firstname, lastname, tel,
+					description, date, email_public, firstname_public,
+					lastname_public, tel_public, rating_avg, rating_num);
 			return profile;
 		}
 		return null;
@@ -330,13 +330,17 @@ public class JSonRequestReader {
 		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			status = object.get("status").getAsString();
-			if(status.equals("announced")){
-				tripId = object.get("id").getAsInt();
-				Model.getInstance().setTripId(tripId);
-				Log.i(String.valueOf(Model.getInstance().getTripId()));	
+			if (suc) {
+				status = object.get("status").getAsString();
+				if (status.equals("announced")) {
+					tripId = object.get("id").getAsInt();
+					Model.getInstance().setTripId(tripId);
+					Log.i(String.valueOf(Model.getInstance().getTripId()));
+				}
+			}else{
+				return status = object.get("msg").getAsString();
 			}
-			
+
 		}
 
 		return status;
@@ -357,8 +361,7 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("id", String.valueOf(trip_id),
-				true));
+		listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
 		listToParse.add(new ParamObject("current_lat", String
 				.valueOf(current_lat), true));
 		listToParse.add(new ParamObject("current_lon", String
@@ -383,8 +386,10 @@ public class JSonRequestReader {
 
 		return status;
 	}
+
 	/**
 	 * Update the data of the trip
+	 * 
 	 * @param sid
 	 * @param trip_id
 	 * @param avail_seats
@@ -394,8 +399,7 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("id", String.valueOf(trip_id),
-				true));
+		listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
 		listToParse.add(new ParamObject("avail_seats", String
 				.valueOf(avail_seats), true));
 
@@ -419,8 +423,10 @@ public class JSonRequestReader {
 		return status;
 
 	}
+
 	/**
 	 * End the trip
+	 * 
 	 * @param sid
 	 * @param trip_id
 	 * @return
@@ -429,8 +435,7 @@ public class JSonRequestReader {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("id", String.valueOf(trip_id),
-				true));
+		listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
 
 		JsonObject object = null;
 		try {
@@ -452,24 +457,28 @@ public class JSonRequestReader {
 		return status;
 
 	}
+
 	/**
 	 * Start searching for drivers
+	 * 
 	 * @param sid
 	 * @param destination
 	 * @param current_lat
 	 * @param current_lon
 	 * @param seats
-	 * @return
+	 * @return int id of the query
 	 */
-	public int startQuery(String sid, String destination, float current_lat,
-			float current_lon, int seats){
+	public static  int startQuery(String sid, String destination, float current_lat,
+			float current_lon, int seats) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
-		listToParse.add(new ParamObject("destination", destination,true));
-		listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat),true));
-		listToParse.add(new ParamObject("current_lon", String.valueOf(current_lon),true));
-		listToParse.add(new ParamObject("seats", String.valueOf(seats),true));
+		listToParse.add(new ParamObject("destination", destination, true));
+		listToParse.add(new ParamObject("current_lat", String
+				.valueOf(current_lat), true));
+		listToParse.add(new ParamObject("current_lon", String
+				.valueOf(current_lon), true));
+		listToParse.add(new ParamObject("seats", String.valueOf(seats), true));
 
 		JsonObject object = null;
 		try {
@@ -481,22 +490,29 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-		int id = 0;
+		int id = Constants.QUERY_ID_ERROR;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			id = object.get("id").getAsInt();
-			return id;
+			if(suc){
+				id = object.get("id").getAsInt();
+				return id;
+			}
 		}
 
 		return id;
 	}
-	
-	public String stopQuery(String sid, int id){
+	/**
+	 * Delete the active query
+	 * @param sid
+	 * @param id query id
+	 * @return String status
+	 */
+	public static String stopQuery(String sid, int id) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
-		
-		listToParse.add(new ParamObject("id", String.valueOf(id),true));
-		
+
+		listToParse.add(new ParamObject("id", String.valueOf(id), true));
+
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
@@ -506,18 +522,21 @@ public class JSonRequestReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		boolean suc = false;
 		String status = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			status = object.get("status").getAsString();
-			return status;
+			if(suc){
+				status = object.get("status").getAsString();
+				return status;
+			}
+			
 		}
 
 		return status;
 	}
-	
+
 	/**
 	 * Dummy method don't touch it
 	 * 
