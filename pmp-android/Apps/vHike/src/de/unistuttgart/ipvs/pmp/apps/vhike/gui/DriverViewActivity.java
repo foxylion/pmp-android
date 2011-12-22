@@ -229,7 +229,7 @@ public class DriverViewActivity extends MapActivity {
 		switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance()
 				.getTripId())) {
 		case (Constants.STATUS_UPDATED): {
-			Toast.makeText(DriverViewActivity.this, "Updated",
+			Toast.makeText(DriverViewActivity.this, "Trip ended",
 					Toast.LENGTH_LONG).show();
 			DriverViewActivity.this.finish();
 			break;
