@@ -35,8 +35,6 @@ import android.widget.Toast;
  */
 public class LocationUpdateHandler implements LocationListener {
 
-	private static LocationUpdateHandler instance;
-	
 	private Context context;
 	private LocationManager locationManager;
 	private MapView mapView;
@@ -44,8 +42,6 @@ public class LocationUpdateHandler implements LocationListener {
 	private MapOverlay mapOverlay;
 	private GeoPoint gPosition;
 	private Location location;
-
-	private List<Overlay> lOverlays;
 
 	/**
 	 * 
@@ -69,16 +65,6 @@ public class LocationUpdateHandler implements LocationListener {
 		this.gPosition = gPosition;
 	}
 
-	public LocationUpdateHandler() {
-	}
-	
-	public static LocationUpdateHandler getInstance(){
-		if (instance == null) {
-			instance = new LocationUpdateHandler();
-		}
-		return instance;
-	}
-	
 	public void onLocationChanged(Location location) {
 		mapController = mapView.getController();
 		int lat = (int) (location.getLatitude() * 1E6);
@@ -87,21 +73,18 @@ public class LocationUpdateHandler implements LocationListener {
 		mapController.animateTo(gPosition);
 		mapController.setCenter(gPosition);
 		mapController.setZoom(17);
+		mapView.invalidate();
 
 		// add marker
 		GeoPoint point = new GeoPoint((int) 37.4221, (int) -122.0842);
-		SearchingHitchhikers itemizedoverlay = new SearchingHitchhikers(
-				context, point, 2);
-
+		SearchingHitchhikers itemizedoverlay = new SearchingHitchhikers(context, point, 2);
 		mapOverlay.setPointToDraw(gPosition);
 		itemizedoverlay.setPointToDraw(point);
-
-		lOverlays = mapView.getOverlays();
-		lOverlays.clear();
-		lOverlays.add(mapOverlay);
-		lOverlays.add(itemizedoverlay);
-		mapView.invalidate();
-		mapView.postInvalidate();
+		
+		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
+		listOfOverlays.add(mapOverlay);
+		listOfOverlays.add(itemizedoverlay);
 
 		showCurrentLocation();
 
@@ -110,11 +93,18 @@ public class LocationUpdateHandler implements LocationListener {
 				.getInstance().getTripId(), (float) location.getLatitude(),
 				(float) location.getLongitude())) {
 		case Constants.STATUS_UPDATED:
-			Toast.makeText(context, "Status updated", Toast.LENGTH_LONG).show();
+			Toast.makeText(
+					context,
+					"Status updated" + " Lat: " + location.getLatitude()
+							+ ", Lon: " + location.getLongitude(),
+					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_UPTODATE:
-			Toast.makeText(context, "Status up to date", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(
+					context,
+					"Status up to date" + " Lat: " + location.getLatitude()
+							+ ", Lon: " + location.getLongitude(),
+					Toast.LENGTH_LONG).show();
 			break;
 		case Constants.STATUS_NOTRIP:
 			Toast.makeText(context, "Status no trip ", Toast.LENGTH_LONG)
@@ -146,11 +136,6 @@ public class LocationUpdateHandler implements LocationListener {
 
 	}
 
-	public void add2Overlay(MapOverlay mo) {
-		lOverlays.add(mo);
-		mapView.postInvalidate();
-	}
-	
 	/**
 	 * show current location as a street name
 	 */

@@ -24,7 +24,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 public class RideActivity extends Activity {
 
 	private Controller ctrl;
-	
+
 	private Spinner spinner;
 	private Spinner spinnerSeats;
 
@@ -33,7 +33,7 @@ public class RideActivity extends Activity {
 		setContentView(R.layout.activity_ride);
 
 		ctrl = new Controller();
-		
+
 		registerListener();
 	}
 
@@ -95,12 +95,27 @@ public class RideActivity extends Activity {
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-				vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
-						.show();
-				Intent intent = new Intent(RideActivity.this,
-						PassengerViewActivity.class);
-				RideActivity.this.startActivity(intent);
+				String destination = spinner.getSelectedItem().toString();
+				int numSeats = spinnerSeats.getSelectedItemPosition();
+				if (numSeats == 0) {
+					numSeats = 1;
+				}
+
+				switch (ctrl.startQuery(Model.getInstance().getSid(),
+						destination, 0, 0, numSeats)) {
+				case (Constants.QUERY_ID_ERROR):
+					Toast.makeText(RideActivity.this, "Query error",
+							Toast.LENGTH_LONG).show();
+					break;
+				default:
+					vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
+							.show();
+					Intent intent = new Intent(RideActivity.this,
+							PassengerViewActivity.class);
+					RideActivity.this.startActivity(intent);
+					break;
+				}
+
 			}
 		});
 	}
