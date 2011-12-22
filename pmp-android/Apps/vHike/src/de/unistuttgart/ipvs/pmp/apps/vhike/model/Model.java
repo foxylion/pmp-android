@@ -19,7 +19,18 @@ public class Model {
 	 * This is the trip id, in which the user participate at the moment
 	 */
 	private int tripId;
+	/**
+	 * This is the query id of an user 
+	 */
+	private int queryId;
 	
+	public int getQueryId(){
+		return queryId;
+	}
+	
+	public void setQueryId(int qid){
+		this.queryId = qid;
+	}
 	public int getTripId() {
 		return tripId;
 	}
