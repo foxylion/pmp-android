@@ -121,7 +121,6 @@ public class DriverViewActivity extends MapActivity {
 						new LocationUpdateHandler(context, locationManager,
 								mapView, mapController, new MapOverlay(context,
 										p, 1), p));
-
 			}
 		});
 	}
@@ -135,13 +134,8 @@ public class DriverViewActivity extends MapActivity {
 		notiButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// // add marker
-				// SearchingHitchhikers hitch2Draw = new
-				// SearchingHitchhikers(DriverViewActivity.this);
-				// // hitch2Draw.setPointToDraw(gPosition);
-				// List<Overlay> listOfOverlays = mapView.getOverlays();
-				// listOfOverlays.clear();
-				// listOfOverlays.add(hitch2Draw);
+				
+				
 
 				// get reference to notificationManager
 				String ns = Context.NOTIFICATION_SERVICE;

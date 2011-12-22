@@ -23,6 +23,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  */
 public class RideActivity extends Activity {
 
+	private Controller ctrl;
+	
 	private Spinner spinner;
 	private Spinner spinnerSeats;
 
@@ -30,6 +32,8 @@ public class RideActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ride);
 
+		ctrl = new Controller();
+		
 		registerListener();
 	}
 
@@ -58,8 +62,6 @@ public class RideActivity extends Activity {
 				if (numSeats == 0) {
 					numSeats = 1;
 				}
-
-				Controller ctrl = new Controller();
 
 				switch (ctrl.announceTrip(Model.getInstance().getSid(),
 						destination, 0, 0, numSeats)) {
@@ -93,7 +95,7 @@ public class RideActivity extends Activity {
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				
 				vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
 						.show();
 				Intent intent = new Intent(RideActivity.this,
