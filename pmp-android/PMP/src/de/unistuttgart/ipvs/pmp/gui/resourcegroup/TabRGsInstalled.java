@@ -25,7 +25,7 @@ public class TabRGsInstalled extends Activity {
         
         setContentView(R.layout.tab_rgs_installed);
         
-        installedRgsListView = (ListView) findViewById(R.id.ListView_RGs);
+        this.installedRgsListView = (ListView) findViewById(R.id.ListView_RGs);
         
         addListener();
         
@@ -41,20 +41,20 @@ public class TabRGsInstalled extends Activity {
     
     
     public void refreshList() {
-        resourceGroups = Arrays.asList(ModelProxy.get().getResourceGroups());
-        AdapterRGsInstalled rgsAdapter = new AdapterRGsInstalled(this, resourceGroups);
+        this.resourceGroups = Arrays.asList(ModelProxy.get().getResourceGroups());
+        AdapterRGsInstalled rgsAdapter = new AdapterRGsInstalled(this, this.resourceGroups);
         
-        installedRgsListView.setAdapter(rgsAdapter);
+        this.installedRgsListView.setAdapter(rgsAdapter);
     }
     
     
     private void addListener() {
-        installedRgsListView.setOnItemClickListener(new OnItemClickListener() {
+        this.installedRgsListView.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                new DialogRGInstalledDetails(TabRGsInstalled.this, TabRGsInstalled.this, resourceGroups.get(item))
-                        .show();
+                new DialogRGInstalledDetails(TabRGsInstalled.this, TabRGsInstalled.this,
+                        TabRGsInstalled.this.resourceGroups.get(item)).show();
             }
         });
     }

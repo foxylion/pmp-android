@@ -29,7 +29,7 @@ public class ActivityMain extends Activity {
         super.onCreate(savedInstanceState);
         
         // TODO GUI: remove this once real model works
-//        ModelProxy.set(true, this);
+        //        ModelProxy.set(true, this);
         
         setContentView(R.layout.activity_main);
         

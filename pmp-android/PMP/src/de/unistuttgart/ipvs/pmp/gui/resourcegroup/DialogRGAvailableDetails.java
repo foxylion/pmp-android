@@ -1,16 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
-import java.io.File;
 import java.util.Locale;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
-import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
-import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
-import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,6 +12,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 public class DialogRGAvailableDetails extends Dialog {
     
@@ -58,12 +55,14 @@ public class DialogRGAvailableDetails extends Dialog {
                 
                 new Thread() {
                     
+                    @Override
                     public void run() {
                         boolean success = false;
                         String error = null;
                         
                         try {
-                            ModelProxy.get().installResourceGroup(rgInformation.getIdentifier());
+                            ModelProxy.get().installResourceGroup(
+                                    DialogRGAvailableDetails.this.rgInformation.getIdentifier());
                             success = true;
                         } catch (InvalidXMLException e) {
                             error = e.getMessage();

@@ -52,14 +52,14 @@ public class TabRGsAvailable extends Activity {
         
         setContentView(R.layout.tab_rgs_available);
         
-        updateTaskProgressBar = (ProgressBar) findViewById(R.id.ProgressBar_TaskState);
-        lastUpdateTextView = (TextView) findViewById(R.id.TextView_LastUpdate);
-        updateFailedContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingFailed);
-        updateProgressContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingList);
-        lastUpdateContainer = (LinearLayout) findViewById(R.id.LinearLayout_Refresh);
-        rgisViewList = (ListView) findViewById(R.id.ListView_RGs);
+        this.updateTaskProgressBar = (ProgressBar) findViewById(R.id.ProgressBar_TaskState);
+        this.lastUpdateTextView = (TextView) findViewById(R.id.TextView_LastUpdate);
+        this.updateFailedContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingFailed);
+        this.updateProgressContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingList);
+        this.lastUpdateContainer = (LinearLayout) findViewById(R.id.LinearLayout_Refresh);
+        this.rgisViewList = (ListView) findViewById(R.id.ListView_RGs);
         
-        rgisViewList.setClickable(true);
+        this.rgisViewList.setClickable(true);
         
         addListeners();
     }
@@ -74,20 +74,21 @@ public class TabRGsAvailable extends Activity {
     
     
     private void startDownloadList() {
-        lastUpdateContainer.setVisibility(View.GONE);
-        updateFailedContainer.setVisibility(View.GONE);
-        updateProgressContainer.setVisibility(View.VISIBLE);
-        rgisViewList.setAdapter(null);
+        this.lastUpdateContainer.setVisibility(View.GONE);
+        this.updateFailedContainer.setVisibility(View.GONE);
+        this.updateProgressContainer.setVisibility(View.VISIBLE);
+        this.rgisViewList.setAdapter(null);
         
         new Thread() {
             
+            @Override
             public void run() {
                 ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
                     
                     @Override
                     public void tasks(int position, int length) {
-                        updateTaskProgressBar.setMax(length);
-                        updateTaskProgressBar.setProgress(position);
+                        TabRGsAvailable.this.updateTaskProgressBar.setMax(length);
+                        TabRGsAvailable.this.updateTaskProgressBar.setProgress(position);
                     }
                     
                     
@@ -100,6 +101,7 @@ public class TabRGsAvailable extends Activity {
                 /* Parse the downloaded list */
                 runOnUiThread(new Runnable() {
                     
+                    @Override
                     public void run() {
                         parseDownloadedList(informationSets);
                     }
@@ -112,16 +114,16 @@ public class TabRGsAvailable extends Activity {
     
     
     private void parseDownloadedList(RgInformationSet[] informationSets) {
-        lastUpdateContainer.setVisibility(View.VISIBLE);
+        this.lastUpdateContainer.setVisibility(View.VISIBLE);
         this.updateProgressContainer.setVisibility(View.GONE);
         
         if (informationSets != null && informationSets.length > 0) {
-            lastUpdateTextView
-                    .setText(getResources().getString(R.string.rg_last_update) + ": " + new Date().toString());
+            this.lastUpdateTextView.setText(getResources().getString(R.string.rg_last_update) + ": "
+                    + new Date().toString());
             
             this.rgisList = Arrays.asList(informationSets);
             
-            this.rgisViewList.setAdapter(new AdapterRGsAvailable(this, rgisList));
+            this.rgisViewList.setAdapter(new AdapterRGsAvailable(this, this.rgisList));
             
         } else {
             this.updateFailedContainer.setVisibility(View.VISIBLE);
@@ -139,11 +141,11 @@ public class TabRGsAvailable extends Activity {
         });
         
         /* Add the listener for the Items in the list */
-        rgisViewList.setOnItemClickListener(new OnItemClickListener() {
+        this.rgisViewList.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                new DialogRGAvailableDetails(TabRGsAvailable.this, rgisList.get(item)).show();
+                new DialogRGAvailableDetails(TabRGsAvailable.this, TabRGsAvailable.this.rgisList.get(item)).show();
             }
         });
     }
