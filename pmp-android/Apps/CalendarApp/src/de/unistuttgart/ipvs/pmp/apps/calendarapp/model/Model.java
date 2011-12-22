@@ -31,6 +31,7 @@ import java.util.Map.Entry;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -108,7 +109,7 @@ public class Model {
         for (Appointment app : appList) {
             addAppointment(app);
         }
-       
+        
         this.arrayAdapter.notifyDataSetChanged();
         
         // Update the visibility of the "no appointments avaiable" textview
@@ -167,6 +168,11 @@ public class Model {
      *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
+        if (appointment.getDescrpition().equals("") || appointment.getName().equals("")) {
+            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         String key = creatKey(appointment.getDate());
         if (dayAppointments.containsKey(key)) {
             dayAppointments.get(key).add(appointment);
@@ -184,7 +190,8 @@ public class Model {
         
         // Update the visibility of the "no appointments available" textview
         getContext().updateNoAvaiableAppointmentsTextView();
-    }    
+    }
+    
     
     /**
      * Changes the appointment. Called from {@link SqlConnector#changeAppointment(int, String, String)}
@@ -196,7 +203,7 @@ public class Model {
      * @param description
      *            Description of the date
      */
-    public void changeAppointment(int id, Date date, Date oldDate, String description) {
+    public void changeAppointment(int id, Date date, Date oldDate, String name, String description, Severity severity) {
         String key = creatKey(oldDate);
         
         Appointment toDel = null;
@@ -208,6 +215,7 @@ public class Model {
                 // The date remains the same
                 if (appointment.getId() == id && oldDate.equals(date)) {
                     appointment.setDate(date);
+                    appointment.setName(name);
                     appointment.setDescription(description);
                     break;
                     
@@ -224,7 +232,7 @@ public class Model {
                 deleteAppointment(toDel);
                 
                 // Add new appointment
-                addAppointment(new Appointment(id, description, date));
+                addAppointment(new Appointment(id, name, description, date, severity));
             }
             
             this.arrayAdapter.notifyDataSetChanged();
@@ -247,7 +255,8 @@ public class Model {
         return appointmentList;
     }
     
-    public Boolean isModelEmpty(){
+    
+    public Boolean isModelEmpty() {
         return dayAppointments.isEmpty();
     }
     
@@ -277,6 +286,7 @@ public class Model {
         this.arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }
+    
     
     /**
      * Clears the local stored list of dates but not the dates stored at the database
@@ -479,6 +489,7 @@ public class Model {
         appContext.updateNoAvaiableAppointmentsTextView();
     }
     
+    
     /**
      * Delete all appointments from the database and model
      */
@@ -491,7 +502,7 @@ public class Model {
         
         dayAppointments.clear();
         arrayAdapter.reset();
-
+        
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }

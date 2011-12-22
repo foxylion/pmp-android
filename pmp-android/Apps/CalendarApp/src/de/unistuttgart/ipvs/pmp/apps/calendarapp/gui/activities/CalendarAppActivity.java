@@ -54,6 +54,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialo
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -161,13 +162,17 @@ public class CalendarAppActivity extends ListActivity {
         });
         // Connect to the service
         pmpconnector.bind();
+        
+        setSFAddAppToModel();
     }
+    
     
     @Override
     protected void onPause() {
         super.onPause();
         Model.getInstance().clearLocalListWithoutTextViewUpdate();
     }
+    
     
     @Override
     public boolean onContextItemSelected(MenuItem aItem) {
@@ -351,10 +356,15 @@ public class CalendarAppActivity extends ListActivity {
         b.putBoolean("send", true);
         ((App) getApplication()).updateServiceFeatures(b);
         if (Model.getInstance().isModelEmpty()) {
-            Model.getInstance().addAppointment(new Appointment(1, "teest1", new Date()));
-            Model.getInstance().addAppointment(new Appointment(2, "teest2", new Date()));
-            Model.getInstance().addAppointment(new Appointment(3, "teest3", new Date()));
-            Model.getInstance().addAppointment(new Appointment(4, "teest4", new Date()));
+            Model.getInstance()
+                    .addAppointment(new Appointment(1, "test1", "This is a test", new Date(), Severity.HIGH));
+            Model.getInstance().addAppointment(
+                    new Appointment(2, "test2", "This is another test", new Date(), Severity.MIDDLE));
+            Model.getInstance().addAppointment(
+                    new Appointment(3, "test3", "More tests and I want to test even more", new Date(), Severity.LOW));
+            Model.getInstance().addAppointment(
+                    new Appointment(4, "test4", "Yeeeeeeeeeeeeeeeeeeeeeeeeeeeah what a super long description",
+                            new Date(), Severity.MIDDLE));
         }
     }
 }
