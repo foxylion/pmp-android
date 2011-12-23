@@ -165,7 +165,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, ps.getResourceGroup().getIdentifier());
         cv.put(PRIVACYSETTING_IDENTIFIER, ps.getLocalIdentifier());
         cv.put(PRESET_CREATOR, this.element.getCreatorString());
-        cv.put(PRESET_IDENTIFIER, this.element.getIdentifier());
+        cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
         cv.put(GRANTEDVALUE, value);
         
         if (wdb.insert(TBL_GrantPSValue, null, cv) == -1) {
@@ -173,7 +173,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
             wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                     + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                     + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                    this.element.getCreatorString(), this.element.getIdentifier() });
+                    this.element.getCreatorString(), this.element.getLocalIdentifier() });
         }
     }
     
@@ -186,7 +186,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                         + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                         + " = ?",
                 new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                        this.element.getCreatorString(), this.element.getIdentifier() });
+                        this.element.getCreatorString(), this.element.getLocalIdentifier() });
     }
     
     

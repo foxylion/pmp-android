@@ -88,9 +88,8 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 this.element.getLocalIdentifier() });
         
         // delete service feature
-        wdb.execSQL("DELETE FROM " + TBL_SERVICEFEATURE + " WHERE " + SERVICEFEATURE_APP_PACKAGE + " = ? AND "
-                + SERVICEFEATURE_IDENTIFIER + " = ?", new String[] { this.element.getApp().getIdentifier(),
-                this.element.getLocalIdentifier() });
+        wdb.execSQL("DELETE FROM " + TBL_SERVICEFEATURE + " WHERE " + APP_PACKAGE + " = ? AND " + IDENTIFIER + " = ?",
+                new String[] { this.element.getApp().getIdentifier(), this.element.getLocalIdentifier() });
         
     }
     

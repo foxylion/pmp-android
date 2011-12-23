@@ -49,7 +49,7 @@ public class Appointment implements Serializable {
     private Date date;
     
     /**
-     * Unique id to identifiy the date
+     * Unique id to identify the date
      */
     private Integer id;
     
