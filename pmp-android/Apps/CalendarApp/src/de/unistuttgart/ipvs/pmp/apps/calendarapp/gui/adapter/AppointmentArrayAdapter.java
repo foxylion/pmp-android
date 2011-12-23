@@ -94,10 +94,10 @@ public class AppointmentArrayAdapter extends ArrayAdapter<Appointment> {
                     severity.setBackgroundColor(Color.RED);
                     break;
                 case MIDDLE:
-                    severity.setBackgroundColor(Color.GREEN);
+                    severity.setBackgroundResource(R.color.orange);
                     break;
                 case LOW:
-                    severity.setBackgroundColor(Color.BLUE);
+                    severity.setBackgroundResource(R.color.green);
                     break;
             }
             

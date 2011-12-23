@@ -163,6 +163,7 @@ public class CalendarAppActivity extends ListActivity {
         // Connect to the service
         pmpconnector.bind();
         
+        // TEEEEEEST
         setSFAddAppToModel();
     }
     

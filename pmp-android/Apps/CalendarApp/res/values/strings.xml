@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="green">#84ff00</color>
+    <color name="orange">#ffa200</color>
+
     <string name="app_name">Calendar</string>
     <string name="new_todo">New appointment</string>
     <string name="desc">Description</string>
@@ -59,7 +62,7 @@
     <string name="appointment_name">Name</string>
     <string name="appointment_not_added">Nothing to add</string>
     <string name="severity">Severity:</string>
-	<string name="severity_high">high</string>
+    <string name="severity_high">high</string>
     <string name="severity_middle">middle</string>
     <string name="severity_low">low</string>
 
