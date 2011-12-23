@@ -86,11 +86,8 @@ public class CalendarApp extends App {
         
         final Boolean read = this.isServiceFeatureEnabled("read");
         final Boolean write = this.isServiceFeatureEnabled("write");
-        final Boolean importEntries = this.isServiceFeatureEnabled("import");
-        final Boolean export = this.isServiceFeatureEnabled("export");
-        final Boolean send = this.isServiceFeatureEnabled("send");
         
-        if (!read && !write && !importEntries && !export && !send) {
+        if (!read) {
             // no feature
             Model.getInstance().clearLocalList();
         } else {
@@ -114,7 +111,7 @@ public class CalendarApp extends App {
                 }
             }
         });
-        
+        Model.getInstance().getContext().updateNoAvaiableAppointmentsTextView();
     }
     
 }

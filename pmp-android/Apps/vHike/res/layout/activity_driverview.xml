@@ -33,7 +33,7 @@
             android:id="@+id/Button_DriverLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Location" />
+            android:text="Search query test" />
     </LinearLayout>
 
     <SlidingDrawer

@@ -69,6 +69,17 @@ class user {
         }
         
         // Write data into attributes
+        $this->fillAttributesByArray($row);
+        
+        return $this;
+    } 
+    
+    /**
+     * Fills the object's attributes using a SQL-result-row. 
+     * For internal use only!
+     * @param String[] $row 
+     */
+    public function fillAttributesByArray($row) {
         $this->id = (int)$row["id"];
         $this->username = $row["username"];
         $this->passwordHash = $row["password"];
@@ -85,10 +96,9 @@ class user {
         $this->ratingAvg = (float)$row["rating_avg"];
         $this->ratingNum = (int)$row["rating_num"];
         $this->activated = $row["activated"];
-        
-        return $this;
-    } 
-    
+    }
+
+
     
     /**
      * Registers a user to the system. This does not check if there is already a
@@ -232,6 +242,21 @@ class user {
     
     public function getPasswordHash() {
         return $this->passwordHash;
+    }
+
+    public function getCurrentTripId() {
+        $db = Database::getInstance();
+        $result = $db->fetch($db->query("SELECT `id` FROM `" . DB_PREFIX . "_trip` WHERE `driver`=" .
+            $this->id . " LIMIT 1"));
+        if ($result) {
+            return $result['id'];
+        } else {
+            return NULL;
+        }
+    }
+
+    public function getCurrentQueryId(){
+        return;
     }
     
     public function getEmail() {

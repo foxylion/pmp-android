@@ -29,10 +29,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 public class ChangeAppointmentDialog extends Dialog {
@@ -48,6 +50,11 @@ public class ChangeAppointmentDialog extends Dialog {
     private TextView desc;
     
     /**
+     * Name of the appointment
+     */
+    private TextView name;
+    
+    /**
      * The button to confirm the dialog
      */
     private Button confirm;
@@ -57,18 +64,30 @@ public class ChangeAppointmentDialog extends Dialog {
      */
     private Appointment appointment;
     
+    /**
+     * The old date of the {@link Appointment}
+     */
     private Date oldDate;
     
+    /**
+     * {@link RadioButton} high severity
+     */
+    private RadioButton high;
     
     /**
-     * Necessary constructor
-     * 
-     * @param context
-     *            the context
+     * {@link RadioButton} middle severity
      */
+    private RadioButton middle;
+    
+    /**
+     * {@link RadioButton} low severity
+     */
+    private RadioButton low;
+    
+    
     public ChangeAppointmentDialog(Context context, Appointment clicked) {
         super(context);
-        this.appointment = clicked;
+        appointment = clicked;
     }
     
     
@@ -77,6 +96,7 @@ public class ChangeAppointmentDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.change_todo_dialog);
@@ -96,8 +116,28 @@ public class ChangeAppointmentDialog extends Dialog {
         this.desc = (TextView) findViewById(R.id.description);
         this.desc.setText(this.appointment.getDescrpition());
         
+        this.name = (TextView) findViewById(R.id.name);
+        this.name.setText(this.appointment.getName());
+        
         this.confirm = (Button) findViewById(R.id.ConfirmButton);
         this.confirm.setOnClickListener(new ConfirmListener());
+        
+        high = (RadioButton) findViewById(R.id.severity_high);
+        middle = (RadioButton) findViewById(R.id.severity_middle);
+        low = (RadioButton) findViewById(R.id.severity_low);
+        
+        // Check the correct radio button
+        switch (appointment.getSeverity()) {
+            case HIGH:
+                high.setChecked(true);
+                break;
+            case MIDDLE:
+                middle.setChecked(true);
+                break;
+            case LOW:
+                low.setChecked(true);
+                break;
+        }
         
         /*
          * Neeeded to fill the width of the screen
@@ -126,11 +166,25 @@ public class ChangeAppointmentDialog extends Dialog {
             
             Calendar cal = new GregorianCalendar(year, month, day);
             
-            SqlConnector.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
-                    cal.getTime(), ChangeAppointmentDialog.this.desc.getText().toString());
+            Severity severity = null;
+            if (high.isChecked()) {
+                severity = Severity.HIGH;
+            }
             
-            Model.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
-                    cal.getTime(),oldDate, ChangeAppointmentDialog.this.desc.getText().toString());
+            if (middle.isChecked()) {
+                severity = Severity.MIDDLE;
+            }
+            
+            if (low.isChecked()) {
+                severity = Severity.LOW;
+            }
+            
+            SqlConnector.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
+                    cal.getTime(), ChangeAppointmentDialog.this.desc.getText().toString(), severity);
+            
+            Model.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(), cal.getTime(),
+                    oldDate, ChangeAppointmentDialog.this.name.getText().toString(),
+                    ChangeAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();
         }
         

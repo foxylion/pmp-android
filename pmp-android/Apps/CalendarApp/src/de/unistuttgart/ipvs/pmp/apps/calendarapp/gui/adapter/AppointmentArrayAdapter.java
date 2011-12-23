@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,11 +86,27 @@ public class AppointmentArrayAdapter extends ArrayAdapter<Appointment> {
         if (appointm != null) {
             TextView textTop = (TextView) view.findViewById(R.id.toptext);
             TextView textBottom = (TextView) view.findViewById(R.id.bottomtext);
+            View severity = (View) view.findViewById(R.id.severity);
+            
+            // Set the color of the severity
+            switch (appointm.getSeverity()) {
+                case HIGH:
+                    severity.setBackgroundColor(Color.RED);
+                    break;
+                case MIDDLE:
+                    severity.setBackgroundResource(R.color.orange);
+                    break;
+                case LOW:
+                    severity.setBackgroundResource(R.color.green);
+                    break;
+            }
+            
             if (textTop != null) {
-                textTop.setText(appointm.getDescrpition());
+                textTop.setText(appointm.getName());
+                textTop.setTypeface(null, Typeface.BOLD);
             }
             if (textBottom != null) {
-                textBottom.setText(appointm.getDateString());
+                textBottom.setText(appointm.getDescrpition());
             }
         }
         return view;

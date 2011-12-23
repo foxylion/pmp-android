@@ -15,7 +15,7 @@ class Query {
      * Loads a query from the database and returns a query-object storing the information
      * of the loaded query
      * @param int $id  ID of the query to load from the database
-     * @return Trip Object storing data of the loaded query or null, if trip with the
+     * @return Query Object storing data of the loaded query or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
      */
     public static function loadQuery($id) {
@@ -26,7 +26,27 @@ class Query {
         $query = new Query();
         return $query->fillAttributes("SELECT * FROM `".DB_PREFIX."_query` WHERE `id` = $id");
     }
-    
+
+    public static function searchQuery($driver_id)
+    {
+        $db = Database::getInstance();
+        echo "SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
+            "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
+            "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
+            "ORDER BY rating LIMIT 0, 30";
+
+        $result = $db->query("SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
+            "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
+            "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
+            "ORDER BY rating LIMIT 0, 30");
+        $arr = null;
+        $i = 0;
+        while ($row = $db->fetch($result)) {
+            $arr[$i++] = $row;
+        }
+        return $arr;
+    }
+
     private function fillAttributes($sqlQuery) {
         $db = Database::getInstance();
         $row = $db->fetch($db->query($sqlQuery));
@@ -57,25 +77,13 @@ class Query {
                 $this->passenger <= 0) {
             throw new InputException("Some mandatory fields not set.");
         }
+
+        // TODO: Check if another requests already existed
         
         // Write data into table
         $db = Database::getInstance();
         $creation = Date(Database::DATE_FORMAT, time());
-				
-				echo "INSERT INTO `".DB_PREFIX."_query` (
-                        `passenger`,
-                        `seats`,
-                        `current_lat`,
-                        `current_lon`,
-                        `destination`
-                    ) VALUES (
-                        \"".$this->passenger."\",
-                        \"".$this->seats."\",
-                        ".$this->currentLat.",
-                        ".$this->currentLon.",
-                        \"".$this->destination."\"
-                    )";
-        
+
         $db->query("INSERT INTO `".DB_PREFIX."_query` (
                         `passenger`,
                         `seats`,
@@ -138,7 +146,7 @@ class Query {
      *
      * @return int 
      */
-    public function getDriver() {
+    public function getPassenger() {
         return $this->passenger;
     }
     

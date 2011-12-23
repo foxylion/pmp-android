@@ -27,15 +27,17 @@ public class SeparatedListAdapter extends BaseAdapter {
     /**
      * Stores the information of the sections
      */
-    public final TreeMap<String, AppointmentArrayAdapter> sections = new TreeMap<String, AppointmentArrayAdapter>(
+    public TreeMap<String, AppointmentArrayAdapter> sections = new TreeMap<String, AppointmentArrayAdapter>(
             new StringComparator());
     
     /**
      * {@link ArrayAdapter} with the headers
      */
-    public final ArrayAdapter<String> headers;
+    public ArrayAdapter<String> headers;
     
     public final static int TYPE_HEADER_OF_A_SECTION = 0;
+    
+    public Context context;
     
     
     /**
@@ -45,6 +47,7 @@ public class SeparatedListAdapter extends BaseAdapter {
      *            context of the app to load the layout with {@link R}
      */
     public SeparatedListAdapter(Context context) {
+        this.context = context;
         headers = new ArrayAdapter<String>(context, R.layout.list_header);
     }
     
@@ -86,6 +89,11 @@ public class SeparatedListAdapter extends BaseAdapter {
         for (String del : toDel) {
             sections.remove(del);
         }
+    }
+    
+    public void reset(){
+        sections = new TreeMap<String, AppointmentArrayAdapter>(new StringComparator());
+        headers = new ArrayAdapter<String>(context, R.layout.list_header);
     }
     
     

@@ -33,15 +33,61 @@ class Offer {
             return null;
         }
         
+        $db = Database::getInstance();
+        $row = $db->fetch($db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`  
+                                      FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_user` AS u        
+                                      WHERE o.`driver` = u.`id`
+                                      AND o.`id` = $id"));
+        
+        if ($row["oid"] == null) {
+            return null;
+        }
+        
         $offer = new Offer();
         
+        $offer->driver = new User();
+        $offer->driver->fillAttributesByArray($row);
+        
+        $offer->id = $row["oid"];
+        $offer->message = $row["message"];
+        $offer->queryId = $row["query"];
+        
+        return $offer;
+    }
+    
+    /**
+     * Load's all messages that have been send to a given user's queries.
+     * E.g. if a user has opened 3 queries, this will return all offers
+     * that have been send to one of these queries.
+     * @param $inquirer Person's id for which offers should be searched
+     * @return Offer[]  All offers that have been send to the givem inquirer or
+     *                  null if no offeres where found
+     */
+    public static function loadOffers($inquirer) {
+        if (!is_numeric($inquirer) || $inquirer <= 0) {
+            return null;
+        }
+        
         $db = Database::getInstance();
-        $row = $db->fetch($db->query("SELECT * 
-                                      FROM `".DB_PREFIX."_offer` AS 'o', `".DB_PREFIX."_user` AS 'u'        
-                                      WHERE `o.driver` = `u.id`"));
+        $query = $db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message` 
+                             FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_query` AS q, `".DB_PREFIX."_user` AS u 
+                             WHERE o.`query` = q.`id`
+                             AND o.`driver` = u.`id`
+                             AND q.`passenger` = $inquirer");
         
+        $offers = array();
         
-        // TODO: Setting attributes
+        while (($row = $db->fetch($query)) != null) {
+            $offer = new Offer();
+            $offer->driver = new User();
+            $offer->driver->fillAttributesByArray($row);
+            $offer->id = $row["oid"];
+            $offer->queryId = $row["query"];
+            $offer->message = $row["message"];
+            $offers[] = $offer;
+        }
+        
+        return $offers;
     }
     
     /**
@@ -59,7 +105,7 @@ class Offer {
         }
         
         if ($this->offerExists()) {
-            throw new OfferException("The given user has already send an offer for the given query", OfferException::ALREADY_EXISTS);
+            throw new OfferException("The given user has already send an offer for the given query", OfferException::EXISTS_ALREADY);
         }
         
         $query = new Query();
@@ -76,8 +122,8 @@ class Offer {
                         `query`,
                         `message`
                     ) VALUES (
-                        ".$this->driver.",
-                        ".$this->query.",
+                        ".$this->driver->getId().",
+                        ".$this->queryId.",
                         \"".$this->message."\"
                     )");
         
@@ -90,7 +136,7 @@ class Offer {
      *                  If driver or query is not set, this will always return false
      */
     public function offerExists() {        
-        if ($this->driver == null || $this->query <= 0) {
+        if ($this->driver == null || $this->queryId <= 0) {
             return false;
         }
         
@@ -103,7 +149,13 @@ class Offer {
         return $count["count"] > 0;
     }
   
-    
+    /**
+     *
+     * @return int 
+     */
+    public function getId() {
+        return $this->id;
+    }
     /**
      *
      * @return User 
@@ -113,8 +165,15 @@ class Offer {
     }
     
     /**
-     *
-     * @return int 
+     * Returns the query belonging to this offer
+     * @return Query Query-Object or null if the query couldn't be loaded 
+     */
+    public function getQuery() {
+        return Query::loadQuery($this->queryId);
+    }
+    /**
+     * Returns the query belonging to this offer
+     * @return int Query's id
      */
     public function getQueryId() {
         return $this->queryId;
@@ -135,7 +194,7 @@ class Offer {
      */
     public function setDriver($driver) {
         if ($driver instanceof User) {
-            $this->driver = driver;
+            $this->driver = $driver;
             return true;
         } else {
             return false;
@@ -164,6 +223,26 @@ class Offer {
     public function setMessage($message) {
         $message = Database::getInstance()->secureInput($message);
         $this->message = $message;
+    }
+    
+    /**
+     * Deletes this offer from the table
+     */
+    public function deleteThis() {
+        self::delete($this->id);
+    }
+    
+    /**
+     * Deletes an offer
+     * @param int $offer 
+     */
+    public static function delete($offer) {
+        if (!General::validId($offer)) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $db->query("DELETE FROM  `".DB_PREFIX."_offer` WHERE `id` = '$offer'");
     }
 }
 ?>

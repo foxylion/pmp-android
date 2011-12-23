@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,9 +28,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
 /**
@@ -56,6 +58,26 @@ public class NewAppointmentDialog extends Dialog {
      */
     private Button confirm;
     
+    /**
+     * Name of the appointment
+     */
+    private TextView name;
+    
+    /**
+     * {@link RadioButton} high severity
+     */
+    private RadioButton high;
+    
+    /**
+     * {@link RadioButton} middle severity
+     */
+    private RadioButton middle;
+    
+    /**
+     * {@link RadioButton} low severity
+     */
+    private RadioButton low;
+    
     
     /**
      * Necessary constructor
@@ -73,6 +95,7 @@ public class NewAppointmentDialog extends Dialog {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.add_todo_dialog);
@@ -80,6 +103,11 @@ public class NewAppointmentDialog extends Dialog {
         this.dPicker = (DatePicker) findViewById(R.id.datePicker);
         this.desc = (TextView) findViewById(R.id.description);
         this.confirm = (Button) findViewById(R.id.ConfirmButton);
+        this.name = (TextView) findViewById(R.id.name);
+        
+        high = (RadioButton) findViewById(R.id.severity_high);
+        middle = (RadioButton) findViewById(R.id.severity_middle);
+        low = (RadioButton) findViewById(R.id.severity_low);
         
         this.confirm.setOnClickListener(new ConfirmListener());
         
@@ -111,12 +139,25 @@ public class NewAppointmentDialog extends Dialog {
             
             Calendar cal = new GregorianCalendar(year, month, day);
             
+            Severity severity = null;
+            if (high.isChecked()) {
+                severity = Severity.HIGH;
+            }
+            
+            if (middle.isChecked()) {
+                severity = Severity.MIDDLE;
+            }
+            
+            if (low.isChecked()) {
+                severity = Severity.LOW;
+            }
+            
             // Stores the date
             SqlConnector.getInstance().storeNewAppointment(cal.getTime(),
-                    NewAppointmentDialog.this.desc.getText().toString());
+                    NewAppointmentDialog.this.name.getText().toString(),
+                    NewAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();
         }
-        
     }
     
 }
