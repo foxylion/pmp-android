@@ -19,7 +19,7 @@ try {
     if ($offer == null) {
         $status = "invalid_offer";
     } elseif ($offer->getQuery() == null || 
-            $offer->getQuery()->getPassanger() != Session::getInstance()->getLoggedInUser()->getId()) {
+            $offer->getQuery()->getPassenger() != Session::getInstance()->getLoggedInUser()->getId()) {
         $status = "invalid_user";
     } else {
         // Accept or deny the offer
