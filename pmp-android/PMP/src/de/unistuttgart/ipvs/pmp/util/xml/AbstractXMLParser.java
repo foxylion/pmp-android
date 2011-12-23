@@ -219,4 +219,17 @@ public abstract class AbstractXMLParser {
         
     }
     
+    
+    /**
+     * The method validates, if the identifier is set
+     * 
+     * @param identifier
+     *            identifier to validate
+     */
+    public void validateIdentifier(String identifier) {
+        if (identifier.equals("") || identifier == null) {
+            throw new XMLParserException(Type.IDENTIFIER_MISSING, "The identifier of the resource group is missing.");
+        }
+    }
+    
 }

@@ -58,6 +58,8 @@ public class RgInformationSetParser {
         Log.d("-----------------------");
         Log.d("--- Rg-Information: ---");
         Log.d("-----------------------");
+        Log.d("Identifier: " + rgis.getIdentifier());
+        Log.d("IconLocation: " + rgis.getIconLocation());
         for (Locale l : rgis.getNames().keySet()) {
             Log.d("Name: " + rgis.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
         }

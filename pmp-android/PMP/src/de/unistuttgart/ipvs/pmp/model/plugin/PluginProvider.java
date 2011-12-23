@@ -240,18 +240,11 @@ public class PluginProvider implements IPluginProvider {
                 RgInformationSet rgis = loadRGIS(rgPackage);
                 
                 // extract icon
-                // TODO Marcus should include an <icon> Tag sooner or later
-                ZipEntry iconEntry = zipApk.getEntry("res/drawable-hdpi/icon.png");
-                if (iconEntry == null) {
-                    iconEntry = zipApk.getEntry("res/drawable-mdpi/icon.png");
-                    if (iconEntry == null) {
-                        iconEntry = zipApk.getEntry("res/drawable-ldpi/icon.png");
-                    }
-                }
+                ZipEntry iconEntry = zipApk.getEntry(rgis.getIconLocation());
                 if (iconEntry != null) {
                     copyFile(zipApk.getInputStream(iconEntry), PLUGIN_ASSET_DIR_STR + rgPackage + PNG_STR);
                 } else {
-                    throw new IOException("res/drawable-*dpi/icon.png missing.");
+                    throw new IOException(rgis.getIconLocation() + " missing.");
                 }
                 
                 // load main class

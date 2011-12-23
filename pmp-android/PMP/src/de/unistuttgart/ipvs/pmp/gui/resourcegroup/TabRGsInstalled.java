@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 public class TabRGsInstalled extends Activity {
     
-    private List<IResourceGroup> resourceGroups;
+    protected List<IResourceGroup> resourceGroups;
     private ListView installedRgsListView;
     
     

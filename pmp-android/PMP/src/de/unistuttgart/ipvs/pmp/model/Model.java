@@ -351,7 +351,7 @@ public class Model implements IModel, Observer {
             for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
                 AbstractPrivacySetting<?> aps = rg.getPrivacySetting(psIdentifier);
                 if (aps == null) {
-                    throw new InvalidXMLException("PrivacySetting (XML, objects)", psIdentifier, aps);
+                    throw new InvalidXMLException("PrivacySetting (XML, objects)", psIdentifier, psIdentifier);
                 }
             }
             

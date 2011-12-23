@@ -102,10 +102,10 @@ public class PresetAssignAppsDialog extends Dialog {
         List<IApp> allAssignedAppsList = Arrays.asList(this.preset.getAssignedApps());
         List<IApp> displayList = new ArrayList<IApp>();
         
-        Loop: for (IApp app : allAppsList) {
+        AllAppsLoop: for (IApp app : allAppsList) {
             for (IApp assignedApp : allAssignedAppsList) {
                 if (app.equals(assignedApp)) {
-                    continue Loop;
+                    continue AllAppsLoop;
                 }
             }
             displayList.add(app);
@@ -136,9 +136,11 @@ public class PresetAssignAppsDialog extends Dialog {
         public void onClick(View v) {
             
             // Store
-            for (IApp app : PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().keySet()) {
-                if (PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().get(app)) {
-                    PresetAssignAppsDialog.this.preset.assignApp(app);
+            if (PresetAssignAppsDialog.this.appsAdapter != null) {
+                for (IApp app : PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().keySet()) {
+                    if (PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().get(app)) {
+                        PresetAssignAppsDialog.this.preset.assignApp(app);
+                    }
                 }
             }
             this.activity.updateList();

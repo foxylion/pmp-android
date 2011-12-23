@@ -13,8 +13,8 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 public class DialogRGInstalledDetails extends Dialog {
     
-    private IResourceGroup resourcegroup;
-    private TabRGsInstalled parent;
+    protected IResourceGroup resourcegroup;
+    protected TabRGsInstalled parent;
     
     
     public DialogRGInstalledDetails(Context context, TabRGsInstalled parent, IResourceGroup resourcegroup) {
