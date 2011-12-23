@@ -28,12 +28,13 @@
             android:layout_height="wrap_content"
             android:text="Simulate Notification" >
         </Button>
-
+        
         <Button
-            android:id="@+id/Button_DriverLocation"
+            android:id="@+id/Button_SearchQuery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search query test" />
+            android:text="Search Query Test" >
+        </Button>
     </LinearLayout>
 
     <SlidingDrawer

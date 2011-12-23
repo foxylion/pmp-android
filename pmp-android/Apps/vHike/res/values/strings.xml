@@ -39,5 +39,6 @@
         <item >8</item>
     </string-array>
     <string name="profile_save">Save changes</string>
+    <string name="driverView_endTrip">End trip</string>
 
 </resources>
