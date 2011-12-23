@@ -46,6 +46,48 @@ class user {
         return $user->fillAttributes("SELECT * FROM `".DB_PREFIX."_user` WHERE `id` = $id");
     }
     
+    
+    /**
+     * Creates a user from a given sql-result array.
+     * @param Array $result Array storing the information of the user
+     *                      This has to be an array where the key representes
+     *                      the tables name.
+     * @param type $idFieldName Specifies the name of the id-field. Used when
+     *                          the id field name is changed by SQL's "AS" statement
+     * @return User User-object storing the information from the given result-array
+     * @internal    This is for internal use only as this function could be used to 
+     *              create a user-object from a non existing database entry!
+     * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
+     */
+    public static function loadUserBySqlResult($result, $idFieldName = "id") {
+        if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
+                $result[$idFieldName] == null) {
+            throw new InvalidArgumentException("Result or ifFieldName is invalid");
+        }
+        
+        $user = new User();
+        
+        $user->id = (int)$result[$idFieldName];
+        $user->username = $result["username"];
+        $user->passwordHash = $result["password"];
+        $user->email = $result["email"];
+        $user->firstname = $result["firstname"];
+        $user->lastname = $result["lastname"];
+        $user->tel = $result["tel"];
+        $user->description = $result["description"];
+        $user->regdate = $result["regdate"];
+        $user->emailPublic = (bool)$result["email_public"];
+        $user->firstnamePublic = (bool)$result["firstname_public"];
+        $user->lastnamePublic = (bool)$result["lastname_public"];
+        $user->telPublic = (bool)$result["tel_public"];
+        $user->ratingAvg = (float)$result["rating_avg"];
+        $user->ratingNum = (int)$result["rating_num"];
+        $user->activated = $result["activated"];
+        
+        return $user;
+        
+    }
+    
     /**
      * Loads a user from the database and returns a user-object storing the information
      * of the loaded user
@@ -69,35 +111,9 @@ class user {
         }
         
         // Write data into attributes
-        $this->fillAttributesByArray($row);
-        
-        return $this;
+        return $this->loadUserBySqlResult($row);
     } 
     
-    /**
-     * Fills the object's attributes using a SQL-result-row. 
-     * For internal use only!
-     * @param String[] $row 
-     */
-    public function fillAttributesByArray($row) {
-        $this->id = (int)$row["id"];
-        $this->username = $row["username"];
-        $this->passwordHash = $row["password"];
-        $this->email = $row["email"];
-        $this->firstname = $row["firstname"];
-        $this->lastname = $row["lastname"];
-        $this->tel = $row["tel"];
-        $this->description = $row["description"];
-        $this->regdate = $row["regdate"];
-        $this->emailPublic = (bool)$row["email_public"];
-        $this->firstnamePublic = (bool)$row["firstname_public"];
-        $this->lastnamePublic = (bool)$row["lastname_public"];
-        $this->telPublic = (bool)$row["tel_public"];
-        $this->ratingAvg = (float)$row["rating_avg"];
-        $this->ratingNum = (int)$row["rating_num"];
-        $this->activated = $row["activated"];
-    }
-
 
     
     /**

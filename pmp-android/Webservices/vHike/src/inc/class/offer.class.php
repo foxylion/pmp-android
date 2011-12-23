@@ -38,8 +38,14 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $row = $db->fetch($db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`, t.`id` AS tid  
-                                      FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_trip` AS t, `".DB_PREFIX."_user` AS u        
+        $row = $db->fetch($db->query("SELECT 
+                                        u.*, u.`id` AS uid,
+                                        o.`id` AS oid, o.`query`, o.`message`, 
+                                        t.`id` AS tid  
+                                      FROM 
+                                        `".DB_PREFIX."_offer` AS o, 
+                                        `".DB_PREFIX."_trip` AS t, 
+                                        `".DB_PREFIX."_user` AS u        
                                       WHERE o.`trip` = t.`id`
                                       AND t.`driver` = u.`id`
                                       AND o.`id` = $id"));
@@ -51,7 +57,7 @@ class Offer {
         $offer = new Offer();
         
         $offer->driver = new User();
-        $offer->driver->fillAttributesByArray($row);
+        $offer->driver->loadUserBySqlResult($row, "uid");
         
         $offer->tripId = $row["tid"];
         $offer->id = $row["oid"];
@@ -75,8 +81,15 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $query = $db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`, t.`id` AS tid 
-                             FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_query` AS q, `".DB_PREFIX."_trip` AS t, `".DB_PREFIX."_user` AS u 
+        $query = $db->query("SELECT u.*, 
+                                u.`id` AS uid,
+                                o.`id` AS oid, o.`query`, o.`message`, 
+                                t.`id` AS tid 
+                             FROM 
+                                `".DB_PREFIX."_offer` AS o, 
+                                `".DB_PREFIX."_query` AS q, 
+                                `".DB_PREFIX."_trip` AS t, 
+                                `".DB_PREFIX."_user` AS u 
                              WHERE o.`query` = q.`id`
                              AND o.`trip` = t.`id`
                              AND t.`driver` = u.`id`
@@ -87,7 +100,7 @@ class Offer {
         while (($row = $db->fetch($query)) != null) {
             $offer = new Offer();
             $offer->driver = new User();
-            $offer->driver->fillAttributesByArray($row);
+            $offer->driver->loadUserBySqlResult($row, "uid");
             $offer->tripId = $row["tid"];
             $offer->id = $row["oid"];
             $offer->queryId = $row["query"];
