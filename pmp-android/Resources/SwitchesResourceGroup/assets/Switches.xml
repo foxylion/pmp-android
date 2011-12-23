@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation>
-		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.switches
-		</identifier>
-		<revision>3</revision>
+	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches">
+		<revision>4</revision>
 		<defaultName lang="en">Device Switches</defaultName>
 		<name lang="de">Geräteschalter</name>
+		<icon>res/drawable-hdpi/icon.png</icon>
 		<defaultDescription lang="en">Three Swiss witch bitches,
 			which wished to be switched Swiss
 			witch bitches, wish to watch three
