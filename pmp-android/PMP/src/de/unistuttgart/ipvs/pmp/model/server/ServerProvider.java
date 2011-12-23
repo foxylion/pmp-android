@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -127,7 +128,12 @@ public class ServerProvider implements IServerProvider {
             if (!downloadFile(SEARCH_FOR + searchPattern, baos)) {
                 return new RgInformationSet[0];
             }
-            rgs = baos.toString().split("\n");
+            rgs = baos.toString("UTF-8").split("\n");
+            
+        } catch (UnsupportedEncodingException uee) {
+            Log.e("UTF-8 is missing. This should not happen.", uee);
+            rgs = new String[0];
+            
         } finally {
             try {
                 baos.close();

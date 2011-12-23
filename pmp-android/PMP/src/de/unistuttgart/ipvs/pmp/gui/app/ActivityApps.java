@@ -60,8 +60,54 @@ public class ActivityApps extends Activity {
         this.appsViewList = (ListView) findViewById(R.id.ListView_Apps);
         this.appsViewList.setClickable(true);
         
-        updateAppsList();
+        addListener();
         
+        updateAppsList();
+    }
+    
+    
+    /**
+     * Is called when a long press on an App was done.
+     */
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        // The menu information
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
+        IApp app = this.appsList.get(menuInfo.position);
+        
+        if (menuItem.getItemId() == 0) {
+            // open details
+            Intent intent = GUITools.createAppActivityIntent(app);
+            GUITools.startIntent(intent);
+            
+        } else if (menuItem.getItemId() == 1) {
+            // Open the Apps Main Activity
+            Intent intent = getPackageManager().getLaunchIntentForPackage(app.getIdentifier());
+            startActivity(intent);
+            
+        } else if (menuItem.getItemId() == 2) {
+            // remove app from model
+            ModelProxy.get().unregisterApp(app.getIdentifier());
+            
+            // Show Toast
+            Toast.makeText(ActivityApps.this, getString(R.string.app_successfully_unregistered), Toast.LENGTH_LONG)
+                    .show();
+            
+            // update the app list (item just removed)
+            updateAppsList();
+            
+            // inform the user
+            Toast.makeText(this, getResources().getString(R.string.app_removed), Toast.LENGTH_LONG).show();
+        }
+        
+        return true;
+    }
+    
+    
+    /**
+     * Adds the required listeners to the view.
+     */
+    private void addListener() {
         this.appsViewList.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
@@ -81,38 +127,10 @@ public class ActivityApps extends Activity {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle(getString(R.string.app_context_menu));
                 menu.add(0, 0, 0, R.string.details_app);
-                menu.add(1, 1, 0, R.string.remove_app);
+                menu.add(1, 1, 0, R.string.app_open);
+                menu.add(2, 2, 0, R.string.remove_app);
             }
         });
-    }
-    
-    
-    /**
-     * Is called when a long press on an App was done.
-     */
-    @Override
-    public boolean onContextItemSelected(MenuItem menuItem) {
-        // The menu information
-        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        IApp app = this.appsList.get(menuInfo.position);
-        
-        if (menuItem.getItemId() == 0) {
-            // open details
-            Intent intent = GUITools.createAppActivityIntent(app);
-            GUITools.startIntent(intent);
-            
-        } else if (menuItem.getItemId() == 1) {
-            // remove app from model
-            ModelProxy.get().unregisterApp(app.getIdentifier());
-            
-            // update the app list (item just removed)
-            updateAppsList();
-            
-            // inform the user
-            Toast.makeText(this, getResources().getString(R.string.app_removed), Toast.LENGTH_LONG).show();
-        }
-        
-        return true;
     }
     
     

@@ -5,50 +5,53 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="7" />
+
     <uses-permission android:name="android.permission.INTERNET" />
-    
 
     <!-- The android:name ensures that the Application is loaded properly -->
     <application
+        android:name=".PMPApplication"
         android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:name=".PMPApplication" >
+        android:label="@string/app_name" >
 
         <!-- Activities can be declared here -->
         <activity
+            android:name=".gui.main.ActivityMain"
             android:icon="@drawable/icon"
             android:label="PMP"
-            android:name=".gui.main.ActivityMain"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:configChanges="keyboardHidden|orientation"
+            android:name=".gui.main.ActivityAbout"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
             android:name=".gui.settings.ActivitySettings"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.app.ActivityApps"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.app.ActivityApp"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.preset.PresetsActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.preset.PresetActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name=".gui.resourcegroup.ActivityRGs"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <!-- Tabs -->
@@ -62,10 +65,10 @@
 
         <!-- Developer Console -->
         <activity
+            android:name=".model.activities.PMPDeveloperConsoleActivity"
             android:icon="@drawable/icon_dev_console"
-            android:label="PMP Dev Console"
-            android:name=".model.activities.PMPDeveloperConsoleActivity" >
-            <intent-filter >
+            android:label="PMP Dev Console" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,27 +81,11 @@
         <!-- // end of Activity declaration -->
 
 
-        <!-- Broadcast Receivers -->
-        <receiver android:name=".broadcastreceiver.ResourceGroupInstall" >
-            <intent-filter >
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-        <!-- // end of Broadcast Receivers -->
-
-
-        <!--
-             The PMPService can be loaded by using the intent action name declared 
-			3 lines below
-        -->
+        <!-- The PMPService can be loaded by using the intent action name declared 3 lines below. -->
         <service
-            android:exported="true"
-            android:name=".service.PMPService" >
-            <intent-filter >
+            android:name=".service.PMPService"
+            android:exported="true" >
+            <intent-filter>
                 <action android:name="de.unistuttgart.ipvs.pmp.service.PMPService" >
                 </action>
             </intent-filter>

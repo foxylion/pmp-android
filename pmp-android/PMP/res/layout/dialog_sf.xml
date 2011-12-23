@@ -16,7 +16,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
         android:layout_weight="1" >
 
         <LinearLayout
@@ -87,15 +87,14 @@
             android:id="@+id/Button_EnableDisable"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Enable/Disable" />
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/Button_Close"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Close" />
+            android:text="@string/close" />
     </LinearLayout>
 
 </LinearLayout>

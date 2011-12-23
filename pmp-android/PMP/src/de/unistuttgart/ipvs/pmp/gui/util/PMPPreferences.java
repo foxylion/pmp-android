@@ -19,7 +19,7 @@ public class PMPPreferences {
     
     private SharedPreferences settings;
     
-    /* singleton pattern */
+    /* Singleton pattern */
     private static volatile PMPPreferences instance = null;
     
     
@@ -38,9 +38,7 @@ public class PMPPreferences {
         
         return PMPPreferences.instance;
     }
-    
-    
-    /* End of singleton pattern */
+    /* End of Singleton pattern */
     
     /**
      * @return The current state of the expert mode.

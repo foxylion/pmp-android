@@ -57,6 +57,11 @@ public class XMLParserException extends RuntimeException {
         LOCALE_INVALID,
         
         /**
+         * The identifier is missing
+         */
+        IDENTIFIER_MISSING,
+        
+        /**
          * A name with the same locale already exists
          */
         NAME_WITH_SAME_LOCALE_ALREADY_EXISTS,

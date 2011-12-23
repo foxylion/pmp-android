@@ -25,7 +25,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="5dp"
             android:textSize="15dp"
-            android:text="Not defined" />
+            android:text="@string/undefined" />
     </LinearLayout>
 
     <include layout="@layout/view_divider_strong" />

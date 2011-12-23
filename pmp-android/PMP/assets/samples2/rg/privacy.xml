@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation>
-		<identifier>de.bka.bundestrojaner</identifier>
+	<resourceGroupInformation identifier="de.bka.bundestrojaner">
+		<icon>location.of.the.icon</icon>
 		<revision>12</revision>
 		<defaultName lang="en">Privacy</defaultName>
 		<defaultDescription lang="en">Some special privacy stuff.</defaultDescription>
 	</resourceGroupInformation>
 	<privacySettings>
-
 		<privacySetting identifier="facebook">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Facebook</defaultName>

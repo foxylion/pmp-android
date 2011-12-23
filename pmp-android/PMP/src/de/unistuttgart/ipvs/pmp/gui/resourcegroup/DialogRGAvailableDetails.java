@@ -19,11 +19,24 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
+/**
+ * The {@link DialogRGAvailableDetails} displays informations about an available Resourcegroup.
+ * 
+ * @author Jakob Jarosch
+ */
 public class DialogRGAvailableDetails extends Dialog {
     
-    private RgInformationSet rgInformation;
+    protected RgInformationSet rgInformation;
     
     
+    /**
+     * Creates a new {@link Dialog} for displaying informations about an available Resourcegroup.
+     * 
+     * @param context
+     *            Context which is used to display the {@link Dialog}.
+     * @param rgInformation
+     *            The informations about the Resourcegroup.
+     */
     public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {
         super(context);
         
@@ -38,11 +51,14 @@ public class DialogRGAvailableDetails extends Dialog {
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
         tv.setText(rgInformation.getDescriptions().get(Locale.ENGLISH));
         
-        addListeners();
+        addListener();
     }
     
     
-    private void addListeners() {
+    /**
+     * Adds the listener to the Activity layout.
+     */
+    private void addListener() {
         ((Button) findViewById(R.id.Button_Install)).setOnClickListener(new View.OnClickListener() {
             
             @Override
