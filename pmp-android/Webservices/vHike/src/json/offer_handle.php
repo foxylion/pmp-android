@@ -9,33 +9,33 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 // Verify user input
-if (!General::validId($_POST["offer"]) && !isset ($_POST["accept"]) && !is_bool($_POST["accept"])) {
+/*if (!General::validId($_POST["offer"]) && !isset ($_POST["accept"]) && !is_bool($_POST["accept"])) {
     Json::printInvalidInputError();
-}
+}*/
 
 try {
     // Check first if the given query-id belongs to the logged in user
     $offer = Offer::loadOffer($_POST["offer"]);
     if ($offer == null) {
         $status = "invalid_offer";
-    } elseif ($offer->getQuery() == null || 
-            $offer->getQuery()->getPassenger() != Session::getInstance()->getLoggedInUser()->getId()) {
+    } elseif ($offer->getQuery() == null 
+            || !$offer->getQuery()->getPassenger()->isEqual(Session::getInstance()->getLoggedInUser())) {
         $status = "invalid_user";
     } else {
         // Accept or deny the offer
-        if($_POST["accept"]) {
-            echo "accept";
-            // TODO: add to ride-table
-        } else {
-            echo "deny";
+        if($_POST["accept"] == "true") {
+            $offer->accept();
+        } elseif($_POST["accept"] == "false") {
+            $offer->deny();
         }
-        $offer->deleteThis();
         $status = "handled";
     }
     
     $output = array("successful" => true, "status" => $status);
     echo Json::arrayToJson($output);
-    
+   
+} catch (InvalidArgumentException $iae) {
+    Json::printInvalidInputError();
 } catch (DatabaseException $de) {
     Json::printDatabaseError($de);
 }

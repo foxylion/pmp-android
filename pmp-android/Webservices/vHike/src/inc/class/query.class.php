@@ -147,8 +147,16 @@ class Query {
      *
      * @return int 
      */
-    public function getPassenger() {
+    public function getPassengerId() {
         return $this->passenger;
+    }
+    
+    /**
+     *
+     * @return User 
+     */
+    public function getPassenger() {
+        return User::loadUser($this->passenger);
     }
     
     public function getWantedSeats() {

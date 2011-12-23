@@ -34,8 +34,8 @@ class Offer {
      * @return Offer    Offer object storing the loaded information 
      */
     public static function loadOffer($id) {
-        if (!is_numeric($id) || $id <=0) {
-            return null;
+        if (!General::validId($id)) {
+            throw new InvalidArgumentException("The offer ID is invalid");
         }
         
         $db = Database::getInstance();
@@ -82,8 +82,8 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $query = $db->query("SELECT u.*, 
-                                u.`id` AS uid,
+        $query = $db->query("SELECT 
+                                u.*, u.`id` AS uid,
                                 o.`id` AS oid, o.`query`, o.`message`, 
                                 t.`id` AS tid 
                              FROM 
@@ -100,8 +100,7 @@ class Offer {
         
         while (($row = $db->fetch($query)) != null) {
             $offer = new Offer();
-            $offer->driver = new User();
-            $offer->driver->loadUserBySqlResult($row, "uid");
+            $offer->driver = User::loadUserBySqlResult($row, "uid");
             $offer->tripId = $row["tid"];
             $offer->id = $row["oid"];
             $offer->queryId = $row["query"];
@@ -218,25 +217,29 @@ class Offer {
         return $this->message;
     }
       
+    public function accept() {
+        $db = Database::getInstance();
+        $db->query("INSERT INTO `".DB_PREFIX."_ride` (
+                        `passenger`,
+                        `trip`
+                    ) VALUES (
+                        \"".$this->getQuery()->getId()."\",
+                        \"".$this->tripId."\"
+                    )");
+        $this->delete();
+    }
     
+    public function deny() {
+        $this->delete();
+    }
+
+
     /**
      * Deletes this offer from the table
      */
-    public function deleteThis() {
-        self::delete($this->id);
-    }
-    
-    /**
-     * Deletes an offer
-     * @param int $offer 
-     */
-    public static function delete($offer) {
-        if (!General::validId($offer)) {
-            return false;
-        }
-        
+    private function delete() {
         $db = Database::getInstance();
-        $db->query("DELETE FROM  `".DB_PREFIX."_offer` WHERE `id` = '$offer'");
+        $db->query("DELETE FROM  `".DB_PREFIX."_offer` WHERE `id` = '".$this->id."'");
     }
 }
 ?>

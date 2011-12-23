@@ -10,11 +10,12 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-    // Make sure that the trip belong to the currently logged in user
+    // Load data for the given parameters
     $trip = Trip::loadTrip($_POST["trip"]);
     $query = Query::loadQuery($_POST["query"]);
     $driver = Session::getInstance()->getLoggedInUser();
      
+    // Show message if there's no data for the given values
     if ($trip == null) {
         $status = "invalid_trip";
     } elseif ($query == null) {
@@ -29,6 +30,7 @@ try {
     echo Json::arrayToJson($output);
     
 } catch (OfferException $oe) {
+    // Show message if the given parameter don't match
     switch ($oe->getCode()) {
         case OfferException::INVALID_TRIP:
             $status = "invalid_trip";
