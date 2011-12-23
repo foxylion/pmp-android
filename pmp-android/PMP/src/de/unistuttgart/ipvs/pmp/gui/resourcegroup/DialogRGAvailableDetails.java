@@ -21,7 +21,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 public class DialogRGAvailableDetails extends Dialog {
     
-    private RgInformationSet rgInformation;
+    protected RgInformationSet rgInformation;
     
     
     public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {

@@ -16,6 +16,12 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * OverlayItem for drivers which holds the driver logo and the perimeter
+ * 
+ * @author andres
+ * 
+ */
 @SuppressWarnings("rawtypes")
 public class DriverOverlay extends ItemizedOverlay {
 
@@ -23,6 +29,14 @@ public class DriverOverlay extends ItemizedOverlay {
 	private GeoPoint mGps;
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 
+	/**
+	 * Set drawable icon, context for onTap method, and drivers position (gps)
+	 * to draw the perimeter
+	 * 
+	 * @param defaultMarker
+	 * @param context
+	 * @param gps
+	 */
 	public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
@@ -38,6 +52,10 @@ public class DriverOverlay extends ItemizedOverlay {
 		populate();
 	}
 
+	/**
+	 * if drawable is tapped, a dialog will pop up containing short information
+	 * about the driver
+	 */
 	@Override
 	protected boolean onTap(int i) {
 		OverlayItem item = mOverlays.get(i);
@@ -48,6 +66,9 @@ public class DriverOverlay extends ItemizedOverlay {
 		return true;
 	}
 
+	/**
+	 * custom draw implementation to draw the perimeter
+	 */
 	@Override
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
 			long when) {
@@ -65,12 +86,18 @@ public class DriverOverlay extends ItemizedOverlay {
 
 		return true;
 	}
-	
+
+	/**
+	 * create item for List of overlays
+	 */
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
 	}
 
+	/**
+	 * size of overlay list
+	 */
 	@Override
 	public int size() {
 		return mOverlays.size();

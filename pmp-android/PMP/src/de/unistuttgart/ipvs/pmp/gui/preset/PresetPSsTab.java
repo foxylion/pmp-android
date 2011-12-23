@@ -40,7 +40,7 @@ public class PresetPSsTab extends Activity {
     /**
      * The preset instance
      */
-    private IPreset preset;
+    protected IPreset preset;
     
     /**
      * The Priavcy Setting list

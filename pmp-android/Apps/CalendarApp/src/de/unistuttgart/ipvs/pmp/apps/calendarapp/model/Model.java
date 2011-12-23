@@ -54,6 +54,11 @@ public class Model {
     private HashMap<String, ArrayList<Appointment>> dayAppointments = new HashMap<String, ArrayList<Appointment>>();
     
     /**
+     * {@link HashMap} for storing the adapters of one day
+     */
+    private HashMap<String, AppointmentArrayAdapter> adapters = new HashMap<String, AppointmentArrayAdapter>();
+    
+    /**
      * Holds all files for importing
      */
     private List<FileDetails> fileList = new ArrayList<FileDetails>();
@@ -168,7 +173,7 @@ public class Model {
      *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
-        if (appointment.getDescrpition().equals("") || appointment.getName().equals("")) {
+        if (appointment.getDescrpition().equals("") && appointment.getName().equals("")) {
             Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -182,7 +187,7 @@ public class Model {
             dayAppointments.put(key, appointmentList);
             AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext, R.layout.list_item,
                     appointmentList);
-            System.out.println(appointment.getDateString());
+            adapters.put(key, adapter);
             arrayAdapter.addSection(appointment.getDateString(), adapter);
         }
         
@@ -217,6 +222,7 @@ public class Model {
                     appointment.setDate(date);
                     appointment.setName(name);
                     appointment.setDescription(description);
+                    appointment.setSeverity(severity);
                     break;
                     
                     // The date changes
@@ -235,6 +241,7 @@ public class Model {
                 addAppointment(new Appointment(id, name, description, date, severity));
             }
             
+            adapters.get(key).notifyDataSetChanged();
             this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");

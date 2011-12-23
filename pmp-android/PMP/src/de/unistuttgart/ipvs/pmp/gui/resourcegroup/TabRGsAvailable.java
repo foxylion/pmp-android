@@ -26,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 public class TabRGsAvailable extends Activity {
     
-    private ProgressBar updateTaskProgressBar;
+    protected ProgressBar updateTaskProgressBar;
     
     private LinearLayout updateProgressContainer;
     private LinearLayout updateFailedContainer;
@@ -37,7 +37,7 @@ public class TabRGsAvailable extends Activity {
     /**
      * List of all registered Apps.
      */
-    private List<RgInformationSet> rgisList;
+    protected List<RgInformationSet> rgisList;
     
     /**
      * {@link ListView} is the view reference for the Resource Groups list.
@@ -125,7 +125,7 @@ public class TabRGsAvailable extends Activity {
     }
     
     
-    private void parseDownloadedList(RgInformationSet[] informationSets) {
+    protected void parseDownloadedList(RgInformationSet[] informationSets) {
         this.lastUpdateContainer.setVisibility(View.VISIBLE);
         this.updateProgressContainer.setVisibility(View.GONE);
         

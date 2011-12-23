@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation>
-		<identifier>gov.gps</identifier>
+	<resourceGroupInformation identifier="gov.gps">
+		<icon></icon>
 		<revision>1</revision>
 		<defaultName lang="en">GPS</defaultName>
 		<defaultDescription lang="en">The official GPS resource from the DoD that can track you - I mean - you can track your position.</defaultDescription>

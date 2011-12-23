@@ -1,16 +1,13 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import android.app.Activity;
+import android.app.Activity; 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
  * The main menu after user logged in
@@ -64,16 +61,5 @@ public class MainActivity extends Activity {
 		});
 	}
 
-	@Override
-	public void onBackPressed() {
-		// Controller ctrl = new Controller();
-		// if (ctrl.logout(Model.getInstance().getSid())) {
-		Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_LONG);
-		MainActivity.this.finish();
-		// } else {
-		// Toast.makeText(MainActivity.this, "Logging out failed",
-		// Toast.LENGTH_LONG);
-		// }
-	}
 
 }
