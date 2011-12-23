@@ -96,7 +96,7 @@ public class XMLParser extends AbstractXMLParser {
     private void parseRgInformationNode(Element rgInformationElement) {
         // Create results
         String identifier = rgInformationElement.getAttribute("identifier");
-        List<String[]> iconList = parseNodes(rgInformationElement, "icon", 0, 1);
+        List<String[]> iconList = parseNodes(rgInformationElement, "icon", 1, 1);
         List<String[]> revisionList = parseNodes(rgInformationElement, "revision", 1, 1);
         List<String[]> defaultNameList = parseNodes(rgInformationElement, "defaultName", 1, 1, "lang");
         List<String[]> nameList = parseNodes(rgInformationElement, "name", 0, Integer.MAX_VALUE, "lang");
