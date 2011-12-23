@@ -100,15 +100,20 @@ public class PresetAddEditDialog extends Dialog {
         
         @Override
         public void onClick(View v) {
+            String name = "null";
+            if (PresetAddEditDialog.this.name != null) {
+                name = PresetAddEditDialog.this.name.getText().toString();
+            }
+            String descr = "null";
+            if (PresetAddEditDialog.this.desc != null) {
+                descr = PresetAddEditDialog.this.desc.getText().toString();
+            }
             
-            if (PresetAddEditDialog.this.name.getText().length() == 0) {
+            if (name.length() == 0) {
                 // no name set
                 Toast.makeText(getContext(), R.string.presets_dialog_name_missing, Toast.LENGTH_SHORT).show();
                 return;
             }
-            
-            String name = PresetAddEditDialog.this.name.getText().toString();
-            String descr = PresetAddEditDialog.this.desc.getText().toString();
             
             if (PresetAddEditDialog.this.preset == null) {
                 // Add a new Preset

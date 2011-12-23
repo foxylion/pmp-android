@@ -37,7 +37,7 @@ public class PresetAssignPSsDialog extends Dialog {
     /**
      * The list with all unassigned RGs and their PSs
      */
-    private ArrayList<ArrayList<IPrivacySetting>> psList;
+    protected ArrayList<ArrayList<IPrivacySetting>> psList;
     
     /**
      * The Privacy Setting expandable list view
@@ -47,7 +47,7 @@ public class PresetAssignPSsDialog extends Dialog {
     /**
      * The PresetPSsTab
      */
-    private PresetPSsTab presetPSsTab;
+    protected PresetPSsTab presetPSsTab;
     
     
     /**

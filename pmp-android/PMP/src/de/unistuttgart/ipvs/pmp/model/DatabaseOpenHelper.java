@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -158,7 +159,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         
         try {
             InputStream is = this.context.getAssets().open(filename);
-            InputStreamReader bis = new InputStreamReader(is);
+            InputStreamReader bis = new InputStreamReader(is, Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(bis);
             StringBuilder sb = new StringBuilder();
             try {
