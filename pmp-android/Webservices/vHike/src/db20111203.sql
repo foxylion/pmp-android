@@ -156,3 +156,27 @@ CREATE TABLE IF NOT EXISTS `dev_verification` (
 
 INSERT INTO `dev_verification` (`user`, `key`) VALUES
 (1, '5rr6bx62lzx1h3isb7axenlkfempt7tn');
+
+-- The original version of this procedure was written by Alexander Rubin
+-- http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+/*
+CREATE PROCEDURE hiker_dist (IN driverid int, IN dist int)
+BEGIN
+  DECLARE mylon DOUBLE;
+  DECLARE mylat DOUBLE;
+  DECLARE lon1 FLOAT;
+  DECLARE lon2 FLOAT;
+  DECLARE lat1 FLOAT;
+  DECLARE lat2 FLOAT;
+  -- get the original lon and lat for the userid
+  SELECT current_lon, current_lat INTO mylon, mylat FROM `dev_trip` WHERE `driver`=driverid LIMIT 1;
+  -- calculate lon and lat for the rectangle:
+  set lon1 = mylon-dist/abs(cos(radians(mylat))*69);
+  set lon2 = mylon+dist/abs(cos(radians(mylat))*69);
+  set lat1 = mylat-(dist/69);
+  set lat2 = mylat+(dist/69);
+  -- run the query:
+  SELECT destination.*, 3956 * 2 * ASIN(SQRT( POWER(SIN((origin.current_lat -destination.current_lat) * pi()/180 / 2), 2) + COS(origin.current_lat * pi()/180) * COS(destination.current_lat * pi()/180) *POWER(SIN((origin.current_lon -destination.current_lon) * pi()/180 / 2), 2) )) AS distance
+  FROM `dev_query` destination,`dev_trip` origin  WHERE origin.driver=driverid AND destination.longitude BETWEEN lon1 AND destination.current_latitude BETWEEN lat1 AND lat2 HAVING distance < dist
+  ORDER BY Distance limit 10;
+END*/

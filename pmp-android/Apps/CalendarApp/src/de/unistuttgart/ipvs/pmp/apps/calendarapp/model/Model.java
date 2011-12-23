@@ -22,7 +22,6 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -32,6 +31,7 @@ import java.util.Map.Entry;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -49,17 +49,12 @@ public class Model {
     private static Model instance;
     
     /**
-     * Holds all stored dates
-     */
-    private ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-    
-    /**
      * Stores for every existing day a list of {@link Appointment}s
      */
     private HashMap<String, ArrayList<Appointment>> dayAppointments = new HashMap<String, ArrayList<Appointment>>();
     
     /**
-     * Stores for every existing day a list of {@link Appointment}s
+     * {@link HashMap} for storing the adapters of one day
      */
     private HashMap<String, AppointmentArrayAdapter> adapters = new HashMap<String, AppointmentArrayAdapter>();
     
@@ -120,7 +115,6 @@ public class Model {
             addAppointment(app);
         }
         
-        Collections.sort(this.appointmentList, new DateComparator());
         this.arrayAdapter.notifyDataSetChanged();
         
         // Update the visibility of the "no appointments avaiable" textview
@@ -179,44 +173,28 @@ public class Model {
      *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
+        if (appointment.getDescrpition().equals("") && appointment.getName().equals("")) {
+            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         String key = creatKey(appointment.getDate());
         if (dayAppointments.containsKey(key)) {
             dayAppointments.get(key).add(appointment);
-            adapters.get(key).notifyDataSetChanged();
         } else {
             ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
             appointmentList.add(appointment);
             dayAppointments.put(key, appointmentList);
             AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext, R.layout.list_item,
                     appointmentList);
-            arrayAdapter.addSection(appointment.getDateString(), adapter);
             adapters.put(key, adapter);
-            adapter.notifyDataSetChanged();
+            arrayAdapter.addSection(appointment.getDateString(), adapter);
         }
         
         this.arrayAdapter.notifyDataSetChanged();
         
         // Update the visibility of the "no appointments available" textview
         getContext().updateNoAvaiableAppointmentsTextView();
-    }
-    
-    
-    /**
-     * Delete all appointments from the database and model
-     */
-    public void deleteAllAppointments() {
-        for (Entry<String, ArrayList<Appointment>> appointments : dayAppointments.entrySet()) {
-            for (Appointment appointment : appointments.getValue()) {
-                SqlConnector.getInstance().deleteAppointment(appointment);
-            }
-        }
-        
-        //Delete everything out of he model
-        dayAppointments.clear();
-        adapters.clear();
-        arrayAdapter.removeEmptyHeadersAndSections();
-        arrayAdapter.notifyDataSetChanged();
-        appContext.updateNoAvaiableAppointmentsTextView();
     }
     
     
@@ -230,7 +208,7 @@ public class Model {
      * @param description
      *            Description of the date
      */
-    public void changeAppointment(int id, Date date, Date oldDate, String description) {
+    public void changeAppointment(int id, Date date, Date oldDate, String name, String description, Severity severity) {
         String key = creatKey(oldDate);
         
         Appointment toDel = null;
@@ -242,7 +220,9 @@ public class Model {
                 // The date remains the same
                 if (appointment.getId() == id && oldDate.equals(date)) {
                     appointment.setDate(date);
+                    appointment.setName(name);
                     appointment.setDescription(description);
+                    appointment.setSeverity(severity);
                     break;
                     
                     // The date changes
@@ -258,9 +238,10 @@ public class Model {
                 deleteAppointment(toDel);
                 
                 // Add new appointment
-                addAppointment(new Appointment(id, description, date));
+                addAppointment(new Appointment(id, name, description, date, severity));
             }
             
+            adapters.get(key).notifyDataSetChanged();
             this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");
@@ -274,11 +255,16 @@ public class Model {
      * @return all appointments at all days
      */
     public ArrayList<Appointment> getAppointmentList() {
-        appointmentList.clear();
+        ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
         for (Entry<String, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
             appointmentList.addAll(entry.getValue());
         }
         return appointmentList;
+    }
+    
+    
+    public Boolean isModelEmpty() {
+        return dayAppointments.isEmpty();
     }
     
     
@@ -303,10 +289,18 @@ public class Model {
      */
     public void clearLocalList() {
         this.dayAppointments.clear();
-        adapters.clear();
         arrayAdapter.removeEmptyHeadersAndSections();
         this.arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
+    }
+    
+    
+    /**
+     * Clears the local stored list of dates but not the dates stored at the database
+     */
+    public void clearLocalListWithoutTextViewUpdate() {
+        this.dayAppointments.clear();
+        arrayAdapter.removeEmptyHeadersAndSections();
     }
     
     
@@ -488,7 +482,6 @@ public class Model {
                  * remember what to delete out of the list of days
                  */
                 if (dayList.getValue().isEmpty()) {
-                    adapters.remove(dayList.getKey());
                     arrayAdapter.removeEmptyHeadersAndSections();
                     toDelete.add(dayList.getKey());
                 }
@@ -499,6 +492,24 @@ public class Model {
         for (String del : toDelete) {
             dayAppointments.remove(del);
         }
+        arrayAdapter.notifyDataSetChanged();
+        appContext.updateNoAvaiableAppointmentsTextView();
+    }
+    
+    
+    /**
+     * Delete all appointments from the database and model
+     */
+    public void deleteAllAppointments() {
+        for (Entry<String, ArrayList<Appointment>> appointments : dayAppointments.entrySet()) {
+            for (Appointment appointment : appointments.getValue()) {
+                SqlConnector.getInstance().deleteAppointment(appointment);
+            }
+        }
+        
+        dayAppointments.clear();
+        arrayAdapter.reset();
+        
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }

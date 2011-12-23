@@ -243,6 +243,21 @@ class user {
     public function getPasswordHash() {
         return $this->passwordHash;
     }
+
+    public function getCurrentTripId() {
+        $db = Database::getInstance();
+        $result = $db->fetch($db->query("SELECT `id` FROM `" . DB_PREFIX . "_trip` WHERE `driver`=" .
+            $this->id . " LIMIT 1"));
+        if ($result) {
+            return $result['id'];
+        } else {
+            return NULL;
+        }
+    }
+
+    public function getCurrentQueryId(){
+        return;
+    }
     
     public function getEmail() {
         return $this->email;

@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -29,8 +31,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapOverlay;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.SearchingHitchhikers;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -140,6 +143,24 @@ public class DriverViewActivity extends MapActivity {
 			@Override
 			public void onClick(View arg0) {
 
+				Profile passenger = new Profile("Hitchhiker1", null, null,
+						null, null, null, null, false, false, false, false,
+						4.5, lat);
+				Drawable drawable = context.getResources().getDrawable(
+						R.drawable.passenger_logo);
+				PassengerOverlay pOverlay = new PassengerOverlay(drawable,
+						context);
+				float lat = 37.4230182f;
+				float lng = -122.0840848f;
+				GeoPoint gps = new GeoPoint((int) (lat * 1E6),
+						(int) (lng * 1E6));
+				OverlayItem oItem = new OverlayItem(gps, "Who wants a ride?",
+						"User: " + passenger.getUsername() + "/nRating: "
+								+ passenger.getRating_avg());
+				pOverlay.addOverlay(oItem);
+				MapModel.getInstance().getOverlayList(mapView).add(pOverlay);
+				mapView.invalidate();
+
 				// get reference to notificationManager
 				String ns = Context.NOTIFICATION_SERVICE;
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
@@ -184,7 +205,7 @@ public class DriverViewActivity extends MapActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new LocationUpdateHandler(context, locationManager, mapView,
-						mapController, new MapOverlay(context, p, 1), p));
+						mapController, p));
 		Controller ctrl = new Controller();
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -229,7 +250,7 @@ public class DriverViewActivity extends MapActivity {
 		switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance()
 				.getTripId())) {
 		case (Constants.STATUS_UPDATED): {
-			Toast.makeText(DriverViewActivity.this, "Updated",
+			Toast.makeText(DriverViewActivity.this, "Trip ended",
 					Toast.LENGTH_LONG).show();
 			DriverViewActivity.this.finish();
 			break;

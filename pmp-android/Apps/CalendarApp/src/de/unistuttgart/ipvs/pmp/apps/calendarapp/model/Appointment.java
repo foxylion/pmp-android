@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +31,12 @@ import java.util.GregorianCalendar;
  * @author Thorsten Berberich
  * 
  */
-public class Appointment {
+public class Appointment implements Serializable {
+    
+    /**
+     * Generated serial
+     */
+    private static final long serialVersionUID = -154070252634681032L;
     
     /**
      * The description of the date
@@ -47,6 +53,16 @@ public class Appointment {
      */
     private Integer id;
     
+    /**
+     * Name of this appointment
+     */
+    private String name;
+    
+    /**
+     * Severity of the appointment
+     */
+    private Severity severity;
+    
     
     /**
      * Constructor to create a new date object
@@ -56,10 +72,12 @@ public class Appointment {
      * @param date
      *            date as String
      */
-    public Appointment(int id, String descrpition, Date date) {
+    public Appointment(int id, String name, String descrpition, Date date, Severity severity) {
+        this.name = name;
         this.descrpition = descrpition;
         this.date = date;
         this.id = id;
+        this.severity = severity;
     }
     
     
@@ -125,5 +143,46 @@ public class Appointment {
         cal.setTime(this.date);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
         return dateFormat.format(cal.getTime());
+    }
+    
+    
+    /**
+     * Returns the name of this appointment
+     * 
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+    
+    
+    /**
+     * Sets the name of this appointment
+     * 
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+    /**
+     * Returns the {@link Severity} of the appointment
+     * 
+     * @return {@link Severity}
+     */
+    public Severity getSeverity() {
+        return severity;
+    }
+    
+    
+    /**
+     * Sets the {@link Severity} of the appointment
+     * 
+     * @param severity
+     *            to set
+     */
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 }

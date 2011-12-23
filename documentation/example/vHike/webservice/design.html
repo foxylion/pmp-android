@@ -827,6 +827,10 @@
             </ul>
           </td>
         </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
       </table>
       
       
@@ -882,6 +886,10 @@
             </ul>
           </td>
         </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>&nbsp;</td>
+        </tr>
       </table>
       
       
@@ -905,10 +913,10 @@
           <td>
             <ul>                                                                                             
               <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>     
-              <li><code>trip_id</code> - Integer: ID der Fahrt, zu der der Fahrer Anfragen suchen möchte (wird zum Vergleichen des Ziels benötigt)</li>   
+              <li><s><code>trip_id</code> - Integer: ID der Fahrt, zu der der Fahrer Anfragen suchen möchte (wird zum Vergleichen des Ziels benötigt)</s></li>   
               <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad und...</li>   
               <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): ...Längengrad an denen nach Anfragen gesucht werden soll</li>  
-              <li><code>perimeter</code> - Integer (1 &le; x &le; 10.000): Umkreis in Meter, in dem gesucht werden soll</li>
+              <li><code>distance</code> - Integer (1 &le; x &le; 10.000): Radius des Umkreises in Meter, in dem gesucht werden soll</li>
             </ul>
           </td>
         </tr>     
@@ -922,10 +930,11 @@
 <pre>
 {
   "successful": true,
+  "status&quot;: String,
   "queries": [
-    {"userid": Integer, "username": String, "rating": Float, 
+    {"queryid": Integer, "userid": Integer, "username": String, "rating": Float, 
       "lat": Float, "lon": Float, "seats", Integer},   
-    {"userid": Integer, "username": String, "rating": Float, 
+    {"queryid": Integer, "userid": Integer, "username": String, "rating": Float, 
       "lat": Float, "lon": Float, "seats", Integer},
     ...
   ]
@@ -937,17 +946,24 @@
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>
            <ul>           
-              <li><code>queries</code> - Array: Array mit allen gefundenen Anfragen:
+             <li><code>status</code> - String: Gibt an, ob die Suche erfolgreich war. <code>result</code> wenn es keinen Fehler aufgetreten wurde, <code>no_drive</code> wenn
+der Fahrer gerade keine Fahrt anbietet.                        
+              <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
                 <ul>
-                  <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>  
-                  <li><code>username</code> - String: Name des anfragenden Benutzers</li>   
-                  <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
-                  <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>    
-                  <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>  
-                  <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
+                <li><code>queryid</code> - Integer: ID der Anfrage</li>
+                <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>  
+                <li><code>username</code> - String: Name des anfragenden Benutzers</li>   
+                <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
+                <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>    
+                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>  
+                <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
                 </ul>
             </ul>
           </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert. Distance funktioniert noch nicht. Ungetestet für den Fall, indem keine Anfrage mit der passenden Bedienung existiert.</td>
         </tr>
       </table>
       

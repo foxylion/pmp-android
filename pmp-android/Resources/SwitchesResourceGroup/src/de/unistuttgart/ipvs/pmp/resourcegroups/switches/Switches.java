@@ -42,6 +42,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
  */
 public class Switches extends ResourceGroup {
     
+    public static final String PRIVACY_SETTING_WIFI_STATE = "CanWifiState";
     public static final String PRIVACY_SETTING_WIFI_SWITCH = "CanWifiSwitch";
     public static final String RESOURCE_WIFI_SWITCH = "WifiSwitch";
     
