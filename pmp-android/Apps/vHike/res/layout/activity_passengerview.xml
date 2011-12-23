@@ -5,22 +5,23 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <!--Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"-->
-    <!--Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ"-->
+    <!-- Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" -->
+    <!-- Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ" -->
+
     <com.google.android.maps.MapView
         android:id="@+id/passengerMapView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"   
+        android:layout_height="fill_parent"
         android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
 
     <Button
-        android:id="@+id/Button_PassengerLocation"
+        android:id="@+id/Button_SimulateFoundDriver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="My Location" />
+        android:text="Simulate invitation" />
 
     <SlidingDrawer
         android:id="@+id/slidingDrawer"

@@ -13,9 +13,21 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
+/**
+ * The {@link TabRGsInstalled} contains all installed Resourcegroups.
+ * 
+ * @author Jakob Jarosch
+ */
 public class TabRGsInstalled extends Activity {
     
+    /**
+     * List of all installed Resourcegroups.
+     */
     protected List<IResourceGroup> resourceGroups;
+    
+    /**
+     * ListView of all installed Resourcegroups.
+     */
     private ListView installedRgsListView;
     
     
@@ -40,6 +52,9 @@ public class TabRGsInstalled extends Activity {
     }
     
     
+    /**
+     * Refreshs the list of installed Resourcegroups.
+     */
     public void refreshList() {
         this.resourceGroups = Arrays.asList(ModelProxy.get().getResourceGroups());
         AdapterRGsInstalled rgsAdapter = new AdapterRGsInstalled(this, this.resourceGroups);
@@ -47,7 +62,9 @@ public class TabRGsInstalled extends Activity {
         this.installedRgsListView.setAdapter(rgsAdapter);
     }
     
-    
+    /**
+     * Adds the listener to the Activity layout.
+     */
     private void addListener() {
         this.installedRgsListView.setOnItemClickListener(new OnItemClickListener() {
             

@@ -15,7 +15,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
         android:layout_weight="1" >
 
         <LinearLayout
@@ -26,7 +26,7 @@
             <TextView
                 android:id="@+id/TextView_Description"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="0dip"
                 android:layout_weight="1" />
         </LinearLayout>
     </ScrollView>
@@ -40,14 +40,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Install" />
+            android:text="@string/install" />
 
         <Button
             android:id="@+id/Button_Close"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Close" />
+            android:text="@string/close" />
     </LinearLayout>
 
 </LinearLayout>

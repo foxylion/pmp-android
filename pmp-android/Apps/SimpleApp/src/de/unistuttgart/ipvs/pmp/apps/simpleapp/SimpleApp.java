@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp;
 
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -46,12 +47,8 @@ public class SimpleApp extends App {
 		Log.v("Registration succeed");
 
 		if (Model.getInstance().getActivity() != null) {
-			Model.getInstance().getActivity().registrationEnded();
+			Model.getInstance().getActivity().registrationEnded(true, null);
 		}
-
-		Toast.makeText(getApplicationContext(),
-				"SimpleApp: Registration successed.", Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	@Override
@@ -59,13 +56,8 @@ public class SimpleApp extends App {
 		Log.e("Registration failed: " + message);
 
 		if (Model.getInstance().getActivity() != null) {
-			Model.getInstance().getActivity().registrationEnded();
+			Model.getInstance().getActivity().registrationEnded(false, message);
 		}
-
-		Toast.makeText(
-				getApplicationContext(),
-				"SimpleApp: Registration failed with the following message: "
-						+ message, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -87,7 +79,7 @@ public class SimpleApp extends App {
 					pmpservice.requestServiceFeature(name, new String[0]);
 				} catch (RemoteException e) {
 					Log.e("Could not update the Service Features", e);
-				}		
+				}
 			}
 		}.start();
 	}

@@ -15,7 +15,7 @@
     <ExpandableListView
         android:id="@+id/expandable_list_view_assign_pss"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_gravity="top"
         android:layout_weight="1" >
     </ExpandableListView>

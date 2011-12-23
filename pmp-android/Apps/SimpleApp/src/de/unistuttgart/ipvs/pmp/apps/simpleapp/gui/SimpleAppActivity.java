@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -35,7 +36,7 @@ import android.app.ProgressDialog;
 public class SimpleAppActivity extends Activity {
 
 	private Handler handler;
-	
+
 	private Button buttonServiceFeautres;
 
 	private Button wirelessRefreshButton;
@@ -49,7 +50,7 @@ public class SimpleAppActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		handler = new Handler();
-		
+
 		setContentView(R.layout.main);
 
 		buttonServiceFeautres = (Button) findViewById(R.id.Button_ChangeServiceFeatures);
@@ -76,7 +77,7 @@ public class SimpleAppActivity extends Activity {
 				if (!Model.getInstance().getApp().isRegistered()) {
 					Model.getInstance().getApp().registerAtPMP();
 				} else {
-					registrationEnded();
+					registrationEnded(true, "");
 				}
 			}
 		}.start();
@@ -130,12 +131,27 @@ public class SimpleAppActivity extends Activity {
 		}
 	}
 
-	public void registrationEnded() {
+	public void registrationEnded(final boolean success, final String message) {
 		handler.post(new Runnable() {
 
 			public void run() {
 				pd.dismiss();
 				refresh();
+
+				if (success && message == null) {
+					Toast.makeText(getApplicationContext(),
+							"SimpleApp: Registration successed.",
+							Toast.LENGTH_SHORT).show();
+				} else if(!success && message != null) {
+					Toast.makeText(
+							getApplicationContext(),
+							"SimpleApp: Registration failed with the following message: "
+									+ message, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"SimpleApp: Already registered.",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 	}

@@ -14,8 +14,9 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 /**
+ * The {@link AdapterRGsInstalled} is the list of all at PMP registered Resourcegroups in the {@link TabRGsInstalled}.
  * 
- * @author Frieder Schüler
+ * @author Jakob Jarosch, Frieder Schüler
  */
 public class AdapterRGsInstalled extends BaseAdapter {
     

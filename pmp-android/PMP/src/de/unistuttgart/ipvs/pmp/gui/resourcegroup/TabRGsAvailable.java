@@ -6,11 +6,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -20,14 +21,28 @@ import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
+/**
+ * The {@link TabRGsAvailable} contains all available Resourcegroups.
+ * 
+ * @author Jakob Jarosch
+ */
 public class TabRGsAvailable extends Activity {
     
+    /**
+     * ProgressBar displays the progress of updating the list of available Resourcegroups.
+     */
     protected ProgressBar updateTaskProgressBar;
     
+    /*
+     * Linear Layouts to show or hide header informations.
+     */
     private LinearLayout updateProgressContainer;
     private LinearLayout updateFailedContainer;
     private LinearLayout lastUpdateContainer;
     
+    /**
+     * The lastUpdateTextView displays the date when the list was last updated.
+     */
     private TextView lastUpdateTextView;
     
     /**
@@ -61,7 +76,7 @@ public class TabRGsAvailable extends Activity {
         
         this.rgisViewList.setClickable(true);
         
-        addListeners();
+        addListener();
     }
     
     
@@ -73,7 +88,17 @@ public class TabRGsAvailable extends Activity {
     }
     
     
-    protected void startDownloadList() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rg_menu, menu);
+        return true;
+    }
+    
+    /**
+     * Initiates a new update of the available Resourcegroups list. (done asynchronously)
+     */
+    private void startDownloadList() {
         this.lastUpdateContainer.setVisibility(View.GONE);
         this.updateFailedContainer.setVisibility(View.GONE);
         this.updateProgressContainer.setVisibility(View.VISIBLE);
@@ -112,7 +137,11 @@ public class TabRGsAvailable extends Activity {
         
     }
     
-    
+    /**
+     * Parses the downloadedList of informationsets.
+     * 
+     * @param informationSets Downloaded informationsets.
+     */
     protected void parseDownloadedList(RgInformationSet[] informationSets) {
         this.lastUpdateContainer.setVisibility(View.VISIBLE);
         this.updateProgressContainer.setVisibility(View.GONE);
@@ -130,17 +159,10 @@ public class TabRGsAvailable extends Activity {
         }
     }
     
-    
-    private void addListeners() {
-        ((Button) findViewById(R.id.Button_Refresh)).setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                startDownloadList();
-            }
-        });
-        
-        /* Add the listener for the Items in the list */
+    /**
+     * Adds the listener to the Activity layout.
+     */
+    private void addListener() {
         this.rgisViewList.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
@@ -148,5 +170,19 @@ public class TabRGsAvailable extends Activity {
                 new DialogRGAvailableDetails(TabRGsAvailable.this, TabRGsAvailable.this.rgisList.get(item)).show();
             }
         });
+    }
+    
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_rg_refresh:
+                startDownloadList();
+                break;
+            
+            default:
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
 }

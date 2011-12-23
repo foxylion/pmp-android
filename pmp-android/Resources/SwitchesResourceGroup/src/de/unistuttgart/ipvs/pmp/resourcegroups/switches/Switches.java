@@ -51,6 +51,7 @@ public class Switches extends ResourceGroup {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.switches", pmpci);
         
         registerResource(RESOURCE_WIFI_SWITCH, new WifiSwitchResource());
+        registerPrivacySetting(PRIVACY_SETTING_WIFI_STATE, new BooleanPrivacySetting());
         registerPrivacySetting(PRIVACY_SETTING_WIFI_SWITCH, new BooleanPrivacySetting());
     }
     

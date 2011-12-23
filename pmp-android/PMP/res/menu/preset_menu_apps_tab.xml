@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/preset_tab_apps_assign_apps"
-        android:icon="@drawable/icon_add_32"
+        android:icon="@drawable/menu_add"
         android:title="@string/preset_tab_apps_assign_apps"/>
 
 </menu>

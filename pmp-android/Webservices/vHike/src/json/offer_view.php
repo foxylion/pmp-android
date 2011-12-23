@@ -11,7 +11,7 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-    $offers = Offer::loadOffers(Session::getInstance()->getLoggedInUser()->getId());
+    $offers = Offer::loadOffers(Session::getInstance()->getLoggedInUser());
     $offersOutput = array();
     foreach ($offers as $offer) {
         $offersOutput[] = array("offer" => $offer->getId(), 

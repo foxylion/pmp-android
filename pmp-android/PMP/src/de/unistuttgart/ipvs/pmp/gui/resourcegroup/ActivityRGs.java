@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import de.unistuttgart.ipvs.pmp.R;
 
+/**
+ * The {@link ActivityRGs} contains two tabs with the installed and the available Resourcegroups.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ActivityRGs extends TabActivity {
     
     @Override
@@ -16,8 +21,8 @@ public class ActivityRGs extends TabActivity {
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
         
-        TabHost.TabSpec spec; // Resusable TabSpec for each tab
-        Intent intent; // Reusable Intent for each tab
+        TabHost.TabSpec spec;
+        Intent intent;
         
         intent = new Intent().setClass(this, TabRGsInstalled.class);
         spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rg_installed)).setContent(intent);

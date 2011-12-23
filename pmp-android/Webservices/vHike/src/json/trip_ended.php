@@ -25,7 +25,7 @@ try {
         
         if ($loadedTrip == null) {
             $status = "no_trip";
-        } elseif ($loadedTrip->getDriver() != Session::getInstance()->getLoggedInUser()->getId()) {
+        } elseif ($loadedTrip->getDriverId() != Session::getInstance()->getLoggedInUser()->getId()) {
             $status = "invalid_user";
         } elseif ($loadedTrip->hasEnded()) {
             $status = "has_ended";

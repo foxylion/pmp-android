@@ -11,23 +11,12 @@
         android:orientation="vertical"
         android:visibility="gone" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/TextView_LastUpdate"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/TextView_LastUpdate"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="" />
-
-            <Button
-                android:id="@+id/Button_Refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Update" />
-        </LinearLayout>
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:text="" />
 
         <include layout="@layout/view_divider_strong" />
     </LinearLayout>
@@ -50,10 +39,10 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fetching Resources from server.\nPlease wait..." />
+                android:text="@string/rg_fetching_resources" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
@@ -71,9 +60,9 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
             android:layout_weight="1"
-            android:text="The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing &quot;Update&quot;."
+            android:text="@string/rg_server_not_available"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 

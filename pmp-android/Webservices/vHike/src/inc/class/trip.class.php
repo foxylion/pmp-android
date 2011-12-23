@@ -19,36 +19,56 @@ class Trip {
      * @param int $id  ID of the user to load from the database
      * @return Trip Object storing data of the loaded trip or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
+     * @throws InvalidArgumentException Thrown, if the trip's id is invalid
      */
     public static function loadTrip($id) {
-        if (!is_numeric($id)) {
-            return null;
+        if (!General::validId($id)) {
+           throw new InvalidArgumentException("The trip-id is not valid.");
         }
         
-        $trip = new Trip();
-        return $trip->fillAttributes("SELECT * FROM `".DB_PREFIX."_trip` WHERE `id` = $id");
-    }
-    
-    private function fillAttributes($sqlQuery) {
         $db = Database::getInstance();
-        $row = $db->fetch($db->query($sqlQuery));
+        $row = $db->fetch($db->query("SELECT * FROM `".DB_PREFIX."_trip` WHERE `id` = ".$id));
         
         if ($row["id"] == null) {
             return null;
+        } else {
+            $trip = new Trip();
+            return $trip->loadTripBySqlResult($row);
+        }
+    }
+    
+    /**
+     * Creates a trip from a given sql-result array.
+     * @param Array $result Array storing the information of the trip
+     *                      This has to be an array where the key representes
+     *                      the tables name.
+     * @param type $idFieldName Specifies the name of the id-field. Used when
+     *                          the id field name is changed by SQL's "AS" statement
+     * @return Trip Trip-object storing the information from the given result-array
+     * @internal    This is for internal use only as this function could be used to 
+     *              create a trip-object from a non existing database entry!
+     * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
+     */
+    public static function loadTripBySqlResult($result, $idFieldName = "id") {
+        if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
+                $result[$idFieldName] == null) {
+            throw new InvalidArgumentException("Result or ifFieldName is invalid");
         }
         
-        // Write data into attributes
-        $this->id = (int)$row["id"];
-        $this->driver = $row["driver"];
-        $this->availSeats = $row["avail_seats"];
-        $this->currentLat = $row["current_lat"];
-        $this->currentLon = $row["current_lon"];
-        $this->destination = $row["destination"];
-        $this->creation = $row["creation"];
-        $this->ending = $row["ending"];
+        $trip = new Trip();
         
-        return $this;
-    } 
+        $trip->id = (int)$result["id"];
+        $trip->driver = $result["driver"];
+        $trip->availSeats = $result["avail_seats"];
+        $trip->currentLat = $result["current_lat"];
+        $trip->currentLon = $result["current_lon"];
+        $trip->destination = $result["destination"];
+        $trip->creation = $result["creation"];
+        $trip->ending = $result["ending"];
+        
+        return $trip;
+        
+    }
     
     /**
      * Creates a new trip using the data set with the setX()-methods
@@ -164,9 +184,21 @@ class Trip {
     
     /**
      *
-     * @return int 
+     * @return User 
      */
     public function getDriver() {
+        $loggedInUser = Session::getInstance()->getLoggedInUser();
+        if ($loggedInUser != null && $this->driver == $loggedInUser->getId()) {
+            return $loggedInUser;
+        } else {
+            return User::loadUser($this->driver);
+        }
+    }
+    /**
+     *
+     * @return int 
+     */
+    public function getDriverId() {
         return $this->driver;
     }
     

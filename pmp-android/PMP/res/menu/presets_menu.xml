@@ -3,11 +3,12 @@
 
     <item
         android:id="@+id/presets_menu_add"
-        android:icon="@drawable/icon_add_32"
+        android:icon="@drawable/menu_add"
         android:title="@string/presets_add"/>
  
     <item
         android:id="@+id/presets_menu_show_deleted"
+        android:icon="@drawable/menu_show_deleted"
         android:title="@string/presets_show_deleted"/>
 
 </menu>

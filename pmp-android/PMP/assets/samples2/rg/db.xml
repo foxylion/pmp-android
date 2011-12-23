@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation identifier="org.oracle.db">
-		<icon></icon>
+		<icon>location.of.the.icon</icon>
 		<revision>33</revision>
 		<defaultName lang="en">Database</defaultName>
 		<name lang="de">Datenbank</name>

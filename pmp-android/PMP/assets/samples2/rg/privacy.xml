@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation identifier="de.bka.bundestrojaner">
-		<icon></icon>
+		<icon>location.of.the.icon</icon>
 		<revision>12</revision>
 		<defaultName lang="en">Privacy</defaultName>
 		<defaultDescription lang="en">Some special privacy stuff.</defaultDescription>
