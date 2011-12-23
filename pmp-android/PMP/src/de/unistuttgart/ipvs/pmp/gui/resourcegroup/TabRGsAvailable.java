@@ -6,6 +6,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -61,7 +65,7 @@ public class TabRGsAvailable extends Activity {
         
         this.rgisViewList.setClickable(true);
         
-        addListeners();
+        addListener();
     }
     
     
@@ -70,6 +74,14 @@ public class TabRGsAvailable extends Activity {
         super.onResume();
         
         startDownloadList();
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rg_menu, menu);
+        return true;
     }
     
     
@@ -131,15 +143,7 @@ public class TabRGsAvailable extends Activity {
     }
     
     
-    private void addListeners() {
-        ((Button) findViewById(R.id.Button_Refresh)).setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                startDownloadList();
-            }
-        });
-        
+    private void addListener() {
         /* Add the listener for the Items in the list */
         this.rgisViewList.setOnItemClickListener(new OnItemClickListener() {
             
@@ -148,5 +152,19 @@ public class TabRGsAvailable extends Activity {
                 new DialogRGAvailableDetails(TabRGsAvailable.this, TabRGsAvailable.this.rgisList.get(item)).show();
             }
         });
+    }
+    
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_rg_refresh:
+                startDownloadList();
+                break;
+            
+            default:
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
 }

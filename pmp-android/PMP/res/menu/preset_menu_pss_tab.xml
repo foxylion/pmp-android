@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/preset_tab_pss_assign_pss"
-        android:icon="@drawable/icon_add_32"
+        android:icon="@drawable/menu_add"
         android:title="@string/preset_tab_pss_assign_pss"/>
 
 </menu>

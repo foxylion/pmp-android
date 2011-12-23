@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
@@ -75,6 +80,14 @@ public class ActivityApp extends Activity {
         super.onResume();
         
         this.lam.dispatchResume();
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu, menu);
+        return true;
     }
     
     
@@ -162,4 +175,31 @@ public class ActivityApp extends Activity {
         return TAB_DETAIL;
     }
     
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_app_open:
+                // Open the Apps Main Activity
+                String appPackageName = ActivityApp.this.app.getIdentifier();
+                Intent intent = getPackageManager().getLaunchIntentForPackage(appPackageName);
+                if (intent != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ActivityApp.this, getString(R.string.app_not_opened), Toast.LENGTH_LONG).show();
+                }
+                break;
+            
+            case R.id.menu_app_unregister:
+                ModelProxy.get().unregisterApp(ActivityApp.this.app.getIdentifier());
+                Toast.makeText(ActivityApp.this, getString(R.string.app_successfully_unregistered), Toast.LENGTH_LONG)
+                        .show();
+                ActivityApp.this.finish();
+                break;
+            
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

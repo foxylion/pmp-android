@@ -78,7 +78,7 @@ public class AdapterRGsAvailable extends BaseAdapter {
             /* RG is already installed. */
             if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
                 /* A newer version is available */
-                state.setText(this.context.getResources().getString(R.string.rg_state_update) + " - rev. " + rgRev);
+                state.setText(this.context.getResources().getString(R.string.rg_update) + " - rev. " + rgRev);
             } else {
                 /* already up to date */
                 state.setText(this.context.getResources().getString(R.string.rg_state_installed));

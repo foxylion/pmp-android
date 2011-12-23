@@ -3,6 +3,10 @@ package de.unistuttgart.ipvs.pmp.gui.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,7 +37,7 @@ public class ActivityMain extends Activity {
         
         setContentView(R.layout.activity_main);
         
-        registerListener();
+        addListener();
     }
     
     
@@ -45,6 +49,14 @@ public class ActivityMain extends Activity {
         
         updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
                 .get().getPresets().length);
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
     
     
@@ -73,7 +85,7 @@ public class ActivityMain extends Activity {
     /**
      * Registers all the listeners to the {@link Button}s.
      */
-    private void registerListener() {
+    private void addListener() {
         Button buttonApps = (Button) findViewById(R.id.Button_Apps);
         Button buttonRgs = (Button) findViewById(R.id.Button_RGs);
         AlwaysClickableButton buttonPresets = (AlwaysClickableButton) findViewById(R.id.Button_Presets);
@@ -126,6 +138,21 @@ public class ActivityMain extends Activity {
                 ActivityMain.this.startActivity(intent);
             }
         });
+    }
+    
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                Intent intent = new Intent(ActivityMain.this, ActivityAbout.class);
+                startActivity(intent);
+                break;
+            
+            default:
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
     
     
