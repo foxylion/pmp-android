@@ -28,7 +28,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
 /**
  * 
- * The resourcegroup information set contains all basic information about the resource group.
+ * The resource group information set contains all basic information about the resource group.
  * It also contains all provided privacy settings
  * 
  * @author Marcus Vetter
@@ -45,6 +45,11 @@ public class RgInformationSet extends AbstractInformationSet {
      * The revision of the resource group
      */
     private String revision;
+    
+    /**
+     * The icon of the resource group
+     */
+    private String iconLocation;
     
     /**
      * This map contains all privacy settings of the resourcegroup. key =
@@ -128,5 +133,26 @@ public class RgInformationSet extends AbstractInformationSet {
      */
     public void setRevision(String revision) {
         this.revision = revision;
+    }
+    
+    
+    /**
+     * Get the location of the icon of the resource group
+     * 
+     * @return location of the icon of the resource group
+     */
+    public String getIconLocation() {
+        return iconLocation;
+    }
+    
+    
+    /**
+     * Set the location of the icon of the resource group
+     * 
+     * @param iconLocation
+     *            the location of the icon of the resource group
+     */
+    public void setIconLocation(String iconLocation) {
+        this.iconLocation = iconLocation;
     }
 }
