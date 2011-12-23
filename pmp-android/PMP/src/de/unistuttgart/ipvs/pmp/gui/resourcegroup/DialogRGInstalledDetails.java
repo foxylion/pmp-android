@@ -11,12 +11,28 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
+/**
+ * The {@link DialogRGAvailableDetails} displays informations about an at PMP registered Resourcegroup.
+ * 
+ * @author Jakob Jarosch
+ */
 public class DialogRGInstalledDetails extends Dialog {
     
     protected IResourceGroup resourcegroup;
     protected TabRGsInstalled parent;
     
     
+    /**
+     * Creates a new {@link Dialog} for displaying informations about an installed Resourcegroup.
+     * 
+     * @param context
+     *            Context which is used to display the {@link Dialog}.
+     * @param parent
+     *            The Tab which contains the list installed Resourcegroups. If value is NULL no list will be updated on
+     *            uninstall.
+     * @param resourcegroup
+     *            The informations about the Resourcegroup.
+     */
     public DialogRGInstalledDetails(Context context, TabRGsInstalled parent, IResourceGroup resourcegroup) {
         super(context);
         
@@ -33,11 +49,14 @@ public class DialogRGInstalledDetails extends Dialog {
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
         tv.setText(resourcegroup.getDescription());
         
-        addListeners();
+        addListener();
     }
     
     
-    private void addListeners() {
+    /**
+     * Adds the listener to the Activity layout.
+     */
+    private void addListener() {
         ((Button) findViewById(R.id.Button_Uninstall)).setOnClickListener(new View.OnClickListener() {
             
             @Override

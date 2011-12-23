@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
- * The {@link RgAvailableAdapter} is the list of available Resource Groups in the {@link TabRGsAvailable}.
+ * The {@link RgAvailableAdapter} is the list of available Resourcegroups in the {@link TabRGsAvailable}.
  * 
  * @author Jakob Jarosch
  */
