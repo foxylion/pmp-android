@@ -19,17 +19,22 @@ class Trip {
      * @param int $id  ID of the user to load from the database
      * @return Trip Object storing data of the loaded trip or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
+     * @throws InvalidArgumentException Thrown, if the trip's id is invalid
      */
     public static function loadTrip($id) {
-        if (!is_numeric($id)) {
-            return null;
+        if (!General::validId($id)) {
+           throw new InvalidArgumentException("The trip-id is not valid.");
         }
         
         $db = Database::getInstance();
-        $row = $db->fetch($db->query($sqlQuery));
+        $row = $db->fetch($db->query("SELECT * FROM `".DB_PREFIX."_trip` WHERE `id` = ".$id));
         
-        $trip = new Trip();
-        return $trip->loadTripBySqlResult($row);
+        if ($row["id"] == null) {
+            return null;
+        } else {
+            $trip = new Trip();
+            return $trip->loadTripBySqlResult($row);
+        }
     }
     
     /**
@@ -179,9 +184,21 @@ class Trip {
     
     /**
      *
-     * @return int 
+     * @return User 
      */
     public function getDriver() {
+        $loggedInUser = Session::getInstance()->getLoggedInUser();
+        if ($loggedInUser != null && $this->driver == $loggedInUser->getId()) {
+            return $loggedInUser;
+        } else {
+            return User::loadUser($this->driver);
+        }
+    }
+    /**
+     *
+     * @return int 
+     */
+    public function getDriverId() {
         return $this->driver;
     }
     

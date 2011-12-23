@@ -17,10 +17,11 @@ class Query {
      * @param int $id  ID of the query to load from the database
      * @return Query Object storing data of the loaded query or null, if trip with the
      *              given id does not exists or parameter id is not numeric 
+     * @throws InvalidArgumentException Thrown if the queries id is invalid
      */
     public static function loadQuery($id) {
-        if (!is_numeric($id)) {
-            return null;
+        if (!General::validId($id)) {
+           throw new InvalidArgumentException("The query-id is not valid.");
         }
         
         $query = new Query();

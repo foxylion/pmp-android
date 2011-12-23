@@ -517,6 +517,19 @@ class user {
     public static function hashPassword($password) {
         return md5($password);
     }
+    
+    /**
+     * Compares two user-object and returns true if they are equal
+     * @param User $user 
+     * @return boolean  True, if the object are equal
+     */
+    public function isEqual($user) {
+        if ($user instanceof User) {
+            return ($this->id == $user->id); 
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>

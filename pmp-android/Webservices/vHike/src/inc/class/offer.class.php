@@ -27,6 +27,7 @@ class Offer {
     private $queryId = -1;
     private $message = null;
     
+    private function __construct() { }
     /**
      * Loads information for the given offer-id from the databse
      * @param int $id   ID of the offer to load from the database
@@ -71,13 +72,13 @@ class Offer {
      * Load's all messages that have been send to a given user's queries.
      * E.g. if a user has opened 3 queries, this will return all offers
      * that have been send to one of these queries.
-     * @param $inquirer Person's id for which offers should be searched
+     * @param User $inquirer  Person's id for which offers should be searched
      * @return Offer[]  All offers that have been send to the givem inquirer or
      *                  null if no offeres where found
      */
     public static function loadOffers($inquirer) {
-        if (!is_numeric($inquirer) || $inquirer <= 0) {
-            return null;
+        if (!($inquirer instanceof User)) {
+            throw new InvalidArgumentException("Parameter is of wrong type");
         }
         
         $db = Database::getInstance();
@@ -93,7 +94,7 @@ class Offer {
                              WHERE o.`query` = q.`id`
                              AND o.`trip` = t.`id`
                              AND t.`driver` = u.`id`
-                             AND q.`passenger` = $inquirer");
+                             AND q.`passenger` = ".$inquirer->getId());
         
         $offers = array();
         
@@ -112,33 +113,27 @@ class Offer {
     }
     
     /**
-     * Creates a new query using the data set with the setX()-methods
-     * @return int ID of the new offer or -1 if there's already a offer with the same driver and query
-     * @throws InputException Thrown, if an important field (e.g. destination) is missing
+     *
+     * @param Query $query  Query to create the offer for
+     * @param Trip $trip    Trip for which the driver wants to create the offer
+     * @param User $driver  Driver that wants to create the offer
+     * @return int  ID of the new offer
+     * @throws InvalidArgumentException Thrown, if one of the parameters is of a wrong type
      * @throws OfferException Thrown, if the given driver has already send a offer for the given query 
-     *                          (code = ALREDY_EXISTS) or if there is no query with the given id
-     *                          (code = QUERY_NOT_FOUND)
+     *                          (code = ALREDY_EXISTS) or if the trip does not belong to the given driver
+     *                          (code = INVALID_TRIP)
      */
-    public function create() {
-        // Cancel if important information is missing
-        if (!General::validId($this->tripId) || !General::validId($this->queryId) || $this->driver == null) {
-            throw new InputException("Some mandatory fields not set.");
+    public static function make($query, $trip, $driver, $message) {
+        if (!($query instanceof Query) || !($trip instanceof Trip) || !($driver instanceof User)) {
+            throw new InvalidArgumentException("At least one parameter is of wrong type");
         }
         
-        $trip = Trip::loadTrip($this->tripId);
-        
-        if ($trip == null || $trip->getDriver() != $this->driver->getId() ||
-                $trip->hasEnded()) {
+        if (!$driver->isEqual($trip->getDriver()) || $trip->hasEnded()) {
             throw new OfferException("The given trip does not belong to the given driver or has ended", OfferException::INVALID_TRIP);            
         }
         
-        if ($this->offerExists()) {
+        if (self::offerExists($query,$trip)) {
             throw new OfferException("The given user has already send an offer for the given query", OfferException::EXISTS_ALREADY);
-        }
-        
-        $query = new Query();
-        if($query->loadQuery($this->queryId) == null) {
-            throw new OfferException("There is no query for the given id", OfferException::QUERY_NOT_FOUND);
         }
         
         // Write data into table
@@ -150,29 +145,33 @@ class Offer {
                         `query`,
                         `message`
                     ) VALUES (
-                        ".$this->tripId.",
-                        ".$this->queryId.",
-                        \"".$this->message."\"
+                        ".$trip->getId().",
+                        ".$query->getId().",
+                        \"".$message."\"
                     )");
         
-       return $this->id = $db->getId();      
+       return $db->getId();      
+           
+        
     }
     
     /**
      * Checks if the given driver has already sent an offer for the given query
+     * @param Query $query  
+     * @param Trip $trip
      * @return boolean  True, if there's already an offer with the given details
-     *                  If driver or query is not set, this will always return false
+     * @throws InvalidArgumentException Thrown, if one of the parameters is of wrong type
      */
-    public function offerExists() {        
-        if ($this->driver == null || $this->queryId <= 0) {
-            return false;
+    public static function offerExists($query, $trip) {        
+        if (!($query instanceof Query) || !($trip instanceof Trip)) {
+            throw new InvalidArgumentException("At least one parameter is of wrong type");
         }
         
         $db = Database::getInstance();
         $count = $db->fetch($db->query("SELECT count(*) AS count 
                                         FROM `".DB_PREFIX."_offer`
-                                        WHERE `trip` = ".$this->tripId." 
-                                        AND `query` = ".$this->queryId));
+                                        WHERE `trip` = ".$trip->getId()." 
+                                        AND `query` = ".$query->getId()));
         
         return $count["count"] > 0;
     }
@@ -218,58 +217,7 @@ class Offer {
     public function getMessage() {
         return $this->message;
     }
-    
-    /**
-     *
-     * @param User $driver
-     * @return boolean 
-     */
-    public function setDriver($driver) {
-        if ($driver instanceof User) {
-            $this->driver = $driver;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param User $driver 
-     * @return boolean
-     */
-    public function setTripId($trip) {
-        if (General::validId($trip)) {
-            $this->tripId = $trip;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param int $query
-     * @return boolean 
-     */
-    public function setQueryId($query) {
-        if (!is_numeric($query) || $query <= 0) {
-            return false;
-        } else {
-            $this->queryId = $query;
-            return true;
-        }
-        
-    }
-    
-    /**
-     *
-     * @param String $message 
-     */
-    public function setMessage($message) {
-        $message = Database::getInstance()->secureInput($message);
-        $this->message = $message;
-    }
+      
     
     /**
      * Deletes this offer from the table
