@@ -20,13 +20,13 @@ class Session {
         // Define and start session
         session_name("sid");
         session_start(); 
-        
+                
         // Nothing to do if there's no session data
         if (!isset($_SESSION["username"]) || !isset($_SESSION["password"]) ||
                 !isset($_SESSION["ip"])) {
             return;
         }
-        
+                
         // Make sure that the user's ip-address matches the address of the last login
         if ($_SESSION["ip"] != $_SERVER["REMOTE_ADDR"]) {
             return;
@@ -93,6 +93,8 @@ class Session {
                 return self::USER_LOGGED_IN;
             }
         } else {
+            // Log out user if an user is already logged in
+            $this->logOut();
             return self::USER_INVALID;
         }
     }
