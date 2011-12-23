@@ -22,11 +22,12 @@
     <string name="set_value">Set value</string>
     <string name="show_details">Show details</string>
     <string name="uninstall">Uninstall</string>
-    <string name="update">Update</string>
     <string name="value">Value</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string name="app_name">Privacy Management Platform</string>
+    <string name="app_version">version 2.0</string>
+    <string name="undefined">undefined string</string>
 
     <!-- New GUI-Language variables -->
 
@@ -74,7 +75,8 @@
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
     <string name="required_rgs">Required Resources</string>
     <string name="missing_rgs_description">There are some resources missing, you have install them over the Resources menu.</string>
-
+    <string name="app_sf_back_to_the_app">Done, back to the App.</string>
+    
     <!-- App-Presets Tab -->
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>

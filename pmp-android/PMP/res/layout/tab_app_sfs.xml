@@ -34,6 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:visibility="gone"
-        android:text="Ok, back to the App." />
+        android:text="@string/app_sf_back_to_the_app" />
 
 </LinearLayout>
