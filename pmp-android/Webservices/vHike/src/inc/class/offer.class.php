@@ -6,6 +6,7 @@ if (!defined("INCLUDE")) {
 class OfferException extends Exception {
     const EXISTS_ALREADY = 0;
     const QUERY_NOT_FOUND = 1;
+    const INVALID_TRIP = 2;
 }
 
 class Offer {
@@ -16,6 +17,9 @@ class Offer {
      * @var User 
      */
     private $driver = null;
+    
+    private $tripId = -1;
+    
     /**
      *
      * @var int 
@@ -34,9 +38,10 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $row = $db->fetch($db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`  
-                                      FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_user` AS u        
-                                      WHERE o.`driver` = u.`id`
+        $row = $db->fetch($db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`, t.`id` AS tid  
+                                      FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_trip` AS t, `".DB_PREFIX."_user` AS u        
+                                      WHERE o.`trip` = t.`id`
+                                      AND t.`driver` = u.`id`
                                       AND o.`id` = $id"));
         
         if ($row["oid"] == null) {
@@ -48,6 +53,7 @@ class Offer {
         $offer->driver = new User();
         $offer->driver->fillAttributesByArray($row);
         
+        $offer->tripId = $row["tid"];
         $offer->id = $row["oid"];
         $offer->message = $row["message"];
         $offer->queryId = $row["query"];
@@ -69,10 +75,11 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $query = $db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message` 
-                             FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_query` AS q, `".DB_PREFIX."_user` AS u 
+        $query = $db->query("SELECT u.*, o.`id` AS oid, o.`query`, o.`message`, t.`id` AS tid 
+                             FROM `".DB_PREFIX."_offer` AS o, `".DB_PREFIX."_query` AS q, `".DB_PREFIX."_trip` AS t, `".DB_PREFIX."_user` AS u 
                              WHERE o.`query` = q.`id`
-                             AND o.`driver` = u.`id`
+                             AND o.`trip` = t.`id`
+                             AND t.`driver` = u.`id`
                              AND q.`passenger` = $inquirer");
         
         $offers = array();
@@ -81,6 +88,7 @@ class Offer {
             $offer = new Offer();
             $offer->driver = new User();
             $offer->driver->fillAttributesByArray($row);
+            $offer->tripId = $row["tid"];
             $offer->id = $row["oid"];
             $offer->queryId = $row["query"];
             $offer->message = $row["message"];
@@ -100,8 +108,15 @@ class Offer {
      */
     public function create() {
         // Cancel if important information is missing
-        if ($this->driver == null || $this->queryId <= 0) {
+        if (!General::validId($this->tripId) || !General::validId($this->queryId) || $this->driver == null) {
             throw new InputException("Some mandatory fields not set.");
+        }
+        
+        $trip = Trip::loadTrip($this->tripId);
+        
+        if ($trip == null || $trip->getDriver() != $this->driver->getId() ||
+                $trip->hasEnded()) {
+            throw new OfferException("The given trip does not belong to the given driver or has ended", OfferException::INVALID_TRIP);            
         }
         
         if ($this->offerExists()) {
@@ -118,11 +133,11 @@ class Offer {
         $creation = Date(Database::DATE_FORMAT, time());
         
         $db->query("INSERT INTO `".DB_PREFIX."_offer` (
-                        `driver`,
+                        `trip`,
                         `query`,
                         `message`
                     ) VALUES (
-                        ".$this->driver->getId().",
+                        ".$this->tripId.",
                         ".$this->queryId.",
                         \"".$this->message."\"
                     )");
@@ -143,7 +158,7 @@ class Offer {
         $db = Database::getInstance();
         $count = $db->fetch($db->query("SELECT count(*) AS count 
                                         FROM `".DB_PREFIX."_offer`
-                                        WHERE `driver` = ".$this->driver->getId()." 
+                                        WHERE `trip` = ".$this->tripId." 
                                         AND `query` = ".$this->queryId));
         
         return $count["count"] > 0;
@@ -162,6 +177,10 @@ class Offer {
      */
     public function getDriver() {
         return $this->driver;
+    }
+    
+    public function getTripId() {
+        return $this->tripId;
     }
     
     /**
@@ -189,12 +208,26 @@ class Offer {
     
     /**
      *
-     * @param User $driver 
-     * @return boolean
+     * @param User $driver
+     * @return boolean 
      */
     public function setDriver($driver) {
         if ($driver instanceof User) {
             $this->driver = $driver;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     *
+     * @param User $driver 
+     * @return boolean
+     */
+    public function setTripId($trip) {
+        if (General::validId($trip)) {
+            $this->tripId = $trip;
             return true;
         } else {
             return false;

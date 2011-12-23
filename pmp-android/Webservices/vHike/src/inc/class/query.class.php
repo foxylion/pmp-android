@@ -138,7 +138,7 @@ class Query {
      *
      * @return int 
      */
-    public function getPassanger() {
+    public function getPassenger() {
         return $this->passenger;
     }
     

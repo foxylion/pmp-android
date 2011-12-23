@@ -977,7 +977,8 @@
         <tr>
           <th class="left">POST-Parameter</th>
           <td>
-            <ul>
+            <ul>                                                                                                            
+              <li><code>trip</code> - Integer: ID der Fahrt, auf der sich der Fahrer im Moment befindet</li>  
               <li><code>query</code> - Integer: ID der Anfrage, für die der Fahrer eine Einladung erstellen möchte</li>  
               <li><code>message</code> - String: Eine Nachricht, die der Fahrer dem Suchenden hinerlassen möchte</li>  
             </ul>
@@ -1000,6 +1001,7 @@
            <ul>           
               <li><code>status</code> - String: Gibt an, ob die Einladung erstellt wurde.
                 <code>sent</code>, wenn die Einladung abgesendet wurde,
+                <code>invalid_trip</code>, wenn die angegebene Fahrt nicht dem angemeldeten Benutzer zugewiesen ist oder bereits beended wurde,
                 <code>invalid_query</code>, wenn die Anfrage-ID auf eine nicht vorhandene Anfrage verweist oder
                 <code>already_sent</code>, wenn der Benutzer für die angegebene Anfrage bereits eine Einladung erstellt hat</li>
             </ul>
