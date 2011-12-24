@@ -30,10 +30,6 @@ public class ActivityMain extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // TODO GUI: remove this once real model works
-        //        ModelProxy.set(true, this);
-        
         setContentView(R.layout.activity_main);
         
         addListener();
@@ -71,13 +67,13 @@ public class ActivityMain extends Activity {
      */
     public void updateStatistics(int appsCount, int rgsCount, int presetsCount) {
         TextView textApps = (TextView) findViewById(R.id.TextView_Apps);
-        textApps.setText(String.format(getResources().getString(R.string.main_statistics_apps), appsCount));
+        textApps.setText(getResources().getQuantityString(R.plurals.main_statistics_apps, appsCount, appsCount));
         
         TextView textRgs = (TextView) findViewById(R.id.TextView_RGs);
-        textRgs.setText(String.format(getResources().getString(R.string.main_statistics_rgs), rgsCount));
+        textRgs.setText(getResources().getQuantityString(R.plurals.main_statistics_rgs, rgsCount, rgsCount));
         
         TextView textPresets = (TextView) findViewById(R.id.TextView_Presets);
-        textPresets.setText(String.format(getResources().getString(R.string.main_statistics_presets), presetsCount));
+        textPresets.setText(getResources().getQuantityString(R.plurals.main_statistics_presets, presetsCount, presetsCount));
     }
     
     

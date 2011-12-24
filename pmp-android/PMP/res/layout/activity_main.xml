@@ -110,20 +110,17 @@
             <TextView
                 android:id="@+id/TextView_Apps"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/main_statistics_apps" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/TextView_RGs"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/main_statistics_rgs" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/TextView_Presets"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/main_statistics_presets" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
