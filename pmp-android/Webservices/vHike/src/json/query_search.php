@@ -13,7 +13,7 @@ $user = Session::getInstance() -> getLoggedInUser();
 
 try {
 	// Set user input. Cancel if there's a invalid value in a input string
-	if (!$query -> setDestination($_POST["destination"]) || !$query -> setCurrentLat($_POST["current_lat"]) || !$query -> setCurrentLon($_POST["current_lon"])) {
+	if (!$query -> setCurrentLat($_POST["current_lat"]) || !$query -> setCurrentLon($_POST["current_lon"])) {
 		Json::printError("invalid_input", "At least one POST-Parameter is invalid");
 	}
 
