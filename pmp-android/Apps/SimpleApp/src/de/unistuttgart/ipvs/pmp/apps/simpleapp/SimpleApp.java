@@ -49,6 +49,8 @@ public class SimpleApp extends App {
 		if (Model.getInstance().getActivity() != null) {
 			Model.getInstance().getActivity().registrationEnded(true, null);
 		}
+		
+		requestServiceFeatures();
 	}
 
 	@Override

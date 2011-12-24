@@ -39,9 +39,21 @@
     <string name="main_presets">Presets</string>
     <string name="main_settings">Settings</string>
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
-    <string name="main_statistics_apps">- %1$d Apps are registered so far</string>
-    <string name="main_statistics_rgs">- %1$d Resourcegroups are installed</string>
-    <string name="main_statistics_presets">- %1$d Presets are created</string>
+    <plurals name="main_statistics_apps">
+        <item quantity="zero">- No Apps are registered so far</item>
+        <item quantity="one">- 1 App is registered so far</item>
+        <item quantity="other">- %d Apps are registered so far</item>
+    </plurals>
+    <plurals name="main_statistics_rgs">
+        <item quantity="zero">- No Resourcegroups are installed</item>
+        <item quantity="one">- 1 Resourcegroup is installed</item>
+        <item quantity="other">- %d Resourcegroups are installed</item>
+    </plurals>
+    <plurals name="main_statistics_presets">
+        <item quantity="zero">- No Presets are created</item>
+        <item quantity="one">- 1 Preset is created</item>
+        <item quantity="other">- %d Presets are created</item>
+    </plurals>
     <string name="main_statistics">Statistics</string>
     <string name="main_about">About</string>
     <string name="main_presets_disabled">The Presets are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
@@ -135,5 +147,4 @@
     <!-- About the app -->
     <string name="about_title">About the App</string>
     <string name="about_text">The Privacy Management Platform is developed, in case of a research project, at University Stuttgart.</string>
-
 </resources>
