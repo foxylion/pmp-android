@@ -31,10 +31,10 @@ class Query {
     public static function searchQuery($driver_id)
     {
         $db = Database::getInstance();
-        echo "SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
-            "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
-            "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
-            "ORDER BY rating LIMIT 0, 30";
+        // echo "SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
+            // "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
+            // "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
+            // "ORDER BY rating LIMIT 0, 30";
 
         $result = $db->query("SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
             "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".

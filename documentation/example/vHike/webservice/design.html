@@ -1043,17 +1043,17 @@
           <th class="left">GET-Parameter</th>
           <td>
             <ul>                                                                                             
-              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>     
-              <li><s><code>trip_id</code> - Integer: ID der Fahrt, zu der der Fahrer Anfragen suchen möchte (wird zum Vergleichen des Ziels benötigt)</s></li>   
-              <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad und...</li>   
-              <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): ...Längengrad an denen nach Anfragen gesucht werden soll</li>  
-              <li><code>distance</code> - Integer (1 &le; x &le; 10.000): Radius des Umkreises in Meter, in dem gesucht werden soll</li>
+              <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
             </ul>
           </td>
         </tr>     
         <tr>
           <th class="left">POST-Parameter</th>
-          <td>-</td>
+          <td><ul>
+            <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad und...</li>
+            <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): ...Längengrad an denen nach Anfragen gesucht werden soll</li>
+            <li><code>distance</code> - Integer (1 &le; x &le; 10.000): Radius des Umkreises in Meter, in dem gesucht werden soll</li>
+          </ul></td>
         </tr>      
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
@@ -1063,10 +1063,10 @@
   "successful": true,
   "status&quot;: String,
   "queries": [
-    {"queryid": Integer, "userid": Integer, "username": String, "rating": Float, 
-      "lat": Float, "lon": Float, "seats", Integer},   
-    {"queryid": Integer, "userid": Integer, "username": String, "rating": Float, 
-      "lat": Float, "lon": Float, "seats", Integer},
+    {"queryid": Integer, "userid": Integer, "username": String,
+      "rating": Float, "lat": Float, "lon": Float, "seats", Integer},   
+    {"queryid": Integer, "userid": Integer, "username": String,
+      "rating": Float, "lat": Float, "lon": Float, "seats", Integer},   
     ...
   ]
 }                                 
