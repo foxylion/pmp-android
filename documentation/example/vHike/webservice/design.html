@@ -12,6 +12,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
+  <!-- Notizen:
+  Noch fehlende Serives: E-Mail ändern, Passwort ändern
+  -->
   <div id="wrapper">
     <div id="page-head-date">03. Dezember 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
@@ -516,6 +519,134 @@
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet</td>
         </tr>
+      </table>
+      
+      
+      <h3 id="interface_profile_edit">Profil bearbeiten</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>profile_edit.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Benutzer möchte sein Profile editieren</td>
+        </tr>     
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <!--<li><code>password</code> - String (3 &le; Zeichen &le; 100): Das neue Passwort als Reintext (nicht gehasht)</li>-->
+              <!--<li><code>email</code> - String (3 &le; Zeichen &le; 100): Die neue E-Mail-Adresse des Benutzer</li>-->
+              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100): Neuer Vorname des Benutzers</li>
+              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100): Neuer Nachname des Benutzers</li>
+              <li><code>tel</code> - String (3 &le; Zeichen &le; 100): Neue Telefonnummer des Benutzers</li>
+              <li><code>description</code> - String: Geänderte Beschreibung</li>
+              <!--<li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefonnummer
+                des Benutzers für andere Mitglieder sichtbar sein soll</li> -->
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>   
+        <!--        
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
+        -->
+      </table>
+      
+      
+      
+      <h3 id="interface_profile_edit_visbility">Profil-Sichtbarkeiten bearbeiten</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>profile_edit_visibility.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Benutzer möchte festlegen, welche Daten seines Profils für andere 
+            Benutzer sichtbar sein sollen</td>
+        </tr>     
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>firstname_public</code> - Boolean: True, wenn der Vorname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>lastname_public</code> - Boolean: True, wenn der Nachname
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+              <li><code>tel_public</code> - Boolean: True, wenn die Telefonnummer
+                des Benutzers für andere Mitglieder sichtbar sein soll</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>   
+        <!--        
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
+        -->
       </table>
       
       
@@ -1089,13 +1220,13 @@ der Fahrer gerade keine Fahrt anbietet.
         </tr>            
         <tr>  
           <th class="left">Status</th>
-          <td>Implementiert, jedoch ungetestet. Auch noch nicht mit mehreren Anfragen und Benutzern getestet (TODO!)</td>
+          <td>Implementiert, jedoch ungetestet.</td>
         </tr>
       </table>
       
       
       
-      <h3 id="interface_offer">Einladung/Angebot annehmen oder ablehnen</h3>
+      <h3 id="interface_offer_handle">Einladung/Angebot annehmen oder ablehnen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -1147,7 +1278,185 @@ der Fahrer gerade keine Fahrt anbietet.
                 <code>invalid_user</code>, wenn die Angebots-ID auf ein Angebot verweist, dass nicht dem angemelden Benutzer gilt</li>
             </ul>
           </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet.</td>
         </tr>
+      </table>
+      
+      
+      
+      <h3 id="interface_ride_history">Stattgefundene Fahrten auflisten (History)</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>ride_history.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Fahrer möchte alle Fahrten aufgelistet bekommen, auf denen er Mitfahrer
+            mitgenommen hat oder ein Mitfahrer möchte alle Fahrten aufgelistet bekommen,
+            auf denen er Mitfahrer war</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>role</code> - String: Rolle, zu der die Auflistung erfolgen soll.
+                (<code>driver</code> Auflistung aller Fahrten in der Rolle des Fahrers,
+                <code>passenger</code> Auflistung aller Fahrten in der Rolle des Mitfahrera)</li>  
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td><b>Rolle <code>driver</code></b>
+<pre>
+{
+  "successful": true,
+  "rides": <span style="color:green;"><code>[
+    {"trip": Integer, "avail_seats": Integer, "destination": String, 
+      "creation": Date, "ending": Date, "passengers": <span style="color:red;"><code>[
+        {"userid": Integer, "username": String, "rating": Float, 
+          "rating_num": Integer, "rated": Boolean},
+        ...
+      ]
+    </code></span>},   
+    ...
+  ]</code></span>      
+}                       
+</pre>  
+            <b>Rolle <code>passenger</code></b>
+<pre>
+{
+  "successful": true,
+  "rides": <span style="color:green;"><code>[
+    {"trip": Integer, "avail_seats": Integer, "destination": String, 
+      "creation": Date, "ending": Date, "driver": <span style="color:blue;"><code>
+        {"userid": Integer, "username": String, "rating": Float, 
+          "rating_num": Integer, "rated": Boolean}
+    </code></span>},   
+    ...
+  ]</code></span>      
+}                       
+</pre> 
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>           
+              <li><code>rides</code> - Array: Array mit allen gefundenen Fahrten:
+                <ul>                                                                    
+                  <li><code>trip</code> - Integer: ID der Fahrt</li>  
+                  <li><code>avail_seats</code> - Integer: Anzahl der auf der Fahrt verfügbaren Sitze</li>  
+                  <li><code>destination</code> - String: Ziel der Fahrt</li>   
+                  <li><code>creation</code> - Date: Erstellungsdatum der Fahrt</li>      
+                  <li><code>ending</code> - Date: Zeitpunkt der Beendigung der Fahrt</li> 
+                  <li><span style="color:red;"><code>passengers</code> - Array: Array mit allen Mitfahrern auf dieser Fahrt (nur bei Rolle <code>driver</code>):
+                    <ul>
+                      <li><code>userid</code> - Integer: ID des Mitfahrers</li>
+                      <li><code>username</code> - String: Name des Mitfahrers</li>
+                      <li><code>rating</code> - Integer: Durchschnittsbewertung des Mitfahrers</li>
+                      <li><code>rating_num</code> - Integer: Anzahl der Bewertungen die der Mitfahrer bisher erhalten hat</li>
+                      <li><code>rated</code> - Boolean: Gibt an, ob der Fahrer diesen Mitfahrer bereits bewertet hat (<code>true</code>)
+                        oder nicht (<code>false</code>)</li>
+                    </ul></span></li>
+                  <li><span style="color:blue;"><code>driver</code> - Object: Object mit Daten des Fahrers (nur bei Rolle <code>passenger</code>):
+                    <ul>
+                      <li><code>userid</code> - Integer: ID des Fahrers</li>
+                      <li><code>username</code> - String: Name des Fahrers</li>
+                      <li><code>rating</code> - Integer: Durchschnittsbewertung des Fahrers</li>
+                      <li><code>rating_num</code> - Integer: Anzahl der Bewertungen die der Fahrer bisher erhalten hat</li>
+                      <li><code>rated</code> - Boolean: Gibt an, ob der Mitfahrer diesen Fahrer bereits bewertet hat (<code>true</code>)
+                        oder nicht (<code>false</code>)</li>
+                    </ul></span></li>
+                </ul></li></ul>
+          </td>
+        </tr> 
+        <!--           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet.</td>
+        </tr> 
+        -->
+      </table>
+      
+      
+            
+      <h3 id="interface_ride_rate">Fahrer/Mitfahrer bewerten</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>ride_rate.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Fahrer möchte einen Mitfahrer bewerten oder ein Mitfahrer seinen Fahrer</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>recipient</code> - ID: ID des Benutzers, der die Bewertung erhalten soll</li>  
+              <li><code>rating</code> - Integer (1 &le; x &le; 5): Bewertung des Benutzers</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String     
+}                       
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>           
+              <li><code>status</code> - String: Gibt an, ob die Bewertung abgegeben wurde.
+                <code>rated</code>, wenn die Bewertung abgegeben wurde,
+                <code>already_rated</code>, wenn die Bewertung bereits abgegeben wurde oder
+                <code>no_connection</code>, wenn es zwischen angemeldetem Benutzer und Empfänger
+                  der Bewertung keine Verbindung besteht (Keine Fahrer-Mitfahrer-Beziehung).</li>
+            </ul>
+          </td>
+        </tr> 
+        <!--           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet.</td>
+        </tr> 
+        -->
       </table>
       
     </div>
