@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -457,121 +458,43 @@ public class SqlConnector {
      * Creates a table if there exists none. The table name is "Appointment".
      */
     private void createTable() {
-        final PMPServiceConnector rgCon = new PMPServiceConnector(Model.getInstance().getContext()
-                .getApplicationContext());
         
-        rgCon.addCallbackHandler(new AbstractConnectorCallback() {
-            
-            @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                Log.d("Connected to " + resGroupIdentifier);
-                IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(rgCon.getAppService().getResource(
-                        pkgName, resGroupIdentifier, resIdentifier));
-                try {
-                    if (idc != null) {
-                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
-                            
-                            // Columns of the table
-                            Map<String, String> columns = new HashMap<String, String>();
-                            columns.put(SqlConnector.this.ID, "TEXT");
-                            columns.put(SqlConnector.this.NAME, "TEXT");
-                            columns.put(SqlConnector.this.DESC, "TEXT");
-                            columns.put(SqlConnector.this.DATE, "TEXT");
-                            columns.put(SqlConnector.this.SEVERITY, "TEXT");
-                            
-                            // Creates the table
-                            Log.v("Creating table");
-                            if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
-                                Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
-                                Model.getInstance().tableCreated(true);
-                            } else {
-                                Log.e("Couldn't create table");
-                            }
-                        } else {
-                            Log.v("Table already exists");
-                        }
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                resGroupIdentifier, resIdentifier);
+        
+        if (binder != null) {
+            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+            try {
+                if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
+                    
+                    // Columns of the table
+                    Map<String, String> columns = new HashMap<String, String>();
+                    columns.put(SqlConnector.this.ID, "TEXT");
+                    columns.put(SqlConnector.this.NAME, "TEXT");
+                    columns.put(SqlConnector.this.DESC, "TEXT");
+                    columns.put(SqlConnector.this.DATE, "TEXT");
+                    columns.put(SqlConnector.this.SEVERITY, "TEXT");
+                    
+                    // Creates the table
+                    Log.v("Creating table");
+                    
+                    
+                    // Create the table
+                    if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
+                        Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
+                    } else {
+                        Log.e("Couldn't create table");
                     }
-                } catch (RemoteException e) {
-                    Log.e("Error while creating table", e);
+                } else {
+                    Log.v("Table already exists");
                 }
+            } catch (RemoteException e) {
+                Log.e("Error while creating table", e);
             }
             
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Binding failed to " + resGroupIdentifier);
-            }
-        });
-        
-        //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
-        //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
-        //                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
-        //        resGroupCon.addCallbackHandler(new IConnectorCallback() {
-        //            
-        //            @Override
-        //            public void disconnected() {
-        //                Log.v(SqlConnector.this.resGroupIdentifier + " disconnected");
-        //            }
-        //            
-        //            
-        //            @Override
-        //            public void connected() {
-        //                Log.d("Connected to ResourceGroup " + SqlConnector.this.resGroupIdentifier);
-        //                if (resGroupCon.getAppService() == null) {
-        //                    Log.e(SqlConnector.this.resGroupIdentifier + " appService is null");
-        //                } else {
-        //                    // Get resource
-        //                    IDatabaseConnection idc = null;
-        //                    try {
-        //                        idc = IDatabaseConnection.Stub.asInterface(resGroupCon.getAppService().getResource(
-        //                                SqlConnector.this.resIdentifier));
-        //                        
-        //                        if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
-        //                            Map<String, String> columns = new HashMap<String, String>();
-        //                            columns.put(SqlConnector.this.ID, "TEXT");
-        //                            columns.put(SqlConnector.this.DATE, "TEXT");
-        //                            columns.put(SqlConnector.this.DESC, "TEXT");
-        //                            // Creates the table
-        //                            Log.v("Creating table");
-        //                            if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
-        //                                Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
-        //                                Model.getInstance().tableCreated(true);
-        //                            } else {
-        //                                Log.e("Couldn't create table");
-        //                            }
-        //                        } else {
-        //                            Log.v("Table already exists");
-        //                        }
-        //                    } catch (RemoteException e) {
-        //                        Toast.makeText(Model.getInstance().getContext(),
-        //                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-        //                                .show();
-        //                        Log.e("Remote Exception", e);
-        //                    } catch (Exception e) {
-        //                        Toast.makeText(Model.getInstance().getContext(),
-        //                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-        //                                .show();
-        //                        Log.e("Exception", e);
-        //                    } finally {
-        //                        if (idc != null) {
-        //                            try {
-        //                                idc.close();
-        //                            } catch (RemoteException e) {
-        //                                Log.e("Cannot close connection: ", e);
-        //                            }
-        //                        }
-        //                        resGroupCon.unbind();
-        //                    }
-        //                }
-        //            }
-        //            
-        //            
-        //            @Override
-        //            public void bindingFailed() {
-        //                Log.e(SqlConnector.this.resGroupIdentifier + " binding failed");
-        //            }
-        //        });
-        //        resGroupCon.bind();
+        } else {
+            Log.e("Couldn't connect to " + resGroupIdentifier);
+        }
     }
     
     

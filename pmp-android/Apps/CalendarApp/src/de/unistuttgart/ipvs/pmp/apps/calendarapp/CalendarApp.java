@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
 import android.app.Dialog;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,6 +77,11 @@ public class CalendarApp extends App {
     public void onRegistrationFailed(String message) {
         Log.d("Registration failed:" + message);
         DialogManager.getInstance().dismissWaitingDialog();
+    }
+    
+    @Override
+    public IBinder getResourceBlocking(String resourceGroup, String resource) {
+        return super.getResourceBlocking(resourceGroup, resource);
     }
     
     
