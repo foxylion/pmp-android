@@ -48,6 +48,7 @@
             android:id="@+id/drawerHandle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/driverContentDesc"
             android:src="@drawable/passenger_tab_selector" >
         </ImageView>
 

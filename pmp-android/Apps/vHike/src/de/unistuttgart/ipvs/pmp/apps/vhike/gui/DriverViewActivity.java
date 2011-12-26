@@ -253,7 +253,7 @@ public class DriverViewActivity extends MapActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case (R.menu.driverview_menu):
+		case (R.id.mi_endTrip):
 			Controller ctrl = new Controller();
 			switch (ctrl.endTrip(Model.getInstance().getSid(), Model
 					.getInstance().getTripId())) {

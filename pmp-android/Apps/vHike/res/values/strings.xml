@@ -40,5 +40,7 @@
     </string-array>
     <string name="profile_save">Save changes</string>
     <string name="driverView_endTrip">End trip</string>
+    <string name="passengerContentDesc">Invitations from drivers</string>
+    <string name="driverContentDesc">Passengers within perimeter</string>
 
 </resources>

@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import com.google.android.maps.GeoPoint;
@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SlidingDrawer;
 import android.widget.Toast;
 
 /**
@@ -51,7 +50,7 @@ public class PassengerViewActivity extends MapActivity {
 	private LocationManager locationManager;
 	private GeoPoint p;
 
-	private SlidingDrawer drawer;
+//	private SlidingDrawer drawer;
 
 	double lat;
 	double lng;

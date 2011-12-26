@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 
 /**
  * LoginActivity: the startup activity for vHike
@@ -21,6 +19,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
  * 
  */
 public class LoginActivity extends Activity {
+
+	private String username;
+	private String pw;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class LoginActivity extends Activity {
 		final EditText et_username = (EditText) findViewById(R.id.edit_login);
 		final EditText et_pw = (EditText) findViewById(R.id.edit_password);
 
+		username = "";
+		pw = "";
+
 		// ------------Provisorisch-----------
 		et_username.setText("demo");
 		et_pw.setText("test");
@@ -44,8 +48,8 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				final String username = et_username.getText().toString();
-				final String pw = et_pw.getText().toString();
+				username = et_username.getText().toString();
+				pw = et_pw.getText().toString();
 
 				if (username.equals("") || pw.equals("")) {
 					Toast.makeText(LoginActivity.this,
@@ -54,28 +58,13 @@ public class LoginActivity extends Activity {
 				} else {
 
 					if (ctrl.login(username, pw)) {
-						vhikeDialogs.getInstance()
-								.getLoginPD(LoginActivity.this).show();
 
 						Toast.makeText(LoginActivity.this, "Login successful",
 								Toast.LENGTH_LONG).show();
+						Intent intent = new Intent(v.getContext(),
+								MainActivity.class);
+						v.getContext().startActivity(intent);
 
-						Thread t = new Thread() {
-							public void run() {
-								Looper.prepare();
-
-								Intent intent = new Intent(LoginActivity.this,
-										MainActivity.class);
-								LoginActivity.this.startActivity(intent);
-
-								Looper.loop();
-
-								vhikeDialogs.getInstance()
-										.getLoginPD(LoginActivity.this)
-										.dismiss();
-							}
-						};
-						t.start();
 					} else {
 						Toast.makeText(
 								LoginActivity.this,
@@ -101,7 +90,7 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
-	
+
 	public boolean isConnected() {
 		@SuppressWarnings("static-access")
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
