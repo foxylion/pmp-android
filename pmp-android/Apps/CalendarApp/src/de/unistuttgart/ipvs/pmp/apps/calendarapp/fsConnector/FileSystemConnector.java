@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -39,6 +40,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.IFileAccess;
@@ -146,61 +148,34 @@ public class FileSystemConnector {
         exportStringBuilder.append("END:VCALENDAR");
         exportString = exportStringBuilder.toString();
         
-//        // The resource group connection
-//        final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
-//                .getApplicationContext(),
-//                ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getSignee(), rgIdentifier);
-//        
-//        // Add a callback handler
-//        rgCon.addCallbackHandler(new IConnectorCallback() {
-//            
-//            @Override
-//            public void disconnected() {
-//                Log.d(rgIdentifier + " disconnected");
-//            }
-//            
-//            
-//            @Override
-//            public void connected() {
-//                Log.d(rgIdentifier + " connected");
-//                
-//                if (rgCon.getAppService() == null) {
-//                    Log.e(rgIdentifier + " appService is null");
-//                } else {
-//                    // Get resource
-//                    try {
-//                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
-//                                resourceIdentifier));
-//                        // Create the folder
-//                        ifa.makeDirs(FOLDER_NAME);
-//                        // Write the file
-//                        boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
-//                        
-//                        // if exporting worked successfully, add the file to the model list
-//                        if (success) {
-//                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
-//                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
-//                                    Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Log.e("Exporting failed");
-//                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed,
-//                                    Toast.LENGTH_SHORT);
-//                        }
-//                    } catch (RemoteException e) {
-//                        Log.e("Remote Exception", e);
-//                    }
-//                }
-//                
-//                rgCon.unbind();
-//            }
-//            
-//            
-//            @Override
-//            public void bindingFailed() {
-//                Log.e(rgIdentifier + " binding failed");
-//            }
-//        });
-//        rgCon.bind();
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                rgIdentifier, resourceIdentifier);
+        
+        if (binder != null) {
+            try {
+                IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                
+                // Create the folder
+                ifa.makeDirs(FOLDER_NAME);
+                
+                // Write the file
+                boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
+                
+                // if exporting worked successfully, add the file to the model list
+                if (success) {
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
+                    Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed, Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Log.e("Exporting failed");
+                    Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed, Toast.LENGTH_SHORT);
+                }
+            } catch (RemoteException e) {
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to filesystem ressource");
+        }
     }
     
     
@@ -215,158 +190,127 @@ public class FileSystemConnector {
         // clear the import string
         this.importString = null;
         
-        // The resource group connection
-//        final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
-//                .getApplicationContext(),
-//                ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getSignee(), rgIdentifier);
-//        
-//        // Add a callback handler
-//        rgCon.addCallbackHandler(new IConnectorCallback() {
-//            
-//            @Override
-//            public void disconnected() {
-//                Log.d(rgIdentifier + " disconnected");
-//            }
-//            
-//            
-//            @Override
-//            public void connected() {
-//                Log.d(rgIdentifier + " connected");
-//                
-//                if (rgCon.getAppService() == null) {
-//                    Log.e(rgIdentifier + " appService is null");
-//                } else {
-//                    // Get resource
-//                    try {
-//                        // List of appointments to add
-//                        List<Appointment> importAppointmentList = new ArrayList<Appointment>();
-//                        
-//                        // The file access interface
-//                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
-//                                resourceIdentifier));
-//                        // Read the file
-//                        FileSystemConnector.this.importString = ifa.read(FOLDER_NAME + "/" + fileName);
-//                        
-//                        // Check, if the import string is null
-//                        if (FileSystemConnector.this.importString == null) {
-//                            Log.e("Importing failed!");
-//                        } else {
-//                            
-//                            // The import string (split by newlines)
-//                            String[] importArray = FileSystemConnector.this.importString.split("\n");
-//                            
-//                            // Flag, if the import succeed
-//                            boolean success = true;
-//                            
-//                            // Check meta data
-//                            boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
-//                            boolean rowTwo = importArray[1].equals("VERSION:2.0");
-//                            boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
-//                            boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
-//                            if (!(rowOne && rowTwo && rowThree && rowLast)) {
-//                                Log.e("Import meta data is invalid");
-//                                success = false;
-//                            }
-//                            
-//                            // Check and get the appointments
-//                            
-//                            String description = null;
-//                            String dateString = null;
-//                            for (int dataRow = 0; dataRow < importArray.length - 4; dataRow++) {
-//                                String importRow = importArray[dataRow + 3];
-//                                
-//                                switch (dataRow % 4) {
-//                                    case 0:
-//                                        if (!importRow.equals("BEGIN:VTODO")) {
-//                                            success = false;
-//                                        }
-//                                        break;
-//                                    case 1:
-//                                        if (!importRow.startsWith("SUMMARY:")) {
-//                                            success = false;
-//                                        } else {
-//                                            description = importRow.substring(8);
-//                                        }
-//                                        break;
-//                                    case 2:
-//                                        if (!importRow.startsWith("DTSTAMP:")) {
-//                                            success = false;
-//                                        } else {
-//                                            
-//                                            dateString = importRow.substring(8);
-//                                            // Check and parse the date
-//                                            if (!dateString
-//                                                    .matches("\\d\\d\\d\\d[0-1]\\d\\d\\dT[0-2]\\d[0-5]\\d[0-5]\\dZ")) {
-//                                                success = false;
-//                                                Log.e("Date does not match the regular expression pattern!");
-//                                            } else {
-//                                                GregorianCalendar cal = new GregorianCalendar(Integer
-//                                                        .valueOf(dateString.substring(0, 4)), Integer
-//                                                        .valueOf(dateString.substring(4, 6)) - 1, Integer
-//                                                        .valueOf(dateString.substring(6, 8)), Integer
-//                                                        .valueOf(dateString.substring(9, 11)), Integer
-//                                                        .valueOf(dateString.substring(11, 13)), Integer
-//                                                        .valueOf(dateString.substring(13, 15)));
-//                                                // Add the appointment to the list for importing
-//                                                importAppointmentList.add(new Appointment(-1, description, cal
-//                                                        .getTime()));
-//                                            }
-//                                            
-//                                        }
-//                                        break;
-//                                    case 3:
-//                                        if (!importRow.equals("END:VTODO")) {
-//                                            success = false;
-//                                        }
-//                                        break;
-//                                }
-//                                
-//                            }
-//                            
-//                            // If something went wrong, log the error
-//                            if (!success) {
-//                                Log.e("Import data invalid; imported as far as posible");
-//                                Toast.makeText(Model.getInstance().getImportContext(),
-//                                        R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                // Delete all current appointments
-//                                for (Appointment appointment : Model.getInstance().getAppointmentList()) {
-//                                    SqlConnector.getInstance().deleteAppointment(appointment.getId());
-//                                }
-//                                
-//                                // Store the appointments
-//                                for (Appointment appointmentToStore : importAppointmentList) {
-//                                    String descr = appointmentToStore.getDescrpition();
-//                                    Date date = appointmentToStore.getDate();
-//                                    SqlConnector.getInstance().storeNewAppointment(date, descr);
-//                                    
-//                                    Log.d("Imported appointment: " + description);
-//                                    Log.d("Imported appointment: " + date);
-//                                }
-//                                
-//                                Log.d("Import succeed");
-//                                Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                            
-//                        }
-//                        
-//                    } catch (RemoteException e) {
-//                        Log.e("Remote Exception", e);
-//                    }
-//                }
-//                
-//                rgCon.unbind();
-//                
-//            }
-//            
-//            
-//            @Override
-//            public void bindingFailed() {
-//                Log.e(rgIdentifier + " binding failed");
-//            }
-//        });
-//        rgCon.bind();
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                rgIdentifier, resourceIdentifier);
+        
+        if (binder != null) {
+            try {
+                // The file access interface
+                IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                //              List of appointments to add
+                List<Appointment> importAppointmentList = new ArrayList<Appointment>();
+                
+                // Read the file
+                FileSystemConnector.this.importString = ifa.read(FOLDER_NAME + "/" + fileName);
+                
+                // Check, if the import string is null
+                if (FileSystemConnector.this.importString == null) {
+                    Log.e("Importing failed!");
+                } else {
+                    
+                    // The import string (split by newlines)
+                    String[] importArray = FileSystemConnector.this.importString.split("\n");
+                    
+                    // Flag, if the import succeed
+                    boolean success = true;
+                    
+                    // Check meta data
+                    boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
+                    boolean rowTwo = importArray[1].equals("VERSION:2.0");
+                    boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+                    boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
+                    if (!(rowOne && rowTwo && rowThree && rowLast)) {
+                        Log.e("Import meta data is invalid");
+                        success = false;
+                    }
+                    
+                    // Check and get the appointments
+                    
+                    String description = null;
+                    String dateString = null;
+                    for (int dataRow = 0; dataRow < importArray.length - 4; dataRow++) {
+                        String importRow = importArray[dataRow + 3];
+                        
+                        switch (dataRow % 4) {
+                            case 0:
+                                if (!importRow.equals("BEGIN:VTODO")) {
+                                    success = false;
+                                }
+                                break;
+                            case 1:
+                                if (!importRow.startsWith("SUMMARY:")) {
+                                    success = false;
+                                } else {
+                                    description = importRow.substring(8);
+                                }
+                                break;
+                            case 2:
+                                if (!importRow.startsWith("DTSTAMP:")) {
+                                    success = false;
+                                } else {
+                                    
+                                    dateString = importRow.substring(8);
+                                    // Check and parse the date
+                                    if (!dateString.matches("\\d\\d\\d\\d[0-1]\\d\\d\\dT[0-2]\\d[0-5]\\d[0-5]\\dZ")) {
+                                        success = false;
+                                        Log.e("Date does not match the regular expression pattern!");
+                                    } else {
+                                        GregorianCalendar cal = new GregorianCalendar(Integer.valueOf(dateString
+                                                .substring(0, 4)), Integer.valueOf(dateString.substring(4, 6)) - 1,
+                                                Integer.valueOf(dateString.substring(6, 8)), Integer.valueOf(dateString
+                                                        .substring(9, 11)), Integer.valueOf(dateString
+                                                        .substring(11, 13)), Integer.valueOf(dateString.substring(13,
+                                                        15)));
+                                        // Add the appointment to the list for importing
+                                        importAppointmentList.add(new Appointment(-1, description, "", cal.getTime(),
+                                                Severity.MIDDLE));
+                                    }
+                                }
+                                break;
+                            case 3:
+                                if (!importRow.equals("END:VTODO")) {
+                                    success = false;
+                                }
+                                break;
+                        }
+                        
+                    }
+                    
+                    // If something went wrong, log the error
+                    if (!success) {
+                        Log.e("Import data invalid; imported as far as posible");
+                        Toast.makeText(Model.getInstance().getImportContext(), R.string.import_data_invalid_toast,
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Delete all current appointments
+                        for (Appointment appointment : Model.getInstance().getAppointmentList()) {
+                            SqlConnector.getInstance().deleteAppointment(appointment);
+                        }
+                        Model.getInstance().deleteAllAppointments();
+                        
+                        // Store the appointments
+                        for (Appointment appointmentToStore : importAppointmentList) {
+                            String descr = appointmentToStore.getDescrpition();
+                            Date date = appointmentToStore.getDate();
+                            SqlConnector.getInstance().storeNewAppointment(date, descr, "", Severity.MIDDLE);
+                            
+                            Log.d("Imported appointment: " + description);
+                            Log.d("Imported appointment: " + date);
+                        }
+                        
+                        Log.d("Import succeed");
+                        Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    
+                }
+                
+            } catch (RemoteException e) {
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to filesystem ressource");
+        }
     }
     
     
@@ -377,99 +321,72 @@ public class FileSystemConnector {
      *            Type of invoked action after listing the files successfully.
      */
     public void listStoredFiles(final FileSystemListActionType type) {
-        // The resource group connection
-//        final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
-//                .getApplicationContext(),
-//                ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getSignee(), rgIdentifier);
-//        
-//        // Add a callback handler
-//        rgCon.addCallbackHandler(new IConnectorCallback() {
-//            
-//            @Override
-//            public void disconnected() {
-//                Log.d(rgIdentifier + " disconnected");
-//            }
-//            
-//            
-//            @Override
-//            public void connected() {
-//                Log.d(rgIdentifier + " connected");
-//                
-//                if (rgCon.getAppService() == null) {
-//                    Log.e(rgIdentifier + " appService is null");
-//                } else {
-//                    // Get resource
-//                    try {
-//                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
-//                                resourceIdentifier));
-//                        
-//                        // list the files and add it to the model (and clear the model)
-//                        Model.getInstance().clearFileList();
-//                        List<FileDetails> fileList = new ArrayList<FileDetails>();
-//                        
-//                        // Flag, if the next action should be invoked or not
-//                        boolean invokeNextAction = false;
-//                        
-//                        try {
-//                            fileList = ifa.list(FOLDER_NAME);
-//                            for (FileDetails file : fileList) {
-//                                Model.getInstance().addFileToList(file);
-//                            }
-//                            invokeNextAction = true;
-//                        } catch (Exception e) {
-//                            boolean makeDir = ifa.makeDirs(FOLDER_NAME);
-//                            if (makeDir) {
-//                                Log.d("Created folder " + FOLDER_NAME);
-//                                invokeNextAction = true;
-//                            } else {
-//                                Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing,
-//                                        Toast.LENGTH_LONG).show();
-//                                Log.d("If you want to use the import/export functionality, you have to insert a SD-Card!");
-//                            }
-//                        }
-//                        
-//                        if (invokeNextAction) {
-//                            switch (type) {
-//                                case EXPORT:
-//                                    // Check, if list of appointments is empty
-//                                    List<Appointment> appointments = Model.getInstance().getAppointmentList();
-//                                    if (appointments == null || appointments.size() == 0) {
-//                                        Log.d("Can not export appointment. There are no appointments available!");
-//                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(
-//                                                Model.getInstance().getContext());
-//                                    } else {
-//                                        // Open dialog for entering a file name
-//                                        Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());
-//                                        exportDialog.show();
-//                                    }
-//                                    break;
-//                                case IMPORT:
-//                                    // Open activity with file list
-//                                    Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
-//                                    if (Model.getInstance().getContext() != null) {
-//                                        Model.getInstance().getContext().startActivity(intent);
-//                                    }
-//                                    break;
-//                                case NONE:
-//                                    break;
-//                            }
-//                        }
-//                        
-//                    } catch (RemoteException e) {
-//                        Log.e("Remote Exception", e);
-//                    }
-//                }
-//                
-//                rgCon.unbind();
-//            }
-//            
-//            
-//            @Override
-//            public void bindingFailed() {
-//                Log.e(rgIdentifier + " binding failed");
-//            }
-//        });
-//        rgCon.bind();
+        
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                rgIdentifier, resourceIdentifier);
+        
+        if (binder != null) {
+            try {
+                IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                
+                // list the files and add it to the model (and clear the model)
+                Model.getInstance().clearFileList();
+                List<FileDetails> fileList = new ArrayList<FileDetails>();
+                
+                // Flag, if the next action should be invoked or not
+                boolean invokeNextAction = false;
+                
+                try {
+                    fileList = ifa.list(FOLDER_NAME);
+                    for (FileDetails file : fileList) {
+                        Model.getInstance().addFileToList(file);
+                    }
+                    invokeNextAction = true;
+                } catch (Exception e) {
+                    boolean makeDir = ifa.makeDirs(FOLDER_NAME);
+                    if (makeDir) {
+                        Log.d("Created folder " + FOLDER_NAME);
+                        invokeNextAction = true;
+                    } else {
+                        Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing, Toast.LENGTH_LONG)
+                                .show();
+                        Log.d("If you want to use the import/export functionality, you have to insert a SD-Card!");
+                    }
+                }
+                
+                if (invokeNextAction) {
+                    switch (type) {
+                        case EXPORT:
+                            // Check, if list of appointments is empty
+                            List<Appointment> appointments = Model.getInstance().getAppointmentList();
+                            if (appointments == null || appointments.size() == 0) {
+                                Log.d("Can not export appointment. There are no appointments available!");
+                                DialogManager.getInstance().showAppointmentsListEmptyDialog(
+                                        Model.getInstance().getContext());
+                            } else {
+                                // Open dialog for entering a file name
+                                Dialog exportDialog = new ExportDialog(Model.getInstance().getContext());
+                                exportDialog.show();
+                            }
+                            break;
+                        case IMPORT:
+                            // Open activity with file list
+                            Intent intent = new Intent(Model.getInstance().getContext(), ImportActivity.class);
+                            if (Model.getInstance().getContext() != null) {
+                                Model.getInstance().getContext().startActivity(intent);
+                            }
+                            break;
+                        case NONE:
+                            break;
+                    }
+                }
+                
+            } catch (RemoteException e) {
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to filesystem ressource");
+        }
     }
     
     
@@ -480,54 +397,29 @@ public class FileSystemConnector {
      *            fileDetails of the file
      */
     public void deleteFile(final FileDetails file) {
-        // The resource group connection
-//        final ResourceGroupServiceConnector rgCon = new ResourceGroupServiceConnector(Model.getInstance().getContext()
-//                .getApplicationContext(),
-//                ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getSignee(), rgIdentifier);
-//        
-//        // Add a callback handler
-//        rgCon.addCallbackHandler(new IConnectorCallback() {
-//            
-//            @Override
-//            public void disconnected() {
-//                Log.d(rgIdentifier + " disconnected");
-//            }
-//            
-//            
-//            @Override
-//            public void connected() {
-//                Log.d(rgIdentifier + " connected");
-//                
-//                if (rgCon.getAppService() == null) {
-//                    Log.e(rgIdentifier + " appService is null");
-//                } else {
-//                    // Get resource
-//                    try {
-//                        IFileAccess ifa = IFileAccess.Stub.asInterface(rgCon.getAppService().getResource(
-//                                resourceIdentifier));
-//                        // delete a file
-//                        boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
-//                        if (success) {
-//                            Model.getInstance().removeFileFromList(file);
-//                            FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
-//                            Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                    } catch (RemoteException e) {
-//                        Log.e("Remote Exception", e);
-//                    }
-//                }
-//                
-//                rgCon.unbind();
-//            }
-//            
-//            
-//            @Override
-//            public void bindingFailed() {
-//                Log.e(rgIdentifier + " binding failed");
-//            }
-//        });
-//        rgCon.bind();
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                rgIdentifier, resourceIdentifier);
+        
+        if (binder != null) {
+            Log.d(rgIdentifier + " connected");
+            try {
+                IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                
+                // delete a file
+                boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
+                if (success) {
+                    Model.getInstance().removeFileFromList(file);
+                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
+                    Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
+                            Toast.LENGTH_SHORT).show();
+                }
+            } catch (RemoteException e) {
+                Log.e("Remote Exception", e);
+            }
+            
+        } else {
+            Log.e("Could not connect to filesystem ressource");
+        }
     }
     
 }

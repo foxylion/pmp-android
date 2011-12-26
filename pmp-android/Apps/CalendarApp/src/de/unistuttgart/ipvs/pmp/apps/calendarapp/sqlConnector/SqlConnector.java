@@ -34,9 +34,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class SqlConnector {
     
@@ -56,14 +53,9 @@ public class SqlConnector {
     private final String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
     
     /**
-     * Resource identifier TODO
+     * Resource identifier
      */
     private String resIdentifier = "DatabaseRG";
-    
-    /**
-     * Package name of the app
-     */
-    private final String pkgName = "de.unistuttgart.ipvs.pmp.apps.calendarapp";
     
     
     /**
@@ -103,28 +95,49 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        final PMPServiceConnector rgCon = new PMPServiceConnector(Model.getInstance().getContext()
-                .getApplicationContext());
         
-        rgCon.addCallbackHandler(new AbstractConnectorCallback() {
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                resGroupIdentifier, resIdentifier);
+        
+        if (binder != null) {
+            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
             
-            @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                Log.d("Connected to " + resGroupIdentifier);
-                IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(rgCon.getAppService().getResource(
-                        pkgName, resGroupIdentifier, resIdentifier));
-                
-                if (idc != null) {
+            // Getting the number of the rows
+            long rowCount;
+            try {
+                rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
+                        SqlConnector.this.DATE);
+                // Getting the rows 
+                for (int itr = 0; itr < rowCount; itr++) {
+                    String[] columns = {};
+                    columns = idc.getRowAt(itr);
                     
+                    // Storing everything from this appointment
+                    int id = Integer.valueOf(columns[0]);
+                    String name = columns[1];
+                    String desc = columns[2];
+                    Date date = new Date(Long.valueOf(columns[3]));
+                    Severity severity = Severity.valueOf(columns[4]);
+                    
+                    // Storing in the model
+                    Model.getInstance().addAppointment(new Appointment(id, name, desc, date, severity));
+                    Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " name: " + name
+                            + "description: " + columns[1] + " severity " + severity.toString());
+                    
+                    // Check if there's a new highest id                 
+                    if (id > SqlConnector.this.highestId) {
+                        SqlConnector.this.highestId = id;
+                    }
                 }
+            } catch (RemoteException e) {
+                Toast.makeText(Model.getInstance().getContext(),
+                        Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT).show();
+                Log.e("Remote Exception", e);
             }
             
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Binding failed to " + resGroupIdentifier);
-            }
-        });
+        } else {
+            Log.e("Could not connect to database");
+        }
         
         //        resGroupCon.addCallbackHandler(new IConnectorCallback() {
         //            
@@ -216,6 +229,43 @@ public class SqlConnector {
      */
     public void storeNewAppointment(final Date date, final String name, final String description,
             final Severity severity) {
+        
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                resGroupIdentifier, resIdentifier);
+        
+        if (binder != null) {
+            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+            try {
+                // The values to add
+                Map<String, String> values = new HashMap<String, String>();
+                int id = getNewId();
+                
+                values.put(SqlConnector.this.ID, String.valueOf(id));
+                values.put(SqlConnector.this.NAME, name);
+                values.put(SqlConnector.this.DESC, description);
+                values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
+                values.put(SqlConnector.this.SEVERITY, severity.toString());
+                
+                long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                Log.v("Return value of insert: " + result);
+                if (result != -1) {
+                    Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date + " description: "
+                            + description);
+                    Model.getInstance().addAppointment(new Appointment(id, name, description, date, severity));
+                } else {
+                    Toast.makeText(Model.getInstance().getContext(),
+                            Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT).show();
+                    Log.e("Appointment not stored");
+                }
+            } catch (RemoteException e) {
+                Toast.makeText(Model.getInstance().getContext(),
+                        Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT).show();
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to database");
+        }
+        
         //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
         //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
         //                .getApplicationContext()).getSignee(), this.resGroupIdentifier);
@@ -242,7 +292,7 @@ public class SqlConnector {
         //                        
         //                        // The values to add
         //                        Map<String, String> values = new HashMap<String, String>();
-        int id = getNewId();
+        //        int id = getNewId();
         //                        values.put(SqlConnector.this.ID, String.valueOf(id));
         //                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
         //                        values.put(SqlConnector.this.DESC, description);
@@ -252,7 +302,7 @@ public class SqlConnector {
         //                        if (result != -1) {
         //                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
         //                                    + " description: " + description);
-        Model.getInstance().addAppointment(new Appointment(id, name, description, date, severity));
+        //        Model.getInstance().addAppointment(new Appointment(id, name, description, date, severity));
         //                        } else {
         //                            Toast.makeText(Model.getInstance().getContext(),
         //                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
@@ -299,6 +349,33 @@ public class SqlConnector {
      *            id of the appointment to delete
      */
     public void deleteAppointment(final Appointment app) {
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                resGroupIdentifier, resIdentifier);
+        
+        if (binder != null) {
+            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+            try {
+                
+                String[] args = new String[1];
+                args[0] = String.valueOf(app.getId());
+                
+                /*
+                 * Delete the date out of the database
+                 */
+                if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
+                    Log.v("Deleting date: id: " + String.valueOf(app.getId()));
+                } else {
+                    Toast.makeText(Model.getInstance().getContext(),
+                            Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT).show();
+                }
+            } catch (RemoteException e) {
+                Toast.makeText(Model.getInstance().getContext(),
+                        Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT).show();
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to database");
+        }
         
         //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
         //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -379,7 +456,41 @@ public class SqlConnector {
      * @param description
      *            the description that has changed
      */
-    public void changeAppointment(final Integer id, final Date date, final String description, Severity severity) {
+    public void changeAppointment(final Integer id, final Date date, String name, final String description,
+            Severity severity) {
+        IBinder binder = ((CalendarApp) Model.getInstance().getContext().getApplicationContext()).getResourceBlocking(
+                resGroupIdentifier, resIdentifier);
+        
+        if (binder != null) {
+            IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+            try {
+                Map<String, String> values = new HashMap<String, String>();
+                
+                values.put(SqlConnector.this.NAME, name);
+                values.put(SqlConnector.this.DESC, description);
+                values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
+                values.put(SqlConnector.this.SEVERITY, severity.toString());
+                
+                /*
+                 * Change the date in the database and only if one row
+                 * was changed change, then change it in the model
+                 */
+                if (idc.update(SqlConnector.this.DB_TABLE_NAME, values,
+                        SqlConnector.this.ID + " = " + String.valueOf(id), null) == 1) {
+                    Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date + " description: "
+                            + description);
+                } else {
+                    Toast.makeText(Model.getInstance().getContext(),
+                            Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT).show();
+                }
+            } catch (RemoteException e) {
+                Toast.makeText(Model.getInstance().getContext(),
+                        Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT).show();
+                Log.e("Remote Exception", e);
+            }
+        } else {
+            Log.e("Could not connect to database");
+        }
         
         //        final ResourceGroupServiceConnector resGroupCon = new ResourceGroupServiceConnector(Model.getInstance()
         //                .getContext().getApplicationContext(), ((CalendarApp) Model.getInstance().getContext()
@@ -478,7 +589,6 @@ public class SqlConnector {
                     // Creates the table
                     Log.v("Creating table");
                     
-                    
                     // Create the table
                     if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
                         Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
@@ -489,7 +599,9 @@ public class SqlConnector {
                     Log.v("Table already exists");
                 }
             } catch (RemoteException e) {
-                Log.e("Error while creating table", e);
+                Toast.makeText(Model.getInstance().getContext(),
+                        Model.getInstance().getContext().getString(R.string.err_create), Toast.LENGTH_SHORT).show();
+                Log.e("Remote Exception", e);
             }
             
         } else {
