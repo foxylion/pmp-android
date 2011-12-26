@@ -132,7 +132,8 @@ public class FileSystemConnector {
             
             // Build the export string
             exportStringBuilder.append("BEGIN:VTODO\n");
-            exportStringBuilder.append("SUMMARY:" + appointment.getDescrpition() + "\n");
+            exportStringBuilder.append("SUMMARY:" + appointment.getName() + "\n");
+            exportStringBuilder.append("DESCRIPTION:" + appointment.getDescrpition() + "\n");
             
             // Format the date and time
             Calendar cal = new GregorianCalendar();
@@ -225,26 +226,32 @@ public class FileSystemConnector {
                     }
                     
                     // Check and get the appointments
-                    
+                    String name = null;
                     String description = null;
                     String dateString = null;
                     for (int dataRow = 0; dataRow < importArray.length - 4; dataRow++) {
                         String importRow = importArray[dataRow + 3];
                         
-                        switch (dataRow % 4) {
+                        switch (dataRow % 5) {
                             case 0:
                                 if (!importRow.equals("BEGIN:VTODO")) {
                                     success = false;
                                 }
                                 break;
                             case 1:
-                                if (!importRow.startsWith("SUMMARY:")) {
+                                if (!importRow.equals("SUMMARY:")){
+                                    success = false;
+                                } else{
+                                   name =importRow.substring(8);
+                                }
+                            case 2:
+                                if (!importRow.startsWith("DESCRIPTION:")) {
                                     success = false;
                                 } else {
-                                    description = importRow.substring(8);
+                                    description = importRow.substring(12);
                                 }
                                 break;
-                            case 2:
+                            case 3:
                                 if (!importRow.startsWith("DTSTAMP:")) {
                                     success = false;
                                 } else {
@@ -262,12 +269,12 @@ public class FileSystemConnector {
                                                         .substring(11, 13)), Integer.valueOf(dateString.substring(13,
                                                         15)));
                                         // Add the appointment to the list for importing
-                                        importAppointmentList.add(new Appointment(-1, description, "", cal.getTime(),
+                                        importAppointmentList.add(new Appointment(-1, name, description, cal.getTime(),
                                                 Severity.MIDDLE));
                                     }
                                 }
                                 break;
-                            case 3:
+                            case 4:
                                 if (!importRow.equals("END:VTODO")) {
                                     success = false;
                                 }
@@ -290,10 +297,12 @@ public class FileSystemConnector {
                         
                         // Store the appointments
                         for (Appointment appointmentToStore : importAppointmentList) {
+                            String nameTmp = appointmentToStore.getName();
                             String descr = appointmentToStore.getDescrpition();
                             Date date = appointmentToStore.getDate();
-                            SqlConnector.getInstance().storeNewAppointment(date, descr, "", Severity.MIDDLE);
+                            SqlConnector.getInstance().storeNewAppointment(date, nameTmp, descr, Severity.MIDDLE);
                             
+                            Log.d("Imported appointment: " + name);
                             Log.d("Imported appointment: " + description);
                             Log.d("Imported appointment: " + date);
                         }
