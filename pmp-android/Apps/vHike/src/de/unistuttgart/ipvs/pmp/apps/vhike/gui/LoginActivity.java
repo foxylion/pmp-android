@@ -2,11 +2,13 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
@@ -22,27 +24,29 @@ public class LoginActivity extends Activity {
 
 	private String username;
 	private String pw;
+	private boolean remember;
+
+	private EditText et_username;
+	private EditText et_pw;
+	private CheckBox cb_remember;
+
+	private Controller ctrl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		registerLink();
-
+		cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
 		Button btnLogin = (Button) findViewById(R.id.button_login);
+		et_username = (EditText) findViewById(R.id.edit_login);
+		et_pw = (EditText) findViewById(R.id.edit_password);
+		ctrl = new Controller();
 
-		final Controller ctrl = new Controller();
-		final EditText et_username = (EditText) findViewById(R.id.edit_login);
-		final EditText et_pw = (EditText) findViewById(R.id.edit_password);
+		registerLink();
 
 		username = "";
 		pw = "";
-
-		// ------------Provisorisch-----------
-		et_username.setText("demo");
-		et_pw.setText("test");
-		// ------------Provisorisch-----------
 
 		btnLogin.setOnClickListener(new OnClickListener() {
 			@Override
@@ -74,6 +78,48 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs",
+				MODE_PRIVATE);
+		SharedPreferences.Editor prefsEditor = prefs.edit();
+
+		if (cb_remember.isChecked()) {
+
+			prefsEditor.putBoolean("REMEMBER", cb_remember.isChecked());
+			prefsEditor.putString("USERNAME", et_username.getText().toString());
+			prefsEditor.putString("PASSWORD", et_pw.getText().toString());
+
+			prefsEditor.commit();
+		} else {
+			remember = false;
+			prefsEditor.putBoolean("REMEMBER", false);
+
+			prefsEditor.commit();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs",
+				MODE_PRIVATE);
+		remember = settings.getBoolean("REMEMBER", false);
+		username = settings.getString("USERNAME", "");
+		pw = settings.getString("PASSWORD", "");
+
+		if (remember) {
+			et_username.setText(username);
+			et_pw.setText(pw);
+			cb_remember.setChecked(remember);
+		} else {
+			cb_remember.setChecked(remember);
+		}
 	}
 
 	/**

@@ -10,75 +10,104 @@
         android:layout_width="274dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded"
-        android:gravity="center"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/view_login"
+                android:id="@+id/tv_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="Username"
+                android:paddingLeft="10dp"
+                android:text="@string/login_username"
                 android:textColor="@color/dark_blue"
-                android:textStyle="bold"
-                android:width="70dip" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_login"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center" />
-        </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/tv_user"
+                android:inputType="text" />
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/view_password"
+                android:id="@+id/tv_pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Password"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:text="@string/login_pw"
                 android:textColor="@color/dark_blue"
-                android:textStyle="bold"
-                android:width="70dip" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_password"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/tv_pw"
                 android:inputType="textPassword" />
-        </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:text="@string/rememberMe"
+                android:textColor="@color/dark_blue" />
+
+            <CheckBox
+                android:id="@+id/Checkbox_Remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_remember" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="67dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:gravity="right"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/button_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login" />
+                android:text="@string/login_login" />
 
             <Button
                 android:id="@+id/button_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Register" />
+                android:text="@string/login_register" />
         </LinearLayout>
     </LinearLayout>
 

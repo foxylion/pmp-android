@@ -44,9 +44,14 @@
     <string name="driverContentDesc">Passengers within perimeter</string>
     <string name="perimeter">Perimeter: </string>
     <string name="unanimous">Unanimous</string>
-    <string name="settings_perimeter_description">Search for hitchhikers in perimeter (km)</string>
+    <string name="settings_perimeter_description">Search for hitchhikers within defined perimeter (km)</string>
     <string name="settings_unanimous_description">Show profile information to others</string>
     <string name="perimeter_default">10</string>
     <string name="default_rating">0.0</string>
+    <string name="rememberMe">Remember me</string>
+    <string name="login_username">Username</string>
+    <string name="login_pw">Password </string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
 
 </resources>
