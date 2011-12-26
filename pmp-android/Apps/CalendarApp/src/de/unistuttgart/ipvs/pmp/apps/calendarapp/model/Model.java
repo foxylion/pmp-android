@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;

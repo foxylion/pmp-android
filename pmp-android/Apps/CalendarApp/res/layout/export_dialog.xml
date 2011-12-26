@@ -2,11 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
-	<TextView android:text="@string/file_name" android:layout_width="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_height="wrap_content" android:id="@+id/file_name"></TextView>
 	<EditText android:layout_width="fill_parent" android:id="@+id/export_file_name_input"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent" android:hint="@string/file_name">
 		<requestFocus></requestFocus>
 	</EditText>
 	<LinearLayout android:id="@+id/linearLayout1"

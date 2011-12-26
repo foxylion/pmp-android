@@ -14,7 +14,7 @@
     <string name="send">Send via E-Mail</string>
     <string name="subject">New appointment.</string>
     <string name="menu">Menu</string>
-    <string name="wait">Please wait...</string>
+    <string name="wait">Please wait&#8230;</string>
     <string name="registration">Registration is running.</string>
     <string name="registration_succeed">Successful registered to PMP</string>
     <string name="err_load">Error loading appointments</string>
