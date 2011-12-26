@@ -84,10 +84,6 @@ public class CalendarAppActivity extends ListActivity {
         
         setContentView(R.layout.list_layout);
         
-        //        arrayAdapter = new AppointmentArrayAdapter(this, R.layout.list_item, Model.getInstance().getAppointmentList());
-        //        Model.getInstance().setArrayAdapter(arrayAdapter);
-        //        setListAdapter(arrayAdapter);
-        
         SeparatedListAdapter spa = new SeparatedListAdapter(this.appContext);
         setListAdapter(spa);
         Model.getInstance().setArrayAdapter(spa);
@@ -105,10 +101,6 @@ public class CalendarAppActivity extends ListActivity {
                 menu.add(1, 1, 0, R.string.send);
             }
         });
-        
-        // Update the visibility of the "no appointments available" textview
-        updateNoAvaiableAppointmentsTextView();
-        
     }
     
     
@@ -132,13 +124,10 @@ public class CalendarAppActivity extends ListActivity {
                 
                 /*
                  * Changes the functionality according to the service feature that is set.
-                 * Will be called when the activity is started after on create and
+                 * Will be called when the activity is started after on resume and
                  * called when the activity is shown again.
                  */
                 ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
-                
-                // Update the visibility of the "no appointments avaiable" textview
-                updateNoAvaiableAppointmentsTextView();
             }
             
             
@@ -263,7 +252,6 @@ public class CalendarAppActivity extends ListActivity {
                 if (app.isServiceFeatureEnabled("write")) {
                     // Show the new appointment dialog
                     Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-                    dialog.setTitle("Create new appointment");
                     dialog.show();
                 } else {
                     String[] req = new String[1];
