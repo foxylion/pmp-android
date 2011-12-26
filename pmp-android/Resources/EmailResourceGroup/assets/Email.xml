@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation>
-		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.email</identifier>
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
+		<icon>res/drawable-hdpi/icon.png</icon>
 		<defaultName lang="en">E-Mail</defaultName>
 		<name lang="de">E-Mail</name>
 		<defaultDescription lang="en">Can send E-Mails.
@@ -17,7 +18,8 @@
 			<name lang="de">E-Mail senden</name>
 			<defaultDescription lang="en">Allows to send E-Mails.
 			</defaultDescription>
-			<description lang="de">Erlaubt es E-Mail zu senden.</description>
+			<description lang="de">Erlaubt es E-Mail zu senden.
+			</description>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>

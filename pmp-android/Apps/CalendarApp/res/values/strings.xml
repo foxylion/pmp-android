@@ -41,7 +41,7 @@
     <string name="export_override_attention"> file with this file name already exists. Do you
 		want to override the file?</string>
     <string name="export_override_question">Override existing file?</string>
-    <string name="insufficent_sf_message">he actual service features are insufficient for this
+    <string name="insufficent_sf_message">The actual service features are insufficient for this
 		operation. To enable this operation activate the corresponding service features.</string>
     <string name="insufficent_sf">Insufficient service features</string>
     <string name="ok">OK</string>
