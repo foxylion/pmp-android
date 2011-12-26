@@ -42,5 +42,11 @@
     <string name="driverView_endTrip">End trip</string>
     <string name="passengerContentDesc">Invitations from drivers</string>
     <string name="driverContentDesc">Passengers within perimeter</string>
+    <string name="perimeter">Perimeter: </string>
+    <string name="unanimous">Unanimous</string>
+    <string name="settings_perimeter_description">Search for hitchhikers in perimeter (km)</string>
+    <string name="settings_unanimous_description">Show profile information to others</string>
+    <string name="perimeter_default">10</string>
+    <string name="default_rating">0.0</string>
 
 </resources>
