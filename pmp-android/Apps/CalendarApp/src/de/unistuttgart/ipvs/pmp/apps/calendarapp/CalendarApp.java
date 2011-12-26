@@ -79,6 +79,7 @@ public class CalendarApp extends App {
         DialogManager.getInstance().dismissWaitingDialog();
     }
     
+    
     @Override
     public IBinder getResourceBlocking(String resourceGroup, String resource) {
         return super.getResourceBlocking(resourceGroup, resource);
@@ -117,6 +118,8 @@ public class CalendarApp extends App {
                 }
             }
         });
+        
+        // Update the "No appointments available" textview
         Model.getInstance().getContext().updateNoAvaiableAppointmentsTextView();
     }
     

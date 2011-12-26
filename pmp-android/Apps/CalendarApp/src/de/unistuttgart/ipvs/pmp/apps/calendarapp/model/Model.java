@@ -263,15 +263,17 @@ public class Model {
     
     public Boolean isModelEmpty() {
         return dayAppointments.isEmpty();
-    }    
+    }
+    
     
     /**
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        this.dayAppointments.clear();
-        arrayAdapter.removeEmptyHeadersAndSections();
-        this.arrayAdapter.notifyDataSetChanged();
+        dayAppointments.clear();
+        arrayAdapter.reset();
+        
+        arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }
     
@@ -490,7 +492,6 @@ public class Model {
         
         dayAppointments.clear();
         arrayAdapter.reset();
-        
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }
