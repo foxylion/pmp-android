@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation>
-		<identifier>de.unistuttgart.ipvs.pmp.resourcegroups.database</identifier>
+	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
+		<icon>res/drawable-hdpi/icon.png</icon>
 		<defaultName lang="en">Database Resource</defaultName>
 		<name lang="de">Datenbank Ressource</name>
 		<defaultDescription lang="en">Database Resource to
