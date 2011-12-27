@@ -35,11 +35,12 @@ class user {
      * of the loaded user
      * @param int $id  ID of the user to load from the database
      * @return User Object storing data of the loaded user or null, if user with the
-     *              given id does not exists or parameter id is not numeric 
+     *              given id does not exists 
+     * @throws InvalidArgumentException Thrown, if id is invalid (e.g. not numeric)
      */
     public static function loadUser($id) {
-        if (!is_numeric($id)) {
-            return null;
+        if (!General::validId($id)) {
+            throw new InvalidArgumentException("The offer ID is invalid");
         }
         
         $user = new User();
@@ -325,6 +326,34 @@ class user {
     
     public function isActivated() {
         return $this->activated;
+    }
+    
+    /**
+     * Rates this user
+     * @param int $rating Rating for this user
+     * @throws InvalidArgumentException Thrown, if rating is not between 1 and 5´
+     */
+    public function rate($rating) {
+        if (!is_numeric($rating) || $rating < 1 || $rating > 5) {
+            throw new InvalidArgumentException("Rating has to be between 1 and 5");
+        }
+        
+        // Read old avg rating and number of ratings
+        $db = Database::getInstance();
+        $row = $db->fetch($db->query("SELECT `rating_avg`, `rating_num` 
+                                      FROM `".DB_PREFIX."_user`
+                                      WHERE `id` = ".$this->id));
+        
+        $avg = (double)$row["rating_avg"];
+        $num = (int)$row["rating_num"];
+        
+        // Calculated new rating and write it back to the db
+        $newNum = $num + 1;
+        $newAvg = ($avg * $num + $rating) / ($newNum);
+        $db->query("UPDATE `".DB_PREFIX."_user` 
+                    SET `rating_avg` = ".$newAvg.", `rating_num` = ".$newNum."
+                    WHERE `id` = ".$this->id);
+                
     }
     
     /**

@@ -57,7 +57,7 @@ class Trip {
         
         $trip = new Trip();
         
-        $trip->id = (int)$result["id"];
+        $trip->id = (int)$result[$idFieldName];
         $trip->driver = $result["driver"];
         $trip->availSeats = $result["avail_seats"];
         $trip->currentLat = $result["current_lat"];

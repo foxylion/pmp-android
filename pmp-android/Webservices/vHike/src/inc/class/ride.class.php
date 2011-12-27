@@ -4,6 +4,9 @@ if (!defined("INCLUDE")) {
 }
 
 class Passenger {
+    
+    /** @var Ride  */
+    private $ride;
 
     /** @var User  */
     private $user;
@@ -14,7 +17,8 @@ class Passenger {
      * @param User $user
      * @param boolean $rated 
      */
-    public function __construct($user, $rated) {
+    public function __construct($user, $rated, $ride) {
+        $this->ride = $ride;
         $this->user = $user;
         $this->rated = $rated;
     }
@@ -36,10 +40,24 @@ class Passenger {
     public function isRated() {
         return $this->rated;
     }
+    
+    public function markAsRated() {
+        //echo "mark user";
+        $db = Database::getInstance();
+        $db->query("UPDATE `".DB_PREFIX."_ride` 
+                    SET `passenger_rated` = 1
+                    WHERE `trip` = ".$this->ride->getTrip()->getId()."
+                    AND `passenger` = ".$this->user->getId());
+    }
 
 }
 
 class Ride {
+    
+    const CAN_RATE = 0;
+    const ALREADY_RATED = 1;
+    const NOT_ENDED = 2;
+    const NO_CONNECTION = 3;
 
     /** @var User  */
     private $driver = null;
@@ -50,6 +68,54 @@ class Ride {
 
     /** @var Trip */
     private $trip = null;
+    
+    private function __construct() { }
+    
+    /**
+     * Loads a ride for a given trip
+     * @param Trip $trip    Trip to load the ride for
+     * @return Ride Loaded ride or null, if there are no rides for the given trip
+     * @throws  InvalidArgumentException If the given trip is not an object of class Trip
+     */
+    public static function getRideByTrip($trip) {
+        if (!($trip instanceof Trip)) {
+            throw new InvalidArgumentException("Trip has to be an object of class Trip");            
+        }
+        
+        $db = Database::getInstance();
+        $query = $db->query("SELECT 
+                                r.*, r.`id` AS rid, 
+                                pax.*, pax.`id` AS paxId
+                             FROM 
+                                `" . DB_PREFIX . "_ride` AS r, 
+                                `" . DB_PREFIX . "_user` AS pax
+                             WHERE r.`trip` = " . $trip->getId() . "
+                             AND r.`passenger` = pax.`id`");
+        
+        // Build passenger array
+        $ride = null;
+        
+        while (($row = $db->fetch($query)) != null) {
+            if ($ride == null) {
+                $ride = new Ride();
+                $ride->driver = $trip->getDriver();
+                $ride->driverRated = $row["driver_rated"];
+                $ride->trip = $trip;
+            }
+            
+            $ride->passengers[] = new Passenger(User::loadUserBySqlResult($row, "paxId"), (bool)$row["passenger_rated"], $ride);
+        }
+        
+        if ($ride == null) {
+            return null;
+        } else {
+            return $ride;
+        }
+        
+        
+        
+        
+    }
 
     /**
      * Loads all rides by a given driver.
@@ -57,7 +123,7 @@ class Ride {
      * @return Ride[]  Array storing all rides that have been done by the given user
      * @throws  InvalidArgumentException If the given driver is not an object of class User
      */
-    public function getRidesAsDriver($driver) {
+    public static function getRidesAsDriver($driver) {
         if (!($driver instanceof User)) {
             throw new InvalidArgumentException("Driver has to be an object of class User");
         }
@@ -68,7 +134,7 @@ class Ride {
                                 t.*, t.`id` AS tid,
                                 pax.*, pax.`id` AS paxId
                              FROM 
-                                `" . DB_PREFIX . "_rides` AS r, 
+                                `" . DB_PREFIX . "_ride` AS r, 
                                 `" . DB_PREFIX . "_trip` AS t, 
                                 `" . DB_PREFIX . "_user` AS pax
                              WHERE r.`trip` = t.`id`
@@ -86,16 +152,17 @@ class Ride {
                 $ride->driverRated = false;
                 $ride->trip = Trip::loadTripBySqlResult($row, "tid");
 
-                $rides[$row["tid"]] = $ride;
+                $rides[(int)$row["tid"]] = $ride;
             }
 
             // Add passengers
-            $ride = $rides["tid"];
-            $passenger = new Passenger(User::loadUserBySqlResult($row, "paxId"), $row["passenger_rated"]);
+            $ride = $rides[$row["tid"]];
+            $passenger = new Passenger(User::loadUserBySqlResult($row, "paxId"), (bool)$row["passenger_rated"], $ride);
             $ride->passengers[] = $passenger;
         }
 
 
+        
         return $rides;
     }
 
@@ -111,12 +178,15 @@ class Ride {
         }
 
         $db = Database::getInstance();
-        $query = $db->query("SELECT *
+        $query = $db->query("SELECT
+                                r.*, r.`id` AS rid, 
+                                t.*, t.`id` AS tid,
+                                driver.*, driver.`id` AS driverId
                              FROM
-                                `" . DB_PREFIX . "_rides` AS r, 
+                                `" . DB_PREFIX . "_ride` AS r, 
                                 `" . DB_PREFIX . "_trip` AS t, 
                                 `" . DB_PREFIX . "_user` AS driver
-                             WHERE r.`trip` = t.`ìd`
+                             WHERE r.`trip` = t.`id`
                              AND t.`driver` = driver.`id`
                              AND r.`passenger` = " . $passenger->getId());
 
@@ -128,12 +198,113 @@ class Ride {
             $ride->driver = User::loadUserBySqlResult($row, "driverId");
             $ride->driverRated = (bool) $row["driver_rated"];
             $ride->trip = Trip::loadTripBySqlResult($row, "tid");
-            $ride->passengers[] = new Passenger($passenger, false);
+            $ride->passengers[] = new Passenger($passenger, false, $ride);
 
-            $rides[$row["tid"]] = $ride;
+            $rides[(int)$row["tid"]] = $ride;
         }
+        
+        return $rides;
     }
 
+    /**
+     * Checks if the given rater is allowed to rate the given recipient.
+     * @param User $rater   Person that want's to rate
+     * @param User $recipient Person that should receive the ratin
+     * @param Trip $trip    Trip, this rating belongs to
+     * @return enum  CAN_RATE, if the rater has participated on the recipients trip,
+     *                  this ride has ended and if the rater hasn't rated the recipient yet.
+     *                  Otherwise this will return ALREADY_RATED, NOT_ENDED or NO_CONNECTION.
+     *                  If one parameter is NULL or rater and receipient are equal, this will return NO_CONNECTION
+     * @throws  InvalidArgumentException If one argument is of invalid type
+     */
+    public static function canRate($rater, $recipient, $trip) {
+        if (!($trip instanceof Trip)) {
+            throw new InvalidArgumentException("Trip has to be an object of class Trip");            
+        }
+        
+        if (!$trip->hasEnded()) {
+            return self::NOT_ENDED;
+        }
+        
+        if ($rater == null || $recipient == null || $trip == null ||
+                $rater->isEqual($recipient)) {
+            return self::NO_CONNECTION;
+        }
+        
+        $ride = self::getRideByTrip($trip);
+        
+        if ($ride == null) {
+            return self::NO_CONNECTION;
+        }
+        
+        //echo "loaded";
+        
+        // If rater was the driver on this trip, check all passenger
+        if ($ride->getDriver()->isEqual($rater)) {
+            
+            // Search passenger
+            foreach ($ride->getPassengers() as $passenger) {
+                if ($passenger->getUser()->isEqual($recipient)) {
+                    if ($passenger->isRated()) {
+                        return self::ALREADY_RATED;
+                    } else {
+                        return self::CAN_RATE;
+                    }                    
+                }
+            }
+            
+            return self::NO_CONNECTION;
+        }
+        
+        // Check if the rater was a passenger on this trip
+        $isPassenger = false;
+        foreach ($ride->getPassengers() as $passenger) {
+            if ($passenger->getUser()->isEqual($rater)) {
+                $isPassenger = true;
+            }
+        }
+        
+        // Rater was a passenger
+        if ($isPassenger) {
+            if ($ride->isDriverRated()) {
+                return self::ALREADY_RATED;
+            } else {
+                return self::CAN_RATE;
+            }
+        }
+        
+        return self::NO_CONNECTION;
+        
+    }
+    
+    /**
+     * Marks a user as rated.
+     * @param User $rater   Person that want's to rate
+     * @param User $recipient Person that should receive the ratin
+     * @param Trip $trip    Trip, this rating belongs to
+     * @throws  InvalidArgumentException If one argument is of invalid type
+     */
+    public static function markAsRated($rater, $recipient, $trip) {
+        if (!($rater instanceof User) || !($recipient instanceof User) ||!($trip instanceof Trip)) {
+            throw new InvalidArgumentException("Trip or user is of invalid type");            
+        }
+        
+        $ride = Ride::getRideByTrip($trip);
+        
+        if ($ride->getDriver()->isEqual($recipient)) {
+            // Is user is the driver, rate the driver
+            $ride->markDriverAsRated($rater);
+        } else {
+            foreach ($ride->getPassengers() as $passenger) {
+                // Loop through all passengers and rate the passenger if found
+                if ($passenger->getUser()->isEqual($recipient)) {
+                    $passenger->markAsRated();
+                    break;
+                }
+            }
+        }
+    }
+    
     /**
      * Returns the user that has been the driver on this ride
      * @return User The driver 
@@ -151,6 +322,19 @@ class Ride {
     public function isDriverRated() {
         return $this->driverRated;
     }
+    
+    /**
+     * Marks the driver as rated
+     * @param User $rater User how has rated this user
+     */
+    private function markDriverAsRated($rater) {
+        //echo "mark driver";
+        $db = Database::getInstance();
+        $db->query("UPDATE `".DB_PREFIX."_ride` 
+                    SET `driver_rated` = 1
+                    WHERE `trip` = ".$this->trip->getId()."
+                    AND `passenger` = ".$rater->getId());
+    }
 
     /**
      * Return the trip this ride belongs to
@@ -167,6 +351,8 @@ class Ride {
     public function getPassengers() {
         return $this->passengers;
     }
+    
+    
 
 }
 
