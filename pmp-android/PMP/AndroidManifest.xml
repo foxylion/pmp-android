@@ -65,7 +65,7 @@
 
         <!-- Developer Console -->
         <activity
-            android:name=".model.activities.PMPDeveloperConsoleActivity"
+            android:name=".model.activity.PMPDeveloperConsoleActivity"
             android:icon="@drawable/icon_dev_console"
             android:label="PMP Dev Console" >
             <intent-filter>

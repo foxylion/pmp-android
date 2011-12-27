@@ -111,7 +111,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         if ((newVersion == 2) && (oldVersion < 2)) {
             // delete everything in sight
             Cursor c = db.rawQuery(
-                    "SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata';", null);
+                    "SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata'", null);
             if (c.moveToFirst()) {
                 do {
                     db.execSQL("DROP TABLE " + c.getString(c.getColumnIndex("name")));
@@ -220,6 +220,44 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     
     public SQLiteQueryBuilder builder() {
         return this.sqlqb;
+    }
+    
+    
+    /**
+     * Go in there, print everything you can find on LogCat.
+     */
+    public void debug() {
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            Cursor c = db.rawQuery(
+                    "SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata'", null);
+            if (c.moveToFirst()) {
+                do {
+                    String tbl = c.getString(c.getColumnIndex("name"));
+                    Log.d("TABLE '" + tbl + "'");
+                    this.sqlqb.setTables(tbl);
+                    
+                    // null anyone?
+                    Cursor c2 = this.sqlqb.query(db, null, null, null, null, null, null);
+                    if (c2.moveToFirst()) {
+                        do {
+                            Log.d("  row " + (1 + c2.getPosition()) + " of " + c2.getCount());
+                            
+                            for (int i = 0; i < c2.getColumnCount(); i++) {
+                                Log.d("     " + c2.getColumnName(i) + " => '" + c2.getString(i) + "'");
+                            }
+                            
+                        } while (c2.moveToNext());
+                    } else {
+                        Log.d("  empty table");
+                    }
+                    
+                } while (c.moveToNext());
+            }
+            c.close();
+        } finally {
+            db.close();
+        }
     }
     
 }
