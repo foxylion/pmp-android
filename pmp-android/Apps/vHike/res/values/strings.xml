@@ -53,5 +53,8 @@
     <string name="login_pw">Password </string>
     <string name="login_login">Login</string>
     <string name="login_register">Register</string>
+    <string name="driverView_updateData">Change trip info</string>
+    <string name="dialog_apply">Apply</string>
+    <string name="dialog_cancel">Cancel</string>
 
 </resources>
