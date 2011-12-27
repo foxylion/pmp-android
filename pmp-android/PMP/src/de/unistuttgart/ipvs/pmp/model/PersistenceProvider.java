@@ -158,7 +158,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         try {
             
             cacheAppsSFs(db);
-            cacheRGsPLs(db);
+            cacheRGsPSs(db);
             cachePresets(db);
             
         } finally {
@@ -220,7 +220,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
      * 
      * @param db
      */
-    private void cacheRGsPLs(SQLiteDatabase db) {
+    private void cacheRGsPSs(SQLiteDatabase db) {
         SQLiteQueryBuilder builder = this.doh.builder();
         builder.setTables(TBL_RESOURCEGROUP);
         
@@ -232,7 +232,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 ResourceGroup rg = new ResourceGroup(rgPackage);
                 rg.setPersistenceProvider(new ResourceGroupPersistenceProvider(rg));
                 
-                Map<String, PrivacySetting> thisRGsPLs = new HashMap<String, PrivacySetting>();
+                Map<String, PrivacySetting> thisRGsPSs = new HashMap<String, PrivacySetting>();
                 
                 // find the local PSs (don't think join is a wise idea)
                 builder.setTables(TBL_PRIVACYSETTING);
@@ -241,20 +241,18 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 
                 if (psCursor.moveToFirst()) {
                     do {
-                        String plIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
-                        PrivacySetting ps = new PrivacySetting(rg, plIdentifier);
+                        String psIdentifier = psCursor.getString(psCursor.getColumnIndex(IDENTIFIER));
+                        PrivacySetting ps = new PrivacySetting(rg, psIdentifier);
                         ps.setPersistenceProvider(new PrivacySettingPersistenceProvider(ps));
                         
-                        thisRGsPLs.put(plIdentifier, ps);
-                        psCursor.moveToNext();
+                        thisRGsPSs.put(psIdentifier, ps);
                     } while (psCursor.moveToNext());
                 }
                 psCursor.close();
                 
                 // finalize RG
-                this.cache.getPrivacySettings().put(rg, thisRGsPLs);
+                this.cache.getPrivacySettings().put(rg, thisRGsPSs);
                 this.cache.getResourceGroups().put(rgPackage, rg);
-                rgCursor.moveToNext();
             } while (rgCursor.moveToNext());
         }
         rgCursor.close();

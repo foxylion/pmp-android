@@ -177,7 +177,7 @@ public class BasicTitleView extends LinearLayout {
             }
         }
         
-        View border = (View) findViewById(R.id.View_Divider_Strong);
+        View border = findViewById(R.id.View_Divider_Strong);
         if (border != null) {
             border.setBackgroundColor(this.borderColor);
         }

@@ -66,12 +66,13 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
-                    Log.w("Unavailable preset cached (RG not present).");
+                    Log.w(String.format("Unavailable preset cached (RG '%s' not present).", rgPackage));
                     this.element.containsUnknownElements = true;
                 } else {
                     PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                     if (ps == null) {
-                        Log.w("Unavailable preset cached (PS not found in RG).");
+                        Log.w(String.format("Unavailable preset cached (PS '%s' not found in RG '%s').", psIdentifier,
+                                rg));
                         this.element.containsUnknownElements = true;
                     } else {
                         this.element.privacySettingValues.put(ps, grantValue);
@@ -90,11 +91,11 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         
         if (capp.moveToFirst()) {
             do {
-                String appId = capp.getString(capp.getColumnIndex(APP_PACKAGE));
+                String appPackage = capp.getString(capp.getColumnIndex(APP_PACKAGE));
                 
-                App app = getCache().getApps().get(appId);
+                App app = getCache().getApps().get(appPackage);
                 if (app == null) {
-                    Log.w("Unavailable preset cached (App not found).");
+                    Log.w(String.format("Unavailable preset cached (App '%s' not found).", appPackage));
                     this.element.containsUnknownElements = true;
                 } else {
                     this.element.assignedApps.add(app);
@@ -130,8 +131,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
         // delete preset
-        wdb.execSQL(
-                "DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
+        wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + CREATOR + " = ? AND " + IDENTIFIER + " = ?",
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
     }

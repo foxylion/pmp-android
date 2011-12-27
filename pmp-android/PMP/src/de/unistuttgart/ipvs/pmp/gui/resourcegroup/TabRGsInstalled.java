@@ -62,6 +62,7 @@ public class TabRGsInstalled extends Activity {
         this.installedRgsListView.setAdapter(rgsAdapter);
     }
     
+    
     /**
      * Adds the listener to the Activity layout.
      */
