@@ -55,7 +55,7 @@ public class IPCProvider {
      * Starts one cumulative update session. This means, the IPC provider will start buffering IPC messages instead of
      * directly delivering them directly. Be sure to always call {@link IPCProvider#endUpdate()} afterwards.
      */
-    public synchronized void startUpdate() { 
+    public synchronized void startUpdate() {
         this.updateSession++;
         Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " started.");
     }

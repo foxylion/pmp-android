@@ -21,7 +21,7 @@ public class BasicTitleViewCompact extends BasicTitleView {
     public BasicTitleViewCompact(Context context, AttributeSet attrs) {
         super(context, attrs);
         
-        if(attrs.getAttributeValue(R.styleable.BasicTitleView_borderColor) == null) {
+        if (attrs.getAttributeValue(R.styleable.BasicTitleView_borderColor) == null) {
             setBorderColor(Color.parseColor("#777777"));
         }
     }

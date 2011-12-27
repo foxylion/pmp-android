@@ -38,6 +38,8 @@ public class PMPPreferences {
         
         return PMPPreferences.instance;
     }
+    
+    
     /* End of Singleton pattern */
     
     /**

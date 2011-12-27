@@ -16,7 +16,6 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 
 /**
  * Mockup model guaranteed to not persist anything or communicate with anyone while trying to maintain the main
