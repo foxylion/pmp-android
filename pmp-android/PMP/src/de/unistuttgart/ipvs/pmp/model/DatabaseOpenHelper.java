@@ -251,6 +251,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                     } else {
                         Log.d("  empty table");
                     }
+                    c2.close();
                     
                 } while (c.moveToNext());
             }
