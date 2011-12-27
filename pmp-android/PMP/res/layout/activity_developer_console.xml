@@ -114,7 +114,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
 			        android:text="de.unistuttgart.ipvs.pmp.apps."
-			        android:textSize="15dp" 
+			        android:textSize="12dp" 
 			        android:inputType="text">
 
 			        <requestFocus />
@@ -178,7 +178,7 @@
 		            android:layout_width="0dip"
 		            android:layout_height="wrap_content"
 		            android:inputType="text"
-		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="15dp"/>
+		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="12dp"/>
 
 		    </LinearLayout>
 
