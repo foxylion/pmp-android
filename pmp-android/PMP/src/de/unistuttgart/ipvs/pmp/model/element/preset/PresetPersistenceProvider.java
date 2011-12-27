@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -168,8 +169,9 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
         cv.put(GRANTEDVALUE, value);
         
-        if (wdb.insert(TBL_GrantPSValue, null, cv) == -1) {
-            
+        try {
+            wdb.insertOrThrow(TBL_GrantPSValue, null, cv);
+        } catch (SQLException sqle) {
             wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                     + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                     + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
