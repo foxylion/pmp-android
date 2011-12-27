@@ -34,7 +34,6 @@ public class MockupModel implements IModel {
     
     private MockupModel() {
         this.mc = new ModelCache();
-        IPCProvider.getInstance().startUpdate();
     }
     
     
