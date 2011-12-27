@@ -42,6 +42,48 @@ import de.unistuttgart.ipvs.pmp.Log;
  */
 public abstract class AbstractConnector {
     
+    /**
+     * The {@link ServiceConnection} used by this {@link AbstractConnector}.
+     * 
+     * @author Tobias Kuhn
+     * 
+     */
+    private final class ConnectorServiceConnection implements ServiceConnection {
+        
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(this + " was disconnected from service for " + AbstractConnector.this.targetIdentifier);
+            
+            AbstractConnector.this.connectedService = null;
+            AbstractConnector.this.connected = false;
+            informCallback(ConnectionState.DISCONNECTED);
+        }
+        
+        
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            
+            AbstractConnector.this.connectedService = service;
+            AbstractConnector.this.connected = true;
+            
+            Log.v(this + " was connected to the service " + AbstractConnector.this.targetIdentifier + " with binder "
+                    + getInterfaceDescriptor() + ".");
+            
+            serviceConnected();
+            
+            informCallback(ConnectionState.CONNECTED);
+            
+            AbstractConnector.this.semaphore.release();
+        }
+        
+        
+        @Override
+        public String toString() {
+            // avoid all the package names
+            return getClass().getSimpleName() + '@' + Integer.toHexString(hashCode());
+        }
+    }
+    
     public enum ConnectionState {
         CONNECTED,
         DISCONNECTED,
@@ -81,41 +123,21 @@ public abstract class AbstractConnector {
     /**
      * The {@link ServiceConnection} is used to handle the bound Service {@link IBinder}.
      */
-    protected ServiceConnection serviceConnection = new ServiceConnection() {
-        
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d("AbstractConnector - service disconnected: " + AbstractConnector.this.targetIdentifier);
-            
-            AbstractConnector.this.connectedService = null;
-            AbstractConnector.this.connected = false;
-            informCallback(ConnectionState.DISCONNECTED);
-        }
-        
-        
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            
-            AbstractConnector.this.connectedService = service;
-            AbstractConnector.this.connected = true;
-            
-            Log.v(AbstractConnector.this.getClass().getSimpleName() + " - Service connected, received the binder "
-                    + getInterfaceDescriptor() + " for connected service " + AbstractConnector.this.targetIdentifier);
-            
-            serviceConnected();
-            
-            informCallback(ConnectionState.CONNECTED);
-            
-            AbstractConnector.this.semaphore.release();
-        }
-    };
+    protected ServiceConnection serviceConnection = new ConnectorServiceConnection();
+    
+    
+    @Override
+    public String toString() {
+        // avoid all the package names
+        return getClass().getSimpleName() + '@' + Integer.toHexString(hashCode());
+    }
     
     
     public AbstractConnector(Context context, String targetIdentifier) {
         this.context = context;
         this.targetIdentifier = targetIdentifier;
         
-        Log.v("Created AbstractConnector " + "; connection will go to " + targetIdentifier);
+        Log.v(this + " for " + targetIdentifier + " requested.");
     }
     
     
@@ -133,10 +155,9 @@ public abstract class AbstractConnector {
                     if (AbstractConnector.this.context.bindService(intent, AbstractConnector.this.serviceConnection,
                             Context.BIND_AUTO_CREATE)) {
                         
-                        Log.d("AbstractConnector successfully sent bind command to "
-                                + AbstractConnector.this.targetIdentifier);
+                        Log.d(AbstractConnector.this + " bound to " + AbstractConnector.this.targetIdentifier);
                     } else {
-                        Log.d("AbstractConnector failed binding to " + AbstractConnector.this.targetIdentifier);
+                        Log.d(AbstractConnector.this + " failed binding to " + AbstractConnector.this.targetIdentifier);
                         informCallback(ConnectionState.BINDING_FAILED);
                         AbstractConnector.this.semaphore.release();
                     }
@@ -156,8 +177,8 @@ public abstract class AbstractConnector {
         if (blocking) {
             try {
                 this.semaphore.acquire();
-            } catch (InterruptedException e) {
-                Log.e("Interrupted while waiting for bind success.", e);
+            } catch (InterruptedException ie) {
+                Log.e(this + " was interrupted while waiting for binding.", ie);
             }
         }
         
