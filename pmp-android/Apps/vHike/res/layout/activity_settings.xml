@@ -10,7 +10,6 @@
         pmp:name="@string/main_settings"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/balken"
         android:icon="@drawable/logo"
         android:textStyle="bold" >
     </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>

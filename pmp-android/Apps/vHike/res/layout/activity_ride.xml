@@ -12,7 +12,6 @@
         pmp:name="@string/main_ride"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/new_balken"
         android:icon="@drawable/logo" >
     </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
 
