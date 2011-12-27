@@ -12,7 +12,8 @@
         pmp:name="@string/main_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:icon="@drawable/logo" >
+        android:icon="@drawable/logo"
+        pmp:textColor="@color/dark_blue" >
     </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
 
     <LinearLayout

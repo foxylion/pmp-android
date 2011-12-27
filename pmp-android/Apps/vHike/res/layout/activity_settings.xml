@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:icon="@drawable/logo"
-        android:textStyle="bold" >
+        pmp:textColor="@color/dark_blue" >
     </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
 
     <RelativeLayout

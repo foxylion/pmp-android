@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.view;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -38,6 +39,16 @@ public class BasicTitleView extends LinearLayout {
 	private String title;
 
 	/**
+	 * The color of the border below the title.
+	 */
+	private int borderColor;
+
+	/**
+	 * The color of the title.
+	 */
+	private int textColor;
+
+	/**
 	 * @see LinearLayout#LinearLayout(Context)
 	 */
 	public BasicTitleView(Context context) {
@@ -45,8 +56,8 @@ public class BasicTitleView extends LinearLayout {
 
 		this.context = context;
 
-		title = "";
-		icon = R.drawable.logo;
+		this.title = "";
+		this.icon = R.drawable.logo;
 	}
 
 	/**
@@ -60,8 +71,14 @@ public class BasicTitleView extends LinearLayout {
 		/* Load the styles from the xml assigned values */
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.BasicTitleView);
-		title = a.getString(R.styleable.BasicTitleView_name);
-		icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.logo);
+		this.title = a.getString(R.styleable.BasicTitleView_name);
+		this.icon = a.getResourceId(R.styleable.BasicTitleView_icon,
+				R.drawable.logo);
+
+		this.borderColor = a.getColor(R.styleable.BasicTitleView_borderColor,
+				Color.parseColor("#ff8c00"));
+		this.textColor = a.getColor(R.styleable.BasicTitleView_textColor,
+				Color.WHITE);
 	}
 
 	@Override
@@ -78,13 +95,14 @@ public class BasicTitleView extends LinearLayout {
 			 */
 			setOrientation(LinearLayout.VERTICAL);
 
-			TextView tv = new TextView(context);
+			TextView tv = new TextView(this.context);
 			tv.setText("[EditViewMode] BasicTitleView");
 			tv.setPadding(5, 10, 5, 10);
 			addView(tv);
 
-			View view = new View(context);
-			view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 2));
+			View view = new View(this.context);
+			view.setLayoutParams(new LayoutParams(
+					android.view.ViewGroup.LayoutParams.FILL_PARENT, 2));
 			view.setBackgroundColor(Color.parseColor("#ff8c00"));
 			addView(view);
 		}
@@ -92,7 +110,7 @@ public class BasicTitleView extends LinearLayout {
 
 	protected void createLayout() {
 		/* load the xml-layout. */
-		LayoutInflater layoutInflater = (LayoutInflater) context
+		LayoutInflater layoutInflater = (LayoutInflater) this.context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		addView(layoutInflater.inflate(R.layout.view_basictitle, null));
 	}
@@ -131,22 +149,38 @@ public class BasicTitleView extends LinearLayout {
 		refresh();
 	}
 
+	public void setBorderColor(int borderColor) {
+		this.borderColor = borderColor;
+		refresh();
+	}
+
+	public void setTextColor(int textColor) {
+		this.textColor = textColor;
+		refresh();
+	}
+
 	/**
 	 * Refreshes the icon and title after a change.
 	 */
 	protected void refresh() {
 		TextView tv = (TextView) findViewById(R.id.TextView_Title);
 		if (tv != null) {
-			tv.setText(title);
+			tv.setText(this.title);
+			tv.setTextColor(this.textColor);
 		}
 
 		ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
 		if (iv != null) {
-			if (iconDrawable == null) {
-				iv.setImageResource(icon);
+			if (this.iconDrawable == null) {
+				iv.setImageResource(this.icon);
 			} else {
-				iv.setImageDrawable(iconDrawable);
+				iv.setImageDrawable(this.iconDrawable);
 			}
+		}
+
+		View border = (View) findViewById(R.id.View_Divider_Strong);
+		if (border != null) {
+			border.setBackgroundColor(this.borderColor);
 		}
 	}
 }
