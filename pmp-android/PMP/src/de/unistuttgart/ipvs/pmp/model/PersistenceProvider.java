@@ -246,7 +246,6 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                         ps.setPersistenceProvider(new PrivacySettingPersistenceProvider(ps));
                         
                         thisRGsPSs.put(psIdentifier, ps);
-                        psCursor.moveToNext();
                     } while (psCursor.moveToNext());
                 }
                 psCursor.close();
@@ -254,7 +253,6 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 // finalize RG
                 this.cache.getPrivacySettings().put(rg, thisRGsPSs);
                 this.cache.getResourceGroups().put(rgPackage, rg);
-                rgCursor.moveToNext();
             } while (rgCursor.moveToNext());
         }
         rgCursor.close();
