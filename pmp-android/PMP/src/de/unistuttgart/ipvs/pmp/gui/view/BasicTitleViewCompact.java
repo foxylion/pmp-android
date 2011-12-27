@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import de.unistuttgart.ipvs.pmp.R;
@@ -19,6 +20,10 @@ public class BasicTitleViewCompact extends BasicTitleView {
     
     public BasicTitleViewCompact(Context context, AttributeSet attrs) {
         super(context, attrs);
+        
+        if(attrs.getAttributeValue(R.styleable.BasicTitleView_borderColor) == null) {
+            setBorderColor(Color.parseColor("#777777"));
+        }
     }
     
     
