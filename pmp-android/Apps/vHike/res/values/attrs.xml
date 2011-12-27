@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <declare-styleable name="BasicTitleView">
+<resources><declare-styleable name="BasicTitleView">
         <attr format="reference" name="icon" />
         <attr format="string" name="name" />
+        <attr format="color" name="textColor" />
+        <attr format="color" name="borderColor" />
     </declare-styleable>
 
 </resources>

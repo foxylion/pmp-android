@@ -10,6 +10,7 @@
 
     <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
         pmp:name="@string/main_ride"
+        pmp:textColor="@color/dark_blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:icon="@drawable/logo" >
