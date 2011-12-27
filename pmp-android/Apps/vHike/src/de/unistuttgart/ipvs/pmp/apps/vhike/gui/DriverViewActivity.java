@@ -54,6 +54,8 @@ public class DriverViewActivity extends MapActivity {
 	private LocationManager locationManager;
 	private GeoPoint p;
 
+	private Controller ctrl;
+
 	private SlidingDrawer drawer;
 
 	private int imADriver = 0;
@@ -61,6 +63,8 @@ public class DriverViewActivity extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
+
+		ctrl = new Controller();
 
 		showHitchhikers();
 		setMapView();
@@ -254,7 +258,7 @@ public class DriverViewActivity extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case (R.id.mi_endTrip):
-			Controller ctrl = new Controller();
+
 			switch (ctrl.endTrip(Model.getInstance().getSid(), Model
 					.getInstance().getTripId())) {
 			case (Constants.STATUS_UPDATED): {
@@ -285,6 +289,10 @@ public class DriverViewActivity extends MapActivity {
 						Toast.LENGTH_LONG).show();
 				break;
 			}
+			break;
+
+		case (R.id.mi_updateData):
+			vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
 			break;
 		}
 		return true;

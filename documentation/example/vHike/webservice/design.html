@@ -1387,12 +1387,10 @@ der Fahrer gerade keine Fahrt anbietet.
                 </ul></li></ul>
           </td>
         </tr> 
-        <!--           
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet.</td>
         </tr> 
-        -->
       </table>
       
       
@@ -1423,7 +1421,8 @@ der Fahrer gerade keine Fahrt anbietet.
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>recipient</code> - ID: ID des Benutzers, der die Bewertung erhalten soll</li>  
+              <li><code>recipient</code> - ID: ID des Benutzers, der die Bewertung erhalten soll</li>   
+              <li><code>trip</code> - Integer: ID des Fahrt, zu der die Bewertung erfolgen soll</li>
               <li><code>rating</code> - Integer (1 &le; x &le; 5): Bewertung des Benutzers</li>
             </ul>
           </td>
@@ -1445,18 +1444,18 @@ der Fahrer gerade keine Fahrt anbietet.
             <ul>           
               <li><code>status</code> - String: Gibt an, ob die Bewertung abgegeben wurde.
                 <code>rated</code>, wenn die Bewertung abgegeben wurde,
-                <code>already_rated</code>, wenn die Bewertung bereits abgegeben wurde oder
+                <code>already_rated</code>, wenn die Bewertung bereits abgegeben wurde,
+                <code>not_ended</code>, wenn die Fahrt noch nicht beendet wurde oder
                 <code>no_connection</code>, wenn es zwischen angemeldetem Benutzer und Empfänger
-                  der Bewertung keine Verbindung besteht (Keine Fahrer-Mitfahrer-Beziehung).</li>
+                  der Bewertung keine Verbindung besteht (Keine Fahrer-Mitfahrer-Beziehung) oder
+                  die angegebene Person oder die angegbene Fahrt nicht gefunden werden kann.</li>
             </ul>
           </td>
-        </tr> 
-        <!--           
+        </tr>         
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet.</td>
         </tr> 
-        -->
       </table>
       
     </div>

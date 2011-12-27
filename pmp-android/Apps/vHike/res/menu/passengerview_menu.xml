@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/mi_endTrip"
+        android:id="@+id/mi_passenger_endTrip"
         android:title="@string/driverView_endTrip"/>
     <item
-        android:id="@+id/mi_updateData"
+        android:id="@+id/mi_passenger_updateData"
         android:title="@string/driverView_updateData"/>
 
 </menu>
