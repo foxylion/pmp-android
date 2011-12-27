@@ -267,7 +267,9 @@ public abstract class ModelElement {
     
     
     private static String objToString(Object o) {
-        if (o instanceof ModelElement) {
+        if (o == null) {
+            return "null";
+        } else if (o instanceof ModelElement) {
             ModelElement me = (ModelElement) o;
             return me.getClass().getName() + '@' + me.getIdentifier();
         } else {

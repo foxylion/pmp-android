@@ -43,8 +43,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [rgis = %s, ps = %s, link = %s]", this.rgis.toString(),
-                        ModelElement.collapseMapToString(this.privacySettings), this.link.toString());
+                + String.format(" [rgis = %s, ps = %s, link = %s]", this.rgis,
+                        ModelElement.collapseMapToString(this.privacySettings), this.link);
     }
     
     
