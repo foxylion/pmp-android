@@ -292,7 +292,6 @@ public class DriverViewActivity extends MapActivity {
 			break;
 
 		case (R.id.mi_updateData):
-			// open dialog
 			vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
 			break;
 		}

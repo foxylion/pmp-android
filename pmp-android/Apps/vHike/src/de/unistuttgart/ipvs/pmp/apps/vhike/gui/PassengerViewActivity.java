@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.maps.GeoPoint;
@@ -29,6 +29,9 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +46,8 @@ import android.widget.Toast;
  */
 public class PassengerViewActivity extends MapActivity {
 
+	private Controller ctrl;
+
 	private Context context;
 	private List<Profile> hitchhikers;
 	private MapView mapView;
@@ -50,7 +55,7 @@ public class PassengerViewActivity extends MapActivity {
 	private LocationManager locationManager;
 	private GeoPoint p;
 
-//	private SlidingDrawer drawer;
+	// private SlidingDrawer drawer;
 
 	double lat;
 	double lng;
@@ -60,6 +65,8 @@ public class PassengerViewActivity extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_passengerview);
+
+		ctrl = new Controller();
 
 		showHitchhikers();
 		setMapView();
@@ -206,6 +213,39 @@ public class PassengerViewActivity extends MapActivity {
 					.show();
 		}
 
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.passengerview_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.mi_passenger_endTrip:
+			switch (ctrl.stopQuery(Model.getInstance().getSid(), Model
+					.getInstance().getQueryId())) {
+			case Constants.STATUS_QUERY_DELETED:
+				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+				PassengerViewActivity.this.finish();
+				break;
+			case Constants.STATUS_NO_QUERY:
+				Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+				break;
+			case Constants.STATUS_INVALID_USER:
+				Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			}
+			break;
+		case R.id.mi_passenger_updateData:
+			vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+			break;
+		}
+		return true;
 	}
 
 	@Override
