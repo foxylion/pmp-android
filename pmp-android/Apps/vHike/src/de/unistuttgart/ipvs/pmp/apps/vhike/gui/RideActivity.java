@@ -71,8 +71,8 @@ public class RideActivity extends Activity {
 					Toast.makeText(RideActivity.this, "Announced trip",
 							Toast.LENGTH_LONG).show();
 
-					vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this)
-							.show();
+//					vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this)
+//							.show();
 
 					Intent intent = new Intent(RideActivity.this,
 							DriverViewActivity.class);

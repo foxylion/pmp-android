@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
