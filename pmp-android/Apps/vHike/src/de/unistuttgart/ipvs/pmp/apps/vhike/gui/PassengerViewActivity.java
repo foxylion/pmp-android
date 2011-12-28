@@ -17,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.DriverOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -73,8 +74,8 @@ public class PassengerViewActivity extends MapActivity {
 		setUpNotiBar();
 		startQuery();
 
-		vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
-				.dismiss();
+		// vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
+		// .dismiss();
 	}
 
 	public PassengerViewActivity() {
@@ -199,6 +200,22 @@ public class PassengerViewActivity extends MapActivity {
 		int lat = (int) (location.getLatitude() * 1E6);
 		int lng = (int) (location.getLongitude() * 1E6);
 
+		Profile me = Model.getInstance().getOwnProfile();
+		GeoPoint gPosition = new GeoPoint(lat, lng);
+
+		// Passenger drawable and overlay
+		Drawable drawablePassenger = context.getResources().getDrawable(
+				R.drawable.passenger_logo);
+		PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
+				context);
+
+		OverlayItem oPassengerItem = new OverlayItem(gPosition,
+				"I need a ride!", "User: " + me.getUsername() + ", Rating: "
+						+ me.getRating_avg());
+		pOverlay.addOverlay(oPassengerItem);
+
+		MapModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
+
 		if (location != null) {
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
 					.getInstance().getDestination(), lat, lng, MapModel
@@ -224,12 +241,16 @@ public class PassengerViewActivity extends MapActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		// Provisorisch
+		MapModel.getInstance().clearPassengerOverlayList();
+		// Provi
 		switch (item.getItemId()) {
 		case R.id.mi_passenger_endTrip:
 			switch (ctrl.stopQuery(Model.getInstance().getSid(), Model
 					.getInstance().getQueryId())) {
 			case Constants.STATUS_QUERY_DELETED:
 				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+				MapModel.getInstance().clearPassengerOverlayList();
 				PassengerViewActivity.this.finish();
 				break;
 			case Constants.STATUS_NO_QUERY:
