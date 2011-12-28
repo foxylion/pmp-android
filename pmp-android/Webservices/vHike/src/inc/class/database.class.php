@@ -47,7 +47,7 @@ class Database {
         }
         
         // Connect to server
-        $handler = mysql_connect(DB_HOST, DB_USER, DB_PASSW);
+        $handler = mysql_connect(DB_HOST, DB_USER, DB_PASSW, false, 65536);
 
         if (!$handler) {
             throw new DatabaseException("Cannot connect to database");
