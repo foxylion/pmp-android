@@ -6,7 +6,11 @@
     </head>
     <body>
         <?php
-        // put your code here
+        $a = 101010;
+        $b = 001000;
+        $c = $a & $b;
+
+Echo "The value in Binary is : $c";
         ?>
     </body>
 </html>

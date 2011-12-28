@@ -189,11 +189,11 @@
           <td>
             <ul>
               <li><code>username</code> - String (3 &le; Zeichen &le; 100): Der gewünschte Benutzername des neuen Kontos</li>
-              <li><code>password</code> - String (3 &le; Zeichen &le; 100): Das gewünschte Passwort als Reintext (nicht gehasht)</li>
+              <li><code>password</code> - String (8 &le; Zeichen): Das gewünschte Passwort als Reintext (nicht gehasht)</li>
               <li><code>email</code> - String (3 &le; Zeichen &le; 100): Die E-Mail-Adresse des Benutzer</li>
-              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100): Vorname des Benutzers</li>
-              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100): Nachname des Benutzers</li>
-              <li><code>tel</code> - String (3 &le; Zeichen &le; 100): Telefonnummer des Benutzers</li>
+              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100, nur A-Z, 0-9, "_", "-", Leerzeichen [Beginn/Ende immer Buchstabe/Zahl, nicht mehrere "_", "-" oder Leerzeichen nebeneinander]): Vorname des Benutzers</li>
+              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100, nur A-Z, 0-9, "_", "-", Leerzeichen [Beginn/Ende immer Buchstabe/Zahl], nicht mehrere "_", "-" oder Leerzeichen nebeneinander): Nachname des Benutzers</li>
+              <li><code>tel</code> - String (3 &le; Zeichen &le; 100,, nur 0-9, "+" [nur zu Beginn erlaubt], "-"): Telefonnummer des Benutzers</li>
               <li><code>description</code> - String: Eine kurze Beschreibung, die
                 der Benutzer seinem Konto hinzufügen kann</li>
               <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
@@ -225,7 +225,7 @@
               <li><code>status</code> - Gibt an, ob das Konto angelegt werden konnte.
                 Wurde das Konto angelegt, ist <code>status</code> auf <code>registered</code>
                 gesetzt. War die Registrierung nicht möglich, ist das Feld auf
-                <code>{(username_exists|email_exists|<br />invalid_(username|password|firstname|lastname|tel)),}</code>gesetzt.
+                <code>{(username_exists|email_exists|<br />invalid_(username|email|password|firstname|lastname|tel)),}</code>gesetzt.
                 Ein Fehlschlag tritt u.A. auf, wenn ein Pflichtfeld (alle außer
                 <code>description</code>) nicht angegeben wurde, es in ungültiges 
                 Format hat (z.B. die angegebene E-Mail kein "@" enthält) oder zu lang
@@ -563,6 +563,7 @@
               <li><code>tel_public</code> - Boolean: True, wenn die Telefonnummer
                 des Benutzers für andere Mitglieder sichtbar sein soll</li> -->
             </ul>
+            <b>Hinweis:</b> Für die Parameter gelten die beim Service "registrieren" genannten Bedingungen
           </td>
         </tr>      
         <tr>
@@ -570,21 +571,27 @@
           <td>
 <pre>
 {
-  "successful": true
+  "successful": true,
+  "status": String
 }                                 
 </pre>  
           </td>
         </tr>
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
+          <td>
+            <ul>
+              <li><code>status</code> - Gibt an, ob das Konto aktualisiert werden konnte.
+                Wurde das Konto aktualisiert, ist <code>status</code> auf <code>updated</code>
+                gesetzt. War die Aktualisierung nicht möglich, ist das Feld auf
+                <code>{(invalid_(firstname|lastname|tel)),}</code>gesetzt.</li>
+              </ul>
+          </td>
         </tr>   
-        <!--        
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet</td>
         </tr>
-        -->
       </table>
       
       
@@ -640,13 +647,11 @@
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
-        </tr>   
-        <!--        
+        </tr>    
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet</td>
         </tr>
-        -->
       </table>
       
       
@@ -785,7 +790,7 @@
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
-          <td>Der Fahrer möchte das Ziel seiner Fahrt oder die Anzahl der verfügbaren Sitze 
+          <td>Der Fahrer möchte die Anzahl der verfügbaren Sitze 
             ändern.<br />
             <b>Hinweis:</b> Die Anzeige der noch verfübaren Sitze wird aus der
             Angabe <code>avail_seats</code> und den momentan angenommenen Mitfahr-Anfragen

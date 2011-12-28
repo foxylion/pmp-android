@@ -20,9 +20,9 @@ body {
 <table>
   <form action="../login.php" method="post" target="r">
     <tr>
-      <td>Username</td>
+      <td>Username:</td>
       <td><input name="username" type="text" value="demo" size="8" /></td>
-      <td>Password</td>
+      <td>Password:</td>
       <td><input name="password" type="text" size="4" /></td>
       <td><input value="login" type="submit" /></td>
       <td><a href="../logout.php" target="r">logout</a></td>
@@ -32,9 +32,9 @@ body {
 <table>
   <form action="../login.php" method="post" target="r">
     <tr>
-      <td>Username</td>
+      <td>Username:</td>
       <td><input name="username" type="text" value="bestHitcher" size="8" /></td>
-      <td>Password</td>
+      <td>Password:</td>
       <td><input name="password" type="text" size="4" /></td>
       <td><input value="login" type="submit" /></td>
       <td><a href="../logout.php" target="r">logout</a></td>
@@ -45,54 +45,113 @@ body {
 <form action="../register.php" method="post" target="r">
   <table>
     <tr>
-      <td>Username</td>
+      <td>Username:</td>
       <td><input name="username" type="text" /></td>
     </tr>
     <tr>
-      <td>Password</td>
+      <td>Password:</td>
       <td><input name="password" type="password" /></td>
     </tr>
     <tr>
-      <td>E-Mail</td>
+      <td>E-Mail:</td>
       <td><input name="email" type="text" /></td>
       <td><input type="checkbox" name="email_public" value="true" />
         Public</td>
     </tr>
     <tr>
-      <td>Firstname</td>
+      <td>Firstname:</td>
       <td><input name="firstname" type="text" /></td>
       <td><input type="checkbox" name="firstname_public" value="true" />
         Public</td>
     </tr>
     <tr>
-      <td>Lastname</td>
+      <td>Lastname:</td>
       <td><input name="lastname" type="text" /></td>
       <td><input type="checkbox" name="lastname_public" value="true" />
         Public</td>
     </tr>
     <tr>
-      <td>Tel.</td>
+      <td>Tel.:</td>
       <td><input name="tel" type="text" /></td>
       <td><input type="checkbox" name="tel_public" value="true" />
         Public</td>
     </tr>
     <tr>
-      <td>Description</td>
+      <td>Description:</td>
       <td><input name="description" type="text" /></td>
       <td>(Optional)</td>
     </tr>
     <tr>
-      <td>Buttons</td>
+      <td>Buttons:</td>
       <td colspan="2"><input value="register" type="submit" />
         <input type="reset" /></td>
     </tr>
   </table>
 </form>
+
+<h2>Edit profile</h2>
+<form action="../profile_edit.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Firstname:</td>
+      <td><input name="firstname" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Lastname:</td>
+      <td><input name="lastname" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Tel.:</td>
+      <td><input name="tel" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td><input name="description" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+
+<h2>Edit visibility</h2>
+<form action="../profile_edit_visibility.php" method="post" target="r">
+  <table>
+     <tr>
+      <td>E-Mail:</td>
+      <td><input type="checkbox" name="email_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Firstname:</td>
+      <td><input type="checkbox" name="firstname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Lastname:</td>
+      <td><input type="checkbox" name="lastname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Tel.:</td>
+      <td><input type="checkbox" name="tel_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+
 <h2>View profile</h2>
 <table>
   <tr>
     <form action="../get_profile.php" method="get" target="r">
-      <td>User-ID</td>
+      <td>User-ID:</td>
       <td><input name="id" type="text" value="1" size="4" /></td>
       <td><input value="show" type="submit" /></td>
       <td><a href="../own_profile.php" target="r">own profile</a></td>

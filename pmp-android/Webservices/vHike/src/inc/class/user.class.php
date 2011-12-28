@@ -12,6 +12,15 @@ if (!defined("INCLUDE")) {
  */
 class user {
     
+    const INVALID_USERNAME =    1;   // 00000001
+    const INVALID_EMAIL =       2;   // 00000010
+    const INVALID_FIRSTNAME =   4;   // 00000100
+    const INVALID_LASTNAME =    8;   // 00001000
+    const INVALID_TEL =         16;  // 00010000
+    const USERNAME_EXISTS =     32;  // 00100000
+    const EMAIL_EXISTS =        64;  // 01000000
+    const INVALID_PASSWORD =    128; // 10000000
+    
     private $id = -1;
     private $username = null;
     private $passwordHash = null;
@@ -115,30 +124,106 @@ class user {
         return $this->loadUserBySqlResult($row);
     } 
     
-
+    private static function isPasswordValid($password) {
+        return strlen($password) >= 8;
+    }
+    private static function isNameValid($name) {
+        if (!General::validLength($name)) {
+            return false;
+        }
+        
+        $match = preg_match("/^[a-z0-9]+([-_[:space:]]?[a-z0-9])+$/i", $name);
+        return $match > 0;
+    }
+    
+    private static function isEmailValid($email) {
+        $match = preg_match("/^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,}$/i", $email);
+        return $match > 0;
+    }
+    
+    private static function isTelValid($tel) {
+        if (!General::validLength($tel)) {
+            return false;
+        }
+        
+        $match = preg_match("/^\+?[0-9]+(-?[0-9])+$/", $tel);
+        return $match > 0;
+    }
+    
     
     /**
-     * Registers a user to the system. This does not check if there is already a
-     * user with the same email or password.
-     * @param UserDate $regdata Object holding data used for user registration
-     * @throws InputEception Thrown, if a mandatory field (like "username") or a
-     *                      visibility field (like "email_public") is not set 
-     *  
+     * Registers a user to the system. 
+     * @param String $username
+     * @param String $password
+     * @param String $email
+     * @param String $firstname
+     * @param String $lastname
+     * @param String $tel
+     * @param String $description
+     * @param boolean $emailPublic
+     * @param boolean $firstnamePublic
+     * @param boolean $lastnamePublic
+     * @param boolean $telPublic 
+     * @return User The registered user
+     * @throws InvalidArgumentException Thrown, if a mandatory field (like "username") or a
+     *                      visibility field (like "email_public") is not set. Use the code
+     *                      to determine which field was invalid 
      */
-    public function register() {
+    public static function register($username, $password, $email, $firstname, $lastname,
+            $tel, $description, $emailPublic, $firstnamePublic, $lastnamePublic,
+            $telPublic) {
         
-        // Verify that all data is set
-        if ($this->username == null || $this->passwordHash == null || 
-                $this->email == null || $this->firstname == null || 
-                $this->lastname == null || $this->tel == null) {
-            throw new InputException("Some mandatory fields not set.");
-        }
-      
-        
-        // Write data into table
         $db = Database::getInstance();
+        $passwordHash = User::hashPassword($password);
+        $invalid = 0;
+        
+        // Check if input is valid
+        if (!self::isNameValid($username)) {
+            $invalid |= self::INVALID_USERNAME;
+        }
+        
+        if (!self::isEmailValid($email)) {
+            $invalid |= self::INVALID_EMAIL;            
+        }
+        
+        if (!self::isNameValid($firstname)) {
+            $invalid |= self::INVALID_FIRSTNAME;
+        }
+        
+        if (!self::isNameValid($lastname)) {
+            $invalid |= self::INVALID_LASTNAME;
+        }
+        
+        if (!self::isTelValid($tel)) {
+            $invalid |= self::INVALID_TEL;
+        }
+        
+        if (!self::isPasswordValid($password)) {
+            $invalid |= self::INVALID_PASSWORD;
+        }
+        
+        // Check if username or email is already in use
+        if (self::usernameExists($username)) {
+            $invalid |= self::USERNAME_EXISTS;
+        }
+        
+        if (self::emailExists($email)) {
+            $invalid |= self::EMAIL_EXISTS;
+        }
+        
+        $description = $db->secureInput($description);
+        $emailPublic = (bool)$emailPublic;
+        $firstnamePublic = (bool)$firstnamePublic;
+        $lastnamePublic = (bool)$lastnamePublic;
+        $telPublic = (bool)$telPublic;
         $regdate = Date(Database::DATE_FORMAT, time());
         
+        // Throw an expection if one or more input data was invalid
+        if ($invalid > 0) {
+            throw new InvalidArgumentException("At leat one input data was invalid. See code for details", $invalid);
+        }
+      
+        // Write data into table
         $db->query("INSERT INTO `".DB_PREFIX."_user` (
                         `username`,
                         `password`,
@@ -153,21 +238,36 @@ class user {
                         `tel_public`,
                         `regdate`
                     ) VALUES (
-                        \"".$this->username."\",
-                        \"".$this->passwordHash."\",
-                        \"".$this->email."\",
-                        \"".$this->firstname."\",
-                        \"".$this->lastname."\",
-                        \"".$this->tel."\",
-                        \"".$this->description."\",
-                        \"".$this->emailPublic."\",
-                        \"".$this->firstnamePublic."\",
-                        \"".$this->lastnamePublic."\",
-                        \"".$this->isTelPublic()."\",
-                        \"$regdate\"
+                        \"".$username."\",
+                        \"".$passwordHash."\",
+                        \"".$email."\",
+                        \"".$firstname."\",
+                        \"".$lastname."\",
+                        \"".$tel."\",
+                        \"".$description."\",
+                        \"".$emailPublic."\",
+                        \"".$firstnamePublic."\",
+                        \"".$lastnamePublic."\",
+                        \"".$telPublic."\",
+                        \"".$regdate."\"
                     )");
         
-       $this->id = $db->getId();      
+        $user = new User();
+        $user->id = $db->getId();
+        $user->username = $username;
+        $user->email = $email;
+        $user->emailPublic = $emailPublic;
+        $user->firstname = $firstname;
+        $user->firstnamePublic = $firstnamePublic;
+        $user->lastname = $lastname;
+        $user->lastnamePublic = $lastnamePublic;
+        $user->tel = $tel;
+        $user->telPublic = $telPublic;
+        $user->passwordHash = $passwordHash;
+        $user->description = $description;  
+        $user->regdate = $regdate;
+        
+        return $user;
     }
     
     
@@ -218,6 +318,85 @@ class user {
         
         mail($this->email, "Account verification", $message, "From: ".ADMIN_EMAIL);
         
+    }
+    
+    /**
+     * Updates the user's profile
+     * @param String $firstname
+     * @param String $lastname
+     * @param String $tel
+     * @param String $description 
+     * @throws InvalidArgumentException Thrown, if firstname, lastname or tel-nr.
+     *                                  has an invalid length. See <code>register</code> for details
+     */
+    public function updateProfile($firstname, $lastname, $tel, $description) {
+        // Verify input-data
+        $invalid = 0;
+        if (!self::isNameValid($firstname)) {
+            $invalid |= self::INVALID_FIRSTNAME;
+        }
+        
+        if (!self::isNameValid($lastname)) {
+            $invalid |= self::INVALID_LASTNAME;
+        }
+        
+        if (!self::isTelValid($tel)) {
+            $invalid |= self::INVALID_TEL;
+        }
+        
+        // Throw an expection if one or more input data was invalid
+        if ($invalid > 0) {
+            throw new InvalidArgumentException("At leat one input data was invalid. See code for details", $invalid);
+        }
+        
+        $db = Database::getInstance();
+        $description = $db->secureInput($description);
+        
+        // Write new data into database
+        $db->query("UPDATE `".DB_PREFIX."_user`
+                    SET 
+                        `firstname` = \"".$firstname."\",
+                        `lastname`  = \"".$lastname."\",
+                        `tel`  = \"".$tel."\",
+                        `description`  = \"".$description."\"
+                    WHERE `id` = ".$this->id);
+        
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->tel = $tel;
+        $this->description = $description;
+    }
+    
+    /**
+     * Updates/Sets the visibility of the users profile-data.
+     * @param boolean $emailPublic
+     * @param boolean $firstnamePublic
+     * @param boolean $lastnamePublic
+     * @param boolean $telPublic 
+     */
+    public function updateVisibility($emailPublic, $firstnamePublic, 
+            $lastnamePublic, $telPublic) {
+        
+        $emailPublic = (bool)$emailPublic;
+        $firstnamePublic = (bool)$firstnamePublic;
+        $lastnamePublic = (bool)$lastnamePublic;
+        $telPublic = (bool)$telPublic;
+        
+        $db = Database::getInstance();
+        
+        // Write new data into database
+        $db->query("UPDATE `".DB_PREFIX."_user`
+                    SET 
+                        `email_public` = \"".$emailPublic."\",
+                        `firstname_public`  = \"".$firstnamePublic."\",
+                        `lastname_public`  = \"".$lastnamePublic."\",
+                        `tel_public`  = \"".$telPublic."\"
+                    WHERE `id` = ".$this->id);
+        
+        $this->emailPublic = $emailPublic;
+        $this->firstnamePublic = $firstnamePublic;
+        $this->lastnamePublic = $lastnamePublic;
+        $this->telPublic = $telPublic;
     }
     
     
@@ -355,149 +534,6 @@ class user {
                     WHERE `id` = ".$this->id);
                 
     }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setUsername($value) {
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->username = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setPassword($value) {
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->passwordHash = self::hashPassword($value);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setEmail($value) {
-        // TODO: Check format
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->email = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setFirstname($value) {
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->firstname = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setTel($value) {
-        // TODO: Check format e.g. only numbers, "-", "+"
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->tel = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value
-     * @return boolean 
-     */
-    public function setLastname($value) {
-        $value = Database::getInstance()->secureInput($value);
-        if (General::validLength($value)) {
-            $this->lastname = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value 
-     */
-    public function setDescription($value) {
-        $this->description = Database::getInstance()->secureInput($value);
-    }
-    
-    /**
-     *
-     * @param String $value 
-     */
-    public function setEmailPublic($public) {
-        if (strcasecmp($public, "true") == 0) {
-            $this->emailPublic = true;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value 
-     */
-    public function setFirstnamePublic($public) {
-        if (strcasecmp($public, "true") == 0) {
-            $this->firstnamePublic = true;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value 
-     */
-    public function setLastnamePublic($public) {
-        if (strcasecmp($public, "true") == 0) {
-            $this->lastnamePublic = true;
-        }
-    }
-    
-    /**
-     *
-     * @param String $value 
-     */
-    public function setTelPublic($public) {
-        if (strcasecmp($public, "true") == 0) {
-            $this->telPublic = true;
-        }
-    }
-    
-    
-    
     
     /**
      * Checks if the given username is already in use.

@@ -1,68 +1,54 @@
 <?php
-
 /**
  * This service is used to register a new user to the system
  */
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");
 
-$user = new User();
-$invalidString = null;
+try {
+    $user = User::register($_POST["username"], $_POST["password"], $_POST["email"], 
+            $_POST["firstname"], $_POST["lastname"], $_POST["tel"], 
+            $_POST["description"], $_POST["email_public"], $_POST["firstname_public"], 
+            $_POST["lastname_public"], $_POST["tel_public"]);
 
-// Set and verify all input data
-if (!$user->setUsername($_POST["username"])) {
-    $invalidString .= "invalid_username,";
-} else if (User::usernameExists($_POST["username"])) {
-    // Check if username is in use
-    $invalidString .= "username_exists,";
-}
+    $user->sendVerificationKey();
+    echo Json::arrayToJson(array("successful" => true, "status" => "registered"));
+} catch (InvalidArgumentException $iae) {
+    $code = $iae->getCode();
 
-if (!$user->setPassword($_POST["password"])) {
-    $invalidString .= "invalid_password,";
-}
-
-if (!$user->setEmail($_POST["email"])) {
-    $invalidString .= "invalid_email,";
-} else if (User::emailExists($_POST["email"])) {
-    // Check if email is in use
-    $invalidString .= "email_exists,";
-}
-
-if (!$user->setFirstname($_POST["firstname"])) {
-    $invalidString .= "invalid_firstname,";
-}
-if (!$user->setLastname($_POST["lastname"])) {
-    $invalidString .= "invalid_lastname,";
-}
-if (!$user->setTel($_POST["tel"])) {
-    $invalidString .= "invalid_tel,";
-}
-
-$user->setDescription($_POST["description"]);
-
-// Set boolean input data
-$user->setEmailPublic($_POST["email_public"]);
-$user->setFirstnamePublic($_POST["firstname_public"]);
-$user->setLastnamePublic($_POST["lastname_public"]);
-$user->setTelPublic($_POST["tel_public"]);
-
-
-
-// If there where errors -> print error
-if ($invalidString != null) {
-// Remove last ","
-    $invalidString = substr($invalidString, 0, strlen($invalidString) - 1);
-    $output = array("successful" => true, "status" => $invalidString);
-    echo Json::arrayToJson($output);
-} else {
-    try {
-        $user->register();
-        $user->sendVerificationKey();
-    } catch (DatabaseException $de) {
-        Json::printDatabaseError($de);
+// Build error status from error code
+    $status = "";
+    if ($code & User::USERNAME_EXISTS) {
+        $status .= "username_exists,";
     }
-    $output = array("successful" => true, "status" => "registered");
-    echo Json::arrayToJson($output);
+    if ($code & User::EMAIL_EXISTS) {
+        $status .= "email_exists,";
+    }
+    if ($code & User::INVALID_USERNAME) {
+        $status .= "invalid_username,";
+    }
+    if ($code & User::INVALID_EMAIL) {
+        $status .= "invalid_email,";
+    }
+    if ($code & User::INVALID_FIRSTNAME) {
+        $status .= "invalid_firstname,";
+    }
+    if ($code & User::INVALID_LASTNAME) {
+        $status .= "invalid_lastname,";
+    }
+    if ($code & User::INVALID_TEL) {
+        $status .= "invalid_tel,";
+    }
+    if ($code & User::INVALID_PASSWORD) {
+        $status .= "invalid_password,";
+    }
+
+    // Remove last ","
+    $status = substr($status, 0, strlen($status) - 1);
+
+    echo Json::arrayToJson(array("successful" => true, "status" => $status));
+} catch (DatabaseException $de) {
+    Json::printDatabaseError($de);
 }
 
 Database::getInstance()->disconnect();
