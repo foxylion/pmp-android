@@ -14,6 +14,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
@@ -70,8 +71,8 @@ public class RideActivity extends Activity {
 					Toast.makeText(RideActivity.this, "Announced trip",
 							Toast.LENGTH_LONG).show();
 
-					// vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this)
-					// .show();
+					vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this)
+							.show();
 
 					Intent intent = new Intent(RideActivity.this,
 							DriverViewActivity.class);
@@ -179,8 +180,8 @@ public class RideActivity extends Activity {
 							Toast.LENGTH_LONG).show();
 					break;
 				default:
-					// vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
-					// .show();
+					vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
+							.show();
 					Intent intent = new Intent(RideActivity.this,
 							PassengerViewActivity.class);
 					RideActivity.this.startActivity(intent);

@@ -74,8 +74,9 @@ public class PassengerViewActivity extends MapActivity {
 		setUpNotiBar();
 		startQuery();
 
-		// vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
-		// .dismiss();
+		vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
+				.dismiss();
+		vhikeDialogs.getInstance().clearSearchPD();
 	}
 
 	public PassengerViewActivity() {

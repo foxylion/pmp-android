@@ -72,8 +72,9 @@ public class DriverViewActivity extends MapActivity {
 		setUpNotiBar();
 		startTripByUpdating();
 
-//		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
-		// .dismiss();
+		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
+				.dismiss();
+		vhikeDialogs.getInstance().clearAnnouncPD();
 	}
 
 	public DriverViewActivity() {
@@ -214,21 +215,21 @@ public class DriverViewActivity extends MapActivity {
 		Controller ctrl = new Controller();
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		
+
 		int lat = (int) (location.getLatitude() * 1E6);
 		int lng = (int) (location.getLongitude() * 1E6);
 		GeoPoint gPosition = new GeoPoint(lat, lng);
 
 		Profile me = Model.getInstance().getOwnProfile();
-		
+
 		Drawable drawableDriver = context.getResources().getDrawable(
 				R.drawable.icon_ride);
 		DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
 				gPosition);
 
 		OverlayItem oDriverItem = new OverlayItem(gPosition,
-				"Who wants a ride?", "User: " + me.getUsername()
-						+ ", Rating: " + me.getRating_avg());
+				"Who wants a ride?", "User: " + me.getUsername() + ", Rating: "
+						+ me.getRating_avg());
 		dOverlay.addOverlay(oDriverItem);
 
 		MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);

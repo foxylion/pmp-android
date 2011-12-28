@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 
 /**
  * LoginActivity: the startup activity for vHike
@@ -62,7 +63,9 @@ public class LoginActivity extends Activity {
 				} else {
 
 					if (ctrl.login(username, pw)) {
-
+						
+						vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
+						
 						Toast.makeText(LoginActivity.this, "Login successful",
 								Toast.LENGTH_LONG).show();
 						Intent intent = new Intent(v.getContext(),

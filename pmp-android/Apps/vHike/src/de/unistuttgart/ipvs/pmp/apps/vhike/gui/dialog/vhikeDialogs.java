@@ -44,6 +44,10 @@ public class vhikeDialogs {
 		return dLogin;
 	}
 
+	public void clearLoginPD() {
+		dLogin = null;
+	}
+
 	/**
 	 * ProgressDialog for driver when announcing a trip and calculating current
 	 * position
@@ -63,6 +67,10 @@ public class vhikeDialogs {
 		return dAnnounce;
 	}
 
+	public void clearAnnouncPD() {
+		dAnnounce = null;
+	}
+
 	/**
 	 * ProgressDialog when searching for drivers and calculating current
 	 * position
@@ -80,6 +88,10 @@ public class vhikeDialogs {
 		dSearch.setCancelable(false);
 
 		return dSearch;
+	}
+
+	public void clearSearchPD() {
+		dSearch = null;
 	}
 
 	public Dialog getUpdateDataDialog(Context mContext) {
