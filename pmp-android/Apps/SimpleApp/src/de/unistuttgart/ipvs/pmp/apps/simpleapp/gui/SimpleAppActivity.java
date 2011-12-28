@@ -23,7 +23,6 @@ import de.unistuttgart.ipvs.pmp.apps.simpleapp.R;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,7 +34,7 @@ import android.app.ProgressDialog;
 
 public class SimpleAppActivity extends Activity {
 
-	private Handler handler;
+	public Handler handler;
 
 	private Button buttonServiceFeautres;
 
@@ -106,29 +105,53 @@ public class SimpleAppActivity extends Activity {
 		});
 	}
 
-	private void refresh() {
+	public void refresh() {
 		refreshWifi();
+
+		String string = "Current active SF:\n";
+		string += Model.SF_WIFI_STATE
+				+ ": "
+				+ Model.getInstance().getApp()
+						.isServiceFeatureEnabled(Model.SF_WIFI_STATE) + "\n";
+		string += Model.SF_WIFI_CHANGE
+				+ ": "
+				+ Model.getInstance().getApp()
+						.isServiceFeatureEnabled(Model.SF_WIFI_CHANGE);
+
+		Toast.makeText(SimpleAppActivity.this, string, Toast.LENGTH_LONG)
+				.show();
 	}
 
-	private void refreshWifi() {
-		if (!Model.getInstance().getApp()
-				.isServiceFeatureEnabled(Model.SF_WIFI_STATE)) {
-			// Wireless State SF is disabled
-			wirelessStateTextView.setText("missingSF");
-		} else {
-			wirelessStateTextView
-					.setText((Model.getInstance().getWifi() ? "enabled"
-							: "disabled"));
-			wirelessToggleButton.setChecked(Model.getInstance().getWifi());
-		}
+	public void refreshWifi() {
+		new Thread() {
+			@Override
+			public void run() {
+				final boolean wifi = Model.getInstance().getWifi();
 
-		if (!Model.getInstance().getApp()
-				.isServiceFeatureEnabled(Model.SF_WIFI_CHANGE)) {
-			// Wireless State SF is disabled
-			wirelessToggleButton.setEnabled(false);
-		} else {
-			wirelessToggleButton.setEnabled(true);
-		}
+				handler.post(new Runnable() {
+
+					public void run() {
+						if (!Model.getInstance().getApp()
+								.isServiceFeatureEnabled(Model.SF_WIFI_STATE)) {
+							// Wireless State SF is disabled
+							wirelessStateTextView.setText("missingSF");
+						} else {
+							wirelessStateTextView.setText((wifi ? "enabled"
+									: "disabled"));
+							wirelessToggleButton.setChecked(wifi);
+						}
+
+						if (!Model.getInstance().getApp()
+								.isServiceFeatureEnabled(Model.SF_WIFI_CHANGE)) {
+							// Wireless State SF is disabled
+							wirelessToggleButton.setEnabled(false);
+						} else {
+							wirelessToggleButton.setEnabled(true);
+						}
+					}
+				});
+			}
+		}.start();
 	}
 
 	public void registrationEnded(final boolean success, final String message) {
@@ -142,7 +165,7 @@ public class SimpleAppActivity extends Activity {
 					Toast.makeText(getApplicationContext(),
 							"SimpleApp: Registration successed.",
 							Toast.LENGTH_SHORT).show();
-				} else if(!success && message != null) {
+				} else if (!success && message != null) {
 					Toast.makeText(
 							getApplicationContext(),
 							"SimpleApp: Registration failed with the following message: "

@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.apps.simpleapp.provider;
 
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.SimpleApp;
@@ -35,16 +34,23 @@ public class Model {
 		return Model.instance;
 	}
 
-	public void setWifi(boolean state) {
-		IBinder binder = app.getResourceBlocking(RG_SWITCHES, R_WIFI);
-		IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
+	public void setWifi(final boolean state) {
+		new Thread() {
+			@Override
+			public void run() {
+				IBinder binder = app.getResourceBlocking(RG_SWITCHES, R_WIFI);
+				IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
+				getActivity().refreshWifi();
 
-		try {
-			remote.setState(state);
-		} catch (RemoteException e) {
-			Log.e("Could not set Wifi State", e);
-			makeToast("Wifi state could not be changed");
-		}
+				try {
+					remote.setState(state);
+				} catch (Exception e) {
+					Log.e("Could not set Wifi State", e);
+					makeToast("Wifi state could not be changed");
+				}
+			}
+		}.start();
+		
 	}
 
 	public boolean getWifi() {
@@ -53,9 +59,9 @@ public class Model {
 
 		try {
 			return remote.getState();
-		} catch (RemoteException e) {
-			Log.e("Could not set Wifi State", e);
-			makeToast("Wifi state could not be changed");
+		} catch (Exception e) {
+			Log.e("Could not get Wifi State", e);
+			makeToast("Wifi state couldn't be fetched");
 		}
 		return false;
 	}
@@ -77,7 +83,7 @@ public class Model {
 	}
 
 	private void makeToast(final String message) {
-		new Handler().post(new Runnable() {
+		getActivity().handler.post(new Runnable() {
 
 			public void run() {
 
