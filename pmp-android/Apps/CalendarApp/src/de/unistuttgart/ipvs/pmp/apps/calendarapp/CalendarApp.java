@@ -100,6 +100,10 @@ public class CalendarApp extends App {
         } else {
             // Read files
             SqlConnector.getInstance().loadAppointments();
+            
+            //Scroll to the actual date
+            Model.getInstance().getContext().getListView()
+                    .setSelection(Model.getInstance().getArrayAdapter().getActualAppointmentPosition());
         }
         
         /*

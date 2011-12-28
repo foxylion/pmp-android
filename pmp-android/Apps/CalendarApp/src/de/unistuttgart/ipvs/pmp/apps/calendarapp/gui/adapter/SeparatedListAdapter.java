@@ -68,6 +68,69 @@ public class SeparatedListAdapter extends BaseAdapter {
     
     
     /**
+     * Calculates the position of the header of the current date
+     * 
+     * @return position of the actual header
+     */
+    public int getActualAppointmentPosition() {
+        
+        // Skipped entries
+        int skipped = 0;
+        
+        // Key to count the headers
+        String actualKey = "";
+        
+        for (String key : sections.keySet()) {
+            long parsed = Date.parse(key);
+            Date parsedDate = new Date(parsed);
+            Date today = new Date();
+            
+            // Year is to small, add all entries to skipped
+            if (parsedDate.getYear() < today.getYear()) {
+                
+                // If the key is not known, add one because of the header
+                if (!key.equals(actualKey)) {
+                    skipped++;
+                    actualKey = key;
+                }
+                skipped = skipped + sections.get(key).getCount();
+                continue;
+                
+                // Year is to equal, but month is too small, add all entries to skipped
+            } else if (parsedDate.getYear() == today.getYear() && parsedDate.getMonth() < today.getMonth()) {
+                
+                // If the key is not known, add one because of the header
+                if (!key.equals(actualKey)) {
+                    skipped++;
+                    actualKey = key;
+                }
+                skipped = skipped + sections.get(key).getCount();
+                continue;
+                
+                // Year and month are equal, but day is too small, add all entries to skipped
+            } else if (parsedDate.getYear() == today.getYear() && parsedDate.getMonth() == today.getMonth()
+                    && parsedDate.getDay() < today.getDay()) {
+                
+                // If the key is not known, add one because of the header
+                if (!key.equals(actualKey)) {
+                    skipped++;
+                    actualKey = key;
+                }
+                skipped = skipped + sections.get(key).getCount();
+                continue;
+            } else {
+                
+                // Entry with a date found that was later
+                return skipped;
+            }
+        }
+        
+        // Nothing found
+        return 0;
+    }
+    
+    
+    /**
      * Removes all empty stuff out of the sections and headers
      */
     public void removeEmptyHeadersAndSections() {
@@ -91,7 +154,8 @@ public class SeparatedListAdapter extends BaseAdapter {
         }
     }
     
-    public void reset(){
+    
+    public void reset() {
         sections = new TreeMap<String, AppointmentArrayAdapter>(new StringComparator());
         headers = new ArrayAdapter<String>(context, R.layout.list_header);
     }
@@ -179,6 +243,7 @@ public class SeparatedListAdapter extends BaseAdapter {
                 AppointmentArrayAdapter adapter = sections.get(section);
                 int size = adapter.getCount() + 1;
                 convertView = null;
+                
                 // check if position inside this section
                 if (position == 0) {
                     return headers.getView(sectionnum, convertView, parent);
