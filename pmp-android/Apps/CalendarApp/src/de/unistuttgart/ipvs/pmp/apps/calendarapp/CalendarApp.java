@@ -99,7 +99,7 @@ public class CalendarApp extends App {
             Model.getInstance().clearLocalList();
         } else {
             // Read files
-            SqlConnector.getInstance().loadAppointments();
+            new SqlConnector().loadAppointments();
             
             //Scroll to the actual date
             Model.getInstance().getContext().getListView()
