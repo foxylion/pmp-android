@@ -122,8 +122,7 @@ public class DriverViewActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), Model
-						.getInstance().getTripId(), 0, 0, 10);
+				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
 			}
 		});
 	}
