@@ -188,7 +188,6 @@ public class PassengerViewActivity extends MapActivity {
 	 * start query by sending gps, destination and number of needed seats to
 	 * server
 	 */
-	@SuppressWarnings("unused")
 	private void startQuery() {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,

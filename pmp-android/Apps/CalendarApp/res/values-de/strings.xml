@@ -11,29 +11,29 @@
     <string name="send">Per E-Mail senden</string>
     <string name="subject">Neuer Termin.</string>
     <string name="menu">Menü</string>
-    <string name="wait">Bitte warten&#8230;</string>
+    <string name="wait">Bitte warten…</string>
     <string name="registration">Registrierung wird durchgeführt.</string>
     <string name="registration_succeed">Erfolgreich bei PMP registriert</string>
-    <string name="err_load">ehler beim Lesen der Termins aus der Datenbank</string>
+    <string name="err_load">Fehler beim Lesen der Termins aus der Datenbank</string>
     <string name="err_store">Fehler beim Speichern in der Datenbank</string>
-    <string name="err_del">ehler beim Löschen eines Termins in der Datenbank</string>
-    <string name="err_change">ehler beim Ändern eines Termins in der Datenbank</string>
+    <string name="err_del">Fehler beim Löschen eines Termins in der Datenbank</string>
+    <string name="err_change">Fehler beim Ändern eines Termins in der Datenbank</string>
     <string name="appoint">Termin:</string>
     <string name="import_appointments">Termine importieren</string>
     <string name="export_appointments">Termine exportieren</string>
     <string name="file_name">Dateiname:</string>
     <string name="import_question">Diese Datei importieren?</string>
-    <string name="import_attention">chtung: Die aktuelle Terminliste wird dabei
+    <string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei
 		verloren gehen!</string>
     <string name="delete_all_appointments">Alle Termine löschen</string>
-    <string name="delete_all_appointments_question">öchten Sie wirklich alle Termineinträge löschen?</string>
+    <string name="delete_all_appointments_question">Möchten Sie wirklich alle Termineinträge löschen?</string>
     <string name="change_sf">Service Features ändern</string>
     <string name="insufficent_sf">Service Features nicht ausreichend</string>
-    <string name="insufficent_sf_message">ie aktuellen Service Features sind nicht ausreichend um
+    <string name="insufficent_sf_message">Die aktuellen Service Features sind nicht ausreichend um
 		diese Aktion auszuführen. Um die Aktion auszuführen, aktivieren Sie
 		bitte das dazugehörige Service Feature.</string>
     <string name="export_override_question">Vorhandene Datei überschreiben?</string>
-    <string name="export_override_attention">ine Datei mit dem Dateinamen ist bereits
+    <string name="export_override_attention">Eine Datei mit dem Dateinamen ist bereits
 		vorhanden. Möchten Sie die Datei überschreiben?</string>
     <string name="export_override_conf">Überschreiben</string>
     <string name="export_override_cancel">Abbrechen</string>
@@ -43,25 +43,27 @@
     <string name="delete_file_toast">Datei gelöscht.</string>
     <string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
     <string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
-    <string name="sd_card_missing">enn Sie die Import-/Export-Funktionalität nutzen
+    <string name="sd_card_missing">Wenn Sie die Import-/Export-Funktionalität nutzen
 		möchten, legen Sie bitte eine SD-Karte ein!</string>
-    <string name="err_create">ut mir Leid, Kalender konnte keine Tabelle in der
+    <string name="err_create">Tut mir Leid, Kalender konnte keine Tabelle in der
 		Datenbank erstellen, deswegen wird die App nicht korrekt
 		funktionieren.</string>
-    <string name="no_appointments_available">eine Termineinträge vorhanden. Termineinträge
+    <string name="no_appointments_available">Keine Termineinträge vorhanden. Termineinträge
 		können über das Menü hinzugefügt oder importiert werden.</string>
     <string name="no_files_available">Es sind keine Dateien verfügbar.</string>
     <string name="empty_list_title">Keine Termineinträge vorhanden</string>
-    <string name="empty_list_message">Termineinträge können nicht exportiert werden. Es
-		sind keine Termineinträge vorhanden.</string>
+    <string name="empty_list_message">Termineinträge können nicht exportiert werden. Es sind keine Termineinträge vorhanden.</string>
     <string name="invalid_file_name_title">Ungültiger Dateiname</string>
     <string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
     <string name="error">Fehler</string>
     <string name="not_found">PMP konnte nicht gefunden werde.\n Der Kalendar wird geschlossen.</string>
     <string name="appointment_not_added">Nichts zum Hinzufügen</string>
     <string name="severity">Priorität:</string>
-	<string name="severity_high">hoch</string>
+    <string name="severity_high">hoch</string>
     <string name="severity_middle">mittel</string>
     <string name="severity_low">niedrig</string>
+    <string name="err_connect_db">Konnte keine Verbindung zur Datenbank-Ressource herstellen</string>
+    <string name="err_connect_mail">Konnte keine Verbindung zur E-Mail-Ressource herstellen</string>
+    <string name="err_connect_fs">Konnte keine Verbindung zur Dateisystem-Ressource herstellen</string>
 
 </resources>

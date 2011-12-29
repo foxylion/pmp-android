@@ -43,8 +43,10 @@ public class MapModel {
 	}
 
 	public void clearDriverOverlayList() {
-		mapDriverOverlays.clear();
-		mapDriverOverlays = null;
+		if (mapDriverOverlays != null) {
+			mapDriverOverlays.clear();
+			mapDriverOverlays = null;
+		}
 	}
 
 	/**
@@ -61,8 +63,11 @@ public class MapModel {
 	}
 
 	public void clearPassengerOverlayList() {
-		mapPassengerOverlays.clear();
-		mapPassengerOverlays = null;
+		if (mapPassengerOverlays != null) {
+			mapPassengerOverlays.clear();
+			mapPassengerOverlays = null;
+		}
+
 	}
 
 	/**
