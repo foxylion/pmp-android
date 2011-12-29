@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,7 +40,7 @@ public class LocationUpdateHandler implements LocationListener {
 	private GeoPoint gPosition;
 	private Location location;
 	private int mWhichHitcher;
-	
+
 	private Controller ctrl;
 
 	/**
@@ -61,7 +61,7 @@ public class LocationUpdateHandler implements LocationListener {
 		this.mapController = mapController;
 		this.gPosition = gPosition;
 		mWhichHitcher = whichHitcher;
-		
+
 		ctrl = new Controller();
 	}
 
@@ -134,13 +134,17 @@ public class LocationUpdateHandler implements LocationListener {
 
 			MapModel.getInstance().getPassengerOverlayList(mapView)
 					.add(pOverlay);
-			
+
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
 					.getInstance().getDestination(), lat, lng, MapModel
 					.getInstance().getNumSeats())) {
 			case (Constants.QUERY_ID_ERROR):
-				Toast.makeText(context, "Updated/Started query",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "Query error", Toast.LENGTH_LONG)
+						.show();
+				break;
+			default:
+				Toast.makeText(context, "Query updated/started",
+						Toast.LENGTH_SHORT).show();
 				break;
 			}
 		}
