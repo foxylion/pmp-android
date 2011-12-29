@@ -177,7 +177,7 @@ public class DialogManager {
                     // Close the dialog
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                        new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
                         dialog.dismiss();
                     }
                 });

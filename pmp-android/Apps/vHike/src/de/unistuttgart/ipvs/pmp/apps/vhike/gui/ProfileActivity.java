@@ -43,10 +43,13 @@ public class ProfileActivity extends Activity {
 		et_email.setText(myProfile.getEmail());
 
 		EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-		et_mobile.setText(myProfile.getEmail());
+		et_mobile.setText(myProfile.getTel());
 
 		RatingBar rb = (RatingBar) findViewById(R.id.ratingbar_profile);
 		rb.setRating((float) myProfile.getRating_avg());
+
+		TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
+		tv_rating.setText(String.valueOf(myProfile.getRating_avg()));
 
 		// EditText et_car = (EditText) findViewById(R.id.et_car);
 		// // car = "";

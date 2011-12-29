@@ -40,11 +40,6 @@ public class Filesystem extends ResourceGroup {
     public static final String PACKAGAE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
     
     /**
-     * Context of service in which this resource-group is running.
-     */
-    private Context context;
-    
-    /**
      * Creates the resource-group including its privacy settings and resources
      * 
      * @param context
@@ -63,22 +58,6 @@ public class Filesystem extends ResourceGroup {
         resources.registerResources(this);
     }
     
-    
-    public String getName(String locale) {
-        return this.context.getResources().getString(R.string.rg_name);
-    }
-    
-    
-    public String getDescription(String locale) {
-        return this.context.getResources().getString(R.string.rg_desc);
-    }
-    
-    
-    protected String getServiceAndroidName() {
-        return PACKAGAE_NAME;
-    }
-    
-    
     public void onRegistrationSuccess() {
         Log.d("Registration was successfull");
     }
@@ -87,14 +66,4 @@ public class Filesystem extends ResourceGroup {
     public void onRegistrationFailed(String message) {
         Log.d("Registration failed: " + message);
     }
-    
-    
-    public void setContext(Context context) {
-        this.context = context;
-    }
-    
-    
-    public Context getContext() {
-        return this.context;
-    }    
 }

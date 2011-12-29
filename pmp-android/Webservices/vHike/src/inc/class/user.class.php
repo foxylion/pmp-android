@@ -38,6 +38,7 @@ class user {
     private $ratingNum = 0;
     private $activated = false;
     
+    private function __construct() { }    
     
     /**
      * Loads a user from the database and returns a user-object storing the information

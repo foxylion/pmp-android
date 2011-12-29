@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -49,13 +46,13 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 public class DriverViewActivity extends MapActivity {
 
 	private Context context;
-	private List<Profile> hitchhikers;
 	private MapView mapView;
 	private MapController mapController;
 	private LocationManager locationManager;
 	private GeoPoint p;
 
 	private Controller ctrl;
+	private NotificationAdapter appsAdapter;
 
 	private SlidingDrawer drawer;
 
@@ -66,6 +63,7 @@ public class DriverViewActivity extends MapActivity {
 		setContentView(R.layout.activity_driverview);
 
 		ctrl = new Controller();
+		MapModel.getInstance().initDriversList();
 
 		showHitchhikers();
 		setMapView();
@@ -85,23 +83,12 @@ public class DriverViewActivity extends MapActivity {
 	 * adds passengers (hitchhikers) to the notification slider
 	 */
 	private void showHitchhikers() {
-		hitchhikers = new ArrayList<Profile>();
-
-		Profile profile = new Profile("User1", null, null, null, null, null,
-				null, false, false, false, false, 0, 2.5);
-		Profile profile2 = new Profile("User3", null, null, null, null, null,
-				null, false, false, false, false, 0, 4);
-		Profile profile3 = Model.getInstance().getOwnProfile();
-
-		addHitchhiker(profile);
-		addHitchhiker(profile2);
-		addHitchhiker(profile3);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
 
-		NotificationAdapter appsAdapter = new NotificationAdapter(this,
-				hitchhikers);
+		appsAdapter = new NotificationAdapter(this, MapModel.getInstance()
+				.getHitchPassengers(), imADriver);
 		pLV.setAdapter(appsAdapter);
 	}
 
@@ -110,8 +97,9 @@ public class DriverViewActivity extends MapActivity {
 	 * 
 	 * @param hitchhiker
 	 */
-	private void addHitchhiker(Profile hitchhiker) {
-		hitchhikers.add(hitchhiker);
+	public void addHitchhiker(Profile hitchhiker) {
+		MapModel.getInstance().getHitchPassengers().add(hitchhiker);
+		appsAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -127,8 +115,9 @@ public class DriverViewActivity extends MapActivity {
 		btnDriverLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
+				// Controller ctrl = new Controller();
+				// ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
+				
 			}
 		});
 	}
@@ -194,6 +183,10 @@ public class DriverViewActivity extends MapActivity {
 				final int HELLO_ID = 1;
 
 				mNotificationManager.notify(HELLO_ID, notification);
+				
+				Profile profile = new Profile("demoTest", null, null, null, null,
+						null, null, false, false, false, false, 4.5, imADriver);
+				addHitchhiker(profile);
 
 				drawer = (SlidingDrawer) findViewById(R.id.notiSlider);
 				drawer.open();
@@ -282,6 +275,8 @@ public class DriverViewActivity extends MapActivity {
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
 				MapModel.getInstance().clearDriverOverlayList();
+				MapModel.getInstance().getHitchPassengers().clear();
+				appsAdapter.notifyDataSetChanged();
 				DriverViewActivity.this.finish();
 				break;
 			}

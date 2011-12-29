@@ -74,7 +74,7 @@ public class ImportActivity extends ListActivity {
          * Fill the list of files for importing.
          * It is also used to check for exporting, if a file already exists.
          */
-        FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.NONE);
+        new FileSystemConnector().listStoredFiles(FileSystemListActionType.NONE);
         
         // Array adapter that is needed to show the list of dates
         importArrayAdapter = new ArrayAdapter<FileDetails>(this, R.layout.import_list_item, Model.getInstance()
@@ -103,7 +103,7 @@ public class ImportActivity extends ListActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Import the file
-                                FileSystemConnector.getInstance().importAppointments(file.getName());
+                                new FileSystemConnector().importAppointments(file.getName());
                                 finish();
                             }
                             
@@ -147,7 +147,7 @@ public class ImportActivity extends ListActivity {
          */
         if (aItem.getItemId() == 0) {
             if (((App) this.getApplication()).isServiceFeatureEnabled("export")) {
-                FileSystemConnector.getInstance().deleteFile(clicked);
+                new FileSystemConnector().deleteFile(clicked);
             } else {
                 String[] req = new String[1];
                 req[0] = "export";

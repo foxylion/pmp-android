@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.widget.Spinner;
@@ -7,9 +8,10 @@ import android.widget.Spinner;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+
 /**
- * MapModel grants access to the list of overlays. New elements can be easily
- * added through this model. Future map function may me added later on.
+ * MapModel grants access to all elements needed to work with the map view
  * 
  * @author andres
  * 
@@ -21,6 +23,9 @@ public class MapModel {
 	private List<Overlay> mapPassengerOverlays;
 	private String destination;
 	private int numSeats = 0;
+
+	private List<Profile> hitchDrivers;
+	private List<Profile> hitchPassengers;
 
 	public static MapModel getInstance() {
 		if (instance == null) {
@@ -43,8 +48,10 @@ public class MapModel {
 	}
 
 	public void clearDriverOverlayList() {
-		mapDriverOverlays.clear();
-		mapDriverOverlays = null;
+		if (mapDriverOverlays != null) {
+			mapDriverOverlays.clear();
+			mapDriverOverlays = null;
+		}
 	}
 
 	/**
@@ -61,8 +68,11 @@ public class MapModel {
 	}
 
 	public void clearPassengerOverlayList() {
-		mapPassengerOverlays.clear();
-		mapPassengerOverlays = null;
+		if (mapPassengerOverlays != null) {
+			mapPassengerOverlays.clear();
+			mapPassengerOverlays = null;
+		}
+
 	}
 
 	/**
@@ -103,5 +113,41 @@ public class MapModel {
 	 */
 	public int getNumSeats() {
 		return numSeats;
+	}
+
+	public void initDriversList() {
+		hitchDrivers = new ArrayList<Profile>();
+	}
+
+	public void initPassengersList() {
+		hitchPassengers = new ArrayList<Profile>();
+	}
+
+	/**
+	 * list of all drivers who sent an invitation to passengers
+	 * 
+	 * @return
+	 */
+	public List<Profile> getHitchDrivers() {
+		if (hitchDrivers == null) {
+			hitchDrivers = new ArrayList<Profile>();
+		}
+		return hitchDrivers;
+	}
+
+	/**
+	 * list of passengers within perimeter of a driver
+	 * 
+	 * @return
+	 */
+	public List<Profile> getHitchPassengers() {
+		if (hitchPassengers == null) {
+			hitchPassengers = new ArrayList<Profile>();
+		}
+		return hitchPassengers;
+	}
+	
+	public void setLocation() {
+		
 	}
 }

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -119,7 +118,7 @@ public class RegisterActivity extends Activity {
 
 		});
 
-		et_mobile.addTextChangedListener(new TextWatcher(){
+		et_mobile.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
 				if (!mobile_pattern.matcher(et_mobile.getText().toString())
@@ -135,18 +134,18 @@ public class RegisterActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
-		
+
 		// et_email.addTextChangedListener(new InputValidator(et_email, "",
 		// cEmail, cMobile));
 		// et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
@@ -180,12 +179,12 @@ public class RegisterActivity extends Activity {
 				if (validRegistrationForm(cMobile, cEmail, cPw)) {
 					ctrl.register(map);
 
-					Toast.makeText(RegisterActivity.this,
-							"Registration successful", Toast.LENGTH_LONG)
-							.show();
-					Intent intent = new Intent(RegisterActivity.this,
-							MainActivity.class);
-					RegisterActivity.this.startActivity(intent);
+					Toast.makeText(
+							RegisterActivity.this,
+							"Registration send.\nValidate your email to finish registration",
+							Toast.LENGTH_LONG).show();
+
+					RegisterActivity.this.finish();
 				} else {
 					Toast.makeText(RegisterActivity.this,
 							"Registration failed. Please check input",
@@ -219,63 +218,63 @@ public class RegisterActivity extends Activity {
 	 * @author andres
 	 * 
 	 */
-//	private class InputValidator implements TextWatcher {
-//
-//		private EditText editText;
-//		private String t;
-//		private boolean cEmail;
-//		private boolean cMobile;
-//
-//		public InputValidator(EditText editText, String toMatch,
-//				boolean cEmail, boolean cMobile) {
-//			this.editText = editText;
-//			t = toMatch;
-//			this.cEmail = cEmail;
-//			this.cMobile = cMobile;
-//		}
-//
-//		@Override
-//		public void afterTextChanged(Editable s) {
-//			switch (editText.getId()) {
-//			case R.id.et_email: {
-//				if (!email_pattern.matcher(editText.getText().toString())
-//						.matches()) {
-//					editText.setError("Invalid email");
-//					cEmail = false;
-//				} else {
-//					cEmail = true;
-//				}
-//			}
-//				break;
-//
-//			case R.id.et_mobile: {
-//				if (!mobile_pattern.matcher(editText.getText().toString())
-//						.matches()) {
-//					editText.setError("Invalid phone number");
-//					cMobile = false;
-//				} else {
-//					cMobile = true;
-//				}
-//			}
-//				break;
-//			}
-//
-//		}
-//
-//		@Override
-//		public void beforeTextChanged(CharSequence s, int start, int count,
-//				int after) {
-//			// TODO Auto-generated method stub
-//
-//		}
-//
-//		@Override
-//		public void onTextChanged(CharSequence s, int start, int before,
-//				int count) {
-//			// TODO Auto-generated method stub
-//
-//		}
-//
-//	}
+	// private class InputValidator implements TextWatcher {
+	//
+	// private EditText editText;
+	// private String t;
+	// private boolean cEmail;
+	// private boolean cMobile;
+	//
+	// public InputValidator(EditText editText, String toMatch,
+	// boolean cEmail, boolean cMobile) {
+	// this.editText = editText;
+	// t = toMatch;
+	// this.cEmail = cEmail;
+	// this.cMobile = cMobile;
+	// }
+	//
+	// @Override
+	// public void afterTextChanged(Editable s) {
+	// switch (editText.getId()) {
+	// case R.id.et_email: {
+	// if (!email_pattern.matcher(editText.getText().toString())
+	// .matches()) {
+	// editText.setError("Invalid email");
+	// cEmail = false;
+	// } else {
+	// cEmail = true;
+	// }
+	// }
+	// break;
+	//
+	// case R.id.et_mobile: {
+	// if (!mobile_pattern.matcher(editText.getText().toString())
+	// .matches()) {
+	// editText.setError("Invalid phone number");
+	// cMobile = false;
+	// } else {
+	// cMobile = true;
+	// }
+	// }
+	// break;
+	// }
+	//
+	// }
+	//
+	// @Override
+	// public void beforeTextChanged(CharSequence s, int start, int count,
+	// int after) {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// @Override
+	// public void onTextChanged(CharSequence s, int start, int before,
+	// int count) {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	//
+	// }
 
 }
