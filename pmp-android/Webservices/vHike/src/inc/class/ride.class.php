@@ -150,7 +150,7 @@ class Ride {
                 $ride = new Ride();
                 $ride->driver = $driver;
                 $ride->driverRated = false;
-                $ride->trip = Trip::loadTripBySqlResult($row, "tid");
+                $ride->trip = Trip::loadTripBySqlResult($row, "tid", "paxId");
 
                 $rides[(int)$row["tid"]] = $ride;
             }
@@ -197,7 +197,7 @@ class Ride {
             $ride = new Ride();
             $ride->driver = User::loadUserBySqlResult($row, "driverId");
             $ride->driverRated = (bool) $row["driver_rated"];
-            $ride->trip = Trip::loadTripBySqlResult($row, "tid");
+            $ride->trip = Trip::loadTripBySqlResult($row, "tid", "driverId");
             $ride->passengers[] = new Passenger($passenger, false, $ride);
 
             $rides[(int)$row["tid"]] = $ride;
