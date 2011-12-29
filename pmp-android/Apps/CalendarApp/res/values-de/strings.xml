@@ -64,5 +64,6 @@
     <string name="severity_low">niedrig</string>
     <string name="err_connect_db">Konnte keine Verbindung zur Datenbank-Ressource herstellen</string>
     <string name="err_connect_mail">Konnte keine Verbindung zur E-Mail-Ressource herstellen</string>
+    <string name="err_connect_fs">Konnte keine Verbindung zur Dateisystem-Ressource herstellen</string>
 
 </resources>
