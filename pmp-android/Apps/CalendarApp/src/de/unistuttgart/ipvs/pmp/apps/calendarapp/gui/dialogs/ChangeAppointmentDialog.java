@@ -179,7 +179,7 @@ public class ChangeAppointmentDialog extends Dialog {
                 severity = Severity.LOW;
             }
             
-            SqlConnector.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
+            new SqlConnector().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
                     cal.getTime(), ChangeAppointmentDialog.this.name.getText().toString(),
                     ChangeAppointmentDialog.this.desc.getText().toString(), severity);
             

@@ -153,7 +153,7 @@ public class NewAppointmentDialog extends Dialog {
             }
             
             // Stores the date
-            SqlConnector.getInstance().storeNewAppointment(cal.getTime(),
+            new SqlConnector().storeNewAppointment(cal.getTime(),
                     NewAppointmentDialog.this.name.getText().toString(),
                     NewAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();

@@ -289,9 +289,10 @@ public class FileSystemConnector {
                         Toast.makeText(Model.getInstance().getImportContext(), R.string.import_data_invalid_toast,
                                 Toast.LENGTH_SHORT).show();
                     } else {
+                        SqlConnector connector = new SqlConnector();
                         // Delete all current appointments
                         for (Appointment appointment : Model.getInstance().getAppointmentList()) {
-                            SqlConnector.getInstance().deleteAppointment(appointment);
+                            connector.deleteAppointment(appointment);
                         }
                         Model.getInstance().deleteAllAppointments();
                         
@@ -300,7 +301,7 @@ public class FileSystemConnector {
                             String nameTmp = appointmentToStore.getName();
                             String descr = appointmentToStore.getDescrpition();
                             Date date = appointmentToStore.getDate();
-                            SqlConnector.getInstance().storeNewAppointment(date, nameTmp, descr, Severity.MIDDLE);
+                            connector.storeNewAppointment(date, nameTmp, descr, Severity.MIDDLE);
                             
                             Log.d("Imported appointment: " + name);
                             Log.d("Imported appointment: " + description);
