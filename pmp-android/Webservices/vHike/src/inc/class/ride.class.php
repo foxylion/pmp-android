@@ -206,6 +206,19 @@ class Ride {
         return $rides;
     }
 
+    public static function searchRide($passenger_id, $distance)
+    {
+        $db = Database::getInstance();
+
+        $query = $db->query("CALL list_driver($passenger_id, $distance);");
+        $arr = null;
+        $i = 0;
+        while ($row = $db->fetch($query)) {
+            $arr[$i++] = $row;
+        }
+        return $arr;
+    }
+
     /**
      * Checks if the given rater is allowed to rate the given recipient.
      * @param User $rater   Person that want's to rate

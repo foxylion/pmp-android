@@ -148,17 +148,20 @@ BEGIN
   DECLARE lon2 FLOAT;
   DECLARE lat1 FLOAT;
   DECLARE lat2 FLOAT;
-  -- get the original lon and lat for the driverid
-  SELECT current_lon, current_lat INTO mylon, mylat FROM `dev_trip` WHERE `driver`=driverid LIMIT 1;
+	DECLARE trip_dest varchar(100);
+  -- get the original lon, lat and destination for the driverid
+  SELECT current_lon, current_lat, destination INTO mylon, mylat, trip_dest FROM dev_trip WHERE driver=driverid LIMIT 1;
   -- calculate lon and lat for the rectangle:
   set lon1 = mylon-dist/abs(cos(radians(mylat))*69);
   set lon2 = mylon+dist/abs(cos(radians(mylat))*69);
   set lat1 = mylat-(dist/69);
   set lat2 = mylat+(dist/69);
   -- run the query:
-  SELECT destination.*, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((origin.current_lat -destination.current_lat) * pi()/180 / 2), 2) + COS(origin.current_lat * pi()/180) * COS(destination.current_lat * pi()/180) *POWER(SIN((origin.current_lon -destination.current_lon) * pi()/180 / 2), 2) )) AS distance
-  FROM `dev_query` destination, `dev_trip` origin
-  WHERE origin.avail_seats>=destination.seats AND destination.current_lon BETWEEN lon1 AND lon2 AND destination.current_lat BETWEEN lat1 AND lat2
+  SELECT query.id AS queryid, query.passenger AS userid, user.username, user.rating_avg AS rating, query.current_lat AS lat, query.current_lon AS lon, query.seats, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((trip.current_lat -query.current_lat) * pi()/180 / 2), 2) + COS(trip.current_lat * pi()/180) * COS(query.current_lat * pi()/180) *POWER(SIN((trip.current_lon -query.current_lon) * pi()/180 / 2), 2) )) AS distance
+  FROM `dev_query` query
+  INNER JOIN `dev_trip` trip
+  INNER JOIN `dev_user` user ON user.id = passenger
+  WHERE query.destination=trip_dest AND trip.avail_seats>=query.seats AND query.current_lon BETWEEN lon1 AND lon2 AND query.current_lat BETWEEN lat1 AND lat2
   HAVING distance < dist
   ORDER BY distance ASC;
 END

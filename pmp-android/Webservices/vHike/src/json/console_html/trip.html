@@ -15,7 +15,7 @@ body {
 </head>
 
 <body>
-<h1>Trip management</h1>
+<h1>Driver Tools</h1>
 <h2>Announce trip</h2>
 <form action="../trip_announce.php" method="post" target="r">
   <table>
@@ -91,6 +91,28 @@ body {
     </tr>
     <tr>
       <td>Buttons:</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+<h2>Search for requests</h2>
+<form action="../query_search.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Current lat.</td>
+      <td><input name="lat" type="text" value="48.783173" /></td>
+    </tr>
+    <tr>
+      <td>Current lon.</td>
+      <td><input name="lon" type="text" value="9.181051" /></td>
+    </tr>
+    <tr>
+      <td>Distance</td>
+      <td><input name="distance" type="text" value="5000" /></td>
+    </tr>
+    <tr>
+      <td>Buttons</td>
       <td colspan="2"><input type="submit" />
         <input type="reset" /></td>
     </tr>
