@@ -333,9 +333,10 @@ class user {
 
 
        // Create verification url and send it via e-mail
-       $url = "http://".BASE_URL."/verification.php?userid=$this->id&key=$key";
-       $message = "Hello $this->firstname $this->lastname,\n\n" .
-                  "your account has been created. In order to log in, you have to verify your e-mail address. " .
+       $url = "http://".BASE_URL."/verification.php?user=".$this->id."&key=".$key;
+       $message = "Hello ".$this->firstname." ".$this->lastname.",\n\n" .
+                  "Thank you for your registration on vHike. Your account has been created.\n\n" .
+                  "In order to log in, you have to verify your e-mail address. " .
                   "To do so, open the following link:\n\n" .
                   "$url\n\n" .
                   "Regards,\n" .
@@ -430,25 +431,29 @@ class user {
      * activates the account if they match.
      * @param int $id       Userid to match with the given key
      * @param String $key   Key to match with the given userid
-     * @return boolean  True, if id and key matched, otherwise false
+     * @return boolean  True, if id and key matched and user has been activated, otherwise false
      */
     public static function verifyUser($id, $key) {
-        $result = $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
-                              WHERE `user` = $id AND
-                                    `key` = \"$key\"");
-        $row = $db->fetch($result);
+        $db = Database::getInstance();
+        
+        $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
+                    WHERE `user` = $id 
+                    AND `key` = \"".$key."\"");
         
         // If the verification key is valid, activate user account
-        if (row) {
+        if ($db->getAffectedRows() > 0) {
             // Activate account
             $db->query("UPDATE `".DB_PREFIX."_user`
                         SET `activated` = 1
                         WHERE `id` = $id");
             
             // Remove key
-            $db->query("DELETE FROM `".DB_PREFIX."_user`
+            $db->query("DELETE FROM `".DB_PREFIX."_verification`
                         WHERE `user` = $id");
             
+            return true;            
+        } else {
+            return false;
         }
         
     }
