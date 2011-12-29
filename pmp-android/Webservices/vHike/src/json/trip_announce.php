@@ -8,9 +8,6 @@ require("./../inc/json_framework.inc.php");
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
-$trip = new Trip();
-$user = Session::getInstance()->getLoggedInUser();
-
 try {
     // Set user input. Cancel if there's a invalid value in a input string
     $driver = Session::getInstance()->getLoggedInUser();
