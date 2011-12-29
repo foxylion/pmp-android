@@ -153,6 +153,7 @@ public class Model implements IModel, Observer {
             
             // apply new app to DB, then model
             App newApp = new AppPersistenceProvider(null).createElementData(appPackage);
+            Assert.nonNull(newApp, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newApp", newApp));
             this.cache.getApps().put(appPackage, newApp);
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
@@ -160,6 +161,7 @@ public class Model implements IModel, Observer {
             for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
                         sfIdentifier, ais.getServiceFeaturesMap().get(sfIdentifier).getRequiredResourceGroups());
+                Assert.nonNull(newSF, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newSF", newSF));
                 this.cache.getServiceFeatures().get(newApp).put(sfIdentifier, newSF);
             }
             
@@ -357,6 +359,7 @@ public class Model implements IModel, Observer {
             
             // apply new RG to DB, then model
             ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(rgPackage);
+            Assert.nonNull(newRG, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newRG", newRG));
             this.cache.getResourceGroups().put(rgPackage, newRG);
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
@@ -364,6 +367,7 @@ public class Model implements IModel, Observer {
             for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
                         psIdentifier);
+                Assert.nonNull(newPS, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPS", newPS));
                 this.cache.getPrivacySettings().get(newRG).put(psIdentifier, newPS);
             }
             
@@ -518,6 +522,8 @@ public class Model implements IModel, Observer {
         
         Preset newPreset = new PresetPersistenceProvider(null).createElementData(creator, presetIdentifier, name,
                 description);
+        Assert.nonNull(newPreset, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPreset", newPreset));
+        
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
         if (creatorMap == null) {
             creatorMap = new HashMap<String, Preset>();

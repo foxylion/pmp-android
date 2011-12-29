@@ -189,11 +189,11 @@
           <td>
             <ul>
               <li><code>username</code> - String (3 &le; Zeichen &le; 100): Der gewünschte Benutzername des neuen Kontos</li>
-              <li><code>password</code> - String (3 &le; Zeichen &le; 100): Das gewünschte Passwort als Reintext (nicht gehasht)</li>
+              <li><code>password</code> - String (8 &le; Zeichen): Das gewünschte Passwort als Reintext (nicht gehasht)</li>
               <li><code>email</code> - String (3 &le; Zeichen &le; 100): Die E-Mail-Adresse des Benutzer</li>
-              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100): Vorname des Benutzers</li>
-              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100): Nachname des Benutzers</li>
-              <li><code>tel</code> - String (3 &le; Zeichen &le; 100): Telefonnummer des Benutzers</li>
+              <li><code>firstname</code> - String (3 &le; Zeichen &le; 100, nur A-Z, 0-9, "_", "-", Leerzeichen [Beginn/Ende immer Buchstabe/Zahl, nicht mehrere "_", "-" oder Leerzeichen nebeneinander]): Vorname des Benutzers</li>
+              <li><code>lastname</code> - String (3 &le; Zeichen &le; 100, nur A-Z, 0-9, "_", "-", Leerzeichen [Beginn/Ende immer Buchstabe/Zahl], nicht mehrere "_", "-" oder Leerzeichen nebeneinander): Nachname des Benutzers</li>
+              <li><code>tel</code> - String (3 &le; Zeichen &le; 100,, nur 0-9, "+" [nur zu Beginn erlaubt], "-"): Telefonnummer des Benutzers</li>
               <li><code>description</code> - String: Eine kurze Beschreibung, die
                 der Benutzer seinem Konto hinzufügen kann</li>
               <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse
@@ -225,7 +225,7 @@
               <li><code>status</code> - Gibt an, ob das Konto angelegt werden konnte.
                 Wurde das Konto angelegt, ist <code>status</code> auf <code>registered</code>
                 gesetzt. War die Registrierung nicht möglich, ist das Feld auf
-                <code>{(username_exists|email_exists|<br />invalid_(username|password|firstname|lastname|tel)),}</code>gesetzt.
+                <code>{(username_exists|email_exists|<br />invalid_(username|email|password|firstname|lastname|tel)),}</code>gesetzt.
                 Ein Fehlschlag tritt u.A. auf, wenn ein Pflichtfeld (alle außer
                 <code>description</code>) nicht angegeben wurde, es in ungültiges 
                 Format hat (z.B. die angegebene E-Mail kein "@" enthält) oder zu lang
@@ -563,6 +563,7 @@
               <li><code>tel_public</code> - Boolean: True, wenn die Telefonnummer
                 des Benutzers für andere Mitglieder sichtbar sein soll</li> -->
             </ul>
+            <b>Hinweis:</b> Für die Parameter gelten die beim Service "registrieren" genannten Bedingungen
           </td>
         </tr>      
         <tr>
@@ -570,21 +571,27 @@
           <td>
 <pre>
 {
-  "successful": true
+  "successful": true,
+  "status": String
 }                                 
 </pre>  
           </td>
         </tr>
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
+          <td>
+            <ul>
+              <li><code>status</code> - Gibt an, ob das Konto aktualisiert werden konnte.
+                Wurde das Konto aktualisiert, ist <code>status</code> auf <code>updated</code>
+                gesetzt. War die Aktualisierung nicht möglich, ist das Feld auf
+                <code>{(invalid_(firstname|lastname|tel)),}</code>gesetzt.</li>
+              </ul>
+          </td>
         </tr>   
-        <!--        
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet</td>
         </tr>
-        -->
       </table>
       
       
@@ -640,13 +647,11 @@
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
-        </tr>   
-        <!--        
+        </tr>    
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet</td>
         </tr>
-        -->
       </table>
       
       
@@ -785,7 +790,7 @@
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
-          <td>Der Fahrer möchte das Ziel seiner Fahrt oder die Anzahl der verfügbaren Sitze 
+          <td>Der Fahrer möchte die Anzahl der verfügbaren Sitze 
             ändern.<br />
             <b>Hinweis:</b> Die Anzeige der noch verfübaren Sitze wird aus der
             Angabe <code>avail_seats</code> und den momentan angenommenen Mitfahr-Anfragen
@@ -1064,9 +1069,11 @@
   "status&quot;: String,
   "queries": [
     {"queryid": Integer, "userid": Integer, "username": String,
-      "rating": Float, "lat": Float, "lon": Float, "seats", Integer},   
+     "rating": Float, "lat": Float, "lon": Float,
+     "seats": Integer, distance: Float},
     {"queryid": Integer, "userid": Integer, "username": String,
-      "rating": Float, "lat": Float, "lon": Float, "seats", Integer},   
+     "rating": Float, "lat": Float, "lon": Float,
+     "seats": Integer, distance: Float},
     ...
   ]
 }                                 
@@ -1079,7 +1086,7 @@
            <ul>           
              <li><code>status</code> - String: Gibt an, ob die Suche erfolgreich war. <code>result</code> wenn es keinen Fehler aufgetreten wurde, <code>no_drive</code> wenn
 der Fahrer gerade keine Fahrt anbietet.                        
-              <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
+             <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
                 <ul>
                 <li><code>queryid</code> - Integer: ID der Anfrage</li>
                 <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>  
@@ -1088,18 +1095,89 @@ der Fahrer gerade keine Fahrt anbietet.
                 <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>    
                 <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>  
                 <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
-                </ul>
+                <li><code>distance</code> - Float: Distanz zwischen dem Fahrer und den angefragten Benutzern in Meter</li>
+             </ul>              
             </ul>
-          </td>
+          <p>Das Ergebnis wird nach <code>distance</code> aufsteigend sortiert.</p></td>
         </tr>
         <tr>
           <th class="left">Status</th>
-          <td>Implementiert. Distance funktioniert noch nicht. Ungetestet für den Fall, indem keine Anfrage mit der passenden Bedienung existiert.</td>
+          <td>Implementiert</td>
         </tr>
       </table>
       
       
-      <h3 id="interface_offer">Mitfahrer einladen</h3>
+      <h3 id="interface_search_queries2">Fahrer suchen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>ride_search.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Mitfahrer möchte die angebote Fährte in einem bestimmten Umkreis suchen</td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td><ul>
+            <li><code>sid</code> - String: Session-ID des Benutzers, der die Fahrt bekannt gibt</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td><ul>
+            <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad und...</li>
+            <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): ...Längengrad an denen nach Anfragen gesucht werden soll</li>
+            <li><code>distance</code> - Integer (1 &le; x &le; 10.000): Radius des Umkreises in Meter, in dem gesucht werden soll</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td><pre>
+{
+  "successful": true,
+  "status&quot;: String,
+  "queries": [
+    {"queryid": Integer, "userid": Integer, "username": String,
+     "rating": Float, "lat": Float, "lon": Float,
+     "seats": Integer, distance: Float},
+    {"queryid": Integer, "userid": Integer, "username": String,
+     "rating": Float, "lat": Float, "lon": Float,
+     "seats": Integer, distance: Float},
+    ...
+  ]
+}                                 
+          </pre></td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td><ul>
+            <li><code>status</code> - String: Gibt an, ob die Suche erfolgreich war. <code>result</code> wenn es keinen Fehler aufgetreten wurde, <code>no_query</code> wenn
+              der Benutzer gerade keine Anfrage hat.                        
+            <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
+              <ul>
+                <li><code>queryid</code> - Integer: ID der Anfrage</li>
+                <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>
+                <li><code>username</code> - String: Name des anfragenden Benutzers</li>
+                <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li>
+                <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>
+                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>
+                <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
+                <li><code>distance</code> - Float: Distanz zwischen dem Fahrer und den angefragten Benutzern in Meter</li>
+              </ul>
+            </ul>
+            <p>Das Ergebnis wird nach <code>distance</code> aufsteigend sortiert.</p></td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Wird bald implementiert</td>
+        </tr>
+      </table>
+      <h3>Mitfahrer einladen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -1387,12 +1465,10 @@ der Fahrer gerade keine Fahrt anbietet.
                 </ul></li></ul>
           </td>
         </tr> 
-        <!--           
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet.</td>
         </tr> 
-        -->
       </table>
       
       
@@ -1423,7 +1499,8 @@ der Fahrer gerade keine Fahrt anbietet.
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>recipient</code> - ID: ID des Benutzers, der die Bewertung erhalten soll</li>  
+              <li><code>recipient</code> - ID: ID des Benutzers, der die Bewertung erhalten soll</li>   
+              <li><code>trip</code> - Integer: ID des Fahrt, zu der die Bewertung erfolgen soll</li>
               <li><code>rating</code> - Integer (1 &le; x &le; 5): Bewertung des Benutzers</li>
             </ul>
           </td>
@@ -1445,18 +1522,18 @@ der Fahrer gerade keine Fahrt anbietet.
             <ul>           
               <li><code>status</code> - String: Gibt an, ob die Bewertung abgegeben wurde.
                 <code>rated</code>, wenn die Bewertung abgegeben wurde,
-                <code>already_rated</code>, wenn die Bewertung bereits abgegeben wurde oder
+                <code>already_rated</code>, wenn die Bewertung bereits abgegeben wurde,
+                <code>not_ended</code>, wenn die Fahrt noch nicht beendet wurde oder
                 <code>no_connection</code>, wenn es zwischen angemeldetem Benutzer und Empfänger
-                  der Bewertung keine Verbindung besteht (Keine Fahrer-Mitfahrer-Beziehung).</li>
+                  der Bewertung keine Verbindung besteht (Keine Fahrer-Mitfahrer-Beziehung) oder
+                  die angegebene Person oder die angegbene Fahrt nicht gefunden werden kann.</li>
             </ul>
           </td>
-        </tr> 
-        <!--           
+        </tr>         
         <tr>  
           <th class="left">Status</th>
           <td>Implementiert, jedoch ungetestet.</td>
         </tr> 
-        -->
       </table>
       
     </div>

@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
-import java.util.HashMap;
-
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -32,10 +30,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
         this.element.link = PluginProvider.getInstance().getResourceGroupObject(this.element.getIdentifier());
         this.element.icon = PluginProvider.getInstance().getIcon(this.element.getIdentifier());
         
-        this.element.privacySettings = new HashMap<String, PrivacySetting>();
-        for (PrivacySetting pl : getCache().getPrivacySettings().get(this.element).values()) {
-            this.element.privacySettings.put(pl.getIdentifier(), pl);
-        }
+        this.element.privacySettings = getCache().getPrivacySettings().get(this.element);
     }
     
     

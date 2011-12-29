@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.gui.main;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.app.Activity;
 import android.os.Bundle;
+import de.unistuttgart.ipvs.pmp.R;
 
 /**
  * The {@link ActivityAbout} displays informations about the who and why of PMP.

@@ -95,6 +95,7 @@ public class TabRGsAvailable extends Activity {
         return true;
     }
     
+    
     /**
      * Initiates a new update of the available Resourcegroups list. (done asynchronously)
      */
@@ -137,10 +138,12 @@ public class TabRGsAvailable extends Activity {
         
     }
     
+    
     /**
      * Parses the downloadedList of informationsets.
      * 
-     * @param informationSets Downloaded informationsets.
+     * @param informationSets
+     *            Downloaded informationsets.
      */
     protected void parseDownloadedList(RgInformationSet[] informationSets) {
         this.lastUpdateContainer.setVisibility(View.VISIBLE);
@@ -158,6 +161,7 @@ public class TabRGsAvailable extends Activity {
             this.updateFailedContainer.setVisibility(View.VISIBLE);
         }
     }
+    
     
     /**
      * Adds the listener to the Activity layout.

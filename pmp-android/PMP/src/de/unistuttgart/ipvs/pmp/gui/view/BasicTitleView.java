@@ -36,6 +36,16 @@ public class BasicTitleView extends LinearLayout {
      */
     private String title;
     
+    /**
+     * The color of the border below the title.
+     */
+    private int borderColor;
+    
+    /**
+     * The color of the title.
+     */
+    private int textColor;
+    
     
     /**
      * @see LinearLayout#LinearLayout(Context)
@@ -62,6 +72,9 @@ public class BasicTitleView extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
         this.title = a.getString(R.styleable.BasicTitleView_name);
         this.icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
+        
+        this.borderColor = a.getColor(R.styleable.BasicTitleView_borderColor, Color.parseColor("#ff8c00"));
+        this.textColor = a.getColor(R.styleable.BasicTitleView_textColor, Color.WHITE);
     }
     
     
@@ -133,6 +146,18 @@ public class BasicTitleView extends LinearLayout {
     }
     
     
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
+        refresh();
+    }
+    
+    
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        refresh();
+    }
+    
+    
     /**
      * Refreshes the icon and title after a change.
      */
@@ -140,6 +165,7 @@ public class BasicTitleView extends LinearLayout {
         TextView tv = (TextView) findViewById(R.id.TextView_Title);
         if (tv != null) {
             tv.setText(this.title);
+            tv.setTextColor(this.textColor);
         }
         
         ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
@@ -149,6 +175,11 @@ public class BasicTitleView extends LinearLayout {
             } else {
                 iv.setImageDrawable(this.iconDrawable);
             }
+        }
+        
+        View border = findViewById(R.id.View_Divider_Strong);
+        if (border != null) {
+            border.setBackgroundColor(this.borderColor);
         }
     }
 }

@@ -72,9 +72,7 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
         if (rg == null) {
             return null;
         } else {
-            IBinder bla = rg.getResource(appPackage, resource);
-            ;
-            return bla;
+            return rg.getResource(appPackage, resource);
         }
     }
     

@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import android.os.Bundle;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -56,6 +57,7 @@ public class IPCProvider {
      */
     public synchronized void startUpdate() {
         this.updateSession++;
+        Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " started.");
     }
     
     
@@ -63,6 +65,7 @@ public class IPCProvider {
      * Ends one cumulative update session started by {@link IPCProvider#startUpdate()}.
      */
     public synchronized void endUpdate() {
+        Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " ended.");
         if (this.updateSession > 0) {
             this.updateSession--;
         }
@@ -76,6 +79,7 @@ public class IPCProvider {
      * Rolls-out all queued up IPC operations.
      */
     private synchronized void rollout() {
+        Log.d("Performing IPC rollout...");
         for (final Entry<String, Bundle> e : this.queue.entrySet()) {
             final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), e.getKey());
             
@@ -115,6 +119,8 @@ public class IPCProvider {
         // run, if no session
         if (this.updateSession == 0) {
             rollout();
+        } else {
+            Log.d("IPC connection queued.");
         }
     }
     

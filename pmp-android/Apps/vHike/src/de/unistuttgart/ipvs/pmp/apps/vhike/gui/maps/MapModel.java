@@ -42,6 +42,11 @@ public class MapModel {
 		return mapDriverOverlays;
 	}
 
+	public void clearDriverOverlayList() {
+		mapDriverOverlays.clear();
+		mapDriverOverlays = null;
+	}
+
 	/**
 	 * Holds all overlays of the passengers MapView
 	 * 
@@ -53,6 +58,11 @@ public class MapModel {
 			mapPassengerOverlays = mapView.getOverlays();
 		}
 		return mapPassengerOverlays;
+	}
+
+	public void clearPassengerOverlayList() {
+		mapPassengerOverlays.clear();
+		mapPassengerOverlays = null;
 	}
 
 	/**

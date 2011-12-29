@@ -33,6 +33,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.DriverOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
@@ -54,6 +55,8 @@ public class DriverViewActivity extends MapActivity {
 	private LocationManager locationManager;
 	private GeoPoint p;
 
+	private Controller ctrl;
+
 	private SlidingDrawer drawer;
 
 	private int imADriver = 0;
@@ -62,13 +65,16 @@ public class DriverViewActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
+		ctrl = new Controller();
+
 		showHitchhikers();
 		setMapView();
 		setUpNotiBar();
-		startTripByAnnouncing();
+		startTripByUpdating();
 
 		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
 				.dismiss();
+		vhikeDialogs.getInstance().clearAnnouncPD();
 	}
 
 	public DriverViewActivity() {
@@ -200,7 +206,7 @@ public class DriverViewActivity extends MapActivity {
 	 * get current location and notify server that a trip was announced for
 	 * possible passengers to see
 	 */
-	private void startTripByAnnouncing() {
+	private void startTripByUpdating() {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new LocationUpdateHandler(context, locationManager, mapView,
@@ -209,35 +215,47 @@ public class DriverViewActivity extends MapActivity {
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-		if (location != null) {
-			switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-					.getInstance().getTripId(), (float) location.getLatitude(),
-					(float) location.getLongitude())) {
-			case Constants.STATUS_UPDATED:
-				Toast.makeText(DriverViewActivity.this, "Status updated",
-						Toast.LENGTH_LONG).show();
-				break;
-			case Constants.STATUS_UPTODATE:
-				Toast.makeText(DriverViewActivity.this, "Status Up to date",
-						Toast.LENGTH_LONG).show();
-				break;
-			case Constants.STATUS_NOTRIP:
-				Toast.makeText(DriverViewActivity.this, "Status no trip",
-						Toast.LENGTH_LONG).show();
-				break;
-			case Constants.STATUS_HASENDED:
-				Toast.makeText(DriverViewActivity.this, "Status trip ended",
-						Toast.LENGTH_LONG).show();
-				break;
-			case Constants.STATUS_INVALID_USER:
-				Toast.makeText(DriverViewActivity.this, "Status invalid user",
-						Toast.LENGTH_LONG).show();
+		int lat = (int) (location.getLatitude() * 1E6);
+		int lng = (int) (location.getLongitude() * 1E6);
+		GeoPoint gPosition = new GeoPoint(lat, lng);
 
-			}
+		Profile me = Model.getInstance().getOwnProfile();
 
-		} else {
-			Toast.makeText(DriverViewActivity.this,
-					"Location could not be updated", Toast.LENGTH_LONG).show();
+		Drawable drawableDriver = context.getResources().getDrawable(
+				R.drawable.icon_ride);
+		DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
+				gPosition);
+
+		OverlayItem oDriverItem = new OverlayItem(gPosition,
+				"Who wants a ride?", "User: " + me.getUsername() + ", Rating: "
+						+ me.getRating_avg());
+		dOverlay.addOverlay(oDriverItem);
+
+		MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
+
+		switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+				.getInstance().getTripId(), (float) location.getLatitude(),
+				(float) location.getLongitude())) {
+		case Constants.STATUS_UPDATED:
+			Toast.makeText(DriverViewActivity.this, "Status updated",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_UPTODATE:
+			Toast.makeText(DriverViewActivity.this, "Status Up to date",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_NOTRIP:
+			Toast.makeText(DriverViewActivity.this, "Status no trip",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_HASENDED:
+			Toast.makeText(DriverViewActivity.this, "Status trip ended",
+					Toast.LENGTH_LONG).show();
+			break;
+		case Constants.STATUS_INVALID_USER:
+			Toast.makeText(DriverViewActivity.this, "Status invalid user",
+					Toast.LENGTH_LONG).show();
+
 		}
 
 	}
@@ -252,13 +270,14 @@ public class DriverViewActivity extends MapActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case (R.menu.driverview_menu):
-			Controller ctrl = new Controller();
+		case (R.id.mi_endTrip):
+
 			switch (ctrl.endTrip(Model.getInstance().getSid(), Model
 					.getInstance().getTripId())) {
 			case (Constants.STATUS_UPDATED): {
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
+				MapModel.getInstance().clearDriverOverlayList();
 				DriverViewActivity.this.finish();
 				break;
 			}
@@ -284,6 +303,10 @@ public class DriverViewActivity extends MapActivity {
 						Toast.LENGTH_LONG).show();
 				break;
 			}
+			break;
+
+		case (R.id.mi_updateData):
+			vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
 			break;
 		}
 		return true;

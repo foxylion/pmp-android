@@ -17,12 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.model.activities;
+package de.unistuttgart.ipvs.pmp.model.activity;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,7 +48,15 @@ import de.unistuttgart.ipvs.pmp.gui.main.ActivityMain;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.DatabaseOpenHelper;
+import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
@@ -224,6 +234,92 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 
             }
         });
+        
+        /*
+         * total debug model
+         */
+        Button tocModel = (Button) findViewById(R.id.pdc_toc_model);
+        tocModel.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (ModelProxy.isMockup()) {
+                    throw new UnsupportedOperationException("Srsly? We need that for mockup as well?");
+                }
+                
+                try {
+                    Model m = (Model) ModelProxy.get();
+                    // yeah here's the actual nasty part
+                    Field f = m.getClass().getDeclaredField("cache");
+                    f.setAccessible(true);
+                    ModelCache mc = (ModelCache) f.get(m);
+                    
+                    // and off you go
+                    Log.d("LIST OF APPs");
+                    for (Entry<String, App> e : mc.getApps().entrySet()) {
+                        Log.d(String.format("  %s => %s", e.getKey(), e.getValue()));
+                    }
+                    
+                    Log.d("LIST OF SFs");
+                    for (Entry<App, Map<String, ServiceFeature>> e : mc.getServiceFeatures().entrySet()) {
+                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        for (Entry<String, ServiceFeature> e2 : e.getValue().entrySet()) {
+                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                        }
+                    }
+                    
+                    Log.d("LIST OF RGs");
+                    for (Entry<String, ResourceGroup> e : mc.getResourceGroups().entrySet()) {
+                        Log.d(String.format("  %s => %s", e.getKey(), e.getValue()));
+                    }
+                    
+                    Log.d("LIST OF PSs");
+                    for (Entry<ResourceGroup, Map<String, PrivacySetting>> e : mc.getPrivacySettings().entrySet()) {
+                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        for (Entry<String, PrivacySetting> e2 : e.getValue().entrySet()) {
+                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                        }
+                    }
+                    
+                    Log.d("LIST OF PRESETs");
+                    for (Entry<IModelElement, Map<String, Preset>> e : mc.getPresets().entrySet()) {
+                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        for (Entry<String, Preset> e2 : e.getValue().entrySet()) {
+                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                        }
+                    }
+                    
+                } catch (Throwable t) {
+                    Log.e("While debugging model: ", t);
+                }
+                
+            }
+        });
+        
+        /* 
+         * total debug db
+         */
+        Button tocDB = (Button) findViewById(R.id.pdc_toc_db);
+        tocDB.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                PersistenceProvider pp = PersistenceProvider.getInstance();
+                try {
+                    // it's a developer console, what'ya expect?
+                    pp.reloadDatabaseConnection();
+                    Field dohf = pp.getClass().getDeclaredField("doh");
+                    dohf.setAccessible(true);
+                    DatabaseOpenHelper doh = (DatabaseOpenHelper) dohf.get(pp);
+                    doh.debug();
+                    
+                } catch (Throwable t) {
+                    Log.e("While debugging db: ", t);
+                }
+            }
+            
+        });
+        
     }
     
     

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -65,12 +66,13 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
-                    Log.w("Unavailable preset cached (RG not present).");
+                    Log.w(String.format("Unavailable preset cached (RG '%s' not present).", rgPackage));
                     this.element.containsUnknownElements = true;
                 } else {
                     PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                     if (ps == null) {
-                        Log.w("Unavailable preset cached (PS not found in RG).");
+                        Log.w(String.format("Unavailable preset cached (PS '%s' not found in RG '%s').", psIdentifier,
+                                rg));
                         this.element.containsUnknownElements = true;
                     } else {
                         this.element.privacySettingValues.put(ps, grantValue);
@@ -89,11 +91,11 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         
         if (capp.moveToFirst()) {
             do {
-                String appId = capp.getString(capp.getColumnIndex(APP_PACKAGE));
+                String appPackage = capp.getString(capp.getColumnIndex(APP_PACKAGE));
                 
-                App app = getCache().getApps().get(appId);
+                App app = getCache().getApps().get(appPackage);
                 if (app == null) {
-                    Log.w("Unavailable preset cached (App not found).");
+                    Log.w(String.format("Unavailable preset cached (App '%s' not found).", appPackage));
                     this.element.containsUnknownElements = true;
                 } else {
                     this.element.assignedApps.add(app);
@@ -129,8 +131,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
         // delete preset
-        wdb.execSQL(
-                "DELETE FROM " + TBL_PRESET + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
+        wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + CREATOR + " = ? AND " + IDENTIFIER + " = ?",
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
         
     }
@@ -168,8 +169,9 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
         cv.put(GRANTEDVALUE, value);
         
-        if (wdb.insert(TBL_GrantPSValue, null, cv) == -1) {
-            
+        try {
+            wdb.insertOrThrow(TBL_GrantPSValue, null, cv);
+        } catch (SQLException sqle) {
             wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                     + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                     + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),

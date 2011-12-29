@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike;
 
-import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 

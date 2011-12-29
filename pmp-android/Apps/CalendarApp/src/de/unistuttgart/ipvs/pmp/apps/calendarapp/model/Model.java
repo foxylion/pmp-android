@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -269,28 +267,13 @@ public class Model {
     
     
     /**
-     * Sets the status if the table exists or not
-     * 
-     * @param created
-     *            true if the table is created
-     */
-    public void tableCreated(Boolean created) {
-        SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.appContext);
-        SharedPreferences.Editor editor = app_preferences.edit();
-        editor.putBoolean("tablecreated", created);
-        if (!editor.commit()) {
-            Log.e("Error while commiting preferences");
-        }
-    }
-    
-    
-    /**
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        this.dayAppointments.clear();
-        arrayAdapter.removeEmptyHeadersAndSections();
-        this.arrayAdapter.notifyDataSetChanged();
+        dayAppointments.clear();
+        arrayAdapter.reset();
+        
+        arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }
     
@@ -509,7 +492,6 @@ public class Model {
         
         dayAppointments.clear();
         arrayAdapter.reset();
-        
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
     }

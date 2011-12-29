@@ -73,7 +73,8 @@ public class ActivityMain extends Activity {
         textRgs.setText(getResources().getQuantityString(R.plurals.main_statistics_rgs, rgsCount, rgsCount));
         
         TextView textPresets = (TextView) findViewById(R.id.TextView_Presets);
-        textPresets.setText(getResources().getQuantityString(R.plurals.main_statistics_presets, presetsCount, presetsCount));
+        textPresets.setText(getResources().getQuantityString(R.plurals.main_statistics_presets, presetsCount,
+                presetsCount));
     }
     
     

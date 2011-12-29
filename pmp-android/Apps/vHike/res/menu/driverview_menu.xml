@@ -4,5 +4,8 @@
     <item
         android:id="@+id/mi_endTrip"
         android:title="@string/driverView_endTrip"/>
+    <item
+        android:id="@+id/mi_updateData"
+        android:title="@string/driverView_updateData"/>
 
 </menu>

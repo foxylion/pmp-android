@@ -55,7 +55,7 @@ public class App extends ModelElement implements IApp {
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [ais = %s, sf = %s, ap = %s]", this.ais.toString(),
+                + String.format(" [ais = %s, sf = %s, ap = %s]", this.ais,
                         ModelElement.collapseMapToString(this.serviceFeatures),
                         ModelElement.collapseListToString(this.assignedPresets));
     }

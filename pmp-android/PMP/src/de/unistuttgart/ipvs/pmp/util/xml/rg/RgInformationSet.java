@@ -142,7 +142,7 @@ public class RgInformationSet extends AbstractInformationSet {
      * @return location of the icon of the resource group
      */
     public String getIconLocation() {
-        return iconLocation;
+        return this.iconLocation;
     }
     
     

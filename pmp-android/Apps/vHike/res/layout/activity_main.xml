@@ -8,73 +8,66 @@
     android:background="@drawable/main_background"
     android:orientation="vertical" >
 
+    <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
+        pmp:name="@string/main_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/logo_rd"
+        pmp:textColor="@color/dark_blue" >
+    </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
-            pmp:name="@string/main_title"
-            android:textStyle="bold"
+        <Button
+            android:id="@+id/Button_Ride"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/balken"
-            android:icon="@drawable/logo" >
-        </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_ride"
+            android:paddingTop="25sp"
+            android:text="@string/main_ride" >
+        </Button>
 
-        <LinearLayout
+        <Button
+            android:id="@+id/Button_Profile"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_profile"
+            android:paddingTop="25sp"
+            android:text="@string/main_profile" >
+        </Button>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/Button_Ride"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_ride"
-                android:paddingTop="25sp"
-                android:text="@string/main_ride" >
-            </Button>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/Button_Profile"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_profile"
-                android:paddingTop="25sp"
-                android:text="@string/main_profile" >
-            </Button>
-        </LinearLayout>
+        <Button
+            android:id="@+id/Button_History"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_history"
+            android:paddingTop="25sp"
+            android:text="@string/main_history" >
+        </Button>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/Button_History"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_history"
-                android:paddingTop="25sp"
-                android:text="@string/main_history" >
-            </Button>
-
-            <Button
-                android:id="@+id/Button_Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_settings"
-                android:paddingTop="25sp"
-                android:text="@string/main_settings" >
-            </Button>
-        </LinearLayout>
+        <Button
+            android:id="@+id/Button_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_settings"
+            android:paddingTop="25sp"
+            android:text="@string/main_settings" >
+        </Button>
     </LinearLayout>
 
 </LinearLayout>

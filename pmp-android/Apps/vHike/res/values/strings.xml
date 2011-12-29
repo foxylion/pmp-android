@@ -40,5 +40,21 @@
     </string-array>
     <string name="profile_save">Save changes</string>
     <string name="driverView_endTrip">End trip</string>
+    <string name="passengerContentDesc">Invitations from drivers</string>
+    <string name="driverContentDesc">Passengers within perimeter</string>
+    <string name="perimeter">Perimeter: </string>
+    <string name="unanimous">Unanimous</string>
+    <string name="settings_perimeter_description">Search for hitchhikers within defined perimeter (km)</string>
+    <string name="settings_unanimous_description">Show profile information to others</string>
+    <string name="perimeter_default">10</string>
+    <string name="default_rating">0.0</string>
+    <string name="rememberMe">Remember me</string>
+    <string name="login_username">Username</string>
+    <string name="login_pw">Password </string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
+    <string name="driverView_updateData">Change trip info</string>
+    <string name="dialog_apply">Apply</string>
+    <string name="dialog_cancel">Cancel</string>
 
 </resources>

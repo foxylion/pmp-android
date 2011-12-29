@@ -11,7 +11,7 @@
     <string name="send">Per E-Mail senden</string>
     <string name="subject">Neuer Termin.</string>
     <string name="menu">Menü</string>
-    <string name="wait">Bitte warten...</string>
+    <string name="wait">Bitte warten&#8230;</string>
     <string name="registration">Registrierung wird durchgeführt.</string>
     <string name="registration_succeed">Erfolgreich bei PMP registriert</string>
     <string name="err_load">ehler beim Lesen der Termins aus der Datenbank</string>

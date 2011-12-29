@@ -27,17 +27,15 @@ public class MainActivity extends Activity {
 		registerListener();
 
 		vhikeDialogs.getInstance().getLoginPD(MainActivity.this).dismiss();
-		
-		
-		Controller ctrl = new Controller();
-		ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
+
+		vhikeDialogs.getInstance().clearLoginPD();
 	}
 
 	private void registerListener() {
 		Button btnRide = (Button) findViewById(R.id.Button_Ride);
 		Button btnProfile = (Button) findViewById(R.id.Button_Profile);
 		Button btnHistory = (Button) findViewById(R.id.Button_History);
-		// Button btnSettings = (Button) findViewById(R.id.Button_Settings);
+		Button btnSettings = (Button) findViewById(R.id.Button_Settings);
 
 		btnRide.setOnClickListener(new OnClickListener() {
 			@Override
@@ -65,7 +63,16 @@ public class MainActivity extends Activity {
 				MainActivity.this.startActivity(intent);
 			}
 		});
-	}
 
+		btnSettings.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(v.getContext(),
+						SettingsActivity.class);
+				v.getContext().startActivity(intent);
+			}
+
+		});
+	}
 
 }

@@ -32,6 +32,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.view.ContextMenu;
@@ -42,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
@@ -83,10 +85,6 @@ public class CalendarAppActivity extends ListActivity {
         
         setContentView(R.layout.list_layout);
         
-        //        arrayAdapter = new AppointmentArrayAdapter(this, R.layout.list_item, Model.getInstance().getAppointmentList());
-        //        Model.getInstance().setArrayAdapter(arrayAdapter);
-        //        setListAdapter(arrayAdapter);
-        
         SeparatedListAdapter spa = new SeparatedListAdapter(this.appContext);
         setListAdapter(spa);
         Model.getInstance().setArrayAdapter(spa);
@@ -104,10 +102,6 @@ public class CalendarAppActivity extends ListActivity {
                 menu.add(1, 1, 0, R.string.send);
             }
         });
-        
-        // Update the visibility of the "no appointments available" textview
-        updateNoAvaiableAppointmentsTextView();
-        
     }
     
     
@@ -131,13 +125,10 @@ public class CalendarAppActivity extends ListActivity {
                 
                 /*
                  * Changes the functionality according to the service feature that is set.
-                 * Will be called when the activity is started after on create and
+                 * Will be called when the activity is started after on resume and
                  * called when the activity is shown again.
                  */
                 ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature();
-                
-                // Update the visibility of the "no appointments avaiable" textview
-                updateNoAvaiableAppointmentsTextView();
             }
             
             
@@ -201,36 +192,28 @@ public class CalendarAppActivity extends ListActivity {
                 /*
                  * Connect to the EmailResourceGroup and send an mail with the date
                  */
-                final String resGroupId = "de.unistuttgart.ipvs.pmp.resourcegroups.email";
-                final PMPServiceConnector resGroupCon = new PMPServiceConnector(this.appContext);
-                resGroupCon.addCallbackHandler(new AbstractConnectorCallback() {
-                    
-                    @Override
-                    public void onConnect(AbstractConnector connector) throws RemoteException {
-                        Log.d("Connected to " + resGroupId);
-                        IEmailOperations emailOP = IEmailOperations.Stub
-                                .asInterface(resGroupCon.getAppService().getResource(
-                                        "de.unistuttgart.ipvs.pmp.apps.calendarapp", resGroupId, "emailOperations"));
-                        if (emailOP != null) {
-                            Calendar cal = new GregorianCalendar();
-                            cal.setTime(clicked.getDate());
-                            SimpleDateFormat formatter;
-                            formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                            emailOP.sendEmail("", getString(R.string.subject),
-                                    getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
-                                            + getString(R.string.desc) + ": " + clicked.getDescrpition());
-                        }
+                IBinder binder = ((CalendarApp) appContext).getResourceBlocking(
+                        "de.unistuttgart.ipvs.pmp.resourcegroups.email", "emailOperations");
+                
+                if (binder != null) {
+                    IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
+                    Calendar cal = new GregorianCalendar();
+                    cal.setTime(clicked.getDate());
+                    SimpleDateFormat formatter;
+                    formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                    try {
+                        emailOP.sendEmail("", getString(R.string.subject),
+                                getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
+                                        + getString(R.string.desc) + ": " + clicked.getDescrpition());
+                    } catch (RemoteException e) {
+                        Log.e("Couldn't send E-Mail", e);
                     }
-                    
-                    
-                    @Override
-                    public void onBindingFailed(AbstractConnector connector) {
-                        Log.e("Binding failed to " + resGroupId);
-                    }
-                });
-                resGroupCon.bind();
-                return true;
+                } else {
+                    Log.e("Couldn't send maiL");
+                }
             } else {
+                
+                // Request other service features
                 ArrayList<String> sfs = new ArrayList<String>();
                 if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
                     sfs.add("send");
@@ -270,7 +253,6 @@ public class CalendarAppActivity extends ListActivity {
                 if (app.isServiceFeatureEnabled("write")) {
                     // Show the new appointment dialog
                     Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
-                    dialog.setTitle("Create new appointment");
                     dialog.show();
                 } else {
                     String[] req = new String[1];

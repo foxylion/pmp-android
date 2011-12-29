@@ -40,6 +40,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name=".apps.vhike.gui.SettingsActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
             android:name=".apps.vhike.gui.DriverViewActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

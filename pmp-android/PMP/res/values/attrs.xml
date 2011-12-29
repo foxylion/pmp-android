@@ -4,6 +4,8 @@
     <declare-styleable name="BasicTitleView">
         <attr format="reference" name="icon" />
         <attr format="string" name="name" />
+        <attr format="color" name="textColor" />
+        <attr format="color" name="borderColor" />
     </declare-styleable>
 
 </resources>

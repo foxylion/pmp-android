@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
 import android.app.Dialog;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,6 +80,12 @@ public class CalendarApp extends App {
     }
     
     
+    @Override
+    public IBinder getResourceBlocking(String resourceGroup, String resource) {
+        return super.getResourceBlocking(resourceGroup, resource);
+    }
+    
+    
     /**
      * Changes the functionality of the app according to its set ServiceFeature
      */
@@ -93,6 +100,10 @@ public class CalendarApp extends App {
         } else {
             // Read files
             SqlConnector.getInstance().loadAppointments();
+            
+            //Scroll to the actual date
+            Model.getInstance().getContext().getListView()
+                    .setSelection(Model.getInstance().getArrayAdapter().getActualAppointmentPosition());
         }
         
         /*
@@ -111,6 +122,8 @@ public class CalendarApp extends App {
                 }
             }
         });
+        
+        // Update the "No appointments available" textview
         Model.getInstance().getContext().updateNoAvaiableAppointmentsTextView();
     }
     

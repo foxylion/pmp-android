@@ -20,9 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp;
 
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.RemoteException;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;

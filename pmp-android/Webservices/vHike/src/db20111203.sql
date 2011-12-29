@@ -159,8 +159,12 @@ INSERT INTO `dev_verification` (`user`, `key`) VALUES
 
 -- The original version of this procedure was written by Alexander Rubin
 -- http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
-/*
-CREATE PROCEDURE hiker_dist (IN driverid int, IN dist int)
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS list_hiker//
+
+CREATE PROCEDURE list_hiker (IN driverid int, IN dist int)
 BEGIN
   DECLARE mylon DOUBLE;
   DECLARE mylat DOUBLE;
@@ -168,7 +172,7 @@ BEGIN
   DECLARE lon2 FLOAT;
   DECLARE lat1 FLOAT;
   DECLARE lat2 FLOAT;
-  -- get the original lon and lat for the userid
+  -- get the original lon and lat for the driverid
   SELECT current_lon, current_lat INTO mylon, mylat FROM `dev_trip` WHERE `driver`=driverid LIMIT 1;
   -- calculate lon and lat for the rectangle:
   set lon1 = mylon-dist/abs(cos(radians(mylat))*69);
@@ -176,7 +180,12 @@ BEGIN
   set lat1 = mylat-(dist/69);
   set lat2 = mylat+(dist/69);
   -- run the query:
-  SELECT destination.*, 3956 * 2 * ASIN(SQRT( POWER(SIN((origin.current_lat -destination.current_lat) * pi()/180 / 2), 2) + COS(origin.current_lat * pi()/180) * COS(destination.current_lat * pi()/180) *POWER(SIN((origin.current_lon -destination.current_lon) * pi()/180 / 2), 2) )) AS distance
-  FROM `dev_query` destination,`dev_trip` origin  WHERE origin.driver=driverid AND destination.longitude BETWEEN lon1 AND destination.current_latitude BETWEEN lat1 AND lat2 HAVING distance < dist
-  ORDER BY Distance limit 10;
-END*/
+  SELECT destination.*, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((origin.current_lat -destination.current_lat) * pi()/180 / 2), 2) + COS(origin.current_lat * pi()/180) * COS(destination.current_lat * pi()/180) *POWER(SIN((origin.current_lon -destination.current_lon) * pi()/180 / 2), 2) )) AS distance
+  FROM `dev_query` destination, `dev_trip` origin
+  WHERE origin.avail_seats>=destination.seats AND destination.current_lon BETWEEN lon1 AND lon2 AND destination.current_lat BETWEEN lat1 AND lat2
+  HAVING distance < dist
+  ORDER BY distance ASC;
+END
+//
+
+DELIMITER ;

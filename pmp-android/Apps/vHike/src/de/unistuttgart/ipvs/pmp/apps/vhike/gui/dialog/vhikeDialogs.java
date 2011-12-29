@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Handler;
 
 /**
  * This class provides access to all dialogs in vHike
@@ -18,7 +18,7 @@ public class vhikeDialogs {
 	private ProgressDialog dAnnounce;
 	private ProgressDialog dSearch;
 
-	private Handler ahandler;
+	private UpdateData dUpdateData;
 
 	public static vhikeDialogs getInstance() {
 		if (instance == null) {
@@ -44,6 +44,10 @@ public class vhikeDialogs {
 		return dLogin;
 	}
 
+	public void clearLoginPD() {
+		dLogin = null;
+	}
+
 	/**
 	 * ProgressDialog for driver when announcing a trip and calculating current
 	 * position
@@ -61,6 +65,10 @@ public class vhikeDialogs {
 		dAnnounce.setCancelable(false);
 
 		return dAnnounce;
+	}
+
+	public void clearAnnouncPD() {
+		dAnnounce = null;
 	}
 
 	/**
@@ -82,11 +90,13 @@ public class vhikeDialogs {
 		return dSearch;
 	}
 
-	public Handler getAnnounceHandler() {
-		if (ahandler == null) {
-			ahandler = new Handler();
-		}
-		return ahandler;
+	public void clearSearchPD() {
+		dSearch = null;
 	}
 
+	public Dialog getUpdateDataDialog(Context mContext) {
+		dUpdateData = new UpdateData(mContext);
+
+		return dUpdateData;
+	}
 }
