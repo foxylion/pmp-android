@@ -2,8 +2,8 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
 		<icon>res/drawable-hdpi/icon.png</icon>
-		<defaultName lang="en">Database Resource</defaultName>
-		<name lang="de">Datenbank Ressource</name>
+		<defaultName lang="en">Database</defaultName>
+		<name lang="de">Datenbank</name>
 		<defaultDescription lang="en">Database Resource to
 			provide basic functions like read and write into a database.
 		</defaultDescription>

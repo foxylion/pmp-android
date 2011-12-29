@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
+import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -7,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
  * Controls the behaviour of vHike
@@ -252,8 +254,12 @@ public class Controller {
 		return Constants.STATUS_ERROR;
 	}
 
-	public void searchQuery(String sid, float lat, float lon, int perimeter) {
-		JSonRequestReader.searchQuery(sid, lat, lon, perimeter);
+	public List<QueryObject> searchQuery(String sid, float lat, float lon, int perimeter) {
+		List<QueryObject> queryList = JSonRequestReader.searchQuery(sid, lat,
+				lon, perimeter);
+
+		return queryList;
+
 	}
 
 	/**
