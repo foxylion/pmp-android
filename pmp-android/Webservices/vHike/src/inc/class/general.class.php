@@ -6,6 +6,12 @@ if (!defined("INCLUDE")) {
 class InputException extends Exception {}
 
 class General {
+    
+    /**
+     * String used inside a regular expression. This matches a single
+     * letter, that mgiht be used in any european language (e.g. a-z, á, Ê)
+     */
+    const REG_INTCHARS = "A-Za-zÄäÖößÜüÁÀÂáàâÉÈÊéèêÍÌÎíìîÓÒÔóòôÚÙÛúùûÇç";
 
     /**
      * Checks if the length of an input string is valid 

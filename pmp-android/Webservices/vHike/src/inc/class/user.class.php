@@ -127,20 +127,46 @@ class user {
     private static function isPasswordValid($password) {
         return strlen($password) >= 8;
     }
+    
+    /**
+     * Checks if a given name-string is valid.
+     * That is, if it does start with a letter/digit, has a valid lenght and does only
+     * have one "-", "_" or space between two letters/digits
+     * @param String $name String to validate
+     * @return boolean  True, if string is valid 
+     */
     private static function isNameValid($name) {
         if (!General::validLength($name)) {
             return false;
         }
         
-        $match = preg_match("/^[a-z0-9]+([-_[:space:]]?[a-z0-9])+$/i", $name);
+        $char = General::REG_INTCHARS;
+        $match = preg_match("/^[".$char."0-9]+([-_[:space:]]?[".$char."0-9])+$/i", $name);
         return $match > 0;
     }
     
+    /**
+     * Check if a given string is a valid e-mail-address.
+     * That is, if the address follows the format "prefix@postfix.domain
+     * whereas prefix and postfix may be a string build of (language dependent)
+     * characters including ".", "_" and "-" (but only one of them between two chars).
+     * The domain has to be at least 2 characters long and build up using a-z only.
+     * @param String $email E-Mail to validate
+     * @return boolean  True, if email is valid 
+     */
     private static function isEmailValid($email) {
-        $match = preg_match("/^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,}$/i", $email);
+        $char = General::REG_INTCHARS;
+        $match = preg_match("/^[".$char."0-9]+([-_\.]?[".$char."0-9])+@[".$char."0-9]+([-_\.]?[".$char."0-9])+\.[a-z]{2,}$/i", $email);
         return $match > 0;
     }
     
+    /**
+     * Checks if a given telephone number is valid.
+     * That is, if the number does contain digits only, where two digits might be
+     * spererated by a single "-". The number might also begin with a single "+"
+     * @param String $tel   Telephone number to validate
+     * @return boolean  True, if telephone number is valid 
+     */
     private static function isTelValid($tel) {
         if (!General::validLength($tel)) {
             return false;
@@ -180,10 +206,14 @@ class user {
         // Check if input is valid
         if (!self::isNameValid($username)) {
             $invalid |= self::INVALID_USERNAME;
+        } elseif (self::usernameExists($username)) {
+            $invalid |= self::USERNAME_EXISTS;
         }
         
         if (!self::isEmailValid($email)) {
             $invalid |= self::INVALID_EMAIL;            
+        } elseif (self::emailExists($email)) {
+            $invalid |= self::EMAIL_EXISTS;
         }
         
         if (!self::isNameValid($firstname)) {
@@ -202,14 +232,9 @@ class user {
             $invalid |= self::INVALID_PASSWORD;
         }
         
-        // Check if username or email is already in use
-        if (self::usernameExists($username)) {
-            $invalid |= self::USERNAME_EXISTS;
-        }
         
-        if (self::emailExists($email)) {
-            $invalid |= self::EMAIL_EXISTS;
-        }
+        
+        
         
         $description = $db->secureInput($description);
         $emailPublic = (bool)$emailPublic;
