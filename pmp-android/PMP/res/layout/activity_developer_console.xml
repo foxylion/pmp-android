@@ -15,10 +15,10 @@
 			    android:id="@+id/pdc_main_activity_btn"
 			    android:layout_width="86dp"
 			    android:layout_height="fill_parent"
-			    android:text="Launcher Activity" >
+			    android:text="@string/dev_con_launcher_activity" >
 </Button>
 			<TextView
-				android:text="Developer debugging controls. If you don't know what a button does, don't push it!"
+				android:text="@string/dev_con_description"
 				android:layout_height="wrap_content" android:paddingLeft="5dp"
 				android:layout_width="wrap_content"></TextView>
 		</LinearLayout>
@@ -35,7 +35,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_marginTop="5dp"
 			    android:paddingLeft="5dp"
-			    android:text="Model"
+			    android:text="@string/model"
 			    android:textAppearance="?android:attr/textAppearanceLarge" />
 
 			<LinearLayout
@@ -45,13 +45,13 @@
 				<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="ModelProxy's mockup state:" android:layout_marginTop="12dp" android:layout_marginLeft="12dp" android:layout_marginRight="16dp"/>
+				    android:text="@string/dev_con_mockup_state" android:layout_marginTop="12dp" android:layout_marginLeft="12dp" android:layout_marginRight="16dp"/>
 
 				<ToggleButton
 				    android:id="@+id/pdc_switch_mockup_btn"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="ToggleButton" android:checked="false"/>
+				    android:text="@string/dev_con_toggle_button" android:checked="false"/>
 
 			</LinearLayout>
 
@@ -65,13 +65,13 @@
 				    android:id="@+id/pdc_precache_btn"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Precache model" />
+				    android:text="@string/dev_con_precache_model" />
 
 				<Button
 				    android:id="@+id/pdc_clearcache_btn"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Clear model cache" />
+				    android:text="@string/dev_con_clear_model_cache" />
 
 			</LinearLayout>
 
@@ -86,7 +86,7 @@
 				    android:id="@+id/pdc_clean_tables_btn"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Clean database tables" />
+				    android:text="@string/dev_con_clear_db_table" />
 			</LinearLayout>
 
 		</LinearLayout>
@@ -101,7 +101,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_marginBottom="4dp"
 			    android:layout_marginTop="8dp"
-			    android:text="App Service"
+			    android:text="@string/app_service"
 			    android:textAppearance="?android:attr/textAppearanceLarge" android:paddingLeft="5dp"/>
 
 			<LinearLayout
@@ -113,7 +113,7 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="de.unistuttgart.ipvs.pmp.apps."
+			        android:text="@string/dev_con_apps_path"
 			        android:textSize="12dp" 
 			        android:inputType="text">
 
@@ -124,7 +124,7 @@
 			        android:id="@+id/pdc_appservice_bind_btn"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:text="Bind" />
+			        android:text="@string/bind" />
 			</LinearLayout>
 
 		</LinearLayout>
@@ -140,7 +140,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="5dp"
 		        android:paddingLeft="5dp"
-		        android:text="Resource Groups"
+		        android:text="@string/resource_groups"
 		        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 		    <LinearLayout
@@ -159,7 +159,7 @@
 		            android:id="@+id/pdc_rg_install_btn"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="Install" />
+		            android:text="@string/install" />
 
 		    </LinearLayout>
 
@@ -171,14 +171,14 @@
 		            android:id="@+id/textView1"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="Id:" />
+		            android:text="@string/dev_con_id" />
 
 		        <EditText
 		            android:id="@+id/pdc_rg_name"
 		            android:layout_width="0dip"
 		            android:layout_height="wrap_content"
 		            android:inputType="text"
-		            android:layout_weight="1" android:text="de.unistuttgart.ipvs.pmp.resourcegroups." android:textSize="12dp"/>
+		            android:layout_weight="1" android:text="@string/dev_con_rgs_path" android:textSize="12dp"/>
 
 		    </LinearLayout>
 
@@ -196,7 +196,7 @@
 		        android:layout_marginBottom="4dp"
 		        android:layout_marginTop="8dp"
 		        android:paddingLeft="5dp"
-		        android:text="Table of Contents (Total debug)"
+		        android:text="@string/dev_con_table_of_contents"
 		        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 		    <LinearLayout
@@ -208,14 +208,14 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="1"
-		            android:text="Model" />
+		            android:text="@string/model" />
 
 		        <Button
 		            android:id="@+id/pdc_toc_db"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="1"
-		            android:text="Database" />
+		            android:text="@string/database" />
 		    </LinearLayout>
 		</LinearLayout>
 

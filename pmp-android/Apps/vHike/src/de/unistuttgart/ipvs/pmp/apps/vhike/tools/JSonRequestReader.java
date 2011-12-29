@@ -67,7 +67,8 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "register.php");
+			object = JSonRequestProvider.doRequest(listToParse, "register.php",
+					false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -104,7 +105,8 @@ public class JSonRequestReader {
 
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "login.php");
+			object = JSonRequestProvider.doRequest(listToParse, "login.php",
+					false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -141,7 +143,8 @@ public class JSonRequestReader {
 		listToParse.add(new ParamObject("sid", session_id, false));
 		JsonObject object = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "logout.php");
+			object = JSonRequestProvider.doRequest(listToParse, "logout.php",
+					false);
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -176,7 +179,7 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"own_profile.php");
+					"own_profile.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -249,7 +252,7 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"get_profile.php");
+					"get_profile.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -323,7 +326,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"trip_announce.php");
+					"trip_announce.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -374,7 +377,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"trip_update_pos.php");
+					"trip_update_pos.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -410,7 +413,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"trip_update_data.php");
+					"trip_update_data.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -444,7 +447,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"trip_ended.php");
+					"trip_ended.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -487,7 +490,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"query_start.php");
+					"query_start.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -499,6 +502,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
 				id = object.get("id").getAsInt();
+				Log.i(String.valueOf(id));
 				return id;
 			}
 		}
@@ -523,7 +527,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"query_delete.php");
+					"query_delete.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -544,36 +548,146 @@ public class JSonRequestReader {
 		return status;
 	}
 
-	public static void searchQuery(String sid, int trip_id, float lat,
-			float lon, int perimeter) {
+	/**
+	 * Driver search for the potential hitchhiker.
+	 * 
+	 * @param sid
+	 * @param trip_id
+	 * @param lat
+	 * @param lon
+	 * @param perimeter
+	 *            /radius
+	 */
+	public static void searchQuery(String sid, float lat, float lon,
+			int perimeter) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
-		listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id),
-				false));
-		listToParse.add(new ParamObject("lat", String.valueOf(lat), false));
-		listToParse.add(new ParamObject("lon", String.valueOf(lon), false));
-		listToParse.add(new ParamObject("perimeter", String.valueOf(perimeter),
-				false));
-		
+		listToParse.add(new ParamObject("lat", String.valueOf(lat), true));
+		listToParse.add(new ParamObject("lon", String.valueOf(lon), true));
+		listToParse.add(new ParamObject("distance", String.valueOf(perimeter),
+				true));
+
 		JsonObject object = null;
-		
+
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "query_search.php");
+			object = JSonRequestProvider.doRequest(listToParse,
+					"query_search.php", true);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-		
-		if(object != null){
+
+		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			if(suc){
+			if (suc) {
 				Log.i(object.get("queries").getAsString());
+				//TODO;
 			}
 		}
 	}
 
+	/**
+	 * Driver send an offer to the hitchhiker
+	 * 
+	 * @param sid
+	 * @param trip_id
+	 * @param query_id
+	 * @param message
+	 * @return status
+	 */
+	public static String sendOffer(String sid, int trip_id, int query_id,
+			String message) {
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		listToParse.add(new ParamObject("trip", String.valueOf(trip_id), true));
+		listToParse
+				.add(new ParamObject("query", String.valueOf(query_id), true));
+		listToParse.add(new ParamObject("message", String.valueOf(message),
+				true));
+
+		JsonObject object = null;
+
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"offer.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String status = "";
+		if (object != null) {
+			suc = object.get("successful").getAsBoolean();
+			if (suc) {
+				status = object.get("status").getAsString();
+				return status;
+			}
+		}
+		return status;
+	}
+
+	public static void viewOffer(String sid) {
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		JsonObject object = null;
+
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"offer_view.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String status = "";
+		if (object != null) {
+			suc = object.get("succ essful").getAsBoolean();
+			if (suc) {
+				status = object.get("offers").getAsString();
+				//TODO;
+				Log.i(status);
+			}
+		}
+	}
+
+	/**
+	 * Hitchhiker can accept or decline an offer
+	 * @param sid
+	 * @param offer_id
+	 * @param accept
+	 * @return status
+	 */
+	public static String handleOffer(String sid, int offer_id, boolean accept){
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		
+		listToParse.add(new ParamObject("offer", String.valueOf(offer_id), true));
+		listToParse.add(new ParamObject("accept", String.valueOf(accept), true));
+		JsonObject object = null;
+		
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"offer_handle.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String status = "";
+		if(object!= null){
+			suc = object.get("successful").getAsBoolean();
+			if(suc){
+				status = object.get("status").getAsString();
+				return status;
+			}
+		}
+		return status;
+	}
 	/**
 	 * Dummy method don't touch it
 	 * 
@@ -591,7 +705,8 @@ public class JSonRequestReader {
 		String out_pos = null;
 		String out_get = null;
 		try {
-			object = JSonRequestProvider.doRequest(listToParse, "test.php");
+			object = JSonRequestProvider.doRequest(listToParse, "test.php",
+					false);
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

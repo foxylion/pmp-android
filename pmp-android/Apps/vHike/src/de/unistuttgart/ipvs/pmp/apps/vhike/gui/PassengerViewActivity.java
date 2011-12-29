@@ -188,7 +188,6 @@ public class PassengerViewActivity extends MapActivity {
 	 * start query by sending gps, destination and number of needed seats to
 	 * server
 	 */
-	@SuppressWarnings("unused")
 	private void startQuery() {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
@@ -198,26 +197,27 @@ public class PassengerViewActivity extends MapActivity {
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-		int lat = (int) (location.getLatitude() * 1E6);
-		int lng = (int) (location.getLongitude() * 1E6);
-
-		Profile me = Model.getInstance().getOwnProfile();
-		GeoPoint gPosition = new GeoPoint(lat, lng);
-
-		// Passenger drawable and overlay
-		Drawable drawablePassenger = context.getResources().getDrawable(
-				R.drawable.passenger_logo);
-		PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
-				context);
-
-		OverlayItem oPassengerItem = new OverlayItem(gPosition,
-				"I need a ride!", "User: " + me.getUsername() + ", Rating: "
-						+ me.getRating_avg());
-		pOverlay.addOverlay(oPassengerItem);
-
-		MapModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
-
 		if (location != null) {
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
+
+			Profile me = Model.getInstance().getOwnProfile();
+			GeoPoint gPosition = new GeoPoint(lat, lng);
+
+			// Passenger drawable and overlay
+			Drawable drawablePassenger = context.getResources().getDrawable(
+					R.drawable.passenger_logo);
+			PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
+					context);
+
+			OverlayItem oPassengerItem = new OverlayItem(gPosition,
+					"I need a ride!", "User: " + me.getUsername()
+							+ ", Rating: " + me.getRating_avg());
+			pOverlay.addOverlay(oPassengerItem);
+
+			MapModel.getInstance().getPassengerOverlayList(mapView)
+					.add(pOverlay);
+
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
 					.getInstance().getDestination(), lat, lng, MapModel
 					.getInstance().getNumSeats())) {
@@ -227,10 +227,8 @@ public class PassengerViewActivity extends MapActivity {
 				break;
 			}
 		} else {
-			Toast.makeText(context, "Location update failed", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
 		}
-
 	}
 
 	@Override
