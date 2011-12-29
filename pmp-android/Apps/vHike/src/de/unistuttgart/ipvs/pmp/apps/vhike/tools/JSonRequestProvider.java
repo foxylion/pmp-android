@@ -129,6 +129,15 @@ public class JSonRequestProvider {
 				Log.w("Json: " + r.readLine());
 				Log.w("Json: " + r.readLine());
 				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
+				Log.w("Json: " + r.readLine());
 				Log.w("======DEBUG MODE END=====");
 			}
 
