@@ -3,11 +3,13 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.widget.Spinner;
 
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
@@ -26,6 +28,9 @@ public class MapModel {
 
 	private List<Profile> hitchDrivers;
 	private List<Profile> hitchPassengers;
+
+	private NotificationAdapter driverAdapter;
+	private NotificationAdapter passengerAdapter;
 
 	public static MapModel getInstance() {
 		if (instance == null) {
@@ -146,8 +151,19 @@ public class MapModel {
 		}
 		return hitchPassengers;
 	}
-	
-	public void setLocation() {
-		
+
+	public NotificationAdapter getDriverAdapter(Context context) {
+		if (driverAdapter == null) {
+			driverAdapter = new NotificationAdapter(context, hitchDrivers, 0);
+		}
+		return driverAdapter;
+	}
+
+	public NotificationAdapter getPassengerAdapter(Context context) {
+		if (passengerAdapter == null) {
+			passengerAdapter = new NotificationAdapter(context,
+					hitchPassengers, 1);
+		}
+		return passengerAdapter;
 	}
 }

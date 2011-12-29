@@ -87,8 +87,7 @@ public class DriverViewActivity extends MapActivity {
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
 
-		appsAdapter = new NotificationAdapter(this, MapModel.getInstance()
-				.getHitchPassengers(), imADriver);
+		appsAdapter = MapModel.getInstance().getDriverAdapter(context);
 		pLV.setAdapter(appsAdapter);
 	}
 
@@ -115,9 +114,9 @@ public class DriverViewActivity extends MapActivity {
 		btnDriverLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// Controller ctrl = new Controller();
-				// ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
-				
+				Controller ctrl = new Controller();
+				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
+
 			}
 		});
 	}
@@ -183,9 +182,10 @@ public class DriverViewActivity extends MapActivity {
 				final int HELLO_ID = 1;
 
 				mNotificationManager.notify(HELLO_ID, notification);
-				
-				Profile profile = new Profile("demoTest", null, null, null, null,
-						null, null, false, false, false, false, 4.5, imADriver);
+
+				Profile profile = new Profile("demoTest", null, null, null,
+						null, null, null, false, false, false, false, 4.5,
+						imADriver);
 				addHitchhiker(profile);
 
 				drawer = (SlidingDrawer) findViewById(R.id.notiSlider);
@@ -233,6 +233,9 @@ public class DriverViewActivity extends MapActivity {
 			case Constants.STATUS_UPDATED:
 				Toast.makeText(DriverViewActivity.this, "Status updated",
 						Toast.LENGTH_LONG).show();
+//				ctrl.searchQuery(Model.getInstance().getSid(),
+//						(float) location.getLatitude(),
+//						(float) location.getLongitude(), 10);
 				break;
 			case Constants.STATUS_UPTODATE:
 				Toast.makeText(DriverViewActivity.this, "Status Up to date",
