@@ -44,9 +44,9 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     	BooleanPrivacySetting bps = (BooleanPrivacySetting) this.resource
                 .getPrivacySetting(Email.PRIVACY_SETTING_SEND_EMAIL);
         
-        try {
+	try {
 	    if (!bps.permits(this.appIdentifier, true)) {
-	        throw new IllegalAccessError();
+		throw new IllegalAccessError();
 	    }
 	} catch (IllegalAccessError e) {
 	    // TODO Auto-generated catch block
@@ -67,7 +67,6 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
         
         Intent startIntent = Intent.createChooser(emailIntent, "Send mail...");
         startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        
         this.context.startActivity(startIntent);
     }
     
