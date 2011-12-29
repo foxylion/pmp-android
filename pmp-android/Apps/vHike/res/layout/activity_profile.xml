@@ -199,9 +199,11 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:clickable="false"
+            android:isIndicator="true"
             android:numStars="5" />
 
         <TextView
+            android:id="@+id/tv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

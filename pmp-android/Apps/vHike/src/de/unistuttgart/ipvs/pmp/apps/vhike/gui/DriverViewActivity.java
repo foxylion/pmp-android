@@ -128,8 +128,7 @@ public class DriverViewActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), Model
-						.getInstance().getTripId(), 0, 0, 10);
+				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
 			}
 		});
 	}
@@ -216,47 +215,51 @@ public class DriverViewActivity extends MapActivity {
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-		int lat = (int) (location.getLatitude() * 1E6);
-		int lng = (int) (location.getLongitude() * 1E6);
-		GeoPoint gPosition = new GeoPoint(lat, lng);
+		if (location != null) {
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
+			GeoPoint gPosition = new GeoPoint(lat, lng);
 
-		Profile me = Model.getInstance().getOwnProfile();
+			Profile me = Model.getInstance().getOwnProfile();
 
-		Drawable drawableDriver = context.getResources().getDrawable(
-				R.drawable.icon_ride);
-		DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
-				gPosition);
+			Drawable drawableDriver = context.getResources().getDrawable(
+					R.drawable.icon_ride);
+			DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
+					gPosition);
 
-		OverlayItem oDriverItem = new OverlayItem(gPosition,
-				"Who wants a ride?", "User: " + me.getUsername() + ", Rating: "
-						+ me.getRating_avg());
-		dOverlay.addOverlay(oDriverItem);
+			OverlayItem oDriverItem = new OverlayItem(gPosition,
+					"Who wants a ride?", "User: " + me.getUsername()
+							+ ", Rating: " + me.getRating_avg());
+			dOverlay.addOverlay(oDriverItem);
 
-		MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
+			MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
 
-		switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-				.getInstance().getTripId(), (float) location.getLatitude(),
-				(float) location.getLongitude())) {
-		case Constants.STATUS_UPDATED:
-			Toast.makeText(DriverViewActivity.this, "Status updated",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_UPTODATE:
-			Toast.makeText(DriverViewActivity.this, "Status Up to date",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_NOTRIP:
-			Toast.makeText(DriverViewActivity.this, "Status no trip",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_HASENDED:
-			Toast.makeText(DriverViewActivity.this, "Status trip ended",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_INVALID_USER:
-			Toast.makeText(DriverViewActivity.this, "Status invalid user",
-					Toast.LENGTH_LONG).show();
+			switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+					.getInstance().getTripId(), (float) location.getLatitude(),
+					(float) location.getLongitude())) {
+			case Constants.STATUS_UPDATED:
+				Toast.makeText(DriverViewActivity.this, "Status updated",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_UPTODATE:
+				Toast.makeText(DriverViewActivity.this, "Status Up to date",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_NOTRIP:
+				Toast.makeText(DriverViewActivity.this, "Status no trip",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_HASENDED:
+				Toast.makeText(DriverViewActivity.this, "Status trip ended",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_INVALID_USER:
+				Toast.makeText(DriverViewActivity.this, "Status invalid user",
+						Toast.LENGTH_LONG).show();
 
+			}
+		} else {
+			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
 		}
 
 	}

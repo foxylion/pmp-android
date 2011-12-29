@@ -13,22 +13,23 @@ $user = Session::getInstance()->getLoggedInUser();
 
 try {
     // Set user input. Cancel if there's a invalid value in a input string
-    if (!$trip->setDestination($_POST["destination"]) || !$trip->setCurrentLat($_POST["current_lat"]) ||
-            !$trip->setCurrentLon($_POST["current_lon"]) || !$trip->setAvailSeats($_POST["avail_seats"])) {
-        Json::printError("invalid_input", "At least one POST-Parameter is invalid");
-    } 
+    $driver = Session::getInstance()->getLoggedInUser();
+    $trip = Trip::create($driver, $_POST["avail_seats"], $_POST["current_lat"],
+            $_POST["current_lon"], $_POST["destination"]);
     
-    if (Trip::openTripExists($user->getId())) {
-        $output = array("successful" => true, 
-                        "status" => "open_trip_exists");        
-    } else {
-        $trip->setDriver($user->getId());
-        $id = $trip->create();
-        $output = array("successful" => true, 
+    $output = array("successful" => true, 
                         "status" => "announced",
-                        "id" => $id);
-    }
+                        "id" => $trip->getId());
     echo Json::arrayToJson($output);
+    
+} catch (InvalidArgumentException $iae) {
+    if ($iae->getCode() == Trip::OPEN_TRIP_EXISTS) {
+        echo Json::arrayToJson(array("successful" => true, 
+                                     "status" => "open_trip_exists")); 
+    } else {
+        Json::printInvalidInputError();
+    }
+    
 } catch (DatabaseException $de) {
     Json::printDatabaseError($de);
 }
