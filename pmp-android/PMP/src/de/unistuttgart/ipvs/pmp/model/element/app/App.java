@@ -159,7 +159,12 @@ public class App extends ModelElement implements IApp {
             Map<ServiceFeature, Boolean> verification = new HashMap<ServiceFeature, Boolean>();
             // actual check against granted
             sfLoop: for (ServiceFeature sf : this.serviceFeatures.values()) {
-                verification.put(sf, true);
+                // sort out unavailable ones
+                boolean isAvail = sf.isAvailable();
+                verification.put(sf, isAvail);
+                if (!isAvail) {
+                    continue sfLoop;
+                }
                 
                 for (Entry<PrivacySetting, String> e : sf.getRequiredPrivacySettingValues().entrySet()) {
                     if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
@@ -172,7 +177,7 @@ public class App extends ModelElement implements IApp {
             IPCProvider.getInstance().queue(getIdentifier(), verification);
             
         } catch (PrivacySettingValueException plve) {
-            Log.e("Could not check whether service feature is active.", plve);
+            Log.e("Could not check which service features are active.", plve);
         }
     }
     
