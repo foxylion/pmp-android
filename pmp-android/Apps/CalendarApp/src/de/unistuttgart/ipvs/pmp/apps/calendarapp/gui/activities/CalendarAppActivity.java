@@ -22,10 +22,8 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -43,8 +41,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
@@ -56,7 +54,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialo
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -106,14 +103,16 @@ public class CalendarAppActivity extends ListActivity {
     
     
     @Override
-    protected void onResume() {
+    protected void onStart() {
         super.onResume();
+        
         // Connector to check if the app is registered yet
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             
             @Override
             public void onConnect(AbstractConnector connector) throws RemoteException {
+                
                 // Check if the service is registered yet
                 if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
                     Log.v("Registering");
@@ -151,11 +150,9 @@ public class CalendarAppActivity extends ListActivity {
                 
             }
         });
+        
         // Connect to the service
         pmpconnector.bind();
-        
-        // TEEEEEEST
-        setSFAddAppToModel();
     }
     
     
@@ -171,12 +168,13 @@ public class CalendarAppActivity extends ListActivity {
         // The menu information
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) aItem.getMenuInfo();
         final Appointment clicked = (Appointment) Model.getInstance().getArrayAdapter().getItem(menuInfo.position);
+        
         /*
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
-                SqlConnector.getInstance().deleteAppointment(clicked);
+                new SqlConnector().deleteAppointment(clicked);
                 Model.getInstance().deleteAppointment(clicked);
             } else {
                 String[] req = new String[1];
@@ -189,28 +187,43 @@ public class CalendarAppActivity extends ListActivity {
         if (aItem.getItemId() == 1) {
             if (((App) getApplication()).isServiceFeatureEnabled("send")
                     && ((App) getApplication()).isServiceFeatureEnabled("read")) {
-                /*
-                 * Connect to the EmailResourceGroup and send an mail with the date
-                 */
-                IBinder binder = ((CalendarApp) appContext).getResourceBlocking(
-                        "de.unistuttgart.ipvs.pmp.resourcegroups.email", "emailOperations");
                 
-                if (binder != null) {
-                    IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
-                    Calendar cal = new GregorianCalendar();
-                    cal.setTime(clicked.getDate());
-                    SimpleDateFormat formatter;
-                    formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                    try {
-                        emailOP.sendEmail("", getString(R.string.subject),
-                                getString(R.string.appoint) + formatter.format(cal.getTime()) + "\n"
-                                        + getString(R.string.desc) + ": " + clicked.getDescrpition());
-                    } catch (RemoteException e) {
-                        Log.e("Couldn't send E-Mail", e);
+                final PMPServiceConnector pmpconnector = new PMPServiceConnector(self);
+                pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+                    
+                    @Override
+                    public void onConnect(AbstractConnector connector) throws RemoteException {
+                        IBinder binder = pmpconnector.getAppService().getResource(getPackageName(),
+                                "de.unistuttgart.ipvs.pmp.resourcegroups.email", "emailOperations");
+                        
+                        if (binder != null) {
+                            IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
+                            Calendar cal = new GregorianCalendar();
+                            cal.setTime(clicked.getDate());
+                            SimpleDateFormat formatter;
+                            formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                            String time = formatter.format(cal.getTime());
+                            try {
+                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
+                                        + time + "\n" + getString(R.string.desc) + ": "
+                                        + clicked.getDescrpition());
+                            } catch (RemoteException e) {
+                                Log.e("Couldn't send E-Mail", e);
+                            }
+                        }
                     }
-                } else {
-                    Log.e("Couldn't send maiL");
-                }
+                    
+                    
+                    @Override
+                    public void onBindingFailed(AbstractConnector connector) {
+                        Log.e("Could not connect to E-Mail resource");
+                        Looper.prepare();
+                        Toast.makeText(appContext, R.string.err_connect_mail, Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }
+                });
+                pmpconnector.bind();
+                
             } else {
                 
                 // Request other service features
@@ -251,6 +264,7 @@ public class CalendarAppActivity extends ListActivity {
         switch (item.getItemId()) {
             case R.id.new_appointment:
                 if (app.isServiceFeatureEnabled("write")) {
+                    
                     // Show the new appointment dialog
                     Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
                     dialog.show();
@@ -262,6 +276,7 @@ public class CalendarAppActivity extends ListActivity {
                 return true;
             case R.id.delete_all_appointments:
                 if (app.isServiceFeatureEnabled("write")) {
+                    
                     // Show the confirm dialog for deleting all appointments
                     new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle(R.string.delete_all_appointments)
@@ -286,7 +301,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
+                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.IMPORT);
                     
                 } else {
                     String[] req = new String[1];
@@ -300,7 +315,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
                     
                 } else {
                     String[] req = new String[1];
@@ -316,38 +331,16 @@ public class CalendarAppActivity extends ListActivity {
     
     
     /**
-     * Update the visibility of the "no appointments avaiable" textview
+     * Update the visibility of the "no appointments available" textview
      */
     public void updateNoAvaiableAppointmentsTextView() {
+        
         // add text view "no appointments available", if the list is empty
         TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
         if (Model.getInstance().isModelEmpty()) {
             tv.setVisibility(View.VISIBLE);
         } else {
             tv.setVisibility(View.GONE);
-        }
-    }
-    
-    
-    public void setSFAddAppToModel() {
-        Bundle b = new Bundle();
-        b.putBoolean("read", true);
-        b.putBoolean("write", true);
-        b.putBoolean("import", false);
-        b.putBoolean("export", false);
-        b.putBoolean("export", false);
-        b.putBoolean("send", true);
-        ((App) getApplication()).updateServiceFeatures(b);
-        if (Model.getInstance().isModelEmpty()) {
-            Model.getInstance()
-                    .addAppointment(new Appointment(1, "test1", "This is a test", new Date(), Severity.HIGH));
-            Model.getInstance().addAppointment(
-                    new Appointment(2, "test2", "This is another test", new Date(), Severity.MIDDLE));
-            Model.getInstance().addAppointment(
-                    new Appointment(3, "test3", "More tests and I want to test even more", new Date(), Severity.LOW));
-            Model.getInstance().addAppointment(
-                    new Appointment(4, "test4", "Yeeeeeeeeeeeeeeeeeeeeeeeeeeeah what a super long description",
-                            new Date(), Severity.MIDDLE));
         }
     }
 }

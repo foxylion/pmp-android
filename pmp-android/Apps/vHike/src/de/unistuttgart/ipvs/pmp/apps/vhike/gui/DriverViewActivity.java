@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -49,13 +46,13 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 public class DriverViewActivity extends MapActivity {
 
 	private Context context;
-	private List<Profile> hitchhikers;
 	private MapView mapView;
 	private MapController mapController;
 	private LocationManager locationManager;
 	private GeoPoint p;
 
 	private Controller ctrl;
+	private NotificationAdapter appsAdapter;
 
 	private SlidingDrawer drawer;
 
@@ -66,6 +63,7 @@ public class DriverViewActivity extends MapActivity {
 		setContentView(R.layout.activity_driverview);
 
 		ctrl = new Controller();
+		MapModel.getInstance().initDriversList();
 
 		showHitchhikers();
 		setMapView();
@@ -85,23 +83,11 @@ public class DriverViewActivity extends MapActivity {
 	 * adds passengers (hitchhikers) to the notification slider
 	 */
 	private void showHitchhikers() {
-		hitchhikers = new ArrayList<Profile>();
-
-		Profile profile = new Profile("User1", null, null, null, null, null,
-				null, false, false, false, false, 0, 2.5);
-		Profile profile2 = new Profile("User3", null, null, null, null, null,
-				null, false, false, false, false, 0, 4);
-		Profile profile3 = Model.getInstance().getOwnProfile();
-
-		addHitchhiker(profile);
-		addHitchhiker(profile2);
-		addHitchhiker(profile3);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
 
-		NotificationAdapter appsAdapter = new NotificationAdapter(this,
-				hitchhikers);
+		appsAdapter = MapModel.getInstance().getDriverAdapter(context);
 		pLV.setAdapter(appsAdapter);
 	}
 
@@ -110,8 +96,9 @@ public class DriverViewActivity extends MapActivity {
 	 * 
 	 * @param hitchhiker
 	 */
-	private void addHitchhiker(Profile hitchhiker) {
-		hitchhikers.add(hitchhiker);
+	public void addHitchhiker(Profile hitchhiker) {
+		MapModel.getInstance().getHitchPassengers().add(hitchhiker);
+		appsAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -128,8 +115,8 @@ public class DriverViewActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), Model
-						.getInstance().getTripId(), 0, 0, 10);
+				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
+
 			}
 		});
 	}
@@ -196,6 +183,11 @@ public class DriverViewActivity extends MapActivity {
 
 				mNotificationManager.notify(HELLO_ID, notification);
 
+				Profile profile = new Profile("demoTest", null, null, null,
+						null, null, null, false, false, false, false, 4.5,
+						imADriver);
+				addHitchhiker(profile);
+
 				drawer = (SlidingDrawer) findViewById(R.id.notiSlider);
 				drawer.open();
 			}
@@ -216,47 +208,54 @@ public class DriverViewActivity extends MapActivity {
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-		int lat = (int) (location.getLatitude() * 1E6);
-		int lng = (int) (location.getLongitude() * 1E6);
-		GeoPoint gPosition = new GeoPoint(lat, lng);
+		if (location != null) {
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
+			GeoPoint gPosition = new GeoPoint(lat, lng);
 
-		Profile me = Model.getInstance().getOwnProfile();
+			Profile me = Model.getInstance().getOwnProfile();
 
-		Drawable drawableDriver = context.getResources().getDrawable(
-				R.drawable.icon_ride);
-		DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
-				gPosition);
+			Drawable drawableDriver = context.getResources().getDrawable(
+					R.drawable.icon_ride);
+			DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
+					gPosition);
 
-		OverlayItem oDriverItem = new OverlayItem(gPosition,
-				"Who wants a ride?", "User: " + me.getUsername() + ", Rating: "
-						+ me.getRating_avg());
-		dOverlay.addOverlay(oDriverItem);
+			OverlayItem oDriverItem = new OverlayItem(gPosition,
+					"Who wants a ride?", "User: " + me.getUsername()
+							+ ", Rating: " + me.getRating_avg());
+			dOverlay.addOverlay(oDriverItem);
 
-		MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
+			MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
 
-		switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-				.getInstance().getTripId(), (float) location.getLatitude(),
-				(float) location.getLongitude())) {
-		case Constants.STATUS_UPDATED:
-			Toast.makeText(DriverViewActivity.this, "Status updated",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_UPTODATE:
-			Toast.makeText(DriverViewActivity.this, "Status Up to date",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_NOTRIP:
-			Toast.makeText(DriverViewActivity.this, "Status no trip",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_HASENDED:
-			Toast.makeText(DriverViewActivity.this, "Status trip ended",
-					Toast.LENGTH_LONG).show();
-			break;
-		case Constants.STATUS_INVALID_USER:
-			Toast.makeText(DriverViewActivity.this, "Status invalid user",
-					Toast.LENGTH_LONG).show();
+			switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+					.getInstance().getTripId(), (float) location.getLatitude(),
+					(float) location.getLongitude())) {
+			case Constants.STATUS_UPDATED:
+				Toast.makeText(DriverViewActivity.this, "Status updated",
+						Toast.LENGTH_LONG).show();
+//				ctrl.searchQuery(Model.getInstance().getSid(),
+//						(float) location.getLatitude(),
+//						(float) location.getLongitude(), 10);
+				break;
+			case Constants.STATUS_UPTODATE:
+				Toast.makeText(DriverViewActivity.this, "Status Up to date",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_NOTRIP:
+				Toast.makeText(DriverViewActivity.this, "Status no trip",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_HASENDED:
+				Toast.makeText(DriverViewActivity.this, "Status trip ended",
+						Toast.LENGTH_LONG).show();
+				break;
+			case Constants.STATUS_INVALID_USER:
+				Toast.makeText(DriverViewActivity.this, "Status invalid user",
+						Toast.LENGTH_LONG).show();
 
+			}
+		} else {
+			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -279,6 +278,8 @@ public class DriverViewActivity extends MapActivity {
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
 				MapModel.getInstance().clearDriverOverlayList();
+				MapModel.getInstance().getHitchPassengers().clear();
+				appsAdapter.notifyDataSetChanged();
 				DriverViewActivity.this.finish();
 				break;
 			}

@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -48,9 +45,9 @@ import android.widget.Toast;
 public class PassengerViewActivity extends MapActivity {
 
 	private Controller ctrl;
+	private NotificationAdapter appsAdapter;
 
 	private Context context;
-	private List<Profile> hitchhikers;
 	private MapView mapView;
 	private MapController mapController;
 	private LocationManager locationManager;
@@ -68,6 +65,7 @@ public class PassengerViewActivity extends MapActivity {
 		setContentView(R.layout.activity_passengerview);
 
 		ctrl = new Controller();
+		MapModel.getInstance().initPassengersList();
 
 		showHitchhikers();
 		setMapView();
@@ -87,17 +85,12 @@ public class PassengerViewActivity extends MapActivity {
 	 * adds drivers (hitchhikers) to the notification slider
 	 */
 	private void showHitchhikers() {
-		hitchhikers = new ArrayList<Profile>();
-
-		Profile pro = new Profile("User2", null, null, null, null, null, null,
-				false, false, false, false, lat, lat);
-		addHitchhiker(pro);
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
 		pLV.setClickable(true);
 
-		NotificationAdapter appsAdapter = new NotificationAdapter(this,
-				hitchhikers);
+		appsAdapter = new NotificationAdapter(this, MapModel.getInstance()
+				.getHitchDrivers(), imAPassenger);
 		pLV.setAdapter(appsAdapter);
 	}
 
@@ -106,8 +99,9 @@ public class PassengerViewActivity extends MapActivity {
 	 * 
 	 * @param hitchhiker
 	 */
-	private void addHitchhiker(Profile hitchhiker) {
-		hitchhikers.add(hitchhiker);
+	public void addHitchhiker(Profile hitchhiker) {
+		MapModel.getInstance().getHitchDrivers().add(hitchhiker);
+		appsAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -188,7 +182,6 @@ public class PassengerViewActivity extends MapActivity {
 	 * start query by sending gps, destination and number of needed seats to
 	 * server
 	 */
-	@SuppressWarnings("unused")
 	private void startQuery() {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
@@ -198,39 +191,42 @@ public class PassengerViewActivity extends MapActivity {
 		Location location = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-		int lat = (int) (location.getLatitude() * 1E6);
-		int lng = (int) (location.getLongitude() * 1E6);
-
-		Profile me = Model.getInstance().getOwnProfile();
-		GeoPoint gPosition = new GeoPoint(lat, lng);
-
-		// Passenger drawable and overlay
-		Drawable drawablePassenger = context.getResources().getDrawable(
-				R.drawable.passenger_logo);
-		PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
-				context);
-
-		OverlayItem oPassengerItem = new OverlayItem(gPosition,
-				"I need a ride!", "User: " + me.getUsername() + ", Rating: "
-						+ me.getRating_avg());
-		pOverlay.addOverlay(oPassengerItem);
-
-		MapModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
-
 		if (location != null) {
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
+
+			Profile me = Model.getInstance().getOwnProfile();
+			GeoPoint gPosition = new GeoPoint(lat, lng);
+
+			// Passenger drawable and overlay
+			Drawable drawablePassenger = context.getResources().getDrawable(
+					R.drawable.passenger_logo);
+			PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
+					context);
+
+			OverlayItem oPassengerItem = new OverlayItem(gPosition,
+					"I need a ride!", "User: " + me.getUsername()
+							+ ", Rating: " + me.getRating_avg());
+			pOverlay.addOverlay(oPassengerItem);
+
+			MapModel.getInstance().getPassengerOverlayList(mapView)
+					.add(pOverlay);
+
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
 					.getInstance().getDestination(), lat, lng, MapModel
 					.getInstance().getNumSeats())) {
 			case (Constants.QUERY_ID_ERROR):
-				Toast.makeText(PassengerViewActivity.this, "Started query",
+				Toast.makeText(PassengerViewActivity.this, "Query error",
 						Toast.LENGTH_LONG).show();
+				break;
+			default:
+				Toast.makeText(PassengerViewActivity.this,
+						"Query started/updated", Toast.LENGTH_SHORT).show();
 				break;
 			}
 		} else {
-			Toast.makeText(context, "Location update failed", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
 		}
-
 	}
 
 	@Override
@@ -252,6 +248,8 @@ public class PassengerViewActivity extends MapActivity {
 			case Constants.STATUS_QUERY_DELETED:
 				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
 				MapModel.getInstance().clearPassengerOverlayList();
+				MapModel.getInstance().getHitchDrivers().clear();
+				appsAdapter.notifyDataSetChanged();
 				PassengerViewActivity.this.finish();
 				break;
 			case Constants.STATUS_NO_QUERY:

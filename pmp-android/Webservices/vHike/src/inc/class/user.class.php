@@ -38,6 +38,7 @@ class user {
     private $ratingNum = 0;
     private $activated = false;
     
+    private function __construct() { }    
     
     /**
      * Loads a user from the database and returns a user-object storing the information
@@ -127,20 +128,46 @@ class user {
     private static function isPasswordValid($password) {
         return strlen($password) >= 8;
     }
+    
+    /**
+     * Checks if a given name-string is valid.
+     * That is, if it does start with a letter/digit, has a valid lenght and does only
+     * have one "-", "_" or space between two letters/digits
+     * @param String $name String to validate
+     * @return boolean  True, if string is valid 
+     */
     private static function isNameValid($name) {
         if (!General::validLength($name)) {
             return false;
         }
         
-        $match = preg_match("/^[a-z0-9]+([-_[:space:]]?[a-z0-9])+$/i", $name);
+        $char = General::REG_INTCHARS;
+        $match = preg_match("/^[".$char."0-9]+([-_[:space:]]?[".$char."0-9])+$/i", $name);
         return $match > 0;
     }
     
+    /**
+     * Check if a given string is a valid e-mail-address.
+     * That is, if the address follows the format "prefix@postfix.domain
+     * whereas prefix and postfix may be a string build of (language dependent)
+     * characters including ".", "_" and "-" (but only one of them between two chars).
+     * The domain has to be at least 2 characters long and build up using a-z only.
+     * @param String $email E-Mail to validate
+     * @return boolean  True, if email is valid 
+     */
     private static function isEmailValid($email) {
-        $match = preg_match("/^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,}$/i", $email);
+        $char = General::REG_INTCHARS;
+        $match = preg_match("/^[".$char."0-9]+([-_\.]?[".$char."0-9])+@[".$char."0-9]+([-_\.]?[".$char."0-9])+\.[a-z]{2,}$/i", $email);
         return $match > 0;
     }
     
+    /**
+     * Checks if a given telephone number is valid.
+     * That is, if the number does contain digits only, where two digits might be
+     * spererated by a single "-". The number might also begin with a single "+"
+     * @param String $tel   Telephone number to validate
+     * @return boolean  True, if telephone number is valid 
+     */
     private static function isTelValid($tel) {
         if (!General::validLength($tel)) {
             return false;
@@ -180,10 +207,14 @@ class user {
         // Check if input is valid
         if (!self::isNameValid($username)) {
             $invalid |= self::INVALID_USERNAME;
+        } elseif (self::usernameExists($username)) {
+            $invalid |= self::USERNAME_EXISTS;
         }
         
         if (!self::isEmailValid($email)) {
             $invalid |= self::INVALID_EMAIL;            
+        } elseif (self::emailExists($email)) {
+            $invalid |= self::EMAIL_EXISTS;
         }
         
         if (!self::isNameValid($firstname)) {
@@ -202,14 +233,9 @@ class user {
             $invalid |= self::INVALID_PASSWORD;
         }
         
-        // Check if username or email is already in use
-        if (self::usernameExists($username)) {
-            $invalid |= self::USERNAME_EXISTS;
-        }
         
-        if (self::emailExists($email)) {
-            $invalid |= self::EMAIL_EXISTS;
-        }
+        
+        
         
         $description = $db->secureInput($description);
         $emailPublic = (bool)$emailPublic;
@@ -308,9 +334,10 @@ class user {
 
 
        // Create verification url and send it via e-mail
-       $url = "http://".BASE_URL."/verification.php?userid=$this->id&key=$key";
-       $message = "Hello $this->firstname $this->lastname,\n\n" .
-                  "your account has been created. In order to log in, you have to verify your e-mail address. " .
+       $url = "http://".BASE_URL."/verification.php?user=".$this->id."&key=".$key;
+       $message = "Hello ".$this->firstname." ".$this->lastname.",\n\n" .
+                  "Thank you for your registration on vHike. Your account has been created.\n\n" .
+                  "In order to log in, you have to verify your e-mail address. " .
                   "To do so, open the following link:\n\n" .
                   "$url\n\n" .
                   "Regards,\n" .
@@ -405,25 +432,29 @@ class user {
      * activates the account if they match.
      * @param int $id       Userid to match with the given key
      * @param String $key   Key to match with the given userid
-     * @return boolean  True, if id and key matched, otherwise false
+     * @return boolean  True, if id and key matched and user has been activated, otherwise false
      */
     public static function verifyUser($id, $key) {
-        $result = $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
-                              WHERE `user` = $id AND
-                                    `key` = \"$key\"");
-        $row = $db->fetch($result);
+        $db = Database::getInstance();
+        
+        $db->query("SELECT `key` FROM `".DB_PREFIX."_verification`
+                    WHERE `user` = $id 
+                    AND `key` = \"".$key."\"");
         
         // If the verification key is valid, activate user account
-        if (row) {
+        if ($db->getAffectedRows() > 0) {
             // Activate account
             $db->query("UPDATE `".DB_PREFIX."_user`
                         SET `activated` = 1
                         WHERE `id` = $id");
             
             // Remove key
-            $db->query("DELETE FROM `".DB_PREFIX."_user`
+            $db->query("DELETE FROM `".DB_PREFIX."_verification`
                         WHERE `user` = $id");
             
+            return true;            
+        } else {
+            return false;
         }
         
     }

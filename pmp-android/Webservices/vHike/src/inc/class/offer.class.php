@@ -51,14 +51,13 @@ class Offer {
                                       AND t.`driver` = u.`id`
                                       AND o.`id` = $id"));
         
-        if ($row["oid"] == null) {
+        if ($db->getAffectedRows() <= 0) {
             return null;
         }
         
         $offer = new Offer();
         
-        $offer->driver = new User();
-        $offer->driver->loadUserBySqlResult($row, "uid");
+        $offer->driver = User::loadUserBySqlResult($row, "uid");
         
         $offer->tripId = $row["tid"];
         $offer->id = $row["oid"];

@@ -13,12 +13,12 @@ $user = Session::getInstance() -> getLoggedInUser();
 
 try {
 	// Set user input. Cancel if there's a invalid value in a input string
-	if (!$query -> setCurrentLat($_POST["lat"]) || !$query -> setCurrentLon($_POST["lon"])) {
+	if (!$query -> setCurrentLat($_POST["lat"]) || !$query -> setCurrentLon($_POST["lon"]) || !is_numeric($_POST["distance"])) {
 		Json::printError("invalid_input", "At least one POST-Parameter is invalid");
 	}
 
     if($user->getCurrentTripId() != NULL) {
-        $result = $query->searchQuery($user->getId());
+        $result = $query->searchQuery($user->getId(), $_POST["distance"]);
         if ($result) {
             $output = array("successful" => true, "status" => "result", "queries" => $result);
             echo Json::arrayToJson($output);

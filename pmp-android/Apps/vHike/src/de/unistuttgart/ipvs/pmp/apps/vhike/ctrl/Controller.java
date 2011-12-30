@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
+import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -7,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
  * Controls the behaviour of vHike
@@ -251,9 +253,65 @@ public class Controller {
 		}
 		return Constants.STATUS_ERROR;
 	}
-	
-	public void searchQuery(String sid, int trip_id, float lat, float lon, int perimeter){
-		JSonRequestReader.searchQuery(sid, trip_id, lat, lon, perimeter);
-	}
-}
 
+	public List<QueryObject> searchQuery(String sid, float lat, float lon, int perimeter) {
+		List<QueryObject> queryList = JSonRequestReader.searchQuery(sid, lat,
+				lon, perimeter);
+
+		return queryList;
+
+	}
+
+	/**
+	 * Sends an offer to the hitchhiker
+	 * 
+	 * @param sid
+	 * @param trip_id
+	 * @param query_id
+	 * @param message
+	 * @return STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY,
+	 *         STATUS_ALREADY_SENT see {@link Constants}
+	 */
+	public int sendOffer(String sid, int trip_id, int query_id, String message) {
+		String status = JSonRequestReader.sendOffer(sid, trip_id, query_id,
+				message);
+
+		if (!status.equals("")) {
+			if (status.equals("sent")) {
+				return Constants.STATUS_SENT;
+			} else if (status.equals("invalid_trip")) {
+				return Constants.STATUS_INVALID_TRIP;
+			} else if (status.equals("invalid_query")) {
+				return Constants.STATUS_INVALID_QUERY;
+			} else if (status.equals("already_sent")) {
+				return Constants.STATUS_ALREADY_SENT;
+			}
+		}
+		return Constants.STATUS_ERROR;
+	}
+
+	/**
+	 * Hitchhiker can accept or decline offers
+	 * 
+	 * @param sid
+	 * @param offer_id
+	 * @param accept
+	 * @return STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER,
+	 *         STATUS_ERROR
+	 */
+	public int handleOffer(String sid, int offer_id, boolean accept) {
+		String status = JSonRequestReader.handleOffer(sid, offer_id, accept);
+
+		if (!status.equals("")) {
+			if (status.equals("handled")) {
+				return Constants.STATUS_HANDLED;
+			} else if (status.equals("invalid_offer")) {
+				return Constants.STATUS_INVALID_OFFER;
+			} else if (status.equals("invalid_user")) {
+				return Constants.STATUS_INVALID_USER;
+			}
+		}
+		return Constants.STATUS_ERROR;
+	}
+
+}

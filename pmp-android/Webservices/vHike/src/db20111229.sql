@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.8.1
+-- version 3.2.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 03. Dezember 2011 um 18:06
--- Server Version: 5.0.51
--- PHP-Version: 5.2.6-1+lenny13
+-- Erstellungszeit: 29. Dezember 2011 um 14:33
+-- Server Version: 5.1.41
+-- PHP-Version: 5.3.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -18,8 +18,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Datenbank: `vhike`
 --
-CREATE DATABASE `vhike` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `vhike`;
 
 -- --------------------------------------------------------
 
@@ -28,17 +26,14 @@ USE `vhike`;
 --
 
 CREATE TABLE IF NOT EXISTS `dev_offer` (
-  `id` int(8) NOT NULL auto_increment,
-  `driver` int(8) NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `trip` int(8) NOT NULL,
   `query` int(8) NOT NULL,
-  `message` text character set utf8 collate utf8_unicode_ci NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Daten für Tabelle `dev_offer`
---
-
+  `message` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `trip` (`trip`),
+  KEY `query` (`query`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -47,19 +42,16 @@ CREATE TABLE IF NOT EXISTS `dev_offer` (
 --
 
 CREATE TABLE IF NOT EXISTS `dev_query` (
-  `id` int(8) NOT NULL auto_increment,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
   `passenger` int(8) NOT NULL,
   `seats` int(8) NOT NULL,
   `current_lat` decimal(6,4) NOT NULL,
   `current_lon` decimal(7,4) NOT NULL,
-  `destination` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Daten für Tabelle `dev_query`
---
-
+  `destination` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `passenger` (`passenger`),
+  KEY `pos_destination` (`current_lat`,`current_lon`,`destination`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -68,18 +60,14 @@ CREATE TABLE IF NOT EXISTS `dev_query` (
 --
 
 CREATE TABLE IF NOT EXISTS `dev_ride` (
-  `id` int(8) NOT NULL auto_increment,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
   `passenger` int(8) NOT NULL,
   `trip` int(8) NOT NULL,
-  `driver_rated` tinyint(1) NOT NULL,
-  `passenger_rated` tinyint(1) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Daten für Tabelle `dev_ride`
---
-
+  `driver_rated` tinyint(1) NOT NULL DEFAULT '0',
+  `passenger_rated` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `foreign_key` (`passenger`,`trip`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -88,22 +76,18 @@ CREATE TABLE IF NOT EXISTS `dev_ride` (
 --
 
 CREATE TABLE IF NOT EXISTS `dev_trip` (
-  `id` int(8) NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
   `driver` int(8) NOT NULL,
   `avail_seats` int(8) NOT NULL,
   `current_lat` decimal(6,4) NOT NULL,
   `current_lon` decimal(7,4) NOT NULL,
-  `destination` varchar(100) NOT NULL,
-  `creation` date NOT NULL,
-  `ending` date NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `driver` (`driver`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `dev_trip`
---
-
+  `destination` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `creation` datetime NOT NULL,
+  `ending` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `driver` (`driver`),
+  KEY `pos_destination` (`current_lat`,`current_lon`,`destination`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -112,31 +96,25 @@ CREATE TABLE IF NOT EXISTS `dev_trip` (
 --
 
 CREATE TABLE IF NOT EXISTS `dev_user` (
-  `id` int(8) NOT NULL auto_increment,
-  `username` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `password` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `email` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `firstname` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `lastname` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `tel` varchar(16) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `description` text character set utf8 collate utf8_unicode_ci NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `firstname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tel` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
   `regdate` datetime NOT NULL,
-  `email_public` tinyint(1) NOT NULL default '0',
-  `firstname_public` tinyint(1) NOT NULL default '0',
-  `lastname_public` tinyint(1) NOT NULL default '0',
-  `tel_public` tinyint(1) NOT NULL default '0',
-  `rating_avg` float NOT NULL default '0',
-  `rating_num` int(5) NOT NULL default '0',
-  `activated` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Daten für Tabelle `dev_user`
---
-
-INSERT INTO `dev_user` (`id`, `username`, `password`, `email`, `firstname`, `lastname`, `tel`, `description`, `regdate`, `email_public`, `firstname_public`, `lastname_public`, `tel_public`, `rating_avg`, `rating_num`, `activated`) VALUES
-(1, 'demo', '098f6bcd4621d373cade4e832627b4f6', 'patrick.strobel.swt@gmail.com', 'max', 'mustermann', '0121-11111111', 'blabla', '2011-12-01 12:27:23', 0, 1, 0, 1, 0, 0, 1);
+  `email_public` tinyint(1) NOT NULL DEFAULT '0',
+  `firstname_public` tinyint(1) NOT NULL DEFAULT '0',
+  `lastname_public` tinyint(1) NOT NULL DEFAULT '0',
+  `tel_public` tinyint(1) NOT NULL DEFAULT '0',
+  `rating_avg` float NOT NULL DEFAULT '0',
+  `rating_num` int(5) NOT NULL DEFAULT '0',
+  `activated` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -146,16 +124,14 @@ INSERT INTO `dev_user` (`id`, `username`, `password`, `email`, `firstname`, `las
 
 CREATE TABLE IF NOT EXISTS `dev_verification` (
   `user` int(11) NOT NULL,
-  `key` varchar(32) character set ascii NOT NULL,
-  KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `key` varchar(32) CHARACTER SET ascii NOT NULL,
+  PRIMARY KEY (`user`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Daten für Tabelle `dev_verification`
---
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-INSERT INTO `dev_verification` (`user`, `key`) VALUES
-(1, '5rr6bx62lzx1h3isb7axenlkfempt7tn');
 
 -- The original version of this procedure was written by Alexander Rubin
 -- http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL

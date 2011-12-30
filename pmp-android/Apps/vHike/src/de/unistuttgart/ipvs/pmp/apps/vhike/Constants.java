@@ -39,10 +39,17 @@ public class Constants {
 	public static final int STATUS_INVALID_USER = 54;
 	public static final int STATUS_QUERY_DELETED = 55;
 	public static final int STATUS_NO_QUERY = 56;
+	public static final int STATUS_SENT = 57;
+	public static final int STATUS_INVALID_TRIP = 58;
+	public static final int STATUS_INVALID_QUERY = 59;
+	
 	
 	public static final int TRIP_STATUS_ANNOUNCED = 60;
 	public static final int TRIP_STATUS_OPEN_TRIP = 61;
 	
+	public static final int STATUS_ALREADY_SENT = 62;
+	public static final int STATUS_HANDLED = 63;
+	public static final int STATUS_INVALID_OFFER = 64;
 	// ERRORS
 	public static final int STATUS_ERROR = 999;
 	public static final int QUERY_ID_ERROR = 998;

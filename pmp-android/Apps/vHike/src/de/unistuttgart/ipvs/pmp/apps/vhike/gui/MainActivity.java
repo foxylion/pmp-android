@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 		registerListener();
 
 		vhikeDialogs.getInstance().getLoginPD(MainActivity.this).dismiss();
+
 		vhikeDialogs.getInstance().clearLoginPD();
 	}
 

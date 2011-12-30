@@ -28,18 +28,18 @@ class Query {
         return $query->fillAttributes("SELECT * FROM `".DB_PREFIX."_query` WHERE `id` = $id");
     }
 
-    public static function searchQuery($driver_id)
+    public static function searchQuery($driver_id, $distance)
     {
         $db = Database::getInstance();
-        // echo "SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
-            // "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
-            // "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
-            // "ORDER BY rating LIMIT 0, 30";
+        echo "SELECT `query`.id AS queryid, `query`.passenger AS userid, `user`.username, `user`.rating_avg AS rating, " .
+            "`query`.current_lat AS lat, `query`.current_lon AS lon, `query`.seats " .
+            "FROM " . DB_PREFIX . "_query AS `query` " .
+            "INNER JOIN " . DB_PREFIX . "_user AS `user` ON `user`.id = `query`.passenger " .
+            "INNER JOIN " . DB_PREFIX . "_trip ON `query`.destination = `query`.destination " .
+            "WHERE `query`.passenger !=$driver_id " .
+            "ORDER BY rating DESC";
 
-        $result = $db->query("SELECT query.id as queryid, passenger as userid, username, rating_avg as rating, current_lat as lat, current_lon as lon, seats " .
-            "FROM " . DB_PREFIX . "_query query, " . DB_PREFIX . "_user user ".
-            "WHERE user.id=passenger AND query.destination=(SELECT destination FROM " . DB_PREFIX . "_trip WHERE driver=$driver_id LIMIT 1) AND passenger!=$driver_id ".
-            "ORDER BY rating LIMIT 0, 30");
+        $result = $db->query("CALL list_hiker($driver_id, $distance);");
         $arr = null;
         $i = 0;
         while ($row = $db->fetch($result)) {
