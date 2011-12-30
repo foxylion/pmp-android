@@ -139,56 +139,69 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     
     protected void assignApp(IApp app) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        
-        ContentValues cv = new ContentValues();
-        cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
-        cv.put(PRESET_CREATOR, this.element.getCreatorString());
-        cv.put(APP_PACKAGE, app.getIdentifier());
-        
-        wdb.insert(PersistenceConstants.TBL_PresetAssignedApp, null, cv);
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
+            cv.put(PRESET_CREATOR, this.element.getCreatorString());
+            cv.put(APP_PACKAGE, app.getIdentifier());
+            
+            wdb.insert(PersistenceConstants.TBL_PresetAssignedApp, null, cv);
+        } finally {
+            wdb.close();
+        }
     }
     
     
     protected void removeApp(IApp app) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        
-        wdb.rawQuery(
-                "DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                        + " = ? AND " + APP_PACKAGE + " = ?",
-                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier(), app.getIdentifier() });
+        try {
+            wdb.rawQuery(
+                    "DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
+                            + PRESET_IDENTIFIER + " = ? AND " + APP_PACKAGE + " = ?",
+                    new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier(),
+                            app.getIdentifier() });
+        } finally {
+            wdb.close();
+        }
     }
     
     
     protected void assignPrivacySetting(IPrivacySetting ps, String value) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        
-        ContentValues cv = new ContentValues();
-        cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, ps.getResourceGroup().getIdentifier());
-        cv.put(PRIVACYSETTING_IDENTIFIER, ps.getLocalIdentifier());
-        cv.put(PRESET_CREATOR, this.element.getCreatorString());
-        cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
-        cv.put(GRANTEDVALUE, value);
-        
         try {
-            wdb.insertOrThrow(TBL_GrantPSValue, null, cv);
-        } catch (SQLException sqle) {
-            wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
-                    + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                    + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                    this.element.getCreatorString(), this.element.getLocalIdentifier() });
+            ContentValues cv = new ContentValues();
+            cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, ps.getResourceGroup().getIdentifier());
+            cv.put(PRIVACYSETTING_IDENTIFIER, ps.getLocalIdentifier());
+            cv.put(PRESET_CREATOR, this.element.getCreatorString());
+            cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
+            cv.put(GRANTEDVALUE, value);
+            
+            try {
+                wdb.insertOrThrow(TBL_GrantPSValue, null, cv);
+            } catch (SQLException sqle) {
+                wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                        + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
+                        + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
+                        this.element.getCreatorString(), this.element.getLocalIdentifier() });
+            }
+        } finally {
+            wdb.close();
         }
     }
     
     
     protected void removePrivacySetting(IPrivacySetting ps) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
-        
-        wdb.rawQuery(
-                "DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
-                        + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                        + " = ?",
-                new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                        this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        try {
+            wdb.rawQuery(
+                    "DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                            + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND "
+                            + PRESET_IDENTIFIER + " = ?",
+                    new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
+                            this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        } finally {
+            wdb.close();
+        }
     }
     
     
