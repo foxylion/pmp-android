@@ -204,6 +204,70 @@ public class SqlConnector {
         pmpconnector.bind();
     }
     
+    /**
+     * Stores the new appointment ONLY in the SQL Database.
+     * 
+     * @param date
+     *            the date
+     * @param description
+     *            the description
+     */
+    public void storeNewAppointmentWithoutModel(final Date date, final String name, final String description,
+            final Severity severity) {
+        
+        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
+        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+            
+            @Override
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+                if (binder != null) {
+                    IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+                    try {
+                        // The values to add
+                        Map<String, String> values = new HashMap<String, String>();
+                        int id = Model.getInstance().getNewHighestId();
+                        
+                        values.put(SqlConnector.this.ID, String.valueOf(id));
+                        values.put(SqlConnector.this.NAME, name);
+                        values.put(SqlConnector.this.DESC, description);
+                        values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
+                        values.put(SqlConnector.this.SEVERITY, severity.toString());
+                        
+                        long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                        Log.v("Return value of insert: " + result);
+                        if (result != -1) {
+                            Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
+                                    + " description: " + description);
+                        } else {
+                            Toast.makeText(Model.getInstance().getContext(),
+                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+                                    .show();
+                            Log.e("Appointment not stored");
+                        }
+                    } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
+                                .show();
+                        Log.e("Remote Exception", e);
+                    } finally {
+                        idc.close();
+                    }
+                }
+            }
+            
+            
+            @Override
+            public void onBindingFailed(AbstractConnector connector) {
+                Log.e("Could not connect to database resource");
+                Looper.prepare();
+                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
+                Looper.loop();
+            }
+        });
+        pmpconnector.bind();
+    }
+    
     
     /**
      * Delete the appointment out of the SQL database with the given id and then calls {@link Model#deleteDateByID(int)}
@@ -234,6 +298,45 @@ public class SqlConnector {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
                                     .show();
+                        }
+                    } catch (RemoteException e) {
+                        Toast.makeText(Model.getInstance().getContext(),
+                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
+                                .show();
+                        Log.e("Remote Exception", e);
+                    } finally {
+                        idc.close();
+                    }
+                }
+            }
+            
+            
+            @Override
+            public void onBindingFailed(AbstractConnector connector) {
+                Log.e("Could not connect to database resource");
+                Looper.prepare();
+                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
+                Looper.loop();
+            }
+        });
+        pmpconnector.bind();
+    }
+    
+    
+    public void deleteAllApointments() {
+        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
+        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+            
+            @Override
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+                if (binder != null) {
+                    IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+                    try {
+                        if (idc.deleteTable(DB_TABLE_NAME)) {
+                            Log.d("Table deleted");
+                        } else {
+                            Log.e("Could not delete table");
                         }
                     } catch (RemoteException e) {
                         Toast.makeText(Model.getInstance().getContext(),
@@ -383,5 +486,5 @@ public class SqlConnector {
         });
         
         pmpconnector.bind();
-    }   
+    }
 }
