@@ -248,11 +248,12 @@ public class FileSystemConnector {
                                         }
                                         break;
                                     case 1:
-                                        if (!importRow.equals("SUMMARY:")) {
+                                        if (!importRow.startsWith("SUMMARY:")) {
                                             success = false;
-                                        } else {
+                                        } else {;
                                             name = importRow.substring(8);
                                         }
+                                        break;
                                     case 2:
                                         if (!importRow.startsWith("DESCRIPTION:")) {
                                             success = false;
