@@ -14,10 +14,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">01. Oktober 2011</div>
+    <div id="page-head-date">30. Dezember 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 1.0</div>
+    <div id="page-version">Version 1.1</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -95,7 +95,7 @@
         verwendet werden.
       </p>
       
-      <h2 id="basisc_res">Ressourcengruppen</h2>
+      <h2 id="basisc_res">Ressourcen</h2>
       <p>
         Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines 
         Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
@@ -111,24 +111,28 @@
         "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
       </p>
        
-      <h2 id="basics_sl">Service-Level</h2>
+      <h2 id="basics_sl">Service-Features</h2>
       <p>
         Jede PMP-Applikation legt fest, welche Funktionen bestimmter Ressourcen 
         sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese 
-        Vereinbarung wird als Service-Level bezeichnet. Eine Applikation besitzt
-        in der Regel mehrere Service-Levels.
+        Vereinbarung wird als Service-Features bezeichnet. Eine Applikation besitzt
+        in der Regel mehrere Service-Features.
       </p>
       <p>
-        Im Detail legt jedes Service-Level fest, welche Ressourcengruppen benötigt 
-        werden, und auf welchen Wert die zur Gruppe gehörigen Privacy-Levels 
-        gesetzt sein müssen. Wird ein Service-Level gewählt, so werden die
-        Privacy-Levels auf die festgelegten Werte gesetzt, wodurch Zugriffe auf
-        die zugehörigen Funktionen der Ressourcen möglich sind.
+        Im Detail legt jedes Service-Feature fest, welche Ressourcen, und welche
+        Funktionen dieser Ressource, benötigt werden. Im Gegenzug bietet die 
+        Applikation dem Anwender für den Zugriff auf diese Ressource bzw. dieser
+        Funktion bestimmte Funktionalitäten an.
       </p>
       <p>
-        Das niedrigste Service-Level, das PMP-Applikationen stets anbieten, erlaubt
-        diesen keinerlei Zugriff auf Ressourcen und damit auf kritische Bereiche
-        des Geräts.
+        Es können bei Bedarf mehrere Service-Features gleichzeitig aktiviert werden,
+        wodurch der Funktionsumfang der Applikation erweitert werden kann.
+      </p>
+      
+      <h2 id="basics_presets">Prests</h2>
+      <p>
+        Über die Presets können mehrere Service-Features zusammengefasst und
+        somit bei Bedarf gemeinsam aktiviert oder deaktiviert werden.
       </p>
       
       <h1 id="req">Systemanforderungen</h1>
@@ -178,16 +182,20 @@
         Starten der Anwendung öffnet. Dieses bietet Ihnen Zugriff auf alle Funktionen der PMP:
         <ul>
           <li>Verwalten aller installierter Applikationen über die Schaltfläche
-            "Applications" (siehe <span class="reference" title="#apps"></span>).</li>
-          <li>Anzeigen aller installierten Ressourcengruppen über die Schaltfläche
-            "Resources" (siehe <span class="reference" title="#res"></span>).</li>
+            "Apps" (siehe <span class="reference" title="#apps"></span>).</li>
+          <li>Anzeigen aller installierten Ressourcen über die Schaltfläche
+            "Resources" (siehe <span class="reference" title="#res"></span>).</li>   
+          <li>Verwalten der Presets aller installierten Applikationen
+            über die Schaltfläche "Prests" (siehe <span class="reference" title="#presets"></span>). 
+            Diese Funktion steht nur bei aktiviertem Experten-Modus zur Verfügung</li>                
+          <li>Ändern der Einstellungen der PMP über die Schaltfläche
+            "Settings" (siehe <span class="reference" title="#modes"></span>).</li>
         </ul>
       </p>
       <p>
-        Darüber hinaus steht die Möglichkeit zur Verfügung, den Anwender-Modus zu
-        ändern (siehe <span class="reference" title="#modes"></span>). 
-        Gegenwärtig ist diese Funktion jedoch noch nicht integriert.
-        Daher ist die entsprechende Schaltfläche nicht sichtbar.
+        Unterhalb der Schaltflächen werden Informationen über die Anzahl der installierten
+        Applikationen und Ressourcen sowie der erstellten Presets angezeigt.
+        Eine Angabe der installierten PMP-Version folgt unterhalb dieser Informationen.
       </p>
       <div class="clear"></div>               
       
@@ -197,13 +205,15 @@
         Die PMP lässt sich in
         zwei Modi betreiben: Im einfachen Modus (als Simple Mode bezeichnet), stehen
         dem Benutzer die wichtigsten Funktionen zur Verfügung. Werden alle Funktionen
-        benötigt, lässt sich das System in den erweiterten Modus (Expert Mode) schalten.
+        benötigt, lässt sich das System in den experten Modus (Expert Mode) schalten.
       </p>
       
       <h3 id="switchmode">Modus-Wechsel</h3>
       <p>
-        Der Wechsel zwischen einfachem und erweitertem Modus erfolgt über die 
-        Schaltfläche "Expert Mode" auf dem Startbildschirm der PMP.
+        Der Wechsel zwischen einfachem und erweitertem Modus erfolgt über den
+        Einstellungs-Dialog der PMP. Dieser wird über die Schalftläche "Settings" 
+        im Hauptmenü aufgerufen. Über die dort vorhandene Schaltfläche "Expert Mode"
+        lässt sich der experten Modus aktivieren bzw. deaktivieren. 
       </p>
       <p>
         Befindet sich die PMP im erweiterten Modus, erscheint ein Häkchen im vorderen
@@ -219,9 +229,9 @@
       </p>
       
        
-      <h3 id="expertmode">Erweiterter Modus (Expert Mode)</h3>
+      <h3 id="expertmode">Experten Modus (Expert Mode)</h3>
       <p>
-        Der erweiterte Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
+        Der experten Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
         unerfahrene Benutzer überfordert fühlen könnten, richtet sich dieser Modus
         an erfahrene Benutzer, die vollen Zugriff auf den Funktionsumfang haben möchten.
       </p>
@@ -231,10 +241,12 @@
         Hinweis folgenden Funktionen sind ausschließlich im erweiterten
         Modus verfügbar.
       </p>
+      <!--
       <p>
         Da der erweiterte Modus gegenwärtig nicht implementiert ist, wird auf ihn 
         in dieser Version des Handbuchs nicht näher eingegangen.
       </p>
+      -->
       
       <h2 id="apps">Applikationen</h2>
       <h3 id="apps_inst">Applikationen installieren</h3>
@@ -258,7 +270,7 @@
         momentan auf dem Gerät installierten PMP-Applikationen anzeigen.
       </p>
       
-      <h3 id="apps_sl">Service-Levels einstellen</h3>
+      <h3 id="apps_sl">Service-Levels einstellen TODO</h3>
 	  <a href="images/app_sl.png" class="fancybox">
         <img src="images/app_sl.png" alt="Angebotene Service-Levels" style="width:215px;" class="right">
 	  </a>
@@ -303,16 +315,27 @@
       </p>
       <div class="clear"></div>
       
-      <h2 id="res">Ressourcengruppen</h2>
-      <h3 id="res_inst">Ressourcengruppen installieren</h3>
+      <h2 id="res">Ressourcen</h2>
+      <h3 id="res_inst">Ressourcen installieren</h3>
 	  <a href="images/res_inst.png" class="fancybox">
         <img src="images/res_inst.png" alt="Installationsdialog einer Ressourcengruppe" style="width:215px;" class="right">
       </a><p>
-        PMP-Ressourcengruppen werden in Form einer Android-Applikation, einer apk-Datei,
+        PMP-Ressourcen werden über den integrierten Marktplatz installiert.
+        Dieser ist über die Schaltfläche "Resources" im Hauptmenü und anschließender
+        Auswahl des Reiters "Available" zugänglich. Dort werden alle gegenwertig
+        Online verfügbaren Ressourcen angezeigt. 
+      </p>
+      <p>
+        Durch Tippen auf eine Ressource werden weitere Informationen über diese
+        angezeigt. Anschließend kann die Ressource über die Schaltfläche 
+        "Install" auf dem Gerät installiert werden und steht dann anderen 
+        Applikationen zur Verfügung.
+      </p>
+        <!--werden in Form einer Android-Applikation, einer apk-Datei,
         ausgeliefert. Der erste Schritt der Installation unterscheidet sich daher 
         nicht von der Installation gewöhnlicher Android-Applikationen:
         Die apk-Datei wird auf das Gerät übertragen und geöffnet oder die
-        Ressourcengruppe wird aus dem Android Market ausgewählt. 
+        Ressourcengruppe wird aus dem Android Market ausgewählt.     
       </p>
       <p>
         Nach diesem Schritt muss sich die Applikation bei der PMP anmelden. Hierzu zeigt jede
@@ -324,9 +347,27 @@
       <p>
         Durch Betätigen der "Home"- oder "Zurück"-Taste kann der Installations-Dialog
         nach erfolgreicher Installation und Registrierung verlassen werden.
-      </p>
+      </p>                                                     -->
       <div class="clear"></div>
       
+      <h3 id="res_show">Ressourcen anzeigen und deinstallieren</h3>
+  	  <a href="images/pmp_res_details.png" class="fancybox">
+        <img src="images/pmp_res_details.png" alt="Details zu einer Ressourcengruppe" style="width:215px;" class="right">
+      </a>
+	    <p>
+        Über die Schaltfläche "Resources" im Hauptmenü lassen sich alle
+        auf dem Gerät installierten Ressourcen anzeigen. 
+        Durch Antippen einer Ressource werden weitere Informationen über diese
+        angezeigt.
+      </p>  
+      <p>
+        Der Details-Dialog, der beim Antippen einer Ressource erscheint, ermöglicht 
+        zudem das einfache Deinstallieren der entsprechenden Ressource.
+        Hierzu genügt ein Tippen auf die Schaltfläche "Uninstall". Anschießend
+        wird die Ressource vom Gerät entfernt. Wird die Ressource später 
+        nochmals benötigt, lässt sie sich über den Marktplatz wieder installieren.
+      <div class="clear"></div>
+      <!--
       <h3 id="res_uninst">Ressourcengruppen deinstallieren</h3>
       <p>
         Wie bereits unter "<span class="reference" title="#res_inst"></span>" erwähnt,
@@ -336,18 +377,19 @@
         zu deinstallierende Ressourcengruppe ausgewählt und über die 
         Schaltfläche "Uninstall" vom Gerät entfernt.
       </p>
+      -->
       
-      <h3 id="res_show">Installierte Ressourcengruppen anzeigen</h3>
-	  <a href="images/pmp_res_details.png" class="fancybox">
-        <img src="images/pmp_res_details.png" alt="Details zu einer Ressourcengruppe" style="width:215px;" class="right">
-      </a>
-	  <p>
-        Über die zweite Schaltfläche "Resources" im Hauptmenü der PMP lassen sich 
-        alle gegenwärtig auf dem Gerät installierten PMP-Ressourcengruppen anzeigen.
-        Durch Antippen einer Ressource werden weitere Informationen über diese
-        angezeigt.
-      </p>  
-      <div class="clear"></div>
+      
+      <h2 id="presets">Presets</h2>
+      <h3 id="presets_create">Prests erstellen</h3>
+      <p>
+        TODO
+      </p>   
+      
+      <h3 id="presets_create">Prests verwalten/löschen</h3>
+      <p>
+        TODO
+      </p>
       
      
       <h1 id="developers">Entwickler</h1>
@@ -1005,9 +1047,14 @@ getAppService().getInitialServiceLevel()
       
       <h1 id="versions">Versionshistorie</h1> 
       
+      <h3>Version 1.1 (30.12.2011)</h3>
+      <ul>
+        <li>Beginnen der Anpassung des Anwenderkapitels an aktuelle Iteration.</li>
+      </ul>
+      
       <h3>Version 1.0 (01.10.2011)</h3>
       <ul>
-        <li>Letzte Prüfung des Handbuchs. Alle Kapitel fertig gestellt</li>
+        <li>Letzte Prüfung des Handbuchs. Alle Kapitel fertig gestellt. Stand: 1. Iteration</li>
       </ul>
       
       <h3>Version 0.5 (29.09.2011)</h3>
