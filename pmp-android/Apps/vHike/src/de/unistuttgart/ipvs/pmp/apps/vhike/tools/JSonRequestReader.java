@@ -558,8 +558,9 @@ public class JSonRequestReader {
 	 * @param perimeter
 	 *            /radius
 	 */
-	public static void searchQuery(String sid, float lat, float lon,
-			int perimeter) {
+	public static List<QueryObject> searchQuery(String sid, float lat,
+			float lon, int perimeter) {
+
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("lat", String.valueOf(lat), true));
@@ -571,21 +572,48 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"query_search.php", true);
+					"query_search.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-
+		List<QueryObject> queryObjects = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
-				Log.i(object.get("queries").getAsString());
-				//TODO;
+				Log.i(object.get("queries").getAsJsonArray().toString());
+				JsonArray array = object.get("queries").getAsJsonArray();
+				/*
+				 * "id":"11", "passenger":"1", "seats":"2",
+				 * "current_lat":"48.7832", "current_lon":"9.1811",
+				 * "destination":"Berlin", "distance":"104.884685142798"
+				 */
+
+				queryObjects = new ArrayList<QueryObject>();
+				Log.i("Array Size: " + array.size());
+				for (int i = 0; i < array.size(); i++) {
+					Log.i("Element: " + i);
+					JsonObject Iobject = array.get(i).getAsJsonObject();
+					int id = Iobject.get("id").getAsInt();
+					int passenger = Iobject.get("passenger").getAsInt();
+					int seats = Iobject.get("seats").getAsInt();
+					float cur_lat = Iobject.get("current_lat").getAsFloat();
+					float cur_lon = Iobject.get("current_lon").getAsFloat();
+					String destination = Iobject.get("destination")
+							.getAsString();
+					float distance = Iobject.get("distance").getAsFloat();
+
+					QueryObject qObject = new QueryObject(id, passenger, seats,
+							cur_lat, cur_lon, destination, distance);
+					queryObjects.add(qObject);
+				}
+				Log.i("List size: " + String.valueOf(queryObjects.size()));
+				return queryObjects;
 			}
 		}
+		return queryObjects;
 	}
 
 	/**
@@ -610,8 +638,8 @@ public class JSonRequestReader {
 		JsonObject object = null;
 
 		try {
-			object = JSonRequestProvider.doRequest(listToParse,
-					"offer.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "offer.php",
+					false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -648,7 +676,7 @@ public class JSonRequestReader {
 			suc = object.get("succ essful").getAsBoolean();
 			if (suc) {
 				status = object.get("offers").getAsString();
-				//TODO;
+				// TODO;
 				Log.i(status);
 			}
 		}
@@ -656,19 +684,22 @@ public class JSonRequestReader {
 
 	/**
 	 * Hitchhiker can accept or decline an offer
+	 * 
 	 * @param sid
 	 * @param offer_id
 	 * @param accept
 	 * @return status
 	 */
-	public static String handleOffer(String sid, int offer_id, boolean accept){
+	public static String handleOffer(String sid, int offer_id, boolean accept) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
-		
-		listToParse.add(new ParamObject("offer", String.valueOf(offer_id), true));
-		listToParse.add(new ParamObject("accept", String.valueOf(accept), true));
+
+		listToParse
+				.add(new ParamObject("offer", String.valueOf(offer_id), true));
+		listToParse
+				.add(new ParamObject("accept", String.valueOf(accept), true));
 		JsonObject object = null;
-		
+
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
 					"offer_handle.php", false);
@@ -679,15 +710,16 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String status = "";
-		if(object!= null){
+		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			if(suc){
+			if (suc) {
 				status = object.get("status").getAsString();
 				return status;
 			}
 		}
 		return status;
 	}
+
 	/**
 	 * Dummy method don't touch it
 	 * 

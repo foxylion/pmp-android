@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -102,8 +102,7 @@ public class ExportDialog extends Dialog {
             
             if (!Model.getInstance().isFileNameExisting(fileName)) {
                 Log.d("Exporting...");
-                FileSystemConnector.getInstance()
-                        .exportAppointments(Model.getInstance().getAppointmentList(), fileName);
+                new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(), fileName);
             } else {
                 Log.d("Filename already exists!");
                 
@@ -116,8 +115,8 @@ public class ExportDialog extends Dialog {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Override the file
                                 Log.d("Exporting... Filename: " + fileName);
-                                FileSystemConnector.getInstance().exportAppointments(
-                                        Model.getInstance().getAppointmentList(), fileName);
+                                new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(),
+                                        fileName);
                             }
                             
                         }).setNegativeButton(R.string.export_override_cancel, new DialogInterface.OnClickListener() {

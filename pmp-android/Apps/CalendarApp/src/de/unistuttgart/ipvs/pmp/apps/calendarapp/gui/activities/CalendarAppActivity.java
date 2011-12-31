@@ -22,7 +22,6 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import android.app.AlertDialog;
@@ -30,7 +29,6 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
@@ -56,7 +54,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialo
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
@@ -304,7 +301,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.IMPORT);
+                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.IMPORT);
                     
                 } else {
                     String[] req = new String[1];
@@ -318,7 +315,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    FileSystemConnector.getInstance().listStoredFiles(FileSystemListActionType.EXPORT);
+                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
                     
                 } else {
                     String[] req = new String[1];

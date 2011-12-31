@@ -277,6 +277,7 @@ public class Model {
     public void clearLocalList() {
         dayAppointments.clear();
         arrayAdapter.reset();
+        adapters.clear();
         
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
@@ -288,6 +289,7 @@ public class Model {
      */
     public void clearLocalListWithoutTextViewUpdate() {
         this.dayAppointments.clear();
+        adapters.clear();
         arrayAdapter.removeEmptyHeadersAndSections();
     }
     
@@ -471,6 +473,7 @@ public class Model {
                  */
                 if (dayList.getValue().isEmpty()) {
                     arrayAdapter.removeEmptyHeadersAndSections();
+                    adapters.remove(dayList.getKey());
                     toDelete.add(dayList.getKey());
                 }
             }
@@ -489,17 +492,14 @@ public class Model {
      * Delete all appointments from the database and model
      */
     public void deleteAllAppointments() {
-        SqlConnector connector = new SqlConnector();
-        for (Entry<String, ArrayList<Appointment>> appointments : dayAppointments.entrySet()) {
-            for (Appointment appointment : appointments.getValue()) {
-                connector.deleteAppointment(appointment);
-            }
-        }
-        
+        setHighestId(0);
         dayAppointments.clear();
         arrayAdapter.reset();
         arrayAdapter.notifyDataSetChanged();
+        adapters.clear();
         appContext.updateNoAvaiableAppointmentsTextView();
+        SqlConnector connector = new SqlConnector();
+        connector.deleteAllApointments();
     }
     
     

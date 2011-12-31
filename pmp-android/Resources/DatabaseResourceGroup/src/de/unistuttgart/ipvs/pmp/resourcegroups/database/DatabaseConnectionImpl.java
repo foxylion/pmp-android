@@ -556,7 +556,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             }
             
             // Build a SQL Statement
-            String sql = "DROP TABLE IF EXISTS " + this.dbName + "." + tableName;
+            String sql = "DROP TABLE IF EXISTS " + tableName;
             closeCursor();
             openWritableDB();
             try {
