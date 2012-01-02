@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
@@ -149,6 +150,7 @@ public class NotificationAdapter extends BaseAdapter {
 
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
+
 						accept_invite.refreshDrawableState();
 						notifyDataSetChanged();
 						break;
@@ -166,7 +168,10 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				} else {
-					int offerID = 1;
+					List<OfferObject> loo = Model.getInstance()
+							.getOfferHolder();
+					int offerID = loo.get(position).getOffer_id();
+
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
 							offerID, true)) {
 					case Constants.STATUS_HANDLED:
