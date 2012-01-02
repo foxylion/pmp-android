@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Systemtest-Plan für die 1. Iteration - Privacy Management Platform</title>
+	<title>Systemtest-Plan für die 2. Iteration - Privacy Management Platform</title>
 	<script type="text/javascript" src="../../../_layout/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../../../_layout/script.js"></script>
 	<script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">26. September 2011</div>
+		<div id="page-head-date">02. Januar 2012</div>
 		<div id="page-head-title">Privacy Management Platform</div>
-		<div id="page-title">Systemtest-Plan für die<br/>1. Iteration</div>
-		<div id="page-version">Version 1.2</div>
+		<div id="page-title">Systemtest-Plan für die<br/>2. Iteration</div>
+		<div id="page-version">Version 1.0</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -26,17 +26,7 @@
 		
 		<!-- here comes the content of the system test plan -->
 		<h1 id="versionshistorie">Versionshistorie</h1>
-				<h3>Version 1.2 (26.09.2011)</h3>
-					<ul>
-						<li>Anpassung an die Änderungen während der Entwicklung</li>
-					</ul>
-		
-				<h3>Version 1.1 (19.09.2011)</h3>
-					<ul>
-						<li>Vollständiger Systemtestplan mittels Spezifikation</li>
-					</ul>
-				
-				<h3>Version 1.0 (07.09.2011)</h3>
+				<h3>Version 1.0 (02.01.2012)</h3>
 					<ul>
 						<li>Erstes Gerüst der Systemtestbeschreibung</li>
 					</ul>
@@ -54,12 +44,12 @@
 				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
-				<p>Dieser Systemtest-Plan dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+				<p>Dieser Systemtestplan dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>
 					<li>den Entwicklern von PMP</li>          
 					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
 					<li>dem Kunden</li>
-					<li>dem Betreuern des Studienprojekts</li>
+					<li>den Betreuern des Studienprojekts</li>
 				</ul>
 			
 				<h2 id="konventionen">Konventionen</h2>
@@ -74,19 +64,17 @@
 			<h1 id="testvorgaben">Allgemeine Testvorgaben</h1>
 				<h2 id="revisions">Revisionsvorgaben</h2>
 					<table>
-						<tr><th class="left">Spezifikation unter Test</th><td>trunk:43b8a2ad99f5e107c6384763e2e766065d4b63ff</td></tr>
+						<tr><th class="left">Spezifikation unter Test</th><td>trunk: ??????????????????????????????????</td></tr>
 					</table>
 					
 				<h2 id="umgebung">Umgebung</h2>
 					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
 					
 				<h2 id="testende">Test-Ende-Kriterium</h2>
-					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 05.10.2011 definiert. Dieser Umstand ist nicht optimal und kann den Erfolg des Tests schmälern.</p>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 11.01.2012 definiert.</p>
 					
 				<h2 id="testende">Test-Erstellungsmethodik</h2>
 					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
-				
-					<p>Um einen Anwendungsfall zu testen soll ein Aktivitätsdiagramm nach LL10, 19.5.4 erstellt werden, in dem alle Sonderfälle und Annotationen berücksichtigt werden. Bei trivialen Abläufen kann auf das Diagramm verzichtet werden. Anschließend sollen Testfälle ausgearbeitet werden, sodass eine vollständige Pfadüberdeckung erreicht wird.</p>
 					
 					<p>Für Anforderungen in natürlicher Sprache muss einzeln überprüft werden, ob die Anforderung objektivierbar und testbar ist. Ist sie dies nicht, so ist dies ausdrücklich mit Hilfe eines &lt;div class="criticism"&gt; zu kritisieren. Andernfalls müssen ein oder mehrere Testfälle zur Überprüfung der beschriebenen Anforderung entwickelt werden. Unter Umständen bietet sich ein Test mit einem Zustandsdiagramm nach LL10, 19.5.3 an, bei dem Transitionsüberdeckung erreicht werden sollte.</p>
 					
@@ -105,163 +93,93 @@
 				<h2 id="testende">Grenzen des Tests</h2>
 					<p>Der Testplan kritisiert diverse Stellen der Spezifikation, die dazu führten, dass kein ausreichender Test erstellt werden konnte.</p>
 					<p>Des Weiteren sind die Beispiel-Anwendungen und -Ressourcengruppen nirgends spezifiziert, sie können also nicht getestet werden.</p>
-					<p>Während des Testplans-Erstellens schienen 13 Anmerkungen nötig, davon 4 kritisch. Es zeigte sich, dass die Spezifikation im gegenwärtigen Zustand unerfüllbar scheint.</p>
 			
 			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
 				<h2 id="usecases">Anwendungsfälle</h2>
-				
-					<div class="criticism">
-					<h3 style="color: red;">Anmerkung</h3>
-					<p>Im Laufe der Entwicklung der Anwendungsfall-Tests war auffällig, dass die Anwendungsfälle große Redundanz zeigen. In meinen Augen ist es fragwürdig, ob so wenig Funktionalität durch so viele Anwendungsfälle abgedeckt werden muss, wovon einige praktisch das Gleiche machen. (z.B. Auflisten und Details anzeigen)</p>
-					</div>
-					<h3 id="awdf-1">Service Level anfragen</h3>
-						<img src="./Use-Case%201.svg" alt="Use-Case-1-Diagramm" style="width: 100%;" />
-						
-						<p>Bei der App handelt es sich um die Calendar-App, beim gewünschten Service Level um das erste (also Level 1).
-						
-						<h4 id="ft-1">FT-1</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App.</td><td>Die Calendar-App startet den Use-Case.</td></tr>
-							<tr><td>3.-9.</td><td>Der Tester führt den Normalablauf 1. bis 7. durch.</td><td>Die Calendar-App hat das Service Level 1 von PMP erhalten.</td></tr>
-						</table>
-					
-						<h4 id="ft-2">FT-2</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App.</td><td>Die Calendar-App startet den Use-Case.</td></tr>
-							<tr><td>3.-7.</td><td>Der Tester führt den Normalablauf 1. bis 5. durch.</td><td>PMP zeigt die Details des Service Levels an.</td></tr>
-							<tr><td>8.</td><td>Der Tester schließt die Detailansicht des Service Levels.</td><td>Die App hat noch kein Service Level erhalten, PMP zeigt wieder die Übersicht über die Service Levels dem Benutzer an.</td></tr>
-							<tr><td>9.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat das Service Level 0 von PMP erhalten.</td></tr>
-						</table>
-												
-					<h3 id="awdf-2">Ressource der PMP bekannt machen</h3>
-						<img src="./Use-Case%202.svg" alt="Use-Case-2-Diagramm" style="width: 100%;" />
-						
-						<h4 id="ft-3">FT-3</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Datenbank-Ressource.</td><td>Die Datenbank-Ressource startet den Use-Case.</td></tr>
-							<tr><td>3.-5.</td><td>Der Tester führt den Normalablauf 1. bis 3. durch.</td><td>Die Datenbank-Ressource ist bei PMP registriert.</td></tr>
-						</table>
-						
-						<h4 id="ft-4">FT-4</h4>
-						<div class="criticism">
-						<h3 style="color: red;">Anmerkung</h3>
-						<p>Dieser Testfall scheint nicht angebbar zu sein, da nicht definiert wird, wann PMP eine Ressource nicht akzeptiert. Eine Spezifikationskorrektur wird angeraten.</p>	
-						</div>
-						
-					<h3 id="awdf-3">Ressourcengruppen anzeigen</h3>
-						<h4 id="ft-5">FT-5</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP, die Dateisystem-Ressource und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester startet PMP.</td><td>Das PMP-Hauptmenü wird angezeigt.</td></tr>
-							<tr><td>3.-5.</td><td>Der Tester führt den Normalablauf 1. bis 3. durch.</td><td>Der Tester hat beide Resourcengruppen aufgelistet gesehen.</td></tr>
-						</table>
-												
-					<h3 id="awdf-4">Details zu einer Ressourcengruppe anzeigen</h3>
-						<h4 id="ft-6">FT-6</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP, die Dateisystem-Ressource und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester startet PMP.</td><td>Das PMP-Hauptmenü wird angezeigt.</td></tr>
-							<tr><td>3.-8.</td><td>Der Tester führt den Normalablauf 1. bis 6. durch und wählt die Datenbank-Ressource aus.</td><td>Der Tester hat die Details der Datenbank-Ressource gesehen.</td></tr>
-						</table>
-						
-					<h3 id="awdf-5">Apps anzeigen</h3>
-						<h4 id="ft-7">FT-7</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Calendar-App.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester startet PMP.</td><td>Das PMP-Hauptmenü wird angezeigt.</td></tr>
-							<tr><td>3.-5.</td><td>Der Tester führt den Normalablauf 1. bis 3. durch.</td><td>Der Tester hat die Calendar-App aufgelistet gesehen.</td></tr>
-						</table>						
-						
-					<h3 id="awdf-6">Service Levels einer App anzeigen</h3>
-						<h4 id="ft-8">FT-8</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP, die Calendar-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester startet PMP.</td><td>Das PMP-Hauptmenü wird angezeigt.</td></tr>
-							<tr><td>3.-8.</td><td>Der Tester führt den Normalablauf 1. bis 6. durch.</td><td>Der Tester hat beide Service-Level aufgelistet gesehen, Service Level 0 war hervorgehoben.</td></tr>
-						</table>
-						
-					<h3 id="awdf-7">Details zu einem Service Level einer App anzeigen</h3>
-						<h4 id="ft-9">FT-9</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP, die Calendar-App und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester startet PMP.</td><td>Das PMP-Hauptmenü wird angezeigt.</td></tr>
-							<tr><td>3.-11.</td><td>Der Tester führt den Normalablauf 1. bis 9. durch und wählt Service Level 1 aus.</td><td>Der Tester hat die Details zu Service-Level 1 gesehen, Service Level 0 war hervorgehoben.</td></tr>
-						</table>
-												
-					<h3 id="awdf-8">Rechte einer App auf Grundlage der Service Levels ändern</h3>
-						<div class="criticism">
-						<h3 style="color: red;">Anmerkung</h3>
-						<p>Beim Testfall-Entwicklung wurde offensichtlich, dass dieser Anwendungsfall grob fehlerhaft spezifiziert ist. Der gelbe Pfad ist inkonsistent zum Sonderfall in <span class="reference" title="#awdf-1"></span>, die letzten beiden Punkte, an denen der Benutzer abbrechen kann, führen kein Roll-Back von Schritt 8 aus, womit die Nachbedingung nie erfüllt werden kann.</p>
-						<h3 style="font-weight: bold; text-decoration: underline; color: red;">Dieser Anwendungsfall ist, so wie er spezifiziert ist, unerfüllbar!!!</h3>
-						<p>Es wird dringend eine Spezifikationskorrektur und eine bessere Qualitätssicherung bei der Use-Case-Spezifikation angeraten.</p>
-						</div>	
-						<img src="./Use-Case%208.svg" alt="Use-Case-8-Diagramm" style="width: 100%;" />				
-						
-						<h4 id="ft-10">FT-10</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-12.</td><td>Der Tester führt den Normalablauf 1. bis 10. durch und wählt in Schritt 5 das Service Level 1 aus.</td><td>Die Calendar-App hat das Service Level 1 von PMP erhalten.</td></tr>
-						</table>
-						
-						<h4 id="ft-11">FT-11</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-4.</td><td>Der Tester führt den Normalablauf 1. bis 2. durch.</td><td>PMP listet dem Tester alle Apps auf.</td></tr>
-							<tr><td>5.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
-						</table>
-						
-						<h4 id="ft-12">FT-12</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-6.</td><td>Der Tester führt den Normalablauf 1. bis 4. durch.</td><td>PMP listet dem Tester die Service Levels auf.</td></tr>
-							<tr><td>7.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
-						</table>
-						
-						<h4 id="ft-13">FT-13</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-8.</td><td>Der Tester führt den Normalablauf 1. bis 6. durch und wählt in Schritt 5 das Service Level 1 aus.</td><td>PMP stellt dem Tester die Details des Service Levels dar.</td></tr>
-							<tr><td>9.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
-						</table>
-						
-						<div style="text-decoration:line-through">
-						<h4 id="ft-14">FT-14</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-10.</td><td>Der Tester führt den Normalablauf 1. bis 8. durch und wählt in Schritt 5 das Service Level 1 aus.</td><td>PMP weist der App das Service Level 1 zu.</td></tr>
-							<tr><td>11.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
-						</table>
+				Die Anwendungsfälle sind in einem separaten Dokument ausgelagert und werden per Identifier adressiert.
+				<table>
+					<tr>
+						<th>Testfall</th>
+						<th>UseCase Identifier</th>
+						<th>UseCase Name</th>
+					</tr>
+					<tr>
+						<td>FT-1</td>
+						<td>100</td>
+						<td>Service Features einer App ändern</td>
+					</tr>
+					<tr>
+						<td>FT-2</td>
+						<td>101</td>
+						<td>Details einer Ressourcengruppe anzeigen</td>
+					</tr>
+					<tr>
+						<td>FT-3</td>
+						<td>102</td>
+						<td>In simplen Modus wechseln</td>
+					</tr>
+					<tr>
+						<td>FT-4</td>
+						<td>200</td>
+						<td>In Expertenmodus wechseln</td>
+					</tr>
+					<tr>
+						<td>FT-5</td>
+						<td>201</td>
+						<td>Details eines Presets anzeigen</td>
+					</tr>
+					<tr>
+						<td>FT-6</td>
+						<td>202</td>
+						<td>Preset erstellen</td>
+					</tr>
+					<tr>
+						<td>FT-7</td>
+						<td>203</td>
+						<td>App zu einem Preset hinzufügen</td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
+						<td>204</td>
+						<td>Privacy Setting zu einem Preset hinzufügen</td>
+					</tr>
+					<tr>
+						<td>FT-9</td>
+						<td>205</td>
+						<td>App aus einem Preset entfernen</td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>206</td>
+						<td>Privacy Setting aus einem Preset entfernen</td>
+					</tr>
+					<tr>
+						<td>FT-11</td>
+						<td>207</td>
+						<td>Preset-Name/Preset-Beschreibung ändern</td>
+					</tr>
+					<tr>
+						<td>FT-12</td>
+						<td>208</td>
+						<td>Preset löschen</td>
+					</tr>
+					<tr>
+						<td>FT-13</td>
+						<td>209</td>
+						<td>Privacy-Setting-Wert ändern</td>
+					</tr>
+					<tr>
+						<td>FT-14</td>
+						<td>300</td>
+						<td>Ressourcengruppe installieren</td>
+					</tr>
+					<tr>
+						<td>FT-15</td>
+						<td>301</td>
+						<td>Ressourcengruppe deinstallieren</td>
+					</tr>
+				</table>
 
-						<h4 id="ft-15">FT-15</h4>
-						<table>
-							<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-							<tr><td>1.</td><td>Der Tester installiert PMP und die Datenbank-Ressource.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
-							<tr><td>2.</td><td>Der Tester installiert die Calendar-App und stellt Service Level 0 ein.</td><td>Die Calendar-App wird auf Service-Level 0 gesetzt.</td></tr>
-							<tr><td>3.-11.</td><td>Der Tester führt den Normalablauf 1. bis 9. durch und wählt in Schritt 5 das Service Level 1 aus.</td><td>Der Tester hat die Service-Level-Übersicht geschlossen.</td></tr>
-							<tr><td>12.</td><td>Der Tester bricht den Ablauf ab.</td><td>Die Calendar-App hat nach wie vor Service Level 0.</td></tr>
-						</table>
-						</div>
 				
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 			
@@ -279,7 +197,25 @@
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
 						<tr><td>2.</td><td>Der Tester startet PMP.</td><td>PMP ist gestartet und erfordert zur weiteren Benutzung keine Konfiguration von Seiten des Testers.</td></tr>
 					</table>
-			
+					
+					<h3 id="pmp-sonstiges">Sonstiges</h3>
+					<h4 id="ft-18">FT-18</h4>
+					<table>
+						<tr><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>Der Tester entwickelt eine Ressourcegruppe, die die zu implementierenden Schnittestellen der PMP-API nicht implementiert und versucht diese über die PMP-Oberfläche zu installieren.</td><td>PMP akzeptiert die Ressourcengruppe nicht.</td></tr>
+					</table>
+					<h4 id="ft-18">FT-19</h4>
+					<table>
+						<tr><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>Der Tester entwickelt eine App, die die zu implementierenden Schnittestellen der PMP-API nicht implementiert und startet diese.</td><td>PMP akzeptiert die App nicht.</td></tr>
+					</table>
+					<h4 id="ft-18">FT-20</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester startet PMP, öffnet jede Unter-Bildschirmmaske von PMP und betätigt jeweils den "Zurück"-Button</td><td>PMP ist gestartet und erfüllt folgende Semantik bzgl. der "Zurück-Button-Funktion": Die gegebenenfalls vorgenommen Einstellungen oder Modifikationen werden gespeichert, die Bildschirmmaske wird verlassen und die vorhergehende Bildschirmmaske angezeigt.</td></tr>
+					</table>				
+					
 			<h1 id="testnichtfunktanf">Tests der nicht-funktionalen Anforderungen</h1>
 
 		
