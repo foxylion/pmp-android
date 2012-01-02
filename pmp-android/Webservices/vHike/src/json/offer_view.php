@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This service is used by a passanger to see which offers have been send to a
+ * This service is used by a passenger to see which offers have been send to a
  * given query
  */
 define("INCLUDE", true);
@@ -18,7 +18,9 @@ try {
                                 "userid" => $offer->getDriver()->getId(),
                                 "username" => $offer->getDriver()->getUsername(),
                                 "rating" => $offer->getDriver()->getRatingAvg(),
-                                "rating_num" => $offer->getDriver()->getRatingNum());
+                                "rating_num" => $offer->getDriver()->getRatingNum(),
+                                "lat" => $offer->getCurrentLat(),
+                                "lon" => $offer->getCurrentLon());
     }
     $output = array("successful" => true, "offers" => $offersOutput);
     echo Json::arrayToJson($output);

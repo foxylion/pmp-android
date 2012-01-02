@@ -1273,9 +1273,11 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
   "successful": true,
   "offers": [
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float, "rating_num": Integer},   
+      "rating": Float, "rating_num": Integer, &quot;lat&quot;: Float,
+      &quot;lon&quot;:Float},   
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float, "rating_num": Integer},
+      "rating": Float, "rating_num": Integer, &quot;lat&quot;: Float,
+      &quot;lon&quot;:Float},   
     ...
   ]
 }                                 
@@ -1291,7 +1293,9 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                   <li><code>userid</code> - Integer: ID des anbietenden Benutzers</li>  
                   <li><code>username</code> - String: Name des anbietenden Benutzers</li>   
                   <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li>      
-                  <li><code>rating_num</code> - Float: Anzahl der Bewertungen</li> 
+                  <li><code>rating_num</code> - Float: Anzahl der Bewertungen</li>
+                  <li><code>lat</code> - Float:   Breitengrad, an dem sich der anbietende Benutzer momentan befindet  </li>
+                  <li><code>lon</code> - Float:      Längengrad, an dem sich der anbietende Benutzer momentan befindet    </li> 
                 </ul>
             </ul>
           </td>

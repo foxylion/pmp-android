@@ -54,8 +54,6 @@ public class DriverViewActivity extends MapActivity {
 	private Controller ctrl;
 	private NotificationAdapter appsAdapter;
 
-	private SlidingDrawer drawer;
-
 	private int imADriver = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,6 @@ public class DriverViewActivity extends MapActivity {
 
 		showHitchhikers();
 		setMapView();
-		setUpNotiBar();
 		startTripByUpdating();
 
 		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
@@ -109,90 +106,6 @@ public class DriverViewActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.driverMapView);
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
-
-		Button btnDriverLocation = (Button) findViewById(R.id.Button_SearchQuery);
-		btnDriverLocation.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
-
-			}
-		});
-	}
-
-	/**
-	 * Simulating notifications per button click if button is pressed slider is
-	 * opened and user receives a notification via the status bar
-	 */
-	private void setUpNotiBar() {
-		Button notiButton = (Button) findViewById(R.id.Button_SimulateNoti);
-		notiButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-
-				Profile passenger = new Profile("Passenger1", null, null, null,
-						null, null, null, false, false, false, false, 4.5, 4.5);
-				Drawable drawable = context.getResources().getDrawable(
-						R.drawable.passenger_logo);
-				PassengerOverlay pOverlay = new PassengerOverlay(drawable,
-						context);
-				float lat = 37.4230182f;
-				float lng = -122.0840848f;
-				GeoPoint gps = new GeoPoint((int) (lat * 1E6),
-						(int) (lng * 1E6));
-				OverlayItem oItem = new OverlayItem(gps,
-						"Im looking for a ride!", "User: "
-								+ passenger.getUsername() + ", Rating: "
-								+ passenger.getRating_avg());
-				pOverlay.addOverlay(oItem);
-				MapModel.getInstance().getDriverOverlayList(mapView)
-						.add(pOverlay);
-				mapView.invalidate();
-
-				// get reference to notificationManager
-				String ns = Context.NOTIFICATION_SERVICE;
-				NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-
-				// instantiate the notification
-				int icon = R.drawable.passenger_logo;
-				CharSequence tickerText = "Found hitchhiker!";
-				long when = System.currentTimeMillis();
-
-				Notification notification = new Notification(icon, tickerText,
-						when);
-				notification.defaults |= Notification.DEFAULT_SOUND;
-
-				// define the notification's message and PendingContent
-				Context context = getApplicationContext();
-				Profile pro = new Profile("bestHitcher", ns, ns, ns, ns, ns,
-						null, false, false, false, false, lat, lat);
-				CharSequence contentTitle = pro.getUsername()
-						+ " wants a ride!";
-				CharSequence contentText = "Touch to open profile";
-				Intent notificationIntent = new Intent(DriverViewActivity.this,
-						ProfileActivity.class);
-				PendingIntent contentIntent = PendingIntent.getActivity(
-						DriverViewActivity.this, 0, notificationIntent, 0);
-
-				notification.setLatestEventInfo(context, contentTitle,
-						contentText, contentIntent);
-
-				// pass notification to notificationManager
-				final int HELLO_ID = 1;
-
-				mNotificationManager.notify(HELLO_ID, notification);
-
-				Profile profile = new Profile("demoTest", null, null, null,
-						null, null, null, false, false, false, false, 4.5,
-						imADriver);
-				addHitchhiker(profile);
-
-				drawer = (SlidingDrawer) findViewById(R.id.notiSlider);
-				drawer.open();
-			}
-		});
-
 	}
 
 	/**
@@ -233,9 +146,9 @@ public class DriverViewActivity extends MapActivity {
 			case Constants.STATUS_UPDATED:
 				Toast.makeText(DriverViewActivity.this, "Status updated",
 						Toast.LENGTH_LONG).show();
-//				ctrl.searchQuery(Model.getInstance().getSid(),
-//						(float) location.getLatitude(),
-//						(float) location.getLongitude(), 10);
+				// ctrl.searchQuery(Model.getInstance().getSid(),
+				// (float) location.getLatitude(),
+				// (float) location.getLongitude(), 10);
 				break;
 			case Constants.STATUS_UPTODATE:
 				Toast.makeText(DriverViewActivity.this, "Status Up to date",

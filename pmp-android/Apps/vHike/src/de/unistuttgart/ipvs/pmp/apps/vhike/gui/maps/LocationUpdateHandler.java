@@ -81,6 +81,10 @@ public class LocationUpdateHandler implements LocationListener {
 		// 0, driver is asking for his current location
 		// 1, passenger is asking for his current location
 		if (mWhichHitcher == 0) {
+
+			// clear list first and draw everything new
+			MapModel.getInstance().clearDriverOverlayList();
+
 			// Driver drawable and overlay
 			Drawable drawableDriver = context.getResources().getDrawable(
 					R.drawable.icon_ride);
@@ -103,14 +107,23 @@ public class LocationUpdateHandler implements LocationListener {
 			case Constants.STATUS_UPDATED:
 				Toast.makeText(context, "Status updated", Toast.LENGTH_LONG)
 						.show();
+
+				/**
+				 * search for passenger within perimeter (10 km for testing
+				 * purposes)
+				 */
 				List<QueryObject> lqo = ctrl.searchQuery(Model.getInstance()
 						.getSid(), (float) location.getLatitude(),
-						(float) location.getLongitude(), 10);
-				if (lqo.size() > 0) {
+						(float) location.getLongitude(), 10000);
+				if (lqo != null) {
 					for (int i = 0; i < lqo.size(); i++) {
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
 						GeoPoint gp = new GeoPoint(lati, lngi);
+
+						Profile profile = ctrl.getProfile(Model.getInstance()
+								.getSid(), lqo.get(i).getPassenger());
+
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
 								.getDrawable(R.drawable.passenger_logo);
@@ -118,22 +131,26 @@ public class LocationUpdateHandler implements LocationListener {
 								drawablePassenger, context);
 
 						OverlayItem opDriverItem = new OverlayItem(gp,
-								"I need a ride", "User: " + "Passenger" + i
-										+ ", Rating: Unknown");
+								"I need a ride", "User: "
+										+ profile.getUsername() + ", Rating: "
+										+ profile.getRating_avg());
 						passengerOverlay.addOverlay(opDriverItem);
 
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
+						mapView.invalidate();
 
-						Profile profile = new Profile("Passenger" + i, null,
-								null, null, null, null, null, false, false,
-								false, false, 0.0, lngi);
-
+						MapModel.getInstance().getHitchPassengers().clear();
 						MapModel.getInstance().getHitchPassengers()
 								.add(profile);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
+						MapModel.getInstance().fireNotification(context,
+								profile);
 					}
+				} else {
+					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
+							.show();
 				}
 				break;
 			case Constants.STATUS_UPTODATE:

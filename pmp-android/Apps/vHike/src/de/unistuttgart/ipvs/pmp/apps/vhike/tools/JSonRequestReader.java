@@ -260,10 +260,10 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String username = null;
-		String email = null;
-		String firstname = null;
-		String lastname = null;
-		String tel = null;
+		String email = "xxx";
+		String firstname = "xxx";
+		String lastname = "xxx";
+		String tel = "xxx";
 		String description = null;
 		String regdate = null;
 		boolean email_public = false;
@@ -275,19 +275,29 @@ public class JSonRequestReader {
 		int rating_num = 0;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			username = object.get("username").getAsString();
-			email = object.get("email").getAsString();
-			firstname = object.get("firstname").getAsString();
-			lastname = object.get("lastname").getAsString();
-			tel = object.get("tel").getAsString();
-			description = object.get("description").getAsString();
-			regdate = object.get("regdate").getAsString();
-			rating_avg = object.get("rating_avg").getAsFloat();
-			rating_num = object.get("rating_num").getAsInt();
 			email_public = object.get("email_public").getAsBoolean();
 			firstname_public = object.get("firstname_public").getAsBoolean();
 			lastname_public = object.get("lastname_public").getAsBoolean();
 			tel_public = object.get("tel_public").getAsBoolean();
+			
+			if(email_public){
+				email = object.get("email").getAsString();
+			}
+			if(firstname_public){
+				firstname = object.get("firstname").getAsString();
+			}
+			if(lastname_public){
+				lastname = object.get("lastname").getAsString();
+			}
+			if(tel_public){
+				tel = object.get("tel").getAsString();
+			}
+			username = object.get("username").getAsString();
+			description = object.get("description").getAsString();
+			regdate = object.get("regdate").getAsString();
+			rating_avg = object.get("rating_avg").getAsFloat();
+			rating_num = object.get("rating_num").getAsInt();
+			
 		}
 
 		// String userid = object.get("id").getAsString();
@@ -552,7 +562,6 @@ public class JSonRequestReader {
 	 * Driver search for the potential hitchhiker.
 	 * 
 	 * @param sid
-	 * @param trip_id
 	 * @param lat
 	 * @param lon
 	 * @param perimeter
@@ -583,18 +592,77 @@ public class JSonRequestReader {
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
-				Log.i(object.get("queries").getAsJsonArray().toString());
+				boolean isNull = object.get("queries").isJsonNull();
+				if (!isNull) {
+					JsonArray array = object.get("queries").getAsJsonArray();
+
+					queryObjects = new ArrayList<QueryObject>();
+					for (int i = 0; i < array.size(); i++) {
+						JsonObject Iobject = array.get(i).getAsJsonObject();
+						int id = Iobject.get("id").getAsInt();
+						Log.i(String.valueOf(id));
+						int passenger = Iobject.get("passenger").getAsInt();
+						int seats = Iobject.get("seats").getAsInt();
+						float cur_lat = Iobject.get("current_lat").getAsFloat();
+						float cur_lon = Iobject.get("current_lon").getAsFloat();
+						String destination = Iobject.get("destination")
+								.getAsString();
+						float distance = Iobject.get("distance").getAsFloat();
+
+						QueryObject qObject = new QueryObject(id, passenger,
+								seats, cur_lat, cur_lon, destination, distance);
+						queryObjects.add(qObject);
+					}
+					Model.getInstance().setQueryHolder(queryObjects);
+					return queryObjects;
+				}
+			}
+		}
+		Model.getInstance().setQueryHolder(queryObjects);
+		return queryObjects;
+	}
+
+	/**
+	 * Hitchhiker search for offered rides
+	 * 
+	 * @param sid
+	 * @param lat
+	 * @param lon
+	 * @param perimeter
+	 *            /radius
+	 */
+	public static List<QueryObject> searchRides(String sid, float lat,
+			float lon, int perimeter) {
+
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		listToParse.add(new ParamObject("lat", String.valueOf(lat), true));
+		listToParse.add(new ParamObject("lon", String.valueOf(lon), true));
+		listToParse.add(new ParamObject("distance", String.valueOf(perimeter),
+				true));
+
+		JsonObject object = null;
+
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"ride_search.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		List<QueryObject> queryObjects = null;
+		if (object != null) {
+			suc = object.get("successful").getAsBoolean();
+			if (suc) {
+
 				JsonArray array = object.get("queries").getAsJsonArray();
-				/*
-				 * "id":"11", "passenger":"1", "seats":"2",
-				 * "current_lat":"48.7832", "current_lon":"9.1811",
-				 * "destination":"Berlin", "distance":"104.884685142798"
-				 */
 
 				queryObjects = new ArrayList<QueryObject>();
-				Log.i("Array Size: " + array.size());
+
 				for (int i = 0; i < array.size(); i++) {
-					Log.i("Element: " + i);
+
 					JsonObject Iobject = array.get(i).getAsJsonObject();
 					int id = Iobject.get("id").getAsInt();
 					int passenger = Iobject.get("passenger").getAsInt();
@@ -609,7 +677,7 @@ public class JSonRequestReader {
 							cur_lat, cur_lon, destination, distance);
 					queryObjects.add(qObject);
 				}
-				Log.i("List size: " + String.valueOf(queryObjects.size()));
+
 				return queryObjects;
 			}
 		}
@@ -627,6 +695,12 @@ public class JSonRequestReader {
 	 */
 	public static String sendOffer(String sid, int trip_id, int query_id,
 			String message) {
+		
+		Log.i(sid);
+		Log.i(String.valueOf(trip_id));
+		Log.i(String.valueOf(query_id));
+		Log.i(message);
+		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("trip", String.valueOf(trip_id), true));
@@ -657,7 +731,12 @@ public class JSonRequestReader {
 		return status;
 	}
 
-	public static void viewOffer(String sid) {
+	/**
+	 * Hitchhiker wants to show all offers which were made to him
+	 * 
+	 * @param sid
+	 */
+	public static List<OfferObject> viewOffer(String sid) {
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		JsonObject object = null;
@@ -671,15 +750,33 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-		String status = "";
+		List<OfferObject> offerObjects = null;
 		if (object != null) {
-			suc = object.get("succ essful").getAsBoolean();
+			suc = object.get("successful").getAsBoolean();
 			if (suc) {
-				status = object.get("offers").getAsString();
-				// TODO;
-				Log.i(status);
+				JsonArray array = object.get("offers").getAsJsonArray();
+
+				offerObjects = new ArrayList<OfferObject>();
+				for (int i = 0; i < array.size(); i++) {
+					JsonObject Iobject = array.get(i).getAsJsonObject();
+					int offer_id = Iobject.get("offer").getAsInt();
+					int user_id = Iobject.get("userid").getAsInt();
+					String username = Iobject.get("username").getAsString();
+					float rating = Iobject.get("rating").getAsFloat();
+					float rating_num = Iobject.get("rating_num").getAsFloat();
+
+					float distance = Iobject.get("distance").getAsFloat();
+
+					OfferObject oObject = new OfferObject(offer_id, user_id,
+							username, rating, rating_num);
+					offerObjects.add(oObject);
+				}
+				Model.getInstance().setOfferHolder(offerObjects);
+				return offerObjects;
 			}
 		}
+		Model.getInstance().setOfferHolder(offerObjects);
+		return offerObjects;
 	}
 
 	/**
