@@ -105,8 +105,8 @@ public class LocationUpdateHandler implements LocationListener {
 						.show();
 				List<QueryObject> lqo = ctrl.searchQuery(Model.getInstance()
 						.getSid(), (float) location.getLatitude(),
-						(float) location.getLongitude(), 10);
-				if (lqo.size() > 0) {
+						(float) location.getLongitude(), 10000);
+				if (lqo != null) {
 					for (int i = 0; i < lqo.size(); i++) {
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
@@ -128,12 +128,16 @@ public class LocationUpdateHandler implements LocationListener {
 
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
+						mapView.invalidate();
 
 						MapModel.getInstance().getHitchPassengers()
 								.add(profile);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 					}
+				} else {
+					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
+							.show();
 				}
 				break;
 			case Constants.STATUS_UPTODATE:
