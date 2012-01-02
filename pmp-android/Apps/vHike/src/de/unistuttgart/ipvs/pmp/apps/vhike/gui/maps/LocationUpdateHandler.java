@@ -111,6 +111,9 @@ public class LocationUpdateHandler implements LocationListener {
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
 						GeoPoint gp = new GeoPoint(lati, lngi);
+
+						Profile profile = ctrl.getProfile(Model.getInstance()
+								.getSid(), lqo.get(i).getPassenger());
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
 								.getDrawable(R.drawable.passenger_logo);
@@ -118,16 +121,13 @@ public class LocationUpdateHandler implements LocationListener {
 								drawablePassenger, context);
 
 						OverlayItem opDriverItem = new OverlayItem(gp,
-								"I need a ride", "User: " + "Passenger" + i
-										+ ", Rating: Unknown");
+								"I need a ride", "User: "
+										+ profile.getUsername() + ", Rating: "
+										+ profile.getRating_avg());
 						passengerOverlay.addOverlay(opDriverItem);
 
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
-
-						Profile profile = new Profile("Passenger" + i, null,
-								null, null, null, null, null, false, false,
-								false, false, 0.0, lngi);
 
 						MapModel.getInstance().getHitchPassengers()
 								.add(profile);
