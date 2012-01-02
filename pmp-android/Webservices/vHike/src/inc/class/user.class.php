@@ -484,7 +484,6 @@ class user {
 
     public function getCurrentQueryId(){
         $db = Database::getInstance();
-        echo "[SELECT `id` FROM `" . DB_PREFIX . "_query` WHERE `passenger`=$this->id]";
         $query = $db->query("SELECT `id` FROM `" . DB_PREFIX . "_query` WHERE `passenger`=$this->id");
         $arr = null;
         $i = 0;

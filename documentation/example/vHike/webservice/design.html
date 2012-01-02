@@ -1084,8 +1084,8 @@
           <td>
            <ul>           
              <li><code>status</code> - String: Gibt an, ob die Suche erfolgreich war. <code>result</code> wenn es keinen Fehler aufgetreten wurde, <code>no_drive</code> wenn
-der Fahrer gerade keine Fahrt anbietet.                        
-             <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
+der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es kein passendes Ergebnis gibt.
+             <li><code>queries </code>- Array: Array mit allen gefundenen Anfragen:
                 <ul>
                 <li><code>queryid</code> - Integer: ID der Anfrage</li>
                 <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>  
@@ -1140,13 +1140,13 @@ der Fahrer gerade keine Fahrt anbietet.
 {
   "successful": true,
   "status&quot;: String,
-  "queries": [
-    {"queryid": Integer, "userid": Integer, "username": String,
-     "rating": Float, "lat": Float, "lon": Float,
-     "seats": Integer, distance: Float},
-    {"queryid": Integer, "userid": Integer, "username": String,
-     "rating": Float, "lat": Float, "lon": Float,
-     "seats": Integer, distance: Float},
+  "trips": [
+    {"tripid": Integer, "seats": Integer, "lat": Float, "lon": Float,
+     "destination": String, "driverid": Integer, &quot;username&quot;: String,
+     &quot;rating&quot;: Float, distance: Float},
+    {"tripid": Integer, "seats": Integer, "lat": Float, "lon": Float,
+     "destination": String, "driverid": Integer, &quot;username&quot;: String,
+     &quot;rating&quot;: Float, distance: Float},
     ...
   ]
 }                                 
@@ -1156,24 +1156,25 @@ der Fahrer gerade keine Fahrt anbietet.
           <th class="left">Rückgabe (Beschreibung)</th>
           <td><ul>
             <li><code>status</code> - String: Gibt an, ob die Suche erfolgreich war. <code>result</code> wenn es keinen Fehler aufgetreten wurde, <code>no_query</code> wenn
-              der Benutzer gerade keine Anfrage hat.                        
-            <li><code>query </code>- Array: Array mit allen gefundenen Anfragen:
+              der Benutzer gerade keine Anfrage hat,  <code>no_trip_found</code> wenn es kein passendes Ergebnis gibt.
+            <li><code>trips </code>- Array: Array mit allen gefundenen Anfragen:
               <ul>
-                <li><code>queryid</code> - Integer: ID der Anfrage</li>
-                <li><code>userid</code> - Integer: ID des anfragenden Benutzers</li>
-                <li><code>username</code> - String: Name des anfragenden Benutzers</li>
-                <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li>
-                <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>
-                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>
-                <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
-                <li><code>distance</code> - Float: Distanz zwischen dem Fahrer und den angefragten Benutzern in Meter</li>
+                <li><code>tripid</code> - Integer: ID der Fahrt</li>
+                <li><code>seats</code> - Integer: Integer: Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
+                <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Fahrer befindet</li>
+                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Fahrer befindet</li>
+                <li><code>destination</code> - String:   Name des Zielortes</li>
+                <li><code>driverid</code> - Integer: ID des anfragenden Fahrers</li>
+                <li><code>username</code> - String: Name des anfragenden Fahrers</li>
+                <li><code>rating</code> - Float: Durchschnittsbewertung des Fahrers</li>
+                <li><code>distance</code> - Float: Distanz zwischen dem Benutzer und den angefragten Fahrern in Meter</li>
               </ul>
             </ul>
-            <p>Das Ergebnis wird nach <code>distance</code> aufsteigend sortiert.</p></td>
+          <p>Das Ergebnis wird nach <code>distance</code> aufsteigend sortiert.</p></td>
         </tr>
         <tr>
           <th class="left">Status</th>
-          <td>Wird bald implementiert</td>
+          <td>Implementiert</td>
         </tr>
       </table>
       <h3>Mitfahrer einladen</h3>

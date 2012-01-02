@@ -206,10 +206,16 @@ class Ride {
         return $rides;
     }
 
-    public static function searchRide($passenger_id, $distance)
+    /**
+     * Search for drivers in the surrounding area within the given distance
+     * @static
+     * @param int $passenger_id ID of the requesting user
+     * @param int $distance The maximal distance between the drivers and the requesting user in meter
+     * @return array|null List of the eligible drivers
+     */
+    public static function getRidesByDistance($passenger_id, $distance)
     {
         $db = Database::getInstance();
-
         $query = $db->query("CALL list_driver($passenger_id, $distance);");
         $arr = null;
         $i = 0;

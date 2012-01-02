@@ -18,13 +18,14 @@ try {
 		Json::printError("invalid_input", "At least one POST-Parameter is invalid");
 	}
 
+    // Get the list of hikers and print out the JSON formatted result
     if($user->getCurrentTripId() != NULL) {
         $result = $query->searchQuery($user->getId(), $_POST["distance"]);
         if ($result) {
             $output = array("successful" => true, "status" => "result", "queries" => $result);
             echo Json::arrayToJson($output);
         } else {
-            $output = array("successful" => true, "status" => "result", "queries" => NULL);
+            $output = array("successful" => true, "status" => "no_query_found");
             echo Json::arrayToJson($output);
         }
     } else {

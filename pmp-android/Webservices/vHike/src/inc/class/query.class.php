@@ -28,17 +28,16 @@ class Query {
         return $query->fillAttributes("SELECT * FROM `".DB_PREFIX."_query` WHERE `id` = $id");
     }
 
+    /**
+     * Search for ride requests in the surrounding area within the given distance
+     * @static
+     * @param int $driver_id ID of the driver
+     * @param int $distance The maximal distance between the driver and the hikers in meter
+     * @return array|null List of the eligible requests
+     */
     public static function searchQuery($driver_id, $distance)
     {
         $db = Database::getInstance();
-//        echo "SELECT `query`.id AS queryid, `query`.passenger AS userid, `user`.username, `user`.rating_avg AS rating, " .
-//            "`query`.current_lat AS lat, `query`.current_lon AS lon, `query`.seats " .
-//            "FROM " . DB_PREFIX . "_query AS `query` " .
-//            "INNER JOIN " . DB_PREFIX . "_user AS `user` ON `user`.id = `query`.passenger " .
-//            "INNER JOIN " . DB_PREFIX . "_trip ON `query`.destination = `query`.destination " .
-//            "WHERE `query`.passenger !=$driver_id " .
-//            "ORDER BY rating DESC";
-
         $query = $db->query("CALL list_hiker($driver_id, $distance);");
         $arr = null;
         $i = 0;

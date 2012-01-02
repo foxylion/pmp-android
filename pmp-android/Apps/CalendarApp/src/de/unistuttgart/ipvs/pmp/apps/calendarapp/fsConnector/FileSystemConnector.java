@@ -248,11 +248,12 @@ public class FileSystemConnector {
                                         }
                                         break;
                                     case 1:
-                                        if (!importRow.equals("SUMMARY:")) {
+                                        if (!importRow.startsWith("SUMMARY:")) {
                                             success = false;
-                                        } else {
+                                        } else {;
                                             name = importRow.substring(8);
                                         }
+                                        break;
                                     case 2:
                                         if (!importRow.startsWith("DESCRIPTION:")) {
                                             success = false;
@@ -300,13 +301,10 @@ public class FileSystemConnector {
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                             } else {
-                                SqlConnector sqlCon = new SqlConnector();
-                                // Delete all current appointments
-                                for (Appointment appointment : Model.getInstance().getAppointmentList()) {
-                                    sqlCon.deleteAppointment(appointment);
-                                }
+                               
                                 Model.getInstance().deleteAllAppointments();
                                 
+                                SqlConnector sqlCon = new SqlConnector();
                                 // Store the appointments
                                 for (Appointment appointmentToStore : importAppointmentList) {
                                     String nameTmp = appointmentToStore.getName();

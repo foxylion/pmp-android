@@ -20,16 +20,16 @@ try {
 
     $queryIds = $user->getCurrentQueryId();
 
+    // Get the list of drivers and print out the JSON formatted result
     if($queryIds != NULL) {
-        $result = $ride->searchRide($user->getId(), $_POST["distance"]);
-//        if ($result) {
-//            $output = array("successful" => true, "status" => "result", "queries" => $result);
-//            echo Json::arrayToJson($output);
-//        } else {
-//            $output = array("successful" => true, "status" => "result", "queries" => NULL);
-//            echo Json::arrayToJson($output);
-//        }
-        echo Json::arrayToJson($user->getCurrentQueryId());
+        $result = Ride::getRidesByDistance($user->getId(), $_POST["distance"]);
+        if ($result) {
+            $output = array("successful" => true, "status" => "result", "trips" => $result);
+            echo Json::arrayToJson($output);
+        } else {
+            $output = array("successful" => true, "status" => "no_trip_found");
+            echo Json::arrayToJson($output);
+        }
     } else {
         $output = array("successful" => true, "status" => "no_query");
         echo Json::arrayToJson($output);

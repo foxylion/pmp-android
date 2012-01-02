@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -102,6 +103,38 @@ public class LocationUpdateHandler implements LocationListener {
 			case Constants.STATUS_UPDATED:
 				Toast.makeText(context, "Status updated", Toast.LENGTH_LONG)
 						.show();
+				List<QueryObject> lqo = ctrl.searchQuery(Model.getInstance()
+						.getSid(), (float) location.getLatitude(),
+						(float) location.getLongitude(), 10);
+				if (lqo.size() > 0) {
+					for (int i = 0; i < lqo.size(); i++) {
+						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
+						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
+						GeoPoint gp = new GeoPoint(lati, lngi);
+						// -------------------------------------------------------------
+						Drawable drawablePassenger = context.getResources()
+								.getDrawable(R.drawable.passenger_logo);
+						PassengerOverlay passengerOverlay = new PassengerOverlay(
+								drawablePassenger, context);
+
+						OverlayItem opDriverItem = new OverlayItem(gp,
+								"I need a ride", "User: " + "Passenger" + i
+										+ ", Rating: Unknown");
+						passengerOverlay.addOverlay(opDriverItem);
+
+						MapModel.getInstance().getDriverOverlayList(mapView)
+								.add(passengerOverlay);
+
+						Profile profile = new Profile("Passenger" + i, null,
+								null, null, null, null, null, false, false,
+								false, false, 0.0, lngi);
+
+						MapModel.getInstance().getHitchPassengers()
+								.add(profile);
+						MapModel.getInstance().getDriverAdapter(context)
+								.notifyDataSetChanged();
+					}
+				}
 				break;
 			case Constants.STATUS_UPTODATE:
 				Toast.makeText(context, "Status up to date", Toast.LENGTH_LONG)
