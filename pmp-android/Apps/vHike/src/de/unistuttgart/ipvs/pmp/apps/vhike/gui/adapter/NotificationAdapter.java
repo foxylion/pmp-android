@@ -90,8 +90,8 @@ public class NotificationAdapter extends BaseAdapter {
 				.findViewById(R.id.acceptBtn);
 
 		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-		queryID = lqo.get(position).getId();
-		
+		queryID = lqo.get(position).getUserid();
+
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -126,8 +126,8 @@ public class NotificationAdapter extends BaseAdapter {
 			}
 		});
 
-		final int passengerID = lqo.get(position).getPassenger();
-		
+		final int passengerID = lqo.get(position).getUserid();
+
 		name.setText(hitchhiker.getUsername());
 		name.setOnClickListener(new OnClickListener() {
 			@Override
@@ -135,7 +135,7 @@ public class NotificationAdapter extends BaseAdapter {
 				Intent intent = new Intent(context, ProfileActivity.class);
 				intent.putExtra("PASSENGER_ID", passengerID);
 				intent.putExtra("MY_PROFILE", 1);
-				
+
 				context.startActivity(intent);
 			}
 		});

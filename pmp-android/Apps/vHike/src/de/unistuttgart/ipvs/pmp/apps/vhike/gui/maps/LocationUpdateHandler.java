@@ -123,7 +123,7 @@ public class LocationUpdateHandler implements LocationListener {
 						GeoPoint gp = new GeoPoint(lati, lngi);
 
 						Profile profile = ctrl.getProfile(Model.getInstance()
-								.getSid(), lqo.get(i).getPassenger());
+								.getSid(), lqo.get(i).getUserid());
 
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
@@ -147,7 +147,7 @@ public class LocationUpdateHandler implements LocationListener {
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 						MapModel.getInstance().fireNotification(context,
-								profile, lqo.get(i).getPassenger());
+								profile, lqo.get(i).getUserid());
 					}
 				} else {
 					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
