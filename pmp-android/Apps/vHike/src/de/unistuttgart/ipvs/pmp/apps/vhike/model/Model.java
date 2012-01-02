@@ -1,4 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
+
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+
 /**
  * Model for vHike, it holds all necessary informations to work with
  * @author Alexander Wassiljew
@@ -23,6 +29,32 @@ public class Model {
 	 * This is the query id of an user 
 	 */
 	private int queryId;
+	
+	/**
+	 * Holds queries of the Driver, within are hitchhiker
+	 */
+	private List<QueryObject> queryHolder;
+	
+	public List<QueryObject> getQueryHolder() {
+		return queryHolder;
+	}
+
+	public void setQueryHolder(List<QueryObject> queryHolder) {
+		this.queryHolder = queryHolder;
+	}
+
+	/**
+	 * Holds offers of the Driver, within are hitchhiker
+	 */
+	private List<OfferObject> offerHolder;
+	
+	public List<OfferObject> getOfferHolder() {
+		return offerHolder;
+	}
+
+	public void setOfferHolder(List<OfferObject> offerHolder) {
+		this.offerHolder = offerHolder;
+	}
 	
 	public int getQueryId(){
 		return queryId;

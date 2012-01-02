@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
@@ -123,17 +124,18 @@ public class LocationUpdateHandler implements LocationListener {
 
 						Profile profile = ctrl.getProfile(Model.getInstance()
 								.getSid(), lqo.get(i).getPassenger());
+
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
 								.getDrawable(R.drawable.passenger_logo);
 						PassengerOverlay passengerOverlay = new PassengerOverlay(
 								drawablePassenger, context);
 
-						OverlayItem opDriverItem = new OverlayItem(gp,
+						OverlayItem opPassengerItem = new OverlayItem(gp,
 								"I need a ride", "User: "
 										+ profile.getUsername() + ", Rating: "
 										+ profile.getRating_avg());
-						passengerOverlay.addOverlay(opDriverItem);
+						passengerOverlay.addOverlay(opPassengerItem);
 
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
@@ -144,6 +146,8 @@ public class LocationUpdateHandler implements LocationListener {
 								.add(profile);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
+						MapModel.getInstance().fireNotification(context,
+								profile);
 					}
 				} else {
 					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
@@ -168,6 +172,9 @@ public class LocationUpdateHandler implements LocationListener {
 
 			}
 		} else {
+			// clear list
+			MapModel.getInstance().clearPassengerOverlayList();
+
 			// Passenger drawable and overlay
 			Drawable drawablePassenger = context.getResources().getDrawable(
 					R.drawable.passenger_logo);
@@ -183,7 +190,8 @@ public class LocationUpdateHandler implements LocationListener {
 					.add(pOverlay);
 
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
-					.getInstance().getDestination(), lat, lng, MapModel
+					.getInstance().getDestination(), (float) location
+					.getLatitude(), (float) location.getLongitude(), MapModel
 					.getInstance().getNumSeats())) {
 			case (Constants.QUERY_ID_ERROR):
 				Toast.makeText(context, "Query error", Toast.LENGTH_LONG)
@@ -192,6 +200,41 @@ public class LocationUpdateHandler implements LocationListener {
 			default:
 				Toast.makeText(context, "Query updated/started",
 						Toast.LENGTH_SHORT).show();
+
+				List<OfferObject> loo = ctrl.viewOffers(Model.getInstance()
+						.getSid());
+				if (loo != null) {
+					for (int i = 0; i < loo.size(); i++) {
+						Profile driver = ctrl.getProfile(Model.getInstance()
+								.getSid(), loo.get(i).getUser_id());
+						GeoPoint gpsDriver = new GeoPoint(
+								(int) (48.8239 * 1E6), (int) (9.2139 * 1E6));
+
+						// -------------------------------------------------------------
+						Drawable drawableDriver = context.getResources()
+								.getDrawable(R.drawable.icon_ride);
+						DriverOverlay driverOverlay = new DriverOverlay(
+								drawableDriver, context, gpsDriver);
+
+						OverlayItem opDriverItem = new OverlayItem(gpsDriver,
+								"Hop in man", "User: " + driver.getUsername()
+										+ ", Rating: " + driver.getRating_avg());
+						driverOverlay.addOverlay(opDriverItem);
+
+						MapModel.getInstance().getPassengerOverlayList(mapView)
+								.add(driverOverlay);
+						mapView.invalidate();
+
+						MapModel.getInstance().getHitchDrivers().clear();
+						MapModel.getInstance().getHitchDrivers().add(driver);
+						MapModel.getInstance().getPassengerAdapter(context)
+								.notifyDataSetChanged();
+					}
+				} else {
+					Toast.makeText(context, "List null", Toast.LENGTH_SHORT)
+							.show();
+				}
+
 				break;
 			}
 		}

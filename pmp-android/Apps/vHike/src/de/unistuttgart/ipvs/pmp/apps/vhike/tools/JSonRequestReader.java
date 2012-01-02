@@ -600,6 +600,7 @@ public class JSonRequestReader {
 					for (int i = 0; i < array.size(); i++) {
 						JsonObject Iobject = array.get(i).getAsJsonObject();
 						int id = Iobject.get("id").getAsInt();
+						Log.i(String.valueOf(id));
 						int passenger = Iobject.get("passenger").getAsInt();
 						int seats = Iobject.get("seats").getAsInt();
 						float cur_lat = Iobject.get("current_lat").getAsFloat();
@@ -612,10 +613,12 @@ public class JSonRequestReader {
 								seats, cur_lat, cur_lon, destination, distance);
 						queryObjects.add(qObject);
 					}
+					Model.getInstance().setQueryHolder(queryObjects);
 					return queryObjects;
 				}
 			}
 		}
+		Model.getInstance().setQueryHolder(queryObjects);
 		return queryObjects;
 	}
 
@@ -692,6 +695,12 @@ public class JSonRequestReader {
 	 */
 	public static String sendOffer(String sid, int trip_id, int query_id,
 			String message) {
+		
+		Log.i(sid);
+		Log.i(String.valueOf(trip_id));
+		Log.i(String.valueOf(query_id));
+		Log.i(message);
+		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("trip", String.valueOf(trip_id), true));
@@ -762,9 +771,11 @@ public class JSonRequestReader {
 							username, rating, rating_num);
 					offerObjects.add(oObject);
 				}
+				Model.getInstance().setOfferHolder(offerObjects);
 				return offerObjects;
 			}
 		}
+		Model.getInstance().setOfferHolder(offerObjects);
 		return offerObjects;
 	}
 

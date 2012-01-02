@@ -15,28 +15,6 @@
         android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/Button_SimulateNoti"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Simulate Notification" >
-        </Button>
-        
-        <Button
-            android:id="@+id/Button_SearchQuery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Query Test" >
-        </Button>
-    </LinearLayout>
-
     <SlidingDrawer
         android:id="@+id/notiSlider"
         android:layout_width="wrap_content"

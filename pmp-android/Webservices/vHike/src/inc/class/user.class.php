@@ -483,7 +483,14 @@ class user {
     }
 
     public function getCurrentQueryId(){
-        return;
+        $db = Database::getInstance();
+        $query = $db->query("SELECT `id` FROM `" . DB_PREFIX . "_query` WHERE `passenger`=$this->id");
+        $arr = null;
+        $i = 0;
+        while ($row = $db->fetch($query)) {
+            $arr[$i++] = $row["id"];
+        }
+        return $arr;
     }
     
     public function getEmail() {

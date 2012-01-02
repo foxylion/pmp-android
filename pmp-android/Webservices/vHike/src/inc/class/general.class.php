@@ -9,7 +9,7 @@ class General {
     
     /**
      * String used inside a regular expression. This matches a single
-     * letter, that mgiht be used in any european language (e.g. a-z, á, Ê)
+     * letter, that might be used in any european language (e.g. a-z, á, Ê)
      */
     const REG_INTCHARS = "A-Za-zÄäÖößÜüÁÀÂáàâÉÈÊéèêÍÌÎíìîÓÒÔóòôÚÙÛúùûÇç";
 
@@ -35,7 +35,7 @@ class General {
     
     /**
      * Generates a random string.
-     * Usefull for greating passwords or activation strings  
+     * Useful for creating passwords or activation strings
      *   
      * @param    $length   Length of the generated string
      * @return   Generated string 
