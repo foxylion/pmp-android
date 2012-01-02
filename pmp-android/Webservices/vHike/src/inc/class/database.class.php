@@ -8,7 +8,7 @@ class DatabaseException extends Exception {
 }
 
 /**
- * Encapsulares the access to the database 
+ * Encapsulates the access to the database
  * @author Patrick
  */
 class Database {
@@ -41,7 +41,7 @@ class Database {
      * @throws DatabaseException Thrown, if unable to connect to database server
      */
     public function connect() {
-        // Cancel if connection is alreay established
+        // Cancel if connection is already established
         if ($this->handler != null) {
             return;
         }
@@ -65,9 +65,9 @@ class Database {
 
     /**
      * Executes a database query
-     * @throws DatabaseException Thrown, if database connaction hasn't been established
+     * @throws DatabaseException Thrown, if database connection hasn't been established
      *              before or if the query-string is invalid
-     * @param String $query   Query to sendto the database server
+     * @param String $query Query to send to the database server
      * @return MySql_result Query's result
      */
     public function query($query) {
