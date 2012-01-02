@@ -279,17 +279,17 @@ public class JSonRequestReader {
 			firstname_public = object.get("firstname_public").getAsBoolean();
 			lastname_public = object.get("lastname_public").getAsBoolean();
 			tel_public = object.get("tel_public").getAsBoolean();
-			
-			if(email_public){
+
+			if (email_public) {
 				email = object.get("email").getAsString();
 			}
-			if(firstname_public){
+			if (firstname_public) {
 				firstname = object.get("firstname").getAsString();
 			}
-			if(lastname_public){
+			if (lastname_public) {
 				lastname = object.get("lastname").getAsString();
 			}
-			if(tel_public){
+			if (tel_public) {
 				tel = object.get("tel").getAsString();
 			}
 			username = object.get("username").getAsString();
@@ -297,7 +297,7 @@ public class JSonRequestReader {
 			regdate = object.get("regdate").getAsString();
 			rating_avg = object.get("rating_avg").getAsFloat();
 			rating_num = object.get("rating_num").getAsInt();
-			
+
 		}
 
 		// String userid = object.get("id").getAsString();
@@ -487,6 +487,11 @@ public class JSonRequestReader {
 	 */
 	public static int startQuery(String sid, String destination,
 			float current_lat, float current_lon, int seats) {
+		Log.i(sid);
+		Log.i(destination);
+		Log.i(String.valueOf(current_lat));
+		Log.i(String.valueOf(current_lon));
+		Log.i(String.valueOf(seats));
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 
@@ -592,25 +597,34 @@ public class JSonRequestReader {
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
-				boolean isNull = object.get("queries").isJsonNull();
-				if (!isNull) {
+				String status = object.get("status").getAsString();
+				if (status.equals("result")) {
 					JsonArray array = object.get("queries").getAsJsonArray();
 
 					queryObjects = new ArrayList<QueryObject>();
+
+					/*
+					 * "queryid": Integer, "userid": Integer, "username":
+					 * String, "rating": Float, "lat": Float, "lon": Float,
+					 * "seats": Integer, distance: Float
+					 */
+
 					for (int i = 0; i < array.size(); i++) {
 						JsonObject Iobject = array.get(i).getAsJsonObject();
-						int id = Iobject.get("id").getAsInt();
-						Log.i(String.valueOf(id));
-						int passenger = Iobject.get("passenger").getAsInt();
+						int queryid = Iobject.get("queryid").getAsInt();
+						
+						int userid = Iobject.get("userid").getAsInt();
+
+						String username = Iobject.get("username").getAsString();
+						float rating = Iobject.get("rating").getAsFloat();
+
+						float cur_lat = Iobject.get("lat").getAsFloat();
+						float cur_lon = Iobject.get("lon").getAsFloat();
 						int seats = Iobject.get("seats").getAsInt();
-						float cur_lat = Iobject.get("current_lat").getAsFloat();
-						float cur_lon = Iobject.get("current_lon").getAsFloat();
-						String destination = Iobject.get("destination")
-								.getAsString();
 						float distance = Iobject.get("distance").getAsFloat();
 
-						QueryObject qObject = new QueryObject(id, passenger,
-								seats, cur_lat, cur_lon, destination, distance);
+						QueryObject qObject = new QueryObject(queryid, userid,
+								username,cur_lat, cur_lon, seats, distance);
 						queryObjects.add(qObject);
 					}
 					Model.getInstance().setQueryHolder(queryObjects);
@@ -631,7 +645,7 @@ public class JSonRequestReader {
 	 * @param perimeter
 	 *            /radius
 	 */
-	public static List<QueryObject> searchRides(String sid, float lat,
+	public static List<RideObject> searchRides(String sid, float lat,
 			float lon, int perimeter) {
 
 		listToParse.clear();
@@ -652,36 +666,39 @@ public class JSonRequestReader {
 			e.printStackTrace();
 		}
 		boolean suc = false;
-		List<QueryObject> queryObjects = null;
+		List<RideObject> rideObjects = null;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
 
 				JsonArray array = object.get("queries").getAsJsonArray();
 
-				queryObjects = new ArrayList<QueryObject>();
+				rideObjects = new ArrayList<RideObject>();
 
 				for (int i = 0; i < array.size(); i++) {
 
 					JsonObject Iobject = array.get(i).getAsJsonObject();
-					int id = Iobject.get("id").getAsInt();
-					int passenger = Iobject.get("passenger").getAsInt();
+					int tripid = Iobject.get("tripid").getAsInt();
 					int seats = Iobject.get("seats").getAsInt();
-					float cur_lat = Iobject.get("current_lat").getAsFloat();
-					float cur_lon = Iobject.get("current_lon").getAsFloat();
-					String destination = Iobject.get("destination")
-							.getAsString();
+					float cur_lat = Iobject.get("lat").getAsFloat();
+					float cur_lon = Iobject.get("lon").getAsFloat();
+					
+					String destination = Iobject.get("destination").getAsString();
+					int driverid = Iobject.get("driverid").getAsInt();
+					
+					String username = Iobject.get("username").getAsString();
+					float rating = Iobject.get("rating").getAsFloat();
+					
 					float distance = Iobject.get("distance").getAsFloat();
-
-					QueryObject qObject = new QueryObject(id, passenger, seats,
-							cur_lat, cur_lon, destination, distance);
-					queryObjects.add(qObject);
+					
+					RideObject qObject = new RideObject(tripid,seats,cur_lat,cur_lon,destination,driverid,username,rating,distance);
+					rideObjects.add(qObject);
 				}
 
-				return queryObjects;
+				return rideObjects;
 			}
 		}
-		return queryObjects;
+		return rideObjects;
 	}
 
 	/**
@@ -695,12 +712,12 @@ public class JSonRequestReader {
 	 */
 	public static String sendOffer(String sid, int trip_id, int query_id,
 			String message) {
-		
+
 		Log.i(sid);
 		Log.i(String.valueOf(trip_id));
 		Log.i(String.valueOf(query_id));
 		Log.i(message);
-		
+
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("trip", String.valueOf(trip_id), true));
@@ -764,11 +781,11 @@ public class JSonRequestReader {
 					String username = Iobject.get("username").getAsString();
 					float rating = Iobject.get("rating").getAsFloat();
 					float rating_num = Iobject.get("rating_num").getAsFloat();
-
-					float distance = Iobject.get("distance").getAsFloat();
-
+					float lat = Iobject.get("lat").getAsFloat();
+					float lon = Iobject.get("lon").getAsFloat();
+					
 					OfferObject oObject = new OfferObject(offer_id, user_id,
-							username, rating, rating_num);
+							username, rating, rating_num, lat, lon);
 					offerObjects.add(oObject);
 				}
 				Model.getInstance().setOfferHolder(offerObjects);

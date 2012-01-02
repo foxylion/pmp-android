@@ -1,67 +1,52 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
-/**
- * Query Objects will be generated when there is a call of searchQuery {@link JSonRequestReader}
- * @author Alexander Wassiljew
- *
- */
-public class QueryObject{
 
-	int id = 0;
-	int passenger = 0;
-	int seats = 0;
-	float cur_lat =	0;
+/**
+ * Query Objects will be generated when there is a call of searchQuery
+ * {@link JSonRequestReader}
+ * 
+ * @author Alexander Wassiljew
+ * 
+ */
+public class QueryObject {
+	int queryid = 0;
+	int userid = 0;
+	String username = "";
+	float cur_lat = 0;
 	float cur_lon = 0;
-	String destination = "";
+	int seats = 0;
 	float distance = 0;
-	
-	public QueryObject(int id, int passenger, int seats, float cur_lat,
-			float cur_lon, String destination, float distance) {
+	public QueryObject(int queryid, int userid, String username, float cur_lat,
+			float cur_lon, int seats, float distance) {
 		super();
-		this.id = id;
-		this.passenger = passenger;
-		this.seats = seats;
+		this.queryid = queryid;
+		this.userid = userid;
+		this.username = username;
 		this.cur_lat = cur_lat;
 		this.cur_lon = cur_lon;
-		this.destination = destination;
+		this.seats = seats;
 		this.distance = distance;
 	}
-
-	/**
-	 * 
-	 * @return query_id
-	 */
-	public int getId() {
-		return id;
+	public int getQueryid() {
+		return queryid;
 	}
-	/**
-	 * 
-	 * @return user_id of passenger
-	 */
-	public int getPassenger() {
-		return passenger;
+	public int getUserid() {
+		return userid;
 	}
-
-	public int getSeats() {
-		return seats;
+	public String getUsername() {
+		return username;
 	}
-
 	public float getCur_lat() {
 		return cur_lat;
 	}
-
 	public float getCur_lon() {
 		return cur_lon;
 	}
-
-	public String getDestination() {
-		return destination;
+	public int getSeats() {
+		return seats;
 	}
-
 	public float getDistance() {
 		return distance;
 	}
-	
-	
-	
-	
+
+
 }
