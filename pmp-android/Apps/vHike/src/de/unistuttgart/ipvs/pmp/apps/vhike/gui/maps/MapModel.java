@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -196,7 +196,7 @@ public class MapModel {
 	 * @param context
 	 * @param profile
 	 */
-	public void fireNotification(Context context, Profile profile) {
+	public void fireNotification(Context context, Profile profile, int profileID) {
 
 		// get reference to notificationManager
 		String ns = Context.NOTIFICATION_SERVICE;
@@ -215,6 +215,8 @@ public class MapModel {
 		CharSequence contentTitle = profile.getUsername() + " wants a ride!";
 		CharSequence contentText = "Touch to open profile";
 		Intent notificationIntent = new Intent(context, ProfileActivity.class);
+		notificationIntent.putExtra("MY_PROFILE", 1);
+		notificationIntent.putExtra("PASSENGER_ID", profileID);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
 
@@ -234,5 +236,4 @@ public class MapModel {
 		slider.open();
 
 	}
-
 }

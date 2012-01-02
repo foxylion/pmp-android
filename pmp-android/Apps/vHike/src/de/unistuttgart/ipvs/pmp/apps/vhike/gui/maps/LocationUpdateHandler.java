@@ -147,7 +147,7 @@ public class LocationUpdateHandler implements LocationListener {
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 						MapModel.getInstance().fireNotification(context,
-								profile);
+								profile, lqo.get(i).getPassenger());
 					}
 				} else {
 					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
