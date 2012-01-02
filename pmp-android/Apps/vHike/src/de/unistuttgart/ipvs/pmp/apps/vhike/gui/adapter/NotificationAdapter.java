@@ -90,7 +90,7 @@ public class NotificationAdapter extends BaseAdapter {
 				.findViewById(R.id.acceptBtn);
 
 		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-		queryID = lqo.get(position).getUserid();
+		queryID = lqo.get(position).getQueryid();
 
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
