@@ -78,30 +78,29 @@ class BooleanPrivacyLevelView extends LinearLayout {
     public BooleanPrivacyLevelView(Context context) {
         super(context);
         
+        this.checkBox = new CheckBox(context);
         
-        checkBox = new CheckBox(context);
+        addView(this.checkBox);
         
-        addView(checkBox);
-        
-        checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        this.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                value = isChecked;
+                BooleanPrivacyLevelView.this.value = isChecked;
             }
         });
-
+        
         setValue(false);
     }
     
     
     public void setValue(Boolean bool) {
-        value = bool;
-        checkBox.setChecked(bool);
+        this.value = bool;
+        this.checkBox.setChecked(bool);
     }
     
     
     public Boolean getValue() {
-        return value;
+        return this.value;
     }
 }
