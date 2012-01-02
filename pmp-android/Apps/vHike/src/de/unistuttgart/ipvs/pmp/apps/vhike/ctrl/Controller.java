@@ -294,7 +294,7 @@ public class Controller {
 	  */
 	public List<OfferObject> viewOffers(String sid) {
 		List<OfferObject> offerList = JSonRequestReader.viewOffer(sid);
-		
+		//sadasd
 		return offerList;
 
 	}

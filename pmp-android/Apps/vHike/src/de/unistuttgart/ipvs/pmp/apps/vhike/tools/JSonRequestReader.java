@@ -600,7 +600,7 @@ public class JSonRequestReader {
 				String status = object.get("status").getAsString();
 				if (status.equals("result")) {
 					JsonArray array = object.get("queries").getAsJsonArray();
-
+					Log.i(array.toString());
 					queryObjects = new ArrayList<QueryObject>();
 
 					/*
