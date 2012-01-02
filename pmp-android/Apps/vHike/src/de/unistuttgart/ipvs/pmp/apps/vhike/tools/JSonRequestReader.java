@@ -582,8 +582,8 @@ public class JSonRequestReader {
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
-				String queries = object.get("queries").getAsString();
-				if (!queries.equals("null")) {
+				boolean isNull = object.get("queries").isJsonNull();
+				if (!isNull) {
 					JsonArray array = object.get("queries").getAsJsonArray();
 
 					queryObjects = new ArrayList<QueryObject>();
