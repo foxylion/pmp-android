@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class NotificationAdapter extends BaseAdapter {
 	private List<Profile> hitchhikers;
 	private Profile hitchhiker;
 	private int mWhichHitcher;
+	private int queryID;
 
 	public NotificationAdapter(Context context, List<Profile> hitchhikers,
 			int whichHitcher) {
@@ -116,30 +118,31 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				}
-				accept_invite.setBackgroundResource(R.drawable.bg_check);
-				accept_invite.refreshDrawableState();
+
 			}
 		});
 
 		name.setText(hitchhiker.getUsername());
-//		name.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(context, ProfileActivity.class);
-//				context.startActivity(intent);
-//			}
-//		});
+		// name.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// Intent intent = new Intent(context, ProfileActivity.class);
+		// context.startActivity(intent);
+		// }
+		// });
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
+
+		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+		queryID = lqo.get(position).getId();
 
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mWhichHitcher == 0) {
 					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
-							.getInstance().getTripId(), Model.getInstance()
-							.getQueryId(), hitchhiker.getUsername()
-							+ ": Need a ride?")) {
+							.getInstance().getTripId(), queryID,
+							hitchhiker.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
 						Toast.makeText(context, "STATUS_SENT",
 								Toast.LENGTH_SHORT).show();

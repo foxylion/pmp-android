@@ -123,6 +123,7 @@ public class LocationUpdateHandler implements LocationListener {
 
 						Profile profile = ctrl.getProfile(Model.getInstance()
 								.getSid(), lqo.get(i).getPassenger());
+
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
 								.getDrawable(R.drawable.passenger_logo);
@@ -144,6 +145,8 @@ public class LocationUpdateHandler implements LocationListener {
 								.add(profile);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
+						MapModel.getInstance().fireNotification(context,
+								profile);
 					}
 				} else {
 					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
