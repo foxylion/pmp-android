@@ -122,13 +122,13 @@ public class NotificationAdapter extends BaseAdapter {
 		});
 
 		name.setText(hitchhiker.getUsername());
-		name.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, ProfileActivity.class);
-				context.startActivity(intent);
-			}
-		});
+//		name.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(context, ProfileActivity.class);
+//				context.startActivity(intent);
+//			}
+//		});
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
 
