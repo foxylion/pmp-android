@@ -706,13 +706,13 @@ public class JSonRequestReader {
 		listToParse
 				.add(new ParamObject("query", String.valueOf(query_id), true));
 		listToParse.add(new ParamObject("message", String.valueOf(message),
-				false));
+				true));
 
 		JsonObject object = null;
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse, "offer.php",
-					true);
+					false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
