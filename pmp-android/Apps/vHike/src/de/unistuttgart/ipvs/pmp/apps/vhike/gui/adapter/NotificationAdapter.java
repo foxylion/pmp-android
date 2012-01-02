@@ -116,19 +116,18 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				}
-				accept_invite.setBackgroundResource(R.drawable.bg_check);
-				accept_invite.refreshDrawableState();
+
 			}
 		});
 
 		name.setText(hitchhiker.getUsername());
-//		name.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(context, ProfileActivity.class);
-//				context.startActivity(intent);
-//			}
-//		});
+		// name.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// Intent intent = new Intent(context, ProfileActivity.class);
+		// context.startActivity(intent);
+		// }
+		// });
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
 
