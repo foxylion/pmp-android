@@ -26,6 +26,8 @@ class Offer {
      */
     private $queryId = -1;
     private $message = null;
+    private $current_lat = null;
+    private $current_lon = null;
     
     private function __construct() { }
     /**
@@ -42,7 +44,9 @@ class Offer {
         $row = $db->fetch($db->query("SELECT 
                                         u.*, u.`id` AS uid,
                                         o.`id` AS oid, o.`query`, o.`message`, 
-                                        t.`id` AS tid  
+                                        t.`id` AS tid,
+                                        t.`current_lat` AS lat,
+                                        t.`current_lon` AS lon
                                       FROM 
                                         `".DB_PREFIX."_offer` AS o, 
                                         `".DB_PREFIX."_trip` AS t, 
@@ -50,6 +54,17 @@ class Offer {
                                       WHERE o.`trip` = t.`id`
                                       AND t.`driver` = u.`id`
                                       AND o.`id` = $id"));
+        echo "SELECT
+                                        u.*, u.`id` AS uid,
+                                        o.`id` AS oid, o.`query`, o.`message`,
+                                        t.`id` AS tid
+                                      FROM
+                                        `".DB_PREFIX."_offer` AS o,
+                                        `".DB_PREFIX."_trip` AS t,
+                                        `".DB_PREFIX."_user` AS u
+                                      WHERE o.`trip` = t.`id`
+                                      AND t.`driver` = u.`id`
+                                      AND o.`id` = $id";
         
         if ($db->getAffectedRows() <= 0) {
             return null;
@@ -63,7 +78,8 @@ class Offer {
         $offer->id = $row["oid"];
         $offer->message = $row["message"];
         $offer->queryId = $row["query"];
-        
+        $offer->current_lat = $row["lat"];
+        $offer->current_lon = $row["lon"];
         return $offer;
     }
     
@@ -72,8 +88,8 @@ class Offer {
      * E.g. if a user has opened 3 queries, this will return all offers
      * that have been send to one of these queries.
      * @param User $inquirer  Person's id for which offers should be searched
-     * @return Offer[]  All offers that have been send to the givem inquirer or
-     *                  null if no offeres where found
+     * @return Offer[]  All offers that have been send to the given inquirer or
+     *                  null if no offers where found
      */
     public static function loadOffers($inquirer) {
         if (!($inquirer instanceof User)) {
@@ -81,10 +97,12 @@ class Offer {
         }
         
         $db = Database::getInstance();
-        $query = $db->query("SELECT 
+        $query = $db->query("SELECT
                                 u.*, u.`id` AS uid,
                                 o.`id` AS oid, o.`query`, o.`message`, 
-                                t.`id` AS tid 
+                                t.`id` AS tid,
+                                t.`current_lat` AS lat,
+                                t.`current_lon` AS lon
                              FROM 
                                 `".DB_PREFIX."_offer` AS o, 
                                 `".DB_PREFIX."_query` AS q, 
@@ -94,7 +112,7 @@ class Offer {
                              AND o.`trip` = t.`id`
                              AND t.`driver` = u.`id`
                              AND q.`passenger` = ".$inquirer->getId());
-        
+
         $offers = array();
         
         while (($row = $db->fetch($query)) != null) {
@@ -104,6 +122,8 @@ class Offer {
             $offer->id = $row["oid"];
             $offer->queryId = $row["query"];
             $offer->message = $row["message"];
+            $offer->current_lat = $row["lat"];
+            $offer->current_lon = $row["lon"];
             $offers[] = $offer;
         }
         
@@ -115,10 +135,11 @@ class Offer {
      * @param Query $query  Query to create the offer for
      * @param Trip $trip    Trip for which the driver wants to create the offer
      * @param User $driver  Driver that wants to create the offer
+     * @param String $message Message to the receiver
      * @return int  ID of the new offer
      * @throws InvalidArgumentException Thrown, if one of the parameters is of a wrong type
      * @throws OfferException Thrown, if the given driver has already send a offer for the given query 
-     *                          (code = ALREDY_EXISTS) or if the trip does not belong to the given driver
+     *                          (code = ALREADY_EXISTS) or if the trip does not belong to the given driver
      *                          (code = INVALID_TRIP)
      */
     public static function make($query, $trip, $driver, $message) {
@@ -181,6 +202,15 @@ class Offer {
     public function getId() {
         return $this->id;
     }
+
+    public  function getCurrentLat(){
+        return $this->current_lat;
+    }
+
+    public  function getCurrentLon(){
+        return $this->current_lon;
+    }
+
     /**
      *
      * @return User 
