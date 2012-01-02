@@ -26,10 +26,17 @@ public class QueryObject{
 		this.distance = distance;
 	}
 
+	/**
+	 * 
+	 * @return query_id
+	 */
 	public int getId() {
 		return id;
 	}
-
+	/**
+	 * 
+	 * @return user_id of passenger
+	 */
 	public int getPassenger() {
 		return passenger;
 	}

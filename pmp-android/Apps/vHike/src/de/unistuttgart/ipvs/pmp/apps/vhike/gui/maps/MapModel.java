@@ -1,14 +1,22 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -25,6 +33,7 @@ public class MapModel {
 	private List<Overlay> mapPassengerOverlays;
 	private String destination;
 	private int numSeats = 0;
+	private SlidingDrawer slider;
 
 	private List<Profile> hitchDrivers;
 	private List<Profile> hitchPassengers;
@@ -152,18 +161,78 @@ public class MapModel {
 		return hitchPassengers;
 	}
 
+	/**
+	 * Adapter to show found drivers
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public NotificationAdapter getDriverAdapter(Context context) {
 		if (driverAdapter == null) {
-			driverAdapter = new NotificationAdapter(context, hitchDrivers, 0);
+			driverAdapter = new NotificationAdapter(context,
+					getHitchPassengers(), 0);
 		}
 		return driverAdapter;
 	}
 
+	/**
+	 * Adapter to show found passengers
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public NotificationAdapter getPassengerAdapter(Context context) {
 		if (passengerAdapter == null) {
 			passengerAdapter = new NotificationAdapter(context,
-					hitchPassengers, 1);
+					getHitchDrivers(), 1);
 		}
 		return passengerAdapter;
 	}
+
+	/**
+	 * Simulating notifications per button click if button is pressed slider is
+	 * opened and user receives a notification via the status bar
+	 * 
+	 * @param context
+	 * @param profile
+	 */
+	public void fireNotification(Context context, Profile profile) {
+
+		// get reference to notificationManager
+		String ns = Context.NOTIFICATION_SERVICE;
+		NotificationManager mNotificationManager = (NotificationManager) context
+				.getSystemService(ns);
+
+		// instantiate the notification
+		int icon = R.drawable.passenger_logo;
+		CharSequence tickerText = "Found hitchhiker!";
+		long when = System.currentTimeMillis();
+
+		Notification notification = new Notification(icon, tickerText, when);
+		notification.defaults |= Notification.DEFAULT_SOUND;
+
+		// define the notification's message and PendingContent
+		CharSequence contentTitle = profile.getUsername() + " wants a ride!";
+		CharSequence contentText = "Touch to open profile";
+		Intent notificationIntent = new Intent(context, ProfileActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+				notificationIntent, 0);
+
+		notification.setLatestEventInfo(context, contentTitle, contentText,
+				contentIntent);
+
+		// pass notification to notificationManager
+		final int HELLO_ID = 1;
+
+		mNotificationManager.notify(HELLO_ID, notification);
+
+		getHitchPassengers().clear();
+		getHitchPassengers().add(profile);
+
+		slider = (SlidingDrawer) ((Activity) context)
+				.findViewById(R.id.notiSlider);
+		slider.open();
+
+	}
+
 }
