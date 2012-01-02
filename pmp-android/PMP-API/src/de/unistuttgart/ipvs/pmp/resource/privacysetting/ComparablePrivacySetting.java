@@ -23,8 +23,8 @@ import java.util.Comparator;
 
 /**
  * <p>
- * A {@link AbstractPrivacySetting} which has the "permits more or equal" partial order built into the generic type which must
- * extend Comparable.
+ * A {@link AbstractPrivacySetting} which has the "permits more or equal" partial order built into the generic type
+ * which must extend Comparable.
  * </p>
  * <p>
  * If the present {@link Comparable} implementation does not represent the "permits more or equal" it is possible to

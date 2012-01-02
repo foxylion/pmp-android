@@ -167,31 +167,15 @@ public class RideActivity extends Activity {
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				String destination = spinner.getSelectedItem().toString();
-//				int numSeats = spinnerSeats.getSelectedItemPosition();
-//				if (numSeats == 0) {
-//					numSeats = 1;
-//				}
+
+				MapModel.getInstance().setDestination(spinner);
+				MapModel.getInstance().setNumSeats(spinnerSeats);
 
 				vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
 						.show();
 				Intent intent = new Intent(RideActivity.this,
 						PassengerViewActivity.class);
 				RideActivity.this.startActivity(intent);
-				// switch (ctrl.startQuery(Model.getInstance().getSid(),
-				// destination, 0, 0, numSeats)) {
-				// case (Constants.QUERY_ID_ERROR):
-				// Toast.makeText(RideActivity.this, "Query error",
-				// Toast.LENGTH_LONG).show();
-				// break;
-				// default:
-				// vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
-				// .show();
-				// Intent intent = new Intent(RideActivity.this,
-				// PassengerViewActivity.class);
-				// RideActivity.this.startActivity(intent);
-				// break;
-				// }
 
 			}
 		});

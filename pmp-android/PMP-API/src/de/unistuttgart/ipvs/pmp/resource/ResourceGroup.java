@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**

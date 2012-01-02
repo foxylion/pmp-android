@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
@@ -123,13 +124,13 @@ public class NotificationAdapter extends BaseAdapter {
 		});
 
 		name.setText(hitchhiker.getUsername());
-		// name.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// Intent intent = new Intent(context, ProfileActivity.class);
-		// context.startActivity(intent);
-		// }
-		// });
+		name.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+				accept_invite.refreshDrawableState();
+			}
+		});
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
 
@@ -166,7 +167,10 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				} else {
-					int offerID = 1;
+					List<OfferObject> loo = Model.getInstance()
+							.getOfferHolder();
+					int offerID = loo.get(position).getOffer_id();
+
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
 							offerID, true)) {
 					case Constants.STATUS_HANDLED:
