@@ -781,9 +781,11 @@ public class JSonRequestReader {
 					String username = Iobject.get("username").getAsString();
 					float rating = Iobject.get("rating").getAsFloat();
 					float rating_num = Iobject.get("rating_num").getAsFloat();
-
+					float lat = Iobject.get("lat").getAsFloat();
+					float lon = Iobject.get("lon").getAsFloat();
+					
 					OfferObject oObject = new OfferObject(offer_id, user_id,
-							username, rating, rating_num);
+							username, rating, rating_num, lat, lon);
 					offerObjects.add(oObject);
 				}
 				Model.getInstance().setOfferHolder(offerObjects);
