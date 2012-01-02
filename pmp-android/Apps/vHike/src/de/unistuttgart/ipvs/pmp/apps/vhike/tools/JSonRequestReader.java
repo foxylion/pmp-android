@@ -260,10 +260,10 @@ public class JSonRequestReader {
 		}
 		boolean suc = false;
 		String username = null;
-		String email = null;
-		String firstname = null;
-		String lastname = null;
-		String tel = null;
+		String email = "xxx";
+		String firstname = "xxx";
+		String lastname = "xxx";
+		String tel = "xxx";
 		String description = null;
 		String regdate = null;
 		boolean email_public = false;
@@ -275,19 +275,29 @@ public class JSonRequestReader {
 		int rating_num = 0;
 		if (object != null) {
 			suc = object.get("successful").getAsBoolean();
-			username = object.get("username").getAsString();
-			email = object.get("email").getAsString();
-			firstname = object.get("firstname").getAsString();
-			lastname = object.get("lastname").getAsString();
-			tel = object.get("tel").getAsString();
-			description = object.get("description").getAsString();
-			regdate = object.get("regdate").getAsString();
-			rating_avg = object.get("rating_avg").getAsFloat();
-			rating_num = object.get("rating_num").getAsInt();
 			email_public = object.get("email_public").getAsBoolean();
 			firstname_public = object.get("firstname_public").getAsBoolean();
 			lastname_public = object.get("lastname_public").getAsBoolean();
 			tel_public = object.get("tel_public").getAsBoolean();
+			
+			if(email_public){
+				email = object.get("email").getAsString();
+			}
+			if(firstname_public){
+				firstname = object.get("firstname").getAsString();
+			}
+			if(lastname_public){
+				lastname = object.get("lastname").getAsString();
+			}
+			if(tel_public){
+				tel = object.get("tel").getAsString();
+			}
+			username = object.get("username").getAsString();
+			description = object.get("description").getAsString();
+			regdate = object.get("regdate").getAsString();
+			rating_avg = object.get("rating_avg").getAsFloat();
+			rating_num = object.get("rating_num").getAsInt();
+			
 		}
 
 		// String userid = object.get("id").getAsString();
