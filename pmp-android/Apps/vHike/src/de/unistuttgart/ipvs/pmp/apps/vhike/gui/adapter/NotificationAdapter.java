@@ -124,13 +124,13 @@ public class NotificationAdapter extends BaseAdapter {
 		});
 
 		name.setText(hitchhiker.getUsername());
-		// name.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// Intent intent = new Intent(context, ProfileActivity.class);
-		// context.startActivity(intent);
-		// }
-		// });
+		name.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+				accept_invite.refreshDrawableState();
+			}
+		});
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
 
@@ -150,7 +150,6 @@ public class NotificationAdapter extends BaseAdapter {
 
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
-
 						accept_invite.refreshDrawableState();
 						notifyDataSetChanged();
 						break;
