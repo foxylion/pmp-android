@@ -706,7 +706,7 @@ public class JSonRequestReader {
 		listToParse
 				.add(new ParamObject("query", String.valueOf(query_id), true));
 		listToParse.add(new ParamObject("message", String.valueOf(message),
-				true));
+				false));
 
 		JsonObject object = null;
 
