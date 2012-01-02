@@ -190,7 +190,8 @@ public class LocationUpdateHandler implements LocationListener {
 					.add(pOverlay);
 
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
-					.getInstance().getDestination(), lat, lng, MapModel
+					.getInstance().getDestination(), (float) location
+					.getLatitude(), (float) location.getLongitude(), MapModel
 					.getInstance().getNumSeats())) {
 			case (Constants.QUERY_ID_ERROR):
 				Toast.makeText(context, "Query error", Toast.LENGTH_LONG)

@@ -213,7 +213,8 @@ public class PassengerViewActivity extends MapActivity {
 					.add(pOverlay);
 
 			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
-					.getInstance().getDestination(), lat, lng, MapModel
+					.getInstance().getDestination(), (float) location
+					.getLatitude(), (float) location.getLongitude(), MapModel
 					.getInstance().getNumSeats())) {
 			case (Constants.QUERY_ID_ERROR):
 				Toast.makeText(PassengerViewActivity.this, "Query error",
