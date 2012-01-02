@@ -600,6 +600,7 @@ public class JSonRequestReader {
 					for (int i = 0; i < array.size(); i++) {
 						JsonObject Iobject = array.get(i).getAsJsonObject();
 						int id = Iobject.get("id").getAsInt();
+						Log.i(String.valueOf(id));
 						int passenger = Iobject.get("passenger").getAsInt();
 						int seats = Iobject.get("seats").getAsInt();
 						float cur_lat = Iobject.get("current_lat").getAsFloat();
@@ -770,9 +771,11 @@ public class JSonRequestReader {
 							username, rating, rating_num);
 					offerObjects.add(oObject);
 				}
+				Model.getInstance().setOfferHolder(offerObjects);
 				return offerObjects;
 			}
 		}
+		Model.getInstance().setOfferHolder(offerObjects);
 		return offerObjects;
 	}
 

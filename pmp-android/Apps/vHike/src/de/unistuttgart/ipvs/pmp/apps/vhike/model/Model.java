@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
@@ -34,8 +35,6 @@ public class Model {
 	 */
 	private List<QueryObject> queryHolder;
 	
-	
-	
 	public List<QueryObject> getQueryHolder() {
 		return queryHolder;
 	}
@@ -44,6 +43,19 @@ public class Model {
 		this.queryHolder = queryHolder;
 	}
 
+	/**
+	 * Holds offers of the Driver, within are hitchhiker
+	 */
+	private List<OfferObject> offerHolder;
+	
+	public List<OfferObject> getOfferHolder() {
+		return offerHolder;
+	}
+
+	public void setOfferHolder(List<OfferObject> offerHolder) {
+		this.offerHolder = offerHolder;
+	}
+	
 	public int getQueryId(){
 		return queryId;
 	}
