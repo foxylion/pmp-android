@@ -109,16 +109,6 @@ public class DriverViewActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.driverMapView);
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
-
-		Button btnDriverLocation = (Button) findViewById(R.id.Button_SearchQuery);
-		btnDriverLocation.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Controller ctrl = new Controller();
-				ctrl.searchQuery(Model.getInstance().getSid(), 0, 0, 10);
-
-			}
-		});
 	}
 
 	/**
@@ -130,25 +120,6 @@ public class DriverViewActivity extends MapActivity {
 		notiButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-
-				Profile passenger = new Profile("Passenger1", null, null, null,
-						null, null, null, false, false, false, false, 4.5, 4.5);
-				Drawable drawable = context.getResources().getDrawable(
-						R.drawable.passenger_logo);
-				PassengerOverlay pOverlay = new PassengerOverlay(drawable,
-						context);
-				float lat = 37.4230182f;
-				float lng = -122.0840848f;
-				GeoPoint gps = new GeoPoint((int) (lat * 1E6),
-						(int) (lng * 1E6));
-				OverlayItem oItem = new OverlayItem(gps,
-						"Im looking for a ride!", "User: "
-								+ passenger.getUsername() + ", Rating: "
-								+ passenger.getRating_avg());
-				pOverlay.addOverlay(oItem);
-				MapModel.getInstance().getDriverOverlayList(mapView)
-						.add(pOverlay);
-				mapView.invalidate();
 
 				// get reference to notificationManager
 				String ns = Context.NOTIFICATION_SERVICE;
@@ -166,7 +137,7 @@ public class DriverViewActivity extends MapActivity {
 				// define the notification's message and PendingContent
 				Context context = getApplicationContext();
 				Profile pro = new Profile("bestHitcher", ns, ns, ns, ns, ns,
-						null, false, false, false, false, lat, lat);
+						null, false, false, false, false, 1.0, 1.0);
 				CharSequence contentTitle = pro.getUsername()
 						+ " wants a ride!";
 				CharSequence contentText = "Touch to open profile";

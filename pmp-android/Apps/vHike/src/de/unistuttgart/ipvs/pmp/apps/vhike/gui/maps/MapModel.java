@@ -152,17 +152,30 @@ public class MapModel {
 		return hitchPassengers;
 	}
 
+	/**
+	 * Adapter to show found drivers
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public NotificationAdapter getDriverAdapter(Context context) {
 		if (driverAdapter == null) {
-			driverAdapter = new NotificationAdapter(context, hitchDrivers, 0);
+			driverAdapter = new NotificationAdapter(context,
+					getHitchPassengers(), 0);
 		}
 		return driverAdapter;
 	}
 
+	/**
+	 * Adapter to show found passengers
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public NotificationAdapter getPassengerAdapter(Context context) {
 		if (passengerAdapter == null) {
 			passengerAdapter = new NotificationAdapter(context,
-					hitchPassengers, 1);
+					getHitchDrivers(), 1);
 		}
 		return passengerAdapter;
 	}
