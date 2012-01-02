@@ -1,4 +1,9 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
+
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+
 /**
  * Model for vHike, it holds all necessary informations to work with
  * @author Alexander Wassiljew
@@ -24,6 +29,21 @@ public class Model {
 	 */
 	private int queryId;
 	
+	/**
+	 * Holds queries of the Driver, within are hitchhiker
+	 */
+	private List<QueryObject> queryHolder;
+	
+	
+	
+	public List<QueryObject> getQueryHolder() {
+		return queryHolder;
+	}
+
+	public void setQueryHolder(List<QueryObject> queryHolder) {
+		this.queryHolder = queryHolder;
+	}
+
 	public int getQueryId(){
 		return queryId;
 	}

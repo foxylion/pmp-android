@@ -612,10 +612,12 @@ public class JSonRequestReader {
 								seats, cur_lat, cur_lon, destination, distance);
 						queryObjects.add(qObject);
 					}
+					Model.getInstance().setQueryHolder(queryObjects);
 					return queryObjects;
 				}
 			}
 		}
+		Model.getInstance().setQueryHolder(queryObjects);
 		return queryObjects;
 	}
 
@@ -692,6 +694,12 @@ public class JSonRequestReader {
 	 */
 	public static String sendOffer(String sid, int trip_id, int query_id,
 			String message) {
+		
+		Log.i(sid);
+		Log.i(String.valueOf(trip_id));
+		Log.i(String.valueOf(query_id));
+		Log.i(message);
+		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("trip", String.valueOf(trip_id), true));
@@ -704,7 +712,7 @@ public class JSonRequestReader {
 
 		try {
 			object = JSonRequestProvider.doRequest(listToParse, "offer.php",
-					false);
+					true);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
