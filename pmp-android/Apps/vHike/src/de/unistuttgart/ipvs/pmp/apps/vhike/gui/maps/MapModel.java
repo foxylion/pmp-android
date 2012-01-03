@@ -245,14 +245,15 @@ public class MapModel {
 		mNotificationManager.notify(notiID, notification);
 
 		if (which1 == 0) {
+			getHitchPassengers().clear();
 			getHitchPassengers().add(profile);
 
 			slider_Driver = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.notiSlider);
 			slider_Driver.open();
 		} else {
+			getHitchDrivers().clear();
 			getHitchDrivers().add(profile);
-
 			slider_Passenger = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.slidingDrawer);
 			slider_Passenger.open();
