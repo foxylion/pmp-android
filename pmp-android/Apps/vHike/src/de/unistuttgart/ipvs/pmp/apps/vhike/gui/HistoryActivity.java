@@ -1,75 +1,42 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
+import de.unistuttgart.ipvs.pmp.R;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
-//import android.widget.ArrayAdapter;
 
-//import de.unistuttgart.ipvs.pmp.R;
-//import android.app.Activity;
-//import android.content.Context;
-//import android.content.Intent;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.View.OnClickListener;
-//import android.view.ViewGroup;
-//import android.widget.BaseAdapter;
-//import android.widget.Button;
-//import android.widget.LinearLayout;
-//import android.content.Context;
-//
-//import java.util.List;
-//
-//import android.content.Context;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.BaseAdapter;
-//import android.widget.ImageView;
-//import android.widget.LinearLayout;
-//import android.widget.TextView;
-//import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
-//import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-
-/**
- * This Activity gives user the List of all driven journeys
- * 
- * @author Anton Makarov
- * 
- */
 
 public class HistoryActivity extends ListActivity {
 
-	private HistoryActivityAdapter mAdapter;
-
-	private ArrayList<AWName> mData;
-
-	/** Called when the activity is first created. */
+	ListView lv ;
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		initiateData();
+        // We'll define a custom screen layout here (the one shown above), but
+        // typically, you could just use the standard ListActivity layout.
+        setContentView(R.layout.activity_history);
 
-		mAdapter = new HistoryActivityAdapter(this, mData);
-		this.setListAdapter(mAdapter);
+        // Query for all people contacts using the Contacts.People convenience class.
+        // Put a managed wrapper around the retrieved cursor so we don't have to worry about
+        // requerying or closing it as the activity changes state.
+     
+        // Now create a new list adapter bound to the cursor.
+        // SimpleListAdapter is designed for binding to a Cursor.
+        ListAdapter adapter = new ArrayAdapter<String>(this,R.layout.history_layout_list)  ;     
 
-	}
+        // Bind to our new adapter.
+        setListAdapter(adapter);
+        
+        
+        boolean isDriver = this.getIntent().getExtras().getBoolean("IS_DRIVER");
+        
+    }
 
-	private void initiateData() {
-		mData = new ArrayList<AWName>();
-
-		AWName name = new AWName("Berlin", "12.03.2002");
-		mData.add(name);
-
-		name = new AWName("Stuttgart", "28.09.2010");
-		mData.add(name);
-
-		name = new AWName("München", "23.11.2011");
-		mData.add(name);
-
-		name = new AWName("Vaihingen", "01.12.2011");
-		mData.add(name);
-	}
+	
 }
