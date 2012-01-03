@@ -88,17 +88,17 @@ public class PresetsActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.presets_menu_add:
                 PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, null);
-                dialog.setTitle(R.string.presets_add);
+                dialog.setTitle(R.string.add_preset);
                 dialog.show();
                 break;
             case R.id.presets_menu_show_deleted:
                 System.out.println(this.showDeleted);
                 if (this.showDeleted) {
                     this.showDeleted = false;
-                    item.setTitle(R.string.presets_show_deleted);
+                    item.setTitle(R.string.show_deleted);
                 } else {
                     this.showDeleted = true;
-                    item.setTitle(R.string.presets_hide_deleted);
+                    item.setTitle(R.string.hide_deleted);
                 }
                 updateList();
                 break;
@@ -181,14 +181,14 @@ public class PresetsActivity extends Activity {
                 IPreset preset = PresetsActivity.this.presetList.get(menuInfoAdapter.position);
                 
                 if (preset.isDeleted()) {
-                    menu.setHeaderTitle(getString(R.string.presets_deleted_context_menu));
-                    menu.add(0, 0, 0, R.string.presets_restore);
-                    menu.add(1, 1, 1, R.string.presets_delete_permanent);
+                    menu.setHeaderTitle(getString(R.string.edit_deleted_preset));
+                    menu.add(0, 0, 0, R.string.restore_preset);
+                    menu.add(1, 1, 1, R.string.delete_preset_permanently);
                 } else {
-                    menu.setHeaderTitle(getString(R.string.presets_context_menu));
+                    menu.setHeaderTitle(getString(R.string.edit_preset));
                     menu.add(0, 0, 0, R.string.edit_name_and_description);
-                    menu.add(1, 1, 1, R.string.presets_delete);
-                    menu.add(2, 2, 2, R.string.presets_delete_permanent);
+                    menu.add(1, 1, 1, R.string.delete_preset_trash_bin);
+                    menu.add(2, 2, 2, R.string.delete_preset_permanently);
                 }
             }
         });

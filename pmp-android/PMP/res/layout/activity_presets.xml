@@ -8,7 +8,7 @@
     android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        pmp:name="@string/presets_title"
+        pmp:name="@string/presets"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_presets" >

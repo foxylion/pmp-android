@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_add_32"
-        pmp:name="@string/preset_tab_apps_assign_apps" />
+        pmp:name="@string/choose_your_action" />
 
     <ListView
         android:id="@+id/listview_assigned_apps"
@@ -32,14 +32,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/presets_dialog_confirm" />
+            android:text="@string/confirm" />
 
         <Button
             android:id="@+id/presets_dialog_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/presets_dialog_cancel" />
+            android:text="@string/cancel" />
     </LinearLayout>
 
 </LinearLayout>

@@ -7,7 +7,7 @@
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:id="@+id/Title"
-        pmp:name="@string/presets_add"
+        pmp:name="@string/add_preset"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_add_32" />
@@ -27,7 +27,7 @@
                 android:id="@+id/presets_dialog_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/presets_dialog_name"
+                android:text="@string/name"
                 android:textAppearance="?android:attr/textAppearanceMedium" >
             </TextView>
 
@@ -45,7 +45,7 @@
                 android:id="@+id/presets_dialog_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/presets_dialog_description"
+                android:text="@string/description"
                 android:textAppearance="?android:attr/textAppearanceMedium" >
             </TextView>
 
@@ -74,14 +74,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="@string/presets_dialog_confirm" />
+                    android:text="@string/confirm" />
 
                 <Button
                     android:id="@+id/presets_dialog_cancel"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="@string/presets_dialog_cancel" />
+                    android:text="@string/cancel" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

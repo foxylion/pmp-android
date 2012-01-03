@@ -111,7 +111,7 @@ public class PresetAddEditDialog extends Dialog {
             
             if (name.length() == 0) {
                 // no name set
-                Toast.makeText(getContext(), R.string.presets_dialog_name_missing, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.please_enter_a_name, Toast.LENGTH_SHORT).show();
                 return;
             }
             

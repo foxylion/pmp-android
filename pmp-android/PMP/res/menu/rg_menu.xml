@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/menu_rg_refresh"
         android:icon="@drawable/menu_refresh"
-        android:title="@string/rg_update_list"/>
+        android:title="@string/update_list"/>
 
 </menu>

@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon_add_32"
-        pmp:name="@string/preset_tab_pss_assign_pss" />
+        pmp:name="@string/choose_your_action" />
 
     <ExpandableListView
         android:id="@+id/expandable_list_view_assign_pss"
