@@ -42,6 +42,7 @@ public class LocationUpdateHandler implements LocationListener {
 	private GeoPoint gPosition;
 	private Location location;
 	private int mWhichHitcher;
+	private int notiID = 0;
 
 	private Controller ctrl;
 
@@ -85,6 +86,7 @@ public class LocationUpdateHandler implements LocationListener {
 
 			// clear list first and draw everything new
 			MapModel.getInstance().clearDriverOverlayList();
+			MapModel.getInstance().getHitchPassengers().clear();
 
 			// Driver drawable and overlay
 			Drawable drawableDriver = context.getResources().getDrawable(
@@ -118,12 +120,15 @@ public class LocationUpdateHandler implements LocationListener {
 						(float) location.getLongitude(), 10000);
 				if (lqo != null) {
 					for (int i = 0; i < lqo.size(); i++) {
+						Toast.makeText(context, "Size: " + lqo.size(),
+								Toast.LENGTH_SHORT).show();
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
 						GeoPoint gp = new GeoPoint(lati, lngi);
 
-						Profile profile = ctrl.getProfile(Model.getInstance()
-								.getSid(), lqo.get(i).getPassenger());
+						// create Profile of found passenger
+						Profile passenger = ctrl.getProfile(Model.getInstance()
+								.getSid(), lqo.get(i).getUserid());
 
 						// -------------------------------------------------------------
 						Drawable drawablePassenger = context.getResources()
@@ -133,21 +138,23 @@ public class LocationUpdateHandler implements LocationListener {
 
 						OverlayItem opPassengerItem = new OverlayItem(gp,
 								"I need a ride", "User: "
-										+ profile.getUsername() + ", Rating: "
-										+ profile.getRating_avg());
+										+ passenger.getUsername()
+										+ ", Rating: "
+										+ passenger.getRating_avg());
 						passengerOverlay.addOverlay(opPassengerItem);
 
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
 						mapView.invalidate();
 
-						MapModel.getInstance().getHitchPassengers().clear();
+						notiID++;
+						
 						MapModel.getInstance().getHitchPassengers()
-								.add(profile);
+								.add(passenger);
+						MapModel.getInstance().fireNotification(context,
+								passenger, lqo.get(i).getUserid(), 0, notiID);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
-						MapModel.getInstance().fireNotification(context,
-								profile);
 					}
 				} else {
 					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
@@ -174,6 +181,7 @@ public class LocationUpdateHandler implements LocationListener {
 		} else {
 			// clear list
 			MapModel.getInstance().clearPassengerOverlayList();
+			MapModel.getInstance().getHitchDrivers().clear();
 
 			// Passenger drawable and overlay
 			Drawable drawablePassenger = context.getResources().getDrawable(
@@ -224,9 +232,12 @@ public class LocationUpdateHandler implements LocationListener {
 						MapModel.getInstance().getPassengerOverlayList(mapView)
 								.add(driverOverlay);
 						mapView.invalidate();
-
-						MapModel.getInstance().getHitchDrivers().clear();
+						
+						notiID++;
+						
 						MapModel.getInstance().getHitchDrivers().add(driver);
+						MapModel.getInstance().fireNotification(context,
+								driver, loo.get(i).getUser_id(), 1, notiID);
 						MapModel.getInstance().getPassengerAdapter(context)
 								.notifyDataSetChanged();
 					}

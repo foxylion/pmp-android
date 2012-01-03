@@ -150,7 +150,7 @@ public class TabRGsAvailable extends Activity {
         this.updateProgressContainer.setVisibility(View.GONE);
         
         if (informationSets != null && informationSets.length > 0) {
-            this.lastUpdateTextView.setText(getResources().getString(R.string.rg_last_update) + ": "
+            this.lastUpdateTextView.setText(getResources().getString(R.string.last_update_at) + ": "
                     + new Date().toString());
             
             this.rgisList = Arrays.asList(informationSets);

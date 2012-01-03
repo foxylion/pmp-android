@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
 						ProfileActivity.class);
+				intent.putExtra("MY_PROFILE", 0);
 				MainActivity.this.startActivity(intent);
 			}
 		});

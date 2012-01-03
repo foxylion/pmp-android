@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 
 /**
  * Controls the behaviour of vHike
@@ -278,8 +279,8 @@ public class Controller {
 	  * @param perimeter
 	  * @return List if QueryObjects otherwise, null
 	  */
-	public List<QueryObject> searchRides(String sid, float lat, float lon, int perimeter) {
-		List<QueryObject> queryList = JSonRequestReader.searchRides(sid, lat,
+	public List<RideObject> searchRides(String sid, float lat, float lon, int perimeter) {
+		List<RideObject> queryList = JSonRequestReader.searchRides(sid, lat,
 				lon, perimeter);
 
 		return queryList;
@@ -293,7 +294,7 @@ public class Controller {
 	  */
 	public List<OfferObject> viewOffers(String sid) {
 		List<OfferObject> offerList = JSonRequestReader.viewOffer(sid);
-		
+		//sadasd
 		return offerList;
 
 	}

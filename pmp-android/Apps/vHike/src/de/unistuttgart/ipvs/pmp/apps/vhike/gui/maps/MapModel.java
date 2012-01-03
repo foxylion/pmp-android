@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
@@ -33,7 +34,8 @@ public class MapModel {
 	private List<Overlay> mapPassengerOverlays;
 	private String destination;
 	private int numSeats = 0;
-	private SlidingDrawer slider;
+	private SlidingDrawer slider_Driver;
+	private SlidingDrawer slider_Passenger;
 
 	private List<Profile> hitchDrivers;
 	private List<Profile> hitchPassengers;
@@ -196,25 +198,43 @@ public class MapModel {
 	 * @param context
 	 * @param profile
 	 */
-	public void fireNotification(Context context, Profile profile) {
+	public void fireNotification(Context context, Profile profile,
+			int profileID, int which1, int notiID) {
 
 		// get reference to notificationManager
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(ns);
 
+		int icon = 0;
+		CharSequence contentTitle;
+		CharSequence contentText;
+		CharSequence tickerText;
+
 		// instantiate the notification
-		int icon = R.drawable.passenger_logo;
-		CharSequence tickerText = "Found hitchhiker!";
+		if (which1 == 0) {
+			icon = R.drawable.passenger_logo;
+			contentTitle = profile.getUsername() + " wants a ride!";
+			contentText = "Touch to open profile";
+			tickerText = "Found passenger!";
+		} else {
+			icon = R.drawable.icon_ride;
+			contentTitle = profile.getUsername() + " says: Hop on in!";
+			contentText = "Touch to open profile";
+			tickerText = "Found driver!";
+		}
+
 		long when = System.currentTimeMillis();
 
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.defaults |= Notification.DEFAULT_SOUND;
 
 		// define the notification's message and PendingContent
-		CharSequence contentTitle = profile.getUsername() + " wants a ride!";
-		CharSequence contentText = "Touch to open profile";
 		Intent notificationIntent = new Intent(context, ProfileActivity.class);
+		notificationIntent.putExtra("MY_PROFILE", 1);
+		Log.i("ProfileID: " + profileID);
+		notificationIntent.putExtra("PASSENGER_ID", profileID);
+
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
 
@@ -222,17 +242,22 @@ public class MapModel {
 				contentIntent);
 
 		// pass notification to notificationManager
-		final int HELLO_ID = 1;
+		mNotificationManager.notify(notiID, notification);
 
-		mNotificationManager.notify(HELLO_ID, notification);
+		if (which1 == 0) {
+			getHitchPassengers().clear();
+			getHitchPassengers().add(profile);
 
-		getHitchPassengers().clear();
-		getHitchPassengers().add(profile);
-
-		slider = (SlidingDrawer) ((Activity) context)
-				.findViewById(R.id.notiSlider);
-		slider.open();
+			slider_Driver = (SlidingDrawer) ((Activity) context)
+					.findViewById(R.id.notiSlider);
+			slider_Driver.open();
+		} else {
+			getHitchDrivers().clear();
+			getHitchDrivers().add(profile);
+			slider_Passenger = (SlidingDrawer) ((Activity) context)
+					.findViewById(R.id.slidingDrawer);
+			slider_Passenger.open();
+		}
 
 	}
-
 }

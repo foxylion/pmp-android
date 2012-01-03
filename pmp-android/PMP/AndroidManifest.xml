@@ -108,7 +108,7 @@
     <application
         android:name=".PMPApplication"
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
+        android:label="@string/pmp" >
 
         <!-- Activities can be declared here -->
         <activity

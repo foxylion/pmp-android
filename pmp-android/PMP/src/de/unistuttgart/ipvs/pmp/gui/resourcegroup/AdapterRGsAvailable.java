@@ -78,14 +78,14 @@ public class AdapterRGsAvailable extends BaseAdapter {
             /* RG is already installed. */
             if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
                 /* A newer version is available */
-                state.setText(this.context.getResources().getString(R.string.rg_update) + " - rev. " + rgRev);
+                state.setText(this.context.getResources().getString(R.string.update) + " - rev. " + rgRev);
             } else {
                 /* already up to date */
-                state.setText(this.context.getResources().getString(R.string.rg_state_installed));
+                state.setText(this.context.getResources().getString(R.string.installed));
             }
         } else {
             /* RG is not installed. */
-            state.setText(this.context.getResources().getString(R.string.rg_state_new) + " - rev. " + rgRev);
+            state.setText(this.context.getResources().getString(R.string.new_string) + " - rev. " + rgRev);
         }
         
         return entryView;

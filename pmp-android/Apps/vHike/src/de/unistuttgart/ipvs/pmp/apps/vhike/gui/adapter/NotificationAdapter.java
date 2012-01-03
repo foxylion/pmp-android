@@ -41,6 +41,7 @@ public class NotificationAdapter extends BaseAdapter {
 	private Controller ctrl;
 	private List<Profile> hitchhikers;
 	private Profile hitchhiker;
+	private Profile me;
 	private int mWhichHitcher;
 	private int queryID;
 
@@ -89,6 +90,9 @@ public class NotificationAdapter extends BaseAdapter {
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
 
+		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+		queryID = lqo.get(position).getQueryid();
+
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -123,19 +127,22 @@ public class NotificationAdapter extends BaseAdapter {
 			}
 		});
 
+		final int passengerID = lqo.get(position).getUserid();
+
 		name.setText(hitchhiker.getUsername());
-		// name.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// Intent intent = new Intent(context, ProfileActivity.class);
-		// context.startActivity(intent);
-		// }
-		// });
+		name.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ProfileActivity.class);
+				intent.putExtra("PASSENGER_ID", passengerID);
+				intent.putExtra("MY_PROFILE", 1);
 
-		noti_rb.setRating((float) hitchhiker.getRating_num());
+				context.startActivity(intent);
+			}
+		});
 
-		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-		queryID = lqo.get(position).getId();
+		noti_rb.setRating((float) hitchhiker.getRating_avg());
+		me = Model.getInstance().getOwnProfile();
 
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
@@ -143,14 +150,13 @@ public class NotificationAdapter extends BaseAdapter {
 				if (mWhichHitcher == 0) {
 					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
 							.getInstance().getTripId(), queryID,
-							hitchhiker.getUsername() + ": Need a ride?")) {
+							me.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
 						Toast.makeText(context, "STATUS_SENT",
 								Toast.LENGTH_SHORT).show();
 
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
-
 						accept_invite.refreshDrawableState();
 						notifyDataSetChanged();
 						break;

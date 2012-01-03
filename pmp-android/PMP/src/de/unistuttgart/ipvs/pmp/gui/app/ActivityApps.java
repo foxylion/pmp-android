@@ -125,9 +125,9 @@ public class ActivityApps extends Activity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle(getString(R.string.app_context_menu));
-                menu.add(0, 0, 0, R.string.details_app);
-                menu.add(1, 1, 0, R.string.app_open);
+                menu.setHeaderTitle(getString(R.string.choose_your_action));
+                menu.add(0, 0, 0, R.string.app_details);
+                menu.add(1, 1, 0, R.string.open_app);
                 menu.add(2, 2, 0, R.string.remove_app);
             }
         });

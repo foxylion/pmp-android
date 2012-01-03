@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
@@ -40,6 +41,10 @@ public class Model {
 	}
 
 	public void setQueryHolder(List<QueryObject> queryHolder) {
+		if(this.queryHolder!=null)
+		Log.i(String.valueOf("Diese: " + this.queryHolder.size()));
+		if(queryHolder!= null)
+		Log.i(String.valueOf("Neue" + queryHolder.size()));
 		this.queryHolder = queryHolder;
 	}
 
