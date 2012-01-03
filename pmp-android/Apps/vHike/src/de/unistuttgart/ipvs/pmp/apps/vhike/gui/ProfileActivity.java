@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -29,8 +30,10 @@ public class ProfileActivity extends Activity {
 	}
 
 	private void setUpProfile() {
-		int passengerID = getIntent().getExtras().getInt("PASSENGER_ID");
 		int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
+		int passengerID = getIntent().getExtras().getInt("PASSENGER_ID");
+
+		Log.i("ID: " + passengerID + ", WHO: " + whoIsIt);
 
 		if (whoIsIt == 0) {
 			profile = Model.getInstance().getOwnProfile();
