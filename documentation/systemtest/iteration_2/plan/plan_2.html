@@ -205,17 +205,14 @@
 					</table>
 					
 					<h3 id="pmp-sonstiges">Sonstiges</h3>
+					
+					<p>Da Ressourcengruppen vom Entwickler-Team geprüft werden, kann davon ausgegangen werden, dass sie keine fehlerhaften Schnittstellen aufweisen. Ein Test für Ressourcengruppen ist also nicht notwendig.</p>
+					<p>Apps können ausschließlich Fehler in der AppInformationSet-Definition (XML-Datei) enthalten.
+					Der XML-Parser wurde bereits im Modultest ausreichend getestet, sodass ein Test an dieser Stelle nicht notwendig ist.</p>
+					<p>Weiterhin existieren momentan keine Apps, die selbst Presets mitbringen. Dies kann somit ebenfalls nicht getestet werden.</p>
+					<p>Die Funktion des "Zurück"-Buttons wird mit FT-18 getestet.</p>
+				
 					<h4 id="ft-18">FT-18</h4>
-					<table>
-						<tr><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-						<tr><td>Der Tester entwickelt eine Ressourcegruppe, die die zu implementierenden Schnittestellen der PMP-API nicht implementiert und versucht diese über die PMP-Oberfläche zu installieren.</td><td>PMP akzeptiert die Ressourcengruppe nicht.</td></tr>
-					</table>
-					<h4 id="ft-19">FT-19</h4>
-					<table>
-						<tr><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
-						<tr><td>Der Tester entwickelt eine App, die die zu implementierenden Schnittestellen der PMP-API nicht implementiert und startet diese.</td><td>PMP akzeptiert die App nicht.</td></tr>
-					</table>
-					<h4 id="ft-20">FT-20</h4>
 					<table>
 						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
