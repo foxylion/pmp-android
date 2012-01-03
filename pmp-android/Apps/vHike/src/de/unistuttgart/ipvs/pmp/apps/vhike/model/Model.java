@@ -43,7 +43,8 @@ public class Model {
 	public void setQueryHolder(List<QueryObject> queryHolder) {
 		if(this.queryHolder!=null)
 		Log.i(String.valueOf("Diese: " + this.queryHolder.size()));
-		Log.i(String.valueOf("Neue" +queryHolder.size()));
+		if(queryHolder!= null)
+		Log.i(String.valueOf("Neue" + queryHolder.size()));
 		this.queryHolder = queryHolder;
 	}
 
