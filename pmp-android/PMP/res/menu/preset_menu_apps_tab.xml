@@ -4,6 +4,6 @@
     <item
         android:id="@+id/preset_tab_apps_assign_apps"
         android:icon="@drawable/menu_add"
-        android:title="@string/preset_tab_apps_assign_apps"/>
+        android:title="@string/assign_apps"/>
 
 </menu>

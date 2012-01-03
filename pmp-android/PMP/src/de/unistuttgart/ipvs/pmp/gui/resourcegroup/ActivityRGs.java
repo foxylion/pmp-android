@@ -25,11 +25,11 @@ public class ActivityRGs extends TabActivity {
         Intent intent;
         
         intent = new Intent().setClass(this, TabRGsInstalled.class);
-        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.rg_installed)).setContent(intent);
+        spec = tabHost.newTabSpec("installed").setIndicator(getString(R.string.installed)).setContent(intent);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, TabRGsAvailable.class);
-        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.rg_available)).setContent(intent);
+        spec = tabHost.newTabSpec("available").setIndicator(getString(R.string.available)).setContent(intent);
         tabHost.addTab(spec);
     }
 }

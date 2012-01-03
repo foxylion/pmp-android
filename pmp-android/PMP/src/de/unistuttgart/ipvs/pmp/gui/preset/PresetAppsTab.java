@@ -126,9 +126,9 @@ public class PresetAppsTab extends Activity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle(R.string.preset_tab_apps_context_menu_title);
-                menu.add(0, 0, 0, R.string.preset_tab_apps_context_menu_show_details);
-                menu.add(1, 1, 0, R.string.preset_tab_apps_context_menu_remove_app);
+                menu.setHeaderTitle(R.string.choose_your_action);
+                menu.add(0, 0, 0, R.string.show_details);
+                menu.add(1, 1, 0, R.string.remove);
             }
         });
         

@@ -62,7 +62,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     pmp:icon="@drawable/icon_rgs2"
-                    pmp:name="@string/required_rgs" />
+                    pmp:name="@string/required_resources" />
 
                 <TextView
                     android:layout_width="fill_parent"

@@ -122,7 +122,7 @@ public class PresetActivity extends Activity {
     private void setupTabs() {
         /* Assigned Apps Tab */
         TabSpec assignedApps = this.mTabHost.newTabSpec("tab_assigned_apps");
-        assignedApps.setIndicator(getString(R.string.preset_tab_apps));
+        assignedApps.setIndicator(getString(R.string.assigned_apps));
         
         // Create an Intent to start the inner activity
         Intent intentAssignedApps = new Intent(this, PresetAppsTab.class);
@@ -139,7 +139,7 @@ public class PresetActivity extends Activity {
         
         /* Assigned Privacy Settings Tab */
         TabSpec pss = this.mTabHost.newTabSpec("tab_assigned_pss");
-        pss.setIndicator(getString(R.string.preset_tab_ps));
+        pss.setIndicator(getString(R.string.assigned_privacy_settings));
         
         // Create an Intent to start the inner activity
         Intent intentPss = new Intent(this, PresetPSsTab.class);

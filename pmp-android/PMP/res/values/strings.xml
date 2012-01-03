@@ -2,9 +2,18 @@
 <resources>
 
     <!-- General terms (sorted alphabetically) -->
-    <string name="app_name">Privacy Management Platform</string>
+    <string name="about">About</string>
+    <string name="about_the_app">About the App</string>
+    <string name="add_preset">Add Preset</string>
+    <string name="apps">Apps</string>
+    <string name="app_details">App details</string>
     <string name="app_service">App Service</string>
     <string name="app_version">version 2.0</string>
+    <string name="assign_apps">Assign Apps</string>
+    <string name="assign_privacy_setting">Assign Privacy Setting</string>
+    <string name="assigned_apps">Assigned Apps</string>
+    <string name="assigned_privacy_settings">Assigned Privacy Settings</string>
+    <string name="available">Available</string>
     <string name="bind">Bind</string>
     <string name="cancel">Cancel</string>
     <string name="change_value">Change value</string>
@@ -12,34 +21,53 @@
     <string name="close">Close</string>
     <string name="confirm">Confirm</string>
     <string name="database">Database</string>
+    <string name="delete_preset_permanently">Delete Preset permanently</string>
+    <string name="delete_preset_trash_bin">Delete Preset (trash bin)</string>
     <string name="description">Description</string>
     <string name="details">Details</string>
     <string name="disable">Disable</string>
+    <string name="edit_deleted_preset">Edit deleted Preset</string>
     <string name="edit_name_and_description">Edit name and description</string>
+    <string name="edit_preset">Edit Preset</string>
     <string name="enable">Enable</string>
+    <string name="expert_mode">Expert Mode</string>
+    <string name="hide_deleted">Hide deleted</string>
     <string name="identifier">Identifier</string>
     <string name="install">Install</string>
+    <string name="installed">Installed</string>
+    <string name="last_update_at">Last update at</string>
     <string name="model">Model</string>
+    <string name="name">Name</string>
+    <string name="new_string">New</string>
+    <string name="open_app">Open App</string>
+    <string name="please_enter_a_name">Please enter a name!</string>
+    <string name="pmp">Privacy Management Platform</string>
     <string name="presets">Presets</string>
+    <string name="registered_apps">Registered Apps</string>
     <string name="remove">Remove</string>
     <string name="remove_app">Remove App</string>
+    <string name="remove_privacy_setting">Remove Privacy Setting</string>
     <string name="required_privacy_settings">Required Privacy Settings</string>
+    <string name="required_resources">Required Resources</string>
     <string name="required_value">required value</string>
+    <string name="resources">Resources</string>
     <string name="resource_group">Resource</string>
     <string name="resource_groups">Resourcegroups</string>
+    <string name="restore_preset">Restore Preset</string>
     <string name="service_features">Service Features</string>
+    <string name="settings">Settings</string>
     <string name="set_value">Set value</string>
+    <string name="show_deleted">Show deleted</string>
     <string name="show_details">Show details</string>
+    <string name="statistics">Statistics</string>
     <string name="undefined">undefined string</string>
     <string name="uninstall">Uninstall</string>
+    <string name="update">Update</string>
+    <string name="update_list">Update list</string>
+    <string name="unregister_app">Unregister App</string>
     <string name="value">Value</string>
-
+   
     <!-- Main -->
-    <string name="main_title">Privacy Management Platform</string>
-    <string name="main_apps">Apps</string>
-    <string name="main_rgs">Resources</string>
-    <string name="main_presets">Presets</string>
-    <string name="main_settings">Settings</string>
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
     <plurals name="main_statistics_apps">
         <item quantity="zero">- No Apps are registered so far</item>
@@ -56,29 +84,20 @@
         <item quantity="one">- 1 Preset is created</item>
         <item quantity="other">- %d Presets are created</item>
     </plurals>
-    <string name="main_statistics">Statistics</string>
-    <string name="main_about">About</string>
     <string name="main_presets_disabled">The Presets are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
 
     <!-- Settings -->
-    <string name="settings_title">Settings</string>
     <string name="settings_expertmode_description">Enables the Presets feature in PMP</string>
-    <string name="settings_expertmode">Expert Mode</string>
     <string name="settings_expertmode_enabled">The Expert Mode has been enabled</string>
     <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
 
     <!-- Apps -->
-    <string name="apps_title">Registered Apps</string>
     <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
     
     <!-- App Details -->
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
     <string name="app_servicefeature_disabled">The Service Feature is now disabled.</string>
-    <string name="app_context_menu">Choose an action</string>
     <string name="app_removed">App has been successfully unregistered from PMP.</string>
-    <string name="details_app">App details</string>
-    <string name="app_open">Open App</string>
-    <string name="app_unregister">Unregister App</string>
     <string name="app_not_opened">App can\'t be opened.</string>
     <string name="app_successfully_unregistered">App has been successfully unregistered from PMP.</string>
 
@@ -87,7 +106,6 @@
     <string name="ps_invalid_value">required value is invalid</string>
     <string name="tab_sfs_description_simplemode">Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why.</string>
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
-    <string name="required_rgs">Required Resources</string>
     <string name="missing_rgs_description">There are some resources missing, you have install them over the Resources menu.</string>
     <string name="app_sf_back_to_the_app">Done, back to the App.</string>
     
@@ -96,58 +114,21 @@
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
 
     <!-- ResourceGroups -->
-    <string name="rg_installed">Installed</string>
-    <string name="rg_available">Available</string>
-    <string name="rg_state_installed">Installed</string>
-    <string name="rg_state_new">New</string>
-    <string name="rg_update">Update</string>
-    <string name="rg_update_list">Update list</string>
-    <string name="rg_last_update">Last update at</string>
     <string name="rg_fetching_resources">Fetching Resources from server.\nPlease wait…</string>
     <string name="rg_server_not_available">The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing "Update".</string>
 
     <!-- Overview of Presets -->
-    <string name="presets_title">Presets</string>
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
-    <string name="presets_show_deleted">Show deleted</string>
-    <string name="presets_hide_deleted">Hide deleted</string>
-    <string name="presets_deleted_context_menu">Edit deleted Preset</string>
-    <string name="presets_delete_permanent">Delete Preset permanently</string>
-    <string name="presets_restore">Restore Preset</string>
-    <string name="presets_context_menu">Edit Preset</string>
-    <string name="presets_delete">Delete Preset (trash bin)</string>
-    <string name="presets_add">Add Preset</string>
-
-    <!-- Add a new Preset (Dialog) -->
-    <string name="presets_dialog_confirm">Confirm</string>
-    <string name="presets_dialog_name">Name</string>
-    <string name="presets_dialog_description">Description</string>
-    <string name="presets_dialog_cancel">Cancel</string>
-    <string name="presets_dialog_name_missing">Please enter a name!</string>
-
-    <!-- One Preset / Headings of tabs -->
-    <string name="preset_tab_apps">Assigned Apps</string>
-    <string name="preset_tab_ps">Assigned Privacy Settings</string>
 
     <!-- One Preset / Tab: Assigned Apps -->
-    <string name="preset_tab_apps_assign_apps">Assign Apps</string>
     <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
     <string name="preset_tab_apps_all_apps_assigned">All currently available Apps are already assigned.</string>
-    <string name="preset_tab_apps_context_menu_title">Choose your action</string>
-    <string name="preset_tab_apps_context_menu_show_details">Show details</string>
-    <string name="preset_tab_apps_context_menu_remove_app">Remove</string>
 
     <!-- One Preset / Tab: Assigned Privacy Settings -->
-    <string name="preset_tab_pss_assign_pss">Assign Privacy Setting</string>
     <string name="preset_tab_pss_no_pss_assigned">There are currently no Privacy Settings assigned.\nClick on menu to assign Privacy Settings.</string>
-    <string name="preset_tab_pss_context_menu_title">Choose your action</string>
-    <string name="preset_tab_pss_context_menu_show_details">Show details</string>
-    <string name="preset_tab_pss_context_menu_change_value">Change value</string>
-    <string name="preset_tab_pss_context_menu_remove_pss">Remove Privacy Setting</string>
     <string name="preset_tab_pss_all_pss_already_assigned">All currently available Privacy Settings are already assigned.</string>
 
     <!-- About the app -->
-    <string name="about_title">About the App</string>
     <string name="about_text">The Privacy Management Platform is developed, in case of a research project, at University Stuttgart.</string>
 
 	<!-- Developer console -->
@@ -162,5 +143,4 @@
     <string name="dev_con_id">ID:</string>
 	<string name="dev_con_rgs_path">de.unistuttgart.ipvs.pmp.resourcegroups.</string>
 	<string name="dev_con_table_of_contents">Table of Contents (Total debug)</string>
-	<string name="dev_con_"></string>
 </resources>

@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item android:id="@+id/menu_app_open"
 	    android:icon="@drawable/menu_view"
-	    android:title="@string/app_open"/>    
+	    android:title="@string/open_app"/>    
 
 	<item android:id="@+id/menu_app_unregister"
 	    android:icon="@drawable/menu_delete"
-	    android:title="@string/app_unregister"/>   
+	    android:title="@string/unregister_app"/>   
 </menu>

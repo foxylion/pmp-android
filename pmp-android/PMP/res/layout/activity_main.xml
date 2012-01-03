@@ -8,7 +8,7 @@
     android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        pmp:name="@string/main_title"
+        pmp:name="@string/pmp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/icon" >
@@ -44,7 +44,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTop="@drawable/icon_apps"
                     android:paddingTop="25sp"
-                    android:text="@string/main_apps" >
+                    android:text="@string/apps" >
                 </Button>
 
                 <Button
@@ -55,7 +55,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTop="@drawable/icon_rgs2"
                     android:paddingTop="25sp"
-                    android:text="@string/main_rgs" >
+                    android:text="@string/resources" >
                 </Button>
             </LinearLayout>
 
@@ -71,7 +71,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTop="@drawable/icon_presets2"
                     android:paddingTop="25sp"
-                    android:text="@string/main_presets" >
+                    android:text="@string/presets" >
                 </de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton>
 
                 <Button
@@ -82,7 +82,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTop="@drawable/icon_settings"
                     android:paddingTop="25sp"
-                    android:text="@string/main_settings" >
+                    android:text="@string/settings" >
                 </Button>
             </LinearLayout>
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content" >
 
                 <ImageView
-                    android:contentDescription="@string/main_statistics"
+                    android:contentDescription="@string/statistics"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:layout_marginRight="3dp"
@@ -101,7 +101,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-3dp"
-                    android:text="@string/main_statistics" />
+                    android:text="@string/statistics" />
             </LinearLayout>
 
             <include layout="@layout/view_divider_strong" >
