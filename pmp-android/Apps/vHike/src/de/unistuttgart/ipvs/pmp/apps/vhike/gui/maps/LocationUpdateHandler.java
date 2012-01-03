@@ -149,7 +149,7 @@ public class LocationUpdateHandler implements LocationListener {
 						MapModel.getInstance().getHitchPassengers()
 								.add(passenger);
 						MapModel.getInstance().fireNotification(context,
-								passenger, lqo.get(i).getUserid());
+								passenger, lqo.get(i).getUserid(), 0);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 					}
@@ -232,6 +232,8 @@ public class LocationUpdateHandler implements LocationListener {
 
 						MapModel.getInstance().getHitchDrivers().clear();
 						MapModel.getInstance().getHitchDrivers().add(driver);
+						MapModel.getInstance().fireNotification(context,
+								driver, loo.get(i).getUser_id(), 1);
 						MapModel.getInstance().getPassengerAdapter(context)
 								.notifyDataSetChanged();
 					}

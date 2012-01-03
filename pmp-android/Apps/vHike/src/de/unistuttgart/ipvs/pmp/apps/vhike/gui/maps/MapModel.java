@@ -33,7 +33,8 @@ public class MapModel {
 	private List<Overlay> mapPassengerOverlays;
 	private String destination;
 	private int numSeats = 0;
-	private SlidingDrawer slider;
+	private SlidingDrawer slider_Driver;
+	private SlidingDrawer slider_Passenger;
 
 	private List<Profile> hitchDrivers;
 	private List<Profile> hitchPassengers;
@@ -161,10 +162,6 @@ public class MapModel {
 		return hitchPassengers;
 	}
 
-	public void clearHitchPassengers() {
-		hitchPassengers = null;
-	}
-
 	/**
 	 * Adapter to show found drivers
 	 * 
@@ -200,15 +197,29 @@ public class MapModel {
 	 * @param context
 	 * @param profile
 	 */
-	public void fireNotification(Context context, Profile profile, int profileID) {
+	public void fireNotification(Context context, Profile profile,
+			int profileID, int which1) {
 
 		// get reference to notificationManager
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) context
 				.getSystemService(ns);
 
+		int icon = 0;
+		CharSequence contentTitle;
+		CharSequence contentText;
+
 		// instantiate the notification
-		int icon = R.drawable.passenger_logo;
+		if (which1 == 0) {
+			icon = R.drawable.icon_ride;
+			contentTitle = profile.getUsername() + " wants a ride!";
+			contentText = "Touch to open profile";
+		} else {
+			icon = R.drawable.passenger_logo;
+			contentTitle = profile.getUsername() + " says: Hop on in!";
+			contentText = "Touch to open profile";
+		}
+
 		CharSequence tickerText = "Found hitchhiker!";
 		long when = System.currentTimeMillis();
 
@@ -216,8 +227,6 @@ public class MapModel {
 		notification.defaults |= Notification.DEFAULT_SOUND;
 
 		// define the notification's message and PendingContent
-		CharSequence contentTitle = profile.getUsername() + " wants a ride!";
-		CharSequence contentText = "Touch to open profile";
 		Intent notificationIntent = new Intent(context, ProfileActivity.class);
 		notificationIntent.putExtra("MY_PROFILE", 1);
 		notificationIntent.putExtra("PASSENGER_ID", profileID);
@@ -235,9 +244,15 @@ public class MapModel {
 		getHitchPassengers().clear();
 		getHitchPassengers().add(profile);
 
-		slider = (SlidingDrawer) ((Activity) context)
-				.findViewById(R.id.notiSlider);
-		slider.open();
+		if (which1 == 0) {
+			slider_Driver = (SlidingDrawer) ((Activity) context)
+					.findViewById(R.id.notiSlider);
+			slider_Driver.open();
+		} else {
+			slider_Passenger = (SlidingDrawer) ((Activity) context)
+					.findViewById(R.id.slidingDrawer);
+			slider_Passenger.open();
+		}
 
 	}
 }
