@@ -199,7 +199,7 @@ public class MapModel {
 	 * @param profile
 	 */
 	public void fireNotification(Context context, Profile profile,
-			int profileID, int which1) {
+			int profileID, int which1, int notiID) {
 
 		// get reference to notificationManager
 		String ns = Context.NOTIFICATION_SERVICE;
@@ -234,6 +234,7 @@ public class MapModel {
 		notificationIntent.putExtra("MY_PROFILE", 1);
 		Log.i("ProfileID: " + profileID);
 		notificationIntent.putExtra("PASSENGER_ID", profileID);
+
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
 
@@ -241,18 +242,17 @@ public class MapModel {
 				contentIntent);
 
 		// pass notification to notificationManager
-		final int HELLO_ID = 1;
-
-		mNotificationManager.notify(HELLO_ID, notification);
-
-		getHitchPassengers().clear();
-		getHitchPassengers().add(profile);
+		mNotificationManager.notify(notiID, notification);
 
 		if (which1 == 0) {
+			getHitchPassengers().add(profile);
+
 			slider_Driver = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.notiSlider);
 			slider_Driver.open();
 		} else {
+			getHitchDrivers().add(profile);
+
 			slider_Passenger = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.slidingDrawer);
 			slider_Passenger.open();

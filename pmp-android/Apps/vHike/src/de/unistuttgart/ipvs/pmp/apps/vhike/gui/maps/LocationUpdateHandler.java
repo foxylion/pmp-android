@@ -42,6 +42,7 @@ public class LocationUpdateHandler implements LocationListener {
 	private GeoPoint gPosition;
 	private Location location;
 	private int mWhichHitcher;
+	private int notiID = 0;
 
 	private Controller ctrl;
 
@@ -146,10 +147,12 @@ public class LocationUpdateHandler implements LocationListener {
 								.add(passengerOverlay);
 						mapView.invalidate();
 
+						notiID++;
+						
 						MapModel.getInstance().getHitchPassengers()
 								.add(passenger);
 						MapModel.getInstance().fireNotification(context,
-								passenger, lqo.get(i).getUserid(), 0);
+								passenger, lqo.get(i).getUserid(), 0, notiID);
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 					}
@@ -229,10 +232,12 @@ public class LocationUpdateHandler implements LocationListener {
 						MapModel.getInstance().getPassengerOverlayList(mapView)
 								.add(driverOverlay);
 						mapView.invalidate();
-
+						
+						notiID++;
+						
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
-								driver, loo.get(i).getUser_id(), 1);
+								driver, loo.get(i).getUser_id(), 1, notiID);
 						MapModel.getInstance().getPassengerAdapter(context)
 								.notifyDataSetChanged();
 					}
