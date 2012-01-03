@@ -230,7 +230,6 @@ public class LocationUpdateHandler implements LocationListener {
 								.add(driverOverlay);
 						mapView.invalidate();
 
-						MapModel.getInstance().getHitchDrivers().clear();
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1);

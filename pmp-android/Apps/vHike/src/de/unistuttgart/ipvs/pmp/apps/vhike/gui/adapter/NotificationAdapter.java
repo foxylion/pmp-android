@@ -141,7 +141,7 @@ public class NotificationAdapter extends BaseAdapter {
 			}
 		});
 
-		noti_rb.setRating((float) hitchhiker.getRating_num());
+		noti_rb.setRating((float) hitchhiker.getRating_avg());
 		me = Model.getInstance().getOwnProfile();
 
 		accept_invite.setOnClickListener(new OnClickListener() {
