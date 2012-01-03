@@ -143,16 +143,20 @@ public class LocationUpdateHandler implements LocationListener {
 										+ passenger.getRating_avg());
 						passengerOverlay.addOverlay(opPassengerItem);
 
+						//add found passenger to overlay
 						MapModel.getInstance().getDriverOverlayList(mapView)
 								.add(passengerOverlay);
 						mapView.invalidate();
 
 						notiID++;
 						
+						//add passenger to slider list
 						MapModel.getInstance().getHitchPassengers()
 								.add(passenger);
+						//notify user
 						MapModel.getInstance().fireNotification(context,
 								passenger, lqo.get(i).getUserid(), 0, notiID);
+						//notify list 
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 					}
@@ -242,7 +246,7 @@ public class LocationUpdateHandler implements LocationListener {
 								.notifyDataSetChanged();
 					}
 				} else {
-					Toast.makeText(context, "List null", Toast.LENGTH_SHORT)
+					Toast.makeText(context, "List is null", Toast.LENGTH_SHORT)
 							.show();
 				}
 

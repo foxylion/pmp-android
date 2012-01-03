@@ -44,6 +44,9 @@ public class NotificationAdapter extends BaseAdapter {
 	private Profile me;
 	private int mWhichHitcher;
 	private int queryID;
+	private int offerID;
+	private int passengerID;
+	private int driverID;
 
 	public NotificationAdapter(Context context, List<Profile> hitchhikers,
 			int whichHitcher) {
@@ -90,8 +93,15 @@ public class NotificationAdapter extends BaseAdapter {
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
 
-		List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-		queryID = lqo.get(position).getQueryid();
+		if (mWhichHitcher == 0) {
+			List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+			queryID = lqo.get(position).getQueryid();
+			passengerID = lqo.get(position).getUserid();
+		} else {
+			List<OfferObject> loo = Model.getInstance().getOfferHolder();
+			offerID = loo.get(position).getOffer_id();
+			driverID = loo.get(position).getUser_id();
+		}
 
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
@@ -99,6 +109,7 @@ public class NotificationAdapter extends BaseAdapter {
 				if (mWhichHitcher == 0) {
 					// if (all seats taken) -> remove all
 					// else -> JUST ONE
+					// TODO: remove PassengerOverlay
 					MapModel.getInstance().getHitchPassengers()
 							.remove(position);
 					notifyDataSetChanged();
@@ -127,14 +138,16 @@ public class NotificationAdapter extends BaseAdapter {
 			}
 		});
 
-		final int passengerID = lqo.get(position).getUserid();
-
 		name.setText(hitchhiker.getUsername());
 		name.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context, ProfileActivity.class);
-				intent.putExtra("PASSENGER_ID", passengerID);
+				if (mWhichHitcher == 0) {
+					intent.putExtra("PASSENGER_ID", passengerID);
+				} else {
+					intent.putExtra("PASSENGER_ID", driverID);
+				}
 				intent.putExtra("MY_PROFILE", 1);
 
 				context.startActivity(intent);
@@ -152,13 +165,13 @@ public class NotificationAdapter extends BaseAdapter {
 							.getInstance().getTripId(), queryID,
 							me.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
-						Toast.makeText(context, "STATUS_SENT",
-								Toast.LENGTH_SHORT).show();
-
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
 						accept_invite.refreshDrawableState();
 						notifyDataSetChanged();
+						Toast.makeText(context, "STATUS_SENT",
+								Toast.LENGTH_SHORT).show();
+
 						break;
 					case Constants.STATUS_INVALID_TRIP:
 						Toast.makeText(context, "STATUS_INVALID_TRIP",
@@ -174,9 +187,6 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				} else {
-					List<OfferObject> loo = Model.getInstance()
-							.getOfferHolder();
-					int offerID = loo.get(position).getOffer_id();
 
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
 							offerID, true)) {
