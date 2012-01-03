@@ -57,9 +57,9 @@
 				<tr><td>FT-13</td><td>Hai Dang Huynh</td><td>?</td></tr>
 				<tr><td>FT-14</td><td>Marcus Vetter</td><td>?</td></tr>
 				<tr><td>FT-15</td><td>Marcus Vetter</td><td>?</td></tr>
-				<tr><td>FT-16</td><td>Thorsten Berberich</td><td>?</td></tr>
-				<tr><td>FT-17</td><td>Thorsten Berberich</td><td>?</td></tr>
-				<tr><td>FT-18</td><td>Thorsten Berberich</td><td>?</td></tr>
+				<tr><td>FT-16</td><td>Thorsten Berberich</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-17</td><td>Thorsten Berberich</td><td td class="success">OK</td></tr>
+				<tr><td>FT-18</td><td>Thorsten Berberich</td><td td class="success">OK</td></tr>
 			</table>
 
 			<h2 id="protokollnfr">Nicht-funktionale Anforderungstests</h2>
@@ -67,8 +67,8 @@
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>NFT-1</td><td>Tobias Kuhn</td><td>?</td></tr>
-				<tr><td>NFT-2</td><td>Thorsten Berberich</td><td>?</td></tr>
-				<tr><td>NFT-3</td><td>Thorsten Berberich</td><td>?</td></tr>
+				<tr><td>NFT-2</td><td>Thorsten Berberich</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>NFT-3</td><td>Thorsten Berberich</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>NFT-4</td><td>Marcus Vetter</td><td>?</td></tr>
 				<tr><td>NFT-5</td><td>Marcus Vetter</td><td>?</td></tr>
 				<tr><td>NFT-6</td><td>Marcus Vetter</td><td>?</td></tr>
@@ -85,7 +85,9 @@
 			<p>?</p>
 			
 			<h2 id="tester3">Thorsten Berberich</h2>
-			<p>?</p>
+			<p>FT-16 wurde als nicht bestanden markiert, da manche Icons nicht den Icon Design Guidelines entspricht, z.B. Icons von den Dialogen die angezeigt werden, wenn man ein die Details zu einem Service-Feature anzeit. Es ist jedoch fragwürdig ob man dies alles anpassen sollte, da man dann auch die Listeneinträge auch ändern muss und dann wären die Icons von den Apps falsch.</p>
+			<p>NFT-2 wurde als nicht bestanden markiert, da sich die Service-Features setzen lassen, aber nicht deaktivieren. Es wird zwar angezeigt, dass das Service-Feature jetzt deaktiviert ist, aber das Service-Feature bleibt noch grün hinterlegt und in der Mengengerüst-App wird das Service-Feature noch als "true" aufgelistet. Vielleicht liegt es auch an den Test-Apps, da es z.B. mit der Calendar-App funktioniert, aber mir fällt direkt kein Unterschied auf.</p>
+			<p>NFT-3 wurde als nicht bestanden markiert, da FT-6 nicht bestanden wurde. Es kann ein Preset erstellt werden mit einem Namen der schon existiert. Somit ist die direkte Validierung mit der Bedingung "Gültige Werte: nicht bereits vorhandene Preset-Namen" nicht gegeben.</p>
 			
 			<h2 id="tester4">Marcus Vetter</h2>
 			<p>?</p>
