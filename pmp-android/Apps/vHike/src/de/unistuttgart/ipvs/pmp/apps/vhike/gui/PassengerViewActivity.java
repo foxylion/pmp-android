@@ -77,7 +77,7 @@ public class PassengerViewActivity extends MapActivity {
 	}
 
 	public PassengerViewActivity() {
-		this.context = this;
+		this.context = PassengerViewActivity.this;
 	}
 
 	/**
