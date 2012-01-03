@@ -69,7 +69,6 @@ public class PassengerViewActivity extends MapActivity {
 
 		showHitchhikers();
 		setMapView();
-		setUpNotiBar();
 		startQuery();
 
 		vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
@@ -112,58 +111,6 @@ public class PassengerViewActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.passengerMapView);
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
-	}
-
-	private void setUpNotiBar() {
-
-		Profile driver = new Profile("Driver1", null, null, null, null, null,
-				null, false, false, false, false, 4.5, 5);
-		float lat = 37.4230182f;
-		float lng = -122.0840848f;
-		GeoPoint gps = new GeoPoint((int) (lat * 1E6), (int) (lng * 1E6));
-
-		Drawable drawable = context.getResources().getDrawable(
-				R.drawable.icon_ride);
-		DriverOverlay dOverlay = new DriverOverlay(drawable, context, gps);
-
-		OverlayItem oItem = new OverlayItem(gps, "Who wants a ride?", "User: "
-				+ driver.getUsername() + ", Rating: " + driver.getRating_avg());
-		dOverlay.addOverlay(oItem);
-		MapModel.getInstance().getPassengerOverlayList(mapView).add(dOverlay);
-		mapView.invalidate();
-
-		// get reference to notificationManager
-		String ns = Context.NOTIFICATION_SERVICE;
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-
-		// instantiate the notification
-		int icon = R.drawable.icon_ride;
-		CharSequence tickerText = "You got an invitation!";
-		long when = System.currentTimeMillis();
-
-		Notification notification = new Notification(icon, tickerText, when);
-		notification.defaults |= Notification.DEFAULT_SOUND;
-
-		// define the notification's message and PendingContent
-		Context context = getApplicationContext();
-
-		CharSequence contentTitle = driver.getUsername() + ": Need a ride?";
-		CharSequence contentText = "Touch to open profile";
-		Intent notificationIntent = new Intent(PassengerViewActivity.this,
-				ProfileActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(
-				PassengerViewActivity.this, 0, notificationIntent, 0);
-
-		notification.setLatestEventInfo(context, contentTitle, contentText,
-				contentIntent);
-
-		// pass notification to notificationManager
-		final int HELLO_ID = 1;
-
-		mNotificationManager.notify(HELLO_ID, notification);
-
-		// drawer = (SlidingDrawer) findViewById(R.id.notiSlider);
-		// drawer.open();
 	}
 
 	/**

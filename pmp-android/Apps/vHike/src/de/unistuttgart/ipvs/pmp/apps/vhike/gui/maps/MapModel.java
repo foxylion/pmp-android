@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
@@ -208,19 +209,21 @@ public class MapModel {
 		int icon = 0;
 		CharSequence contentTitle;
 		CharSequence contentText;
+		CharSequence tickerText;
 
 		// instantiate the notification
 		if (which1 == 0) {
-			icon = R.drawable.icon_ride;
+			icon = R.drawable.passenger_logo;
 			contentTitle = profile.getUsername() + " wants a ride!";
 			contentText = "Touch to open profile";
+			tickerText = "Found passenger!";
 		} else {
-			icon = R.drawable.passenger_logo;
+			icon = R.drawable.icon_ride;
 			contentTitle = profile.getUsername() + " says: Hop on in!";
 			contentText = "Touch to open profile";
+			tickerText = "Found driver!";
 		}
 
-		CharSequence tickerText = "Found hitchhiker!";
 		long when = System.currentTimeMillis();
 
 		Notification notification = new Notification(icon, tickerText, when);
@@ -229,6 +232,7 @@ public class MapModel {
 		// define the notification's message and PendingContent
 		Intent notificationIntent = new Intent(context, ProfileActivity.class);
 		notificationIntent.putExtra("MY_PROFILE", 1);
+		Log.i("ProfileID: " + profileID);
 		notificationIntent.putExtra("PASSENGER_ID", profileID);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
