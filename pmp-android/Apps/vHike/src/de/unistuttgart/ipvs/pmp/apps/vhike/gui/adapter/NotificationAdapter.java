@@ -41,6 +41,7 @@ public class NotificationAdapter extends BaseAdapter {
 	private Controller ctrl;
 	private List<Profile> hitchhikers;
 	private Profile hitchhiker;
+	private Profile me;
 	private int mWhichHitcher;
 	private int queryID;
 
@@ -141,6 +142,7 @@ public class NotificationAdapter extends BaseAdapter {
 		});
 
 		noti_rb.setRating((float) hitchhiker.getRating_num());
+		me = Model.getInstance().getOwnProfile();
 
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
@@ -148,7 +150,7 @@ public class NotificationAdapter extends BaseAdapter {
 				if (mWhichHitcher == 0) {
 					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
 							.getInstance().getTripId(), queryID,
-							hitchhiker.getUsername() + ": Need a ride?")) {
+							me.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
 						Toast.makeText(context, "STATUS_SENT",
 								Toast.LENGTH_SHORT).show();

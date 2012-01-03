@@ -161,6 +161,10 @@ public class MapModel {
 		return hitchPassengers;
 	}
 
+	public void clearHitchPassengers() {
+		hitchPassengers = null;
+	}
+
 	/**
 	 * Adapter to show found drivers
 	 * 
