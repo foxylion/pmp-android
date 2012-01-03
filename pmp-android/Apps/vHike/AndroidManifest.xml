@@ -59,6 +59,10 @@
             android:name=".apps.vhike.gui.HistoryActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <activity
+            android:name=".apps.vhike.gui.HistoryMenuActivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>
