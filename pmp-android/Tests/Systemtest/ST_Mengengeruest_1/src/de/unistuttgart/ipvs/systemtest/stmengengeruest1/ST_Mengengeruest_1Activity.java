@@ -2,12 +2,12 @@ package de.unistuttgart.ipvs.systemtest.stmengengeruest1;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.service.utils.IConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.RemoteException;
 import android.widget.TextView;
 
 public class ST_Mengengeruest_1Activity extends Activity {
@@ -16,39 +16,31 @@ public class ST_Mengengeruest_1Activity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
-
-	// Connector to check if the app is registered yet
-	final PMPServiceConnector connector = new PMPServiceConnector(
-		this.getApplicationContext(),
-		((MengengeruestApp) this.getApplicationContext()).getSignee());
-	connector.addCallbackHandler(new IConnectorCallback() {
+	final PMPServiceConnector pmpconnector = new PMPServiceConnector(this);
+	pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
 
 	    @Override
-	    public void disconnected() {
-		Log.e("Disconnected");
-	    }
-
-	    @Override
-	    public void connected() {
+	    public void onConnect(AbstractConnector connector)
+		    throws RemoteException {
 
 		// Check if the service is registered yet
-		if (!connector.isRegistered()) {
-		    // Register the service
-		    ((App) getApplication()).register(getApplicationContext());
-
-		    connector.unbind();
+		if (!pmpconnector.getAppService()
+			.isRegistered(getPackageName())) {
+		    pmpconnector.getAppService().registerApp(getPackageName());
 		} else {
-		    Log.v("App already registered");
-		    connector.unbind();
+		    Log.v("App registered");
 		}
 	    }
 
 	    @Override
-	    public void bindingFailed() {
-		Log.e("Binding failed during registering app.");
+	    public void onBindingFailed(AbstractConnector connector) {
+		Log.e("ERROR while registering");
 	    }
 	});
-	connector.bind();
+
+	// Connect to the service
+	pmpconnector.bind();
+
     }
 
     @Override
@@ -56,10 +48,11 @@ public class ST_Mengengeruest_1Activity extends Activity {
 	super.onResume();
 	// Get the service level
 	TextView sl = (TextView) findViewById(R.id.servicelevel);
-	SharedPreferences app_preferences = PreferenceManager
-		.getDefaultSharedPreferences(this.getApplicationContext());
-	String serviceLevel = String.valueOf(app_preferences.getInt(
-		"servicelevel", 0));
-	sl.setText(serviceLevel);
+	String serviceFeature = "";
+	for (int itr = 0 ; itr < 5; itr++){
+	Boolean sf = ((App) getApplication()).isServiceFeatureEnabled("SF" + itr);
+	serviceFeature = serviceFeature + " SF" + itr + "=" + sf + "\n";
+	}
+	sl.setText(serviceFeature);
     }
 }

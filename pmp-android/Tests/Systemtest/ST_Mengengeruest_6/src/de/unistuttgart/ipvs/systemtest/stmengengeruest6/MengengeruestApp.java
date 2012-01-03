@@ -1,41 +1,31 @@
 package de.unistuttgart.ipvs.systemtest.stmengengeruest6;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
+import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
+import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
-public class MengengeruestApp extends App{
-
-    @Override
-    protected String getServiceAndroidName() {
-	return "de.unistuttgart.ipvs.systemtest.stmengengeruest6";
-    }
-
-    @Override
-    public void setActiveServiceLevel(int level) {
-	SharedPreferences app_preferences = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        SharedPreferences.Editor editor = app_preferences.edit();
-        editor.putInt("servicelevel", level);
-        editor.commit();
-    }
-
-    @Override
-    protected InputStream getXMLInputStream() {
-	try {
-            return getAssets().open("AppInformation.xml");
-        } catch (IOException e) {
-            Log.e("IOException during loading App XML", e);
-            return null;
-        }
-    }
+public class MengengeruestApp extends App {
 
     @Override
     public void onRegistrationSuccess() {
+	// Connector to get the initial service feature
+	final PMPServiceConnector pmpconnector = new PMPServiceConnector(
+		getApplicationContext());
+	pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+
+	    @Override
+	    public void onConnect(AbstractConnector connector)
+		    throws RemoteException {
+		pmpconnector.getAppService().getServiceFeatureUpdate(
+			getPackageName());
+	    }
+	});
+
+	// Connect to the service
+	pmpconnector.bind();
 	Log.d("Registration succeed");
     }
 
@@ -43,5 +33,4 @@ public class MengengeruestApp extends App{
     public void onRegistrationFailed(String message) {
 	Log.d("Registration failed");
     }
-
 }

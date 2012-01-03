@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app>
+<appInformationSet>
 	<appInformation>
 		<defaultName lang="en">Mengengeruest8</defaultName>
 		<defaultDescription lang="en">This App is for testing
 			ONLY
 		</defaultDescription>
 	</appInformation>
-	<serviceLevels>
-		<defaultServiceLevel>
-			<level>0</level>
-			<defaultName lang="en">0 Level</defaultName>
-			<defaultDescription lang="en">Level 0
-			</defaultDescription>
-		</defaultServiceLevel>
-		<serviceLevel>
-			<level>1</level>
-			<defaultName lang="en">Level 1</defaultName>
-			<defaultDescription lang="en">Level 1
+	<serviceFeatures>
+		<serviceFeature identifier="SF0">
+			<defaultName lang="en">SF0</defaultName>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-				<privacyLevel identifier="create">true</privacyLevel>
+				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
-		</serviceLevel>
-		<serviceLevel>
-			<level>2</level>
-			<defaultName lang="en">Level 2</defaultName>
-			<defaultDescription lang="en">Level 2
+		</serviceFeature>
+				<serviceFeature identifier="SF1">
+			<defaultName lang="en">SF1</defaultName>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-				<privacyLevel identifier="create">true</privacyLevel>
+				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
-		</serviceLevel>
-		<serviceLevel>
-			<level>3</level>
-			<defaultName lang="en">Level 3</defaultName>
-			<defaultDescription lang="en">Level 3
+		</serviceFeature>
+				<serviceFeature identifier="SF2">
+			<defaultName lang="en">SF2</defaultName>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
-		</serviceLevel>
-		<serviceLevel>
-			<level>4</level>
-			<defaultName lang="en">Level 4</defaultName>
-			<defaultDescription lang="en">Level 4
+		</serviceFeature>
+				<serviceFeature identifier="SF3">
+			<defaultName lang="en">SF3</defaultName>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-				<privacyLevel identifier="modify">true</privacyLevel>
+				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
-		</serviceLevel>
-		<serviceLevel>
-			<level>5</level>
-			<defaultName lang="en">Level 5</defaultName>
-			<defaultDescription lang="en">Level 5
+		</serviceFeature>
+				<serviceFeature identifier="SF4">
+			<defaultName lang="en">SF4</defaultName>
+			<defaultDescription lang="en">I can read calendar
+				entries.
 			</defaultDescription>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-				<privacyLevel identifier="create">true</privacyLevel>
+				<privacySetting identifier="read">true</privacySetting>
 			</requiredResourceGroup>
-		</serviceLevel>
-	</serviceLevels>
-</app>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>
