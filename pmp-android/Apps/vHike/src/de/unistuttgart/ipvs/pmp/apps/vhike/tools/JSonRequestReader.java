@@ -613,7 +613,7 @@ public class JSonRequestReader {
 					for (int i = 0; i < array.size(); i++) {
 						JsonObject Iobject = array.get(i).getAsJsonObject();
 						int queryid = Iobject.get("queryid").getAsInt();
-						
+
 						int userid = Iobject.get("userid").getAsInt();
 
 						String username = Iobject.get("username").getAsString();
@@ -625,7 +625,7 @@ public class JSonRequestReader {
 						float distance = Iobject.get("distance").getAsFloat();
 
 						QueryObject qObject = new QueryObject(queryid, userid,
-								username,cur_lat, cur_lon, seats, distance);
+								username, cur_lat, cur_lon, seats, distance);
 						queryObjects.add(qObject);
 					}
 					Model.getInstance().setQueryHolder(queryObjects);
@@ -683,16 +683,19 @@ public class JSonRequestReader {
 					int seats = Iobject.get("seats").getAsInt();
 					float cur_lat = Iobject.get("lat").getAsFloat();
 					float cur_lon = Iobject.get("lon").getAsFloat();
-					
-					String destination = Iobject.get("destination").getAsString();
+
+					String destination = Iobject.get("destination")
+							.getAsString();
 					int driverid = Iobject.get("driverid").getAsInt();
-					
+
 					String username = Iobject.get("username").getAsString();
 					float rating = Iobject.get("rating").getAsFloat();
-					
+
 					float distance = Iobject.get("distance").getAsFloat();
-					
-					RideObject qObject = new RideObject(tripid,seats,cur_lat,cur_lon,destination,driverid,username,rating,distance);
+
+					RideObject qObject = new RideObject(tripid, seats, cur_lat,
+							cur_lon, destination, driverid, username, rating,
+							distance);
 					rideObjects.add(qObject);
 				}
 
@@ -784,7 +787,7 @@ public class JSonRequestReader {
 					float rating_num = Iobject.get("rating_num").getAsFloat();
 					float lat = Iobject.get("lat").getAsFloat();
 					float lon = Iobject.get("lon").getAsFloat();
-					
+
 					OfferObject oObject = new OfferObject(offer_id, user_id,
 							username, rating, rating_num, lat, lon);
 					offerObjects.add(oObject);
@@ -833,6 +836,101 @@ public class JSonRequestReader {
 			}
 		}
 		return status;
+	}
+
+	/**
+	 * Returns the history for the user
+	 * 
+	 * @param sid
+	 * @param role
+	 *            see {@link Constants}
+	 * @return List of {@link HistoryRideObject}
+	 */
+	public static List<HistoryRideObject> getHistory(String sid, String role) {
+
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+		listToParse.add(new ParamObject("role", role, true));
+
+		JsonObject object = null;
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"ride_history.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		List<HistoryRideObject> historyObjects = null;
+		List<HistoryPersonObject> historyPersons = null;
+		boolean suc = false;
+		JsonArray array_rides;
+		if (object != null) {
+			suc = object.get("successful").getAsBoolean();
+			if (suc) {
+				array_rides = object.get("rides").getAsJsonArray();
+				historyObjects = new ArrayList<HistoryRideObject>();
+				historyPersons = new ArrayList<HistoryPersonObject>();
+				for (int i = 0; i < array_rides.size(); i++) {
+					JsonObject IObject = array_rides.get(i).getAsJsonObject();
+					int tripid = IObject.get("trip").getAsInt();
+					int avail_seats = IObject.get("avail_seats").getAsInt();
+					String destination = IObject.get("destination")
+							.getAsString();
+					String creation = IObject.get("creation").getAsString();
+					String ending = IObject.get("ending").getAsString();
+
+					if (role.equals(Constants.ROLE_DRIVER)) {
+						JsonArray array_passengers = IObject.get("passengers")
+								.getAsJsonArray();
+						for (int j = 0; j < array_passengers.size(); j++) {
+							JsonObject passObjects = array_passengers.get(j)
+									.getAsJsonObject();
+
+							int userid = passObjects.get("userid").getAsInt();
+							String username = passObjects.get("username")
+									.getAsString();
+							float rating = passObjects.get("rating")
+									.getAsFloat();
+							int rating_num = passObjects.get("rating_num")
+									.getAsInt();
+							boolean rated = passObjects.get("rated")
+									.getAsBoolean();
+
+							HistoryPersonObject person = new HistoryPersonObject(
+									userid, username, rating, rating_num, rated);
+							historyPersons.add(person);
+						}
+					} else {
+						JsonArray array_drivers = IObject.get("driver")
+								.getAsJsonArray();
+						for (int j = 0; j < array_drivers.size(); j++) {
+							JsonObject passObjects = array_drivers.get(j)
+									.getAsJsonObject();
+
+							int userid = passObjects.get("userid").getAsInt();
+							String username = passObjects.get("username")
+									.getAsString();
+							float rating = passObjects.get("rating")
+									.getAsFloat();
+							int rating_num = passObjects.get("rating_num")
+									.getAsInt();
+							boolean rated = passObjects.get("rated")
+									.getAsBoolean();
+							
+							HistoryPersonObject person = new HistoryPersonObject(
+									userid, username, rating, rating_num, rated);
+							historyPersons.add(person);
+						}
+					}
+					HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination, historyPersons);
+					historyObjects.add(ride);
+				}
+			}
+		}
+
+		return historyObjects;
 	}
 
 	/**
