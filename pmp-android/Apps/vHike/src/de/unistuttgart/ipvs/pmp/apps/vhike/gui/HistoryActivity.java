@@ -46,9 +46,9 @@ public class HistoryActivity extends ListActivity {
 		title.setText(R.string.history_title_passenger);
 		historyRides = new ArrayList<HistoryRideObject>();
 
-		historyRides.add(new HistoryRideObject("DATUM", "STUTTGART"));
-		historyRides.add(new HistoryRideObject("DATUM", "BERLIN"));
-		historyRides.add(new HistoryRideObject("DATUM", "MÜNCHEN"));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "STUTTGART", null, null));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "BERLIN", null, null));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "MÜNCHEN", null, null));
 
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
@@ -58,9 +58,9 @@ public class HistoryActivity extends ListActivity {
 		title.setText(R.string.history_title_driver);
 		historyRides = new ArrayList<HistoryRideObject>();
 
-		historyRides.add(new HistoryRideObject("DATUM", "STUTTGART"));
-		historyRides.add(new HistoryRideObject("DATUM", "BERLIN"));
-		historyRides.add(new HistoryRideObject("DATUM", "MÜNCHEN"));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "STUTTGART", null, null));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "BERLIN", null, null));
+		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "MÜNCHEN", null, null));
 
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);

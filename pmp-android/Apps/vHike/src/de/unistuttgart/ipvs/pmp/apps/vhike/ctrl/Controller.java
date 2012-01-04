@@ -7,6 +7,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
@@ -294,7 +295,6 @@ public class Controller {
 	  */
 	public List<OfferObject> viewOffers(String sid) {
 		List<OfferObject> offerList = JSonRequestReader.viewOffer(sid);
-		//sadasd
 		return offerList;
 
 	}
@@ -348,6 +348,19 @@ public class Controller {
 			}
 		}
 		return Constants.STATUS_ERROR;
+	}
+	
+	/**
+	 * Returns the History of an user
+	 * @param sid
+	 * @param role 
+	 * @return
+	 */
+	public List<HistoryRideObject> getHistory(String sid, String role){
+		List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
+		
+		return list;
+		
 	}
 
 }
