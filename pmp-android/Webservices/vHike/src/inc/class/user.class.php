@@ -75,7 +75,7 @@ class user {
         if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
             $result[$idFieldName] == null
         ) {
-            throw new InvalidArgumentException("Result or ifFieldName is invalid");
+            throw new InvalidArgumentException("Result or idFieldName (" . $idFieldName . ") is invalid");
         }
 
         $user = new User();

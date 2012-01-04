@@ -74,7 +74,7 @@ class Trip {
         $trip = new Trip();
 
         $trip->id = (int)$result[$idFieldName];
-        $trip->driver = User::loadUserBySqlResult($result, "uid");
+        $trip->driver = User::loadUserBySqlResult($result, $userIdFieldName);
         $trip->availSeats = $result["avail_seats"];
         $trip->currentLat = $result["current_lat"];
         $trip->currentLon = $result["current_lon"];
