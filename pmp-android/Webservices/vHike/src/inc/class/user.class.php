@@ -473,7 +473,7 @@ class user {
     public function getCurrentTripId() {
         $db = Database::getInstance();
         $result = $db->fetch($db->query("SELECT `id` FROM `" . DB_PREFIX . "_trip` WHERE `driver`=" .
-            $this->id . " LIMIT 1"));
+            $this->id . " AND `ending`=0 LIMIT 1"));
         if ($result) {
             return $result['id'];
         } else {
@@ -490,6 +490,21 @@ class user {
             $arr[$i++] = $row["id"];
         }
         return $arr;
+    }
+
+    // Get trip info from a rider's ID
+    public function getCurrentRideTripInfo() {
+        $db = Database::getInstance();
+        $query = $db->query(
+            "SELECT dev_trip.id AS tripid, dev_trip.driver, dev_user.username, dev_user.rating_avg, dev_user.rating_num " .
+            "FROM dev_trip INNER JOIN dev_ride ON dev_trip.id = dev_ride.trip" .
+            "              INNER JOIN dev_user ON dev_trip.driver = dev_trip.driver " .
+            "WHERE dev_ride.passenger=" . $this->getId() . " AND dev_trip.ending = 0 LIMIT 1");
+        if ($db->getAffectedRows()==0) {
+            return null;
+        } else {
+            return $db->fetch($query);
+        }
     }
 
     public function updatePosition($lat, $lon) {
