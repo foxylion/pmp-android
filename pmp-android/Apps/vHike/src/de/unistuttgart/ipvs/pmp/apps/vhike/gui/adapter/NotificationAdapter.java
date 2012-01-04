@@ -12,8 +12,10 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,6 +95,7 @@ public class NotificationAdapter extends BaseAdapter {
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
 
+		// determine which id to receive
 		if (mWhichHitcher == 0) {
 			List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 			queryID = lqo.get(position).getQueryid();
@@ -160,14 +163,16 @@ public class NotificationAdapter extends BaseAdapter {
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
 				if (mWhichHitcher == 0) {
 					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
 							.getInstance().getTripId(), queryID,
 							me.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
+
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
-						accept_invite.refreshDrawableState();
+
 						notifyDataSetChanged();
 						Toast.makeText(context, "STATUS_SENT",
 								Toast.LENGTH_SHORT).show();
@@ -195,6 +200,11 @@ public class NotificationAdapter extends BaseAdapter {
 								Toast.LENGTH_SHORT).show();
 						// Entfernen
 						notifyDataSetChanged();
+						accept_invite
+								.setBackgroundResource(R.drawable.bg_check);
+						accept_invite.refreshDrawableState();
+						accept_invite.invalidate();
+
 						break;
 					case Constants.STATUS_INVALID_OFFER:
 						Toast.makeText(context, "INVALID_OFFER",
@@ -206,6 +216,9 @@ public class NotificationAdapter extends BaseAdapter {
 						break;
 					}
 				}
+
+				accept_invite.refreshDrawableState();
+				accept_invite.invalidate();
 
 			}
 		});
