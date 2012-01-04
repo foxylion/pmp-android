@@ -60,6 +60,9 @@ public class ParserTest extends InstrumentationTestCase {
     private static final String RG_PS1_DESC = "Sits with you in your privacy.";
     
     private static final String RG_PSn_ID = "privacy.setting.%d";
+    private static final String RG_PSn_NAME = "Privacy sitting %d";
+    private static final String RG_PSn_DESC = "Sits with you in your %dth privacy.";
+
     // default
     private static final String ILLEGAL_LOCALE = "\u0623\u0646";
     
@@ -651,8 +654,8 @@ public class ParserTest extends InstrumentationTestCase {
         makeRG(RG_ID, RG_ICON, RG_REVISION, RG_NAME, RG_DESC);
         for (int i = 1; i < 100; i++) {
             String nId = String.format(RG_PSn_ID, i);
-            String nName = String.format(RG_PSn_ID, i);
-            String nDesc = String.format(RG_PSn_ID, i);
+            String nName = String.format(RG_PSn_NAME, i);
+            String nDesc = String.format(RG_PSn_DESC, i);
             
             XMLNode xmlPSn = makePS(nId, nName, nDesc);
             pss.addChild(xmlPSn);
@@ -672,8 +675,8 @@ public class ParserTest extends InstrumentationTestCase {
         
         for (int i = 1; i < 100; i++) {
             String nId = String.format(RG_PSn_ID, i);
-            String nName = String.format(RG_PSn_ID, i);
-            String nDesc = String.format(RG_PSn_ID, i);
+            String nName = String.format(RG_PSn_NAME, i);
+            String nDesc = String.format(RG_PSn_DESC, i);
             
             PrivacySetting psn = rgis.getPrivacySettingsMap().get(nId);
             assertNotNull(psn);
