@@ -1,38 +1,36 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 
 
 
 public class HistoryActivity extends ListActivity {
 
+	HistoryAdapter adapter;
 	ListView lv ;
+	List<HistoryRideObject> historyRides;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-        // We'll define a custom screen layout here (the one shown above), but
-        // typically, you could just use the standard ListActivity layout.
-        setContentView(R.layout.activity_history);
-
-        // Query for all people contacts using the Contacts.People convenience class.
-        // Put a managed wrapper around the retrieved cursor so we don't have to worry about
-        // requerying or closing it as the activity changes state.
-     
-        // Now create a new list adapter bound to the cursor.
-        // SimpleListAdapter is designed for binding to a Cursor.
-        ListAdapter adapter = new ArrayAdapter<String>(this,R.layout.history_layout_list)  ;     
-
-        // Bind to our new adapter.
-        setListAdapter(adapter);
-        
+		setContentView(R.layout.activity_history);
+		
+		historyRides = new ArrayList<HistoryRideObject>();
+		
+		historyRides.add(new HistoryRideObject("DATUM", "STUTTGART"));
+		historyRides.add(new HistoryRideObject("DATUM", "BERLIN"));
+		historyRides.add(new HistoryRideObject("DATUM", "MÜNCHEN"));
+		
+		
+        this.adapter = new HistoryAdapter(this, historyRides);
+        setListAdapter(this.adapter);
         
         boolean isDriver = this.getIntent().getExtras().getBoolean("IS_DRIVER");
         
