@@ -93,6 +93,7 @@ public class NotificationAdapter extends BaseAdapter {
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
 
+		// determine which id to receive
 		if (mWhichHitcher == 0) {
 			List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 			queryID = lqo.get(position).getQueryid();

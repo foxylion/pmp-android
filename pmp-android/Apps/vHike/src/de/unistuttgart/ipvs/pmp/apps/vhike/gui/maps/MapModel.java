@@ -9,11 +9,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
@@ -264,4 +267,55 @@ public class MapModel {
 		}
 
 	}
+
+	/**
+	 * add a Passenger to DriverOverlay
+	 * 
+	 * @param context
+	 * @param gpsPassenger
+	 * @param passenger
+	 * @param mapView
+	 */
+	public void addPassenger2Overlay(Context context, GeoPoint gpsPassenger,
+			Profile passenger, MapView mapView) {
+		Drawable drawablePassenger = context.getResources().getDrawable(
+				R.drawable.passenger_logo);
+		PassengerOverlay passengerOverlay = new PassengerOverlay(
+				drawablePassenger, context);
+
+		OverlayItem opPassengerItem = new OverlayItem(gpsPassenger,
+				"I need a ride", "User: " + passenger.getUsername()
+						+ ", Rating: " + passenger.getRating_avg());
+		passengerOverlay.addOverlay(opPassengerItem);
+
+		// add found passenger to overlay
+		getDriverOverlayList(mapView).add(passengerOverlay);
+		mapView.invalidate();
+	}
+
+	/**
+	 * add an driver to Overlay
+	 * 
+	 * @param context
+	 * @param gpsDriver
+	 * @param driver
+	 * @param mapView
+	 */
+	public void addDriver2Overlay(Context context, GeoPoint gpsDriver,
+			Profile driver, MapView mapView) {
+		Drawable drawableDriver = context.getResources().getDrawable(
+				R.drawable.icon_ride);
+		DriverOverlay driverOverlay = new DriverOverlay(drawableDriver,
+				context, gpsDriver);
+
+		OverlayItem opDriverItem = new OverlayItem(gpsDriver, "Hop in man",
+				"User: " + driver.getUsername() + ", Rating: "
+						+ driver.getRating_avg());
+		driverOverlay.addOverlay(opDriverItem);
+
+		MapModel.getInstance().getPassengerOverlayList(mapView)
+				.add(driverOverlay);
+		mapView.invalidate();
+	}
+
 }

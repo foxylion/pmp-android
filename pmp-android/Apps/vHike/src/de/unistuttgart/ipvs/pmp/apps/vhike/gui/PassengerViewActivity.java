@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.List;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -16,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -25,6 +28,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -102,6 +108,21 @@ public class PassengerViewActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.passengerMapView);
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
+
+		Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
+		simulation.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				List<OfferObject> loo = ctrl.viewOffers(Model.getInstance()
+						.getSid());
+				if (loo != null && loo.size() > 0) {
+					for (int i = 0; i < loo.size(); i++) {
+						Profile driver = ctrl.getProfile(Model.getInstance()
+								.getSid(), loo.get(i).getUser_id());
+					}
+				}
+			}
+		});
 	}
 
 	/**
