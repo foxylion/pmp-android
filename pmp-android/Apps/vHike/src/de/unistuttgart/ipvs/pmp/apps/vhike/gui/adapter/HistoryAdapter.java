@@ -50,11 +50,9 @@ public class HistoryAdapter extends BaseAdapter{
 		
 		TextView tv_date = (TextView) entryView.findViewById(R.id.history_date);
 		TextView tv_destination = (TextView) entryView.findViewById(R.id.history_destination);
-		Log.i("Creation:" + hRideObject.getCreation());
-		Log.i("Destination:" + hRideObject.getDestination());
 		
-		tv_date.setText(hRideObject.getCreation());
-		tv_destination.setText(hRideObject.getDestination());
+		tv_date.setText("Date: " + hRideObject.getCreation());
+		tv_destination.setText("Destination:" + hRideObject.getDestination());
 		
 		entryView.setOnClickListener(new OnClickListener() {
 			@Override

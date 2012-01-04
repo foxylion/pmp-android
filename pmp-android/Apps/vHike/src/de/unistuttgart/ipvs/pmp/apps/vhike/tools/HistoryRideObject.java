@@ -13,11 +13,11 @@ public class HistoryRideObject {
 	
 
 	public String getCreation() {
-		return null;
+		return creation;
 	}
 
 	public String getDestination() {
-		return null;
+		return destination;
 	}
 
 }
