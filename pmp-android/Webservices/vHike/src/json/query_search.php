@@ -20,6 +20,7 @@ try {
 
     // Get the list of hikers and print out the JSON formatted result
     if($user->getCurrentTripId() != NULL) {
+        // update coord
         $result = $query->searchQuery($user->getId(), $_POST["distance"]);
         if ($result) {
             $output = array("successful" => true, "status" => "result", "queries" => $result);

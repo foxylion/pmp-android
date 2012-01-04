@@ -32,6 +32,10 @@ class General {
     public static function validId($input) {
         return (isset($input) && is_numeric($input) && $input > 0);
     }
+
+    public static function validCoordinate($input) {
+        return (isset($input) && is_numeric($input) && $input>=-180 && $input<=180);
+    }
     
     /**
      * Generates a random string.

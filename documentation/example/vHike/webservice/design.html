@@ -7,7 +7,7 @@
   <script type="text/javascript" src="../../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
   
   <link type="text/css" rel="stylesheet" media="screen" href="../../../_layout/fancybox/jquery.fancybox-1.3.4.css">
-  <link type="text/css" rel="stylesheet" media="screen" href="../../../_layout/style.css">
+  <link type="text/css" rel="stylesheet" media="screen" href="style.css">
   <link type="text/css" rel="stylesheet" media="print"  href="../../../_layout/print.css">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -59,7 +59,7 @@
         Bewertungen.
       </p>
       <p>    
-        <img src="./db-layout.png" style="width:100%;" />
+        <img src="./db-layout.png" alt="Database Layout" style="width:100%">
       </p>
       
       <h1 id="interface">Schnittstelle</h1>
@@ -71,6 +71,7 @@
         Hierzu werde nachfolgend alle verfügbaren PHP-Skripte aufgelistet, die von
         diesen erwartete Parameter genannt und die durch das Skript generierte Ausgabe erläutert.
       </p>
+      <p>
         Die Übergabe von Parametern, die keinen Einfluss auf den Zustand des Servers
         haben (also keine auf den Server gespeicherten Daten manipulieren) 
         ergolgt über HTTP-GET (d.h. die Parameter werden der URL angehängt).
@@ -718,11 +719,11 @@
       </table>
       
       
-      <h3 id="interface_trip_update_pos">Fahrer-Position aktualisieren</h3>
+      <h3 id="interface_trip_update_pos"><s>Fahrer-Position aktualisieren</s></h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>trip_update_pos.php</td>
+          <td><s>trip_update_pos.php</s> (Siehe <a href="#interface_user_update_pos">User-Position aktualisieren</a>)</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
@@ -777,7 +778,70 @@
         </tr>            
         <tr>  
           <th class="left">Status</th>
-          <td>Implementiert, jedoch ungetestet</td>
+          <td>Deprecated. Der Skript <a href="#interface_user_update_pos">user_update_pos.php</a> funktioniert für 
+		  alle Benutzer. Dieser Service kann trotzdem benutzer werden.</td>
+        </tr>
+      </table>
+      
+      <h3 id="interface_user_update_pos">User-Position aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>user_update_pos.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Die aktuelle Position des Benutzers soll geändert werden, damit potentielle
+            Mitfahrer und Fährer ihn sehen können.</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+                <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad, an dem sich der Benutzer momentan befindet</li>
+              <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad, an dem sich der Benutzer momentan befindet</li> 
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+           <ul>           
+              <li><code>status</code> - String: Gibt an, ob der Datensatz aktualisiert werden konnte.
+                <code>updated</code>, wenn der Datensatz erfolgreich aktualisiert wurde,
+                <code>no_update</code>, wenn der Benutzer momentan keine Fahrt 
+			  anbietet oder Mitfahranfrage besitzt, <code>update_fail</code>, wenn die 
+			  Position nicht in alle Zeilen, die zum Benutzer zugeordnet sind, 
+			  aktualisiert werden kann.</li>
+            </ul>
+          </td>
+        </tr>            
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert</td>
         </tr>
       </table>
       

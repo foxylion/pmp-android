@@ -148,28 +148,32 @@ BEGIN
   DECLARE lon2 FLOAT;
   DECLARE lat1 FLOAT;
   DECLARE lat2 FLOAT;
-	DECLARE trip_dest varchar(100);
+  DECLARE trip_dest varchar(100);
+  DECLARE free_seats INT;
   -- get the original lon, lat and destination for the driverid
-  SELECT current_lon, current_lat, destination INTO mylon, mylat, trip_dest FROM dev_trip WHERE driver=driverid LIMIT 1;
+  SELECT current_lon, current_lat, destination, avail_seats INTO mylon, mylat, trip_dest, free_seats FROM dev_trip WHERE driver=driverid LIMIT 1;
   -- calculate lon and lat for the rectangle:
   set lon1 = mylon-dist/abs(cos(radians(mylat))*69);
   set lon2 = mylon+dist/abs(cos(radians(mylat))*69);
   set lat1 = mylat-(dist/69);
   set lat2 = mylat+(dist/69);
   -- run the query:
-  SELECT query.id AS queryid, query.passenger AS userid, user.username, user.rating_avg AS rating, query.current_lat AS lat, query.current_lon AS lon, query.seats, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((trip.current_lat -query.current_lat) * pi()/180 / 2), 2) + COS(trip.current_lat * pi()/180) * COS(query.current_lat * pi()/180) *POWER(SIN((trip.current_lon -query.current_lon) * pi()/180 / 2), 2) )) AS distance
+  SELECT `query`.id AS queryid, `query`.passenger AS userid, `user`.username,
+    `user`.rating_avg AS rating, `query`.current_lat AS lat, `query`.current_lon AS lon,
+    `query`.seats, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((mylat -`query`.current_lat) * pi()/180 / 2), 2) + COS(mylat * pi()/180) * COS(`query`.current_lat * pi()/180) *POWER(SIN((mylon -`query`.current_lon) * pi()/180 / 2), 2) )) AS distance
   FROM `dev_query` query
-  INNER JOIN `dev_trip` trip
-  INNER JOIN `dev_user` user ON user.id = passenger
-  WHERE query.destination=trip_dest AND trip.avail_seats>=query.seats AND query.current_lon BETWEEN lon1 AND lon2 AND query.current_lat BETWEEN lat1 AND lat2
+  INNER JOIN `dev_user` user ON `user`.id = passenger
+  WHERE `query`.destination=trip_dest AND `query`.passenger != driverid AND
+    `query`.seats <= free_seats AND
+    `query`.current_lon BETWEEN lon1 AND lon2 AND `query`.current_lat BETWEEN lat1 AND lat2
   HAVING distance < dist
   ORDER BY distance ASC;
 END //
 
 
-DROP PROCEDURE IF EXISTS list_hiker//
+DROP PROCEDURE IF EXISTS list_driver //
 
-CREATE PROCEDURE list_hiker (IN `passengerid` int,IN `dist` int)
+CREATE PROCEDURE list_driver (IN `passengerid` int,IN `dist` int)
 BEGIN
   DECLARE mylon DOUBLE;
   DECLARE mylat DOUBLE;
@@ -189,7 +193,7 @@ BEGIN
   SELECT destination.id as tripid, destination.avail_seats as seats, destination.current_lat as lat, destination.current_lon as lon, destination.destination, `user`.id as driverid, `user`.username, `user`.rating_avg as rating, 1609.344 * 3956 * 2 * ASIN(SQRT( POWER(SIN((origin.current_lat -destination.current_lat) * pi()/180 / 2), 2) + COS(origin.current_lat * pi()/180) * COS(destination.current_lat * pi()/180) *POWER(SIN((origin.current_lon -destination.current_lon) * pi()/180 / 2), 2) )) AS distance
   FROM `dev_query` origin
   JOIN `dev_trip` destination ON destination.destination = origin.destination
-	JOIN dev_user user ON driver= user.id
+	JOIN dev_user `user` ON driver= `user`.id
   WHERE origin.passenger = passengerid AND (ending=0 OR ending > NOW()) AND
 		destination.avail_seats >= origin.seats AND
 		destination.current_lon BETWEEN lon1 AND lon2 AND destination.current_lat BETWEEN lat1 AND lat2
