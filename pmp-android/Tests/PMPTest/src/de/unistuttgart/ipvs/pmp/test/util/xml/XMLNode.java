@@ -28,7 +28,7 @@ public class XMLNode {
         this.name = name;
         this.content = null;
         this.children = new ArrayList<XMLNode>();
-        this.attributes = new ArrayList<XMLAttribute>();         
+        this.attributes = new ArrayList<XMLAttribute>();
         this.flags = DEFAULT;
     }
     

@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.Locale;
 import java.util.Random;
 
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
@@ -12,8 +14,6 @@ import de.unistuttgart.ipvs.pmp.util.xml.app.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 public class ParserTest extends InstrumentationTestCase {
     
@@ -60,9 +60,6 @@ public class ParserTest extends InstrumentationTestCase {
     private static final String RG_PS1_DESC = "Sits with you in your privacy.";
     
     private static final String RG_PSn_ID = "privacy.setting.%d";
-    private static final String RG_PSn_NAME = "Privacy sitting %d";
-    private static final String RG_PSn_DESC = "Sits with you in your %dth privacy.";
-    
     // default
     private static final String ILLEGAL_LOCALE = "\u0623\u0646";
     
@@ -332,7 +329,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with no service features.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
@@ -349,7 +346,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with service feature that requires no RGs.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
@@ -414,7 +411,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with illegal locale.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_INVALID, xmlpe.getType());
@@ -434,7 +431,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with empty locale.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
@@ -496,7 +493,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with wrong default locale.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_INVALID, xmlpe.getType());
@@ -514,7 +511,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with empty RG identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.IDENTIFIER_MISSING, xmlpe.getType());
@@ -532,7 +529,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with empty PS identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.IDENTIFIER_MISSING, xmlpe.getType());
@@ -556,7 +553,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with two SF with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
@@ -577,7 +574,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with SF with two RGs with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
@@ -596,7 +593,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with SF with two PSs with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
@@ -642,7 +639,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with no PS.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
@@ -699,7 +696,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with unclosed IS block.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.SAX_EXCEPTION, xmlpe.getType());
@@ -717,7 +714,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with unclosed name block.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.SAX_EXCEPTION, xmlpe.getType());
@@ -735,7 +732,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with wrong main tag.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
@@ -752,7 +749,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG without identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.IDENTIFIER_MISSING, xmlpe.getType());
@@ -769,7 +766,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS without identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.IDENTIFIER_MISSING, xmlpe.getType());
@@ -788,7 +785,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with two PS with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
@@ -807,7 +804,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with two same locales.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS, xmlpe.getType());
@@ -825,7 +822,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with locale the same as default locale.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS, xmlpe.getType());
@@ -845,7 +842,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with double RG tag.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
@@ -862,7 +859,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty name.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
@@ -879,7 +876,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty description.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
@@ -896,7 +893,7 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty name.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
@@ -913,12 +910,13 @@ public class ParserTest extends InstrumentationTestCase {
         debug(ste.getMethodName());
         
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
+            RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty description.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
         }
     }
+    
     
     /*
      * exception tests
@@ -927,16 +925,16 @@ public class ParserTest extends InstrumentationTestCase {
     public void testInvalidFile() throws Exception {
         
         String str = "This is some plain-text, that should not be interpreted as"
-                + " an <?xml version=\"1.0\" ?><resourceGroupInformationSet>"
-                + "</resourceGroupInformationSet>";
+                + " an <?xml version=\"1.0\" ?><resourceGroupInformationSet>" + "</resourceGroupInformationSet>";
         ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes("UTF-8"));
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(bais);
+            RgInformationSetParser.createRgInformationSet(bais);
             fail("Parser accepted something invalid.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.SAX_EXCEPTION, xmlpe.getType());
         }
     }
+    
     
     public void testTotallyInvalidFile() throws Exception {
         //!!!
@@ -948,21 +946,21 @@ public class ParserTest extends InstrumentationTestCase {
         
         ByteArrayInputStream bais = new ByteArrayInputStream(buf);
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(bais);
+            RgInformationSetParser.createRgInformationSet(bais);
             fail("Parser accepted something totally invalid.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.SAX_EXCEPTION, xmlpe.getType());
         }
     }
     
+    
     public void testNullFile() throws Exception {
         try {
-            RgInformationSet rgis = RgInformationSetParser.createRgInformationSet(null);
+            RgInformationSetParser.createRgInformationSet(null);
             fail("Parser accepted null.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.IO_EXCEPTION, xmlpe.getType());
         }
     }
     
-   
 }
