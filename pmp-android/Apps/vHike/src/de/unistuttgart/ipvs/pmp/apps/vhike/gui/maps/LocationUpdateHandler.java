@@ -124,35 +124,26 @@ public class LocationUpdateHandler implements LocationListener {
 								Toast.LENGTH_SHORT).show();
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
-						GeoPoint gp = new GeoPoint(lati, lngi);
+						GeoPoint gpsPassenger = new GeoPoint(lati, lngi);
 
 						// create Profile of found passenger
 						Profile passenger = ctrl.getProfile(Model.getInstance()
 								.getSid(), lqo.get(i).getUserid());
 
-						// -------------------------------------------------------------
-						Drawable drawablePassenger = context.getResources()
-								.getDrawable(R.drawable.passenger_logo);
-						PassengerOverlay passengerOverlay = new PassengerOverlay(
-								drawablePassenger, context);
+						// add an passenger to overlay
+						MapModel.getInstance().addPassenger2Overlay(context,
+								gpsPassenger, passenger, mapView);
 
-						OverlayItem opPassengerItem = new OverlayItem(gp,
-								"I need a ride", "User: "
-										+ passenger.getUsername()
-										+ ", Rating: "
-										+ passenger.getRating_avg());
-						passengerOverlay.addOverlay(opPassengerItem);
-
-						MapModel.getInstance().getDriverOverlayList(mapView)
-								.add(passengerOverlay);
-						mapView.invalidate();
-
+						// add up ID for statusbar notification
 						notiID++;
-						
+
+						// add passenger to slider list
 						MapModel.getInstance().getHitchPassengers()
 								.add(passenger);
+						// notify user
 						MapModel.getInstance().fireNotification(context,
 								passenger, lqo.get(i).getUserid(), 0, notiID);
+						// notify list
 						MapModel.getInstance().getDriverAdapter(context)
 								.notifyDataSetChanged();
 					}
@@ -215,26 +206,15 @@ public class LocationUpdateHandler implements LocationListener {
 					for (int i = 0; i < loo.size(); i++) {
 						Profile driver = ctrl.getProfile(Model.getInstance()
 								.getSid(), loo.get(i).getUser_id());
+
 						GeoPoint gpsDriver = new GeoPoint(
-								(int) (48.8239 * 1E6), (int) (9.2139 * 1E6));
+								(int) (location.getLatitude() * 1E6),
+								(int) (location.getLongitude() * 1E6));
 
-						// -------------------------------------------------------------
-						Drawable drawableDriver = context.getResources()
-								.getDrawable(R.drawable.icon_ride);
-						DriverOverlay driverOverlay = new DriverOverlay(
-								drawableDriver, context, gpsDriver);
-
-						OverlayItem opDriverItem = new OverlayItem(gpsDriver,
-								"Hop in man", "User: " + driver.getUsername()
-										+ ", Rating: " + driver.getRating_avg());
-						driverOverlay.addOverlay(opDriverItem);
-
-						MapModel.getInstance().getPassengerOverlayList(mapView)
-								.add(driverOverlay);
-						mapView.invalidate();
-						
 						notiID++;
-						
+
+						MapModel.getInstance().addDriver2Overlay(context,
+								gpsDriver, driver, mapView);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1, notiID);

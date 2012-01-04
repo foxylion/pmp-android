@@ -1,75 +1,69 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.os.Bundle;
-
-//import android.widget.ArrayAdapter;
-
-//import de.unistuttgart.ipvs.pmp.R;
-//import android.app.Activity;
-//import android.content.Context;
-//import android.content.Intent;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.View.OnClickListener;
-//import android.view.ViewGroup;
-//import android.widget.BaseAdapter;
-//import android.widget.Button;
-//import android.widget.LinearLayout;
-//import android.content.Context;
-//
-//import java.util.List;
-//
-//import android.content.Context;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.BaseAdapter;
-//import android.widget.ImageView;
-//import android.widget.LinearLayout;
-//import android.widget.TextView;
-//import de.unistuttgart.ipvs.pmp.gui.activity.AppsActivity;
-//import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-
-/**
- * This Activity gives user the List of all driven journeys
- * 
- * @author Anton Makarov
- * 
- */
+import android.widget.ListView;
+import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 
 public class HistoryActivity extends ListActivity {
 
-	private HistoryActivityAdapter mAdapter;
+	HistoryAdapter adapter;
+	ListView lv;
+	List<HistoryRideObject> historyRides;
+	BasicTitleView btv;
+	TextView title;
 
-	private ArrayList<AWName> mData;
-
-	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_history);
 
-		initiateData();
+		// Get and prepare Title
+		btv = (BasicTitleView) findViewById(R.id.btv);
+		title = (TextView) btv.findViewById(R.id.TextView_Title);
 
-		mAdapter = new HistoryActivityAdapter(this, mData);
-		this.setListAdapter(mAdapter);
+		// Read extras
+		boolean isDriver = this.getIntent().getExtras().getBoolean("IS_DRIVER");
+
+		if (isDriver) {
+			createDriverActivity();
+			Log.i("ES IST DRIVER");
+		} else {
+			createPassengerActivity();
+		}
 
 	}
 
-	private void initiateData() {
-		mData = new ArrayList<AWName>();
+	private void createPassengerActivity() {
+		title.setText(R.string.history_title_passenger);
+		historyRides = new ArrayList<HistoryRideObject>();
 
-		AWName name = new AWName("Berlin", "12.03.2002");
-		mData.add(name);
+		historyRides.add(new HistoryRideObject("DATUM", "STUTTGART"));
+		historyRides.add(new HistoryRideObject("DATUM", "BERLIN"));
+		historyRides.add(new HistoryRideObject("DATUM", "MÜNCHEN"));
 
-		name = new AWName("Stuttgart", "28.09.2010");
-		mData.add(name);
-
-		name = new AWName("M�nchen", "23.11.2011");
-		mData.add(name);
-
-		name = new AWName("Vaihingen", "01.12.2011");
-		mData.add(name);
+		this.adapter = new HistoryAdapter(this, historyRides);
+		setListAdapter(this.adapter);
 	}
+
+	private void createDriverActivity() {
+		title.setText(R.string.history_title_driver);
+		historyRides = new ArrayList<HistoryRideObject>();
+
+		historyRides.add(new HistoryRideObject("DATUM", "STUTTGART"));
+		historyRides.add(new HistoryRideObject("DATUM", "BERLIN"));
+		historyRides.add(new HistoryRideObject("DATUM", "MÜNCHEN"));
+
+		this.adapter = new HistoryAdapter(this, historyRides);
+		setListAdapter(this.adapter);
+	}
+
 }
