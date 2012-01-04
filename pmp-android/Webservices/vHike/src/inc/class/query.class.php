@@ -62,7 +62,7 @@ class Query {
         $this->currentLat = $row["current_lat"];
         $this->currentLon = $row["current_lon"];
         $this->destination = $row["destination"];
-        
+
         return $this;
     } 
     

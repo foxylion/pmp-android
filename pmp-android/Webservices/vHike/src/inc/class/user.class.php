@@ -315,7 +315,7 @@ class user {
                               WHERE `user` = " . $this->id);
         $row = $db->fetch($result);
 
-        $key;
+        $key = null;
 
         // If key is in database, use it. Otherwise generate new one
         if ($row) {
@@ -516,7 +516,6 @@ class user {
             $db->query("COMMIT");
         } catch (DatabaseException $de) {
             $db->query("ROLLBACK");
-            die($de->getMessage());
             return false;
         }
         return true;
@@ -560,6 +559,10 @@ class user {
 
     public function getRatingAvg() {
         return $this->ratingAvg;
+    }
+
+    public function getEmail() {
+        return $this->email;
     }
 
     public function getRatingNum() {
