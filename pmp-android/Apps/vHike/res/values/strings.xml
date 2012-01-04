@@ -62,5 +62,6 @@
     <string name="history_instruction">Please choose your role as you were travelling.</string>
     <string name="history_title_driver">History - Driver</string>
     <string name="history_title_passenger">History - Passenger</string>
+    <string name="checkOffers">Check 4 offers</string>
 
 </resources>

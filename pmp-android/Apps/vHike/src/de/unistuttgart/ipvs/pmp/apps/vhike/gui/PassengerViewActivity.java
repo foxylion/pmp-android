@@ -50,6 +50,7 @@ public class PassengerViewActivity extends MapActivity {
 	private MapController mapController;
 	private LocationManager locationManager;
 	private GeoPoint p;
+	private int notiID;
 
 	// private SlidingDrawer drawer;
 
@@ -119,6 +120,17 @@ public class PassengerViewActivity extends MapActivity {
 					for (int i = 0; i < loo.size(); i++) {
 						Profile driver = ctrl.getProfile(Model.getInstance()
 								.getSid(), loo.get(i).getUser_id());
+						int lat = (int) (loo.get(i).getLat() * 1E6);
+						int lng = (int) (loo.get(i).getLon() * 1E6);
+						GeoPoint gpsDriver = new GeoPoint(lat, lng);
+						notiID++;
+
+						MapModel.getInstance().addDriver2Overlay(context,
+								gpsDriver, driver, mapView);
+						MapModel.getInstance().getHitchDrivers().add(driver);
+						MapModel.getInstance().fireNotification(context,
+								driver, loo.get(i).getUser_id(), 1, notiID);
+						appsAdapter.notifyDataSetChanged();
 					}
 				}
 			}

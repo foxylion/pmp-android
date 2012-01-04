@@ -206,9 +206,10 @@ public class LocationUpdateHandler implements LocationListener {
 					for (int i = 0; i < loo.size(); i++) {
 						Profile driver = ctrl.getProfile(Model.getInstance()
 								.getSid(), loo.get(i).getUser_id());
-						
+
 						GeoPoint gpsDriver = new GeoPoint(
-								(int) (48.8239 * 1E6), (int) (9.2139 * 1E6));
+								(int) (location.getLatitude() * 1E6),
+								(int) (location.getLongitude() * 1E6));
 
 						notiID++;
 
