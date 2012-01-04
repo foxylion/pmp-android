@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:background="@drawable/main_background"
+    android:orientation="vertical"  >
+
+     <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
+        android:id="@+id/btv"
+        pmp:name="@string/history_title_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/logo_rd"
+        pmp:textColor="@color/dark_blue" >
+    </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
+     
+     <LinearLayout
+         android:id="@+id/linearLayout1"
          android:layout_width="fill_parent"
-         android:layout_height="fill_parent"
-         android:paddingLeft="8dp"
-         android:paddingRight="8dp">
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:orientation="vertical" >
 
-     <ListView android:id="@android:id/list"
-               android:layout_width="fill_parent"
-               android:layout_height="fill_parent"
-               android:background="#00FF00"
-               android:layout_weight="1"
-               android:drawSelectorOnTop="false"/>
+         <ListView
+             android:id="@android:id/list"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:layout_weight="1"
+             android:drawSelectorOnTop="false" >
+         </ListView>
 
-     <TextView android:id="@android:id/empty"
-               android:layout_width="fill_parent"
-               android:layout_height="fill_parent"
-               android:background="#FF0000"
-               android:text="No data"/>
+         <TextView
+             android:id="@android:id/empty"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:layout_weight="1"
+             android:background="#FF0000"
+             android:text="No data" />
+
+     </LinearLayout>
+
  </LinearLayout>
