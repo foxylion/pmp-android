@@ -9,15 +9,18 @@ class DatabaseException extends Exception {
 
 /**
  * Encapsulates the access to the database
- * @author Patrick
+ * @author Dang Huynh, Patrick Strobel 
+ * @version 1.0.0
  */
 class Database {
 
     const DATE_FORMAT = "Y-m-d H:i:s";
     const DATA_NULL = "0000-00-00 00:00:00";
     
+    /** @var Database */
     private static $instance = null;
 
+    /** @var boolean */
     private $handler = null;
 
     private function __construct() {
@@ -71,7 +74,7 @@ class Database {
      * @return MySql_result Query's result
      */
     public function query($query) {
-        if ($this->handler == null) {
+        if ($this->handler == null || !$this->handler) {
             throw new DatabaseException("Not connected to database");
         }
         

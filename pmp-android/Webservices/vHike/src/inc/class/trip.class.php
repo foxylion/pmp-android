@@ -3,6 +3,11 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Allows to create a new trip and gives access to exsiting trips and their data
+ * @author Dang Huynh, Patrick Strobel 
+ * @version 1.0.0
+ */
 class Trip {
     const OPEN_TRIP_EXISTS = 1;
 

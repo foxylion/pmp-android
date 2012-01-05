@@ -3,6 +3,11 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Stores data of a given passenger
+ * @author Patrick Strobel 
+ * @version 1.0.0
+ */
 class Passenger {
     
     /** @var Ride  */
@@ -52,6 +57,11 @@ class Passenger {
 
 }
 
+/**
+ * Gives access to rides that have been done by a driver or a passanger
+ * @author Dang Huynh, Patrick Strobel 
+ * @version 1.0.0
+ */
 class Ride {
     
     const CAN_RATE = 0;

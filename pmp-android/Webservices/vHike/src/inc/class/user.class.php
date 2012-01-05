@@ -8,7 +8,8 @@ if (!defined("INCLUDE")) {
  * Handles access to user data and allows to create a new user
  * Most of the method's may throw a DatabaseException if quering the database fails
  *
- * @author Patrick
+ * @author Patrick Strobel
+ * @version 1.0.0
  */
 class user {
 

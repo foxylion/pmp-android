@@ -5,6 +5,11 @@ if (!defined("INCLUDE")) {
 
 class InputException extends Exception {}
 
+/**
+ * Encapsulates generic functions used by many parts of the application
+ * @author Dang Huynh, Patrick Strobel 
+ * @version 1.0.0
+ */
 class General {
     
     /**
@@ -29,10 +34,20 @@ class General {
         
     }
     
+    /**
+     * Checks if the given parameter is a valid id
+     * @param String $input Input
+     * @return boolean  True, if parameter is avalid id 
+     */
     public static function validId($input) {
         return (isset($input) && is_numeric($input) && $input > 0);
     }
 
+    /**
+     * Checks if the given parameter is a valid coordinate
+     * @param String $input Input
+     * @return boolean  True, if parameter is a valid coordinate 
+     */
     public static function validCoordinate($input) {
         return (isset($input) && is_numeric($input) && $input>=-180 && $input<=180);
     }
