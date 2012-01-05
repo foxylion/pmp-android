@@ -9,8 +9,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 
 public class HistoryActivity extends ListActivity {
@@ -20,12 +23,13 @@ public class HistoryActivity extends ListActivity {
 	List<HistoryRideObject> historyRides;
 	BasicTitleView btv;
 	TextView title;
-
+	Controller ctrl;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 
+		ctrl = new Controller();
 		// Get and prepare Title
 		btv = (BasicTitleView) findViewById(R.id.btv);
 		title = (TextView) btv.findViewById(R.id.TextView_Title);
@@ -35,7 +39,6 @@ public class HistoryActivity extends ListActivity {
 
 		if (isDriver) {
 			createDriverActivity();
-			Log.i("ES IST DRIVER");
 		} else {
 			createPassengerActivity();
 		}
@@ -44,24 +47,26 @@ public class HistoryActivity extends ListActivity {
 
 	private void createPassengerActivity() {
 		title.setText(R.string.history_title_passenger);
-		historyRides = new ArrayList<HistoryRideObject>();
-
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "STUTTGART", null, null));
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "BERLIN", null, null));
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "MÜNCHEN", null, null));
-
+		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_PASSENGER);
+		
+		if(historyRides==null){
+			historyRides = new ArrayList<HistoryRideObject>();
+			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+		}
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
 	}
 
 	private void createDriverActivity() {
 		title.setText(R.string.history_title_driver);
-		historyRides = new ArrayList<HistoryRideObject>();
-
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "STUTTGART", null, null));
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "BERLIN", null, null));
-		historyRides.add(new HistoryRideObject(0, 0, "DATUM", "MÜNCHEN", null, null));
-
+		
+		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_DRIVER);
+		
+		if(historyRides==null){
+			historyRides = new ArrayList<HistoryRideObject>();
+			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+		}
+		
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
 	}
