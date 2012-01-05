@@ -46,10 +46,18 @@ public class DialogRGAvailableDetails extends Dialog {
         setContentView(R.layout.dialog_resourcegroup_available);
         
         BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
-        btv.setTitle(rgInformation.getNames().get(Locale.ENGLISH));
+        String title = rgInformation.getNames().get(Locale.getDefault());
+        if (title == null) {
+            title =  rgInformation.getNames().get(Locale.ENGLISH);
+        }
+        btv.setTitle(title);
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
-        tv.setText(rgInformation.getDescriptions().get(Locale.ENGLISH));
+        String description = rgInformation.getDescriptions().get(Locale.getDefault());
+        if (description == null) {
+            description =  rgInformation.getDescriptions().get(Locale.ENGLISH);
+        }
+        tv.setText(description);
         
         addListener();
     }
