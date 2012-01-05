@@ -74,6 +74,14 @@ public class TabPresets extends Activity {
                 openPreset(presetsList.get(position));
             }
         });
+        
+        /* Determine if the Presets-List is empty, and display a text instead. */
+        TextView tv = (TextView) findViewById(R.id.TextView_NoPresets);
+        if (presetsList.size() > 0) {
+            tv.setVisibility(View.GONE);
+        } else {
+            tv.setVisibility(View.VISIBLE);
+        }
     }
     
     

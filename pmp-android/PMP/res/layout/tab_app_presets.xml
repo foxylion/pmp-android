@@ -27,6 +27,14 @@
 
         <include layout="@layout/view_divider_strong" />
 
+        
+        <TextView
+            android:id="@+id/TextView_NoApps"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_presets_no_presets"
+            android:visibility="gone" />
+        
         <ListView
             android:id="@+id/ListView_Presets"
             android:layout_width="fill_parent"

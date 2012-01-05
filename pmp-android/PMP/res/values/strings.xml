@@ -92,7 +92,8 @@
     <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
 
     <!-- Apps -->
-    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string><string name="apps_no_apps">Currently there are no Apps registered at PMP. Install a compatible App to fill the list.</string>
+    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
+    <string name="apps_no_apps">Currently there are no Apps registered at PMP. Install a compatible App to fill the list.</string>
     
     <!-- App Details -->
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
@@ -112,6 +113,7 @@
     <!-- App-Presets Tab -->
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
+    <string name="tab_presets_no_presets">Currently there are no Presets assigned to the App. Assign some Presets to fill the list.</string>
 
     <!-- ResourceGroups -->
     <string name="rg_fetching_resources">Fetching Resources from server.\nPlease wait…</string>
