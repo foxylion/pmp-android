@@ -38,8 +38,8 @@ class Rating {
                                       WHERE `recipient` = " . $recipient->getId()));
         
         $rating = new Rating();
-        $rating->avg = ($row["avg"] != null ? $row["avg"] : 0);
-        $rating->num = $row["num"];
+        $rating->avg = (float)($row["avg"] != null ? $row["avg"] : 0);
+        $rating->num = (int)$row["num"];
         return $rating;
     }
     
