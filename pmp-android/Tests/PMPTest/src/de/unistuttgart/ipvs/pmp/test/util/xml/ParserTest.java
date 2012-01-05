@@ -62,7 +62,7 @@ public class ParserTest extends InstrumentationTestCase {
     private static final String RG_PSn_ID = "privacy.setting.%d";
     private static final String RG_PSn_NAME = "Privacy sitting %d";
     private static final String RG_PSn_DESC = "Sits with you in your %dth privacy.";
-
+    
     // default
     private static final String ILLEGAL_LOCALE = "\u0623\u0646";
     

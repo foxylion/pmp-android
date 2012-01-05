@@ -1,10 +1,16 @@
 package de.unistuttgart.ipvs.pmp.test.api.app;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.test.InstrumentationTestCase;
+import android.test.ActivityInstrumentationTestCase2;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.gui.main.ActivityMain;
 
-public class AppTest extends InstrumentationTestCase {
+public class AppTest extends ActivityInstrumentationTestCase2<ActivityMain> {
+    
+    public AppTest() {
+        super("de.unistuttgart.ipvs.pmp", ActivityMain.class);
+    }
     
     public static final Bundle serviceFeatures = new Bundle();
     public static final Bundle subFeatures = new Bundle();
@@ -35,6 +41,12 @@ public class AppTest extends InstrumentationTestCase {
             
             @Override
             public void onRegistrationFailed(String message) {
+            }
+            
+            
+            @Override
+            public SharedPreferences getSharedPreferences(String name, int mode) {
+                return AppTest.this.getActivity().getSharedPreferences(name, mode);
             }
             
         };
