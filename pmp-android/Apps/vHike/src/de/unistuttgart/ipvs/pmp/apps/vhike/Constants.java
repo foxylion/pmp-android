@@ -54,4 +54,8 @@ public class Constants {
 	public static final int STATUS_ERROR = 999;
 	public static final int QUERY_ID_ERROR = 998;
 	
+	
+	
+	public static final String ROLE_DRIVER = "driver";
+	public static final String ROLE_PASSENGER = "passenger";
 }

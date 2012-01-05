@@ -21,7 +21,7 @@ body {
   <table>
     <tr>
       <td>Role:</td>
-      <td><input name="role" type="text" value="driver" /> (driver || passenger)</td>
+      <td><input checked name="role" type="radio" value="driver" />driver <input name="role" type="radio" value="passenger" />passenger</td>
     </tr>
     <tr>
       <td>Buttons:</td>
@@ -30,6 +30,8 @@ body {
     </tr>
   </table>
 </form>
+
+<h2><a href="../trip_passengers.php" target="r">View passengers</a></h2>
 
 <h2>Rate user</h2>
 <form action="../ride_rate.php" method="post" target="r">

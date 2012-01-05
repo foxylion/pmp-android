@@ -18,7 +18,7 @@ try {
 		Json::printError("invalid_input", "At least one POST-Parameter is invalid");
 	}
 
-    $queryIds = $user->getCurrentQueryId();
+    $queryIds = $user->getCurrentQueryIds();
 
     // Get the list of drivers and print out the JSON formatted result
     if($queryIds != NULL) {

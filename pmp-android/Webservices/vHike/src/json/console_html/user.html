@@ -11,6 +11,9 @@ body, td, th {
 body {
 	background-color: #EEE;
 }
+.auto-style1 {
+	text-align: right;
+}
 </style>
 </head>
 
@@ -18,23 +21,22 @@ body {
 <h1>User management</h1>
 <h2>Login/Logout</h2>
 <table>
+  	<tr>
+  	  <th>Username</th>
+  	  <th>Password</th>  	  <th>Login</th>  	  <th>Logout</th>
+  	</tr>
   <form action="../login.php" method="post" target="r">
     <tr>
-      <td>Username:</td>
-      <td><input name="username" type="text" value="demo" size="8" /></td>
-      <td>Password:</td>
+      <td><input checked="checked" name="username" type="radio" value="demo" />demo<input name="username" type="radio" value="demo1" />demo1<input name="username" type="radio" value="demo2" />demo2<input name="username" type="radio" value="demo3" />demo3<input name="username" type="radio" value="demo4" />demo4<input name="username" type="radio" value="demo5" />demo5</td>
       <td><input name="password" type="text" size="4" /></td>
       <td><input value="login" type="submit" /></td>
       <td><a href="../logout.php" target="r">logout</a></td>
     </tr>
   </form>
-</table>
-<table>
   <form action="../login.php" method="post" target="r">
     <tr>
-      <td>Username:</td>
-      <td><input name="username" type="text" value="bestHitcher" size="8" /></td>
-      <td>Password:</td>
+      <td class="auto-style1">
+	  <input name="username" type="text" value="bestHitcher" size="8" style="width: 347px" /></td>
       <td><input name="password" type="text" size="4" /></td>
       <td><input value="login" type="submit" /></td>
       <td><a href="../logout.php" target="r">logout</a></td>
@@ -111,6 +113,24 @@ body {
     <tr>
       <td>Buttons:</td>
       <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+<h2><a name="updatepos" />Update position</h2>
+<form action="../user_update_pos.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Current lat.:</td>
+      <td><input name="lat" type="text" value="48.782409" /></td>
+    </tr>
+    <tr>
+      <td>Current lon.:</td>
+      <td><input name="lon" type="text" value="9.183648"/></td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td colspan="2"><input type="submit" />
         <input type="reset" /></td>
     </tr>
   </table>

@@ -28,10 +28,11 @@ Json::printErrorIfNotLoggedIn();
 
 
 try {
+
     if (isset($_POST["role"]) && $_POST["role"] == "driver") {
         // Load data for role "driver"
         // ---------------------------
-        //echo "driver:\n";
+        echo "driver:\n";
         
         $rides = Ride::getRidesAsDriver(Session::getInstance()->getLoggedInUser());
         $jsonRides = array();
@@ -53,7 +54,7 @@ try {
     } elseif (isset($_POST["role"]) && $_POST["role"] == "passenger") {
         // Load data for role "passenger"
         // ------------------------------
-        //echo "passenger:\n";
+        echo "passenger:\n";
         
         $rides = Ride::getRidesAsPassenger(Session::getInstance()->getLoggedInUser());
         $jsonRides = array();
@@ -71,7 +72,7 @@ try {
         
     } else {
         // Throw an exception if POST is invalid. This will cancel the normal output
-        throw new InvalidArgumentException("POST parameter missing or invalid");
+        throw new InvalidArgumentException("POST parameter missing or invalid.");
     }
         
     $output = array("successful" => true, "rides" => $jsonRides);
