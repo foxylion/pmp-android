@@ -48,16 +48,20 @@ public class DialogRGAvailableDetails extends Dialog {
         BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
         String title = rgInformation.getNames().get(Locale.getDefault());
         if (title == null) {
-            title =  rgInformation.getNames().get(Locale.ENGLISH);
+            title = rgInformation.getNames().get(Locale.ENGLISH);
         }
         btv.setTitle(title);
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
         String description = rgInformation.getDescriptions().get(Locale.getDefault());
         if (description == null) {
-            description =  rgInformation.getDescriptions().get(Locale.ENGLISH);
+            description = rgInformation.getDescriptions().get(Locale.ENGLISH);
         }
         tv.setText(description);
+        
+        /* Disable the install button when rg already installed. */
+        Button installButton = (Button) findViewById(R.id.Button_Install);
+        installButton.setEnabled(ModelProxy.get().getResourceGroup(rgInformation.getIdentifier()) == null);
         
         addListener();
     }
