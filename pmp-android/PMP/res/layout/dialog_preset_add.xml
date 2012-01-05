@@ -10,7 +10,7 @@
         pmp:name="@string/add_preset"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_add_32" />
+        pmp:icon="@drawable/icon_add" />
 
     <ScrollView
         android:id="@+id/ScrollView01"
