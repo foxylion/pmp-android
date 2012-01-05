@@ -13,22 +13,22 @@ Json::printErrorIfNotLoggedIn();
 
 try {
     // First, make sure that the user is allowed to rate
+    $rater = Session::getInstance()->getLoggedInUser();
     $recipient = User::loadUser($_POST["recipient"]);
     $trip = Trip::loadTrip($_POST["trip"]);
-    $canRate = Ride::canRate(Session::getInstance()->getLoggedInUser(), $recipient, $trip);
+    $canRate = Rating::allowed($rater, $recipient, $trip);
     
     switch($canRate) {
-        case Ride::CAN_RATE:
-            $recipient->rate($_POST["rating"]);
-            Ride::markAsRated(Session::getInstance()->getLoggedInUser(), $recipient, $trip);
+        case Rating::CAN_RATE:
+            Rating::rate($rater, $recipient, $trip, $_POST["rating"]);
             $status = "rated";
             break;
         
-        case Ride::ALREADY_RATED:
+        case Rating::ALREADY_RATED:
             $status = "already_rated";
             break;
         
-        case Ride::NOT_ENDED:
+        case Rating::NOT_ENDED:
             $status = "not_ended";
             break;
         

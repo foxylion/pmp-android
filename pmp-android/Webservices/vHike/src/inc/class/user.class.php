@@ -9,7 +9,7 @@ if (!defined("INCLUDE")) {
  * Most of the method's may throw a DatabaseException if quering the database fails
  *
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 1.0.1
  */
 class user {
 
@@ -35,9 +35,10 @@ class user {
     private $firstnamePublic = false;
     private $lastnamePublic = false;
     private $telPublic = false;
-    private $ratingAvg = 0;
-    private $ratingNum = 0;
     private $activated = false;
+    
+    /** @var Rating */
+    private $rating = null;
 
     private function __construct() {
     }
@@ -94,8 +95,6 @@ class user {
         $user->firstnamePublic = (bool)$result["firstname_public"];
         $user->lastnamePublic = (bool)$result["lastname_public"];
         $user->telPublic = (bool)$result["tel_public"];
-        $user->ratingAvg = (float)$result["rating_avg"];
-        $user->ratingNum = (int)$result["rating_num"];
         $user->activated = $result["activated"];
 
         return $user;
@@ -558,16 +557,22 @@ class user {
         return $this->telPublic;
     }
 
-    public function getRatingAvg() {
-        return $this->ratingAvg;
-    }
-
     public function getEmail() {
         return $this->email;
     }
 
+    public function getRatingAvg() {
+        if ($this->rating == null) {
+            $this->rating = Rating::loadRating($this);
+        }
+        return $this->rating->getAverage();
+    }
+
     public function getRatingNum() {
-        return $this->ratingNum;
+        if ($this->rating == null) {
+            $this->rating = Rating::loadRating($this);
+        }
+        return $this->rating->getNumber();
     }
 
     public function isActivated() {
