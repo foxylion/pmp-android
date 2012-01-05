@@ -63,9 +63,8 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // delete app preset references
-        wdb.execSQL("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?",
-                new String[] { this.element.getIdentifier() });
+        // app preset references are not supposed to be deleted,
+        // the preset will handle unavailable elements itself  
         
         // delete app
         wdb.execSQL("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?",
