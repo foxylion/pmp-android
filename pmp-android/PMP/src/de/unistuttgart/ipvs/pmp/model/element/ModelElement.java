@@ -207,7 +207,7 @@ public abstract class ModelElement {
      * 
      * @param context
      *            context to fetch the package manager
-     * @return the {@link Resources} for the identifier package
+     * @return the {@link Resources} for the identifier package or null, if none found or unable to load
      */
     public Resources resourcesOfIdentifierPackage(Context context) {
         try {

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -44,9 +45,13 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         
         InputStream is = null;
         try {
-            is = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext()).getAssets()
-                    .open(PersistenceConstants.APP_XML_NAME);
-            this.element.ais = AppInformationSetParser.createAppInformationSet(is);
+            Resources appResources = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext());
+            if (appResources == null) {
+                // what to do?
+            } else {
+                is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
+                this.element.ais = AppInformationSetParser.createAppInformationSet(is);
+            }
         } catch (IOException e) {
             Log.e("Did no longer find the app XML during loading its data.");
             e.printStackTrace();
