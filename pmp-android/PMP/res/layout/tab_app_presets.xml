@@ -29,7 +29,7 @@
 
         
         <TextView
-            android:id="@+id/TextView_NoApps"
+            android:id="@+id/TextView_NoPresets"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/tab_presets_no_presets"

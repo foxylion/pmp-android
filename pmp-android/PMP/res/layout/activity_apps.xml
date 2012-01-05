@@ -27,7 +27,7 @@
         <include layout="@layout/view_divider_strong" />
 
         <TextView
-            android:id="@+id/TextView_NoPresets"
+            android:id="@+id/TextView_NoApps"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/apps_no_apps"

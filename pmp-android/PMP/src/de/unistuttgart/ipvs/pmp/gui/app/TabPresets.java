@@ -5,12 +5,16 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetActivity;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetsAdapter;
@@ -55,6 +59,22 @@ public class TabPresets extends Activity {
         }
     }
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu_presets_tab, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_app_add_preset:
+                Toast.makeText(this, "Currently not implemented", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
     
     /**
      * Initiates the list of all assigned Presets.
