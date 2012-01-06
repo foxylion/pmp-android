@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.util.xml.app;
 
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import de.unistuttgart.ipvs.pmp.Log;
 
@@ -75,10 +76,10 @@ public class AppInformationSetParser {
             for (Locale l : sf.getDescriptions().keySet()) {
                 Log.d("Description: " + sf.getDescriptions().get(l) + " (Locale: " + l.getLanguage() + ")");
             }
-            for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
-                Log.d("Required Resource Group ID: " + rrg.getRgIdentifier());
-                for (String privacySettingIdentifier : rrg.getPrivacySettingsMap().keySet()) {
-                    Log.d("- Privacy Setting Value: " + rrg.getPrivacySettingsMap().get(privacySettingIdentifier)
+            for (Entry<String, RequiredResourceGroup> entry : sf.getRequiredResourceGroups().entrySet()) {
+                Log.d("Required Resource Group ID: " + entry.getKey());
+                for (String privacySettingIdentifier : entry.getValue().getPrivacySettingsMap().keySet()) {
+                    Log.d("- Privacy Setting Value: " + entry.getValue().getPrivacySettingsMap().get(privacySettingIdentifier)
                             + " (Identifier: " + privacySettingIdentifier + ")");
                     
                 }

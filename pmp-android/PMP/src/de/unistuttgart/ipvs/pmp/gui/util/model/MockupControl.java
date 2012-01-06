@@ -297,14 +297,14 @@ public class MockupControl {
         for (Entry<String, ServiceFeature> e : ais.getServiceFeaturesMap().entrySet()) {
             
             boolean available = true;
-            for (RequiredResourceGroup rrg : e.getValue().getRequiredResourceGroups()) {
-                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getRgIdentifier());
+            for (Entry<String, RequiredResourceGroup> rrgEntry : e.getValue().getRequiredResourceGroups().entrySet()) {
+                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrgEntry.getKey());
                 if (rg == null) {
                     available = false;
                     break;
                     
                 } else {
-                    for (Entry<String, String> f : rrg.getPrivacySettingsMap().entrySet()) {
+                    for (Entry<String, String> f : rrgEntry.getValue().getPrivacySettingsMap().entrySet()) {
                         IPrivacySetting ps = rg.getPrivacySetting(f.getKey());
                         if (ps == null) {
                             available = false;
@@ -315,10 +315,10 @@ public class MockupControl {
             }
             
             sf = new MockupServiceFeature(app, e.getKey(), available);
-            for (RequiredResourceGroup rrg : e.getValue().getRequiredResourceGroups()) {
-                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getRgIdentifier());
+            for (Entry<String, RequiredResourceGroup> rrgEntry : e.getValue().getRequiredResourceGroups().entrySet()) {
+                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrgEntry.getKey());
                 if (rg != null) {
-                    for (Entry<String, String> f : rrg.getPrivacySettingsMap().entrySet()) {
+                    for (Entry<String, String> f : rrgEntry.getValue().getPrivacySettingsMap().entrySet()) {
                         IPrivacySetting ps = rg.getPrivacySetting(f.getKey());
                         if (ps != null) {
                             sf.addPS((MockupPrivacySetting) ps, f.getValue());
