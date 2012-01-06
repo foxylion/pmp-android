@@ -441,6 +441,25 @@ public class ParserTest extends InstrumentationTestCase {
         }
     }
     
+    public void testAppLocaleBelowWrongTag() throws Exception {
+        makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        addLocale(main, Locale.GERMAN.getLanguage(), APP_LOC_NAME, APP_LOC_DESC);
+        XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE });
+        sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        debug(ste.getMethodName());
+        
+        try {
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            fail("Parser accepted app with locale below wrong tag.");
+        } catch (XMLParserException xmlpe) {
+            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+        }
+    }
+    
     
     public void testAppSpaces() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
