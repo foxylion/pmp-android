@@ -200,8 +200,8 @@ public abstract class AbstractXMLParser {
      * @return flag, if the given local is valid or not.
      */
     private boolean checkLocale(String givenLocale) {
-        for (Locale local : Locale.getAvailableLocales()) {
-            if (String.valueOf(local).equals(givenLocale)) {
+        for (String locale : Locale.getISOLanguages()) {
+            if (locale.equals(givenLocale)) {
                 return true;
             }
         }
