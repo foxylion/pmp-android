@@ -277,10 +277,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS2_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS2_ID));
         
@@ -315,10 +314,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
         
@@ -393,10 +391,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_LOC_DESC, ais.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
     }
@@ -492,10 +489,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
     }
