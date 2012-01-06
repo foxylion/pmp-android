@@ -438,6 +438,7 @@ public class ParserTest extends InstrumentationTestCase {
         }
     }
     
+    
     public void testAppLocaleBelowWrongTag() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
         addLocale(main, Locale.GERMAN.getLanguage(), APP_LOC_NAME, APP_LOC_DESC);
