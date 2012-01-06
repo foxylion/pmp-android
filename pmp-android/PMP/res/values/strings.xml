@@ -118,7 +118,9 @@
     <!-- ResourceGroups -->
     <string name="rg_fetching_resources">Fetching Resources from server.\nPlease wait…</string>
     <string name="rg_server_not_available">The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing "Update".</string>
-
+	<string name="rg_removed_success">The Resource has been successfully removed.</string>
+	<string name="rg_processing_installation">Processing installation request&#8230;</string>
+    
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
 

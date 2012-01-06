@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,6 +16,8 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
+import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
@@ -28,6 +29,7 @@ public class DialogRGAvailableDetails extends Dialog {
     
     protected RgInformationSet rgInformation;
     
+    private Handler handler;
     
     /**
      * Creates a new {@link Dialog} for displaying informations about an available Resourcegroup.
@@ -39,6 +41,8 @@ public class DialogRGAvailableDetails extends Dialog {
      */
     public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {
         super(context);
+        
+        handler = new Handler();
         
         this.rgInformation = rgInformation;
         
@@ -76,10 +80,33 @@ public class DialogRGAvailableDetails extends Dialog {
             @Override
             public void onClick(View v) {
                 final ProgressDialog pd = new ProgressDialog(DialogRGAvailableDetails.this.getContext());
-                pd.setTitle("Processing installation request...");
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setTitle(DialogRGAvailableDetails.this.getContext().getString(R.string.rg_processing_installation));
                 pd.setCancelable(false);
-                
+                pd.setProgress(0);
+                pd.setMax(1);
                 pd.show();
+                
+                ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
+                    
+                    @Override
+                    public void tasks(int position, int length) {
+                    }
+                    
+                    
+                    @Override
+                    public void download(final int position, final int length) {
+                        /* Inform the user */
+                        handler.post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                pd.setProgress(position);
+                                pd.setMax(length);
+                            }
+                        });
+                    }
+                });
                 
                 new Thread() {
                     
@@ -102,8 +129,7 @@ public class DialogRGAvailableDetails extends Dialog {
                                 : "Failed to install the Resource:\n" + error);
                         
                         /* Inform the user */
-                        Looper.prepare();
-                        new Handler().post(new Runnable() {
+                        handler.post(new Runnable() {
                             
                             @Override
                             public void run() {
@@ -114,7 +140,6 @@ public class DialogRGAvailableDetails extends Dialog {
                                 DialogRGAvailableDetails.this.dismiss();
                             }
                         });
-                        Looper.loop();
                     };
                 }.start();
                 
