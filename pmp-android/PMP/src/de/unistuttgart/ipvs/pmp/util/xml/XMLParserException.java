@@ -62,6 +62,26 @@ public class XMLParserException extends RuntimeException {
         IDENTIFIER_MISSING,
         
         /**
+         * A value is missing
+         */
+        VALUE_MISSING,
+        
+        /**
+         * Service Features are missing
+         */
+        SERVICE_FEATURE_MISSING,
+        
+        /**
+         * Required Resourcegroup is missing
+         */
+        REQUIRED_RESOURCE_GROUP_MISSING,
+        
+        /**
+         * Privacy Setting is missing
+         */
+        PRIVACY_SETTING_MISSING,
+        
+        /**
          * A name with the same locale already exists
          */
         NAME_WITH_SAME_LOCALE_ALREADY_EXISTS,
