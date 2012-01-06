@@ -9,9 +9,9 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 // Verify user input
-/*if (!General::validId($_POST["offer"]) && !isset ($_POST["accept"]) && !is_bool($_POST["accept"])) {
+if (!isset ($_POST["accept"]) && !is_bool($_POST["accept"])) {
     Json::printInvalidInputError();
-}*/
+}
 
 try {
     // Check first if the given query-id belongs to the logged in user
