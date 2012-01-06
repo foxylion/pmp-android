@@ -12,18 +12,15 @@ class OfferException extends Exception {
 /**
  * Handles offers and allows to create a new offer
  * @author Patrick Strobel 
- * @version 1.0.0
+ * @version 1.0.1
  */
 class Offer {
     
     /** @var int */
     private $id = -1;
     
-    /** @var User */
-    private $driver = null;
-    
-    /** @var int */
-    private $tripId = -1;
+    /** @var Trip */
+    private $trip = null;
     
     /** @var int */
     private $queryId = -1;
@@ -32,9 +29,9 @@ class Offer {
     private $message = null;
     
     /** @var float */
-    private $current_lat = null;
+    //private $current_lat = null;
     /** @var float */
-    private $current_lon = null;
+    //private $current_lon = null;
     
     private function __construct() { }
     
@@ -50,19 +47,17 @@ class Offer {
         
         $db = Database::getInstance();
         $row = $db->fetch($db->query("SELECT 
-                                        u.*, u.`id` AS uid,
                                         o.`id` AS oid, o.`query`, o.`message`, 
-                                        t.`id` AS tid,
-                                        t.`current_lat` AS lat,
-                                        t.`current_lon` AS lon
+                                        t.*, t.`id` AS tid,
+                                        u.*, u.`id` AS uid
                                       FROM 
                                         `".DB_PREFIX."_offer` AS o, 
                                         `".DB_PREFIX."_trip` AS t, 
-                                        `".DB_PREFIX."_user` AS u        
-                                      WHERE o.`trip` = t.`id`
-                                      AND t.`driver` = u.`id`
-                                      AND o.`id` = $id"));
-        echo "SELECT
+                                        `".DB_PREFIX."_user` AS u      
+                                      WHERE o.`id` = ".$id."
+                                      AND o.`trip` = t.`id`
+                                      AND t.`driver` = u.`id`"));
+        /*echo "SELECT
                                         u.*, u.`id` AS uid,
                                         o.`id` AS oid, o.`query`, o.`message`,
                                         t.`id` AS tid
@@ -72,7 +67,7 @@ class Offer {
                                         `".DB_PREFIX."_user` AS u
                                       WHERE o.`trip` = t.`id`
                                       AND t.`driver` = u.`id`
-                                      AND o.`id` = $id";
+                                      AND o.`id` = $id";*/
         
         if ($db->getAffectedRows() <= 0) {
             return null;
@@ -80,14 +75,14 @@ class Offer {
         
         $offer = new Offer();
         
-        $offer->driver = User::loadUserBySqlResult($row, "uid");
-        
-        $offer->tripId = $row["tid"];
+        $offer->trip = Trip::loadTripBySqlResult($row, "tid", "uid");
         $offer->id = $row["oid"];
         $offer->message = $row["message"];
         $offer->queryId = $row["query"];
+        /*
         $offer->current_lat = $row["lat"];
         $offer->current_lon = $row["lon"];
+         */
         return $offer;
     }
     
@@ -105,12 +100,13 @@ class Offer {
         }
         
         $db = Database::getInstance();
+        /* , 
+                                t.`current_lat` AS lat,
+                                t.`current_lon` AS lon*/
         $query = $db->query("SELECT
                                 u.*, u.`id` AS uid,
                                 o.`id` AS oid, o.`query`, o.`message`, 
-                                t.`id` AS tid,
-                                t.`current_lat` AS lat,
-                                t.`current_lon` AS lon
+                                t.*, t.`id` AS tid
                              FROM 
                                 `".DB_PREFIX."_offer` AS o, 
                                 `".DB_PREFIX."_query` AS q, 
@@ -125,13 +121,13 @@ class Offer {
         
         while (($row = $db->fetch($query)) != null) {
             $offer = new Offer();
-            $offer->driver = User::loadUserBySqlResult($row, "uid");
+            $offer->trip = Trip::loadTripBySqlResult($row, "tid", "uid");
             $offer->tripId = $row["tid"];
             $offer->id = $row["oid"];
             $offer->queryId = $row["query"];
             $offer->message = $row["message"];
-            $offer->current_lat = $row["lat"];
-            $offer->current_lon = $row["lon"];
+            /*$offer->current_lat = $row["lat"];
+            $offer->current_lon = $row["lon"];*/
             $offers[] = $offer;
         }
         
@@ -204,31 +200,39 @@ class Offer {
     }
   
     /**
-     *
+     * Returns the offer's id
      * @return int 
      */
     public function getId() {
         return $this->id;
     }
 
+    /**
+     * Returns the driver's current latitude.
+     * @return float The latitude 
+     * @deprecated Use getTrip()->getCurrentLat() instead!
+     */
     public  function getCurrentLat(){
-        return $this->current_lat;
+        return $this->trip->getCurrentLat();
     }
 
+    
+    /**
+     * Returns the driver's current longitude.
+     * @return float The longitude 
+     * @deprecated Use getTrip()->getCurrentLon() instead!
+     */
     public  function getCurrentLon(){
-        return $this->current_lon;
+        return $this->trip->getCurrentLon();
     }
 
     /**
-     *
-     * @return User 
+     * Return the driver for this offer
+     * @return User The driver
+     * @deprecated Use getTrip()->getDriver() instead!
      */
     public function getDriver() {
-        return $this->driver;
-    }
-    
-    public function getTripId() {
-        return $this->tripId;
+        return $this->trip->getDriver();
     }
     
     /**
@@ -236,6 +240,7 @@ class Offer {
      * @return Query Query-Object or null if the query couldn't be loaded 
      */
     public function getQuery() {
+        echo "Queryid: ".$this->queryId;
         return Query::loadQuery($this->queryId);
     }
     /**
@@ -244,6 +249,14 @@ class Offer {
      */
     public function getQueryId() {
         return $this->queryId;
+    }
+    
+    /**
+     * Returns the trip this offer belongs to
+     * @return Trip The trip 
+     */
+    public function getTrip() {
+        return $this->trip;
     }
     
     /**
