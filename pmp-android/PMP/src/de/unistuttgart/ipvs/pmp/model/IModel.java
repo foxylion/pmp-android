@@ -70,7 +70,7 @@ public interface IModel {
     
     
     /**
-     * Removes the registration of a registered {@link IApp}.
+     * Removes the registration of a registered {@link IApp}. Does not touch the presets it was assigned to.
      * 
      * @param appPackage
      *            The identifier for the {@link IApp} which should be unregistered.

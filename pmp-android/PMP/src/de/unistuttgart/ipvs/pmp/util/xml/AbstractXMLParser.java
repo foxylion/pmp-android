@@ -216,9 +216,10 @@ public abstract class AbstractXMLParser {
      *            the lang attribute value
      */
     public void validateLocaleAttributeEN(String langAttributeValue) {
-        if (!langAttributeValue.equals("en"))
+        if (!langAttributeValue.equals("en")) {
             throw new XMLParserException(Type.LOCALE_INVALID,
                     "The lang attribute value of the default name/description has to be \"en\"");
+        }
     }
     
     
@@ -229,8 +230,9 @@ public abstract class AbstractXMLParser {
      *            identifier to validate
      */
     public void validateIdentifier(String identifier) {
-        if (identifier.equals("") || identifier == null)
+        if (identifier.equals("") || identifier == null) {
             throw new XMLParserException(Type.IDENTIFIER_MISSING, "The identifier of the resource group is missing.");
+        }
     }
     
     
@@ -241,8 +243,9 @@ public abstract class AbstractXMLParser {
      *            value to validate
      */
     public void validateValueSet(String value) {
-        if (value.equals("") || value == null)
+        if (value.equals("") || value == null) {
             throw new XMLParserException(Type.VALUE_MISSING, "The value of a Privacy Setting is missing.");
+        }
     }
     
 }

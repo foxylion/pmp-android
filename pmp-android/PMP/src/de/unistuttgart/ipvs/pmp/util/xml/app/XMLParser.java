@@ -137,9 +137,10 @@ public class XMLParser extends AbstractXMLParser {
         NodeList serviceFeaturesNodeList = serviceFeaturesElement.getElementsByTagName("serviceFeature");
         
         // Check, if there is at least one Service Feature defined
-        if (serviceFeaturesNodeList.getLength() == 0)
+        if (serviceFeaturesNodeList.getLength() == 0) {
             throw new XMLParserException(Type.SERVICE_FEATURE_MISSING,
                     "At least one Service Feature has to be defined.");
+        }
         
         // Parse the defined Service Features
         for (int itr = 0; itr < serviceFeaturesNodeList.getLength(); itr++) {
@@ -198,9 +199,10 @@ public class XMLParser extends AbstractXMLParser {
         NodeList rrgNodeList = serviceFeaturesElement.getElementsByTagName("requiredResourceGroup");
         
         // Check, if there is at least one required Resourcegroup defined
-        if (rrgNodeList.getLength() == 0)
+        if (rrgNodeList.getLength() == 0) {
             throw new XMLParserException(Type.REQUIRED_RESOURCE_GROUP_MISSING,
                     "At least one required Resourcegroup for each Service Feature has to be defined.");
+        }
         
         // Parse all required resource groups
         for (int rrgItr = 0; rrgItr < rrgNodeList.getLength(); rrgItr++) {
@@ -237,9 +239,10 @@ public class XMLParser extends AbstractXMLParser {
                 Integer.MAX_VALUE, "identifier");
         
         // Check, if there is at least one Privacy Setting defined
-        if (privacySettingList.size() == 0)
+        if (privacySettingList.size() == 0) {
             throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
                     "At least one Privacy Setting for each required Resourcegroup has to be defined.");
+        }
         
         // Add to the app information set (building objects)
         for (String[] privacySettingArray : privacySettingList) {

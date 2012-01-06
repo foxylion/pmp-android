@@ -69,14 +69,14 @@ public class AdapterRGsAvailable extends BaseAdapter {
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         String nameString = rgis.getNames().get(Locale.getDefault());
-        if(nameString == null) {
+        if (nameString == null) {
             nameString = rgis.getNames().get(Locale.ENGLISH);
         }
         name.setText(nameString);
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
         String descriptionString = rgis.getDescriptions().get(Locale.getDefault());
-        if(descriptionString == null) {
+        if (descriptionString == null) {
             descriptionString = rgis.getDescriptions().get(Locale.ENGLISH);
         }
         description.setText(descriptionString);
