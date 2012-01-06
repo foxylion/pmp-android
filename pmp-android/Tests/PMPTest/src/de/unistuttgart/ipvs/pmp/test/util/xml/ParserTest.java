@@ -277,10 +277,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS2_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS2_ID));
         
@@ -315,10 +314,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
         
@@ -359,8 +357,8 @@ public class ParserTest extends InstrumentationTestCase {
     
     public void testAppLocalized() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
-        addLocale(main, APP_LOC_NAME_LOCALE.getLanguage(), APP_LOC_NAME, null);
-        addLocale(main, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
+        addLocale(app, APP_LOC_NAME_LOCALE.getLanguage(), APP_LOC_NAME, null);
+        addLocale(app, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
         XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
                 new String[] { APP_SF1_REQ_PS1_VALUE });
@@ -393,10 +391,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_LOC_DESC, ais.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
     }
@@ -404,7 +401,7 @@ public class ParserTest extends InstrumentationTestCase {
     
     public void testAppInvalidLocale() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
-        addLocale(main, ILLEGAL_LOCALE, APP_LOC_NAME, APP_LOC_DESC);
+        addLocale(app, ILLEGAL_LOCALE, APP_LOC_NAME, APP_LOC_DESC);
         XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
                 new String[] { APP_SF1_REQ_PS1_VALUE });
@@ -424,7 +421,7 @@ public class ParserTest extends InstrumentationTestCase {
     
     public void testAppEmptyLocale() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
-        addLocale(main, "", APP_LOC_NAME, APP_LOC_DESC);
+        addLocale(app, "", APP_LOC_NAME, APP_LOC_DESC);
         XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
                 new String[] { APP_SF1_REQ_PS1_VALUE });
@@ -436,6 +433,26 @@ public class ParserTest extends InstrumentationTestCase {
         try {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with empty locale.");
+        } catch (XMLParserException xmlpe) {
+            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+        }
+    }
+    
+    
+    public void testAppLocaleBelowWrongTag() throws Exception {
+        makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        addLocale(main, Locale.GERMAN.getLanguage(), APP_LOC_NAME, APP_LOC_DESC);
+        XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE });
+        sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        debug(ste.getMethodName());
+        
+        try {
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            fail("Parser accepted app with locale below wrong tag.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
         }
@@ -473,10 +490,9 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
-        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(0);
+        RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
         
         assertNotNull(rrg);
-        assertEquals(APP_SF1_REQ_RG1, rrg.getRgIdentifier());
         assertEquals(1, rrg.getPrivacySettingsMap().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getPrivacySettingsMap().get(APP_SF1_REQ_PS1_ID));
     }
@@ -798,8 +814,8 @@ public class ParserTest extends InstrumentationTestCase {
     
     public void testRGDoubleLocale() throws Exception {
         makeRG(RG_ID, RG_ICON, RG_REVISION, RG_NAME, RG_DESC);
-        addLocale(main, Locale.FRENCH.getLanguage(), RG_NAME, null);
-        addLocale(main, Locale.FRENCH.getLanguage(), RG_NAME, null);
+        addLocale(rg, Locale.FRENCH.getLanguage(), RG_NAME, null);
+        addLocale(rg, Locale.FRENCH.getLanguage(), RG_NAME, null);
         XMLNode xmlPS1 = makePS(RG_PS1_ID, RG_PS1_NAME, RG_PS1_DESC);
         pss.addChild(xmlPS1);
         
@@ -819,7 +835,7 @@ public class ParserTest extends InstrumentationTestCase {
         makeRG(RG_ID, RG_ICON, RG_REVISION, RG_NAME, RG_DESC);
         XMLNode xmlPS1 = makePS(RG_PS1_ID, RG_PS1_NAME, RG_PS1_DESC);
         pss.addChild(xmlPS1);
-        addLocale(main, Locale.ENGLISH.getLanguage(), null, RG_DESC);
+        addLocale(rg, Locale.ENGLISH.getLanguage(), null, RG_DESC);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         debug(ste.getMethodName());

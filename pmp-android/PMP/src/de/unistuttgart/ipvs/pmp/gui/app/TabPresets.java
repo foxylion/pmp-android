@@ -59,12 +59,14 @@ public class TabPresets extends Activity {
         }
     }
     
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu_presets_tab, menu);
         return true;
     }
+    
     
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -75,6 +77,7 @@ public class TabPresets extends Activity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
+    
     
     /**
      * Initiates the list of all assigned Presets.

@@ -31,6 +31,7 @@ public class DialogRGAvailableDetails extends Dialog {
     
     private Handler handler;
     
+    
     /**
      * Creates a new {@link Dialog} for displaying informations about an available Resourcegroup.
      * 
@@ -42,7 +43,7 @@ public class DialogRGAvailableDetails extends Dialog {
     public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {
         super(context);
         
-        handler = new Handler();
+        this.handler = new Handler();
         
         this.rgInformation = rgInformation;
         
@@ -97,7 +98,7 @@ public class DialogRGAvailableDetails extends Dialog {
                     @Override
                     public void download(final int position, final int length) {
                         /* Inform the user */
-                        handler.post(new Runnable() {
+                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
                             
                             @Override
                             public void run() {
@@ -129,7 +130,7 @@ public class DialogRGAvailableDetails extends Dialog {
                                 : "Failed to install the Resource:\n" + error);
                         
                         /* Inform the user */
-                        handler.post(new Runnable() {
+                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
                             
                             @Override
                             public void run() {

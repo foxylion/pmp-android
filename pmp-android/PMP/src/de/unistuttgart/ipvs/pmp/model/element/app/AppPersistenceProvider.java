@@ -46,12 +46,12 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         InputStream is = null;
         try {
             Resources appResources = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext());
-            if (appResources == null) {
-                // what to do?
-            } else {
-                is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
-                this.element.ais = AppInformationSetParser.createAppInformationSet(is);
-            }
+            Assert.nonNull(appResources,
+                    new ModelIntegrityError(Assert.ILLEGAL_UNINSTALLED_ACCESS, "app", this.element));
+            
+            is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
+            this.element.ais = AppInformationSetParser.createAppInformationSet(is);
+            
         } catch (IOException e) {
             Log.e("Did no longer find the app XML during loading its data.");
             e.printStackTrace();
