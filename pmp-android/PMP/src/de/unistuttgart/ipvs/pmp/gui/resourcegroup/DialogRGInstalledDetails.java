@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
@@ -62,6 +63,10 @@ public class DialogRGInstalledDetails extends Dialog {
             @Override
             public void onClick(View v) {
                 ModelProxy.get().uninstallResourceGroup(DialogRGInstalledDetails.this.resourcegroup.getIdentifier());
+                
+                Toast.makeText(DialogRGInstalledDetails.this.getContext(),
+                        DialogRGInstalledDetails.this.getContext().getString(R.string.rg_removed_success),
+                        Toast.LENGTH_LONG).show();
                 DialogRGInstalledDetails.this.dismiss();
                 
                 if (DialogRGInstalledDetails.this.parent != null) {

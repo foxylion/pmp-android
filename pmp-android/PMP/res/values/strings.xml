@@ -93,6 +93,7 @@
 
     <!-- Apps -->
     <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
+    <string name="apps_no_apps">Currently there are no Apps registered at PMP. Install a compatible App to fill the list.</string>
     
     <!-- App Details -->
     <string name="app_servicefeature_enabled">The Service Feature is now active.</string>
@@ -112,11 +113,14 @@
     <!-- App-Presets Tab -->
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
+    <string name="tab_presets_no_presets">Currently there are no Presets assigned to the App. Assign some Presets to fill the list.</string>
 
     <!-- ResourceGroups -->
     <string name="rg_fetching_resources">Fetching Resources from server.\nPlease wait…</string>
     <string name="rg_server_not_available">The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing "Update".</string>
-
+	<string name="rg_removed_success">The Resource has been successfully removed.</string>
+	<string name="rg_processing_installation">Processing installation request&#8230;</string>
+    
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
 
@@ -143,4 +147,5 @@
     <string name="dev_con_id">ID:</string>
 	<string name="dev_con_rgs_path">de.unistuttgart.ipvs.pmp.resourcegroups.</string>
 	<string name="dev_con_table_of_contents">Table of Contents (Total debug)</string>
+	
 </resources>

@@ -9,27 +9,35 @@ class OfferException extends Exception {
     const INVALID_TRIP = 2;
 }
 
+/**
+ * Handles offers and allows to create a new offer
+ * @author Patrick Strobel 
+ * @version 1.0.0
+ */
 class Offer {
     
+    /** @var int */
     private $id = -1;
-    /**
-     *
-     * @var User 
-     */
+    
+    /** @var User */
     private $driver = null;
     
+    /** @var int */
     private $tripId = -1;
     
-    /**
-     *
-     * @var int 
-     */
+    /** @var int */
     private $queryId = -1;
+    
+    /** @var String */
     private $message = null;
+    
+    /** @var float */
     private $current_lat = null;
+    /** @var float */
     private $current_lon = null;
     
     private function __construct() { }
+    
     /**
      * Loads information for the given offer-id from the databse
      * @param int $id   ID of the offer to load from the database

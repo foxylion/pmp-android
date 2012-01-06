@@ -855,7 +855,7 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"ride_history.php", false);
+					"ride_history.php", true);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -870,6 +870,7 @@ public class JSonRequestReader {
 			suc = object.get("successful").getAsBoolean();
 			if (suc) {
 				array_rides = object.get("rides").getAsJsonArray();
+				Log.i(array_rides.toString());
 				historyObjects = new ArrayList<HistoryRideObject>();
 				historyPersons = new ArrayList<HistoryPersonObject>();
 				for (int i = 0; i < array_rides.size(); i++) {

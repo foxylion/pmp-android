@@ -3,6 +3,11 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Allows to create a new query and gives acccess to existing queries
+ * @author Dang Huynh 
+ * @version 1.0.0
+ */
 class Query {
     private $id = -1;
     private $passenger = -1;

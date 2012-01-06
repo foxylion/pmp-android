@@ -3,9 +3,18 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Handles the user session.
+ * Allows to check if the user is currently logged in and gives functionality
+ * to log in a given user or to log out the currently logged in user
+ * @author Patrick Strobel 
+ * @version 1.0.0
+ */
 class Session {
     
+    /** @var Session */
     private static $instance = null;
+    /** @var User */
     private $user = null;
     
     const USER_INVALID = 0;
@@ -52,6 +61,10 @@ class Session {
         return self::$instance;
     }
     
+    /**
+     * Gives access to the currently used session id used
+     * @return String   Session-ID 
+     */
     public function getSid() {
         return session_id();
     }

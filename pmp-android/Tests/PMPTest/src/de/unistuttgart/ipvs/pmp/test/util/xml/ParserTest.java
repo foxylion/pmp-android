@@ -599,7 +599,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with SF with two PSs with same identifier.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
+            assertEquals(XMLParserException.Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
         }
     }
     

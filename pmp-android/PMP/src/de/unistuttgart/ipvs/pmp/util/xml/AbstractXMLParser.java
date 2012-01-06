@@ -145,10 +145,14 @@ public abstract class AbstractXMLParser {
                 }
             }
             
-            // if its a cdata section, the content is the second item, not the
-            // first.
+            // Init
+            resultArray[0] = "";
+            
+            // if its a cdata section, the content could be distributed in many items
             if (cdataFlag) {
-                resultArray[0] = element.getChildNodes().item(1).getNodeValue();
+                for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
+                    resultArray[0] = resultArray[0] + element.getChildNodes().item(itemItr).getNodeValue();
+                }
             } else {
                 resultArray[0] = element.getChildNodes().item(0).getNodeValue();
             }
@@ -212,11 +216,9 @@ public abstract class AbstractXMLParser {
      *            the lang attribute value
      */
     public void validateLocaleAttributeEN(String langAttributeValue) {
-        if (!langAttributeValue.equals("en")) {
+        if (!langAttributeValue.equals("en"))
             throw new XMLParserException(Type.LOCALE_INVALID,
                     "The lang attribute value of the default name/description has to be \"en\"");
-        }
-        
     }
     
     
@@ -227,9 +229,20 @@ public abstract class AbstractXMLParser {
      *            identifier to validate
      */
     public void validateIdentifier(String identifier) {
-        if (identifier.equals("") || identifier == null) {
+        if (identifier.equals("") || identifier == null)
             throw new XMLParserException(Type.IDENTIFIER_MISSING, "The identifier of the resource group is missing.");
-        }
+    }
+    
+    
+    /**
+     * The method validates, if a given value is set
+     * 
+     * @param value
+     *            value to validate
+     */
+    public void validateValueSet(String value) {
+        if (value.equals("") || value == null)
+            throw new XMLParserException(Type.VALUE_MISSING, "The value of a Privacy Setting is missing.");
     }
     
 }

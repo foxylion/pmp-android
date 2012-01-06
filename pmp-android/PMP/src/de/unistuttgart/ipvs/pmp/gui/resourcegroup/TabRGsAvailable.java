@@ -183,9 +183,6 @@ public class TabRGsAvailable extends Activity {
             case R.id.menu_rg_refresh:
                 startDownloadList();
                 break;
-            
-            default:
-                break;
         }
         return super.onMenuItemSelected(featureId, item);
     }

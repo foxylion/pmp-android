@@ -32,21 +32,21 @@ try {
     if (isset($_POST["role"]) && $_POST["role"] == "driver") {
         // Load data for role "driver"
         // ---------------------------
-        echo "driver:\n";
+        //echo "driver:\n";
         
-        $rides = Ride::getRidesAsDriver(Session::getInstance()->getLoggedInUser());
+        $driver = Session::getInstance()->getLoggedInUser();
+        $rides = Ride::getRidesAsDriver($driver);
         $jsonRides = array();
         
         // Create Json-structure based on loaded array-data
         foreach ($rides as $key => $ride) {
             $jsonPassengers = array();
-            foreach ($ride->getPassengers() as $passenger) {
-                $user = $passenger->getUser();
+            foreach ($ride->getPassengers() as $user) {
                 $jsonPassengers[] = array("userid" => $user->getId(),
                                           "username" => $user->getUsername(),
                                           "rating" => $user->getRatingAvg(),
                                           "rating_num" => $user->getRatingNum(),
-                                          "rated" => $passenger->isRated());
+                                          "rated" => Rating::hasRated($driver, $user, $ride->getTrip()));
             }
             $jsonRides[] = createJsonRide($ride->getTrip(), "passengers", $jsonPassengers);
         }
@@ -54,9 +54,10 @@ try {
     } elseif (isset($_POST["role"]) && $_POST["role"] == "passenger") {
         // Load data for role "passenger"
         // ------------------------------
-        echo "passenger:\n";
+        //echo "passenger:\n";
         
-        $rides = Ride::getRidesAsPassenger(Session::getInstance()->getLoggedInUser());
+        $passenger = Session::getInstance()->getLoggedInUser();
+        $rides = Ride::getRidesAsPassenger($passenger);
         $jsonRides = array();
         
         foreach ($rides as $ride) {
@@ -65,7 +66,7 @@ try {
                                 "username" => $driver->getUsername(),
                                 "rating" => $driver->getRatingAvg(),
                                 "rating_num" => $driver->getRatingNum(),
-                                "rated" => $ride->isDriverRated());
+                                "rated" => Rating::hasRated($passenger, $driver, $ride->getTrip()));
             
             $jsonRides[] = createJsonRide($ride->getTrip(), "driver", $jsonDriver);
         }
