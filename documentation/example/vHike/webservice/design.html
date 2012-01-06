@@ -1588,7 +1588,12 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
     {"trip": Integer, "avail_seats": Integer, "destination": String, 
       "creation": Date, "ending": Date, "driver": <span style="color:blue;"><code>
         {"userid": Integer, "username": String, "rating": Float, 
-          "rating_num": Integer, "rated": Boolean}
+          "rating_num": Integer, "rated": Boolean}</code></span>
+      "passengers": <span style="color:red;"><code>[
+        {"userid": Integer, "username": String, "rating": Float, 
+          "rating_num": Integer, "rated": Boolean},
+        ...
+      ]
     </code></span>},   
     ...
   ]</code></span>      
@@ -1607,7 +1612,7 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                   <li><code>destination</code> - String: Ziel der Fahrt</li>   
                   <li><code>creation</code> - Date: Erstellungsdatum der Fahrt</li>      
                   <li><code>ending</code> - Date: Zeitpunkt der Beendigung der Fahrt</li> 
-                  <li><span style="color:red;"><code>passengers</code> - Array: Array mit allen Mitfahrern auf dieser Fahrt (nur bei Rolle <code>driver</code>):
+                  <li><span style="color:red;"><code>passengers</code> - Array: Array mit allen Mitfahrern auf dieser Fahrt):
                     <ul>
                       <li><code>userid</code> - Integer: ID des Mitfahrers</li>
                       <li><code>username</code> - String: Name des Mitfahrers</li>

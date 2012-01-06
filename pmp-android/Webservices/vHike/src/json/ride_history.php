@@ -13,15 +13,15 @@ require ("./../inc/json_framework.inc.php");
  * @param String[] $addArray
  * @return String[] 
  */
-function createJsonRide($trip, $addName, $addArray) {
+function createJsonRide($trip) {
 
     return array("trip" => $trip->getId(),
         "avail_seats" => $trip->getAvailSeats(),
         "destination" => $trip->getDestination(),
         "creation" => $trip->getCreation(),
-        "ending" => $trip->getEnding(),
-        $addName => $addArray);
+        "ending" => $trip->getEnding());
 }
+
 
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
@@ -48,7 +48,10 @@ try {
                                           "rating_num" => $user->getRatingNum(),
                                           "rated" => Rating::hasRated($driver, $user, $ride->getTrip()));
             }
-            $jsonRides[] = createJsonRide($ride->getTrip(), "passengers", $jsonPassengers);
+            
+            $jsonRide = createJsonRide($ride->getTrip());
+            $jsonRide["passengers"] = $jsonPassengers; 
+            $jsonRides[] = $jsonRide;
         }
         
     } elseif (isset($_POST["role"]) && $_POST["role"] == "passenger") {
@@ -68,7 +71,19 @@ try {
                                 "rating_num" => $driver->getRatingNum(),
                                 "rated" => Rating::hasRated($passenger, $driver, $ride->getTrip()));
             
-            $jsonRides[] = createJsonRide($ride->getTrip(), "driver", $jsonDriver);
+            $jsonPassengers = array();
+            foreach ($ride->getPassengers() as $user) {
+                $jsonPassengers[] = array("userid" => $user->getId(),
+                                          "username" => $user->getUsername(),
+                                          "rating" => $user->getRatingAvg(),
+                                          "rating_num" => $user->getRatingNum(),
+                                          "rated" => Rating::hasRated($passenger, $user, $ride->getTrip()));
+            }
+            
+            $jsonRide = createJsonRide($ride->getTrip());
+            $jsonRide["driver"] = $jsonDriver;
+            $jsonRide["passengers"] = $jsonPassengers; 
+            $jsonRides[] = $jsonRide;
         }
         
     } else {
