@@ -211,8 +211,8 @@ public class XMLParser extends AbstractXMLParser {
             validateIdentifier(rrgIdentifier);
             
             // Add to the app information set (building objects)
-            RequiredResourceGroup rrg = new RequiredResourceGroup(rrgIdentifier);
-            sf.addRequiredResourceGroup(rrg);
+            RequiredResourceGroup rrg = new RequiredResourceGroup();
+            sf.addRequiredResourceGroup(rrgIdentifier, rrg);
             
             // Parse the required resource group
             parseOneRequiredResourceGroup(rrgElement, rrg);

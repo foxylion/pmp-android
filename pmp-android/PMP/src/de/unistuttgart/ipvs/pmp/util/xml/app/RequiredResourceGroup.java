@@ -41,11 +41,6 @@ public class RequiredResourceGroup implements Serializable {
     private static final long serialVersionUID = 5951904689151789055L;
     
     /**
-     * Identifier of the required resource group
-     */
-    private String rgIdentifier;
-    
-    /**
      * This map contains all required privacy settings of the required resource group. key = identifier of the privacy
      * setting
      */
@@ -53,34 +48,10 @@ public class RequiredResourceGroup implements Serializable {
     
     
     /**
-     * Constructor is used to instantiate the data structures and set the required resource group identifier.
-     * 
-     * @param rgIdentifier
+     * Constructor is used to instantiate the data structures
      */
-    protected RequiredResourceGroup(String rgIdentifier) {
+    protected RequiredResourceGroup() {
         this.privacySettings = new HashMap<String, String>();
-        this.rgIdentifier = rgIdentifier;
-    }
-    
-    
-    /**
-     * Get the identifier of the required resource group
-     * 
-     * @return identifier of the required resource group
-     */
-    public String getRgIdentifier() {
-        return this.rgIdentifier;
-    }
-    
-    
-    /**
-     * Set the identifier of the required resource group
-     * 
-     * @param rgIdentifier
-     *            of the required resource group
-     */
-    protected void setRgIdentifier(String rgIdentifier) {
-        this.rgIdentifier = rgIdentifier;
     }
     
     

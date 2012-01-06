@@ -20,9 +20,7 @@
 package de.unistuttgart.ipvs.pmp.util.xml.app;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -54,8 +52,9 @@ public class ServiceFeature implements Serializable {
     
     /**
      * This list contains all required resource groups of the service feature.
+     * key = identifier
      */
-    private List<RequiredResourceGroup> requiredResourceGroups;
+    private Map<String, RequiredResourceGroup> requiredResourceGroups;
     
     
     /**
@@ -64,7 +63,7 @@ public class ServiceFeature implements Serializable {
     protected ServiceFeature() {
         this.names = new HashMap<Locale, String>();
         this.descriptions = new HashMap<Locale, String>();
-        this.requiredResourceGroups = new ArrayList<RequiredResourceGroup>();
+        this.requiredResourceGroups = new HashMap<String, RequiredResourceGroup>();
     }
     
     
@@ -125,9 +124,9 @@ public class ServiceFeature implements Serializable {
     /**
      * Get all required resource groups of the service feature
      * 
-     * @return list with required resource groups
+     * @return map with required resource groups, key = identifier
      */
-    public List<RequiredResourceGroup> getRequiredResourceGroups() {
+    public Map<String, RequiredResourceGroup> getRequiredResourceGroups() {
         return this.requiredResourceGroups;
     }
     
@@ -135,11 +134,13 @@ public class ServiceFeature implements Serializable {
     /**
      * Add a required resource group to the service feature
      * 
-     * @param required
-     *            resource group
+     * @param identifier
+     *            identifier of the required Resourcegroup
+     * @param rrg
+     *            the required Resourcegroup
      */
-    protected void addRequiredResourceGroup(RequiredResourceGroup rrg) {
-        this.requiredResourceGroups.add(rrg);
+    protected void addRequiredResourceGroup(String identifier, RequiredResourceGroup rrg) {
+        this.requiredResourceGroups.put(identifier, rrg);
     }
     
 }
