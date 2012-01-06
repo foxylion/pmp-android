@@ -103,6 +103,11 @@ public class XMLParserException extends RuntimeException {
         SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
         
         /**
+         * A required Resourcegroup with the same identifier already exists
+         */
+        REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,

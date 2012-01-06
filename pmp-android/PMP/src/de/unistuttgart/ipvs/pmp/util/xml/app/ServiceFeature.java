@@ -140,6 +140,10 @@ public class ServiceFeature implements Serializable {
      *            the required Resourcegroup
      */
     protected void addRequiredResourceGroup(String identifier, RequiredResourceGroup rrg) {
+        if (this.requiredResourceGroups.containsKey(identifier)) {
+            throw new XMLParserException(Type.REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+                    "The identifier of a required resourcegroup already exists.");
+        }
         this.requiredResourceGroups.put(identifier, rrg);
     }
     
