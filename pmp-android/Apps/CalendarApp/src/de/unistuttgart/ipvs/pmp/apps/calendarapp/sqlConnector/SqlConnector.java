@@ -140,12 +140,16 @@ public class SqlConnector {
     
     
     /**
-     * Stores the new appointment in the SQL Database and then calls {@link Model#addDate(Appointment)}.
+     * Stores the appointment in the database AND in the model
      * 
      * @param date
-     *            the date
+     *            date of the appointment
+     * @param name
+     *            name of the appointment
      * @param description
-     *            the description
+     *            description of the appointment
+     * @param severity
+     *            {@link Severity} of the appointment
      */
     public void storeNewAppointment(final Date date, final String name, final String description,
             final Severity severity) {
@@ -204,13 +208,18 @@ public class SqlConnector {
         pmpconnector.bind();
     }
     
+    
     /**
-     * Stores the new appointment ONLY in the SQL Database.
+     * Stores the appointment ONLY in the database and NOT in the model
      * 
      * @param date
-     *            the date
+     *            date of the appointment
+     * @param name
+     *            name of the appointment
      * @param description
-     *            the description
+     *            description of the appointment
+     * @param severity
+     *            {@link Severity} of the appointment
      */
     public void storeNewAppointmentWithoutModel(final Date date, final String name, final String description,
             final Severity severity) {

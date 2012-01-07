@@ -310,7 +310,7 @@ public class FileSystemConnector {
                                     String nameTmp = appointmentToStore.getName();
                                     String descr = appointmentToStore.getDescrpition();
                                     Date date = appointmentToStore.getDate();
-                                    sqlCon.storeNewAppointment(date, nameTmp, descr, Severity.MIDDLE);
+                                    sqlCon.storeNewAppointmentWithoutModel(date, nameTmp, descr, Severity.MIDDLE);
                                     
                                     Log.d("Imported appointment: " + name);
                                     Log.d("Imported appointment: " + description);
