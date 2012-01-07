@@ -3,15 +3,15 @@
     xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp" >
+    android:layout_marginRight="3dp"
+    android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="@string/registered_apps"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_apps"
-        pmp:name="@string/registered_apps" >
+        pmp:icon="@drawable/icon_apps" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <LinearLayout
@@ -25,6 +25,13 @@
             android:text="@string/apps_description" />
 
         <include layout="@layout/view_divider_strong" />
+
+        <TextView
+            android:id="@+id/TextView_NoApps"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apps_no_apps"
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/ListView_Apps"

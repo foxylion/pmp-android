@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
@@ -141,5 +142,13 @@ public class ActivityApps extends Activity {
         this.appsList = Arrays.asList(ModelProxy.get().getApps());
         this.appsAdapter = new AdapterApps(this, this.appsList);
         this.appsViewList.setAdapter(this.appsAdapter);
+        
+        /* Determine if the no-apps available hint should be shown. */
+        TextView tv = (TextView) findViewById(R.id.TextView_NoApps);
+        if (this.appsList.size() > 0) {
+            tv.setVisibility(View.GONE);
+        } else {
+            tv.setVisibility(View.VISIBLE);
+        }
     }
 }

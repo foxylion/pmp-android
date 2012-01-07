@@ -40,7 +40,7 @@
                 <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    pmp:icon="@drawable/icon_rgs2"
+                    pmp:icon="@drawable/icon_rgs"
                     pmp:name="@string/required_privacy_settings" />
 
                 <LinearLayout
@@ -61,7 +61,7 @@
                 <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    pmp:icon="@drawable/icon_rgs2"
+                    pmp:icon="@drawable/icon_rgs"
                     pmp:name="@string/required_resources" />
 
                 <TextView

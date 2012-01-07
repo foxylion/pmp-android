@@ -13,41 +13,45 @@ require ("./../inc/json_framework.inc.php");
  * @param String[] $addArray
  * @return String[] 
  */
-function createJsonRide($trip, $addName, $addArray) {
+function createJsonRide($trip) {
 
     return array("trip" => $trip->getId(),
         "avail_seats" => $trip->getAvailSeats(),
         "destination" => $trip->getDestination(),
         "creation" => $trip->getCreation(),
-        "ending" => $trip->getEnding(),
-        $addName => $addArray);
+        "ending" => $trip->getEnding());
 }
+
 
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
 
 try {
+
     if (isset($_POST["role"]) && $_POST["role"] == "driver") {
         // Load data for role "driver"
         // ---------------------------
         //echo "driver:\n";
         
-        $rides = Ride::getRidesAsDriver(Session::getInstance()->getLoggedInUser());
+        $driver = Session::getInstance()->getLoggedInUser();
+        $rides = Ride::getRidesAsDriver($driver);
         $jsonRides = array();
         
         // Create Json-structure based on loaded array-data
         foreach ($rides as $key => $ride) {
             $jsonPassengers = array();
-            foreach ($ride->getPassengers() as $passenger) {
-                $user = $passenger->getUser();
+            foreach ($ride->getPassengers() as $user) {
                 $jsonPassengers[] = array("userid" => $user->getId(),
                                           "username" => $user->getUsername(),
                                           "rating" => $user->getRatingAvg(),
                                           "rating_num" => $user->getRatingNum(),
-                                          "rated" => $passenger->isRated());
+                                          "rated" => Rating::hasRated($driver, $user, $ride->getTrip()));
             }
-            $jsonRides[] = createJsonRide($ride->getTrip(), "passengers", $jsonPassengers);
+            
+            $jsonRide = createJsonRide($ride->getTrip());
+            $jsonRide["passengers"] = $jsonPassengers; 
+            $jsonRides[] = $jsonRide;
         }
         
     } elseif (isset($_POST["role"]) && $_POST["role"] == "passenger") {
@@ -55,7 +59,8 @@ try {
         // ------------------------------
         //echo "passenger:\n";
         
-        $rides = Ride::getRidesAsPassenger(Session::getInstance()->getLoggedInUser());
+        $passenger = Session::getInstance()->getLoggedInUser();
+        $rides = Ride::getRidesAsPassenger($passenger);
         $jsonRides = array();
         
         foreach ($rides as $ride) {
@@ -64,14 +69,26 @@ try {
                                 "username" => $driver->getUsername(),
                                 "rating" => $driver->getRatingAvg(),
                                 "rating_num" => $driver->getRatingNum(),
-                                "rated" => $ride->isDriverRated());
+                                "rated" => Rating::hasRated($passenger, $driver, $ride->getTrip()));
             
-            $jsonRides[] = createJsonRide($ride->getTrip(), "driver", $jsonDriver);
+            $jsonPassengers = array();
+            foreach ($ride->getPassengers() as $user) {
+                $jsonPassengers[] = array("userid" => $user->getId(),
+                                          "username" => $user->getUsername(),
+                                          "rating" => $user->getRatingAvg(),
+                                          "rating_num" => $user->getRatingNum(),
+                                          "rated" => Rating::hasRated($passenger, $user, $ride->getTrip()));
+            }
+            
+            $jsonRide = createJsonRide($ride->getTrip());
+            $jsonRide["driver"] = $jsonDriver;
+            $jsonRide["passengers"] = $jsonPassengers; 
+            $jsonRides[] = $jsonRide;
         }
         
     } else {
         // Throw an exception if POST is invalid. This will cancel the normal output
-        throw new InvalidArgumentException("POST parameter missing or invalid");
+        throw new InvalidArgumentException("POST parameter missing or invalid.");
     }
         
     $output = array("successful" => true, "rides" => $jsonRides);

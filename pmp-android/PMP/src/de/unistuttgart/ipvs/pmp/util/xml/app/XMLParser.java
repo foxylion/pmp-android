@@ -61,6 +61,7 @@ public class XMLParser extends AbstractXMLParser {
      */
     protected AppInformationSet parse() {
         
+        de.unistuttgart.ipvs.pmp.Log.e(String.valueOf(this.doc.getChildNodes().getLength()));
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
         NodeList appInformation = this.doc.getElementsByTagName("appInformation");
@@ -134,6 +135,14 @@ public class XMLParser extends AbstractXMLParser {
      */
     private void parseServiceFeaturesNode(Element serviceFeaturesElement) {
         NodeList serviceFeaturesNodeList = serviceFeaturesElement.getElementsByTagName("serviceFeature");
+        
+        // Check, if there is at least one Service Feature defined
+        if (serviceFeaturesNodeList.getLength() == 0) {
+            throw new XMLParserException(Type.SERVICE_FEATURE_MISSING,
+                    "At least one Service Feature has to be defined.");
+        }
+        
+        // Parse the defined Service Features
         for (int itr = 0; itr < serviceFeaturesNodeList.getLength(); itr++) {
             parseOneServiceFeature((Element) serviceFeaturesNodeList.item(itr));
         }
@@ -167,6 +176,9 @@ public class XMLParser extends AbstractXMLParser {
         validateLocaleAttributeEN(defaultNameList.get(0)[1]);
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
         
+        // Check, if the identifier is set
+        validateIdentifier(identifier);
+        
         // Add to the app information set
         ServiceFeature sf = new ServiceFeature();
         this.ais.addServiceFeature(identifier, sf);
@@ -186,13 +198,23 @@ public class XMLParser extends AbstractXMLParser {
         // Get the node list of the required resource groups
         NodeList rrgNodeList = serviceFeaturesElement.getElementsByTagName("requiredResourceGroup");
         
+        // Check, if there is at least one required Resourcegroup defined
+        if (rrgNodeList.getLength() == 0) {
+            throw new XMLParserException(Type.REQUIRED_RESOURCE_GROUP_MISSING,
+                    "At least one required Resourcegroup for each Service Feature has to be defined.");
+        }
+        
         // Parse all required resource groups
         for (int rrgItr = 0; rrgItr < rrgNodeList.getLength(); rrgItr++) {
             Element rrgElement = (Element) rrgNodeList.item(rrgItr);
             
+            // Get the identifier and validate it
+            String rrgIdentifier = rrgElement.getAttribute("identifier");
+            validateIdentifier(rrgIdentifier);
+            
             // Add to the app information set (building objects)
-            RequiredResourceGroup rrg = new RequiredResourceGroup(rrgElement.getAttribute("identifier"));
-            sf.addRequiredResourceGroup(rrg);
+            RequiredResourceGroup rrg = new RequiredResourceGroup();
+            sf.addRequiredResourceGroup(rrgIdentifier, rrg);
             
             // Parse the required resource group
             parseOneRequiredResourceGroup(rrgElement, rrg);
@@ -216,9 +238,25 @@ public class XMLParser extends AbstractXMLParser {
         List<String[]> privacySettingList = parseNodes(requiredResourceGroupElement, "privacySetting", 1,
                 Integer.MAX_VALUE, "identifier");
         
+        // Check, if there is at least one Privacy Setting defined
+        if (privacySettingList.size() == 0) {
+            throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
+                    "At least one Privacy Setting for each required Resourcegroup has to be defined.");
+        }
+        
         // Add to the app information set (building objects)
         for (String[] privacySettingArray : privacySettingList) {
-            rrg.addPrivacySetting(privacySettingArray[1], privacySettingArray[0]);
+            
+            // Get identifier and value
+            String identifier = privacySettingArray[1];
+            String value = privacySettingArray[0];
+            
+            // Validate identifier and value
+            validateIdentifier(identifier);
+            validateValueSet(value);
+            
+            // Add identifier and value
+            rrg.addPrivacySetting(identifier, value);
         }
     }
     

@@ -5,11 +5,10 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.provider.SyncStateContract.Constants;
 import android.widget.ListView;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView;
@@ -39,7 +38,6 @@ public class HistoryActivity extends ListActivity {
 
 		if (isDriver) {
 			createDriverActivity();
-			Log.i("ES IST DRIVER");
 		} else {
 			createPassengerActivity();
 		}
@@ -48,14 +46,14 @@ public class HistoryActivity extends ListActivity {
 
 	private void createPassengerActivity() {
 		title.setText(R.string.history_title_passenger);
+
+		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_PASSENGER);
 		
-		historyRides = ctrl.getHistory(Model.getInstance().getSid(), de.unistuttgart.ipvs.pmp.apps.vhike.Constants.ROLE_PASSENGER);
-		if(historyRides!= null)
-		Log.i("History grösse:" + historyRides.size());
-		
-		if(Model.getInstance().getHsitoryObjHolder()!=null)
-		Log.i("Model History: " + Model.getInstance().getHsitoryObjHolder().size());
-		
+		if(historyRides==null){
+			historyRides = new ArrayList<HistoryRideObject>();
+			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+		}
+
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
 	}
@@ -63,8 +61,14 @@ public class HistoryActivity extends ListActivity {
 	private void createDriverActivity() {
 		title.setText(R.string.history_title_driver);
 		
-		historyRides = ctrl.getHistory(Model.getInstance().getSid(), de.unistuttgart.ipvs.pmp.apps.vhike.Constants.ROLE_DRIVER);
 
+		historyRides = ctrl.getHistory(Model.getInstance().getSid(),Constants.ROLE_DRIVER);
+		
+		if(historyRides==null){
+			historyRides = new ArrayList<HistoryRideObject>();
+			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+		}
+		
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
 	}

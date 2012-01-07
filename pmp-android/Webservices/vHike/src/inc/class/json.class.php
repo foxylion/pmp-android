@@ -3,11 +3,10 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
-
-
 /**
  * Provides general functionality used for JSON output
- * @author Patrick
+ * @author Patrick Strobel
+ * @version 1.0.0
  */
 class Json {
     
@@ -32,16 +31,17 @@ class Json {
     }
     
     /**
-     * Prints an error exception for given DatabaseException
+     * Prints a JSON-error-message for given DatabaseException
      * @param DatabaseException $exception 
+     * @param boolean $exit When set to true, the script will be stopped
      */
     public static function printDatabaseError($exception, $exit = true) {
         self::printError("invalid_database-query", $exception->__toString(), $exit);
     }
     
     /**
-     *
-     * @param boolean $exit 
+     * Prints a JSON-error-message showing that a input-data is invalid 
+     * @param boolean $exit When set to true, the script will be stopped
      */
     public static function printInvalidInputError($exit = true) {
         self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);

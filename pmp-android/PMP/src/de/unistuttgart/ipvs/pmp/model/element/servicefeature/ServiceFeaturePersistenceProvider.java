@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -106,7 +105,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
      *         {@link ServiceFeaturePersistenceProvider}, or null, if the creation was not possible
      */
     public ServiceFeature createElementData(App app, String identifier,
-            List<RequiredResourceGroup> requiredResourceGroups) {
+            Map<String, RequiredResourceGroup> requiredResourceGroups) {
         // store in db
         SQLiteDatabase sqldb = getDoh().getWritableDatabase();
         try {
@@ -120,10 +119,10 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
             }
             
             // refer to all the required resource groups
-            for (RequiredResourceGroup rrg : requiredResourceGroups) {
-                for (Entry<String, String> e : rrg.getPrivacySettingsMap().entrySet()) {
+            for (Entry<String, RequiredResourceGroup> entry : requiredResourceGroups.entrySet()) {
+                for (Entry<String, String> e : entry.getValue().getPrivacySettingsMap().entrySet()) {
                     cv = new ContentValues();
-                    cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getRgIdentifier());
+                    cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, entry.getKey());
                     cv.put(PRIVACYSETTING_IDENTIFIER, e.getKey());
                     cv.put(SERVICEFEATURE_APP_PACKAGE, app.getIdentifier());
                     cv.put(SERVICEFEATURE_IDENTIFIER, identifier);

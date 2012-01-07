@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,6 +16,8 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
+import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
@@ -27,6 +28,8 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 public class DialogRGAvailableDetails extends Dialog {
     
     protected RgInformationSet rgInformation;
+    
+    private Handler handler;
     
     
     /**
@@ -40,16 +43,30 @@ public class DialogRGAvailableDetails extends Dialog {
     public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {
         super(context);
         
+        this.handler = new Handler();
+        
         this.rgInformation = rgInformation;
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_resourcegroup_available);
         
         BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
-        btv.setTitle(rgInformation.getNames().get(Locale.ENGLISH));
+        String title = rgInformation.getNames().get(Locale.getDefault());
+        if (title == null) {
+            title = rgInformation.getNames().get(Locale.ENGLISH);
+        }
+        btv.setTitle(title);
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
-        tv.setText(rgInformation.getDescriptions().get(Locale.ENGLISH));
+        String description = rgInformation.getDescriptions().get(Locale.getDefault());
+        if (description == null) {
+            description = rgInformation.getDescriptions().get(Locale.ENGLISH);
+        }
+        tv.setText(description);
+        
+        /* Disable the install button when rg already installed. */
+        Button installButton = (Button) findViewById(R.id.Button_Install);
+        installButton.setEnabled(ModelProxy.get().getResourceGroup(rgInformation.getIdentifier()) == null);
         
         addListener();
     }
@@ -64,10 +81,33 @@ public class DialogRGAvailableDetails extends Dialog {
             @Override
             public void onClick(View v) {
                 final ProgressDialog pd = new ProgressDialog(DialogRGAvailableDetails.this.getContext());
-                pd.setTitle("Processing installation request...");
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setTitle(DialogRGAvailableDetails.this.getContext().getString(R.string.rg_processing_installation));
                 pd.setCancelable(false);
-                
+                pd.setProgress(0);
+                pd.setMax(1);
                 pd.show();
+                
+                ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
+                    
+                    @Override
+                    public void tasks(int position, int length) {
+                    }
+                    
+                    
+                    @Override
+                    public void download(final int position, final int length) {
+                        /* Inform the user */
+                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                pd.setProgress(position);
+                                pd.setMax(length);
+                            }
+                        });
+                    }
+                });
                 
                 new Thread() {
                     
@@ -90,8 +130,7 @@ public class DialogRGAvailableDetails extends Dialog {
                                 : "Failed to install the Resource:\n" + error);
                         
                         /* Inform the user */
-                        Looper.prepare();
-                        new Handler().post(new Runnable() {
+                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
                             
                             @Override
                             public void run() {
@@ -102,7 +141,6 @@ public class DialogRGAvailableDetails extends Dialog {
                                 DialogRGAvailableDetails.this.dismiss();
                             }
                         });
-                        Looper.loop();
                     };
                 }.start();
                 

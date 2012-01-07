@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -44,9 +45,13 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         
         InputStream is = null;
         try {
-            is = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext()).getAssets()
-                    .open(PersistenceConstants.APP_XML_NAME);
+            Resources appResources = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext());
+            Assert.nonNull(appResources,
+                    new ModelIntegrityError(Assert.ILLEGAL_UNINSTALLED_ACCESS, "app", this.element));
+            
+            is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
             this.element.ais = AppInformationSetParser.createAppInformationSet(is);
+            
         } catch (IOException e) {
             Log.e("Did no longer find the app XML during loading its data.");
             e.printStackTrace();
@@ -63,9 +68,8 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // delete app preset references
-        wdb.execSQL("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + APP_PACKAGE + " = ?",
-                new String[] { this.element.getIdentifier() });
+        // app preset references are not supposed to be deleted,
+        // the preset will handle unavailable elements itself  
         
         // delete app
         wdb.execSQL("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?",

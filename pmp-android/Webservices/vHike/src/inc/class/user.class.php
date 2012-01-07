@@ -8,7 +8,8 @@ if (!defined("INCLUDE")) {
  * Handles access to user data and allows to create a new user
  * Most of the method's may throw a DatabaseException if quering the database fails
  *
- * @author Patrick
+ * @author Patrick Strobel
+ * @version 1.0.1
  */
 class user {
 
@@ -34,9 +35,10 @@ class user {
     private $firstnamePublic = false;
     private $lastnamePublic = false;
     private $telPublic = false;
-    private $ratingAvg = 0;
-    private $ratingNum = 0;
     private $activated = false;
+    
+    /** @var Rating */
+    private $rating = null;
 
     private function __construct() {
     }
@@ -75,7 +77,7 @@ class user {
         if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
             $result[$idFieldName] == null
         ) {
-            throw new InvalidArgumentException("Result or ifFieldName is invalid");
+            throw new InvalidArgumentException("Result or idFieldName (" . $idFieldName . ") is invalid");
         }
 
         $user = new User();
@@ -93,8 +95,6 @@ class user {
         $user->firstnamePublic = (bool)$result["firstname_public"];
         $user->lastnamePublic = (bool)$result["lastname_public"];
         $user->telPublic = (bool)$result["tel_public"];
-        $user->ratingAvg = (float)$result["rating_avg"];
-        $user->ratingNum = (int)$result["rating_num"];
         $user->activated = $result["activated"];
 
         return $user;
@@ -315,7 +315,7 @@ class user {
                               WHERE `user` = " . $this->id);
         $row = $db->fetch($result);
 
-        $key;
+        $key = null;
 
         // If key is in database, use it. Otherwise generate new one
         if ($row) {
@@ -473,7 +473,7 @@ class user {
     public function getCurrentTripId() {
         $db = Database::getInstance();
         $result = $db->fetch($db->query("SELECT `id` FROM `" . DB_PREFIX . "_trip` WHERE `driver`=" .
-            $this->id . " LIMIT 1"));
+            $this->id . " AND `ending`=0 LIMIT 1"));
         if ($result) {
             return $result['id'];
         } else {
@@ -492,6 +492,21 @@ class user {
         return $arr;
     }
 
+    // Get trip info from a rider's ID
+    public function getCurrentRideTripInfo() {
+        $db = Database::getInstance();
+        $query = $db->query(
+            "SELECT dev_trip.id AS tripid, dev_trip.driver, dev_user.username, dev_user.rating_avg, dev_user.rating_num " .
+            "FROM dev_trip INNER JOIN dev_ride ON dev_trip.id = dev_ride.trip" .
+            "              INNER JOIN dev_user ON dev_trip.driver = dev_trip.driver " .
+            "WHERE dev_ride.passenger=" . $this->getId() . " AND dev_trip.ending = 0 LIMIT 1");
+        if ($db->getAffectedRows()==0) {
+            return null;
+        } else {
+            return $db->fetch($query);
+        }
+    }
+
     public function updatePosition($lat, $lon) {
         $db = Database::getInstance();
         try {
@@ -501,7 +516,6 @@ class user {
             $db->query("COMMIT");
         } catch (DatabaseException $de) {
             $db->query("ROLLBACK");
-            die($de->getMessage());
             return false;
         }
         return true;
@@ -543,12 +557,22 @@ class user {
         return $this->telPublic;
     }
 
+    public function getEmail() {
+        return $this->email;
+    }
+
     public function getRatingAvg() {
-        return $this->ratingAvg;
+        if ($this->rating == null) {
+            $this->rating = Rating::loadRating($this);
+        }
+        return $this->rating->getAverage();
     }
 
     public function getRatingNum() {
-        return $this->ratingNum;
+        if ($this->rating == null) {
+            $this->rating = Rating::loadRating($this);
+        }
+        return $this->rating->getNumber();
     }
 
     public function isActivated() {

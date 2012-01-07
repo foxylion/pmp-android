@@ -9,7 +9,7 @@
         android:id="@+id/Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_add_32"
+        pmp:icon="@drawable/icon_add"
         pmp:name="@string/choose_your_action" />
 
     <ExpandableListView

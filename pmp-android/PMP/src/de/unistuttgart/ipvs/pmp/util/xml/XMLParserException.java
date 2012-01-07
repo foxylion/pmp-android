@@ -62,6 +62,26 @@ public class XMLParserException extends RuntimeException {
         IDENTIFIER_MISSING,
         
         /**
+         * A value is missing
+         */
+        VALUE_MISSING,
+        
+        /**
+         * Service Features are missing
+         */
+        SERVICE_FEATURE_MISSING,
+        
+        /**
+         * Required Resourcegroup is missing
+         */
+        REQUIRED_RESOURCE_GROUP_MISSING,
+        
+        /**
+         * Privacy Setting is missing
+         */
+        PRIVACY_SETTING_MISSING,
+        
+        /**
          * A name with the same locale already exists
          */
         NAME_WITH_SAME_LOCALE_ALREADY_EXISTS,
@@ -81,6 +101,11 @@ public class XMLParserException extends RuntimeException {
          * A service feature with the same identifier already exists
          */
         SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+        
+        /**
+         * A required Resourcegroup with the same identifier already exists
+         */
+        REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
         
         /**
          * The parser crashed, unknown reason
