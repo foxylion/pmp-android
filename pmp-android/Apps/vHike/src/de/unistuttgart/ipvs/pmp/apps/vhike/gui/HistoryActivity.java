@@ -49,7 +49,7 @@ public class HistoryActivity extends ListActivity {
 
 		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_PASSENGER);
 		
-		if(historyRides==null){
+		if(historyRides.size()==0){
 			historyRides = new ArrayList<HistoryRideObject>();
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}
@@ -64,7 +64,7 @@ public class HistoryActivity extends ListActivity {
 
 		historyRides = ctrl.getHistory(Model.getInstance().getSid(),Constants.ROLE_DRIVER);
 		
-		if(historyRides==null){
+		if(historyRides.size()==0){
 			historyRides = new ArrayList<HistoryRideObject>();
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}

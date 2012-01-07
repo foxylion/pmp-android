@@ -46,14 +46,14 @@ public class Model {
 		this.queryHolder = queryHolder;
 	}
 
-	private List<HistoryRideObject> hsitoryObjHolder;
+	private List<HistoryRideObject> historyObjHolder;
 
-	public List<HistoryRideObject> getHsitoryObjHolder() {
-		return hsitoryObjHolder;
+	public List<HistoryRideObject> getHistoryObjHolder() {
+		return historyObjHolder;
 	}
 
-	public void setHsitoryObjHolder(List<HistoryRideObject> hsitoryObjHolder) {
-		this.hsitoryObjHolder = hsitoryObjHolder;
+	public void setHistoryObjHolder(List<HistoryRideObject> hsitoryObjHolder) {
+		this.historyObjHolder = hsitoryObjHolder;
 	}
 
 	/**

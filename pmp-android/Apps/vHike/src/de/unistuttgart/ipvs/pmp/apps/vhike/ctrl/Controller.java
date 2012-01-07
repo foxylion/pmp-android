@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -133,6 +135,8 @@ public class Controller {
 
 	/**
 	 * Updates the position of the driver
+	 * <br>
+	 * Use {@link userUpdatePos} instead
 	 * 
 	 * @param sid
 	 * @param trip_id
@@ -141,6 +145,7 @@ public class Controller {
 	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
 	 *         STATUS_INVALID_USER see {@link Constants} and design.html
 	 */
+	@Deprecated
 	public int tripUpdatePos(String sid, int trip_id, float current_lat,
 			float current_lon) {
 		String status = JSonRequestReader.tripUpdatePos(sid, trip_id,
@@ -158,6 +163,25 @@ public class Controller {
 			return Constants.STATUS_INVALID_USER;
 		}
 		return 0;
+	}
+	/**
+	 * Updates the users position
+	 * @param sid
+	 * @param lat
+	 * @param lon
+	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_ERROR
+	 */
+	public int userUpdatePos(String sid, float lat, float lon){
+		String status = JSonRequestReader.userUpdatePos(sid, lat, lon);
+		
+		if(status.equals("updated")){
+			return Constants.STATUS_UPDATED;
+		}else if(status.equals("no_update")){
+			return Constants.STATUS_UPTODATE;
+		}else if(status.equals("update_fail")){
+			return Constants.STATUS_ERROR;
+		}
+		return Constants.STATUS_ERROR;
 	}
 
 	/**
