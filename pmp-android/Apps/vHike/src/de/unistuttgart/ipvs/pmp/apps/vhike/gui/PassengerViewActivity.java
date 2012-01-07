@@ -208,8 +208,8 @@ public class PassengerViewActivity extends MapActivity {
 			case Constants.STATUS_QUERY_DELETED:
 				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
 				MapModel.getInstance().clearPassengerOverlayList();
-				MapModel.getInstance().getHitchDrivers().clear();
-				appsAdapter.notifyDataSetChanged();
+				MapModel.getInstance().clearHitchDrivers();
+//				appsAdapter.notifyDataSetChanged();
 				PassengerViewActivity.this.finish();
 				break;
 			case Constants.STATUS_NO_QUERY:

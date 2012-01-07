@@ -67,7 +67,7 @@ public class LoginActivity extends Activity {
 						vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
 						
 						Toast.makeText(LoginActivity.this, "Login successful",
-								Toast.LENGTH_LONG).show();
+								Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(v.getContext(),
 								MainActivity.class);
 						v.getContext().startActivity(intent);
