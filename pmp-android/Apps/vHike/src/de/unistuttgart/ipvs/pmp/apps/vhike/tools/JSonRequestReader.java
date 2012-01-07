@@ -848,6 +848,9 @@ public class JSonRequestReader {
 	 */
 	public static List<HistoryRideObject> getHistory(String sid, String role) {
 
+		Log.i("SID:" + sid);
+		Log.i("Role:" + role);
+		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("role", role, true));
@@ -855,13 +858,15 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"ride_history.php", false);
+					"ride_history.php", true);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		
+		
 		List<HistoryRideObject> historyObjects = null;
 		List<HistoryPersonObject> historyPersons = null;
 		boolean suc = false;
@@ -918,16 +923,19 @@ public class JSonRequestReader {
 									.getAsInt();
 							boolean rated = passObjects.get("rated")
 									.getAsBoolean();
-							
+
 							HistoryPersonObject person = new HistoryPersonObject(
 									userid, username, rating, rating_num, rated);
 							historyPersons.add(person);
 						}
 					}
-					HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination, historyPersons);
+					HistoryRideObject ride = new HistoryRideObject(tripid,
+							avail_seats, creation, ending, destination,
+							historyPersons);
 					historyObjects.add(ride);
 				}
 			}
+			Model.getInstance().setHsitoryObjHolder(historyObjects);
 		}
 
 		return historyObjects;
