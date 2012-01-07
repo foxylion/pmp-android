@@ -2,82 +2,73 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
-		<icon>res/drawable-hdpi/icon.png</icon>
+		<icon>res/drawable-xhdpi/icon.png</icon>
 		<defaultName lang="en">Filesystem</defaultName>
 		<name lang="de">Dateisystem</name>
-		<defaultDescription lang="en">Filesystem Resource to
+		<defaultDescription lang="en">File system Resource to
 			read and write files.
 		</defaultDescription>
 		<description lang="de">Dateisystem Ressource zum Dateien lesen
 			und schreiben.
 		</description>
-		<revision>1</revision>
+		<revision>2</revision>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting identifier="gen_r">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Generic read</defaultName>
 			<name lang="de">Generisches lesen</name>
-			<defaultDescription lang="en">Allows to read all files
-				stored on the SD-Card including files and directories controlled by
-				the
-				other privacy settings (e.g. data in the music directory).
+			<defaultDescription lang="en">Allows the application to
+				read every file stored on the device.
 			</defaultDescription>
-			<description lang="de">Erlaubt es alle Dateien auf der
-				SD-Karte zu lesen (inklusive Dateien und Ordner die von anderen
-				Privacy Settings kontrolliert werden).
+			<description lang="de">Erlaubt es alle Dateien dem Gerät zu
+				lesen.
 			</description>
 		</privacySetting>
 		<privacySetting identifier="gen_w">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Generic write</defaultName>
 			<name lang="de">Generisches schreiben</name>
-			<defaultDescription lang="en">Allows to write all files
-				stored on the SD-Card including files and directories controlled by
-				the
-				other privacy settings (e.g. data in the music directory).
+			<defaultDescription lang="en">Allows the application to
+				write files everywhere on the device.
 			</defaultDescription>
-			<description lang="de">Erlaubt es alle Dateien auf der
-				SD-Karte zu schreiben (inklusive Dateien und Ordner die von anderen
-				Privacy Settings kontrolliert werden).
+			<description lang="de">Erlaubt es Dateien auf dem ganzen Gerät
+				zu schreiben.
 			</description>
 		</privacySetting>
 		<privacySetting identifier="gen_l">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Generic list files</defaultName>
 			<name lang="de">Generisches Dateien auflisten</name>
-			<defaultDescription lang="en">Allows to list all files
-				stored on the SD-Card including files and directories controlled by
-				the
-				other privacy settings (e.g. data in the music directory).
+			<defaultDescription lang="en">Allows the application to
+				receive a list of all files stored in every directory of on the
+				device.
 			</defaultDescription>
-			<description lang="de">Erlaubt es alle Dateien auf der
-				SD-Karte aufzulisten (inklusive Dateien und Ordner die von anderen
-				Privacy Settings kontrolliert werden).
+			<description lang="de">Erlaubt es alle Dateien auf dem Gerät
+				aufzulisten.
 			</description>
 		</privacySetting>
 		<privacySetting identifier="gen_d">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Generic delete files</defaultName>
 			<name lang="de">Generisches löschen</name>
-			<defaultDescription lang="en">Allows to delete all
-				files stored on the SD-Card including files and directories
-				controlled by the
-				other privacy settings (e.g. data in the music directory).
+			<defaultDescription lang="en">Allows the application to
+				delete every file stored on the device.
 			</defaultDescription>
-			<description lang="de">Erlaubt es alle Dateien auf der
-				SD-Karte zu löschen (inklusive Dateien und Ordner die von anderen
-				Privacy Settings kontrolliert werden).
+			<description lang="de">Erlaubt es alle Dateien auf dem
+				Gerät zu
+				löschen.
 			</description>
 		</privacySetting>
 		<privacySetting identifier="gen_mkdirs">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Generic make directory</defaultName>
 			<name lang="de">Generisches Ordner erstellen</name>
-			<defaultDescription lang="en">Allows create directories
-				on the SD-Card.
+			<defaultDescription lang="en">Allows the application to
+				create directories everywhere on the device.
 			</defaultDescription>
-			<description lang="de">Erlaubt es Ordner auf der SD-Karte zu
+			<description lang="de">Erlaubt es Ordner auf dem ganzen Gerät
+				zu
 				erstellen.
 			</description>
 		</privacySetting>
@@ -131,7 +122,8 @@
 			<defaultDescription lang="en">Allows to delete all
 				files stored on the SD-Card including files and directories
 				controlled by the
-				other privacy settings (e.g. data in the music directory).
+				other privacy settings (e.g. data in the music
+				directory).
 			</defaultDescription>
 			<description lang="de">Erlaubt es alle Dateien auf der
 				SD-Karte zu löschen (inklusive Dateien und Ordner die von anderen
