@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-		<icon>res/drawable-hdpi/icon.png</icon>
+		<icon>res/drawable-xhdpi/icon.png</icon>
 		<defaultName lang="en">Database</defaultName>
 		<name lang="de">Datenbank</name>
 		<defaultDescription lang="en">Database Resource to
@@ -10,7 +10,7 @@
 		<description lang="de">Datenbank Ressource die grundlegende
 			Funktionen bietet wie z.B. lesen und schreiben in eine Datenbank
 		</description>
-		<revision>1</revision>
+		<revision>2</revision>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting identifier="read">
