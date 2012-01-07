@@ -256,31 +256,36 @@ public class Controller {
 		}
 		return Constants.STATUS_ERROR;
 	}
+
 	/**
 	 * Driver search for potential hitchhikers
+	 * 
 	 * @param sid
 	 * @param lat
 	 * @param lon
 	 * @param perimeter
 	 * @return List if QueryObjects otherwise, null
 	 */
-	public List<QueryObject> searchQuery(String sid, float lat, float lon, int perimeter) {
+	public List<QueryObject> searchQuery(String sid, float lat, float lon,
+			int perimeter) {
 		List<QueryObject> queryList = JSonRequestReader.searchQuery(sid, lat,
 				lon, perimeter);
 
 		return queryList;
 
 	}
-	
-	 /**
-	  * Hitchhiker search for the drivers in the given perimeter
-	  * @param sid
-	  * @param lat
-	  * @param lon
-	  * @param perimeter
-	  * @return List if QueryObjects otherwise, null
-	  */
-	public List<RideObject> searchRides(String sid, float lat, float lon, int perimeter) {
+
+	/**
+	 * Hitchhiker search for the drivers in the given perimeter
+	 * 
+	 * @param sid
+	 * @param lat
+	 * @param lon
+	 * @param perimeter
+	 * @return List if QueryObjects otherwise, null
+	 */
+	public List<RideObject> searchRides(String sid, float lat, float lon,
+			int perimeter) {
 		List<RideObject> queryList = JSonRequestReader.searchRides(sid, lat,
 				lon, perimeter);
 
@@ -288,16 +293,17 @@ public class Controller {
 
 	}
 
-	 /**
-	  * 
-	  * @param sid
-	  * @return List if OfferObjects otherwise, null
-	  */
+	/**
+	 * 
+	 * @param sid
+	 * @return List if OfferObjects otherwise, null
+	 */
 	public List<OfferObject> viewOffers(String sid) {
 		List<OfferObject> offerList = JSonRequestReader.viewOffer(sid);
 		return offerList;
 
 	}
+
 	/**
 	 * Sends an offer to the hitchhiker
 	 * 
@@ -349,18 +355,19 @@ public class Controller {
 		}
 		return Constants.STATUS_ERROR;
 	}
-	
+
 	/**
 	 * Returns the History of an user
+	 * 
 	 * @param sid
-	 * @param role 
+	 * @param role
 	 * @return
 	 */
-	public List<HistoryRideObject> getHistory(String sid, String role){
+	public List<HistoryRideObject> getHistory(String sid, String role) {
 		List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
-		
+
 		return list;
-		
+
 	}
 
 }
