@@ -405,6 +405,37 @@ public class JSonRequestReader {
 		return status;
 	}
 
+	public static String userUpdatePos(String sid, float lat, float lon){
+		listToParse.clear();
+		listToParse.add(new ParamObject("sid", sid, false));
+
+		listToParse.add(new ParamObject("lat", String
+				.valueOf(lat), true));
+		listToParse.add(new ParamObject("lon", String
+				.valueOf(lon), true));
+
+		JsonObject object = null;
+		try {
+			object = JSonRequestProvider.doRequest(listToParse,
+					"user_update_pos.php", false);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boolean suc = false;
+		String status = "update_fail";
+		if (object != null) {
+			suc = object.get("successful").getAsBoolean();
+			if(suc){
+				status = object.get("status").getAsString();	
+			}
+			
+			return status;
+		}
+
+		return status;
+	}
 	/**
 	 * Update the data of the trip
 	 * 
@@ -848,6 +879,9 @@ public class JSonRequestReader {
 	 */
 	public static List<HistoryRideObject> getHistory(String sid, String role) {
 
+		Log.i("SID:" + sid);
+		Log.i("Role:" + role);
+		
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
 		listToParse.add(new ParamObject("role", role, true));
@@ -855,13 +889,15 @@ public class JSonRequestReader {
 		JsonObject object = null;
 		try {
 			object = JSonRequestProvider.doRequest(listToParse,
-					"ride_history.php", true);
+					"ride_history.php", false);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		
+		
 		List<HistoryRideObject> historyObjects = null;
 		List<HistoryPersonObject> historyPersons = null;
 		boolean suc = false;
@@ -904,7 +940,7 @@ public class JSonRequestReader {
 							historyPersons.add(person);
 						}
 					} else {
-						JsonArray array_drivers = IObject.get("driver")
+						JsonArray array_drivers = IObject.get("passengers")
 								.getAsJsonArray();
 						for (int j = 0; j < array_drivers.size(); j++) {
 							JsonObject passObjects = array_drivers.get(j)
@@ -919,16 +955,34 @@ public class JSonRequestReader {
 									.getAsInt();
 							boolean rated = passObjects.get("rated")
 									.getAsBoolean();
-							
+
 							HistoryPersonObject person = new HistoryPersonObject(
 									userid, username, rating, rating_num, rated);
 							historyPersons.add(person);
 						}
+						JsonObject driver = IObject.get("driver").getAsJsonObject();
+						
+						int userid = driver.get("userid").getAsInt();
+						String username = driver.get("username")
+								.getAsString();
+						float rating = driver.get("rating")
+								.getAsFloat();
+						int rating_num = driver.get("rating_num")
+								.getAsInt();
+						boolean rated = driver.get("rated")
+								.getAsBoolean();
+
+						HistoryPersonObject person = new HistoryPersonObject(
+								userid, username, rating, rating_num, rated);
+						historyPersons.add(person);
 					}
-					HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination, historyPersons);
+					HistoryRideObject ride = new HistoryRideObject(tripid,
+							avail_seats, creation, ending, destination,
+							historyPersons);
 					historyObjects.add(ride);
 				}
 			}
+			Model.getInstance().setHistoryObjHolder(historyObjects);
 		}
 
 		return historyObjects;

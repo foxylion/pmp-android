@@ -182,8 +182,8 @@ public class DriverViewActivity extends MapActivity {
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
 				MapModel.getInstance().clearDriverOverlayList();
-				MapModel.getInstance().getHitchPassengers().clear();
-				appsAdapter.notifyDataSetChanged();
+				MapModel.getInstance().clearHitchPassengers();
+//				appsAdapter.notifyDataSetChanged();
 				DriverViewActivity.this.finish();
 				break;
 			}
