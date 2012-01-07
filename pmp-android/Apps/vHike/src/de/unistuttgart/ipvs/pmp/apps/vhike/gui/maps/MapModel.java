@@ -154,6 +154,13 @@ public class MapModel {
 		return hitchDrivers;
 	}
 
+	public void clearHitchDrivers() {
+		if (hitchDrivers != null) {
+			hitchDrivers.clear();
+			hitchDrivers = null;
+		}
+	}
+
 	/**
 	 * list of passengers within perimeter of a driver
 	 * 
@@ -164,6 +171,13 @@ public class MapModel {
 			hitchPassengers = new ArrayList<Profile>();
 		}
 		return hitchPassengers;
+	}
+
+	public void clearHitchPassengers() {
+		if (hitchPassengers != null) {
+			hitchPassengers.clear();
+			hitchPassengers = null;
+		}
 	}
 
 	/**

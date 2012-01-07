@@ -120,8 +120,6 @@ public class LocationUpdateHandler implements LocationListener {
 						(float) location.getLongitude(), 10000);
 				if (lqo != null) {
 					for (int i = 0; i < lqo.size(); i++) {
-						Toast.makeText(context, "Size: " + lqo.size(),
-								Toast.LENGTH_SHORT).show();
 						int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
 						int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
 						GeoPoint gpsPassenger = new GeoPoint(lati, lngi);
@@ -148,7 +146,7 @@ public class LocationUpdateHandler implements LocationListener {
 								.notifyDataSetChanged();
 					}
 				} else {
-					Toast.makeText(context, "Found nobody", Toast.LENGTH_SHORT)
+					Toast.makeText(context, "Nobody found", Toast.LENGTH_SHORT)
 							.show();
 				}
 				break;
