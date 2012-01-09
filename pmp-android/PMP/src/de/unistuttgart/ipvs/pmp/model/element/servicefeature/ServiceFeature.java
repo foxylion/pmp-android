@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -35,7 +37,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
      * internal data & links
      */
     protected Map<PrivacySetting, String> privacySettingValues;
-    protected boolean containsUnknownPrivacySettings;
+    protected List<MissingPrivacySettingValue> missingPrivacySettings;
     
     
     /* organizational */
@@ -50,8 +52,8 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [psv = %s, cups = %s]", ModelElement.collapseMapToString(this.privacySettingValues),
-                        String.valueOf(this.containsUnknownPrivacySettings));
+                + String.format(" [psv = %s, mps = %s]", ModelElement.collapseMapToString(this.privacySettingValues),
+                        ModelElement.collapseListToString(this.missingPrivacySettings));
     }
     
     
@@ -111,14 +113,21 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public boolean isAvailable() {
         checkCached();
-        return !this.containsUnknownPrivacySettings;
+        return this.missingPrivacySettings.size() == 0;
+    }
+    
+    
+    @Override
+    public MissingPrivacySettingValue[] getMissingPrivacySettings() {
+        checkCached();
+        return this.missingPrivacySettings.toArray(new MissingPrivacySettingValue[this.missingPrivacySettings.size()]);
     }
     
     
     @Override
     public boolean isActive() {
         checkCached();
-        if (this.containsUnknownPrivacySettings) {
+        if (this.missingPrivacySettings.size() > 0) {
             return false;
         }
         

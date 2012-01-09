@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
@@ -97,5 +98,12 @@ public interface IServiceFeature extends IModelElement {
      *         present.
      */
     public boolean isAvailable();
+    
+    
+    /**
+     * @return an array containing all the {@link MissingPrivacySettingValue}s that are missing for this service feature
+     *         to be available
+     */
+    public MissingPrivacySettingValue[] getMissingPrivacySettings();
     
 }
