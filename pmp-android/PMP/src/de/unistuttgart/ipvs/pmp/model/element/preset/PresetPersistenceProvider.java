@@ -114,7 +114,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(DESCRIPTION, this.element.description);
         cv.put(DELETED, String.valueOf(this.element.deleted));
         
-        wdb.update(TBL_PRESET, cv, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
+        wdb.update(TBL_PRESET, cv, CREATOR + " = ? AND " + IDENTIFIER + " = ?", new String[] {
                 this.element.getCreatorString(), this.element.getLocalIdentifier() });
     }
     
