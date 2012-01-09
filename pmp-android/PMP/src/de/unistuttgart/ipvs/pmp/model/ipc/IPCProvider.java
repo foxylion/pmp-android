@@ -1,16 +1,17 @@
 package de.unistuttgart.ipvs.pmp.model.ipc;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CountDownLatch;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
-import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -32,7 +33,7 @@ public class IPCProvider {
     /**
      * The map containing the IPC operations to be performed.
      */
-    private Map<String, Bundle> queue;
+    private ConcurrentMap<String, Bundle> queue;
     
     /**
      * Singleton stuff
@@ -50,7 +51,7 @@ public class IPCProvider {
      */
     private IPCProvider() {
         this.updateSession = 0;
-        this.queue = new HashMap<String, Bundle>();
+        this.queue = new ConcurrentHashMap<String, Bundle>();
     }
     
     
@@ -84,34 +85,27 @@ public class IPCProvider {
     private synchronized void rollout() {
         Log.d("Performing IPC rollout...");
         
-        // make sure we perform all operations before we clear the map
-        final CountDownLatch cdl = new CountDownLatch(this.queue.size());
-        
-        // for each entry, create a new binder
-        for (final Entry<String, Bundle> e : this.queue.entrySet()) {
-            final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), e.getKey());
+        // for each entry, create a new binder        
+        Set<String> latestKeySet = this.queue.keySet();
+        for (final String key : latestKeySet) {
+            // N.B. we must not use an entry set because due to concurrency the entry could get deleted
+            //      by another execution before we access it.
+            final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), key);
             
             asc.addCallbackHandler(new AbstractConnectorCallback() {
                 
                 @Override
                 public void onConnect(AbstractConnector connector) throws RemoteException {
-                    asc.getAppService().updateServiceFeatures(e.getValue());
-                    cdl.countDown();
+                    // remove is atomic
+                    Bundle value = IPCProvider.this.queue.remove(key);
+                    if (value != null) {
+                        asc.getAppService().updateServiceFeatures(value);
+                    }
                 }
             });
             // this call is asynchronous
             asc.bind();
         }
-        
-        // make the clearing safe
-        try {
-            cdl.await();
-        } catch (InterruptedException ie) {
-            // we cannot safely recover from this
-            throw new ModelIntegrityError(Assert.ILLEGAL_INTERRUPT, "InterruptedException", ie);
-        }
-        
-        this.queue.clear();
     }
     
     
@@ -125,8 +119,11 @@ public class IPCProvider {
      *            service feature is active i.e. granted
      */
     public synchronized void queue(String appPackage, Map<ServiceFeature, Boolean> verification) {
-        Bundle b = new Bundle();
+        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.nonNull(verification, new ModelMisuseError(Assert.ILLEGAL_NULL, "verification", verification));
         
+        // create the new bundle
+        Bundle b = new Bundle();
         for (Entry<ServiceFeature, Boolean> e : verification.entrySet()) {
             b.putBoolean(e.getKey().getLocalIdentifier(), e.getValue());
         }
