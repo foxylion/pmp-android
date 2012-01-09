@@ -3,11 +3,14 @@ package de.unistuttgart.ipvs.pmp.model.ipc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CountDownLatch;
 
 import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -80,6 +83,11 @@ public class IPCProvider {
      */
     private synchronized void rollout() {
         Log.d("Performing IPC rollout...");
+        
+        // make sure we perform all operations before we clear the map
+        final CountDownLatch cdl = new CountDownLatch(this.queue.size());
+        
+        // for each entry, create a new binder
         for (final Entry<String, Bundle> e : this.queue.entrySet()) {
             final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), e.getKey());
             
@@ -88,13 +96,22 @@ public class IPCProvider {
                 @Override
                 public void onConnect(AbstractConnector connector) throws RemoteException {
                     asc.getAppService().updateServiceFeatures(e.getValue());
+                    cdl.countDown();
                 }
             });
             // this call is asynchronous
             asc.bind();
-            
-            this.queue.remove(e.getKey());
         }
+        
+        // make the clearing safe
+        try {
+            cdl.await();
+        } catch (InterruptedException ie) {
+            // we cannot safely recover from this
+            throw new ModelIntegrityError(Assert.ILLEGAL_INTERRUPT, "InterruptedException", ie);
+        }
+        
+        this.queue.clear();
     }
     
     
