@@ -12,10 +12,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -146,8 +144,10 @@ public class NotificationAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context, ProfileActivity.class);
+				List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+				int userID = lqo.get(position).getUserid();
 				if (mWhichHitcher == 0) {
-					intent.putExtra("PASSENGER_ID", passengerID);
+					intent.putExtra("PASSENGER_ID", userID);
 				} else {
 					intent.putExtra("PASSENGER_ID", driverID);
 				}

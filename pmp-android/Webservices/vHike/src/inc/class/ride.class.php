@@ -58,7 +58,6 @@ class Ride {
             if ($ride == null) {
                 $ride = new Ride();
                 $ride->driver = $trip->getDriver();
-                $ride->driverRated = $row["driver_rated"];
                 $ride->trip = $trip;
             }
 
@@ -133,29 +132,40 @@ class Ride {
         }
 
         $db = Database::getInstance();
+        
         $query = $db->query("SELECT
                                 r.*, r.`id` AS rid, 
                                 t.*, t.`id` AS tid,
-                                driver.*, driver.`id` AS driverId
+                                pax.*, pax.`id` AS paxId,
+                                driver.`id` AS driverId
                              FROM
                                 `" . DB_PREFIX . "_ride` AS r, 
                                 `" . DB_PREFIX . "_trip` AS t, 
+                                `" . DB_PREFIX . "_user` AS pax,
                                 `" . DB_PREFIX . "_user` AS driver
-                             WHERE r.`trip` = t.`id`
+                             WHERE r.`trip` in (SELECT `trip` FROM `" . DB_PREFIX . "_ride` WHERE `passenger` = ". $passenger->getId() .")
+                             AND r.`trip` = t.`id`
                              AND t.`driver` = driver.`id`
-                             AND r.`passenger` = " . $passenger->getId());
+                             AND r.`passenger` = pax.`id`");
 
         $rides = array();
 
         // As there is only one ride per passenger, we can a ride-object per row
         while (($row = $db->fetch($query)) != null) {
-            $ride = new Ride();
-            $ride->driver = User::loadUserBySqlResult($row, "driverId");
-            $ride->driverRated = (bool) $row["driver_rated"];
-            $ride->trip = Trip::loadTripBySqlResult($row, "tid", "driverId");
-            $ride->passengers[] = $passenger;
+             // If this is a new ride -> create new ride-object
+            if (!array_key_exists($row["tid"], $rides)) {
+                $ride = new Ride();
+                $ride->driver = User::loadUser($row["driver"]);
+                $ride->trip = Trip::loadTripBySqlResult($row, "tid", "paxId");
 
-            $rides[(int) $row["tid"]] = $ride;
+                $rides[(int) $row["tid"]] = $ride;
+            }
+            
+            
+            // Add passengers
+            $ride = $rides[$row["tid"]];
+            $passenger = User::loadUserBySqlResult($row, "paxId");
+            $ride->passengers[] = $passenger;
         }
 
         return $rides;

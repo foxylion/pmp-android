@@ -7,7 +7,6 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -47,12 +46,14 @@ public class HistoryActivity extends ListActivity {
 
 	private void createPassengerActivity() {
 		title.setText(R.string.history_title_passenger);
+
 		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_PASSENGER);
 		
-		if(historyRides==null){
+		if(historyRides.size()==0){
 			historyRides = new ArrayList<HistoryRideObject>();
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}
+
 		this.adapter = new HistoryAdapter(this, historyRides);
 		setListAdapter(this.adapter);
 	}
@@ -60,9 +61,10 @@ public class HistoryActivity extends ListActivity {
 	private void createDriverActivity() {
 		title.setText(R.string.history_title_driver);
 		
-		historyRides = ctrl.getHistory(Model.getInstance().getSid(), Constants.ROLE_DRIVER);
+
+		historyRides = ctrl.getHistory(Model.getInstance().getSid(),Constants.ROLE_DRIVER);
 		
-		if(historyRides==null){
+		if(historyRides.size()==0){
 			historyRides = new ArrayList<HistoryRideObject>();
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}

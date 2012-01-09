@@ -2,7 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
-		<icon>res/drawable-hdpi/icon.png</icon>
+		<icon>res/drawable-xhdpi/icon.png</icon>
 		<defaultName lang="en">E-Mail</defaultName>
 		<name lang="de">E-Mail</name>
 		<defaultDescription lang="en">Can send E-Mails.
