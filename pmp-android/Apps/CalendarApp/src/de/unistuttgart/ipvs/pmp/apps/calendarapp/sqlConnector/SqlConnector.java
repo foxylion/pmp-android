@@ -108,7 +108,7 @@ public class SqlConnector {
                             // Storing in the model
                             Model.getInstance().addAppointment(new Appointment(id, name, desc, date, severity));
                             Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " name: "
-                                    + name + "description: " + columns[1] + " severity " + severity.toString());
+                                    + name + " description: " + columns[1] + " severity " + severity.toString());
                             
                             // Check if there's a new highest id                 
                             if (id > Model.getInstance().getHighestId()) {
