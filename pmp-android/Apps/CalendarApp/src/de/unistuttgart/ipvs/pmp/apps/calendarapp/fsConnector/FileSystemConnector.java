@@ -88,7 +88,8 @@ public class FileSystemConnector {
      * The import string
      */
     private String importString = null;
-   
+    
+    
     /**
      * This method provides the export for appointments to the file system of pmp (resource group)
      * 
@@ -123,6 +124,20 @@ public class FileSystemConnector {
             exportStringBuilder.append("BEGIN:VTODO\n");
             exportStringBuilder.append("SUMMARY:" + appointment.getName() + "\n");
             exportStringBuilder.append("DESCRIPTION:" + appointment.getDescrpition() + "\n");
+            
+            // Add the severity
+            exportStringBuilder.append("PRIORITY:");
+            switch (appointment.getSeverity()) {
+                case HIGH:
+                    exportStringBuilder.append("1\n");
+                    break;
+                case MIDDLE:
+                    exportStringBuilder.append("5\n");
+                    break;
+                case LOW:
+                    exportStringBuilder.append("6\n");
+                    break;
+            }
             
             // Format the date and time
             Calendar cal = new GregorianCalendar();
@@ -238,10 +253,11 @@ public class FileSystemConnector {
                             String name = null;
                             String description = null;
                             String dateString = null;
+                            Severity severity = Severity.MIDDLE;
                             for (int dataRow = 0; dataRow < importArray.length - 4; dataRow++) {
                                 String importRow = importArray[dataRow + 3];
                                 
-                                switch (dataRow % 5) {
+                                switch (dataRow % 6) {
                                     case 0:
                                         if (!importRow.equals("BEGIN:VTODO")) {
                                             success = false;
@@ -250,7 +266,8 @@ public class FileSystemConnector {
                                     case 1:
                                         if (!importRow.startsWith("SUMMARY:")) {
                                             success = false;
-                                        } else {;
+                                        } else {
+                                            ;
                                             name = importRow.substring(8);
                                         }
                                         break;
@@ -262,6 +279,30 @@ public class FileSystemConnector {
                                         }
                                         break;
                                     case 3:
+                                        if (!importRow.startsWith("PRIORITY:")) {
+                                            success = false;
+                                        } else {
+                                            int sev = 5;
+                                            try {
+                                                sev = Integer.valueOf(importRow.substring(9));
+                                            } catch (NumberFormatException e) {
+                                                Log.e("Could not parse severity", e);
+                                            }
+                                            
+                                            switch (sev) {
+                                                case 1:
+                                                    severity = Severity.HIGH;
+                                                    break;
+                                                case 5:
+                                                    severity = Severity.MIDDLE;
+                                                    break;
+                                                case 6:
+                                                    severity = Severity.LOW;
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case 4:
                                         if (!importRow.startsWith("DTSTAMP:")) {
                                             success = false;
                                         } else {
@@ -282,11 +323,11 @@ public class FileSystemConnector {
                                                         .valueOf(dateString.substring(13, 15)));
                                                 // Add the appointment to the list for importing
                                                 importAppointmentList.add(new Appointment(-1, name, description, cal
-                                                        .getTime(), Severity.MIDDLE));
+                                                        .getTime(), severity));
                                             }
                                         }
                                         break;
-                                    case 4:
+                                    case 5:
                                         if (!importRow.equals("END:VTODO")) {
                                             success = false;
                                         }
@@ -301,7 +342,7 @@ public class FileSystemConnector {
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                             } else {
-                               
+                                
                                 Model.getInstance().deleteAllAppointments();
                                 
                                 SqlConnector sqlCon = new SqlConnector();
@@ -310,11 +351,13 @@ public class FileSystemConnector {
                                     String nameTmp = appointmentToStore.getName();
                                     String descr = appointmentToStore.getDescrpition();
                                     Date date = appointmentToStore.getDate();
-                                    sqlCon.storeNewAppointmentWithoutModel(date, nameTmp, descr, Severity.MIDDLE);
+                                    Severity sev = appointmentToStore.getSeverity();
+                                    sqlCon.storeNewAppointmentWithoutModel(date, nameTmp, descr, sev);
                                     
                                     Log.d("Imported appointment: " + name);
                                     Log.d("Imported appointment: " + description);
                                     Log.d("Imported appointment: " + date);
+                                    Log.d("Imported appointment: " + sev.toString());
                                 }
                                 
                                 Log.d("Import succeed");
