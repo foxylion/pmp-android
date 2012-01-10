@@ -381,7 +381,7 @@ public class SqlConnector {
      * @param description
      *            the description that has changed
      */
-    public void changeAppointment(final Integer id, final Date date, final String name, final String description,
+    public void changeAppointment(final Integer id, final Date date, final Date oldDate, final String name, final String description,
             final Severity severity) {
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
