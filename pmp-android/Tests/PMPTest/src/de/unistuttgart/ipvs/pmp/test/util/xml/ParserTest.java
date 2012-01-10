@@ -333,7 +333,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with no service features.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.SERVICE_FEATURE_MISSING, xmlpe.getType());
         }
     }
     
@@ -350,7 +350,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with service feature that requires no RGs.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.REQUIRED_RESOURCE_GROUP_MISSING, xmlpe.getType());
         }
     }
     
@@ -596,7 +596,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with SF with two RGs with same identifier.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
+            assertEquals(XMLParserException.Type.REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
         }
     }
     
