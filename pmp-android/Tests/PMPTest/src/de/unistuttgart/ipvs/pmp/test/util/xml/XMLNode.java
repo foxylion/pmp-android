@@ -95,6 +95,10 @@ public class XMLNode {
         this.flags &= ~(TEXT_VALUE | CDATA_VALUE);
     }
     
+    public boolean removeChild(XMLNode child) {
+        return this.children.remove(child);        
+    }
+    
     
     public List<XMLAttribute> getAttributes() {
         return new ArrayList<XMLAttribute>(this.attributes);
