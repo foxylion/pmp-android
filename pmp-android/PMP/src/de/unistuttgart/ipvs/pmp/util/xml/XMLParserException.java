@@ -108,6 +108,11 @@ public class XMLParserException extends RuntimeException {
         REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
         
         /**
+         * The name of the root node is invalid
+         */
+        BAD_ROOT_NODE_NAME,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,
@@ -120,7 +125,12 @@ public class XMLParserException extends RuntimeException {
         /**
          * Something with the input does not work
          */
-        IO_EXCEPTION;
+        IO_EXCEPTION,
+        
+        /**
+         * The XML input stream was null
+         */
+        NULL_XML_STREAM;
     }
     
     /**

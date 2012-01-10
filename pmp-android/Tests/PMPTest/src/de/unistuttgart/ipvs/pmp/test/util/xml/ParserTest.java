@@ -661,7 +661,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with no PS.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.PRIVACY_SETTING_MISSING, xmlpe.getType());
         }
     }
     
@@ -754,7 +754,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with wrong main tag.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.BAD_ROOT_NODE_NAME, xmlpe.getType());
         }
     }
     
@@ -881,7 +881,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty name.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -898,7 +898,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty description.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -915,7 +915,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty name.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -932,7 +932,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty description.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -978,7 +978,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(null);
             fail("Parser accepted null.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.IO_EXCEPTION, xmlpe.getType());
+            assertEquals(XMLParserException.Type.NULL_XML_STREAM, xmlpe.getType());
         }
     }
     
