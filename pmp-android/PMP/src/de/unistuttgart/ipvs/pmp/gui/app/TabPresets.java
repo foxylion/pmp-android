@@ -5,16 +5,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetActivity;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetsAdapter;
@@ -60,6 +56,8 @@ public class TabPresets extends Activity {
     }
     
     
+    /* This is currently disabled, during non implemented functionality.
+     *
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -77,6 +75,7 @@ public class TabPresets extends Activity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
+    */
     
     
     /**
