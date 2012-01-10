@@ -26,6 +26,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
@@ -96,9 +97,11 @@ public class NewAppointmentDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.add_todo_dialog);
+        this.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_add);
         
         this.dPicker = (DatePicker) findViewById(R.id.datePicker);
         this.desc = (TextView) findViewById(R.id.description);
@@ -112,7 +115,7 @@ public class NewAppointmentDialog extends Dialog {
         this.confirm.setOnClickListener(new ConfirmListener());
         
         /*
-         * Neeeded to fill the width of the screen
+         * Needed to fill the width of the screen
          */
         getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
