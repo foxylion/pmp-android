@@ -61,8 +61,9 @@ public abstract class AbstractXMLParser {
     protected AbstractXMLParser(InputStream xmlStream) {
         
         // Check if the xmlStream is null
-        if (xmlStream == null)
+        if (xmlStream == null) {
             throw new XMLParserException(Type.NULL_XML_STREAM, "The xml input stream was null.");
+        }
         
         try {
             // Instantiate the document builder and get the document
@@ -245,8 +246,8 @@ public abstract class AbstractXMLParser {
      */
     public void validateValueListNotEmpty(List<String[]> values) {
         for (String[] stringArray : values) {
-            for (int itr = 0; itr < stringArray.length; itr++) {
-                validateValueNotEmpty(stringArray[itr]);
+            for (String element : stringArray) {
+                validateValueNotEmpty(element);
             }
         }
     }

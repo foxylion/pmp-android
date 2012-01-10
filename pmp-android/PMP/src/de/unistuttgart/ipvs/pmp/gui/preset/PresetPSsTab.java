@@ -171,13 +171,14 @@ public class PresetPSsTab extends Activity {
                 
                 return true;
             case 2:
-                new PresetConfirmRemovePSDialog(PresetPSsTab.this, preset, ps, PresetPSsTab.this).show();
+                new PresetConfirmRemovePSDialog(PresetPSsTab.this, this.preset, ps, PresetPSsTab.this).show();
                 
                 return true;
         }
         
         return false;
     }
+    
     
     public void removePrivacySetting(IPrivacySetting ps) {
         /*

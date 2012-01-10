@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 public class DialogConfirmDelete extends Dialog {
     
@@ -43,15 +43,15 @@ public class DialogConfirmDelete extends Dialog {
             
             @Override
             public void onClick(View v) {
-                ModelProxy.get().uninstallResourceGroup(resourceGroup.getIdentifier());
+                ModelProxy.get().uninstallResourceGroup(DialogConfirmDelete.this.resourceGroup.getIdentifier());
                 
                 Toast.makeText(DialogConfirmDelete.this.getContext(),
-                        DialogConfirmDelete.this.getContext().getString(R.string.rg_removed_success),
-                        Toast.LENGTH_LONG).show();
+                        DialogConfirmDelete.this.getContext().getString(R.string.rg_removed_success), Toast.LENGTH_LONG)
+                        .show();
                 
                 DialogConfirmDelete.this.dismiss();
-                installedDetails.dismiss();
-                installedTab.refreshList();
+                DialogConfirmDelete.this.installedDetails.dismiss();
+                DialogConfirmDelete.this.installedTab.refreshList();
             }
         });
         

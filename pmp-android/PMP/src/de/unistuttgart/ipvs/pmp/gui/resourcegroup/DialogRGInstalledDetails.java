@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
@@ -62,7 +60,9 @@ public class DialogRGInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                new DialogConfirmDelete(DialogRGInstalledDetails.this.getContext(), resourcegroup, DialogRGInstalledDetails.this, parent).show();
+                new DialogConfirmDelete(DialogRGInstalledDetails.this.getContext(),
+                        DialogRGInstalledDetails.this.resourcegroup, DialogRGInstalledDetails.this,
+                        DialogRGInstalledDetails.this.parent).show();
             }
         });
         

@@ -63,8 +63,9 @@ public class XMLParser extends AbstractXMLParser {
     protected AppInformationSet parse() {
         
         // Check, if the root node is named correctly
-        if (!this.doc.getDocumentElement().getNodeName().equals("appInformationSet"))
+        if (!this.doc.getDocumentElement().getNodeName().equals("appInformationSet")) {
             throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
+        }
         
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
@@ -92,7 +93,7 @@ public class XMLParser extends AbstractXMLParser {
         parseServiceFeaturesNode((Element) serviceFeatures.item(0));
         
         // Validate the AppInformationSet
-        InformationSetValidator.validateAISDiffPSValuesForDiffSFs(ais);
+        InformationSetValidator.validateAISDiffPSValuesForDiffSFs(this.ais);
         
         return this.ais;
     }
@@ -128,7 +129,8 @@ public class XMLParser extends AbstractXMLParser {
         validateValueListNotEmpty(descriptionList);
         
         // Check, if there is a correct number of child nodes of appInformation
-        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size() + descriptionList.size();
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size();
         checkNumberOfNodes(expectedNumber, appInformationElement);
         
         // Add to the app information set
@@ -230,7 +232,8 @@ public class XMLParser extends AbstractXMLParser {
         NodeList rrgNodeList = serviceFeaturesElement.getElementsByTagName("requiredResourceGroup");
         
         // Check, if there is a correct number of child nodes of serviceFeaturesElement
-        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size() + descriptionList.size() + rrgNodeList.getLength();
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size() + rrgNodeList.getLength();
         checkNumberOfNodes(expectedNumber, serviceFeaturesElement);
         
         // Check, if there is at least one required Resourcegroup defined

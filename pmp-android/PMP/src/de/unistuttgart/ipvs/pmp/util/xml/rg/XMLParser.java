@@ -60,10 +60,11 @@ public class XMLParser extends AbstractXMLParser {
      * @return created rg information set
      */
     protected RgInformationSet parse() {
-
+        
         // Check, if the root node is named correctly
-        if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet"))
+        if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet")) {
             throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
+        }
         
         // The main nodes "resourceGroupInformation" and "privacySettings" are
         // required once.
@@ -133,7 +134,8 @@ public class XMLParser extends AbstractXMLParser {
         validateValueListNotEmpty(descriptionList);
         
         // Check, if there is a correct number of child nodes of rgInformationElement
-        int expectedNumber = iconList.size() + revisionList.size() + defaultNameList.size() + nameList.size() + defaultDescriptionList.size() + descriptionList.size();
+        int expectedNumber = iconList.size() + revisionList.size() + defaultNameList.size() + nameList.size()
+                + defaultDescriptionList.size() + descriptionList.size();
         checkNumberOfNodes(expectedNumber, rgInformationElement);
         
         // Add to the rg information set
@@ -166,9 +168,10 @@ public class XMLParser extends AbstractXMLParser {
         NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName("privacySetting");
         
         // check, if there are Privacy Settings defined
-        if (privacySettingsNodeList.getLength() == 0)
+        if (privacySettingsNodeList.getLength() == 0) {
             throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
                     "You have to define at least one Privacy Setting.");
+        }
         
         // Check, if there is a correct number of child nodes of privacySettingsElement
         int expectedNumber = privacySettingsNodeList.getLength();
@@ -218,7 +221,8 @@ public class XMLParser extends AbstractXMLParser {
         validateValueListNotEmpty(descriptionList);
         
         // Check, if there is a correct number of child nodes of privacySettingsElement
-        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size() + descriptionList.size();
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size();
         checkNumberOfNodes(expectedNumber, privacySettingsElement);
         
         // Add to the rg information set

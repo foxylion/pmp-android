@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.app.ServiceFeature;
 /**
  * 
  * @author Marcus Vetter
- *
+ * 
  */
 public class InformationSetValidator {
     
@@ -35,12 +35,14 @@ public class InformationSetValidator {
                 ServiceFeature sfCompare = compareEntry.getValue();
                 
                 // If it's the same sf identifier, continue
-                if (entry.getKey().equals(compareEntry.getKey()))
+                if (entry.getKey().equals(compareEntry.getKey())) {
                     continue COMPARE_SF;
+                }
                 
                 // Continue, if they have a different number of RRGs
-                if (sf.getRequiredResourceGroups().size() != sfCompare.getRequiredResourceGroups().size())
+                if (sf.getRequiredResourceGroups().size() != sfCompare.getRequiredResourceGroups().size()) {
                     continue COMPARE_SF;
+                }
                 
                 for (Entry<String, RequiredResourceGroup> rrgEntry : sf.getRequiredResourceGroups().entrySet()) {
                     // The RRG of the sf
@@ -53,12 +55,14 @@ public class InformationSetValidator {
                         RequiredResourceGroup rrgCompare = rrgEntryCompare.getValue();
                         
                         // Continue, if the RRGs do not have the same identifier
-                        if (!rrgEntry.getKey().equals(rrgEntryCompare.getKey()))
+                        if (!rrgEntry.getKey().equals(rrgEntryCompare.getKey())) {
                             continue COMPARE_SF;
+                        }
                         
                         // Continue, if they have a different number of PSs within one RRG
-                        if (rrg.getPrivacySettingsMap().size() != rrgCompare.getPrivacySettingsMap().size())
+                        if (rrg.getPrivacySettingsMap().size() != rrgCompare.getPrivacySettingsMap().size()) {
                             continue COMPARE_SF;
+                        }
                         
                         // Iterate through all PSs of the rrg
                         for (Entry<String, String> psEntry : rrg.getPrivacySettingsMap().entrySet()) {
@@ -67,12 +71,14 @@ public class InformationSetValidator {
                             for (Entry<String, String> psEntryCompare : rrgCompare.getPrivacySettingsMap().entrySet()) {
                                 
                                 // Continue, if they have different PSs identifier
-                                if (!psEntry.getKey().equals(psEntryCompare.getKey()))
+                                if (!psEntry.getKey().equals(psEntryCompare.getKey())) {
                                     continue COMPARE_SF;
+                                }
                                 
                                 // Continue, of they have different PSs values
-                                if (!psEntry.getValue().equals(psEntryCompare.getValue()))
+                                if (!psEntry.getValue().equals(psEntryCompare.getValue())) {
                                     continue COMPARE_SF;
+                                }
                             }
                             
                         }

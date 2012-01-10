@@ -77,7 +77,6 @@ public class TabPresets extends Activity {
     }
     */
     
-    
     /**
      * Initiates the list of all assigned Presets.
      */

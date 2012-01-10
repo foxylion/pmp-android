@@ -34,6 +34,10 @@ public class ParserTest extends InstrumentationTestCase {
     private static final String APP_SF1_DEF_NAME = "A useless service feature";
     private static final String APP_SF1_DEF_DESC = "If it comes to service features, it can't get worse than this.";
     
+    private static final String APP_SF2_ID = "OutOfServiceFeature";
+    private static final String APP_SF2_DEF_NAME = "You didn't expect this";
+    private static final String APP_SF2_DEF_DESC = "Maybe it can always get worse.";
+    
     private static final String APP_SF1_LOC_NAME = "M\u1ed9t t\u00ednh n\u0103ng d\u1ecbch v\u1ee5 v\u00f4 d\u1ee5ng";
     private static final Locale APP_SF1_LOC_NAME_LOCALE = new Locale("vi");
     private static final String APP_SF1_LOC_DESC = "\u05d0\u05dd \u05de\u05d3\u05d5\u05d1\u05e8 \u05e2\u05dc \u05ea\u05db"
@@ -644,6 +648,29 @@ public class ParserTest extends InstrumentationTestCase {
             fail("Parser accepted app with SF with two PSs with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
+        }
+    }
+    
+    
+    public void testAppTwoSameSFReqs() throws Exception {
+        makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+        sfs.addChild(xmlSF1);
+        XMLNode xmlSF2 = makeSF(APP_SF2_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
+        addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+        sfs.addChild(xmlSF2);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        debug(ste.getMethodName());
+        
+        try {
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            fail("Parser accepted app with SF both requiring only the same PS.");
+        } catch (XMLParserException xmlpe) {
+            assertEquals(XMLParserException.Type.AT_LEAST_TWO_SFS_ADDRESS_SAME_RRGS_AND_PSS, xmlpe.getType());
         }
     }
     
