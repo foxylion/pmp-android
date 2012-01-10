@@ -61,7 +61,6 @@ public class XMLParser extends AbstractXMLParser {
      */
     protected AppInformationSet parse() {
         
-        de.unistuttgart.ipvs.pmp.Log.e(String.valueOf(this.doc.getChildNodes().getLength()));
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
         NodeList appInformation = this.doc.getElementsByTagName("appInformation");
