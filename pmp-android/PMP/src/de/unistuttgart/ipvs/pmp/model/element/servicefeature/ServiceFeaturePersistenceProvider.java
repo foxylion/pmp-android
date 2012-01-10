@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.util.xml.app.RequiredResourceGroup;
@@ -41,7 +43,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 null, null);
         
         this.element.privacySettingValues = new HashMap<PrivacySetting, String>();
-        this.element.containsUnknownPrivacySettings = false;
+        this.element.missingPrivacySettings = new ArrayList<MissingPrivacySettingValue>();
         
         if (c.moveToFirst()) {
             do {
@@ -52,7 +54,8 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
                     Log.w("Unavailable service feature cached (RG not present).");
-                    this.element.containsUnknownPrivacySettings = true;
+                    this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
+                            reqValue));
                     
                 } else {
                     Map<String, PrivacySetting> pss = getCache().getPrivacySettings().get(rg);
@@ -60,7 +63,9 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                     
                     if (ps == null) {
                         Log.w("Unavailable service feature cached (PS not found in RG).");
-                        this.element.containsUnknownPrivacySettings = true;
+                        this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
+                                reqValue));
+                        
                     } else {
                         this.element.privacySettingValues.put(ps, reqValue);
                     }

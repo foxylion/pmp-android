@@ -60,8 +60,11 @@ public class XMLParser extends AbstractXMLParser {
      * @return created app information set
      */
     protected AppInformationSet parse() {
+
+        // Check, if the root node is named correctly
+        if (!this.doc.getDocumentElement().getNodeName().equals("appInformationSet"))
+            throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
         
-        de.unistuttgart.ipvs.pmp.Log.e(String.valueOf(this.doc.getChildNodes().getLength()));
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
         NodeList appInformation = this.doc.getElementsByTagName("appInformation");
@@ -109,6 +112,12 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the lang attributes of the default name and description is "en"
         validateLocaleAttributeEN(defaultNameList.get(0)[1]);
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
+        
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
         
         // Add to the app information set
         this.ais.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
@@ -178,6 +187,12 @@ public class XMLParser extends AbstractXMLParser {
         
         // Check, if the identifier is set
         validateIdentifier(identifier);
+        
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
         
         // Add to the app information set
         ServiceFeature sf = new ServiceFeature();
@@ -253,7 +268,7 @@ public class XMLParser extends AbstractXMLParser {
             
             // Validate identifier and value
             validateIdentifier(identifier);
-            validateValueSet(value);
+            validateValueNotEmpty(value);
             
             // Add identifier and value
             rrg.addPrivacySetting(identifier, value);

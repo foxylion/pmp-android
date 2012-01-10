@@ -21,6 +21,8 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -232,4 +234,18 @@ public interface IPreset extends IModelElement {
      * @return true, if all {@link IResourceGroup}s and {@link IApp}s which this preset requires are available in PMP
      */
     public boolean isAvailable();
+    
+    
+    /**
+     * @return an array containing all the {@link MissingPrivacySettingValue}s that are missing for this preset
+     *         to be available
+     */
+    public MissingPrivacySettingValue[] getMissingPrivacySettings();
+    
+    
+    /**
+     * @return an array containing all the {@link MissingApp}s that are missing for this preset
+     *         to be available
+     */
+    public MissingApp[] getMissingApps();
 }

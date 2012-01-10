@@ -60,6 +60,10 @@ public class XMLParser extends AbstractXMLParser {
      * @return created rg information set
      */
     protected RgInformationSet parse() {
+
+        // Check, if the root node is named correctly
+        if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet"))
+            throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
         
         // The main nodes "resourceGroupInformation" and "privacySettings" are
         // required once.
@@ -116,6 +120,14 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the identifier is set
         validateIdentifier(identifier);
         
+        // Check, if all values are set
+        validateValueListNotEmpty(iconList);
+        validateValueListNotEmpty(revisionList);
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
+        
         // Add to the rg information set
         this.rgis.setIdentifier(identifier);
         this.rgis.setIconLocation(iconList.get(0)[0]);
@@ -144,6 +156,11 @@ public class XMLParser extends AbstractXMLParser {
      */
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
         NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName("privacySetting");
+        
+        // check, if there are Privacy Settings defined
+        if (privacySettingsNodeList.getLength() == 0)
+            throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
+                    "You have to define at least one Privacy Setting.");
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
             parseOnePrivacySetting((Element) privacySettingsNodeList.item(itr));
         }
@@ -176,6 +193,15 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the lang attributes of the default name and description is "en"
         validateLocaleAttributeEN(defaultNameList.get(0)[1]);
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
+        
+        // Check, if the identifier is set
+        validateIdentifier(identifier);
+        
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
         
         // Add to the rg information set
         PrivacySetting ps = new PrivacySetting();
