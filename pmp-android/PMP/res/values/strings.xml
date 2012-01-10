@@ -120,6 +120,8 @@
     <string name="rg_server_not_available">The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing "Update".</string>
 	<string name="rg_removed_success">The Resource has been successfully removed.</string>
 	<string name="rg_processing_installation">Processing installation request&#8230;</string>
+	<string name="rg_confirm_remove">Confirm removing Resource</string>
+	<string name="rg_confirm_description">The Resource \'%1$s\' is going to be removed. If you confirm this all stored informations of the Resource will be deleted.</string>
     
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
@@ -131,7 +133,10 @@
     <!-- One Preset / Tab: Assigned Privacy Settings -->
     <string name="preset_tab_pss_no_pss_assigned">There are currently no Privacy Settings assigned.\nClick on menu to assign Privacy Settings.</string>
     <string name="preset_tab_pss_all_pss_already_assigned">All currently available Privacy Settings are already assigned.</string>
-
+	<string name="preset_confirm_remove_ps">Confirm removing Privacy Setting</string>
+	<string name="preset_confirm_remove_ps_description">The Privacy Setting \'%1$s\' is going to be removed. If you confirm this all stored informations in the Privacy Setting will be removed as well.</string>
+    <string name="preset_removed_ps_success">The Privacy Setting has been successfully removed from the Preset.</string>
+    
     <!-- About the app -->
     <string name="about_text">The Privacy Management Platform is developed, in case of a research project, at University Stuttgart.</string>
 
