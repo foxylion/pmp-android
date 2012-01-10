@@ -62,16 +62,7 @@ public class DialogRGInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                ModelProxy.get().uninstallResourceGroup(DialogRGInstalledDetails.this.resourcegroup.getIdentifier());
-                
-                Toast.makeText(DialogRGInstalledDetails.this.getContext(),
-                        DialogRGInstalledDetails.this.getContext().getString(R.string.rg_removed_success),
-                        Toast.LENGTH_LONG).show();
-                DialogRGInstalledDetails.this.dismiss();
-                
-                if (DialogRGInstalledDetails.this.parent != null) {
-                    DialogRGInstalledDetails.this.parent.refreshList();
-                }
+                new DialogConfirmDelete(DialogRGInstalledDetails.this.getContext(), resourcegroup, DialogRGInstalledDetails.this, parent).show();
             }
         });
         

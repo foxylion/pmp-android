@@ -31,6 +31,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -131,7 +132,7 @@ public abstract class AbstractXMLParser {
         for (int nodeListItr = 0; nodeListItr < nodeList.getLength(); nodeListItr++) {
             // Get the element
             Element element = (Element) nodeList.item(nodeListItr);
-
+            
             // Build the result array
             int resultArrayLength = attributeNames.length + 1;
             String[] resultArray = new String[resultArrayLength];
@@ -230,10 +231,11 @@ public abstract class AbstractXMLParser {
      *            value to validate
      */
     public void validateValueNotEmpty(String value) {
-            if (value.equals("") || value == null) {
-                throw new XMLParserException(Type.VALUE_MISSING, "The value of a node is empty.");
-            }
+        if (value.equals("") || value == null) {
+            throw new XMLParserException(Type.VALUE_MISSING, "The value of a node is empty.");
+        }
     }
+    
     
     /**
      * The method validates, if a given list of string value are set
@@ -242,11 +244,38 @@ public abstract class AbstractXMLParser {
      *            values to validate
      */
     public void validateValueListNotEmpty(List<String[]> values) {
-            for (String[] stringArray : values) {
-                for (int itr = 0; itr < stringArray.length; itr++) {
-                    validateValueNotEmpty(stringArray[itr]);
-                }
+        for (String[] stringArray : values) {
+            for (int itr = 0; itr < stringArray.length; itr++) {
+                validateValueNotEmpty(stringArray[itr]);
             }
+        }
+    }
+    
+    
+    /**
+     * This methods checks, if a parent has exactly the number of child nodes expected by the parameter "expectedNumber"
+     * 
+     * @param expectedNumber
+     *            expected number of occurrences of child nodes of the given parent (root element)
+     * @param rootElement
+     *            the root element to check it's children
+     */
+    public void checkNumberOfNodes(int expectedNumber, Element rootElement) {
+        int numberOfNodes = 0;
+        
+        for (int itr = 0; itr < rootElement.getChildNodes().getLength(); itr++) {
+            if (rootElement.getChildNodes().item(itr).getNodeType() == Node.ELEMENT_NODE) {
+                numberOfNodes++;
+            }
+        }
+        
+        if (expectedNumber < numberOfNodes) {
+            throw new XMLParserException(Type.UNEXPECTED_NODE, "Unexpected node found. It's parent is "
+                    + rootElement.getNodeName());
+        } else if (expectedNumber > numberOfNodes) {
+            throw new XMLParserException(Type.NODE_MISSING, "There is at least one node missing. It's parent is "
+                    + rootElement.getNodeName());
+        }
     }
     
 }

@@ -457,7 +457,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with locale below wrong tag.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.UNEXPECTED_NODE, xmlpe.getType());
         }
     }
     
