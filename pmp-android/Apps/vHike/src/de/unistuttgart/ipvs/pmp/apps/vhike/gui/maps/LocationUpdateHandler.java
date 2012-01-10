@@ -1,15 +1,14 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.List;
 import java.util.Locale;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
-import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -18,7 +17,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -26,7 +24,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
-
+ 
 /**
  * Handles location updates
  * 
@@ -68,6 +66,7 @@ public class LocationUpdateHandler implements LocationListener {
 		ctrl = new Controller();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onLocationChanged(Location location) {
 		/**
 		 * draw an overlay for driver or passenger
@@ -85,21 +84,13 @@ public class LocationUpdateHandler implements LocationListener {
 		if (mWhichHitcher == 0) {
 
 			// clear list first and draw everything new
-			MapModel.getInstance().clearDriverOverlayList();
+			MapModel.getInstance().clearDriverOverlayList(mapView);
 			MapModel.getInstance().getHitchPassengers().clear();
+			notiID = 0;
 
-			// Driver drawable and overlay
-			Drawable drawableDriver = context.getResources().getDrawable(
-					R.drawable.icon_ride);
-			DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
-					gPosition);
-
-			OverlayItem oDriverItem = new OverlayItem(gPosition,
-					"Who wants a ride?", "User: " + me.getUsername()
-							+ ", Rating: " + me.getRating_avg());
-			dOverlay.addOverlay(oDriverItem);
-
-			MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
+			// draw me in
+			MapModel.getInstance().add2DriverOverlay(context, gPosition, me,
+					mapView, 0);
 
 			/**
 			 * send server updated latitude and longitude
@@ -129,8 +120,9 @@ public class LocationUpdateHandler implements LocationListener {
 								.getSid(), lqo.get(i).getUserid());
 
 						// add an passenger to overlay
-						MapModel.getInstance().addPassenger2Overlay(context,
-								gpsPassenger, passenger, mapView);
+						MapModel.getInstance().add2DriverOverlay(context,
+								gpsPassenger, passenger, mapView, 1);
+						Log.i("Added overlay");
 
 						// add up ID for statusbar notification
 						notiID++;
@@ -151,11 +143,11 @@ public class LocationUpdateHandler implements LocationListener {
 				}
 				break;
 			case Constants.STATUS_UPTODATE:
-				Toast.makeText(context, "Status up to date", Toast.LENGTH_LONG)
+				Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT)
 						.show();
 				break;
 			case Constants.STATUS_NOTRIP:
-				Toast.makeText(context, "Status no trip ", Toast.LENGTH_LONG)
+				Toast.makeText(context, "Status no trip ", Toast.LENGTH_SHORT)
 						.show();
 				break;
 			case Constants.STATUS_HASENDED:
@@ -172,32 +164,14 @@ public class LocationUpdateHandler implements LocationListener {
 			MapModel.getInstance().clearPassengerOverlayList();
 			MapModel.getInstance().getHitchDrivers().clear();
 
-			// Passenger drawable and overlay
-			Drawable drawablePassenger = context.getResources().getDrawable(
-					R.drawable.passenger_logo);
-			PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
-					context);
+			// draw me in
+			MapModel.getInstance().add2PassengerOverlay(context, gPosition, me,
+					mapView, 0);
 
-			OverlayItem oPassengerItem = new OverlayItem(gPosition,
-					"I need a ride!", "User: " + me.getUsername()
-							+ ", Rating: " + me.getRating_avg());
-			pOverlay.addOverlay(oPassengerItem);
-
-			MapModel.getInstance().getPassengerOverlayList(mapView)
-					.add(pOverlay);
-
-			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
-					.getInstance().getDestination(), (float) location
-					.getLatitude(), (float) location.getLongitude(), MapModel
-					.getInstance().getNumSeats())) {
-			case (Constants.QUERY_ID_ERROR):
-				Toast.makeText(context, "Query error", Toast.LENGTH_LONG)
-						.show();
-				break;
-			default:
-				Toast.makeText(context, "Query updated/started",
-						Toast.LENGTH_SHORT).show();
-
+			switch (ctrl.userUpdatePos(Model.getInstance().getSid(),
+					(float) location.getLatitude(),
+					(float) location.getLongitude())) {
+			case (Constants.STATUS_UPDATED):
 				List<OfferObject> loo = ctrl.viewOffers(Model.getInstance()
 						.getSid());
 				if (loo != null) {
@@ -211,8 +185,8 @@ public class LocationUpdateHandler implements LocationListener {
 
 						notiID++;
 
-						MapModel.getInstance().addDriver2Overlay(context,
-								gpsDriver, driver, mapView);
+						MapModel.getInstance().add2PassengerOverlay(context,
+								gpsDriver, driver, mapView, 1);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1, notiID);
@@ -220,10 +194,20 @@ public class LocationUpdateHandler implements LocationListener {
 								.notifyDataSetChanged();
 					}
 				} else {
-					Toast.makeText(context, "List null", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(context, "OfferObject null",
+							Toast.LENGTH_SHORT).show();
 				}
 
+				Toast.makeText(context, "STATUS_UPDATED", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case Constants.STATUS_UPTODATE:
+				Toast.makeText(context, "NO UPDATE, UP 2 DATE",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case Constants.STATUS_ERROR:
+				Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT)
+						.show();
 				break;
 			}
 		}
@@ -294,21 +278,6 @@ public class LocationUpdateHandler implements LocationListener {
 		}
 
 		return address.toString();
-	}
-
-	/**
-	 * get longtitude and latitude of current location
-	 * 
-	 * @return
-	 */
-	public int[] getCoordinates() {
-		location = locationManager
-				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		int lng = (int) (location.getLongitude() * 1E6);
-		int lat = (int) (location.getLatitude() * 1E6);
-		int coordinates[] = { lat, lng };
-
-		return coordinates;
 	}
 
 }

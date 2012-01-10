@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.R; 
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
@@ -58,6 +59,11 @@ public class UpdateData extends Dialog {
 				case (Constants.STATUS_UPDATED):
 					Toast.makeText(v.getContext(), "Updated",
 							Toast.LENGTH_SHORT).show();
+				
+					Log.i("Destination:"
+							+ MapModel.getInstance().getDestination()
+							+ ", Seats: "
+							+ MapModel.getInstance().getNumSeats());
 					cancel();
 					break;
 				case Constants.STATUS_UPTODATE:
