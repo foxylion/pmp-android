@@ -81,6 +81,12 @@ public class Model {
     private ArrayAdapter<FileDetails> importArrayAdapter;
     
     /**
+     * Highest id of {@link Appointment}s
+     */
+    private int highestId = 0;
+    
+    
+    /**
      * Private constructor because of singleton
      */
     private Model() {
@@ -487,5 +493,37 @@ public class Model {
         appContext.updateNoAvaiableAppointmentsTextView();
         SqlConnector connector = new SqlConnector();
         connector.deleteAllApointments();
+    }
+    
+    
+    /**
+     * Gets the current highest id
+     * 
+     * @return highestId
+     */
+    public int getHighestId() {
+        return highestId;
+    }
+    
+    
+    /**
+     * Sets the current highest id
+     * 
+     * @param highestId
+     *            highest id to set
+     */
+    public void setHighestId(int highestId) {
+        this.highestId = highestId;
+    }
+    
+    
+    /**
+     * Gets a new highest id
+     * 
+     * @return highestId++
+     */
+    public int getNewHighestId() {
+        highestId++;
+        return highestId;
     }
 }

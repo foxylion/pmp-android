@@ -109,6 +109,10 @@ public class SqlConnector {
                             Model.getInstance().addAppointment(new Appointment(id, name, desc, date, severity));
                             Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2] + " name: "
                                     + name + " description: " + columns[1] + " severity " + severity.toString());
+                            
+                            if (id > Model.getInstance().getHighestId()) {
+                                Model.getInstance().setHighestId(id);
+                            }
                         }
                     } catch (RemoteException e) {
                         Toast.makeText(Model.getInstance().getContext(),
@@ -165,7 +169,9 @@ public class SqlConnector {
                     try {
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
+                        int id = Model.getInstance().getNewHighestId();
                         
+                        values.put(ID, String.valueOf(id));
                         values.put(SqlConnector.this.NAME, name);
                         values.put(SqlConnector.this.DESC, description);
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
@@ -176,12 +182,6 @@ public class SqlConnector {
                         if (result != -1) {
                             idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
                                     SqlConnector.this.DATE);
-                            // Get the id of this appointment
-                            String[] columns = {};
-                            columns = idc.getRowAt((int) result - 1);
-                            
-                            // Storing everything from this appointment
-                            int id = Integer.valueOf(columns[0]);
                             
                             Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                     + " description: " + description);
@@ -248,6 +248,9 @@ public class SqlConnector {
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
                         
+                        int id = Model.getInstance().getNewHighestId();
+                        
+                        values.put(ID, String.valueOf(id));
                         values.put(SqlConnector.this.NAME, name);
                         values.put(SqlConnector.this.DESC, description);
                         values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
@@ -256,13 +259,6 @@ public class SqlConnector {
                         long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
                         Log.v("Return value of insert: " + result);
                         if (result != -1) {
-                            // Get the id of this appointment
-                            String[] columns = {};
-                            columns = idc.getRowAt((int) result - 1);
-                            
-                            // Storing everything from this appointment
-                            int id = Integer.valueOf(columns[0]);
-                            
                             Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                     + " description: " + description);
                         } else {
@@ -311,6 +307,8 @@ public class SqlConnector {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
+                        Log.v("Trying to delete appointment with id: " + app.getId() + " name: " + app.getName()
+                                + " Description: " + app.getDescrpition());
                         
                         String[] args = new String[1];
                         args[0] = String.valueOf(app.getId());
@@ -320,6 +318,7 @@ public class SqlConnector {
                          */
                         if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
                             Log.v("Deleting date: id: " + String.valueOf(app.getId()));
+                            Model.getInstance().deleteAppointment(app);
                         } else {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
@@ -478,7 +477,7 @@ public class SqlConnector {
                             
                             // Columns of the table
                             Map<String, String> columns = new HashMap<String, String>();
-                            columns.put(SqlConnector.this.ID, "INTEGER PRIMARY KEY AUTOINCREMENT");
+                            columns.put(SqlConnector.this.ID, "INTEGER");
                             columns.put(SqlConnector.this.NAME, "TEXT");
                             columns.put(SqlConnector.this.DESC, "TEXT");
                             columns.put(SqlConnector.this.DATE, "TEXT");
