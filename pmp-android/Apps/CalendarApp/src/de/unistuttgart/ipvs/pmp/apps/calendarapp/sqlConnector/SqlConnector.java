@@ -149,6 +149,11 @@ public class SqlConnector {
     public void storeNewAppointment(final Date date, final String name, final String description,
             final Severity severity) {
         
+        if (description.equals("") && name.equals("")) {
+            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             
@@ -226,6 +231,11 @@ public class SqlConnector {
     public void storeNewAppointmentWithoutModel(final Date date, final String name, final String description,
             final Severity severity) {
         
+        if (description.equals("") && name.equals("")) {
+            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             
@@ -248,7 +258,7 @@ public class SqlConnector {
                         if (result != -1) {
                             // Get the id of this appointment
                             String[] columns = {};
-                            columns = idc.getRowAt((int) result);
+                            columns = idc.getRowAt((int) result - 1);
                             
                             // Storing everything from this appointment
                             int id = Integer.valueOf(columns[0]);
@@ -390,6 +400,11 @@ public class SqlConnector {
      */
     public void changeAppointment(final Integer id, final Date date, final Date oldDate, final String name,
             final String description, final Severity severity) {
+        if (description.equals("") && name.equals("")) {
+            Toast.makeText(this.appContext, R.string.appointment_not_changed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
         pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
             

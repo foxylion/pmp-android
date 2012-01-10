@@ -57,7 +57,8 @@
     <string name="invalid_file_name_message">Der eingegebene Dateiname ist ungültig.</string>
     <string name="error">Fehler</string>
     <string name="not_found">PMP konnte nicht gefunden werde.\n Der Kalendar wird geschlossen.</string>
-    <string name="appointment_not_added">Nichts zum Hinzufügen</string>
+    <string name="appointment_not_added">Nichts hinzugefügt. Bitte Name oder Beschreibung hinzufügen.</string>
+    <string name="appointment_not_changed">Nichts geändert. Bitte Name oder Beschreibung hinzufügen.</string>
     <string name="severity">Priorität:</string>
     <string name="severity_high">hoch</string>
     <string name="severity_middle">mittel</string>

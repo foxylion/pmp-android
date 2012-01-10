@@ -45,7 +45,7 @@ public class NotificationAdapter extends BaseAdapter {
 	private int mWhichHitcher;
 	private int queryID;
 	private int offerID;
-	private int passengerID;
+	private int userID;
 	private int driverID;
 
 	public NotificationAdapter(Context context, List<Profile> hitchhikers,
@@ -97,7 +97,7 @@ public class NotificationAdapter extends BaseAdapter {
 		if (mWhichHitcher == 0) {
 			List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 			queryID = lqo.get(position).getQueryid();
-			passengerID = lqo.get(position).getUserid();
+			userID = lqo.get(position).getUserid();
 		} else {
 			List<OfferObject> loo = Model.getInstance().getOfferHolder();
 			offerID = loo.get(position).getOffer_id();
@@ -145,12 +145,20 @@ public class NotificationAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, ProfileActivity.class);
 				List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-				int userID = lqo.get(position).getUserid();
+				List<OfferObject> loo = Model.getInstance().getOfferHolder();
+
+				if (mWhichHitcher == 0) {
+					userID = lqo.get(position).getUserid();
+				} else {
+					userID = loo.get(position).getUser_id();
+				}
+
 				if (mWhichHitcher == 0) {
 					intent.putExtra("PASSENGER_ID", userID);
 				} else {
 					intent.putExtra("PASSENGER_ID", driverID);
 				}
+
 				intent.putExtra("MY_PROFILE", 1);
 
 				context.startActivity(intent);
