@@ -125,8 +125,8 @@ public class PassengerViewActivity extends MapActivity {
 						GeoPoint gpsDriver = new GeoPoint(lat, lng);
 						notiID++;
 
-						MapModel.getInstance().addDriver2Overlay(context,
-								gpsDriver, driver, mapView);
+						MapModel.getInstance().add2PassengerOverlay(context,
+								gpsDriver, driver, mapView, 1);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1, notiID);
@@ -207,9 +207,11 @@ public class PassengerViewActivity extends MapActivity {
 					.getInstance().getQueryId())) {
 			case Constants.STATUS_QUERY_DELETED:
 				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+
 				MapModel.getInstance().clearPassengerOverlayList();
 				MapModel.getInstance().clearHitchDrivers();
-//				appsAdapter.notifyDataSetChanged();
+				MapModel.getInstance().clearPassengerNotificationAdapter();
+
 				PassengerViewActivity.this.finish();
 				break;
 			case Constants.STATUS_NO_QUERY:

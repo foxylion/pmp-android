@@ -66,10 +66,11 @@ public class MapModel {
 		return mapDriverOverlays;
 	}
 
-	public void clearDriverOverlayList() {
+	public void clearDriverOverlayList(MapView mapView) {
 		if (mapDriverOverlays != null) {
 			mapDriverOverlays.clear();
 			mapDriverOverlays = null;
+			mapView = null;
 		}
 	}
 
@@ -109,7 +110,7 @@ public class MapModel {
 	 * @param spNumSeats
 	 */
 	public void setNumSeats(Spinner spNumSeats) {
-		numSeats = spNumSeats.getSelectedItemPosition();
+		numSeats = spNumSeats.getSelectedItemPosition() + 1;
 		if (numSeats == 0) {
 			numSeats = 1;
 		}
@@ -194,6 +195,13 @@ public class MapModel {
 		return driverAdapter;
 	}
 
+	public void clearDriverNotificationAdapter() {
+		if (driverAdapter != null) {
+			driverAdapter = null;
+			slider_Driver = null;
+		}
+	}
+
 	/**
 	 * Adapter to show found passengers
 	 * 
@@ -206,6 +214,12 @@ public class MapModel {
 					getHitchDrivers(), 1);
 		}
 		return passengerAdapter;
+	}
+
+	public void clearPassengerNotificationAdapter() {
+		if (passengerAdapter != null) {
+			passengerAdapter = null;
+		}
 	}
 
 	/**
@@ -249,7 +263,6 @@ public class MapModel {
 		// define the notification's message and PendingContent
 		Intent notificationIntent = new Intent(context, ProfileActivity.class);
 		notificationIntent.putExtra("MY_PROFILE", 1);
-		Log.i("ProfileID: " + profileID);
 		notificationIntent.putExtra("PASSENGER_ID", profileID);
 
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
@@ -257,6 +270,7 @@ public class MapModel {
 
 		notification.setLatestEventInfo(context, contentTitle, contentText,
 				contentIntent);
+		notification.flags = Notification.FLAG_AUTO_CANCEL;
 
 		// pass notification to notificationManager
 		mNotificationManager.notify(notiID, notification);
@@ -268,16 +282,15 @@ public class MapModel {
 			slider_Driver = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.notiSlider);
 			slider_Driver.open();
-			MapModel.getInstance().getDriverAdapter(context)
-					.notifyDataSetChanged();
+			Log.i("Slider opened");
+			getDriverAdapter(context).notifyDataSetChanged();
 		} else {
 			// getHitchDrivers().clear();
 			// getHitchDrivers().add(profile);
 			slider_Passenger = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.slidingDrawer);
 			slider_Passenger.open();
-			MapModel.getInstance().getPassengerAdapter(context)
-					.notifyDataSetChanged();
+			getPassengerAdapter(context).notifyDataSetChanged();
 		}
 
 	}
@@ -290,21 +303,36 @@ public class MapModel {
 	 * @param passenger
 	 * @param mapView
 	 */
-	public void addPassenger2Overlay(Context context, GeoPoint gpsPassenger,
-			Profile passenger, MapView mapView) {
-		Drawable drawablePassenger = context.getResources().getDrawable(
-				R.drawable.passenger_logo);
-		PassengerOverlay passengerOverlay = new PassengerOverlay(
-				drawablePassenger, context);
+	public void add2DriverOverlay(Context context, GeoPoint gps,
+			Profile passenger, MapView mapView, int which1) {
+		Drawable drawable;
+		if (which1 == 0) {
+			drawable = context.getResources().getDrawable(R.drawable.icon_ride);
+			DriverOverlay driverOverlay = new DriverOverlay(drawable, context,
+					gps);
+			OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man",
+					"User: " + passenger.getUsername() + ", Rating: "
+							+ passenger.getRating_avg());
+			driverOverlay.addOverlay(opDriverItem);
 
-		OverlayItem opPassengerItem = new OverlayItem(gpsPassenger,
-				"I need a ride", "User: " + passenger.getUsername()
-						+ ", Rating: " + passenger.getRating_avg());
-		passengerOverlay.addOverlay(opPassengerItem);
+			MapModel.getInstance().getDriverOverlayList(mapView)
+					.add(driverOverlay);
+			mapView.invalidate();
+		} else {
+			drawable = context.getResources().getDrawable(
+					R.drawable.passenger_logo);
+			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable,
+					context);
+			OverlayItem opPassengerItem = new OverlayItem(gps, "I need a ride",
+					"User: " + passenger.getUsername() + ", Rating: "
+							+ passenger.getRating_avg());
+			passengerOverlay.addOverlay(opPassengerItem);
 
-		// add found passenger to overlay
-		getDriverOverlayList(mapView).add(passengerOverlay);
-		mapView.invalidate();
+			// add found passenger to overlay
+			MapModel.getInstance().getDriverOverlayList(mapView)
+					.add(passengerOverlay);
+			mapView.invalidate();
+		}
 	}
 
 	/**
@@ -315,21 +343,36 @@ public class MapModel {
 	 * @param driver
 	 * @param mapView
 	 */
-	public void addDriver2Overlay(Context context, GeoPoint gpsDriver,
-			Profile driver, MapView mapView) {
-		Drawable drawableDriver = context.getResources().getDrawable(
-				R.drawable.icon_ride);
-		DriverOverlay driverOverlay = new DriverOverlay(drawableDriver,
-				context, gpsDriver);
+	public void add2PassengerOverlay(Context context, GeoPoint gps,
+			Profile profile, MapView mapView, int which1) {
+		Drawable drawable;
+		if (which1 == 0) {
+			drawable = context.getResources().getDrawable(
+					R.drawable.passenger_logo);
+			DriverOverlay driverOverlay = new DriverOverlay(drawable, context,
+					gps);
+			OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man",
+					"User: " + profile.getUsername() + ", Rating: "
+							+ profile.getRating_avg());
+			driverOverlay.addOverlay(opDriverItem);
 
-		OverlayItem opDriverItem = new OverlayItem(gpsDriver, "Hop in man",
-				"User: " + driver.getUsername() + ", Rating: "
-						+ driver.getRating_avg());
-		driverOverlay.addOverlay(opDriverItem);
+			MapModel.getInstance().getPassengerOverlayList(mapView)
+					.add(driverOverlay);
+			mapView.invalidate();
+		} else {
+			drawable = context.getResources().getDrawable(R.drawable.icon_ride);
+			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable,
+					context);
+			OverlayItem opPassengerItem = new OverlayItem(gps, "Hop on in man",
+					"User: " + profile.getUsername() + ", Rating: "
+							+ profile.getRating_avg());
+			passengerOverlay.addOverlay(opPassengerItem);
 
-		MapModel.getInstance().getPassengerOverlayList(mapView)
-				.add(driverOverlay);
-		mapView.invalidate();
+			// add found passenger to overlay
+			MapModel.getInstance().getPassengerOverlayList(mapView)
+					.add(passengerOverlay);
+			mapView.invalidate();
+		}
 	}
 
 }
