@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -269,11 +270,16 @@ public class SeparatedListAdapter extends BaseAdapter {
         
         @Override
         public int compare(String lhs, String rhs) {
-            long d1 = Date.parse(lhs);
-            long d2 = Date.parse(rhs);
-            Date d11 = new Date(d1);
-            Date d12 = new Date(d2);
-            return d11.compareTo(d12);
+            try {
+                long d1 = Date.parse(lhs);
+                long d2 = Date.parse(rhs);
+                Date d11 = new Date(d1);
+                Date d12 = new Date(d2);
+                return d11.compareTo(d12);
+            } catch (IllegalArgumentException e) {
+                Log.e("Could not parse date", e);
+            }
+            return 0;
         }
         
     }
