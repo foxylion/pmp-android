@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
+import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
@@ -390,8 +391,8 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(2, sf1.getDescriptions().size());
         assertEquals(APP_SF1_DEF_NAME, sf1.getNames().get(XML_DEFAULT_EN_LOCALE));
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
-        assertEquals(APP_SF1_LOC_NAME, ais.getNames().get(APP_SF1_LOC_NAME_LOCALE));
-        assertEquals(APP_SF1_LOC_DESC, ais.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
+        assertEquals(APP_SF1_LOC_NAME, sf1.getNames().get(APP_SF1_LOC_NAME_LOCALE));
+        assertEquals(APP_SF1_LOC_DESC, sf1.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
         RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
