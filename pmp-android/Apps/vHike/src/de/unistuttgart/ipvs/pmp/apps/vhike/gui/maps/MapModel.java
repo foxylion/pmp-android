@@ -349,28 +349,27 @@ public class MapModel {
 		if (which1 == 0) {
 			drawable = context.getResources().getDrawable(
 					R.drawable.passenger_logo);
-			DriverOverlay driverOverlay = new DriverOverlay(drawable, context,
-					gps);
-			OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man",
+			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
+			OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride",
 					"User: " + profile.getUsername() + ", Rating: "
 							+ profile.getRating_avg());
-			driverOverlay.addOverlay(opDriverItem);
+			passengerOverlay.addOverlay(opDriverItem);
 
 			MapModel.getInstance().getPassengerOverlayList(mapView)
-					.add(driverOverlay);
+					.add(passengerOverlay);
 			mapView.invalidate();
 		} else {
 			drawable = context.getResources().getDrawable(R.drawable.icon_ride);
-			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable,
-					context);
-			OverlayItem opPassengerItem = new OverlayItem(gps, "Hop on in man",
+			DriverOverlay driverOverlay = new DriverOverlay(drawable,
+					context, gps);
+			OverlayItem opPassengerItem = new OverlayItem(gps, "Hop in man",
 					"User: " + profile.getUsername() + ", Rating: "
 							+ profile.getRating_avg());
-			passengerOverlay.addOverlay(opPassengerItem);
+			driverOverlay.addOverlay(opPassengerItem);
 
 			// add found passenger to overlay
 			MapModel.getInstance().getPassengerOverlayList(mapView)
-					.add(passengerOverlay);
+					.add(driverOverlay);
 			mapView.invalidate();
 		}
 	}
