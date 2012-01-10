@@ -258,7 +258,7 @@ public class SqlConnector {
                         if (result != -1) {
                             // Get the id of this appointment
                             String[] columns = {};
-                            columns = idc.getRowAt((int) result);
+                            columns = idc.getRowAt((int) result - 1);
                             
                             // Storing everything from this appointment
                             int id = Integer.valueOf(columns[0]);
