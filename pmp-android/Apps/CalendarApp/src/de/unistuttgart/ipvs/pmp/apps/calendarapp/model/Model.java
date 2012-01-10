@@ -226,6 +226,7 @@ public class Model {
                     appointment.setName(name);
                     appointment.setDescription(description);
                     appointment.setSeverity(severity);
+                    adapters.get(key).notifyDataSetChanged();
                     break;
                     
                     // The date changes
@@ -244,7 +245,6 @@ public class Model {
                 addAppointment(new Appointment(id, name, description, date, severity));
             }
             
-            adapters.get(key).notifyDataSetChanged();
             this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");
