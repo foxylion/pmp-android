@@ -27,6 +27,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.util.xml.AbstractXMLParser;
+import de.unistuttgart.ipvs.pmp.util.xml.InformationSetValidator;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
@@ -89,6 +90,9 @@ public class XMLParser extends AbstractXMLParser {
         // Parse the nodes
         parseAppInformationNode((Element) appInformation.item(0));
         parseServiceFeaturesNode((Element) serviceFeatures.item(0));
+        
+        // Validate the AppInformationSet
+        InformationSetValidator.validateAISDiffPSValuesForDiffSFs(ais);
         
         return this.ais;
     }

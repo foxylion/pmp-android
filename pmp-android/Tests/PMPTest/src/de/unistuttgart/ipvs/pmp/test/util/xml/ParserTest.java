@@ -6,7 +6,6 @@ import java.util.Random;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
-import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;

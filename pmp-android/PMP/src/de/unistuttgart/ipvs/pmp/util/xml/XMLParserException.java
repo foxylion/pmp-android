@@ -118,6 +118,12 @@ public class XMLParserException extends RuntimeException {
         UNEXPECTED_NODE,
         
         /**
+         * The parser found at least two Service Features, which address the same required ResouceGroups and the same
+         * Privacy Settings with keys and values
+         */
+        AT_LEAST_TWO_SFS_ADDRESS_SAME_RRGS_AND_PSS,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,
