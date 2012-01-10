@@ -113,6 +113,11 @@ public class XMLParserException extends RuntimeException {
         BAD_ROOT_NODE_NAME,
         
         /**
+         * The parser found an unexpected node
+         */
+        UNEXPECTED_NODE,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,
