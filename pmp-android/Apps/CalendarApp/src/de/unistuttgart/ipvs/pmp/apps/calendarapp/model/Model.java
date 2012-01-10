@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -170,11 +169,6 @@ public class Model {
      *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
-        if (appointment.getDescrpition().equals("") && appointment.getName().equals("")) {
-            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        
         String key = creatKey(appointment.getDate());
         if (dayAppointments.containsKey(key)) {
             dayAppointments.get(key).add(appointment);

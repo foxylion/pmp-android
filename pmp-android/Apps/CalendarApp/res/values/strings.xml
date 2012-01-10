@@ -59,7 +59,8 @@
     <string name="error">Error</string>
     <string name="not_found">Could not find PMP. \n The Calendar will be closed.</string>
     <string name="appointment_name">Name</string>
-    <string name="appointment_not_added">Nothing to add</string>
+    <string name="appointment_not_added">Nothing added. Please add a name or a description.</string>
+    <string name="appointment_not_changed">Nothing changed. Please add a name or a description.</string>
     <string name="severity">Severity:</string>
     <string name="severity_high">high</string>
     <string name="severity_middle">middle</string>
