@@ -61,6 +61,11 @@ public class XMLParser extends AbstractXMLParser {
      */
     protected RgInformationSet parse() {
         
+        // Check, if the root node is named correctly
+        if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet")) {
+            throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
+        }
+        
         // The main nodes "resourceGroupInformation" and "privacySettings" are
         // required once.
         NodeList rgInformation = this.doc.getElementsByTagName("resourceGroupInformation");
@@ -80,6 +85,10 @@ public class XMLParser extends AbstractXMLParser {
             throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node privacySettings occurred too often!");
         }
         
+        // Check, if there are only 2 child nodes of appInformationSet
+        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName("resourceGroupInformationSet").item(0));
+        
+        // Parse the nodes
         parseRgInformationNode((Element) rgInformation.item(0));
         parsePrivacySettingsNode((Element) privacySettings.item(0));
         
@@ -116,6 +125,19 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the identifier is set
         validateIdentifier(identifier);
         
+        // Check, if all values are set
+        validateValueListNotEmpty(iconList);
+        validateValueListNotEmpty(revisionList);
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
+        
+        // Check, if there is a correct number of child nodes of rgInformationElement
+        int expectedNumber = iconList.size() + revisionList.size() + defaultNameList.size() + nameList.size()
+                + defaultDescriptionList.size() + descriptionList.size();
+        checkNumberOfNodes(expectedNumber, rgInformationElement);
+        
         // Add to the rg information set
         this.rgis.setIdentifier(identifier);
         this.rgis.setIconLocation(iconList.get(0)[0]);
@@ -144,6 +166,18 @@ public class XMLParser extends AbstractXMLParser {
      */
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
         NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName("privacySetting");
+        
+        // check, if there are Privacy Settings defined
+        if (privacySettingsNodeList.getLength() == 0) {
+            throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
+                    "You have to define at least one Privacy Setting.");
+        }
+        
+        // Check, if there is a correct number of child nodes of privacySettingsElement
+        int expectedNumber = privacySettingsNodeList.getLength();
+        checkNumberOfNodes(expectedNumber, privacySettingsElement);
+        
+        // Parse the Privacy Settings
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
             parseOnePrivacySetting((Element) privacySettingsNodeList.item(itr));
         }
@@ -176,6 +210,20 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the lang attributes of the default name and description is "en"
         validateLocaleAttributeEN(defaultNameList.get(0)[1]);
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
+        
+        // Check, if the identifier is set
+        validateIdentifier(identifier);
+        
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
+        
+        // Check, if there is a correct number of child nodes of privacySettingsElement
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size();
+        checkNumberOfNodes(expectedNumber, privacySettingsElement);
         
         // Add to the rg information set
         PrivacySetting ps = new PrivacySetting();

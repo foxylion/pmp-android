@@ -16,6 +16,8 @@ import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -56,7 +58,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null, null, null);
         
         this.element.privacySettingValues = new HashMap<IPrivacySetting, String>();
-        this.element.containsUnknownElements = false;
+        this.element.missingPrivacySettings = new ArrayList<MissingPrivacySettingValue>();
+        this.element.missingApps = new ArrayList<MissingApp>();
         
         if (cps.moveToFirst()) {
             do {
@@ -67,13 +70,17 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
                     Log.w(String.format("Unavailable preset cached (RG '%s' not present).", rgPackage));
-                    this.element.containsUnknownElements = true;
+                    this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
+                            grantValue));
+                    
                 } else {
                     PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                     if (ps == null) {
                         Log.w(String.format("Unavailable preset cached (PS '%s' not found in RG '%s').", psIdentifier,
                                 rg));
-                        this.element.containsUnknownElements = true;
+                        this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
+                                grantValue));
+                        
                     } else {
                         this.element.privacySettingValues.put(ps, grantValue);
                     }
@@ -96,7 +103,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 App app = getCache().getApps().get(appPackage);
                 if (app == null) {
                     Log.w(String.format("Unavailable preset cached (App '%s' not found).", appPackage));
-                    this.element.containsUnknownElements = true;
+                    this.element.missingApps.add(new MissingApp(appPackage));
+                    
                 } else {
                     this.element.assignedApps.add(app);
                 }
@@ -114,8 +122,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(DESCRIPTION, this.element.description);
         cv.put(DELETED, String.valueOf(this.element.deleted));
         
-        wdb.update(TBL_PRESET, cv, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
-                this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        wdb.update(TBL_PRESET, cv, CREATOR + " = ? AND " + IDENTIFIER + " = ?",
+                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
     }
     
     

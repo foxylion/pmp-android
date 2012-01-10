@@ -27,13 +27,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 
@@ -97,9 +97,11 @@ public class ChangeAppointmentDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.change_todo_dialog);
+        this.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_edit);
         
         oldDate = this.appointment.getDate();
         
@@ -140,7 +142,7 @@ public class ChangeAppointmentDialog extends Dialog {
         }
         
         /*
-         * Neeeded to fill the width of the screen
+         * Needed to fill the width of the screen
          */
         getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -180,11 +182,7 @@ public class ChangeAppointmentDialog extends Dialog {
             }
             
             new SqlConnector().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
-                    cal.getTime(), ChangeAppointmentDialog.this.name.getText().toString(),
-                    ChangeAppointmentDialog.this.desc.getText().toString(), severity);
-            
-            Model.getInstance().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(), cal.getTime(),
-                    oldDate, ChangeAppointmentDialog.this.name.getText().toString(),
+                    cal.getTime(),oldDate, ChangeAppointmentDialog.this.name.getText().toString(),
                     ChangeAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();
         }

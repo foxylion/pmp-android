@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.app;
 
+import java.util.List;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
 import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
@@ -40,27 +43,52 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 public abstract class App extends Application {
     
     /**
-     * This method is called when the service features are changed. The service features will automatically stored at
-     * the {@link SharedPreferences}.
+     * Quick and dirty result object to use in methods in anonymous event handlers.
      * 
-     * @param features
-     *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
-     *            description XML) to booleans (true for granted i.e. active, false for not granted)
+     * @author Tobias Kuhn
+     * 
+     * @param <T>
      */
-    public final void updateServiceFeatures(Bundle features) {
-        SharedPreferences app_preferences = getSharedPreferences("serviceFeatures", 0);
-        SharedPreferences.Editor editor = app_preferences.edit();
+    private static final class ResultObject<T> {
         
-        // Storing all key value pairs at the preferences
-        for (String key : features.keySet()) {
-            // Putting the prefix in front of the key
-            String prefixKey = Constants.SERVICE_FEATURE_PREFIX + key;
-            editor.putBoolean(prefixKey, features.getBoolean(key));
-            Log.v("Storing ServiceFeature " + key + " : " + String.valueOf(features.getBoolean(key)));
-            if (!editor.commit()) {
-                Log.e("Service feature " + key + " couldn't be stored");
-            }
-        }
+        protected T result;
+    }
+    
+    
+    /**
+     * Callback called when the preceding call to register() registered this app successfully with PMP.
+     */
+    public abstract void onRegistrationSuccess();
+    
+    
+    /**
+     * Callback called when the preceding call to register() could not register this app with PMP due to errors.
+     * 
+     * @param message
+     *            returned error message from the PMP service
+     */
+    public abstract void onRegistrationFailed(String message);
+    
+    
+    /**
+     * <p>
+     * Receives the result of a non-blocking resource request from PMP. This implies you have called
+     * {@link App#getResourceNonblocking(String, String)} in order to start the non-blocking request.
+     * </p>
+     * 
+     * <p>
+     * Simply said: Call getResourceNonblocking(), it will return immediately, and then receive the actual binder in
+     * this method.
+     * </p>
+     * 
+     * @param resourceGroup
+     * @param resource
+     * @param binder
+     *            the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
+     *            resource not found)
+     */
+    protected void receiveResource(String resourceGroup, String resource, IBinder binder) {
+        // override me
     }
     
     
@@ -69,7 +97,7 @@ public abstract class App extends Application {
      * by overriding {@link App#onRegistrationSuccess()} or {@link App#onRegistrationFailed(String)}.
      * 
      */
-    protected void register() {
+    public final void register() {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
         final String name = getApplicationContext().getPackageName();
@@ -97,6 +125,31 @@ public abstract class App extends Application {
     
     
     /**
+     * This method is called when the service features are changed. The service features will automatically stored at
+     * the {@link SharedPreferences}.
+     * 
+     * @param features
+     *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
+     *            description XML) to booleans (true for granted i.e. active, false for not granted)
+     */
+    public final void updateServiceFeatures(Bundle features) {
+        SharedPreferences app_preferences = getSharedPreferences("serviceFeatures", 0);
+        SharedPreferences.Editor editor = app_preferences.edit();
+        
+        // Storing all key value pairs at the preferences
+        for (String key : features.keySet()) {
+            // Putting the prefix in front of the key
+            String prefixKey = Constants.SERVICE_FEATURE_PREFIX + key;
+            editor.putBoolean(prefixKey, features.getBoolean(key));
+            Log.v("Storing ServiceFeature " + key + " : " + String.valueOf(features.getBoolean(key)));
+            if (!editor.commit()) {
+                Log.e("Service feature " + key + " couldn't be stored");
+            }
+        }
+    }
+    
+    
+    /**
      * Retrieves a resource from PMP in blocking mode, i.e. your app will block until this call has completed. You do
      * <b>not</b> have to implement receiveResource() for this call to work.
      * 
@@ -105,7 +158,7 @@ public abstract class App extends Application {
      * @return the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
      *         resource not found)
      */
-    protected IBinder getResourceBlocking(final String resourceGroup, final String resource) {
+    public final IBinder getResourceBlocking(final String resourceGroup, final String resource) {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
         final String name = getApplicationContext().getPackageName();
@@ -145,7 +198,7 @@ public abstract class App extends Application {
      * @param resourceGroup
      * @param resource
      */
-    protected void getResourceNonblocking(final String resourceGroup, final String resource) {
+    public final void getResourceNonblocking(final String resourceGroup, final String resource) {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
         final String name = getApplicationContext().getPackageName();
@@ -174,55 +227,6 @@ public abstract class App extends Application {
     
     
     /**
-     * <p>
-     * Receives the result of a non-blocking resource request from PMP. This implies you have called
-     * {@link App#getResourceNonblocking(String, String)} in order to start the non-blocking request.
-     * </p>
-     * 
-     * <p>
-     * Simply said: Call getResourceNonblocking(), it will return immediately, and then receive the actual binder in
-     * this method.
-     * </p>
-     * 
-     * @param resourceGroup
-     * @param resource
-     * @param binder
-     *            the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
-     *            resource not found)
-     */
-    protected void receiveResource(String resourceGroup, String resource, IBinder binder) {
-        // override me
-    }
-    
-    
-    /**
-     * Callback called when the preceding call to register() registered this app successfully with PMP.
-     */
-    public abstract void onRegistrationSuccess();
-    
-    
-    /**
-     * Callback called when the preceding call to register() could not register this app with PMP due to errors.
-     * 
-     * @param message
-     *            returned error message from the PMP service
-     */
-    public abstract void onRegistrationFailed(String message);
-    
-    /**
-     * Quick and dirty result object to use in methods in anonymous event handlers.
-     * 
-     * @author Tobias Kuhn
-     * 
-     * @param <T>
-     */
-    private static class ResultObject<T> {
-        
-        protected T result;
-    }
-    
-    
-    /**
      * Checks if a service feature is enabled or not
      * 
      * @param featureIdentifier
@@ -236,4 +240,73 @@ public abstract class App extends Application {
         return app_preferences.getBoolean(prefixKey, false);
     }
     
+    
+    /**
+     * Forces to publish a complete update of enabled or disabled service features. In case your app suddenly receives
+     * a {@link SecurityException} from a {@link Resource}, it is highly recommended to ensure you have the valid PMP
+     * privacy settings.
+     * 
+     * @return true, if the request was sent, false, if the app is not registered
+     */
+    public final boolean requestServiceFeatureUpdate() {
+        // connect to PMP
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
+        final String name = getApplicationContext().getPackageName();
+        final ResultObject<Boolean> result = new ResultObject<Boolean>();
+        
+        pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
+            
+            @Override
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IPMPService ipmps = pmpsc.getAppService();
+                if (!ipmps.isRegistered(name)) {
+                    result.result = false;
+                } else {
+                    ipmps.getServiceFeatureUpdate(name);
+                    result.result = true;
+                }
+            }
+            
+        });
+        pmpsc.bind(true);
+        
+        return result.result;
+    }
+    
+    
+    /**
+     * Sends a request to PMP to urge the user to activate these service features.
+     * 
+     * @param features
+     *            the features which shall be requested
+     */
+    public final void requestServiceFeatures(final String... features) {
+        // connect to PMP
+        final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
+        final String name = getApplicationContext().getPackageName();
+        
+        pmpsc.addCallbackHandler(new AbstractConnectorCallback() {
+            
+            @Override
+            public void onConnect(AbstractConnector connector) throws RemoteException {
+                IPMPService ipmps = pmpsc.getAppService();
+                if (ipmps.isRegistered(name)) {
+                    ipmps.requestServiceFeature(name, features);
+                }
+            }
+            
+        });
+        pmpsc.bind();
+    }
+    
+    
+    /**
+     * Sends a request to PMP to urge the user to activate these service features.
+     * 
+     * @param features
+     *            the features which shall be requested
+     */
+    public final void requestServiceFeatures(List<String> features) {
+        requestServiceFeatures(features.toArray(new String[features.size()]));
+    }
 }

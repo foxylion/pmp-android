@@ -96,6 +96,11 @@ public class XMLNode {
     }
     
     
+    public boolean removeChild(XMLNode child) {
+        return this.children.remove(child);
+    }
+    
+    
     public List<XMLAttribute> getAttributes() {
         return new ArrayList<XMLAttribute>(this.attributes);
     }

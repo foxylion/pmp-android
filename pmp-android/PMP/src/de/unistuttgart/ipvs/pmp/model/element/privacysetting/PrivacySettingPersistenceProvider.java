@@ -40,15 +40,11 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
-        // delete service feature required privacy setting values references
-        wdb.execSQL("DELETE FROM " + TBL_SFReqPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
-                + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
-                this.element.getLocalIdentifier() });
+        // service feature required privacy setting values references are not supposed to be deleted,
+        // we still need those for telling the SF is unavailable
         
-        // delete preset granted privacy setting values references
-        wdb.execSQL("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
-                + PRIVACYSETTING_IDENTIFIER + " = ?", new String[] { this.element.getResourceGroup().getIdentifier(),
-                this.element.getLocalIdentifier() });
+        // preset granted privacy setting values references are not supposed to be deleted,
+        // the preset will handle unavailable elements itself 
         
         // delete privacy settings
         wdb.execSQL("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE + " = ? AND " + IDENTIFIER

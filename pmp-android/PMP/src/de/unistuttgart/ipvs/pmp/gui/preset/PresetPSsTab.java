@@ -171,33 +171,38 @@ public class PresetPSsTab extends Activity {
                 
                 return true;
             case 2:
-                /*
-                 *  Remove PS
-                 */
-                
-                // Save expanded states
-                ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
-                for (int groupID = 0; groupID < this.ppsAdapter.getGroupCount(); groupID++) {
-                    expandedStates.add(this.psExpandableListView.isGroupExpanded(groupID));
-                }
-                // Save index of RG, if this RG will disappear later
-                int tmpIndexOfRG = this.rgList.indexOf(ps.getResourceGroup());
-                
-                // Remove the PS
-                this.preset.removePrivacySetting(ps);
-                
-                // Update the list
-                updateList();
-                
-                // Restore the expanded states of the groups
-                if (!this.rgList.contains(ps.getResourceGroup())) {
-                    propagateExpandedGroups(expandedStates, tmpIndexOfRG);
-                }
+                new PresetConfirmRemovePSDialog(PresetPSsTab.this, this.preset, ps, PresetPSsTab.this).show();
                 
                 return true;
         }
         
         return false;
+    }
+    
+    
+    public void removePrivacySetting(IPrivacySetting ps) {
+        /*
+         *  Remove PS
+         */
+        
+        // Save expanded states
+        ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
+        for (int groupID = 0; groupID < this.ppsAdapter.getGroupCount(); groupID++) {
+            expandedStates.add(this.psExpandableListView.isGroupExpanded(groupID));
+        }
+        // Save index of RG, if this RG will disappear later
+        int tmpIndexOfRG = this.rgList.indexOf(ps.getResourceGroup());
+        
+        // Remove the PS
+        this.preset.removePrivacySetting(ps);
+        
+        // Update the list
+        updateList();
+        
+        // Restore the expanded states of the groups
+        if (!this.rgList.contains(ps.getResourceGroup())) {
+            propagateExpandedGroups(expandedStates, tmpIndexOfRG);
+        }
     }
     
     

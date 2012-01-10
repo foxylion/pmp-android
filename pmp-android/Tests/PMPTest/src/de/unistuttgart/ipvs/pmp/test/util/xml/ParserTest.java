@@ -28,11 +28,15 @@ public class ParserTest extends InstrumentationTestCase {
     private static final String APP_LOC_NAME = "\u30c6\u30b9\u30c8\u30a2\u30d7\u30ea";
     private static final Locale APP_LOC_NAME_LOCALE = Locale.JAPANESE;
     private static final String APP_LOC_DESC = "\u8a72\u6a21\u584a\u7684\u6e2c\u8a66\u7a0b\u5e8f\u3002";
-    private static final Locale APP_LOC_DESC_LOCALE = Locale.TRADITIONAL_CHINESE;
+    private static final Locale APP_LOC_DESC_LOCALE = Locale.CHINESE;
     
     private static final String APP_SF1_ID = "serviceFeature";
     private static final String APP_SF1_DEF_NAME = "A useless service feature";
     private static final String APP_SF1_DEF_DESC = "If it comes to service features, it can't get worse than this.";
+    
+    private static final String APP_SF2_ID = "OutOfServiceFeature";
+    private static final String APP_SF2_DEF_NAME = "You didn't expect this";
+    private static final String APP_SF2_DEF_DESC = "Maybe it can always get worse.";
     
     private static final String APP_SF1_LOC_NAME = "M\u1ed9t t\u00ednh n\u0103ng d\u1ecbch v\u1ee5 v\u00f4 d\u1ee5ng";
     private static final Locale APP_SF1_LOC_NAME_LOCALE = new Locale("vi");
@@ -333,7 +337,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with no service features.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.SERVICE_FEATURE_MISSING, xmlpe.getType());
         }
     }
     
@@ -350,7 +354,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with service feature that requires no RGs.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.REQUIRED_RESOURCE_GROUP_MISSING, xmlpe.getType());
         }
     }
     
@@ -363,7 +367,10 @@ public class ParserTest extends InstrumentationTestCase {
         addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
                 new String[] { APP_SF1_REQ_PS1_VALUE });
         addLocale(xmlSF1, APP_SF1_LOC_NAME_LOCALE.getLanguage(), APP_SF1_LOC_NAME, null);
-        addLocale(xmlSF1, APP_SF1_LOC_DESC_LOCALE.getLanguage(), null, APP_SF1_LOC_DESC);
+        addLocale(xmlSF1, "he", null, APP_SF1_LOC_DESC);
+        // we cannot use the Locale itself here,
+        // because Java has some severe problems with Hebrew compatibility mode
+        
         sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
@@ -387,8 +394,8 @@ public class ParserTest extends InstrumentationTestCase {
         assertEquals(2, sf1.getDescriptions().size());
         assertEquals(APP_SF1_DEF_NAME, sf1.getNames().get(XML_DEFAULT_EN_LOCALE));
         assertEquals(APP_SF1_DEF_DESC, sf1.getDescriptions().get(XML_DEFAULT_EN_LOCALE));
-        assertEquals(APP_SF1_LOC_NAME, ais.getNames().get(APP_SF1_LOC_NAME_LOCALE));
-        assertEquals(APP_SF1_LOC_DESC, ais.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
+        assertEquals(APP_SF1_LOC_NAME, sf1.getNames().get(APP_SF1_LOC_NAME_LOCALE));
+        assertEquals(APP_SF1_LOC_DESC, sf1.getDescriptions().get(APP_SF1_LOC_DESC_LOCALE));
         
         assertEquals(1, sf1.getRequiredResourceGroups().size());
         RequiredResourceGroup rrg = sf1.getRequiredResourceGroups().get(APP_SF1_REQ_RG1);
@@ -454,7 +461,7 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with locale below wrong tag.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.UNEXPECTED_NODE, xmlpe.getType());
         }
     }
     
@@ -500,9 +507,13 @@ public class ParserTest extends InstrumentationTestCase {
     
     public void testAppWrongDefaultLocale() throws Exception {
         makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        
+        app.removeChild(appDefDesc);
         appDefDesc = new XMLNode(XML_DEFAULT_DESCRIPTION);
         appDefDesc.addAttribute(new XMLAttribute(XML_LANG, Locale.GERMAN.getLanguage()));
         appDefDesc.setContent(APP_DEF_DESC);
+        app.addChild(appDefDesc);
+        
         XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
                 new String[] { APP_SF1_REQ_PS1_VALUE });
@@ -514,6 +525,26 @@ public class ParserTest extends InstrumentationTestCase {
         try {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with wrong default locale.");
+        } catch (XMLParserException xmlpe) {
+            assertEquals(XMLParserException.Type.LOCALE_INVALID, xmlpe.getType());
+        }
+    }
+    
+    
+    public void testAppDoubleLocaleAttribute() throws Exception {
+        makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        appDefDesc.addAttribute(new XMLAttribute(XML_LANG, Locale.GERMAN.getLanguage()));
+        XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE });
+        sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        debug(ste.getMethodName());
+        
+        try {
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            fail("Parser accepted app with double locale attribute.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.LOCALE_INVALID, xmlpe.getType());
         }
@@ -596,7 +627,8 @@ public class ParserTest extends InstrumentationTestCase {
             AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted app with SF with two RGs with same identifier.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_OCCURRED_TOO_OFTEN, xmlpe.getType());
+            assertEquals(XMLParserException.Type.REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
+                    xmlpe.getType());
         }
     }
     
@@ -616,6 +648,29 @@ public class ParserTest extends InstrumentationTestCase {
             fail("Parser accepted app with SF with two PSs with same identifier.");
         } catch (XMLParserException xmlpe) {
             assertEquals(XMLParserException.Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS, xmlpe.getType());
+        }
+    }
+    
+    
+    public void testAppTwoSameSFReqs() throws Exception {
+        makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+        sfs.addChild(xmlSF1);
+        XMLNode xmlSF2 = makeSF(APP_SF2_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
+        addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+        sfs.addChild(xmlSF2);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        debug(ste.getMethodName());
+        
+        try {
+            AppInformationSetParser.createAppInformationSet(XMLCompiler.compileStream(main));
+            fail("Parser accepted app with SF both requiring only the same PS.");
+        } catch (XMLParserException xmlpe) {
+            assertEquals(XMLParserException.Type.AT_LEAST_TWO_SFS_ADDRESS_SAME_RRGS_AND_PSS, xmlpe.getType());
         }
     }
     
@@ -661,7 +716,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with no PS.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.PRIVACY_SETTING_MISSING, xmlpe.getType());
         }
     }
     
@@ -754,7 +809,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with wrong main tag.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.NODE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.BAD_ROOT_NODE_NAME, xmlpe.getType());
         }
     }
     
@@ -881,7 +936,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty name.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -898,7 +953,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with empty description.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -915,7 +970,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty name.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -932,7 +987,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(XMLCompiler.compileStream(main));
             fail("Parser accepted RG with PS with empty description.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.LOCALE_MISSING, xmlpe.getType());
+            assertEquals(XMLParserException.Type.VALUE_MISSING, xmlpe.getType());
         }
     }
     
@@ -978,7 +1033,7 @@ public class ParserTest extends InstrumentationTestCase {
             RgInformationSetParser.createRgInformationSet(null);
             fail("Parser accepted null.");
         } catch (XMLParserException xmlpe) {
-            assertEquals(XMLParserException.Type.IO_EXCEPTION, xmlpe.getType());
+            assertEquals(XMLParserException.Type.NULL_XML_STREAM, xmlpe.getType());
         }
     }
     

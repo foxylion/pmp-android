@@ -82,12 +82,6 @@ public class Model {
     private ArrayAdapter<FileDetails> importArrayAdapter;
     
     /**
-     * Highest id of the {@link Appointment}s
-     */
-    private int id = 0;
-    
-    
-    /**
      * Private constructor because of singleton
      */
     private Model() {
@@ -226,6 +220,7 @@ public class Model {
                     appointment.setName(name);
                     appointment.setDescription(description);
                     appointment.setSeverity(severity);
+                    adapters.get(key).notifyDataSetChanged();
                     break;
                     
                     // The date changes
@@ -244,7 +239,6 @@ public class Model {
                 addAppointment(new Appointment(id, name, description, date, severity));
             }
             
-            adapters.get(key).notifyDataSetChanged();
             this.arrayAdapter.notifyDataSetChanged();
         } else {
             Log.e("List of this day not found");
@@ -492,7 +486,6 @@ public class Model {
      * Delete all appointments from the database and model
      */
     public void deleteAllAppointments() {
-        setHighestId(0);
         dayAppointments.clear();
         arrayAdapter.reset();
         arrayAdapter.notifyDataSetChanged();
@@ -500,36 +493,5 @@ public class Model {
         appContext.updateNoAvaiableAppointmentsTextView();
         SqlConnector connector = new SqlConnector();
         connector.deleteAllApointments();
-    }
-    
-    
-    /**
-     * Sets the new highest id
-     * 
-     * @param id
-     *            highest id
-     */
-    public void setHighestId(int id) {
-        this.id = id;
-    }
-    
-    
-    /**
-     * Returns the current highest id
-     * 
-     * @return current highest id
-     */
-    public int getHighestId() {
-        return id;
-    }
-    
-    
-    /**
-     * Returns a new highest id
-     * 
-     * @return currentHighestId+1
-     */
-    public int getNewHighestId() {
-        return id++;
     }
 }

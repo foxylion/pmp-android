@@ -108,6 +108,22 @@ public class XMLParserException extends RuntimeException {
         REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
         
         /**
+         * The name of the root node is invalid
+         */
+        BAD_ROOT_NODE_NAME,
+        
+        /**
+         * The parser found an unexpected node
+         */
+        UNEXPECTED_NODE,
+        
+        /**
+         * The parser found at least two Service Features, which address the same required ResouceGroups and the same
+         * Privacy Settings with keys and values
+         */
+        AT_LEAST_TWO_SFS_ADDRESS_SAME_RRGS_AND_PSS,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,
@@ -120,7 +136,12 @@ public class XMLParserException extends RuntimeException {
         /**
          * Something with the input does not work
          */
-        IO_EXCEPTION;
+        IO_EXCEPTION,
+        
+        /**
+         * The XML input stream was null
+         */
+        NULL_XML_STREAM;
     }
     
     /**

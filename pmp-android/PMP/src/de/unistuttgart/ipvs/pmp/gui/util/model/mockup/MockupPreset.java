@@ -7,6 +7,8 @@ import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
@@ -23,7 +25,8 @@ public class MockupPreset extends Preset {
         this.description = description;
         this.deleted = false;
         this.assignedApps = new ArrayList<IApp>();
-        this.containsUnknownElements = false;
+        this.missingPrivacySettings = new ArrayList<MissingPrivacySettingValue>();
+        this.missingApps = new ArrayList<MissingApp>();
         this.privacySettingValues = new HashMap<IPrivacySetting, String>();
     }
     
@@ -35,7 +38,11 @@ public class MockupPreset extends Preset {
     
     
     public void setAvailable(boolean available) {
-        this.containsUnknownElements = !available;
+        if (available) {
+            this.missingApps.clear();
+        } else {
+            this.missingApps.add(new MissingApp(""));
+        }
     }
     
     

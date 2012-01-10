@@ -12,6 +12,8 @@ import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
@@ -41,7 +43,8 @@ public class Preset extends ModelElement implements IPreset {
     protected Map<IPrivacySetting, String> privacySettingValues;
     protected List<IApp> assignedApps;
     
-    protected boolean containsUnknownElements;
+    protected List<MissingPrivacySettingValue> missingPrivacySettings;
+    protected List<MissingApp> missingApps;
     protected boolean deleted;
     
     
@@ -57,10 +60,11 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [name = %s, desc = %s, psv = %s, aa = %s, cue = %s, d = %s]", this.name,
+                + String.format(" [name = %s, desc = %s, psv = %s, aa = %s, mps = %s, ma = %s, d = %s]", this.name,
                         this.description, ModelElement.collapseMapToString(this.privacySettingValues),
                         ModelElement.collapseListToString(this.assignedApps),
-                        String.valueOf(this.containsUnknownElements), String.valueOf(this.deleted));
+                        ModelElement.collapseListToString(this.missingPrivacySettings),
+                        ModelElement.collapseListToString(this.missingApps), String.valueOf(this.deleted));
     }
     
     
@@ -241,7 +245,21 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public boolean isAvailable() {
         checkCached();
-        return !this.containsUnknownElements;
+        return (this.missingPrivacySettings.size() == 0) && (this.missingApps.size() == 0);
+    }
+    
+    
+    @Override
+    public MissingPrivacySettingValue[] getMissingPrivacySettings() {
+        checkCached();
+        return this.missingPrivacySettings.toArray(new MissingPrivacySettingValue[this.missingPrivacySettings.size()]);
+    }
+    
+    
+    @Override
+    public MissingApp[] getMissingApps() {
+        checkCached();
+        return this.missingApps.toArray(new MissingApp[this.missingApps.size()]);
     }
     
     

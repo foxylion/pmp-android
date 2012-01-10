@@ -60,6 +60,11 @@ public abstract class AbstractXMLParser {
      */
     protected AbstractXMLParser(InputStream xmlStream) {
         
+        // Check if the xmlStream is null
+        if (xmlStream == null) {
+            throw new XMLParserException(Type.NULL_XML_STREAM, "The xml input stream was null.");
+        }
+        
         try {
             // Instantiate the document builder and get the document
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -129,32 +134,16 @@ public abstract class AbstractXMLParser {
             // Get the element
             Element element = (Element) nodeList.item(nodeListItr);
             
-            // flag, if the node is a cdata section
-            boolean cdataFlag = false;
-            
             // Build the result array
             int resultArrayLength = attributeNames.length + 1;
             String[] resultArray = new String[resultArrayLength];
             
-            // cdata sections are allowed as content of the privacy setting nodes
-            if (nodeName.equals("privacySetting")) {
-                for (int i = 0; i < element.getChildNodes().getLength(); i++) {
-                    if (element.getChildNodes().item(i).getNodeType() == Node.CDATA_SECTION_NODE) {
-                        cdataFlag = true;
-                    }
-                }
-            }
-            
             // Init
             resultArray[0] = "";
             
-            // if its a cdata section, the content could be distributed in many items
-            if (cdataFlag) {
-                for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
-                    resultArray[0] = resultArray[0] + element.getChildNodes().item(itemItr).getNodeValue();
-                }
-            } else {
-                resultArray[0] = element.getChildNodes().item(0).getNodeValue();
+            // iterate through the node values
+            for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
+                resultArray[0] = resultArray[0] + element.getChildNodes().item(itemItr).getNodeValue();
             }
             
             // Get the attributes given as parameters
@@ -242,9 +231,51 @@ public abstract class AbstractXMLParser {
      * @param value
      *            value to validate
      */
-    public void validateValueSet(String value) {
+    public void validateValueNotEmpty(String value) {
         if (value.equals("") || value == null) {
-            throw new XMLParserException(Type.VALUE_MISSING, "The value of a Privacy Setting is missing.");
+            throw new XMLParserException(Type.VALUE_MISSING, "The value of a node is empty.");
+        }
+    }
+    
+    
+    /**
+     * The method validates, if a given list of string value are set
+     * 
+     * @param values
+     *            values to validate
+     */
+    public void validateValueListNotEmpty(List<String[]> values) {
+        for (String[] stringArray : values) {
+            for (String element : stringArray) {
+                validateValueNotEmpty(element);
+            }
+        }
+    }
+    
+    
+    /**
+     * This methods checks, if a parent has exactly the number of child nodes expected by the parameter "expectedNumber"
+     * 
+     * @param expectedNumber
+     *            expected number of occurrences of child nodes of the given parent (root element)
+     * @param rootElement
+     *            the root element to check it's children
+     */
+    public void checkNumberOfNodes(int expectedNumber, Element rootElement) {
+        int numberOfNodes = 0;
+        
+        for (int itr = 0; itr < rootElement.getChildNodes().getLength(); itr++) {
+            if (rootElement.getChildNodes().item(itr).getNodeType() == Node.ELEMENT_NODE) {
+                numberOfNodes++;
+            }
+        }
+        
+        if (expectedNumber < numberOfNodes) {
+            throw new XMLParserException(Type.UNEXPECTED_NODE, "Unexpected node found. It's parent is "
+                    + rootElement.getNodeName());
+        } else if (expectedNumber > numberOfNodes) {
+            throw new XMLParserException(Type.NODE_MISSING, "There is at least one node missing. It's parent is "
+                    + rootElement.getNodeName());
         }
     }
     

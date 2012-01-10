@@ -27,6 +27,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.util.xml.AbstractXMLParser;
+import de.unistuttgart.ipvs.pmp.util.xml.InformationSetValidator;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException.Type;
 
@@ -61,7 +62,11 @@ public class XMLParser extends AbstractXMLParser {
      */
     protected AppInformationSet parse() {
         
-        de.unistuttgart.ipvs.pmp.Log.e(String.valueOf(this.doc.getChildNodes().getLength()));
+        // Check, if the root node is named correctly
+        if (!this.doc.getDocumentElement().getNodeName().equals("appInformationSet")) {
+            throw new XMLParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
+        }
+        
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
         NodeList appInformation = this.doc.getElementsByTagName("appInformation");
@@ -80,8 +85,15 @@ public class XMLParser extends AbstractXMLParser {
             throw new XMLParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node serviceFeatures occurred too often!");
         }
         
+        // Check, if there are only 2 child nodes of appInformationSet
+        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName("appInformationSet").item(0));
+        
+        // Parse the nodes
         parseAppInformationNode((Element) appInformation.item(0));
         parseServiceFeaturesNode((Element) serviceFeatures.item(0));
+        
+        // Validate the AppInformationSet
+        InformationSetValidator.validateAISDiffPSValuesForDiffSFs(this.ais);
         
         return this.ais;
     }
@@ -109,6 +121,17 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the lang attributes of the default name and description is "en"
         validateLocaleAttributeEN(defaultNameList.get(0)[1]);
         validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
+        
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
+        
+        // Check, if there is a correct number of child nodes of appInformation
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size();
+        checkNumberOfNodes(expectedNumber, appInformationElement);
         
         // Add to the app information set
         this.ais.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
@@ -141,6 +164,10 @@ public class XMLParser extends AbstractXMLParser {
             throw new XMLParserException(Type.SERVICE_FEATURE_MISSING,
                     "At least one Service Feature has to be defined.");
         }
+        
+        // Check, if there is a correct number of child nodes of serviceFeaturesElement
+        int expectedNumber = serviceFeaturesNodeList.getLength();
+        checkNumberOfNodes(expectedNumber, serviceFeaturesElement);
         
         // Parse the defined Service Features
         for (int itr = 0; itr < serviceFeaturesNodeList.getLength(); itr++) {
@@ -179,6 +206,12 @@ public class XMLParser extends AbstractXMLParser {
         // Check, if the identifier is set
         validateIdentifier(identifier);
         
+        // Check, if all values are set
+        validateValueListNotEmpty(defaultNameList);
+        validateValueListNotEmpty(nameList);
+        validateValueListNotEmpty(defaultDescriptionList);
+        validateValueListNotEmpty(descriptionList);
+        
         // Add to the app information set
         ServiceFeature sf = new ServiceFeature();
         this.ais.addServiceFeature(identifier, sf);
@@ -197,6 +230,11 @@ public class XMLParser extends AbstractXMLParser {
         
         // Get the node list of the required resource groups
         NodeList rrgNodeList = serviceFeaturesElement.getElementsByTagName("requiredResourceGroup");
+        
+        // Check, if there is a correct number of child nodes of serviceFeaturesElement
+        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
+                + descriptionList.size() + rrgNodeList.getLength();
+        checkNumberOfNodes(expectedNumber, serviceFeaturesElement);
         
         // Check, if there is at least one required Resourcegroup defined
         if (rrgNodeList.getLength() == 0) {
@@ -238,6 +276,10 @@ public class XMLParser extends AbstractXMLParser {
         List<String[]> privacySettingList = parseNodes(requiredResourceGroupElement, "privacySetting", 1,
                 Integer.MAX_VALUE, "identifier");
         
+        // Check, if there is a correct number of child nodes of requiredResourceGroupElement
+        int expectedNumber = privacySettingList.size();
+        checkNumberOfNodes(expectedNumber, requiredResourceGroupElement);
+        
         // Check, if there is at least one Privacy Setting defined
         if (privacySettingList.size() == 0) {
             throw new XMLParserException(Type.PRIVACY_SETTING_MISSING,
@@ -253,7 +295,7 @@ public class XMLParser extends AbstractXMLParser {
             
             // Validate identifier and value
             validateIdentifier(identifier);
-            validateValueSet(value);
+            validateValueNotEmpty(value);
             
             // Add identifier and value
             rrg.addPrivacySetting(identifier, value);
