@@ -60,11 +60,6 @@ public class SimpleApp extends App {
 		}
 	}
 
-	@Override
-	public IBinder getResourceBlocking(String resourceGroup, String resource) {
-		return super.getResourceBlocking(resourceGroup, resource);
-	}
-
 	public void requestServiceFeatures() {
 		new Thread() {
 			@Override
