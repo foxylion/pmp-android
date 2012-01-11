@@ -119,11 +119,7 @@ public class SqlConnector {
                             }
                         }
                     } catch (RemoteException e) {
-                        Looper.prepare();
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
+                        showToast(appContext.getString(R.string.err_load));
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -162,7 +158,6 @@ public class SqlConnector {
             
             @Override
             public void run() {
-                Looper.prepare();
                 IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
@@ -188,18 +183,12 @@ public class SqlConnector {
                                     + " description: " + description);
                             Model.getInstance().addAppointment(new Appointment(id, name, description, date, severity));
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                    .show();
-                            Looper.loop();
+                            showToast(appContext.getString(R.string.err_store));
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                .show();
+                        showToast(appContext.getString(R.string.err_store));
                         Log.e("Remote Exception", e);
-                        Looper.loop();
                     } finally {
                         try {
                             idc.close();
@@ -237,7 +226,6 @@ public class SqlConnector {
             
             @Override
             public void run() {
-                Looper.prepare();
                 IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
@@ -259,17 +247,11 @@ public class SqlConnector {
                             Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                     + " description: " + description);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                    .show();
-                            Looper.loop();
+                            showToast(appContext.getString(R.string.err_store));
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
+                        showToast(appContext.getString(R.string.err_store));
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -295,7 +277,6 @@ public class SqlConnector {
             
             @Override
             public void run() {
-                Looper.prepare();
                 IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
@@ -313,16 +294,10 @@ public class SqlConnector {
                             Log.v("Deleting date: id: " + String.valueOf(appointment.getId()));
                             Model.getInstance().deleteAppointment(appointment);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                    .show();
-                            Looper.loop();
+                            showToast(appContext.getString(R.string.err_del));
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
+                        showToast(appContext.getString(R.string.err_del));
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -352,11 +327,7 @@ public class SqlConnector {
                             Log.e("Could not delete table");
                         }
                     } catch (RemoteException e) {
-                        Looper.prepare();
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
+                        showToast(appContext.getString(R.string.err_del));
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -393,7 +364,6 @@ public class SqlConnector {
             
             @Override
             public void run() {
-                Looper.prepare();
                 IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
@@ -415,16 +385,10 @@ public class SqlConnector {
                             Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
                                     + " description: " + description);
                         } else {
-                            Toast.makeText(Model.getInstance().getContext(),
-                                    Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                    .show();
-                            Looper.loop();
+                            showToast(appContext.getString(R.string.err_change));
                         }
                     } catch (RemoteException e) {
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
+                        showToast(appContext.getString(R.string.err_change));
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -475,11 +439,6 @@ public class SqlConnector {
                             Log.v("Table already exists");
                         }
                     } catch (RemoteException e) {
-                        Looper.prepare();
-                        Toast.makeText(Model.getInstance().getContext(),
-                                Model.getInstance().getContext().getString(R.string.err_create), Toast.LENGTH_SHORT)
-                                .show();
-                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
                         try {
@@ -491,6 +450,104 @@ public class SqlConnector {
                 }
             }
         }.start();
-        
+    }
+    
+    
+    /**
+     * Deletes the table, creates a new table, stores all appointments in the given list
+     * 
+     * @param appList
+     *            {@link ArrayList} with {@link Appointment}s to store
+     */
+    public void storeAppointmentListInEmptyList(final ArrayList<Appointment> appList) {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+                
+                if (binder != null) {
+                    IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
+                    try {
+                        if (idc.deleteTable(DB_TABLE_NAME)) {
+                            
+                            if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
+                                
+                                // Columns of the table
+                                Map<String, String> columns = new HashMap<String, String>();
+                                columns.put(SqlConnector.this.ID, "INTEGER");
+                                columns.put(SqlConnector.this.NAME, "TEXT");
+                                columns.put(SqlConnector.this.DESC, "TEXT");
+                                columns.put(SqlConnector.this.DATE, "TEXT");
+                                columns.put(SqlConnector.this.SEVERITY, "TEXT");
+                                
+                                // Creates the table
+                                Log.v("Creating table");
+                                
+                                // Create the table
+                                if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
+                                    Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
+                                } else {
+                                    Log.e("Couldn't create table");
+                                }
+                            } else {
+                                Log.v("Table already exists");
+                            }
+                            
+                            Log.d("Table deleted");
+                            
+                            // Store all appointments
+                            for (Appointment app : appList) {
+                                // The values to add
+                                Map<String, String> values = new HashMap<String, String>();
+                                
+                                int id = Model.getInstance().getNewHighestId();
+                                
+                                values.put(ID, String.valueOf(id));
+                                values.put(SqlConnector.this.NAME, app.getName());
+                                values.put(SqlConnector.this.DESC, app.getDescrpition());
+                                values.put(SqlConnector.this.DATE, String.valueOf(app.getDate().getTime()));
+                                values.put(SqlConnector.this.SEVERITY, app.getSeverity().toString());
+                                
+                                long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                                Log.v("Return value of insert: " + result);
+                                if (result != -1) {
+                                    idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
+                                            SqlConnector.this.DATE);
+                                    
+                                    Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: "
+                                            + app.getDate() + " description: " + app.getDescrpition());
+                                    Model.getInstance().addAppointment(
+                                            new Appointment(id, app.getName(), app.getDescrpition(), app.getDate(), app
+                                                    .getSeverity()));
+                                } else {
+                                    showToast(appContext.getString(R.string.err_store));
+                                    Log.e("Appointment not stored");
+                                }
+                            }
+                        } else {
+                            Log.e("Could not delete table");
+                        }
+                    } catch (RemoteException e) {
+                        showToast(appContext.getString(R.string.err_del));
+                        Log.e("Remote Exception", e);
+                    } finally {
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
+                    }
+                }
+            }
+            
+        }.start();
+    }
+    
+    
+    private void showToast(String message) {
+        Looper.prepare();
+        Toast.makeText(Model.getInstance().getContext(), message, Toast.LENGTH_SHORT).show();
+        Looper.loop();
     }
 }

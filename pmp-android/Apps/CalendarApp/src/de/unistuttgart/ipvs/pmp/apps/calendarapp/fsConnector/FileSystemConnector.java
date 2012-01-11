@@ -208,7 +208,6 @@ public class FileSystemConnector {
      *            the name of the file
      */
     public void importAppointments(final String fileName) {
-        
         // clear the import string
         this.importString = null;
         
@@ -223,7 +222,7 @@ public class FileSystemConnector {
                         // The file access interface
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         //              List of appointments to add
-                        List<Appointment> importAppointmentList = new ArrayList<Appointment>();
+                        ArrayList<Appointment> importAppointmentList = new ArrayList<Appointment>();
                         
                         // Read the file
                         FileSystemConnector.this.importString = ifa.read(FOLDER_NAME + "/" + fileName);
@@ -342,23 +341,12 @@ public class FileSystemConnector {
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                             } else {
-                                
-                                Model.getInstance().deleteAllAppointments();
-                                
+                                                             
+                                Model.getInstance().clearLocalList();
+
                                 SqlConnector sqlCon = new SqlConnector();
-                                // Store the appointments
-                                for (Appointment appointmentToStore : importAppointmentList) {
-                                    String nameTmp = appointmentToStore.getName();
-                                    String descr = appointmentToStore.getDescrpition();
-                                    Date date = appointmentToStore.getDate();
-                                    Severity sev = appointmentToStore.getSeverity();
-                                    sqlCon.storeNewAppointmentWithoutModel(date, nameTmp, descr, sev);
-                                    
-                                    Log.d("Imported appointment: " + name);
-                                    Log.d("Imported appointment: " + description);
-                                    Log.d("Imported appointment: " + date);
-                                    Log.d("Imported appointment: " + sev.toString());
-                                }
+                                
+                                sqlCon.storeAppointmentListInEmptyList(importAppointmentList);
                                 
                                 Log.d("Import succeed");
                                 Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
