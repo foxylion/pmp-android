@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.preset;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -49,6 +50,11 @@ public class PresetAddEditDialog extends Dialog {
      */
     protected IPreset preset;
     
+    /**
+     * The default name of the Preset
+     */
+    private String defaultName = "";
+    
     
     /**
      * * Necessary constructor
@@ -85,21 +91,111 @@ public class PresetAddEditDialog extends Dialog {
         if (this.preset != null) {
             this.name.setText(this.preset.getName());
             this.desc.setText(this.preset.getDescription());
+        } else {
+            // Fill the name field with a default name, if you want to add a Preset
+            int number = 0;
+            LOOP: while (defaultName.equals("")) {
+                number++;
+                for (IPreset preset : ModelProxy.get().getPresets()) {
+                    if (preset.getName().equals("Preset_" + number))
+                        continue LOOP;
+                }
+                defaultName = "Preset_" + number;
+            }
+            this.name.setText(defaultName);
         }
         
+        // Add listener and watcher
+        this.name.setOnFocusChangeListener(new FocusListenerNameField());
+        this.name.setOnClickListener(new ClickListenerNameField());
+        this.name.addTextChangedListener(new TextWatcherNameField());
         this.confirm.setOnClickListener(new ConfirmListener());
         this.cancel.setOnClickListener(new CancelListener());
+    }
+    
+    /**
+     * Listener class needed for the name field
+     */
+    private class FocusListenerNameField implements android.view.View.OnFocusChangeListener {
+        
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            TextView nameField = PresetAddEditDialog.this.name;
+            String nameText = String.valueOf(nameField.getText());
+            String defaultName = PresetAddEditDialog.this.defaultName;
+            
+            /* 
+             * Clear the name text field, if the text field equals the default name and has the focus,
+             *  else set the default name
+             */
+            if (hasFocus && nameText.equals(defaultName)) {
+                nameField.setText("");
+            } else if (!hasFocus && nameText.equals("")) {
+                nameField.setText(defaultName);
+            }
+        }
+    }
+    
+    /**
+     * Listener class needed for the name field
+     */
+    private class ClickListenerNameField implements android.view.View.OnClickListener {
+        
+        @Override
+        public void onClick(View v) {
+            TextView nameField = PresetAddEditDialog.this.name;
+            String nameText = String.valueOf(nameField.getText());
+            String defaultName = PresetAddEditDialog.this.defaultName;
+            
+            // Clear the name text field, if the text is equal to the default name
+            if (nameText.equals(defaultName))
+                nameField.setText("");
+            
+        }
+        
+    }
+    
+    /**
+     * Text watcher class needed for the name field
+     */
+    private class TextWatcherNameField implements android.text.TextWatcher {
+        
+        @Override
+        public void afterTextChanged(Editable s) {
+            TextView nameField = PresetAddEditDialog.this.name;
+            String nameText = String.valueOf(nameField.getText());
+            
+            for (IPreset preset : ModelProxy.get().getPresets()) {
+                if (preset.getName().toLowerCase().equals(nameText.toLowerCase())) {
+                    nameField.setError("Another Preset is already called " + nameText);
+                }
+                
+            }
+        }
+        
+        
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // no need
+        }
+        
+        
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // no need
+        }
         
     }
     
     /**
      * Listener class needed for the confirm button
-     * 
      */
     private class ConfirmListener implements android.view.View.OnClickListener {
         
         @Override
         public void onClick(View v) {
+            TextView nameField = PresetAddEditDialog.this.name;
+            
             String name = "null";
             if (PresetAddEditDialog.this.name != null) {
                 name = PresetAddEditDialog.this.name.getText().toString();
@@ -112,6 +208,9 @@ public class PresetAddEditDialog extends Dialog {
             if (name.length() == 0) {
                 // no name set
                 Toast.makeText(getContext(), R.string.please_enter_a_name, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (nameField.getError() != null) {
+                Toast.makeText(getContext(), "Please choose another name.", Toast.LENGTH_SHORT).show();
                 return;
             }
             
@@ -138,7 +237,6 @@ public class PresetAddEditDialog extends Dialog {
     
     /**
      * Listener class needed for the cancel button
-     * 
      */
     private class CancelListener implements android.view.View.OnClickListener {
         
