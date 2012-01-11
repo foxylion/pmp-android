@@ -24,20 +24,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class SqlConnector {
     
@@ -51,9 +50,15 @@ public class SqlConnector {
      */
     private String resIdentifier = "DatabaseRG";
     
-    private String pkgName = Model.getInstance().getContext().getPackageName();
-    
+    /**
+     * {@link Context} of the {@link CalendarAppActivity}
+     */
     private CalendarAppActivity appContext = Model.getInstance().getContext();
+    
+    /**
+     * The {@link App} of the calendar app
+     */
+    private App app = ((App) appContext.getApplication());
     
     
     /**
@@ -80,12 +85,11 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     // Getting the number of the rows
@@ -115,26 +119,22 @@ public class SqlConnector {
                             }
                         }
                     } catch (RemoteException e) {
+                        Looper.prepare();
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_load), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -158,15 +158,16 @@ public class SqlConnector {
             return;
         }
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
+                        
                         // The values to add
                         Map<String, String> values = new HashMap<String, String>();
                         int id = Model.getInstance().getNewHighestId();
@@ -190,6 +191,7 @@ public class SqlConnector {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
                                     .show();
+                            Looper.loop();
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
@@ -197,27 +199,22 @@ public class SqlConnector {
                                 Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
                                 .show();
                         Log.e("Remote Exception", e);
+                        Looper.loop();
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
     /**
-     * Stores the appointment ONLY in the database and NOT in the model
+     * Stores the appointment ONLY in the database and NOT in the {@link Model}
      * 
      * @param date
      *            date of the appointment
@@ -236,12 +233,12 @@ public class SqlConnector {
             return;
         }
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
@@ -265,29 +262,25 @@ public class SqlConnector {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
                                     .show();
+                            Looper.loop();
                             Log.e("Appointment not stored");
                         }
                     } catch (RemoteException e) {
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_store), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -297,64 +290,59 @@ public class SqlConnector {
      * @param id
      *            id of the appointment to delete
      */
-    public void deleteAppointment(final Appointment app) {
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+    public void deleteAppointment(final Appointment appointment) {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
-                        Log.v("Trying to delete appointment with id: " + app.getId() + " name: " + app.getName()
-                                + " Description: " + app.getDescrpition());
+                        Log.v("Trying to delete appointment with id: " + appointment.getId() + " name: "
+                                + appointment.getName() + " Description: " + appointment.getDescrpition());
                         
                         String[] args = new String[1];
-                        args[0] = String.valueOf(app.getId());
+                        args[0] = String.valueOf(appointment.getId());
                         
                         /*
                          * Delete the date out of the database
                          */
                         if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
-                            Log.v("Deleting date: id: " + String.valueOf(app.getId()));
-                            Model.getInstance().deleteAppointment(app);
+                            Log.v("Deleting date: id: " + String.valueOf(appointment.getId()));
+                            Model.getInstance().deleteAppointment(appointment);
                         } else {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
                                     .show();
+                            Looper.loop();
                         }
                     } catch (RemoteException e) {
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
     public void deleteAllApointments() {
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
@@ -364,26 +352,23 @@ public class SqlConnector {
                             Log.e("Could not delete table");
                         }
                     } catch (RemoteException e) {
+                        Looper.prepare();
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_del), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
+        
     }
     
     
@@ -404,12 +389,12 @@ public class SqlConnector {
             return;
         }
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
@@ -433,28 +418,24 @@ public class SqlConnector {
                             Toast.makeText(Model.getInstance().getContext(),
                                     Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
                                     .show();
+                            Looper.loop();
                         }
                     } catch (RemoteException e) {
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_change), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -462,13 +443,11 @@ public class SqlConnector {
      * Creates a table if there exists none. The table name is "Appointment".
      */
     public void createTable() {
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, resGroupIdentifier, resIdentifier);
+            public void run() {
+                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
                 
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
@@ -496,26 +475,22 @@ public class SqlConnector {
                             Log.v("Table already exists");
                         }
                     } catch (RemoteException e) {
+                        Looper.prepare();
                         Toast.makeText(Model.getInstance().getContext(),
                                 Model.getInstance().getContext().getString(R.string.err_create), Toast.LENGTH_SHORT)
                                 .show();
+                        Looper.loop();
                         Log.e("Remote Exception", e);
                     } finally {
-                        idc.close();
+                        try {
+                            idc.close();
+                        } catch (RemoteException e) {
+                            Log.e("RemoteException", e);
+                        }
                     }
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_db, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        });
+        }.start();
         
-        pmpconnector.bind();
     }
 }

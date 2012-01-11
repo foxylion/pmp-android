@@ -24,12 +24,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
@@ -77,6 +79,7 @@ public class CalendarAppActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Model.getInstance().setContext(this.self);
+        Model.getInstance().addHandler(new Handler());
         
         this.appContext = getApplicationContext();
         
@@ -203,9 +206,8 @@ public class CalendarAppActivity extends ListActivity {
                             formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                             String time = formatter.format(cal.getTime());
                             try {
-                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint)
-                                        + time + "\n" + getString(R.string.desc) + ": "
-                                        + clicked.getDescrpition());
+                                emailOP.sendEmail("", getString(R.string.subject), getString(R.string.appoint) + time
+                                        + "\n" + getString(R.string.desc) + ": " + clicked.getDescrpition());
                             } catch (RemoteException e) {
                                 Log.e("Couldn't send E-Mail", e);
                             }
