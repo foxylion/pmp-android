@@ -175,7 +175,6 @@ public class CalendarAppActivity extends ListActivity {
         if (aItem.getItemId() == 0) {
             if (((App) getApplication()).isServiceFeatureEnabled("write")) {
                 new SqlConnector().deleteAppointment(clicked);
-                Model.getInstance().deleteAppointment(clicked);
             } else {
                 String[] req = new String[1];
                 req[0] = "write";

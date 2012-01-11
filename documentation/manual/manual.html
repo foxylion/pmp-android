@@ -599,8 +599,8 @@
           <li>Festlegen einer Ressourcengruppe (z. B. Dateisystemzugriff) und Hinzufügen 
             der erstellten Ressourcen zu dieser</li>
           <li>Definieren der zu der erstellten Ressourcengruppe
-            passenden Privacy-Settins (z. B. Dateien auf der SD-Karte schreiben oder in allen Bereichen lesen)</li>
-          <li>Hinzufügen der Privacy-Levels zu der Ressourcengruppe</li>
+            passenden Privacy-Settings (z. B. Dateien auf der SD-Karte schreiben oder in allen Bereichen lesen)</li>
+          <li>Hinzufügen der Privacy-Settings zu der Ressourcengruppe</li>
           <!--<li>Implementieren einer Anwendung, die die erstellten Ressourcengruppen 
             enthält.</li>-->
         </ul>
@@ -626,7 +626,8 @@
         Wie bereits erwähnt, legt die Definitions-Datei die Informationen der Ressourcengruppe
         und ihre Privacy-Settings fest. Bei dieser Datei handelt es sich um eine XML-Datei mit
         nachfolgendem Aufbau:
-<pre>	
+      </p>
+<pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
 
 &lt;resourceGroupInformationSet>
@@ -642,7 +643,7 @@
   &lt;/privacySettings>
 &lt;/resourceGroupInformationSet>
 </pre>
-
+      <p>
         Diese XML-Datei trägt den Namen der Klasse, die später die Klasse <code>ResourceGroup</code>
         erweitern wird  (siehe <span class="reference" title="#devres_res"></span>).
         Die Datei wird im <code>asset</code> Verzeichniss abgelegt, so das sie in die 
@@ -652,38 +653,40 @@
       <h4 id="devres_xml_info">Informationen</h4>
       <p>
 
-        Innerhalb des Abschnitts <code>resourceGroupInformationSet</code> werden alle benötgiten
+        Innerhalb des Abschnitts <code>resourceGroupInformationSet</code> werden alle benötigten
         Informationen über die Ressourcengruppe hinterlegt.
         Diese sind:
         <ul>
-          <li>Im Attribut <code>identifier</code> eine eindeutiger Schlüssel zur <b>Identifikation
+          <li>Im Attribut <code>identifier</code> ein eindeutiger Schlüssel zur <b>Identifikation
             der Ressourcengruppe</b>. Dieser muss dem vollständigen Paket-Pfad entsprechen,
-            unter dem die sich die (später) implementierten Klassen-Dateien befinden.
+            unter dem sich die (später) implementierten Klassen befinden.
             Im untenstehnden Beispiel bedeutet dies, dass sich alle Klassen unter
-            <code>de.unistuttgart.ipvs.pmp.resourcegroups.filesystem</code> zu befinden haben)</li>
-
-          <li>Einen verweis auf ein Icon im Abschnitt <code>icon</code>. Dieses sich im 
-            <code>res</code>-Verzeichniss befindende Symbol wird bei der Auflistung/Anzeige
+            <code>de.unistuttgart.ipvs.pmp.resourcegroups.filesystem</code> zu befinden haben.</li>
+            
+          <li>Einen Verweis auf ein Icon im Element <code>icon</code>. Dieses sich im 
+            <code>res</code>-Verzeichnis befindende Symbol wird bei der Auflistung/Anzeige
             der Ressourcengruppen verwendet.</li>
-          <li>Der Name der Ressourcengruppe. Dieser besteht aus genau einem Abschnitt
-            <code>defaultName</code> sowie beliebig vielen Abschnitten <code>name</code>.
+            
+          <li>Der Name der Ressourcengruppe. Dieser besteht aus genau einem Element
+            <code>defaultName</code> sowie beliebig vielen Elementen <code>name</code>.
             Beide Typen müssen das Attribut <code>lang</code> besitzen, über das die Sprache
             festgelegt wird, in die der Name verfasst wurde.</li>
 
-          <li>Die Beschreibung der Ressourcengruppe. Diese besteht aus genau einem Abschnitt
-            <code>defaultDescription</code> sowie beliebig vielen Abschnitten <code>description</code>.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in die die Beschreibung verfasst wurde. Dieses Attribut sollten
+          <li>Die Beschreibung der Ressourcengruppe. Diese besteht aus genau einem Element
+            <code>defaultDescription</code> sowie beliebig vielen Elementen <code>description</code>.
+            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
+            festgelegt wird, in der die Beschreibung verfasst wurde. Dieses Attribut sollte
             bei <code>defaultName</code> und <code>defaultDescription</code> übereinstimmen.</li>
 
-          <li>Zuletzt muss im Abschnitt <code>revision</code> die Version notiert werden,
+          <li>Zuletzt muss im Element <code>revision</code> die Version notiert werden,
             in der sich die Ressourcengruppe momentan befindet. Daher sollte dieser Wert bei
             jeder Auslieferung einer neuen bzw. geänderten Version der Gruppe erhöht werden.</li>
         </ul>
 
         Dieser Beschreibung folgend könnte der Beschreibungsabschnitt einer Dateisystem-Ressourcengruppe
         wie folgt aussehen:
-<pre>	
+      </p>
+<pre>
 ...
   &lt;resourceGroupInformation identifier="String">
     &lt;icon>res/drawable-xhdpi/icon.png&lt;/icon>
@@ -698,7 +701,6 @@
 </pre>
 
 
-      </p>
  
       <h4 id="devres_xml_ps">Privacy-Settings</h4>
       <p>
@@ -709,27 +711,27 @@
         <ul>
 
           <li>Das Attribut <code>identifier</code>. Dieses dient u. A. dazu, um das
-            Privacy-Setting innerhalb der Ressourcengruppe eindeutig indentifizieren
+            Privacy-Setting innerhalb der Ressourcengruppe eindeutig identifizieren
             zu können. Nur so ist eine Abfrage, ob ein gegebenes Privacy-Setting
             aktiviert ist, möglich. Daher muss jeder identifier innerhalb einer
             Ressourcengruppe eindeutig sein.</li>
-          <li>
-         <li>Den Name des Privacy-Settings. Dieser besteht aus genau einem Abschnitt
-            <code>defaultName</code> sowie beliebig vielen Abschnitten <code>name</code>.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in die der Name verfasst wurde.</li>
+            
+         <li>Den Name des Privacy-Settings. Dieser besteht aus genau einem Element
+            <code>defaultName</code> sowie beliebig vielen Elementen <code>name</code>.
+            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
+            festgelegt wird, in der der Name verfasst wurde.</li>
 
-          <li>Die Beschreibung des Privacy-Settings. Diese besteht aus genau einem Abschnitt
-            <code>defaultDescription</code> sowie beliebig vielen Abschnitten <code>description</code>.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in die die Beschreibung verfasst wurde. Dieses Attribut sollten
+          <li>Die Beschreibung des Privacy-Settings. Diese besteht aus genau einem Element
+            <code>defaultDescription</code> sowie beliebig vielen Elementen <code>description</code>.
+            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
+            festgelegt wird, in der die Beschreibung verfasst wurde. Dieses Attribut sollte
             bei <code>defaultName</code> und <code>defaultDescription</code> übereinstimmen.</li>
 
         </ul>
 
       Nachfolgend ein Beispiel für zwei konkrete Privacy-Settings, wie sie für eine Dateisystem-Ressourcengruppe
       definiert werden könnten:
-
+    </p>       
 <pre>
 ...
   &lt;privacySettings>
@@ -748,7 +750,6 @@
     ...
   &lt;/privacySettings>
 ...
-
 </pre>
 
       
@@ -762,18 +763,17 @@
       </p>
 
       <p>
-
-        Zunächst wird ein AIDL-Interface erstellt, das die für Anwendungen sichtbaren 
+        Zunächst wird ein AIDL-Interface erstellt, das die für Applikationen sichtbaren 
         Funktionen der Ressource beinhaltet (etwa Datei lesen). Nachdem das Android-SDK aus 
         diesem Interface automatisch ein Stub erstellt hat, wird dieses implementiert, 
         um die Funktionalität der Ressource zu liefern.
         Die Aufgabe der Methode <code>getAndroidInterface()</code> besteht nun ausschließlich
         darin, die Implementierung dieses Interface zurück zu geben, um hierdurch
-        Anwendungen Zugriff auf die Funktionen der Ressource zu bieten. 
+        Applikationen Zugriff auf die Funktionen der Ressource zu bieten. 
         Über den Parameter wird ein String übergeben, durch den die auf die Ressource
         zugreifende Applikation identifiziert werden kann. Dieser sollte an die Implementierung des
         AIDL-Interface weitergereicht werden, damit diese prüfen kann, ob die 
-        Anwendung zum Zugriff auf die einzelnen Funktionen berechtigt ist.
+        Applikation zum Zugriff auf die einzelnen Funktionen berechtigt ist.
       </p>    
       
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
@@ -797,12 +797,12 @@
 -->
       <p>
         Damit Anwendungen auf die Ressourcengruppe zugreifen können, muss eine 
-        <b>Identifikation Ressourcengruppe</b> der Gruppe geliefert werden.
-        Diese Indentifikation muss mit dem Wert übereinstimmen, der zuvor in der 
+        <b>Identifikation</b> der Gruppe geliefert werden.
+        Diese Identifikation muss mit dem Wert übereinstimmen, der zuvor in der 
         Definitions-Datei festgelegt wurde (siehe <span class="reference" title="#devres_xml_info"></span>).
-        Hierzu wird ein Konstuktor angelegt, der als Parameter genau ein Objekt 
+        Hierzu wird ein Konstruktor angelegt, der als Parameter genau ein Objekt 
         vom Typ <code>IPMPConnectionInterface</code> erhält. 
-        Innerhalb dieses Konstruktors muss dann der Konstruktor der Klasse <code>RessourceGroup</code>
+        Innerhalb dieses Konstruktors muss dann der Konstruktor der Basisklasse <code>RessourceGroup</code>
         aufgerufen werden, wobei neben einer Referenz auf das erhaltene 
         <code>IPMPConnectionInterface</code>-Objekt eben diese Identifikation
         übermittelt wird.
@@ -855,7 +855,7 @@
       <p>
         Unter Berücksichtigung des oben Erwähnten, könnte eine Ressourcengruppe
         wie folgt aussehen:
-      
+      </p>
 <pre>
 public class Filesystem extends ResourceGroup {
 
@@ -876,7 +876,6 @@ public class Filesystem extends ResourceGroup {
   }
 }
 </pre>
-      </p>
 <!--
       <p>
         Die zugehörige Manifest-Datei (bereiche, die sich abhängig von der erstellten
@@ -909,7 +908,6 @@ public class Filesystem extends ResourceGroup {
       
       <h3 id="devres_addres">Hinzufügen der Ressourcen zur Gruppe</h3>
       <p>
-
         Innerhalb der erstellten Ressourcengruppe werden durch Aufruf der 
         Methode <code>registerResource()</code> die erstellten Ressourcen der 
         Gruppe zugeordnet. Um einen späteren Zugriff auf die einzelnen Ressourcen 
@@ -965,12 +963,12 @@ public class FileSystemResourceGroup extends ResourceGroup {
       <h3 id="devres_addps">Hinzufügen der Privacy-Settings zur Gruppe</h3>
 
       <p>
-        Ähnlich der Ressourcen werden die erstellten Privacy-Levels durch
+        Ähnlich der Ressourcen werden die erstellten Privacy-Settings durch
         <code>registerPrivacySetting()</code> der Gruppe hinzugefügt.
         Auch hier wird zur Referenzierung ein String-Kürzel mit angegeben, das
         ebenfalls in eine Konstante ausgelagert werden sollte. Dieses
         Kürzel muss mit dem Übereinstimmen, das für das betreffende Privacy-Settings
-        in der Definitions-Datei festgelt wurde
+        in der Definitions-Datei festgelegt wurde
         (siehe <span class="reference" title="#devres_xml_ps"></span>).
       </p>
       <p>
@@ -994,7 +992,6 @@ public class Filesystem extends ResourceGroup {
 
 }
 </pre>
-
       <p>
         Über den zweiten Parameter wird der Typ des Privacy-Settings festgelegt.
         Um den 
@@ -1004,7 +1001,7 @@ public class Filesystem extends ResourceGroup {
 
       <h4 id="devres_addps_boolean">Für Wahrheitswerte</h4>
       <p>
-        Handelt es sich um ein Privacy-Settings benötigt, das als Einstellungswert ausschließlich
+        Handelt es sich um ein Privacy-Settings, das als Einstellungswert ausschließlich
         einen Wahrheitswert ("Ja"/"Nein") erlaubt (z. B. "lesen erlauben"), so
         sollte für das Privacy-Setting die fertig implementierte Klasse 
         <code>BooleanPrivacyLevel</code> verwendet werden.
@@ -1013,7 +1010,7 @@ public class Filesystem extends ResourceGroup {
       <p>
 
         Sollte die Erstellung eines benutzerdefinierten Privacy-Settings erforderlich
-        sein, d. h. das Privacy-Level lässt sich nicht durch eine bestehenden
+        sein, d. h. das Privacy-Setting lässt sich nicht durch eine bestehenden
         Implementierung realisieren, so lässt sich ohne weiteres ein eigenes
         Privacy-Setting implementieren. Hierzu muss die Klasse 
         <code>PrivacySetting</code> erweitert und ihre abstrakten Methoden
@@ -1057,7 +1054,7 @@ public class Filesystem extends ResourceGroup {
       <p>
         Das Erstellen von mit der PMP kompatiblen Applikationen unterteilt sich
         grob in das Definieren der von der Applikation angebotenen Service-Levels
-        und dem implementieren der Anwendungslogik.
+        und dem Implementieren der Anwendungslogik.
       </p>
       <p>
         <b>Ausführliche Beispiele</b> zur Festlegung der Service-Levels und
@@ -1075,6 +1072,7 @@ public class Filesystem extends ResourceGroup {
       </p>              
       <p>
         Der Aufbau der Definitions-Datei folgt dem Schema:
+      </p>
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
 &lt;appInformationSet>
@@ -1090,24 +1088,25 @@ public class Filesystem extends ResourceGroup {
 </pre>
       <h4 id="devapp_xml_info">Informationen</h4>
       <p>
-        Der Informations-Abschnitt enthält Elemente, über die detailierte Informationen
+        Der Informations-Abschnitt enthält Elemente, über die detaillierte Informationen
         zur Applikation hinterlegt werden:
         <ul>
-          <li>Der Name der Applikation. Dieser besteht aus genau einem Abschnitt 
-            <code>defaultName</code> sowie beliebig vielen Abschnitten <code>name</code>.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das 
-            die Sprache festgelegt wird, in die der Name verfasst wurde.</li>
+          <li>Der Name der Applikation. Dieser besteht aus genau einem Element 
+            <code>defaultName</code> sowie beliebig vielen Elementen <code>name</code>.
+            Beide müssen das Attribut <code>lang</code> besitzen, über das 
+            die Sprache festgelegt wird, in der der Name verfasst wurde.</li>
           <li>Die Beschreibung der Applikation. Diese besteht aus genau einem 
-            Abschnitt <code>defaultDescription</code> sowie beliebig vielen 
-            Abschnitten <code>description</code>. Beide Typen müssen das Attribut 
+            Element <code>defaultDescription</code> sowie beliebig vielen 
+            Elemente <code>description</code>. Beide müssen das Attribut 
             <code>lang</code> besitzen, über das die Sprache festgelegt wird, in 
-            die die Beschreibung verfasst wurde. Dieses Attribut sollten bei 
+            der die Beschreibung verfasst wurde. Dieses Attribut sollte bei 
             <code>defaultName</code> und <code>defaultDescription</code> 
             übereinstimmen.</li>
         </ul>
         
         Somit könnte der Informations-Abschnitt einer Kalender-Applikation etwa wie folgt
         aussehen:
+      </p>
 <pre>
   &lt;appInformation>
     &lt;defaultName lang="en">Calendar&lt;/defaultName>
@@ -1122,32 +1121,32 @@ public class Filesystem extends ResourceGroup {
     &lt;/description>
   &lt;/appInformation>
 </pre>
-      </p>
+
       <h4 id="devapp_xml_sf">Service-Features</h4>
       <p>
         Die von der Applikation angebotenen Service-Features werden im Abschnitt
-        <code>serviceFeatures</code>. In diesem Abschnitt wird für jedes angebotene
-        Service-Feature ein Element <code>serviceFeature</code> angelegt:
+        <code>serviceFeatures</code> notiert. In diesem Abschnitt wird für jedes angebotene
+        Service-Feature ein Abschnitt <code>serviceFeature</code> angelegt:
         <ul>
           <li>Über das Attribut <code>identifier</code> wird dem Service-Feature
             ein String zugewiesen, über den das Service-Feature in der Applikation
             und innerhalb der PMP eindeutig referenziert werden kann. Daher ist
-            es wichtig, dass inerhalb der XML-Datei zu jedem <code>identifier</code>
+            es wichtig, dass innerhalb der XML-Datei zu jedem <code>identifier</code>
             maximal ein Service-Feature definiert wird.</li>
           <li>Über das Element <code>defaultName</code> sowie beliebig viele Elemente
             <code>name</code> wird der Name des Service-Features festgelegt.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das 
-            die Sprache festgelegt wird, in die der Name verfasst wurde.</li>
+            Beide müssen das Attribut <code>lang</code> besitzen, über das 
+            die Sprache festgelegt wird, in der der Name verfasst wurde.</li>
           <li>Über das Element <code>defaultDescription</code> sowie beliebig viele
             Elemente <code>description</code> wird die Beschreibung des Service-Features
-            festgelegt. Beide Typen müssen das Attribut 
+            festgelegt. Beide müssen das Attribut 
             <code>lang</code> besitzen, über das die Sprache festgelegt wird, in 
-            die die Beschreibung verfasst wurde. Dieses Attribut sollten bei 
+            der die Beschreibung verfasst wurde. Dieses Attribut sollten bei 
             <code>defaultName</code> und <code>defaultDescription</code> 
             übereinstimmen.</li>
-          <li>Zuletzt existiert noch ein Element <code>requiredResourceGroup</code>.
-            Dieses legt fest, welche Ressourcengruppe von dem entsprechenden
-            Service-Feature benötigt wird. Hierzu folgt das Element diesem Aufbau:
+          <li>Zuletzt existiert noch ein Abschnitt <code>requiredResourceGroup</code>.
+            Dieser legt fest, welche Ressourcengruppe von dem entsprechenden
+            Service-Feature benötigt wird. Hierzu folgt der Abschnitt diesem Aufbau:
             <ul>
               <li>Über das Attribut <code>identifier</code> wird die Ressourcengruppe
                 festgelegt, die vom Service-Feature benötigt wird. Dieser String
@@ -1169,7 +1168,8 @@ public class Filesystem extends ResourceGroup {
         </ul>
       
       Ein gültiger Abschnitt könnte diesen Aufbau haben:
-<pre>   
+    </p>
+<pre>
   &lt;serviceFeatures>
     &lt;serviceFeature identifier="read">
       &lt;defaultName lang="en">Read calendar entries&lt;/defaultName>
@@ -1202,7 +1202,7 @@ public class Filesystem extends ResourceGroup {
     ...    
   &lt;/serviceFeatures>
 </pre>
-    </p>
+
 <!--
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
@@ -1320,9 +1320,9 @@ public class Filesystem extends ResourceGroup {
       <p>                                                       
         Zentraler Punkt der Kommunikation zwischen Applikationen und PMP ist der 
         so genannte <code>AppService</code>. Dieser regelt die Integration der
-        Applikation in die PMP und verwaltet deren Service-Levels.
+        Applikation in die PMP und verwaltet deren Service-Features.
         Viele Funktionen dieses Services sind bereits fertig implementiert und in 
-        die PMP integriert, so dass nur die anwendungspezifischen Funktionen 
+        die PMP integriert, so dass nur die anwendungsspezifischen Funktionen 
         durch den Entwickler der Applikation festgelegt werden müssen.
       </p>
       <h5>Service in Manifest-Datei eintragen</h5>
@@ -1349,7 +1349,7 @@ android:exported="true">
       <p>
         Wurde der Service in der Manifest-Datei bekannt gemacht, kann mit der 
         Implementierung der anwendungsspezifischen Funktionen begonnen werden.
-        Hierfür müssen die Klasse <code>app</code> erweitert und ihre 
+        Hierfür muss die Klasse <code>app</code> erweitert und ihre 
         abstrakten Methoden implementiert werden.
       </p>
       <!--
@@ -1456,21 +1456,21 @@ connector.bind();
         </a>
       </p>
       <p>
-        Innherlab der <code>onConnect</code>-Callback-Methode kann nun über die
+        Innerhalb der <code>onConnect</code>-Callback-Methode kann nun über die
         Methode <code>getAppService()</code> des Objects der 
-        <code>PMPServiceConnector</code>-Klasse eine Ressourc angefragt werden.
-        Die geschieht über einen Aufruf der Form:
+        <code>PMPServiceConnector</code>-Klasse eine Ressource angefragt werden.
+        Dies geschieht über einen Aufruf der Form:
 <pre>
 connector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
 </pre>
-        Hierbei muss mit <code>pkgName</code> der Basis-Paket name der
-        Applikation übergeben werden, wie er in der Definitions-Datei festgelegt wurde.
+        Hierbei muss mit <code>pkgName</code> der Name des Basis-Paket der
+        Applikation übergeben werden, wie er in der Definitions-Datei der Applikation festgelegt wurde.
         Über <code>rgIdentifier</code> wird nun die konkrete Ressourcengruppe 
         festgelegt - dieser String entspricht dem <code>identifier</code>, wie 
         er in der Definitions-Datei der Ressourcengruppe definiert wurde. 
         Schließlich muss über den String <code>resourceIdentifier</code> noch 
-        die genau Ressource aus der Ressourcengruppe genannt werden. Auch 
-        dieser Wert Bezieht sich auf die Definitions-Datei der Ressourcengruppe:
+        die genaue Ressource aus der Ressourcengruppe genannt werden. Auch 
+        dieser Wert bezieht sich auf die Definitions-Datei der Ressourcengruppe:
         Er muss mit dem Attribut <code>identifier</code> der entsprechenden Ressource
         übereinstimmen.
       </p>

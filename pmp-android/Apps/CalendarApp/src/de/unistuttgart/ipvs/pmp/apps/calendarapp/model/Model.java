@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
@@ -80,6 +79,12 @@ public class Model {
      * Array adapter of the import file list to refresh it
      */
     private ArrayAdapter<FileDetails> importArrayAdapter;
+    
+    /**
+     * Highest id of {@link Appointment}s
+     */
+    private int highestId = 0;
+    
     
     /**
      * Private constructor because of singleton
@@ -170,11 +175,6 @@ public class Model {
      *            appointment to store
      */
     public void addAppointment(Appointment appointment) {
-        if (appointment.getDescrpition().equals("") && appointment.getName().equals("")) {
-            Toast.makeText(this.appContext, R.string.appointment_not_added, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        
         String key = creatKey(appointment.getDate());
         if (dayAppointments.containsKey(key)) {
             dayAppointments.get(key).add(appointment);
@@ -493,5 +493,37 @@ public class Model {
         appContext.updateNoAvaiableAppointmentsTextView();
         SqlConnector connector = new SqlConnector();
         connector.deleteAllApointments();
+    }
+    
+    
+    /**
+     * Gets the current highest id
+     * 
+     * @return highestId
+     */
+    public int getHighestId() {
+        return highestId;
+    }
+    
+    
+    /**
+     * Sets the current highest id
+     * 
+     * @param highestId
+     *            highest id to set
+     */
+    public void setHighestId(int highestId) {
+        this.highestId = highestId;
+    }
+    
+    
+    /**
+     * Gets a new highest id
+     * 
+     * @return highestId++
+     */
+    public int getNewHighestId() {
+        highestId++;
+        return highestId;
     }
 }
