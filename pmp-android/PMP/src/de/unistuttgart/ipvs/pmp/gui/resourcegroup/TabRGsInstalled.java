@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -60,6 +61,14 @@ public class TabRGsInstalled extends Activity {
         AdapterRGsInstalled rgsAdapter = new AdapterRGsInstalled(this, this.resourceGroups);
         
         this.installedRgsListView.setAdapter(rgsAdapter);
+        
+        /* Determine if the no-apps available hint should be shown. */
+        TextView tv = (TextView) findViewById(R.id.TextView_NoRGs);
+        if (this.resourceGroups.size() > 0) {
+            tv.setVisibility(View.GONE);
+        } else {
+            tv.setVisibility(View.VISIBLE);
+        }
     }
     
     
