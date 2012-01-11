@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.gui.view.PrivacySettingView;
+import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -93,7 +94,11 @@ public class DialogServiceFeature extends Dialog {
             LinearLayout rgLayout = (LinearLayout) findViewById(R.id.LinearLayout_required_ResourceGroups);
             rgLayout.removeAllViews();
             
-            // TODO GUI: Implement displaying the missing resource groups
+            for (MissingPrivacySettingValue privacySetting : serviceFeature.getMissingPrivacySettings()) {
+                TextView tv = new TextView(getContext());
+                tv.setText("- " + privacySetting.getResourceGroup());
+                rgContainer.addView(tv);
+            }
         }
         
         /* Decide between displaying the Disable/Enable button or not */
