@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">VHike</string>
     <string name="main_title">vHike</string>
     <string name="main_profile">Profile</string>
@@ -10,12 +11,14 @@
     <string name="main_searchingpassenger">Search</string>
     <string name="ride_destination">Destination</string>
     <string name="ride_promptDestination">Choose destination</string>
+
     <string-array name="array_cities">
-        <item >Berlin</item>
-        <item >München</item>
-        <item >Stuttgart</item>
-        <item >Vaihingen</item>
+        <item>Berlin</item>
+        <item>München</item>
+        <item>Stuttgart</item>
+        <item>Vaihingen</item>
     </string-array>
+
     <string name="profile_recent_rides">Recent rides</string>
     <string name="profile_username">Username</string>
     <string name="profile_first_name">First name</string>
@@ -28,16 +31,18 @@
     <string name="profile_pw_confirm">Confirm password</string>
     <string name="available_seats">Number of seats</string>
     <string name="ride_promptSeats">Available seats</string>
+
     <string-array name="array_numSeats">
-        <item >1</item>
-        <item >2</item>
-        <item >3</item>
-        <item >4</item>
-        <item >5</item>
-        <item >6</item>
-        <item >7</item>
-        <item >8</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
+
     <string name="profile_save">Save changes</string>
     <string name="driverView_endTrip">End trip</string>
     <string name="passengerContentDesc">Invitations from drivers</string>
@@ -63,5 +68,9 @@
     <string name="history_title_driver">History - Driver</string>
     <string name="history_title_passenger">History - Passenger</string>
     <string name="checkOffers">Check 4 offers</string>
+    <string name="gpsPrefs_title">GPS Preferences</string>
+    <string name="gpsPrefs_summary">Location precision (higher precision gives shorter battery life)</string>
+    <string name="compass_title">Compass</string>
+    <string name="compass_summary">Whether to display orientation compass</string>
 
 </resources>

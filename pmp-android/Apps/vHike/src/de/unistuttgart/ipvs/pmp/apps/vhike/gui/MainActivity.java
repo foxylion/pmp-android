@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import android.app.Activity;
+import android.app.Activity; 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -68,7 +68,9 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(),
 						SettingsActivity.class);
-				v.getContext().startActivity(intent);
+//				Intent intent = new Intent(v.getContext(),
+//						Prefs.class);
+				MainActivity.this.startActivity(intent);
 			}
 
 		});

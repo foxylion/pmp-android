@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
 import java.util.List;
 
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -47,13 +49,15 @@ public class NotificationAdapter extends BaseAdapter {
 	private int offerID;
 	private int userID;
 	private int driverID;
+	private MapView mapView;
 
 	public NotificationAdapter(Context context, List<Profile> hitchhikers,
-			int whichHitcher) {
+			int whichHitcher, MapView mapView) {
 		this.context = context;
 		this.hitchhikers = hitchhikers;
 		ctrl = new Controller();
 		mWhichHitcher = whichHitcher;
+		this.mapView = mapView;
 	}
 
 	@Override
@@ -113,6 +117,9 @@ public class NotificationAdapter extends BaseAdapter {
 					// TODO: remove PassengerOverlay
 					MapModel.getInstance().getHitchPassengers()
 							.remove(position);
+					MapModel.getInstance().getDriverOverlayList(mapView)
+							.remove(position + 1);
+					mapView.invalidate();
 					notifyDataSetChanged();
 				} else {
 					switch (ctrl.handleOffer(Model.getInstance().getSid(), 1,
@@ -123,6 +130,9 @@ public class NotificationAdapter extends BaseAdapter {
 						// remove driver from list if denied
 						MapModel.getInstance().getHitchDrivers()
 								.remove(position);
+						MapModel.getInstance().getPassengerOverlayList(mapView)
+								.remove(position + 1);
+						mapView.invalidate();
 						notifyDataSetChanged();
 						break;
 					case Constants.STATUS_INVALID_OFFER:
