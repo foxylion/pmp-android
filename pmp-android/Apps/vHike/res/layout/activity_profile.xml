@@ -38,7 +38,7 @@
                 android:id="@+id/tv_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_car"
+                android:text="@string/profile_description"
                 android:textColor="@color/dark_blue"
                 android:textSize="15dp"
                 android:textStyle="bold" >
