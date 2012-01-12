@@ -35,20 +35,22 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tv_car"
+                android:id="@+id/tv_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_car"
+                android:text="@string/profile_description"
                 android:textColor="@color/dark_blue"
                 android:textSize="15dp"
                 android:textStyle="bold" >
             </TextView>
 
             <EditText
-                android:id="@+id/et_car"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/et_description_profile"
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_marginRight="3dp"
                 android:text="no information" />
+
         </LinearLayout>
     </LinearLayout>
 

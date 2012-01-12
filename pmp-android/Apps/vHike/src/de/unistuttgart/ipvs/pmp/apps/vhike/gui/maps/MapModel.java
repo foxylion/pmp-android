@@ -66,11 +66,10 @@ public class MapModel {
 		return mapDriverOverlays;
 	}
 
-	public void clearDriverOverlayList(MapView mapView) {
+	public void clearDriverOverlayList() {
 		if (mapDriverOverlays != null) {
 			mapDriverOverlays.clear();
 			mapDriverOverlays = null;
-			mapView = null;
 		}
 	}
 
@@ -187,10 +186,10 @@ public class MapModel {
 	 * @param context
 	 * @return
 	 */
-	public NotificationAdapter getDriverAdapter(Context context) {
+	public NotificationAdapter getDriverAdapter(Context context, MapView mapView) {
 		if (driverAdapter == null) {
 			driverAdapter = new NotificationAdapter(context,
-					getHitchPassengers(), 0);
+					getHitchPassengers(), 0, mapView);
 		}
 		return driverAdapter;
 	}
@@ -208,10 +207,10 @@ public class MapModel {
 	 * @param context
 	 * @return
 	 */
-	public NotificationAdapter getPassengerAdapter(Context context) {
+	public NotificationAdapter getPassengerAdapter(Context context, MapView mapView) {
 		if (passengerAdapter == null) {
 			passengerAdapter = new NotificationAdapter(context,
-					getHitchDrivers(), 1);
+					getHitchDrivers(), 1, mapView);
 		}
 		return passengerAdapter;
 	}
@@ -230,7 +229,7 @@ public class MapModel {
 	 * @param profile
 	 */
 	public void fireNotification(Context context, Profile profile,
-			int profileID, int which1, int notiID) {
+			int profileID, int which1, int notiID, MapView mapView) {
 
 		// get reference to notificationManager
 		String ns = Context.NOTIFICATION_SERVICE;
@@ -283,20 +282,20 @@ public class MapModel {
 					.findViewById(R.id.notiSlider);
 			slider_Driver.open();
 			Log.i("Slider opened");
-			getDriverAdapter(context).notifyDataSetChanged();
+			getDriverAdapter(context, mapView).notifyDataSetChanged();
 		} else {
 			// getHitchDrivers().clear();
 			// getHitchDrivers().add(profile);
 			slider_Passenger = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.slidingDrawer);
 			slider_Passenger.open();
-			getPassengerAdapter(context).notifyDataSetChanged();
+			getPassengerAdapter(context, mapView).notifyDataSetChanged();
 		}
 
 	}
 
 	/**
-	 * add a Passenger to DriverOverlay
+	 * add a passenger or driver to DriverOverlay
 	 * 
 	 * @param context
 	 * @param gpsPassenger
@@ -336,7 +335,7 @@ public class MapModel {
 	}
 
 	/**
-	 * add an driver to Overlay
+	 * add a passenger or driver to PassengerOverlay
 	 * 
 	 * @param context
 	 * @param gpsDriver
@@ -349,7 +348,8 @@ public class MapModel {
 		if (which1 == 0) {
 			drawable = context.getResources().getDrawable(
 					R.drawable.passenger_logo);
-			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
+			PassengerOverlay passengerOverlay = new PassengerOverlay(drawable,
+					context);
 			OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride",
 					"User: " + profile.getUsername() + ", Rating: "
 							+ profile.getRating_avg());
@@ -360,8 +360,8 @@ public class MapModel {
 			mapView.invalidate();
 		} else {
 			drawable = context.getResources().getDrawable(R.drawable.icon_ride);
-			DriverOverlay driverOverlay = new DriverOverlay(drawable,
-					context, gps);
+			DriverOverlay driverOverlay = new DriverOverlay(drawable, context,
+					gps);
 			OverlayItem opPassengerItem = new OverlayItem(gps, "Hop in man",
 					"User: " + profile.getUsername() + ", Rating: "
 							+ profile.getRating_avg());

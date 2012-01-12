@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.Prefs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
@@ -24,7 +25,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
- 
+
 /**
  * Handles location updates
  * 
@@ -43,6 +44,9 @@ public class LocationUpdateHandler implements LocationListener {
 	private int notiID = 0;
 
 	private Controller ctrl;
+
+	long GPSupdateInterval; // In milliseconds
+	float GPSmoveInterval; // In meters
 
 	/**
 	 * 
@@ -64,6 +68,30 @@ public class LocationUpdateHandler implements LocationListener {
 		mWhichHitcher = whichHitcher;
 
 		ctrl = new Controller();
+
+		updateGPSprefs();
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				GPSupdateInterval, GPSmoveInterval, (LocationListener) this);
+	}
+
+	// Method to assign GPS prefs
+	public void updateGPSprefs() {
+		int gpsPref = Integer.parseInt(Prefs.getGPSPref(context
+				.getApplicationContext()));
+		switch (gpsPref) {
+		case 1:
+			GPSupdateInterval = 5000; // milliseconds
+			GPSmoveInterval = 1; // meters
+			break;
+		case 2:
+			GPSupdateInterval = 10000;
+			GPSmoveInterval = 100;
+			break;
+		case 3:
+			GPSupdateInterval = 125000;
+			GPSmoveInterval = 1000;
+			break;
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -84,7 +112,7 @@ public class LocationUpdateHandler implements LocationListener {
 		if (mWhichHitcher == 0) {
 
 			// clear list first and draw everything new
-			MapModel.getInstance().clearDriverOverlayList(mapView);
+			MapModel.getInstance().clearDriverOverlayList();
 			MapModel.getInstance().getHitchPassengers().clear();
 			notiID = 0;
 
@@ -132,14 +160,16 @@ public class LocationUpdateHandler implements LocationListener {
 								.add(passenger);
 						// notify user
 						MapModel.getInstance().fireNotification(context,
-								passenger, lqo.get(i).getUserid(), 0, notiID);
+								passenger, lqo.get(i).getUserid(), 0, notiID, mapView);
 						// notify list
-						MapModel.getInstance().getDriverAdapter(context)
+						MapModel.getInstance().getDriverAdapter(context, mapView)
 								.notifyDataSetChanged();
+						mapView.invalidate();
+						mapView.postInvalidate();
 					}
 				} else {
-					Toast.makeText(context, "Nobody found", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(context, "No hitchhikers within perimeter",
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			case Constants.STATUS_UPTODATE:
@@ -163,6 +193,7 @@ public class LocationUpdateHandler implements LocationListener {
 			// clear list
 			MapModel.getInstance().clearPassengerOverlayList();
 			MapModel.getInstance().getHitchDrivers().clear();
+			notiID = 0;
 
 			// draw me in
 			MapModel.getInstance().add2PassengerOverlay(context, gPosition, me,
@@ -189,8 +220,8 @@ public class LocationUpdateHandler implements LocationListener {
 								gpsDriver, driver, mapView, 1);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
-								driver, loo.get(i).getUser_id(), 1, notiID);
-						MapModel.getInstance().getPassengerAdapter(context)
+								driver, loo.get(i).getUser_id(), 1, notiID, mapView);
+						MapModel.getInstance().getPassengerAdapter(context, mapView)
 								.notifyDataSetChanged();
 					}
 				} else {
@@ -223,8 +254,7 @@ public class LocationUpdateHandler implements LocationListener {
 	}
 
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
+		locationManager.removeUpdates(this);
 	}
 
 	public void onProviderEnabled(String provider) {

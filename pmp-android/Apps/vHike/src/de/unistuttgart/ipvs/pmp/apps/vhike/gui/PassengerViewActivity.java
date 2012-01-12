@@ -64,7 +64,7 @@ public class PassengerViewActivity extends MapActivity {
 		setContentView(R.layout.activity_passengerview);
 
 		ctrl = new Controller();
-		MapModel.getInstance().initPassengersList();
+		MapModel.getInstance().initDriversList();
 
 		showHitchhikers();
 		setMapView();
@@ -87,7 +87,7 @@ public class PassengerViewActivity extends MapActivity {
 		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
 		pLV.setClickable(true);
 
-		appsAdapter = MapModel.getInstance().getPassengerAdapter(context);
+		appsAdapter = MapModel.getInstance().getPassengerAdapter(context, mapView);
 		pLV.setAdapter(appsAdapter);
 	}
 
@@ -129,7 +129,7 @@ public class PassengerViewActivity extends MapActivity {
 								gpsDriver, driver, mapView, 1);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
-								driver, loo.get(i).getUser_id(), 1, notiID);
+								driver, loo.get(i).getUser_id(), 1, notiID, mapView);
 						appsAdapter.notifyDataSetChanged();
 					}
 				}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_blur" >
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="compass"
+        android:summary="@string/compass_summary"
+        android:title="@string/compass_title" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/updateOptions"
+        android:entryValues="@array/updateIndex"
+        android:key="gpsPref"
+        android:summary="@string/gpsPrefs_summary"
+        android:title="@string/gpsPrefs_title" />
+
+</PreferenceScreen>

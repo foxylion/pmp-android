@@ -52,6 +52,12 @@ public class DriverOverlay extends ItemizedOverlay {
 		populate();
 	}
 
+	// Removes overlay item i
+	public void removeOverlay(int i) {
+		mOverlays.remove(i);
+		populate();
+	}
+
 	/**
 	 * if drawable is tapped, a dialog will pop up containing short information
 	 * about the driver
@@ -80,9 +86,10 @@ public class DriverOverlay extends ItemizedOverlay {
 		Paint myCircle = new Paint();
 		myCircle.setColor(Color.BLUE);
 		myCircle.setAntiAlias(true);
-		myCircle.setStyle(Style.STROKE);
+		myCircle.setStyle(Style.FILL);
+		myCircle.setAlpha(30);
 
-		canvas.drawCircle(screenPts.x, screenPts.y, 100, myCircle);
+		canvas.drawCircle(screenPts.x, screenPts.y - 15, 100, myCircle);
 
 		return true;
 	}

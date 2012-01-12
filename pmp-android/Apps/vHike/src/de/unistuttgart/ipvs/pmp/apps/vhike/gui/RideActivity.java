@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import com.google.android.maps.MapView;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -104,9 +102,10 @@ public class RideActivity extends Activity {
 														"Trip ended",
 														Toast.LENGTH_LONG)
 														.show();
-												MapView mapView = (MapView) findViewById(R.id.driverMapView);
-												MapModel.getInstance().clearDriverOverlayList(mapView);
-												MapModel.getInstance().clearHitchPassengers();
+												MapModel.getInstance()
+														.clearDriverOverlayList();
+												MapModel.getInstance()
+														.clearHitchPassengers();
 												dialog.cancel();
 												break;
 											}

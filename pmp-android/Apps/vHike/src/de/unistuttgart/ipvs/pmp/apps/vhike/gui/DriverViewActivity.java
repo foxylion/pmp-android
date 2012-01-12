@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import android.content.Context; 
+import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -44,15 +44,16 @@ public class DriverViewActivity extends MapActivity {
 
 	private int imADriver = 0;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_driverview);
 
 		ctrl = new Controller();
-		MapModel.getInstance().initDriversList();
+		MapModel.getInstance().initPassengersList();
 
-		showHitchhikers();
 		setMapView();
+		showHitchhikers();
 		startTripByUpdating();
 
 		vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this)
@@ -71,7 +72,8 @@ public class DriverViewActivity extends MapActivity {
 
 		ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
 		pLV.setClickable(true);
-		pLV.setAdapter(MapModel.getInstance().getDriverAdapter(context));
+		pLV.setAdapter(MapModel.getInstance()
+				.getDriverAdapter(context, mapView));
 	}
 
 	/**
@@ -81,7 +83,8 @@ public class DriverViewActivity extends MapActivity {
 	 */
 	public void addHitchhiker(Profile hitchhiker) {
 		MapModel.getInstance().getHitchPassengers().add(hitchhiker);
-		MapModel.getInstance().getDriverAdapter(context).notifyDataSetChanged();
+		MapModel.getInstance().getDriverAdapter(context, mapView)
+				.notifyDataSetChanged();
 	}
 
 	/**
@@ -101,7 +104,7 @@ public class DriverViewActivity extends MapActivity {
 		zoomView.setVerticalScrollBarEnabled(true);
 		mapView.addView(zoomView);
 
-//		mapView.setBuiltInZoomControls(true);
+		// mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
 	}
 
@@ -114,59 +117,59 @@ public class DriverViewActivity extends MapActivity {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, new LocationUpdateHandler(context, locationManager, mapView,
 						mapController, p, imADriver));
-//		Controller ctrl = new Controller();
-//		Location location = locationManager
-//				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		// Controller ctrl = new Controller();
+		// Location location = locationManager
+		// .getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-//		if (location != null) {
-//			int lat = (int) (location.getLatitude() * 1E6);
-//			int lng = (int) (location.getLongitude() * 1E6);
-//			GeoPoint gPosition = new GeoPoint(lat, lng);
-//
-//			Profile me = Model.getInstance().getOwnProfile();
-//
-//			Drawable drawableDriver = context.getResources().getDrawable(
-//					R.drawable.icon_ride);
-//			DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
-//					gPosition);
-//
-//			OverlayItem oDriverItem = new OverlayItem(gPosition,
-//					"Who wants a ride?", "User: " + me.getUsername()
-//							+ ", Rating: " + me.getRating_avg());
-//			dOverlay.addOverlay(oDriverItem);
-//
-//			MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
-//
-//			switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
-//					.getInstance().getTripId(), (float) location.getLatitude(),
-//					(float) location.getLongitude())) {
-//			case Constants.STATUS_UPDATED:
-//				Toast.makeText(DriverViewActivity.this, "Status updated",
-//						Toast.LENGTH_SHORT).show();
-//				// ctrl.searchQuery(Model.getInstance().getSid(),
-//				// (float) location.getLatitude(),
-//				// (float) location.getLongitude(), 10000);
-//				break;
-//			case Constants.STATUS_UPTODATE:
-//				Toast.makeText(DriverViewActivity.this, "Status Up to date",
-//						Toast.LENGTH_SHORT).show();
-//				break;
-//			case Constants.STATUS_NOTRIP:
-//				Toast.makeText(DriverViewActivity.this, "Status no trip",
-//						Toast.LENGTH_LONG).show();
-//				break;
-//			case Constants.STATUS_HASENDED:
-//				Toast.makeText(DriverViewActivity.this, "Status trip ended",
-//						Toast.LENGTH_LONG).show();
-//				break;
-//			case Constants.STATUS_INVALID_USER:
-//				Toast.makeText(DriverViewActivity.this, "Status invalid user",
-//						Toast.LENGTH_LONG).show();
-//
-//			}
-//		} else {
-//			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
-//		}
+		// if (location != null) {
+		// int lat = (int) (location.getLatitude() * 1E6);
+		// int lng = (int) (location.getLongitude() * 1E6);
+		// GeoPoint gPosition = new GeoPoint(lat, lng);
+		//
+		// Profile me = Model.getInstance().getOwnProfile();
+		//
+		// Drawable drawableDriver = context.getResources().getDrawable(
+		// R.drawable.icon_ride);
+		// DriverOverlay dOverlay = new DriverOverlay(drawableDriver, context,
+		// gPosition);
+		//
+		// OverlayItem oDriverItem = new OverlayItem(gPosition,
+		// "Who wants a ride?", "User: " + me.getUsername()
+		// + ", Rating: " + me.getRating_avg());
+		// dOverlay.addOverlay(oDriverItem);
+		//
+		// MapModel.getInstance().getDriverOverlayList(mapView).add(dOverlay);
+		//
+		// switch (ctrl.tripUpdatePos(Model.getInstance().getSid(), Model
+		// .getInstance().getTripId(), (float) location.getLatitude(),
+		// (float) location.getLongitude())) {
+		// case Constants.STATUS_UPDATED:
+		// Toast.makeText(DriverViewActivity.this, "Status updated",
+		// Toast.LENGTH_SHORT).show();
+		// // ctrl.searchQuery(Model.getInstance().getSid(),
+		// // (float) location.getLatitude(),
+		// // (float) location.getLongitude(), 10000);
+		// break;
+		// case Constants.STATUS_UPTODATE:
+		// Toast.makeText(DriverViewActivity.this, "Status Up to date",
+		// Toast.LENGTH_SHORT).show();
+		// break;
+		// case Constants.STATUS_NOTRIP:
+		// Toast.makeText(DriverViewActivity.this, "Status no trip",
+		// Toast.LENGTH_LONG).show();
+		// break;
+		// case Constants.STATUS_HASENDED:
+		// Toast.makeText(DriverViewActivity.this, "Status trip ended",
+		// Toast.LENGTH_LONG).show();
+		// break;
+		// case Constants.STATUS_INVALID_USER:
+		// Toast.makeText(DriverViewActivity.this, "Status invalid user",
+		// Toast.LENGTH_LONG).show();
+		//
+		// }
+		// } else {
+		// Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
+		// }
 
 	}
 
@@ -185,15 +188,15 @@ public class DriverViewActivity extends MapActivity {
 			switch (ctrl.endTrip(Model.getInstance().getSid(), Model
 					.getInstance().getTripId())) {
 			case (Constants.STATUS_UPDATED): {
+
+				// MapModel.getInstance().clearDriverOverlayList();
+				// MapModel.getInstance().clearHitchPassengers();
+				// MapModel.getInstance().clearDriverNotificationAdapter();
+				locationManager = null;
+
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
-				MapModel.getInstance().clearDriverOverlayList(mapView);
-				MapModel.getInstance().clearHitchPassengers();
-				MapModel.getInstance().clearDriverNotificationAdapter();
-				mapView = null;
-				mapController = null;
-				// appsAdapter.notifyDataSetChanged();
-				DriverViewActivity.this.finish();
+				this.finish();
 				break;
 			}
 			case (Constants.STATUS_UPTODATE): {
