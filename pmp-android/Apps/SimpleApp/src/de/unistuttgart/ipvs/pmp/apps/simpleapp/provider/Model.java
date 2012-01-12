@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp.provider;
 
-import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
