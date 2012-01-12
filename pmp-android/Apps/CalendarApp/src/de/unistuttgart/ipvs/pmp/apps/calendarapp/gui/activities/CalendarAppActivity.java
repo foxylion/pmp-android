@@ -53,7 +53,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.SeparatedListAdapter;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -107,7 +107,7 @@ public class CalendarAppActivity extends ListActivity {
     
     @Override
     protected void onStart() {
-        super.onResume();
+        super.onStart();
         
         // Connector to check if the app is registered yet
         final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
@@ -119,7 +119,7 @@ public class CalendarAppActivity extends ListActivity {
                 // Check if the service is registered yet
                 if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
                     Log.v("Registering");
-                    DialogManager.getInstance().showWaitingDialog();
+                    UiManager.getInstance().showWaitingDialog();
                     pmpconnector.getAppService().registerApp(getPackageName());
                 } else {
                     Log.v("App registered");
@@ -163,6 +163,7 @@ public class CalendarAppActivity extends ListActivity {
     protected void onPause() {
         super.onPause();
         Model.getInstance().clearLocalListWithoutTextViewUpdate();
+        
     }
     
     
@@ -181,7 +182,7 @@ public class CalendarAppActivity extends ListActivity {
             } else {
                 String[] req = new String[1];
                 req[0] = "write";
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
             }
             
             return true;
@@ -236,7 +237,7 @@ public class CalendarAppActivity extends ListActivity {
                     sfs.add("read");
                 }
                 
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
+                UiManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
             }
             
         }
@@ -272,7 +273,7 @@ public class CalendarAppActivity extends ListActivity {
                 } else {
                     String[] req = new String[1];
                     req[0] = "write";
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.delete_all_appointments:
@@ -293,7 +294,7 @@ public class CalendarAppActivity extends ListActivity {
                 } else {
                     String[] req = new String[1];
                     req[0] = "write";
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.import_appointments:
@@ -307,7 +308,7 @@ public class CalendarAppActivity extends ListActivity {
                 } else {
                     String[] req = new String[1];
                     req[0] = "import";
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 return true;
             case R.id.export_appointments:
@@ -321,7 +322,7 @@ public class CalendarAppActivity extends ListActivity {
                 } else {
                     String[] req = new String[1];
                     req[0] = "export";
-                    DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
                 }
                 
                 return true;

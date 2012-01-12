@@ -28,7 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
@@ -61,7 +61,7 @@ public class CalendarApp extends App {
             @Override
             public void onConnect(AbstractConnector connector) throws RemoteException {
                 pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
-                DialogManager.getInstance().dismissWaitingDialog();
+                UiManager.getInstance().dismissWaitingDialog();
                 Toast.makeText(Model.getInstance().getContext(), R.string.registration_succeed, Toast.LENGTH_LONG)
                         .show();
             }
@@ -75,7 +75,7 @@ public class CalendarApp extends App {
     @Override
     public void onRegistrationFailed(String message) {
         Log.d("Registration failed:" + message);
-        DialogManager.getInstance().dismissWaitingDialog();
+        UiManager.getInstance().dismissWaitingDialog();
     }
     
     /**

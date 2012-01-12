@@ -300,8 +300,8 @@ public class Model {
      */
     public void clearLocalList() {
         dayAppointments.clear();
-        arrayAdapter.reset();
         adapters.clear();
+        arrayAdapter.reset();
         
         arrayAdapter.notifyDataSetChanged();
         appContext.updateNoAvaiableAppointmentsTextView();
@@ -312,9 +312,11 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalListWithoutTextViewUpdate() {
-        this.dayAppointments.clear();
+        dayAppointments.clear();
         adapters.clear();
-        arrayAdapter.removeEmptyHeadersAndSections();
+        arrayAdapter.reset();
+        
+        arrayAdapter.notifyDataSetChanged();
     }
     
     
@@ -391,15 +393,19 @@ public class Model {
      * Clear the file list of the model
      */
     public void clearFileList() {
-        this.fileList.clear();
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
-        }
         
-        // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null) {
-            getImportContext().updateNoAvaiableFilesTextView();
-        }
+                        fileList.clear();
+                        if (importArrayAdapter != null) {
+                            importArrayAdapter.notifyDataSetChanged();
+                        }
+                        
+                        // Update the visibility of the "no files avaiable" textview
+                        if (getImportContext() != null) {
+                            getImportContext().updateNoAvaiableFilesTextView();
+                        }
+                    
+             
+        
     }
     
     

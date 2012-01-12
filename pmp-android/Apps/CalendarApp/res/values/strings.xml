@@ -47,8 +47,6 @@
     <string name="change_sf">Change service feature</string>
     <string name="delete_all_appointments_question">Do you really want to delete all appointments?</string>
     <string name="delete_all_appointments">Delete all appointments</string>
-    <string name="import_attention">Attention: Your current appointment list will be
-		lost!</string>
     <string name="import_question">Import this file?</string>
     <string name="file_name">Filename:</string>
     <string name="export_appointments">Export appointments</string>

@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: CalendarApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -38,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 
@@ -62,13 +60,13 @@ public class ImportActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.import_list_layout);
         
         setTitle(R.string.import_appointments);
         
         // Store the context
         Model.getInstance().setImportContext(this);
+        UiManager.getInstance().setImportActivity(this);
         
         /*
          * Fill the list of files for importing.
@@ -94,20 +92,8 @@ public class ImportActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final FileDetails file = Model.getInstance().getFileList().get(position);
-                
-                // Show the confirm dialog for importing and deleting all current appointments
-                new AlertDialog.Builder(ImportActivity.this).setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.import_question).setMessage(R.string.import_attention)
-                        .setPositiveButton(R.string.conf, new DialogInterface.OnClickListener() {
-                            
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Import the file
-                                new FileSystemConnector().importAppointments(file.getName());
-                                finish();
-                            }
-                            
-                        }).show();
+                Model.getInstance().clearLocalList();
+                new FileSystemConnector().importAppointments(file.getName());
             }
         });
         
@@ -151,7 +137,7 @@ public class ImportActivity extends ListActivity {
             } else {
                 String[] req = new String[1];
                 req[0] = "export";
-                DialogManager.getInstance().showServiceFeatureInsufficientDialog(req);
+                UiManager.getInstance().showServiceFeatureInsufficientDialog(req);
             }
             return true;
         }

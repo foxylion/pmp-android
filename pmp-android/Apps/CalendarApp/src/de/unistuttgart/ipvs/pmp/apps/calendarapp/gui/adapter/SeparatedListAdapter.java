@@ -157,8 +157,8 @@ public class SeparatedListAdapter extends BaseAdapter {
     
     
     public void reset() {
-        sections = new TreeMap<String, AppointmentArrayAdapter>(new StringComparator());
-        headers = new ArrayAdapter<String>(context, R.layout.list_header);
+        sections.clear();
+        headers.clear();
     }
     
     

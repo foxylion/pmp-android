@@ -38,7 +38,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
@@ -102,7 +102,7 @@ public class FileSystemConnector {
         
         // Check, if the filename is valid
         if (!fileName.matches("[[a-zA-Z0-9]|.|_|\\-| ]*")) {
-            DialogManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
+            UiManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
             Log.d("Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
             return;
         }
@@ -427,7 +427,7 @@ public class FileSystemConnector {
                                     List<Appointment> appointments = Model.getInstance().getAppointmentList();
                                     if (appointments == null || appointments.size() == 0) {
                                         Log.d("Can not export appointment. There are no appointments available!");
-                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(
+                                        UiManager.getInstance().showAppointmentsListEmptyDialog(
                                                 Model.getInstance().getContext());
                                     } else {
                                         // Open dialog for entering a file name
