@@ -572,10 +572,35 @@
       
       
       
-           <h1 id="developers">Entwickler</h1>
+      <h1 id="developers">Entwickler</h1>
       <p>
-        Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eigene
-        Ressourcengruppen erweitern oder Anwendungen für die PMP erstellen möchten.
+        Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eine
+        weitere Sprache erweitern, eine Ressource erstellen oder Anwendungen an
+        die PMP anbinden möchten.
+      </p>            
+      
+      <h2 id="devlang">Sprache hinzufügen</h2>
+      <p>
+        Die PMP besitzt momentan nur Beschriftungen in englischer Sprache.
+        Alle Strings, die für Benutzerelemente verwendet werden, werden gemäß
+        dem Android-SDK in eine eigene String-Ressource ausgelagert.
+      </p>
+      <p>
+        Um die PMP um eine weitere Sprache erweitern zu können, muss deren
+        Quellcode zunächst herunter geladen werden. Danach wird im Verzeichnis
+        <code>res</code> ein neues Unterverzeichnis <code>values-XY</code> angelegt,
+        wobei <code>XY</code> für das Kürzel der Sprache steht, die hinzugefügt werden
+        soll. Wurde das Verzeichnis angelegt, sollte aus dem <code>values</code>
+        Verzeichnis (unter <code>res</code>) die Datei <code>strings.xml</code>
+        in das neu angelegte Verzeichnis kopiert werden. Diese Kopie kann
+        dann mit einem Text-Editor geöffnet und die einzelnen Abschnitte 
+        übersetzt werden.
+      </p>
+      <p>
+        Nach Fertigstellung der Übersetzung werden mit Hilfe des Android-SDK 
+        die PMP und ihre Ressourcen zu einer neuen APK-Datei gebunden (siehe die
+        Dokumentation des SDK für weitere Details). Diese Datei kann nun
+        auf das Gerät übertragen werden.
       </p>
 
       
