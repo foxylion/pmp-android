@@ -776,6 +776,24 @@
         Applikation zum Zugriff auf die einzelnen Funktionen berechtigt ist.
       </p>    
       
+      <p>
+        Jede Ressource ist dafür verantwortlich, dass eine von ihr angebotene
+        Funktion nur ausgeführt wird, wenn das entsprechende Privacy-Setting
+        gesetzt ist. Hierzu bietet die noch zu erweiternde Klasse 
+        <code>Resource</code> (siehe <span class="reference" title="#devres_resgroup"></span>)
+        die Methode <code>getPrivacySetting()</code>. Dieser wird der Name das abzufragenden
+        Privacy-Settings übergeben (siehe <span class="reference" title="#devres_xml_ps"></span>)
+        und liefert, wenn das Privacy-Setting existiert, eine Referenz auf dieses 
+        zurück. Damit ist das Abfragen des gesetzten Wertes möglich.
+      </p>
+      <p>
+        Ist das Ausführen der Funktion nicht möglich, da das dafür nötige
+        Privacy-Setting nicht gesetzt ist, muss die Ressource eine <code>SecurityException</code>
+        werfen. Innerhalb der Funktions-Implementierung dürfen keine anderen
+        Exception-Typen geworfen werden. Da dies zum Absturz der Applikation führt,
+        die auf eine solche Funktion zugreift.
+      </p>
+      
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
       <p>
         Die erstellten Ressourcen müssen einer Ressourcengruppe hinzugefügt werden. 
