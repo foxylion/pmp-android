@@ -65,7 +65,8 @@ public class ProfileActivity extends Activity {
 		TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
 		tv_rating.setText(String.valueOf(profile.getRating_avg()));
 
-		// EditText et_car = (EditText) findViewById(R.id.et_car);
+		EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
+		et_desc.setText(profile.getDescription());
 		// // car = "";
 		// et_car.setText(car);
 	}
