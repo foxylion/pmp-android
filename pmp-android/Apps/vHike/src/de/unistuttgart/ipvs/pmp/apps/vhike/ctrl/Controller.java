@@ -107,7 +107,9 @@ public class Controller {
 	 * @return {@link Profile}
 	 */
 	public Profile getProfile(String session_id, int user_id) {
-		return JSonRequestReader.getProfile(session_id, user_id);
+		Profile profile = JSonRequestReader.getProfile(session_id, user_id);
+		Log.i("Controller->Profile->Description:" + profile.getDescription());
+		return profile;
 	}
 
 	/**
@@ -134,8 +136,7 @@ public class Controller {
 	}
 
 	/**
-	 * Updates the position of the driver
-	 * <br>
+	 * Updates the position of the driver <br>
 	 * Use {@link userUpdatePos} instead
 	 * 
 	 * @param sid
@@ -164,21 +165,23 @@ public class Controller {
 		}
 		return 0;
 	}
+
 	/**
 	 * Updates the users position
+	 * 
 	 * @param sid
 	 * @param lat
 	 * @param lon
 	 * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_ERROR
 	 */
-	public int userUpdatePos(String sid, float lat, float lon){
+	public int userUpdatePos(String sid, float lat, float lon) {
 		String status = JSonRequestReader.userUpdatePos(sid, lat, lon);
-		
-		if(status.equals("updated")){
+
+		if (status.equals("updated")) {
 			return Constants.STATUS_UPDATED;
-		}else if(status.equals("no_update")){
+		} else if (status.equals("no_update")) {
 			return Constants.STATUS_UPTODATE;
-		}else if(status.equals("update_fail")){
+		} else if (status.equals("update_fail")) {
 			return Constants.STATUS_ERROR;
 		}
 		return Constants.STATUS_ERROR;

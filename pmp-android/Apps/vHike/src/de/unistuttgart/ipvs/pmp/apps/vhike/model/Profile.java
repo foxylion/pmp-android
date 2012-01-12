@@ -55,7 +55,8 @@ public class Profile {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.tel = tel;
-	
+		this.description = description;
+		
 		this.rating_avg = rating_avg;
 		this.rating_num = rating_num;
 		this.regDate = regDate;

@@ -295,6 +295,7 @@ public class JSonRequestReader {
 			}
 			username = object.get("username").getAsString();
 			description = object.get("description").getAsString();
+			Log.i("GETPROFILE_: description:" + description);
 			regdate = object.get("regdate").getAsString();
 			rating_avg = object.get("rating_avg").getAsFloat();
 			rating_num = object.get("rating_num").getAsInt();
@@ -405,6 +406,7 @@ public class JSonRequestReader {
 		return status;
 	}
 
+	
 	public static String userUpdatePos(String sid, float lat, float lon){
 		listToParse.clear();
 		listToParse.add(new ParamObject("sid", sid, false));
@@ -472,7 +474,13 @@ public class JSonRequestReader {
 		return status;
 
 	}
-
+	//TODO
+	public static List<TripObject> getTripPassengers(){
+		
+		
+		return null;
+		
+	}
 	/**
 	 * End the trip
 	 * 
@@ -648,7 +656,7 @@ public class JSonRequestReader {
 						int userid = Iobject.get("userid").getAsInt();
 
 						String username = Iobject.get("username").getAsString();
-						float rating = Iobject.get("rating").getAsFloat();
+//						float rating = Iobject.get("rating").getAsFloat();
 
 						float cur_lat = Iobject.get("lat").getAsFloat();
 						float cur_lon = Iobject.get("lon").getAsFloat();
