@@ -395,8 +395,8 @@ public class SqlConnector {
                             if (idc.update(SqlConnector.this.DB_TABLE_NAME, values, SqlConnector.this.ID + " = "
                                     + String.valueOf(id), null) == 1) {
                                 Model.getInstance().changeAppointment(id, date, oldDate, name, description, severity);
-                                Log.v("Changing date with id " + String.valueOf(id) + " to: date: " + date
-                                        + " description: " + description);
+                                Log.v("Changing date with id " + String.valueOf(id) + " to: name: " + name + "date: "
+                                        + date + " description: " + description);
                             } else {
                                 showToast(appContext.getString(R.string.err_change));
                             }

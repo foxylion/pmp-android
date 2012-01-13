@@ -63,13 +63,7 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The actual aplication context
      */
-    private Context appContext;
-    
-    /**
-     * Application context casted to {@link App} to get all functions
-     */
-    private App app = ((App) appContext);
-    
+    private Context appContext;  
     
     /**
      * Called when the activity is first created. Creates the list and shows the dates.
@@ -191,6 +185,7 @@ public class CalendarAppActivity extends ListActivity {
                 
                 @Override
                 public void run() {
+                    App app = ((App) appContext);
                     IBinder binder = app.getResourceBlocking("de.unistuttgart.ipvs.pmp.resourcegroups.email",
                             "emailOperations");
                     

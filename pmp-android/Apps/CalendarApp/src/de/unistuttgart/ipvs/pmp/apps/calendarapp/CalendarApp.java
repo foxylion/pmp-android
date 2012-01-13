@@ -20,7 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
 import android.app.Dialog;
-import android.os.RemoteException;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -33,9 +33,6 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class CalendarApp extends App {
     
@@ -55,27 +52,19 @@ public class CalendarApp extends App {
     public void onRegistrationSuccess() {
         Log.d("Registration succeed");
         
-        // Connector to get the initial service feature
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        UiManager.getInstance().dismissWaitingDialog();
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
-                UiManager.getInstance().dismissWaitingDialog();
+            public void run() {
+                Looper.prepare();
                 Toast.makeText(Model.getInstance().getContext(), R.string.registration_succeed, Toast.LENGTH_LONG)
                         .show();
-                String[] request = new String[1];
-                request[0] = "read";
-                
-                // Request a service feature that PMP displays the activity
-                pmpconnector.getAppService().requestServiceFeature(Model.getInstance().getContext().getPackageName(),
-                        request);
+                Looper.loop();
             }
-        });
+        }.start();
         
-        // Connect to the service
-        pmpconnector.bind();
+        requestServiceFeatures();
     }
     
     
@@ -83,6 +72,16 @@ public class CalendarApp extends App {
     public void onRegistrationFailed(String message) {
         Log.d("Registration failed:" + message);
         UiManager.getInstance().dismissWaitingDialog();
+        new Thread() {
+            
+            @Override
+            public void run() {
+                Looper.prepare();
+                Toast.makeText(Model.getInstance().getContext(), R.string.registration_failed, Toast.LENGTH_LONG)
+                        .show();
+                Looper.loop();
+            }
+        }.start();
     }
     
     
