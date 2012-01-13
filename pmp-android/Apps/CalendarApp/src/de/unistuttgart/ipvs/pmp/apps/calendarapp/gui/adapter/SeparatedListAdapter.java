@@ -1,12 +1,29 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: CalendarApp
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -28,16 +45,21 @@ public class SeparatedListAdapter extends BaseAdapter {
     /**
      * Stores the information of the sections
      */
-    public TreeMap<String, AppointmentArrayAdapter> sections = new TreeMap<String, AppointmentArrayAdapter>(
-            new StringComparator());
+    public TreeMap<Long, AppointmentArrayAdapter> sections = new TreeMap<Long, AppointmentArrayAdapter>();
     
     /**
      * {@link ArrayAdapter} with the headers
      */
-    public ArrayAdapter<String> headers;
+    public HeaderAdapter headers;
     
+    /**
+     * Constant to identify a header
+     */
     public final static int TYPE_HEADER_OF_A_SECTION = 0;
     
+    /**
+     * Context of the app
+     */
     public Context context;
     
     
@@ -49,7 +71,7 @@ public class SeparatedListAdapter extends BaseAdapter {
      */
     public SeparatedListAdapter(Context context) {
         this.context = context;
-        headers = new ArrayAdapter<String>(context, R.layout.list_header);
+        headers = new HeaderAdapter(context);
     }
     
     
@@ -61,9 +83,9 @@ public class SeparatedListAdapter extends BaseAdapter {
      * @param adapter
      *            {@link AppointmentArrayAdapter} with the {@link Appointment}s to show
      */
-    public void addSection(String section, AppointmentArrayAdapter adapter) {
+    public void addSection(Long section, AppointmentArrayAdapter adapter) {
         this.headers.add(section);
-        headers.sort(new StringComparator());
+        headers.sort();
         this.sections.put(section, adapter);
     }
     
@@ -79,11 +101,10 @@ public class SeparatedListAdapter extends BaseAdapter {
         int skipped = 0;
         
         // Key to count the headers
-        String actualKey = "";
-        
-        for (String key : sections.keySet()) {
-            long parsed = Date.parse(key);
-            Date parsedDate = new Date(parsed);
+        Long actualKey = 0L;
+
+        for (Long key : sections.keySet()) {
+            Date parsedDate = new Date(key);
             Date today = new Date();
             
             // Year is to small, add all entries to skipped
@@ -137,8 +158,8 @@ public class SeparatedListAdapter extends BaseAdapter {
     public void removeEmptyHeadersAndSections() {
         
         // Stores the things that will be deleted out of the sections
-        ArrayList<String> toDel = new ArrayList<String>();
-        for (Entry<String, AppointmentArrayAdapter> entry : sections.entrySet()) {
+        ArrayList<Long> toDel = new ArrayList<Long>();
+        for (Entry<Long, AppointmentArrayAdapter> entry : sections.entrySet()) {
             
             // Delete the headers if the section is empty
             if (entry.getValue().getCount() == 0) {
@@ -150,7 +171,7 @@ public class SeparatedListAdapter extends BaseAdapter {
         }
         
         // Delete the sections
-        for (String del : toDel) {
+        for (Long del : toDel) {
             sections.remove(del);
         }
     }
@@ -240,7 +261,7 @@ public class SeparatedListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int sectionnum = 0;
         if (!headers.isEmpty()) {
-            for (String section : this.sections.keySet()) {
+            for (Long section : this.sections.keySet()) {
                 AppointmentArrayAdapter adapter = sections.get(section);
                 int size = adapter.getCount() + 1;
                 convertView = null;
@@ -258,29 +279,5 @@ public class SeparatedListAdapter extends BaseAdapter {
             }
         }
         return new TextView(Model.getInstance().getContext());
-    }
-    
-    /**
-     * Comparator to sort the headers and sections
-     * 
-     * @author Thorsten Berberich
-     * 
-     */
-    private class StringComparator implements Comparator<String> {
-        
-        @Override
-        public int compare(String lhs, String rhs) {
-            try {
-                long d1 = Date.parse(lhs);
-                long d2 = Date.parse(rhs);
-                Date d11 = new Date(d1);
-                Date d12 = new Date(d2);
-                return d11.compareTo(d12);
-            } catch (IllegalArgumentException e) {
-                Log.e("Could not parse date", e);
-            }
-            return 0;
-        }
-        
     }
 }

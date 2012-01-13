@@ -19,11 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -49,12 +46,12 @@ public class Model {
     /**
      * Stores for every existing day a list of {@link Appointment}s
      */
-    private HashMap<String, ArrayList<Appointment>> dayAppointments = new HashMap<String, ArrayList<Appointment>>();
+    private HashMap<Long, ArrayList<Appointment>> dayAppointments = new HashMap<Long, ArrayList<Appointment>>();
     
     /**
      * {@link HashMap} for storing the adapters of one day
      */
-    private HashMap<String, AppointmentArrayAdapter> adapters = new HashMap<String, AppointmentArrayAdapter>();
+    private HashMap<Long, AppointmentArrayAdapter> adapters = new HashMap<Long, AppointmentArrayAdapter>();
     
     /**
      * Holds all files for importing
@@ -188,7 +185,7 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        String key = creatKey(appointment.getDate());
+                        Long key = creatKey(appointment.getDate());
                         if (dayAppointments.containsKey(key)) {
                             dayAppointments.get(key).add(appointment);
                         } else {
@@ -198,7 +195,7 @@ public class Model {
                             AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext,
                                     R.layout.list_item, appointmentList);
                             adapters.put(key, adapter);
-                            arrayAdapter.addSection(appointment.getDateString(), adapter);
+                            arrayAdapter.addSection(key, adapter);
                         }
                         
                         arrayAdapter.notifyDataSetChanged();
@@ -233,7 +230,7 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        String key = creatKey(oldDate);
+                        Long key = creatKey(oldDate);
                         
                         Appointment toDel = null;
                         if (dayAppointments.containsKey(key)) {
@@ -283,7 +280,7 @@ public class Model {
      */
     public ArrayList<Appointment> getAppointmentList() {
         ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-        for (Entry<String, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
+        for (Entry<Long, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
             appointmentList.addAll(entry.getValue());
         }
         return appointmentList;
@@ -393,19 +390,15 @@ public class Model {
      * Clear the file list of the model
      */
     public void clearFileList() {
+        fileList.clear();
+        if (importArrayAdapter != null) {
+            importArrayAdapter.notifyDataSetChanged();
+        }
         
-                        fileList.clear();
-                        if (importArrayAdapter != null) {
-                            importArrayAdapter.notifyDataSetChanged();
-                        }
-                        
-                        // Update the visibility of the "no files avaiable" textview
-                        if (getImportContext() != null) {
-                            getImportContext().updateNoAvaiableFilesTextView();
-                        }
-                    
-             
-        
+        // Update the visibility of the "no files avaiable" textview
+        if (getImportContext() != null) {
+            getImportContext().updateNoAvaiableFilesTextView();
+        }
     }
     
     
@@ -469,15 +462,12 @@ public class Model {
     
     
     /**
-     * Creates a key for getting an arraylist of {@link Appointment}s.
+     * Creates a key for getting an {@link ArrayList} of {@link Appointment}s.
      * 
      * @return string representation
      */
-    private String creatKey(Date date) {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-        return dateFormat.format(cal.getTime());
+    private Long creatKey(Date date) {
+        return date.getTime();
     }
     
     
@@ -495,10 +485,10 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        ArrayList<String> toDelete = new ArrayList<String>();
+                        ArrayList<Long> toDelete = new ArrayList<Long>();
                         
                         // Search the correct list of this day
-                        for (Entry<String, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
+                        for (Entry<Long, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
                             if (dayList.getValue().contains(appointment)) {
                                 
                                 // Delete the entry out of this day list
@@ -517,7 +507,7 @@ public class Model {
                         }
                         
                         // Delete the day lists out of the whole list
-                        for (String del : toDelete) {
+                        for (Long del : toDelete) {
                             dayAppointments.remove(del);
                         }
                         arrayAdapter.notifyDataSetChanged();
