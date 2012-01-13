@@ -34,6 +34,7 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
@@ -88,6 +89,11 @@ public class FileSystemConnector {
      * The import string
      */
     private String importString = null;
+    
+    /**
+     * The {@link App} of the calendar app
+     */
+    private App app = ((App) appContext.getApplication());
     
     
     /**
@@ -153,12 +159,12 @@ public class FileSystemConnector {
         exportStringBuilder.append("END:VCALENDAR");
         exportString = exportStringBuilder.toString();
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(rgIdentifier, resourceIdentifier);
                 if (binder != null) {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
@@ -181,23 +187,14 @@ public class FileSystemConnector {
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -211,12 +208,12 @@ public class FileSystemConnector {
         // clear the import string
         this.importString = null;
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(rgIdentifier, resourceIdentifier);
                 if (binder != null) {
                     try {
                         // The file access interface
@@ -313,13 +310,13 @@ public class FileSystemConnector {
                                                 success = false;
                                                 Log.e("Date does not match the regular expression pattern!");
                                             } else {
-                                                GregorianCalendar cal = new GregorianCalendar(Integer
-                                                        .valueOf(dateString.substring(0, 4)), Integer
-                                                        .valueOf(dateString.substring(4, 6)) - 1, Integer
-                                                        .valueOf(dateString.substring(6, 8)), Integer
-                                                        .valueOf(dateString.substring(9, 11)), Integer
-                                                        .valueOf(dateString.substring(11, 13)), Integer
-                                                        .valueOf(dateString.substring(13, 15)));
+                                                GregorianCalendar cal = new GregorianCalendar(
+                                                        Integer.valueOf(dateString.substring(0, 4)),
+                                                        Integer.valueOf(dateString.substring(4, 6)) - 1,
+                                                        Integer.valueOf(dateString.substring(6, 8)),
+                                                        Integer.valueOf(dateString.substring(9, 11)),
+                                                        Integer.valueOf(dateString.substring(11, 13)),
+                                                        Integer.valueOf(dateString.substring(13, 15)));
                                                 // Add the appointment to the list for importing
                                                 importAppointmentList.add(new Appointment(-1, name, description, cal
                                                         .getTime(), severity));
@@ -341,11 +338,8 @@ public class FileSystemConnector {
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                             } else {
-                                                             
-                                Model.getInstance().clearLocalList();
-
-                                SqlConnector sqlCon = new SqlConnector();
                                 
+                                SqlConnector sqlCon = new SqlConnector();
                                 sqlCon.storeAppointmentListInEmptyList(importAppointmentList);
                                 
                                 Log.d("Import succeed");
@@ -357,23 +351,14 @@ public class FileSystemConnector {
                         
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     

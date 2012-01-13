@@ -27,6 +27,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -64,6 +65,12 @@ public class CalendarApp extends App {
                 UiManager.getInstance().dismissWaitingDialog();
                 Toast.makeText(Model.getInstance().getContext(), R.string.registration_succeed, Toast.LENGTH_LONG)
                         .show();
+                String[] request = new String[1];
+                request[0] = "read";
+                
+                // Request a service feature that PMP displays the activity
+                pmpconnector.getAppService().requestServiceFeature(Model.getInstance().getContext().getPackageName(),
+                        request);
             }
         });
         
@@ -78,24 +85,33 @@ public class CalendarApp extends App {
         UiManager.getInstance().dismissWaitingDialog();
     }
     
+    
     /**
      * Changes the functionality of the app according to its set ServiceFeature
      */
-    public void changeFunctionalityAccordingToServiceFeature() {
+    public void changeFunctionalityAccordingToServiceFeature(Boolean registered) {
         
         final Boolean read = this.isServiceFeatureEnabled("read");
         final Boolean write = this.isServiceFeatureEnabled("write");
         
         if (!read) {
-            // no feature
+            CalendarAppActivity context = Model.getInstance().getContext();
+            
+            // no reading allowed
             Model.getInstance().clearLocalList();
+            
+            // Show the message that reading is not allowed but only iff the app is registered
+            if (registered) {
+                Toast.makeText(context, context.getString(R.string.no_reading), 7000).show();
+            }
         } else {
             // Read files
             new SqlConnector().loadAppointments();
             
-            //Scroll to the actual date
+            //Scroll to the actual date 
             Model.getInstance().getContext().getListView()
                     .setSelection(Model.getInstance().getArrayAdapter().getActualAppointmentPosition());
+            
         }
         
         /*
@@ -107,10 +123,16 @@ public class CalendarApp extends App {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object clicked = Model.getInstance().getArrayAdapter().getItem(position);
-                if (clicked instanceof Appointment && write) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
-                            (Appointment) clicked);
-                    changeDateDialog.show();
+                if (write) {
+                    if (clicked instanceof Appointment) {
+                        Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
+                                (Appointment) clicked);
+                        changeDateDialog.show();
+                    }
+                } else {
+                    String[] requested = new String[1];
+                    requested[0] = "write";
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(requested);
                 }
             }
         });

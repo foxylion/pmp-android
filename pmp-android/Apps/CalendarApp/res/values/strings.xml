@@ -12,7 +12,7 @@
     <string name="change_todo_dialog">Change appointment</string>
     <string name="delete">Delete</string>
     <string name="send">Send via E-Mail</string>
-    <string name="subject">New appointment.</string>
+    <string name="subject">New appointment</string>
     <string name="menu">Menu</string>
     <string name="wait">Please wait&#8230;</string>
     <string name="registration">Registration is running.</string>
@@ -51,7 +51,7 @@
     <string name="file_name">Filename:</string>
     <string name="export_appointments">Export appointments</string>
     <string name="import_appointments">Import appointments</string>
-    <string name="appoint">Appointment:</string>
+    <string name="date">Date: </string>
     <string name="invalid_file_name_title">Invalid filename</string>
     <string name="invalid_file_name_message">The entered filename is invalid.</string>
     <string name="error">Error</string>
@@ -66,5 +66,6 @@
     <string name="err_connect_db">Could not connect to database resource</string>
     <string name="err_connect_mail">Could not connect to E-Mail resource</string>
 	<string name="err_connect_fs">Could not connect to file system resource</string>
+	<string name="no_reading">The reading out of the databse is not allowed. Enable service feature to shows appointments.</string>
     
 </resources>
