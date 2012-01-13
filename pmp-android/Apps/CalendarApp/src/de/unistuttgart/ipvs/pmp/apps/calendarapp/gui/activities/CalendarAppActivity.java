@@ -63,7 +63,8 @@ public class CalendarAppActivity extends ListActivity {
     /**
      * The actual aplication context
      */
-    private Context appContext;  
+    private Context appContext;
+    
     
     /**
      * Called when the activity is first created. Creates the list and shows the dates.
@@ -107,7 +108,7 @@ public class CalendarAppActivity extends ListActivity {
             
             @Override
             public void onConnect(AbstractConnector connector) throws RemoteException {
-                
+
                 // Check if the service is registered yet
                 if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
                     Log.v("Registering");
@@ -149,14 +150,6 @@ public class CalendarAppActivity extends ListActivity {
         
         // Connect to the service
         pmpconnector.bind();
-    }
-    
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Model.getInstance().clearLocalListWithoutTextViewUpdate();
-        
     }
     
     

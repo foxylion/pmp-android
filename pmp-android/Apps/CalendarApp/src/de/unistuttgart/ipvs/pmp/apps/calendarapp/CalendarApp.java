@@ -93,11 +93,11 @@ public class CalendarApp extends App {
         final Boolean read = this.isServiceFeatureEnabled("read");
         final Boolean write = this.isServiceFeatureEnabled("write");
         
+        // Clear the local list because you don't know if you can display the appointments
+        Model.getInstance().clearLocalList();
+        
         if (!read) {
             CalendarAppActivity context = Model.getInstance().getContext();
-            
-            // no reading allowed
-            Model.getInstance().clearLocalList();
             
             // Show the message that reading is not allowed but only iff the app is registered
             if (registered) {
