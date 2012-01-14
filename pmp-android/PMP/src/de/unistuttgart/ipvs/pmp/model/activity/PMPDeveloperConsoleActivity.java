@@ -254,6 +254,11 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     f.setAccessible(true);
                     ModelCache mc = (ModelCache) f.get(m);
                     
+                    if (mc == null) {
+                        Log.d("MODEL CACHE == NULL");
+                        return;
+                    }
+                    
                     // and off you go
                     Log.d("LIST OF APPs");
                     for (Entry<String, App> e : mc.getApps().entrySet()) {
