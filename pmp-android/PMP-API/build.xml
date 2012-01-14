@@ -4,7 +4,7 @@
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
          Version Control Systems. -->
-    <!--<loadproperties srcFile="local.properties" />-->
+    <loadproperties srcFile="local.properties" />
 
     <!-- The ant.properties file can be created by you. It is only edited by the
          'android' tool to add properties to it.
@@ -81,30 +81,5 @@
     -->
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
-	
-	<path id="android.libraries.src"><path refid="project.libraries.src" /></path>
-	<path id="android.libraries.jars"><path refid="project.libraries.jars" /></path>
-	
-	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
-
-	<target name="findbugs">
-		<mkdir dir="reports" />
-		<findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml" excludeFilter="../FindBugsExclude.xml">
-			<auxClasspath path="${android.jar}" />
-			<class location="${out.dir}" />
-		</findbugs>
-	</target>
-	
-	<target name="mkjdocs">
-		<mkdir dir="jdoc" />
-		<javadoc 
-           sourcepath="src"           
-           destdir="jdoc"
-           author="true"
-           version="true"
-           use="true"
-           windowtitle="PMP-API">
-		</javadoc>
-	</target>
 
 </project>
