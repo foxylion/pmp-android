@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -28,7 +29,7 @@ public class IPCProvider {
     /**
      * How many cumulative update sessions are in progress, for > 0 no rollout should be done.
      */
-    private int updateSession;
+    private AtomicInteger updateSession;
     
     /**
      * The map containing the IPC operations to be performed.
@@ -50,7 +51,7 @@ public class IPCProvider {
      * Singleton constructor
      */
     private IPCProvider() {
-        this.updateSession = 0;
+        this.updateSession = new AtomicInteger(0);
         this.queue = new ConcurrentHashMap<String, Bundle>();
     }
     
@@ -60,7 +61,7 @@ public class IPCProvider {
      * directly delivering them directly. Be sure to always call {@link IPCProvider#endUpdate()} afterwards.
      */
     public synchronized void startUpdate() {
-        this.updateSession++;
+        this.updateSession.incrementAndGet();
         Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " started.");
     }
     
@@ -70,10 +71,10 @@ public class IPCProvider {
      */
     public synchronized void endUpdate() {
         Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " ended.");
-        if (this.updateSession > 0) {
-            this.updateSession--;
+        if (this.updateSession.get() > 0) {
+            this.updateSession.decrementAndGet();
         }
-        if (this.updateSession == 0) {
+        if (this.updateSession.intValue() == 0) {
             rollout();
         }
     }
@@ -131,7 +132,7 @@ public class IPCProvider {
         this.queue.put(appPackage, b);
         
         // run, if no session
-        if (this.updateSession == 0) {
+        if (this.updateSession.intValue() == 0) {
             rollout();
         } else {
             Log.d("IPC connection queued.");
