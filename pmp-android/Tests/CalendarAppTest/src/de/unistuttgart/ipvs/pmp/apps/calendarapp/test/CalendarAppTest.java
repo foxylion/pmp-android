@@ -142,7 +142,7 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         assertEquals(APPOINTMENT_NAME, solo.getCurrentEditTexts().get(3).getText().toString());
         assertEquals(APPOINTMENT_DESC, solo.getCurrentEditTexts().get(4).getText().toString());
         assertEquals(3, solo.getCurrentRadioButtons().size());
-        assertTrue(solo.getButton("high").isSelected());
+        assertTrue(solo.isRadioButtonChecked("high"));
         solo.clickOnText("Confirm");
         
         solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
