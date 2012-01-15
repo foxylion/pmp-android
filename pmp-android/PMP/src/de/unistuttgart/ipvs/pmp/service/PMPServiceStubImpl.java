@@ -53,7 +53,9 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
     @Override
     public void registerApp(String appPackage) throws RemoteException {
         try {
-            Model.getInstance().registerApp(appPackage);
+            if (Model.getInstance().getApp(appPackage) == null) {
+                Model.getInstance().registerApp(appPackage);
+            }
         } catch (InvalidXMLException e) {
             // if desired one could inform the GUI here
         }
