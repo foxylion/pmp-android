@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -236,12 +237,16 @@ public class FileSystemConnector {
                             boolean success = true;
                             
                             // Check meta data
-                            boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
-                            boolean rowTwo = importArray[1].equals("VERSION:2.0");
-                            boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
-                            boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
-                            if (!(rowOne && rowTwo && rowThree && rowLast)) {
-                                Log.e("Import meta data is invalid");
+                            if (importArray.length > 3) {
+                                boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
+                                boolean rowTwo = importArray[1].equals("VERSION:2.0");
+                                boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+                                boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
+                                if (!(rowOne && rowTwo && rowThree && rowLast)) {
+                                    Log.e("Import meta data is invalid");
+                                    success = false;
+                                }
+                            } else {
                                 success = false;
                             }
                             
@@ -295,6 +300,9 @@ public class FileSystemConnector {
                                                 case 6:
                                                     severity = Severity.LOW;
                                                     break;
+                                                default:
+                                                    success = false;
+                                                    break;
                                             }
                                         }
                                         break;
@@ -310,16 +318,34 @@ public class FileSystemConnector {
                                                 success = false;
                                                 Log.e("Date does not match the regular expression pattern!");
                                             } else {
-                                                GregorianCalendar cal = new GregorianCalendar(
-                                                        Integer.valueOf(dateString.substring(0, 4)),
-                                                        Integer.valueOf(dateString.substring(4, 6)) - 1,
-                                                        Integer.valueOf(dateString.substring(6, 8)),
-                                                        Integer.valueOf(dateString.substring(9, 11)),
-                                                        Integer.valueOf(dateString.substring(11, 13)),
-                                                        Integer.valueOf(dateString.substring(13, 15)));
-                                                // Add the appointment to the list for importing
-                                                importAppointmentList.add(new Appointment(-1, name, description, cal
-                                                        .getTime(), severity));
+                                                SimpleDateFormat formatterDate = new SimpleDateFormat("yyyyMMdd",
+                                                        Locale.getDefault());
+                                                SimpleDateFormat formatterTime = new SimpleDateFormat("HHmmss",
+                                                        Locale.getDefault());
+                                                
+                                                formatterDate.setLenient(false);
+                                                formatterTime.setLenient(false);
+                                                try {
+                                                    //Check the date if its an existing date
+                                                    formatterDate.parse(dateString.substring(0, 8));
+                                                    
+                                                    // Check the time
+                                                    formatterTime.parse(dateString.substring(9, 15));
+                                                    
+                                                    GregorianCalendar cal = new GregorianCalendar(
+                                                            Integer.valueOf(dateString.substring(0, 4)),
+                                                            Integer.valueOf(dateString.substring(4, 6)) - 1,
+                                                            Integer.valueOf(dateString.substring(6, 8)),
+                                                            Integer.valueOf(dateString.substring(9, 11)),
+                                                            Integer.valueOf(dateString.substring(11, 13)),
+                                                            Integer.valueOf(dateString.substring(13, 15)));
+                                                    // Add the appointment to the list for importing
+                                                    importAppointmentList.add(new Appointment(-1, name, description,
+                                                            cal.getTime(), severity));
+                                                } catch (ParseException e) {
+                                                    success = false;
+                                                }
+                                                
                                             }
                                         }
                                         break;
@@ -337,6 +363,7 @@ public class FileSystemConnector {
                                 Log.e("Import data invalid; imported as far as posible");
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
+                                UiManager.getInstance().getImportActivity().finish();
                             } else {
                                 
                                 SqlConnector sqlCon = new SqlConnector();

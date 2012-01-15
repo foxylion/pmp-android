@@ -134,14 +134,18 @@ public class ListItemServiceFeature extends LinearLayout {
                 newState);
         
         String toastText = getResources().getString(
-                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled));
+                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled),
+                ListItemServiceFeature.this.serviceFeature.getName());
         Toast.makeText(ListItemServiceFeature.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
         
         refresh();
     }
     
     
-    public void reactOnMouseClick() {
+    /**
+     * The method is can be called when the details dialog should be opened.
+     */
+    public void openServiceFeatureDialog() {
         new DialogServiceFeature(ListItemServiceFeature.this.getContext(), ListItemServiceFeature.this.serviceFeature,
                 ListItemServiceFeature.this).show();
     }

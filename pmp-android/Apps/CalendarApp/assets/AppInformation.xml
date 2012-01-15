@@ -14,12 +14,11 @@
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="read">
-			<defaultName lang="en">Read calendar entries</defaultName>
-			<name lang="de">Kalendereinträge lesen</name>
-			<defaultDescription lang="en">I can read calendar
-				entries.
+			<defaultName lang="en">Show entries</defaultName>
+			<name lang="de">Termine anzeigen</name>
+			<defaultDescription lang="en">Calendar entries can be displayed.
 			</defaultDescription>
-			<description lang="de">Ich kann Kalendereinträge lesen.
+			<description lang="de">Kalendereinträge können angezeigt werden.
 			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
@@ -27,13 +26,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="write">
-			<defaultName lang="en">Write calendar entries
+			<defaultName lang="en">Create entries
 			</defaultName>
-			<name lang="de">Kalendereinträge schreiben</name>
-			<defaultDescription lang="en">I can write
-				calendar entries.
+			<name lang="de">Termine hinzufügen</name>
+			<defaultDescription lang="en">Calendar entries can be added or changed.
 			</defaultDescription>
-			<description lang="de">Ich kann Kalendereinträge schreiben.
+			<description lang="de">Kalendereinträge können hinzugefügt oder bearbeitet werden.
 			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
@@ -42,14 +40,14 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="send">
-			<defaultName lang="en">Send calendar entries via email
+			<defaultName lang="en">Send entries via email
 			</defaultName>
-			<name lang="de">Kalendereinträge per E-Mail
+			<name lang="de">Termine per E-Mail
 				versenden
 			</name>
-			<defaultDescription lang="en">I can send calendar entries via email.
+			<defaultDescription lang="en">Calendar entries can be sent via e-mail.
 			</defaultDescription>
-			<description lang="de">Ich kann Kalendereinträge per E-Mail versenden.
+			<description lang="de">Kalendereinträge können per E-Mail versendet werden.
 			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email">
@@ -57,13 +55,13 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="import">
-			<defaultName lang="en">Import calendar entries
+			<defaultName lang="en">Import entries
 			</defaultName>
-			<name lang="de">Kalendereinträge importieren
+			<name lang="de">Termine importieren
 			</name>
-			<defaultDescription lang="en">I can	import calendar entries.
+			<defaultDescription lang="en">Import calendar entries from the sd-card.
 			</defaultDescription>
-			<description lang="de">Ich Kalendereinträge importieren.
+			<description lang="de">Kalendereinträge von der SD-Karte importieren.
 			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">
@@ -72,13 +70,13 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="export">
-			<defaultName lang="en">Export calendar entries
+			<defaultName lang="en">Export entries
 			</defaultName>
-			<name lang="de">Kalendereinträge exportieren
+			<name lang="de">Termine exportieren
 			</name>
-			<defaultDescription lang="en">I can export calendar entries.
+			<defaultDescription lang="en">Export calendar entries to the sd-card.
 			</defaultDescription>
-			<description lang="de">Ich kann Kalendereinträge exportieren.
+			<description lang="de">Kalendereinträge auf die SD-Karte exportieren.
 			</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem">

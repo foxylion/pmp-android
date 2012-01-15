@@ -51,7 +51,7 @@ public class CalendarApp extends App {
     @Override
     public void onRegistrationSuccess() {
         Log.d("Registration succeed");
-        
+        requestServiceFeatureUpdate();
         UiManager.getInstance().dismissWaitingDialog();
         new Thread() {
             
@@ -63,7 +63,6 @@ public class CalendarApp extends App {
                 Looper.loop();
             }
         }.start();
-        
         requestServiceFeatures();
     }
     
