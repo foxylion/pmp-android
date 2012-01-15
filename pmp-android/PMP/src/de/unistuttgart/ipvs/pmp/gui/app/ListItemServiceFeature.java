@@ -142,7 +142,10 @@ public class ListItemServiceFeature extends LinearLayout {
     }
     
     
-    public void reactOnMouseClick() {
+    /**
+     * The method is can be called when the details dialog should be opened.
+     */
+    public void openServiceFeatureDialog() {
         new DialogServiceFeature(ListItemServiceFeature.this.getContext(), ListItemServiceFeature.this.serviceFeature,
                 ListItemServiceFeature.this).show();
     }
