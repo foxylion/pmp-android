@@ -311,7 +311,7 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         assertEquals(1, solo.getCurrentEditTexts().size());
         solo.clickOnText("Confirm");
         
-        assertTrue(solo.searchText("not"));
+        assertTrue(solo.searchText("Please enter a filename"));
         
         solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
@@ -342,6 +342,8 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
     
     /**
      * Tests whether you can import an invalid date.
+     * For the next tests you have to set the permission "android.permission.WRITE_EXTERNAL_STORAGE" in the
+     * AndroidManifest of the CalendarApp
      * 
      * @throws Exception
      */
@@ -353,14 +355,23 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         FileWriter fw = new FileWriter(f, false);
         try {
             fw.append("BEGIN:VCALENDAR");
+            fw.append("\n");
             fw.append("VERSION:2.0");
+            fw.append("\n");
             fw.append("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+            fw.append("\n");
             fw.append("BEGIN:VTODO");
+            fw.append("\n");
             fw.append("SUMMARY:" + IL_APPOINTMENT_NAME);
+            fw.append("\n");
             fw.append("DESCRIPTION:" + IL_APPOINTMENT_DESC);
+            fw.append("\n");
             fw.append("PRIORITY:1");
+            fw.append("\n");
             fw.append("DTSTAMP:20130231T000000Z");
+            fw.append("\n");
             fw.append("END:VTODO");
+            fw.append("\n");
             fw.append("END:VCALENDAR");
         } finally {
             fw.close();
@@ -393,14 +404,23 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         FileWriter fw = new FileWriter(f, false);
         try {
             fw.append("BEGIN:VCALENDAR");
+            fw.append("\n");
             fw.append("VERSION:2.0");
+            fw.append("\n");
             fw.append("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+            fw.append("\n");
             fw.append("BEGIN:VTODO");
+            fw.append("\n");
             fw.append("SUMMARY:" + IL_APPOINTMENT_NAME);
+            fw.append("\n");
             fw.append("DESCRIPTION:" + IL_APPOINTMENT_DESC);
+            fw.append("\n");
             fw.append("PRIORITY:1025");
+            fw.append("\n");
             fw.append("DTSTAMP:20130627T000000Z");
+            fw.append("\n");
             fw.append("END:VTODO");
+            fw.append("\n");
             fw.append("END:VCALENDAR");
         } finally {
             fw.close();
@@ -433,14 +453,23 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         FileWriter fw = new FileWriter(f, false);
         try {
             fw.append("BEGIN:VCALENDAR");
+            fw.append("\n");
             fw.append("VERSION:20.0");
+            fw.append("\n");
             fw.append("PRODID:BETTER_THAN_PMP_CALENDAR");
+            fw.append("\n");
             fw.append("BEGIN:VTODO");
+            fw.append("\n");
             fw.append("SUMMARY:" + IL_APPOINTMENT_NAME);
+            fw.append("\n");
             fw.append("DESCRIPTION:" + IL_APPOINTMENT_DESC);
+            fw.append("\n");
             fw.append("PRIORITY:1");
+            fw.append("\n");
             fw.append("DTSTAMP:20130627T000000Z");
+            fw.append("\n");
             fw.append("END:VTODO");
+            fw.append("\n");
             fw.append("END:VCALENDAR");
         } finally {
             fw.close();
