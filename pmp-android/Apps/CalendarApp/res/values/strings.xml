@@ -14,7 +14,7 @@
     <string name="send">Send via E-Mail</string>
     <string name="subject">New appointment</string>
     <string name="menu">Menu</string>
-    <string name="wait">Please wait&#8230;</string>
+    <string name="wait">Please wait…</string>
     <string name="registration">Registration is running.</string>
     <string name="registration_succeed">Successful registered to PMP.</string>
     <string name="registration_failed">Registration failed.</string>
@@ -41,6 +41,7 @@
     <string name="export_override_attention">A file with this filename already exists. Do you
 		want to override the file?</string>
     <string name="export_override_question">Override existing file?</string>
+    <string name="export_error_filename">Please enter a filename.</string>
     <string name="insufficent_sf_message">The actual service features are insufficient for this
 		operation. To enable this operation activate the corresponding service features.</string>
     <string name="insufficent_sf">Insufficient service features</string>
@@ -63,7 +64,7 @@
     <string name="severity_high">high</string>
     <string name="severity_middle">middle</string>
     <string name="severity_low">low</string>
-	<string name="err_connect_fs">Could not connect to file system resource</string>
-	<string name="no_reading">The reading out of the databse is not allowed. Enable service feature to shows appointments.</string>
-    
+    <string name="err_connect_fs">Could not connect to file system resource</string>
+    <string name="no_reading">The reading out of the databse is not allowed. Enable service feature to shows appointments.</string>
+
 </resources>

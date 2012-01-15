@@ -38,6 +38,7 @@
     <string name="export_toast_cancel">Exportieren wurden abgebrochen.</string>
     <string name="export_toast_succeed">Exportieren war erfolgreich.</string>
     <string name="export_toast_failed">Exportieren fehlgeschlagen.</string>
+    <string name="export_error_filename">Bitte Dateinamen eingeben.</string>
     <string name="delete_file_toast">Datei gelöscht.</string>
     <string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
     <string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
@@ -63,4 +64,5 @@
     <string name="severity_low">niedrig</string>
     <string name="err_connect_fs">Konnte keine Verbindung zur Dateisystem-Ressource herstellen</string>
     <string name="no_reading">Das Lesen aus der Datenbank ist nicht erlaubt. Service-Feature bitte setzen um Termine anzuzeigen.</string>
+
 </resources>
