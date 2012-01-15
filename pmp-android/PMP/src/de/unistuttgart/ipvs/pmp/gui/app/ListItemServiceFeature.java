@@ -134,7 +134,8 @@ public class ListItemServiceFeature extends LinearLayout {
                 newState);
         
         String toastText = getResources().getString(
-                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled));
+                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled),
+                ListItemServiceFeature.this.serviceFeature.getName());
         Toast.makeText(ListItemServiceFeature.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
         
         refresh();
