@@ -427,10 +427,9 @@ public class Model implements IModel, Observer {
             return false;
         } else {
             
+            rg.delete();
             // delete the class files / apk / etc
             PluginProvider.getInstance().uninstall(rgPackage);
-            
-            rg.delete();
             this.cache.getResourceGroups().remove(rgPackage);
             
             IPCProvider.getInstance().startUpdate();

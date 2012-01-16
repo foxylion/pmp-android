@@ -16,10 +16,10 @@
   Noch fehlende Serives: E-Mail ändern, Passwort ändern
   -->
   <div id="wrapper">
-    <div id="page-head-date">03. Dezember 2011</div>
+    <div id="page-head-date">12. Januar 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Entwurf - Webservice vHike</div>
-    <div id="page-version">Version 0.2</div>
+    <div id="page-version">Version 1.0</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -39,11 +39,12 @@
       </p>
       
 
-      <h1 id="databse">Datenbank</h1>          
+      <h1 id="database">Datenbank</h1>          
       <p>                                      
         Nachfolgendes ER-Diagramm beschreibt den Aufbau der Datenbank und die 
         Relationen zwischen den Tabellen.
       </p>
+      <!--
       <p>
         Entgegen dem dargestellten Aufbau wurde die <code>rating</code>-Tabelle
         nicht übernommen. Um trotzdem feststellen zu können, ob eine Bewertung 
@@ -58,8 +59,19 @@
         Diese speichern die Durchschnittsbewertung bzw. die Anzahl der abgegebenen
         Bewertungen.
       </p>
+      -->
       <p>    
         <img src="./db-layout.png" alt="Database Layout" style="width:100%">
+      </p>
+      
+      <h2 id="database_refavtor">Geplante Änderungen</h2>
+      <p>
+        Für die folgende Iteration ist das Anlegen einer Weiteren Tabelle
+        <code>position</code> geplant. In dieser werden die Positionen der
+        Benutzer gespeichert, so dass die bisherigen Felder zur Positionsspeicherung
+        aus den bestehenden Tabellen entfernt werden können. Hierdurch soll
+        der Aufwand, der zum Aktualisieren der Positionsdaten benötigt wird,
+        verringert werden.
       </p>
       
       <h1 id="interface">Schnittstelle</h1>

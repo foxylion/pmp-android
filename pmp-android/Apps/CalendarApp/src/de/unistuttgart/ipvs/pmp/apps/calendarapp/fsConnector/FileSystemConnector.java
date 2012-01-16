@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,11 +35,12 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
@@ -89,6 +91,11 @@ public class FileSystemConnector {
      */
     private String importString = null;
     
+    /**
+     * The {@link App} of the calendar app
+     */
+    private App app = ((App) appContext.getApplication());
+    
     
     /**
      * This method provides the export for appointments to the file system of pmp (resource group)
@@ -102,7 +109,7 @@ public class FileSystemConnector {
         
         // Check, if the filename is valid
         if (!fileName.matches("[[a-zA-Z0-9]|.|_|\\-| ]*")) {
-            DialogManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
+            UiManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
             Log.d("Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
             return;
         }
@@ -153,12 +160,12 @@ public class FileSystemConnector {
         exportStringBuilder.append("END:VCALENDAR");
         exportString = exportStringBuilder.toString();
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(rgIdentifier, resourceIdentifier);
                 if (binder != null) {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
@@ -181,23 +188,14 @@ public class FileSystemConnector {
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -208,22 +206,21 @@ public class FileSystemConnector {
      *            the name of the file
      */
     public void importAppointments(final String fileName) {
-        
         // clear the import string
         this.importString = null;
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        new Thread() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void run() {
+                Looper.prepare();
+                IBinder binder = app.getResourceBlocking(rgIdentifier, resourceIdentifier);
                 if (binder != null) {
                     try {
                         // The file access interface
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         //              List of appointments to add
-                        List<Appointment> importAppointmentList = new ArrayList<Appointment>();
+                        ArrayList<Appointment> importAppointmentList = new ArrayList<Appointment>();
                         
                         // Read the file
                         FileSystemConnector.this.importString = ifa.read(FOLDER_NAME + "/" + fileName);
@@ -240,12 +237,16 @@ public class FileSystemConnector {
                             boolean success = true;
                             
                             // Check meta data
-                            boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
-                            boolean rowTwo = importArray[1].equals("VERSION:2.0");
-                            boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
-                            boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
-                            if (!(rowOne && rowTwo && rowThree && rowLast)) {
-                                Log.e("Import meta data is invalid");
+                            if (importArray.length > 3) {
+                                boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
+                                boolean rowTwo = importArray[1].equals("VERSION:2.0");
+                                boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+                                boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
+                                if (!(rowOne && rowTwo && rowThree && rowLast)) {
+                                    Log.e("Import meta data is invalid");
+                                    success = false;
+                                }
+                            } else {
                                 success = false;
                             }
                             
@@ -299,6 +300,9 @@ public class FileSystemConnector {
                                                 case 6:
                                                     severity = Severity.LOW;
                                                     break;
+                                                default:
+                                                    success = false;
+                                                    break;
                                             }
                                         }
                                         break;
@@ -314,16 +318,34 @@ public class FileSystemConnector {
                                                 success = false;
                                                 Log.e("Date does not match the regular expression pattern!");
                                             } else {
-                                                GregorianCalendar cal = new GregorianCalendar(Integer
-                                                        .valueOf(dateString.substring(0, 4)), Integer
-                                                        .valueOf(dateString.substring(4, 6)) - 1, Integer
-                                                        .valueOf(dateString.substring(6, 8)), Integer
-                                                        .valueOf(dateString.substring(9, 11)), Integer
-                                                        .valueOf(dateString.substring(11, 13)), Integer
-                                                        .valueOf(dateString.substring(13, 15)));
-                                                // Add the appointment to the list for importing
-                                                importAppointmentList.add(new Appointment(-1, name, description, cal
-                                                        .getTime(), severity));
+                                                SimpleDateFormat formatterDate = new SimpleDateFormat("yyyyMMdd",
+                                                        Locale.getDefault());
+                                                SimpleDateFormat formatterTime = new SimpleDateFormat("HHmmss",
+                                                        Locale.getDefault());
+                                                
+                                                formatterDate.setLenient(false);
+                                                formatterTime.setLenient(false);
+                                                try {
+                                                    //Check the date if its an existing date
+                                                    formatterDate.parse(dateString.substring(0, 8));
+                                                    
+                                                    // Check the time
+                                                    formatterTime.parse(dateString.substring(9, 15));
+                                                    
+                                                    GregorianCalendar cal = new GregorianCalendar(
+                                                            Integer.valueOf(dateString.substring(0, 4)),
+                                                            Integer.valueOf(dateString.substring(4, 6)) - 1,
+                                                            Integer.valueOf(dateString.substring(6, 8)),
+                                                            Integer.valueOf(dateString.substring(9, 11)),
+                                                            Integer.valueOf(dateString.substring(11, 13)),
+                                                            Integer.valueOf(dateString.substring(13, 15)));
+                                                    // Add the appointment to the list for importing
+                                                    importAppointmentList.add(new Appointment(-1, name, description,
+                                                            cal.getTime(), severity));
+                                                } catch (ParseException e) {
+                                                    success = false;
+                                                }
+                                                
                                             }
                                         }
                                         break;
@@ -341,24 +363,11 @@ public class FileSystemConnector {
                                 Log.e("Import data invalid; imported as far as posible");
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
+                                UiManager.getInstance().getImportActivity().finish();
                             } else {
                                 
-                                Model.getInstance().deleteAllAppointments();
-                                
                                 SqlConnector sqlCon = new SqlConnector();
-                                // Store the appointments
-                                for (Appointment appointmentToStore : importAppointmentList) {
-                                    String nameTmp = appointmentToStore.getName();
-                                    String descr = appointmentToStore.getDescrpition();
-                                    Date date = appointmentToStore.getDate();
-                                    Severity sev = appointmentToStore.getSeverity();
-                                    sqlCon.storeNewAppointmentWithoutModel(date, nameTmp, descr, sev);
-                                    
-                                    Log.d("Imported appointment: " + name);
-                                    Log.d("Imported appointment: " + description);
-                                    Log.d("Imported appointment: " + date);
-                                    Log.d("Imported appointment: " + sev.toString());
-                                }
+                                sqlCon.storeAppointmentListInEmptyList(importAppointmentList);
                                 
                                 Log.d("Import succeed");
                                 Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
@@ -369,23 +378,14 @@ public class FileSystemConnector {
                         
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
-        });
-        pmpconnector.bind();
+        }.start();
     }
     
     
@@ -439,7 +439,7 @@ public class FileSystemConnector {
                                     List<Appointment> appointments = Model.getInstance().getAppointmentList();
                                     if (appointments == null || appointments.size() == 0) {
                                         Log.d("Can not export appointment. There are no appointments available!");
-                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(
+                                        UiManager.getInstance().showAppointmentsListEmptyDialog(
                                                 Model.getInstance().getContext());
                                     } else {
                                         // Open dialog for entering a file name

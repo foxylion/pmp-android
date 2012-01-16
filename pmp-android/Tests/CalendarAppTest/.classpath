@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CalendarApp"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="libs/android-junit-report-1.2.6.jar"/>
+	<classpathentry kind="lib" path="lib/robotium-solo-3.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PMP-API"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

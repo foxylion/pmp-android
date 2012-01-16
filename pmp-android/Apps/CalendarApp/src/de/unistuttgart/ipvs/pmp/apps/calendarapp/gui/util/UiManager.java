@@ -25,32 +25,31 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
-public class DialogManager {
+public class UiManager {
     
-    private static DialogManager instance = null;
+    private static UiManager instance = null;
     
     private Dialog waitingDialog;
     
+    private ImportActivity ia;
     
-    private DialogManager() {
+    
+    private UiManager() {
     }
     
     
-    public static DialogManager getInstance() {
+    public static UiManager getInstance() {
         if (instance == null) {
-            instance = new DialogManager();
+            instance = new UiManager();
         }
         return instance;
     }
@@ -64,7 +63,7 @@ public class DialogManager {
             
             @Override
             public void run() {
-                DialogManager.this.waitingDialog = ProgressDialog.show(Model.getInstance().getContext(), Model
+                UiManager.this.waitingDialog = ProgressDialog.show(Model.getInstance().getContext(), Model
                         .getInstance().getContext().getString(R.string.wait), Model.getInstance().getContext()
                         .getString(R.string.registration, true));
             }
@@ -101,37 +100,9 @@ public class DialogManager {
                     
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        final PMPServiceConnector pmpconnector = new PMPServiceConnector(Model.getInstance()
-                                .getContext());
-                        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
-                            
-                            @Override
-                            public void onConnect(AbstractConnector connector) throws RemoteException {
-                                pmpconnector.getAppService().requestServiceFeature(context.getPackageName(), requested);
-                            }
-                            
-                            @Override
-                            public void onBindingFailed(AbstractConnector connector) {
-                                Looper.prepare();
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setMessage(R.string.not_found).setTitle(R.string.error).setCancelable(true)
-                                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                            
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                // Close the dialog and close the calendar app
-                                                dialog.cancel();
-                                                context.finish();
-                                            }
-                                        });
-                                AlertDialog alert = builder.create();
-                                alert.show();
-                                Looper.loop();
-                            }
-                        });
-                        pmpconnector.bind();
+                        App app = ((App) Model.getInstance().getContext().getApplication());
+                        app.requestServiceFeatures(requested);
                     }
-                    
-                    
                 });
         
         AlertDialog alert = builder.create();
@@ -183,5 +154,30 @@ public class DialogManager {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    
+    
+    /**
+     * Stores the {@link ImportActivity}
+     * 
+     * @param ia
+     *            {@link ImportActivity}
+     */
+    public void setImportActivity(ImportActivity ia) {
+        this.ia = ia;
+    }
+    
+    
+    /**
+     * Returns the {@link ImportActivity}
+     * 
+     * @return
+     */
+    public ImportActivity getImportActivity() {
+        if (ia != null) {
+            return ia;
+        } else {
+            return new ImportActivity();
+        }
     }
 }

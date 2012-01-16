@@ -74,7 +74,7 @@ public class SimpleAppActivity extends Activity {
 		new Thread() {
 			public void run() {
 				if (!Model.getInstance().getApp().isRegistered()) {
-					Model.getInstance().getApp().registerAtPMP();
+					Model.getInstance().getApp().register();
 				} else {
 					registrationEnded(true, "");
 				}
@@ -126,8 +126,6 @@ public class SimpleAppActivity extends Activity {
 		new Thread() {
 			@Override
 			public void run() {
-				final boolean wifi = Model.getInstance().getWifi();
-
 				handler.post(new Runnable() {
 
 					public void run() {
@@ -136,6 +134,7 @@ public class SimpleAppActivity extends Activity {
 							// Wireless State SF is disabled
 							wirelessStateTextView.setText("missingSF");
 						} else {
+							final boolean wifi = Model.getInstance().getWifi();
 							wirelessStateTextView.setText((wifi ? "enabled"
 									: "disabled"));
 							wirelessToggleButton.setChecked(wifi);
@@ -158,9 +157,6 @@ public class SimpleAppActivity extends Activity {
 		handler.post(new Runnable() {
 
 			public void run() {
-				pd.dismiss();
-				refresh();
-
 				if (success && message == null) {
 					Toast.makeText(getApplicationContext(),
 							"SimpleApp: Registration successed.",
@@ -175,6 +171,9 @@ public class SimpleAppActivity extends Activity {
 							"SimpleApp: Already registered.",
 							Toast.LENGTH_SHORT).show();
 				}
+
+				pd.dismiss();
+				refresh();
 			}
 		});
 	}

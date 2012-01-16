@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -15,6 +16,44 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class Model {
 
+	/**
+	 * Declined userlist
+	 */
+	private List<Integer> bannedUser;
+
+	/**
+	 * Checks if user is on bannlist
+	 * 
+	 * @param userid
+	 * @return true if yes
+	 */
+	public boolean isInBannList(int userid) {
+		boolean banned = false;
+		for (int bannedID : bannedUser) {
+			if (userid == bannedID) {
+				banned = true;
+			} else {
+				banned = false;
+			}
+		}
+
+		return banned;
+	}
+
+	/**
+	 * Adds user to bannlist
+	 * 
+	 * @param userid
+	 */
+	public void addToBannList(int userid) {
+		bannedUser.add(userid);
+	}
+	/**
+	 * Clear the bannlist
+	 */
+	public void clearBannList(){
+		bannedUser.clear();
+	}
 	/**
 	 * Instance of the Object {@link Model}
 	 */
@@ -94,7 +133,7 @@ public class Model {
 	 * Private Constructor = Singleton
 	 */
 	private Model() {
-
+		bannedUser = new ArrayList<Integer>();
 	}
 
 	/**

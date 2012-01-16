@@ -12,11 +12,12 @@
     <string name="change_todo_dialog">Change appointment</string>
     <string name="delete">Delete</string>
     <string name="send">Send via E-Mail</string>
-    <string name="subject">New appointment.</string>
+    <string name="subject">New appointment</string>
     <string name="menu">Menu</string>
-    <string name="wait">Please wait&#8230;</string>
+    <string name="wait">Please wait…</string>
     <string name="registration">Registration is running.</string>
-    <string name="registration_succeed">Successful registered to PMP</string>
+    <string name="registration_succeed">Successful registered to PMP.</string>
+    <string name="registration_failed">Registration failed.</string>
     <string name="err_load">Error loading appointments</string>
     <string name="err_store">Error while storing in database</string>
     <string name="err_del">Error while deleting date in database</string>
@@ -40,6 +41,7 @@
     <string name="export_override_attention">A file with this filename already exists. Do you
 		want to override the file?</string>
     <string name="export_override_question">Override existing file?</string>
+    <string name="export_error_filename">Please enter a filename.</string>
     <string name="insufficent_sf_message">The actual service features are insufficient for this
 		operation. To enable this operation activate the corresponding service features.</string>
     <string name="insufficent_sf">Insufficient service features</string>
@@ -47,13 +49,10 @@
     <string name="change_sf">Change service feature</string>
     <string name="delete_all_appointments_question">Do you really want to delete all appointments?</string>
     <string name="delete_all_appointments">Delete all appointments</string>
-    <string name="import_attention">Attention: Your current appointment list will be
-		lost!</string>
-    <string name="import_question">Import this file?</string>
     <string name="file_name">Filename:</string>
     <string name="export_appointments">Export appointments</string>
     <string name="import_appointments">Import appointments</string>
-    <string name="appoint">Appointment:</string>
+    <string name="date">Date: </string>
     <string name="invalid_file_name_title">Invalid filename</string>
     <string name="invalid_file_name_message">The entered filename is invalid.</string>
     <string name="error">Error</string>
@@ -65,8 +64,7 @@
     <string name="severity_high">high</string>
     <string name="severity_middle">middle</string>
     <string name="severity_low">low</string>
-    <string name="err_connect_db">Could not connect to database resource</string>
-    <string name="err_connect_mail">Could not connect to E-Mail resource</string>
-	<string name="err_connect_fs">Could not connect to file system resource</string>
-    
+    <string name="err_connect_fs">Could not connect to file system resource</string>
+    <string name="no_reading">The reading out of the databse is not allowed. Enable service feature to shows appointments.</string>
+
 </resources>

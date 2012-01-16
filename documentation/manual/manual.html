@@ -14,7 +14,7 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">10. Januar 2012</div>
+    <div id="page-head-date">12. Januar 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
     <div id="page-version">Version 1.3</div>
@@ -572,10 +572,35 @@
       
       
       
-           <h1 id="developers">Entwickler</h1>
+      <h1 id="developers">Entwickler</h1>
       <p>
-        Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eigene
-        Ressourcengruppen erweitern oder Anwendungen für die PMP erstellen möchten.
+        Dieser Abschnitt richtet sich an erfahrene Benutzer, die die PMP um eine
+        weitere Sprache erweitern, eine Ressource erstellen oder Anwendungen an
+        die PMP anbinden möchten.
+      </p>            
+      
+      <h2 id="devlang">Sprache hinzufügen</h2>
+      <p>
+        Die PMP besitzt momentan nur Beschriftungen in englischer Sprache.
+        Alle Strings, die für Benutzerelemente verwendet werden, werden gemäß
+        dem Android-SDK in eine eigene String-Ressource ausgelagert.
+      </p>
+      <p>
+        Um die PMP um eine weitere Sprache erweitern zu können, muss deren
+        Quellcode zunächst herunter geladen werden. Danach wird im Verzeichnis
+        <code>res</code> ein neues Unterverzeichnis <code>values-XY</code> angelegt,
+        wobei <code>XY</code> für das Kürzel der Sprache steht, die hinzugefügt werden
+        soll. Wurde das Verzeichnis angelegt, sollte aus dem <code>values</code>
+        Verzeichnis (unter <code>res</code>) die Datei <code>strings.xml</code>
+        in das neu angelegte Verzeichnis kopiert werden. Diese Kopie kann
+        dann mit einem Text-Editor geöffnet und die einzelnen Abschnitte 
+        übersetzt werden.
+      </p>
+      <p>
+        Nach Fertigstellung der Übersetzung werden mit Hilfe des Android-SDK 
+        die PMP und ihre Ressourcen zu einer neuen APK-Datei gebunden (siehe die
+        Dokumentation des SDK für weitere Details). Diese Datei kann nun
+        auf das Gerät übertragen werden.
       </p>
 
       
@@ -775,6 +800,24 @@
         AIDL-Interface weitergereicht werden, damit diese prüfen kann, ob die 
         Applikation zum Zugriff auf die einzelnen Funktionen berechtigt ist.
       </p>    
+      
+      <p>
+        Jede Ressource ist dafür verantwortlich, dass eine von ihr angebotene
+        Funktion nur ausgeführt wird, wenn das entsprechende Privacy-Setting
+        gesetzt ist. Hierzu bietet die noch zu erweiternde Klasse 
+        <code>Resource</code> (siehe <span class="reference" title="#devres_resgroup"></span>)
+        die Methode <code>getPrivacySetting()</code>. Dieser wird der Name das abzufragenden
+        Privacy-Settings übergeben (siehe <span class="reference" title="#devres_xml_ps"></span>)
+        und liefert, wenn das Privacy-Setting existiert, eine Referenz auf dieses 
+        zurück. Damit ist das Abfragen des gesetzten Wertes möglich.
+      </p>
+      <p>
+        Ist das Ausführen der Funktion nicht möglich, da das dafür nötige
+        Privacy-Setting nicht gesetzt ist, muss die Ressource eine <code>SecurityException</code>
+        werfen. Innerhalb der Funktions-Implementierung dürfen keine anderen
+        Exception-Typen geworfen werden. Da dies zum Absturz der Applikation führt,
+        die auf eine solche Funktion zugreift.
+      </p>
       
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
       <p>
@@ -1538,9 +1581,9 @@ getAppService().getInitialServiceLevel()
       
       <h1 id="versions">Versionshistorie</h1> 
       
-      <h3>Version 1.3 (10.01.2012)</h3>
+      <h3>Version 1.3 (12.01.2012)</h3>
       <ul>
-        <li>Anpassung des Entwicklerkapitels weitestgehend abgeschlossen.</li>
+        <li>Anpassung des Entwicklerkapitels abgeschlossen.</li>
       </ul>
       
       <h3>Version 1.2 (07.01.2012)</h3>
