@@ -56,7 +56,7 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
             }
             
             for (IPreset preset : Model.getInstance().getPresets()) {
-                assertTrue(Model.getInstance().removePreset(preset.getCreator(), preset.getIdentifier()));
+                assertTrue(Model.getInstance().removePreset(preset.getCreator(), preset.getLocalIdentifier()));
             }
             
         } catch (Exception e) {
