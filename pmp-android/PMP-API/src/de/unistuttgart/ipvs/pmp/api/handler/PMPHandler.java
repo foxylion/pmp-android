@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.api;
+package de.unistuttgart.ipvs.pmp.api.handler;
 
 public abstract class PMPHandler {
 

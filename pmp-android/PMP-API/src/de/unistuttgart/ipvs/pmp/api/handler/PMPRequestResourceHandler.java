@@ -1,4 +1,7 @@
-package de.unistuttgart.ipvs.pmp.api;
+package de.unistuttgart.ipvs.pmp.api.handler;
+
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCRequestResourceCommand;
 
 public class PMPRequestResourceHandler extends PMPHandler {
 	public IPCRequestResourceCommand handler;

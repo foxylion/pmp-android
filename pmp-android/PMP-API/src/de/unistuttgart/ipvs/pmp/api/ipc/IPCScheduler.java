@@ -1,4 +1,7 @@
-package de.unistuttgart.ipvs.pmp.api;
+package de.unistuttgart.ipvs.pmp.api.ipc;
+
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCCommand;
 
 public class IPCScheduler extends Thread {
 	public PMP scheduler;

@@ -1,4 +1,6 @@
-package de.unistuttgart.ipvs.pmp.api;
+package de.unistuttgart.ipvs.pmp.api.handler;
+
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCRegistrationCommand;
 
 public class PMPRegistrationHandler extends PMPHandler {
 	public IPCRegistrationCommand handler;
