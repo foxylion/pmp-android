@@ -61,7 +61,7 @@ public class CalendarAppActivity extends ListActivity {
     private CalendarAppActivity self = this;
     
     /**
-     * The actual aplication context
+     * The actual application context
      */
     private Context appContext;
     
@@ -178,11 +178,12 @@ public class CalendarAppActivity extends ListActivity {
                 
                 @Override
                 public void run() {
+                    Looper.prepare();
                     App app = ((App) appContext);
                     IBinder binder = app.getResourceBlocking("de.unistuttgart.ipvs.pmp.resourcegroups.email",
                             "emailOperations");
                     
-                    if (binder != null) {
+                    if (binder != null && app.isServiceFeatureEnabled("send")) {
                         IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
                         try {
                             String subject = getString(R.string.subject) + ": " + clicked.getName();
@@ -211,12 +212,10 @@ public class CalendarAppActivity extends ListActivity {
                         if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
                             sfs.add("send");
                         }
-                        if (!((App) getApplication()).isServiceFeatureEnabled("read")) {
-                            sfs.add("read");
-                        }
                         
                         UiManager.getInstance().showServiceFeatureInsufficientDialog(
                                 sfs.toArray(new String[sfs.size()]));
+                        Looper.loop();
                     }
                 }
             }.start();
