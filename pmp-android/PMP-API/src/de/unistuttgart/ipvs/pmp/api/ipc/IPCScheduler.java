@@ -19,38 +19,24 @@ public class IPCScheduler extends Thread {
     /**
      * The queue that contains all the commands to be executed
      */
-    public BlockingQueue<IPCCommand> queue;
+    public final BlockingQueue<IPCCommand> queue;
     
     /**
      * The connection to be used while executing commands.
      */
-    public IPCConnection connection;
+    public final IPCConnection connection;
     
     
     /**
-     * Creates a new {@link IPCScheduler} to connect to PMP.
+     * Creates a new {@link IPCScheduler}.
      * 
      * @param context
-     *            the context to use for the connection
+     *            the context to use for the connections
      */
     public IPCScheduler(Context context) {
-        this(context, "de.unistuttgart.ipvs.pmp.service.PMPService");
-    }
-    
-    
-    /**
-     * Creates a new {@link IPCScheduler} to connect to an arbitrary destination service
-     * 
-     * @param context
-     *            the context to use for the connection
-     * @param destinationService
-     *            the Android identifier of the destination service
-     */
-    public IPCScheduler(Context context, String destinationService) {
         this.queue = new LinkedBlockingQueue<IPCCommand>();
         
         this.connection = new IPCConnection(context);
-        this.connection.setDestinationService(destinationService);
     }
     
     
@@ -76,6 +62,8 @@ public class IPCScheduler extends Thread {
             new Thread() {
                 
                 public void run() {
+                    IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
+                    
                     // handle timeout
                     if (command.getTimeout() < System.currentTimeMillis()) {
                         command.getHandler().onTimeout();
@@ -85,7 +73,7 @@ public class IPCScheduler extends Thread {
                     command.getHandler().onPrepare();
                     
                     // try connecting
-                    IBinder binder = connection.getBinder();
+                    IBinder binder = IPCScheduler.this.connection.getBinder();
                     if (binder != null) {
                         command.execute(binder);
                     } else {

@@ -8,6 +8,7 @@ import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
 
 /**
@@ -24,8 +25,8 @@ public interface IPMP {
     
     /**
      * <p>
-     * Sends a registration request to PMPand obtains the currently assigned service features. Handles the displaying of
-     * GUI elements to indicate to the user that the registration process is running.
+     * Sends a registration request to PMP and obtains the currently assigned service features. Handles the displaying
+     * of GUI elements to indicate to the user that the registration process is running.
      * </p>
      * 
      * <p>
@@ -47,35 +48,18 @@ public interface IPMP {
     
     
     /**
-     * Sends a registration request to PMP. The result can be obtained in handler, which will be called in a separate
-     * {@link Thread}. Gives opportunity not to include the service feature update which may be useful when you want to
-     * use a callback for the first update as well.
+     * Sends a registration request to PMP and obtains the currently assigned service features. The result can be
+     * obtained in handler, which will be called in a separate {@link Thread}. Gives opportunity to specify a maximum
+     * milliseconds timeout.
      * 
      * @param handler
      *            the {@link PMPRegistrationHandler} to call in a separate {@link Thread} when certain actions happen
-     * @param includeUpdate
-     *            whether to request the currently set service features once the registration is successfully completed
-     *            or the application is already registered
-     */
-    public void register(PMPRegistrationHandler handler, boolean includeUpdate);
-    
-    
-    /**
-     * Sends a registration request to PMP. The result can be obtained in handler, which will be called in a separate
-     * {@link Thread}. Gives opportunity not to include the service feature update which may be useful when you want to
-     * use a callback for the first update as well. Gives opportunity to specify a maximum milliseconds timeout.
-     * 
-     * @param handler
-     *            the {@link PMPRegistrationHandler} to call in a separate {@link Thread} when certain actions happen
-     * @param includeUpdate
-     *            whether to request the currently set service features once the registration is successfully completed
-     *            or the application is already registered
      * @param timeout
      *            The amount of milliseconds in the future which designates the latest desirable point in time to
      *            execute the registration. If it can only be executed afterwards, the {@link PMPHandler#onTimeout()}
-     *            callback is called instead of performing the registration.
+     *            callback is called instead of performing the registration. Use 0 to designate infinite timeout.
      */
-    public void register(PMPRegistrationHandler handler, boolean includeUpdate, int timeout);
+    public void register(PMPRegistrationHandler handler, int timeout);
     
     
     /**
@@ -109,7 +93,7 @@ public interface IPMP {
      * @param timeout
      *            The amount of milliseconds in the future which designates the latest desirable point in time to
      *            execute the update request. If it can only be executed afterwards, the {@link PMPHandler#onTimeout()}
-     *            callback is called instead of performing the registration.
+     *            callback is called instead of performing the registration. Use 0 to designate infinite timeout.
      */
     public void updateServiceFeatures(PMPServiceFeatureUpdateHandler handler, int timeout);
     
@@ -143,29 +127,52 @@ public interface IPMP {
      * 
      * @param serviceFeatures
      *            the service features that shall be requested
+     * @param handler
+     *            the {@link PMPRequestServiceFeaturesHandler} to call in a separate {@link Thread} when certain actions
+     *            happen
+     */
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler);
+    
+    
+    /**
+     * Sends a service feature request to PMP, i.e. a request to activate specific service features because
+     * functionality was requested that requires these service features. Gives opportunity not to show a user dialog to
+     * first confirm this is intended.
+     * 
+     * @param serviceFeatures
+     *            the service features that shall be requested
+     * @param handler
+     *            the {@link PMPRequestServiceFeaturesHandler} to call in a separate {@link Thread} when certain actions
+     *            happen
      * @param showDialog
      *            whether to display a dialog asking the user whether this action was intentional and whether he or she
      *            wants to change the service features
      */
-    public void requestServiceFeatures(List<String> serviceFeatures, boolean showDialog);
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog);
     
     
     /**
+     * /**
      * Sends a service feature request to PMP, i.e. a request to activate specific service features because
      * functionality was requested that requires these service features. Gives opportunity not to show a user dialog to
      * first confirm this is intended. Gives opportunity to specify a maximum milliseconds timeout.
      * 
      * @param serviceFeatures
      *            the service features that shall be requested
+     * @param handler
+     *            the {@link PMPRequestServiceFeaturesHandler} to call in a separate {@link Thread} when certain actions
+     *            happen
      * @param showDialog
      *            whether to display a dialog asking the user whether this action was intentional and whether he or she
      *            wants to change the service features
      * @param timeout
      *            The amount of milliseconds in the future which designates the latest desirable point in time to
      *            execute the service feature request. If it can only be executed afterwards, the
-     *            {@link PMPHandler#onTimeout()} callback is called instead of performing the registration.
+     *            {@link PMPHandler#onTimeout()} callback is called instead of performing the registration. Use 0 to
+     *            designate infinite timeout.
      */
-    public void requestServiceFeatures(List<String> serviceFeatures, boolean showDialog, int timeout);
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog,
+            int timeout);
     
     
     /**
@@ -207,7 +214,8 @@ public interface IPMP {
      * @param timeout
      *            The amount of milliseconds in the future which designates the latest desirable point in time to
      *            execute the resource request. If it can only be executed afterwards, the
-     *            {@link PMPHandler#onTimeout()} callback is called instead of performing the registration.
+     *            {@link PMPHandler#onTimeout()} callback is called instead of performing the registration. Use 0 to
+     *            designate infinite timeout.
      */
     public void getResource(PMPResourceIdentifier resource, PMPRequestResourceHandler handler, int timeout);
     

@@ -83,6 +83,10 @@ public class IPCConnection implements ServiceConnection {
      *            the identifier of the service to connect to
      */
     public void setDestinationService(String destinationService) {
+        if (destinationService.equals(this.destinationService)) {
+            return;
+        }
+        
         if (this.connected) {
             disconnect();
         }

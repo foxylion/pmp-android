@@ -20,12 +20,12 @@ public class PMPResourceIdentifier {
     }
     
     
-    protected String getResourceGroup() {
+    public String getResourceGroup() {
         return this.resourceGroup;
     }
     
     
-    protected String getResource() {
+    public String getResource() {
         return this.resource;
     }
     

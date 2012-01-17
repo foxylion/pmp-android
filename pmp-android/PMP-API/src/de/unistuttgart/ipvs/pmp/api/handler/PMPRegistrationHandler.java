@@ -1,23 +1,23 @@
 package de.unistuttgart.ipvs.pmp.api.handler;
 
-import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCRegistrationCommand;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRegistrationCommand;
 
 public class PMPRegistrationHandler extends PMPHandler {
     
-    public IPCRegistrationCommand handler;
+    public IPC2PMPRegistrationCommand handler;
     
     
-    protected void onSuccess() {
+    public void onSuccess() {
         throw new UnsupportedOperationException();
     }
     
     
-    protected void onFailure(String message) {
+    public void onFailure(String message) {
         throw new UnsupportedOperationException();
     }
     
     
-    protected void onAlreadyRegistered() {
+    public void onAlreadyRegistered() {
         throw new UnsupportedOperationException();
     }
     

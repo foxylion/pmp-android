@@ -1,14 +1,14 @@
 package de.unistuttgart.ipvs.pmp.api.handler;
 
-import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCUpdateSFCommand;
 import android.os.Bundle;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPUpdateServiceFeaturesCommand;
 
 public class PMPServiceFeatureUpdateHandler extends PMPHandler {
     
-    public IPCUpdateSFCommand handler;
+    public IPC2PMPUpdateServiceFeaturesCommand handler;
     
     
-    protected void onUpdate(Bundle sfs) {
+    public void onUpdate(Bundle sfs) {
         throw new UnsupportedOperationException();
     }
 }

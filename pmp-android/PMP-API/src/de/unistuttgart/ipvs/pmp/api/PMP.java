@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
 import de.unistuttgart.ipvs.pmp.api.ipc.IPCScheduler;
 
@@ -126,14 +127,7 @@ public class PMP implements IPMP {
     
     
     @Override
-    public void register(PMPRegistrationHandler handler, boolean includeUpdate) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-    
-    @Override
-    public void register(PMPRegistrationHandler handler, boolean includeUpdate, int timeout) {
+    public void register(PMPRegistrationHandler handler, int timeout) {
         // TODO Auto-generated method stub
         
     }
@@ -175,14 +169,22 @@ public class PMP implements IPMP {
     
     
     @Override
-    public void requestServiceFeatures(List<String> serviceFeatures, boolean showDialog) {
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler) {
         // TODO Auto-generated method stub
         
     }
     
     
     @Override
-    public void requestServiceFeatures(List<String> serviceFeatures, boolean showDialog, int timeout) {
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    @Override
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog,
+            int timeout) {
         // TODO Auto-generated method stub
         
     }

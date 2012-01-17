@@ -1,12 +1,11 @@
 package de.unistuttgart.ipvs.pmp.api.handler;
 
+import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCRequestResourceCommand;
 
 public class PMPRequestResourceHandler extends PMPHandler {
-	public IPCRequestResourceCommand handler;
-
-	protected void onReceiveResource(PMPResourceIdentifier res) {
-		throw new UnsupportedOperationException();
-	}
+    
+    public void onReceiveResource(PMPResourceIdentifier res, IBinder resource) {
+        throw new UnsupportedOperationException();
+    }
 }
