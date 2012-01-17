@@ -34,9 +34,7 @@ public class AppService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
-        AppServiceImplementation assi = new AppServiceImplementation();
-        assi.setApplication(getApplication());
-        return assi;
+        return new AppServiceImplementation(getApplication());
     }
     
 }

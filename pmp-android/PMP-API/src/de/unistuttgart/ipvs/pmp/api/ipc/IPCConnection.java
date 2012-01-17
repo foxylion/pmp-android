@@ -78,7 +78,7 @@ public class IPCConnection implements ServiceConnection {
     
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":" + hashCode();
+        return getClass().getSimpleName() + ":" + Integer.toHexString(hashCode());
     }
     
     

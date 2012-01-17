@@ -89,6 +89,7 @@ public class SimpleAppActivity extends Activity {
             @Override
             public void onAlreadyRegistered() {
                 this.toast = "SimpleApp: Already registered.";
+                PMP.get().updateServiceFeatures();
             }
             
             
@@ -174,8 +175,4 @@ public class SimpleAppActivity extends Activity {
         }
     }
     
-    
-    public void registrationEnded(final boolean success, final String message) {
-        
-    }
 }

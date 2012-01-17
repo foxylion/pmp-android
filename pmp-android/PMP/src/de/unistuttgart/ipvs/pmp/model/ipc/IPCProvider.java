@@ -121,11 +121,13 @@ public class IPCProvider {
                         } catch (RemoteException re) {
                             Log.e("Remote exception while updating service features for " + key + ": ", re);
                         }
+                    } else {
+                        Log.d("Rollout value went missing while iterating through key list");
                     }
                 }
                 
             }
-        };
+        }.start();
     }
     
     

@@ -15,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
@@ -125,13 +126,21 @@ public class PMP implements IPMP {
     }
     
     
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":" + Integer.toHexString(hashCode());
+    }
+    
+    
     /**
      * Method to be called when service features change, so they can be cached. Can be called from an arbitrary thread.
      * 
      * @param update
      */
     protected void onServiceFeatureUpdate(final Bundle update) {
+        Log.d(this + " caching service features...");
         for (String sfId : update.keySet()) {
+            Log.v(this + " received " + sfId + " = " + update.getBoolean(sfId));
             this.sfsCache.put(sfId, update.getBoolean(sfId));
         }
         
@@ -155,6 +164,7 @@ public class PMP implements IPMP {
      * @param binder
      */
     void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+        Log.d(this + " caching resource...");
         this.resCache.put(resource, binder);
     }
     
@@ -268,7 +278,7 @@ public class PMP implements IPMP {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                onReceiveResource(resource, binder);
+                PMP.this.onReceiveResource(resource, binder);
                 handler.onReceiveResource(resource, binder);
             }
             

@@ -35,17 +35,17 @@ public class AppServiceImplementation extends IAppService.Stub {
     /**
      * The {@link Application} referenced.
      */
-    private Application app;
+    private final Application application;
     
     
-    public void setApplication(Application app) {
-        this.app = app;
+    public AppServiceImplementation(Application application) {
+        this.application = application;
     }
     
     
     @Override
     public void updateServiceFeatures(Bundle features) throws RemoteException {
-        PMP.getForService(this.app).onServiceFeatureUpdate(features);
+        PMP.getForService(this.application).onServiceFeatureUpdate(features);
     }
     
     
