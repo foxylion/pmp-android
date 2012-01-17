@@ -4,7 +4,9 @@ import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPUpdateServiceFeaturesCommand;
 
 /**
- * Handles reactions for the {@link IPC2PMPUpdateServiceFeaturesCommand}.
+ * Handles reactions for the {@link IPC2PMPUpdateServiceFeaturesCommand}. Handlers are guaranteed to be called in a
+ * separate {@link Thread}.
+ * 
  * 
  * @author Tobias Kuhn
  * 

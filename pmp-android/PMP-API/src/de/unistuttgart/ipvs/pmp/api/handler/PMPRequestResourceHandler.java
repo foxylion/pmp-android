@@ -5,7 +5,9 @@ import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRequestResourceCommand;
 
 /**
- * Handles reactions for the {@link IPC2PMPRequestResourceCommand}.
+ * Handles reactions for the {@link IPC2PMPRequestResourceCommand}. Handlers are guaranteed to be called in a separate
+ * {@link Thread}.
+ * 
  * 
  * @author Tobias Kuhn
  * 

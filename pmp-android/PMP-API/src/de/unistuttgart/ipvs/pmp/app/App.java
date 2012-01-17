@@ -41,6 +41,7 @@ import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
  * @author Tobias Kuhn
  * 
  */
+@Deprecated
 public abstract class App extends Application {
     
     /**
@@ -50,6 +51,7 @@ public abstract class App extends Application {
      * 
      * @param <T>
      */
+    @Deprecated
     private static final class ResultObject<T> {
         
         protected T result;
@@ -59,6 +61,7 @@ public abstract class App extends Application {
     /**
      * Callback called when the preceding call to register() registered this app successfully with PMP.
      */
+    @Deprecated
     public abstract void onRegistrationSuccess();
     
     
@@ -68,6 +71,7 @@ public abstract class App extends Application {
      * @param message
      *            returned error message from the PMP service
      */
+    @Deprecated
     public abstract void onRegistrationFailed(String message);
     
     
@@ -88,6 +92,7 @@ public abstract class App extends Application {
      *            the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
      *            resource not found)
      */
+    @Deprecated
     protected void receiveResource(String resourceGroup, String resource, IBinder binder) {
         // override me
     }
@@ -98,6 +103,7 @@ public abstract class App extends Application {
      * by overriding {@link App#onRegistrationSuccess()} or {@link App#onRegistrationFailed(String)}.
      * 
      */
+    @Deprecated
     public final void register() {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
@@ -133,6 +139,7 @@ public abstract class App extends Application {
      *            the Bundle that contains the mappings of strings (the identifiers of the service features in your app
      *            description XML) to booleans (true for granted i.e. active, false for not granted)
      */
+    @Deprecated
     public final void updateServiceFeatures(Bundle features) {
         SharedPreferences app_preferences = getSharedPreferences("serviceFeatures", 0);
         SharedPreferences.Editor editor = app_preferences.edit();
@@ -150,6 +157,7 @@ public abstract class App extends Application {
     }
     
     
+    @Deprecated
     private void assertNotMainThread() {
         if (Thread.currentThread().getName().equalsIgnoreCase("main")) {
             throw new IllegalThreadStateException("You may not call the parent method in the main thread!");
@@ -173,6 +181,7 @@ public abstract class App extends Application {
      * @return the interface for the resource of the resourceGroup specified, or null, if an error happened (e.g.
      *         resource not found)
      */
+    @Deprecated
     public final IBinder getResourceBlocking(final String resourceGroup, final String resource) {
         assertNotMainThread();
         
@@ -215,6 +224,7 @@ public abstract class App extends Application {
      * @param resourceGroup
      * @param resource
      */
+    @Deprecated
     public final void getResourceNonblocking(final String resourceGroup, final String resource) {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
@@ -256,6 +266,7 @@ public abstract class App extends Application {
      * 
      * @return true, if the request was sent, false, if the app is not registered
      */
+    @Deprecated
     public final boolean requestServiceFeatureUpdate() {
         assertNotMainThread();
         
@@ -290,6 +301,7 @@ public abstract class App extends Application {
      * @param features
      *            the features which shall be requested
      */
+    @Deprecated
     public final void requestServiceFeatures(final String... features) {
         // connect to PMP
         final PMPServiceConnector pmpsc = new PMPServiceConnector(getApplicationContext());
@@ -316,6 +328,7 @@ public abstract class App extends Application {
      * @param features
      *            the features which shall be requested
      */
+    @Deprecated
     public final void requestServiceFeatures(List<String> features) {
         requestServiceFeatures(features.toArray(new String[features.size()]));
     }
@@ -328,6 +341,7 @@ public abstract class App extends Application {
      *            the identifier of the service feature
      * @return true if the service feature is enabled, false if not enabled, false if the identifier doesn't exist
      */
+    @Deprecated
     public final Boolean isServiceFeatureEnabled(String featureIdentifier) {
         // Putting the prefix in front the key
         String prefixKey = Constants.SERVICE_FEATURE_PREFIX + featureIdentifier;
@@ -343,6 +357,7 @@ public abstract class App extends Application {
      *            the identifiers of the service feature
      * @return true if all the service features are enabled and exist, false otherwise
      */
+    @Deprecated
     public final boolean areServiceFeaturesEnabled(String... featureIdentifiers) {
         for (String featureIdentifier : featureIdentifiers) {
             if (!isServiceFeatureEnabled(featureIdentifier)) {
@@ -360,6 +375,7 @@ public abstract class App extends Application {
      *            the identifiers of the service feature
      * @return true if all the service features are enabled and exist, false otherwise
      */
+    @Deprecated
     public final boolean areServiceFeaturesEnabled(List<String> featureIdentifiers) {
         for (String featureIdentifier : featureIdentifiers) {
             if (!isServiceFeatureEnabled(featureIdentifier)) {
@@ -377,6 +393,7 @@ public abstract class App extends Application {
      *            the features to check
      * @return the features in ofFeatures which are actually enabled and exist
      */
+    @Deprecated
     public final List<String> listAvailableServiceFeatures(String... ofFeatures) {
         List<String> result = new ArrayList<String>();
         
@@ -396,6 +413,7 @@ public abstract class App extends Application {
      *            the features to check
      * @return the features in ofFeatures which are actually enabled and exist
      */
+    @Deprecated
     public final List<String> listAvailableServiceFeatures(List<String> ofFeatures) {
         List<String> result = new ArrayList<String>();
         
@@ -415,6 +433,7 @@ public abstract class App extends Application {
      *            the features to check
      * @return the features in ofFeatures which are actually enabled and exist
      */
+    @Deprecated
     public final List<String> listUnavailableServiceFeatures(String... ofFeatures) {
         List<String> result = new ArrayList<String>();
         
@@ -434,6 +453,7 @@ public abstract class App extends Application {
      *            the features to check
      * @return the features in ofFeatures which are actually enabled and exist
      */
+    @Deprecated
     public final List<String> listUnavailableServiceFeatures(List<String> ofFeatures) {
         List<String> result = new ArrayList<String>();
         

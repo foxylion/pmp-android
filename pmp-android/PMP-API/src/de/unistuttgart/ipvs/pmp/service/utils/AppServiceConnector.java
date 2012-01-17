@@ -30,8 +30,10 @@ import de.unistuttgart.ipvs.pmp.service.app.IAppService;
  * 
  * @author Jakob Jarosch
  */
+@Deprecated
 public class AppServiceConnector extends AbstractConnector {
     
+    @Deprecated
     public AppServiceConnector(Context context, String targetIdentifier) {
         super(context, targetIdentifier);
     }
@@ -40,6 +42,7 @@ public class AppServiceConnector extends AbstractConnector {
     /**
      * @return Returns the AppService or null if no Service was returned (authentication failed?).
      */
+    @Deprecated
     public IAppService getAppService() {
         if (isCorrectBinder(IAppService.class)) {
             return IAppService.Stub.asInterface(getService());

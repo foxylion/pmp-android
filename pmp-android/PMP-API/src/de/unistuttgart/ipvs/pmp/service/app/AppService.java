@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.service.app;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.AppServiceImplementation;
 
 /**
  * The {@link AppService} is used to provide PMPService with a connection to the app where the information about the app
@@ -34,18 +34,9 @@ public class AppService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
-        AppServiceStubImpl assi = new AppServiceStubImpl();
-        assi.setApp(findContextApp());
+        AppServiceImplementation assi = new AppServiceImplementation();
+        assi.setApplication(getApplication());
         return assi;
-    }
-    
-    
-    private App findContextApp() {
-        if (!(getApplication() instanceof App)) {
-            throw new RuntimeException("AppService started without appropriate App class in getApplication().");
-        } else {
-            return (App) getApplication();
-        }
     }
     
 }

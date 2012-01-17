@@ -3,7 +3,9 @@ package de.unistuttgart.ipvs.pmp.api.handler;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRequestServiceFeaturesCommand;
 
 /**
- * Handles reactions for the {@link IPC2PMPRequestServiceFeaturesCommand}.
+ * Handles reactions for the {@link IPC2PMPRequestServiceFeaturesCommand}. Handlers are guaranteed to be called in a
+ * separate {@link Thread}.
+ * 
  * 
  * @author Tobias Kuhn
  * 

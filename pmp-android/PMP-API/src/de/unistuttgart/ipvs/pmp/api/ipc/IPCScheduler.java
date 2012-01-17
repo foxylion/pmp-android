@@ -19,12 +19,17 @@ public class IPCScheduler extends Thread {
     /**
      * The queue that contains all the commands to be executed
      */
-    public final BlockingQueue<IPCCommand> queue;
+    private final BlockingQueue<IPCCommand> queue;
+    
+    /**
+     * The context to use for the connection
+     */
+    private final Context context;
     
     /**
      * The connection to be used while executing commands.
      */
-    public final IPCConnection connection;
+    private IPCConnection connection;
     
     
     /**
@@ -34,9 +39,10 @@ public class IPCScheduler extends Thread {
      *            the context to use for the connections
      */
     public IPCScheduler(Context context) {
+        super("IPC Scheduling");
         this.queue = new LinkedBlockingQueue<IPCCommand>();
-        
-        this.connection = new IPCConnection(context);
+        this.context = context;
+        start();
     }
     
     
@@ -55,35 +61,43 @@ public class IPCScheduler extends Thread {
     
     @Override
     public void run() {
+        // must be initialized in a different thread
+        this.connection = new IPCConnection(context);
+        
         while (!isInterrupted()) {
             
-            final IPCCommand command = this.queue.poll();
-            
-            new Thread() {
+            try {
+                final IPCCommand command = this.queue.take();
                 
-                public void run() {
-                    IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
+                new Thread() {
                     
-                    // handle timeout
-                    if (command.getTimeout() < System.currentTimeMillis()) {
-                        command.getHandler().onTimeout();
-                        return;
-                    }
-                    
-                    command.getHandler().onPrepare();
-                    
-                    // try connecting
-                    IBinder binder = IPCScheduler.this.connection.getBinder();
-                    if (binder != null) {
-                        command.execute(binder);
-                    } else {
-                        command.getHandler().onBindingFailed();
-                    }
-                    
-                    command.getHandler().onFinalize();
-                    
-                };
-            }.start();
+                    public void run() {
+                        IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
+                        
+                        // handle timeout
+                        if (command.getTimeout() < System.currentTimeMillis()) {
+                            command.getHandler().onTimeout();
+                            return;
+                        }
+                        
+                        command.getHandler().onPrepare();
+                        
+                        // try connecting
+                        IBinder binder = IPCScheduler.this.connection.getBinder();
+                        if (binder != null) {
+                            command.execute(binder);
+                        } else {
+                            command.getHandler().onBindingFailed();
+                        }
+                        
+                        command.getHandler().onFinalize();
+                        
+                    };
+                }.start();
+                
+            } catch (InterruptedException e) {
+                continue;
+            }
             
         }
     }

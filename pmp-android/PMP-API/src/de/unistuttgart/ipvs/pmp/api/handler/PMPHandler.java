@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.api.handler;
 
 /**
- * General handler that reacts on any IPC command.
+ * General handler that reacts on any IPC command. Handlers are guaranteed to be called in a separate {@link Thread}.
  * 
  * @author Tobias Kuhn
  * 

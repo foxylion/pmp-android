@@ -49,7 +49,7 @@ public class PMP implements IPMP {
     /**
      * The {@link IPCScheduler} used to communicate with PMP.
      */
-    private final IPCScheduler scheduler;
+    private IPCScheduler scheduler;
     
     /**
      * The cache of Service Feature states.
@@ -75,6 +75,17 @@ public class PMP implements IPMP {
      * @return the {@link IPMP} API for the application
      */
     public static IPMP get(Application application) {
+        return getForService(application);
+    }
+    
+    
+    /**
+     * Gets the API for the service implementation
+     * 
+     * @param application
+     * @return
+     */
+    protected static PMP getForService(Application application) {
         if (instance == null) {
             instance = new PMP();
         }
@@ -104,13 +115,13 @@ public class PMP implements IPMP {
     private PMP() {
         this.sfsCache = new ConcurrentHashMap<String, Boolean>();
         this.resCache = new ConcurrentHashMap<PMPResourceIdentifier, IBinder>();
-        this.scheduler = new IPCScheduler(this.application);
         this.callOnUpdate = new LinkedBlockingQueue<PMPServiceFeatureUpdateHandler>();
     }
     
     
     private void setApplication(Application application) {
         this.application = application;
+        this.scheduler = new IPCScheduler(application);
     }
     
     
@@ -143,7 +154,7 @@ public class PMP implements IPMP {
      * @param resource
      * @param binder
      */
-    protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+    void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
         this.resCache.put(resource, binder);
     }
     

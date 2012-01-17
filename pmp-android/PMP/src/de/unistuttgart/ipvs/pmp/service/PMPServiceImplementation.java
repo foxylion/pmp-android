@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
  * 
  * @author Jakob Jarosch
  */
-public class PMPServiceStubImpl extends IPMPService.Stub {
+public class PMPServiceImplementation extends IPMPService.Stub {
     
     @Override
     public boolean getServiceFeatureUpdate(String appPackage) throws RemoteException {
@@ -62,7 +62,7 @@ public class PMPServiceStubImpl extends IPMPService.Stub {
             // if desired one could inform the GUI here
         }
         
-        return null;
+        return new RegistrationResult(false, "TODO");
     }
     
     

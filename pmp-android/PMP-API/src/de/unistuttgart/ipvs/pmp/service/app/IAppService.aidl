@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 interface IAppService {
 	
 	 /**
-     * Informs the app about its currently granted i.e. active service features. 
+     * Informs the app about its currently enabled i.e. active service features. 
      * 
      * @param features
      *            the Bundle that contains the mappings of strings (the identifiers of the service features in the app
@@ -20,9 +20,7 @@ interface IAppService {
     void updateServiceFeatures(in Bundle features);
 	
 	/**
-	 * Informs the about the success (or failure) of the registration with PMP
-	 *
-	 * @param result result of the registration
+	 * @Deprecated
 	 */
 	void replyRegistrationResult(in RegistrationResult result);
 	

@@ -17,43 +17,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.service.app;
+package de.unistuttgart.ipvs.pmp.api;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
+import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 
 /**
  * Implementation of the {@link IAppService.Stub} stub.
  * 
  * @author Thorsten Berberich
  */
-public class AppServiceStubImpl extends IAppService.Stub {
+public class AppServiceImplementation extends IAppService.Stub {
     
     /**
-     * The {@link App} referenced.
+     * The {@link Application} referenced.
      */
-    private App app;
+    private Application app;
     
     
-    public void setApp(App app) {
+    public void setApplication(Application app) {
         this.app = app;
     }
     
     
     @Override
     public void updateServiceFeatures(Bundle features) throws RemoteException {
-        this.app.updateServiceFeatures(features);
+        PMP.getForService(app).onServiceFeatureUpdate(features);
     }
     
     
     @Override
+    @Deprecated
     public void replyRegistrationResult(RegistrationResult result) throws RemoteException {
-        if (result.getSuccess()) {
-            this.app.onRegistrationSuccess();
-        } else {
-            this.app.onRegistrationFailed(result.getMessage());
-        }
     }
     
 }

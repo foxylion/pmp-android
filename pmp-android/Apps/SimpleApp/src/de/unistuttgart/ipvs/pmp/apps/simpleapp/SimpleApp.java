@@ -19,14 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.simpleapp;
 
+import android.app.Application;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
-public class SimpleApp extends App {
+public class SimpleApp extends Application {
 
 	static {
 		Log.setTagSufix("SimpleApp");
@@ -36,9 +38,16 @@ public class SimpleApp extends App {
 	public void onCreate() {
 		super.onCreate();
 
+		PMP.get(this);
 		Model.getInstance().setApp(this);
 	}
 
+	/* API 1 legacy code
+	 * 
+	 * 
+	 * 
+	 * 
+	 
 	@Override
 	public void onRegistrationSuccess() {
 		Log.v("Registration succeed");
@@ -76,4 +85,5 @@ public class SimpleApp extends App {
 
 		return false;
 	}
+	*/
 }

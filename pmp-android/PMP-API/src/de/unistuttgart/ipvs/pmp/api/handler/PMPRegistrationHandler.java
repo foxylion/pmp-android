@@ -3,7 +3,9 @@ package de.unistuttgart.ipvs.pmp.api.handler;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRegistrationCommand;
 
 /**
- * Handles reactions for the {@link IPC2PMPRegistrationCommand}.
+ * Handles reactions for the {@link IPC2PMPRegistrationCommand}. Handlers are guaranteed to be called in a separate
+ * {@link Thread}.
+ * 
  * 
  * @author Tobias Kuhn
  * 
