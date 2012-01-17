@@ -19,6 +19,8 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
+import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRegistrationHandler;
+import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRequestSFHandler;
 import de.unistuttgart.ipvs.pmp.api.ipc.IPCScheduler;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRegistrationCommand;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRequestResourceCommand;
@@ -126,6 +128,7 @@ public class PMP implements IPMP {
             final PMPServiceFeatureUpdateHandler pmpsfuh = this.callOnUpdate.poll();
             new Thread() {
                 
+                @Override
                 public void run() {
                     pmpsfuh.onUpdate(update);
                 };
@@ -162,7 +165,7 @@ public class PMP implements IPMP {
     
     @Override
     public void register() {
-        register(null, 0);
+        register(new PMPDefaultRegistrationHandler(), 0);
     }
     
     
@@ -203,13 +206,13 @@ public class PMP implements IPMP {
     
     @Override
     public void requestServiceFeatures(List<String> serviceFeatures) {
-        requestServiceFeatures(serviceFeatures, null, true, 0);
+        requestServiceFeatures(serviceFeatures, new PMPDefaultRequestSFHandler(), true, 0);
     }
     
     
     @Override
     public void requestServiceFeatures(String... serviceFeatures) {
-        requestServiceFeatures(Arrays.asList(serviceFeatures), null, true, 0);
+        requestServiceFeatures(Arrays.asList(serviceFeatures), new PMPDefaultRequestSFHandler(), true, 0);
     }
     
     
