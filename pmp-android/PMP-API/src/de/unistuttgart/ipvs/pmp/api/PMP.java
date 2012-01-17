@@ -163,7 +163,7 @@ public class PMP implements IPMP {
      * @param resource
      * @param binder
      */
-    void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+    protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
         Log.d(this + " caching resource...");
         this.resCache.put(resource, binder);
     }
