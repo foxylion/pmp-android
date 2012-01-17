@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.api.ipc.command;
 
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
@@ -28,5 +29,11 @@ public class IPC2PMPRequestResourceCommand extends IPC2PMPCommand<PMPRequestReso
         getPMPHandler().onReceiveResource(this.resource,
                 pmp.getResource(getSourceService(), this.resource.getResourceGroup(), this.resource.getResource()));
         
+    }
+    
+    
+    @Override
+    protected PMPHandler getNullHandler() {
+        return new PMPRequestResourceHandler();
     }
 }

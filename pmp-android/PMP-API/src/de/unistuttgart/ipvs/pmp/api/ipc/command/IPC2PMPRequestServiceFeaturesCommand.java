@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.api.ipc.command;
 import java.util.List;
 
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
@@ -28,8 +29,14 @@ public class IPC2PMPRequestServiceFeaturesCommand extends IPC2PMPCommand<PMPRequ
     protected void executeOnPMP(IPMPService pmp) throws RemoteException {
         if (!pmp.requestServiceFeature(getSourceService(),
                 this.serviceFeatures.toArray(new String[this.serviceFeatures.size()]))) {
-            getPMPHandler().onBindingFailed();
+            getPMPHandler().onRequestFailed();
         }
+    }
+    
+    
+    @Override
+    protected PMPHandler getNullHandler() {
+        return new PMPRequestServiceFeaturesHandler();
     }
     
 }

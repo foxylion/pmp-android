@@ -46,7 +46,7 @@ public class IPCScheduler extends Thread {
      * @param command
      *            the IPC command to be executed at an arbitrary point in the future
      */
-    protected void queue(IPCCommand command) {
+    public void queue(IPCCommand command) {
         if (!this.queue.offer(command)) {
             Log.e("BlockingQueue ran out of capacity!");
         }

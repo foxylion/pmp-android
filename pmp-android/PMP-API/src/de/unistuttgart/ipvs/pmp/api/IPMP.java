@@ -148,11 +148,11 @@ public interface IPMP {
      *            whether to display a dialog asking the user whether this action was intentional and whether he or she
      *            wants to change the service features
      */
-    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog);
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler,
+            boolean showDialog);
     
     
     /**
-     * /**
      * Sends a service feature request to PMP, i.e. a request to activate specific service features because
      * functionality was requested that requires these service features. Gives opportunity not to show a user dialog to
      * first confirm this is intended. Gives opportunity to specify a maximum milliseconds timeout.
@@ -171,8 +171,8 @@ public interface IPMP {
      *            {@link PMPHandler#onTimeout()} callback is called instead of performing the registration. Use 0 to
      *            designate infinite timeout.
      */
-    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog,
-            int timeout);
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler,
+            boolean showDialog, int timeout);
     
     
     /**

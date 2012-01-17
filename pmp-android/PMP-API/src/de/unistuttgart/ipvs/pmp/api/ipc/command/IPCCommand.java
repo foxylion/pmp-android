@@ -60,11 +60,22 @@ public abstract class IPCCommand {
      *            timeout point in the {@link System#currentTimeMillis()} domain
      */
     public IPCCommand(PMPHandler handler, String sourceService, String destinationService, long timeout) {
-        this.handler = handler;
+        if (handler != null) {
+            this.handler = handler;
+        } else {
+            this.handler = getNullHandler();
+        }
         this.sourceService = sourceService;
         this.destinationService = destinationService;
         this.timeout = timeout;
     }
+    
+    
+    /**
+     * 
+     * @return a null handler, i.e. a handler that is not literally "null" but performs no operation whatsoever.
+     */
+    protected abstract PMPHandler getNullHandler();
     
     
     public long getTimeout() {

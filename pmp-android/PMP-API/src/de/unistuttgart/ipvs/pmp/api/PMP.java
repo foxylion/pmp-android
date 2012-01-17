@@ -1,9 +1,16 @@
 package de.unistuttgart.ipvs.pmp.api;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -13,6 +20,11 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
 import de.unistuttgart.ipvs.pmp.api.ipc.IPCScheduler;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRegistrationCommand;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRequestResourceCommand;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRequestServiceFeaturesCommand;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPUpdateServiceFeaturesCommand;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCCommand;
 
 /**
  * The main PMP API implementing all the calls.
@@ -35,17 +47,22 @@ public class PMP implements IPMP {
     /**
      * The {@link IPCScheduler} used to communicate with PMP.
      */
-    public IPCScheduler scheduler;
+    private final IPCScheduler scheduler;
     
     /**
      * The cache of Service Feature states.
      */
-    private ConcurrentMap<String, Boolean> sfs;
+    private final ConcurrentMap<String, Boolean> sfsCache;
     
     /**
      * The cache of Resource {@link IBinder}s.
      */
-    private ConcurrentMap<PMPResourceIdentifier, IBinder> res;
+    private final ConcurrentMap<PMPResourceIdentifier, IBinder> resCache;
+    
+    /**
+     * The list of {@link PMPServiceFeatureUpdateHandler} to call on the next SF update.
+     */
+    private final BlockingQueue<PMPServiceFeatureUpdateHandler> callOnUpdate;
     
     
     /**
@@ -82,6 +99,14 @@ public class PMP implements IPMP {
     }
     
     
+    private PMP() {
+        this.sfsCache = new ConcurrentHashMap<String, Boolean>();
+        this.resCache = new ConcurrentHashMap<PMPResourceIdentifier, IBinder>();
+        this.scheduler = new IPCScheduler(this.application);
+        this.callOnUpdate = new LinkedBlockingQueue<PMPServiceFeatureUpdateHandler>();
+    }
+    
+    
     private void setApplication(Application application) {
         this.application = application;
     }
@@ -92,8 +117,20 @@ public class PMP implements IPMP {
      * 
      * @param update
      */
-    protected void onServiceFeatureUpdate(Bundle update) {
-        throw new UnsupportedOperationException();
+    protected void onServiceFeatureUpdate(final Bundle update) {
+        for (String sfId : update.keySet()) {
+            this.sfsCache.put(sfId, update.getBoolean(sfId));
+        }
+        
+        while (!this.callOnUpdate.isEmpty()) {
+            final PMPServiceFeatureUpdateHandler pmpsfuh = this.callOnUpdate.poll();
+            new Thread() {
+                
+                public void run() {
+                    pmpsfuh.onUpdate(update);
+                };
+            }.start();
+        }
     }
     
     
@@ -104,7 +141,18 @@ public class PMP implements IPMP {
      * @param binder
      */
     protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-        
+        this.resCache.put(resource, binder);
+    }
+    
+    
+    /**
+     * 
+     * @param timeout
+     *            the amount of ms in the future
+     * @return the time point in {@link System#currentTimeMillis()} domain
+     */
+    private long makeTimeout(int timeout) {
+        return (timeout == 0) ? Long.MAX_VALUE : System.currentTimeMillis() + timeout;
     }
     
     
@@ -114,191 +162,232 @@ public class PMP implements IPMP {
     
     @Override
     public void register() {
-        // TODO Auto-generated method stub
-        
+        register(null, 0);
     }
     
     
     @Override
     public void register(PMPRegistrationHandler handler) {
-        // TODO Auto-generated method stub
-        
+        register(handler, 0);
     }
     
     
     @Override
     public void register(PMPRegistrationHandler handler, int timeout) {
-        // TODO Auto-generated method stub
-        
+        IPCCommand ipc = new IPC2PMPRegistrationCommand(handler, this.application.getPackageName(),
+                makeTimeout(timeout));
+        this.scheduler.queue(ipc);
     }
     
     
     @Override
     public void updateServiceFeatures() {
-        // TODO Auto-generated method stub
-        
+        updateServiceFeatures(null, 0);
     }
     
     
     @Override
     public void updateServiceFeatures(PMPServiceFeatureUpdateHandler handler) {
-        // TODO Auto-generated method stub
-        
+        updateServiceFeatures(handler, 0);
     }
     
     
     @Override
     public void updateServiceFeatures(PMPServiceFeatureUpdateHandler handler, int timeout) {
-        // TODO Auto-generated method stub
-        
+        IPCCommand ipc = new IPC2PMPUpdateServiceFeaturesCommand(handler, this.application.getPackageName(),
+                makeTimeout(timeout));
+        this.callOnUpdate.offer(handler);
+        this.scheduler.queue(ipc);
     }
     
     
     @Override
     public void requestServiceFeatures(List<String> serviceFeatures) {
-        // TODO Auto-generated method stub
-        
+        requestServiceFeatures(serviceFeatures, null, true, 0);
     }
     
     
     @Override
     public void requestServiceFeatures(String... serviceFeatures) {
-        // TODO Auto-generated method stub
-        
+        requestServiceFeatures(Arrays.asList(serviceFeatures), null, true, 0);
     }
     
     
     @Override
     public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler) {
-        // TODO Auto-generated method stub
-        
+        requestServiceFeatures(serviceFeatures, handler, true, 0);
     }
     
     
     @Override
-    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog) {
-        // TODO Auto-generated method stub
-        
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler,
+            boolean showDialog) {
+        requestServiceFeatures(serviceFeatures, handler, showDialog, 0);
     }
     
     
     @Override
-    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler, boolean showDialog,
-            int timeout) {
-        // TODO Auto-generated method stub
-        
+    public void requestServiceFeatures(List<String> serviceFeatures, PMPRequestServiceFeaturesHandler handler,
+            boolean showDialog, int timeout) {
+        IPCCommand ipc = new IPC2PMPRequestServiceFeaturesCommand(serviceFeatures, handler,
+                this.application.getPackageName(), makeTimeout(timeout));
+        this.scheduler.queue(ipc);
     }
     
     
     @Override
     public void getResource(PMPResourceIdentifier resource) {
-        // TODO Auto-generated method stub
-        
+        getResource(resource, null, 0);
     }
     
     
     @Override
     public void getResource(PMPResourceIdentifier resource, PMPRequestResourceHandler handler) {
-        // TODO Auto-generated method stub
-        
+        getResource(resource, handler, 0);
     }
     
     
     @Override
-    public void getResource(PMPResourceIdentifier resource, PMPRequestResourceHandler handler, int timeout) {
-        // TODO Auto-generated method stub
+    public void getResource(PMPResourceIdentifier resource, final PMPRequestResourceHandler handler, int timeout) {
         
+        PMPRequestResourceHandler nativeHandler = new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                onReceiveResource(resource, binder);
+                handler.onReceiveResource(resource, binder);
+            }
+            
+            
+            @Override
+            public void onPrepare() {
+                handler.onPrepare();
+            }
+            
+            
+            @Override
+            public void onFinalize() {
+                handler.onFinalize();
+            }
+            
+            
+            @Override
+            public void onBindingFailed() {
+                handler.onBindingFailed();
+            }
+            
+            
+            @Override
+            public void onTimeout() {
+                handler.onTimeout();
+            }
+        };
+        
+        IPCCommand ipc = new IPC2PMPRequestResourceCommand(resource, nativeHandler, this.application.getPackageName(),
+                makeTimeout(timeout));
+        this.scheduler.queue(ipc);
     }
     
     
     @Override
     public Map<String, Boolean> getServiceFeatures() {
-        // TODO Auto-generated method stub
-        return null;
+        return new HashMap<String, Boolean>(this.sfsCache);
     }
     
     
     @Override
     public boolean isServiceFeatureEnabled(String serviceFeature) {
-        // TODO Auto-generated method stub
-        return false;
+        Boolean result = this.sfsCache.get(serviceFeature);
+        return (result != null) ? result : false;
     }
     
     
     @Override
     public boolean areServiceFeaturesEnabled(List<String> serviceFeatures) {
-        // TODO Auto-generated method stub
-        return false;
+        for (String serviceFeature : serviceFeatures) {
+            if (!isServiceFeatureEnabled(serviceFeature)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     
     @Override
     public boolean areServiceFeaturesEnabled(String... serviceFeatures) {
-        // TODO Auto-generated method stub
-        return false;
+        return areServiceFeaturesEnabled(Arrays.asList(serviceFeatures));
     }
     
     
     @Override
     public boolean areServiceFeaturesDisabled(List<String> serviceFeatures) {
-        // TODO Auto-generated method stub
-        return false;
+        for (String serviceFeature : serviceFeatures) {
+            if (isServiceFeatureEnabled(serviceFeature)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     
     @Override
     public boolean areServiceFeaturesDisabled(String... serviceFeatures) {
-        // TODO Auto-generated method stub
-        return false;
+        return areServiceFeaturesDisabled(Arrays.asList(serviceFeatures));
     }
     
     
     @Override
     public List<String> listEnabledServiceFeatures(List<String> serviceFeatures) {
-        // TODO Auto-generated method stub
-        return null;
+        List<String> result = new ArrayList<String>(serviceFeatures.size());
+        for (String serviceFeature : serviceFeatures) {
+            if (isServiceFeatureEnabled(serviceFeature)) {
+                result.add(serviceFeature);
+            }
+        }
+        return result;
     }
     
     
     @Override
     public List<String> listEnabledServiceFeatures(String... serviceFeatures) {
-        // TODO Auto-generated method stub
-        return null;
+        return listEnabledServiceFeatures(Arrays.asList(serviceFeatures));
     }
     
     
     @Override
     public List<String> listDisabledServiceFeatures(List<String> serviceFeatures) {
-        // TODO Auto-generated method stub
-        return null;
+        List<String> result = new ArrayList<String>(serviceFeatures.size());
+        for (String serviceFeature : serviceFeatures) {
+            if (!isServiceFeatureEnabled(serviceFeature)) {
+                result.add(serviceFeature);
+            }
+        }
+        return result;
     }
     
     
     @Override
     public List<String> listDisabledServiceFeatures(String... serviceFeatures) {
-        // TODO Auto-generated method stub
-        return null;
+        return listDisabledServiceFeatures(Arrays.asList(serviceFeatures));
     }
     
     
     @Override
     public Set<String> listAllServiceFeatures() {
-        // TODO Auto-generated method stub
-        return null;
+        return new HashSet<String>(this.sfsCache.keySet());
     }
     
     
     @Override
     public boolean isResourceCached(PMPResourceIdentifier resource) {
-        // TODO Auto-generated method stub
-        return false;
+        IBinder cached = this.resCache.get(resource);
+        return (cached != null) && (cached.pingBinder());
     }
     
     
     @Override
     public IBinder getResourceFromCache(PMPResourceIdentifier resource) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.resCache.get(resource);
     }
     
 }
