@@ -8,15 +8,15 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.api.ipc.IPCConnection;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.app.IAppService;
 
 /**
  * General IPC provider which provides all the inter-process communication necessary for the model.
@@ -29,12 +29,12 @@ public class IPCProvider {
     /**
      * How many cumulative update sessions are in progress, for > 0 no rollout should be done.
      */
-    private AtomicInteger updateSession;
+    private final AtomicInteger updateSession;
     
     /**
      * The map containing the IPC operations to be performed.
      */
-    private ConcurrentMap<String, Bundle> queue;
+    private final ConcurrentMap<String, Bundle> queue;
     
     /**
      * Singleton stuff
@@ -86,27 +86,46 @@ public class IPCProvider {
     private synchronized void rollout() {
         Log.d("Performing IPC rollout...");
         
-        // for each entry, create a new binder        
-        Set<String> latestKeySet = this.queue.keySet();
-        for (final String key : latestKeySet) {
-            // N.B. we must not use an entry set because due to concurrency the entry could get deleted
-            //      by another execution before we access it.
-            final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), key);
+        // launch a new Thread, that's cool these days
+        
+        new Thread("IPC rollout") {
             
-            asc.addCallbackHandler(new AbstractConnectorCallback() {
+            @Override
+            public void run() {
+                IPCConnection con = new IPCConnection(PMPApplication.getContext());
                 
-                @Override
-                public void onConnect(AbstractConnector connector) throws RemoteException {
-                    // remove is atomic
+                Set<String> latestKeySet = IPCProvider.this.queue.keySet();
+                for (final String key : latestKeySet) {
+                    // N.B. we must not use an entry set because due to concurrency the entry could get deleted
+                    //      by another execution before we access it.
+                    
+                    con.setDestinationService(key);
+                    IBinder appBinder = con.getBinder();
+                    
+                    String id = "?";
+                    try {
+                        id = appBinder.getInterfaceDescriptor();
+                    } catch (RemoteException re) {
+                        Log.e("Remote exception while getting interface descriptor: ", re);
+                    }
+                    
+                    if (!id.equals(IAppService.class.getName())) {
+                        Log.e("Binder to " + key + " was not IAppService but " + id);
+                    }
+                    
+                    IAppService as = IAppService.Stub.asInterface(appBinder);
                     Bundle value = IPCProvider.this.queue.remove(key);
                     if (value != null) {
-                        asc.getAppService().updateServiceFeatures(value);
+                        try {
+                            as.updateServiceFeatures(value);
+                        } catch (RemoteException re) {
+                            Log.e("Remote exception while updating service features for " + key + ": ", re);
+                        }
                     }
                 }
-            });
-            // this call is asynchronous
-            asc.bind();
-        }
+                
+            }
+        };
     }
     
     
