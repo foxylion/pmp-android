@@ -45,7 +45,7 @@ public class AppServiceImplementation extends IAppService.Stub {
     
     @Override
     public void updateServiceFeatures(Bundle features) throws RemoteException {
-        PMP.getForService(app).onServiceFeatureUpdate(features);
+        PMP.getForService(this.app).onServiceFeatureUpdate(features);
     }
     
     

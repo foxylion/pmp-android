@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp.provider;
 
-import java.util.concurrent.Semaphore;
-
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.TextView;
@@ -65,7 +63,8 @@ public class Model {
     }
     
     
-    public void getWifi(final Handler handler, final TextView wirelessStateTextView, final ToggleButton wirelessToggleButton) {
+    public void getWifi(final Handler handler, final TextView wirelessStateTextView,
+            final ToggleButton wirelessToggleButton) {
         PMP.get().getResource(RES_WIFI, new PMPRequestResourceHandler() {
             
             @Override
@@ -84,8 +83,8 @@ public class Model {
                         } catch (Exception e) {
                             Log.e("Could not get Wifi State", e);
                             makeToast("Wifi state couldn't be fetched");
-                        }                        
-                    }                    
+                        }
+                    }
                 });
                 
             }
@@ -99,7 +98,7 @@ public class Model {
     
     
     public SimpleApp getApp() {
-        return app;
+        return this.app;
     }
     
     
@@ -109,7 +108,7 @@ public class Model {
     
     
     public SimpleAppActivity getActivity() {
-        return activity;
+        return this.activity;
     }
     
     
@@ -118,7 +117,7 @@ public class Model {
             
             public void run() {
                 
-                Toast.makeText(app.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Model.this.app.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
     }

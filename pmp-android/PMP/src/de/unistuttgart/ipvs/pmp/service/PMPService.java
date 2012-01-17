@@ -37,7 +37,7 @@ public class PMPService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
-        return new PMPServiceStubImpl();
+        return new PMPServiceImplementation();
     }
     
 }

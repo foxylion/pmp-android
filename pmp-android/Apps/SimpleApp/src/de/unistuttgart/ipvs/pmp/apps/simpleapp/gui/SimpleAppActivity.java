@@ -19,11 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.simpleapp.gui;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
-import de.unistuttgart.ipvs.pmp.apps.simpleapp.R;
-import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -32,8 +29,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.app.Activity;
-import android.app.ProgressDialog;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
+import de.unistuttgart.ipvs.pmp.apps.simpleapp.R;
+import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
 
 public class SimpleAppActivity extends Activity {
     
@@ -52,15 +52,15 @@ public class SimpleAppActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        handler = new Handler();
+        this.handler = new Handler();
         
         setContentView(R.layout.main);
         
-        buttonServiceFeatures = (Button) findViewById(R.id.Button_ChangeServiceFeatures);
+        this.buttonServiceFeatures = (Button) findViewById(R.id.Button_ChangeServiceFeatures);
         
-        wirelessRefreshButton = (Button) findViewById(R.id.Button_WifiRefresh);
-        wirelessStateTextView = (TextView) findViewById(R.id.TextView_WirelessState);
-        wirelessToggleButton = (ToggleButton) findViewById(R.id.ToggleButton_Wifi);
+        this.wirelessRefreshButton = (Button) findViewById(R.id.Button_WifiRefresh);
+        this.wirelessStateTextView = (TextView) findViewById(R.id.TextView_WirelessState);
+        this.wirelessToggleButton = (ToggleButton) findViewById(R.id.ToggleButton_Wifi);
         
         Model.getInstance().setActivity(this);
         
@@ -72,8 +72,8 @@ public class SimpleAppActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        pd = ProgressDialog.show(this, "Registration running.", "Please wait...");
-        pd.show();
+        this.pd = ProgressDialog.show(this, "Registration running.", "Please wait...");
+        this.pd.show();
         
         PMP.get().register(new PMPRegistrationHandler() {
             
@@ -100,16 +100,17 @@ public class SimpleAppActivity extends Activity {
             
             @Override
             public void onFinalize() {
-                handler.post(new Runnable() {
+                SimpleAppActivity.this.handler.post(new Runnable() {
                     
                     public void run() {
                         Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
                         
-                        pd.dismiss();
+                        SimpleAppActivity.this.pd.dismiss();
                         refresh();
                     }
                 });
             }
+            
             
             @Override
             public void onBindingFailed() {
@@ -122,24 +123,24 @@ public class SimpleAppActivity extends Activity {
     
     
     private void addListener() {
-        buttonServiceFeatures.setOnClickListener(new OnClickListener() {
+        this.buttonServiceFeatures.setOnClickListener(new OnClickListener() {
             
             public void onClick(View v) {
                 PMP.get().requestServiceFeatures(Model.SF_WIFI_STATE, Model.SF_WIFI_CHANGE);
             }
         });
         
-        wirelessRefreshButton.setOnClickListener(new OnClickListener() {
+        this.wirelessRefreshButton.setOnClickListener(new OnClickListener() {
             
             public void onClick(View v) {
                 refreshWifi();
             }
         });
         
-        wirelessToggleButton.setOnClickListener(new OnClickListener() {
+        this.wirelessToggleButton.setOnClickListener(new OnClickListener() {
             
             public void onClick(View v) {
-                Model.getInstance().setWifi(wirelessToggleButton.isChecked());
+                Model.getInstance().setWifi(SimpleAppActivity.this.wirelessToggleButton.isChecked());
             }
         });
     }
@@ -160,16 +161,16 @@ public class SimpleAppActivity extends Activity {
         
         if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_STATE)) {
             // Wireless State SF is disabled
-            wirelessStateTextView.setText("missingSF");
+            this.wirelessStateTextView.setText("missingSF");
         } else {
-            Model.getInstance().getWifi(handler, wirelessStateTextView, wirelessToggleButton);
+            Model.getInstance().getWifi(this.handler, this.wirelessStateTextView, this.wirelessToggleButton);
         }
         
         if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_CHANGE)) {
             // Wireless State SF is disabled
-            wirelessToggleButton.setEnabled(false);
+            this.wirelessToggleButton.setEnabled(false);
         } else {
-            wirelessToggleButton.setEnabled(true);
+            this.wirelessToggleButton.setEnabled(true);
         }
     }
     

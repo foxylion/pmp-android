@@ -20,70 +20,22 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp;
 
 import android.app.Application;
-import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.app.App;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class SimpleApp extends Application {
-
-	static {
-		Log.setTagSufix("SimpleApp");
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-
-		PMP.get(this);
-		Model.getInstance().setApp(this);
-	}
-
-	/* API 1 legacy code
-	 * 
-	 * 
-	 * 
-	 * 
-	 
-	@Override
-	public void onRegistrationSuccess() {
-		Log.v("Registration succeed");
-
-		if (Model.getInstance().getActivity() != null) {
-			Model.getInstance().getActivity().registrationEnded(true, null);
-		}
-		
-		requestServiceFeatures();
-	}
-
-	@Override
-	public void onRegistrationFailed(String message) {
-		Log.e("Registration failed: " + message);
-		
-		if (Model.getInstance().getActivity() != null) {
-			Model.getInstance().getActivity().registrationEnded(false, message);
-		}
-	}
-	
-
-
-	public boolean isRegistered() {
-		final PMPServiceConnector pmpsc = new PMPServiceConnector(
-				getApplicationContext());
-		final String name = getApplicationContext().getPackageName();
-
-		pmpsc.bind(true);
-		IPMPService pmpservice = pmpsc.getAppService();
-		try {
-			return pmpservice.isRegistered(name);
-		} catch (RemoteException e) {
-			Log.e("Could not check registration state", e);
-		}
-
-		return false;
-	}
-	*/
+    
+    static {
+        Log.setTagSufix("SimpleApp");
+    }
+    
+    
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        
+        PMP.get(this);
+        Model.getInstance().setApp(this);
+    }
 }

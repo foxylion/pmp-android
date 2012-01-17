@@ -62,7 +62,7 @@ public class IPCScheduler extends Thread {
     @Override
     public void run() {
         // must be initialized in a different thread
-        this.connection = new IPCConnection(context);
+        this.connection = new IPCConnection(this.context);
         
         while (!isInterrupted()) {
             
@@ -71,6 +71,7 @@ public class IPCScheduler extends Thread {
                 
                 new Thread() {
                     
+                    @Override
                     public void run() {
                         IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
                         
