@@ -27,6 +27,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
+import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 
 /**
  * The {@link IModel} provides all {@link IApp}s, {@link IPreset}s and {@link IResourceGroup}s known by PMP.
@@ -66,7 +67,7 @@ public interface IModel {
      * @throws InvalidXMLException
      *             if the XML of the app is somehow corrupt
      */
-    public void registerApp(String appPackage) throws InvalidXMLException;
+    public RegistrationResult registerApp(String appPackage);
     
     
     /**

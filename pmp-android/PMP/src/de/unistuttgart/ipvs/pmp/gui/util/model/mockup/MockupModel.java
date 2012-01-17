@@ -16,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 
 /**
  * Mockup model guaranteed to not persist anything or communicate with anyone while trying to maintain the main
@@ -51,7 +52,8 @@ public class MockupModel implements IModel {
     
     @Override
     @Deprecated
-    public void registerApp(String identifier) {
+    public RegistrationResult registerApp(String identifier) {
+        return null;
     }
     
     

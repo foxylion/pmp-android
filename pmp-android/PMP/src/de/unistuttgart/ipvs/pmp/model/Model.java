@@ -12,7 +12,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
@@ -40,10 +39,7 @@ import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
-import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
+import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
 import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
@@ -133,16 +129,11 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public void registerApp(final String appPackage) throws InvalidXMLException {
+    public RegistrationResult registerApp(final String appPackage) {
         checkCached();
         Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
         Assert.isNull(getApp(appPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "appPackage",
                 appPackage));
-        
-        final AppServiceConnector asc = new AppServiceConnector(PMPApplication.getContext(), appPackage);
-        
-        // some strange construct because of some other strange construct
-        InvalidXMLException throwAfterCatch = null;
         
         // check XML
         try {
@@ -183,64 +174,23 @@ public class Model implements IModel, Observer {
             }
             
             // "Hello thar, App!"
-            asc.addCallbackHandler(new AbstractConnectorCallback() {
-                
-                @Override
-                public void onConnect(AbstractConnector connector) throws RemoteException {
-                    asc.getAppService().replyRegistrationResult(new RegistrationResult(true));
-                    Log.d(appPackage + " has successfully registered with PMP.");
-                }
-                
-                
-                @Override
-                public void onBindingFailed(AbstractConnector connector) {
-                    Log.d(appPackage
-                            + " would have been successfully registered with PMP, but could not connect to its service.");
-                }
-            });
+            Log.d(appPackage + " has successfully registered.");
+            return new RegistrationResult(true);
             
         } catch (final IOException ioe) {
             /* error during finding files */
-            asc.addCallbackHandler(new AbstractConnectorCallback() {
-                
-                @Override
-                public void onConnect(AbstractConnector connector) throws RemoteException {
-                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, ioe.getMessage()));
-                }
-            });
             Log.w(appPackage + " has failed registration with PMP.", ioe);
-            throwAfterCatch = new InvalidXMLException(ioe.getMessage(), ioe);
+            return new RegistrationResult(false, ioe.getMessage());
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
-            asc.addCallbackHandler(new AbstractConnectorCallback() {
-                
-                @Override
-                public void onConnect(AbstractConnector connector) throws RemoteException {
-                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, nnfe.getMessage()));
-                }
-            });
             Log.w(appPackage + " has failed registration with PMP.", nnfe);
-            throwAfterCatch = new InvalidXMLException(nnfe.getMessage(), nnfe);
+            return new RegistrationResult(false, nnfe.getMessage());
             
         } catch (final XMLParserException xmlpe) {
             /* error during XML validation */
-            asc.addCallbackHandler(new AbstractConnectorCallback() {
-                
-                @Override
-                public void onConnect(AbstractConnector connector) throws RemoteException {
-                    asc.getAppService().replyRegistrationResult(new RegistrationResult(false, xmlpe.getDetails()));
-                }
-            });
             Log.w(appPackage + " has failed registration with PMP.", xmlpe);
-            throwAfterCatch = new InvalidXMLException(xmlpe.getMessage(), xmlpe);
-        }
-        
-        // and off you go
-        asc.bind();
-        
-        if (throwAfterCatch != null) {
-            throw throwAfterCatch;
+            return new RegistrationResult(false, xmlpe.getDetails());
         }
     }
     

@@ -27,7 +27,6 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 
@@ -53,16 +52,12 @@ public class PMPServiceImplementation extends IPMPService.Stub {
     
     @Override
     public RegistrationResult registerApp(String appPackage) throws RemoteException {
-        // TODO!
-        try {
-            if (Model.getInstance().getApp(appPackage) == null) {
-                Model.getInstance().registerApp(appPackage);
-            }
-        } catch (InvalidXMLException e) {
-            // if desired one could inform the GUI here
+        if (Model.getInstance().getApp(appPackage) == null) {
+            return Model.getInstance().registerApp(appPackage);
+        } else {
+            return new RegistrationResult(false, "Real registration attempt made, but already registered. Using API?");
         }
         
-        return new RegistrationResult(false, "TODO");
     }
     
     
