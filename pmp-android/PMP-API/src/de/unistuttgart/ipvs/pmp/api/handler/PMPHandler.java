@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.api.handler;
 
 public abstract class PMPHandler {
     
-    protected void onPrepare() {
+    public void onPrepare() {
         throw new UnsupportedOperationException();
     }
     
@@ -12,7 +12,12 @@ public abstract class PMPHandler {
     }
     
     
-    protected void onFinalize() {
+    public void onBindingFailed() {
+        throw new UnsupportedOperationException();
+    }
+    
+    
+    public void onFinalize() {
         throw new UnsupportedOperationException();
     }
 }

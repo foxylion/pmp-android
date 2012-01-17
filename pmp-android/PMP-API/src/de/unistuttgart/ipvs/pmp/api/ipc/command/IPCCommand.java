@@ -1,18 +1,31 @@
 package de.unistuttgart.ipvs.pmp.api.ipc.command;
 
+import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
-import de.unistuttgart.ipvs.pmp.api.ipc.IPCScheduler;
-import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 
 public abstract class IPCCommand {
     
     private long timeout;
-    private String application;
+    private String callingApplication;
     private PMPHandler handler;
-    public IPCScheduler queue;
     
     
-    protected void execute(IPMPService interface_22) {
+    public long getTimeout() {
+        return this.timeout;
+    }
+    
+    
+    public String getCallingApplication() {
+        return this.callingApplication;
+    }
+    
+    
+    public PMPHandler getHandler() {
+        return this.handler;
+    }
+    
+    
+    public void execute(IBinder binder) {
         throw new UnsupportedOperationException();
     }
 }
