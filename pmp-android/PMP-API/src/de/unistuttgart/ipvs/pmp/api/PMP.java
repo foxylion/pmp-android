@@ -220,7 +220,9 @@ public class PMP implements IPMP {
     public void updateServiceFeatures(PMPServiceFeatureUpdateHandler handler, int timeout) {
         IPCCommand ipc = new IPC2PMPUpdateServiceFeaturesCommand(handler, this.application.getPackageName(),
                 makeTimeout(timeout));
-        this.callOnUpdate.offer(handler);
+        if (handler != null) {
+            this.callOnUpdate.offer(handler);
+        }
         this.scheduler.queue(ipc);
     }
     
