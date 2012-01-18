@@ -5,9 +5,4 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="7" />
-
-    <!-- This is not really required in an android library project -->
-    <application android:label="PMP-API" >
-    </application>
-
 </manifest>
