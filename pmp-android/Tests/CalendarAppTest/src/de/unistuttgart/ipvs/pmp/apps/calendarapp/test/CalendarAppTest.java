@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
 
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -64,10 +65,8 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         if (!verified) {
             assertTrue(getActivity().getApplication() instanceof CalendarApp);
             
-            CalendarApp ca = (CalendarApp) getActivity().getApplication();
-            
             for (String sf : REQUIRED_SERVICE_FEATURES) {
-                if (!ca.isServiceFeatureEnabled(sf)) {
+                if (!PMP.get().isServiceFeatureEnabled(sf)) {
                     Log.e("Calendar-Test", "Service feature " + sf + " not enabled. Behavior undefined.");
                 }
             }
