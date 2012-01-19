@@ -502,8 +502,10 @@ public class FileSystemConnector {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         List<FileDetails> fileList = new ArrayList<FileDetails>();
                         fileList = ifa.list(FOLDER_NAME);
-                        for (FileDetails file : fileList) {
-                            Model.getInstance().addFileToList(file);
+                        if (fileList != null) {
+                            for (FileDetails file : fileList) {
+                                Model.getInstance().addFileToList(file);
+                            }
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -528,8 +530,10 @@ public class FileSystemConnector {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         List<FileDetails> fileList = new ArrayList<FileDetails>();
                         fileList = ifa.list(FOLDER_NAME);
-                        for (FileDetails file : fileList) {
-                            Model.getInstance().addFileToListExport(file);
+                        if (fileList != null) {
+                            for (FileDetails file : fileList) {
+                                Model.getInstance().addFileToListExport(file);
+                            }
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
