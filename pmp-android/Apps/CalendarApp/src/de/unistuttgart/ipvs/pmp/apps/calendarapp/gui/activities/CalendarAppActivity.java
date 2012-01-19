@@ -273,7 +273,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.IMPORT);
+                    new FileSystemConnector().prepare(FileSystemListActionType.IMPORT);
                     
                 } else {
                     // Request other service features
@@ -293,7 +293,7 @@ public class CalendarAppActivity extends ListActivity {
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
+                    new FileSystemConnector().prepare(FileSystemListActionType.EXPORT);
                     
                 } else {
                     String[] req = new String[1];

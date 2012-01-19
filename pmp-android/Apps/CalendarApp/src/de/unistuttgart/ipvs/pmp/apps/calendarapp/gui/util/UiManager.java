@@ -147,7 +147,7 @@ public class UiManager {
                     // Close the dialog
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
+                        new FileSystemConnector().prepare(FileSystemListActionType.EXPORT);
                         dialog.dismiss();
                     }
                 });

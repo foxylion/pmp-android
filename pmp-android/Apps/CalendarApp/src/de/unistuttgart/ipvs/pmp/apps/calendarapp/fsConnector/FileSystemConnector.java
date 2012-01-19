@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources.NotFoundException;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
@@ -84,6 +83,7 @@ public class FileSystemConnector {
      * The import string
      */
     private String importString = null;
+    
     
     /**
      * This method provides the export for appointments to the file system of pmp (resource group)
@@ -157,20 +157,18 @@ public class FileSystemConnector {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         
-                        if (checkForSdCard(ifa)) {
-                            // Write the file
-                            boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
-                            
-                            // if exporting worked successfully, add the file to the model list
-                            if (success) {
-                                listStoredFiles(FileSystemListActionType.NONE);
-                                Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Log.e("Exporting failed");
-                                Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed,
-                                        Toast.LENGTH_SHORT);
-                            }
+                        // Write the file
+                        boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
+                        
+                        // if exporting worked successfully, add the file to the model list
+                        if (success) {
+                            prepare(FileSystemListActionType.NONE);
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("Exporting failed");
+                            Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed,
+                                    Toast.LENGTH_SHORT);
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -380,28 +378,25 @@ public class FileSystemConnector {
      * @param type
      *            Type of invoked action after listing the files successfully.
      */
-    public void listStoredFiles(final FileSystemListActionType type) {
+    public void prepare(final FileSystemListActionType type) {
         
         PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
+                    Looper.prepare();
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         
                         // list the files and add it to the model (and clear the model)
                         Model.getInstance().clearFileList();
-                        List<FileDetails> fileList = new ArrayList<FileDetails>();
                         
                         // Flag, if the next action should be invoked or not
                         boolean invokeNextAction = false;
                         
                         try {
-                            fileList = ifa.list(FOLDER_NAME);
-                            for (FileDetails file : fileList) {
-                                Model.getInstance().addFileToList(file);
-                            }
+                            ifa.list(FOLDER_NAME);
                             invokeNextAction = true;
                         } catch (Exception e) {
                             boolean makeDir = ifa.makeDirs(FOLDER_NAME);
@@ -444,6 +439,8 @@ public class FileSystemConnector {
                         
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 }
             }
@@ -464,6 +461,7 @@ public class FileSystemConnector {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                Looper.prepare();
                 if (binder != null) {
                     Log.d(rgIdentifier + " connected");
                     try {
@@ -473,9 +471,10 @@ public class FileSystemConnector {
                         boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
                         if (success) {
                             Model.getInstance().removeFileFromList(file);
-                            listStoredFiles(FileSystemListActionType.NONE);
+                            prepare(FileSystemListActionType.NONE);
                             Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
                                     Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -489,22 +488,54 @@ public class FileSystemConnector {
     }
     
     
-    public Boolean checkForSdCard(IFileAccess ifa) {
-        try {
-            if (ifa.makeDirs(FOLDER_NAME)) {
-                Log.d("Created folder " + FOLDER_NAME);
-                return true;
-            } else {
-                Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing, Toast.LENGTH_LONG).show();
-                Log.d("If you want to use the import/export functionality, you have to insert a SD-Card!");
-                return false;
+    /**
+     * Lists the files that are stored on the sd card folder (used while importing)
+     */
+    public void listFilesImport() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                if (binder != null) {
+                    Log.d(rgIdentifier + " connected");
+                    try {
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                        List<FileDetails> fileList = new ArrayList<FileDetails>();
+                        fileList = ifa.list(FOLDER_NAME);
+                        for (FileDetails file : fileList) {
+                            Model.getInstance().addFileToList(file);
+                        }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception", e);
+                    }
+                }
             }
-        } catch (RemoteException e) {
-            Log.e("Remote Exception", e);
-        } catch (NotFoundException e) {
-            Log.e("Not found Exception", e);
-        }
-        return false;
+        });
     }
     
+    
+    /**
+     * Lists the files that are stored on the sd card folder (used while exporting)
+     */
+    public void listFilesExport() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                if (binder != null) {
+                    Log.d(rgIdentifier + " connected");
+                    try {
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                        List<FileDetails> fileList = new ArrayList<FileDetails>();
+                        fileList = ifa.list(FOLDER_NAME);
+                        for (FileDetails file : fileList) {
+                            Model.getInstance().addFileToListExport(file);
+                        }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception", e);
+                    }
+                }
+            }
+        });
+    }
 }

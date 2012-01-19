@@ -64,6 +64,11 @@ public class Model {
     private CalendarAppActivity appContext;
     
     /**
+     * Handler of the {@link ImportActivity}
+     */
+    private Handler importHandler;
+    
+    /**
      * Handler of the {@link CalendarAppActivity}
      */
     private Handler handler;
@@ -376,16 +381,32 @@ public class Model {
      * @param file
      *            to remove
      */
-    public void removeFileFromList(FileDetails file) {
-        this.fileList.remove(file);
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
-        }
-        
-        // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null) {
-            getImportContext().updateNoAvaiableFilesTextView();
-        }
+    public void removeFileFromList(final FileDetails file) {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                importHandler.post(new Runnable() {
+                    
+                    public void run() {
+                        fileList.remove(file);
+                        if (importArrayAdapter != null) {
+                            importArrayAdapter.notifyDataSetChanged();
+                        }
+                        
+                        // Update the visibility of the "no files available" textview
+                        if (getImportContext() != null) {
+                            getImportContext().updateNoAvaiableFilesTextView();
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+    
+    
+    public void addImportHandler(Handler handler) {
+        this.importHandler = handler;
     }
     
     
@@ -395,13 +416,43 @@ public class Model {
      * @param file
      *            to add
      */
-    public void addFileToList(FileDetails file) {
-        this.fileList.add(file);
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
+    public void addFileToList(final FileDetails file) {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                importHandler.post(new Runnable() {
+                    
+                    public void run() {
+                        fileList.add(file);
+                        if (importArrayAdapter != null) {
+                            importArrayAdapter.notifyDataSetChanged();
+                        }
+                        
+                        // Update the visibility of the "no files available" textview
+                        if (getImportContext() != null) {
+                            getImportContext().updateNoAvaiableFilesTextView();
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+    
+    
+    /**
+     * Adds the {@link FileDetails} to the list but without a handler
+     * 
+     * @param file
+     *            to add
+     */
+    public void addFileToListExport(FileDetails file) {
+        fileList.add(file);
+        if (importArrayAdapter != null) {
+            importArrayAdapter.notifyDataSetChanged();
         }
         
-        // Update the visibility of the "no files avaiable" textview
+        // Update the visibility of the "no files available" textview
         if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
         }

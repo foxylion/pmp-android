@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -60,6 +61,7 @@ public class ImportActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Model.getInstance().addImportHandler(new Handler());
         setContentView(R.layout.import_list_layout);
         
         setTitle(R.string.import_appointments);
@@ -72,14 +74,14 @@ public class ImportActivity extends ListActivity {
          * Fill the list of files for importing.
          * It is also used to check for exporting, if a file already exists.
          */
-        new FileSystemConnector().listStoredFiles(FileSystemListActionType.NONE);
+        new FileSystemConnector().prepare(FileSystemListActionType.NONE);
         
         // Array adapter that is needed to show the list of dates
         importArrayAdapter = new ArrayAdapter<FileDetails>(this, R.layout.import_list_item, Model.getInstance()
                 .getFileList());
         Model.getInstance().setImportArrayAdapter(importArrayAdapter);
         setListAdapter(importArrayAdapter);
-        
+        new FileSystemConnector().listFilesImport();
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
         
