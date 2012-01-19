@@ -116,6 +116,7 @@ public class SqlConnector {
                                     Model.getInstance().setHighestId(id);
                                 }
                             }
+                            Model.getInstance().scrollToActualDate();
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_load));
                             Log.e("Remote Exception", e);

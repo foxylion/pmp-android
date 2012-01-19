@@ -42,7 +42,6 @@ public class CalendarApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        
         PMP.get(this);
     }
     
@@ -61,10 +60,6 @@ public class CalendarApp extends Application {
         if (read) {
             // Read files
             new SqlConnector().loadAppointments();
-            
-            //Scroll to the actual date 
-            //            Model.getInstance().getContext().getListView()
-            //                    .setSelection(Model.getInstance().getArrayAdapter().getActualAppointmentPosition());
         }
         
         /*

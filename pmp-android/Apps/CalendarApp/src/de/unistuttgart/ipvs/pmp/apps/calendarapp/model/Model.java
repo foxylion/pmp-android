@@ -647,4 +647,23 @@ public class Model {
     public void addHandler(Handler handler) {
         this.handler = handler;
     }
+    
+    
+    /**
+     * Scrolls to the actual date
+     */
+    public void scrollToActualDate() {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        appContext.getListView().setSelection(arrayAdapter.getActualAppointmentPosition());
+                    }
+                });
+            }
+        }.start();
+    }
 }
