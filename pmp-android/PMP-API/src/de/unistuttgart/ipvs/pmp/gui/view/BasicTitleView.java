@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 
 /**
@@ -46,6 +48,11 @@ public class BasicTitleView extends LinearLayout {
      */
     private int textColor;
     
+    /**
+     * The back action gives the user a possibility to return
+     */
+    private boolean backActionAvailable;
+    
     
     /**
      * @see LinearLayout#LinearLayout(Context)
@@ -66,12 +73,16 @@ public class BasicTitleView extends LinearLayout {
     public BasicTitleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
+        Log.d("BasicTitleView was created with any AttributeSet");
+        
         this.context = context;
         
         /* Load the styles from the xml assigned values */
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
         this.title = a.getString(R.styleable.BasicTitleView_name);
         this.icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
+        
+        this.backActionAvailable = a.getBoolean(R.styleable.BasicTitleView_backButton, false);
         
         this.borderColor = a.getColor(R.styleable.BasicTitleView_borderColor, Color.parseColor("#ff8c00"));
         this.textColor = a.getColor(R.styleable.BasicTitleView_textColor, Color.WHITE);
@@ -84,6 +95,7 @@ public class BasicTitleView extends LinearLayout {
         
         if (!isInEditMode()) {
             createLayout();
+            addListener();
             refresh();
         } else {
             /* In edit mode, just load a very basic representation of the real contents. */
@@ -106,6 +118,15 @@ public class BasicTitleView extends LinearLayout {
         /* load the xml-layout. */
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         addView(layoutInflater.inflate(R.layout.view_basictitle, null));
+    }
+    
+    
+    protected void addListener() {
+        ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
+        iv.setOnClickListener(new OnClickListenerImpl());
+        
+        View backAction = findViewById(R.id.ImageView_BackIcon);
+        backAction.setOnClickListener(new OnClickListenerImpl());
     }
     
     
@@ -158,6 +179,12 @@ public class BasicTitleView extends LinearLayout {
     }
     
     
+    public void setBackAction(boolean available) {
+        this.backActionAvailable = available;
+        refresh();
+    }
+    
+    
     /**
      * Refreshes the icon and title after a change.
      */
@@ -180,6 +207,25 @@ public class BasicTitleView extends LinearLayout {
         View border = findViewById(R.id.View_Divider_Strong);
         if (border != null) {
             border.setBackgroundColor(this.borderColor);
+        }
+        
+        View backAction = findViewById(R.id.ImageView_BackIcon);
+        if (this.backActionAvailable) {
+            backAction.setVisibility(View.VISIBLE);
+            iv.setClickable(true);
+        } else {
+            backAction.setVisibility(View.GONE);
+            iv.setClickable(false);
+        }
+    }
+}
+
+class OnClickListenerImpl implements View.OnClickListener {
+    
+    @Override
+    public void onClick(View v) {
+        if (v.getContext() instanceof Activity) {
+            ((Activity) v.getContext()).finish();
         }
     }
 }
