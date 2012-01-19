@@ -30,7 +30,9 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
@@ -58,9 +60,9 @@ public class SqlConnector {
     private CalendarAppActivity appContext = Model.getInstance().getContext();
     
     /**
-     * The {@link App} of the calendar app
+     * Identifier to get the resource
      */
-    private App app = ((App) appContext.getApplication());
+    private PMPResourceIdentifier pmpIdentifier = PMPResourceIdentifier.make(resGroupIdentifier, resIdentifier);
     
     /*
      * Constants for the database table
@@ -79,11 +81,10 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -115,6 +116,7 @@ public class SqlConnector {
                                     Model.getInstance().setHighestId(id);
                                 }
                             }
+                            Model.getInstance().scrollToActualDate();
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_load));
                             Log.e("Remote Exception", e);
@@ -128,7 +130,7 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
     }
     
     
@@ -152,11 +154,10 @@ public class SqlConnector {
             return;
         }
         
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -200,7 +201,7 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
     }
     
     
@@ -224,11 +225,10 @@ public class SqlConnector {
             return;
         }
         
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -267,7 +267,8 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
+        
     }
     
     
@@ -278,11 +279,10 @@ public class SqlConnector {
      *            id of the appointment to delete
      */
     public void deleteAppointment(final Appointment appointment) {
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -316,16 +316,15 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
     }
     
     
     public void deleteAllApointments() {
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -349,7 +348,7 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
         
     }
     
@@ -371,11 +370,10 @@ public class SqlConnector {
             return;
         }
         
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -395,8 +393,8 @@ public class SqlConnector {
                             if (idc.update(SqlConnector.this.DB_TABLE_NAME, values, SqlConnector.this.ID + " = "
                                     + String.valueOf(id), null) == 1) {
                                 Model.getInstance().changeAppointment(id, date, oldDate, name, description, severity);
-                                Log.v("Changing date with id " + String.valueOf(id) + " to: name: " + name + "date: "
-                                        + date + " description: " + description);
+                                Log.v("Changing date with id " + String.valueOf(id) + " to: name: " + name + " date: "
+                                        + date + " description: " + description + " severity: " + severity.toString());
                             } else {
                                 showToast(appContext.getString(R.string.err_change));
                             }
@@ -413,7 +411,7 @@ public class SqlConnector {
                     }
                 }
             }
-        }.start();
+        });
     }
     
     
@@ -425,12 +423,10 @@ public class SqlConnector {
      *            {@link ArrayList} with {@link Appointment}s to store
      */
     public void storeAppointmentListInEmptyList(final ArrayList<Appointment> appList) {
-        new Thread() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void run() {
-                IBinder binder = app.getResourceBlocking(resGroupIdentifier, resIdentifier);
-                
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {
@@ -480,7 +476,7 @@ public class SqlConnector {
                 }
             }
             
-        }.start();
+        });
     }
     
     
@@ -531,9 +527,14 @@ public class SqlConnector {
      * @param message
      *            to show
      */
-    private void showToast(String message) {
-        Looper.prepare();
-        Toast.makeText(Model.getInstance().getContext(), message, Toast.LENGTH_SHORT).show();
-        Looper.loop();
+    private void showToast(final String message) {
+        new Thread() {
+            
+            public void run() {
+                Looper.prepare();
+                Toast.makeText(Model.getInstance().getContext(), message, Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+        }.start();
     }
 }

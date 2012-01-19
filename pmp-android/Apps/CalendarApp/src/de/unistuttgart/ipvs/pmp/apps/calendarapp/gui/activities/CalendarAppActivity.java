@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +38,12 @@ import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
@@ -52,18 +55,12 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 public class CalendarAppActivity extends ListActivity {
     
     private CalendarAppActivity self = this;
     
-    /**
-     * The actual application context
-     */
-    private Context appContext;
+    private Handler handler;
     
     
     /**
@@ -73,13 +70,12 @@ public class CalendarAppActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Model.getInstance().setContext(this.self);
-        Model.getInstance().addHandler(new Handler());
-        
-        this.appContext = getApplicationContext();
+        handler = new Handler();
+        Model.getInstance().addHandler(handler);
         
         setContentView(R.layout.list_layout);
         
-        SeparatedListAdapter spa = new SeparatedListAdapter(this.appContext);
+        SeparatedListAdapter spa = new SeparatedListAdapter(this.getApplicationContext());
         setListAdapter(spa);
         Model.getInstance().setArrayAdapter(spa);
         
@@ -102,54 +98,54 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Connector to check if the app is registered yet
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        PMP.get().register(new PMPRegistrationHandler() {
+            
+            private String toast = "";
+            
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-
-                // Check if the service is registered yet
-                if (!pmpconnector.getAppService().isRegistered(getPackageName())) {
-                    Log.v("Registering");
-                    UiManager.getInstance().showWaitingDialog();
-                    pmpconnector.getAppService().registerApp(getPackageName());
-                    
-                    /*
-                     * Changes the functionality according to the service feature that is set.
-                     * Will be called when the activity is started after on resume and
-                     * called when the activity is shown again.
-                     */
-                    ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(false);
-                } else {
-                    Log.v("App registered");
-                    ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+            public void onSuccess() {
+                PMP.get().updateServiceFeatures();
+                PMP.get().requestServiceFeatures();
+                this.toast = self.getString(R.string.registration_succeed);
+                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+            }
+            
+            
+            @Override
+            public void onAlreadyRegistered() {
+                PMP.get().updateServiceFeatures();
+                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+            }
+            
+            
+            @Override
+            public void onFailure(String message) {
+                this.toast = self.getString(R.string.registration_failed);
+                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(false);
+            }
+            
+            
+            @Override
+            public void onFinalize() {
+                if (!toast.equals("")) {
+                    CalendarAppActivity.this.handler.post(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
             
             
             @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Looper.prepare();
-                AlertDialog.Builder builder = new AlertDialog.Builder(self);
-                builder.setMessage(R.string.not_found).setTitle(R.string.error).setCancelable(true)
-                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Close the dialog and close the calendar app
-                                dialog.cancel();
-                                self.finish();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-                Looper.loop();
-                
+            public void onBindingFailed() {
+                Log.e("Binding failed...");
             }
+            
         });
-        
-        // Connect to the service
-        pmpconnector.bind();
     }
     
     
@@ -163,7 +159,7 @@ public class CalendarAppActivity extends ListActivity {
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
-            if (((App) getApplication()).isServiceFeatureEnabled("write")) {
+            if (PMP.get().isServiceFeatureEnabled("write")) {
                 new SqlConnector().deleteAppointment(clicked);
             } else {
                 String[] req = new String[1];
@@ -173,55 +169,50 @@ public class CalendarAppActivity extends ListActivity {
             
             return true;
         }
-        if (aItem.getItemId() == 1) {
-            new Thread() {
-                
-                @Override
-                public void run() {
-                    Looper.prepare();
-                    App app = ((App) appContext);
-                    IBinder binder = app.getResourceBlocking("de.unistuttgart.ipvs.pmp.resourcegroups.email",
-                            "emailOperations");
-                    
-                    if (binder != null && app.isServiceFeatureEnabled("send")) {
-                        IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
-                        try {
-                            String subject = getString(R.string.subject) + ": " + clicked.getName();
-                            String severity = getString(R.string.severity) + " ";
-                            switch (clicked.getSeverity()) {
-                                case HIGH:
-                                    severity += getString(R.string.severity_high);
-                                    break;
-                                case MIDDLE:
-                                    severity += getString(R.string.severity_middle);
-                                    break;
-                                case LOW:
-                                    severity += getString(R.string.severity_low);
-                                    break;
-                            }
-                            emailOP.sendEmail("", subject, getString(R.string.date) + " " + clicked.getDateString()
-                                    + "\n" + getString(R.string.desc) + ": " + clicked.getDescrpition() + "\n"
-                                    + severity);
-                        } catch (RemoteException e) {
-                            Log.e("Couldn't send E-Mail", e);
-                        }
+        if (aItem.getItemId() == 1 && PMP.get().isServiceFeatureEnabled("send")) {
+            
+            PMP.get().getResource(
+                    PMPResourceIdentifier.make("de.unistuttgart.ipvs.pmp.resourcegroups.email", "emailOperations"),
+                    new PMPRequestResourceHandler() {
                         
-                    } else {
-                        // Request other service features
-                        ArrayList<String> sfs = new ArrayList<String>();
-                        if (!((App) getApplication()).isServiceFeatureEnabled("send")) {
-                            sfs.add("send");
+                        @Override
+                        public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                            if (binder != null) {
+                                IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
+                                try {
+                                    String subject = getString(R.string.subject) + ": " + clicked.getName();
+                                    String severity = getString(R.string.severity) + " ";
+                                    switch (clicked.getSeverity()) {
+                                        case HIGH:
+                                            severity += getString(R.string.severity_high);
+                                            break;
+                                        case MIDDLE:
+                                            severity += getString(R.string.severity_middle);
+                                            break;
+                                        case LOW:
+                                            severity += getString(R.string.severity_low);
+                                            break;
+                                    }
+                                    emailOP.sendEmail("", subject,
+                                            getString(R.string.date) + " " + clicked.getDateString() + "\n"
+                                                    + getString(R.string.desc) + ": " + clicked.getDescrpition() + "\n"
+                                                    + severity);
+                                } catch (RemoteException e) {
+                                    Log.e("Couldn't send E-Mail", e);
+                                }
+                                
+                            } 
                         }
-                        
-                        UiManager.getInstance().showServiceFeatureInsufficientDialog(
-                                sfs.toArray(new String[sfs.size()]));
-                        Looper.loop();
-                    }
-                }
-            }.start();
-            return true;
+                    });
+        }else {
+            ArrayList<String> sfs = new ArrayList<String>();
+            sfs.add("send");
+            UiManager.getInstance().showServiceFeatureInsufficientDialog(
+                    sfs.toArray(new String[sfs.size()]));
+            Looper.loop();
         }
-        return false;
+        
+        return true;
     }
     
     
@@ -241,11 +232,10 @@ public class CalendarAppActivity extends ListActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        App app = (App) self.getApplication();
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_appointment:
-                if (app.isServiceFeatureEnabled("write")) {
+                if (PMP.get().isServiceFeatureEnabled("write")) {
                     
                     // Show the new appointment dialog
                     Dialog dialog = new NewAppointmentDialog(Model.getInstance().getContext());
@@ -257,7 +247,7 @@ public class CalendarAppActivity extends ListActivity {
                 }
                 return true;
             case R.id.delete_all_appointments:
-                if (app.isServiceFeatureEnabled("write")) {
+                if (PMP.get().isServiceFeatureEnabled("write")) {
                     
                     // Show the confirm dialog for deleting all appointments
                     new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
@@ -278,32 +268,32 @@ public class CalendarAppActivity extends ListActivity {
                 }
                 return true;
             case R.id.import_appointments:
-                if (app.isServiceFeatureEnabled("import") && app.isServiceFeatureEnabled("write")) {
+                if (PMP.get().isServiceFeatureEnabled("import") && PMP.get().isServiceFeatureEnabled("write")) {
                     /*
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.IMPORT);
+                    new FileSystemConnector().prepare(FileSystemListActionType.IMPORT);
                     
                 } else {
                     // Request other service features
                     ArrayList<String> sfs = new ArrayList<String>();
-                    if (!((App) getApplication()).isServiceFeatureEnabled("import")) {
+                    if (!PMP.get().isServiceFeatureEnabled("import")) {
                         sfs.add("import");
                     }
-                    if (!((App) getApplication()).isServiceFeatureEnabled("write")) {
+                    if (!PMP.get().isServiceFeatureEnabled("write")) {
                         sfs.add("write");
                     }
                     UiManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
                 }
                 return true;
             case R.id.export_appointments:
-                if (app.isServiceFeatureEnabled("export")) {
+                if (PMP.get().isServiceFeatureEnabled("export")) {
                     /*
                      * Fill the list of files for importing.
                      * It is also used to check for exporting, if a file already exists.
                      */
-                    new FileSystemConnector().listStoredFiles(FileSystemListActionType.EXPORT);
+                    new FileSystemConnector().prepare(FileSystemListActionType.EXPORT);
                     
                 } else {
                     String[] req = new String[1];
@@ -322,13 +312,18 @@ public class CalendarAppActivity extends ListActivity {
      * Update the visibility of the "no appointments available" textview
      */
     public void updateNoAvaiableAppointmentsTextView() {
-        
-        // add text view "no appointments available", if the list is empty
-        TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
-        if (Model.getInstance().isModelEmpty()) {
-            tv.setVisibility(View.VISIBLE);
-        } else {
-            tv.setVisibility(View.GONE);
-        }
+        CalendarAppActivity.this.handler.post(new Runnable() {
+            
+            @Override
+            public void run() {
+                // add text view "no appointments available", if the list is empty
+                TextView tv = (TextView) findViewById(R.id.no_appointments_avaiable);
+                if (Model.getInstance().isModelEmpty()) {
+                    tv.setVisibility(View.VISIBLE);
+                } else {
+                    tv.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

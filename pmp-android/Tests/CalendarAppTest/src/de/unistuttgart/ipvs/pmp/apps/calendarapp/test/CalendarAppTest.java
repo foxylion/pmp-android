@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.jayway.android.robotium.solo.Solo;
 
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
@@ -64,10 +65,8 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         if (!verified) {
             assertTrue(getActivity().getApplication() instanceof CalendarApp);
             
-            CalendarApp ca = (CalendarApp) getActivity().getApplication();
-            
             for (String sf : REQUIRED_SERVICE_FEATURES) {
-                if (!ca.isServiceFeatureEnabled(sf)) {
+                if (!PMP.get().isServiceFeatureEnabled(sf)) {
                     Log.e("Calendar-Test", "Service feature " + sf + " not enabled. Behavior undefined.");
                 }
             }
@@ -248,13 +247,24 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         // export dialog
         assertTrue(solo.waitForText("Export"));
         assertEquals(1, solo.getCurrentEditTexts().size());
-        solo.enterText(0, EXPORT_NAME);
+        try {
+            this.runTestOnUiThread(new Runnable() {
+                
+                @Override
+                public void run() {
+                    //Quick and dirty fix because enterText() doesn't work
+                    solo.getCurrentEditTexts().get(0).setText(EXPORT_NAME);
+                    //        solo.enterText(solo.getCurrentEditTexts().get(0), EXPORT_NAME);
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         solo.clickOnText("Confirm");
         if (solo.waitForText("Override")) {
             solo.clickOnButton("Override");
         }
         solo.searchText("succeeded");
-        
         solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     

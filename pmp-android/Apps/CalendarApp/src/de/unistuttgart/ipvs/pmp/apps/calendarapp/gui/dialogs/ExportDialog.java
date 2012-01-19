@@ -60,6 +60,7 @@ public class ExportDialog extends Dialog {
      */
     public ExportDialog(Context context) {
         super(context);
+        new FileSystemConnector().listFilesExport();
     }
     
     
