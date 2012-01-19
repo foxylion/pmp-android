@@ -125,7 +125,7 @@ public class BasicTitleView extends LinearLayout {
         ImageView iv = (ImageView) findViewById(R.id.ImageView_Icon);
         iv.setOnClickListener(new OnClickListenerImpl());
         
-        View backAction = findViewById(R.id.ImageView_BackIcon);
+        ImageView backAction = (ImageView) findViewById(R.id.ImageView_BackIcon);
         backAction.setOnClickListener(new OnClickListenerImpl());
     }
     
@@ -209,7 +209,7 @@ public class BasicTitleView extends LinearLayout {
             border.setBackgroundColor(this.borderColor);
         }
         
-        View backAction = findViewById(R.id.ImageView_BackIcon);
+        ImageView backAction = (ImageView) findViewById(R.id.ImageView_BackIcon);
         if (this.backActionAvailable) {
             backAction.setVisibility(View.VISIBLE);
             iv.setClickable(true);

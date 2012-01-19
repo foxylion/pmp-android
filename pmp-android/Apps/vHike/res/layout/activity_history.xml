@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp"
+    xmlns:pmp="http://schemas.android.com/apk/res/de.unistuttgart.ipvs.pmp.apps.vhike"
     xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -9,14 +9,14 @@
     android:background="@drawable/bg_blur"
     android:orientation="vertical" >
 
-     <de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView
+     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:id="@+id/btv"
         pmp:name="@string/history_title_menu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:icon="@drawable/logo_rd"
         pmp:textColor="@color/dark_blue" >
-    </de.unistuttgart.ipvs.pmp.apps.vhike.gui.view.BasicTitleView>
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
      
      <LinearLayout
          android:id="@+id/linearLayout1"
