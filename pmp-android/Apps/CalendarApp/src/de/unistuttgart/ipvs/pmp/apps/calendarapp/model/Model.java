@@ -296,12 +296,23 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        dayAppointments.clear();
-        adapters.clear();
-        arrayAdapter.reset();
-        
-        arrayAdapter.notifyDataSetChanged();
-        appContext.updateNoAvaiableAppointmentsTextView();
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        dayAppointments.clear();
+                        adapters.clear();
+                        arrayAdapter.reset();
+                        
+                        arrayAdapter.notifyDataSetChanged();
+                        appContext.updateNoAvaiableAppointmentsTextView();
+                    }
+                });
+            }
+        }.start();
     }
     
     
@@ -309,11 +320,22 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalListWithoutTextViewUpdate() {
-        dayAppointments.clear();
-        adapters.clear();
-        arrayAdapter.reset();
-        
-        arrayAdapter.notifyDataSetChanged();
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        dayAppointments.clear();
+                        adapters.clear();
+                        arrayAdapter.reset();
+                        
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }.start();
     }
     
     

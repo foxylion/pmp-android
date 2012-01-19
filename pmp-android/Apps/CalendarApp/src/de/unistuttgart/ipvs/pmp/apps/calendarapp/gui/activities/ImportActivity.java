@@ -32,7 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
@@ -132,7 +132,7 @@ public class ImportActivity extends ListActivity {
          * Called when the user presses sth. in the menu that appears while long clicking
          */
         if (aItem.getItemId() == 0) {
-            if (((App) this.getApplication()).isServiceFeatureEnabled("export")) {
+            if (PMP.get().isServiceFeatureEnabled("export")) {
                 new FileSystemConnector().deleteFile(clicked);
             } else {
                 String[] req = new String[1];

@@ -25,7 +25,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
@@ -100,8 +100,7 @@ public class UiManager {
                     
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        App app = ((App) Model.getInstance().getContext().getApplication());
-                        app.requestServiceFeatures(requested);
+                        PMP.get().requestServiceFeatures(requested);
                     }
                 });
         
