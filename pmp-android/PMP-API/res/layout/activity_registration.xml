@@ -1,93 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
     android:orientation="vertical" >
+
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="@string/step_1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/icon" >
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="75dp"
-        android:background="@drawable/semitransparentlayer"
-        android:orientation="vertical"
-        android:padding="5dp" >
+        android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+        <ProgressBar
+            android:id="@+id/ProgressBar_PendingRegistration"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:text="Registration-Process"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffff" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <ProgressBar
-                    android:id="@+id/ProgressBar_PendingRegistration"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/TextView_Description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="The registration is runnig. Please wait, the App will be opened immediately."
-                    android:textColor="#ffffff" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/TextView_Failure_MissingActivity"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="FAILED: The registration couldn\&apos;t be executed, because the developer did something wrong. (No MainActivity was defined in the AndroidManifest.xml)"
-                android:textColor="#ffffff"
-                android:visibility="gone" />
-            <TextView
-                android:id="@+id/TextView_Failure_MissingPMP"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="FAILED: PMP is not installed, try that first and reopen the App afterwards."
-                android:textColor="#ffffff"
-                android:visibility="gone" />
-            
-            <TextView
-                android:id="@+id/TextView_Failure_Error"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="FAILED: PMP rejected the installation request. Try to contact the developer of the App."
-                android:textColor="#ffffff"
-                android:visibility="gone" />
-            
-            <TextView
-                android:id="@+id/TextView_Failure_ErrorMessage"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#ffffff"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/Button_Close"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/TextView_Description"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Close Application"
-            android:visibility="gone" />
+            android:text="The registration is runnig. Please wait, the App will be opened immediately."
+            android:textColor="#ffffff" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/TextView_Failure_MissingActivity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="FAILED: The registration couldn\&apos;t be executed, because the developer did something wrong. (No MainActivity was defined in the AndroidManifest.xml)"
+        android:textColor="#ffffff"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/TextView_Failure_MissingPMP"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="FAILED: PMP is not installed, try that first and reopen the App afterwards."
+        android:textColor="#ffffff"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/TextView_Failure_Error"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="FAILED: PMP rejected the installation request. Try to contact the developer of the App."
+        android:textColor="#ffffff"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/TextView_Failure_ErrorMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#ffffff"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/Button_Close"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Close Application"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="undefined">- UNDEFINED -</string>
+    <string name="pmp">Privacy Management Platform</string>
+    <string name="step_1">Step 1 - Registration</string>
+</resources>

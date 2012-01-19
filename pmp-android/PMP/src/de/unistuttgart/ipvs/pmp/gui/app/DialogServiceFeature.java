@@ -11,7 +11,6 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.gui.view.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;

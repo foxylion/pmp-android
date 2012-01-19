@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.view;
+package de.unistuttgart.ipvs.pmp.gui.app;
 
 import android.content.Context;
 import android.text.Html;

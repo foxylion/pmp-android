@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.api.activity;
+package de.unistuttgart.ipvs.pmp.api.gui.registration;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -159,7 +159,7 @@ public class RegistrationActivity extends Activity {
     
     
     public void switchToDMainActivity() {
-        startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
+        //startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
     }
 }
 
