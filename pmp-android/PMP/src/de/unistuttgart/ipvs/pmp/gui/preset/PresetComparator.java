@@ -4,6 +4,14 @@ import java.util.Comparator;
 
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
+/**
+ * This is a comparator for Presets.
+ * First sort priority: Deleted or not
+ * Second sort priority: Name of the Preset
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class PresetComparator implements Comparator<IPreset> {
     
     @Override
