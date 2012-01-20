@@ -63,7 +63,7 @@ public class BasicTitleView extends LinearLayout {
         this.context = context;
         
         this.title = "";
-        this.icon = R.drawable.icon_undefined;
+        this.icon = R.drawable.pmp_api_icon_undefined;
     }
     
     
@@ -87,7 +87,7 @@ public class BasicTitleView extends LinearLayout {
         
         this.title = asu.getString(AttributeSetUtil.ViewBasicTitle_name);
         
-        this.iconDrawable = asu.getDrawable(AttributeSetUtil.ViewBasicTitle_icon, R.drawable.icon_undefined);
+        this.iconDrawable = asu.getDrawable(AttributeSetUtil.ViewBasicTitle_icon, R.drawable.pmp_api_icon_undefined);
         
         this.backActionAvailable = asu.getBoolean(AttributeSetUtil.ViewBasicTitle_backButton, false);
         

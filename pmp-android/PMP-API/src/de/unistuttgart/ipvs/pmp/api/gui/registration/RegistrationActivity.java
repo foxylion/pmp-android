@@ -159,7 +159,7 @@ public class RegistrationActivity extends Activity {
     
     
     public void switchToDMainActivity() {
-        //startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
+        startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
     }
 }
 

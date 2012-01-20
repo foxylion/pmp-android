@@ -14,14 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_back" />
+            android:src="@drawable/pmp_api_icon_back" />
 
         <ImageView
             android:id="@+id/ImageView_Icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_undefined" />
+            android:src="@drawable/pmp_api_icon_undefined" />
 
         <TextView
             android:id="@+id/TextView_Title"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingLeft="5dp"
-            android:text="@string/undefined"
+            android:text="@string/pmp_api_undefined"
             android:textSize="15dp"
             android:textStyle="bold" />
     </LinearLayout>
