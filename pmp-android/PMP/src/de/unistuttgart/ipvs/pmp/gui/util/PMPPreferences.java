@@ -7,15 +7,20 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
 
 /**
- * The {@link PMPPreferences} do provide informations like the current state of the expert mode.
+ * The {@link PMPPreferences} do provide informations like the current state of the expert mode or the visibility of the
+ * preset trash bin.
  * 
- * @author Jakob Jarosch
+ * @author Jakob Jarosch, Marcus Vetter
  */
 public class PMPPreferences {
     
     private static final String PREFERENCES_NAME = "PMPSettings";
     
+    /**
+     * The keys
+     */
     private static final String KEY_EXPERT_MODE = "ExpertMode";
+    private static final String KEY_PRESET_TRASH_BIN_VISIBLE = "PresetTrashBin";
     
     private SharedPreferences settings;
     
@@ -65,5 +70,26 @@ public class PMPPreferences {
         if (!mode) {
             SimpleModel.getInstance().convertExpertToSimple(ModelProxy.get());
         }
+    }
+    
+    
+    /**
+     * @return The current visibility of the preset trash bin
+     */
+    public boolean isPresetTrashBinVisible() {
+        return this.settings.getBoolean(KEY_PRESET_TRASH_BIN_VISIBLE, true);
+    }
+    
+    
+    /**
+     * Set the visibility of the preset trash bin
+     * 
+     * @param visible
+     *            flag of the visibility
+     */
+    public void setPresetTrashBinVisible(boolean visible) {
+        SharedPreferences.Editor editor = this.settings.edit();
+        editor.putBoolean(KEY_PRESET_TRASH_BIN_VISIBLE, visible);
+        editor.commit();
     }
 }
