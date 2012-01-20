@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.gui.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.AttributeSetUtil;
 
 /**
  * Basic Title for layouts. Very similar to the Android 4.0 titles (compare to settings-menu).
@@ -77,15 +77,25 @@ public class BasicTitleView extends LinearLayout {
         
         this.context = context;
         
+        for (int i = 0; i < attrs.getAttributeCount(); i++) {
+            System.out.println(attrs.getAttributeName(i) + " :: " + attrs.getAttributeNameResource(i) + " :: "
+                    + attrs.getAttributeValue(i));
+        }
+        
         /* Load the styles from the xml assigned values */
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BasicTitleView);
-        this.title = a.getString(R.styleable.BasicTitleView_name);
-        this.icon = a.getResourceId(R.styleable.BasicTitleView_icon, R.drawable.icon_undefined);
+        AttributeSetUtil asu = new AttributeSetUtil(getContext(), attrs);
         
-        this.backActionAvailable = a.getBoolean(R.styleable.BasicTitleView_backButton, false);
+        this.title = asu.getString(AttributeSetUtil.ViewBasicTitle_name);
         
-        this.borderColor = a.getColor(R.styleable.BasicTitleView_borderColor, Color.parseColor("#ff8c00"));
-        this.textColor = a.getColor(R.styleable.BasicTitleView_textColor, Color.WHITE);
+        this.iconDrawable = asu.getDrawable(AttributeSetUtil.ViewBasicTitle_icon, R.drawable.icon_undefined);
+        
+        this.backActionAvailable = asu.getBoolean(AttributeSetUtil.ViewBasicTitle_backButton, false);
+        
+        this.borderColor = asu.getColor(AttributeSetUtil.ViewBasicTitle_borderColor, Color.parseColor("#ff8c00"));
+        this.textColor = asu.getColor(AttributeSetUtil.ViewBasicTitle_textColor, Color.WHITE);
+        
+        System.out.println(this.title + " :: " + this.icon + " :: " + this.backActionAvailable + " :: "
+                + this.borderColor + " :: " + this.textColor);
     }
     
     
