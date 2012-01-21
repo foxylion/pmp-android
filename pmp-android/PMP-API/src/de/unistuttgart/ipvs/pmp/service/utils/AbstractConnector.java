@@ -40,6 +40,7 @@ import de.unistuttgart.ipvs.pmp.Log;
  * 
  * @author Jakob Jarosch
  */
+@Deprecated
 public abstract class AbstractConnector {
     
     /**
@@ -48,6 +49,7 @@ public abstract class AbstractConnector {
      * @author Tobias Kuhn
      * 
      */
+    @Deprecated
     private final class ConnectorServiceConnection implements ServiceConnection {
         
         @Override
@@ -84,6 +86,7 @@ public abstract class AbstractConnector {
         }
     }
     
+    @Deprecated
     public enum ConnectionState {
         CONNECTED,
         DISCONNECTED,
@@ -144,6 +147,7 @@ public abstract class AbstractConnector {
     /**
      * Binds the {@link Service} asynchronously.
      */
+    @Deprecated
     public void bind() {
         if (!isBound()) {
             final Intent intent = new Intent(this.targetIdentifier);
@@ -167,6 +171,7 @@ public abstract class AbstractConnector {
     }
     
     
+    @Deprecated
     public boolean bind(boolean blocking) {
         if (blocking) {
             this.semaphore.drainPermits();
@@ -189,6 +194,7 @@ public abstract class AbstractConnector {
     /**
      * Unbind the {@link Service}.
      */
+    @Deprecated
     public void unbind() {
         if (isBound()) {
             this.context.unbindService(this.serviceConnection);
@@ -200,6 +206,7 @@ public abstract class AbstractConnector {
     /**
      * @return true when the service is bound, false if not.
      */
+    @Deprecated
     public boolean isBound() {
         return this.connected;
     }
@@ -211,6 +218,7 @@ public abstract class AbstractConnector {
      * @param connectorCallback
      *            {@link AbstractConnectorCallback} object which should be added
      */
+    @Deprecated
     public void addCallbackHandler(AbstractConnectorCallback connectorCallback) {
         this.callbackHandler.add(connectorCallback);
     }
@@ -222,6 +230,7 @@ public abstract class AbstractConnector {
      * @param connectorCallback
      *            {@link AbstractConnectorCallback} object which should be removed
      */
+    @Deprecated
     public void removeCallbackHandler(AbstractConnectorCallback connectorCallback) {
         this.callbackHandler.remove(connectorCallback);
     }

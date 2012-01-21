@@ -32,6 +32,7 @@ import android.os.RemoteException;
  * 
  * @author Jakob Jarosch
  */
+@Deprecated
 public abstract class AbstractConnectorCallback {
     
     /**
@@ -40,6 +41,7 @@ public abstract class AbstractConnectorCallback {
      * @param connector
      *            the {@link AbstractConnector} from which this method was invoked
      */
+    @Deprecated
     public void onConnect(AbstractConnector connector) throws RemoteException {
     }
     
@@ -50,6 +52,7 @@ public abstract class AbstractConnectorCallback {
      * @param connector
      *            the {@link AbstractConnector} from which this method was invoked
      */
+    @Deprecated
     public void onDisconnect(AbstractConnector connector) {
     }
     
@@ -60,6 +63,7 @@ public abstract class AbstractConnectorCallback {
      * @param connector
      *            the {@link AbstractConnector} from which this method was invoked
      */
+    @Deprecated
     public void onBindingFailed(AbstractConnector connector) {
         // the only time this is called there is already a log written from the AbstractConnector
     }

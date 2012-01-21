@@ -22,14 +22,13 @@ package de.unistuttgart.ipvs.pmp.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.app.App;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 
 /**
- * <p>
- * External service for communication between PMP and the {@link App}. <br>
- * <b>Normally you will use the {@link PMPServiceConnector} for connection the {@link PMPService}. </b>
- * </p>
+ * 
+ * External service for communication between PMP and {@link App}s. Do not directly connect to the service, use the
+ * {@link PMP} API instead.
+ * 
  * 
  * @author Jakob Jarosch
  */
@@ -37,7 +36,7 @@ public class PMPService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
-        return new PMPServiceStubImpl();
+        return new PMPServiceImplementation();
     }
     
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PMPTest" default="help">
+<project name="PMP-API" default="help">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
@@ -57,9 +57,16 @@
     /* This is typically used for code obfuscation.
        Compiled code location: ${out.classes.absolute.dir}
        If this is not done in place, override ${out.dex.input.absolute.dir} */
-    <target name="-post-compile">
+--> 
+<!-- This should copy all libraries to the main PMP classpath so that the test can actually be compiled -->
+    <target name="-pre-compile">
+		<copy toDir="../../PMP/bin/classes">
+		  <fileset dir="../../PMP-API/bin/classes">
+			<include name="**/*.*" />
+		  </fileset>
+		</copy>
     </target>
--->
+
 
     <!-- Import the actual build file.
 
@@ -79,7 +86,7 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
-    <!-- version-tag: 1 -->
+    <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
 </project>

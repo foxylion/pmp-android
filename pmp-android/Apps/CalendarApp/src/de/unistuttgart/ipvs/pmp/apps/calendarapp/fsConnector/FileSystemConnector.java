@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,20 +35,19 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.CalendarAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities.ImportActivity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ExportDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Severity;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.FileDetails;
 import de.unistuttgart.ipvs.pmp.resourcegroups.filesystem.resources.IFileAccess;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
 /**
  * This class is implemented with the singleton pattern and provides the interface to the resource group "file system"
@@ -75,14 +75,9 @@ public class FileSystemConnector {
     private static final String resourceIdentifier = "ext_download";
     
     /**
-     * Context of the app
+     * Identifier to get the resource
      */
-    private CalendarAppActivity appContext = Model.getInstance().getContext();
-    
-    /**
-     * Package name of the calendar app
-     */
-    private String pkgName = Model.getInstance().getContext().getPackageName();
+    private PMPResourceIdentifier pmpIdentifier = PMPResourceIdentifier.make(rgIdentifier, resourceIdentifier);
     
     /**
      * The import string
@@ -102,7 +97,7 @@ public class FileSystemConnector {
         
         // Check, if the filename is valid
         if (!fileName.matches("[[a-zA-Z0-9]|.|_|\\-| ]*")) {
-            DialogManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
+            UiManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
             Log.d("Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
             return;
         }
@@ -153,25 +148,21 @@ public class FileSystemConnector {
         exportStringBuilder.append("END:VCALENDAR");
         exportString = exportStringBuilder.toString();
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                Looper.prepare();
                 if (binder != null) {
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
-                        
-                        // Create the folder
-                        ifa.makeDirs(FOLDER_NAME);
                         
                         // Write the file
                         boolean success = ifa.write(FOLDER_NAME + "/" + fileName, exportString, false);
                         
                         // if exporting worked successfully, add the file to the model list
                         if (success) {
-                            listStoredFiles(FileSystemListActionType.NONE);
+                            prepare(FileSystemListActionType.NONE);
                             Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -181,23 +172,14 @@ public class FileSystemConnector {
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
         });
-        pmpconnector.bind();
     }
     
     
@@ -211,14 +193,13 @@ public class FileSystemConnector {
         // clear the import string
         this.importString = null;
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
                     try {
+                        Looper.prepare();
                         // The file access interface
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         //              List of appointments to add
@@ -239,12 +220,16 @@ public class FileSystemConnector {
                             boolean success = true;
                             
                             // Check meta data
-                            boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
-                            boolean rowTwo = importArray[1].equals("VERSION:2.0");
-                            boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
-                            boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
-                            if (!(rowOne && rowTwo && rowThree && rowLast)) {
-                                Log.e("Import meta data is invalid");
+                            if (importArray.length > 3) {
+                                boolean rowOne = importArray[0].equals("BEGIN:VCALENDAR");
+                                boolean rowTwo = importArray[1].equals("VERSION:2.0");
+                                boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
+                                boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
+                                if (!(rowOne && rowTwo && rowThree && rowLast)) {
+                                    Log.e("Import meta data is invalid");
+                                    success = false;
+                                }
+                            } else {
                                 success = false;
                             }
                             
@@ -298,6 +283,9 @@ public class FileSystemConnector {
                                                 case 6:
                                                     severity = Severity.LOW;
                                                     break;
+                                                default:
+                                                    success = false;
+                                                    break;
                                             }
                                         }
                                         break;
@@ -313,16 +301,34 @@ public class FileSystemConnector {
                                                 success = false;
                                                 Log.e("Date does not match the regular expression pattern!");
                                             } else {
-                                                GregorianCalendar cal = new GregorianCalendar(Integer
-                                                        .valueOf(dateString.substring(0, 4)), Integer
-                                                        .valueOf(dateString.substring(4, 6)) - 1, Integer
-                                                        .valueOf(dateString.substring(6, 8)), Integer
-                                                        .valueOf(dateString.substring(9, 11)), Integer
-                                                        .valueOf(dateString.substring(11, 13)), Integer
-                                                        .valueOf(dateString.substring(13, 15)));
-                                                // Add the appointment to the list for importing
-                                                importAppointmentList.add(new Appointment(-1, name, description, cal
-                                                        .getTime(), severity));
+                                                SimpleDateFormat formatterDate = new SimpleDateFormat("yyyyMMdd",
+                                                        Locale.getDefault());
+                                                SimpleDateFormat formatterTime = new SimpleDateFormat("HHmmss", Locale
+                                                        .getDefault());
+                                                
+                                                formatterDate.setLenient(false);
+                                                formatterTime.setLenient(false);
+                                                try {
+                                                    //Check the date if its an existing date
+                                                    formatterDate.parse(dateString.substring(0, 8));
+                                                    
+                                                    // Check the time
+                                                    formatterTime.parse(dateString.substring(9, 15));
+                                                    
+                                                    GregorianCalendar cal = new GregorianCalendar(Integer
+                                                            .valueOf(dateString.substring(0, 4)), Integer
+                                                            .valueOf(dateString.substring(4, 6)) - 1, Integer
+                                                            .valueOf(dateString.substring(6, 8)), Integer
+                                                            .valueOf(dateString.substring(9, 11)), Integer
+                                                            .valueOf(dateString.substring(11, 13)), Integer
+                                                            .valueOf(dateString.substring(13, 15)));
+                                                    // Add the appointment to the list for importing
+                                                    importAppointmentList.add(new Appointment(-1, name, description,
+                                                            cal.getTime(), severity));
+                                                } catch (ParseException e) {
+                                                    success = false;
+                                                }
+                                                
                                             }
                                         }
                                         break;
@@ -340,12 +346,10 @@ public class FileSystemConnector {
                                 Log.e("Import data invalid; imported as far as posible");
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
+                                UiManager.getInstance().getImportActivity().finish();
                             } else {
-                                                             
-                                Model.getInstance().clearLocalList();
-
-                                SqlConnector sqlCon = new SqlConnector();
                                 
+                                SqlConnector sqlCon = new SqlConnector();
                                 sqlCon.storeAppointmentListInEmptyList(importAppointmentList);
                                 
                                 Log.d("Import succeed");
@@ -357,23 +361,14 @@ public class FileSystemConnector {
                         
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
                 } else {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
         });
-        pmpconnector.bind();
     }
     
     
@@ -383,30 +378,25 @@ public class FileSystemConnector {
      * @param type
      *            Type of invoked action after listing the files successfully.
      */
-    public void listStoredFiles(final FileSystemListActionType type) {
+    public void prepare(final FileSystemListActionType type) {
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
+                    Looper.prepare();
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         
                         // list the files and add it to the model (and clear the model)
                         Model.getInstance().clearFileList();
-                        List<FileDetails> fileList = new ArrayList<FileDetails>();
                         
                         // Flag, if the next action should be invoked or not
                         boolean invokeNextAction = false;
                         
                         try {
-                            fileList = ifa.list(FOLDER_NAME);
-                            for (FileDetails file : fileList) {
-                                Model.getInstance().addFileToList(file);
-                            }
+                            ifa.list(FOLDER_NAME);
                             invokeNextAction = true;
                         } catch (Exception e) {
                             boolean makeDir = ifa.makeDirs(FOLDER_NAME);
@@ -427,7 +417,7 @@ public class FileSystemConnector {
                                     List<Appointment> appointments = Model.getInstance().getAppointmentList();
                                     if (appointments == null || appointments.size() == 0) {
                                         Log.d("Can not export appointment. There are no appointments available!");
-                                        DialogManager.getInstance().showAppointmentsListEmptyDialog(
+                                        UiManager.getInstance().showAppointmentsListEmptyDialog(
                                                 Model.getInstance().getContext());
                                     } else {
                                         // Open dialog for entering a file name
@@ -449,23 +439,13 @@ public class FileSystemConnector {
                         
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
+                    } finally {
+                        Looper.loop();
                     }
-                } else {
-                    Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
         });
-        pmpconnector.bind();
+        
     }
     
     
@@ -477,12 +457,11 @@ public class FileSystemConnector {
      */
     public void deleteFile(final FileDetails file) {
         
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(this.appContext);
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                IBinder binder = pmpconnector.getAppService().getResource(pkgName, rgIdentifier, resourceIdentifier);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                Looper.prepare();
                 if (binder != null) {
                     Log.d(rgIdentifier + " connected");
                     try {
@@ -492,9 +471,10 @@ public class FileSystemConnector {
                         boolean success = ifa.delete(FOLDER_NAME + "/" + file.getName());
                         if (success) {
                             Model.getInstance().removeFileFromList(file);
-                            listStoredFiles(FileSystemListActionType.NONE);
+                            prepare(FileSystemListActionType.NONE);
                             Toast.makeText(Model.getInstance().getImportContext(), R.string.delete_file_toast,
                                     Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }
                     } catch (RemoteException e) {
                         Log.e("Remote Exception", e);
@@ -504,18 +484,62 @@ public class FileSystemConnector {
                     Log.e("Could not connect to filesystem ressource");
                 }
             }
-            
-            
-            @Override
-            public void onBindingFailed(AbstractConnector connector) {
-                Log.e("Could not connect to database resource");
-                Looper.prepare();
-                Toast.makeText(appContext, R.string.err_connect_fs, Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-            
         });
-        pmpconnector.bind();
     }
     
+    
+    /**
+     * Lists the files that are stored on the sd card folder (used while importing)
+     */
+    public void listFilesImport() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                if (binder != null) {
+                    Log.d(rgIdentifier + " connected");
+                    try {
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                        List<FileDetails> fileList = new ArrayList<FileDetails>();
+                        fileList = ifa.list(FOLDER_NAME);
+                        if (fileList != null) {
+                            for (FileDetails file : fileList) {
+                                Model.getInstance().addFileToList(file);
+                            }
+                        }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception", e);
+                    }
+                }
+            }
+        });
+    }
+    
+    
+    /**
+     * Lists the files that are stored on the sd card folder (used while exporting)
+     */
+    public void listFilesExport() {
+        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                if (binder != null) {
+                    Log.d(rgIdentifier + " connected");
+                    try {
+                        IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
+                        List<FileDetails> fileList = new ArrayList<FileDetails>();
+                        fileList = ifa.list(FOLDER_NAME);
+                        if (fileList != null) {
+                            for (FileDetails file : fileList) {
+                                Model.getInstance().addFileToListExport(file);
+                            }
+                        }
+                    } catch (RemoteException e) {
+                        Log.e("Remote Exception", e);
+                    }
+                }
+            }
+        });
+    }
 }

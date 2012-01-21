@@ -68,8 +68,7 @@ public class TabServiceFeatures extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
-                System.out.println("foobar");
-                ((ListItemServiceFeature) view).reactOnMouseClick();
+                ((ListItemServiceFeature) view).openServiceFeatureDialog();
             }
         });
         

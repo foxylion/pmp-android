@@ -19,83 +19,47 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp;
 
+import android.app.Application;
 import android.app.Dialog;
-import android.os.RemoteException;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.app.App;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.DialogManager;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.sqlConnector.SqlConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
 
-public class CalendarApp extends App {
+public class CalendarApp extends Application {
     
     static {
         Log.setTagSufix("CalendarApp");
     }
     
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.unistuttgart.ipvs.pmp.app.App#onRegistrationSuccess() Is called
-     * when the registration was successful. The method then tries to receive
-     * the initial service feature from the PMP service.
-     */
     @Override
-    public void onRegistrationSuccess() {
-        Log.d("Registration succeed");
-        
-        // Connector to get the initial service feature
-        final PMPServiceConnector pmpconnector = new PMPServiceConnector(getApplicationContext());
-        pmpconnector.addCallbackHandler(new AbstractConnectorCallback() {
-            
-            @Override
-            public void onConnect(AbstractConnector connector) throws RemoteException {
-                pmpconnector.getAppService().getServiceFeatureUpdate(getPackageName());
-                DialogManager.getInstance().dismissWaitingDialog();
-                Toast.makeText(Model.getInstance().getContext(), R.string.registration_succeed, Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-        
-        // Connect to the service
-        pmpconnector.bind();
+    public void onCreate() {
+        super.onCreate();
+        PMP.get(this);
     }
     
-    
-    @Override
-    public void onRegistrationFailed(String message) {
-        Log.d("Registration failed:" + message);
-        DialogManager.getInstance().dismissWaitingDialog();
-    }
     
     /**
      * Changes the functionality of the app according to its set ServiceFeature
      */
-    public void changeFunctionalityAccordingToServiceFeature() {
+    public void changeFunctionalityAccordingToServiceFeature(Boolean registered) {
         
-        final Boolean read = this.isServiceFeatureEnabled("read");
-        final Boolean write = this.isServiceFeatureEnabled("write");
+        final Boolean read = PMP.get().isServiceFeatureEnabled("read");
+        final Boolean write = PMP.get().isServiceFeatureEnabled("write");
         
-        if (!read) {
-            // no feature
-            Model.getInstance().clearLocalList();
-        } else {
+        // Clear the local list because you don't know if you can display the appointments
+        Model.getInstance().clearLocalList();
+        
+        if (read) {
             // Read files
             new SqlConnector().loadAppointments();
-            
-            //Scroll to the actual date
-            Model.getInstance().getContext().getListView()
-                    .setSelection(Model.getInstance().getArrayAdapter().getActualAppointmentPosition());
         }
         
         /*
@@ -107,10 +71,16 @@ public class CalendarApp extends App {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object clicked = Model.getInstance().getArrayAdapter().getItem(position);
-                if (clicked instanceof Appointment && write) {
-                    Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
-                            (Appointment) clicked);
-                    changeDateDialog.show();
+                if (write) {
+                    if (clicked instanceof Appointment) {
+                        Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
+                                (Appointment) clicked);
+                        changeDateDialog.show();
+                    }
+                } else {
+                    String[] requested = new String[1];
+                    requested[0] = "write";
+                    UiManager.getInstance().showServiceFeatureInsufficientDialog(requested);
                 }
             }
         });

@@ -19,11 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.model;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -49,12 +46,12 @@ public class Model {
     /**
      * Stores for every existing day a list of {@link Appointment}s
      */
-    private HashMap<String, ArrayList<Appointment>> dayAppointments = new HashMap<String, ArrayList<Appointment>>();
+    private HashMap<Long, ArrayList<Appointment>> dayAppointments = new HashMap<Long, ArrayList<Appointment>>();
     
     /**
      * {@link HashMap} for storing the adapters of one day
      */
-    private HashMap<String, AppointmentArrayAdapter> adapters = new HashMap<String, AppointmentArrayAdapter>();
+    private HashMap<Long, AppointmentArrayAdapter> adapters = new HashMap<Long, AppointmentArrayAdapter>();
     
     /**
      * Holds all files for importing
@@ -65,6 +62,11 @@ public class Model {
      * The context of the app
      */
     private CalendarAppActivity appContext;
+    
+    /**
+     * Handler of the {@link ImportActivity}
+     */
+    private Handler importHandler;
     
     /**
      * Handler of the {@link CalendarAppActivity}
@@ -188,7 +190,7 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        String key = creatKey(appointment.getDate());
+                        Long key = creatKey(appointment.getDate());
                         if (dayAppointments.containsKey(key)) {
                             dayAppointments.get(key).add(appointment);
                         } else {
@@ -198,7 +200,7 @@ public class Model {
                             AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext,
                                     R.layout.list_item, appointmentList);
                             adapters.put(key, adapter);
-                            arrayAdapter.addSection(appointment.getDateString(), adapter);
+                            arrayAdapter.addSection(key, adapter);
                         }
                         
                         arrayAdapter.notifyDataSetChanged();
@@ -233,7 +235,7 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        String key = creatKey(oldDate);
+                        Long key = creatKey(oldDate);
                         
                         Appointment toDel = null;
                         if (dayAppointments.containsKey(key)) {
@@ -283,7 +285,7 @@ public class Model {
      */
     public ArrayList<Appointment> getAppointmentList() {
         ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-        for (Entry<String, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
+        for (Entry<Long, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
             appointmentList.addAll(entry.getValue());
         }
         return appointmentList;
@@ -299,12 +301,23 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalList() {
-        dayAppointments.clear();
-        arrayAdapter.reset();
-        adapters.clear();
-        
-        arrayAdapter.notifyDataSetChanged();
-        appContext.updateNoAvaiableAppointmentsTextView();
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        dayAppointments.clear();
+                        adapters.clear();
+                        arrayAdapter.reset();
+                        
+                        arrayAdapter.notifyDataSetChanged();
+                        appContext.updateNoAvaiableAppointmentsTextView();
+                    }
+                });
+            }
+        }.start();
     }
     
     
@@ -312,9 +325,22 @@ public class Model {
      * Clears the local stored list of dates but not the dates stored at the database
      */
     public void clearLocalListWithoutTextViewUpdate() {
-        this.dayAppointments.clear();
-        adapters.clear();
-        arrayAdapter.removeEmptyHeadersAndSections();
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        dayAppointments.clear();
+                        adapters.clear();
+                        arrayAdapter.reset();
+                        
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }.start();
     }
     
     
@@ -355,16 +381,32 @@ public class Model {
      * @param file
      *            to remove
      */
-    public void removeFileFromList(FileDetails file) {
-        this.fileList.remove(file);
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
-        }
-        
-        // Update the visibility of the "no files avaiable" textview
-        if (getImportContext() != null) {
-            getImportContext().updateNoAvaiableFilesTextView();
-        }
+    public void removeFileFromList(final FileDetails file) {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                importHandler.post(new Runnable() {
+                    
+                    public void run() {
+                        fileList.remove(file);
+                        if (importArrayAdapter != null) {
+                            importArrayAdapter.notifyDataSetChanged();
+                        }
+                        
+                        // Update the visibility of the "no files available" textview
+                        if (getImportContext() != null) {
+                            getImportContext().updateNoAvaiableFilesTextView();
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+    
+    
+    public void addImportHandler(Handler handler) {
+        this.importHandler = handler;
     }
     
     
@@ -374,13 +416,43 @@ public class Model {
      * @param file
      *            to add
      */
-    public void addFileToList(FileDetails file) {
-        this.fileList.add(file);
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
+    public void addFileToList(final FileDetails file) {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                importHandler.post(new Runnable() {
+                    
+                    public void run() {
+                        fileList.add(file);
+                        if (importArrayAdapter != null) {
+                            importArrayAdapter.notifyDataSetChanged();
+                        }
+                        
+                        // Update the visibility of the "no files available" textview
+                        if (getImportContext() != null) {
+                            getImportContext().updateNoAvaiableFilesTextView();
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+    
+    
+    /**
+     * Adds the {@link FileDetails} to the list but without a handler
+     * 
+     * @param file
+     *            to add
+     */
+    public void addFileToListExport(FileDetails file) {
+        fileList.add(file);
+        if (importArrayAdapter != null) {
+            importArrayAdapter.notifyDataSetChanged();
         }
         
-        // Update the visibility of the "no files avaiable" textview
+        // Update the visibility of the "no files available" textview
         if (getImportContext() != null) {
             getImportContext().updateNoAvaiableFilesTextView();
         }
@@ -391,9 +463,9 @@ public class Model {
      * Clear the file list of the model
      */
     public void clearFileList() {
-        this.fileList.clear();
-        if (this.importArrayAdapter != null) {
-            this.importArrayAdapter.notifyDataSetChanged();
+        fileList.clear();
+        if (importArrayAdapter != null) {
+            importArrayAdapter.notifyDataSetChanged();
         }
         
         // Update the visibility of the "no files avaiable" textview
@@ -463,15 +535,12 @@ public class Model {
     
     
     /**
-     * Creates a key for getting an arraylist of {@link Appointment}s.
+     * Creates a key for getting an {@link ArrayList} of {@link Appointment}s.
      * 
      * @return string representation
      */
-    private String creatKey(Date date) {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-        return dateFormat.format(cal.getTime());
+    private Long creatKey(Date date) {
+        return date.getTime();
     }
     
     
@@ -489,10 +558,10 @@ public class Model {
                 handler.post(new Runnable() {
                     
                     public void run() {
-                        ArrayList<String> toDelete = new ArrayList<String>();
+                        ArrayList<Long> toDelete = new ArrayList<Long>();
                         
                         // Search the correct list of this day
-                        for (Entry<String, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
+                        for (Entry<Long, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
                             if (dayList.getValue().contains(appointment)) {
                                 
                                 // Delete the entry out of this day list
@@ -511,7 +580,7 @@ public class Model {
                         }
                         
                         // Delete the day lists out of the whole list
-                        for (String del : toDelete) {
+                        for (Long del : toDelete) {
                             dayAppointments.remove(del);
                         }
                         arrayAdapter.notifyDataSetChanged();
@@ -577,5 +646,24 @@ public class Model {
      */
     public void addHandler(Handler handler) {
         this.handler = handler;
+    }
+    
+    
+    /**
+     * Scrolls to the actual date
+     */
+    public void scrollToActualDate() {
+        new Thread() {
+            
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    
+                    public void run() {
+                        appContext.getListView().setSelection(arrayAdapter.getActualAppointmentPosition());
+                    }
+                });
+            }
+        }.start();
     }
 }

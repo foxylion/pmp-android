@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.unistuttgart.ipvs.pmp"
+    package="de.unistuttgart.ipvs.pmp.apps.vhike"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -18,7 +18,7 @@
 
         <!-- Activities can be declared here -->
         <activity
-            android:name=".apps.vhike.gui.LoginActivity"
+            android:name=".gui.LoginActivity"
             android:icon="@drawable/logo_rd"
             android:label="vHike" >
             <intent-filter>
@@ -28,41 +28,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".apps.vhike.gui.RegisterActivity"
+            android:name=".gui.RegisterActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.MainActivity"
+            android:name=".gui.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.RideActivity"
+            android:name=".gui.RideActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.SettingsActivity"
+            android:name=".gui.SettingsActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.tools.Prefs"
+            android:name=".tools.Prefs"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.DriverViewActivity"
+            android:name=".gui.DriverViewActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.PassengerViewActivity"
+            android:name=".gui.PassengerViewActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.ProfileActivity"
+            android:name=".gui.ProfileActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name=".apps.vhike.gui.HistoryActivity" >
+        <activity android:name=".gui.HistoryActivity" >
         </activity>
         <activity
-            android:name=".apps.vhike.gui.HistoryMenuActivity"
+            android:name=".gui.HistoryMenuActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>

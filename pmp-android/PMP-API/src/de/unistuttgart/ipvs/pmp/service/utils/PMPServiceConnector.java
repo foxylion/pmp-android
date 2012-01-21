@@ -31,13 +31,16 @@ import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
  * 
  * @author Jakob Jarosch
  */
+@Deprecated
 public class PMPServiceConnector extends AbstractConnector {
     
+    @Deprecated
     public PMPServiceConnector(Context context) {
         super(context, Constants.PMP_IDENTIFIER);
     }
     
     
+    @Deprecated
     public IPMPService getAppService() {
         if (isCorrectBinder(IPMPService.class)) {
             return IPMPService.Stub.asInterface(getService());

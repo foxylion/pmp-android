@@ -60,6 +60,7 @@ public class ExportDialog extends Dialog {
      */
     public ExportDialog(Context context) {
         super(context);
+        new FileSystemConnector().listFilesExport();
     }
     
     
@@ -79,7 +80,7 @@ public class ExportDialog extends Dialog {
         this.confirm.setOnClickListener(new ConfirmListener());
         
         /*
-         * Neeeded to fill the width of the screen
+         * Needed to fill the width of the screen
          */
         getWindow().setLayout(android.view.ViewGroup.LayoutParams.FILL_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -99,39 +100,46 @@ public class ExportDialog extends Dialog {
         public void onClick(View v) {
             
             final String fileName = ExportDialog.this.fileTextView.getText().toString();
-            
-            if (!Model.getInstance().isFileNameExisting(fileName)) {
-                Log.d("Exporting...");
-                new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(), fileName);
+            if (fileName.length() != 0) {
+                if (!Model.getInstance().isFileNameExisting(fileName)) {
+                    Log.d("Exporting...");
+                    new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(), fileName);
+                } else {
+                    Log.d("Filename already exists!");
+                    
+                    // Show the confirm dialog for overwriting the file
+                    new AlertDialog.Builder(Model.getInstance().getContext())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.export_override_question)
+                            .setMessage(R.string.export_override_attention)
+                            .setPositiveButton(R.string.export_override_conf, new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Override the file
+                                    Log.d("Exporting... Filename: " + fileName);
+                                    new FileSystemConnector().exportAppointments(Model.getInstance()
+                                            .getAppointmentList(), fileName);
+                                }
+                                
+                            })
+                            .setNegativeButton(R.string.export_override_cancel, new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_cancel,
+                                            Toast.LENGTH_SHORT).show();
+                                    Log.d("Exporting canceled.");
+                                }
+                            }).show();
+                    
+                }
+                
+                dismiss();
             } else {
-                Log.d("Filename already exists!");
-                
-                // Show the confirm dialog for overwriting the file
-                new AlertDialog.Builder(Model.getInstance().getContext()).setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.export_override_question).setMessage(R.string.export_override_attention)
-                        .setPositiveButton(R.string.export_override_conf, new DialogInterface.OnClickListener() {
-                            
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Override the file
-                                Log.d("Exporting... Filename: " + fileName);
-                                new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(),
-                                        fileName);
-                            }
-                            
-                        }).setNegativeButton(R.string.export_override_cancel, new DialogInterface.OnClickListener() {
-                            
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_cancel,
-                                        Toast.LENGTH_SHORT).show();
-                                Log.d("Exporting canceled.");
-                            }
-                        }).show();
-                
+                Toast.makeText(Model.getInstance().getContext(), R.string.export_error_filename, Toast.LENGTH_SHORT)
+                        .show();
             }
-            
-            dismiss();
         }
         
     }

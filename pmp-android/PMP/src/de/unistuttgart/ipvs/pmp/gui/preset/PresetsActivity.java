@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -244,9 +245,10 @@ public class PresetsActivity extends Activity {
         }
         
         // Set adapter
+        
+        Collections.sort(this.presetList, new PresetComparator());
         PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
         
     }
-    
 }

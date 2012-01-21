@@ -154,14 +154,21 @@ public class SimpleModel implements ISimpleModel {
             actives.remove(serviceFeature);
         }
         
-        // remove all previously assigned PS
-        for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
-            p.removePrivacySetting(ps);
-        }
-        
-        // assign SF
-        for (IServiceFeature sf : actives) {
-            p.assignServiceFeature(sf);
+        p.startUpdate();
+        try {
+            
+            // remove all previously assigned PS
+            for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
+                p.removePrivacySetting(ps);
+            }
+            
+            // assign SF
+            for (IServiceFeature sf : actives) {
+                p.assignServiceFeature(sf);
+            }
+            
+        } finally {
+            p.endUpdate();
         }
         
         return true;

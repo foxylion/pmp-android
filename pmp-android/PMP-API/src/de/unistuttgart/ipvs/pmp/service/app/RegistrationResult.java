@@ -28,6 +28,7 @@ import android.os.Parcelable;
  * 
  * @author Jakob Jarosch
  */
+@Deprecated
 public class RegistrationResult implements Parcelable {
     
     private boolean success;
@@ -37,6 +38,7 @@ public class RegistrationResult implements Parcelable {
     /**
      * @see RegistrationResult#RegistrationState(boolean, String)
      */
+    @Deprecated
     public RegistrationResult(boolean success) {
         this.success = success;
     }
@@ -50,6 +52,7 @@ public class RegistrationResult implements Parcelable {
      * @param message
      *            A message which describes what exactly is the reason for a failed registration.
      */
+    @Deprecated
     public RegistrationResult(boolean success, String message) {
         this.success = success;
         this.message = message;
@@ -59,6 +62,7 @@ public class RegistrationResult implements Parcelable {
     /**
      * @return Returns the success of the registration, true means successful, false means registration failed.
      */
+    @Deprecated
     public boolean getSuccess() {
         return this.success;
     }
@@ -67,6 +71,7 @@ public class RegistrationResult implements Parcelable {
     /**
      * @return Returns a message which describes what exactly is the reason for a failed registration.
      */
+    @Deprecated
     public String getMessage() {
         return this.message;
     }

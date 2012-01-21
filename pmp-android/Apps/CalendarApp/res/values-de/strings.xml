@@ -9,22 +9,20 @@
     <string name="change_todo_dialog">Termin ändern</string>
     <string name="delete">Löschen</string>
     <string name="send">Per E-Mail senden</string>
-    <string name="subject">Neuer Termin.</string>
+    <string name="subject">Neuer Termin</string>
     <string name="menu">Menü</string>
     <string name="wait">Bitte warten…</string>
     <string name="registration">Registrierung wird durchgeführt.</string>
-    <string name="registration_succeed">Erfolgreich bei PMP registriert</string>
+    <string name="registration_succeed">Erfolgreich bei PMP registriert.</string>
+    <string name="registration_failed">Registrierung fehlgeschlagen.</string>
     <string name="err_load">Fehler beim Lesen der Termins aus der Datenbank</string>
     <string name="err_store">Fehler beim Speichern in der Datenbank</string>
     <string name="err_del">Fehler beim Löschen eines Termins in der Datenbank</string>
     <string name="err_change">Fehler beim Ändern eines Termins in der Datenbank</string>
-    <string name="appoint">Termin:</string>
+    <string name="date">Datum: </string>
     <string name="import_appointments">Termine importieren</string>
     <string name="export_appointments">Termine exportieren</string>
     <string name="file_name">Dateiname:</string>
-    <string name="import_question">Diese Datei importieren?</string>
-    <string name="import_attention">Achtung: Die aktuelle Terminliste wird dabei
-		verloren gehen!</string>
     <string name="delete_all_appointments">Alle Termine löschen</string>
     <string name="delete_all_appointments_question">Möchten Sie wirklich alle Termineinträge löschen?</string>
     <string name="change_sf">Service Features ändern</string>
@@ -40,6 +38,7 @@
     <string name="export_toast_cancel">Exportieren wurden abgebrochen.</string>
     <string name="export_toast_succeed">Exportieren war erfolgreich.</string>
     <string name="export_toast_failed">Exportieren fehlgeschlagen.</string>
+    <string name="export_error_filename">Bitte Dateinamen eingeben.</string>
     <string name="delete_file_toast">Datei gelöscht.</string>
     <string name="import_data_invalid_toast">Importieren fehlgeschlagen.</string>
     <string name="import_succeed_toast">Importieren der Termine war erfolgreich.</string>
@@ -63,8 +62,7 @@
     <string name="severity_high">hoch</string>
     <string name="severity_middle">mittel</string>
     <string name="severity_low">niedrig</string>
-    <string name="err_connect_db">Konnte keine Verbindung zur Datenbank-Ressource herstellen</string>
-    <string name="err_connect_mail">Konnte keine Verbindung zur E-Mail-Ressource herstellen</string>
     <string name="err_connect_fs">Konnte keine Verbindung zur Dateisystem-Ressource herstellen</string>
+    <string name="no_reading">Das Lesen aus der Datenbank ist nicht erlaubt. Service-Feature bitte setzen um Termine anzuzeigen.</string>
 
 </resources>

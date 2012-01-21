@@ -16,7 +16,7 @@ public class GUIConstants {
     /**
      * Text colors
      */
-    public static final int COLOR_TEXT_GRAYED_OUT = Color.DKGRAY;
+    public static final int COLOR_TEXT_GRAYED_OUT = Color.GRAY;
     
     /**
      * Background colors

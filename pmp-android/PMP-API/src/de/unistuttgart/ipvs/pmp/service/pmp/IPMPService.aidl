@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.service.pmp;
 
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 
 /**
  * The Service of PMP provided for an app.
@@ -26,8 +27,9 @@ interface IPMPService {
      * 
      * @param appPackage
      *            the identifier for the app to register
+     *            @return the result of the registration
      */
-    void registerApp(String appPackage);
+    RegistrationResult registerApp(String appPackage);
     
     
     /**

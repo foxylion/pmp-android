@@ -94,15 +94,16 @@ public class PresetAddEditDialog extends Dialog {
         } else {
             // Fill the name field with a default name, if you want to add a Preset
             int number = 0;
-            LOOP: while (defaultName.equals("")) {
+            LOOP: while (this.defaultName.equals("")) {
                 number++;
                 for (IPreset preset : ModelProxy.get().getPresets()) {
-                    if (preset.getName().equals("Preset_" + number))
+                    if (preset.getName().equals("Preset_" + number)) {
                         continue LOOP;
+                    }
                 }
-                defaultName = "Preset_" + number;
+                this.defaultName = "Preset_" + number;
             }
-            this.name.setText(defaultName);
+            this.name.setText(this.defaultName);
         }
         
         // Add listener and watcher
@@ -148,8 +149,9 @@ public class PresetAddEditDialog extends Dialog {
             String defaultName = PresetAddEditDialog.this.defaultName;
             
             // Clear the name text field, if the text is equal to the default name
-            if (nameText.equals(defaultName))
+            if (nameText.equals(defaultName)) {
                 nameField.setText("");
+            }
             
         }
         
