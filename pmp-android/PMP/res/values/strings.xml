@@ -19,6 +19,7 @@
     <string name="change_value">Change value</string>
     <string name="choose_your_action">Choose your action</string>
     <string name="close">Close</string>
+    <string name="clear_trash_bin">Clear trash bin</string>
     <string name="confirm">Confirm</string>
     <string name="database">Database</string>
     <string name="delete_preset_permanently">Delete Preset permanently</string>
@@ -31,7 +32,7 @@
     <string name="edit_preset">Edit Preset</string>
     <string name="enable">Enable</string>
     <string name="expert_mode">Expert Mode</string>
-    <string name="hide_deleted">Hide deleted</string>
+    <string name="hide_trash_bin">Hide trash bin</string>
     <string name="icon">Icon</string>
     <string name="identifier">Identifier</string>
     <string name="install">Install</string>
@@ -40,6 +41,7 @@
     <string name="model">Model</string>
     <string name="name">Name</string>
     <string name="new_string">New</string>
+    <string name="no">No</string>
     <string name="open_app">Open App</string>
     <string name="please_enter_a_name">Please enter a name!</string>
     <string name="pmp">Privacy Management Platform</string>
@@ -58,8 +60,8 @@
     <string name="service_features">Service Features</string>
     <string name="settings">Settings</string>
     <string name="set_value">Set value</string>
-    <string name="show_deleted">Show deleted</string>
     <string name="show_details">Show details</string>
+    <string name="show_trash_bin">Show trash bin</string>
     <string name="statistics">Statistics</string>
     <string name="undefined">undefined string</string>
     <string name="uninstall">Uninstall</string>
@@ -67,6 +69,7 @@
     <string name="update_list">Update list</string>
     <string name="unregister_app">Unregister App</string>
     <string name="value">Value</string>
+    <string name="yes">Yes</string>
    
     <!-- Main -->
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
@@ -127,7 +130,7 @@
 	
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
-
+	<string name="presets_alert_clear_trash_bin">Are you sure to clear the trash bin?</string>
     <!-- One Preset / Tab: Assigned Apps -->
     <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
     <string name="preset_tab_apps_all_apps_assigned">All currently available Apps are already assigned.</string>

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -73,6 +76,12 @@ public class PresetsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.presets_menu, menu);
+        MenuItem item = menu.getItem(1);
+        if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
+            item.setTitle(R.string.hide_trash_bin);
+        } else {
+            item.setTitle(R.string.show_trash_bin);
+        }
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -84,19 +93,54 @@ public class PresetsActivity extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.presets_menu_add:
+                /*
+                 * Add a Preset
+                 */
                 PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, null);
                 dialog.setTitle(R.string.add_preset);
                 dialog.show();
                 break;
-            case R.id.presets_menu_show_deleted:
+            case R.id.presets_menu_show_trash_bin:
+                /*
+                 * Show the trash bin
+                 */
                 if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
                     PMPPreferences.getInstance().setPresetTrashBinVisible(false);
-                    item.setTitle(R.string.show_deleted);
+                    item.setTitle(R.string.show_trash_bin);
                 } else {
                     PMPPreferences.getInstance().setPresetTrashBinVisible(true);
-                    item.setTitle(R.string.hide_deleted);
+                    item.setTitle(R.string.hide_trash_bin);
                 }
                 updateList();
+                break;
+            case R.id.presets_menu_clear_trash_bin:
+                /*
+                 * Clear the trash bin
+                 */
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.presets_alert_clear_trash_bin)).setCancelable(false)
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            
+                            public void onClick(DialogInterface dialog, int id) {
+                                for (IPreset preset : ModelProxy.get().getPresets()) {
+                                    if (preset.isDeleted()) {
+                                        ModelProxy.get().removePreset(preset.getCreator(), preset.getLocalIdentifier());
+                                        Log.d("Deleted Preset \"" + preset.getName() + "\" (by cleaning the trash bin)");
+                                    }
+                                    
+                                }
+                                updateList();
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                
                 break;
         }
         return super.onMenuItemSelected(featureId, item);
