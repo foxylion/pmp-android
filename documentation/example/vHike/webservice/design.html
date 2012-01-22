@@ -16,10 +16,10 @@
   Noch fehlende Serives: E-Mail ändern, Passwort ändern
   -->
   <div id="wrapper">
-    <div id="page-head-date">22. Januar 2011</div>
+    <div id="page-head-date">22. Januar 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Entwurf - Webservice vHike</div>
-    <div id="page-version">Version 1.1</div>
+    <div id="page-version">Version 1.2</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -1278,10 +1278,10 @@
   "queries": [
     {"queryid": Integer, "userid": Integer, "username": String,
      "rating": Float, "lat": Float, "lon": Float,
-     "seats": Integer, distance: Float},
+     "last_pos_update": Date, "seats": Integer, "distance": Float},
     {"queryid": Integer, "userid": Integer, "username": String,
      "rating": Float, "lat": Float, "lon": Float,
-     "seats": Integer, distance: Float},
+     "last_pos_update": Date, "seats": Integer, distance: Float},
     ...
   ]
 }                                 
@@ -1301,7 +1301,8 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                 <li><code>username</code> - String: Name des anfragenden Benutzers</li>   
                 <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li> 
                 <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Benutzer befindet</li>    
-                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li>  
+                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Benutzer befindet</li> 
+                <li><code>last_pos_update</code> - Date: Datum, an dem die Positionsdaten das letzte mal aktualisiert wurden</li> 
                 <li><code>seats</code> - Integer: Sitze, die der Anfragende benötigt</li>
                 <li><code>distance</code> - Float: Distanz zwischen dem Fahrer und den angefragten Benutzern in Meter</li>
              </ul>              
@@ -1351,11 +1352,13 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
   "status&quot;: String,
   "trips": [
     {"tripid": Integer, "seats": Integer, "lat": Float, "lon": Float,
-     "destination": String, "driverid": Integer, &quot;username&quot;: String,
-     &quot;rating&quot;: Float, distance: Float},
+     "last_pos_update": Date, "destination": String, 
+     "driverid": Integer, "username": String, "rating": Float, 
+     "distance": Float},
     {"tripid": Integer, "seats": Integer, "lat": Float, "lon": Float,
-     "destination": String, "driverid": Integer, &quot;username&quot;: String,
-     &quot;rating&quot;: Float, distance: Float},
+     "last_pos_update": Date, "destination": String, 
+     "driverid": Integer, "username": String, "rating": Float,
+     "distance": Float},
     ...
   ]
 }                                 
@@ -1371,7 +1374,8 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                 <li><code>tripid</code> - Integer: ID der Fahrt</li>
                 <li><code>seats</code> - Integer: Integer: Anzahl der Sitze, die der Fahrer in seinem Fahrzeug noch für Mitfahrer frei hat</li>
                 <li><code>lat</code> - Float (6 Stellen, 4 Nachkommastellen): Breitengrad an dem sich der Fahrer befindet</li>
-                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Fahrer befindet</li>
+                <li><code>lon</code> - Float (7 Stellen, 4 Nachkommastellen): Längengrad an dem sich der Fahrer befindet</li>        
+                <li><code>last_pos_update</code> - Date: Datum, an dem die Positionsdaten das letzte mal aktualisiert wurden</li> 
                 <li><code>destination</code> - String:   Name des Zielortes</li>
                 <li><code>driverid</code> - Integer: ID des anfragenden Fahrers</li>
                 <li><code>username</code> - String: Name des anfragenden Fahrers</li>
@@ -1386,6 +1390,8 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
           <td>Implementiert</td>
         </tr>
       </table>
+      
+      
       <h3>Mitfahrer einladen</h3>
       <table>
         <tr>
@@ -1482,11 +1488,11 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
   "successful": true,
   "offers": [
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float, "rating_num": Integer, &quot;lat&quot;: Float,
-      &quot;lon&quot;:Float},   
+      "rating": Float, "rating_num": Integer, "lat": Float,
+      "lon": Float, "last_pos_update": Date},   
     {"offer": Integer, "userid": Integer, "username": String, 
-      "rating": Float, "rating_num": Integer, &quot;lat&quot;: Float,
-      &quot;lon&quot;:Float},   
+      "rating": Float, "rating_num": Integer, "lat": Float,
+      "lon": Float, "last_pos_update": Date},   
     ...
   ]
 }                                 
@@ -1495,7 +1501,8 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
         </tr>
         <tr>   
           <th class="left">Rückgabe (Beschreibung)</th>
-          <td><ul>           
+          <td>
+            <ul>           
               <li><code>offers</code> - Array: Array mit allen gefundenen Angeboten:
                 <ul>                                                                    
                   <li><code>offer</code> - Integer: ID der Anfrage</li>  
@@ -1503,8 +1510,9 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                   <li><code>username</code> - String: Name des anbietenden Benutzers</li>   
                   <li><code>rating</code> - Float: Durchschnittsbewertung des Benutzers</li>      
                   <li><code>rating_num</code> - Float: Anzahl der Bewertungen</li>
-                  <li><code>lat</code> - Float:   Breitengrad, an dem sich der anbietende Benutzer momentan befindet  </li>
-                  <li><code>lon</code> - Float:      Längengrad, an dem sich der anbietende Benutzer momentan befindet    </li> 
+                  <li><code>lat</code> - Float: Breitengrad, an dem sich der anbietende Benutzer momentan befindet</li>
+                  <li><code>lon</code> - Float: Längengrad, an dem sich der anbietende Benutzer momentan befindet</li>  
+                  <li><code>last_pos_update</code> - Date: Datum, an dem die Positionsdaten das letzte mal aktualisiert wurden</li> 
                 </ul>
             </ul>
           </td>
@@ -1847,6 +1855,26 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
           <td>Implementiert, jedoch ungetestet.</td>
         </tr> 
       </table>
+      
+            
+      <h1 id="versions">Versionshistorie</h1> 
+      
+      <h3>Version 1.2 (22.01.2012)</h3>
+      <ul>
+        <li>Services zur Änderungen der E-Mail-Adresse und des Passworts hinzugefügt und
+          Rückgabewert "last_pos_update" zu Services hinzugefügt, die Positionsdaten
+          zurückgeben.</li>
+      </ul>
+      
+      <h3>Version 1.1 (21.01.2012)</h3>
+      <ul>
+        <li>Positionsspeicherung in separate Tabelle ausgelagert.</li>
+      </ul>
+      
+      <h3>Version 1.0</h3>
+      <ul>
+        <li>Stand des Dokuments: 2. Iteration</li>
+      </ul>
       
     </div>
     <!-- // end of specification's content -->
