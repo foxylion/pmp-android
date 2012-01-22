@@ -241,7 +241,7 @@ class user {
         $firstnamePublic = (bool)$firstnamePublic;
         $lastnamePublic = (bool)$lastnamePublic;
         $telPublic = (bool)$telPublic;
-        $regdate = Date(Database::DATE_FORMAT, time());
+        $regdate = Date(Database::DATE_TIME_FORMAT, time());
 
         // Throw an expection if one or more input data was invalid
         if ($invalid > 0) {

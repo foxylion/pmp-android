@@ -16,10 +16,10 @@
   Noch fehlende Serives: E-Mail ändern, Passwort ändern
   -->
   <div id="wrapper">
-    <div id="page-head-date">12. Januar 2011</div>
+    <div id="page-head-date">22. Januar 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Entwurf - Webservice vHike</div>
-    <div id="page-version">Version 1.0</div>
+    <div id="page-version">Version 1.1</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -172,7 +172,9 @@
           <li>Integer</li>
           <li>Float</li>
           <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>
-          <li>Data</li>
+          <li>DateTime: Eine Zeichenkette, die eine Datums- und Zeitangabe darstellt.
+            Die Angabe hat das Format <code>yyyy-mm-dd hh:mm:ss</code> (24-Stunden-Format, 
+            z. B. 2012-01-22 16:11:33)</li>
         </ul>
       </p>
 
@@ -403,7 +405,7 @@
   "lastname": String,
   "tel": String,
   "description": String,
-  "regdate": Date,
+  "regdate": DateTime,
   "email_public": Boolean,
   "firstname_public": Boolean,
   "lastname_public": Boolean,
@@ -425,7 +427,7 @@
               <li><code>lastname</code> - String: Der Nachname des Benutzers</li> 
               <li><code>tel</code> - String: Die Telefon-Nr. des Benutzers</li> 
               <li><code>description</code> - String: Die Beschreibung, die der Benutzer über sich hinterlegt hat</li>
-              <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>  
+              <li><code>regdat</code> - DateTime: Datum, an dem sich der Benutzer registriert hat</li>  
               <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere sichtbar sein soll</li>
               <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere sichtbar sein soll</li>    
               <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere sichtbar sein soll</li>  
@@ -484,7 +486,7 @@
   "lastname": String,
   "tel": String,
   "description": String,
-  "regdate": Date,
+  "regdate": DateTime,
   "email_public": Boolean,
   "firstname_public": Boolean,
   "lastname_public": Boolean,
@@ -518,7 +520,7 @@
                 sofern diese für andere Mitglieder öffentlich ist (<code>"tel_public": true</code>)
                 andernfalls wird dieser Schlüssel nicht ausgegeben</li> 
               <li><code>description</code> - String: Die Beschreibung, die der Benutzer über sich hinterlegt hat</li>
-              <li><code>regdat</code> - Date: Datum, an dem sich der Benutzer registriert hat</li>  
+              <li><code>regdat</code> - DateTime: Datum, an dem sich der Benutzer registriert hat</li>  
               <li><code>email_public</code> - Boolean: True, wenn die E-Mail-Adresse für andere sichtbar sein soll</li>
               <li><code>firstname_public</code> - Boolean: True, wenn der Vorname für andere sichtbar sein soll</li>    
               <li><code>lastname_public</code> - Boolean: True, wenn der Nachname für andere sichtbar sein soll</li>  
@@ -607,6 +609,137 @@
         </tr>
       </table>
       
+      <h3 id="interface_profile_email">Profil E-Mail-Adresse ändern</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>profile_edit_email.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Benutzer möchte die E-Mail-Adresse des eigenen Profils ändern</td>
+        </tr>     
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>email</code> - String (3 &le; Zeichen &le; 100): Die neue E-Mail-Adresse des Benutzer</li>
+            </ul>
+            <b>Hinweis:</b> Für die Parameter gelten die beim Service "registrieren" genannten Bedingungen
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>status</code> - Gibt an, ob das Konto aktualisiert werden konnte.
+                Wurde das Konto aktualisiert, ist <code>status</code> auf <code>updated</code>
+                gesetzt. War die Aktualisierung nicht möglich, ist das Feld auf
+                <code>email_exists|invalid_email</code>gesetzt.</li>
+              </ul>
+              <b>Hinweis:</b> Um sicherzustellen, dass die angegebene E-Mail-Adresse
+              existiert, wird nach der erfolgreichen Änderung der Adresse das betrefende
+              Benutzerkonto deaktiviert und an die neue Adresse eine Bestätigungsnachricht
+              geschickt. Über den darin enthaltenen Link, kann das Konto wieder
+              aktiviert werden.
+          </td>
+        </tr>   
+        <!--
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
+        -->
+      </table>
+      
+      
+      
+       <h3 id="interface_profile_edit_pw">Profil-Passwort ändern</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>profile_edit_password.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Benutzer möchte sein Password ändern</td>
+        </tr>     
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>sid</code> - String: Session-ID des Benutzers</li>
+            </ul>
+          </td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>old_password</code> - String (3 &le; Zeichen &le; 100): Das alte Passwort als Reintext (nicht gehasht)</li>   
+              <li><code>new_password</code> - String (3 &le; Zeichen &le; 100): Das neue Passwort als Reintext (nicht gehasht)</li>
+            </ul>
+            <b>Hinweis:</b> Für die Parameter gelten die beim Service "registrieren" genannten Bedingungen
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "status": String
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>status</code> - Gibt an, ob das Passwort aktualisiert werden konnte.
+                Wurde das Passwort aktualisiert, ist <code>status</code> auf <code>updated</code>
+                gesetzt. Stimmt das alte Passwort nicht mit dem Angegebenen überein,
+                ist das Feld auf <code>old_password_invalid</code> gesetzt. Sollte
+                das neue Passwort ein ungültiges Format haben, ist das Feld auf
+                <code>invalid_format</code> gesetzt.</li>
+              </ul>
+          </td>
+        </tr> 
+        <!--  
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, jedoch ungetestet</td>
+        </tr>
+        -->
+      </table>
       
       
       <h3 id="interface_profile_edit_visbility">Profil-Sichtbarkeiten bearbeiten</h3>
@@ -1582,7 +1715,7 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
   "successful": true,
   "rides": <span style="color:green;"><code>[
     {"trip": Integer, "avail_seats": Integer, "destination": String, 
-      "creation": Date, "ending": Date, "passengers": <span style="color:red;"><code>[
+      "creation": DateTime, "ending": DateTime, "passengers": <span style="color:red;"><code>[
         {"userid": Integer, "username": String, "rating": Float, 
           "rating_num": Integer, "rated": Boolean},
         ...
@@ -1598,7 +1731,7 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
   "successful": true,
   "rides": <span style="color:green;"><code>[
     {"trip": Integer, "avail_seats": Integer, "destination": String, 
-      "creation": Date, "ending": Date, "driver": <span style="color:blue;"><code>
+      "creation": DateTime, "ending": DateTime, "driver": <span style="color:blue;"><code>
         {"userid": Integer, "username": String, "rating": Float, 
           "rating_num": Integer, "rated": Boolean}</code></span>
       "passengers": <span style="color:red;"><code>[
@@ -1622,8 +1755,8 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
                   <li><code>trip</code> - Integer: ID der Fahrt</li>  
                   <li><code>avail_seats</code> - Integer: Anzahl der auf der Fahrt verfügbaren Sitze</li>  
                   <li><code>destination</code> - String: Ziel der Fahrt</li>   
-                  <li><code>creation</code> - Date: Erstellungsdatum der Fahrt</li>      
-                  <li><code>ending</code> - Date: Zeitpunkt der Beendigung der Fahrt</li> 
+                  <li><code>creation</code> - DateTime: Erstellungsdatum der Fahrt</li>      
+                  <li><code>ending</code> - DateTime: Zeitpunkt der Beendigung der Fahrt</li> 
                   <li><span style="color:red;"><code>passengers</code> - Array: Array mit allen Mitfahrern auf dieser Fahrt):
                     <ul>
                       <li><code>userid</code> - Integer: ID des Mitfahrers</li>

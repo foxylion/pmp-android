@@ -117,7 +117,7 @@ class Trip {
 
         // Write data into table
         $db = Database::getInstance();
-        $creation = Date(Database::DATE_FORMAT, time());
+        $creation = Date(Database::DATE_TIME_FORMAT, time());
 
         $db->query("INSERT INTO `" . DB_PREFIX . "_trip` (
                         `driver`,
@@ -200,7 +200,7 @@ class Trip {
      * @return boolean  True, if data was updated successfully
      */
     public function endTrip() {
-        $ending = Date(Database::DATE_FORMAT, time());
+        $ending = Date(Database::DATE_TIME_FORMAT, time());
         $db = Database::getInstance();
         $updated = $db->query("UPDATE `" . DB_PREFIX . "_trip`
                                SET `ending` = '" . $ending . "'

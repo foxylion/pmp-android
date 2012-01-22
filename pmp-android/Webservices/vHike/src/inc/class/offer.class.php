@@ -161,7 +161,7 @@ class Offer {
         
         // Write data into table
         $db = Database::getInstance();
-        $creation = Date(Database::DATE_FORMAT, time());
+        $creation = Date(Database::DATE_TIME_FORMAT, time());
         
         $db->query("INSERT INTO `".DB_PREFIX."_offer` (
                         `trip`,

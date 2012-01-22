@@ -14,7 +14,7 @@ class DatabaseException extends Exception {
  */
 class Database {
 
-    const DATE_FORMAT = "Y-m-d H:i:s";
+    const DATE_TIME_FORMAT = "Y-m-d H:i:s";
     const DATA_NULL = "0000-00-00 00:00:00";
     
     /** @var Database */
