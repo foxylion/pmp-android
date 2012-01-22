@@ -30,8 +30,49 @@
 
     <include layout="@layout/view_divider_strong" />
 
+    <TextView
+        android:id="@+id/Presets_Text_View_No_Presets_Existing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/presets_no_presets_existing" />
+
     <ListView
         android:id="@+id/ListView_Presets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <!-- TRASH BIN -->
+
+    <LinearLayout
+        android:id="@+id/Presets_Trash_Bin_Label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <include layout="@layout/view_divider_strong" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trash_bin"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <include layout="@layout/view_divider_strong" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Presets_Text_View_Trash_Bin_Empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/presets_trash_bin_empty" />
+
+    <ListView
+        android:id="@+id/ListView_Presets_Trash_Bin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
     </ListView>

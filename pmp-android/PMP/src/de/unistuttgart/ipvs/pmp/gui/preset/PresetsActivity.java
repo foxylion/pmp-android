@@ -19,7 +19,9 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
@@ -41,6 +43,11 @@ public class PresetsActivity extends Activity {
     protected List<IPreset> presetList;
     
     /**
+     * List of all deleted Presets
+     */
+    protected List<IPreset> presetTrashBinList;
+    
+    /**
      * Array of all Presets
      */
     private IPreset[] presets;
@@ -49,6 +56,11 @@ public class PresetsActivity extends Activity {
      * ListView of all Presets
      */
     private ListView presetListView;
+    
+    /**
+     * ListView of all Preset in the trash bin
+     */
+    private ListView presetTrashBinListView;
     
     
     @Override
@@ -105,9 +117,11 @@ public class PresetsActivity extends Activity {
                  * Show the trash bin
                  */
                 if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
+                    showTrashBin(false);
                     PMPPreferences.getInstance().setPresetTrashBinVisible(false);
                     item.setTitle(R.string.show_trash_bin);
                 } else {
+                    showTrashBin(true);
                     PMPPreferences.getInstance().setPresetTrashBinVisible(true);
                     item.setTitle(R.string.hide_trash_bin);
                 }
@@ -154,22 +168,8 @@ public class PresetsActivity extends Activity {
     public boolean onContextItemSelected(MenuItem menuItem) {
         // The menu information
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        IPreset preset = this.presetList.get(menuInfo.position);
-        
-        if (preset.isDeleted()) {
-            // Context menu of a deleted preset
-            switch (menuItem.getItemId()) {
-                case 0: // Clicked on "restore" 
-                    preset.setDeleted(false);
-                    updateList();
-                    return true;
-                case 1: // Clicked on "delete permanently"
-                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    updateList();
-                    return true;
-            }
-            
-        } else {
+        if (menuInfo.targetView == presetListView) {
+            IPreset preset = this.presetList.get(menuInfo.position);
             switch (menuItem.getItemId()) {
                 case 0:
                     /*
@@ -186,7 +186,19 @@ public class PresetsActivity extends Activity {
                     updateList();
                     return true;
             }
-            
+        } else if (menuInfo.targetView == presetTrashBinListView) {
+            IPreset preset = this.presetTrashBinList.get(menuInfo.position);
+            // Context menu of a deleted preset
+            switch (menuItem.getItemId()) {
+                case 0: // Clicked on "restore" 
+                    preset.setDeleted(false);
+                    updateList();
+                    return true;
+                case 1: // Clicked on "delete permanently"
+                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
+                    updateList();
+                    return true;
+            }
         }
         
         return false;
@@ -205,43 +217,66 @@ public class PresetsActivity extends Activity {
         this.presetListView.setLongClickable(false);
         registerForContextMenu(this.presetListView);
         
-        // Add a context menu listener for long clicks
+        // Setup the presetsTrashBinListView
+        this.presetTrashBinListView = (ListView) findViewById(R.id.ListView_Presets_Trash_Bin);
+        this.presetTrashBinListView.setClickable(true);
+        this.presetTrashBinListView.setLongClickable(false);
+        registerForContextMenu(this.presetTrashBinListView);
+        
+        // Add listener
+        addListener();
+        
+        // Show trash bin (or not)
+        showTrashBin(PMPPreferences.getInstance().isPresetTrashBinVisible());
+    }
+    
+    
+    /**
+     * Add all listener two the presetListView and presetTrashBinListView
+     */
+    private void addListener() {
+        // Add a context menu listener for long clicks to the presetListView
         this.presetListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                AdapterContextMenuInfo menuInfoAdapter = (AdapterContextMenuInfo) menuInfo;
-                IPreset preset = PresetsActivity.this.presetList.get(menuInfoAdapter.position);
-                
-                if (preset.isDeleted()) {
-                    menu.setHeaderTitle(getString(R.string.edit_deleted_preset));
-                    menu.add(0, 0, 0, R.string.restore_preset);
-                    menu.add(1, 1, 1, R.string.delete_preset_permanently);
-                } else {
-                    menu.setHeaderTitle(getString(R.string.edit_preset));
-                    menu.add(0, 0, 0, R.string.edit_name_and_description);
-                    menu.add(1, 1, 1, R.string.delete_preset_trash_bin);
-                }
+                ((AdapterContextMenuInfo) menuInfo).targetView = PresetsActivity.this.presetListView;
+                menu.setHeaderTitle(getString(R.string.edit_preset));
+                menu.add(0, 0, 0, R.string.edit_name_and_description);
+                menu.add(1, 1, 1, R.string.delete_preset_trash_bin);
             }
         });
         
-        // React on clicked item
+        // React on clicked item on the presetListView
         this.presetListView.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
-                
                 IPreset preset = PresetsActivity.this.presetList.get(pos);
-                
-                if (!preset.isDeleted()) {
-                    openPreset(preset);
-                } else {
-                    openContextMenu(view);
-                }
-                
+                openPreset(preset);
             }
         });
         
+        // Add a context menu listener for long clicks to the presetTrashBinListView
+        this.presetTrashBinListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+            
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                ((AdapterContextMenuInfo) menuInfo).targetView = PresetsActivity.this.presetTrashBinListView;
+                menu.setHeaderTitle(getString(R.string.edit_deleted_preset));
+                menu.add(0, 0, 0, R.string.restore_preset);
+                menu.add(1, 1, 1, R.string.delete_preset_permanently);
+            }
+        });
+        
+        // React on clicked item on the presetTrashBinListView
+        this.presetTrashBinListView.setOnItemClickListener(new OnItemClickListener() {
+            
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
+                openContextMenu(view);
+            }
+        });
     }
     
     
@@ -266,19 +301,62 @@ public class PresetsActivity extends Activity {
         // Get the presets
         this.presets = ModelProxy.get().getPresets();
         this.presetList = new ArrayList<IPreset>();
+        this.presetTrashBinList = new ArrayList<IPreset>();
         
-        // Fill the list
+        // Fill the lists
         for (IPreset preset : this.presets) {
-            if (!PMPPreferences.getInstance().isPresetTrashBinVisible() && preset.isDeleted()) {
-                continue;
+            if (!preset.isDeleted()) {
+                this.presetList.add(preset);
+            } else {
+                this.presetTrashBinList.add(preset);
             }
-            this.presetList.add(preset);
         }
         
-        // Set adapter
+        // Set adapters
         Collections.sort(this.presetList, new PresetComparator());
         PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
         
+        Collections.sort(this.presetTrashBinList, new PresetComparator());
+        PresetsAdapter presetsTrashBinAdapter = new PresetsAdapter(this, this.presetTrashBinList);
+        this.presetTrashBinListView.setAdapter(presetsTrashBinAdapter);
+        
+        // Show label, if a list is empty
+        TextView labelPresetList = (TextView) findViewById(R.id.Presets_Text_View_No_Presets_Existing);
+        if (this.presetList.size() == 0) {
+            labelPresetList.setVisibility(TextView.VISIBLE);
+        } else {
+            labelPresetList.setVisibility(TextView.GONE);
+        }
+        
+        TextView labelTrashBinList = (TextView) findViewById(R.id.Presets_Text_View_Trash_Bin_Empty);
+        if (this.presetTrashBinList.size() == 0 && PMPPreferences.getInstance().isPresetTrashBinVisible()) {
+            labelTrashBinList.setVisibility(TextView.VISIBLE);
+        } else {
+            labelTrashBinList.setVisibility(TextView.GONE);
+        }
+        
+    }
+    
+    
+    /**
+     * Show the trash bin (or not)
+     * 
+     * @param flag
+     *            flag if the trash bin should be shown or not
+     */
+    private void showTrashBin(boolean flag) {
+        LinearLayout label = (LinearLayout) findViewById(R.id.Presets_Trash_Bin_Label);
+        ListView listView = (ListView) findViewById(R.id.ListView_Presets_Trash_Bin);
+        TextView emptyLabel = (TextView) findViewById(R.id.Presets_Text_View_Trash_Bin_Empty);
+        if (flag) {
+            label.setVisibility(LinearLayout.VISIBLE);
+            listView.setVisibility(ListView.VISIBLE);
+            emptyLabel.setVisibility(TextView.VISIBLE);
+        } else {
+            label.setVisibility(LinearLayout.GONE);
+            listView.setVisibility(ListView.GONE);
+            emptyLabel.setVisibility(TextView.GONE);
+        }
     }
 }

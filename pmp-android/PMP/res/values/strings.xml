@@ -63,6 +63,7 @@
     <string name="show_details">Show details</string>
     <string name="show_trash_bin">Show trash bin</string>
     <string name="statistics">Statistics</string>
+    <string name="trash_bin">Trash bin</string>
     <string name="undefined">undefined string</string>
     <string name="uninstall">Uninstall</string>
     <string name="update">Update</string>
@@ -131,7 +132,10 @@
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
 	<string name="presets_alert_clear_trash_bin">Are you sure to clear the trash bin?</string>
-    <!-- One Preset / Tab: Assigned Apps -->
+	<string name="presets_no_presets_existing">There are currently no Presets existing.</string>
+	<string name="presets_trash_bin_empty">The trash bin is empty.</string>
+	
+	<!-- One Preset / Tab: Assigned Apps -->
     <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
     <string name="preset_tab_apps_all_apps_assigned">All currently available Apps are already assigned.</string>
 
