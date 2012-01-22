@@ -1,112 +1,72 @@
 package de.unistuttgart.ipvs.pmp.gui.settings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
  * The {@link ActivitySettings} enables the user to select between the expert mode and the normal mode.
  * In the export mode the presets feature is enabled.
  * 
- * @author Jakob Jarosch
+ * @author Jakob Jarosch, Marcus Vetter
  */
 public class ActivitySettings extends Activity {
+    
+    /**
+     * ListView of all Settings
+     */
+    private ListView settingsListView;
+    
+    /**
+     * List of all Settings
+     */
+    private List<Setting> settingsList = new ArrayList<Setting>();
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Set the Activity Layout
         setContentView(R.layout.activity_settings);
         
-        registerListener();
-    }
-    
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
+        // Get the ListView
+        this.settingsListView = (ListView) findViewById(R.id.ListView_Settings);
         
-        loadFromPMPPrefernces();
-    }
-    
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
+        // Add all available Settings
+        addSettings();
         
-        saveToPMPPreferences();
+        // Instantiate and add the adapter
+        SettingsAdapter settingsAdapter = new SettingsAdapter(this, this.settingsList);
+        this.settingsListView.setAdapter(settingsAdapter);
     }
     
     
     /**
-     * Registers the Listener for changes on the checkbox of the Expert Mode.
+     * Add all Settings to the settingsList
      */
-    private void registerListener() {
-        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
+    private void addSettings() {
+        // Get the resources
+        Resources res = getResources();
         
-        /*
-         * React on a tap and save the changes directly to the PMPPreferences.
-         */
-        checkboxExpertMode.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                changedStateExpertMode();
-            }
-            
-        });
+        // Add the ExpertMode-Setting
+        Drawable expertModeIcon = res.getDrawable(R.drawable.icon_expertmode);
+        Setting expertMode = new Setting(SettingIdentifier.EXPERT_MODE, getString(R.string.expert_mode),
+                getString(R.string.settings_expertmode_description), expertModeIcon);
+        this.settingsList.add(expertMode);
         
-        LinearLayout ll = (LinearLayout) findViewById(R.id.LinearLayout_ExpertMode);
-        ll.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-                checkboxExpertMode.setChecked(!checkboxExpertMode.isChecked());
-                changedStateExpertMode();
-            }
-        });
+        // Add the PresetTrashBinVisible-Setting
+        Drawable presetTrashBinVisibleIcon = res.getDrawable(R.drawable.icon_expertmode);
+        Setting presetTrashBinVisible = new Setting(SettingIdentifier.PRESET_TRASH_BIN_VISIBILITY,
+                getString(R.string.settings_preset_trash_bin_visible),
+                getString(R.string.settings_preset_trash_bin_description), presetTrashBinVisibleIcon);
+        this.settingsList.add(presetTrashBinVisible);
     }
     
-    
-    /**
-     * Load the Settings from {@link PMPPreferences} to ensure that consistency is guaranteed.
-     */
-    private void loadFromPMPPrefernces() {
-        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-        checkboxExpertMode.setChecked(PMPPreferences.getInstance().isExpertMode());
-    }
-    
-    
-    /**
-     * Save the form values of the Activity to the {@link PMPPreferences}.
-     * It ensures that consistency is guaranteed.
-     */
-    private void saveToPMPPreferences() {
-        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-        PMPPreferences.getInstance().setExpertMode(checkboxExpertMode.isChecked());
-    }
-    
-    
-    /**
-     * Can be called when the changed state of the Expert Mode should be displayed as a toast message.
-     */
-    protected void changedStateExpertMode() {
-        CheckBox checkboxExpertMode = (CheckBox) findViewById(R.id.CheckBox_ExpertMode);
-        
-        /* Show a toast that the expert mode state has been changed */
-        String text;
-        if (checkboxExpertMode.isChecked()) {
-            text = ActivitySettings.this.getString(R.string.settings_expertmode_enabled);
-        } else {
-            text = ActivitySettings.this.getString(R.string.settings_expertmode_disabled);
-        }
-        Toast.makeText(ActivitySettings.this, text, Toast.LENGTH_SHORT).show();
-    }
 }

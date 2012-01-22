@@ -32,6 +32,7 @@
     <string name="enable">Enable</string>
     <string name="expert_mode">Expert Mode</string>
     <string name="hide_deleted">Hide deleted</string>
+    <string name="icon">Icon</string>
     <string name="identifier">Identifier</string>
     <string name="install">Install</string>
     <string name="installed">Installed</string>
@@ -88,8 +89,8 @@
 
     <!-- Settings -->
     <string name="settings_expertmode_description">Enables the Presets feature in PMP</string>
-    <string name="settings_expertmode_enabled">The Expert Mode has been enabled</string>
-    <string name="settings_expertmode_disabled">The Expert Mode has been disabled</string>
+    <string name="settings_preset_trash_bin_visible">Preset trash bin visible</string>
+    <string name="settings_preset_trash_bin_description">Check to show the trashed Presets</string>
 
     <!-- Apps -->
     <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
