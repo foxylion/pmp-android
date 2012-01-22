@@ -6,7 +6,7 @@ if (!defined("INCLUDE")) {
 /**
  * Allows to create a new trip and gives access to exsiting trips and their data
  * @author Dang Huynh, Patrick Strobel 
- * @version 1.0.0
+ * @version 1.0.1
  */
 class Trip {
     const OPEN_TRIP_EXISTS = 1;
@@ -117,7 +117,7 @@ class Trip {
 
         // Write data into table
         $db = Database::getInstance();
-        $creation = Date(Database::DATE_TIME_FORMAT, time());
+        $creation = time();
 
         $db->query("INSERT INTO `" . DB_PREFIX . "_trip` (
                         `driver`,
@@ -132,7 +132,7 @@ class Trip {
                         \"" . $currentLat . "\",
                         \"" . $currentLon . "\",
                         \"" . $destination . "\",
-                        \"" . $creation . "\"
+                        from_unixtime(" . $creation . ")
                     )");
 
         $trip = new Trip();
@@ -142,7 +142,7 @@ class Trip {
         $trip->currentLat = $currentLat;
         $trip->currentLon = $currentLon;
         $trip->destination = $destination;
-        $trip->creation = $creation;
+        $trip->creation = Date(Database::DATE_TIME_FORMAT, $creation);
 
         return $trip;
     }
@@ -200,15 +200,15 @@ class Trip {
      * @return boolean  True, if data was updated successfully
      */
     public function endTrip() {
-        $ending = Date(Database::DATE_TIME_FORMAT, time());
+        $ending = time();
         $db = Database::getInstance();
         $updated = $db->query("UPDATE `" . DB_PREFIX . "_trip`
-                               SET `ending` = '" . $ending . "'
+                               SET `ending` = from_unixtime(" . $ending . ")
                                WHERE `id` = " . $this->id . "
                                AND `driver` = " . $this->driver->getId() . "
                                AND `ending` = 0");
 
-        $this->ending = $ending;
+        $this->ending = Date(Database::DATE_TIME_FORMAT, $ending);
         return ($updated && $db->getAffectedRows() > 0);
     }
 

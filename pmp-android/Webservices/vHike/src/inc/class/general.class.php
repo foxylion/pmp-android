@@ -8,7 +8,7 @@ class InputException extends Exception {}
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author Dang Huynh, Patrick Strobel 
- * @version 1.0.0
+ * @version 1.0.1
  */
 class General {
     
@@ -47,9 +47,29 @@ class General {
      * Checks if the given parameter is a valid coordinate
      * @param String $input Input
      * @return boolean  True, if parameter is a valid coordinate 
+     * @deprecated Please use <code>validLatitude()</code> or <code>validLongitude()</code>
+     *              as latitude and longitude have a different range
      */
     public static function validCoordinate($input) {
         return (isset($input) && is_numeric($input) && $input>=-180 && $input<=180);
+    }
+    
+    /**
+     * Checks if the given parameter is a valid latitude
+     * @param String $input The input
+     * @return boolean  True, if the parameter is a floating-point number and a valid latitude 
+     */
+    public static function validLatitude($input) {
+        return (isset($input) && is_numeric($input) && $input >= -90 && $input <= 90);
+    }
+    
+    /**
+     * Checks if the given parameter is a valid longitude
+     * @param String $input The input
+     * @return boolean  True, if the parameter is a floating-point number and a valid longitude 
+     */
+    public static function validLongitude($input) {
+        return (isset($input) && is_numeric($input) && $input >= -180 && $input <= 180);
     }
     
     /**

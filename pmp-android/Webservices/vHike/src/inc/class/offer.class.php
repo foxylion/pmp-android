@@ -12,7 +12,7 @@ class OfferException extends Exception {
 /**
  * Handles offers and allows to create a new offer
  * @author Patrick Strobel 
- * @version 1.0.1
+ * @version 1.0.2
  */
 class Offer {
     
@@ -161,7 +161,6 @@ class Offer {
         
         // Write data into table
         $db = Database::getInstance();
-        $creation = Date(Database::DATE_TIME_FORMAT, time());
         
         $db->query("INSERT INTO `".DB_PREFIX."_offer` (
                         `trip`,

@@ -9,7 +9,7 @@ if (!defined("INCLUDE")) {
  * Most of the method's may throw a DatabaseException if quering the database fails
  *
  * @author Patrick Strobel
- * @version 1.0.1
+ * @version 1.0.2
  */
 class user {
 
@@ -241,56 +241,70 @@ class user {
         $firstnamePublic = (bool)$firstnamePublic;
         $lastnamePublic = (bool)$lastnamePublic;
         $telPublic = (bool)$telPublic;
-        $regdate = Date(Database::DATE_TIME_FORMAT, time());
 
         // Throw an expection if one or more input data was invalid
         if ($invalid > 0) {
             throw new InvalidArgumentException("At leat one input data was invalid. See code for details", $invalid);
         }
 
-        // Write data into table
-        $db->query("INSERT INTO `" . DB_PREFIX . "_user` (
-                        `username`,
-                        `password`,
-                        `email`,
-                        `firstname`,
-                        `lastname`,
-                        `tel`,
-                        `description`,
-                        `email_public`,
-                        `firstname_public`,
-                        `lastname_public`,
-                        `tel_public`,
-                        `regdate`
-                    ) VALUES (
-                        \"" . $username . "\",
-                        \"" . $passwordHash . "\",
-                        \"" . $email . "\",
-                        \"" . $firstname . "\",
-                        \"" . $lastname . "\",
-                        \"" . $tel . "\",
-                        \"" . $description . "\",
-                        \"" . $emailPublic . "\",
-                        \"" . $firstnamePublic . "\",
-                        \"" . $lastnamePublic . "\",
-                        \"" . $telPublic . "\",
-                        \"" . $regdate . "\"
-                    )");
+        try {
+            // !!Transactions will only work when InnoDB is used!!
+            $db->query("START TRANSACTION");
+            
+            // Write user data into table
+            $db->query("INSERT INTO `" . DB_PREFIX . "_user` (
+                            `username`,
+                            `password`,
+                            `email`,
+                            `firstname`,
+                            `lastname`,
+                            `tel`,
+                            `description`,
+                            `email_public`,
+                            `firstname_public`,
+                            `lastname_public`,
+                            `tel_public`,
+                            `regdate`
+                        ) VALUES (
+                            \"" . $username . "\",
+                            \"" . $passwordHash . "\",
+                            \"" . $email . "\",
+                            \"" . $firstname . "\",
+                            \"" . $lastname . "\",
+                            \"" . $tel . "\",
+                            \"" . $description . "\",
+                            \"" . $emailPublic . "\",
+                            \"" . $firstnamePublic . "\",
+                            \"" . $lastnamePublic . "\",
+                            \"" . $telPublic . "\",
+                            from_unixtime(" . time() . ")
+                        )");
 
-        $user = new User();
-        $user->id = $db->getId();
-        $user->username = $username;
-        $user->email = $email;
-        $user->emailPublic = $emailPublic;
-        $user->firstname = $firstname;
-        $user->firstnamePublic = $firstnamePublic;
-        $user->lastname = $lastname;
-        $user->lastnamePublic = $lastnamePublic;
-        $user->tel = $tel;
-        $user->telPublic = $telPublic;
-        $user->passwordHash = $passwordHash;
-        $user->description = $description;
-        $user->regdate = $regdate;
+            $user = new User();
+            $user->id = $db->getId();
+            $user->username = $username;
+            $user->email = $email;
+            $user->emailPublic = $emailPublic;
+            $user->firstname = $firstname;
+            $user->firstnamePublic = $firstnamePublic;
+            $user->lastname = $lastname;
+            $user->lastnamePublic = $lastnamePublic;
+            $user->tel = $tel;
+            $user->telPublic = $telPublic;
+            $user->passwordHash = $passwordHash;
+            $user->description = $description;
+            $user->regdate = $regdate;
+
+
+            // Create dataset for storing this user's postition
+            Position::createDataset($user);
+
+            $db->query("COMMIT");
+        } catch (Exception $e) {
+            echo "\nROLEBACK!!!\n";
+            $db->query("ROLLBACK");
+            throw $e;
+        }
 
         return $user;
     }

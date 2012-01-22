@@ -6,7 +6,7 @@ if (!defined("INCLUDE")) {
 /**
  * Allows to create a new query and gives acccess to existing queries
  * @author Dang Huynh 
- * @version 1.0.0
+ * @version 1.0.1
  */
 class Query {
     private $id = -1;
@@ -87,7 +87,6 @@ class Query {
         
         // Write data into table
         $db = Database::getInstance();
-        $creation = Date(Database::DATE_TIME_FORMAT, time());
 
         $db->query("INSERT INTO `".DB_PREFIX."_query` (
                         `passenger`,

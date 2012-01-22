@@ -10,7 +10,7 @@ class DatabaseException extends Exception {
 /**
  * Encapsulates the access to the database
  * @author Dang Huynh, Patrick Strobel 
- * @version 1.0.0
+ * @version 1.0.1
  */
 class Database {
 
@@ -105,6 +105,7 @@ class Database {
     
     /**
      * Returns the number of rows that have been changed by the update or insert statement
+     * or the number of rows that have been returned by the last query statement
      * @return int  Number of rows 
      */
     public function getAffectedRows() {
