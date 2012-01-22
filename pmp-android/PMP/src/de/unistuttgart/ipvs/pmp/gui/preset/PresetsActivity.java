@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -45,11 +46,6 @@ public class PresetsActivity extends Activity {
      * ListView of all Presets
      */
     private ListView presetListView;
-    
-    /**
-     * Flag for showing deleted presets
-     */
-    private boolean showDeleted = false;
     
     
     @Override
@@ -93,12 +89,11 @@ public class PresetsActivity extends Activity {
                 dialog.show();
                 break;
             case R.id.presets_menu_show_deleted:
-                System.out.println(this.showDeleted);
-                if (this.showDeleted) {
-                    this.showDeleted = false;
+                if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
+                    PMPPreferences.getInstance().setPresetTrashBinVisible(false);
                     item.setTitle(R.string.show_deleted);
                 } else {
-                    this.showDeleted = true;
+                    PMPPreferences.getInstance().setPresetTrashBinVisible(true);
                     item.setTitle(R.string.hide_deleted);
                 }
                 updateList();
@@ -146,13 +141,6 @@ public class PresetsActivity extends Activity {
                     preset.setDeleted(true);
                     updateList();
                     return true;
-                case 2:
-                    /*
-                     * Clicked on "delete permanently"
-                     */
-                    ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    updateList();
-                    return true;
             }
             
         }
@@ -189,7 +177,6 @@ public class PresetsActivity extends Activity {
                     menu.setHeaderTitle(getString(R.string.edit_preset));
                     menu.add(0, 0, 0, R.string.edit_name_and_description);
                     menu.add(1, 1, 1, R.string.delete_preset_trash_bin);
-                    menu.add(2, 2, 2, R.string.delete_preset_permanently);
                 }
             }
         });
@@ -238,14 +225,13 @@ public class PresetsActivity extends Activity {
         
         // Fill the list
         for (IPreset preset : this.presets) {
-            if (!this.showDeleted && preset.isDeleted()) {
+            if (!PMPPreferences.getInstance().isPresetTrashBinVisible() && preset.isDeleted()) {
                 continue;
             }
             this.presetList.add(preset);
         }
         
         // Set adapter
-        
         Collections.sort(this.presetList, new PresetComparator());
         PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
