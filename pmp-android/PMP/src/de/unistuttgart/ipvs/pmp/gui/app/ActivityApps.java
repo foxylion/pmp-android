@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -45,12 +46,20 @@ public class ActivityApps extends Activity {
      */
     protected AdapterApps appsAdapter;
     
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_apps);
+        
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
     }
     
     
@@ -64,6 +73,14 @@ public class ActivityApps extends Activity {
         addListener();
         
         updateAppsList();
+    }
+    
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        unregisterReceiver(this.akr);
     }
     
     

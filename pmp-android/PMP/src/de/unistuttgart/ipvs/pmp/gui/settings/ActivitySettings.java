@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 
 /**
  * The {@link ActivitySettings} enables the user to select between the expert mode and the normal mode.
@@ -28,6 +29,11 @@ public class ActivitySettings extends Activity {
      */
     private List<Setting> settingsList = new ArrayList<Setting>();
     
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,17 @@ public class ActivitySettings extends Activity {
         // Instantiate and add the adapter
         SettingsAdapter settingsAdapter = new SettingsAdapter(this, this.settingsList);
         this.settingsListView.setAdapter(settingsAdapter);
+        
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
+    }
+    
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        unregisterReceiver(this.akr);
     }
     
     

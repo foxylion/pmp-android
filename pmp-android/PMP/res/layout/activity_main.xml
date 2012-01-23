@@ -11,8 +11,7 @@
         pmp:name="@string/pmp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon"
-        pmp:backButton="true" >
+        pmp:icon="@drawable/icon" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <ScrollView

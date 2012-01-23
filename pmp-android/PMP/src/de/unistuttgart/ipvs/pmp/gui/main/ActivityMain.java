@@ -16,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetsActivity;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityRGs;
 import de.unistuttgart.ipvs.pmp.gui.settings.ActivitySettings;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -27,12 +28,21 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
  */
 public class ActivityMain extends Activity {
     
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
         addListener();
+        
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
     }
     
     
@@ -44,6 +54,14 @@ public class ActivityMain extends Activity {
         
         updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
                 .get().getPresets().length);
+    }
+    
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        unregisterReceiver(this.akr);
     }
     
     

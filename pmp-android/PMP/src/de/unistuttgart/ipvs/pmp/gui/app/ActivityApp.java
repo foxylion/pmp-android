@@ -13,6 +13,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -49,6 +50,11 @@ public class ActivityApp extends Activity {
     private static final String TAB_SF = "tab_sf";
     private static final String TAB_PRESET = "tab_preset";
     
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,9 @@ public class ActivityApp extends Activity {
         title.setIcon(this.app.getIcon());
         
         this.mTabHost.setCurrentTabByTag(activeTab);
+        
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
     }
     
     
@@ -104,6 +113,8 @@ public class ActivityApp extends Activity {
         super.onDestroy();
         
         this.lam.dispatchDestroy(isFinishing());
+        
+        unregisterReceiver(this.akr);
     }
     
     

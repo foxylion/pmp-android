@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -62,6 +63,11 @@ public class PresetsActivity extends Activity {
      */
     private ListView presetTrashBinListView;
     
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,8 @@ public class PresetsActivity extends Activity {
         
         init();
         
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
     }
     
     
@@ -78,6 +86,14 @@ public class PresetsActivity extends Activity {
     protected void onResume() {
         super.onResume();
         updateList();
+    }
+    
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        unregisterReceiver(this.akr);
     }
     
     

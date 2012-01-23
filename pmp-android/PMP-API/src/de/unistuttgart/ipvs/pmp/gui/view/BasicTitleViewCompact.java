@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.AttributeSetUtil;
 
 /**
  * Compact version of the Basic Title for layouts.
@@ -21,9 +22,8 @@ public class BasicTitleViewCompact extends BasicTitleView {
     public BasicTitleViewCompact(Context context, AttributeSet attrs) {
         super(context, attrs);
         
-        if (attrs.getAttributeValue(R.styleable.BasicTitleView_borderColor) == null) {
-            setBorderColor(Color.parseColor("#777777"));
-        }
+        this.borderColor = new AttributeSetUtil(context, attrs).getColor(AttributeSetUtil.ViewBasicTitle_borderColor,
+                Color.parseColor("#777777"));
     }
     
     

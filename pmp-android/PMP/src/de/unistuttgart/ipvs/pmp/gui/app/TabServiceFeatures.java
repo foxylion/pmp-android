@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -82,7 +83,7 @@ public class TabServiceFeatures extends Activity {
             
             @Override
             public void onClick(View v) {
-                TabServiceFeatures.this.finish();
+                ActivityKillReceiver.sendKillBroadcast(TabServiceFeatures.this);
             }
         });
     }

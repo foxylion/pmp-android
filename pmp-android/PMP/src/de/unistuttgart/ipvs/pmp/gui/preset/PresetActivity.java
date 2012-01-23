@@ -10,6 +10,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
@@ -34,6 +35,11 @@ public class PresetActivity extends Activity {
     private LocalActivityManager lam;
     private TabHost mTabHost;
     private int currentTab = 0;
+    
+    /**
+     * The {@link ActivityKillReceiver}.
+     */
+    private ActivityKillReceiver akr;
     
     
     @Override
@@ -64,6 +70,8 @@ public class PresetActivity extends Activity {
         
         updateDescriptionVisibility();
         
+        /* Initiating the ActivityKillReceiver. */
+        this.akr = new ActivityKillReceiver(this);
     }
     
     
@@ -94,6 +102,8 @@ public class PresetActivity extends Activity {
         super.onDestroy();
         
         this.lam.dispatchDestroy(isFinishing());
+        
+        unregisterReceiver(this.akr);
     }
     
     

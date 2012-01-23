@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.AttributeSetUtil;
 
@@ -30,28 +29,28 @@ public class BasicTitleView extends LinearLayout {
     /**
      * The icon displayed on the left side of the title.
      */
-    private int icon;
-    private Drawable iconDrawable = null;
+    protected int icon;
+    protected Drawable iconDrawable = null;
     
     /**
      * The title which should be displayed.
      */
-    private String title;
+    protected String title;
     
     /**
      * The color of the border below the title.
      */
-    private int borderColor;
+    protected int borderColor;
     
     /**
      * The color of the title.
      */
-    private int textColor;
+    protected int textColor;
     
     /**
      * The back action gives the user a possibility to return
      */
-    private boolean backActionAvailable;
+    protected boolean backActionAvailable;
     
     
     /**
@@ -73,14 +72,7 @@ public class BasicTitleView extends LinearLayout {
     public BasicTitleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
-        Log.d("BasicTitleView was created with any AttributeSet");
-        
         this.context = context;
-        
-        for (int i = 0; i < attrs.getAttributeCount(); i++) {
-            System.out.println(attrs.getAttributeName(i) + " :: " + attrs.getAttributeNameResource(i) + " :: "
-                    + attrs.getAttributeValue(i));
-        }
         
         /* Load the styles from the xml assigned values */
         AttributeSetUtil asu = new AttributeSetUtil(getContext(), attrs);
@@ -93,9 +85,6 @@ public class BasicTitleView extends LinearLayout {
         
         this.borderColor = asu.getColor(AttributeSetUtil.ViewBasicTitle_borderColor, Color.parseColor("#ff8c00"));
         this.textColor = asu.getColor(AttributeSetUtil.ViewBasicTitle_textColor, Color.WHITE);
-        
-        System.out.println(this.title + " :: " + this.icon + " :: " + this.backActionAvailable + " :: "
-                + this.borderColor + " :: " + this.textColor);
     }
     
     
