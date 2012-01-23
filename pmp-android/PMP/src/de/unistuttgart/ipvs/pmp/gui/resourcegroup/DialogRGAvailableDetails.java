@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
@@ -31,17 +30,21 @@ public class DialogRGAvailableDetails extends Dialog {
     
     private Handler handler;
     
+    private TabRGsAvailable tab;
+    
     
     /**
      * Creates a new {@link Dialog} for displaying informations about an available Resourcegroup.
      * 
-     * @param context
-     *            Context which is used to display the {@link Dialog}.
+     * @param tab
+     *            Tab which is used to display the {@link Dialog}.
      * @param rgInformation
      *            The informations about the Resourcegroup.
      */
-    public DialogRGAvailableDetails(Context context, RgInformationSet rgInformation) {
-        super(context);
+    public DialogRGAvailableDetails(TabRGsAvailable tab, RgInformationSet rgInformation) {
+        super(tab);
+        
+        this.tab = tab;
         
         this.handler = new Handler();
         
@@ -138,9 +141,7 @@ public class DialogRGAvailableDetails extends Dialog {
                                 Toast.makeText(DialogRGAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                                 
-                                if (getContext() instanceof TabRGsAvailable) {
-                                    ((TabRGsAvailable) getContext()).startDownloadList();
-                                }
+                                tab.startDownloadList();
                                 
                                 DialogRGAvailableDetails.this.dismiss();
                             }
