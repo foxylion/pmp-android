@@ -99,7 +99,7 @@ public class TabRGsAvailable extends Activity {
     /**
      * Initiates a new update of the available Resourcegroups list. (done asynchronously)
      */
-    private void startDownloadList() {
+    public void startDownloadList() {
         this.lastUpdateContainer.setVisibility(View.GONE);
         this.updateFailedContainer.setVisibility(View.GONE);
         this.updateProgressContainer.setVisibility(View.VISIBLE);

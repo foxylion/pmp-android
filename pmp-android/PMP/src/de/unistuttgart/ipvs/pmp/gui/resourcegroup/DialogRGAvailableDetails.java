@@ -138,6 +138,10 @@ public class DialogRGAvailableDetails extends Dialog {
                                 Toast.makeText(DialogRGAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                                 
+                                if (getContext() instanceof TabRGsAvailable) {
+                                    ((TabRGsAvailable) getContext()).startDownloadList();
+                                }
+                                
                                 DialogRGAvailableDetails.this.dismiss();
                             }
                         });
