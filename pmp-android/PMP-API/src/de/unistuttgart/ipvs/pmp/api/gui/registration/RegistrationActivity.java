@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -46,6 +47,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 public class RegistrationActivity extends Activity {
     
     private static final int CLOSE_ON_RESULT = 111;
+    private static final String REGISTERED_KEY = "registered";
     
     private Intent mainActivityIntent = null;
     
@@ -57,6 +59,8 @@ public class RegistrationActivity extends Activity {
     
     private EventTypes lastEvent;
     
+    private SharedPreferences appPreferences;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +68,45 @@ public class RegistrationActivity extends Activity {
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
+        this.handler = new Handler();
+        this.appPreferences = getSharedPreferences("appPreferences", MODE_PRIVATE);
+        this.pmp = PMP.get(getApplication());
+        
+        checkRegistration();
+    }
+    
+    
+    private void checkRegistration() {
+        if (!appPreferences.getBoolean(REGISTERED_KEY, false)) {
+            initiateRegistration();
+        } else {
+            new Thread() {
+                
+                public void run() {
+                    // TODO add the !pmp.isRegistered() here
+                    if (false) {
+                        handler.post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                initiateRegistration();
+                            }
+                        });
+                    } else {
+                        loadMetaData();
+                        switchToMainActivity(false);
+                    }
+                };
+            }.start();
+            
+        }
+    }
+    
+    
+    private void initiateRegistration() {
         setContentView(R.layout.pmp_api_activity_registration);
         
-        this.handler = new Handler();
         this.elements = new Elements(this);
-        this.pmp = PMP.get(getApplication());
         
         /* Initiating, processing step 1 */
         this.elements.setState(1, State.PROCESSING);
@@ -128,7 +166,8 @@ public class RegistrationActivity extends Activity {
                         elements.buttonClose.setVisibility(View.VISIBLE);
                         
                         elements.setState(1, State.FAIL);
-                        elements.setState(2, State.FAIL);
+                        elements.setState(2, State.NONE);
+                        elements.setState(3, State.NONE);
                         break;
                     
                     case START_REGISTRATION:
@@ -144,6 +183,10 @@ public class RegistrationActivity extends Activity {
                         elements.setState(2, State.SUCCESS);
                         elements.setState(3, State.SUCCESS);
                         elements.setState(4, State.NEW);
+                        
+                        SharedPreferences.Editor editor = appPreferences.edit();
+                        editor.putBoolean(REGISTERED_KEY, true);
+                        editor.commit();
                         break;
                     
                     case ALREADY_REGISTERED:
@@ -151,7 +194,7 @@ public class RegistrationActivity extends Activity {
                         elements.setState(3, State.SKIPPED);
                         elements.setState(4, State.SKIPPED);
                         elements.setState(5, State.PROCESSING);
-                        switchToDMainActivity(false);
+                        switchToMainActivity(false);
                         break;
                     
                     case REGISTRATION_FAILED:
@@ -181,7 +224,7 @@ public class RegistrationActivity extends Activity {
                     
                     case OPEN_APP:
                         elements.setState(5, State.PROCESSING);
-                        switchToDMainActivity(true);
+                        switchToMainActivity(true);
                         break;
                 }
             }
@@ -220,7 +263,7 @@ public class RegistrationActivity extends Activity {
     }
     
     
-    public void switchToDMainActivity(boolean transitionAnimation) {
+    public void switchToMainActivity(boolean transitionAnimation) {
         if (!transitionAnimation) {
             this.mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }

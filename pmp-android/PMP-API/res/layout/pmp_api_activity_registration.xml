@@ -27,28 +27,31 @@
         android:id="@+id/TextView_Failure_MissingActivity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="FAILED: The registration couldn\&apos;t be executed, because the developer did something wrong. (No MainActivity was defined in the AndroidManifest.xml)"
+        android:text="The registration couldn\&apos;t be executed, because the developer did something wrong. (No MainActivity was defined in the AndroidManifest.xml)"
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/TextView_Failure_MissingPMP"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="FAILED: PMP is not installed, try that first and reopen the App afterwards."
+        android:text="PMP is not installed, try that first and reopen the App afterwards."
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/TextView_Failure_Error"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="FAILED: PMP rejected the installation request. Try to contact the developer of the App."
+        android:text="PMP rejected the installation request. Try to contact the developer of the App."
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/TextView_Failure_ErrorMessage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <Button
@@ -64,6 +67,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="The App is now successfully registered at PMP, select now initial Service Features to start using the App."
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <Button
@@ -72,12 +76,13 @@
         android:layout_height="wrap_content"
         android:text="Select initial Service Features"
         android:visibility="gone" />
-    
-        <TextView
+
+    <TextView
         android:id="@+id/TextView_OpenApp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Almost finished, you can now click on the \'Open the App\' button."
+        android:text="Almost finished, you can now click on the \&apos;Open the App\&apos; button."
+        android:textSize="16dp"
         android:visibility="gone" />
 
     <Button
