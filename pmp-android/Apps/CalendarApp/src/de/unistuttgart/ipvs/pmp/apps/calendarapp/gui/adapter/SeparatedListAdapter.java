@@ -91,7 +91,8 @@ public class SeparatedListAdapter extends BaseAdapter {
     
     
     /**
-     * Calculates the position of the header of the current date
+     * Calculates the position of the header of the current date or if this date is 
+     * not found to the date before
      * 
      * @return position of the actual header
      */
@@ -100,50 +101,24 @@ public class SeparatedListAdapter extends BaseAdapter {
         // Skipped entries
         int skipped = 0;
         
-        // Key to count the headers
-        Long actualKey = 0L;
-
+        // Last key that was before today
+        long keyBefore = 0;
+        Date today = new Date();
+        
         for (Long key : sections.keySet()) {
             Date parsedDate = new Date(key);
-            Date today = new Date();
-            
-            // Year is to small, add all entries to skipped
-            if (parsedDate.getYear() < today.getYear()) {
+            if (parsedDate.before(today)) {
+                keyBefore = key;
                 
-                // If the key is not known, add one because of the header
-                if (!key.equals(actualKey)) {
-                    skipped++;
-                    actualKey = key;
-                }
-                skipped = skipped + sections.get(key).getCount();
-                continue;
-                
-                // Year is to equal, but month is too small, add all entries to skipped
-            } else if (parsedDate.getYear() == today.getYear() && parsedDate.getMonth() < today.getMonth()) {
-                
-                // If the key is not known, add one because of the header
-                if (!key.equals(actualKey)) {
-                    skipped++;
-                    actualKey = key;
-                }
-                skipped = skipped + sections.get(key).getCount();
-                continue;
-                
-                // Year and month are equal, but day is too small, add all entries to skipped
-            } else if (parsedDate.getYear() == today.getYear() && parsedDate.getMonth() == today.getMonth()
-                    && parsedDate.getDay() < today.getDay()) {
-                
-                // If the key is not known, add one because of the header
-                if (!key.equals(actualKey)) {
-                    skipped++;
-                    actualKey = key;
-                }
-                skipped = skipped + sections.get(key).getCount();
-                continue;
+                // Added the entries that were in this sections +1 for the header
+                skipped = skipped + sections.get(key).getCount() + 1;
             } else {
-                
-                // Entry with a date found that was later
-                return skipped;
+                /*
+                 * Skipped is now at the end of the wanted section
+                 * -> subtract the number of entries that are in the wanted section and subtract 1 for the 
+                 *    header of this section
+                 */
+                return skipped - 1 - sections.get(keyBefore).getCount();
             }
         }
         
