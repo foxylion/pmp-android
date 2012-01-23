@@ -8,36 +8,26 @@
     android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        pmp:name="@string/pmp_api_registration_step_1"
+        pmp:name="Preparing the App"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:icon="@drawable/pmp_api_icon" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <LinearLayout
+        android:id="@+id/LinearLayout_States"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <ProgressBar
-            android:id="@+id/ProgressBar_PendingRegistration"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/TextView_Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="The registration is runnig. Please wait, the App will be opened immediately."
-            android:textColor="#ffffff" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
     </LinearLayout>
+
+    <include layout="@layout/view_divider_strong" />
 
     <TextView
         android:id="@+id/TextView_Failure_MissingActivity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="FAILED: The registration couldn\&apos;t be executed, because the developer did something wrong. (No MainActivity was defined in the AndroidManifest.xml)"
-        android:textColor="#ffffff"
         android:visibility="gone" />
 
     <TextView
@@ -45,7 +35,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="FAILED: PMP is not installed, try that first and reopen the App afterwards."
-        android:textColor="#ffffff"
         android:visibility="gone" />
 
     <TextView
@@ -53,7 +42,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="FAILED: PMP rejected the installation request. Try to contact the developer of the App."
-        android:textColor="#ffffff"
         android:visibility="gone" />
 
     <TextView
@@ -61,7 +49,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="#ffffff"
         android:visibility="gone" />
 
     <Button
@@ -70,6 +57,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:text="Close Application"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/TextView_OpenSFList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="The App is now successfully registered at PMP, select now initial Service Features to start using the App."
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/Button_OpenSFList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Select initial Service Features"
+        android:visibility="gone" />
+    
+        <TextView
+        android:id="@+id/TextView_OpenApp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Almost finished, you can now click on the \'Open the App\' button."
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/Button_OpenApp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Ok, open the App."
         android:visibility="gone" />
 
 </LinearLayout>
