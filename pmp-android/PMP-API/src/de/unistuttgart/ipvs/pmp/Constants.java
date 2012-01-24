@@ -19,7 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp;
 
-import de.unistuttgart.ipvs.pmp.service.utils.PMPServiceConnector;
+import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPCommand;
 
 /**
  * Constants used by PMP, PMP-API and their implementing Apps and ResourceGroups.
@@ -34,8 +34,7 @@ public class Constants {
     public static final String LOG_NAME = "PMP";
     
     /**
-     * The Android-wide identifier for the PMP (also used to connect to the Service inside the
-     * {@link PMPServiceConnector}.
+     * The Android-wide identifier for the PMP (also used to connect to the Service inside the {@link IPC2PMPCommand}.
      */
     public static final String PMP_IDENTIFIER = "de.unistuttgart.ipvs.pmp.service.PMPService";
     

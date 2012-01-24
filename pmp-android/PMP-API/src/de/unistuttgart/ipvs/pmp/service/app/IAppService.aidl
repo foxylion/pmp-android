@@ -17,12 +17,6 @@ interface IAppService {
      *            the Bundle that contains the mappings of strings (the identifiers of the service features in the app
      *            description XML) to booleans (true for granted i.e. active, false for not granted)
      */
-    void updateServiceFeatures(in Bundle features);
-	
-	/**
-	 * @Deprecated
-	 */
-	void replyRegistrationResult(in RegistrationResult result);
-	
+    void updateServiceFeatures(in Bundle features);		
 
 }
