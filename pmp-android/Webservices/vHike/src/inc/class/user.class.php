@@ -39,6 +39,9 @@ class user {
     
     /** @var Rating */
     private $rating = null;
+    
+    /** @var Position */
+    private $position = null;
 
     private function __construct() {
     }
@@ -56,8 +59,26 @@ class user {
             throw new InvalidArgumentException("The offer ID is invalid");
         }
 
-        $user = new User();
-        return $user->fillAttributes("SELECT * FROM `" . DB_PREFIX . "_user` WHERE `id` = $id");
+        $user = new User();//SELECT * FROM `dev_user` u LEFT JOIN `dev_position` p ON (u.`id` = p.`user`) WHERE u.`id` = 1
+        
+        
+        $db = Database::getInstance();
+        $row = $db->fetch($db->query("SELECT 
+                                        u.*,
+                                        u.`id` AS `uid`,
+                                        p.`id` AS `pid`,
+                                        p.`latitude`,
+                                        p.`longitude`,
+                                        unix_timestamp(p.`last_update`) AS `last_update_ts`
+                                      FROM `" . DB_PREFIX . "_user` u 
+                                      LEFT JOIN `" . DB_PREFIX . "_position` p ON (u.`id` = p.`user`)
+                                      WHERE u.`id` = $id"));
+        
+        if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+        
+        return self::loadUserBySqlResult($row);
     }
 
 
@@ -73,7 +94,7 @@ class user {
      *              create a user-object from a non existing database entry!
      * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
      */
-    public static function loadUserBySqlResult($result, $idFieldName = "id") {
+    public static function loadUserBySqlResult($result, $idFieldName = "uid") {
         if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
             $result[$idFieldName] == null
         ) {
@@ -97,6 +118,9 @@ class user {
         $user->telPublic = (bool)$result["tel_public"];
         $user->activated = $result["activated"];
 
+        // Load position
+        $user->position = Position::loadPositionBySqlResult($result);
+        
         return $user;
 
     }
@@ -111,20 +135,23 @@ class user {
     public static function loadUserByName($name) {
         $name = Database::getInstance()->secureInput($name);
 
-        $user = new User();
-        return $user->fillAttributes("SELECT * FROM `" . DB_PREFIX . "_user` WHERE `username` = \"$name\"");
-    }
-
-    private function fillAttributes($sqlQuery) {
         $db = Database::getInstance();
-        $row = $db->fetch($db->query($sqlQuery));
-
-        if ($row["id"] == null) {
+        $row = $db->fetch($db->query("SELECT 
+                                        u.*,
+                                        u.`id` AS `uid`,
+                                        p.`id` AS `pid`,
+                                        p.`latitude`,
+                                        p.`longitude`,
+                                        unix_timestamp(p.`last_update`) AS `last_update_ts`
+                                      FROM `" . DB_PREFIX . "_user` u 
+                                      LEFT JOIN `" . DB_PREFIX . "_position` p ON (u.`id` = p.`user`)
+                                      WHERE `username` = \"$name\""));
+        
+        if ($db->getAffectedRows() <= 0) {
             return null;
         }
-
-        // Write data into attributes
-        return $this->loadUserBySqlResult($row);
+        
+        return self::loadUserBySqlResult($row);
     }
 
     private static function isPasswordValid($password) {
@@ -297,7 +324,11 @@ class user {
 
 
             // Create dataset for storing this user's postition
-            Position::createDataset($user);
+            $db->query("INSERT INTO `" . DB_PREFIX . "_position` (
+                            `user`
+                        ) VALUES (
+                            " . $user->getId() . "
+                        )");
 
             $db->query("COMMIT");
         } catch (Exception $e) {
@@ -521,6 +552,13 @@ class user {
         }
     }
 
+    /**
+     *
+     * @param type $lat
+     * @param type $lon
+     * @return type 
+     * @deprecated Please us getPosition()->updatePosition() because this method won't be updated
+     */
     public function updatePosition($lat, $lon) {
         $db = Database::getInstance();
         try {
@@ -573,6 +611,14 @@ class user {
 
     public function getEmail() {
         return $this->email;
+    }
+    
+    /**
+     * Returns the positioning data of this user.
+     * @return Position The user's position
+     */
+    public function getPosition() {
+        return $this->position;
     }
 
     public function getRatingAvg() {

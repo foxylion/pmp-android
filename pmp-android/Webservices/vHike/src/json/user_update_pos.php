@@ -2,9 +2,8 @@
 /**
  * This service is used to update the current position of a user
  *
- * Author: Dang Huynh
- * Date: 04.01.12
- * Time: 00:38
+ * @author Dang Huynh, Patrick Strobel
+ * @version 1.0.1
  */
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");
@@ -16,7 +15,14 @@ $user = Session::getInstance() -> getLoggedInUser();
 
 try {
 
-    if (!@General::validCoordinate($_POST["lat"]) || !@General::validCoordinate($_POST["lon"])) {
+    if (!General::validLatitude($_POST["lat"]) || !General::validLongitude($_POST["lon"])) {
+        Json::printInvalidInputError();
+    }
+    
+    $user->getPosition()->updatePosition($_POST["lat"], $_POST["lon"]);
+    echo Json::arrayToJson(array("successful" => true, "status" => "updated"));
+    
+    /*if (!@General::validCoordinate($_POST["lat"]) || !@General::validCoordinate($_POST["lon"])) {
         Json::printError("invalid_input", "At least one POST-Parameter is invalid");
     }
 
@@ -27,6 +33,7 @@ try {
     } else {
         echo Json::arrayToJson(array("successful" => true, "status" => "update_fail"));
     }
+*/
 
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidInputError();

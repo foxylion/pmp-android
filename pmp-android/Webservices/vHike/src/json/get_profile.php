@@ -41,6 +41,14 @@ try {
                         "tel_public" => $user->isTelPublic(),
                         "rating_avg" => $user->getRatingAvg(),
                         "rating_num" => $user->getRatingNum());
+        
+        // TODO The output below is used for testing purpose only. Remove
+        // it in final version!
+        $pos = $user->getPosition();
+        $output += array("lat" => $pos->getLatitude(),
+                        "lon" => $pos->getLongitude(),
+                        "last_update" => $pos->getLastUpdate());
+        
     } else {
         $output = array("successful" => true, 
                         "status" => "not_found");

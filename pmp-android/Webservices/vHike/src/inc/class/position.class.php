@@ -60,56 +60,26 @@ class position {
      *                      the tables name.
      * @param String $idFieldName Specifies the name of the id-field. Used when
      *                          the id field name is changed by SQL's "AS" statement
-     * @return Position Position-object storing the information from the given result-array
+     * @return Position Position-object storing the information from the given result-array.
+     *          This may return a position with "last_update" set to "0" if theres no
+     *          entry loaded from the db.
      * @internal    This is for internal use only as this function could be used to
      *              create a position-object from a non existing database entry!
      * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
      */
-    public static function loadPositionBySqlResult($result, $idFieldName = "id") {
-        if (!is_array($result) || $idFieldName == null || $idFieldName == "" ||
-            $result[$idFieldName] == null) {
+    public static function loadPositionBySqlResult($result, $idFieldName = "pid") {
+        if (!is_array($result) || $idFieldName == null || $idFieldName == "") {
             throw new InvalidArgumentException("Result or ifFieldName is invalid");
         }
         
         $pos = new Position();
-        $pos->id = $row["id"];
-        $pos->latitude = $row["latitude"];
-        $pos->longitude = $row["longitude"];
-        $pos->lastUpdate = $row["last_update_ts"];
+        
+        $pos->id = $result[$idFieldName];
+        $pos->latitude = (float)$result["latitude"];
+        $pos->longitude = (float)$result["longitude"];
+        $pos->lastUpdate = (int)$result["last_update_ts"];
         
         return $pos;
-    }
-    
-    /**
-     * Inserts a new dataset into the db to store the position of the given user.
-     * If there is already a dataset for the given user, this methode won't insert
-     * an entry into the db
-     * @param User $user 
-     * @throws  InvalidArgumentException Thrown, if user is not a object of class "User"
-     */
-    public static function createDataset($user) {
-        if (!($user instanceof User)) {
-            throw new InvalidArgumentException("The user-parameter has to be an user-object.");
-        }
-        
-        $db = Database::getInstance();
-        
-        
-        $db->query("START TRANSACTION");
-        
-        // Check if there's already an entry for the given user
-        $db->query("SELECT * FROM ".DB_PREFIX."_position WHERE `user` = ".$user->getId());
-        
-        // Insert a dataset if there is no entry 
-        if ($db->getAffectedRows() <= 0) {
-            $db->query("INSERT INTO `" . DB_PREFIX . "_position` (
-                            `user`
-                        ) VALUES (
-                            " . $user->getId() . "
-                        )");
-        }
-        
-        $db->query("COMMIT");
     }
     
     /**
@@ -125,14 +95,16 @@ class position {
         }
         
         $db = Database::getInstance();
+        $last_update = time();
         $updated = $db->query("UPDATE `" . DB_PREFIX . "_position`
                                SET `latitude` = '" . $latitude . "',
                                    `longitude` = '" . $longitude . "',
-                                   `last_update` = from_unixtime(" . time() . ")                                       
+                                   `last_update` = from_unixtime(" . $last_update . ")                                       
                                WHERE `id` = " . $this->id);
 
         $this->latitude = $latitude;
         $this->longitude = $longitude;
+        $this->lastUpdate = $last_update;
 
         return ($updated && $db->getAffectedRows() > 0);
         
@@ -161,6 +133,10 @@ class position {
      */
     public function getLastUpdateTimesamp() {
         return $this->lastUpdate;
+    }
+    
+    public function getLastUpdate() {
+        return date(Database::DATE_TIME_FORMAT, $this->lastUpdate);
     }
 }
 ?>
