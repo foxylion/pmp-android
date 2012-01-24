@@ -1,7 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -9,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
@@ -87,17 +92,8 @@ public class DialogServiceFeature extends Dialog {
                 psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
             }
         } else {
-            rgContainer.setVisibility(View.VISIBLE);
             psContainer.setVisibility(View.GONE);
-            
-            LinearLayout rgLayout = (LinearLayout) findViewById(R.id.LinearLayout_required_ResourceGroups);
-            rgLayout.removeAllViews();
-            
-            for (MissingPrivacySettingValue privacySetting : serviceFeature.getMissingPrivacySettings()) {
-                TextView tv = new TextView(getContext());
-                tv.setText("- " + privacySetting.getResourceGroup());
-                rgContainer.addView(tv);
-            }
+            rgContainer.setVisibility(View.VISIBLE);
         }
         
         /* Decide between displaying the Disable/Enable button or not */
@@ -148,6 +144,22 @@ public class DialogServiceFeature extends Dialog {
                 DialogServiceFeature.this.cancel();
             }
         });
+        
+        Button showMissingRGs = (Button) findViewById(R.id.Button_ViewMissingRGs);
+        showMissingRGs.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                List<String> missingRGs = new ArrayList<String>();
+                for (MissingPrivacySettingValue ps : serviceFeature.getMissingPrivacySettings()) {
+                    if (!missingRGs.contains(ps.getResourceGroup())) {
+                        missingRGs.add(ps.getResourceGroup());
+                    }
+                }
+                Intent intent = GUITools.createFilterAvailableRGsIntent(missingRGs.toArray(new String[missingRGs.size()]));
+                getContext().startActivity(intent);
+                dismiss();
+            }
+        });
     }
-    
 }

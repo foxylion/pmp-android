@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
@@ -60,6 +61,11 @@ public class TabRGsAvailable extends Activity {
      */
     protected AdapterRGsAvailable rgisAdapter;
     
+    /**
+     * Filter which should be used for filtering the available RGs.
+     */
+    private String filter;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,11 @@ public class TabRGsAvailable extends Activity {
         
         this.rgisViewList.setClickable(true);
         
+        this.filter = GUITools.getAvailableRGsFilter(getIntent());
+        if (this.filter == null) {
+            this.filter = "";
+        }
+        
         addListener();
     }
     
@@ -84,7 +95,7 @@ public class TabRGsAvailable extends Activity {
     protected void onResume() {
         super.onResume();
         
-        startDownloadList();
+        updateDownloadList();
     }
     
     
@@ -99,7 +110,8 @@ public class TabRGsAvailable extends Activity {
     /**
      * Initiates a new update of the available Resourcegroups list. (done asynchronously)
      */
-    public void startDownloadList() {
+    public void updateDownloadList() {
+        
         this.lastUpdateContainer.setVisibility(View.GONE);
         this.updateFailedContainer.setVisibility(View.GONE);
         this.updateProgressContainer.setVisibility(View.VISIBLE);
@@ -122,7 +134,8 @@ public class TabRGsAvailable extends Activity {
                     public void download(int position, int length) {
                     }
                 });
-                final RgInformationSet[] informationSets = ServerProvider.getInstance().findResourceGroups("");
+                
+                final RgInformationSet[] informationSets = ServerProvider.getInstance().findResourceGroups(filter);
                 
                 /* Parse the downloaded list */
                 runOnUiThread(new Runnable() {
@@ -181,7 +194,7 @@ public class TabRGsAvailable extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_rg_refresh:
-                startDownloadList();
+                updateDownloadList();
                 break;
         }
         return super.onMenuItemSelected(featureId, item);

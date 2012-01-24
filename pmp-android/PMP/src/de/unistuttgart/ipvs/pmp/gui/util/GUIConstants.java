@@ -26,10 +26,16 @@ public class GUIConstants {
     public static final int COLOR_BG_GRAY = Color.parseColor("#333333");
     
     /**
-     * Actions
+     * Intent Actions
      */
     public static final String ACTIVITY_ACTION = "activityAction";
     public static final String CHANGE_SERVICEFEATURE = "changeServiceFeature";
+    public static final String FILTER_AVAILABLE_RGS = "filterRGs";
+    
+    /**
+     * Intent Parameters
+     */
     public static final String REQUIRED_SERVICE_FEATURE = "requiredServiceFeature";
+    public static final String RGS_FILTER = "rgsFilter";
     
 }
