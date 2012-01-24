@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.service.app;
 
-import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
-
 /**
  * The IAppService is provided by an application, over the interface
  * it's possible to get name, description and ServiceFeatures from the App.
