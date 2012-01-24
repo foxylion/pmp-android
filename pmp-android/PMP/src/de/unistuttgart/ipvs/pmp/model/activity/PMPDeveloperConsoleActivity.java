@@ -33,7 +33,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.RemoteException;
+import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,6 +44,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.api.ipc.IPCConnection;
 import de.unistuttgart.ipvs.pmp.gui.main.ActivityMain;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -60,9 +61,6 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnector;
-import de.unistuttgart.ipvs.pmp.service.utils.AbstractConnectorCallback;
-import de.unistuttgart.ipvs.pmp.service.utils.AppServiceConnector;
 
 public class PMPDeveloperConsoleActivity extends Activity {
     
@@ -366,35 +364,31 @@ public class PMPDeveloperConsoleActivity extends Activity {
             
             @Override
             public Void run(Void... params) {
-                AppServiceConnector asc = new AppServiceConnector(getApplicationContext(), serviceName);
-                asc.addCallbackHandler(new AbstractConnectorCallback() {
+                IPCConnection ipcc = new IPCConnection(getApplication());
+                
+                IBinder service = ipcc.getBinder();
+                if (service != null) {
+                    new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection successful.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(true).show();
                     
-                    @Override
-                    public void onConnect(AbstractConnector connector) throws RemoteException {
-                        new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection successful.")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).setCancelable(true).show();
-                    }
+                } else { // service == null                    
+                    new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection failed.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(true).show();
                     
-                    
-                    @Override
-                    public void onBindingFailed(AbstractConnector connector) {
-                        new AlertDialog.Builder(PMPDeveloperConsoleActivity.this).setMessage("Connection failed.")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).setCancelable(true).show();
-                    }
-                });
-                asc.bind(true);
+                }
+                
                 return null;
             }
         };

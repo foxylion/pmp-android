@@ -23,7 +23,6 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.service.app.IAppService;
-import de.unistuttgart.ipvs.pmp.service.app.RegistrationResult;
 
 /**
  * Implementation of the {@link IAppService.Stub} stub.
@@ -46,12 +45,6 @@ public class AppServiceImplementation extends IAppService.Stub {
     @Override
     public void updateServiceFeatures(Bundle features) throws RemoteException {
         PMP.getForService(this.application).onServiceFeatureUpdate(features);
-    }
-    
-    
-    @Override
-    @Deprecated
-    public void replyRegistrationResult(RegistrationResult result) throws RemoteException {
     }
     
 }

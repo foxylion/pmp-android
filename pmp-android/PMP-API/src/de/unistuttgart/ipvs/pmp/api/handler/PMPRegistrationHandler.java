@@ -13,6 +13,20 @@ import de.unistuttgart.ipvs.pmp.api.ipc.command.IPC2PMPRegistrationCommand;
 public class PMPRegistrationHandler extends PMPHandler {
     
     /**
+     * Called when the registration cannot be completed because the app is already registered.
+     */
+    public void onAlreadyRegistered() {
+    }
+    
+    
+    /**
+     * Called when the registration will start, i.e. before the actual registration takes place.
+     */
+    public void onRegistration() {
+    }
+    
+    
+    /**
      * Called when the registration was successful.
      */
     public void onSuccess() {
@@ -26,13 +40,6 @@ public class PMPRegistrationHandler extends PMPHandler {
      *            the failure message
      */
     public void onFailure(String message) {
-    }
-    
-    
-    /**
-     * Called when the registration cannot be completed because the app is already registered.
-     */
-    public void onAlreadyRegistered() {
     }
     
 }
