@@ -26,6 +26,8 @@ public class IPC2PMPRegistrationCommand extends IPC2PMPCommand<PMPRegistrationHa
             
         } else {
             
+            getPMPHandler().onRegistration();
+            
             RegistrationResult rr = pmp.registerApp(getSourceService());
             if (rr.getSuccess()) {
                 getPMPHandler().onSuccess();
