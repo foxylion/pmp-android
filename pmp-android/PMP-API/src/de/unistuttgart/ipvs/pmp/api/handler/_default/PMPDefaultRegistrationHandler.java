@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.api.handler._default;
 
+import android.app.Activity;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationDialog;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationEventTypes;
@@ -10,6 +11,11 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     private RegistrationDialog dialog;
     
     private Context context;
+    
+    
+    public PMPDefaultRegistrationHandler(Activity activity) {
+        // TODO Auto-generated constructor stub
+    }
     
     
     @Override

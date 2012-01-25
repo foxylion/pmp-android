@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -186,8 +187,8 @@ public class PMP implements IPMP {
      */
     
     @Override
-    public void register() {
-        register(new PMPDefaultRegistrationHandler(), 0);
+    public void register(Activity activity) {
+        register(new PMPDefaultRegistrationHandler(activity), 0);
     }
     
     
@@ -229,14 +230,14 @@ public class PMP implements IPMP {
     
     
     @Override
-    public void requestServiceFeatures(List<String> serviceFeatures) {
-        requestServiceFeatures(serviceFeatures, new PMPDefaultRequestSFHandler(), true, 0);
+    public void requestServiceFeatures(Activity activity, List<String> serviceFeatures) {
+        requestServiceFeatures(serviceFeatures, new PMPDefaultRequestSFHandler(activity), true, 0);
     }
     
     
     @Override
-    public void requestServiceFeatures(String... serviceFeatures) {
-        requestServiceFeatures(Arrays.asList(serviceFeatures), new PMPDefaultRequestSFHandler(), true, 0);
+    public void requestServiceFeatures(Activity activity, String... serviceFeatures) {
+        requestServiceFeatures(Arrays.asList(serviceFeatures), new PMPDefaultRequestSFHandler(activity), true, 0);
     }
     
     

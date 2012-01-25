@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.app.Activity;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -31,10 +33,13 @@ public interface IPMP {
      * 
      * <p>
      * Calling this method is an easy way to perform the registration with getting all the GUI elements handled for you.
-     * If you want an even simpler way, consider using the (TODO Jakob) activity.
+     * If you want an even simpler way, consider using the {@link RegistrationActivity}.
      * </p>
+     * 
+     * @param activity
+     *            the {@link Activity} in which contexts the dialogs shall be shown
      */
-    public void register();
+    public void register(Activity activity);
     
     
     /**
@@ -105,8 +110,11 @@ public interface IPMP {
      * 
      * @param serviceFeatures
      *            the service features that shall be requested
+     * @param activity
+     *            the {@link Activity} in which contexts the dialogs shall be shown
+     * 
      */
-    public void requestServiceFeatures(List<String> serviceFeatures);
+    public void requestServiceFeatures(Activity activity, List<String> serviceFeatures);
     
     
     /**
@@ -116,8 +124,10 @@ public interface IPMP {
      * 
      * @param serviceFeatures
      *            the service features that shall be requested
+     * @param activity
+     *            the {@link Activity} in which contexts the dialogs shall be shown
      */
-    public void requestServiceFeatures(String... serviceFeatures);
+    public void requestServiceFeatures(Activity activity, String... serviceFeatures);
     
     
     /**
