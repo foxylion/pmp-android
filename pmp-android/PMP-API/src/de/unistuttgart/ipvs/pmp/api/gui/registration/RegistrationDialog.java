@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.IPMP;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationStateListItem.State;
@@ -23,6 +24,8 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
     
     public RegistrationDialog(Context context) {
         super(context);
+        
+        setContentView(R.layout.pmp_api_activity_registration);
         
         setCancelable(false);
         

@@ -36,143 +36,142 @@ import de.unistuttgart.ipvs.pmp.apps.simpleapp.R;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
 
 public class SimpleAppActivity extends Activity {
-    
-    public Handler handler;
-    
-    private Button buttonServiceFeatures;
-    
-    private Button wirelessRefreshButton;
-    private TextView wirelessStateTextView;
-    private ToggleButton wirelessToggleButton;
-    
-    private ProgressDialog pd;
-    
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        this.handler = new Handler();
-        
-        setContentView(R.layout.main);
-        
-        this.buttonServiceFeatures = (Button) findViewById(R.id.Button_ChangeServiceFeatures);
-        
-        this.wirelessRefreshButton = (Button) findViewById(R.id.Button_WifiRefresh);
-        this.wirelessStateTextView = (TextView) findViewById(R.id.TextView_WirelessState);
-        this.wirelessToggleButton = (ToggleButton) findViewById(R.id.ToggleButton_Wifi);
-        
-        Model.getInstance().setActivity(this);
-        
-        addListener();
-    }
-    
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        
-        this.pd = ProgressDialog.show(this, "Registration running.", "Please wait...");
-        this.pd.show();
-        
-        PMP.get().register(new PMPRegistrationHandler() {
-            
-            private String toast = "";
-            
-            
-            @Override
-            public void onSuccess() {
-                this.toast = "SimpleApp: Registration succeeded.";
-            }
-            
-            
-            @Override
-            public void onAlreadyRegistered() {
-                this.toast = "SimpleApp: Already registered.";
-                PMP.get().updateServiceFeatures();
-            }
-            
-            
-            @Override
-            public void onFailure(String message) {
-                this.toast = "SimpleApp: Registration failed with the following message: " + message;
-            }
-            
-            
-            @Override
-            public void onFinalize() {
-                SimpleAppActivity.this.handler.post(new Runnable() {
-                    
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
-                        
-                        SimpleAppActivity.this.pd.dismiss();
-                        refresh();
-                    }
-                });
-            }
-            
-            
-            @Override
-            public void onBindingFailed() {
-                Log.e("Binding failed...");
-            }
-            
-        });
-        
-    }
-    
-    
-    private void addListener() {
-        this.buttonServiceFeatures.setOnClickListener(new OnClickListener() {
-            
-            public void onClick(View v) {
-                PMP.get().requestServiceFeatures(Model.SF_WIFI_STATE, Model.SF_WIFI_CHANGE);
-            }
-        });
-        
-        this.wirelessRefreshButton.setOnClickListener(new OnClickListener() {
-            
-            public void onClick(View v) {
-                refreshWifi();
-            }
-        });
-        
-        this.wirelessToggleButton.setOnClickListener(new OnClickListener() {
-            
-            public void onClick(View v) {
-                Model.getInstance().setWifi(SimpleAppActivity.this.wirelessToggleButton.isChecked());
-            }
-        });
-    }
-    
-    
-    public void refresh() {
-        refreshWifi();
-        
-        String string = "Current active SF:\n";
-        string += Model.SF_WIFI_STATE + ": " + PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_STATE) + "\n";
-        string += Model.SF_WIFI_CHANGE + ": " + PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_CHANGE);
-        
-        Toast.makeText(SimpleAppActivity.this, string, Toast.LENGTH_LONG).show();
-    }
-    
-    
-    public void refreshWifi() {
-        
-        if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_STATE)) {
-            // Wireless State SF is disabled
-            this.wirelessStateTextView.setText("missingSF");
-        } else {
-            Model.getInstance().getWifi(this.handler, this.wirelessStateTextView, this.wirelessToggleButton);
-        }
-        
-        if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_CHANGE)) {
-            // Wireless State SF is disabled
-            this.wirelessToggleButton.setEnabled(false);
-        } else {
-            this.wirelessToggleButton.setEnabled(true);
-        }
-    }
-    
+
+	public Handler handler;
+
+	private Button buttonServiceFeatures;
+
+	private Button wirelessRefreshButton;
+	private TextView wirelessStateTextView;
+	private ToggleButton wirelessToggleButton;
+
+	private ProgressDialog pd;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		this.handler = new Handler();
+
+		setContentView(R.layout.main);
+
+		this.buttonServiceFeatures = (Button) findViewById(R.id.Button_ChangeServiceFeatures);
+
+		this.wirelessRefreshButton = (Button) findViewById(R.id.Button_WifiRefresh);
+		this.wirelessStateTextView = (TextView) findViewById(R.id.TextView_WirelessState);
+		this.wirelessToggleButton = (ToggleButton) findViewById(R.id.ToggleButton_Wifi);
+
+		Model.getInstance().setActivity(this);
+
+		addListener();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		this.pd = ProgressDialog.show(this, "Registration running.",
+				"Please wait...");
+		this.pd.show();
+
+		PMP.get().register(new PMPRegistrationHandler() {
+
+			private String toast = "";
+
+			@Override
+			public void onSuccess() {
+				this.toast = "SimpleApp: Registration succeeded.";
+			}
+
+			@Override
+			public void onAlreadyRegistered() {
+				this.toast = "SimpleApp: Already registered.";
+				PMP.get().updateServiceFeatures();
+			}
+
+			@Override
+			public void onFailure(String message) {
+				this.toast = "SimpleApp: Registration failed with the following message: "
+						+ message;
+			}
+
+			@Override
+			public void onFinalize() {
+				SimpleAppActivity.this.handler.post(new Runnable() {
+
+					public void run() {
+						Toast.makeText(getApplicationContext(), toast,
+								Toast.LENGTH_SHORT).show();
+
+						SimpleAppActivity.this.pd.dismiss();
+						refresh();
+					}
+				});
+			}
+
+			@Override
+			public void onBindingFailed() {
+				Log.e("Binding failed...");
+			}
+		});
+	}
+
+	private void addListener() {
+		this.buttonServiceFeatures.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				PMP.get().requestServiceFeatures(SimpleAppActivity.this,
+						Model.SF_WIFI_STATE, Model.SF_WIFI_CHANGE);
+			}
+		});
+
+		this.wirelessRefreshButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				refreshWifi();
+			}
+		});
+
+		this.wirelessToggleButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				Model.getInstance()
+						.setWifi(
+								SimpleAppActivity.this.wirelessToggleButton
+										.isChecked());
+			}
+		});
+	}
+
+	public void refresh() {
+		refreshWifi();
+
+		String string = "Current active SF:\n";
+		string += Model.SF_WIFI_STATE + ": "
+				+ PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_STATE) + "\n";
+		string += Model.SF_WIFI_CHANGE + ": "
+				+ PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_CHANGE);
+
+		Toast.makeText(SimpleAppActivity.this, string, Toast.LENGTH_LONG)
+				.show();
+	}
+
+	public void refreshWifi() {
+
+		if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_STATE)) {
+			// Wireless State SF is disabled
+			this.wirelessStateTextView.setText("missingSF");
+		} else {
+			Model.getInstance().getWifi(this.handler,
+					this.wirelessStateTextView, this.wirelessToggleButton);
+		}
+
+		if (!PMP.get().isServiceFeatureEnabled(Model.SF_WIFI_CHANGE)) {
+			// Wireless State SF is disabled
+			this.wirelessToggleButton.setEnabled(false);
+		} else {
+			this.wirelessToggleButton.setEnabled(true);
+		}
+	}
+
 }

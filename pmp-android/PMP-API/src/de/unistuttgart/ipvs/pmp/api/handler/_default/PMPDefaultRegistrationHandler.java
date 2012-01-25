@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.api.handler._default;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationDialog;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationEventTypes;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
@@ -12,9 +14,16 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     
     private Context context;
     
+    private Handler handler;
+    
     
     public PMPDefaultRegistrationHandler(Activity activity) {
-        // TODO Auto-generated constructor stub
+        this.context = activity;
+        
+        Looper.prepare();
+        handler = new Handler();
+        Looper.loop();
+        Looper.myLooper().quit();
     }
     
     
@@ -54,8 +63,14 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     
     private void createDialogIfNotExists() {
         if (dialog == null) {
-            dialog = new RegistrationDialog(context);
-            dialog.show();
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    dialog = new RegistrationDialog(context);
+                    dialog.show();
+                }
+            });
         }
     }
 }
