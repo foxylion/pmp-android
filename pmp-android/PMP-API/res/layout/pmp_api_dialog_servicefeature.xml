@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:orientation="vertical" >
+
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="Missing Service Feature"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:icon="@drawable/pmp_api_icon" >
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="For this action one or more Service Features are required to be enabled. When you enable all orange highlighted Service Features in the next step you can try to execute this action again." />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/Button_Continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok, show Service Features." />
+
+        <Button
+            android:id="@+id/Button_Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No, skip it!" />
+    </LinearLayout>
+
+</LinearLayout>

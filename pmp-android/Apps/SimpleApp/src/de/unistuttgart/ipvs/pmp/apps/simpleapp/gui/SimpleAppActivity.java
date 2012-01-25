@@ -69,51 +69,8 @@ public class SimpleAppActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		this.pd = ProgressDialog.show(this, "Registration running.",
-				"Please wait...");
-		this.pd.show();
-
-		PMP.get().register(new PMPRegistrationHandler() {
-
-			private String toast = "";
-
-			@Override
-			public void onSuccess() {
-				this.toast = "SimpleApp: Registration succeeded.";
-			}
-
-			@Override
-			public void onAlreadyRegistered() {
-				this.toast = "SimpleApp: Already registered.";
-				PMP.get().updateServiceFeatures();
-			}
-
-			@Override
-			public void onFailure(String message) {
-				this.toast = "SimpleApp: Registration failed with the following message: "
-						+ message;
-			}
-
-			@Override
-			public void onFinalize() {
-				SimpleAppActivity.this.handler.post(new Runnable() {
-
-					public void run() {
-						Toast.makeText(getApplicationContext(), toast,
-								Toast.LENGTH_SHORT).show();
-
-						SimpleAppActivity.this.pd.dismiss();
-						refresh();
-					}
-				});
-			}
-
-			@Override
-			public void onBindingFailed() {
-				Log.e("Binding failed...");
-			}
-		});
+		
+		refresh();
 	}
 
 	private void addListener() {
