@@ -106,7 +106,6 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onSuccess() {
                 PMP.get().updateServiceFeatures();
-                PMP.get().requestServiceFeatures();
                 this.toast = self.getString(R.string.registration_succeed);
                 ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(true);
             }
