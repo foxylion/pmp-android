@@ -17,35 +17,81 @@ import de.unistuttgart.ipvs.pmp.R;
  */
 class RegistrationElements {
     
+    /**
+     * The parent UI. Also see ({@link IRegistrationUI}.
+     */
     private IRegistrationUI parentUi;
     
+    /**
+     * The Failure-TextView "missing activity".
+     */
     public TextView tvFailureMissingActivity;
+    
+    /**
+     * The Failure-TextView "missing pmp".
+     */
     public TextView tvFailureMissingPMP;
+    
+    /**
+     * The Failure-TextView "error during installation".
+     */
     public TextView tvFailureError;
+    
+    /**
+     * The Failure-TextView "error message during installation".
+     */
     public TextView tvFailureErrorMessage;
+    
+    /**
+     * The TextView "description for opening the app".
+     */
     public TextView tvOpenApp;
+    
+    /**
+     * The TextView "description for selecting initial service features".
+     */
     public TextView tvSelectInitialSF;
     
+    /**
+     * The Button for closing the App.
+     */
     public Button buttonClose;
+    
+    /**
+     * The Button for bringing the main activity to the front.
+     */
     public Button buttonOpenApp;
+    
+    /**
+     * The Button for selecting the initial Service Features.
+     */
     public Button buttonSelectInitialSF;
     
+    /**
+     * The List of {@link RegistrationStateListItem} which indicates the current state of registration.
+     */
     private List<RegistrationStateListItem> registrationStateList = new ArrayList<RegistrationStateListItem>();
     
     
-    public RegistrationElements(IRegistrationUI activity) {
-        this.parentUi = activity;
+    /**
+     * Create a new {@link RegistrationElements} instance.
+     * 
+     * @param parentUi
+     *            The UI which uses the layout componentes described here.
+     */
+    public RegistrationElements(IRegistrationUI parentUi) {
+        this.parentUi = parentUi;
         
-        this.tvFailureMissingActivity = (TextView) parentUi.findViewById(R.id.TextView_Failure_MissingActivity);
-        this.tvFailureMissingPMP = (TextView) parentUi.findViewById(R.id.TextView_Failure_MissingPMP);
-        this.tvFailureError = (TextView) parentUi.findViewById(R.id.TextView_Failure_Error);
-        this.tvFailureErrorMessage = (TextView) parentUi.findViewById(R.id.TextView_Failure_ErrorMessage);
-        this.tvOpenApp = (TextView) parentUi.findViewById(R.id.TextView_OpenApp);
-        this.tvSelectInitialSF = (TextView) parentUi.findViewById(R.id.TextView_OpenSFList);
+        this.tvFailureMissingActivity = (TextView) this.parentUi.findViewById(R.id.TextView_Failure_MissingActivity);
+        this.tvFailureMissingPMP = (TextView) this.parentUi.findViewById(R.id.TextView_Failure_MissingPMP);
+        this.tvFailureError = (TextView) this.parentUi.findViewById(R.id.TextView_Failure_Error);
+        this.tvFailureErrorMessage = (TextView) this.parentUi.findViewById(R.id.TextView_Failure_ErrorMessage);
+        this.tvOpenApp = (TextView) this.parentUi.findViewById(R.id.TextView_OpenApp);
+        this.tvSelectInitialSF = (TextView) this.parentUi.findViewById(R.id.TextView_OpenSFList);
         
-        this.buttonClose = (Button) activity.findViewById(R.id.Button_Close);
-        this.buttonOpenApp = (Button) activity.findViewById(R.id.Button_OpenApp);
-        this.buttonSelectInitialSF = (Button) activity.findViewById(R.id.Button_OpenSFList);
+        this.buttonClose = (Button) this.parentUi.findViewById(R.id.Button_Close);
+        this.buttonOpenApp = (Button) this.parentUi.findViewById(R.id.Button_OpenApp);
+        this.buttonSelectInitialSF = (Button) this.parentUi.findViewById(R.id.Button_OpenSFList);
         
         fillRegistrationStateList();
         
@@ -62,32 +108,41 @@ class RegistrationElements {
      *            New state of the item.
      */
     public void setState(int item, RegistrationStateListItem.State state) {
-        registrationStateList.get(item - 1).setState(state);
+        this.registrationStateList.get(item - 1).setState(state);
     }
     
     
+    /**
+     * Fills the registration state list.
+     */
     private void fillRegistrationStateList() {
-        registrationStateList.add(new RegistrationStateListItem(parentUi.getContext(), 1, "Preparing & detecting PMP"));
-        registrationStateList.add(new RegistrationStateListItem(parentUi.getContext(), 2, "Checking registration"));
-        registrationStateList.add(new RegistrationStateListItem(parentUi.getContext(), 3, "Registration at PMP"));
-        registrationStateList.add(new RegistrationStateListItem(parentUi.getContext(), 4,
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 1,
+                "Preparing & detecting PMP"));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 2,
+                "Checking registration"));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 3,
+                "Registration at PMP"));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 4,
                 "Set initial Service Features"));
-        registrationStateList.add(new RegistrationStateListItem(parentUi.getContext(), 5, "Open the App"));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 5, "Open the App"));
         
-        ((LinearLayout) parentUi.findViewById(R.id.LinearLayout_States)).removeAllViews();
+        ((LinearLayout) this.parentUi.findViewById(R.id.LinearLayout_States)).removeAllViews();
         
-        for (RegistrationStateListItem item : registrationStateList) {
-            ((LinearLayout) parentUi.findViewById(R.id.LinearLayout_States)).addView(item);
+        for (RegistrationStateListItem item : this.registrationStateList) {
+            ((LinearLayout) this.parentUi.findViewById(R.id.LinearLayout_States)).addView(item);
         }
     }
     
     
+    /**
+     * Adds the listeners.
+     */
     private void addListener() {
         this.buttonClose.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                parentUi.close();
+                RegistrationElements.this.parentUi.close();
             }
         });
         
@@ -95,7 +150,7 @@ class RegistrationElements {
             
             @Override
             public void onClick(View v) {
-                parentUi.invokeEvent(RegistrationEventTypes.SF_SCREEN_OPENED);
+                RegistrationElements.this.parentUi.invokeEvent(RegistrationEventTypes.SF_SCREEN_OPENED);
             }
         });
         
@@ -103,7 +158,7 @@ class RegistrationElements {
             
             @Override
             public void onClick(View v) {
-                parentUi.invokeEvent(RegistrationEventTypes.OPEN_APP);
+                RegistrationElements.this.parentUi.invokeEvent(RegistrationEventTypes.OPEN_APP);
             }
         });
     }

@@ -41,16 +41,34 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
  */
 public class RegistrationActivity extends Activity implements IRegistrationUI {
     
+    /**
+     * Event number which is used to identify the reply of the startActivityWithResult()-call.
+     */
     private static final int CLOSE_ON_RESULT = 111;
     
+    /**
+     * The mainActivityIntent which is used to start the MainActivity of the App.
+     */
     private Intent mainActivityIntent = null;
     
+    /**
+     * The layout elements.
+     */
     private RegistrationElements elements;
     
+    /**
+     * {@link IPMP} instance.
+     */
     private IPMP pmp;
     
+    /**
+     * Handler which can be used to invoke actions in the ui Thread.
+     */
     private Handler handler;
     
+    /**
+     * The last event which was invoked.
+     */
     private RegistrationEventTypes lastEvent;
     
     
@@ -69,16 +87,22 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     }
     
     
+    /**
+     * Checks if a registration is possible.
+     */
     private void checkRegistration() {
         if (this.mainActivityIntent == null) {
             invokeEvent(RegistrationEventTypes.NO_ACITIVTY_DEFINED);
         } else {
             RegistrationHandler regHandler = new RegistrationHandler(this);
-            pmp.register(regHandler);
+            this.pmp.register(regHandler);
         }
     }
     
     
+    /**
+     * Loads all GUI elements.
+     */
     private void loadGUI() {
         setContentView(R.layout.pmp_api_activity_registration);
         
@@ -93,6 +117,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     protected void onResume() {
         super.onResume();
         
+        /* Invoke the SF_SCREEN_CLOSED-event when coming back from the Service Features selection. */
         if (this.lastEvent == RegistrationEventTypes.SF_SCREEN_OPENED) {
             invokeEvent(RegistrationEventTypes.SF_SCREEN_CLOSED);
             overridePendingTransition(0, 0);
@@ -108,6 +133,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /* Closing the Activity when coming back from the MainActivity of the App. */
         if (requestCode == RegistrationActivity.CLOSE_ON_RESULT) {
             finish();
         }
@@ -118,72 +144,73 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     public void invokeEvent(final RegistrationEventTypes eventType, final Object... parameters) {
         this.lastEvent = eventType;
         
-        handler.post(new Runnable() {
+        this.handler.post(new Runnable() {
             
             @Override
             public void run() {
                 switch (eventType) {
                     case NO_ACITIVTY_DEFINED:
                         loadGUI();
-                        elements.tvFailureMissingActivity.setVisibility(View.VISIBLE);
-                        elements.buttonClose.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvFailureMissingActivity.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.buttonClose.setVisibility(View.VISIBLE);
                         
-                        elements.setState(1, State.FAIL);
+                        RegistrationActivity.this.elements.setState(1, State.FAIL);
                         break;
                     
                     case PMP_NOT_INSTALLED:
                         loadGUI();
-                        elements.tvFailureMissingPMP.setVisibility(View.VISIBLE);
-                        elements.buttonClose.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvFailureMissingPMP.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.buttonClose.setVisibility(View.VISIBLE);
                         
-                        elements.setState(1, State.FAIL);
-                        elements.setState(2, State.NONE);
-                        elements.setState(3, State.NONE);
+                        RegistrationActivity.this.elements.setState(1, State.FAIL);
+                        RegistrationActivity.this.elements.setState(2, State.NONE);
+                        RegistrationActivity.this.elements.setState(3, State.NONE);
                         break;
                     
                     case START_REGISTRATION:
                         loadGUI();
-                        elements.setState(1, State.SUCCESS);
-                        elements.setState(2, State.SUCCESS);
-                        elements.setState(3, State.PROCESSING);
+                        RegistrationActivity.this.elements.setState(1, State.SUCCESS);
+                        RegistrationActivity.this.elements.setState(2, State.SUCCESS);
+                        RegistrationActivity.this.elements.setState(3, State.PROCESSING);
                         break;
                     
                     case REGISTRATION_SUCCEED:
-                        elements.tvSelectInitialSF.setVisibility(View.VISIBLE);
-                        elements.buttonSelectInitialSF.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvSelectInitialSF.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.buttonSelectInitialSF.setVisibility(View.VISIBLE);
                         
-                        elements.setState(2, State.SUCCESS);
-                        elements.setState(3, State.SUCCESS);
-                        elements.setState(4, State.NEW);
+                        RegistrationActivity.this.elements.setState(2, State.SUCCESS);
+                        RegistrationActivity.this.elements.setState(3, State.SUCCESS);
+                        RegistrationActivity.this.elements.setState(4, State.NEW);
                         break;
                     
                     case REGISTRATION_FAILED:
-                        elements.tvFailureError.setVisibility(View.VISIBLE);
-                        elements.tvFailureErrorMessage.setText((String) parameters[0]);
-                        elements.tvFailureErrorMessage.setVisibility(View.VISIBLE);
-                        elements.buttonClose.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvFailureError.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvFailureErrorMessage.setText((String) parameters[0]);
+                        RegistrationActivity.this.elements.tvFailureErrorMessage.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.buttonClose.setVisibility(View.VISIBLE);
                         
-                        elements.setState(2, State.FAIL);
-                        elements.setState(3, State.FAIL);
+                        RegistrationActivity.this.elements.setState(2, State.FAIL);
+                        RegistrationActivity.this.elements.setState(3, State.FAIL);
                         break;
                     
                     case SF_SCREEN_OPENED:
-                        elements.setState(4, State.PROCESSING);
-                        pmp.requestServiceFeatures(new ArrayList<String>(), new ActivityServiceFeaturesHandler());
+                        RegistrationActivity.this.elements.setState(4, State.PROCESSING);
+                        RegistrationActivity.this.pmp.requestServiceFeatures(new ArrayList<String>(),
+                                new ServiceFeaturesHandler());
                         break;
                     
                     case SF_SCREEN_CLOSED:
-                        elements.tvSelectInitialSF.setVisibility(View.GONE);
-                        elements.buttonSelectInitialSF.setVisibility(View.GONE);
-                        elements.tvOpenApp.setVisibility(View.VISIBLE);
-                        elements.buttonOpenApp.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.tvSelectInitialSF.setVisibility(View.GONE);
+                        RegistrationActivity.this.elements.buttonSelectInitialSF.setVisibility(View.GONE);
+                        RegistrationActivity.this.elements.tvOpenApp.setVisibility(View.VISIBLE);
+                        RegistrationActivity.this.elements.buttonOpenApp.setVisibility(View.VISIBLE);
                         
-                        elements.setState(4, State.SUCCESS);
-                        elements.setState(5, State.NEW);
+                        RegistrationActivity.this.elements.setState(4, State.SUCCESS);
+                        RegistrationActivity.this.elements.setState(5, State.NEW);
                         break;
                     
                     case OPEN_APP:
-                        elements.setState(5, State.PROCESSING);
+                        RegistrationActivity.this.elements.setState(5, State.PROCESSING);
                         switchToMainActivity(true);
                         break;
                 }
@@ -223,6 +250,12 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     }
     
     
+    /**
+     * Switches the {@link RegistrationActivity} to the MainActivity of the App.
+     * 
+     * @param transitionAnimation
+     *            If false then no animation is used to switch to the MainActivity.
+     */
     public void switchToMainActivity(boolean transitionAnimation) {
         if (!transitionAnimation) {
             this.mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -242,7 +275,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     
     @Override
     public void close() {
-        this.finish();
+        finish();
     }
 }
 
@@ -253,9 +286,18 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
  */
 class RegistrationHandler extends PMPRegistrationHandler {
     
+    /**
+     * The used activity.
+     */
     private RegistrationActivity activity;
     
     
+    /**
+     * Creates a new {@link RegistrationHandler}.
+     * 
+     * @param activity
+     *            The activity which uses the {@link RegistrationHandler}.
+     */
     public RegistrationHandler(RegistrationActivity activity) {
         this.activity = activity;
     }
@@ -291,5 +333,10 @@ class RegistrationHandler extends PMPRegistrationHandler {
     }
 }
 
-class ActivityServiceFeaturesHandler extends PMPRequestServiceFeaturesHandler {
+/**
+ * A default {@link PMPRequestServiceFeaturesHandler}.
+ * 
+ * @author Jakob Jarosch
+ */
+class ServiceFeaturesHandler extends PMPRequestServiceFeaturesHandler {
 }

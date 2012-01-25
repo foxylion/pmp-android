@@ -3,16 +3,36 @@ package de.unistuttgart.ipvs.pmp.api.handler._default;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
+import android.app.Dialog;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.gui.servicefeature.ServiceFeatureDialog;
 import de.unistuttgart.ipvs.pmp.api.handler.AbortIPCException;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 
+/**
+ * The {@link PMPDefaultRequestSFHandler} is used to display a {@link Dialog} for requesting additional Service
+ * Features. The
+ * user is able to decide between changing Service Features and aborting the action. Aborting means the request will be
+ * killed and no request for new Service Features will be sent.
+ * 
+ * @author Jakob Jarosch
+ */
 public class PMPDefaultRequestSFHandler extends PMPRequestServiceFeaturesHandler {
     
+    /**
+     * The {@link Activity} which initiated the registration.
+     */
     private Activity activity;
-    private Semaphore semaphore = new Semaphore(0);
+    
+    /**
+     * Boolean which is set to true when the request should be killed.
+     */
     private volatile boolean killServiceFeatureRequest = false;
+    
+    /**
+     * Semaphore which locks the handler until the user made a decision in the {@link Dialog}.
+     */
+    private Semaphore semaphore = new Semaphore(0);
     
     
     public PMPDefaultRequestSFHandler(Activity activity) {
@@ -24,33 +44,44 @@ public class PMPDefaultRequestSFHandler extends PMPRequestServiceFeaturesHandler
     public void onPrepare() throws AbortIPCException {
         super.onPrepare();
         
+        /* Dispatch the dialog creation on the activity UI-thread. */
         this.activity.runOnUiThread(new Runnable() {
             
             @Override
             public void run() {
-                new ServiceFeatureDialog(activity, PMPDefaultRequestSFHandler.this).show();
+                new ServiceFeatureDialog(PMPDefaultRequestSFHandler.this.activity, PMPDefaultRequestSFHandler.this)
+                        .show();
             }
         });
         
+        /* Wait until the dialog unblocks the handler thread. */
         try {
-            semaphore.acquire();
+            this.semaphore.acquire();
         } catch (InterruptedException e) {
             Log.e("Interrupted the ServiceFeatureHandler", e);
         }
         
-        if (killServiceFeatureRequest) {
+        /* Abort the IPCRequest if requested by the user. */
+        if (this.killServiceFeatureRequest) {
             throw new AbortIPCException();
         }
     }
     
     
+    /**
+     * Kills the current Service Features request. No request will be sent to PMP.
+     * Has to be called before {@link PMPDefaultRequestSFHandler#unblockHandler()} is called.
+     */
     public void killServiceFeatureRequest() {
         this.killServiceFeatureRequest = true;
     }
     
     
+    /**
+     * Unblocks the Handler and executes the request if not killed.
+     */
     public void unblockHandler() {
-        semaphore.release();
+        this.semaphore.release();
     }
     
 }

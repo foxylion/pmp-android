@@ -20,7 +20,6 @@
 package de.unistuttgart.ipvs.pmp.apps.simpleapp.gui;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -29,9 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.R;
 import de.unistuttgart.ipvs.pmp.apps.simpleapp.provider.Model;
 
@@ -44,8 +41,6 @@ public class SimpleAppActivity extends Activity {
 	private Button wirelessRefreshButton;
 	private TextView wirelessStateTextView;
 	private ToggleButton wirelessToggleButton;
-
-	private ProgressDialog pd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +64,7 @@ public class SimpleAppActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		refresh();
 	}
 

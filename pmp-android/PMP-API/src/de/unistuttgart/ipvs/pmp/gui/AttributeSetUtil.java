@@ -36,10 +36,10 @@ public class AttributeSetUtil {
     
     public String getString(String name) {
         String text = null;
-        if (attrs.getAttributeResourceValue(NAMESPACE, name, -1) == -1) {
-            text = attrs.getAttributeValue(NAMESPACE, name);
+        if (this.attrs.getAttributeResourceValue(NAMESPACE, name, -1) == -1) {
+            text = this.attrs.getAttributeValue(NAMESPACE, name);
         } else {
-            text = context.getString(attrs.getAttributeResourceValue(NAMESPACE, name, -1));
+            text = this.context.getString(this.attrs.getAttributeResourceValue(NAMESPACE, name, -1));
         }
         
         return text;
@@ -47,16 +47,16 @@ public class AttributeSetUtil {
     
     
     public boolean getBoolean(String name, boolean defaultValue) {
-        return attrs.getAttributeBooleanValue(NAMESPACE, name, defaultValue);
+        return this.attrs.getAttributeBooleanValue(NAMESPACE, name, defaultValue);
     }
     
     
     public int getColor(String name, int defaultColor) {
         int color;
-        if (attrs.getAttributeResourceValue(NAMESPACE, name, -1) == -1) {
-            color = attrs.getAttributeIntValue(NAMESPACE, name, defaultColor);
+        if (this.attrs.getAttributeResourceValue(NAMESPACE, name, -1) == -1) {
+            color = this.attrs.getAttributeIntValue(NAMESPACE, name, defaultColor);
         } else {
-            color = context.getResources().getColor(attrs.getAttributeResourceValue(NAMESPACE, name, -1));
+            color = this.context.getResources().getColor(this.attrs.getAttributeResourceValue(NAMESPACE, name, -1));
         }
         
         return color;
@@ -64,17 +64,17 @@ public class AttributeSetUtil {
     
     
     public Drawable getDrawable(String name, int defaultDrawableResource) {
-        if (attrs.getAttributeResourceValue(NAMESPACE, name, -1) != -1) {
-            return context.getResources().getDrawable(
-                    attrs.getAttributeResourceValue(NAMESPACE, name, defaultDrawableResource));
+        if (this.attrs.getAttributeResourceValue(NAMESPACE, name, -1) != -1) {
+            return this.context.getResources().getDrawable(
+                    this.attrs.getAttributeResourceValue(NAMESPACE, name, defaultDrawableResource));
         }
         return null;
     }
     
     
     public Drawable getDrawable(String name, Drawable defaultDrawable) {
-        if (attrs.getAttributeResourceValue(NAMESPACE, name, -1) != -1) {
-            return context.getResources().getDrawable(attrs.getAttributeResourceValue(NAMESPACE, name, -1));
+        if (this.attrs.getAttributeResourceValue(NAMESPACE, name, -1) != -1) {
+            return this.context.getResources().getDrawable(this.attrs.getAttributeResourceValue(NAMESPACE, name, -1));
         }
         return defaultDrawable;
     }

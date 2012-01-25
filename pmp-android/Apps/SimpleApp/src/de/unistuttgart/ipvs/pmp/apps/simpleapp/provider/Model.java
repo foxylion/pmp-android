@@ -45,7 +45,7 @@ public class Model {
 			public void onReceiveResource(PMPResourceIdentifier resource,
 					IBinder binder) {
 				IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
-				activity.runOnUiThread(new Runnable() {
+				Model.this.activity.runOnUiThread(new Runnable() {
 
 					public void run() {
 						getActivity().refreshWifi();
@@ -73,7 +73,7 @@ public class Model {
 					IBinder binder) {
 				final IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
 
-				activity.runOnUiThread(new Runnable() {
+				Model.this.activity.runOnUiThread(new Runnable() {
 
 					public void run() {
 						try {
@@ -103,7 +103,7 @@ public class Model {
 	}
 
 	private void makeToast(final String message) {
-		activity.runOnUiThread(new Runnable() {
+		this.activity.runOnUiThread(new Runnable() {
 
 			public void run() {
 

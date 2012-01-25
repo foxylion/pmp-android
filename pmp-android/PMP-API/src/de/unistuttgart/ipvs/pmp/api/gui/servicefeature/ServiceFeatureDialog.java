@@ -10,7 +10,6 @@ import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRequestSFHandler;
 
 public class ServiceFeatureDialog extends Dialog {
     
-    private Activity activity;
     private PMPDefaultRequestSFHandler defaultRegistrationHandler;
     
     
@@ -23,7 +22,6 @@ public class ServiceFeatureDialog extends Dialog {
         
         setCancelable(false);
         
-        this.activity = activity;
         this.defaultRegistrationHandler = defaultRegistrationHandler;
         
         addListener();
@@ -36,7 +34,7 @@ public class ServiceFeatureDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 ServiceFeatureDialog.this.dismiss();
-                defaultRegistrationHandler.unblockHandler();
+                ServiceFeatureDialog.this.defaultRegistrationHandler.unblockHandler();
             }
         });
         
@@ -45,8 +43,8 @@ public class ServiceFeatureDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 ServiceFeatureDialog.this.dismiss();
-                defaultRegistrationHandler.killServiceFeatureRequest();
-                defaultRegistrationHandler.unblockHandler();
+                ServiceFeatureDialog.this.defaultRegistrationHandler.killServiceFeatureRequest();
+                ServiceFeatureDialog.this.defaultRegistrationHandler.unblockHandler();
             }
         });
     }
