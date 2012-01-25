@@ -23,10 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.content.Context;
-import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
@@ -168,22 +166,5 @@ public abstract class ResourceGroup {
      */
     public String getRgPackage() {
         return this.rgPackage;
-    }
-    
-    
-    /**
-     * Sends a transmission request to call {@link Resource#transmit(Bundle)} and publish the return value to all
-     * apps listening on this resource.
-     * 
-     * @param resource
-     *            the resource to request a transmission for
-     */
-    public void requestTransmission(Resource resource) {
-        for (Entry<String, Resource> res : this.resources.entrySet()) {
-            if (res.getValue() == resource) {
-                this.pmpci.requestTransmission(this.rgPackage, res.getKey());
-                return;
-            }
-        }
     }
 }
