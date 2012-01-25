@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project type="tulip" version="1.2.3">
+  <id>1</id>
+  <name>Editor for Information Sets</name>
+  <description>&lt;p style="margin-top: 0"&gt; Editor um App-Information-Sets und Ressourcengruppen-Information-Sets zu erstellen und zu bearbeiten. &lt;/p&gt;</description>
+  <systemName>Editor</systemName>
+  <priorities>
+    <priority>Niedrig</priority>
+    <priority>Mittel</priority>
+    <priority>Hoch</priority>
+  </priorities>
+  <levels>
+    <level>Technische Details</level>
+    <level>Benutzersicht</level>
+    <level>Übersicht</level>
+    <level/>
+  </levels>
+  <actorsFolder>
+    <name>Akteure</name>
+    <id>5</id>
+    <children>
+      <actor>
+        <id>6</id>
+        <name>Entwickler</name>
+        <description>&lt;p style="margin-top: 0"&gt; Entwickler, der eine zu PMP kompatible App entwickelt, oder eine zu PMP kompatible Ressourcengruppe. &lt;/p&gt;</description>
+      </actor>
+    </children>
+  </actorsFolder>
+  <usabilityPatternsFolder>
+    <name>Usability Patterns</name>
+    <id>4</id>
+    <children>
+      <pattern>
+        <id>13</id>
+        <patternId>ID-warnung</patternId>
+        <description/>
+        <globalParameters>
+          <globalParameter>
+            <content>&lt;p style="margin-top: 0"&gt; Das System zeigt Warnungen als modale Dialoge an. &lt;/p&gt;</content>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
+      </pattern>
+      <pattern>
+        <id>10</id>
+        <patternId>ID-abbruch</patternId>
+        <description/>
+      </pattern>
+      <pattern>
+        <id>9</id>
+        <patternId>ID-assistent</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; Der Wizard soll dem Benutzer helfen eine AppInformationSet.xml bzw. eine ResourceGroup.xml zu erstellen. &lt;/p&gt;</description>
+      </pattern>
+    </children>
+  </usabilityPatternsFolder>
+  <useCasesFolder>
+    <name>Use Cases</name>
+    <id>3</id>
+    <children>
+      <folder>
+        <id>27</id>
+        <name>Wizards</name>
+        <children>
+          <useCase>
+            <id>7</id>
+            <name>App-Information-Set erstellen mit Wizard erstellen</name>
+            <useCaseId>100</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; AppInformation.xml erstellen &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Entwickler m&amp;#246;chte eine AppInformation.xml anlegen mit Hilfe des Wizards. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 19:34</created>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>25-01-2012 20:13</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-In installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>Projekt in Eclipse vorhanden</description>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet den Wizard um eine neue AppInformation.xml zu erstellen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt die erste Seite des Wizards an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt die benötigten Projekt-Daten ein und bestätigt diese.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Seite an um Service-Features hinzuzufügen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt aus, dass er eine neues Service-Feature anlegen will.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder für ein neues Service-Feature an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt die benötigten Daten des Service-Features an und wählt aus, dass er ein benötigtes Privacy-Setting hinzufügen will.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>zeigt eine Liste mit alle verfügbaren Ressourcengruppen an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine Ressourcengruppe und das gewünschte Privacy-Setting mit dem benötigten Wert aus.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId>6</actorId>
+                  <description>bestätigt die Service-Feature-Seite.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>11</stepNumber>
+                  <actorId/>
+                  <description>schließt den Wizard und legt die neue Datei an.</description>
+                  <references/>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description>AppInformation.xml im gewünschte Projekt im Assets-Ordner angelegt</description>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>8</associatedStep>
+                <name>8a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Keine Ressourcen verfügbar</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>8a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Ressourcen auf dem Server verfügbar sind.</description>
+                    <references/>
+                  </step>
+                  <step>
+                    <stepNumber>8a2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>beendet den Wizard.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein AppInformationSet.xml erstellt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>8</associatedStep>
+                <name>8b</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Keine Internetverbindung vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>8b1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Verbindung zum Ressourcen-Server hergestellt werden konnte.</description>
+                    <references/>
+                  </step>
+                  <step>
+                    <stepNumber>8b2</stepNumber>
+                    <actorId>6</actorId>
+                    <description>beendet den Wizard.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein AppInformationSet.xml erstellt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-ccaba1c2</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-58e020f8</template>
+                      <value>1. Eingabe der Projekt-Daten; 2. Hinzufügen der Service-Features; 3. Hinzufügen der benötigten Privacy-Settings</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>8a2</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
+                <step>8b2</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>16</id>
+            <name>Resourcegroup-Information-Set erstellen mit Wizard erstellen</name>
+            <useCaseId>102</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; ResourceGroupInformationSet.xml erstellen &lt;/p&gt;</goal>
+            <description>&lt;p style="margin-top: 0"&gt; Der Entwickler m&amp;#246;chte eine ResourceGroupInformationSet.xml anlegen mit Hilfe des Wizards. &lt;/p&gt;</description>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:04</created>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>25-01-2012 20:19</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-In installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>Projekt in Eclipse vorhanden</description>
+                </preCondition>
+              </preConditions>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet den Wizard um eine neue ResourceGroupnformationSet.xml zu erstellen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>zeigt die erste Seite des Wizards an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt die benötigten Projekt-Daten ein und bestätigt diese.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Seite an um Privacy-Settings hinzuzufügen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt aus, dass er eine neues Privacy-Setting anlegen will.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder für ein neues Privacy-Setting an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt alle benötigten Informationen des Privacy-Settings an und bestätigt diese.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>schließt den Wizard und legt die neue Datei an.</description>
+                  <references/>
+                </step>
+              </steps>
+              <postConditions>
+                <postCondition>
+                  <description>ResourceGroupInformationSet.xml im gewünschte Projekt im Assets-Ordner angelegt</description>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-ccaba1c2</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-58e020f8</template>
+                      <value>1. Eingabe der Projekt-Daten; 2. Hinzufügen der Privacy-Settings;</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
+          </useCase>
+        </children>
+      </folder>
+      <folder>
+        <id>28</id>
+        <name>App-Information-Set bearbeiten</name>
+        <children>
+          <useCase>
+            <id>21</id>
+            <name>App-Information-Set anlegen</name>
+            <useCaseId>200</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:15</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:22</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>23</id>
+            <name>Service-Feature zu App-Information-Set hinzufügen</name>
+            <useCaseId>201</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:15</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:22</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>25</id>
+            <name>Service-Feature aus App-Information-Set löschen</name>
+            <useCaseId>202</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:16</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>33</id>
+            <name>Service-Feature in App-Information-Set bearbeiten</name>
+            <useCaseId>203</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:18</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+      </folder>
+      <folder>
+        <id>29</id>
+        <name>Ressourcegroup-Information-Set bearbeiten</name>
+        <children>
+          <useCase>
+            <id>35</id>
+            <name>Resourcegroup-Information-Set anlegen</name>
+            <useCaseId>301</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:18</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>37</id>
+            <name>Privacy-Setting zu Resourcegroup-Information-Set hinzufügen</name>
+            <useCaseId>301</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:20</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>39</id>
+            <name>Privacy-Setting aus Resourcegroup-Information-Set löschen</name>
+            <useCaseId>302</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:21</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+        <children>
+          <useCase>
+            <id>41</id>
+            <name>Privacy-Setting in Resourcegroup-Information-Set bearbeiten</name>
+            <useCaseId>303</useCaseId>
+            <goal/>
+            <description/>
+            <priority>Mittel</priority>
+            <level>Benutzersicht</level>
+            <created>25-01-2012 20:21</created>
+            <author/>
+            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <primaryActorId>6</primaryActorId>
+            <actors>
+              <actorId>6</actorId>
+            </actors>
+            <mainScenario>
+              <name/>
+              <preConditions>
+                <preCondition>
+                  <description/>
+                </preCondition>
+              </preConditions>
+              <steps/>
+              <postConditions>
+                <postCondition>
+                  <description/>
+                </postCondition>
+              </postConditions>
+            </mainScenario>
+            <extensions/>
+          </useCase>
+        </children>
+      </folder>
+    </children>
+  </useCasesFolder>
+  <useCaseDiagramsFolder>
+    <name>Use-Case-Diagramme</name>
+    <id>2</id>
+    <children>
+      <useCaseDiagram>
+        <id>20</id>
+        <name>Use-Case-Diagramm</name>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <diagramData>
+          <model>
+            <name>Entwickler</name>
+            <type>ACTOR</type>
+            <reference>6</reference>
+            <position>
+              <x>22</x>
+              <y>176</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>App-Information-Set erstellen mit Wizard erstellen</name>
+            <type>USE_CASE</type>
+            <reference>7</reference>
+            <position>
+              <x>145</x>
+              <y>42</y>
+            </position>
+            <size>
+              <width>360</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Ressource-Group-Information-Set erstellen mit Wizard erstellen</name>
+            <type>USE_CASE</type>
+            <reference>16</reference>
+            <position>
+              <x>135</x>
+              <y>155</y>
+            </position>
+            <size>
+              <width>456</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>App-Information-Set anlegen</name>
+            <type>USE_CASE</type>
+            <reference>21</reference>
+            <position>
+              <x>263</x>
+              <y>233</y>
+            </position>
+            <size>
+              <width>210</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Service-Feature zu App-Information-Set hinzufügen</name>
+            <type>USE_CASE</type>
+            <reference>23</reference>
+            <position>
+              <x>191</x>
+              <y>309</y>
+            </position>
+            <size>
+              <width>373</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Service-Feature aus App-Information-Set löschen</name>
+            <type>USE_CASE</type>
+            <reference>25</reference>
+            <position>
+              <x>204</x>
+              <y>380</y>
+            </position>
+            <size>
+              <width>357</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Service-Feature in App-Information-Set bearbeiten</name>
+            <type>USE_CASE</type>
+            <reference>33</reference>
+            <position>
+              <x>209</x>
+              <y>451</y>
+            </position>
+            <size>
+              <width>367</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Resourcegroup-Information-Set anlegen</name>
+            <type>USE_CASE</type>
+            <reference>35</reference>
+            <position>
+              <x>229</x>
+              <y>553</y>
+            </position>
+            <size>
+              <width>291</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy-Setting zu Resourcegroup-Information-Set hinzufügen</name>
+            <type>USE_CASE</type>
+            <reference>37</reference>
+            <position>
+              <x>175</x>
+              <y>624</y>
+            </position>
+            <size>
+              <width>448</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy-Setting aus Resourcegroup-Information-Set löschen</name>
+            <type>USE_CASE</type>
+            <reference>39</reference>
+            <position>
+              <x>195</x>
+              <y>695</y>
+            </position>
+            <size>
+              <width>432</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy-Setting in Resourcegroup-Information-Set bearbeiten</name>
+            <type>USE_CASE</type>
+            <reference>41</reference>
+            <position>
+              <x>189</x>
+              <y>770</y>
+            </position>
+            <size>
+              <width>442</width>
+              <height>64</height>
+            </size>
+          </model>
+        </diagramData>
+      </useCaseDiagram>
+    </children>
+  </useCaseDiagramsFolder>
+</project>
