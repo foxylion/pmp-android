@@ -100,7 +100,7 @@ public class UiManager {
                     
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        PMP.get().requestServiceFeatures(requested);
+                        PMP.get().requestServiceFeatures(Model.getInstance().getContext(), requested);
                     }
                 });
         
