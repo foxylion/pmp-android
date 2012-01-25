@@ -2,11 +2,11 @@ package de.unistuttgart.ipvs.pmp.api.gui.registration;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
+import android.view.Window;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.IPMP;
 import de.unistuttgart.ipvs.pmp.api.PMP;
@@ -21,9 +21,14 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
     
     private IPMP pmp;
     
+    private Activity activity;
     
-    public RegistrationDialog(Context context) {
-        super(context);
+    
+    public RegistrationDialog(Activity activity) {
+        super(activity);
+        this.activity = activity;
+        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.pmp_api_activity_registration);
         
@@ -111,8 +116,8 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
     
     @Override
     public void close() {
-        Toast.makeText(getContext(), "Please Close the Activity", Toast.LENGTH_SHORT).show();
         dismiss();
+        activity.finish();
     }
     
 }

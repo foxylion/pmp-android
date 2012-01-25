@@ -1,9 +1,9 @@
 package de.unistuttgart.ipvs.pmp.api.handler._default;
 
+import java.util.concurrent.Semaphore;
+
 import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationDialog;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationEventTypes;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
@@ -12,18 +12,11 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     
     private RegistrationDialog dialog;
     
-    private Context context;
-    
-    private Handler handler;
+    private Activity activity;
     
     
     public PMPDefaultRegistrationHandler(Activity activity) {
-        this.context = activity;
-        
-        Looper.prepare();
-        handler = new Handler();
-        Looper.loop();
-        Looper.myLooper().quit();
+        this.activity = activity;
     }
     
     
@@ -63,14 +56,22 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     
     private void createDialogIfNotExists() {
         if (dialog == null) {
-            handler.post(new Runnable() {
+            final Semaphore s = new Semaphore(0);
+            
+            this.activity.runOnUiThread(new Runnable() {
                 
                 @Override
                 public void run() {
-                    dialog = new RegistrationDialog(context);
+                    dialog = new RegistrationDialog(activity);
                     dialog.show();
+                    s.release();
                 }
             });
+            try {
+                s.acquire();
+            } catch (InterruptedException e) {
+                Log.e("Interrupted the RegistrationHandler", e);
+            }
         }
     }
 }
