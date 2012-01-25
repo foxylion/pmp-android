@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPHandler;
@@ -12,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.TransmissionHandler;
 
 /**
  * The interface contract for all the API functions that can possibly be called.
@@ -362,4 +364,26 @@ public interface IPMP {
      * @return the still connected {@link IBinder} for the resource that was cached, null if it is not available
      */
     public IBinder getResourceFromCache(PMPResourceIdentifier resource);
+    
+    
+    /**
+     * Registers the transmitter callback handler for receiving transmissions by a specific resource.
+     * 
+     * @param resource
+     *            the resource to query the callback from
+     * @param settings
+     *            the settings required by the resource
+     * @param handler
+     *            the {@link TransmissionHandler} handling all events for the transmissions of this resource
+     */
+    public void registerTransmitter(PMPResourceIdentifier resource, Bundle settings, TransmissionHandler handler);
+    
+    
+    /**
+     * Removes a transmitter callback handler for receiving transmissions by a resource.
+     * 
+     * @param resource
+     *            the resource to query the removal from
+     */
+    public void unregisterTransmitter(PMPResourceIdentifier resource);
 }

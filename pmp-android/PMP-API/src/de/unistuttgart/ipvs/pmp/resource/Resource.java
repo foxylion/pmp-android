@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.resource;
 
+import android.os.Bundle;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
@@ -81,5 +82,28 @@ public abstract class Resource {
      *         this resource.
      */
     public abstract IBinder getAndroidInterface(String appIdentifier);
+    
+    
+    /**
+     * Can be used to supply transmission callbacks in apps. Apps can register a callback from resource providing a
+     * settings {@link Bundle} and will receive the return value. Transmissions are started by calling
+     * {@link Resource#requestTransmission()}.
+     * 
+     * @param settings
+     *            the supplied settings {@link Bundle} by the app which registered
+     * @return the data to transmit to all registered apps
+     */
+    public Bundle transmit(Bundle settings) {
+        return null;
+    }
+    
+    
+    /**
+     * Sends a transmission request to call {@link Resource#transmit(Bundle)} and publish the return value to all
+     * apps listening on this resource.
+     */
+    public void requestTransmission() {
+        getResourceGroup().requestTransmission(this);
+    }
     
 }

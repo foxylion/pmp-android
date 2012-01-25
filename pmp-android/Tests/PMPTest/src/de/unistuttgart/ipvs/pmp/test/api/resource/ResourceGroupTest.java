@@ -90,6 +90,10 @@ public class ResourceGroupTest extends InstrumentationTestCase {
             public Context getContext(String rgPackage) {
                 return mockContext;
             }
+            
+            
+            public void requestTransmission(String rgPackage, String resource) {
+            }
         }) {
         };
         

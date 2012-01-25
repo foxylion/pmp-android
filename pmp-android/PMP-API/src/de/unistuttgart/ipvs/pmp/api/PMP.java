@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.TransmissionHandler;
 import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRequestSFHandler;
 import de.unistuttgart.ipvs.pmp.api.ipc.IPCScheduler;
@@ -63,6 +64,11 @@ public class PMP implements IPMP {
      * The cache of Resource {@link IBinder}s.
      */
     private final ConcurrentMap<PMPResourceIdentifier, IBinder> resCache;
+    
+    /**
+     * The cache of {@link TransmissionHandler} to call when a new transmission arrives.
+     */
+    private final ConcurrentMap<PMPResourceIdentifier, TransmissionHandler> transmissionHandlers;
     
     /**
      * The list of {@link PMPServiceFeatureUpdateHandler} to call on the next SF update.
@@ -118,6 +124,7 @@ public class PMP implements IPMP {
     private PMP() {
         this.sfsCache = new ConcurrentHashMap<String, Boolean>();
         this.resCache = new ConcurrentHashMap<PMPResourceIdentifier, IBinder>();
+        this.transmissionHandlers = new ConcurrentHashMap<PMPResourceIdentifier, TransmissionHandler>();
         this.callOnUpdate = new LinkedBlockingQueue<PMPServiceFeatureUpdateHandler>();
     }
     
@@ -416,6 +423,22 @@ public class PMP implements IPMP {
     @Override
     public IBinder getResourceFromCache(PMPResourceIdentifier resource) {
         return this.resCache.get(resource);
+    }
+    
+    
+    @Override
+    public void registerTransmitter(PMPResourceIdentifier resource, Bundle settings, TransmissionHandler handler) {
+        // TODO ipc        
+        this.transmissionHandlers.put(resource, handler);
+        throw new UnsupportedOperationException();
+    }
+    
+    
+    @Override
+    public void unregisterTransmitter(PMPResourceIdentifier resource) {
+        // TODO ipc
+        this.transmissionHandlers.remove(resource);
+        throw new UnsupportedOperationException();
     }
     
 }

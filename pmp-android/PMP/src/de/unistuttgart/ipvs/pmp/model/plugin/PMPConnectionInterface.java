@@ -82,8 +82,14 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
     
     @Override
     public Context getContext(String rgPackage) {
-        // here it would be nice to have a security-wise adapter
         return PMPApplication.getContext();
+    }
+    
+    
+    @Override
+    public void requestTransmission(String rgPackage, String resource) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
     }
     
 }

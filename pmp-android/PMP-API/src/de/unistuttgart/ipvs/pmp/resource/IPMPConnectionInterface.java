@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
 import android.content.Context;
+import android.os.Bundle;
 
 /**
  * Interface for communication from the {@link ResourceGroup} plugin to the PMP model.
@@ -29,5 +30,17 @@ public interface IPMPConnectionInterface {
      * @return an Android context
      */
     public Context getContext(String rgPackage);
+    
+    
+    /**
+     * Sends a transmission request to call {@link Resource#transmit(Bundle)} and publish the return value to all
+     * apps listening on this resource.
+     * 
+     * @param rgPackage
+     *            the package of the resource group
+     * @param resource
+     *            the resource to request a transmission for
+     */
+    public void requestTransmission(String rgPackage, String resource);
     
 }
