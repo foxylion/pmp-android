@@ -128,7 +128,13 @@ public class ServerProvider implements IServerProvider {
             if (!downloadFile(SEARCH_FOR + searchPattern, baos)) {
                 return new RgInformationSet[0];
             }
-            rgs = baos.toString("UTF-8").split("\n");
+            
+            String response = baos.toString("UTF-8");
+            if (response.trim().length() > 0) {
+                rgs = response.split("\n");
+            } else {
+                return new RgInformationSet[0];
+            }
             
         } catch (UnsupportedEncodingException uee) {
             Log.e("UTF-8 is missing. This should not happen.", uee);
