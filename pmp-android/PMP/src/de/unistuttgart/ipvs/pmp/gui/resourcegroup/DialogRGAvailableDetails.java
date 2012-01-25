@@ -141,7 +141,7 @@ public class DialogRGAvailableDetails extends Dialog {
                                 Toast.makeText(DialogRGAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                                 
-                                tab.startDownloadList();
+                                tab.updateDownloadList();
                                 
                                 DialogRGAvailableDetails.this.dismiss();
                             }

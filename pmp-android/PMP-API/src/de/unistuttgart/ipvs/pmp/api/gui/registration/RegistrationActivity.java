@@ -1,9 +1,9 @@
 package de.unistuttgart.ipvs.pmp.api.gui.registration;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -11,11 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.IPMP;
@@ -43,19 +39,19 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
  * 
  * @author Jakob Jarosch
  */
-public class RegistrationActivity extends Activity {
+public class RegistrationActivity extends Activity implements IRegistrationUI {
     
     private static final int CLOSE_ON_RESULT = 111;
     
     private Intent mainActivityIntent = null;
     
-    private Elements elements;
+    private RegistrationElements elements;
     
     private IPMP pmp;
     
     private Handler handler;
     
-    private EventTypes lastEvent;
+    private RegistrationEventTypes lastEvent;
     
     
     @Override
@@ -75,7 +71,7 @@ public class RegistrationActivity extends Activity {
     
     private void checkRegistration() {
         if (this.mainActivityIntent == null) {
-            invokeEvent(EventTypes.NO_ACITIVTY_DEFINED);
+            invokeEvent(RegistrationEventTypes.NO_ACITIVTY_DEFINED);
         } else {
             RegistrationHandler regHandler = new RegistrationHandler(this);
             pmp.register(regHandler);
@@ -86,7 +82,7 @@ public class RegistrationActivity extends Activity {
     private void loadGUI() {
         setContentView(R.layout.pmp_api_activity_registration);
         
-        this.elements = new Elements(this);
+        this.elements = new RegistrationElements(this);
         
         /* Initiating, processing step 1 */
         this.elements.setState(1, State.PROCESSING);
@@ -97,9 +93,16 @@ public class RegistrationActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        if (this.lastEvent == EventTypes.SF_SCREEN_OPENED) {
-            invokeEvent(EventTypes.SF_SCREEN_CLOSED);
+        if (this.lastEvent == RegistrationEventTypes.SF_SCREEN_OPENED) {
+            invokeEvent(RegistrationEventTypes.SF_SCREEN_CLOSED);
+            overridePendingTransition(0, 0);
         }
+    }
+    
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
     
     
@@ -111,7 +114,8 @@ public class RegistrationActivity extends Activity {
     }
     
     
-    public void invokeEvent(final EventTypes eventType, final Object... parameters) {
+    @Override
+    public void invokeEvent(final RegistrationEventTypes eventType, final Object... parameters) {
         this.lastEvent = eventType;
         
         handler.post(new Runnable() {
@@ -165,7 +169,7 @@ public class RegistrationActivity extends Activity {
                     
                     case SF_SCREEN_OPENED:
                         elements.setState(4, State.PROCESSING);
-                        pmp.requestServiceFeatures(new ArrayList<String>(), new ServiceFeaturesHandler());
+                        pmp.requestServiceFeatures(new ArrayList<String>(), new ActivityServiceFeaturesHandler());
                         break;
                     
                     case SF_SCREEN_CLOSED:
@@ -222,106 +226,23 @@ public class RegistrationActivity extends Activity {
     public void switchToMainActivity(boolean transitionAnimation) {
         if (!transitionAnimation) {
             this.mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
-        startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
-    }
-}
-
-/**
- * The Elements class provides all elements defined in the xml.
- * 
- * @author Jakob Jarosch
- */
-class Elements {
-    
-    private RegistrationActivity parentActivity;
-    
-    public TextView tvFailureMissingActivity;
-    public TextView tvFailureMissingPMP;
-    public TextView tvFailureError;
-    public TextView tvFailureErrorMessage;
-    public TextView tvOpenApp;
-    public TextView tvSelectInitialSF;
-    
-    public Button buttonClose;
-    public Button buttonOpenApp;
-    public Button buttonSelectInitialSF;
-    
-    private List<RegistrationStateListItem> registrationStateList = new ArrayList<RegistrationStateListItem>();
-    
-    
-    public Elements(RegistrationActivity activity) {
-        this.parentActivity = activity;
-        
-        this.tvFailureMissingActivity = (TextView) activity.findViewById(R.id.TextView_Failure_MissingActivity);
-        this.tvFailureMissingPMP = (TextView) activity.findViewById(R.id.TextView_Failure_MissingPMP);
-        this.tvFailureError = (TextView) activity.findViewById(R.id.TextView_Failure_Error);
-        this.tvFailureErrorMessage = (TextView) activity.findViewById(R.id.TextView_Failure_ErrorMessage);
-        this.tvOpenApp = (TextView) activity.findViewById(R.id.TextView_OpenApp);
-        this.tvSelectInitialSF = (TextView) activity.findViewById(R.id.TextView_OpenSFList);
-        
-        this.buttonClose = (Button) activity.findViewById(R.id.Button_Close);
-        this.buttonOpenApp = (Button) activity.findViewById(R.id.Button_OpenApp);
-        this.buttonSelectInitialSF = (Button) activity.findViewById(R.id.Button_OpenSFList);
-        
-        fillRegistrationStateList();
-        
-        addListener();
-    }
-    
-    
-    /**
-     * Updates the state of an item from the list.
-     * 
-     * @param item
-     *            Number of the item, begins with 1.
-     * @param state
-     *            New state of the item.
-     */
-    public void setState(int item, RegistrationStateListItem.State state) {
-        registrationStateList.get(item - 1).setState(state);
-    }
-    
-    
-    private void fillRegistrationStateList() {
-        registrationStateList.add(new RegistrationStateListItem(parentActivity, 1, "Preparing & detecting PMP"));
-        registrationStateList.add(new RegistrationStateListItem(parentActivity, 2, "Checking registration"));
-        registrationStateList.add(new RegistrationStateListItem(parentActivity, 3, "Registration at PMP"));
-        registrationStateList.add(new RegistrationStateListItem(parentActivity, 4, "Set initial Service Features"));
-        registrationStateList.add(new RegistrationStateListItem(parentActivity, 5, "Open the App"));
-        
-        ((LinearLayout) parentActivity.findViewById(R.id.LinearLayout_States)).removeAllViews();
-        
-        for (RegistrationStateListItem item : registrationStateList) {
-            ((LinearLayout) parentActivity.findViewById(R.id.LinearLayout_States)).addView(item);
+            startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
+            overridePendingTransition(0, 0);
+        } else {
+            startActivityForResult(this.mainActivityIntent, RegistrationActivity.CLOSE_ON_RESULT);
         }
     }
     
     
-    private void addListener() {
-        this.buttonClose.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                Elements.this.parentActivity.finish();
-            }
-        });
-        
-        this.buttonSelectInitialSF.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                parentActivity.invokeEvent(EventTypes.SF_SCREEN_OPENED);
-            }
-        });
-        
-        this.buttonOpenApp.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                parentActivity.invokeEvent(EventTypes.OPEN_APP);
-            }
-        });
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
+    
+    
+    @Override
+    public void close() {
+        this.finish();
     }
 }
 
@@ -342,7 +263,7 @@ class RegistrationHandler extends PMPRegistrationHandler {
     
     @Override
     public void onBindingFailed() {
-        this.activity.invokeEvent(EventTypes.PMP_NOT_INSTALLED);
+        this.activity.invokeEvent(RegistrationEventTypes.PMP_NOT_INSTALLED);
     }
     
     
@@ -354,39 +275,21 @@ class RegistrationHandler extends PMPRegistrationHandler {
     
     @Override
     public void onRegistration() {
-        this.activity.invokeEvent(EventTypes.START_REGISTRATION);
+        this.activity.invokeEvent(RegistrationEventTypes.START_REGISTRATION);
     }
     
     
     @Override
     public void onSuccess() {
-        this.activity.invokeEvent(EventTypes.REGISTRATION_SUCCEED);
+        this.activity.invokeEvent(RegistrationEventTypes.REGISTRATION_SUCCEED);
     }
     
     
     @Override
     public void onFailure(String message) {
-        this.activity.invokeEvent(EventTypes.REGISTRATION_FAILED, message);
+        this.activity.invokeEvent(RegistrationEventTypes.REGISTRATION_FAILED, message);
     }
 }
 
-class ServiceFeaturesHandler extends PMPRequestServiceFeaturesHandler {
-}
-
-/**
- * The defined event types do have influences on the gui.
- * 
- * @author Jakob Jarosch
- * 
- */
-enum EventTypes {
-    NO_ACITIVTY_DEFINED,
-    PMP_NOT_INSTALLED,
-    START_REGISTRATION,
-    REGISTRATION_SUCCEED,
-    REGISTRATION_FAILED,
-    ALREADY_REGISTERED,
-    SF_SCREEN_OPENED,
-    SF_SCREEN_CLOSED,
-    OPEN_APP,
+class ActivityServiceFeaturesHandler extends PMPRequestServiceFeaturesHandler {
 }

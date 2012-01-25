@@ -9,10 +9,10 @@
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:id="@+id/Title"
+        pmp:name="@string/service_feature_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_sfs"
-        pmp:name="@string/service_feature_title" />
+        pmp:icon="@drawable/icon_sfs" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -27,8 +27,7 @@
             <TextView
                 android:id="@+id/TextView_Description"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                 />
+                android:layout_height="fill_parent" />
 
             <LinearLayout
                 android:id="@+id/LinearLayout_Container_PS_Information"
@@ -38,10 +37,10 @@
                 android:visibility="gone" >
 
                 <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+                    pmp:name="@string/required_privacy_settings"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    pmp:icon="@drawable/icon_rgs"
-                    pmp:name="@string/required_privacy_settings" />
+                    pmp:icon="@drawable/icon_rgs" />
 
                 <LinearLayout
                     android:id="@+id/LinearLayout_PrivacySettings"
@@ -59,22 +58,21 @@
                 android:visibility="gone" >
 
                 <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+                    pmp:name="@string/required_resources"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    pmp:icon="@drawable/icon_rgs"
-                    pmp:name="@string/required_resources" />
+                    pmp:icon="@drawable/icon_rgs" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/missing_rgs_description" />
 
-                <LinearLayout
-                    android:id="@+id/LinearLayout_required_ResourceGroups"
-                    android:layout_width="fill_parent"
+                <Button
+                    android:id="@+id/Button_ViewMissingRGs"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                </LinearLayout>
+                    android:text="@string/missing_rgs_show" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
