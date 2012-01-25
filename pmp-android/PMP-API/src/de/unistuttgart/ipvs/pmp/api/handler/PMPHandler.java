@@ -10,8 +10,11 @@ public abstract class PMPHandler {
     
     /**
      * Called before the IPC connection is established.
+     * 
+     * @throws AbortIPCException
+     *             if and only if you wish to abort the IPC before it starts
      */
-    public void onPrepare() {
+    public void onPrepare() throws AbortIPCException {
     }
     
     

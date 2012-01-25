@@ -16,6 +16,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.handler.AbortIPCException;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestServiceFeaturesHandler;
@@ -286,7 +287,7 @@ public class PMP implements IPMP {
             
             
             @Override
-            public void onPrepare() {
+            public void onPrepare() throws AbortIPCException {
                 handler.onPrepare();
             }
             

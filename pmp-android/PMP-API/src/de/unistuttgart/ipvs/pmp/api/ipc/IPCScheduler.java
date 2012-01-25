@@ -6,6 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import android.content.Context;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.handler.AbortIPCException;
 import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCCommand;
 
 /**
@@ -73,18 +74,27 @@ public class IPCScheduler extends Thread {
                     
                     @Override
                     public void run() {
-                        IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
+                        IBinder binder = null;
                         
-                        // handle timeout
-                        if (command.getTimeout() < System.currentTimeMillis()) {
-                            command.getHandler().onTimeout();
+                        try {
+                            command.getHandler().onPrepare();
+                        } catch (AbortIPCException aipce) {
                             return;
                         }
                         
-                        command.getHandler().onPrepare();
+                        synchronized (IPCScheduler.this.connection) {
+                            IPCScheduler.this.connection.setDestinationService(command.getDestinationService());
+                            
+                            // handle timeout
+                            if (command.getTimeout() < System.currentTimeMillis()) {
+                                command.getHandler().onTimeout();
+                                return;
+                            }
+                            
+                            // try connecting
+                            binder = IPCScheduler.this.connection.getBinder();
+                        }
                         
-                        // try connecting
-                        IBinder binder = IPCScheduler.this.connection.getBinder();
                         if (binder != null) {
                             command.execute(binder);
                         } else {
