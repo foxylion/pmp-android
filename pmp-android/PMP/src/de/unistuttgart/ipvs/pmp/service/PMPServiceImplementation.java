@@ -84,7 +84,6 @@ public class PMPServiceImplementation extends IPMPService.Stub {
         if (app == null) {
             return false;
         } else {
-            
             Intent intent = GUITools.createAppActivityIntent(app);
             intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.CHANGE_SERVICEFEATURE);
             intent.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE, requiredServiceFeatures);

@@ -32,7 +32,7 @@ public class TabDetails extends Activity {
     protected void onResume() {
         super.onResume();
         
-        this.app = GUITools.getIntentApp(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         TextView description = (TextView) findViewById(R.id.TextView_Description);
         description.setText(this.app.getDescription());

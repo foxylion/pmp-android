@@ -93,9 +93,9 @@ public class TabServiceFeatures extends Activity {
      * Checks if the Activity has been started with extended parameters like requested service features.
      */
     private void checkExtendedIntentActions() {
-        this.app = GUITools.getIntentApp(getIntent());
-        if (GUITools.getIntentAction(getIntent()) != null
-                && GUITools.getIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
+        this.app = GUITools.handleAppIntent(getIntent());
+        if (GUITools.handleIntentAction(getIntent()) != null
+                && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             ((Button) findViewById(R.id.Button_Close)).setVisibility(View.VISIBLE);
         }
     }

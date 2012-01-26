@@ -31,6 +31,11 @@
     <id>4</id>
     <children>
       <pattern>
+        <id>46</id>
+        <patternId>ID-filter</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </pattern>
+      <pattern>
         <id>13</id>
         <patternId>ID-warnung</patternId>
         <description/>
@@ -71,7 +76,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 19:34</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>25-01-2012 20:13</lastUpdate>
+            <lastUpdate>26-01-2012 13:47</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -239,6 +244,25 @@
               <scenarioAnnotation>
                 <scenario/>
                 <annotation>
+                  <template>ID-7d6db798</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-91b0d8db</template>
+                      <value>Freitext-Eingabe möglich, Filterung nach Ressourcengruppen-Name</value>
+                    </parameter>
+                  </parameters>
+                  <references>
+                    <reference>
+                      <template>ID-42e9c656</template>
+                      <referencedStep>8</referencedStep>
+                    </reference>
+                  </references>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
                   <template>ID-1b4a8da9</template>
                   <parameters/>
                   <references/>
@@ -390,13 +414,13 @@
             <id>21</id>
             <name>App-Information-Set anlegen</name>
             <useCaseId>200</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Entwickler legt eine neue AppInformation.xml ohne den Wizard an. &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:15</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:22</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 13:40</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -405,13 +429,44 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible App Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>erstellt eine neue Datei in Eclipse im Projektordner assets mit dem Namen "AppInformation.xml".</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die neu angelegte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId/>
+                  <description>zeigt dem Entwickler das Editor-Fenster für App-Information-Sets an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt im "General"-Tab die benötigten Informationen zu seinem Projekt ein und speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>AppInformation.xml angelegt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -423,13 +478,13 @@
             <id>23</id>
             <name>Service-Feature zu App-Information-Set hinzufügen</name>
             <useCaseId>201</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Service-Feature zu einem App-Information-Set hinzuf&amp;#252;gen &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:15</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:22</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 13:57</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -438,17 +493,150 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible App Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die AppInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Service-Feature"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Service-Feature"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Funktion aus um ein neues Service-Feature hinzuzufügen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder für ein neues Service-Feature an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt die benötigten Daten des Service-Features an und wählt aus, dass er ein benötigtes Privacy-Setting hinzufügen will.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>zeigt eine Liste mit alle verfügbaren Ressourcengruppen an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt eine Ressourcengruppe und das gewünschte Privacy-Setting mit dem benötigten Wert aus.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>10</stepNumber>
+                  <actorId>6</actorId>
+                  <description>speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Service-Feature hinzugefügt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>8</associatedStep>
+                <name>8a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Keine Ressourcen verfügbar</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>8a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Ressourcen auf dem Server verfügbar sind.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein Service-Feature hinzugefügt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+              <extensionScenario>
+                <associatedStep>8</associatedStep>
+                <name>8b</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Keine Internetverbindung vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>8b1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Ressourcen Verbindung zum Server hergestellt werden konnte.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein Service-Feature hinzugefügt</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+            <scenarioAnnotations>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-7d6db798</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-91b0d8db</template>
+                      <value>Freitext-Eingabe möglich, Filterung nach Ressourcengruppen-Name</value>
+                    </parameter>
+                  </parameters>
+                  <references>
+                    <reference>
+                      <template>ID-42e9c656</template>
+                      <referencedStep>8</referencedStep>
+                    </reference>
+                  </references>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
+            </scenarioAnnotations>
           </useCase>
         </children>
         <children>
@@ -456,13 +644,13 @@
             <id>25</id>
             <name>Service-Feature aus App-Information-Set löschen</name>
             <useCaseId>202</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Service-Feature aus App-Information-Set l&amp;#246;schen &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:16</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 14:14</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -471,17 +659,106 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible App Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die AppInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Service-Feature"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Service-Feature"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>selektiert das gewünschte Service-Feature.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Löschen-Funktion aus.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>entfernt das Service-Feature und aktualisiert die Darstellung.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Service-Feature entfernt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Kein Service-Feature vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Service-Features vorhanden sind.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein Änderungen an der AppInformation.xml</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>6</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
         <children>
@@ -489,13 +766,13 @@
             <id>33</id>
             <name>Service-Feature in App-Information-Set bearbeiten</name>
             <useCaseId>203</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Service-Featuer eines App-Information-Sets bearbeiten &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:18</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 14:09</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -504,17 +781,95 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible App Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die AppInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Service-Feature"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Service-Feature"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt ein Service-Feature aus.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder des Service-Features an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>ändert die gewünschten Daten des Service-Features und bestätigt die Änderungen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Service-Feature geändert</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Kein Service-Feature vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Service-Features vorhanden sind.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>kein Änderungen an der AppInformation.xml</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
       </folder>
@@ -526,13 +881,13 @@
             <id>35</id>
             <name>Resourcegroup-Information-Set anlegen</name>
             <useCaseId>301</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; ResourcegroupInformation.xml ohne den Wizard anlegen. &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:18</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 14:17</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -541,13 +896,44 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible App Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>erstellt eine neue Datei in Eclipse im Projektordner assets mit dem Namen ResourcegroupInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die neu angelegte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId/>
+                  <description>zeigt dem Entwickler das Editor-Fenster für Resourcegroup-Information-Sets an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt im "General"-Tab die benötigten Informationen zu seinem Projekt ein und speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>ResourcegroupInformation.xml angelegt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -559,13 +945,13 @@
             <id>37</id>
             <name>Privacy-Setting zu Resourcegroup-Information-Set hinzufügen</name>
             <useCaseId>301</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Privacy-Setting zur ResourcegroupInformationSet.xml hinzugef&amp;#252;gt &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:20</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 13:57</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -574,13 +960,62 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible Ressourcen Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Privacy-Setting"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Privacy-Setting"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Funktion aus um ein neues Privacy-Setting hinzuzufügen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder für ein neues Privacy-Setting an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>gibt die benötigten Daten des Privacy-Settings an und speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Privacy-Setting hinzugefügt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -592,13 +1027,13 @@
             <id>39</id>
             <name>Privacy-Setting aus Resourcegroup-Information-Set löschen</name>
             <useCaseId>302</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Privacy-Setting aus Resourcegroup-Information-Set l&amp;#246;schen &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:21</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 14:19</lastUpdate>
             <actors>
               <actorId>6</actorId>
             </actors>
@@ -606,17 +1041,106 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible Ressourcen Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Privacy-Setting"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Privacy-Setting"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt ein Privacy-Setting aus .</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt die Löschen-Funktion aus.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId/>
+                  <description>entfernt das Privacy-Setting und aktualisiert die Darstellung</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Privacy-Setting aus ResourcegroupInformationSet.xml entfernt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Kein Privacy-Setting vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Privacy-Settings vorhanden sind.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Keine Änderung an der ResourcegroupInformation.xml</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>6</step>
+                <annotation>
+                  <template>ID-a63e7488</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
         <children>
@@ -624,13 +1148,13 @@
             <id>41</id>
             <name>Privacy-Setting in Resourcegroup-Information-Set bearbeiten</name>
             <useCaseId>303</useCaseId>
-            <goal/>
+            <goal>&lt;p style="margin-top: 0"&gt; Privacy-Setting in einem Resourcegroup-Information-Set bearbeiten &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:21</created>
-            <author/>
-            <lastUpdate>25-01-2012 20:23</lastUpdate>
+            <author>Thorsten Berberich</author>
+            <lastUpdate>26-01-2012 14:19</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -639,17 +1163,95 @@
               <name/>
               <preConditions>
                 <preCondition>
-                  <description/>
+                  <description>Eclipse gestartet</description>
+                </preCondition>
+                <preCondition>
+                  <description>Editor Plug-in installiert</description>
+                </preCondition>
+                <preCondition>
+                  <description>zu PMP kompatible Ressourcen Projekt vorhanden</description>
                 </preCondition>
               </preConditions>
-              <steps/>
+              <steps>
+                <step>
+                  <stepNumber>1</stepNumber>
+                  <actorId>6</actorId>
+                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>2</stepNumber>
+                  <actorId/>
+                  <description>öffnet die angeklickte Datei.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>3</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wechselt zum "Privacy-Setting"-Tab.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>4</stepNumber>
+                  <actorId/>
+                  <description>zeigt den "Privacy-Setting"-Tab an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>5</stepNumber>
+                  <actorId>6</actorId>
+                  <description>wählt ein Privacy-Setting an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>6</stepNumber>
+                  <actorId/>
+                  <description>zeigt die Felder des Privacy-Settings an.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>7</stepNumber>
+                  <actorId>6</actorId>
+                  <description>ändert die gewünschten Daten des Privacy-Settings und bestätigt die Änderungen.</description>
+                  <references/>
+                </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId>6</actorId>
+                  <description>speichert die Änderungen.</description>
+                  <references/>
+                </step>
+              </steps>
               <postConditions>
                 <postCondition>
-                  <description/>
+                  <description>Privacy-Setting bearbeitet</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
-            <extensions/>
+            <extensions>
+              <extensionScenario>
+                <associatedStep>5</associatedStep>
+                <name>5a</name>
+                <preConditions>
+                  <preCondition>
+                    <description>Kein Privacy-Setting vorhanden</description>
+                  </preCondition>
+                </preConditions>
+                <steps>
+                  <step>
+                    <stepNumber>5a1</stepNumber>
+                    <actorId/>
+                    <description>zeigt an, dass keine Privacy-Settings vorhanden sind.</description>
+                    <references/>
+                  </step>
+                </steps>
+                <postConditions>
+                  <postCondition>
+                    <description>Keine Änderung an der ResourcegroupInformation.xml</description>
+                  </postCondition>
+                </postConditions>
+              </extensionScenario>
+            </extensions>
           </useCase>
         </children>
       </folder>

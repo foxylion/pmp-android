@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
-import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -28,11 +27,6 @@ public class ListItemServiceFeature extends LinearLayout {
      */
     protected IServiceFeature serviceFeature;
     
-    /**
-     * The Activity
-     */
-    private Activity activity;
-    
     
     /**
      * Creates a new {@link ListItemServiceFeature}.
@@ -42,10 +36,9 @@ public class ListItemServiceFeature extends LinearLayout {
      * @param serviceFeature
      *            The corresponding {@link IServiceFeature}
      */
-    public ListItemServiceFeature(Activity activity, IServiceFeature serviceFeature) {
-        super(activity);
+    public ListItemServiceFeature(Context context, IServiceFeature serviceFeature) {
+        super(context);
         
-        this.activity = activity;
         this.serviceFeature = serviceFeature;
         
         if (!isInEditMode()) {
@@ -79,8 +72,6 @@ public class ListItemServiceFeature extends LinearLayout {
     public void refresh() {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
-        View highlightBox = (View) findViewById(R.id.View_HighlightBox);
-        
         CheckBox cb = (CheckBox) findViewById(R.id.CheckBox_SFState);
         
         // Update name
@@ -110,15 +101,6 @@ public class ListItemServiceFeature extends LinearLayout {
                 setBackgroundColor(GUIConstants.COLOR_BG_RED);
             } else {
                 setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
-            }
-        }
-        
-        // Update highlight box
-        if (highlightBox != null) {
-            if (GUITools.isServiceFeatureRequested(this.activity.getIntent(), this.serviceFeature)) {
-                highlightBox.setVisibility(View.VISIBLE);
-            } else {
-                highlightBox.setVisibility(View.INVISIBLE);
             }
         }
     }

@@ -85,7 +85,27 @@ public class UiManager {
      * Shows a dialog when the user wants to do sth. that is not allowed in this service feature
      */
     public void showServiceFeatureInsufficientDialog(final String[] requested) {
-        PMP.get().requestServiceFeatures(Model.getInstance().getContext(), requested);
+        final CalendarAppActivity context = Model.getInstance().getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.insufficent_sf))
+                .setMessage(context.getString(R.string.insufficent_sf_message))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    
+                    // Close the dialog
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(context.getString(R.string.change_sf), new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        PMP.get().requestServiceFeatures(Model.getInstance().getContext(), requested);
+                    }
+                });
+        
+        AlertDialog alert = builder.create();
+        alert.show();
     }
     
     
