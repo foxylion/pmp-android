@@ -206,37 +206,71 @@
 
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
-			<h2 id="ui-home">Hauptmenü</h2>
+			<h2 id="gui_wiz">Wizard</h2>
+			
+			<h3 id="gui_wiz_1">1. Schritt: Sprachen</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/home.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/home.jpg" alt="Home" width="45%" class="left">
+				<a href="gui-prototype/ris_wiz_1.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ris_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
 				</a>
 				
-				<p>Hauptmenü der PMP.</p>
-				<p>Im nachfolgenden werden folgende Punkte genauer erklärt:</p>
-					<p><span title="#ui-apps" class="reference"></span></p>
-					<p><span title="#ui-presets" class="reference"></span></p>
-					<p><span title="#ui-resourcegroups" class="reference"></span></p>
-					<p><span title="#ui-einstellungen" class="reference"></span></p>
-				<p>Der Log-Bildschirm wird erst in Iteration 3 eingeführt und ist noch nicht Teil dieses Prototyps.</p>
+				<p>
+          Der erste Schritt unterscheidet sich zwischen dem RIS- und 
+          AIS-Wizard nur miinimal. In diesem Schritt werden die Sprachen festgelegt,
+          in denen die Daten des RIS bzw. des AIS angegeben werden sollen
+          (durch aktivieren der Checkbox).
+        </p>
+        <p>
+          Es muss mindestens eine Sprache ausgewählt werden. Zudem
+          muss jedes RIS/AIS genau eine Standard-Sprache besitzen.
+          Diese wird gesetzt, in dem die gewünschte Sprache selektiert und
+          anschließend auf den Button "default" geklickt wird (Checkbox muss
+          hierbei aktiviert sein).
+        </p>
+				
 				<div class="clear"></div>
 			</div>
-		
-			
-			<h2 id="ui-apps">Apps</h2>
 			
 			
-			<h3 id="ui-apps-list">App-Übersicht</h3>
+			<h3 id="gui_wiz_2">2. Schritt: Informationen angeben</h3>
 			<div class="uip">
-				<a href="gui-prototype/app-list.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app-list.jpg" alt="App Liste" width="45%" class="left">
+				<a href="gui-prototype/ris_wiz_2.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ris_wiz_2.png" alt="Zweiter Schritt" width="45%" class="left">
 				</a>
 				
-				<p>Auf diesem Bildschirm werden alle Apps, die an PMP registriert sind, aufgelistet.
-					Von jeder App werden ein Icon, Name und Beschreibung (gekürzt) angezeigt.
+				<p>
+          Im zweiten Schritt gibt es ebenfalls nur minimale Unterschiede
+          zwischen dem RIS- und AIS-Wizard. Ziel dieses Schrittes ist es,
+          die Informationen zu diesem Information-Set anzugeben.
+          Hierzu wird zur jeder Sprache, die im vorhergehenden Schritt ausgewählt
+          wurden, der Name und die Beschreibung angegeben (Standard-Name/-Beschreibung
+          hervorgehoben).
+        </p>
+				<div class="clear"></div>
+			</div>
+			
+			
+			<h3 id="gui_wiz_3">3. Schritt: Informationen angeben</h3>
+			<h4>RIS</h4>
+			<div class="uip">
+				<a href="gui-prototype/ris_wiz_3.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ris_wiz_3.png" alt="Dritter Schritt" width="45%" class="left">
+				</a>
+				
+				<p>
+				  Im letzten Schritt werden die Privacy-Settings zur Ressource
+				  bestimmt.
 				</p>
-				<p>Mit einem langen Touch auf eine App wird nachfolgendes Menü angezeigt. Ein kurzer Touch führt zum <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm.</p>
+				<p>
+				  Über die Schaltfläche "add" öffnet sich ein Dialog, in dem
+				  das Privacy-Setting spezifiziert (siehe TODO) und anschließend 
+          zur Liste hinzugefügt wird. Über die Schaltfläche "Remove" wird
+          das oder die momentan gewählte(n) Privacy-Setting(s) aus
+          der Liste entfernt.
+          Bereits angegelegte Privacy-Settings lassen sich über die 
+          Schaltfläche "Edit" bearbeiten (siehe TODO)
+        </p>
 				<div class="clear"></div>
 			</div>
 
