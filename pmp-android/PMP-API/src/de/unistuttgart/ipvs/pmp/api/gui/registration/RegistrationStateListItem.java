@@ -116,7 +116,7 @@ public class RegistrationStateListItem extends LinearLayout {
         this.itemProgessPb = (ProgressBar) findViewById(R.id.ProgressBar_ItemProcessing);
         this.itemStateIv = (ImageView) findViewById(R.id.ImageView_ItemState);
         
-        this.itemNumberTv.setText("" + this.itemNumber);
+        this.itemNumberTv.setText("" + this.itemNumber + ".");
         this.itemNameTv.setText(this.itemName);
     }
     
