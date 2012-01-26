@@ -8,7 +8,6 @@ import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityRGs;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabRGsAvailable;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.util.StringUtil;
 
 public class GUITools {
@@ -20,16 +19,13 @@ public class GUITools {
      *            which invoked the {@link Activity}
      * @return the corresponding {@link IApp}
      */
-    public static IApp getIntentApp(Intent intent) {
+    public static IApp handleAppIntent(Intent intent) {
         /* Intent should never be null */
         if (intent == null) {
             throw new IllegalArgumentException("Intent can't be null");
         }
         
-        String appIdentifier = null;
-        if (intent.getExtras() != null) {
-            appIdentifier = intent.getExtras().getString(GUIConstants.APP_IDENTIFIER);
-        }
+        String appIdentifier = intent.getExtras().getString(GUIConstants.APP_IDENTIFIER);
         
         /* App Identifier should never be null */
         if (appIdentifier == null) {
@@ -51,7 +47,7 @@ public class GUITools {
     /**
      * @return Returns the action as a String, or an empty String if no action is given.
      */
-    public static String getIntentAction(Intent intent) {
+    public static String handleIntentAction(Intent intent) {
         /* Intent should never be null */
         if (intent == null) {
             throw new IllegalArgumentException("Intent can't be null");
@@ -91,43 +87,6 @@ public class GUITools {
         }
         
         return rgsFilter;
-    }
-    
-    
-    /**
-     * Returns all the requested Service Features.
-     * 
-     * @param intent
-     *            Intent which should be handled.
-     * @return The requested Service Features.
-     */
-    public static String[] getRequestedServiceFeatures(Intent intent) {
-        String action = getIntentAction(intent);
-        String[] requestedSFs = null;
-        if (action != null && action.equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
-            requestedSFs = intent.getStringArrayExtra(GUIConstants.REQUIRED_SERVICE_FEATURE);
-        }
-        
-        if (requestedSFs == null) {
-            requestedSFs = new String[0];
-        }
-        
-        return requestedSFs;
-    }
-    
-    
-    /**
-     * @return Validates to true if the Service Feature was requested by the Intent.
-     */
-    public static boolean isServiceFeatureRequested(Intent intent, IServiceFeature sf) {
-        String[] requestedSFs = getRequestedServiceFeatures(intent);
-        for (String reqSF : requestedSFs) {
-            if (reqSF.equals(sf.getLocalIdentifier())) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     

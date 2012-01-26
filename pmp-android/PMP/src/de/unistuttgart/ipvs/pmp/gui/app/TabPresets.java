@@ -39,7 +39,7 @@ public class TabPresets extends Activity {
         
         setContentView(R.layout.tab_app_presets);
         
-        this.app = GUITools.getIntentApp(getIntent());
+        this.app = GUITools.handleAppIntent(getIntent());
         
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);

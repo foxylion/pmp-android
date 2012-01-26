@@ -4,15 +4,6 @@
     android:layout_height="wrap_content"
     android:minWidth="4000dp" >
 
-    <View
-        android:id="@+id/View_HighlightBox"
-        android:layout_width="10dp"
-        android:layout_height="fill_parent"
-        android:layout_marginRight="5dp"
-        android:background="#ff8600"
-        android:visibility="invisible" >
-    </View>
-
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
