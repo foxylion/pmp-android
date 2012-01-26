@@ -16,6 +16,19 @@ import de.unistuttgart.ipvs.pmp.gui.AttributeSetUtil;
 
 /**
  * Basic Title for layouts. Very similar to the Android 4.0 titles (compare to settings-menu).
+ * A BasicTitleView can be directly defined in the xml layouts. An example:
+ * 
+ * <pre>
+ *  &lt;de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+ *      xmlns:pmp="http://schemas.android.com/res/de.unistuttgart.ipvs.pmp"
+ *      pmp:name="@string/app_name"
+ *      android:layout_width="fill_parent"
+ *      android:layout_height="wrap_content"
+ *      pmp:backButton="false"
+ *      pmp:textColor="#ffffff"
+ *      pmp:borderColor="#ff0000"
+ *      pmp:icon="@drawable/icon" /&gt;
+ * </pre>
  * 
  * @author Jakob Jarosch
  */
