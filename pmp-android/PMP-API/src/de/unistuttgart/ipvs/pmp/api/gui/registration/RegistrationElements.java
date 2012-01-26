@@ -116,15 +116,16 @@ class RegistrationElements {
      * Fills the registration state list.
      */
     private void fillRegistrationStateList() {
-        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 1,
-                "Preparing & detecting PMP"));
-        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 2,
-                "Checking registration"));
-        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 3,
-                "Registration at PMP"));
-        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 4,
-                "Set initial Service Features"));
-        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 5, "Open the App"));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 1, this.parentUi
+                .getContext().getString(R.string.pmp_api_registration_step_1)));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 2, this.parentUi
+                .getContext().getString(R.string.pmp_api_registration_step_2)));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 3, this.parentUi
+                .getContext().getString(R.string.pmp_api_registration_step_3)));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 4, this.parentUi
+                .getContext().getString(R.string.pmp_api_registration_step_4)));
+        this.registrationStateList.add(new RegistrationStateListItem(this.parentUi.getContext(), 5, this.parentUi
+                .getContext().getString(R.string.pmp_api_registration_step_5)));
         
         ((LinearLayout) this.parentUi.findViewById(R.id.LinearLayout_States)).removeAllViews();
         

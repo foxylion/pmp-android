@@ -54,7 +54,7 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        setContentView(R.layout.pmp_api_activity_registration);
+        setContentView(R.layout.pmp_api_registration);
         
         setCancelable(false);
         
@@ -143,7 +143,6 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
         dismiss();
         this.activity.finish();
     }
-    
 }
 
 /**
