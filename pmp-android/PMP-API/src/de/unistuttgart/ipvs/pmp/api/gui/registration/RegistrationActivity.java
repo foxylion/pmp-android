@@ -104,7 +104,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
      * Loads all GUI elements.
      */
     private void loadGUI() {
-        setContentView(R.layout.pmp_api_activity_registration);
+        setContentView(R.layout.pmp_api_registration);
         
         this.elements = new RegistrationElements(this);
         

@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/res/de.unistuttgart.ipvs.pmp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="SimpleApp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:backButton="false"
+        pmp:borderColor="#ff0000"
+        pmp:icon="@drawable/icon" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/hello" />
@@ -19,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Change ServiceFeatures" />
-
     </LinearLayout>
 
     <TextView
@@ -44,7 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:text="Refresh" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +70,6 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ToggleButton" />
-
     </LinearLayout>
 
 </LinearLayout>
