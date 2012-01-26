@@ -25,7 +25,7 @@
         android:id="@+id/ListView_SFs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_weight="10" >
     </ListView>
 
     <Button
@@ -33,7 +33,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:visibility="gone"
-        android:text="@string/app_sf_back_to_the_app" />
+        android:text="@string/app_sf_back_to_the_app"
+        android:visibility="gone" />
 
 </LinearLayout>

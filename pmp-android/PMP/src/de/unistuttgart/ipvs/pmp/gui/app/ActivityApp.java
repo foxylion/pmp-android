@@ -141,11 +141,10 @@ public class ActivityApp extends Activity {
         sfs.setIndicator(getResources().getString(R.string.service_features));
         
         // Create an Intent to start the inner activity
-        Intent intentSfs = new Intent(this, TabServiceFeatures.class);
-        intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
-        intentSfs.putExtra(GUIConstants.ACTIVITY_ACTION, getIntent().getStringExtra(GUIConstants.ACTIVITY_ACTION));
+        Intent intentSFs = this.getIntent();
+        intentSFs.setClass(this, TabServiceFeatures.class);
         
-        sfs.setContent(intentSfs);
+        sfs.setContent(intentSFs);
         this.mTabHost.addTab(sfs);
         
         // Change the preferred size of the Tab-header
@@ -177,9 +176,9 @@ public class ActivityApp extends Activity {
      * Checks if the Activity has been started with extended parameters like requested service features.
      */
     private String checkExtendedIntentActions() {
-        this.app = GUITools.handleAppIntent(getIntent());
-        if (GUITools.handleIntentAction(getIntent()) != null
-                && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
+        this.app = GUITools.getIntentApp(getIntent());
+        if (GUITools.getIntentAction(getIntent()) != null
+                && GUITools.getIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             return TAB_SF;
         }
         

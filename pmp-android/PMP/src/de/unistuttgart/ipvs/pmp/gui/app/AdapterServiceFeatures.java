@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.gui.app;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
     /**
      * {@link Context} which is used to create the Views of each App.
      */
-    private Context context;
+    private Activity activity;
     
     /**
      * List of all Service Features which should be displayed.
@@ -26,8 +27,8 @@ public class AdapterServiceFeatures extends BaseAdapter {
     private List<IServiceFeature> serviceFeatures;
     
     
-    public AdapterServiceFeatures(Context context, List<IServiceFeature> serviceFeatures) {
-        this.context = context;
+    public AdapterServiceFeatures(Activity activity, List<IServiceFeature> serviceFeatures) {
+        this.activity = activity;
         this.serviceFeatures = serviceFeatures;
     }
     
@@ -54,7 +55,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ListItemServiceFeature entryView = new ListItemServiceFeature(this.context, serviceFeature);
+        ListItemServiceFeature entryView = new ListItemServiceFeature(this.activity, serviceFeature);
         
         return entryView;
     }
