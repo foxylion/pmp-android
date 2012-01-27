@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="ais_addedit_sf.svg">
+   sodipodi:docname="ais_addedit_sf.svg"
+   inkscape:export-filename="D:\pmp-android\documentation\editor\specification\gui-prototype\ais_addedit_sf.png"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -87,7 +90,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
