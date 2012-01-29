@@ -302,3 +302,10 @@ div.uip {
 	clear: both;
 }
 
+iframe {
+	display: none;
+}
+
+p.print_only {
+	display: inline;
+}

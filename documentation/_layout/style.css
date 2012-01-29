@@ -350,3 +350,12 @@ div.sp-add span.title {
 div.sp-edit span.title {
 	color: orange;
 }
+
+iframe {
+	border: none;
+	width: 100%;
+}
+
+p.print_only {
+	display: none;
+}

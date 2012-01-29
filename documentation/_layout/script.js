@@ -6,6 +6,13 @@ $(document).ready(function(){
 	$(".fancybox").fancybox();
 });
 
+$(window).load(function () {
+	setIframeHeight(document.getElementById('ucif'));
+});
+/*window.onload = function () {
+			setIframeHeight(document.getElementById('ucif'));
+		};*/
+
 $(window).resize(function() {
 	positionNavigation();
 });
@@ -85,3 +92,12 @@ function positionNavigation() {
 		$("#wrapper").removeClass("innerNavigation");
 	}
 }
+
+function setIframeHeight(iframe) {
+	if (iframe) {
+		var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+		if (iframeWin.document.body) {
+			iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+		}
+	}
+};
