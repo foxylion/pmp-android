@@ -48,24 +48,32 @@
       <pattern>
         <id>115</id>
         <patternId>ID-papierkorb</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <globalFunctions>
           <globalFunction>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Ein zum L&amp;#246;schen markiertes Preset kann durch Wiederholung des L&amp;#246;schen-Use-Cases ganz entfernt werden. Des Weiteren gibt es in der Preset-&amp;#220;bersicht die M&amp;#246;glichkeit,
+              alle zum L&amp;#246;schen markierten Presets ganz zu entfernen. &lt;/p&gt;</content>
             <template>ID-750ae7c4</template>
+            <useCases>
+              <useCase>136</useCase>
+            </useCases>
           </globalFunction>
           <globalFunction>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</content>
             <template>ID-9995d36</template>
+            <useCases>
+              <useCase>129</useCase>
+            </useCases>
           </globalFunction>
         </globalFunctions>
         <globalParameters>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Das System forciert das L&amp;#246;schen in einen Zwischenzustand, in dem das Preset als &amp;quot;gel&amp;#246;scht&amp;quot; markiert ist und entweder endg&amp;#252;ltig gel&amp;#246;scht
+              oder wiederhergestellt werden kann. &lt;/p&gt;</content>
             <template>ID-5ed6e942</template>
           </globalParameter>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Presets, die zum L&amp;#246;schen markiert wurden. &lt;/p&gt;</content>
             <template>ID-e9823e08</template>
           </globalParameter>
         </globalParameters>
@@ -73,10 +81,10 @@
       <pattern>
         <id>114</id>
         <patternId>ID-direktevalidierung</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <globalParameters>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Ein Warnungszeichen mindestens in der H&amp;#246;he gleich mit der des Textfeldes, ggf. eine farbliche Hervorhebung der Zeile. &lt;/p&gt;</content>
             <template>ID-7805063f</template>
           </globalParameter>
         </globalParameters>
@@ -84,10 +92,10 @@
       <pattern>
         <id>112</id>
         <patternId>ID-inarbeit</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <globalParameters>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Durch den Standard-Progress-Dialog von Android. &lt;/p&gt;</content>
             <template>ID-7805063f</template>
           </globalParameter>
         </globalParameters>
@@ -95,10 +103,10 @@
       <pattern>
         <id>111</id>
         <patternId>ID-fortschrittsanzeige</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <globalParameters>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Durch den Standard-Progress-Dialog von Android. &lt;/p&gt;</content>
             <template>ID-7805063f</template>
           </globalParameter>
         </globalParameters>
@@ -106,10 +114,10 @@
       <pattern>
         <id>110</id>
         <patternId>ID-warnung</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description/>
         <globalParameters>
           <globalParameter>
-            <content/>
+            <content>&lt;p style="margin-top: 0"&gt; Durch den Standard-Alert-Dialog von Android. &lt;/p&gt;</content>
             <template>ID-7805063f</template>
           </globalParameter>
         </globalParameters>
@@ -117,7 +125,8 @@
       <pattern>
         <id>109</id>
         <patternId>ID-abbruch</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Durch eine Extra-M&amp;#246;glichkeit, wie bspw. ein [x] oder ein &amp;quot;Abbrechen&amp;quot; in jedem Schritt. Der Android-Zur&amp;#252;ck-Knopf erf&amp;#252;llt die Semantik: &amp;quot;Gehe
+          zur&amp;#252;ck zur vorherigen Bildschirmmaske und &amp;#252;bernehme alle Einstellungen.&amp;quot; &lt;/p&gt;</description>
       </pattern>
     </children>
   </usabilityPatternsFolder>
@@ -511,1309 +520,2525 @@
           </useCase>
         </children>
         <children>
-          <useCase>
-            <id>69</id>
-            <name>Details eines Presets anzeigen</name>
-            <useCaseId>201</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>07-11-2011 18:04</created>
-            <author/>
-            <lastUpdate>08-11-2011 10:20</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
+          <folder>
+            <id>141</id>
+            <name>Presets</name>
+            <children>
+              <useCase>
+                <id>69</id>
+                <name>Details eines Presets anzeigen</name>
+                <useCaseId>201</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer will die Details zu einem Preset anzeigen. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>07-11-2011 18:04</created>
+                <author/>
+                <lastUpdate>08-11-2011 10:20</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
                   <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
                   <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>schließt die Detailübersicht.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Details eines Presets angezeigt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>schließt die Detailübersicht.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Details eines Presets angezeigt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Keine Details eines Presets angezeigt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-          </useCase>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Keine Details eines Presets angezeigt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>75</id>
+                <name>Preset erstellen</name>
+                <useCaseId>202</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein neues Preset erstellen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein neues Preset anlegen, zu dem er dann sp&amp;#228;ter Apps und Privacy Settings hinzuf&amp;#252;gen kann. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 10:23</created>
+                <author/>
+                <lastUpdate>08-11-2011 15:21</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Funktion "Preset erstellen" aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt den "Preset erstellen" Bildschirm an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>gibt Namen und Beschreibung ein.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId>7</actorId>
+                      <description>bestätigt die Eingaben.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId/>
+                      <description>zeigt den Presetdetails Bildschirm an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Preset wurde erstellt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Keine Details eines Presets angezeigt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>5</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>nicht bereits vorhandene Preset-Namen</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>81</id>
+                <name>App zu einem Preset hinzufügen</name>
+                <useCaseId>203</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App zu einem Preset hinzuf&amp;#252;gen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App zu einem bestehenden Preset hinzuf&amp;#252;gen. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 10:30</created>
+                <author/>
+                <lastUpdate>14-11-2011 17:16</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt den Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die "App hinzufügen" Funktion aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Apps an, die sich noch nicht in diesem Preset befinden.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die gewünschte App aus und bestätigt die Auswahl.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>App zu einem Preset hinzugefügt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>keine App zu einem Preset hinzugefügt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>84</id>
+                <name>Privacy Setting zu einem Preset hinzufügen</name>
+                <useCaseId>204</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Setting zu einem Preset hinzuf&amp;#252;gen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Setting zu einem bestehenden Preset hinzuf&amp;#252;gen. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 10:35</created>
+                <author/>
+                <lastUpdate>14-11-2011 17:11</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt den Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die "Privacy Setting hinzufügen" Funktion aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Privacy Settings an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt das gewünschte Privacy Setting aus und bestätigt die Auswahl.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>9</stepNumber>
+                      <actorId>7</actorId>
+                      <description>stellt den Wert des Privacy Settings ein und bestätigt dies.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>10</stepNumber>
+                      <actorId/>
+                      <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Privacy Setting zu einem Preset hinzugefügt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy Setting zu einem Preset hinzugefügt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>5</associatedStep>
+                    <name>5a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Preset ist vordefiniert.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>5a1</stepNumber>
+                        <actorId/>
+                        <description>meldet, dass dem vordefinierten Preset keine Privacy Settings hinzugefügt werden können.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Es wurde kein Privacy Setting zu einem Preset hinzugefügt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>88</id>
+                <name>App aus einem Preset entfernen</name>
+                <useCaseId>205</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</goal>
+                <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 10:43</created>
+                <author/>
+                <lastUpdate>14-11-2011 17:20</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt den Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>selektiert eine App.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt ein Auswahlmenü an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt das Entfernen der App aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>entfernt die App aus dem Preset.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>9</stepNumber>
+                      <actorId/>
+                      <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>App aus Preset entfernt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Keine App aus einem Preset entfernt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>5</associatedStep>
+                    <name>5a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es ist keine App vorhanden</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>5a1</stepNumber>
+                        <actorId>7</actorId>
+                        <description>kann keine App oder Privacy Setting auswählen.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Keine App aus einem Preset entfernt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-a63e7488</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>116</id>
+                <name>Privacy Setting aus einem Preset entfernen</name>
+                <useCaseId>206</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</goal>
+                <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 18:47</created>
+                <author/>
+                <lastUpdate>14-11-2011 17:20</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt den Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>selektiert ein Privacy Setting.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt ein Auswahlmenü an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt das Entfernen des Privacy Setting aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>entfernt das Privacy Setting aus dem Preset.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>9</stepNumber>
+                      <actorId/>
+                      <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>App/Privacy Setting aus Preset entfernt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy Setting aus einem Preset entfernt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>5</associatedStep>
+                    <name>5a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es ist kein Privacy Setting vorhanden</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>5a1</stepNumber>
+                        <actorId>7</actorId>
+                        <description>kann keine Privacy Setting auswählen.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy Setting aus einem Preset entfernt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>5</associatedStep>
+                    <name>5b</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Das Preset ist vordefiniert</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>5b1</stepNumber>
+                        <actorId/>
+                        <description>meldet, dass in dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy Setting entfernt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-a63e7488</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>103</id>
+                <name>Preset-Name/Preset-Beschreibung ändern</name>
+                <useCaseId>207</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 14:11</created>
+                <author/>
+                <lastUpdate>14-11-2011 17:22</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>ändert den Namen und/oder die Beschreibung und bestätigt dies.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Presetübersicht an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Preset ist verändert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Preset nicht verändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>107</id>
+                <name>Privacy-Setting-Wert ändern</name>
+                <useCaseId>208</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 14:12</created>
+                <author/>
+                <lastUpdate>29-01-2012 11:57</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Privacy Setting aus, von der er den Wert verändern will.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>ändert den Wert des Privacy Settings und bestätigt dies.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des Presets ,mit dem geänderten Privacy-Setting-Wert, an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Privacy-Setting-Wert geändert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Privacy-Setting-Wert nicht geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>5</associatedStep>
+                    <name>5a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Privacy Settings vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>5a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy-Setting-Wert geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>150</id>
+                <name>Presets exportieren</name>
+                <useCaseId>210</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte einige Presets auf ein externes Medium exportieren. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 12:00</created>
+                <author/>
+                <lastUpdate>29-01-2012 12:04</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId>7</actorId>
+                      <description>öffnet das Menü.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt an, dass Presets exportiert werden sollen.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt einen Dialog, der die Auswahl von Presets und Eingabe eines Export-Pfades ermöglicht.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>exportiert die gewählten Presets in den gewünschten Pfad.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Alle gewünschten Presets wurden erfolgreich in den gewünschten Pfad exportiert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>6</associatedStep>
+                    <name>6a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Auf den gewünschten Pfad kann nicht geschrieben werden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>6a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt eine Fehlermeldung über die Umstände an.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Preset wurde exportiert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>153</id>
+                <name>Presets importieren</name>
+                <useCaseId>211</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte einige Presets von einem externen Medium importieren. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 12:04</created>
+                <author/>
+                <lastUpdate>29-01-2012 12:15</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId>7</actorId>
+                      <description>öffnet das Menü.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt an, dass Presets importiert werden sollen.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt einen Dialog, der die Auswahl eines Import-Pfades ermöglicht.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Presets die im Import-Pfad gefunden werden als Auswahlliste an.</description>
+                      <references/>
+                      <attributes>
+                        <attribute id="actor" valueId="not human"/>
+                      </attributes>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>übernimmt die ausgewählten Presets in das System.</description>
+                      <references/>
+                      <attributes>
+                        <attribute id="actor" valueId="not human"/>
+                      </attributes>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Alle gewünschten Presets wurden erfolgreich in den gewünschten Pfad exportiert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>6</associatedStep>
+                    <name>6a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Vom gewünschten Pfad kann nicht gelesen werden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>6a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt eine Fehlermeldung über die Umstände an.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Preset wurde importiert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>8</associatedStep>
+                    <name>8a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Der Benutzer wählt "Überschreiben", falls die Warnung angezeigt wird.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>8a1</stepNumber>
+                        <actorId/>
+                        <description>überschreibt das vorhandene Preset.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>8a2</stepNumber>
+                        <actorId/>
+                        <description>wird alle weiteren Konflikte überschreiben, wenn "Für alle" selektiert wurde.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Das Preset wurde überschrieben.</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>8</associatedStep>
+                    <name>8b</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Der Benutzer wählt "Hinzufügen", falls die Warnung angezeigt wird.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>8b1</stepNumber>
+                        <actorId/>
+                        <description>ändert den Namen durch Anhängen eines Strings so, dass das Preset noch nicht im System existiert.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>8b2</stepNumber>
+                        <actorId/>
+                        <description>fügt das geänderte Preset ins System ein.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>8b3</stepNumber>
+                        <actorId/>
+                        <description>wird alle weiteren Konflikte so behandeln, wenn "Für alle" selektiert wurde.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Das Preset wurde hinzugefügt.</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-a63e7488</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-98d6016d</template>
+                          <value>es sind Presets ausgewählt, die bereits existieren</value>
+                        </parameter>
+                        <parameter>
+                          <template>ID-6adc63f0</template>
+                          <value>Überschreiben, Hinzufügen, "Für alle" als Checkbox</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters>
+                        <lgParameter>
+                          <globalParameter>Darstellung</globalParameter>
+                          <content>"Was soll getan werden?"</content>
+                        </lgParameter>
+                      </lgParameters>
+                    </annotation>
+                  </stepAnnotation>
+                  <stepAnnotation>
+                    <step>6</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>Presets, die nicht bereits existieren</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+          </folder>
         </children>
         <children>
-          <useCase>
-            <id>75</id>
-            <name>Preset erstellen</name>
-            <useCaseId>202</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein neues Preset erstellen. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein neues Preset anlegen, zu dem er dann sp&amp;#228;ter Apps und Privacy Settings hinzuf&amp;#252;gen kann. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 10:23</created>
-            <author/>
-            <lastUpdate>08-11-2011 15:21</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
+          <folder>
+            <id>142</id>
+            <name>Preset-Papierkorb</name>
+            <children>
+              <useCase>
+                <id>105</id>
+                <name>Preset löschen</name>
+                <useCaseId>250</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. Dies wird dann zu den gel&amp;#246;schten Presets einsortiert. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>08-11-2011 14:12</created>
+                <author/>
+                <lastUpdate>29-01-2012 11:57</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
                   <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
                   <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Funktion "Preset erstellen" aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt den "Preset erstellen" Bildschirm an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>gibt Namen und Beschreibung ein.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId>7</actorId>
-                  <description>bestätigt die Eingaben.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId/>
-                  <description>zeigt den Presetdetails Bildschirm an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Preset wurde erstellt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>selektiert ein Preset.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt ein Auswahlmenü an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt das Entfernen des Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>sortiert das Preset zu den Gelöschten ein.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Preset wurde zu den Gelöschten einsortiert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Keine Details eines Presets angezeigt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>5</step>
-                <annotation>
-                  <template>ID-42271e98</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-f10ced1f</template>
-                      <value>nicht bereits vorhandene Preset-Namen</value>
-                    </parameter>
-                  </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Preset gelöscht</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>6</step>
+                    <annotation>
+                      <template>ID-5ca5990b</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>129</id>
+                <name>Preset wiederherstellen</name>
+                <useCaseId>251</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset wiederherstellen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset wiederherstellen. Dies wird dann wieder zu den g&amp;#252;ltigen Presets einsortiert. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 11:48</created>
+                <author/>
+                <lastUpdate>29-01-2012 11:57</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt an, dass gelöschte Presets angezeigt werden sollen.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle gelöschten Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId>7</actorId>
+                      <description>selektiert ein gelöschtes Preset.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId/>
+                      <description>zeigt ein Auswahlmenü an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt das Wiederherstellen nen des Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId/>
+                      <description>sortiert das Preset wieder zu den gültigen Presets ein.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Preset wurde zu den Gültigen einsortiert</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>3</associatedStep>
+                    <name>3a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine gelöschten Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
+                    <attributes/>
+                    <steps>
+                      <step>
+                        <stepNumber>3a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine gelöschten Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Preset wiederhergestellt</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>136</id>
+                <name>Preset-Papierkorb leeren</name>
+                <useCaseId>252</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte alle gel&amp;#246;schten Presets endg&amp;#252;ltig l&amp;#246;schen. &lt;/p&gt;</goal>
+                <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte alle gel&amp;#246;schten Presets aus dem Papierkorb entfernen. Diese werden dann endg&amp;#252;ltig gel&amp;#246;scht. &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 11:52</created>
+                <author/>
+                <lastUpdate>29-01-2012 11:57</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId>7</actorId>
+                      <description>öffnet das Menü.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt an, dass der Preset-Papierkorb geleert werden soll.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>entfernt alle Presets, die als gelöscht markiert sind endgültig.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Alle gelöschten Presets wurden endgültig aus dem System entfernt</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions/>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+              </useCase>
+            </children>
+          </folder>
         </children>
         <children>
-          <useCase>
-            <id>81</id>
-            <name>App zu einem Preset hinzufügen</name>
-            <useCaseId>203</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App zu einem Preset hinzuf&amp;#252;gen. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App zu einem bestehenden Preset hinzuf&amp;#252;gen. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 10:30</created>
-            <author/>
-            <lastUpdate>14-11-2011 17:16</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
+          <folder>
+            <id>143</id>
+            <name>Kontexte</name>
+            <children>
+              <useCase>
+                <id>163</id>
+                <name>Kontext zu Privacy-Setting-Wert hinzufügen</name>
+                <useCaseId>270</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert von einem Kontext abh&amp;#228;ngig machen. &lt;/p&gt;</goal>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
+                  kontext-basierten Wert &amp;#252;berschreiben lassen.
+                  &lt;/p&gt;
+                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
+                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
+                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
+                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
+                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
+                  hingewiesen.
+                  &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 12:25</created>
+                <author/>
+                <lastUpdate>29-01-2012 12:36</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
                   <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
                   <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die "App hinzufügen" Funktion aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Apps an, die sich noch nicht in diesem Preset befinden.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die gewünschte App aus und bestätigt die Auswahl.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>App zu einem Preset hinzugefügt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Privacy Setting aus, der von einem Kontext abhängen soll.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Kontext-Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt den gewünschten Kontext, die Kontext-Parameter und den Privacy-Setting-Wert, der für dieses Preset gelten soll, wenn der Kontext aktiv ist.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des Presets mit dem neuen, untergeordneten Kontext an.</description>
+                      <references/>
+                      <attributes>
+                        <attribute id="actor" valueId="not human"/>
+                      </attributes>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Das Privacy-Setting ändert seinen Wert abhängig vom eingestellten Kontext.</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>keine App zu einem Preset hinzugefügt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>84</id>
-            <name>Privacy Setting zu einem Preset hinzufügen</name>
-            <useCaseId>204</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Setting zu einem Preset hinzuf&amp;#252;gen. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy Setting zu einem bestehenden Preset hinzuf&amp;#252;gen. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 10:35</created>
-            <author/>
-            <lastUpdate>14-11-2011 17:11</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die "Privacy Setting hinzufügen" Funktion aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Privacy Settings an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt das gewünschte Privacy Setting aus und bestätigt die Auswahl.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
-                  <actorId>7</actorId>
-                  <description>stellt den Wert des Privacy Settings ein und bestätigt dies.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>10</stepNumber>
-                  <actorId/>
-                  <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Privacy Setting zu einem Preset hinzugefügt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Privacy-Setting-Wert nicht geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>4</associatedStep>
+                    <name>4a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Privacy Settings vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Privacy Setting zu einem Preset hinzugefügt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Preset ist vordefiniert.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>5a1</stepNumber>
-                    <actorId/>
-                    <description>meldet, dass dem vordefinierten Preset keine Privacy Settings hinzugefügt werden können.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>4a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy-Setting-Wert geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>wenn es kein anderes Preset gibt, das den Kontext-Wert für die zugewiesenen Apps überschreiben würde (sowohl durch Standard- als auch durch Kontextwerte)</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>173</id>
+                <name>Kontext ändern</name>
+                <useCaseId>271</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte die Abh&amp;#228;ngigkeit eines Privacy-Setting-Wert von einem Kontext &amp;#228;ndern. &lt;/p&gt;</goal>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
+                  kontext-basierten Wert &amp;#252;berschreiben lassen.
+                  &lt;/p&gt;
+                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
+                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
+                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
+                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
+                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
+                  hingewiesen.
+                  &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 12:36</created>
+                <author/>
+                <lastUpdate>29-01-2012 12:43</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
+                  <actorId>7</actorId>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
+                  <attributes/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt den zu bearbeitenden Kontext unter dem Privacy Setting, das der Kontext ändert, aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Kontext-Einstellungsmöglichkeiten für diesen Kontext an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt den gewünschten Kontext, die Kontext-Parameter und den Privacy-Setting-Wert, der für dieses Preset gelten soll, wenn der Kontext aktiv ist.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des Presets mit dem neuen, untergeordneten Kontext an.</description>
+                      <references/>
+                      <attributes>
+                        <attribute id="actor" valueId="not human"/>
+                      </attributes>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Das Privacy-Setting ändert seinen Wert abhängig vom bearbeiteten Kontext.</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Es wurde kein Privacy Setting zu einem Preset hinzugefügt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>88</id>
-            <name>App aus einem Preset entfernen</name>
-            <useCaseId>205</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</goal>
-            <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte eine App entfernen. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 10:43</created>
-            <author/>
-            <lastUpdate>14-11-2011 17:20</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>selektiert eine App.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt das Entfernen der App aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>entfernt die App aus dem Preset.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
-                  <actorId/>
-                  <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>App aus Preset entfernt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Privacy-Setting-Wert nicht geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>4</associatedStep>
+                    <name>4a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Privacy Settings vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Keine App aus einem Preset entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es ist keine App vorhanden</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>5a1</stepNumber>
-                    <actorId>7</actorId>
-                    <description>kann keine App oder Privacy Setting auswählen.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>4a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy-Setting-Wert geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>6</associatedStep>
+                    <name>6a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Der Kontext ist durch Direkte Validierung markiert, da es andere Presets gibt, die diesen Kontext-Privacy-Setting-Wert überschreiben könnten.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Keine App aus einem Preset entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>8</step>
-                <annotation>
-                  <template>ID-a63e7488</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>116</id>
-            <name>Privacy Setting aus einem Preset entfernen</name>
-            <useCaseId>206</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</goal>
-            <description>&lt;p margin-top="0"&gt; Der Benutzer m&amp;#246;chte ein Privacy Setting entfernen. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 18:47</created>
-            <author/>
-            <lastUpdate>14-11-2011 17:20</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
+                    <steps>
+                      <step>
+                        <stepNumber>6a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt zusätzlich eine Möglichkeit an, die Presets zu bearbeiten, die diesen Wert überschreiben.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>6a2</stepNumber>
+                        <actorId>7</actorId>
+                        <description>wählt diese Möglichkeit an.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>6a3</stepNumber>
+                        <actorId/>
+                        <description>zeigt alle Presets an, die diesen Wert überschrieben. Das Privacy-Setting, das den Kontext überschreibt, wird in einer anderen Farbe als die direkte Validierung hervorgehoben. Die zugewiesene App, die im
+                          Kontext-Preset auch zugewiesen ist, wird in einer anderen Farbe als die direkte Validierung hervorgehoben.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                      <step>
+                        <stepNumber>6a4</stepNumber>
+                        <actorId>7</actorId>
+                        <description>kann die anderen Presets ändern, z.B. die App entfernen oder den Privacy-Setting-Wert anpassen.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Der Kontext ist nicht mehr durch Direkte Validierung markiert, da es keine anderen Presets mehr gibt, die diesen Kontext-Privacy-Setting-Wert überschreiben könnten.</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>wenn es kein anderes Preset gibt, das den Kontext-Wert für die zugewiesenen Apps überschreiben würde (sowohl durch Standard- als auch durch Kontextwerte)</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+            <children>
+              <useCase>
+                <id>182</id>
+                <name>Kontext aus Privacy-Setting-Wert entfernen</name>
+                <useCaseId>272</useCaseId>
+                <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte die Abh&amp;#228;ngigkeit eines Privacy-Setting-Wert von einem Kontext entfernen. &lt;/p&gt;</goal>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
+                  kontext-basierten Wert &amp;#252;berschreiben lassen.
+                  &lt;/p&gt;
+                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
+                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
+                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
+                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
+                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
+                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
+                  hingewiesen.
+                  &lt;/p&gt;</description>
+                <priority>Mittel</priority>
+                <level>Benutzersicht</level>
+                <created>29-01-2012 12:44</created>
+                <author/>
+                <lastUpdate>29-01-2012 12:47</lastUpdate>
+                <primaryActorId>7</primaryActorId>
+                <actors>
                   <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
+                </actors>
+                <mainScenario>
+                  <name/>
+                  <preConditions>
+                    <preCondition>
+                      <description>PMP ist gestartet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>Es ist noch kein Untermenü geöffnet</description>
+                    </preCondition>
+                    <preCondition>
+                      <description>In PMP ist der Expertenmodus eingestellt</description>
+                    </preCondition>
+                  </preConditions>
                   <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt den Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>selektiert ein Privacy Setting.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt das Entfernen des Privacy Setting aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>entfernt das Privacy Setting aus dem Preset.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
-                  <actorId/>
-                  <description>zeigt den aktualisierten Detailbildschirm des Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>App/Privacy Setting aus Preset entfernt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
+                  <steps>
+                    <step>
+                      <stepNumber>1</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt die Presetübersicht aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>2</stepNumber>
+                      <actorId/>
+                      <description>zeigt alle Presets an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>3</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt ein Preset aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>4</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des gewählten Presets aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>5</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt den zu entfernden Kontext unter dem Privacy Setting, das der Kontext ändert, aus.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>6</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Kontext-Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>7</stepNumber>
+                      <actorId>7</actorId>
+                      <description>wählt aus, den Kontext zu entfernen.</description>
+                      <references/>
+                      <attributes/>
+                    </step>
+                    <step>
+                      <stepNumber>8</stepNumber>
+                      <actorId/>
+                      <description>zeigt die Details des Presets mit den restlichen, untergeordneten Kontext an.</description>
+                      <references/>
+                      <attributes>
+                        <attribute id="actor" valueId="not human"/>
+                      </attributes>
+                    </step>
+                  </steps>
+                  <postConditions>
+                    <postCondition>
+                      <description>Das Privacy-Setting ändert seinen Wert nicht mehr abhängig vom entfernten Kontext.</description>
+                    </postCondition>
+                  </postConditions>
+                </mainScenario>
+                <extensions>
+                  <extensionScenario>
+                    <associatedStep>2</associatedStep>
+                    <name>2a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Presets vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Privacy Setting aus einem Preset entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es ist kein Privacy Setting vorhanden</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>5a1</stepNumber>
-                    <actorId>7</actorId>
-                    <description>kann keine Privacy Setting auswählen.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>2a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Privacy-Setting-Wert nicht geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>4</associatedStep>
+                    <name>4a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Privacy Settings vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Privacy Setting aus einem Preset entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5b</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Das Preset ist vordefiniert</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>5b1</stepNumber>
-                    <actorId/>
-                    <description>meldet, dass in dem vordefinierten Preset keine Privacy Settings gelöscht werden können.</description>
-                    <references/>
+                    <steps>
+                      <step>
+                        <stepNumber>4a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Kein Privacy-Setting-Wert geändert</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                  <extensionScenario>
+                    <associatedStep>8</associatedStep>
+                    <name>8a</name>
+                    <preConditions>
+                      <preCondition>
+                        <description>Es sind keine Kontexte mehr vorhanden.</description>
+                      </preCondition>
+                    </preConditions>
                     <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Privacy Setting entfernt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>8</step>
-                <annotation>
-                  <template>ID-a63e7488</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>103</id>
-            <name>Preset-Name/Preset-Beschreibung ändern</name>
-            <useCaseId>207</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte den Name und/oder die Beschreibung eines Presets &amp;#228;ndern. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 14:11</created>
-            <author/>
-            <lastUpdate>14-11-2011 17:22</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>ändert den Namen und/oder die Beschreibung und bestätigt dies.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Presetübersicht an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Preset ist verändert</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
-                    <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Preset nicht verändert</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>105</id>
-            <name>Preset löschen</name>
-            <useCaseId>208</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Preset l&amp;#246;schen. Dies wird dann zu den gel&amp;#246;schten Presets einsortiert. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 14:12</created>
-            <author/>
-            <lastUpdate>16-11-2011 09:10</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>selektiert ein Preset.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt ein Auswahlmenü an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt das Entfernen des Presets aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>sortiert das Preset zu den Gelöschten ein.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Preset wurde zu den Gelöschten einsortiert</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
-                    <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Preset gelöscht</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>6</step>
-                <annotation>
-                  <template>ID-5ca5990b</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>107</id>
-            <name>Privacy-Setting-Wert ändern</name>
-            <useCaseId>209</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert &amp;#228;ndern. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>08-11-2011 14:12</created>
-            <author/>
-            <lastUpdate>09-11-2011 14:20</lastUpdate>
-            <primaryActorId>7</primaryActorId>
-            <actors>
-              <actorId>7</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>PMP ist gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Es ist noch kein Untermenü geöffnet</description>
-                </preCondition>
-                <preCondition>
-                  <description>In PMP ist der Expertenmodus eingestellt</description>
-                </preCondition>
-              </preConditions>
-              <attributes/>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt die Presetübersicht aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt alle Presets an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Preset aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Details des gewählten Presets aus.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>7</actorId>
-                  <description>wählt ein Privacy Setting aus, von der er den Wert verändern will.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Einstellungsmöglichkeiten für dieses Privacy Setting an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>7</actorId>
-                  <description>ändert den Wert des Privacy Settings und bestätigt dies.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Details des Presets ,mit dem geänderten Privacy-Setting-Wert, an.</description>
-                  <references/>
-                  <attributes/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>Privacy-Setting-Wert geändert</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>2</associatedStep>
-                <name>2a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Presets vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>2a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Presets vorhanden sind.</description>
-                    <references/>
-                    <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Privacy-Setting-Wert nicht geändert</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>5</associatedStep>
-                <name>5a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Es sind keine Privacy Settings vorhanden.</description>
-                  </preCondition>
-                </preConditions>
-                <attributes/>
-                <steps>
-                  <step>
-                    <stepNumber>5a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt dem Expertenbenutzer an, dass keine Privacy Settings vorhanden sind.</description>
-                    <references/>
-                    <attributes/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>Kein Privacy-Setting-Wert geändert</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-          </useCase>
+                    <steps>
+                      <step>
+                        <stepNumber>8a1</stepNumber>
+                        <actorId/>
+                        <description>zeigt keine Kontexte mehr an.</description>
+                        <references/>
+                        <attributes/>
+                      </step>
+                    </steps>
+                    <postConditions>
+                      <postCondition>
+                        <description>Das Privacy-Setting ändert seinen Wert nicht mehr abhängig von Kontexten.</description>
+                      </postCondition>
+                    </postConditions>
+                  </extensionScenario>
+                </extensions>
+                <scenarioAnnotations>
+                  <scenarioAnnotation>
+                    <scenario/>
+                    <annotation>
+                      <template>ID-1b4a8da9</template>
+                      <parameters/>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </scenarioAnnotation>
+                </scenarioAnnotations>
+                <stepAnnotations>
+                  <stepAnnotation>
+                    <step>8</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>wenn es kein anderes Preset gibt, das den Kontext-Wert für die zugewiesenen Apps überschreiben würde (sowohl durch Standard- als auch durch Kontextwerte)</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                </stepAnnotations>
+              </useCase>
+            </children>
+          </folder>
         </children>
       </folder>
       <folder>
@@ -2084,6 +3309,15 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
                 <step>11</step>
                 <annotation>
                   <template>ID-c576be0</template>
@@ -2093,15 +3327,6 @@
                       <value>=(lokaleGröße/KompletteGröße)</value>
                     </parameter>
                   </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-              <stepAnnotation>
-                <step>5</step>
-                <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -2417,43 +3642,17 @@
     <id>2</id>
     <children>
       <useCaseDiagram>
-        <id>31</id>
-        <name>Diagramm</name>
+        <id>193</id>
+        <name>Expert-Mode: Kontexte</name>
         <description/>
         <diagramData>
-          <model>
-            <name>Benutzer</name>
-            <type>ACTOR</type>
-            <reference>6</reference>
-            <position>
-              <x>17</x>
-              <y>135</y>
-            </position>
-            <size>
-              <width>64</width>
-              <height>128</height>
-            </size>
-          </model>
-          <model>
-            <name>Paketmanagerserver</name>
-            <type>ACTOR</type>
-            <reference>13</reference>
-            <position>
-              <x>0</x>
-              <y>281</y>
-            </position>
-            <size>
-              <width>100</width>
-              <height>128</height>
-            </size>
-          </model>
           <model>
             <name>Expertenbenutzer</name>
             <type>ACTOR</type>
             <reference>7</reference>
             <position>
               <x>0</x>
-              <y>759</y>
+              <y>156</y>
             </position>
             <size>
               <width>87</width>
@@ -2461,142 +3660,164 @@
             </size>
           </model>
           <model>
-            <name>Service Features einer App ändern</name>
+            <name>Kontext zu Privacy-Setting-Wert hinzufügen (270)</name>
             <type>USE_CASE</type>
-            <reference>16</reference>
+            <reference>163</reference>
             <position>
-              <x>248</x>
-              <y>16</y>
+              <x>196</x>
+              <y>76</y>
             </position>
             <size>
-              <width>250</width>
+              <width>361</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>Details einer Ressourcengruppe anzeigen</name>
+            <name>Kontext ändern (271)</name>
             <type>USE_CASE</type>
-            <reference>14</reference>
+            <reference>173</reference>
             <position>
-              <x>238</x>
-              <y>92</y>
+              <x>297</x>
+              <y>181</y>
             </position>
             <size>
-              <width>297</width>
+              <width>156</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>In simplen Modus wechseln</name>
+            <name>Kontext aus Privacy-Setting-Wert entfernen (272)</name>
             <type>USE_CASE</type>
-            <reference>128</reference>
+            <reference>182</reference>
             <position>
-              <x>285</x>
-              <y>165</y>
+              <x>194</x>
+              <y>285</y>
             </position>
             <size>
-              <width>193</width>
+              <width>363</width>
               <height>64</height>
             </size>
           </model>
+        </diagramData>
+      </useCaseDiagram>
+      <useCaseDiagram>
+        <id>192</id>
+        <name>Expert-Mode: Presets</name>
+        <description>&lt;p style="margin-top: 0"&gt;
+          
+          &lt;/p&gt;</description>
+        <diagramData>
           <model>
-            <name>Ressourcengruppe installieren</name>
-            <type>USE_CASE</type>
-            <reference>24</reference>
+            <name>Expertenbenutzer</name>
+            <type>ACTOR</type>
+            <reference>7</reference>
             <position>
-              <x>268</x>
-              <y>314</y>
+              <x>31</x>
+              <y>205</y>
             </position>
             <size>
-              <width>216</width>
-              <height>64</height>
+              <width>87</width>
+              <height>128</height>
             </size>
           </model>
           <model>
-            <name>Ressourcengruppe deinstallieren</name>
-            <type>USE_CASE</type>
-            <reference>26</reference>
-            <position>
-              <x>264</x>
-              <y>239</y>
-            </position>
-            <size>
-              <width>234</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>In Expertenmodus wechseln</name>
+            <name>In Expertenmodus wechseln (200)</name>
             <type>USE_CASE</type>
             <reference>18</reference>
             <position>
-              <x>270</x>
-              <y>402</y>
+              <x>242</x>
+              <y>21</y>
             </position>
             <size>
-              <width>202</width>
+              <width>246</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>Details eines Presets anzeigen</name>
+            <name>Details eines Presets anzeigen (201)</name>
             <type>USE_CASE</type>
             <reference>69</reference>
             <position>
-              <x>264</x>
-              <y>474</y>
+              <x>604</x>
+              <y>173</y>
             </position>
             <size>
-              <width>217</width>
+              <width>261</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>Preset erstellen</name>
+            <name>Preset erstellen (202)</name>
             <type>USE_CASE</type>
             <reference>75</reference>
             <position>
-              <x>317</x>
-              <y>546</y>
+              <x>517</x>
+              <y>88</y>
             </position>
             <size>
-              <width>112</width>
+              <width>156</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>App zu einem Preset hinzufügen</name>
+            <name>App zu einem Preset hinzufügen (203)</name>
             <type>USE_CASE</type>
             <reference>81</reference>
             <position>
-              <x>263</x>
-              <y>621</y>
+              <x>223</x>
+              <y>284</y>
             </position>
             <size>
-              <width>231</width>
+              <width>274</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>Privacy Setting zu einem Preset hinzufügen</name>
+            <name>Privacy Setting zu einem Preset hinzufügen (204)</name>
             <type>USE_CASE</type>
             <reference>84</reference>
             <position>
-              <x>228</x>
-              <y>693</y>
+              <x>509</x>
+              <y>285</y>
             </position>
             <size>
-              <width>310</width>
+              <width>354</width>
               <height>64</height>
             </size>
           </model>
           <model>
-            <name>App aus einem Preset entfernen</name>
+            <name>App aus einem Preset entfernen (205)</name>
             <type>USE_CASE</type>
             <reference>88</reference>
             <position>
-              <x>214</x>
-              <y>763</y>
+              <x>223</x>
+              <y>365</y>
+            </position>
+            <size>
+              <width>276</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Privacy Setting aus einem Preset entfernen (206)</name>
+            <type>USE_CASE</type>
+            <reference>116</reference>
+            <position>
+              <x>515</x>
+              <y>365</y>
+            </position>
+            <size>
+              <width>355</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset-Name/Preset-Beschreibung ändern (207)</name>
+            <type>USE_CASE</type>
+            <reference>103</reference>
+            <position>
+              <x>236</x>
+              <y>171</y>
             </position>
             <size>
               <width>346</width>
@@ -2604,54 +3825,178 @@
             </size>
           </model>
           <model>
-            <name>Privacy Setting aus einem Preset entfernen</name>
-            <type>USE_CASE</type>
-            <reference>116</reference>
-            <position>
-              <x>238</x>
-              <y>832</y>
-            </position>
-            <size>
-              <width>312</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Preset-Name/Preset-Beschreibung ändern</name>
-            <type>USE_CASE</type>
-            <reference>103</reference>
-            <position>
-              <x>322</x>
-              <y>900</y>
-            </position>
-            <size>
-              <width>229</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Preset löschen</name>
-            <type>USE_CASE</type>
-            <reference>105</reference>
-            <position>
-              <x>349</x>
-              <y>967</y>
-            </position>
-            <size>
-              <width>105</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Privacy-Setting-Wert ändern</name>
+            <name>Privacy-Setting-Wert ändern (208)</name>
             <type>USE_CASE</type>
             <reference>107</reference>
             <position>
-              <x>297</x>
-              <y>1036</y>
+              <x>402</x>
+              <y>454</y>
             </position>
             <size>
-              <width>207</width>
+              <width>250</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Presets exportieren (210)</name>
+            <type>USE_CASE</type>
+            <reference>150</reference>
+            <position>
+              <x>244</x>
+              <y>752</y>
+            </position>
+            <size>
+              <width>186</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Presets importieren (211)</name>
+            <type>USE_CASE</type>
+            <reference>153</reference>
+            <position>
+              <x>450</x>
+              <y>751</y>
+            </position>
+            <size>
+              <width>183</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset löschen (250)</name>
+            <type>USE_CASE</type>
+            <reference>105</reference>
+            <position>
+              <x>228</x>
+              <y>588</y>
+            </position>
+            <size>
+              <width>148</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset wiederherstellen (251)</name>
+            <type>USE_CASE</type>
+            <reference>129</reference>
+            <position>
+              <x>368</x>
+              <y>555</y>
+            </position>
+            <size>
+              <width>213</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Preset-Papierkorb leeren (252)</name>
+            <type>USE_CASE</type>
+            <reference>136</reference>
+            <position>
+              <x>370</x>
+              <y>623</y>
+            </position>
+            <size>
+              <width>222</width>
+              <height>64</height>
+            </size>
+          </model>
+        </diagramData>
+      </useCaseDiagram>
+      <useCaseDiagram>
+        <id>191</id>
+        <name>Simple-Mode</name>
+        <description/>
+        <diagramData>
+          <model>
+            <name>Benutzer</name>
+            <type>ACTOR</type>
+            <reference>6</reference>
+            <position>
+              <x>20</x>
+              <y>249</y>
+            </position>
+            <size>
+              <width>64</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Service Features einer App ändern (100)</name>
+            <type>USE_CASE</type>
+            <reference>16</reference>
+            <position>
+              <x>268</x>
+              <y>144</y>
+            </position>
+            <size>
+              <width>294</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Details einer Ressourcengruppe anzeigen (101)</name>
+            <type>USE_CASE</type>
+            <reference>14</reference>
+            <position>
+              <x>263</x>
+              <y>344</y>
+            </position>
+            <size>
+              <width>340</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>In simplen Modus wechseln (102)</name>
+            <type>USE_CASE</type>
+            <reference>128</reference>
+            <position>
+              <x>272</x>
+              <y>60</y>
+            </position>
+            <size>
+              <width>237</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Paketmanagerserver</name>
+            <type>ACTOR</type>
+            <reference>13</reference>
+            <position>
+              <x>679</x>
+              <y>244</y>
+            </position>
+            <size>
+              <width>100</width>
+              <height>128</height>
+            </size>
+          </model>
+          <model>
+            <name>Ressourcengruppe installieren (300)</name>
+            <type>USE_CASE</type>
+            <reference>24</reference>
+            <position>
+              <x>290</x>
+              <y>268</y>
+            </position>
+            <size>
+              <width>259</width>
+              <height>64</height>
+            </size>
+          </model>
+          <model>
+            <name>Ressourcengruppe deinstallieren (301)</name>
+            <type>USE_CASE</type>
+            <reference>26</reference>
+            <position>
+              <x>271</x>
+              <y>439</y>
+            </position>
+            <size>
+              <width>277</width>
               <height>64</height>
             </size>
           </model>
