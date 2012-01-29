@@ -185,10 +185,10 @@
 				  Über die Schaltfläche "Add" öffnet sich ein Dialog, in dem
 				  das Privacy-Setting spezifiziert 
           (siehe <span class="reference noIndex" title="#gui_addedit_ps"></span>) und anschließend 
-          zur Liste hinzugefügt werden kann. Über die Schaltfläche "Remove" wird
+          zur Liste hinzugefügt werden kann. Über die Schaltfläche "Remove" werden
           die momentan selektierten Privacy-Settings aus
           der Liste entfernt.
-          Bereits angegelegte Privacy-Settings lassen sich über die 
+          Bereits angelegte Privacy-Settings lassen sich über die 
           Schaltfläche "Edit" bearbeiten 
           (siehe <span class="reference noIndex" title="#gui_addedit_ps"></span>)
         </p>
@@ -210,8 +210,8 @@
           (ähnlich dem Dialog "<span class="reference noIndex" title="#gui_addedit_ps"></span>",
           jedoch ohne Textfeld "Valid values") und anschließend 
           zur Liste hinzugefügt werden kann. Wurde mindesten ein Service-Feature
-          hizugefügt und dieses in der Liste selektiert, so können
-          diesem über die Schalftläche "Add RG" Ressourcegruppen hinzugefügt und
+          hinzugefügt und dieses in der Liste selektiert, so können
+          diesem über die Schaltfläche "Add RG" Ressourcegruppen hinzugefügt und
           die benötigten Privacy-Settings eingestellt werden 
           (siehe <span class="reference noIndex" title="#gui_addedit_rg"></span>).
         </p>
@@ -221,7 +221,7 @@
           der Liste entfernt.
         </p>
         <p>
-          Über die Schalftläche "Edit" lassen sich die Einträge bearbeiten.
+          Über die Schaltfläche "Edit" lassen sich die Einträge bearbeiten.
           Wurde ein Service-Feature selektiert, kann dessen Name oder
           Beschreibung geändert werden 
           (ähnlich dem Dialog "<span class="reference noIndex" title="#gui_addedit_ps"></span>",
@@ -241,7 +241,7 @@
 				
 				<p>
           Über diesen Dialog werden in jeder gewählten Sprache der Name und die
-          Beschreibung des Priivacy-Settings angegeben bzw. kann darüber geändert 
+          Beschreibung des Privacy-Settings angegeben bzw. kann darüber geändert 
           werden. Die Standard-Sprache wird hierbei hervorgehoben.
         </p>
 				
@@ -258,7 +258,7 @@
 				<p>
           Über diesen Dialog kann eine Ressourcengruppe ausgewählt werden.
           Anschließend können durch aktivieren der Checkboxes die Privacy-Settings
-          ausgwählt werden, die vom Service-Feature benötigt werden und 
+          ausgewählt werden, die vom Service-Feature benötigt werden und 
           deren Soll-Wert angegeben werden.
         </p>
 				
@@ -269,23 +269,92 @@
 			
 			<h2 id="gui_editor">Editor</h2>
 			
-			<h3 id="ui-settings-list">Übersicht</h3>
+			<h3 id="gui_editor_gen">Allgemeine Einstellungen</h3>
 			<div class="uip">
-				<a href="gui-prototype/setting-list.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/setting-list.jpg" alt="Einstellungen Übersicht" width="45%" class="left">
+				<a href="gui-prototype/ris_editor_gen.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ris_editor_gen.png" alt="Allgemeine Einstellungen" width="45%" class="left">
 				</a>
 				
-				<p>Zeigt Checkbox und Label des Experts-Mode an. Tippen auf Checkbox, um Expert-Mode zu aktivieren. Tippen auf den Export-Mode-Label öffnet Detail-Ansicht.</p>
+				<p>
+          Unter dem Tab "General" werden die allgemeinen Einstellungen des AIS bzw.
+          RIS festgelegt. Die Darstellung beim AIS und RIS ist ähnlich, mit dem 
+          Unterschied, dass die Eingabefelder "Identifier" und "Revision" nur
+          bei RIS vorhanden sind.
+        </p>
+        <p>
+          In der Tabelle werden der Name und die Beschreibung des AIS bzw. RIS
+          in verschiedene Sprachen eingestellt. Um eine weitere Sprache hinzuzufügen,
+          werden die unteren Textfelder entsprechend ausgefüllt und anschließend
+          auf die v-Schaltfläche im rechten Bereich geklickt.
+          Über die x-Schaltfläche neben bestehenden Namen/Beschreibungen lassen sich 
+          diese entfernen. Um die Werte der bestehenden Einträge zu ändern,
+          wird der entsprechende Wert (Locale, Name, Beschreibung) angeklickt.
+          Dieser wird dann in einem Eingabefeld angezeigt und kann darin geändert
+          werden.
+        </p>
 				<div class="clear"></div>
 			</div>
 			
-			<h3 id="ui-setting-details">Details</h3>
+			<h3 id="gui_editor_sfps">Privacy-Settings/Service-Features</h3>
+			<h4>AIS</h4>
 			<div class="uip">
-				<a href="gui-prototype/setting-details.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/setting-details.jpg" alt="Einstellungen Details" width="35%" class="left">
+				<a href="gui-prototype/ais_editor_sf.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ais_editor_sf.png" alt="Service-Features einstellen" width="45%" class="left">
 				</a>
 				
-				<p>In der Mitte wird die Beschreibung angezeigt. In der Fußzeile befinden sich zwei Buttons, zur Aktivierung/Deaktivierung des Expert-Modes und Schließen der Detail-Ansicht.</p>
+				<p>
+          Im linken Bereich werden alle momentan angelegten Service-Features
+          angezeigt. Über die "Add"-Schaltfläche wird ein neues Service-Feature
+          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Ressourcengruppe etc.]
+          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+        </p>
+        <p>
+          Um ein bestehendes oder neu angelegtes Service-Feature zu ändern,
+          wird dieses selektiert. Anschließend werden im rechten Bereich
+          alle Informationen über dieses angezeigt. 
+          In der oberen Tabelle werden die Namen und die Beschreibungen aufgelistet.
+          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
+          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
+          festgelegten Sprachen bestimmt. Durch Anklicken
+          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
+          werden.
+        </p>
+        <p>
+          Über das Dropdown-Feld im unteren Bereich der "Resource-Group"-Tabelle
+          lassen sich hinzuzufügende Ressourcengruppen auswählen. Über die
+          v-Schaltfläche werden diese dann dem Service-Feature hinzugefügt
+          (über die x-Schalftäche können sie wieder entfernt werden).
+        </p>
+        <p>
+          Wurde eine Ressourcengruppe ausgewählt, können in der nebenstehenden
+          Tabelle die Privacy-Settings eingestellt werden.
+        </p>
+				<div class="clear"></div>
+			</div>
+			
+			<h4>RIS</h4>
+			<div class="uip">
+				<a href="gui-prototype/ris_editor_ps.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/ris_editor_ps.png" alt="Privacy-Settings einstellen" width="45%" class="left">
+				</a>
+				
+				<p>
+          Im linken Bereich werden alle momentan angelegten Privacy-Settings
+          angezeigt. Über die "Add"-Schaltfläche wird ein neues Privacy-Setting
+          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Identifier etc.]
+          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+        </p>
+        <p>
+          Um ein bestehendes oder neu angelegtes Privacy-Setting zu ändern,
+          wird dieses selektiert. Anschließend werden im rechten Bereich
+          alle Informationen über dieses angezeigt. 
+          In der Tabelle werden die Namen und die Beschreibungen aufgelistet.
+          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
+          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
+          festgelegten Sprachen bestimmt. Durch anklicken
+          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
+          werden.
+        </p>
 				<div class="clear"></div>
 			</div>
 			
