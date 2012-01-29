@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location">
+		<revision>1</revision>
+		<defaultName lang="en">Location</defaultName>
+		<name lang="de">Ortung</name>
+		<icon>res/drawable-hdpi/icon.png</icon>
+		<defaultDescription lang="en">Obtains access to the current location of the device.</defaultDescription>
+		<description lang="de">Erlaubt Zugriff auf den aktuellen Standort des Geräts.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="useAbsoluteLocation">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Absolute location</defaultName>
+			<name lang="de">Genaue Ortung</name>
+			<defaultDescription lang="en">Obtains access to the exact current location.</defaultDescription>
+			<description lang="de">Erlaubt Zugriff auf die aktuell exakte Position.</description>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>
