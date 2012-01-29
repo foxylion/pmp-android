@@ -16,7 +16,7 @@
 		<div id="page-head-date">25. Januar 2012</div>
 		<div id="page-head-title">Editor for Information Sets</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 1.0</div>
+		<div id="page-version">Version 3.0</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -83,8 +83,8 @@
 					<h3 id="oberflaeche">Oberfläche</h3>
 					<p>Die Oberfläche von EIS wird sich nahtlos in die Oberfläche von Eclipse einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente. Die Oberfläche wird sich an der Oberfläche des Android Plugins ("ADT Plugin for Eclipse") orientieren, da die Entwickler mit dieser Oberfläche schon vertraut sind.</p>
 			
-					<h3 id="standardeinstellungen">Wizard</h3>
-					<p>EIS wird dem Entwickler anbieten, dass sowohl die AppInformation.xml als auch die ResourcegroupInformation.xml mit einem Wizard unterstützen wird, sodass die Erstellung möglichst einfach ist.</p>
+					<h3 id="wizard">Wizard</h3>
+					<p>EIS wird dem Entwickler anbieten,  sowohl die Erstellung der AppInformation.xml als auch der ResourcegroupInformation.xml mit einem Wizard durchzuführen, sodass dies möglichst einfach ist.</p>
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
@@ -96,7 +96,7 @@
 					<p> Es werden keine speziellen quantitative Anforderungen an EIS gestellt.</p>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p>EIS stürzt beim öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
+				<p>EIS wird beim öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
 				
 				<h2 id="sicherheit">Sicherheit</h2>
 				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
@@ -105,7 +105,7 @@
 				<p>EIS wird zur Eclipse Version 3.7 kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
-				<p>Die einzige verfügbare Sprache für EIS ist Englisch..</p>
+				<p>Die einzige verfügbare Sprache für EIS ist Englisch.</p>
 
 				<h2 id="installation">Installation</h2>
 				<p>Im Handbuch wird eine genaue Beschreibung der Installation vorliegen.</p>
@@ -300,52 +300,9 @@
 					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
 				</table>
 
-				<h2 id="bgl-expertmode">Expert Mode</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Expert Mode</th></tr>
-					<tr><th class="left">Synonyme</th><td>Expertenmodus</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Der Expert Mode ist eine Darstellungsart der Optionen für den Benutzer der PMP. Dabei wird ihm maximale Freiheit der einzelnen Einstellungen bezüglich jeden Privacy Settings gelassen. Des Weiteren kann er diese Einstellungen kontext-sensitiv machen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>-</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Der Expert Mode ist nicht der "normale", einfache Modus "Simple Mode".</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Expert Mode ist einzigartig in der PMP.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
-				
-				<h2 id="bgl-kontext">Kontext</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
-					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Setting abhängen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
-				</table>
-				
-				<h2 id="bgl-preset">Preset</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Preset</th></tr>
-					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Settings. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Settings. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Setting bereits bekannt sind.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
-			
 				<h2 id="bgl-privacysetting">Privacy Setting</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
@@ -356,7 +313,7 @@
 					<tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
 				</table>
 
 				<h2 id="bgl-ressource">Ressource</h2>
@@ -372,8 +329,6 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
 				</table>
 				
-				<div class="pagebreak"></div>
-				
 				<h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
@@ -387,21 +342,6 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 				
-				<h2 id="bgl-service">Service</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Service</th></tr>
-					<tr><th class="left">Synonyme</th><td>Dienst</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Service ist ein konkreter Funktionalitätsteil einer App, der Zugriff auf Ressourcen benötigen kann.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Ein Service in der App "Prüfungsamt" könnte "Prüfungsnote abfragen" sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App. PMP und die Ressourcen laufen als Service im Hintergrund, sind aber keine Services in dem hier genannten Sinne.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Service bleibt gültig, solange das entsprechende Service Feature in PMP aktiviert ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Service wird durch das zugehörigen Service Feature, die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
-				
 				<h2 id="bgl-servicefeature">Service Feature</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Service Feature</th></tr>
@@ -412,23 +352,9 @@
 					<tr><th class="left">Gültigkeit</th><td>Ein Service Feature bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Es können mehrere Service Features gleichzeitig aktiviert sein.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Das Service Feature wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>Das aus der Spezifikationsversion 1.x bekannte Service Level wird vom Service Feature abgelöst.</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 			
-			<div class="pagebreak"></div>
-			
-				<h2 id="bgl-simplemode">Simple Mode</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Simple Mode</th></tr>
-					<tr><th class="left">Synonyme</th><td>einfacher Modus</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Der einfache Modus ist die voreingestellte Darstellungsart der Optionen für den Benutzer von PMP. Dabei werden alle nicht benötigten Bedienelemente ausgeblendet und die Konfigurationsmöglichkeiten sind deutlich reduziert.</td></tr>
-					<tr><th class="left">Beispiele</th><td>-</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Der einfache Modus ist nicht der Expert Mode.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>-</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>-</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-expertmode"></span>,<span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-kontext"></span></td></tr>
-				</table>
 		</div>
 		<!-- // end of specification's content -->
 	</div>

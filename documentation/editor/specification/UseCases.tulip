@@ -31,6 +31,11 @@
     <id>4</id>
     <children>
       <pattern>
+        <id>48</id>
+        <patternId>ID-standardwerte</patternId>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+      </pattern>
+      <pattern>
         <id>46</id>
         <patternId>ID-filter</patternId>
         <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
@@ -76,7 +81,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 19:34</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>26-01-2012 14:40</lastUpdate>
+            <lastUpdate>29-01-2012 11:43</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -230,15 +235,6 @@
               <scenarioAnnotation>
                 <scenario/>
                 <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
                   <template>ID-7d6db798</template>
                   <parameters>
                     <parameter>
@@ -269,6 +265,15 @@
                   <lgParameters/>
                 </annotation>
               </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
@@ -276,6 +281,20 @@
                 <annotation>
                   <template>ID-a63e7488</template>
                   <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
+                <step>3</step>
+                <annotation>
+                  <template>ID-ba255018</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-4f9a0b5</template>
+                      <value>Name: AppInformation.xml, Ordner: Projektordner/assets</value>
+                    </parameter>
+                  </parameters>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -303,7 +322,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:04</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>26-01-2012 14:41</lastUpdate>
+            <lastUpdate>29-01-2012 11:44</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -382,15 +401,6 @@
               <scenarioAnnotation>
                 <scenario/>
                 <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
                   <template>ID-ccaba1c2</template>
                   <parameters>
                     <parameter>
@@ -402,7 +412,32 @@
                   <lgParameters/>
                 </annotation>
               </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
             </scenarioAnnotations>
+            <stepAnnotations>
+              <stepAnnotation>
+                <step>3</step>
+                <annotation>
+                  <template>ID-ba255018</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-4f9a0b5</template>
+                      <value>Ordner: Projekt/assets</value>
+                    </parameter>
+                  </parameters>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+            </stepAnnotations>
           </useCase>
         </children>
       </folder>
