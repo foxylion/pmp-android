@@ -69,6 +69,13 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2908"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -77,12 +84,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="950.47259"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="198.68431"
      inkscape:cy="423.86364"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
-     showgrid="true"
+     showgrid="false"
      inkscape:window-width="1680"
      inkscape:window-height="994"
      inkscape:window-x="-4"
@@ -104,7 +111,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -358,11 +365,11 @@
        sodipodi:cy="57.216949"
        sodipodi:rx="10.945869"
        sodipodi:ry="6.9830623"
-       d="m 560.00001,57.216949 a 10.945869,6.9830623 0 1 1 -21.89174,0 10.945869,6.9830623 0 1 1 21.89174,0 z"
+       d="m 560.00001,57.216949 c 0,3.856639 -4.90064,6.983063 -10.94587,6.983063 -6.04524,0 -10.94587,-3.126424 -10.94587,-6.983063 0,-3.856638 4.90063,-6.983062 10.94587,-6.983062 6.04523,0 10.94587,3.126424 10.94587,6.983062 z"
        transform="matrix(0.77654864,0,0,1.217231,188.13276,117.55377)" />
     <path
        transform="matrix(0.41111399,0,0,0.64441641,388.77617,196.32848)"
-       d="m 560.00001,57.216949 a 10.945869,6.9830623 0 1 1 -21.89174,0 10.945869,6.9830623 0 1 1 21.89174,0 z"
+       d="m 560.00001,57.216949 c 0,3.856639 -4.90064,6.983063 -10.94587,6.983063 -6.04524,0 -10.94587,-3.126424 -10.94587,-6.983063 0,-3.856638 4.90063,-6.983062 10.94587,-6.983062 6.04523,0 10.94587,3.126424 10.94587,6.983062 z"
        sodipodi:ry="6.9830623"
        sodipodi:rx="10.945869"
        sodipodi:cy="57.216949"
@@ -396,11 +403,11 @@
        y="268.70001" />
     <rect
        y="268.70001"
-       x="-76"
+       x="-77.999969"
        height="24"
-       width="30"
+       width="35"
        id="rect3090"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99999982;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99999976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
     <path
        id="path3092"
        d="m 644.5,529.20002 0,-384.99431"
@@ -453,5 +460,24 @@
        width="680"
        id="rect3922"
        style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
+    <path
+       id="path2939"
+       d="m -58.600283,292.70002 0,-24.03846"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    <path
+       id="path2941"
+       d="m -54.900283,277.20002 4.5,9 4.5,-9 -9,0 z"
+       style="fill:none;stroke:#000000;stroke-width:1.00000024px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline" />
+    <text
+       id="text2884"
+       y="286.53"
+       x="-74.062393"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Bauhaus 93;-inkscape-font-specification:Bauhaus 93"
+       xml:space="preserve"><tspan
+         style="font-size:12px;font-weight:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         y="286.53"
+         x="-74.062393"
+         sodipodi:role="line"
+         id="tspan2892">fr</tspan></text>
   </g>
 </svg>
