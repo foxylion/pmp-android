@@ -14,6 +14,7 @@ import java.util.Observer;
 import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.api.ipc.IPCConnection;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
@@ -141,6 +142,19 @@ public class Model implements IModel, Observer {
                     .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
             AppInformationSet ais = AppInformationSetParser.createAppInformationSet(xmlStream);
+            
+            // check service availability
+            IPCConnection ipcc = new IPCConnection(PMPApplication.getContext());
+            try {
+                ipcc.setDestinationService(appPackage);
+                if (ipcc.getBinder() == null) {
+                    /* error during connecting to service */
+                    Log.w(appPackage + " has failed registration with PMP.");
+                    return new RegistrationResult(false, "Service not available.");
+                }
+            } finally {
+                ipcc.disconnect();
+            }
             
             // apply new app to DB, then model
             App newApp = new AppPersistenceProvider(null).createElementData(appPackage);
