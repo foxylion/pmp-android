@@ -17247,9 +17247,18 @@
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
 					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
-
-					<h3 id="import-export">Import/Export</h3>
-					<p>Es sind aktuell keine Import-/Exportfunktionen geplant.</p>
+					
+					<div class="sp-add">
+					<h3 id="import-export">Import/Export von Presets</h3>
+						<p>PMP wird dem Benutzer ermöglichen Presets bequem über die Benutzeroberfläche zu importieren bzw. exportieren.</p>
+						<p>Für das Importieren von Presets gibt der Benutzer den Pfad einer von PMP erstellten Preset-Datei an. PMP wird den Benutzer zwischen folgenden beiden Optionen zur Wahl stellen:
+							<ul>
+								<li>Presets importieren und bereits vorhandene Presets löschen.</li>
+								<li>Presets importieren und zu den bereits vorhandenen Presets hinzufügen.</li>
+							</ul>
+						</p>
+						<p>Für das Exportieren von Presets gibt der Benutzer einen Datei-Pfad an, unter dem die in XML erstellte Datei der Presets gespeichert wird oder kann die Datei direkt per E-Mail versenden. Das Versenden per E-Mail erfordert ein konfiguriertes E-Mail-Konto seitens des Benutzers.</p>
+					</div>
 					
 					<div class="sp-add">
 					<h3 id="protokoll">Protokoll</h3>					
@@ -17650,6 +17659,7 @@
 				
 				<div class="pagebreak"></div>
 				
+				<div class="sp-edit">
 				<h2 id="bgl-kontext">Kontext</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
@@ -17660,8 +17670,9 @@
 					<tr><th class="left">Gültigkeit</th><td>Ein Kontext bleibt bestehen solange er an ein Privacy Setting gebunden ist und das zugehörige Preset aktiv ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch das Privacy Setting, die Einstellungen und das zugehörige Preset eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><<span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span></td></tr>
 				</table>
+				</div>
 				
 				<h2 id="bgl-preset">Preset</h2>
 				<table>
