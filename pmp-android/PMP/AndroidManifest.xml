@@ -152,6 +152,10 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
+		<!-- Debug RG installer -->
+		<activity android:name=".model.activity.DebugInstallRGActivity" />
+		
 		<!-- END of the OLD Activities for the OLD gui -->
 
 
@@ -162,6 +166,14 @@
 		<receiver android:name=".util.UninstallReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.PACKAGE_REMOVED" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="package" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".util.InstallReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_ADDED" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:scheme="package" />
 			</intent-filter>

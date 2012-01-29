@@ -96,5 +96,6 @@ public interface PersistenceConstants {
     /**
      * The XML file name for rgs.
      */
+    @Deprecated
     public static final String RG_XML_NAME = "RGInformation.xml";
 }
