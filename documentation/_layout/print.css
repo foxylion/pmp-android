@@ -63,9 +63,24 @@ h1 span.numberator,
 h2 span.numberator,
 h3 span.numberator,
 h4 span.numberator {
-	width: 60px;
 	display: block;
 	float: left;
+}
+
+h1 span.numberator {
+	width: 35px;
+}
+
+h2 span.numberator {
+	width: 45px;
+}
+
+h3 span.numberator {
+	width: 55px;
+}
+
+h4 span.numberator {
+	width: 65px;
 }
 
 h1 {
