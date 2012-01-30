@@ -16,7 +16,7 @@
 		<div id="page-head-date">30. Januar 2012</div>
 		<div id="page-head-title">Editor for Information Sets</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 3.0</div>
+		<div id="page-version">Version 3.1</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -26,15 +26,13 @@
 		
 		<!-- here comes the content of the specification -->
 		<div id="content">
-		
-			<h1 id="versionshistorie">Versionshistorie</h1>
-				<h3>Version 3.0 (30.01.2012)</h3>
+				<h3>Version 3.1 (30.01.2012)</h3>
 					<ul>
 						<li>Überarbeitung der Spezifikation zum Reviewkandidat</li>
+						<li>Alle GUI-Prototypen hinzugefügt</li>
 					</ul>
-				
-				
-				<h3>Version 0.1 (25.01.2012)</h3>
+					
+				<h3>Version 3.0 (25.01.2012)</h3>
 					<ul>
 						<li>Erstes Gerüst der Spezifikation</li>
 					</ul>
@@ -57,14 +55,19 @@
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
-				<p>Ein Schritt um eine zu PMP kompatible App oder Ressource zu erstellen ist, eine Xml-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, wird im Rahmen des zuvor genannten Studienprojekts an der Universität Stuttgart ein Editor entwickelt, der es erlauben soll diese Xml-Dateien auf einfache Weise zu erstellen.</p>
+				<p>
+          Ein Schritt um eine zu PMP kompatible App oder Ressource zu erstellen 
+          ist, eine Xml-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, 
+          wird im Rahmen des zuvor genannten Studienprojekts an der Universität 
+          Stuttgart ein Editor entwickelt, der es erlauben soll diese Xml-Dateien 
+          auf einfache Weise zu erstellen und zu bearbeiten.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
 				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>         
-					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
+					<li>den Entwicklern von zu PMP kompatiblen Applikationen bzw. Ressourcengruppe</li>
 					<li>dem Kunden</li>
-					<li>dem Betreuern des Studienprojekts</li>
+					<li>den Betreuern des Studienprojekts</li>
 				</ul>
 				
 				<div class="pagebreak"></div>
@@ -93,7 +96,7 @@
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>EIS wird von einem Entwickler einer zu PMP kompatible App oder Ressourcen-Gruppe bedient werden können. Wo möglich, wird EIS gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
+				<p>EIS wird von einem Entwickler einer zu PMP kompatible App oder Ressourcengruppe bedient werden können. Wo möglich, wird EIS gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
 				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können.</p>
 
 			
@@ -101,7 +104,7 @@
 					<p> Es werden keine speziellen quantitative Anforderungen an EIS gestellt.</p>
 					
 				<h2 id="robustheit">Robustheit</h2>
-				<p>EIS wird beim öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
+				<p>EIS wird beim Öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
 				
 				<h2 id="sicherheit">Sicherheit</h2>
 				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
@@ -131,24 +134,35 @@
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
 			<h2 id="gui_wiz">Wizard</h2>
+			<p>
+			  In den nachfolgenden Beschreibungen werden folgende Abkürzungen verwendet:
+        <ul>
+          <li>AIS: Application-Information-Set, stellt die in der XML-Datei 
+            <code>AppInformation.xml</code> abgelegten Informationen der 
+            Applikation dar</li> 
+          <li>RGIS: Resource-Group-Information-Set, stellt die in der XML-Datei 
+            <code>ResourcegroupInformation.xml</code> abgelegten Informationen der 
+            Ressourcengruppe dar</li>
+			  </ul>
+			</p>
 			
 			<h3 id="gui_wiz_1">1. Schritt: Sprachen</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_1.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_1.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
-          Der erste Schritt unterscheidet sich zwischen dem RIS- und 
+          Der erste Schritt unterscheidet sich zwischen dem RGIS- und 
           AIS-Wizard nur minimal (Textfeld "Identifier" beim AIS-Wizard nicht 
           vorhanden). In diesem Schritt werden die Sprachen festgelegt,
-          in denen die Daten des RIS bzw. des AIS angegeben werden sollen
+          in denen die Daten des RGIS bzw. des AIS angegeben werden sollen
           (durch aktivieren der Checkbox).
         </p>
         <p>
           Es muss mindestens eine Sprache ausgewählt werden. Zudem
-          muss jedes RIS/AIS genau eine Standard-Sprache besitzen.
+          muss jedes RGIS/AIS genau eine Standard-Sprache besitzen.
           Diese wird gesetzt, in dem die gewünschte Sprache selektiert und
           anschließend auf den Button "default" geklickt wird (Checkbox muss
           hierbei aktiviert sein).
@@ -160,13 +174,13 @@
 			
 			<h3 id="gui_wiz_2">2. Schritt: Informationen</h3>
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_2.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_2.png" alt="Zweiter Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_2.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_2.png" alt="Zweiter Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
           Im zweiten Schritt gibt es ebenfalls nur minimale Unterschiede
-          zwischen dem RIS- und AIS-Wizard (Textfeld "Revision" beim AIS-Wizard nicht 
+          zwischen dem RGIS- und AIS-Wizard (Textfeld "Revision" beim AIS-Wizard nicht 
           vorhanden). Ziel dieses Schrittes ist es,
           die Informationen zu diesem Information-Set anzugeben.
           Hierzu wird zu jeder Sprache, die im vorhergehenden Schritt ausgewählt
@@ -176,12 +190,13 @@
 				<div class="clear"></div>
 			</div>
 			<div class="pagebreak"></div>
-			
+
 			<h3 id="gui_wiz_3">3. Schritt: Privacy Settings/Service Features</h3>
 			<h4>RIS</h4>
+
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_3.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_3.png" alt="Dritter Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_3.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_3.png" alt="Dritter Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
@@ -242,8 +257,10 @@
       <h3 id="gui_addedit_ps">Privacy Setting hinzufügen/ändern</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/ris_addedit_ps.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_addedit_ps.png" alt="Privacy Setting spezifizieren/ändern" width="45%" class="left">
+
+				<a href="gui-prototype/rgis_addedit_ps.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_addedit_ps.png" alt="Privacy-Setting spezifizieren/ändern" width="45%" class="left">
+
 				</a>
 				
 				<p>
@@ -278,18 +295,18 @@
 			
 			<h3 id="gui_editor_gen">Allgemeine Einstellungen</h3>
 			<div class="uip">
-				<a href="gui-prototype/ris_editor_gen.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_editor_gen.png" alt="Allgemeine Einstellungen" width="45%" class="left">
+				<a href="gui-prototype/rgis_editor_gen.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_editor_gen.png" alt="Allgemeine Einstellungen" width="45%" class="left">
 				</a>
 				
 				<p>
           Unter dem Tab "General" werden die allgemeinen Einstellungen des AIS bzw.
-          RIS festgelegt. Die Darstellung beim AIS und RIS ist ähnlich, mit dem 
+          RGIS festgelegt. Die Darstellung beim AIS und RGIS ist ähnlich, mit dem 
           Unterschied, dass die Eingabefelder "Identifier" und "Revision" nur
-          bei RIS vorhanden sind.
+          bei RGIS vorhanden sind.
         </p>
         <p>
-          In der Tabelle werden der Name und die Beschreibung des AIS bzw. RIS
+          In der Tabelle werden der Name und die Beschreibung des AIS bzw. RGIS
           in verschiedene Sprachen eingestellt. Um eine weitere Sprache hinzuzufügen,
           werden die unteren Textfelder entsprechend ausgefüllt und anschließend
           auf die v-Schaltfläche im rechten Bereich geklickt.
@@ -338,11 +355,12 @@
         </p>
 				<div class="clear"></div>
 			</div>
-			<div class="pagebreak"></div>
-			<h4>RIS</h4>
+			
+			<h4>RGIS</h4>
 			<div class="uip">
-				<a href="gui-prototype/ris_editor_ps.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_editor_ps.png" alt="Privacy Settings einstellen" width="45%" class="left">
+				<a href="gui-prototype/rgis_editor_ps.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_editor_ps.png" alt="Privacy-Settings einstellen" width="45%" class="left">
+
 				</a>
 				
 				<p>
