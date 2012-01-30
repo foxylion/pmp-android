@@ -16,7 +16,7 @@
     <div id="page-head-date">28. November 2011</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Spezifikation vHike</div>
-    <div id="page-version">Version 1.0</div>
+    <div id="page-version">Version 1.1</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -27,8 +27,16 @@
     <!-- here comes the content of the specification -->
     <div id="content">
       
-
-      
+		<h1 id="versionshistorie">Versionshistorie</h1>
+      	<h3>Version 1.1 (20.01.2012)</h3>
+				Überarbeitung der Spezifikation und Aufarbeitung der nötigen Kapitel
+					<ul>
+						<li>Kapitel <span class="reference" title="#funkt_anforderungen"></span> hinzugefügt</li>
+						<li>Kapitel <span class="reference" title="#anforderungen"></span> hinzugefügt</li>
+						<li>Kapitel <span class="reference" title="#prototyp"></span> hinzugefügt.
+					</ul>
+      	
+      	
       <h1 id="einleitung">Einleitung</h1>
       <h2 id="zweck">Zweck</h2>
       <p>
@@ -45,7 +53,8 @@
 		<h1 id="ext_libs">Externe Bibliotheken</h1>
 		<p>
 			Beim Einsatz werden unteranderem auch externe Bibliotheken eingesetzt.
-			In diesem Falle ist es die GSON Bilbiothek von Google.
+			In diesem Falle ist es die GSON Bilbiothek von Google.<br>
+			- gson-2.0.jar
 		</p>
       <h1 id="funkt_anforderungen">Funktionale Anforderungen</h1>
       <h2 id="use_cases">Use Cases</h2>
@@ -148,9 +157,86 @@
                     E-Mail-Adresse ein -oder ausblenden.
                 </p>
       <h1 id="prototyp">Benutzeroberfläche</h1>
-      <p>
-      		Hier kommt der Prototyp noch rein
-      </p>
+      <h2 id="ui-home">Hauptmenü</h2>
+			
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Loginmenü der App vHike.</p>
+				<p>Hier hat der Benutzer die Möglichkeit sich einzuloggen, oder über <span title="#ui-register" class="reference"></span> einen neuen Benutzer anzulegen.</p>
+
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-register">Registrieren</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Registrieren eines neuen Benutzers.</p>
+				<p>Hier ist es möglich einen neuen Benutzer anzulegen.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-hauptmenu">Hauptmenü</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Hauptmenü der App vHike.</p>
+				<p>Von hier kommt an zu verschiedenen Funktionen von der App "vHike".</p>
+				<p>Es können folgende Ansichten erreicht werden:</p>
+				<p><span title="#ui-fahrten" class="reference"></span></p>
+				<p><span title="#ui-profil" class="reference"></span></p>
+				<p><span title="#ui-history" class="reference"></span></p>
+				<p><span title="#ui-settings" class="reference"></span></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-fahrten">Fahrten</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Fahrtenansicht.</p>
+				<p>Hier kann man neue Fahrten starten und nach Fahrten suchen.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-profil">Profil</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Profilansicht.</p>
+				<p>Hier kann man in eigenes Profil einsehen so wie über den "Menü-Button" sein Profil editieren</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-history">History</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Historyansicht.</p>
+				<p>Hier kann man vergangene Fahrten ansehen und daraus die Benutzer bewerten.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-settings">Einstellungen</h2>
+			<div class="uip">
+				<a href="login.png" rel="ui-prototype" class="fancybox">
+					<img src="login.png" alt="Home" height="400px" class="left">
+				</a>
+				
+				<p>Einstellungen.</p>
+				<p>Hier kann man verschiedene Einstellungen vornehmen.</p>
+				<div class="clear"></div>
+			</div>
     </div>
     <!-- // end of specification's content -->
   </div>
