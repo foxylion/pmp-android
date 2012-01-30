@@ -63,9 +63,9 @@ h1 span.numberator,
 h2 span.numberator,
 h3 span.numberator,
 h4 span.numberator {
-	width: 60px;
 	display: block;
 	float: left;
+	padding-right: 10px;
 }
 
 h1 {
