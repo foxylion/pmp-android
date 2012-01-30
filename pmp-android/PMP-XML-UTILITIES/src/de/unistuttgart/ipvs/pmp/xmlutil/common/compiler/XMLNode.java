@@ -3,6 +3,11 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.compiler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Tobias Kuhn
+ *
+ */
 public class XMLNode {
     
     public static final int DEFAULT = 0x0;

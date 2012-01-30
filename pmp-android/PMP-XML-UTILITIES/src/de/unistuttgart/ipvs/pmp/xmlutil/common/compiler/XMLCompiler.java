@@ -4,6 +4,11 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * 
+ * @author Tobias Kuhn
+ *
+ */
 public class XMLCompiler {
     
     private static final String LINE_BREAK = System.getProperty("line.separator");
