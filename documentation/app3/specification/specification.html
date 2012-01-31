@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">29. January 2012</div>
-		<div id="page-head-title">App3</div>
-		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 0.0</div>
+		<div id="page-head-date">01. February 2012</div>
+		<div id="page-head-title">App3 Informations-App</div>
+		<div id="page-title">App3 Informations-App   Spezifikation</div>
+		<div id="page-version">Version 0.0.1</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -32,6 +32,12 @@
 				<h3>Version 0.0 (29.01.2012)</h3>
 					<ul>
 						<li>Erstes Gerüst der Spezifikationsvorlage</li>
+					</ul>
+
+				<h3>Version 0.0.1 (31.01.2012)</h3>
+					<ul>
+						<li>Etwas bezüglich der Oberfläche hinzugefügt.</li>
+						<li>Die entsprechenden Use Cases in einem externen Dokument verfasst.</li>
 					</ul>
 			
 			<h1 id="einleitung">Einleitung</h1>
@@ -131,300 +137,57 @@
 				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. App3 wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
-
+			
+			<div class="pagebreak"></div>
 
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
 			<h2 id="ui-home">Hauptmenü</h2>
 			
 			<div class="uip">
-				<a href="gui-prototype/home.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/home.jpg" alt="Home" width="45%" class="left">
+				<a href="gui-prototype/app3-menu.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/app3-menu.png" alt="Home" width="45%" class="right">
 				</a>
 				
-				<p>Hauptmenü der PMP.</p>
-				<p>Im nachfolgenden werden folgende Punkte genauer erklärt:</p>
-					<p><span title="#ui-apps" class="reference"></span></p>
-					<p><span title="#ui-presets" class="reference"></span></p>
-					<p><span title="#ui-resourcegroups" class="reference"></span></p>
-					<p><span title="#ui-einstellungen" class="reference"></span></p>
-				<p>Der Log-Bildschirm wird erst in Iteration 3 eingeführt und ist noch nicht Teil dieses Prototyps.</p>
-				<div class="clear"></div>
-			</div>
-		
-			
-			<h2 id="ui-apps">Apps</h2>
-			
-			
-			<h3 id="ui-apps-list">App-Übersicht</h3>
-			<div class="uip">
-				<a href="gui-prototype/app-list.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app-list.jpg" alt="App Liste" width="45%" class="left">
-				</a>
+				<p><b>Hauptmenü der App3</b></p>
+				<p>Das Menü der Informations-App besteht aus folgenden Kategorien:</p>
+					<p><b>News</b></p>
+					<p>Hier werden die News für den ausgewählten Zeitraum und der ausgesuchten Region angezeigt</p>
+					<p><b>Buisness</b></p>
+					<p>Hier werden die Informationen bezüglich des Buisnesslebens, zum Beispiel die Aktienkurse, angezeigt</p>
+					<p><b>Weather</b></p>
+					<p>Hier werden die Wettervorhersagen für den ausgewählten Zeitraum und der ausgesuchten Region angezeigt</p>
+					<p><b>Sport</b></p>
+					<p>Hier werden die Informationen bezüglich der Sportneuigkeiten, zum Beispiel die letzten Ergäbnisse der Bundesliga, 					angezeigt</p>
 				
-				<p>Auf diesem Bildschirm werden alle Apps, die an PMP registriert sind, aufgelistet.
-					Von jeder App werden ein Icon, Name und Beschreibung (gekürzt) angezeigt.
-				</p>
-				<p>Mit einem langen Touch auf eine App wird nachfolgendes Menü angezeigt. Ein kurzer Touch führt zum <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm.</p>
 				<div class="clear"></div>
-			</div>
 
-			<div class="pagebreak"></div>
-	
-			<h3 id="ui-apps-list-action">Aktionsmenü für App</h3>
-			<div class="uip">
-				<a href="gui-prototype/app-list_long-press.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app-list_long-press.jpg" alt="App Liste Menü" width="45%" class="left">
-				</a>
-				
-				<p>Es kann zwischen folgenden Aktionen gewählt werden:</p>
-				<p>
-					<b>View Details:</b> Öffnet den <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm.<br>
-					<b>Change Service Features:</b> Öffnet den <span class="reference noIndex" title="#ui-sf-portrait"></span>-Bildschirm.<br>
-					<b>Assigned Apps:</b> Öffnet die der App zugewiesenen Presets <i>(Nur im Expert-Mode).</i><br>
-					<b>Remove App:</b> Entfernt die App aus PMP.
-				</p>
-				<div class="clear"></div>
-			</div>
-	
-			<h3 id="ui-app-detail">App-Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/app-details.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app-details.jpg" alt="App Details" width="45%" class="left">
-				</a>
-				
-				<p>Zu der App werden Name, Icon, Beschreibung und alle aktiven Service Features angezeigt.</p>
-				<p>Jedes aktive Service Feature wird mit Namen, und Icon angezeigt. Wird auf ein Service Feature getippt öffnet sich der <span class="reference noIndex" title="#ui-sf-details"></span>-Bildschirm.</p>
-				Außerdem gibt es einen "Presets anzeigen"-Button, der die Übersicht über alle zugewiesenen Presets anzeigt. Der "App entfernen"-Button entfernt die App aus PMP.</p>
-				<p>In der Fußzeile gibt es die Möglichkeit die Service Features zu ändern (Im Expert-Mode nur anzeigen), dabei öffnet sich der <span class="reference noIndex" title="#ui-sf-portrait"></span>-Bildschirm.<br>
-				<div class="clear"></div>
-			</div>
-	
-			<div class="pagebreak"></div>
-	
-			<h2 id="ui-servicefeatures">Service Features</h2>
-			
-			<p>Im nachfolgenden können Service Features nur dann geändert werden wenn der Expert-Mode <b>nicht</b> aktiviert ist.</p>
-			
-			<h3 id="ui-sf-portrait">Portrait-Modus</h3>
-			<div class="uip">
-				<a href="gui-prototype/service-feature-list_portrait.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/service-feature-list_portrait.jpg" alt="Service Features anzeigen (Portrait)" width="45%" class="left">
-				</a>
-				
-				<p>Im Portrait-Modus lassen sich alle Service Features die aktiviert sind anzeigen. Durch einen Fingerwisch nach links werden alle deaktivierten Service Features angezeigt. (Alternativ ein kurzer Touch auf "Deaktivieren" in der Button-Leiste über den Service Features)</p>
-				<p>Vor jedem Service Feature wird ein Icon des Features angezeigt (nicht in der Zeichnung enthalten).</p>
-				<p>In der Kopfzeile wird das App-Icon, der Name und "Service Features ändern" angezeigt.</p>
-				<p>Wird auf ein Service Feature getippt, werden mehr Informationen dargestellt (ausgeklappt) und alle Details zum Service Feature angezeigt.</p>
-				<p>Wird ein Service Feature aktiviert/deaktiviert, wechselt es in die andere Liste.</p>
-				<p>Die Änderungen werden erst am Schluss durch bestätigen gespeichert.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<h3 id="ui-sf-landscape">Landscape-Modus</h3>
-			<div class="uip">
-				<a href="gui-prototype/service-feature-list_landscape.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/service-feature-list_landscape.jpg" alt="Service Feature (Landscape)" width="60%" class="left">
-				</a>
-				
-				<p>Im Landscape-Modus lassen sich die Service Features durch wischen in die andere Liste (also aktivieren/deaktivieren) verschieben.</p>
-				<p>Ein Touch auf ein Service Feature öffnet den <span class="reference noIndex" title="#ui-sf-details"></span>-Bildschirm.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<div class="pagebreak"></div>
-			
-			<h3 id="ui-sf-details">Service Feature-Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/service-feature.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/service-feature.jpg" alt="Service Feature Detail" width="45%" class="left">
-				</a>
-				
-				<p>Im Details-Bildschirm der Service Features werden alle Details (Name, Beschreibung, benötigte Privacy Settings) zum Service Feature angezeigt.</p>
-				<p>Über einen Button kann das Service Feature aktiviert/deaktiviert werden.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<div class="pagebreak"></div>
-			
-			<h2 id="ui-presets">Presets</h2>
-			<p>Presets sind nur im Expert-Mode verfügbar.</p>
-			
-			<h3 id="ui-preset-list">Presets-Übersicht</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-list.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-list.jpg" alt="Presets Übersicht" width="45%" class="left">
-				</a>
-				
-				<p>Aktive und inaktive Presets werden mit einer verkürzten Beschreibung in der "Presets-Übersicht"-Bildschirm angezeigt.</p>
-				<p>Nach Tippen auf ein beliebiges Preset öffnet sich die "Preset-Detail"-Bildschirm. Ein langer Touch auf ein Preset öffnet <span class="reference noIndex" title="#ui-preset-menu"></span>.</p>
-				<p>Über das Plus-Icon kann ein neues Preset angelegt werden. Tippen auf das Plus-Icon öffnet sich ein Popup-Fenster, in der "Name" und "Beschreibung" geändert werden kann, auf "OK" tippen öffnet <span class="reference noIndex" title="#ui-preset-details"></span>-Bildschirm.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<h3 id="ui-preset-menu">Aktionsmenü für Preset</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-list_long-press.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-list_long-press.jpg" alt="Menü in der Preset-Übersicht" width="
-					35%" class="left">
-				</a>
-				
-				<p>Folgende Aktionen können getätigt werden:</p>
-				<p><b>Change Preset:</b> Öffnet die <span class="reference noIndex" title="#ui-preset-details"></span>-Ansicht</p>
-				<p><b>Delete Preset:</b> Löscht ausgewähltes Preset</p>
-				<div class="clear"></div>
-			</div>
-			
-			<div class="pagebreak"></div>
-			
-			<h3 id="ui-preset-details">Preset-Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-details.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-details.jpg" alt="Details-Ansicht Presets" width="50%" class="left">
-				</a>
-				
-				<p>Durch Tippen auf Preset-Namen oder Beschreibung können Preset-Namen bzw. Beschreibung geändert werden. Vordefinierte Presets können nicht geändert werden.</p>
-				<p>Über das obere Plus-Icon (neben "Assigned Apps") wird eine Liste aller zugewiesener Apps bzw. das untere Plus-Icon (neben "Assigned Privacy Settings") eingestellter Privacy Settings aufgeklappt. Tippen auf eine App bzw. Privacy Setting öffnet die <span class="reference noIndex" title="#ui-preset-details-menu"></span>-Bildschirm.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<h3 id="ui-preset-details-menu">Aktionsmenü für Preset-Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-details_touch.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-details_touch.jpg" alt="Menü für Preset-Details-Ansicht" width="40%" class="left">
-				</a>
-				<p>
-					(1) Öffnet sich falls zuvor im <span class="reference noIndex" title="#ui-preset-details"></span>-Bildschirm auf eine zugewiesene App gedrückt wurde.<br>
-					<b>View App details: </b>Öffnet <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm<br>
-					<b>Remove App: </b>Entfernt App aus der Preset. Zurückkehren zur <span class="reference noIndex" title="#ui-preset-details"></span>-Bildschirm<br>
-					<br>(2) Öffnet sich falls im <span class="reference noIndex" title="#ui-preset-details"></span>-Bildschirm auf eine zugewiesene Privacy Setting gedrückt wurde.<br>
-					<b>Edit Privacy Setting: </b>Alle Änderungsmöglichkeiten der Privacy Setting werden angezeigt<br>
-					<b>Remove Privacy Setting: </b>Privacy Setting wird entfernt
-				</p>
-				<div class="clear"></div>
-			</div>
-			
-			<div class="pagebreak"></div>
-			
-			<h3 id="ui-preset-add-ps-1">Privacy Setting hinzufügen - Schritt 1</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-add-pl_1.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-add-pl_1.jpg" alt="PS hinzufügen - Schritt 1" width="30%" class="left">
-				</a>
-				
-				<p>Sortierte Liste installierter Ressourcengruppen. Tippen, um gewünschte Ressourcengruppe hinzuzufügen. Es öffnet sich Privacy Setting Schritt 2</p>
-				<div class="clear"></div>
-			</div>
-			
-			<h3 id="ui-preset-add-ps-2">Privacy Setting hinzufügen - Schritt 2</h3>
-			<div class="uip">
-				<a href="gui-prototype/preset-add-pl_2.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/preset-add-pl_2.jpg" alt="PS hinzufügen - Schritt 2" width="30%" class="left">
-				</a>
-				
-				<p>Alle verfügbaren Privacy Settings werden aufgelistet. Gewünschte Privacy Setting antippen um Hinzuzufügen. Privacy Setting wird hinzugefügt und kehrt zum <span class="reference noIndex" title="#ui-preset-details"></span>-Bildschirm zurück.</p>
-				<div class="clear"></div>
-			</div>
 
 			<div class="pagebreak"></div>
 			
 			<h2 id="ui-resourcegroups">Ressourcengruppen</h2>
-	
-			<h3 id="ui-rg-installed">Installierte Ressourcengruppen</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-list_installed.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-list_installed.jpg" alt="Installierte RGs" width="45%" class="left">
-				</a>
-				
-				<p>Zeigt Ressourcengruppen mit Namen, Icon und verkürzter Beschreibung an. Durch einen Fingerwisch nach links werden alle verfügbaren Ressourcengruppen angezeigt. (Alternativ ein kurzer Touch auf "available" in der Button-Leiste über den Ressourcengruppen)</p>
-				<p>Es kann zwischen bereits installierten und verfügbaren Ressourcengruppen ausgewählt werden. Tippen um zu wechseln.</p>
-				<div class="clear"></div>
-			</div>
-
-			<h3 id="ui-rg-available">Verfügbare Ressourcengruppen</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-list_available.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-list_available.jpg" alt="Verfügbare RGs" width="45%" class="left">
-				</a>
-								
-				<p>Zeigt alle verfügbaren Ressourcengruppen mit Namen, Icon und Status an. Status kann sein "Installiert", "Update" falls verfügbar. Tippen auf Ressourcengruppe öffnet <span class="reference noIndex" title="#ui-rg-detail"></span>-Bildschirm.</p>
-				<p>Tippen auf Such-Icon öffnet Textfeld rechtsoben, um eine bestimme Ressourcengruppe zu finden.</p>
-				<div class="clear"></div>
-			</div>
+			<p><b>---</b></p>
 			
-			<div class="pagebreak"></div>
-			
-			<h3 id="ui-rg-load">Ressourcengruppen laden</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-list_pending.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-list_pending.jpg" alt="Ressourcengruppen laden" width="35%" class="left">
-				</a>
-				
-				<p>Ladebalken erscheint, wenn verfügbare Ressourcengruppen geladen werden.</p>
-				<div class="clear"></div>
-			</div>
-
-			<h3 id="ui-rg-detail">Ressourcengruppe Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-details.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-details.jpg" alt="RG Details" width="30%" class="left">
-				</a>
-				
-				<p>Ressourcengruppe mit Namen, Icon, verkürzter Beschreibung und enthaltener Privacy Settings werden angezeigt.</p>
-				<p>Um Ressourcengruppe zu deinstallieren auf "Deinstallieren"-Button tippen. Um Fenster zu schließen auf "Schließen"-Button drücken.</p>
-				<div class="clear"></div>
-			</div>	
-			<div class="pagebreak"></div>
-			<h3 id="ui-rg-install-1">Ressourcengruppe installieren - Schritt 1</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-install.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-install.jpg" alt="RG installieren - Schritt 1" width="30%" class="left">
-				</a>
-				
-				<p>Anzeige des Namen, Icon und Beschreibung der zu installierenden Ressourcengruppe.</p>
-				<p>Um Fenster zu schließen auf "Schließen"-Button drücken. Auf "Installieren"-Button tippen führt zu "Ressourcengruppe installieren" - Schritt 2&3.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<h3 id="ui-rg-install-2">Ressourcengruppe installieren - Schritt 2&amp;3</h3>
-			<div class="uip">
-				<a href="gui-prototype/rg-install_pending.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rg-install_pending.jpg" alt="RG installieren - Schritt 2-3" width="45%" class="left">
-				</a>
-				
-				<p>
-					(1)<br>
-					Ladebalken während Herunterladen der Ressourcengruppe<br>
-					<br>(2)<br>
-					Ladebalken während Verifizierung und Installation der Ressourcengruppe
-				</p>
-				<p>Fortschrittsbalken und Fortschrittsbeschreibung aktualisieren sich je nach Status.</p>
-				<div class="clear"></div>
-			</div>
 			
 			<div class="pagebreak"></div>
 			
 			<h2 id="ui-einstellungen">Einstellungen</h2>
 			
-			<h3 id="ui-settings-list">Übersicht</h3>
 			<div class="uip">
-				<a href="gui-prototype/setting-list.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/setting-list.jpg" alt="Einstellungen Übersicht" width="45%" class="left">
+				<a href="gui-prototype/app3-news-options.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/app3-news-options.png" alt="Einstellungen Übersicht" width="45%" class="right">
 				</a>
 				
-				<p>Zeigt Checkbox und Label des Experts-Mode an. Tippen auf Checkbox, um Expert-Mode zu aktivieren. Tippen auf den Export-Mode-Label öffnet Detail-Ansicht.</p>
+				<p><b>Position der Einstellungen</b></p>
+				<p>Zu den Einstellungen der einzelnen Kategorien gelingt man über die Tabs, die sich im Informationsfenster der jeweiligen 						Kategorien befinden.</p>
+				<p><b>Granularität der Einstellungen</b></p>
+				<p>Wie man am Beispiel der Kategorie "News" sehen kann, besteht die Möglichkeit die Einstellungen bezüglich des Orts und der Zeit 				vorzunehmen. Allerdings können die Einstellungen je nach Kategorie etwas variieren.</p>
+				<p><b>Darstellung</b></p>
+				<p>Der aktive Tab wird beleuchtet. Der inaktive - ausgegraut. Die aktiven Einstellungen werden ebenfalls farbig hervorgehoben.</p>
 				<div class="clear"></div>
 			</div>
 			
-			<h3 id="ui-setting-details">Details</h3>
-			<div class="uip">
-				<a href="gui-prototype/setting-details.jpg" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/setting-details.jpg" alt="Einstellungen Details" width="35%" class="left">
-				</a>
-				
-				<p>In der Mitte wird die Beschreibung angezeigt. In der Fußzeile befinden sich zwei Buttons, zur Aktivierung/Deaktivierung des Expert-Modes und Schließen der Detail-Ansicht.</p>
-				<div class="clear"></div>
-			</div>
+			<div class="pagebreak"></div>
 			
 			<h1 id="begriffslexikon">Begriffslexikon</h1>
 				<h2 id="bgl-app">App</h2>
@@ -454,20 +217,7 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
 				</table>
 				
-				<h2 id="bgl-preset">Preset</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Preset</th></tr>
-					<tr><th class="left">Synonyme</th><td>Rolle</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Preset ist eine Zusammenfassung der konkreten Konfiguration einer Menge von Privacy Settings. Ein Preset kann kontext-abhängig sein. Ein Preset kann einer oder mehreren Apps zugewiesen werden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Ein Preset könnte eine Zusammenfassung aller Lese-Rechte auf alle Datenbanken sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Preset ist nicht nur eine Zusammenfassung einer Menge von Privacy Settings. Ein Preset ist keine feststehende Bezeichnung für eine App.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Das Preset bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Ein Preset kann nur entstehen, wenn die enthaltenden Privacy Setting bereits bekannt sind.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Preset wird durch seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
+
 			
 				<h2 id="bgl-privacysetting">Privacy Setting</h2>
 				<table>
@@ -510,20 +260,7 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
 				
-				<h2 id="bgl-service">Service</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Service</th></tr>
-					<tr><th class="left">Synonyme</th><td>Dienst</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Service ist ein konkreter Funktionalitätsteil einer App, der Zugriff auf Ressourcen benötigen kann.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Ein Service in der App "Prüfungsamt" könnte "Prüfungsnote abfragen" sein.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Service ist keine App. PMP und die Ressourcen laufen als Service im Hintergrund, sind aber keine Services in dem hier genannten Sinne.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Service bleibt gültig, solange das entsprechende Service Feature in PMP aktiviert ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Service wird durch das zugehörigen Service Feature, die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
+
 				
 				<h2 id="bgl-servicefeature">Service Feature</h2>
 				<table>
