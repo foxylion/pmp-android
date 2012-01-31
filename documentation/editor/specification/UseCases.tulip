@@ -33,17 +33,23 @@
       <pattern>
         <id>48</id>
         <patternId>ID-standardwerte</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Dem Entwickler wird der Name der XML-Datei (ais.xml bzw. rgis.xml) und den Pfad wo die Datei sp&amp;#228;ter liegen muss. &lt;/p&gt;</description>
       </pattern>
       <pattern>
         <id>46</id>
         <patternId>ID-filter</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Der Entwickler kann die Ressourcengruppen nach Namen filtern. &lt;/p&gt;</description>
+        <globalParameters>
+          <globalParameter>
+            <content>&lt;p style="margin-top: 0"&gt; Ein Eingabefeld in dem der Entwickler den Anfang der gesuchten Ressourcengruppe eintippen kann, damit die Liste direkt danach gefiltert wird. &lt;/p&gt;</content>
+            <template>ID-7805063f</template>
+          </globalParameter>
+        </globalParameters>
       </pattern>
       <pattern>
         <id>13</id>
         <patternId>ID-warnung</patternId>
-        <description/>
+        <description>&lt;p style="margin-top: 0"&gt; Es werden Warnungen angezeigt, bevor schwer R&amp;#252;ckg&amp;#228;ngige oder irreversible Aktionen ausgef&amp;#252;hrt werden. &lt;/p&gt;</description>
         <globalParameters>
           <globalParameter>
             <content>&lt;p style="margin-top: 0"&gt; Das System zeigt Warnungen als modale Dialoge an. &lt;/p&gt;</content>
@@ -54,12 +60,12 @@
       <pattern>
         <id>10</id>
         <patternId>ID-abbruch</patternId>
-        <description/>
+        <description>&lt;p style="margin-top: 0"&gt; Aktionen die vom Entwickler nicht gew&amp;#252;nscht sind k&amp;#246;nnen abgebrochen werden und es werden keine Daten ver&amp;#228;ndert. &lt;/p&gt;</description>
       </pattern>
       <pattern>
         <id>9</id>
         <patternId>ID-assistent</patternId>
-        <description>&lt;p style="margin-top: 0"&gt; Der Wizard soll dem Benutzer helfen eine AppInformationSet.xml bzw. eine ResourceGroup.xml zu erstellen. &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; Der Wizard soll dem Benutzer helfen eine ais.xml bzw. eine rgis.xml Datei zu erstellen. &lt;/p&gt;</description>
       </pattern>
     </children>
   </usabilityPatternsFolder>
@@ -68,400 +74,20 @@
     <id>3</id>
     <children>
       <folder>
-        <id>27</id>
-        <name>Wizards</name>
-        <children>
-          <useCase>
-            <id>7</id>
-            <name>App-Information-Set erstellen mit Wizard erstellen</name>
-            <useCaseId>100</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; AppInformation.xml erstellen &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Entwickler m&amp;#246;chte eine AppInformation.xml anlegen mit Hilfe des Wizards. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>25-01-2012 19:34</created>
-            <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:02</lastUpdate>
-            <primaryActorId>6</primaryActorId>
-            <actors>
-              <actorId>6</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>Eclipse gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Editor Plug-In installiert</description>
-                </preCondition>
-                <preCondition>
-                  <description>Projekt in Eclipse vorhanden</description>
-                </preCondition>
-              </preConditions>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>6</actorId>
-                  <description>öffnet den Wizard um eine neue AppInformation.xml zu erstellen.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt die erste Seite des Wizards mit der Sprachauswahl an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt die benötigten Projekt-Daten ein, wählt die Sprachen aus und bestätigt diese Auswahl.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Seite mit den Informationen zu den Sprachen an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt den Namen und die Beschreibung in den verschiedenen Sprachen an und bestätigt dies.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Seite an um Service Features hinzuzufügen.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>6</actorId>
-                  <description>wählt aus, dass er eine neues Service Feature anlegen will.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Felder für ein neues Service Feature an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt die benötigten Daten des Service Features an und wählt aus, dass er ein benötigtes Privacy Setting hinzufügen will.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>10</stepNumber>
-                  <actorId/>
-                  <description>zeigt eine Liste mit alle verfügbaren Ressourcengruppen an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>11</stepNumber>
-                  <actorId>6</actorId>
-                  <description>wählt eine Ressourcengruppe und das gewünschte Privacy Setting mit dem benötigten Wert aus.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>12</stepNumber>
-                  <actorId>6</actorId>
-                  <description>bestätigt die Service Feature-Seite.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>13</stepNumber>
-                  <actorId/>
-                  <description>schließt den Wizard und legt die neue Datei an.</description>
-                  <references/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>AppInformation.xml im gewünschte Projekt im Assets-Ordner angelegt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions>
-              <extensionScenario>
-                <associatedStep>10</associatedStep>
-                <name>10a</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Keine Ressourcen verfügbar</description>
-                  </preCondition>
-                </preConditions>
-                <steps>
-                  <step>
-                    <stepNumber>10a1</stepNumber>
-                    <actorId/>
-                    <description>zeigt an, dass keine Ressourcen auf dem Server verfügbar sind.</description>
-                    <references/>
-                  </step>
-                  <step>
-                    <stepNumber>10a2</stepNumber>
-                    <actorId>6</actorId>
-                    <description>beendet den Wizard.</description>
-                    <references/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>kein AppInformationSet.xml erstellt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-              <extensionScenario>
-                <associatedStep>10</associatedStep>
-                <name>10b</name>
-                <preConditions>
-                  <preCondition>
-                    <description>Keine Internetverbindung vorhanden</description>
-                  </preCondition>
-                </preConditions>
-                <steps>
-                  <step>
-                    <stepNumber>10b1</stepNumber>
-                    <actorId/>
-                    <description>zeigt an, dass keine Verbindung zum Ressourcen-Server hergestellt werden konnte.</description>
-                    <references/>
-                  </step>
-                  <step>
-                    <stepNumber>10b2</stepNumber>
-                    <actorId>6</actorId>
-                    <description>beendet den Wizard.</description>
-                    <references/>
-                  </step>
-                </steps>
-                <postConditions>
-                  <postCondition>
-                    <description>kein AppInformationSet.xml erstellt</description>
-                  </postCondition>
-                </postConditions>
-              </extensionScenario>
-            </extensions>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-7d6db798</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-91b0d8db</template>
-                      <value>Freitext-Eingabe möglich, Filterung nach Ressourcengruppen-Name</value>
-                    </parameter>
-                  </parameters>
-                  <references>
-                    <reference>
-                      <template>ID-42e9c656</template>
-                      <referencedStep>10</referencedStep>
-                    </reference>
-                  </references>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-ccaba1c2</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-58e020f8</template>
-                      <value>1. Eingabe der Projekt-Daten; 2. Hinzufügen der Service Features; 3. Hinzufügen der benötigten Privacy Settings</value>
-                    </parameter>
-                  </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>3</step>
-                <annotation>
-                  <template>ID-ba255018</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-4f9a0b5</template>
-                      <value>Name: "AppInformation.xml", Ordner: Projektordner/assets</value>
-                    </parameter>
-                  </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
-        </children>
-        <children>
-          <useCase>
-            <id>16</id>
-            <name>Resourcegroup-Information-Set erstellen mit Wizard erstellen</name>
-            <useCaseId>102</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; ResourceGroupInformationSet.xml erstellen &lt;/p&gt;</goal>
-            <description>&lt;p style="margin-top: 0"&gt; Der Entwickler m&amp;#246;chte eine ResourceGroupInformationSet.xml anlegen mit Hilfe des Wizards. &lt;/p&gt;</description>
-            <priority>Mittel</priority>
-            <level>Benutzersicht</level>
-            <created>25-01-2012 20:04</created>
-            <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:02</lastUpdate>
-            <primaryActorId>6</primaryActorId>
-            <actors>
-              <actorId>6</actorId>
-            </actors>
-            <mainScenario>
-              <name/>
-              <preConditions>
-                <preCondition>
-                  <description>Eclipse gestartet</description>
-                </preCondition>
-                <preCondition>
-                  <description>Editor Plug-In installiert</description>
-                </preCondition>
-                <preCondition>
-                  <description>Projekt in Eclipse vorhanden</description>
-                </preCondition>
-              </preConditions>
-              <steps>
-                <step>
-                  <stepNumber>1</stepNumber>
-                  <actorId>6</actorId>
-                  <description>öffnet den Wizard um eine neue ResourceGroupnformationSet.xml zu erstellen.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>2</stepNumber>
-                  <actorId/>
-                  <description>zeigt die erste Seite des Wizards mit der Sprachauswahl an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>3</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt die benötigten Projekt-Daten ein, wählt die Sprachen aus und bestätigt diese Auswahl.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>4</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Seite mit den Informationen zu den Sprachen an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>5</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt den Namen, die Beschreibung in den verschiedenen Sprachen und die Revision an und bestätigt dies.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>6</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Seite an um Privacy Settings hinzuzufügen.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>7</stepNumber>
-                  <actorId>6</actorId>
-                  <description>wählt aus, dass er eine neues Privacy Setting anlegen will.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>8</stepNumber>
-                  <actorId/>
-                  <description>zeigt die Felder für ein neues Privacy Setting an.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>9</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt alle benötigten Informationen des Privacy Settings an und bestätigt diese.</description>
-                  <references/>
-                </step>
-                <step>
-                  <stepNumber>10</stepNumber>
-                  <actorId/>
-                  <description>schließt den Wizard und legt die neue Datei an.</description>
-                  <references/>
-                </step>
-              </steps>
-              <postConditions>
-                <postCondition>
-                  <description>ResourceGroupInformationSet.xml im gewünschte Projekt im Assets-Ordner angelegt</description>
-                </postCondition>
-              </postConditions>
-            </mainScenario>
-            <extensions/>
-            <scenarioAnnotations>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-ccaba1c2</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-58e020f8</template>
-                      <value>1. Eingabe der Projekt-Daten; 2. Hinzufügen der Privacy Settings;</value>
-                    </parameter>
-                  </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-              <scenarioAnnotation>
-                <scenario/>
-                <annotation>
-                  <template>ID-1b4a8da9</template>
-                  <parameters/>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </scenarioAnnotation>
-            </scenarioAnnotations>
-            <stepAnnotations>
-              <stepAnnotation>
-                <step>3</step>
-                <annotation>
-                  <template>ID-ba255018</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-4f9a0b5</template>
-                      <value>Name: "LetzterIdentifierVonPkgName.xml", Ordner: Projekt/assets</value>
-                    </parameter>
-                  </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-            </stepAnnotations>
-          </useCase>
-        </children>
-      </folder>
-      <folder>
         <id>28</id>
-        <name>App-Information-Set bearbeiten</name>
+        <name>App-Information-Set</name>
         <children>
           <useCase>
             <id>21</id>
             <name>App-Information-Set anlegen</name>
             <useCaseId>200</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Der Entwickler legt eine neue AppInformation.xml ohne den Wizard an. &lt;/p&gt;</goal>
+            <goal>&lt;p style="margin-top: 0"&gt; Der Entwickler legt eine neue ais.xml ohne den Wizard an. &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:15</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:03</lastUpdate>
+            <lastUpdate>31-01-2012 15:58</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -483,31 +109,31 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>erstellt eine neue Datei in Eclipse im Projektordner assets mit dem Namen "AppInformation.xml".</description>
+                  <description>wählt in Eclipse aus, dass er eine neues App-Information-Set anlegen will.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
-                  <actorId>6</actorId>
-                  <description>öffnet die neu angelegte Datei.</description>
+                  <actorId/>
+                  <description>zeigt den Wizard an.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
-                  <actorId/>
-                  <description>zeigt dem Entwickler das Editor-Fenster für App-Information-Sets an.</description>
+                  <actorId>6</actorId>
+                  <description>gibt die grundlegenden Informationen zum Projekt an und bestätigt die Eingaben.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
-                  <actorId>6</actorId>
-                  <description>gibt im "General"-Tab die benötigten Informationen zu seinem Projekt ein und speichert die Änderungen.</description>
+                  <actorId/>
+                  <description>legt die ais.xml an und öffnet diese im Editor zur weiteren Bearbeitung.</description>
                   <references/>
                 </step>
               </steps>
               <postConditions>
                 <postCondition>
-                  <description>AppInformation.xml angelegt</description>
+                  <description>ais.xml angelegt und geöffnet</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -525,7 +151,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:15</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:05</lastUpdate>
+            <lastUpdate>31-01-2012 16:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -543,14 +169,14 @@
                   <description>zu PMP kompatibles App Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>AppInformation.xml vorhanden</description>
+                  <description>ais.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die AppInformation.xml.</description>
+                  <description>öffnet die ais.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -607,6 +233,12 @@
                   <description>speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>11</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
@@ -649,7 +281,7 @@
                   <step>
                     <stepNumber>8b1</stepNumber>
                     <actorId/>
-                    <description>zeigt an, dass keine Ressourcen Verbindung zum Server hergestellt werden konnte.</description>
+                    <description>zeigt an, dass keine Verbindung zum Ressourcen-Server hergestellt werden konnte. gehe zu Schritt 7.</description>
                     <references/>
                   </step>
                 </steps>
@@ -680,6 +312,15 @@
                   <lgParameters/>
                 </annotation>
               </scenarioAnnotation>
+              <scenarioAnnotation>
+                <scenario/>
+                <annotation>
+                  <template>ID-1b4a8da9</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </scenarioAnnotation>
             </scenarioAnnotations>
           </useCase>
         </children>
@@ -694,7 +335,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:16</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:05</lastUpdate>
+            <lastUpdate>31-01-2012 16:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -712,14 +353,14 @@
                   <description>zu PMP kompatibles App Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>AppInformation.xml vorhanden</description>
+                  <description>ais.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die AppInformation.xml.</description>
+                  <description>öffnet die ais.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -764,6 +405,12 @@
                   <description>speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
@@ -790,7 +437,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>kein Änderungen an der AppInformation.xml</description>
+                    <description>kein Änderungen an der ais.xml</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -819,7 +466,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:18</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:05</lastUpdate>
+            <lastUpdate>31-01-2012 16:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -837,14 +484,14 @@
                   <description>zu PMP kompatibles App Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>AppInformation.xml vorhanden</description>
+                  <description>ais.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die AppInformation.xml.</description>
+                  <description>öffnet die ais.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -889,6 +536,12 @@
                   <description>speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
@@ -915,7 +568,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>kein Änderungen an der AppInformation.xml</description>
+                    <description>kein Änderungen an der ais.xml</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -925,19 +578,19 @@
       </folder>
       <folder>
         <id>29</id>
-        <name>Ressourcegroup-Information-Set bearbeiten</name>
+        <name>Ressourcegroup-Information-Set</name>
         <children>
           <useCase>
             <id>35</id>
             <name>Resourcegroup-Information-Set anlegen</name>
-            <useCaseId>301</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; ResourcegroupInformation.xml ohne den Wizard anlegen. &lt;/p&gt;</goal>
+            <useCaseId>300</useCaseId>
+            <goal>&lt;p style="margin-top: 0"&gt; rgis.xml ohne den Wizard anlegen. &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:18</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:04</lastUpdate>
+            <lastUpdate>31-01-2012 15:57</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -959,31 +612,31 @@
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>erstellt eine neue Datei in Eclipse im Projektordner assets mit dem Namen ResourcegroupInformation.xml.</description>
+                  <description>wählt in Eclipse aus, dass er eine neues Ressourcegroup-Information-Set anlegen will.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>2</stepNumber>
-                  <actorId>6</actorId>
-                  <description>öffnet die neu angelegte Datei.</description>
+                  <actorId/>
+                  <description>zeigt den Wizard an.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>3</stepNumber>
-                  <actorId/>
-                  <description>zeigt dem Entwickler das Editor-Fenster für Resourcegroup-Information-Sets an.</description>
+                  <actorId>6</actorId>
+                  <description>gibt die grundlegenden Informationen zum Projekt an und bestätigt die Eingaben.</description>
                   <references/>
                 </step>
                 <step>
                   <stepNumber>4</stepNumber>
                   <actorId>6</actorId>
-                  <description>gibt im "General"-Tab die benötigten Informationen zu seinem Projekt ein und speichert die Änderungen.</description>
+                  <description>legt die rgis.xml an und öffnet diese im Editor zur weiteren Bearbeitung.</description>
                   <references/>
                 </step>
               </steps>
               <postConditions>
                 <postCondition>
-                  <description>ResourcegroupInformation.xml angelegt</description>
+                  <description>rgis.xml angelegt und geöffnet</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -995,13 +648,13 @@
             <id>37</id>
             <name>Privacy Setting zu Resourcegroup-Information-Set hinzufügen</name>
             <useCaseId>301</useCaseId>
-            <goal>&lt;p style="margin-top: 0"&gt; Privacy Setting zur ResourcegroupInformationSet.xml hinzugef&amp;#252;gt &lt;/p&gt;</goal>
+            <goal>&lt;p style="margin-top: 0"&gt; Privacy Setting zur rgis.xml hinzugef&amp;#252;gt &lt;/p&gt;</goal>
             <description/>
             <priority>Mittel</priority>
             <level>Benutzersicht</level>
             <created>25-01-2012 20:20</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:04</lastUpdate>
+            <lastUpdate>31-01-2012 16:10</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1019,14 +672,14 @@
                   <description>zu PMP kompatibles Ressourcen Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>ResourcegroupInformation.xml vorhanden</description>
+                  <description>rgis.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <description>öffnet die rgis.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -1065,6 +718,12 @@
                   <description>gibt die benötigten Daten des Privacy Settings an und speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>8</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
@@ -1086,7 +745,8 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:21</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:05</lastUpdate>
+            <lastUpdate>31-01-2012 16:11</lastUpdate>
+            <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
             </actors>
@@ -1103,14 +763,14 @@
                   <description>zu PMP kompatiblesRessourcen Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>ResourcegroupInformation.xml vorhanden</description>
+                  <description>rgis.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <description>öffnet die rgis.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -1155,10 +815,16 @@
                   <description>speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
-                  <description>Privacy Setting aus ResourcegroupInformationSet.xml entfernt</description>
+                  <description>Privacy Setting aus rgis.xml entfernt</description>
                 </postCondition>
               </postConditions>
             </mainScenario>
@@ -1181,7 +847,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Keine Änderung an der ResourcegroupInformation.xml</description>
+                    <description>Keine Änderung an der rgis.xml</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -1210,7 +876,7 @@
             <level>Benutzersicht</level>
             <created>25-01-2012 20:21</created>
             <author>Thorsten Berberich</author>
-            <lastUpdate>29-01-2012 21:05</lastUpdate>
+            <lastUpdate>31-01-2012 16:13</lastUpdate>
             <primaryActorId>6</primaryActorId>
             <actors>
               <actorId>6</actorId>
@@ -1228,14 +894,14 @@
                   <description>zu PMP kompatibles Ressourcen Projekt vorhanden</description>
                 </preCondition>
                 <preCondition>
-                  <description>ResourcegroupInformation.xml vorhanden</description>
+                  <description>rgis.xml vorhanden</description>
                 </preCondition>
               </preConditions>
               <steps>
                 <step>
                   <stepNumber>1</stepNumber>
                   <actorId>6</actorId>
-                  <description>öffnet die ResourcegroupInformation.xml.</description>
+                  <description>öffnet die rgis.xml.</description>
                   <references/>
                 </step>
                 <step>
@@ -1280,6 +946,12 @@
                   <description>speichert die Änderungen.</description>
                   <references/>
                 </step>
+                <step>
+                  <stepNumber>9</stepNumber>
+                  <actorId/>
+                  <description>übernimmt die Änderungen.</description>
+                  <references/>
+                </step>
               </steps>
               <postConditions>
                 <postCondition>
@@ -1306,7 +978,7 @@
                 </steps>
                 <postConditions>
                   <postCondition>
-                    <description>Keine Änderung an der ResourcegroupInformation.xml</description>
+                    <description>Keine Änderung an der rgis.xml</description>
                   </postCondition>
                 </postConditions>
               </extensionScenario>
@@ -1339,38 +1011,12 @@
             </size>
           </model>
           <model>
-            <name>App-Information-Set erstellen mit Wizard erstellen</name>
-            <type>USE_CASE</type>
-            <reference>7</reference>
-            <position>
-              <x>145</x>
-              <y>42</y>
-            </position>
-            <size>
-              <width>360</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
-            <name>Resourcegroup-Information-Set erstellen mit Wizard erstellen</name>
-            <type>USE_CASE</type>
-            <reference>16</reference>
-            <position>
-              <x>135</x>
-              <y>155</y>
-            </position>
-            <size>
-              <width>456</width>
-              <height>64</height>
-            </size>
-          </model>
-          <model>
             <name>App-Information-Set anlegen</name>
             <type>USE_CASE</type>
             <reference>21</reference>
             <position>
-              <x>263</x>
-              <y>233</y>
+              <x>290</x>
+              <y>23</y>
             </position>
             <size>
               <width>210</width>
@@ -1382,8 +1028,8 @@
             <type>USE_CASE</type>
             <reference>23</reference>
             <position>
-              <x>191</x>
-              <y>309</y>
+              <x>212</x>
+              <y>101</y>
             </position>
             <size>
               <width>373</width>
@@ -1395,8 +1041,8 @@
             <type>USE_CASE</type>
             <reference>25</reference>
             <position>
-              <x>204</x>
-              <y>380</y>
+              <x>227</x>
+              <y>176</y>
             </position>
             <size>
               <width>357</width>
@@ -1408,8 +1054,8 @@
             <type>USE_CASE</type>
             <reference>33</reference>
             <position>
-              <x>209</x>
-              <y>451</y>
+              <x>223</x>
+              <y>247</y>
             </position>
             <size>
               <width>367</width>
@@ -1421,8 +1067,8 @@
             <type>USE_CASE</type>
             <reference>35</reference>
             <position>
-              <x>229</x>
-              <y>553</y>
+              <x>270</x>
+              <y>317</y>
             </position>
             <size>
               <width>291</width>
@@ -1434,8 +1080,8 @@
             <type>USE_CASE</type>
             <reference>37</reference>
             <position>
-              <x>175</x>
-              <y>624</y>
+              <x>206</x>
+              <y>388</y>
             </position>
             <size>
               <width>448</width>
@@ -1447,8 +1093,8 @@
             <type>USE_CASE</type>
             <reference>39</reference>
             <position>
-              <x>195</x>
-              <y>695</y>
+              <x>207</x>
+              <y>457</y>
             </position>
             <size>
               <width>432</width>
@@ -1460,8 +1106,8 @@
             <type>USE_CASE</type>
             <reference>41</reference>
             <position>
-              <x>189</x>
-              <y>770</y>
+              <x>202</x>
+              <y>529</y>
             </position>
             <size>
               <width>442</width>
