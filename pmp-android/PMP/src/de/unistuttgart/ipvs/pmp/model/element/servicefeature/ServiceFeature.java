@@ -1,21 +1,19 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
-import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
@@ -127,46 +125,8 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public boolean isActive() {
         checkCached();
-        if (this.missingPrivacySettings.size() > 0) {
-            return false;
-        }
-        
         try {
-            Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
-            // for all presets
-            for (IPreset p : this.app.getAssignedPresets()) {
-                if (!p.isAvailable() || p.isDeleted()) {
-                    continue;
-                }
-                
-                // all granted privacy settings
-                for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
-                    
-                    String existing = granted.get(ps);
-                    String grantNow = p.getGrantedPrivacySettingValue(ps);
-                    
-                    if (grantNow != null) {
-                        if (existing == null) {
-                            granted.put(ps, grantNow);
-                        } else {
-                            if (ps.permits(existing, grantNow)) {
-                                // grantNow allows more
-                                granted.put(ps, grantNow);
-                            } /* else existing allows more, do nothing */
-                        }
-                    }
-                    
-                }
-            }
-            
-            // actual check against granted
-            for (Entry<PrivacySetting, String> e : this.privacySettingValues.entrySet()) {
-                if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
-                    return false;
-                }
-            }
-            
-            return true;
+            return PresetController.verifyServiceFeature(this);
             
         } catch (PrivacySettingValueException plve) {
             Log.e("Could not check whether service feature is active.", plve);

@@ -2,16 +2,15 @@ package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
@@ -19,7 +18,6 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
-import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
@@ -129,50 +127,8 @@ public class App extends ModelElement implements IApp {
     public void verifyServiceFeatures() {
         checkCached();
         try {
-            Map<IPrivacySetting, String> granted = new HashMap<IPrivacySetting, String>();
-            // for all presets
-            for (IPreset p : getAssignedPresets()) {
-                if (!p.isAvailable() || p.isDeleted()) {
-                    continue;
-                }
-                
-                // all granted privacy settings
-                for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
-                    
-                    String existing = granted.get(ps);
-                    String grantNow = p.getGrantedPrivacySettingValue(ps);
-                    
-                    if (grantNow != null) {
-                        if (existing == null) {
-                            granted.put(ps, grantNow);
-                        } else {
-                            if (ps.permits(existing, grantNow)) {
-                                // grantNow allows more
-                                granted.put(ps, grantNow);
-                            } /* else existing allows more, do nothing */
-                        }
-                    }
-                    
-                }
-            }
-            
-            Map<ServiceFeature, Boolean> verification = new HashMap<ServiceFeature, Boolean>();
-            // actual check against granted
-            sfLoop: for (ServiceFeature sf : this.serviceFeatures.values()) {
-                // sort out unavailable ones
-                boolean isAvail = sf.isAvailable();
-                verification.put(sf, isAvail);
-                if (!isAvail) {
-                    continue sfLoop;
-                }
-                
-                for (Entry<PrivacySetting, String> e : sf.getRequiredPrivacySettingValues().entrySet()) {
-                    if (!e.getKey().permits(e.getValue(), granted.get(e.getKey()))) {
-                        verification.put(sf, false);
-                        continue sfLoop;
-                    }
-                }
-            }
+            Map<ServiceFeature, Boolean> verification = PresetController.verifyServiceFeatures(this,
+                    this.serviceFeatures.values());
             
             IPCProvider.getInstance().queue(getIdentifier(), verification);
             
@@ -192,17 +148,7 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getBestAssignedPrivacySettingValue(IPrivacySetting privacySetting)
             throws PrivacySettingValueException {
-        String result = null;
-        
-        for (IPreset p : this.assignedPresets) {
-            String psetting = p.getGrantedPrivacySettingValue(privacySetting);
-            
-            if (privacySetting.permits(result, psetting)) {
-                result = psetting;
-            }
-        }
-        
-        return result;
+        return PresetController.findBestValue(this, privacySetting);
     }
     
     
