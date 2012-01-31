@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    sodipodi:docname="rgis_wiz.svg"
-   inkscape:export-filename="D:\pmp-android\documentation\editor\specification\gui-prototype\ris_wiz.png"
+   inkscape:export-filename="D:\pmp-android\documentation\editor\specification\gui-prototype\rgis_wiz.png"
    inkscape:export-xdpi="120"
    inkscape:export-ydpi="120">
   <defs
@@ -63,11 +63,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
+     inkscape:zoom="2"
      inkscape:cx="335.08044"
      inkscape:cy="313.31263"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1680"
      inkscape:window-height="994"
@@ -258,7 +258,7 @@
            y="152"
            x="18.822266"
            id="tspan2870"
-           sodipodi:role="line">Destination:</tspan></text>
+           sodipodi:role="line">Project:</tspan></text>
       <rect
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
          id="rect2872"
@@ -276,7 +276,7 @@
            id="tspan2876"
            x="102.82227"
            y="152"
-           style="font-size:12px;font-weight:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">assets/rgis.xml</tspan></text>
+           style="font-size:12px;font-weight:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">MyFilesystemRessourceGroup</tspan></text>
     </g>
     <g
        id="g2916"

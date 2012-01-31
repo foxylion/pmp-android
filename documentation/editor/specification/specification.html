@@ -149,14 +149,20 @@
 			  </ul>
 			</p>
 			
-			<h3 id="gui_wiz_1">1. Schritt: Sprachen</h3>
+			<h3 id="gui_wiz_1">Grundeinstellungen</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/rgis_wiz_1.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rgis_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz.png" alt="Erster Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
+				  Der Wizard unterscheidet sich zwischen AIS und RGIS nur minimal
+				  (Textfelderer "Identifier" und "Revision" beim AIS-Wizard nicht vorhanden).
+				  Über den Wizard wählt der Benutzer das Projekt aus, zu 
+          dem das AIS bzw. RGIS angelegt werden soll und gibt die wichtigsten 
+          Daten an.
+				<!--
           Der erste Schritt unterscheidet sich zwischen dem RGIS- und 
           AIS-Wizard nur minimal (Textfeld "Identifier" beim AIS-Wizard nicht 
           vorhanden). In diesem Schritt werden die Sprachen festgelegt,
@@ -169,13 +175,14 @@
           Diese wird gesetzt, in dem die gewünschte Sprache selektiert und
           anschließend auf den Button "default" geklickt wird (Checkbox muss
           hierbei aktiviert sein).
+          -->
         </p>
 				
 				<div class="clear"></div>
 			</div>
 			
 			<div class="pagebreak"></div>
-			
+			<!--
 			<h3 id="gui_wiz_2">2. Schritt: Informationen</h3>
 			<div class="uip">
 				<a href="gui-prototype/rgis_wiz_2.png" rel="ui-prototype" class="fancybox">
@@ -292,7 +299,7 @@
         </p>
 				
 				<div class="clear"></div>
-			</div>
+			</div>                      -->
 			
 			<h2 id="gui_editor">Editor</h2>
 			
@@ -311,8 +318,16 @@
         <p>
           In der Tabelle werden der Name und die Beschreibung des AIS bzw. RGIS
           in verschiedene Sprachen eingestellt. Um eine weitere Sprache hinzuzufügen,
-          werden die unteren Textfelder entsprechend ausgefüllt und anschließend
-          auf die v-Schaltfläche im rechten Bereich geklickt.
+          wird auf die mit "+" beschriftete Schaltfläche geklickt. Hierdurch
+          wird der Tabelle eine weitere Zeile hinzugefügt, die dann 
+          wie gewünscht ausgefüllt werden kann.
+          Zu jedem Namen bzw. zu jeder Beschreibung wird in der linken Spalte über die
+          Dropdown-Liste die zugehörige Sprache ausgewählt. Hierbei kann die
+          gewünschte Locale in der aufgeklappten Liste ausgewählt werden. Alternativ
+          kann die gewünschte Sprache in das Dropdown-Feld eingetippt werden,
+          wobei automatisch die zur Eingabe passende Locale ausgewählt wird. 
+        </p>
+        <p>
           Über die x-Schaltfläche neben bestehenden Namen/Beschreibungen lassen sich 
           diese entfernen. Um die Werte der bestehenden Einträge zu ändern,
           wird der entsprechende Wert (Locale, Name, Beschreibung) angeklickt.
@@ -334,24 +349,22 @@
 				<p>
           Im linken Bereich werden alle momentan angelegten Service-Features
           angezeigt. Über die "Add"-Schaltfläche wird ein neues Service-Feature
-          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Ressourcengruppe etc.]
-          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+          hinzugefügt (da dessen Werte nach dem Anlegen noch ungültig sind,
+          wird es als ungültig markiert bzw. hervorgehoben).
         </p>
         <p>
           Um ein bestehendes oder neu angelegtes Service-Feature zu ändern,
           wird dieses selektiert. Anschließend werden im rechten Bereich
           alle Informationen über dieses angezeigt. 
           In der oberen Tabelle werden die Namen und die Beschreibungen aufgelistet.
-          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
-          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
-          festgelegten Sprachen bestimmt. Durch Anklicken
-          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
-          werden.
+          Über die mit "+" beschriftete Schaltfläche kann eine weitere Zeile hinzugefügt
+          werden (siehe entsprechende Beschreibung in <span class="reference noIndex" title="#gui_editor_gen"></span> )
+          Durch Anklicken einer Zelle kann der entsprechende Wert geändert werden.
         </p>
         <p>
-          Über das Dropdown-Feld im unteren Bereich der "Resource-Group"-Tabelle
-          lassen sich hinzuzufügende Ressourcengruppen auswählen. Über die
-          v-Schaltfläche werden diese dann dem Service-Feature hinzugefügt
+          In der Resource-Group Tabelle werden alle Ressourcengruppen angezeigt,
+          die momentan dem Service Feature zugewiesen sind. Über die "+" Schalftläche
+          kann eine weitere Ressourcengruppe hinzugefügt werden
           (über die x-Schalftäche können sie wieder entfernt werden).
         </p>
         <p>
@@ -370,19 +383,16 @@
 				<p>
           Im linken Bereich werden alle momentan angelegten Privacy-Settings
           angezeigt. Über die "Add"-Schaltfläche wird ein neues Privacy-Setting
-          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Identifier etc.]
-          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+          hinzugefügt (da dessen Werte nach dem Anlegen noch ungültig sind,
+          wird es als ungültig markiert bzw. hervorgehoben).
         </p>
         <p>
           Um ein bestehendes oder neu angelegtes Privacy-Setting zu ändern,
           wird dieses selektiert. Anschließend werden im rechten Bereich
           alle Informationen über dieses angezeigt. 
           In der Tabelle werden die Namen und die Beschreibungen aufgelistet.
-          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
-          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
-          festgelegten Sprachen bestimmt. Durch Anklicken
-          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
-          werden.
+          Über die mit "+" beschriftete Schaltfläche kann eine weitere Zeile hinzugefügt
+          werden (siehe entsprechende Beschreibung in <span class="reference noIndex" title="#gui_editor_gen"></span> )
         </p>
 				<div class="clear"></div>
 			</div>
