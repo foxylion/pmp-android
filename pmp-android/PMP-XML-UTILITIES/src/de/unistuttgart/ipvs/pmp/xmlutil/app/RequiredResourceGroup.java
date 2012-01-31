@@ -20,65 +20,80 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.app;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This is a representation of a resource group, which is required for a specific service feature. It contains the
- * identifier of a assign privacy setting and its required value.
+ * This is a representation of a resource group, which is required for a
+ * specific service feature. It contains a list of required privacy settings.
  * 
  * @author Marcus Vetter
  * 
  */
 public class RequiredResourceGroup implements Serializable {
-    
-    /**
-     * Serial
-     */
-    private static final long serialVersionUID = 5951904689151789055L;
-    
-    /**
-     * This map contains all required privacy settings of the required resource group. key = identifier of the privacy
-     * setting
-     */
-    private Map<String, String> privacySettings;
-    
-    
-    /**
-     * Constructor is used to instantiate the data structures
-     */
-    public RequiredResourceGroup() {
-        this.privacySettings = new HashMap<String, String>();
-    }
-    
-    
-    /**
-     * Get all privacy settings of the required resource group
-     * 
-     * @return map of privacy settings
-     */
-    public Map<String, String> getPrivacySettingsMap() {
-        return this.privacySettings;
-    }
-    
-    
-    /**
-     * Add a privacy setting to the required resource group
-     * 
-     * @param identifier
-     *            of the privacy setting
-     * @param requiredValue
-     *            of the privacy setting
-     */
-    public void addPrivacySetting(String identifier, String requiredValue) {
-        if (this.privacySettings.containsKey(identifier)) {
-            throw new ISException(Type.PRIVACY_SETTING_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
-                    "The privacy setting of a service feature with the identifier " + identifier + " already exists.");
-        }
-        this.privacySettings.put(identifier, requiredValue);
-    }
-    
+
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = 5951904689151789055L;
+
+	/**
+	 * Identifier
+	 */
+	private String identifier;
+
+	/**
+	 * This list contains all required privacy settings of the required resource
+	 * group.
+	 */
+	private List<PrivacySetting> privacySettings = new ArrayList<PrivacySetting>();
+
+	/**
+	 * Get the identifier
+	 * 
+	 * @return identifier
+	 */
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	/**
+	 * Set the identifier
+	 * 
+	 * @param identifier
+	 *            identifier to set
+	 */
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	/**
+	 * Get all privacy settings of the required resource group
+	 * 
+	 * @return list of privacy settings
+	 */
+	public List<PrivacySetting> getPrivacySettings() {
+		return this.privacySettings;
+	}
+
+	/**
+	 * Add a privacy setting to the required resource group
+	 * 
+	 * @param privacySetting
+	 *            privacySetting to add
+	 */
+	public void addPrivacySetting(PrivacySetting privacySetting) {
+		this.privacySettings.add(privacySetting);
+	}
+
+	/**
+	 * Remove a privacy setting from the required resource group
+	 * 
+	 * @param privacySetting
+	 *            privacySetting to remove
+	 */
+	public void removePrivacySetting(PrivacySetting privacySetting) {
+		this.privacySettings.remove(privacySetting);
+	}
+
 }

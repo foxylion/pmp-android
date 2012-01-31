@@ -30,6 +30,10 @@ public class AppUtil {
 		return new Parser(xmlStream).parse();
 	}
 	
+	public boolean validateAIS(AIS ais) {
+		return true;
+	}
+	
 	public InputStream compileAIS(AIS ais) {
 		return null;
 	}

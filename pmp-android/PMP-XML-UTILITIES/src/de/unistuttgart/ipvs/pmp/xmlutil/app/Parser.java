@@ -26,10 +26,10 @@ import java.util.Locale;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.AbstractParser;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.ISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.parser.AbstractParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.validator.AISValidator;
 
 /**
  * This XML Parser parses a given xml (for an app) and creates a app information
@@ -93,7 +93,7 @@ public class Parser extends AbstractParser {
         parseServiceFeaturesNode((Element) serviceFeatures.item(0));
         
         // Validate the AppInformationSet
-        ISValidator.validateAISDiffPSValuesForDiffSFs(this.ais);
+        AISValidator.validateAISDiffPSValuesForDiffSFs(this.ais);
         
         return this.ais;
     }
@@ -112,21 +112,7 @@ public class Parser extends AbstractParser {
         List<String[]> defaultDescriptionList = parseNodes(appInformationElement, "defaultDescription", 1, 1, "lang");
         List<String[]> descriptionList = parseNodes(appInformationElement, "description", 0, Integer.MAX_VALUE, "lang");
         
-        // Validate the app information node
-        validateLocaleAttribute(defaultNameList);
-        validateLocaleAttribute(nameList);
-        validateLocaleAttribute(defaultDescriptionList);
-        validateLocaleAttribute(descriptionList);
-        
-        // Check, if the lang attributes of the default name and description is "en"
-        validateLocaleAttributeEN(defaultNameList.get(0)[1]);
-        validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
-        
-        // Check, if all values are set
-        validateValueListNotEmpty(defaultNameList);
-        validateValueListNotEmpty(nameList);
-        validateValueListNotEmpty(defaultDescriptionList);
-        validateValueListNotEmpty(descriptionList);
+
         
         // Check, if there is a correct number of child nodes of appInformation
         int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
