@@ -19,132 +19,83 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.app;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException.Type;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 
 /**
- * This is a service feature, which is assigned to an app and contains all required resource groups of the app.
+ * This is a service feature, which is assigned to an app and contains all
+ * required resource groups of the app.
  * 
  * @author Marcus Vetter
  * 
  */
-public class ServiceFeature implements Serializable {
-    
-    /**
-     * Serial
-     */
-    private static final long serialVersionUID = -3279934293726339125L;
-    
-    /**
-     * This map contains all names of the app. key = locale
-     */
-    private Map<Locale, String> names;
-    
-    /**
-     * This map contains all description of the app. key = locale
-     */
-    private Map<Locale, String> descriptions;
-    
-    /**
-     * This list contains all required resource groups of the service feature.
-     * key = identifier
-     */
-    private Map<String, RequiredResourceGroup> requiredResourceGroups;
-    
-    
-    /**
-     * Constructor is used to instantiate the data structures.
-     */
-    public ServiceFeature() {
-        this.names = new HashMap<Locale, String>();
-        this.descriptions = new HashMap<Locale, String>();
-        this.requiredResourceGroups = new HashMap<String, RequiredResourceGroup>();
-    }
-    
-    
-    /**
-     * Get all names of the service feature
-     * 
-     * @return map with names, key = locale
-     */
-    public Map<Locale, String> getNames() {
-        return this.names;
-    }
-    
-    
-    /**
-     * Add a name to the service feature by using the associated locale
-     * 
-     * @param locale
-     *            of the given name
-     * @param name
-     *            of the service feature
-     */
-    public void addName(Locale locale, String name) {
-        if (this.names.containsKey(locale)) {
-            throw new ISException(Type.NAME_WITH_SAME_LOCALE_ALREADY_EXISTS,
-                    "The name of a service feature with the locale " + locale.getLanguage() + " already exists.");
-        }
-        this.names.put(locale, name);
-    }
-    
-    
-    /**
-     * Get all descriptions of the service feature
-     * 
-     * @return map with descriptions, key = locale
-     */
-    public Map<Locale, String> getDescriptions() {
-        return this.descriptions;
-    }
-    
-    
-    /**
-     * Add a description to the service feature by using the associated locale
-     * 
-     * @param locale
-     *            of the given description
-     * @param description
-     *            of the service feature
-     */
-    public void addDescription(Locale locale, String description) {
-        if (this.descriptions.containsKey(locale)) {
-            throw new ISException(Type.DESCRIPTION_WITH_SAME_LOCALE_ALREADY_EXISTS,
-                    "The description of a service feature with the locale " + locale.getLanguage() + " already exists.");
-        }
-        this.descriptions.put(locale, description);
-    }
-    
-    
-    /**
-     * Get all required resource groups of the service feature
-     * 
-     * @return map with required resource groups, key = identifier
-     */
-    public Map<String, RequiredResourceGroup> getRequiredResourceGroups() {
-        return this.requiredResourceGroups;
-    }
-    
-    
-    /**
-     * Add a required resource group to the service feature
-     * 
-     * @param identifier
-     *            identifier of the required Resourcegroup
-     * @param rrg
-     *            the required Resourcegroup
-     */
-    public void addRequiredResourceGroup(String identifier, RequiredResourceGroup rrg) {
-        if (this.requiredResourceGroups.containsKey(identifier)) {
-            throw new ISException(Type.REQUIRED_RESOUCEGROUP_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
-                    "The identifier of a required resourcegroup already exists.");
-        }
-        this.requiredResourceGroups.put(identifier, rrg);
-    }
-    
+public class ServiceFeature extends BasicIS implements Serializable {
+
+	/**
+	 * Serial
+	 */
+	private static final long serialVersionUID = -3279934293726339125L;
+
+	/**
+	 * The identifier
+	 */
+	private String identifier;
+
+	/**
+	 * This list contains all required resource groups of the service feature.
+	 */
+	private List<RequiredResourceGroup> requiredResourceGroups = new ArrayList<RequiredResourceGroup>();
+
+	/**
+	 * Get all required resource groups of the service feature
+	 * 
+	 * @return list with required resource groups
+	 */
+	public List<RequiredResourceGroup> getRequiredResourceGroups() {
+		return this.requiredResourceGroups;
+	}
+
+	/**
+	 * Add a required resource group to the service feature
+	 * 
+	 * @param rrg
+	 *            the required Resourcegroup to add
+	 */
+	public void addRequiredResourceGroup(RequiredResourceGroup rrg) {
+		this.requiredResourceGroups.add(rrg);
+	}
+
+	/**
+	 * Remove a required resource group from the service feature
+	 * 
+	 * @param rrg
+	 *            required resource group to remove
+	 */
+	public void removeRequiredResourceGroup(RequiredResourceGroup rrg) {
+		this.requiredResourceGroups.remove(rrg);
+	}
+
+	/**
+	 * Get the identifier
+	 * 
+	 * @return identifier
+	 */
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	/**
+	 * Set the identifier
+	 * 
+	 * @param identifier
+	 *            identifier to set
+	 */
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
 }

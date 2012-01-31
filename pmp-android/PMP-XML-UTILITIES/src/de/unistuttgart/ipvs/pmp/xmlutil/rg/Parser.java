@@ -26,9 +26,9 @@ import java.util.Locale;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.AbstractParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.parser.AbstractParser;
 
 /**
  * This XML Parser parses a given xml (for a rg) and creates a rg information
