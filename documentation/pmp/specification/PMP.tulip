@@ -2023,6 +2023,20 @@
                 </scenarioAnnotations>
                 <stepAnnotations>
                   <stepAnnotation>
+                    <step>6</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>Presets, die nicht bereits existieren</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
+                    </annotation>
+                  </stepAnnotation>
+                  <stepAnnotation>
                     <step>8</step>
                     <annotation>
                       <template>ID-a63e7488</template>
@@ -2043,20 +2057,6 @@
                           <content>"Was soll getan werden?"</content>
                         </lgParameter>
                       </lgParameters>
-                    </annotation>
-                  </stepAnnotation>
-                  <stepAnnotation>
-                    <step>6</step>
-                    <annotation>
-                      <template>ID-42271e98</template>
-                      <parameters>
-                        <parameter>
-                          <template>ID-f10ced1f</template>
-                          <value>Presets, die nicht bereits existieren</value>
-                        </parameter>
-                      </parameters>
-                      <references/>
-                      <lgParameters/>
                     </annotation>
                   </stepAnnotation>
                 </stepAnnotations>
@@ -2209,7 +2209,7 @@
                 <level>Benutzersicht</level>
                 <created>29-01-2012 11:48</created>
                 <author/>
-                <lastUpdate>29-01-2012 11:57</lastUpdate>
+                <lastUpdate>31-01-2012 17:22</lastUpdate>
                 <primaryActorId>7</primaryActorId>
                 <actors>
                   <actorId>7</actorId>
@@ -2267,7 +2267,7 @@
                     <step>
                       <stepNumber>6</stepNumber>
                       <actorId>7</actorId>
-                      <description>wählt das Wiederherstellen nen des Presets aus.</description>
+                      <description>wählt das Wiederherstellen des Presets aus.</description>
                       <references/>
                       <attributes/>
                     </step>
@@ -2416,18 +2416,9 @@
                 <name>Kontext zu Privacy-Setting-Wert hinzufügen</name>
                 <useCaseId>270</useCaseId>
                 <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte ein Privacy-Setting-Wert von einem Kontext abh&amp;#228;ngig machen. &lt;/p&gt;</goal>
-                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
-                  kontext-basierten Wert &amp;#252;berschreiben lassen.
-                  &lt;/p&gt;
-                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
-                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
-                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
-                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
-                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
-                  hingewiesen.
-                  &lt;/p&gt;</description>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt; Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem kontext-basierten Wert &amp;#252;berschreiben lassen. &lt;/p&gt; &lt;p resolver="NamedStyle:default
+                  {name=default,}" margin-top="0"&gt; Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird statt dem eingestellten Wert der Wert des Kontextes benutzt.
+                  Es wird eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer hingewiesen. &lt;/p&gt;</description>
                 <priority>Mittel</priority>
                 <level>Benutzersicht</level>
                 <created>29-01-2012 12:25</created>
@@ -2602,18 +2593,9 @@
                 <name>Kontext ändern</name>
                 <useCaseId>271</useCaseId>
                 <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte die Abh&amp;#228;ngigkeit eines Privacy-Setting-Wert von einem Kontext &amp;#228;ndern. &lt;/p&gt;</goal>
-                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
-                  kontext-basierten Wert &amp;#252;berschreiben lassen.
-                  &lt;/p&gt;
-                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
-                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
-                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
-                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
-                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
-                  hingewiesen.
-                  &lt;/p&gt;</description>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt; Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem kontext-basierten Wert &amp;#252;berschreiben lassen. &lt;/p&gt; &lt;p resolver="NamedStyle:default
+                  {name=default,}" margin-top="0"&gt; Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird statt dem eingestellten Wert der Wert des Kontextes benutzt.
+                  Es wird eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer hingewiesen. &lt;/p&gt;</description>
                 <priority>Mittel</priority>
                 <level>Benutzersicht</level>
                 <created>29-01-2012 12:36</created>
@@ -2834,18 +2816,9 @@
                 <name>Kontext aus Privacy-Setting-Wert entfernen</name>
                 <useCaseId>272</useCaseId>
                 <goal>&lt;p style="margin-top: 0"&gt; Der Expertenbenutzer m&amp;#246;chte die Abh&amp;#228;ngigkeit eines Privacy-Setting-Wert von einem Kontext entfernen. &lt;/p&gt;</goal>
-                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem 
-                  kontext-basierten Wert &amp;#252;berschreiben lassen.
-                  &lt;/p&gt;
-                  &lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt;
-                  Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte 
-                  Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird 
-                  statt dem eingestellten Wert der Wert des Kontextes benutzt. Es wird 
-                  eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets 
-                  verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer 
-                  hingewiesen.
-                  &lt;/p&gt;</description>
+                <description>&lt;p resolver="NamedStyle:default {name=default,}" margin-top="0"&gt; Der Expertenbenutzer kann vorhandene Privacy-Setting-Werte mit einem kontext-basierten Wert &amp;#252;berschreiben lassen. &lt;/p&gt; &lt;p resolver="NamedStyle:default
+                  {name=default,}" margin-top="0"&gt; Das hei&amp;#223;t, im Normalfall gilt der bereits eingestellte Privacy-Setting-Wert. Ist jedoch mindestens ein Kontext aktiv, wird statt dem eingestellten Wert der Wert des Kontextes benutzt.
+                  Es wird eine additive Logik sowohl f&amp;#252;r dieses Preset als auch f&amp;#252;r alle Presets verwendet. Auf nicht direkt sichtbare Konflikte wird der Benutzer hingewiesen. &lt;/p&gt;</description>
                 <priority>Mittel</priority>
                 <level>Benutzersicht</level>
                 <created>29-01-2012 12:44</created>
@@ -3300,10 +3273,15 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
-                <step>2</step>
+                <step>11</step>
                 <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
+                  <template>ID-c576be0</template>
+                  <parameters>
+                    <parameter>
+                      <template>ID-49e768fb</template>
+                      <value>=(lokaleGröße/KompletteGröße)</value>
+                    </parameter>
+                  </parameters>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -3318,15 +3296,10 @@
                 </annotation>
               </stepAnnotation>
               <stepAnnotation>
-                <step>11</step>
+                <step>2</step>
                 <annotation>
-                  <template>ID-c576be0</template>
-                  <parameters>
-                    <parameter>
-                      <template>ID-49e768fb</template>
-                      <value>=(lokaleGröße/KompletteGröße)</value>
-                    </parameter>
-                  </parameters>
+                  <template>ID-77376028</template>
+                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
@@ -3703,9 +3676,7 @@
       <useCaseDiagram>
         <id>192</id>
         <name>Expert-Mode: Presets</name>
-        <description>&lt;p style="margin-top: 0"&gt;
-          
-          &lt;/p&gt;</description>
+        <description>&lt;p style="margin-top: 0"&gt; &lt;/p&gt;</description>
         <diagramData>
           <model>
             <name>Expertenbenutzer</name>
