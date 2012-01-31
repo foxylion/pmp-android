@@ -1,0 +1,33 @@
+<presetSet>
+	<preset identifier="preset1" creator="null">
+		<name>Preset 1</name>
+		<description>My first Preset</description>
+		<assignedApps>
+			<app>de.unistuttgart.ipvs.pmp.apps.calendarapp</app>
+			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
+		</assignedApps>
+		<assignedPrivacySettings>
+			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" psIdentifier="read">
+				<grantedValue>true</grantedValue>
+				<contextType>Zeit</contextType>
+				<contextValue>Every Monday</contextValue>
+			</ps>
+			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" psIdentifier="write">
+				<grantedValue>true</grantedValue>
+				<contextType>Zeit</contextType>
+				<contextValue>Every Wednesday</contextValue>	
+			</ps>
+		</assignedPrivacySettings>
+	</preset>
+	<preset identifier="preset2" creator="null">
+		<name>Preset 2</name>
+		<assignedApps>
+			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
+		</assignedApps>
+		<assignedPrivacySettings>
+			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" psIdentifier="write">
+				<grantedValue>true</grantedValue>
+			</ps>
+		</assignedPrivacySettings>
+	</preset>
+</presetSet>
