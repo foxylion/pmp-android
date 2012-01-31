@@ -19,12 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.app;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.AbstractIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -33,48 +33,48 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException.Type;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends AbstractIS {
-    
-    /**
-     * This map contains all service features of the app. key = identifier of
-     * the service feature
-     */
-    private Map<String, ServiceFeature> serviceFeaturesMap;
-    
-    
-    /**
-     * Constructor is used to instantiate the data structures.
-     */
-    public AIS() {
-        super();
-        this.serviceFeaturesMap = new HashMap<String, ServiceFeature>();
-    }
-    
-    
-    /**
-     * Add a service feature to the app
-     * 
-     * @param identifier
-     *            of the service feature
-     * @param sf
-     *            service feature
-     */
-    public void addServiceFeature(String identifier, ServiceFeature sf) {
-        if (this.serviceFeaturesMap.containsKey(identifier)) {
-            throw new ISException(Type.SERVICE_FEATURE_WITH_SAME_IDENTIFIER_ALREADY_EXISTS,
-                    "A Service Feature with the identifier " + identifier + " already exists.");
-        }
-        this.serviceFeaturesMap.put(identifier, sf);
-    }
-    
-    
-    /**
-     * Get the map which contains all service features
-     * 
-     * @return map with service features
-     */
-    public Map<String, ServiceFeature> getServiceFeaturesMap() {
-        return this.serviceFeaturesMap;
-    }
-    
+public class AIS extends BasicIS {
+
+	/**
+	 * This list contains all service features of the app.
+	 */
+	private List<ServiceFeature> serviceFeatureList;
+
+	/**
+	 * Constructor is used to instantiate the data structures.
+	 */
+	public AIS() {
+		super();
+		this.serviceFeatureList = new ArrayList<ServiceFeature>();
+	}
+
+	/**
+	 * Add a service feature to the app
+	 * 
+	 * @param sf
+	 *            service feature
+	 */
+	public void addServiceFeature(ServiceFeature sf) {
+		this.serviceFeatureList.add(sf);
+	}
+
+	/**
+	 * Remove a service feature of the app
+	 * 
+	 * @param sf
+	 *            service feature
+	 */
+	public void removeServiceFeature(ServiceFeature sf) {
+		this.serviceFeatureList.remove(sf);
+	}
+
+	/**
+	 * Get the list which contains all service features
+	 * 
+	 * @return list with service features
+	 */
+	public List<ServiceFeature> getServiceFeatures() {
+		return this.serviceFeatureList;
+	}
+
 }

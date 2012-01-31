@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">30. Januar 2012</div>
+		<div id="page-head-date">31. Januar 2012</div>
 		<div id="page-head-title">Editor for Information Sets</div>
 		<div id="page-title">Spezifikation</div>
 		<div id="page-version">Version 3.1</div>
@@ -28,6 +28,10 @@
 		<div id="content">
 		
 			<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 3.2 (30.01.2012)</h3>
+					<ul>
+						<li>Korrektur nach Spezifikationsreview</li>
+					</ul>
 				
 				<h3>Version 3.1 (30.01.2012)</h3>
 					<ul>
@@ -59,16 +63,16 @@
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
 				<p>
-          Ein Schritt um eine zu PMP kompatible App oder Ressource zu erstellen 
-          ist, eine Xml-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, 
+          Ein Schritt um eine zu PMP kompatible App oder Ressourcengruppe zu erstellen 
+          ist, eine XML-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, 
           wird im Rahmen des zuvor genannten Studienprojekts an der Universität 
-          Stuttgart ein Editor entwickelt, der es erlauben soll diese Xml-Dateien 
+          Stuttgart ein Editor entwickelt, der es erlauben soll diese XML-Dateien 
           auf einfache Weise zu erstellen und zu bearbeiten.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
 				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>         
-					<li>den Entwicklern von zu PMP kompatiblen Applikationen bzw. Ressourcengruppe</li>
+					<li>den Entwicklern von zu PMP kompatiblen Applikationen bzw. Ressourcengruppen</li>
 					<li>dem Kunden</li>
 					<li>den Betreuern des Studienprojekts</li>
 				</ul>
@@ -92,28 +96,24 @@
 				<h2 id="anforderungen-an-eis">Anforderungen an EIS</h2>
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
-					<p>Die Oberfläche von EIS wird sich nahtlos in die Oberfläche von Eclipse einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente. Die Oberfläche wird sich an der Oberfläche des Android Plugins ("ADT Plugin for Eclipse") orientieren, da die Entwickler mit dieser Oberfläche schon vertraut sind.</p>
+					<p>Die Oberfläche von EIS wird sich nahtlos in die Oberfläche von Eclipse einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente. Die Oberfläche wird sich an der Oberfläche des Android Plugins ("ADT Plugin for Eclipse") orientieren, da die Entwickler von Android Apps mit dieser Oberfläche schon vertraut sind.</p>
 			
 					<h3 id="wizard">Wizard</h3>
-					<p>EIS wird dem Entwickler anbieten,  sowohl die Erstellung der AppInformation.xml als auch der ResourcegroupInformation.xml mit einem Wizard durchzuführen, sodass dies möglichst einfach ist.</p>
+					<p>EIS wird dem Entwickler anbieten, mit einem Wizard eine leere ais.xml oder rgis.xml am vom Nutzer angegebenen Ort zu erstellen.</p>
+					
+					<h3 id="androidmanifest">Automatischer Eintrag in die Android Manifest</h3>
+					<p>EIS wird dem Entwickler anbieten einen entsprechenden Eintrag in die AndroidManifest.xml des Projektes hinzuzufügen, damit der korrekte Anmeldebildschirm von PMP angezeigt werden kann.</p>
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
 				<p>EIS wird von einem Entwickler einer zu PMP kompatible App oder Ressourcengruppe bedient werden können. Wo möglich, wird EIS gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
-				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können.</p>
-
-			
-				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
-					<p> Es werden keine speziellen quantitative Anforderungen an EIS gestellt.</p>
-					
-				<h2 id="robustheit">Robustheit</h2>
-				<p>EIS wird beim Öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
+				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können.</p>
 				
-				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
+				<h2 id="robustheit">Robustheit</h2>
+				<p>EIS wird beim Öffnen von fehlerhaften XML-Dateien nicht abstürzen.</p>
 			
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>EIS wird zur Eclipse Version 3.7 kompatibel sein.</p>
+				<p>EIS wird zur Eclipse Version 3.7 ("Indigo") kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Die einzige verfügbare Sprache für EIS ist Englisch.</p>
@@ -128,8 +128,6 @@
 					<li>Die Software wird modular aufgebaut sein.</li>
 				</ul>
 				
-				<div class="pagebreak"></div>
-				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. EIS wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
 
@@ -141,22 +139,28 @@
 			  In den nachfolgenden Beschreibungen werden folgende Abkürzungen verwendet:
         <ul>
           <li>AIS: Application-Information-Set, stellt die in der XML-Datei 
-            <code>AppInformation.xml</code> abgelegten Informationen der 
+            <code>ais.xml</code> abgelegten Informationen der 
             Applikation dar</li> 
           <li>RGIS: Resource-Group-Information-Set, stellt die in der XML-Datei 
-            <code>ResourcegroupInformation.xml</code> abgelegten Informationen der 
+            <code>rgis.xml</code> abgelegten Informationen der 
             Ressourcengruppe dar</li>
 			  </ul>
 			</p>
 			
-			<h3 id="gui_wiz_1">1. Schritt: Sprachen</h3>
+			<h3 id="gui_wiz_1">Grundeinstellungen</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/rgis_wiz_1.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/rgis_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz.png" alt="Erster Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
+				  Der Wizard unterscheidet sich zwischen AIS und RGIS nur minimal
+				  (Textfelderer "Identifier" und "Revision" beim AIS-Wizard nicht vorhanden).
+				  Über den Wizard wählt der Benutzer das Projekt aus, zu 
+          dem das AIS bzw. RGIS angelegt werden soll und gibt die wichtigsten 
+          Daten an.
+				<!--
           Der erste Schritt unterscheidet sich zwischen dem RGIS- und 
           AIS-Wizard nur minimal (Textfeld "Identifier" beim AIS-Wizard nicht 
           vorhanden). In diesem Schritt werden die Sprachen festgelegt,
@@ -169,13 +173,14 @@
           Diese wird gesetzt, in dem die gewünschte Sprache selektiert und
           anschließend auf den Button "default" geklickt wird (Checkbox muss
           hierbei aktiviert sein).
+          -->
         </p>
 				
 				<div class="clear"></div>
 			</div>
 			
 			<div class="pagebreak"></div>
-			
+			<!--
 			<h3 id="gui_wiz_2">2. Schritt: Informationen</h3>
 			<div class="uip">
 				<a href="gui-prototype/rgis_wiz_2.png" rel="ui-prototype" class="fancybox">
@@ -292,7 +297,7 @@
         </p>
 				
 				<div class="clear"></div>
-			</div>
+			</div>                      -->
 			
 			<h2 id="gui_editor">Editor</h2>
 			
@@ -311,8 +316,16 @@
         <p>
           In der Tabelle werden der Name und die Beschreibung des AIS bzw. RGIS
           in verschiedene Sprachen eingestellt. Um eine weitere Sprache hinzuzufügen,
-          werden die unteren Textfelder entsprechend ausgefüllt und anschließend
-          auf die v-Schaltfläche im rechten Bereich geklickt.
+          wird auf die mit "+" beschriftete Schaltfläche geklickt. Hierdurch
+          wird der Tabelle eine weitere Zeile hinzugefügt, die dann 
+          wie gewünscht ausgefüllt werden kann.
+          Zu jedem Namen bzw. zu jeder Beschreibung wird in der linken Spalte über die
+          Dropdown-Liste die zugehörige Sprache ausgewählt. Hierbei kann die
+          gewünschte Locale in der aufgeklappten Liste ausgewählt werden. Alternativ
+          kann die gewünschte Sprache in das Dropdown-Feld eingetippt werden,
+          wobei automatisch die zur Eingabe passende Locale ausgewählt wird. 
+        </p>
+        <p>
           Über die x-Schaltfläche neben bestehenden Namen/Beschreibungen lassen sich 
           diese entfernen. Um die Werte der bestehenden Einträge zu ändern,
           wird der entsprechende Wert (Locale, Name, Beschreibung) angeklickt.
@@ -334,24 +347,22 @@
 				<p>
           Im linken Bereich werden alle momentan angelegten Service-Features
           angezeigt. Über die "Add"-Schaltfläche wird ein neues Service-Feature
-          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Ressourcengruppe etc.]
-          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+          hinzugefügt (da dessen Werte nach dem Anlegen noch ungültig sind,
+          wird es als ungültig markiert bzw. hervorgehoben).
         </p>
         <p>
           Um ein bestehendes oder neu angelegtes Service-Feature zu ändern,
           wird dieses selektiert. Anschließend werden im rechten Bereich
           alle Informationen über dieses angezeigt. 
           In der oberen Tabelle werden die Namen und die Beschreibungen aufgelistet.
-          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
-          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
-          festgelegten Sprachen bestimmt. Durch Anklicken
-          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
-          werden.
+          Über die mit "+" beschriftete Schaltfläche kann eine weitere Zeile hinzugefügt
+          werden (siehe entsprechende Beschreibung in <span class="reference noIndex" title="#gui_editor_gen"></span> )
+          Durch Anklicken einer Zelle kann der entsprechende Wert geändert werden.
         </p>
         <p>
-          Über das Dropdown-Feld im unteren Bereich der "Resource-Group"-Tabelle
-          lassen sich hinzuzufügende Ressourcengruppen auswählen. Über die
-          v-Schaltfläche werden diese dann dem Service-Feature hinzugefügt
+          In der Resource-Group Tabelle werden alle Ressourcengruppen angezeigt,
+          die momentan dem Service Feature zugewiesen sind. Über die "+" Schalftläche
+          kann eine weitere Ressourcengruppe hinzugefügt werden
           (über die x-Schalftäche können sie wieder entfernt werden).
         </p>
         <p>
@@ -370,19 +381,16 @@
 				<p>
           Im linken Bereich werden alle momentan angelegten Privacy-Settings
           angezeigt. Über die "Add"-Schaltfläche wird ein neues Privacy-Setting
-          hinzugefügt (dabei werden dessen Werte [Name, Beschreibung, Identifier etc.]
-          auf "undefined" gesetzt, die dann entsprechend geändert werden müssen).
+          hinzugefügt (da dessen Werte nach dem Anlegen noch ungültig sind,
+          wird es als ungültig markiert bzw. hervorgehoben).
         </p>
         <p>
           Um ein bestehendes oder neu angelegtes Privacy-Setting zu ändern,
           wird dieses selektiert. Anschließend werden im rechten Bereich
           alle Informationen über dieses angezeigt. 
           In der Tabelle werden die Namen und die Beschreibungen aufgelistet.
-          Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
-          "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
-          festgelegten Sprachen bestimmt. Durch anklicken
-          der entsprechenden Zelle kann der Name oder die Beschreibung geändert
-          werden.
+          Über die mit "+" beschriftete Schaltfläche kann eine weitere Zeile hinzugefügt
+          werden (siehe entsprechende Beschreibung in <span class="reference noIndex" title="#gui_editor_gen"></span> )
         </p>
 				<div class="clear"></div>
 			</div>
@@ -414,6 +422,8 @@
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
 				</table>
 
+				<div class="pagebreak"></div>
+				
 				<h2 id="bgl-ressource">Ressource</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Ressource</th></tr>
@@ -439,6 +449,8 @@
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
 				</table>
+				
+				<div class="pagebreak"></div>
 				
 				<h2 id="bgl-servicefeature">Service Feature</h2>
 				<table>
