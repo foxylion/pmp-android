@@ -22,10 +22,24 @@ package de.unistuttgart.ipvs.pmp.apps.locationtestapp.gui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.locationtestapp.R;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 public class LocationAppActivity extends Activity {
 
+	private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
+	private static final String R_NAME = "absoluteLocation";
+
+
+	private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME,
+			R_NAME);
+	
 	public Handler handler;
 
 	@Override
@@ -33,6 +47,8 @@ public class LocationAppActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		this.handler = new Handler();
+
+		PMP.get(getApplication());
 
 		setContentView(R.layout.main);
 
@@ -42,8 +58,34 @@ public class LocationAppActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+			@Override
+			public void onReceiveResource(PMPResourceIdentifier resource,
+					IBinder binder) {
+				resourceCached();
+			}
+			
+			@Override
+			public void onBindingFailed() {
+				Toast.makeText(LocationAppActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
+
+	private void resourceCached() {
+		IBinder binder = PMP.get().getResourceFromCache(R_ID);
+		IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+		try {
+			loc.startLocationLookup();
+			Toast.makeText(this, "locationFixed: " + loc.isFixed(), Toast.LENGTH_LONG).show();
+		} catch (RemoteException e) {
+			
+		}
+		
+	};
+	
 	private void addListener() {
 		
 	}
