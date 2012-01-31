@@ -334,7 +334,7 @@
 					<img src="gui-prototype/apps.png" alt="App Liste" height="400px" class="left">
 				</a>
 				
-				<p>Auf diesem Bildschirm werden alle Apps, die an PMP registriert sind, aufgelistet.
+				<p>Auf diesem Bildschirm werden alle Apps, die an der PMP registriert sind, aufgelistet.
 					Von jeder App werden ein Icon, Name und Beschreibung (gekürzt) angezeigt.
 				</p>
 				<p>Mit einem langen Touch auf eine App wird nachfolgendes Menü angezeigt. Ein kurzer Touch führt zum <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm.</p>
@@ -350,7 +350,7 @@
 				<p>Es kann zwischen folgenden Aktionen gewählt werden:</p>
 				<p>
 					<b>App Details:</b> Öffnet den <span class="reference noIndex" title="#ui-app-detail"></span>-Bildschirm.<br>
-					<b>Open App:</b> Öffnet die der App selbst.</i><br>
+					<b>Open App:</b> Öffnet die App selbst.</i><br>
 					<b>Remove App:</b> Entfernt die App aus PMP.
 				</p>
 				<div class="clear"></div>
@@ -366,7 +366,7 @@
 				
 				<p>Zu der App werden Name, Icon, Beschreibung  angezeigt.</p>
 				
-				<p>Im Presets-Tab wird die Übersicht über alle zugewiesenen Presets anzeigt (Ähnlich zu <span class="reference noIndex" title="#ui-preset-list"></span>, nur ohne Papierkorb).</p>
+				<p>Im Presets-Tab wird die Übersicht über alle zugewiesenen Presets angezeigt (Ähnlich zu <span class="reference noIndex" title="#ui-preset-list"></span>, nur ohne Papierkorb).</p>
 				<p>Im Menü kann die App geöffnet oder aus PMP entfernt werden.</p>
 				<div class="clear"></div>
 			</div>
@@ -375,7 +375,7 @@
 	
 			<h2 id="ui-servicefeatures">Service Features</h2>
 			
-			<p>Im nachfolgenden können Service Features nur dann geändert werden wenn der Expert-Mode <b>nicht</b> aktiviert ist.</p>
+			<p>Im nachfolgenden Kapitel können Service Features nur dann geändert werden wenn der Expert-Mode <b>nicht</b> aktiviert ist.</p>
 			
 			<h3 id="ui-app-sf">Service Features-Tab</h3>
 			<div class="uip">
@@ -388,6 +388,7 @@
 					Ist ein Service Feature deaktiviert, wird es rot hinterlegt.<br/>
 					Ist ein Service Feature grau hinterlegt fehlen Ressourcengruppen zur Nutzung.</p>
 				<p>Wird auf ein Service Feature getippt öffnet sich der <span class="reference noIndex" title="#ui-sf-details"></span>-Bildschirm.</p>
+			<p>EIn Service Feature wird orange umrandet, wenn es durch die vorhergehende Aktion hervorgehoben werden soll (z.B. Service Feature-Ändern ausgelöst durch eine App).</p>
 				<div class="clear"></div>
 			</div>
 			
@@ -434,12 +435,12 @@
 				</a>
 				<div class="clear"></div>
 				
-				<p>Aktive und inaktive Presets werden mit einer verkürzten Beschreibung in der "Presets-Übersicht"-Bildschirm angezeigt.</p>
-				<p>Nach Tippen auf ein beliebiges Preset öffnet sich die "Preset-Detail"-Bildschirm. Ein langer Touch auf ein Preset öffnet Abbildung 2.</p>
+				<p>Aktive und inaktive Presets werden mit einer verkürzten Beschreibung im "Presets-Übersicht"-Bildschirm angezeigt.</p>
+				<p>Nach Tippen auf ein beliebiges Preset öffnet sich der "Preset-Detail"-Bildschirm. Ein langer Touch auf ein Preset öffnet Abbildung 2.</p>
 				<p>Über das Menü kann ein neues Preset angelegt werden. Tippen auf den "Add Preset"-Button öffnet sich ein Popup wie in Abbildung 3. <span class="reference noIndex" title="#ui-preset-details-app"></span>-Bildschirm.</p>
 				
 				<div class="sp-add">
-					<p>Abbildung 2 wird um den Eintrag Preset exportieren erweitert.<br/> Das Menü aus Abbildung 1 wird um den Menü-Eintrag Presets importieren erweitert.</p>
+					<p>Abbildung 2 wird um den Eintrag "Preset exportieren" erweitert.<br/> Das Menü aus Abbildung 1 wird um den Menü-Eintrag "Presets importieren" erweitert.</p>
 					<p>Die Menü-Einträge aus Abbildung 2 werden auch im Menü von <span class="reference noIndex" title="#ui-preset-details-app"></span> und <span class="reference noIndex" title="#ui-preset-details-ps"></span> angezeigt.</p>
 				</div>
 			</div>
@@ -452,8 +453,13 @@
 					<img src="gui-prototype/preset-apps-menu.png" alt="Details-Ansicht Presets (Apps)" height="400px" class="left">
 				</a>
 				
-				<p>Durch drücken auf "Assign Apps" im Menü (wird nicht dauerhaft angezeigt) wird eine Liste aller zugewiesener Apps angezeigt, weitere Apps können so hinzugefügt werden.</p>
-				<p>Ein langer Touch auf eine App öffnet ein Kontextmenü in welchem Details zur App angezeigt werden können, oder die App aus dem Preset enfernet werden kann.</p>
+				<p>Durch drücken auf "Assign Apps" im Menü (wird nicht dauerhaft angezeigt) wird eine Liste aller nicht zugewiesenen Apps angezeigt, weitere Apps können so hinzugefügt werden.</p>
+				<p>Ein Touch auf eine App öffnet ein Kontextmenü (äquivalent zu anderen Kontextmenüs) mit folgenden Optionen:
+					<ul>
+						<li>"Show details": Details der App anzeigen</li>
+						<li>"Remove": App aus Preset entfernen</li>
+					</ul>
+				</p>
 				<div class="clear"></div>
 			</div>
 			
