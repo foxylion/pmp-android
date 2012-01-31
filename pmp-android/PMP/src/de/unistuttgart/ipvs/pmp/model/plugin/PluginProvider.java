@@ -229,7 +229,7 @@ public class PluginProvider implements IPluginProvider {
             // extract the XML, so we have the information from there
             ZipFile zipApk = new ZipFile(apkName);
             try {
-                ZipEntry xmlEntry = zipApk.getEntry("assets/" + className + XML_STR);
+                ZipEntry xmlEntry = zipApk.getEntry("assets/" + "rgis" + XML_STR);
                 if (xmlEntry != null) {
                     copyFile(zipApk.getInputStream(xmlEntry), PLUGIN_ASSET_DIR_STR + rgPackage + XML_STR);
                 } else {
