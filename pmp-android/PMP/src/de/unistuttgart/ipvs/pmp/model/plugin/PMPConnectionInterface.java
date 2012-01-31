@@ -4,8 +4,8 @@ import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
@@ -52,31 +52,17 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
     }
     
     
+    /**
+     * @see PMPConnectionInterface#getPrivacySettingValue(String, String, String)
+     */
     private String getPrivacySettingValue(IResourceGroup rg, IPrivacySetting ps, IApp a) {
-        String bestValue = null;
-        
         try {
-            for (IPreset p : a.getAssignedPresets()) {
-                if (!p.isAvailable() || p.isDeleted()) {
-                    continue;
-                }
-                
-                String grantNow = p.getGrantedPrivacySettingValue(ps);
-                
-                if (bestValue == null) {
-                    bestValue = grantNow;
-                } else {
-                    if (ps.permits(bestValue, grantNow)) {
-                        // grantNow allows more
-                        bestValue = grantNow;
-                    } /* else bestValue allows more, do nothing */
-                }
-            }
+            return PresetController.findBestValue(a, ps);
+            
         } catch (PrivacySettingValueException plve) {
             Log.e("Error while calculating privacy setting value.", plve);
+            return null;
         }
-        
-        return bestValue;
     }
     
     

@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">25. Januar 2012</div>
+		<div id="page-head-date">31. Januar 2012</div>
 		<div id="page-head-title">Editor for Information Sets</div>
 		<div id="page-title">Spezifikation</div>
-		<div id="page-version">Version 3.0</div>
+		<div id="page-version">Version 3.1</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -28,7 +28,17 @@
 		<div id="content">
 		
 			<h1 id="versionshistorie">Versionshistorie</h1>
+				<h3>Version 3.2 (30.01.2012)</h3>
+					<ul>
+						<li>Korrektur nach Spezifikationsreview</li>
+					</ul>
 				
+				<h3>Version 3.1 (30.01.2012)</h3>
+					<ul>
+						<li>Spezifikation für Review vorbereitet</li>
+						<li>Alle GUI-Prototypen hinzugefügt</li>
+					</ul>
+					
 				<h3>Version 3.0 (25.01.2012)</h3>
 					<ul>
 						<li>Erstes Gerüst der Spezifikation</li>
@@ -52,18 +62,23 @@
 			
 				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
 				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
-				<p>Ein Schritt um eine zu PMP kompatible App oder Ressource zu erstellen ist, eine Xml-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, wird im Rahmen des zuvor genannten Studienprojekts an der Universität Stuttgart ein Editor entwickelt, der es erlauben soll diese Xml-Dateien auf einfache Weise zu erstellen.</p>
+				<p>
+          Ein Schritt um eine zu PMP kompatible App oder Ressourcengruppe zu erstellen 
+          ist, eine XML-Datei anzulegen. Da dies sehr mühsam und fehleranfällig ist, 
+          wird im Rahmen des zuvor genannten Studienprojekts an der Universität 
+          Stuttgart ein Editor entwickelt, der es erlauben soll diese XML-Dateien 
+          auf einfache Weise zu erstellen und zu bearbeiten.</p>
 
 				<h2 id="leserkreis">Leserkreis</h2>
 				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
 				<ul>         
-					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
+					<li>den Entwicklern von zu PMP kompatiblen Applikationen bzw. Ressourcengruppen</li>
 					<li>dem Kunden</li>
-					<li>dem Betreuern des Studienprojekts</li>
+					<li>den Betreuern des Studienprojekts</li>
 				</ul>
 				
 				<div class="pagebreak"></div>
-			
+				
 				<h2 id="konventionen">Konventionen</h2>
 				<p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
 				<ul>
@@ -81,28 +96,24 @@
 				<h2 id="anforderungen-an-eis">Anforderungen an EIS</h2>
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
-					<p>Die Oberfläche von EIS wird sich nahtlos in die Oberfläche von Eclipse einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente. Die Oberfläche wird sich an der Oberfläche des Android Plugins ("ADT Plugin for Eclipse") orientieren, da die Entwickler mit dieser Oberfläche schon vertraut sind.</p>
+					<p>Die Oberfläche von EIS wird sich nahtlos in die Oberfläche von Eclipse einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente. Die Oberfläche wird sich an der Oberfläche des Android Plugins ("ADT Plugin for Eclipse") orientieren, da die Entwickler von Android Apps mit dieser Oberfläche schon vertraut sind.</p>
 			
 					<h3 id="wizard">Wizard</h3>
-					<p>EIS wird dem Entwickler anbieten,  sowohl die Erstellung der AppInformation.xml als auch der ResourcegroupInformation.xml mit einem Wizard durchzuführen, sodass dies möglichst einfach ist.</p>
+					<p>EIS wird dem Entwickler anbieten, mit einem Wizard eine leere ais.xml oder rgis.xml am vom Nutzer angegebenen Ort zu erstellen.</p>
+					
+					<h3 id="androidmanifest">Automatischer Eintrag in die Android Manifest</h3>
+					<p>EIS wird dem Entwickler anbieten einen entsprechenden Eintrag in die AndroidManifest.xml des Projektes hinzuzufügen, damit der korrekte Anmeldebildschirm von PMP angezeigt werden kann.</p>
 			
 			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
 				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>EIS wird von einem Entwickler einer zu PMP kompatible App oder Ressourcen-Gruppe bedient werden können. Wo möglich, wird EIS gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
-				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können. Ungewollte Aktionen wird der Benutzer abbrechen können.</p>
-
-			
-				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
-					<p> Es werden keine speziellen quantitative Anforderungen an EIS gestellt.</p>
-					
-				<h2 id="robustheit">Robustheit</h2>
-				<p>EIS wird beim öffnen von fehlerhaften Xml-Dateien nicht abstürzen.</p>
+				<p>EIS wird von einem Entwickler einer zu PMP kompatible App oder Ressourcengruppe bedient werden können. Wo möglich, wird EIS gute Standardeingaben vorgeben und direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen.</p>
+				<p>Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können.</p>
 				
-				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
+				<h2 id="robustheit">Robustheit</h2>
+				<p>EIS wird beim Öffnen von fehlerhaften XML-Dateien nicht abstürzen.</p>
 			
 				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>EIS wird zur Eclipse Version 3.7 kompatibel sein.</p>
+				<p>EIS wird zur Eclipse Version 3.7 ("Indigo") kompatibel sein.</p>
 				
 				<h2 id="internationalisierung">Internationalisierung</h2>
 				<p>Die einzige verfügbare Sprache für EIS ist Englisch.</p>
@@ -117,6 +128,8 @@
 					<li>Die Software wird modular aufgebaut sein.</li>
 				</ul>
 				
+				<div class="pagebreak"></div>
+				
 				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
 				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. EIS wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
 
@@ -124,24 +137,35 @@
 			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
 
 			<h2 id="gui_wiz">Wizard</h2>
+			<p>
+			  In den nachfolgenden Beschreibungen werden folgende Abkürzungen verwendet:
+        <ul>
+          <li>AIS: Application-Information-Set, stellt die in der XML-Datei 
+            <code>ais.xml</code> abgelegten Informationen der 
+            Applikation dar</li> 
+          <li>RGIS: Resource-Group-Information-Set, stellt die in der XML-Datei 
+            <code>rgis.xml</code> abgelegten Informationen der 
+            Ressourcengruppe dar</li>
+			  </ul>
+			</p>
 			
 			<h3 id="gui_wiz_1">1. Schritt: Sprachen</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_1.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_1.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_1.png" alt="Erster Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
-          Der erste Schritt unterscheidet sich zwischen dem RIS- und 
+          Der erste Schritt unterscheidet sich zwischen dem RGIS- und 
           AIS-Wizard nur minimal (Textfeld "Identifier" beim AIS-Wizard nicht 
           vorhanden). In diesem Schritt werden die Sprachen festgelegt,
-          in denen die Daten des RIS bzw. des AIS angegeben werden sollen
+          in denen die Daten des RGIS bzw. des AIS angegeben werden sollen
           (durch aktivieren der Checkbox).
         </p>
         <p>
           Es muss mindestens eine Sprache ausgewählt werden. Zudem
-          muss jedes RIS/AIS genau eine Standard-Sprache besitzen.
+          muss jedes RGIS/AIS genau eine Standard-Sprache besitzen.
           Diese wird gesetzt, in dem die gewünschte Sprache selektiert und
           anschließend auf den Button "default" geklickt wird (Checkbox muss
           hierbei aktiviert sein).
@@ -150,16 +174,17 @@
 				<div class="clear"></div>
 			</div>
 			
+			<div class="pagebreak"></div>
 			
 			<h3 id="gui_wiz_2">2. Schritt: Informationen</h3>
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_2.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_2.png" alt="Zweiter Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_2.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_2.png" alt="Zweiter Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
           Im zweiten Schritt gibt es ebenfalls nur minimale Unterschiede
-          zwischen dem RIS- und AIS-Wizard (Textfeld "Revision" beim AIS-Wizard nicht 
+          zwischen dem RGIS- und AIS-Wizard (Textfeld "Revision" beim AIS-Wizard nicht 
           vorhanden). Ziel dieses Schrittes ist es,
           die Informationen zu diesem Information-Set anzugeben.
           Hierzu wird zu jeder Sprache, die im vorhergehenden Schritt ausgewählt
@@ -171,10 +196,10 @@
 			
 			
 			<h3 id="gui_wiz_3">3. Schritt: Privacy-Settings/Service-Features</h3>
-			<h4>RIS</h4>
+			<h4>RGIS</h4>
 			<div class="uip">
-				<a href="gui-prototype/ris_wiz_3.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_wiz_3.png" alt="Dritter Schritt" width="45%" class="left">
+				<a href="gui-prototype/rgis_wiz_3.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_wiz_3.png" alt="Dritter Schritt" width="45%" class="left">
 				</a>
 				
 				<p>
@@ -194,6 +219,8 @@
         </p>
 				<div class="clear"></div>
 			</div>
+			
+			<div class="pagebreak"></div>
 			
 			<h4>AIS</h4>
 			<div class="uip">
@@ -235,8 +262,8 @@
       <h3 id="gui_addedit_ps">Privacy-Setting hinzufügen/ändern</h3>
 			
 			<div class="uip">
-				<a href="gui-prototype/ris_addedit_ps.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_addedit_ps.png" alt="Privacy-Setting spezifizieren/ändern" width="45%" class="left">
+				<a href="gui-prototype/rgis_addedit_ps.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_addedit_ps.png" alt="Privacy-Setting spezifizieren/ändern" width="45%" class="left">
 				</a>
 				
 				<p>
@@ -247,6 +274,8 @@
 				
 				<div class="clear"></div>
 			</div>
+			
+			<div class="pagebreak"></div>
 			
 			<h3 id="gui_addedit_rg">Ressourcengruppe hinzufügen/ändern</h3>
 			
@@ -265,24 +294,22 @@
 				<div class="clear"></div>
 			</div>
 			
-			<div class="pagebreak"></div>
-			
 			<h2 id="gui_editor">Editor</h2>
 			
 			<h3 id="gui_editor_gen">Allgemeine Einstellungen</h3>
 			<div class="uip">
-				<a href="gui-prototype/ris_editor_gen.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_editor_gen.png" alt="Allgemeine Einstellungen" width="45%" class="left">
+				<a href="gui-prototype/rgis_editor_gen.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_editor_gen.png" alt="Allgemeine Einstellungen" width="45%" class="left">
 				</a>
 				
 				<p>
           Unter dem Tab "General" werden die allgemeinen Einstellungen des AIS bzw.
-          RIS festgelegt. Die Darstellung beim AIS und RIS ist ähnlich, mit dem 
+          RGIS festgelegt. Die Darstellung beim AIS und RGIS ist ähnlich, mit dem 
           Unterschied, dass die Eingabefelder "Identifier" und "Revision" nur
-          bei RIS vorhanden sind.
+          bei RGIS vorhanden sind.
         </p>
         <p>
-          In der Tabelle werden der Name und die Beschreibung des AIS bzw. RIS
+          In der Tabelle werden der Name und die Beschreibung des AIS bzw. RGIS
           in verschiedene Sprachen eingestellt. Um eine weitere Sprache hinzuzufügen,
           werden die unteren Textfelder entsprechend ausgefüllt und anschließend
           auf die v-Schaltfläche im rechten Bereich geklickt.
@@ -294,6 +321,8 @@
         </p>
 				<div class="clear"></div>
 			</div>
+			
+			<div class="pagebreak"></div>
 			
 			<h3 id="gui_editor_sfps">Privacy-Settings/Service-Features</h3>
 			<h4>AIS</h4>
@@ -332,10 +361,10 @@
 				<div class="clear"></div>
 			</div>
 			
-			<h4>RIS</h4>
+			<h4>RGIS</h4>
 			<div class="uip">
-				<a href="gui-prototype/ris_editor_ps.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/ris_editor_ps.png" alt="Privacy-Settings einstellen" width="45%" class="left">
+				<a href="gui-prototype/rgis_editor_ps.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/rgis_editor_ps.png" alt="Privacy-Settings einstellen" width="45%" class="left">
 				</a>
 				
 				<p>
@@ -351,7 +380,7 @@
           In der Tabelle werden die Namen und die Beschreibungen aufgelistet.
           Die Sprachen (d. h. die Anzahl der Zeilen) werden durch die im Tab 
           "General" (Siehe  <span class="reference noIndex" title="#gui_editor_gen"></span>) 
-          festgelegten Sprachen bestimmt. Durch anklicken
+          festgelegten Sprachen bestimmt. Durch Anklicken
           der entsprechenden Zelle kann der Name oder die Beschreibung geändert
           werden.
         </p>
