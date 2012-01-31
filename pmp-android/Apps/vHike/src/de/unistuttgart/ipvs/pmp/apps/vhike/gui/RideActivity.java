@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,6 +31,7 @@ public class RideActivity extends Activity {
 
 	private Controller ctrl;
 
+	private Button rideDate;
 	private Spinner spinner;
 	private Spinner spinnerSeats;
 
@@ -41,6 +45,18 @@ public class RideActivity extends Activity {
 	}
 
 	private void registerListener() {
+
+		rideDate = (Button) findViewById(R.id.ride_date);
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String formattedDate = df.format(c.getTime());
+		rideDate.setText(formattedDate);
+		rideDate.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vhikeDialogs.getInstance().getRideDate(RideActivity.this).show();
+			}
+		});
 
 		spinner = (Spinner) findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
