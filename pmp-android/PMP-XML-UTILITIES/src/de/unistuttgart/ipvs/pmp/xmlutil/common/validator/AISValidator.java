@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.xmlutil.common;
+package de.unistuttgart.ipvs.pmp.xmlutil.common.validator;
 
 import java.util.Locale;
 import java.util.Map.Entry;
@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
  * @author Marcus Vetter
  * 
  */
-public class ISValidator {
+public class AISValidator {
     
     /**
      * Validate the given AppInformationSet (ais)
