@@ -6,9 +6,13 @@ import java.io.InputStream;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -17,6 +21,18 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 
 public class DebugInstallRGActivity extends Activity {
+    
+    private Handler handler;
+    private Dialog dialog;
+    
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        handler = new Handler();
+    }
+    
     
     @Override
     protected void onResume() {
@@ -66,7 +82,11 @@ public class DebugInstallRGActivity extends Activity {
             
             @Override
             protected void onPostExecute(Void result) {
-                DebugInstallRGActivity.this.finish();
+                if (dialog == null) {
+                    DebugInstallRGActivity.this.finish();
+                } else {
+                    dialog.dismiss();
+                }
             }
         };
         ltpd.execute();
@@ -90,15 +110,23 @@ public class DebugInstallRGActivity extends Activity {
      * @param title
      * @param msg
      */
-    protected void complain(String title, String msg) {
-        new AlertDialog.Builder(this).setTitle(title).setMessage(msg)
-                .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
+    protected void complain(final String title, final String msg) {
+        handler.post(new Runnable() {
+            
+            @Override
+            public void run() {
+                Builder dialog = new AlertDialog.Builder(DebugInstallRGActivity.this);
+                dialog.setTitle(title);
+                dialog.setMessage(msg);
+                dialog.setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
                     
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                }).setCancelable(false).show();
+                });
+                DebugInstallRGActivity.this.dialog = dialog.show();
+            }
+        });
     }
-    
 }
