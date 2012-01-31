@@ -19,6 +19,8 @@ public class vhikeDialogs {
 	private ProgressDialog dSearch;
 
 	private UpdateData dUpdateData;
+	private RideDate dRideDate;
+	private RideTime dRideTime;
 
 	public static vhikeDialogs getInstance() {
 		if (instance == null) {
@@ -98,5 +100,19 @@ public class vhikeDialogs {
 		dUpdateData = new UpdateData(mContext);
 
 		return dUpdateData;
+	}
+
+	public RideDate getRideDate(Context context) {
+		if (dRideDate == null) {
+			dRideDate = new RideDate(context);
+		}
+		return dRideDate;
+	}
+
+	public RideTime getRideTime(Context context) {
+		if (dRideTime == null) {
+			dRideTime = new RideTime(context);
+		}
+		return dRideTime;
 	}
 }

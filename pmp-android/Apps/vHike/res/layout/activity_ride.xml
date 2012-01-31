@@ -10,10 +10,10 @@
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         pmp:name="@string/main_ride"
-        pmp:textColor="@color/dark_blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:icon="@drawable/logo_rd" >
+        android:icon="@drawable/logo_rd"
+        pmp:textColor="@color/dark_blue" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
     <LinearLayout
@@ -25,15 +25,59 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
+            android:text="@string/ride_date"
+            android:textColor="@color/dark_blue"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/ride_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="37dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
             android:text="@string/ride_destination"
             android:textColor="@color/dark_blue"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="fill_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:prompt="@string/ride_promptDestination" />
+            android:orientation="horizontal"
+            android:paddingLeft="5dp" >
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/ib_add"
+                android:drawSelectorOnTop="false"
+                android:prompt="@string/ride_promptDestination" />
+
+            <Button
+                android:id="@+id/ib_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/add"
+                android:contentDescription="@string/destination_contentDesc"
+                android:paddingRight="5dp" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -53,6 +97,8 @@
             android:id="@+id/spinner_numSeats"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="37dp"
             android:prompt="@string/ride_promptSeats" />
     </LinearLayout>
 
