@@ -217,7 +217,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                         rgStream.close();
                     }
                     try {
-                        ModelProxy.get().installResourceGroup(rgId.getText().toString());
+                        ModelProxy.get().installResourceGroup(rgId.getText().toString(), true);
                     } catch (InvalidXMLException ixmle) {
                         Log.e("Invalid XML", ixmle);
                         complain("Invalid XML", ixmle);

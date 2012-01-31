@@ -74,7 +74,7 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     
     
     public void testInstallRG() throws Exception {
-        assertTrue(Model.getInstance().installResourceGroup(SWITCHES_RG));
+        assertTrue(Model.getInstance().installResourceGroup(SWITCHES_RG, false));
         assertEquals(1, Model.getInstance().getResourceGroups().length);
         assertNotNull(Model.getInstance().getResourceGroup(SWITCHES_RG));
     }

@@ -264,7 +264,8 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException {
+    public boolean installResourceGroup(String rgPackage, boolean dontDownload) throws InvalidXMLException,
+            InvalidPluginException {
         checkCached();
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         Assert.isNull(getResourceGroup(rgPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "rgPackage",
@@ -272,30 +273,32 @@ public class Model implements IModel, Observer {
         
         try {
             
-            // download the plugin
-            File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
-            Assert.nonNull(temp, new ModelMisuseError(Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage));
-            
-            // add it
-            FileInputStream fis;
-            try {
-                fis = new FileInputStream(temp);
+            if (!dontDownload) {
+                // download the plugin
+                File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
+                Assert.nonNull(temp, new ModelMisuseError(Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage));
+                
+                // add it
+                FileInputStream fis;
                 try {
-                    PluginProvider.getInstance().injectFile(rgPackage, fis);
-                } finally {
+                    fis = new FileInputStream(temp);
                     try {
-                        fis.close();
-                    } catch (IOException ioe) {
-                        Log.e("IO exception during install RG", ioe);
+                        PluginProvider.getInstance().injectFile(rgPackage, fis);
+                    } finally {
+                        try {
+                            fis.close();
+                        } catch (IOException ioe) {
+                            Log.e("IO exception during install RG", ioe);
+                        }
                     }
+                } catch (FileNotFoundException fnfe) {
+                    throw new ModelIntegrityError(Assert.ILLEGAL_MISSING_FILE, rgPackage, rgPackage);
                 }
-            } catch (FileNotFoundException fnfe) {
-                throw new ModelIntegrityError(Assert.ILLEGAL_MISSING_FILE, rgPackage, rgPackage);
-            }
-            
-            // remove temporary file
-            if (!temp.delete()) {
-                Log.e("Could not delete temporary file: " + temp.getAbsolutePath());
+                
+                // remove temporary file
+                if (!temp.delete()) {
+                    Log.e("Could not delete temporary file: " + temp.getAbsolutePath());
+                }
             }
             
             // install the plugin

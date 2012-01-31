@@ -61,7 +61,7 @@ public class DebugInstallRGActivity extends Activity {
                         rgStream.close();
                     }
                     try {
-                        ModelProxy.get().installResourceGroup(pkg);
+                        ModelProxy.get().installResourceGroup(pkg, true);
                     } catch (InvalidXMLException ixmle) {
                         Log.e("Invalid XML", ixmle);
                         complain("Invalid XML", ixmle);

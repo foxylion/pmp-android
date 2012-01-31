@@ -106,13 +106,17 @@ public interface IModel {
      * 
      * @param rgPackage
      *            The identifier for the {@link IResourceGroup} which should be registered.
+     * @param dontDownload
+     *            If set to true, the installation will not try to open a connection to the server but assume the file
+     *            is already present.
      * @return true, if the installation was successful, false if an error occurred
      * @throws InvalidXMLException
      *             if the XML of the supplied resource group is somehow corrupt
      * @throws InvalidPluginException
      *             if the supplied resource group is somehow corrupt
      */
-    public boolean installResourceGroup(String rgPackage) throws InvalidXMLException, InvalidPluginException;
+    public boolean installResourceGroup(String rgPackage, boolean dontDownload) throws InvalidXMLException,
+            InvalidPluginException;
     
     
     /**

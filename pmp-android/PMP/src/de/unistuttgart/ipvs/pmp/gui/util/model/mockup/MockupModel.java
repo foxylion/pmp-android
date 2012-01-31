@@ -98,7 +98,7 @@ public class MockupModel implements IModel {
     
     @Override
     @Deprecated
-    public boolean installResourceGroup(String identifier) {
+    public boolean installResourceGroup(String identifier, boolean dontDownload) {
         return false;
     }
     
