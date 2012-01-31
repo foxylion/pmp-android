@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -17,6 +19,17 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 
 public class DebugInstallRGActivity extends Activity {
+    
+    private Handler handler;
+    
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        handler = new Handler();
+    }
+    
     
     @Override
     protected void onResume() {
@@ -90,15 +103,20 @@ public class DebugInstallRGActivity extends Activity {
      * @param title
      * @param msg
      */
-    protected void complain(String title, String msg) {
-        new AlertDialog.Builder(this).setTitle(title).setMessage(msg)
-                .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setCancelable(false).show();
+    protected void complain(final String title, final String msg) {
+        handler.post(new Runnable() {
+            
+            @Override
+            public void run() {
+                new AlertDialog.Builder(DebugInstallRGActivity.this).setTitle(title).setMessage(msg)
+                        .setPositiveButton("Ok, I will fix it", new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).setCancelable(false).show();
+            }
+        });
     }
-    
 }
