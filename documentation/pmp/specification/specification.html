@@ -151,7 +151,7 @@
 					
 					<div class="sp-add">
 					<h3 id="protokoll">Protokoll</h3>					
-					<p>PMP wird ein fortlaufendes, menschenlesbares Protokoll wichtiger Aktionen auf dem Device speichern. Die Protokollierung lässt sich in den Optionen aktivieren und dort auch die Granularität einstellen. Zu diesen Aktionen zählen:</p>
+					<p>PMP wird ein fortlaufendes, menschenlesbares Protokoll wichtiger Aktionen auf dem Gerät speichern. Die Protokollierung lässt sich in den Optionen aktivieren und dort auch die Granularität einstellen. Zu diesen Aktionen zählen:</p>
 					
 						<h4>Komponentenänderungen</h4>
 						<ul>
@@ -167,15 +167,22 @@
 						
 						<h4>Kontextänderungen</h4>
 						<ul>
-							<li>Änderungen der Aktivität eines Kontextes</li>
-							<li>Änderung von Privacy-Setting-Werten bedingt durch die Aktivität von Kontexten</li>
+							<li>Änderungen der Aktivität eines Kontextes<sup>1</sup></li>
+							<li>Änderung von Privacy-Setting-Werten bedingt durch die Aktivität von Kontexten<sup>1</sup></li>
 						</ul>
 						
 						<h4>Einstellungsanfragen</h4>
 						<ul>
 							<li>Service Features von Apps</li>
-							<li>Privacy-Setting-Werte von Ressourcen</li>
+							<li>Privacy-Setting-Werte von Ressourcen<sup>2</sup></li>
 						</ul>
+						
+						<p>
+							<sup>1</sup>&nbsp;Ein Kontext gilt als aktiv, wenn seine Bedingung wahr ist. Die technische Berechnung bzw. deren Intervall bleibt von der Aktivität von Kontexten unabhängig. Der Kontext "Dienstags" wäre beispielsweise am Mittwoch deaktiviert, am Dienstag aber aktiviert, obwohl er in beiden Fällen zum Beispiel jede Minute neu überprüft wird.
+						</p>
+						<p>
+							<sup>2</sup>&nbsp;Ressourcen müssen die Resourcen-Anfragen von Apps während der Ausführung überprüfen, um zu wissen, ob die anfragende App tatsächlich diesen Privacy-Setting-Wert zugewiesen bekommen hat. Um diese Berechtigungsprüfung vorzunehmen kommunizieren sie nötigerweise mit PMP, wo die Werte gespeichert sind.
+						</p>
 					</div>
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
