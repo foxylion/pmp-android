@@ -115,6 +115,8 @@
     <string name="missing_rgs_description">You have to install the missing Resources before you can use the Service Feature.</string>
     <string name="missing_rgs_show">Show missing Resources</string>
     <string name="app_sf_back_to_the_app">Done, back to the App.</string>
+    <string name="add_sf_to_preset">Add Service Feature to Preset</string>
+    <string name="add_sf_to_preset_description">Add on a Preset to add the Privacy Settings of the Service Feature to that Preset.</string>
     
     <!-- App-Presets Tab -->
     <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>

@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
@@ -150,6 +149,16 @@ public class DialogServiceFeature extends Dialog {
             oneClickInstallRGs.setVisibility(View.VISIBLE);
             showMissingRGs.setVisibility(View.VISIBLE);
         }
+        
+        /* Update as well the list, because they should be now enabled or disabled instead of unavailable. */
+        if (DialogServiceFeature.this.serviceFeatureView != null) {
+            DialogServiceFeature.this.serviceFeatureView.refresh();
+        }
+    }
+    
+    
+    public IServiceFeature getServiceFeature() {
+        return serviceFeature;
     }
     
     
@@ -207,11 +216,6 @@ public class DialogServiceFeature extends Dialog {
                 RGInstaller.installResourceGroups(getContext(), handler, missingResourceGroup);
                 
                 refresh();
-                
-                /* Update as well the list, because they should be now enabled or disabled instead of unavailable. */
-                if (DialogServiceFeature.this.serviceFeatureView != null) {
-                    DialogServiceFeature.this.serviceFeatureView.refresh();
-                }
             }
         });
         
@@ -240,7 +244,7 @@ public class DialogServiceFeature extends Dialog {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Currently not implemented...", Toast.LENGTH_LONG).show();
+                new DialogAddSFtoPreset(getContext(), DialogServiceFeature.this).show();
             }
         });
     }

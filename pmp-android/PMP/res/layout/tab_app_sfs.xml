@@ -32,7 +32,6 @@
         android:id="@+id/Button_Close"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:visibility="gone"
         android:text="@string/app_sf_back_to_the_app" />
 
