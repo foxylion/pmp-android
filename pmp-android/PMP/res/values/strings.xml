@@ -135,6 +135,8 @@
 	<string name="rg_confirm_remove">Confirm removing Resource</string>
 	<string name="rg_confirm_description">The Resource \'%1$s\' is going to be removed. If you confirm this all stored informations of the Resource will be deleted.</string>
     <string name="rgs_installed_no_rgs">Currently there are no Resources installed. Install a Resource over the \'Available\'-tab to fill the list.</string>
+    <string name="install_progress_overall">Overall progress</string>
+    <string name="install_progress_task">Progress of current task</string>
 	
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>

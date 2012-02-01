@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="-5dp"
             android:layout_marginTop="5dp"
-            android:text="Overall progress"
+            android:text="@string/install_progress_overall"
             android:textStyle="bold" />
 
         <include layout="@layout/view_divider_light" />
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="-5dp"
         android:layout_marginTop="5dp"
-        android:text="Progress of current task"
+        android:text="@string/install_progress_task"
         android:textStyle="bold" />
 
     <include layout="@layout/view_divider_light" />
