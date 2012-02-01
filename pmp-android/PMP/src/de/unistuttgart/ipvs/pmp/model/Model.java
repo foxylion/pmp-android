@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -74,6 +76,12 @@ public class Model implements IModel, Observer {
     private ModelCache cache;
     
     /**
+     * Security-mechanism against using the same dex class loader twice for the same dexs, producing a SIGBUS.
+     * Do not persist this, a restart should clear the list since it fixes the issue.
+     */
+    private Set<String> unallowedInstall;
+    
+    /**
      * Singleton stuff
      */
     private static final Model instance = new Model();
@@ -81,6 +89,7 @@ public class Model implements IModel, Observer {
     
     private Model() {
         this.cache = null;
+        this.unallowedInstall = new HashSet<String>();
         PersistenceProvider.getInstance().addObserver(this);
     }
     
@@ -270,6 +279,9 @@ public class Model implements IModel, Observer {
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         Assert.isNull(getResourceGroup(rgPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "rgPackage",
                 rgPackage));
+        if (this.unallowedInstall.contains(rgPackage)) {
+            throw new ModelMisuseError(Assert.ILLEGAL_SIGBUS_INSTALL, "rgPackage", rgPackage);
+        }
         
         try {
             
@@ -397,6 +409,7 @@ public class Model implements IModel, Observer {
             rg.delete();
             // delete the class files / apk / etc
             PluginProvider.getInstance().uninstall(rgPackage);
+            this.unallowedInstall.add(rgPackage);
             this.cache.getResourceGroups().remove(rgPackage);
             
             IPCProvider.getInstance().startUpdate();
