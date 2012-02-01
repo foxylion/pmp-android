@@ -102,7 +102,7 @@
      inkscape:cx="659.74432"
      inkscape:cy="330.74527"
      inkscape:document-units="px"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1680"
      inkscape:window-height="994"
@@ -125,7 +125,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -352,22 +352,7 @@
          style="font-size:39.99996948px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;display:inline;font-family:Bauhaus 93;-inkscape-font-specification:Bauhaus 93"
          xml:space="preserve"><tspan
            style="font-size:11.99999142px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="133.79977"
-           x="657.11047"
-           sodipodi:role="line"
-           id="tspan2946">X</tspan><tspan
-           id="tspan2948"
-           style="font-size:11.99999142px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="148.79976"
-           x="657.11047"
-           sodipodi:role="line" /><tspan
-           style="font-size:11.99999142px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
            y="163.79976"
-           x="657.11047"
-           sodipodi:role="line"
-           id="tspan2993" /><tspan
-           style="font-size:11.99999142px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="178.79974"
            x="657.11047"
            sodipodi:role="line"
            id="tspan2950">X</tspan></text>
