@@ -22,13 +22,13 @@
     <string name="clear_trash_bin">Clear trash bin</string>
     <string name="confirm">Confirm</string>
     <string name="database">Database</string>
-    <string name="delete_preset_permanently">Delete Preset permanently</string>
-    <string name="delete_preset_trash_bin">Delete Preset (trash bin)</string>
+    <string name="delete_preset_permanently">Delete Preset</string>
+    <string name="delete_preset_trash_bin">Trash Preset</string>
     <string name="description">Description</string>
     <string name="details">Details</string>
     <string name="disable">Disable</string>
     <string name="edit_deleted_preset">Edit deleted Preset</string>
-    <string name="edit_name_and_description">Edit name and description</string>
+    <string name="edit_name_and_description">Edit details</string>
     <string name="edit_preset">Edit Preset</string>
     <string name="enable">Enable</string>
     <string name="expert_mode">Expert Mode</string>
@@ -117,7 +117,7 @@
     <string name="missing_rgs_description">You have to install the missing Resources before you can use the Service Feature.</string>
     <string name="missing_rgs_show">Show missing Resources</string>
     <string name="button_one_click_install">1-Click\nInstall</string>
-    <string name="button_view_missing_rgs">View missing\nResourceGroups</string>
+    <string name="button_view_missing_rgs">View missing\nResources</string>
     <string name="button_create_new_preset">Create new\nPreset</string>
     <string name="button_add_to_preset">Add to\nPreset</string>
     <string name="app_sf_back_to_the_app">Done, back to the App.</string>

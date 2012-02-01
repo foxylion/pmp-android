@@ -1,10 +1,13 @@
 package de.unistuttgart.ipvs.pmp.gui.app;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
+import de.unistuttgart.ipvs.pmp.gui.preset.DialogPresetEdit;
+import de.unistuttgart.ipvs.pmp.gui.preset.DialogPresetEditCallback;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -48,7 +53,7 @@ public class TabPresets extends Activity {
             tvDescriptionNormalMode.setVisibility(View.GONE);
             tvDescriptionExpertMode.setVisibility(View.VISIBLE);
             
-            initPresetList();
+            refresh();
         } else {
             tvDescriptionNormalMode.setVisibility(View.VISIBLE);
             tvDescriptionExpertMode.setVisibility(View.GONE);
@@ -56,8 +61,6 @@ public class TabPresets extends Activity {
     }
     
     
-    /* This is currently disabled, during non implemented functionality.
-     *
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -70,18 +73,38 @@ public class TabPresets extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_app_add_preset:
-                Toast.makeText(this, "Currently not implemented", Toast.LENGTH_LONG).show();
+                DialogPresetEditCallback callback = new DialogPresetEditCallback() {
+                    
+                    @Override
+                    public void refresh() {
+                    }
+                    
+                    
+                    @Override
+                    public void openPreset(IPreset preset) {
+                        preset.assignApp(TabPresets.this.app);
+                        TabPresets.this.refresh();
+                    }
+                };
+                DialogPresetEdit dialog = new DialogPresetEdit(TabPresets.this, callback, null);
+                dialog.show();
                 break;
         }
         return super.onMenuItemSelected(featureId, item);
     }
-    */
+    
     
     /**
      * Initiates the list of all assigned Presets.
      */
-    private void initPresetList() {
-        final List<IPreset> presetsList = Arrays.asList(this.app.getAssignedPresets());
+    private void refresh() {
+        final List<IPreset> presetsList = new ArrayList<IPreset>();
+        /* Only add undeleted presets to the list. */
+        for (IPreset preset : this.app.getAssignedPresets()) {
+            if (!preset.isDeleted()) {
+                presetsList.add(preset);
+            }
+        }
         
         AdapterPresets presetsAdapter = new AdapterPresets(getApplicationContext(), presetsList);
         

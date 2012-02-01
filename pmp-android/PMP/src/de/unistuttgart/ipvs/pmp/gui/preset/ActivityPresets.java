@@ -143,7 +143,6 @@ public class ActivityPresets extends Activity {
                  * Add a Preset
                  */
                 DialogPresetEdit dialog = new DialogPresetEdit(this, callback, null);
-                dialog.setTitle(R.string.add_preset);
                 dialog.show();
                 break;
             case R.id.presets_menu_show_trash_bin:

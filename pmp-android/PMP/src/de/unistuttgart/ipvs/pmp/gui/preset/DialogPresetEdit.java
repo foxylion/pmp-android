@@ -70,6 +70,10 @@ public class DialogPresetEdit extends Dialog {
         super(context);
         this.callback = callback;
         this.preset = preset;
+        
+        if (preset == null) {
+            setTitle(R.string.add_preset);
+        }
     }
     
     
