@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">Calendar</defaultName>
+		<name lang="en">Calendar</name>
 		<name lang="de">Kalender</name>
-		<defaultDescription lang="en">This App is used to test
+		<description lang="en">This App is used to test
 			the privacy management platform. It provides simple calendar
 			functionalities.
-		</defaultDescription>
+		</description>
 		<description lang="de">Die App wird verwendet um die Privacy
 			Manangement Platform zu testen. Sie stellt einfache Funktionalitäten
 			eines Kalenders zur Verfügung.
@@ -14,10 +14,10 @@
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="read">
-			<defaultName lang="en">Show entries</defaultName>
+			<name lang="en">Show entries</name>
 			<name lang="de">Termine anzeigen</name>
-			<defaultDescription lang="en">Calendar entries can be displayed.
-			</defaultDescription>
+			<description lang="en">Calendar entries can be displayed.
+			</description>
 			<description lang="de">Kalendereinträge können angezeigt werden.
 			</description>
 			<requiredResourceGroup
@@ -26,11 +26,11 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="write">
-			<defaultName lang="en">Create entries
-			</defaultName>
+			<name lang="en">Create entries
+			</name>
 			<name lang="de">Termine hinzufügen</name>
-			<defaultDescription lang="en">Calendar entries can be added or changed.
-			</defaultDescription>
+			<description lang="en">Calendar entries can be added or changed.
+			</description>
 			<description lang="de">Kalendereinträge können hinzugefügt oder bearbeitet werden.
 			</description>
 			<requiredResourceGroup
@@ -40,13 +40,13 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="send">
-			<defaultName lang="en">Send entries via email
-			</defaultName>
+			<name lang="en">Send entries via email
+			</name>
 			<name lang="de">Termine per E-Mail
 				versenden
 			</name>
-			<defaultDescription lang="en">Calendar entries can be sent via e-mail.
-			</defaultDescription>
+			<description lang="en">Calendar entries can be sent via e-mail.
+			</description>
 			<description lang="de">Kalendereinträge können per E-Mail versendet werden.
 			</description>
 			<requiredResourceGroup
@@ -55,12 +55,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="import">
-			<defaultName lang="en">Import entries
-			</defaultName>
+			<name lang="en">Import entries
+			</name>
 			<name lang="de">Termine importieren
 			</name>
-			<defaultDescription lang="en">Import calendar entries from the sd-card.
-			</defaultDescription>
+			<description lang="en">Import calendar entries from the sd-card.
+			</description>
 			<description lang="de">Kalendereinträge von der SD-Karte importieren.
 			</description>
 			<requiredResourceGroup
@@ -70,12 +70,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="export">
-			<defaultName lang="en">Export entries
-			</defaultName>
+			<name lang="en">Export entries
+			</name>
 			<name lang="de">Termine exportieren
 			</name>
-			<defaultDescription lang="en">Export calendar entries to the sd-card.
-			</defaultDescription>
+			<description lang="en">Export calendar entries to the sd-card.
+			</description>
 			<description lang="de">Kalendereinträge auf die SD-Karte exportieren.
 			</description>
 			<requiredResourceGroup
