@@ -205,6 +205,13 @@ public class DialogServiceFeature extends Dialog {
             public void onClick(View v) {
                 String[] missingResourceGroup = RGInstaller.getMissingResourceGroups(serviceFeature);
                 RGInstaller.installResourceGroups(getContext(), handler, missingResourceGroup);
+                
+                refresh();
+                
+                /* Update as well the list, because they should be now enabled or disabled instead of unavailable. */
+                if (DialogServiceFeature.this.serviceFeatureView != null) {
+                    DialogServiceFeature.this.serviceFeatureView.refresh();
+                }
             }
         });
         

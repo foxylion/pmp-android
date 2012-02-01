@@ -1,6 +1,9 @@
 package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.content.Context;
 import android.view.View;
@@ -25,6 +28,8 @@ public class AdapterServiceFeatures extends BaseAdapter {
      * List of all Service Features which should be displayed.
      */
     private List<IServiceFeature> serviceFeatures;
+    
+    private Map<IServiceFeature, ListItemServiceFeature> serviceFeatureViews = new HashMap<IServiceFeature, ListItemServiceFeature>();
     
     
     public AdapterServiceFeatures(Context context, List<IServiceFeature> serviceFeatures) {
@@ -55,8 +60,22 @@ public class AdapterServiceFeatures extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ListItemServiceFeature entryView = new ListItemServiceFeature(this.context, serviceFeature);
+        ListItemServiceFeature entryView = serviceFeatureViews.get(serviceFeature);
+        if (entryView == null) {
+            entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
+            serviceFeatureViews.put(serviceFeature, entryView);
+        }
         
         return entryView;
+    }
+    
+    
+    /**
+     * Refreshes all listed views.
+     */
+    public void refreshAllViews() {
+        for (Entry<IServiceFeature, ListItemServiceFeature> view : serviceFeatureViews.entrySet()) {
+            view.getValue().refresh(false);
+        }
     }
 }

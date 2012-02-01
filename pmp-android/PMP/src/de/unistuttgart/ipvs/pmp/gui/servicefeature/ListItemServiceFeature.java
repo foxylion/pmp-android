@@ -27,6 +27,8 @@ public class ListItemServiceFeature extends LinearLayout {
      */
     protected IServiceFeature serviceFeature;
     
+    protected AdapterServiceFeatures adapterServiceFeatures;
+    
     
     /**
      * Creates a new {@link ListItemServiceFeature}.
@@ -35,11 +37,15 @@ public class ListItemServiceFeature extends LinearLayout {
      *            The context of the {@link Activity} which creates this view
      * @param serviceFeature
      *            The corresponding {@link IServiceFeature}
+     * @param adapterServiceFeatures
+     *            Can be set to false it is not required to update all other Service Feature views on a change.
      */
-    public ListItemServiceFeature(Context context, IServiceFeature serviceFeature) {
+    public ListItemServiceFeature(Context context, IServiceFeature serviceFeature,
+            AdapterServiceFeatures adapterServiceFeatures) {
         super(context);
         
         this.serviceFeature = serviceFeature;
+        this.adapterServiceFeatures = adapterServiceFeatures;
         
         if (!isInEditMode()) {
             /* Not in edit mode, load the xml-layout. */
@@ -70,6 +76,18 @@ public class ListItemServiceFeature extends LinearLayout {
      * Informations are directly fetched from the model.
      */
     public void refresh() {
+        refresh(true);
+    }
+    
+    
+    /**
+     * Normally just use the method without a parameter.
+     * 
+     * @param recursive
+     *            If it is set to true, all other element in the List will be refreshed. If set to false, only this item
+     *            will be refreshed.
+     */
+    public void refresh(boolean recursive) {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
         CheckBox cb = (CheckBox) findViewById(R.id.CheckBox_SFState);
@@ -102,6 +120,11 @@ public class ListItemServiceFeature extends LinearLayout {
             } else {
                 setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
             }
+        }
+        
+        /* When the flag is set all other elements in the list will be also refreshed. */
+        if (recursive && adapterServiceFeatures != null) {
+            adapterServiceFeatures.refreshAllViews();
         }
     }
     
