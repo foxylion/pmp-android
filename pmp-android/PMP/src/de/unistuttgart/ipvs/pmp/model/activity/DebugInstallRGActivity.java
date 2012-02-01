@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -24,6 +25,7 @@ public class DebugInstallRGActivity extends Activity {
     
     private Handler handler;
     private Dialog dialog;
+    private ProgressDialog pd;
     
     
     @Override
@@ -40,7 +42,7 @@ public class DebugInstallRGActivity extends Activity {
         
         final String pkg = getIntent().getStringExtra("pkg");
         
-        ProgressDialog pd = new ProgressDialog(this);
+        pd = new ProgressDialog(this);
         pd.setTitle("Install Resource Group");
         pd.setMessage("Injecting '" + pkg + "'...");
         pd.setCancelable(false);
@@ -49,7 +51,15 @@ public class DebugInstallRGActivity extends Activity {
             @Override
             public Void run(Void... params) {
                 if (ModelProxy.get().getResourceGroup(pkg) != null) {
-                    ModelProxy.get().uninstallResourceGroup(pkg);
+                    final boolean result = ModelProxy.get().uninstallResourceGroup(pkg);
+                    handler.post(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            Toast.makeText(DebugInstallRGActivity.this,
+                                    "First removing RG... (rm-result: " + result + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 
                 try {
@@ -83,9 +93,10 @@ public class DebugInstallRGActivity extends Activity {
             @Override
             protected void onPostExecute(Void result) {
                 if (dialog == null) {
+                    pd.dismiss();
                     DebugInstallRGActivity.this.finish();
-                } else {
-                    dialog.dismiss();
+                    Toast.makeText(DebugInstallRGActivity.this, "Installed RG successfully.", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         };
@@ -122,7 +133,9 @@ public class DebugInstallRGActivity extends Activity {
                     
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        pd.dismiss();
                         dialog.dismiss();
+                        DebugInstallRGActivity.this.finish();
                     }
                 });
                 DebugInstallRGActivity.this.dialog = dialog.show();
