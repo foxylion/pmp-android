@@ -248,4 +248,14 @@ public interface IPreset extends IModelElement {
      *         to be available
      */
     public MissingApp[] getMissingApps();
+    
+    
+    /**
+     * Removes a {@link MissingApp} from the preset to make it available again.
+     * 
+     * @param missingApp
+     *            the app to remove
+     * @return true, if and only if the missing app was actually missing in this presets and the removal was successful
+     */
+    public boolean removeMissingApp(MissingApp missingApp);
 }
