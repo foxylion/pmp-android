@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.app;
+package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 
 import android.content.Context;
 import android.text.Html;
@@ -108,11 +108,12 @@ public class PrivacySettingView extends LinearLayout {
      * Adds the listeners to the GUI components.
      */
     private void addListener() {
+        setClickable(true);
         setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                // TODO GUI: Display the Description of the Privacy Setting in a new Dialog or so.
+                new PrivacySettingDialog(getContext(), privacySetting).show();
             }
         });
     }

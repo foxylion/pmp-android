@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.app;
+package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;

@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.app;
+package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 /**

@@ -22,6 +22,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -143,24 +144,7 @@ public class PresetPSsTab extends Activity {
         // Handle
         switch (item.getItemId()) {
             case 0:
-                /*
-                 * Show details of PS with an AlertDialog
-                 */
-                
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                alertDialog.setMessage(getString(R.string.description) + ":\n" + ps.getDescription() + "\n\n"
-                        + getString(R.string.resource_group) + ":\n" + ps.getResourceGroup().getName() + "\n\n"
-                        + getString(R.string.identifier) + ":\n" + ps.getIdentifier());
-                alertDialog.setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = alertDialog.create();
-                alert.setTitle(ps.getName());
-                alert.show();
+                new PrivacySettingDialog(this, ps).show();
                 
                 return true;
             case 1:

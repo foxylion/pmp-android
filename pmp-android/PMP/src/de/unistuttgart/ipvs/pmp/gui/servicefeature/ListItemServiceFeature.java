@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.app;
+package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
 import android.app.Activity;
 import android.content.Context;

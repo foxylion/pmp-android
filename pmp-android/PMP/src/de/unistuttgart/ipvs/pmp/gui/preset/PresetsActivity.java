@@ -362,17 +362,11 @@ public class PresetsActivity extends Activity {
      *            flag if the trash bin should be shown or not
      */
     private void showTrashBin(boolean flag) {
-        LinearLayout label = (LinearLayout) findViewById(R.id.Presets_Trash_Bin_Label);
-        ListView listView = (ListView) findViewById(R.id.ListView_Presets_Trash_Bin);
-        TextView emptyLabel = (TextView) findViewById(R.id.Presets_Text_View_Trash_Bin_Empty);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Presets_Trash_Bin);
         if (flag) {
-            label.setVisibility(LinearLayout.VISIBLE);
-            listView.setVisibility(ListView.VISIBLE);
-            emptyLabel.setVisibility(TextView.VISIBLE);
+            linearLayout.setVisibility(LinearLayout.VISIBLE);
         } else {
-            label.setVisibility(LinearLayout.GONE);
-            listView.setVisibility(ListView.GONE);
-            emptyLabel.setVisibility(TextView.GONE);
+            linearLayout.setVisibility(LinearLayout.GONE);
         }
     }
 }
