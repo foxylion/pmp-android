@@ -84,7 +84,7 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
+     inkscape:zoom="1.4142136"
      inkscape:cx="365.82283"
      inkscape:cy="369.63059"
      inkscape:document-units="px"
@@ -111,7 +111,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -239,7 +239,7 @@
            sodipodi:role="line"
            x="-67.962112"
            y="233.03009"
-           style="font-size:12px;font-weight:normal;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans">en</tspan></text>
+           style="font-size:12px;font-weight:bold;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold">en</tspan></text>
       <path
          id="path3006"
          d="m -36,618.70003 0,-474.49432"
@@ -351,21 +351,6 @@
          x="654.60938"
          style="font-size:40px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Bauhaus 93;-inkscape-font-specification:Bauhaus 93"
          xml:space="preserve"><tspan
-           style="font-size:12px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="188.03009"
-           x="654.60938"
-           sodipodi:role="line"
-           id="tspan3102">X</tspan><tspan
-           id="tspan3112"
-           style="font-size:12px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="203.03009"
-           x="654.60938"
-           sodipodi:role="line" /><tspan
-           id="tspan3116"
-           style="font-size:12px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
-           y="218.03009"
-           x="654.60938"
-           sodipodi:role="line" /><tspan
            id="tspan3118"
            style="font-size:12px;font-style:italic;font-weight:bold;fill:#ff0000;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans Bold Italic"
            y="233.03009"
