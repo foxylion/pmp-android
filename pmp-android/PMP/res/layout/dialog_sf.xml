@@ -80,28 +80,28 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="1-Click\nInstall" />
+            android:text="@string/button_one_click_install" />
 
         <Button
             android:id="@+id/Button_ViewMissingRGs"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="View missing\ResourceGroups" />
+            android:text="@string/button_view_missing_rgs" />
 
         <Button
             android:id="@+id/Button_CreateNewPreset"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Create new\nPreset" />
+            android:text="@string/button_create_new_preset" />
         
         <Button
             android:id="@+id/Button_AddToPreset"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Add to\nPreset" />
+            android:text="@string/button_add_to_preset" />
         
         <Button
             android:id="@+id/Button_EnableDisable"

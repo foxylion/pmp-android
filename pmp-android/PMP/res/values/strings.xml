@@ -114,6 +114,10 @@
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
     <string name="missing_rgs_description">You have to install the missing Resources before you can use the Service Feature.</string>
     <string name="missing_rgs_show">Show missing Resources</string>
+    <string name="button_one_click_install">1-Click\nInstall</string>
+    <string name="button_view_missing_rgs">View missing\ResourceGroups</string>
+    <string name="button_create_new_preset">Create new\nPreset</string>
+    <string name="button_add_to_preset">Add to\nPreset</string>
     <string name="app_sf_back_to_the_app">Done, back to the App.</string>
     <string name="add_sf_to_preset">Add Service Feature to Preset</string>
     <string name="add_sf_to_preset_description">Add on a Preset to add the Privacy Settings of the Service Feature to that Preset.</string>
