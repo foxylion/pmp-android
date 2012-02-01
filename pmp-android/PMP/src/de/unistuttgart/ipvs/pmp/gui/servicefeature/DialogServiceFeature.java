@@ -138,6 +138,9 @@ public class DialogServiceFeature extends Dialog {
         
         /* Select between available Service Feature and unavailable*/
         if (serviceFeature.isAvailable()) {
+            psContainer.setVisibility(View.VISIBLE);
+            rgContainer.setVisibility(View.GONE);
+            
             /* Select between expert mode and simple mode */
             if (PMPPreferences.getInstance().isExpertMode()) {
                 createNewPreset.setVisibility(View.VISIBLE);
@@ -146,6 +149,9 @@ public class DialogServiceFeature extends Dialog {
                 enableDisableButton.setVisibility(View.VISIBLE);
             }
         } else {
+            psContainer.setVisibility(View.GONE);
+            rgContainer.setVisibility(View.VISIBLE);
+            
             oneClickInstallRGs.setVisibility(View.VISIBLE);
             showMissingRGs.setVisibility(View.VISIBLE);
         }
@@ -223,13 +229,11 @@ public class DialogServiceFeature extends Dialog {
             
             @Override
             public void onClick(View v) {
-                IPreset preset = ModelProxy.get().addPreset(null, serviceFeature.getIdentifier(),
+                IPreset preset = ModelProxy.get().addUserPreset(
                         serviceFeature.getApp().getName() + " - " + serviceFeature.getName(), "");
                 preset.startUpdate();
                 preset.assignApp(serviceFeature.getApp());
-                for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
-                    preset.assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
-                }
+                preset.assignServiceFeature(serviceFeature);
                 preset.endUpdate();
                 
                 if (DialogServiceFeature.this.serviceFeatureView != null) {

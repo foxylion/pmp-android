@@ -16,7 +16,6 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.PresetsAdapter;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
-import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class DialogAddSFtoPreset extends Dialog {
@@ -50,12 +49,10 @@ public class DialogAddSFtoPreset extends Dialog {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 /* Update the selected Preset */
                 IPreset preset = presets.get(position);
-                IServiceFeature sf = dialog.getServiceFeature();
+                IServiceFeature serviceFeature = dialog.getServiceFeature();
                 preset.startUpdate();
-                preset.assignApp(sf.getApp());
-                for (IPrivacySetting ps : sf.getRequiredPrivacySettings()) {
-                    preset.assignPrivacySetting(ps, sf.getRequiredPrivacySettingValue(ps));
-                }
+                preset.assignApp(serviceFeature.getApp());
+                preset.assignServiceFeature(serviceFeature);
                 preset.endUpdate();
                 
                 /* Close the Dialog and close the underlying one as well */

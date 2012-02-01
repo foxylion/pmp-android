@@ -9,6 +9,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.TwoRowProgressBar;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
@@ -16,6 +17,17 @@ import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 
 public class RGInstaller {
+    
+    public static String[] getMissingResourceGroups(IPreset preset) {
+        List<String> missingRGs = new ArrayList<String>();
+        for (MissingPrivacySettingValue ps : preset.getMissingPrivacySettings()) {
+            if (!missingRGs.contains(ps.getResourceGroup())) {
+                missingRGs.add(ps.getResourceGroup());
+            }
+        }
+        return missingRGs.toArray(new String[missingRGs.size()]);
+    }
+    
     
     public static String[] getMissingResourceGroups(IServiceFeature serviceFeature) {
         List<String> missingRGs = new ArrayList<String>();
