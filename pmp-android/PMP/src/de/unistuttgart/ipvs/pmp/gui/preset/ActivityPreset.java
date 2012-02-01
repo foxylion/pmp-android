@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
@@ -22,7 +21,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * @author Marcus Vetter
  * 
  */
-public class PresetActivity extends Activity {
+public class ActivityPreset extends Activity {
     
     /**
      * The preset instance
@@ -34,7 +33,6 @@ public class PresetActivity extends Activity {
      */
     private LocalActivityManager lam;
     private TabHost mTabHost;
-    private int currentTab = 0;
     
     /**
      * The {@link ActivityKillReceiver}.
@@ -62,13 +60,7 @@ public class PresetActivity extends Activity {
         
         setupTabs();
         
-        // Set up title view
-        BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
-        
-        title.setTitle(this.preset.getName());
-        title.setIcon(R.drawable.icon_presets);
-        
-        updateDescriptionVisibility();
+        refresh();
         
         /* Initiating the ActivityKillReceiver. */
         this.akr = new ActivityKillReceiver(this);
@@ -80,10 +72,13 @@ public class PresetActivity extends Activity {
         super.onResume();
         
         this.lam.dispatchResume();
-        
-        this.mTabHost.setCurrentTab(this.currentTab);
-        
-        updateDescriptionVisibility();
+    }
+    
+    
+    public void refresh() {
+        // Set up title view
+        BasicTitleView title = (BasicTitleView) findViewById(R.id.activity_title);
+        title.setTitle(this.preset.getName());
     }
     
     
@@ -92,8 +87,6 @@ public class PresetActivity extends Activity {
         super.onPause();
         
         this.lam.dispatchPause(isFinishing());
-        
-        this.currentTab = this.mTabHost.getCurrentTab();
     }
     
     
@@ -108,58 +101,56 @@ public class PresetActivity extends Activity {
     
     
     /**
-     * Update the visibility of the description TextView and the strong divider.
-     * If no description of the Preset is available, set those elements invisible (gone).
-     */
-    private void updateDescriptionVisibility() {
-        // Set up description of the Preset
-        TextView descr = (TextView) findViewById(R.id.TextView_Preset_Description);
-        View divider = findViewById(R.id.View_Divider_Strong);
-        if (!this.preset.getDescription().equals("")) {
-            descr.setText(this.preset.getDescription());
-            descr.setVisibility(View.VISIBLE);
-            divider.setVisibility(View.VISIBLE);
-        } else {
-            descr.setVisibility(View.GONE);
-            divider.setVisibility(View.GONE);
-        }
-    }
-    
-    
-    /**
      * Set up all tabs
      */
     private void setupTabs() {
         /* Assigned Apps Tab */
-        TabSpec assignedApps = this.mTabHost.newTabSpec("tab_assigned_apps");
-        assignedApps.setIndicator(getString(R.string.assigned_apps));
+        TabSpec details = this.mTabHost.newTabSpec("tab_details");
+        details.setIndicator(getString(R.string.details));
         
         // Create an Intent to start the inner activity
-        Intent intentAssignedApps = new Intent(this, PresetAppsTab.class);
-        intentAssignedApps.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
+        Intent intentDetails = new Intent(this, TabDetails.class);
+        intentDetails.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
         
-        assignedApps.setContent(intentAssignedApps);
-        this.mTabHost.addTab(assignedApps);
+        details.setContent(intentDetails);
+        this.mTabHost.addTab(details);
         
         // Change the preferred size of the Tab-header
-        View tab1 = this.mTabHost.getTabWidget().getChildAt(0);
-        LayoutParams lp = tab1.getLayoutParams();
+        View tab0 = this.mTabHost.getTabWidget().getChildAt(0);
+        LayoutParams lp = tab0.getLayoutParams();
+        lp.width = LayoutParams.WRAP_CONTENT;
+        tab0.setLayoutParams(lp);
+        
+        /* Assigned Apps Tab */
+        TabSpec apps = this.mTabHost.newTabSpec("tab_apps");
+        apps.setIndicator(getString(R.string.apps));
+        
+        // Create an Intent to start the inner activity
+        Intent intentApps = new Intent(this, TabApps.class);
+        intentApps.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
+        
+        apps.setContent(intentApps);
+        this.mTabHost.addTab(apps);
+        
+        // Change the preferred size of the Tab-header
+        View tab1 = this.mTabHost.getTabWidget().getChildAt(1);
+        lp = tab1.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab1.setLayoutParams(lp);
         
         /* Assigned Privacy Settings Tab */
-        TabSpec pss = this.mTabHost.newTabSpec("tab_assigned_pss");
-        pss.setIndicator(getString(R.string.assigned_privacy_settings));
+        TabSpec privacySettings = this.mTabHost.newTabSpec("tab_privacy_settings");
+        privacySettings.setIndicator(getString(R.string.privacy_settings));
         
         // Create an Intent to start the inner activity
-        Intent intentPss = new Intent(this, PresetPSsTab.class);
-        intentPss.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
+        Intent intentPrivacySettings = new Intent(this, TabPrivacySettings.class);
+        intentPrivacySettings.putExtra(GUIConstants.PRESET_IDENTIFIER, this.preset.getLocalIdentifier());
         
-        pss.setContent(intentPss);
-        this.mTabHost.addTab(pss);
+        privacySettings.setContent(intentPrivacySettings);
+        this.mTabHost.addTab(privacySettings);
         
         // Change the preferred size of the Tab-header
-        View tab2 = this.mTabHost.getTabWidget().getChildAt(1);
+        View tab2 = this.mTabHost.getTabWidget().getChildAt(2);
         lp = tab2.getLayoutParams();
         lp.width = LayoutParams.WRAP_CONTENT;
         tab2.setLayoutParams(lp);

@@ -11,14 +11,14 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
-public class PresetConfirmRemovePSDialog extends Dialog {
+public class DialogConfirmRemovePrivacySetting extends Dialog {
     
     private IPrivacySetting privacySetting;
-    private PresetPSsTab presetPSsTab;
+    private TabPrivacySettings presetPSsTab;
     
     
-    public PresetConfirmRemovePSDialog(Context context, IPreset preset, IPrivacySetting privacySetting,
-            PresetPSsTab presetPSsTab) {
+    public DialogConfirmRemovePrivacySetting(Context context, IPreset preset, IPrivacySetting privacySetting,
+            TabPrivacySettings presetPSsTab) {
         super(context);
         
         this.privacySetting = privacySetting;
@@ -42,14 +42,14 @@ public class PresetConfirmRemovePSDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                PresetConfirmRemovePSDialog.this.presetPSsTab
-                        .removePrivacySetting(PresetConfirmRemovePSDialog.this.privacySetting);
+                DialogConfirmRemovePrivacySetting.this.presetPSsTab
+                        .removePrivacySetting(DialogConfirmRemovePrivacySetting.this.privacySetting);
                 
-                Toast.makeText(PresetConfirmRemovePSDialog.this.getContext(),
-                        PresetConfirmRemovePSDialog.this.getContext().getString(R.string.preset_removed_ps_success),
+                Toast.makeText(DialogConfirmRemovePrivacySetting.this.getContext(),
+                        DialogConfirmRemovePrivacySetting.this.getContext().getString(R.string.preset_removed_ps_success),
                         Toast.LENGTH_LONG).show();
                 
-                PresetConfirmRemovePSDialog.this.dismiss();
+                DialogConfirmRemovePrivacySetting.this.dismiss();
             }
         });
         
@@ -58,7 +58,7 @@ public class PresetConfirmRemovePSDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                PresetConfirmRemovePSDialog.this.dismiss();
+                DialogConfirmRemovePrivacySetting.this.dismiss();
             }
         });
     }

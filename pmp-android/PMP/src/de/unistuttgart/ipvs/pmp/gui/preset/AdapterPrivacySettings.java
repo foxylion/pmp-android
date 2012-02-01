@@ -15,45 +15,44 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 /**
- * The {@link PresetAssignPSsAdapter} is the list of Privacy Settings in the {@link PresetAssignAppsDialog}.
+ * The {@link AdapterPrivacySettings} is the list of Privacy Settings in the {@link PresetPSsTabTab}.
  * 
  * @author Marcus Vetter
  */
-public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
+public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     
     /**
-     * Context of the {@link PresetAssignAppsDialog}
+     * Context of the {@link TabPrivacySettings}
      */
     private Context context;
     
     /**
-     * List of all ResourceGroups
+     * The Preset
      */
-    private ArrayList<IResourceGroup> rgList;
+    private IPreset preset;
+    
+    /**
+     * List of all assigned ResourceGroups
+     */
+    private ArrayList<IResourceGroup> rgList = new ArrayList<IResourceGroup>();
     
     /**
      * List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
-    private ArrayList<ArrayList<IPrivacySetting>> psList;
+    private ArrayList<ArrayList<IPrivacySetting>> psList = new ArrayList<ArrayList<IPrivacySetting>>();
     
     
     /**
      * Constructor to setup parameter
      * 
      * @param context
-     *            context of the {@link PresetAssignAppsDialog}
+     *            context of the {@link TabPrivacySettings}
      * @param preset
      *            the Preset
-     * @param rgList
-     *            List of all ResourceGroups
-     * @param psList
-     *            List of Lists of all Privacy Settings (all ResourceGroups with their Privacy Settings)
      */
-    public PresetAssignPSsAdapter(Context context, IPreset preset, ArrayList<IResourceGroup> rgList,
-            ArrayList<ArrayList<IPrivacySetting>> psList) {
+    public AdapterPrivacySettings(Context context, IPreset preset) {
         this.context = context;
-        this.rgList = rgList;
-        this.psList = psList;
+        this.preset = preset;
     }
     
     
@@ -78,14 +77,14 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
         
         // Inflate the layout
         LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View entryView = infalInflater.inflate(R.layout.listitem_preset_assign_ps, null);
+        View entryView = infalInflater.inflate(R.layout.listitem_preset_ps, null);
         
-        // Set name and description of one Privacy Setting
+        // Set name and value of one Privacy Setting
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name_PS);
         name.setText(ps.getName());
         
-        TextView descr = (TextView) entryView.findViewById(R.id.TextView_Description);
-        descr.setText(ps.getDescription());
+        TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
+        value.setText(this.context.getString(R.string.value) + ": " + this.preset.getGrantedPrivacySettingValue(ps));
         
         return entryView;
     }
@@ -151,6 +150,28 @@ public class PresetAssignPSsAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean areAllItemsEnabled() {
         return true;
+    }
+    
+    
+    /**
+     * Set the ResourceGroupList for the adapter
+     * 
+     * @param rgList
+     *            the ResourceGroupList
+     */
+    public void setRgList(ArrayList<IResourceGroup> rgList) {
+        this.rgList = rgList;
+    }
+    
+    
+    /**
+     * Set the ResourceGroupList with a list of their Privacy Settings
+     * 
+     * @param psList
+     *            list with ResourceGroups and their Privacy Settings
+     */
+    public void setPsList(ArrayList<ArrayList<IPrivacySetting>> psList) {
+        this.psList = psList;
     }
     
 }

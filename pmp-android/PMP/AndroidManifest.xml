@@ -4,7 +4,91 @@
 	android:versionName="1.0">
 
 	<uses-sdk android:minSdkVersion="7" />
+	
+	<!-- The android:name ensures that the Application is loaded properly -->
+	<application android:name=".PMPApplication" android:icon="@drawable/icon"
+		android:label="@string/pmp">
 
+		<!-- Activities can be declared here -->
+		<activity android:name=".gui.main.ActivityMain" android:icon="@drawable/icon"
+			android:label="PMP" android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".gui.main.ActivityAbout"
+			android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.settings.ActivitySettings"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.app.ActivityApps"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.app.ActivityApp"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.preset.ActivityPresets"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.preset.ActivityPreset"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".gui.resourcegroup.ActivityResourceGroups"
+			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
+
+		<!-- Tabs -->
+		<activity android:name=".gui.app.TabDetails" />
+		<activity android:name=".gui.app.TabPresets" />
+		<activity android:name=".gui.app.TabServiceFeatures" />
+		<activity android:name=".gui.preset.TabDetails" />
+		<activity android:name=".gui.preset.TabApps" />
+		<activity android:name=".gui.preset.TabPrivacySettings" />
+		<activity android:name=".gui.resourcegroup.TabAvailable" />
+		<activity android:name=".gui.resourcegroup.TabInstalled" />
+
+		<!-- Developer Console -->
+		<activity android:name=".model.activity.PMPDeveloperConsoleActivity"
+			android:icon="@drawable/icon_dev_console" android:label="PMP Dev Console">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<!-- Debug RG installer -->
+		<activity android:name=".model.activity.DebugInstallRGActivity" />
+
+		<!-- // end of Activity declaration -->
+
+
+		<!-- Broadcast Receivers -->
+		<receiver android:name=".util.UninstallReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_REMOVED" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="package" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".util.InstallReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.PACKAGE_ADDED" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="package" />
+			</intent-filter>
+		</receiver>
+
+
+		<!-- The PMPService can be loaded by using the intent action name declared 
+			3 lines below. -->
+		<service android:name=".service.PMPService" android:exported="true">
+			<intent-filter>
+				<action android:name="de.unistuttgart.ipvs.pmp.service.PMPService">
+				</action>
+			</intent-filter>
+		</service>
+	</application>
+
+	<!-- Used permissions -->
 	<uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -80,7 +164,7 @@
 	<uses-permission android:name="android.permission.SET_ALWAYS_FINISH" />
 	<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
 	<uses-permission android:name="android.permission.SET_DEBUG_APP" />
-	<uses-permission android:name="android.permission.SET_ORIENTATION" />
+	<uses-permission android:name="andro.gui.preset.TabPrivacySettingsORIENTATION" />
 	<uses-permission android:name="android.permission.SET_PROCESS_LIMIT" />
 	<uses-permission android:name="android.permission.SET_TIME_ZONE" />
 	<uses-permission android:name="android.permission.SET_WALLPAPER" />
@@ -104,90 +188,4 @@
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_SMS" />
 	<uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-
-	<!-- The android:name ensures that the Application is loaded properly -->
-	<application android:name=".PMPApplication" android:icon="@drawable/icon"
-		android:label="@string/pmp">
-
-		<!-- Activities can be declared here -->
-		<activity android:name=".gui.main.ActivityMain" android:icon="@drawable/icon"
-			android:label="PMP" android:theme="@android:style/Theme.NoTitleBar">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".gui.main.ActivityAbout"
-			android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.settings.ActivitySettings"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.app.ActivityApps"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.app.ActivityApp"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.preset.PresetsActivity"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.preset.PresetActivity"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.resourcegroup.ActivityRGs"
-			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
-
-		<!-- Tabs -->
-		<activity android:name=".gui.app.TabDetails" />
-		<activity android:name=".gui.app.TabPresets" />
-		<activity android:name=".gui.app.TabServiceFeatures" />
-		<activity android:name=".gui.preset.PresetAppsTab" />
-		<activity android:name=".gui.preset.PresetPSsTab" />
-		<activity android:name=".gui.resourcegroup.TabRGsAvailable" />
-		<activity android:name=".gui.resourcegroup.TabRGsInstalled" />
-
-		<!-- Developer Console -->
-		<activity android:name=".model.activity.PMPDeveloperConsoleActivity"
-			android:icon="@drawable/icon_dev_console" android:label="PMP Dev Console">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<action android:name="android.intent.action.MAIN" />
-
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		
-		<!-- Debug RG installer -->
-		<activity android:name=".model.activity.DebugInstallRGActivity" />
-		
-		<!-- END of the OLD Activities for the OLD gui -->
-
-
-		<!-- // end of Activity declaration -->
-
-
-		<!-- Broadcast Receivers -->
-		<receiver android:name=".util.UninstallReceiver">
-			<intent-filter>
-				<action android:name="android.intent.action.PACKAGE_REMOVED" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="package" />
-			</intent-filter>
-		</receiver>
-		
-		<receiver android:name=".util.InstallReceiver">
-			<intent-filter>
-				<action android:name="android.intent.action.PACKAGE_ADDED" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="package" />
-			</intent-filter>
-		</receiver>
-
-
-		<!-- The PMPService can be loaded by using the intent action name declared 
-			3 lines below. -->
-		<service android:name=".service.PMPService" android:exported="true">
-			<intent-filter>
-				<action android:name="de.unistuttgart.ipvs.pmp.service.PMPService">
-				</action>
-			</intent-filter>
-		</service>
-	</application>
-
 </manifest>

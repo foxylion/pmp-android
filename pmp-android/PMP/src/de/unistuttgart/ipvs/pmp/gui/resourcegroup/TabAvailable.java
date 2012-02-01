@@ -23,11 +23,11 @@ import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
- * The {@link TabRGsAvailable} contains all available Resourcegroups.
+ * The {@link TabAvailable} contains all available Resourcegroups.
  * 
  * @author Jakob Jarosch
  */
-public class TabRGsAvailable extends Activity {
+public class TabAvailable extends Activity {
     
     /**
      * ProgressBar displays the progress of updating the list of available Resourcegroups.
@@ -57,9 +57,9 @@ public class TabRGsAvailable extends Activity {
     private ListView rgisViewList;
     
     /**
-     * {@link AdapterRGsAvailable} for displaying the rgisList.
+     * {@link AdapterAvailable} for displaying the rgisList.
      */
-    protected AdapterRGsAvailable rgisAdapter;
+    protected AdapterAvailable rgisAdapter;
     
     /**
      * Filter which should be used for filtering the available RGs.
@@ -125,8 +125,8 @@ public class TabRGsAvailable extends Activity {
                     
                     @Override
                     public void tasks(int position, int length) {
-                        TabRGsAvailable.this.updateTaskProgressBar.setMax(length);
-                        TabRGsAvailable.this.updateTaskProgressBar.setProgress(position);
+                        TabAvailable.this.updateTaskProgressBar.setMax(length);
+                        TabAvailable.this.updateTaskProgressBar.setProgress(position);
                     }
                     
                     
@@ -168,7 +168,7 @@ public class TabRGsAvailable extends Activity {
             
             this.rgisList = Arrays.asList(informationSets);
             
-            this.rgisViewList.setAdapter(new AdapterRGsAvailable(this, this.rgisList));
+            this.rgisViewList.setAdapter(new AdapterAvailable(this, this.rgisList));
             
         } else {
             this.updateFailedContainer.setVisibility(View.VISIBLE);
@@ -184,7 +184,7 @@ public class TabRGsAvailable extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                new DialogRGAvailableDetails(TabRGsAvailable.this, TabRGsAvailable.this.rgisList.get(item)).show();
+                new DialogAvailableDetails(TabAvailable.this, TabAvailable.this.rgisList.get(item)).show();
             }
         });
     }

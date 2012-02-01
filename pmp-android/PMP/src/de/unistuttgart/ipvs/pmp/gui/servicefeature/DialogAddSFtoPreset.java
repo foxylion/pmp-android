@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.preset.PresetsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -40,7 +40,7 @@ public class DialogAddSFtoPreset extends Dialog {
         if (ModelProxy.get().getPresets().length == 0) {
             ((TextView) findViewById(R.id.Presets_Text_View_No_Presets_Existing)).setVisibility(View.VISIBLE);
         } else {
-            lv.setAdapter(new PresetsAdapter(context, presets));
+            lv.setAdapter(new AdapterPresets(context, presets));
         }
         
         lv.setOnItemClickListener(new OnItemClickListener() {

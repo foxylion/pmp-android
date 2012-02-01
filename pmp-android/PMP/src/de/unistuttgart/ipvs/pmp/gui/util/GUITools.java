@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApp;
-import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityRGs;
-import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabRGsAvailable;
+import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
+import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabAvailable;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.util.StringUtil;
@@ -104,13 +104,13 @@ public class GUITools {
     
     
     /**
-     * Opens the {@link TabRGsAvailable} tab and views all the listed Resourcegroups.
+     * Opens the {@link TabAvailable} tab and views all the listed Resourcegroups.
      * 
      * @param filteredRGIdentifiers
      *            Only the given Resourcegroups will be displayed.
      */
     public static Intent createFilterAvailableRGsIntent(String[] filteredRGIdentifiers) {
-        Intent intent = new Intent(PMPApplication.getContext(), ActivityRGs.class);
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityResourceGroups.class);
         intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.FILTER_AVAILABLE_RGS);
         intent.putExtra(GUIConstants.RGS_FILTER, StringUtil.join(",", filteredRGIdentifiers));
         

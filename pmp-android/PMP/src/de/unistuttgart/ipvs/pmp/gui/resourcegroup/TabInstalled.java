@@ -15,11 +15,11 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 /**
- * The {@link TabRGsInstalled} contains all installed Resourcegroups.
+ * The {@link TabInstalled} contains all installed Resourcegroups.
  * 
  * @author Jakob Jarosch
  */
-public class TabRGsInstalled extends Activity {
+public class TabInstalled extends Activity {
     
     /**
      * List of all installed Resourcegroups.
@@ -58,7 +58,7 @@ public class TabRGsInstalled extends Activity {
      */
     public void refreshList() {
         this.resourceGroups = Arrays.asList(ModelProxy.get().getResourceGroups());
-        AdapterRGsInstalled rgsAdapter = new AdapterRGsInstalled(this, this.resourceGroups);
+        AdapterInstalled rgsAdapter = new AdapterInstalled(this, this.resourceGroups);
         
         this.installedRgsListView.setAdapter(rgsAdapter);
         
@@ -80,8 +80,8 @@ public class TabRGsInstalled extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                new DialogRGInstalledDetails(TabRGsInstalled.this, TabRGsInstalled.this,
-                        TabRGsInstalled.this.resourceGroups.get(item)).show();
+                new DialogInstalledDetails(TabInstalled.this, TabInstalled.this,
+                        TabInstalled.this.resourceGroups.get(item)).show();
             }
         });
     }

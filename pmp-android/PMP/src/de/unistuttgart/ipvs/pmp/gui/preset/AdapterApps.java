@@ -14,17 +14,17 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 /**
- * The {@link PresetAppsAdapter} is the list of Apps in the {@link PresetAppsTab}.
+ * The {@link AdapterApps} is the list of Apps in the {@link TabApps}.
  * 
  * @author Marcus Vetter
  */
-public class PresetAppsAdapter extends BaseAdapter {
+public class AdapterApps extends BaseAdapter {
     
     private Context context;
     private List<IApp> apps;
     
     
-    public PresetAppsAdapter(Context context, List<IApp> apps) {
+    public AdapterApps(Context context, List<IApp> apps) {
         this.context = context;
         this.apps = apps;
     }

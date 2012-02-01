@@ -15,11 +15,11 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
- * The {@link RgAvailableAdapter} is the list of available Resourcegroups in the {@link TabRGsAvailable}.
+ * The {@link RgAvailableAdapter} is the list of available Resourcegroups in the {@link TabAvailable}.
  * 
  * @author Jakob Jarosch
  */
-public class AdapterRGsAvailable extends BaseAdapter {
+public class AdapterAvailable extends BaseAdapter {
     
     /**
      * {@link Context} which is used to create the Views of each Resource Groups.
@@ -32,7 +32,7 @@ public class AdapterRGsAvailable extends BaseAdapter {
     private List<RgInformationSet> rgs;
     
     
-    public AdapterRGsAvailable(Context context, List<RgInformationSet> rgs) {
+    public AdapterAvailable(Context context, List<RgInformationSet> rgs) {
         this.context = context;
         this.rgs = rgs;
     }

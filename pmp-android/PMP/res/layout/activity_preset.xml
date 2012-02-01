@@ -9,16 +9,10 @@
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         android:id="@+id/activity_title"
+        pmp:icon="@drawable/icon_presets"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         pmp:backButton="true" />
-
-    <TextView
-        android:id="@+id/TextView_Preset_Description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <include layout="@layout/view_divider_strong" />
 
     <TabHost
         android:id="@android:id/tabhost"

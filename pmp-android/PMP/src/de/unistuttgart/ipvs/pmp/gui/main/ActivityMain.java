@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
-import de.unistuttgart.ipvs.pmp.gui.preset.PresetsActivity;
-import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityRGs;
+import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPresets;
+import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
 import de.unistuttgart.ipvs.pmp.gui.settings.ActivitySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton;
@@ -120,7 +120,7 @@ public class ActivityMain extends Activity {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMain.this, ActivityRGs.class);
+                Intent intent = new Intent(ActivityMain.this, ActivityResourceGroups.class);
                 ActivityMain.this.startActivity(intent);
             }
         });
@@ -130,7 +130,7 @@ public class ActivityMain extends Activity {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMain.this, PresetsActivity.class);
+                Intent intent = new Intent(ActivityMain.this, ActivityPresets.class);
                 ActivityMain.this.startActivity(intent);
             }
         });

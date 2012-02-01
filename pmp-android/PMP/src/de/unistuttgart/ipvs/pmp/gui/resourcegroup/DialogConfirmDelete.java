@@ -15,11 +15,11 @@ public class DialogConfirmDelete extends Dialog {
     
     private IResourceGroup resourceGroup;
     private Dialog installedDetails;
-    private TabRGsInstalled installedTab;
+    private TabInstalled installedTab;
     
     
     public DialogConfirmDelete(Context context, IResourceGroup resourceGroup, Dialog installedDetails,
-            TabRGsInstalled installedTab) {
+            TabInstalled installedTab) {
         super(context);
         
         this.resourceGroup = resourceGroup;

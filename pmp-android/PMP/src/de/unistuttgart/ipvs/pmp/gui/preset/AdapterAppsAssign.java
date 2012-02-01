@@ -11,11 +11,11 @@ import android.widget.BaseAdapter;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 /**
- * The {@link PresetAssignAppsAdapter} is the list of Apps, which can be assigned in the {@link PresetAssignAppsDialog}.
+ * The {@link AdapterAppsAssign} is the list of Apps, which can be assigned in the {@link DialogAppsAssign}.
  * 
  * @author Marcus Vetter
  */
-public class PresetAssignAppsAdapter extends BaseAdapter {
+public class AdapterAppsAssign extends BaseAdapter {
     
     private Context context;
     private List<IApp> apps;
@@ -23,7 +23,7 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
     private Map<IApp, Boolean> checkBoxMap = new HashMap<IApp, Boolean>();
     
     
-    public PresetAssignAppsAdapter(Context context, List<IApp> apps) {
+    public AdapterAppsAssign(Context context, List<IApp> apps) {
         this.context = context;
         this.apps = apps;
         
@@ -56,7 +56,7 @@ public class PresetAssignAppsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         
         IApp app = this.apps.get(position);
-        PresetAssignAppsView entryView = new PresetAssignAppsView(this.context, app, this);
+        ViewAppsAssign entryView = new ViewAppsAssign(this.context, app, this);
         
         return entryView;
     }

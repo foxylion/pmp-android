@@ -18,7 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * 
  * @author Marcus Vetter
  */
-public class PresetAddEditDialog extends Dialog {
+public class DialogPresetEdit extends Dialog {
     
     /**
      * The TextView with the name
@@ -41,9 +41,9 @@ public class PresetAddEditDialog extends Dialog {
     private Button cancel;
     
     /**
-     * The PresetsActivity
+     * The Callback instance
      */
-    protected PresetsActivity activity;
+    protected DialogPresetEditCallback callback;
     
     /**
      * The Preset, if this dialog is used to modify the name and description of a Preset
@@ -66,9 +66,9 @@ public class PresetAddEditDialog extends Dialog {
      *            if it's null, an empty dialog will be created (add a new Preset); if it's not null, a dialog with
      *            prefilled text areas will be created (edit a Preset)
      */
-    public PresetAddEditDialog(Context context, PresetsActivity activity, IPreset preset) {
+    public DialogPresetEdit(Context context, DialogPresetEditCallback callback, IPreset preset) {
         super(context);
-        this.activity = activity;
+        this.callback = callback;
         this.preset = preset;
     }
     
@@ -121,9 +121,9 @@ public class PresetAddEditDialog extends Dialog {
         
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            TextView nameField = PresetAddEditDialog.this.name;
+            TextView nameField = DialogPresetEdit.this.name;
             String nameText = String.valueOf(nameField.getText());
-            String defaultName = PresetAddEditDialog.this.defaultName;
+            String defaultName = DialogPresetEdit.this.defaultName;
             
             /* 
              * Clear the name text field, if the text field equals the default name and has the focus,
@@ -144,9 +144,9 @@ public class PresetAddEditDialog extends Dialog {
         
         @Override
         public void onClick(View v) {
-            TextView nameField = PresetAddEditDialog.this.name;
+            TextView nameField = DialogPresetEdit.this.name;
             String nameText = String.valueOf(nameField.getText());
-            String defaultName = PresetAddEditDialog.this.defaultName;
+            String defaultName = DialogPresetEdit.this.defaultName;
             
             // Clear the name text field, if the text is equal to the default name
             if (nameText.equals(defaultName)) {
@@ -164,7 +164,7 @@ public class PresetAddEditDialog extends Dialog {
         
         @Override
         public void afterTextChanged(Editable s) {
-            TextView nameField = PresetAddEditDialog.this.name;
+            TextView nameField = DialogPresetEdit.this.name;
             String nameText = String.valueOf(nameField.getText());
             
             for (IPreset preset : ModelProxy.get().getPresets()) {
@@ -196,15 +196,15 @@ public class PresetAddEditDialog extends Dialog {
         
         @Override
         public void onClick(View v) {
-            TextView nameField = PresetAddEditDialog.this.name;
+            TextView nameField = DialogPresetEdit.this.name;
             
             String name = "null";
-            if (PresetAddEditDialog.this.name != null) {
-                name = PresetAddEditDialog.this.name.getText().toString();
+            if (DialogPresetEdit.this.name != null) {
+                name = DialogPresetEdit.this.name.getText().toString();
             }
             String descr = "null";
-            if (PresetAddEditDialog.this.desc != null) {
-                descr = PresetAddEditDialog.this.desc.getText().toString();
+            if (DialogPresetEdit.this.desc != null) {
+                descr = DialogPresetEdit.this.desc.getText().toString();
             }
             
             if (name.length() == 0) {
@@ -216,19 +216,19 @@ public class PresetAddEditDialog extends Dialog {
                 return;
             }
             
-            if (PresetAddEditDialog.this.preset == null) {
+            if (DialogPresetEdit.this.preset == null) {
                 // Add a new Preset
                 IPreset createdPreset = ModelProxy.get().addUserPreset(name, descr);
                 
                 // Open Preset
-                PresetAddEditDialog.this.activity.openPreset(createdPreset);
+                DialogPresetEdit.this.callback.openPreset(createdPreset);
             } else {
                 // Edit the Preset
-                PresetAddEditDialog.this.preset.setName(name);
-                PresetAddEditDialog.this.preset.setDescription(descr);
+                DialogPresetEdit.this.preset.setName(name);
+                DialogPresetEdit.this.preset.setDescription(descr);
                 
                 // Update the Presets
-                PresetAddEditDialog.this.activity.updateList();
+                DialogPresetEdit.this.callback.refresh();
             }
             
             // Dismiss

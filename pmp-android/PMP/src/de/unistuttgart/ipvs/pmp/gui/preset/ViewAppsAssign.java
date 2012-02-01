@@ -20,7 +20,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignAppsView extends LinearLayout {
+public class ViewAppsAssign extends LinearLayout {
     
     /**
      * The CheckBox
@@ -35,7 +35,7 @@ public class PresetAssignAppsView extends LinearLayout {
     /**
      * Preset Assign Apps Adapter
      */
-    private PresetAssignAppsAdapter adapter;
+    private AdapterAppsAssign adapter;
     
     /**
      * The app of the view
@@ -53,7 +53,7 @@ public class PresetAssignAppsView extends LinearLayout {
      * @param presetAssignAppsAdapter
      *            the adapter of the assigned apps
      */
-    public PresetAssignAppsView(Context context, IApp app, PresetAssignAppsAdapter presetAssignAppsAdapter) {
+    public ViewAppsAssign(Context context, IApp app, AdapterAppsAssign presetAssignAppsAdapter) {
         super(context);
         
         this.app = app;
@@ -117,8 +117,8 @@ public class PresetAssignAppsView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                checkBoxChanged(!PresetAssignAppsView.this.checkBox.isChecked());
-                PresetAssignAppsView.this.checkBox.setChecked(!PresetAssignAppsView.this.checkBox.isChecked());
+                checkBoxChanged(!ViewAppsAssign.this.checkBox.isChecked());
+                ViewAppsAssign.this.checkBox.setChecked(!ViewAppsAssign.this.checkBox.isChecked());
             }
         });
     }

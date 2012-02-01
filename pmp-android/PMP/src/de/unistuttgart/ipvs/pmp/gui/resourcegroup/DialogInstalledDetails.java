@@ -11,14 +11,14 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 /**
- * The {@link DialogRGAvailableDetails} displays informations about an at PMP registered Resourcegroup.
+ * The {@link DialogAvailableDetails} displays informations about an at PMP registered Resourcegroup.
  * 
  * @author Jakob Jarosch
  */
-public class DialogRGInstalledDetails extends Dialog {
+public class DialogInstalledDetails extends Dialog {
     
     protected IResourceGroup resourcegroup;
-    protected TabRGsInstalled parent;
+    protected TabInstalled parent;
     
     
     /**
@@ -32,7 +32,7 @@ public class DialogRGInstalledDetails extends Dialog {
      * @param resourcegroup
      *            The informations about the Resourcegroup.
      */
-    public DialogRGInstalledDetails(Context context, TabRGsInstalled parent, IResourceGroup resourcegroup) {
+    public DialogInstalledDetails(Context context, TabInstalled parent, IResourceGroup resourcegroup) {
         super(context);
         
         this.resourcegroup = resourcegroup;
@@ -60,9 +60,9 @@ public class DialogRGInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                new DialogConfirmDelete(DialogRGInstalledDetails.this.getContext(),
-                        DialogRGInstalledDetails.this.resourcegroup, DialogRGInstalledDetails.this,
-                        DialogRGInstalledDetails.this.parent).show();
+                new DialogConfirmDelete(DialogInstalledDetails.this.getContext(),
+                        DialogInstalledDetails.this.resourcegroup, DialogInstalledDetails.this,
+                        DialogInstalledDetails.this.parent).show();
             }
         });
         
@@ -70,7 +70,7 @@ public class DialogRGInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                DialogRGInstalledDetails.this.dismiss();
+                DialogInstalledDetails.this.dismiss();
             }
         });
     }

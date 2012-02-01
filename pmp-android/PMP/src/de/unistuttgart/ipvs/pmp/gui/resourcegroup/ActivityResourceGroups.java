@@ -10,11 +10,11 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 
 /**
- * The {@link ActivityRGs} contains two tabs with the installed and the available Resourcegroups.
+ * The {@link ActivityResourceGroups} contains two tabs with the installed and the available Resourcegroups.
  * 
  * @author Jakob Jarosch
  */
-public class ActivityRGs extends TabActivity {
+public class ActivityResourceGroups extends TabActivity {
     
     /**
      * The {@link ActivityKillReceiver}.
@@ -66,11 +66,11 @@ public class ActivityRGs extends TabActivity {
         TabHost.TabSpec spec;
         Intent intent;
         
-        intent = getIntent().setClass(this, TabRGsInstalled.class);
+        intent = getIntent().setClass(this, TabInstalled.class);
         spec = tabHost.newTabSpec(TAB_INSTALLED).setIndicator(getString(R.string.installed)).setContent(intent);
         tabHost.addTab(spec);
         
-        intent = getIntent().setClass(this, TabRGsAvailable.class);
+        intent = getIntent().setClass(this, TabAvailable.class);
         spec = tabHost.newTabSpec(TAB_AVAILABLE).setIndicator(getString(R.string.available)).setContent(intent);
         tabHost.addTab(spec);
     }

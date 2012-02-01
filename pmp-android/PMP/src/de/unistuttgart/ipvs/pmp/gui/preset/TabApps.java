@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * @author Marcus Vetter
  * 
  */
-public class PresetAppsTab extends Activity {
+public class TabApps extends Activity {
     
     /**
      * The preset instance
@@ -94,7 +94,7 @@ public class PresetAppsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_apps_assign_apps:
-                PresetAssignAppsDialog dialog = new PresetAssignAppsDialog(PresetAppsTab.this, this.preset);
+                DialogAppsAssign dialog = new DialogAppsAssign(TabApps.this, this.preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.calcDisplayApps().size() > 0) {
@@ -157,7 +157,7 @@ public class PresetAppsTab extends Activity {
             this.appList.add(app);
         }
         
-        PresetAppsAdapter presetAppsAdapter = new PresetAppsAdapter(this, this.appList);
+        AdapterApps presetAppsAdapter = new AdapterApps(this, this.appList);
         this.appsListView.setAdapter(presetAppsAdapter);
         
         // Show or hide the text view about no apps assigned

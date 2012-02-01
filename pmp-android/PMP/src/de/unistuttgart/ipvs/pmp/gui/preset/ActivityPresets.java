@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * @author Marcus Vetter
  * 
  */
-public class PresetsActivity extends Activity {
+public class ActivityPresets extends Activity {
     
     /**
      * List of all Presets
@@ -68,6 +68,24 @@ public class PresetsActivity extends Activity {
      */
     private ActivityKillReceiver akr;
     
+    /**
+     * Callback for the PresetEditDialog.
+     */
+    DialogPresetEditCallback callback = new DialogPresetEditCallback() {
+        
+        @Override
+        public void openPreset(IPreset preset) {
+            ActivityPresets.this.openPreset(preset);
+        }
+        
+        
+        @Override
+        public void refresh() {
+            ActivityPresets.this.refresh();
+        }
+        
+    };
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +103,7 @@ public class PresetsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateList();
+        refresh();
     }
     
     
@@ -124,7 +142,7 @@ public class PresetsActivity extends Activity {
                 /*
                  * Add a Preset
                  */
-                PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, null);
+                DialogPresetEdit dialog = new DialogPresetEdit(this, callback, null);
                 dialog.setTitle(R.string.add_preset);
                 dialog.show();
                 break;
@@ -141,7 +159,7 @@ public class PresetsActivity extends Activity {
                     PMPPreferences.getInstance().setPresetTrashBinVisible(true);
                     item.setTitle(R.string.hide_trash_bin);
                 }
-                updateList();
+                refresh();
                 break;
             case R.id.presets_menu_clear_trash_bin:
                 /*
@@ -159,7 +177,7 @@ public class PresetsActivity extends Activity {
                                     }
                                     
                                 }
-                                updateList();
+                                refresh();
                                 dialog.dismiss();
                             }
                         }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -191,7 +209,7 @@ public class PresetsActivity extends Activity {
                     /*
                      * Clicked on "Edit name and description"
                      */
-                    PresetAddEditDialog dialog = new PresetAddEditDialog(PresetsActivity.this, this, preset);
+                    DialogPresetEdit dialog = new DialogPresetEdit(this, callback, preset);
                     dialog.show();
                     return true;
                 case 1:
@@ -199,7 +217,7 @@ public class PresetsActivity extends Activity {
                      * Clicked on "delete (trash bin)"
                      */
                     preset.setDeleted(true);
-                    updateList();
+                    refresh();
                     return true;
             }
         } else if (menuInfo.targetView == presetTrashBinListView) {
@@ -208,11 +226,11 @@ public class PresetsActivity extends Activity {
             switch (menuItem.getItemId()) {
                 case 0: // Clicked on "restore" 
                     preset.setDeleted(false);
-                    updateList();
+                    refresh();
                     return true;
                 case 1: // Clicked on "delete permanently"
                     ModelProxy.get().removePreset(null, preset.getLocalIdentifier());
-                    updateList();
+                    refresh();
                     return true;
             }
         }
@@ -256,7 +274,7 @@ public class PresetsActivity extends Activity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                ((AdapterContextMenuInfo) menuInfo).targetView = PresetsActivity.this.presetListView;
+                ((AdapterContextMenuInfo) menuInfo).targetView = ActivityPresets.this.presetListView;
                 menu.setHeaderTitle(getString(R.string.edit_preset));
                 menu.add(0, 0, 0, R.string.edit_name_and_description);
                 menu.add(1, 1, 1, R.string.delete_preset_trash_bin);
@@ -268,7 +286,7 @@ public class PresetsActivity extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
-                IPreset preset = PresetsActivity.this.presetList.get(pos);
+                IPreset preset = ActivityPresets.this.presetList.get(pos);
                 openPreset(preset);
             }
         });
@@ -278,7 +296,7 @@ public class PresetsActivity extends Activity {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                ((AdapterContextMenuInfo) menuInfo).targetView = PresetsActivity.this.presetTrashBinListView;
+                ((AdapterContextMenuInfo) menuInfo).targetView = ActivityPresets.this.presetTrashBinListView;
                 menu.setHeaderTitle(getString(R.string.edit_deleted_preset));
                 menu.add(0, 0, 0, R.string.restore_preset);
                 menu.add(1, 1, 1, R.string.delete_preset_permanently);
@@ -303,9 +321,9 @@ public class PresetsActivity extends Activity {
      *            Preset to open
      */
     public void openPreset(IPreset preset) {
-        Intent i = new Intent(PresetsActivity.this, PresetActivity.class);
+        Intent i = new Intent(ActivityPresets.this, ActivityPreset.class);
         i.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
-        PresetsActivity.this.startActivity(i);
+        ActivityPresets.this.startActivity(i);
     }
     
     
@@ -313,7 +331,7 @@ public class PresetsActivity extends Activity {
      * Invoke method to show the presets
      * 
      */
-    public void updateList() {
+    public void refresh() {
         // Get the presets
         this.presets = ModelProxy.get().getPresets();
         this.presetList = new ArrayList<IPreset>();
@@ -330,11 +348,11 @@ public class PresetsActivity extends Activity {
         
         // Set adapters
         Collections.sort(this.presetList, new PresetComparator());
-        PresetsAdapter presetsAdapter = new PresetsAdapter(this, this.presetList);
+        AdapterPresets presetsAdapter = new AdapterPresets(this, this.presetList);
         this.presetListView.setAdapter(presetsAdapter);
         
         Collections.sort(this.presetTrashBinList, new PresetComparator());
-        PresetsAdapter presetsTrashBinAdapter = new PresetsAdapter(this, this.presetTrashBinList);
+        AdapterPresets presetsTrashBinAdapter = new AdapterPresets(this, this.presetTrashBinList);
         this.presetTrashBinListView.setAdapter(presetsTrashBinAdapter);
         
         // Show label, if a list is empty

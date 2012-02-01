@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.preset.PresetActivity;
-import de.unistuttgart.ipvs.pmp.gui.preset.PresetsAdapter;
+import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
+import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -83,7 +83,7 @@ public class TabPresets extends Activity {
     private void initPresetList() {
         final List<IPreset> presetsList = Arrays.asList(this.app.getAssignedPresets());
         
-        PresetsAdapter presetsAdapter = new PresetsAdapter(getApplicationContext(), presetsList);
+        AdapterPresets presetsAdapter = new AdapterPresets(getApplicationContext(), presetsList);
         
         ListView presetListView = (ListView) findViewById(R.id.ListView_Presets);
         presetListView.setAdapter(presetsAdapter);
@@ -113,7 +113,7 @@ public class TabPresets extends Activity {
      *            Preset to open
      */
     public void openPreset(IPreset preset) {
-        Intent i = new Intent(TabPresets.this, PresetActivity.class);
+        Intent i = new Intent(TabPresets.this, ActivityPreset.class);
         i.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
         startActivity(i);
     }

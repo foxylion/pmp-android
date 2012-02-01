@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
  * @author Marcus Vetter
  * 
  */
-public class PresetPSsTab extends Activity {
+public class TabPrivacySettings extends Activity {
     
     /**
      * The preset instance
@@ -61,7 +61,7 @@ public class PresetPSsTab extends Activity {
     /**
      * The Adapter
      */
-    private PresetPrivacySettingsAdapter ppsAdapter;
+    private AdapterPrivacySettings ppsAdapter;
     
     
     @Override
@@ -109,7 +109,7 @@ public class PresetPSsTab extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_pss_assign_pss:
-                PresetAssignPSsDialog dialog = new PresetAssignPSsDialog(PresetPSsTab.this, this, this.preset);
+                DialogPrivacySettingAssign dialog = new DialogPrivacySettingAssign(TabPrivacySettings.this, this, this.preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
@@ -139,7 +139,7 @@ public class PresetPSsTab extends Activity {
         int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         
         // Get the Privacy Setting
-        final IPrivacySetting ps = PresetPSsTab.this.psList.get(rgPos).get(psPos);
+        final IPrivacySetting ps = TabPrivacySettings.this.psList.get(rgPos).get(psPos);
         
         // Handle
         switch (item.getItemId()) {
@@ -155,7 +155,7 @@ public class PresetPSsTab extends Activity {
                 
                 return true;
             case 2:
-                new PresetConfirmRemovePSDialog(PresetPSsTab.this, this.preset, ps, PresetPSsTab.this).show();
+                new DialogConfirmRemovePrivacySetting(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this).show();
                 
                 return true;
         }
@@ -220,8 +220,8 @@ public class PresetPSsTab extends Activity {
             
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                PresetPSsTab.this.preset.assignPrivacySetting(ps, ps.getViewValue(psView));
-                PresetPSsTab.this.updateList();
+                TabPrivacySettings.this.preset.assignPrivacySetting(ps, ps.getViewValue(psView));
+                TabPrivacySettings.this.updateList();
                 dialog.dismiss();
             }
         });
@@ -279,7 +279,7 @@ public class PresetPSsTab extends Activity {
         });
         
         // Add the adapter
-        this.ppsAdapter = new PresetPrivacySettingsAdapter(this, this.preset);
+        this.ppsAdapter = new AdapterPrivacySettings(this, this.preset);
         this.psExpandableListView.setAdapter(this.ppsAdapter);
         
     }

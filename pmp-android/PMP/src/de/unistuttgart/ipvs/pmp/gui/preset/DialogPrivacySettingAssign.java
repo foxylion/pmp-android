@@ -22,7 +22,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
  * 
  * @author Marcus Vetter
  */
-public class PresetAssignPSsDialog extends Dialog {
+public class DialogPrivacySettingAssign extends Dialog {
     
     /**
      * The Preset
@@ -47,7 +47,7 @@ public class PresetAssignPSsDialog extends Dialog {
     /**
      * The PresetPSsTab
      */
-    protected PresetPSsTab presetPSsTab;
+    protected TabPrivacySettings presetPSsTab;
     
     
     /**
@@ -58,7 +58,7 @@ public class PresetAssignPSsDialog extends Dialog {
      * @param preset
      *            the Preset
      */
-    public PresetAssignPSsDialog(Context context, PresetPSsTab presetPSsTab, IPreset preset) {
+    public DialogPrivacySettingAssign(Context context, TabPrivacySettings presetPSsTab, IPreset preset) {
         super(context);
         this.preset = preset;
         this.presetPSsTab = presetPSsTab;
@@ -129,7 +129,7 @@ public class PresetAssignPSsDialog extends Dialog {
         this.psExpandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view_assign_pss);
         
         // Add the adapter
-        PresetAssignPSsAdapter ppsAdapter = new PresetAssignPSsAdapter(getContext(), this.preset, this.rgList,
+        AdapterPrivacySettingsAssign ppsAdapter = new AdapterPrivacySettingsAssign(getContext(), this.preset, this.rgList,
                 this.psList);
         this.psExpandableListView.setAdapter(ppsAdapter);
         
@@ -138,7 +138,7 @@ public class PresetAssignPSsDialog extends Dialog {
             
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                PresetAssignPSsDialog.this.presetPSsTab.showChangeValueDialog(PresetAssignPSsDialog.this.psList.get(
+                DialogPrivacySettingAssign.this.presetPSsTab.showChangeValueDialog(DialogPrivacySettingAssign.this.psList.get(
                         groupPosition).get(childPosition));
                 dismiss();
                 return true;

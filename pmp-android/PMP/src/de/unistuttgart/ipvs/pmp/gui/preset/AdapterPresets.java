@@ -14,17 +14,17 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 /**
- * The {@link PresetsAdapter} is the list of presets in the {@link PresetsActivity}.
+ * The {@link AdapterPresets} is the list of presets in the {@link ActivityPresets}.
  * 
  * @author Marcus Vetter
  */
-public class PresetsAdapter extends BaseAdapter {
+public class AdapterPresets extends BaseAdapter {
     
     private Context context;
     private List<IPreset> presets;
     
     
-    public PresetsAdapter(Context context, List<IPreset> presets) {
+    public AdapterPresets(Context context, List<IPreset> presets) {
         this.context = context;
         this.presets = presets;
     }
@@ -63,8 +63,8 @@ public class PresetsAdapter extends BaseAdapter {
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
         description.setText(preset.getDescription());
         
-        /* Set text color to dark gray, if item is deleted */
-        if (preset.isDeleted()) {
+        /* Set text color to dark gray, if item is deleted or unavailable */
+        if (preset.isDeleted() || !preset.isAvailable()) {
             name.setTextColor(GUIConstants.COLOR_TEXT_GRAYED_OUT);
             description.setTextColor(GUIConstants.COLOR_TEXT_GRAYED_OUT);
         }

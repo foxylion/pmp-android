@@ -14,17 +14,17 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
 /**
- * The {@link AdapterRGsInstalled} is the list of all at PMP registered Resourcegroups in the {@link TabRGsInstalled}.
+ * The {@link AdapterInstalled} is the list of all at PMP registered Resourcegroups in the {@link TabInstalled}.
  * 
  * @author Jakob Jarosch, Frieder Schüler
  */
-public class AdapterRGsInstalled extends BaseAdapter {
+public class AdapterInstalled extends BaseAdapter {
     
     private Context context;
     private List<IResourceGroup> resourceGroups;
     
     
-    public AdapterRGsInstalled(Context context, List<IResourceGroup> resourceGroups) {
+    public AdapterInstalled(Context context, List<IResourceGroup> resourceGroups) {
         this.context = context;
         this.resourceGroups = resourceGroups;
     }

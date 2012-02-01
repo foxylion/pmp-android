@@ -21,7 +21,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
  * 
  * @author Marcus Vetter
  */
-public class PresetAssignAppsDialog extends Dialog {
+public class DialogAppsAssign extends Dialog {
     
     /**
      * The button to confirm the dialog
@@ -36,7 +36,7 @@ public class PresetAssignAppsDialog extends Dialog {
     /**
      * The PresetAppsTab
      */
-    private PresetAppsTab activity;
+    private TabApps activity;
     
     /**
      * The Preset
@@ -46,7 +46,7 @@ public class PresetAssignAppsDialog extends Dialog {
     /**
      * The instance of the adapter
      */
-    protected PresetAssignAppsAdapter appsAdapter;
+    protected AdapterAppsAssign appsAdapter;
     
     
     /**
@@ -57,10 +57,10 @@ public class PresetAssignAppsDialog extends Dialog {
      * @param preset
      *            the Preset
      */
-    public PresetAssignAppsDialog(Context context, IPreset preset) {
+    public DialogAppsAssign(Context context, IPreset preset) {
         super(context);
         this.preset = preset;
-        this.activity = (PresetAppsTab) context;
+        this.activity = (TabApps) context;
     }
     
     
@@ -86,7 +86,7 @@ public class PresetAssignAppsDialog extends Dialog {
         ListView appsList = (ListView) findViewById(R.id.listview_assigned_apps);
         appsList.setClickable(true);
         
-        this.appsAdapter = new PresetAssignAppsAdapter(this.activity, apps);
+        this.appsAdapter = new AdapterAppsAssign(this.activity, apps);
         appsList.setAdapter(this.appsAdapter);
         
     }
@@ -124,10 +124,10 @@ public class PresetAssignAppsDialog extends Dialog {
         /**
          * The PresetAppsTabActivity
          */
-        private PresetAppsTab activity;
+        private TabApps activity;
         
         
-        public ConfirmListener(PresetAppsTab activity) {
+        public ConfirmListener(TabApps activity) {
             this.activity = activity;
         }
         
@@ -136,10 +136,10 @@ public class PresetAssignAppsDialog extends Dialog {
         public void onClick(View v) {
             
             // Store
-            if (PresetAssignAppsDialog.this.appsAdapter != null) {
-                for (IApp app : PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().keySet()) {
-                    if (PresetAssignAppsDialog.this.appsAdapter.getCheckBoxMap().get(app)) {
-                        PresetAssignAppsDialog.this.preset.assignApp(app);
+            if (DialogAppsAssign.this.appsAdapter != null) {
+                for (IApp app : DialogAppsAssign.this.appsAdapter.getCheckBoxMap().keySet()) {
+                    if (DialogAppsAssign.this.appsAdapter.getCheckBoxMap().get(app)) {
+                        DialogAppsAssign.this.preset.assignApp(app);
                     }
                 }
             }

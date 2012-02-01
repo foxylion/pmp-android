@@ -20,17 +20,17 @@ import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
- * The {@link DialogRGAvailableDetails} displays informations about an available Resourcegroup.
+ * The {@link DialogAvailableDetails} displays informations about an available Resourcegroup.
  * 
  * @author Jakob Jarosch
  */
-public class DialogRGAvailableDetails extends Dialog {
+public class DialogAvailableDetails extends Dialog {
     
     protected RgInformationSet rgInformation;
     
     private Handler handler;
     
-    private TabRGsAvailable tab;
+    private TabAvailable tab;
     
     
     /**
@@ -41,7 +41,7 @@ public class DialogRGAvailableDetails extends Dialog {
      * @param rgInformation
      *            The informations about the Resourcegroup.
      */
-    public DialogRGAvailableDetails(TabRGsAvailable tab, RgInformationSet rgInformation) {
+    public DialogAvailableDetails(TabAvailable tab, RgInformationSet rgInformation) {
         super(tab);
         
         this.tab = tab;
@@ -83,9 +83,9 @@ public class DialogRGAvailableDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                final ProgressDialog pd = new ProgressDialog(DialogRGAvailableDetails.this.getContext());
+                final ProgressDialog pd = new ProgressDialog(DialogAvailableDetails.this.getContext());
                 pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                pd.setTitle(DialogRGAvailableDetails.this.getContext().getString(R.string.rg_processing_installation));
+                pd.setTitle(DialogAvailableDetails.this.getContext().getString(R.string.rg_processing_installation));
                 pd.setCancelable(false);
                 pd.setProgress(0);
                 pd.setMax(1);
@@ -101,7 +101,7 @@ public class DialogRGAvailableDetails extends Dialog {
                     @Override
                     public void download(final int position, final int length) {
                         /* Inform the user */
-                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
+                        DialogAvailableDetails.this.handler.post(new Runnable() {
                             
                             @Override
                             public void run() {
@@ -121,7 +121,7 @@ public class DialogRGAvailableDetails extends Dialog {
                         
                         try {
                             ModelProxy.get().installResourceGroup(
-                                    DialogRGAvailableDetails.this.rgInformation.getIdentifier(), false);
+                                    DialogAvailableDetails.this.rgInformation.getIdentifier(), false);
                             success = true;
                         } catch (InvalidXMLException e) {
                             error = e.getMessage();
@@ -133,17 +133,17 @@ public class DialogRGAvailableDetails extends Dialog {
                                 : "Failed to install the Resource:\n" + error);
                         
                         /* Inform the user */
-                        DialogRGAvailableDetails.this.handler.post(new Runnable() {
+                        DialogAvailableDetails.this.handler.post(new Runnable() {
                             
                             @Override
                             public void run() {
                                 pd.dismiss();
-                                Toast.makeText(DialogRGAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
+                                Toast.makeText(DialogAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                                 
                                 tab.updateDownloadList();
                                 
-                                DialogRGAvailableDetails.this.dismiss();
+                                DialogAvailableDetails.this.dismiss();
                             }
                         });
                     };
@@ -156,7 +156,7 @@ public class DialogRGAvailableDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                DialogRGAvailableDetails.this.dismiss();
+                DialogAvailableDetails.this.dismiss();
             }
         });
     }
