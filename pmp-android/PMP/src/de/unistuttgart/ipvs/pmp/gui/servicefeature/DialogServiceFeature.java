@@ -1,23 +1,24 @@
 package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingView;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
-import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -40,6 +41,21 @@ public class DialogServiceFeature extends Dialog {
      * The View of the Service Feature (in the Service Feature list) which corresponds to the current displayed one.
      */
     protected ListItemServiceFeature serviceFeatureView = null;
+    
+    /**
+     * Privacy Setting container.
+     */
+    private LinearLayout psContainer;
+    
+    /**
+     * Resource Group information Container.
+     */
+    private LinearLayout rgContainer;
+    
+    /**
+     * Handler for GUI interaction.
+     */
+    private Handler handler;
     
     
     /**
@@ -67,6 +83,8 @@ public class DialogServiceFeature extends Dialog {
         this.serviceFeature = serviceFeature;
         this.serviceFeatureView = serviceFeatureView;
         
+        this.handler = new Handler();
+        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.dialog_sf);
@@ -78,41 +96,60 @@ public class DialogServiceFeature extends Dialog {
         TextView descriptionTv = (TextView) findViewById(R.id.TextView_Description);
         descriptionTv.setText(serviceFeature.getDescription());
         
-        LinearLayout psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
-        LinearLayout rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
+        psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
+        rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
         
-        /* Decide between displaying the required privacy settings or the missing resource groups */
-        if (serviceFeature.isAvailable()) {
-            psContainer.setVisibility(View.VISIBLE);
-            rgContainer.setVisibility(View.GONE);
-            
-            LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
-            psLayout.removeAllViews();
-            
-            for (IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
-                psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
-            }
-        } else {
-            psContainer.setVisibility(View.GONE);
-            rgContainer.setVisibility(View.VISIBLE);
+        refresh();
+        
+        addListener();
+    }
+    
+    
+    public void refresh() {
+        /* Fill in all PrivacySettings */
+        LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
+        psLayout.removeAllViews();
+        
+        for (IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
+            psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
         }
         
-        /* Decide between displaying the Disable/Enable button or not */
+        /* Update the Buttons */
         Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
-        if (PMPPreferences.getInstance().isExpertMode()) {
-            enableDisableButton.setVisibility(View.INVISIBLE);
-        } else {
-            enableDisableButton.setVisibility(View.VISIBLE);
-        }
-        enableDisableButton.setEnabled(serviceFeature.isAvailable());
+        Button showMissingRGs = (Button) findViewById(R.id.Button_ViewMissingRGs);
+        Button oneClickInstallRGs = (Button) findViewById(R.id.Button_OneClickInstall);
+        Button createNewPreset = (Button) findViewById(R.id.Button_CreateNewPreset);
+        Button addToPreset = (Button) findViewById(R.id.Button_AddToPreset);
         
+        /* Update the label of the enable/disable button */
         if (serviceFeature.isActive()) {
             enableDisableButton.setText(getContext().getResources().getString(R.string.disable));
         } else {
             enableDisableButton.setText(getContext().getResources().getString(R.string.enable));
         }
         
-        addListener();
+        /* Disable all Buttons and enable them by request */
+        enableDisableButton.setVisibility(View.GONE);
+        showMissingRGs.setVisibility(View.GONE);
+        oneClickInstallRGs.setVisibility(View.GONE);
+        createNewPreset.setVisibility(View.GONE);
+        addToPreset.setVisibility(View.GONE);
+        
+        /* Now enable the buttons by request. */
+        
+        /* Select between available Service Feature and unavailable*/
+        if (serviceFeature.isAvailable()) {
+            /* Select between expert mode and simple mode */
+            if (PMPPreferences.getInstance().isExpertMode()) {
+                createNewPreset.setVisibility(View.VISIBLE);
+                addToPreset.setVisibility(View.VISIBLE);
+            } else {
+                enableDisableButton.setVisibility(View.VISIBLE);
+            }
+        } else {
+            oneClickInstallRGs.setVisibility(View.VISIBLE);
+            showMissingRGs.setVisibility(View.VISIBLE);
+        }
     }
     
     
@@ -120,8 +157,14 @@ public class DialogServiceFeature extends Dialog {
      * Adds the listeners to all the GUI components.
      */
     private void addListener() {
-        /* Add a listener to the close button */
+        Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
+        Button showMissingRGs = (Button) findViewById(R.id.Button_ViewMissingRGs);
+        Button oneClickInstallRGs = (Button) findViewById(R.id.Button_OneClickInstall);
+        Button createNewPreset = (Button) findViewById(R.id.Button_CreateNewPreset);
+        Button addToPreset = (Button) findViewById(R.id.Button_AddToPreset);
         Button closeButton = (Button) findViewById(R.id.Button_Close);
+        
+        /* Add a listener to the close button */
         closeButton.setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -131,7 +174,6 @@ public class DialogServiceFeature extends Dialog {
         });
         
         /* Add a listener to the enable/disable button */
-        Button enableDisableButton = (Button) findViewById(R.id.Button_EnableDisable);
         enableDisableButton.setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -146,20 +188,52 @@ public class DialogServiceFeature extends Dialog {
             }
         });
         
-        Button showMissingRGs = (Button) findViewById(R.id.Button_ViewMissingRGs);
         showMissingRGs.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                List<String> missingRGs = new ArrayList<String>();
-                for (MissingPrivacySettingValue ps : serviceFeature.getMissingPrivacySettings()) {
-                    if (!missingRGs.contains(ps.getResourceGroup())) {
-                        missingRGs.add(ps.getResourceGroup());
-                    }
-                }
-                Intent intent = GUITools.createFilterAvailableRGsIntent(missingRGs.toArray(new String[missingRGs.size()]));
+                String[] missingResourceGroup = RGInstaller.getMissingResourceGroups(serviceFeature);
+                Intent intent = GUITools.createFilterAvailableRGsIntent(missingResourceGroup);
                 getContext().startActivity(intent);
                 dismiss();
+            }
+        });
+        
+        oneClickInstallRGs.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                String[] missingResourceGroup = RGInstaller.getMissingResourceGroups(serviceFeature);
+                RGInstaller.installResourceGroups(getContext(), handler, missingResourceGroup);
+            }
+        });
+        
+        createNewPreset.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                IPreset preset = ModelProxy.get().addPreset(null, serviceFeature.getIdentifier(),
+                        serviceFeature.getApp().getName() + " - " + serviceFeature.getName(), "");
+                preset.startUpdate();
+                preset.assignApp(serviceFeature.getApp());
+                for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
+                    preset.assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
+                }
+                preset.endUpdate();
+                
+                if (DialogServiceFeature.this.serviceFeatureView != null) {
+                    DialogServiceFeature.this.serviceFeatureView.refresh();
+                }
+                
+                DialogServiceFeature.this.cancel();
+            }
+        });
+        
+        addToPreset.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Currently not implemented...", Toast.LENGTH_LONG).show();
             }
         });
     }

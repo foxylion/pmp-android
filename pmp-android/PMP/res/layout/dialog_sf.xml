@@ -67,12 +67,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/missing_rgs_description" />
-
-                <Button
-                    android:id="@+id/Button_ViewMissingRGs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/missing_rgs_show" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -82,15 +76,43 @@
         android:layout_height="wrap_content" >
 
         <Button
+            android:id="@+id/Button_OneClickInstall"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="1-Click\nInstall" />
+
+        <Button
+            android:id="@+id/Button_ViewMissingRGs"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="View missing\ResourceGroups" />
+
+        <Button
+            android:id="@+id/Button_CreateNewPreset"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Create new\nPreset" />
+        
+        <Button
+            android:id="@+id/Button_AddToPreset"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="Add to\nPreset" />
+        
+        <Button
             android:id="@+id/Button_EnableDisable"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/Button_Close"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:text="@string/close" />
     </LinearLayout>
