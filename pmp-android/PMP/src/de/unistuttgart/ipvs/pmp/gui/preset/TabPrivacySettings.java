@@ -22,7 +22,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingDialog;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySetting;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -144,7 +144,7 @@ public class TabPrivacySettings extends Activity {
         // Handle
         switch (item.getItemId()) {
             case 0:
-                new PrivacySettingDialog(this, ps).show();
+                new DialogPrivacySetting(this, ps).show();
                 
                 return true;
             case 1:

@@ -11,9 +11,9 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
-public class PrivacySettingDialog extends Dialog {
+public class DialogPrivacySetting extends Dialog {
     
-    public PrivacySettingDialog(Context context, IPrivacySetting ps) {
+    public DialogPrivacySetting(Context context, IPrivacySetting ps) {
         super(context);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -39,7 +39,7 @@ public class PrivacySettingDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                PrivacySettingDialog.this.dismiss();
+                DialogPrivacySetting.this.dismiss();
             }
         });
     }
