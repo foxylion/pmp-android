@@ -498,6 +498,8 @@ public class Model implements IModel, Observer {
         Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
         Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
         Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
+        Assert.isNull(getPreset(creator, presetIdentifier), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED,
+                "preset", (creator == null ? "null" : creator.toString()) + ", " + presetIdentifier));
         
         Preset newPreset = new PresetPersistenceProvider(null).createElementData(creator, presetIdentifier, name,
                 description);
