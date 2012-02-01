@@ -39,6 +39,25 @@ public class PrivacySetting extends BasicIS {
 	private String validValueDescription;
 
 	/**
+	 * Constructor without attributes
+	 */
+	public PrivacySetting() {
+	}
+
+	/**
+	 * Constructor to set the identifier and the valid value description
+	 * 
+	 * @param identifier
+	 *            identifier to set
+	 * @param validValueDescription
+	 *            validValueDescription to set
+	 */
+	public PrivacySetting(String identifier, String validValueDescription) {
+		this.setIdentifier(identifier);
+		this.setValidValueDescription(validValueDescription);
+	}
+
+	/**
 	 * Get the identifier
 	 * 
 	 * @return identifier

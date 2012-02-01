@@ -1,13 +1,13 @@
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import java.io.InputStream;
-import java.util.Locale;
-import java.util.Map.Entry;
-
 import de.unistuttgart.ipvs.pmp.xmlutil.app.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.app.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.app.RequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.app.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.app.Parser;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 
 /**
  * 
@@ -55,31 +55,29 @@ public class AppUtil {
         System.out.println("-----------------------");
         System.out.println("-- App-Information: ---");
         System.out.println("-----------------------");
-        for (Locale l : ais.getNames().keySet()) {
-            System.out.println("Name: " + ais.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
+        for (Name name : ais.getNames()) {
+            System.out.println("Name: " + name.getString() + " (Locale: " + name.getLocale().getLanguage() + ")");
         }
-        for (Locale l : ais.getDescriptions().keySet()) {
-            System.out.println("Description: " + ais.getDescriptions().get(l) + " (Locale: " + l.getLanguage() + ")");
+        for (Description descr : ais.getDescriptions()) {
+            System.out.println("Description: " + descr.getString() + " (Locale: " + descr.getLocale().getLanguage() + ")");
         }
         System.out.println("-----------------------");
         System.out.println("-- Service Features: --");
         System.out.println("-----------------------");
-        for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
-            ServiceFeature sf = ais.getServiceFeaturesMap().get(sfIdentifier);
-            System.out.println("Identifier: " + sfIdentifier);
-            for (Locale l : sf.getNames().keySet()) {
-                System.out.println("Name: " + sf.getNames().get(l) + " (Locale: " + l.getLanguage() + ")");
+        for (ServiceFeature sf : ais.getServiceFeatures()) {
+            System.out.println("Identifier: " + sf.getIdentifier());
+            for (Name name : sf.getNames()) {
+                System.out.println("Name: " + name.getString() + " (Locale: " + name.getLocale().getLanguage() + ")");
             }
-            for (Locale l : sf.getDescriptions().keySet()) {
-                System.out.println("Description: " + sf.getDescriptions().get(l) + " (Locale: " + l.getLanguage() + ")");
+            for (Description descr : sf.getDescriptions()) {
+                System.out.println("Description: " + descr.getString() + " (Locale: " + descr.getLocale().getLanguage() + ")");
             }
-            for (Entry<String, RequiredResourceGroup> entry : sf.getRequiredResourceGroups().entrySet()) {
-                System.out.println("Required Resource Group ID: " + entry.getKey());
-                for (String privacySettingIdentifier : entry.getValue().getPrivacySettingsMap().keySet()) {
+            for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+                System.out.println("Required Resource Group ID: " + rrg.getIdentifier());
+                for (PrivacySetting ps : rrg.getPrivacySettings()) {
                     System.out.println("- Privacy Setting Value: "
-                            + entry.getValue().getPrivacySettingsMap().get(privacySettingIdentifier) + " (Identifier: "
-                            + privacySettingIdentifier + ")");
-                    
+                            + ps.getValue() + " (Identifier: "
+                            + ps.getIdentifier() + ")");
                 }
             }
             System.out.println("-----------------------");

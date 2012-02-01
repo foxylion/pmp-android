@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.app;
 /**
  * 
  * @author Marcus Vetter
- *
+ * 
  */
 public class PrivacySetting {
 
@@ -16,6 +16,19 @@ public class PrivacySetting {
 	 * The value of the Privacy Setting
 	 */
 	private String value;
+
+	/**
+	 * Constructor to set the attributes
+	 * 
+	 * @param identifier
+	 *            identifier of the Privacy Setting
+	 * @param value
+	 *            value of the Privacy Setting
+	 */
+	public PrivacySetting(String identifier, String value) {
+		this.setIdentifier(identifier);
+		this.setValue(value);
+	}
 
 	/**
 	 * Get the identifier

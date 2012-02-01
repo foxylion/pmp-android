@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.app;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,22 @@ public class ServiceFeature extends BasicIS implements Serializable {
 	 * The identifier
 	 */
 	private String identifier;
+
+	/**
+	 * Constructor without attributes
+	 */
+	public ServiceFeature() {
+	}
+
+	/**
+	 * Constructor to set the identifier
+	 * 
+	 * @param identifier
+	 *            identifier to set
+	 */
+	public ServiceFeature(String identifier) {
+		this.setIdentifier(identifier);
+	}
 
 	/**
 	 * This list contains all required resource groups of the service feature.

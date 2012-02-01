@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rg;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -103,58 +102,18 @@ public class Parser extends AbstractParser {
      *            starting with this root element
      */
     private void parseRgInformationNode(Element rgInformationElement) {
+    	// Parse names and descriptions
+    	parseNameDescriptionNodes(rgInformationElement, this.rgis);
+    	
         // Create results
         String identifier = rgInformationElement.getAttribute("identifier");
-        List<String[]> iconList = parseNodes(rgInformationElement, "icon", 1, 1);
-        List<String[]> revisionList = parseNodes(rgInformationElement, "revision", 1, 1);
-        List<String[]> defaultNameList = parseNodes(rgInformationElement, "defaultName", 1, 1, "lang");
-        List<String[]> nameList = parseNodes(rgInformationElement, "name", 0, Integer.MAX_VALUE, "lang");
-        List<String[]> defaultDescriptionList = parseNodes(rgInformationElement, "defaultDescription", 1, 1, "lang");
-        List<String[]> descriptionList = parseNodes(rgInformationElement, "description", 0, Integer.MAX_VALUE, "lang");
-        
-        // Validate the rg information node
-        validateLocaleAttribute(defaultNameList);
-        validateLocaleAttribute(nameList);
-        validateLocaleAttribute(defaultDescriptionList);
-        validateLocaleAttribute(descriptionList);
-        
-        // Check, if the lang attributes of the default name and description is "en"
-        validateLocaleAttributeEN(defaultNameList.get(0)[1]);
-        validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
-        
-        // Check, if the identifier is set
-        validateIdentifier(identifier);
-        
-        // Check, if all values are set
-        validateValueListNotEmpty(iconList);
-        validateValueListNotEmpty(revisionList);
-        validateValueListNotEmpty(defaultNameList);
-        validateValueListNotEmpty(nameList);
-        validateValueListNotEmpty(defaultDescriptionList);
-        validateValueListNotEmpty(descriptionList);
-        
-        // Check, if there is a correct number of child nodes of rgInformationElement
-        int expectedNumber = iconList.size() + revisionList.size() + defaultNameList.size() + nameList.size()
-                + defaultDescriptionList.size() + descriptionList.size();
-        checkNumberOfNodes(expectedNumber, rgInformationElement);
-        
+        String icon = rgInformationElement.getAttribute("icon");
+        String revision = rgInformationElement.getAttribute("revision");
+
         // Add to the rg information set
         this.rgis.setIdentifier(identifier);
-        this.rgis.setIconLocation(iconList.get(0)[0]);
-        this.rgis.setRevision(revisionList.get(0)[0]);
-        this.rgis.addName(new Locale(defaultNameList.get(0)[1]), defaultNameList.get(0)[0].replaceAll("\t", "")
-                .replaceAll("\n", " ").trim());
-        for (String[] nameArray : nameList) {
-            this.rgis.addName(new Locale(nameArray[1]), nameArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
-        }
-        this.rgis.addDescription(new Locale(defaultDescriptionList.get(0)[1]), defaultDescriptionList.get(0)[0]
-                .replaceAll("\t", "").replaceAll("\n", " ").trim());
-        
-        for (String[] descriptionArray : descriptionList) {
-            this.rgis.addDescription(new Locale(descriptionArray[1]), descriptionArray[0].replaceAll("\t", "")
-                    .replaceAll("\n", " ").trim());
-        }
-        
+        this.rgis.setIconLocation(icon);
+        this.rgis.setRevision(revision);
     }
     
     
@@ -167,79 +126,33 @@ public class Parser extends AbstractParser {
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
         NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName("privacySetting");
         
-        // check, if there are Privacy Settings defined
-        if (privacySettingsNodeList.getLength() == 0) {
-            throw new ParserException(Type.PRIVACY_SETTING_MISSING,
-                    "You have to define at least one Privacy Setting.");
-        }
-        
-        // Check, if there is a correct number of child nodes of privacySettingsElement
-        int expectedNumber = privacySettingsNodeList.getLength();
-        checkNumberOfNodes(expectedNumber, privacySettingsElement);
-        
         // Parse the Privacy Settings
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
-            parseOnePrivacySetting((Element) privacySettingsNodeList.item(itr));
+        	// Get the element
+        	Element privacySettingElement = (Element) privacySettingsNodeList.item(itr);
+        	
+            // Get the identifier
+            String identifier = privacySettingElement.getAttribute("identifier");
+            
+        	// Instantiate a new Privacy Setting
+        	PrivacySetting ps = new PrivacySetting(identifier, null);
+            
+        	// Get the valid value description
+            List<String[]> validValueDescrList = parseNodes(privacySettingElement, "validValueDescription");
+            
+            // Check, if the validValueDescription occurres too often or not at all
+            if (validValueDescrList.size() > 1) {
+            	throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN,
+                        "The node validValueDescription of the Privacy Setting " + ps.getIdentifier() + " occurred too often!");
+            } else if (validValueDescrList.size() == 1) {
+            	ps.setValidValueDescription(validValueDescrList.get(0)[0]);
+            }
+           
+            // Parse names and descriptions
+            parseNameDescriptionNodes(privacySettingElement, ps);
+            
+            // Add the Privacy Setting to the RGIS
+            this.rgis.addPrivacySetting(ps);
         }
-    }
-    
-    
-    /**
-     * This method parses one privacy setting
-     * 
-     * @param privacySettingElement
-     *            starting with this root element
-     */
-    private void parseOnePrivacySetting(Element privacySettingsElement) {
-        
-        // Get the identifier
-        String identifier = privacySettingsElement.getAttribute("identifier");
-        
-        // Create results
-        List<String[]> defaultNameList = parseNodes(privacySettingsElement, "defaultName", 1, 1, "lang");
-        List<String[]> nameList = parseNodes(privacySettingsElement, "name", 0, Integer.MAX_VALUE, "lang");
-        List<String[]> defaultDescriptionList = parseNodes(privacySettingsElement, "defaultDescription", 1, 1, "lang");
-        List<String[]> descriptionList = parseNodes(privacySettingsElement, "description", 0, Integer.MAX_VALUE, "lang");
-        
-        // Validate the privacy setting node
-        validateLocaleAttribute(defaultNameList);
-        validateLocaleAttribute(nameList);
-        validateLocaleAttribute(defaultDescriptionList);
-        validateLocaleAttribute(descriptionList);
-        
-        // Check, if the lang attributes of the default name and description is "en"
-        validateLocaleAttributeEN(defaultNameList.get(0)[1]);
-        validateLocaleAttributeEN(defaultDescriptionList.get(0)[1]);
-        
-        // Check, if the identifier is set
-        validateIdentifier(identifier);
-        
-        // Check, if all values are set
-        validateValueListNotEmpty(defaultNameList);
-        validateValueListNotEmpty(nameList);
-        validateValueListNotEmpty(defaultDescriptionList);
-        validateValueListNotEmpty(descriptionList);
-        
-        // Check, if there is a correct number of child nodes of privacySettingsElement
-        int expectedNumber = defaultNameList.size() + nameList.size() + defaultDescriptionList.size()
-                + descriptionList.size();
-        checkNumberOfNodes(expectedNumber, privacySettingsElement);
-        
-        // Add to the rg information set
-        PrivacySetting ps = new PrivacySetting();
-        this.rgis.addPrivacySetting(identifier, ps);
-        
-        ps.addName(new Locale(defaultNameList.get(0)[1]),
-                defaultNameList.get(0)[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
-        for (String[] nameArray : nameList) {
-            ps.addName(new Locale(nameArray[1]), nameArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
-        }
-        ps.addDescription(new Locale(defaultDescriptionList.get(0)[1]),
-                defaultDescriptionList.get(0)[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
-        for (String[] descriptionArray : descriptionList) {
-            ps.addDescription(new Locale(descriptionArray[1]),
-                    descriptionArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
-        }
-        
     }
 }

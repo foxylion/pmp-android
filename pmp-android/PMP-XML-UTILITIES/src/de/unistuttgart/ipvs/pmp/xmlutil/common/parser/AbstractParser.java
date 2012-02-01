@@ -37,6 +37,9 @@ import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 
 /**
  * This class abstracts common used methods for the xml parsers of an app or
@@ -94,9 +97,6 @@ public abstract class AbstractParser {
 	 *            Root element of all nodes
 	 * @param nodeName
 	 *            Name of the node
-	 * @param singleNode
-	 *            Set this flag true, if you expect no more then one occurrence
-	 *            of this node
 	 * @param attributeNames
 	 *            the names for the attributes (optional)
 	 * @return The list contains one array for each parsed node. The values of
@@ -104,19 +104,13 @@ public abstract class AbstractParser {
 	 *         Array[1..i] = values of the given attributes
 	 */
 	protected List<String[]> parseNodes(Element rootElement, String nodeName,
-			boolean singleNode, String... attributeNames) {
+			String... attributeNames) {
 
 		// Get the node list
 		NodeList nodeList = rootElement.getElementsByTagName(nodeName);
 
 		// Instantiate the result list array
 		List<String[]> resultListArray = new ArrayList<String[]>();
-
-		// Check the single node condition
-		if (singleNode && nodeList.getLength() > 1) {
-			throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node "
-					+ nodeName + " occurred too often!");
-		}
 
 		// iterate through all nodes
 		for (int nodeListItr = 0; nodeListItr < nodeList.getLength(); nodeListItr++) {
@@ -147,6 +141,38 @@ public abstract class AbstractParser {
 		}
 
 		return resultListArray;
+	}
+
+	/**
+	 * This method parses the nodes called "name" and "description" of the given
+	 * root element and adds the results to the given BasicIS.
+	 * 
+	 * @param rootElement
+	 *            starting with this root element
+	 * @param is
+	 *            add results to this basic information set
+	 */
+	protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
+		// Create results
+		List<String[]> nameList = parseNodes(rootElement, "name", "lang");
+		List<String[]> descriptionList = parseNodes(rootElement, "description",
+				"lang");
+
+		// Add to the app information set
+		for (String[] nameArray : nameList) {
+			Name name = new Name();
+			name.setLocale(new Locale(nameArray[1]));
+			name.setString(nameArray[0].replaceAll("\t", "")
+					.replaceAll("\n", " ").trim());
+			is.addName(name);
+		}
+		for (String[] descriptionArray : descriptionList) {
+			Description descr = new Description();
+			descr.setLocale(new Locale(descriptionArray[1]));
+			descr.setString(descriptionArray[0].replaceAll("\t", "")
+					.replaceAll("\n", " ").trim());
+			is.addDescription(descr);
+		}
 	}
 
 	/**

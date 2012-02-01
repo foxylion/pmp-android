@@ -41,6 +41,22 @@ public class RequiredResourceGroup implements Serializable {
 	 * Identifier
 	 */
 	private String identifier;
+	
+	/**
+	 * Constructor without attributes
+	 */
+	public RequiredResourceGroup() {
+	}
+
+	/**
+	 * Constructor to set the identifier
+	 * 
+	 * @param identifier
+	 *            identifier to set
+	 */
+	public RequiredResourceGroup(String identifier) {
+		this.setIdentifier(identifier);
+	}
 
 	/**
 	 * This list contains all required privacy settings of the required resource
