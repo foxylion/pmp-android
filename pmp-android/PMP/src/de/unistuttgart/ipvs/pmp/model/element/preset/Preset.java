@@ -292,6 +292,23 @@ public class Preset extends ModelElement implements IPreset {
     }
     
     
+    @Override
+    public boolean removeMissingApp(MissingApp missingApp) {
+        checkCached();
+        Assert.nonNull(missingApp, new ModelMisuseError(Assert.ILLEGAL_NULL, "missingApp", missingApp));
+        
+        if (this.missingApps.contains(missingApp) && (this.persistenceProvider != null)) {
+            this.missingApps.remove(missingApp);
+            
+            // safe because App has no persistence and only uses identifier
+            ((PresetPersistenceProvider) this.persistenceProvider).removeApp(new App(missingApp.getApp()));
+            return true;
+        }
+        
+        return false;
+    }
+    
+    
     /* inter-model communication */
     
     /**
