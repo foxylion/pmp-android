@@ -16,7 +16,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 
 /**
  * The persistence provider for {@link App}s.
@@ -50,7 +50,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
                     new ModelIntegrityError(Assert.ILLEGAL_UNINSTALLED_ACCESS, "app", this.element));
             
             is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
-            this.element.ais = AppInformationSetParser.createAppInformationSet(is);
+            this.element.ais = XMLUtilityProxy.parseAISXML(is);
             
         } catch (IOException e) {
             Log.e("Did no longer find the app XML during loading its data.");

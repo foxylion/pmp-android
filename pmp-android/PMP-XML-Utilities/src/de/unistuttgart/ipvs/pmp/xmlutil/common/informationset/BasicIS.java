@@ -103,7 +103,7 @@ public abstract class BasicIS {
 	 * @return the description object for the given locale. Null, if no description for the
 	 *         given locale exists.
 	 */
-	public Description getDescritionForLocale(Locale locale) {
+	public Description getDescriptionForLocale(Locale locale) {
 		for (Description descr : this.descriptions) {
 			if (descr.getLocale() == locale)
 				return descr;

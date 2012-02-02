@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.gui.util.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,14 +20,13 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
-import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
-import de.unistuttgart.ipvs.pmp.util.xml.app.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.xml.app.ServiceFeature;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * 
@@ -76,9 +74,9 @@ public class MockupControl {
                 super.onPostExecute(result);
                 for (Throwable t : youreDoingItWrong) {
                     String msg = t.getMessage();
-                    if (t instanceof XMLParserException) {
+                    if (t instanceof ParserException) {
                         // yeah cause we like it intricate
-                        msg = ((XMLParserException) t).getDetails();
+                        msg = ((ParserException) t).getMessage();
                     }
                     
                     new AlertDialog.Builder(activityContext).setTitle("Mockup Error")
@@ -178,7 +176,7 @@ public class MockupControl {
     private static void initApps(Context activityContext) {
         String ident;
         MockupApp app;
-        AppInformationSet ais;
+        AIS ais;
         
         ident = "org.barcode.scanner";
         if ((ais = getAIS(activityContext, "barcode.xml")) != null) {
@@ -257,7 +255,7 @@ public class MockupControl {
      */
     private static void initRGs(Context activityContext) {
         String ident;
-        RgInformationSet rgis;
+        RGIS rgis;
         
         ident = "org.oracle.db";
         if ((rgis = getRGIS(activityContext, "db.xml")) != null) {
@@ -283,29 +281,29 @@ public class MockupControl {
     }
     
     
-    public static void createPS(RgInformationSet rgis, MockupRG rg) {
+    public static void createPS(RGIS rgis, MockupRG rg) {
         MockupPrivacySetting ps;
-        for (Entry<String, PrivacySetting> e : rgis.getPrivacySettingsMap().entrySet()) {
-            ps = new MockupPrivacySetting(rg, e.getKey(), new BooleanPrivacySetting());
-            rg.addPS(e.getKey(), ps);
+        for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting privacySetting : rgis.getPrivacySettings()) {
+            ps = new MockupPrivacySetting(rg, privacySetting.getIdentifier(), new BooleanPrivacySetting());
+            rg.addPS(privacySetting.getIdentifier(), ps);
         }
     }
     
     
-    public static void createSF(AppInformationSet ais, MockupApp app) {
+    public static void createSF(AIS ais, MockupApp app) {
         MockupServiceFeature sf;
-        for (Entry<String, ServiceFeature> e : ais.getServiceFeaturesMap().entrySet()) {
+        for (ServiceFeature serviceFeature : ais.getServiceFeatures()) {
             
             boolean available = true;
-            for (Entry<String, RequiredResourceGroup> rrgEntry : e.getValue().getRequiredResourceGroups().entrySet()) {
-                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrgEntry.getKey());
+            for (RequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg == null) {
                     available = false;
                     break;
                     
                 } else {
-                    for (Entry<String, String> f : rrgEntry.getValue().getPrivacySettingsMap().entrySet()) {
-                        IPrivacySetting ps = rg.getPrivacySetting(f.getKey());
+                    for (de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                        IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps == null) {
                             available = false;
                             break;
@@ -314,27 +312,27 @@ public class MockupControl {
                 }
             }
             
-            sf = new MockupServiceFeature(app, e.getKey(), available);
-            for (Entry<String, RequiredResourceGroup> rrgEntry : e.getValue().getRequiredResourceGroups().entrySet()) {
-                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrgEntry.getKey());
+            sf = new MockupServiceFeature(app, serviceFeature.getIdentifier(), available);
+            for (RequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+                IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg != null) {
-                    for (Entry<String, String> f : rrgEntry.getValue().getPrivacySettingsMap().entrySet()) {
-                        IPrivacySetting ps = rg.getPrivacySetting(f.getKey());
+                    for (PrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                        IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps != null) {
-                            sf.addPS((MockupPrivacySetting) ps, f.getValue());
+                            sf.addPS((MockupPrivacySetting) ps, privacySetting.getValue());
                         }
                     }
                 }
             }
-            app.addSF(e.getKey(), sf);
+            app.addSF(serviceFeature.getIdentifier(), sf);
         }
     }
     
     
-    public static RgInformationSet getRGIS(Context context, String fileName) {
-        RgInformationSet result = null;
+    public static RGIS getRGIS(Context context, String fileName) {
+        RGIS result = null;
         try {
-            result = RgInformationSetParser.createRgInformationSet(context.getAssets().open("samples2/rg/" + fileName));
+            result = XMLUtilityProxy.parseRGISXML(context.getAssets().open("samples2/rg/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
             Log.e("Could not mock RGIS", t);
@@ -343,11 +341,10 @@ public class MockupControl {
     }
     
     
-    public static AppInformationSet getAIS(Context context, String fileName) {
-        AppInformationSet result = null;
+    public static AIS getAIS(Context context, String fileName) {
+        AIS result = null;
         try {
-            result = AppInformationSetParser.createAppInformationSet(context.getAssets().open(
-                    "samples2/app/" + fileName));
+            result = XMLUtilityProxy.parseAISXML(context.getAssets().open("samples2/app/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
             Log.e("Could not mock AIS", t);

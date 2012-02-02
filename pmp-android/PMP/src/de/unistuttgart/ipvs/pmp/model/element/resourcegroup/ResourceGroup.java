@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @see IResourceGroup
@@ -23,7 +23,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     /**
      * localized values
      */
-    protected RgInformationSet rgis;
+    protected RGIS rgis;
     
     /**
      * internal data & links
@@ -53,9 +53,9 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String getName() {
         checkCached();
-        String name = this.rgis.getNames().get(Locale.getDefault());
+        String name = this.rgis.getNameForLocale(Locale.getDefault()).getName();
         if (name == null) {
-            name = this.rgis.getNames().get(Locale.ENGLISH);
+            name = this.rgis.getNameForLocale(Locale.ENGLISH).getName();
         }
         return name;
     }
@@ -64,9 +64,9 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String getDescription() {
         checkCached();
-        String description = this.rgis.getDescriptions().get(Locale.getDefault());
+        String description = this.rgis.getDescriptionForLocale(Locale.getDefault()).getDescription();
         if (description == null) {
-            description = this.rgis.getDescriptions().get(Locale.ENGLISH);
+            description = this.rgis.getDescriptionForLocale(Locale.ENGLISH).getDescription();
         }
         return description;
     }
@@ -113,7 +113,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     /* inter-model communication */
-    public RgInformationSet getRgis() {
+    public RGIS getRgis() {
         checkCached();
         return this.rgis;
     }

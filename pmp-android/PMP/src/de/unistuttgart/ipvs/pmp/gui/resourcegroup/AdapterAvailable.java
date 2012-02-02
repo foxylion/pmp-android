@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * The {@link RgAvailableAdapter} is the list of available Resourcegroups in the {@link TabAvailable}.
@@ -29,10 +29,10 @@ public class AdapterAvailable extends BaseAdapter {
     /**
      * List of all Resource Groups which should be displayed.
      */
-    private List<RgInformationSet> rgs;
+    private List<RGIS> rgs;
     
     
-    public AdapterAvailable(Context context, List<RgInformationSet> rgs) {
+    public AdapterAvailable(Context context, List<RGIS> rgs) {
         this.context = context;
         this.rgs = rgs;
     }
@@ -58,7 +58,7 @@ public class AdapterAvailable extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RgInformationSet rgis = this.rgs.get(position);
+        RGIS rgis = this.rgs.get(position);
         
         String rgId = rgis.getIdentifier();
         int rgRev = Integer.parseInt(rgis.getRevision());
@@ -68,16 +68,16 @@ public class AdapterAvailable extends BaseAdapter {
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
-        String nameString = rgis.getNames().get(Locale.getDefault());
+        String nameString = rgis.getNameForLocale(Locale.getDefault()).getName();
         if (nameString == null) {
-            nameString = rgis.getNames().get(Locale.ENGLISH);
+            nameString = rgis.getNameForLocale(Locale.ENGLISH).getName();
         }
         name.setText(nameString);
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
-        String descriptionString = rgis.getDescriptions().get(Locale.getDefault());
+        String descriptionString = rgis.getDescriptionForLocale(Locale.getDefault()).getDescription();
         if (descriptionString == null) {
-            descriptionString = rgis.getDescriptions().get(Locale.ENGLISH);
+            descriptionString = rgis.getDescriptionForLocale(Locale.ENGLISH).getDescription();
         }
         description.setText(descriptionString);
         
