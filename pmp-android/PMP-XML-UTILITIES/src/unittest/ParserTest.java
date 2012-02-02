@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package unittest;
 
 import static org.junit.Assert.*;
@@ -7,16 +26,16 @@ import java.util.Locale;
 import java.util.Random;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityFactory;
-import de.unistuttgart.ipvs.pmp.xmlutil.app.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.app.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.app.ServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.compiler.XMLAttribute;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.compiler.XMLCompiler;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.compiler.XMLNode;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ISException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rg.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.rg.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.XMLAttribute;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.XMLCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.XMLNode;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * 

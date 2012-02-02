@@ -1,12 +1,31 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
-import de.unistuttgart.ipvs.pmp.xmlutil.rg.Parser;
-import de.unistuttgart.ipvs.pmp.xmlutil.rg.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.rg.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * 
@@ -26,7 +45,10 @@ public class RGUtil {
      * @return resourcegroup information set
      */
 	public RGIS parseRGISXML(InputStream xmlStream) {
-        return new Parser(xmlStream).parse();
+		long a = System.currentTimeMillis();
+		RGIS rgis = new RGISParser(xmlStream).parse();
+		System.out.println("Parsing took " + Long.toString(System.currentTimeMillis() - a) + "ms.");
+        return rgis;
 	}
 	
 	public InputStream compileRGIS() {
