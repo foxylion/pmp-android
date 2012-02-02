@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -49,8 +47,6 @@ public class ServerProvider implements IServerProvider {
      */
     private IServerDownloadCallback callback;
     
-    private Map<String, CachedDownload> cache;
-    
     /*
      * singleton stuff
      */
@@ -68,7 +64,6 @@ public class ServerProvider implements IServerProvider {
             Log.e("Error while creating directory in ServerProvider.");
         }
         this.callback = NullServerDownloadCallback.instance;
-        this.cache = new HashMap<String, CachedDownload>();
     }
     
     
@@ -85,16 +80,18 @@ public class ServerProvider implements IServerProvider {
         try {
             InputStream inputStream = null;
             int length = 0;
+            FileOutputStream cacheTo = null;
             
             // try to use the cache
-            if (this.cache.containsKey(address)) {
-                if (!this.cache.get(address).isValid(CACHE_DURATION)) {
-                    this.cache.remove(address);
+            File cacheFile = new File(TEMPORARY_PATH + String.valueOf(address.hashCode()));
+            if (cacheFile.exists()) {
+                if (cacheFile.lastModified() + CACHE_DURATION < System.currentTimeMillis()) {
+                    cacheFile.delete();
                     
                 } else {
-                    byte[] cached = this.cache.get(address).getContent();
-                    inputStream = new ByteArrayInputStream(cached);
-                    length = cached.length;
+                    inputStream = new FileInputStream(cacheFile);
+                    length = (int) cacheFile.length();
+                    
                 }
             }
             
@@ -103,6 +100,7 @@ public class ServerProvider implements IServerProvider {
                 URLConnection urlc = new URL(SERVER_URL + address).openConnection();
                 inputStream = urlc.getInputStream();
                 length = urlc.getContentLength();
+                cacheTo = new FileOutputStream(cacheFile);
             }
             byte[] buffer = new byte[BUFFER_SIZE];
             
@@ -118,6 +116,9 @@ public class ServerProvider implements IServerProvider {
                     break;
                 }
                 writeTo.write(buffer, 0, read);
+                if (cacheTo != null) {
+                    cacheTo.write(buffer, 0, read);
+                }
                 
                 // just callback
                 position += read;
@@ -127,7 +128,14 @@ public class ServerProvider implements IServerProvider {
                 }
             }
             
-            // callback
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (cacheTo != null) {
+                cacheTo.close();
+            }
+            
+            // callback            
             this.callback.download(length, length);
             
             return true;
@@ -165,48 +173,26 @@ public class ServerProvider implements IServerProvider {
             Log.e("UTF-8 is missing. This should not happen.", uee);
             rgs = new String[0];
             
-        } finally {
-            try {
-                baos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new RgInformationSet[0];
-            }
         }
         
         result = new RgInformationSet[rgs.length];
         
         // load all the XMLs
+        ByteArrayStreamBridge basb = new ByteArrayStreamBridge(BUFFER_SIZE);
+        
         for (int i = 0; i < rgs.length; i++) {
             this.callback.tasks(1 + i, 1 + rgs.length);
             
-            // maybe this can be done less complicated, but i don't know for now
-            ByteArrayOutputStream xmlbaos = new ByteArrayOutputStream();
-            try {
-                if (!downloadFile(rgs[i] + XML_STR, xmlbaos)) {
-                    return new RgInformationSet[0];
-                }
-                
-                ByteArrayInputStream bais = new ByteArrayInputStream(xmlbaos.toByteArray());
-                try {
-                    result[i] = RgInformationSetParser.createRgInformationSet(bais);
-                    
-                } finally {
-                    try {
-                        bais.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return new RgInformationSet[0];
-                    }
-                }
-            } finally {
-                try {
-                    xmlbaos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return new RgInformationSet[0];
-                }
+            if (!downloadFile(rgs[i] + XML_STR, basb)) {
+                return new RgInformationSet[0];
             }
+            
+            // the BASBridge prevents us from copying a huge amount of arrays
+            long before = System.currentTimeMillis();
+            result[i] = RgInformationSetParser.createRgInformationSet(basb.toInputStream());
+            long after = System.currentTimeMillis();
+            
+            Log.v("Parsing one XML took us " + (after - before) + "ms");
             
             this.callback.tasks(1 + i + 1, 1 + rgs.length);
         }
@@ -258,7 +244,9 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public void cleanCache() {
-        // TODO Auto-generated method stub
+        for (File f : new File(TEMPORARY_PATH).listFiles()) {
+            f.delete();
+        }
         
     }
     
