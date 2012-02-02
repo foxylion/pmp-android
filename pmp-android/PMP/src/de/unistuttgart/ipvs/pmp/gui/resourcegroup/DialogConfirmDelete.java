@@ -10,6 +10,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.KillAppUtil;
 
 public class DialogConfirmDelete extends Dialog {
     
@@ -48,6 +49,18 @@ public class DialogConfirmDelete extends Dialog {
                 Toast.makeText(DialogConfirmDelete.this.getContext(),
                         DialogConfirmDelete.this.getContext().getString(R.string.rg_removed_success), Toast.LENGTH_LONG)
                         .show();
+                
+                /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
+                new Thread() {
+                    
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                        }
+                        KillAppUtil.killAppAndRestartActivity(installedTab.getParent());
+                    };
+                }.start();
                 
                 DialogConfirmDelete.this.dismiss();
                 DialogConfirmDelete.this.installedDetails.dismiss();
