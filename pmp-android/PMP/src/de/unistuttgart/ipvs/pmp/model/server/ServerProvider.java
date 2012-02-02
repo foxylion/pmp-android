@@ -12,6 +12,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -33,6 +35,9 @@ public class ServerProvider implements IServerProvider {
     private static final String SERVER_URL = "http://pmp-android.no-ip.org/";
     private static final String SEARCH_FOR = "?q=";
     private static final long CALLBACK_INTERVAL = 100L;
+    private static final long CACHE_DURATION = 3600L * 1000L;
+    
+    private static final int BUFFER_SIZE = 32 * 1024;
     
     private static final String APK_STR = ".apk";
     private static final String XML_STR = ".xml";
@@ -43,6 +48,8 @@ public class ServerProvider implements IServerProvider {
      * fields
      */
     private IServerDownloadCallback callback;
+    
+    private Map<String, CachedDownload> cache;
     
     /*
      * singleton stuff
@@ -61,6 +68,7 @@ public class ServerProvider implements IServerProvider {
             Log.e("Error while creating directory in ServerProvider.");
         }
         this.callback = NullServerDownloadCallback.instance;
+        this.cache = new HashMap<String, CachedDownload>();
     }
     
     
@@ -75,13 +83,30 @@ public class ServerProvider implements IServerProvider {
      */
     private boolean downloadFile(String address, OutputStream writeTo) {
         try {
-            URLConnection urlc = new URL(SERVER_URL + address).openConnection();
+            InputStream inputStream = null;
+            int length = 0;
             
-            InputStream inputStream = urlc.getInputStream();
-            byte[] buffer = new byte[32 * 1024];
+            // try to use the cache
+            if (this.cache.containsKey(address)) {
+                if (!this.cache.get(address).isValid(CACHE_DURATION)) {
+                    this.cache.remove(address);
+                    
+                } else {
+                    byte[] cached = this.cache.get(address).getContent();
+                    inputStream = new ByteArrayInputStream(cached);
+                    length = cached.length;
+                }
+            }
+            
+            // nothing found
+            if (inputStream == null) {
+                URLConnection urlc = new URL(SERVER_URL + address).openConnection();
+                inputStream = urlc.getInputStream();
+                length = urlc.getContentLength();
+            }
+            byte[] buffer = new byte[BUFFER_SIZE];
             
             // callback stuff
-            int length = urlc.getContentLength();
             int position = 0;
             long lastCallback = System.currentTimeMillis();
             this.callback.download(0, length);
@@ -228,6 +253,13 @@ public class ServerProvider implements IServerProvider {
         } else {
             this.callback = callback;
         }
+    }
+    
+    
+    @Override
+    public void cleanCache() {
+        // TODO Auto-generated method stub
+        
     }
     
 }
