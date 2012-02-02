@@ -48,11 +48,11 @@ public class ISPrinter {
 		System.out.println("-- App-Information: ---");
 		System.out.println("-----------------------");
 		for (Name name : ais.getNames()) {
-			System.out.println("Name: " + name.getString() + " (Locale: "
+			System.out.println("Name: " + name.getName() + " (Locale: "
 					+ name.getLocale().getLanguage() + ")");
 		}
 		for (Description descr : ais.getDescriptions()) {
-			System.out.println("Description: " + descr.getString()
+			System.out.println("Description: " + descr.getDescription()
 					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 		}
 		System.out.println("-----------------------");
@@ -61,11 +61,11 @@ public class ISPrinter {
 		for (ServiceFeature sf : ais.getServiceFeatures()) {
 			System.out.println("Identifier: " + sf.getIdentifier());
 			for (Name name : sf.getNames()) {
-				System.out.println("Name: " + name.getString() + " (Locale: "
+				System.out.println("Name: " + name.getName() + " (Locale: "
 						+ name.getLocale().getLanguage() + ")");
 			}
 			for (Description descr : sf.getDescriptions()) {
-				System.out.println("Description: " + descr.getString()
+				System.out.println("Description: " + descr.getDescription()
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
 			for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
@@ -99,11 +99,11 @@ public class ISPrinter {
 		System.out.println("IconLocation: " + rgis.getIconLocation());
 		System.out.println("Class Name: " + rgis.getClassName());
 		for (Name name : rgis.getNames()) {
-			System.out.println("Name: " + name.getString() + " (Locale: "
+			System.out.println("Name: " + name.getName() + " (Locale: "
 					+ name.getLocale().getLanguage() + ")");
 		}
 		for (Description descr : rgis.getDescriptions()) {
-			System.out.println("Description: " + descr.getString()
+			System.out.println("Description: " + descr.getDescription()
 					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 		}
 		System.out.println("-----------------------");
@@ -115,11 +115,11 @@ public class ISPrinter {
 			System.out.println("Valid value description: "
 					+ ps.getValidValueDescription());
 			for (Name name : ps.getNames()) {
-				System.out.println("Name: " + name.getString() + " (Locale: "
+				System.out.println("Name: " + name.getName() + " (Locale: "
 						+ name.getLocale().getLanguage() + ")");
 			}
 			for (Description descr : ps.getDescriptions()) {
-				System.out.println("Description: " + descr.getString()
+				System.out.println("Description: " + descr.getDescription()
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
 			System.out.println("-----------------------");

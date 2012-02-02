@@ -19,6 +19,21 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
-public class Description extends AbstractLocaleString {
+/**
+ * 
+ * @author Marcus Vetter
+ *
+ */
+public class Description extends AbstractLocale {
+	
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }
