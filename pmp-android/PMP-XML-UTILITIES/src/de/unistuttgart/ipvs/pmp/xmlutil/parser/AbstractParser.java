@@ -56,13 +56,12 @@ public abstract class AbstractParser {
 	protected Document doc = null;
 
 	/**
-	 * The constructor to instantiate the parser
+	 * Initialize the parser
 	 * 
 	 * @param xmlStream
-	 *            the xml input stream
+	 *            the input stream
 	 */
-	protected AbstractParser(InputStream xmlStream) {
-
+	protected void initParser(InputStream xmlStream) {
 		// Check if the xmlStream is null
 		if (xmlStream == null) {
 			throw new ParserException(Type.NULL_XML_STREAM,
@@ -85,7 +84,6 @@ public abstract class AbstractParser {
 		} catch (IOException e) {
 			throw new ParserException(Type.IO_EXCEPTION, "IOException", e);
 		}
-
 	}
 
 	/**
@@ -174,10 +172,6 @@ public abstract class AbstractParser {
 			is.addDescription(descr);
 		}
 	}
-
-
-
-
 
 	/**
 	 * This methods checks, if a parent has exactly the number of child nodes

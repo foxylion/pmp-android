@@ -22,7 +22,7 @@ package unittest;
 import java.io.IOException;
 import java.net.URL;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityFactory;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -30,11 +30,11 @@ public class TestValidXMLFile {
 	
 	public static void main(String[] args) {
 		try {
-			AIS ais = XMLUtilityFactory.getAppUtilities().parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
-			XMLUtilityFactory.getAppUtilities().printAIS(ais);
+			AIS ais = XMLUtilityProxy.parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
+			XMLUtilityProxy.printAIS(ais);
 			
-			RGIS rgis = XMLUtilityFactory.getRGUtilities().parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
-			XMLUtilityFactory.getRGUtilities().printRGIS(rgis);
+			RGIS rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
+			XMLUtilityProxy.printRGIS(rgis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

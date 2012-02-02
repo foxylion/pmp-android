@@ -47,19 +47,14 @@ public class AISParser extends AbstractParser {
 	private AIS ais = new AIS();
 
 	/**
-	 * Constructor
-	 */
-	public AISParser(InputStream xmlStream) {
-		super(xmlStream);
-	}
-
-	/**
 	 * This method parses a given xml (by the xml url) and returns a created app
 	 * information set
 	 * 
 	 * @return created app information set
 	 */
-	public AIS parse() {
+	public AIS parse(InputStream xmlStream) {
+		// Initialize
+		initParser(xmlStream);
 
 		// Check, if the root node is named correctly
 		if (!this.doc.getDocumentElement().getNodeName()
@@ -116,70 +111,47 @@ public class AISParser extends AbstractParser {
 
 		// Parse the defined Service Features
 		for (int itr = 0; itr < serviceFeaturesNodeList.getLength(); itr++) {
-			parseOneServiceFeature((Element) serviceFeaturesNodeList.item(itr));
-		}
-	}
+			Element serviceFeatureElement = (Element) serviceFeaturesNodeList
+					.item(itr);
 
-	/**
-	 * This method parses one service feature
-	 * 
-	 * @param serviceFeatureElement
-	 *            starting with this root element
-	 */
-	private void parseOneServiceFeature(Element serviceFeaturesElement) {
-		
-		// Get the identifier
-		String identifier = serviceFeaturesElement.getAttribute("identifier");
-
-		// Instantiate the service feature and add it to the AIS
-		ServiceFeature sf = new ServiceFeature(identifier);
-		this.ais.addServiceFeature(sf);
-
-		// Parse name and descriptions
-		parseNameDescriptionNodes(serviceFeaturesElement, sf);
-
-		// Get the node list of the required resource groups
-		NodeList rrgNodeList = serviceFeaturesElement
-				.getElementsByTagName("requiredResourceGroup");
-
-		// Parse all required resource groups
-		for (int rrgItr = 0; rrgItr < rrgNodeList.getLength(); rrgItr++) {
-			Element rrgElement = (Element) rrgNodeList.item(rrgItr);
-			
 			// Get the identifier
-			String rrgIdentifier = rrgElement.getAttribute("identifier");
+			String identifier = serviceFeatureElement
+					.getAttribute("identifier");
 
-			// Instantiate the required resource group
-			RequiredResourceGroup rrg = new RequiredResourceGroup(rrgIdentifier);
+			// Instantiate the service feature and add it to the AIS
+			ServiceFeature sf = new ServiceFeature(identifier);
+			this.ais.addServiceFeature(sf);
 
-			// Add the required resource group to the service feature
-			sf.addRequiredResourceGroup(rrg);
+			// Parse name and descriptions
+			parseNameDescriptionNodes(serviceFeatureElement, sf);
 
-			// Parse the required resource group
-			parseOneRequiredResourceGroup(rrgElement, rrg);
-		}
+			// Get the node list of the required resource groups
+			NodeList rrgNodeList = serviceFeatureElement
+					.getElementsByTagName("requiredResourceGroup");
 
-	}
+			// Parse all required resource groups
+			for (int rrgItr = 0; rrgItr < rrgNodeList.getLength(); rrgItr++) {
+				Element rrgElement = (Element) rrgNodeList.item(rrgItr);
 
-	/**
-	 * This method is used to are one required resource group element.
-	 * 
-	 * @param requiredResourceGroupElement
-	 *            the element of the required resource group
-	 * @param rrg
-	 *            The required resource group object, which is assign to the
-	 *            service feature.
-	 */
-	private void parseOneRequiredResourceGroup(
-			Element requiredResourceGroupElement, RequiredResourceGroup rrg) {
-		// Create result
-		List<String[]> privacySettingList = parseNodes(
-				requiredResourceGroupElement, "privacySetting", "identifier");
+				// Instantiate the required resource group and add the
+				// identifier
+				RequiredResourceGroup rrg = new RequiredResourceGroup(
+						rrgElement.getAttribute("identifier"));
 
-		// Add to the app information set (building objects)
-		for (String[] privacySettingArray : privacySettingList) {
-			// Add identifier and value
-			rrg.addPrivacySetting(new PrivacySetting(privacySettingArray[1], privacySettingArray[0]));
+				// Add the required resource group to the service feature
+				sf.addRequiredResourceGroup(rrg);
+
+				// Parse the required resource group
+				List<String[]> privacySettingList = parseNodes(rrgElement,
+						"privacySetting", "identifier");
+
+				// Add to the app information set (building objects)
+				for (String[] privacySettingArray : privacySettingList) {
+					// Add identifier and value
+					rrg.addPrivacySetting(new PrivacySetting(
+							privacySettingArray[1], privacySettingArray[0]));
+				}
+			}
 		}
 	}
 
