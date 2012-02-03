@@ -231,6 +231,8 @@ public class AbsoluteLocationResource extends Resource {
 		
 		public void onProviderDisabled(String provider) {
 			AbsoluteLocationResource.this.gpsEnabled = false;
+			AbsoluteLocationResource.this.fixed = false;
+			createNotification();
 		}
 		
 		
@@ -241,19 +243,19 @@ public class AbsoluteLocationResource extends Resource {
 		
 		
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			switch (status) {
-				case LocationProvider.AVAILABLE:
-					break;
-				
-				case LocationProvider.TEMPORARILY_UNAVAILABLE:
-					break;
-				
-				case LocationProvider.OUT_OF_SERVICE:
-					AbsoluteLocationResource.this.gpsEnabled = false;
-					AbsoluteLocationResource.this.fixed = false;
-					createNotification();
-					break;
-			}
+//			switch (status) {
+//				case LocationProvider.AVAILABLE:
+//					break;
+//				
+//				case LocationProvider.TEMPORARILY_UNAVAILABLE:
+//					break;
+//				
+//				case LocationProvider.OUT_OF_SERVICE:
+//					AbsoluteLocationResource.this.gpsEnabled = false;
+//					AbsoluteLocationResource.this.fixed = false;
+//					createNotification();
+//					break;
+//			}
 			
 		}
 	}
