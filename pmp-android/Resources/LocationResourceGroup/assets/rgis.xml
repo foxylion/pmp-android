@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" revision="1" icon="res/drawable-hdpi/icon.png" className="Location">
-
+	<resourceGroupInformation 
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location"
+		icon="res/drawable-hdpi/icon.png"
+		className="Location">
 		<name lang="en">Location</name>
 		<name lang="de">Ortung</name>
 		<description lang="en">Obtains access to the current location of the device.</description>
 		<description lang="de">Erlaubt Zugriff auf den aktuellen Standort des Geräts.</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting identifier="useAbsoluteLocation">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Absolute location</defaultName>
+		<privacySetting 
+			identifier="useAbsoluteLocation"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Absolute location</name>
 			<name lang="de">Genaue Ortung</name>
-			<defaultDescription lang="en">Obtains access to the exact current location.</defaultDescription>
+			<description lang="en">Obtains access to the exact current location.</description>
 			<description lang="de">Erlaubt Zugriff auf die aktuell exakte Position.</description>
 		</privacySetting>
-		<privacySetting identifier="showAccuracy">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Use accuracy</defaultName>
+		<privacySetting 
+			identifier="showAccuracy"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Use accuracy</name>
 			<name lang="de">Genauigkeit nutzen</name>
-			<defaultDescription lang="en">Obtains access to the current accuracy of the location.</defaultDescription>
+			<description lang="en">Obtains access to the current accuracy of the location.</description>
 			<description lang="de">Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</description>
 		</privacySetting>
-		<privacySetting identifier="locationPrecision">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Location precision</defaultName>
+		<privacySetting
+			identifier="locationPrecision"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Location precision</name>
 			<name lang="de">Genauigkeit der Ortung</name>
-			<defaultDescription lang="en">How precise the location should be.</defaultDescription>
+			<description lang="en">How precise the location should be.</description>
 			<description lang="de">Wie genau die Ortung sein soll.</description>
 		</privacySetting>
-		<privacySetting identifier="showSpeed">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Current speed</defaultName>
+		<privacySetting 
+			identifier="showSpeed"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Current speed</name>
 			<name lang="de">Aktuelle Geschwindigkeit</name>
-			<defaultDescription lang="en">Obtains access to the current speed.</defaultDescription>
+			<description lang="en">Obtains access to the current speed.</description>
 			<description lang="de">Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</description>
 		</privacySetting>
 	</privacySettings>

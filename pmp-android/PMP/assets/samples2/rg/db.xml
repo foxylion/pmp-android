@@ -2,7 +2,6 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation 
 		identifier="org.oracle.db"
-		revision="33"
 		icon="location.of.the.icon"
 		className="xy">
 		<name lang="en">Database</name>

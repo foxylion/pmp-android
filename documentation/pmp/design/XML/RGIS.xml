@@ -2,7 +2,6 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
-		revision="3"
 		icon="res/icon"
 		className="databaseResourceGroup">
 		<name lang="en">Database</name>
