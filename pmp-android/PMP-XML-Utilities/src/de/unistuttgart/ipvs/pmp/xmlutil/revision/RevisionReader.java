@@ -45,7 +45,7 @@ public class RevisionReader {
      */
     public long readRevision(File apk) {
         
-        long result = -2006186034L; // the devil
+        long result = -1000;
         
         try {
             ZipFile zipApk = new ZipFile(apk);
@@ -53,13 +53,13 @@ public class RevisionReader {
                 
                 ZipEntry ze = zipApk.getEntry("classes.dex");
                 if (ze == null) {
-                    return -2074708556L; // 404'd
+                    return -2074708556000L; // 404'd
                 }
                 result = Math.max(result, ze.getTime());
                 
                 ze = zipApk.getEntry("assets/rgis.xml");
                 if (ze == null) {
-                    return -2074708556L; // 404'd
+                    return -2074708556000L; // 404'd
                 }
                 result = Math.max(result, ze.getTime());
                 
@@ -67,13 +67,15 @@ public class RevisionReader {
                 zipApk.close();
             }
             
+            return result;
+            
         } catch (ZipException e) {
             e.printStackTrace();
+            return -2006186034000L; // the devil
         } catch (IOException e) {
             e.printStackTrace();
+            return -2006186034000L; // the devil
         }
-        
-        return result;
     }
     
     

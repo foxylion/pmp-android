@@ -73,7 +73,7 @@ public class ServerProvider implements IServerProvider {
     
     public AbstractResponse handleRequest(IRequest request) throws IOException, ClassNotFoundException {
         if (!this.tcpSocket.isConnected()) {
-            this.tcpSocket.bind(new InetSocketAddress(SERVER_URL, SERVER_PORT));
+            this.tcpSocket.connect(new InetSocketAddress(SERVER_URL, SERVER_PORT));
         }
         
         ObjectOutputStream oos = new ObjectOutputStream(this.tcpSocket.getOutputStream());
