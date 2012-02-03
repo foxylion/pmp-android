@@ -20,9 +20,9 @@
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -58,7 +58,7 @@ public class ISPrinter {
 		System.out.println("-----------------------");
 		System.out.println("-- Service Features: --");
 		System.out.println("-----------------------");
-		for (ServiceFeature sf : ais.getServiceFeatures()) {
+		for (AISServiceFeature sf : ais.getServiceFeatures()) {
 			System.out.println("Identifier: " + sf.getIdentifier());
 			for (Name name : sf.getNames()) {
 				System.out.println("Name: " + name.getName() + " (Locale: "
@@ -68,10 +68,10 @@ public class ISPrinter {
 				System.out.println("Description: " + descr.getDescription()
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
-			for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+			for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
 				System.out.println("Required Resource Group ID: "
 						+ rrg.getIdentifier());
-				for (PrivacySetting ps : rrg.getPrivacySettings()) {
+				for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
 					System.out.println("- Privacy Setting Value: "
 							+ ps.getValue() + " (Identifier: "
 							+ ps.getIdentifier() + ")");
@@ -109,7 +109,7 @@ public class ISPrinter {
 		System.out.println("-----------------------");
 		System.out.println("-- Privacy Settings: --");
 		System.out.println("-----------------------");
-		for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting ps : rgis
+		for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis
 				.getPrivacySettings()) {
 			System.out.println("Identifier: " + ps.getIdentifier());
 			System.out.println("Valid value description: "

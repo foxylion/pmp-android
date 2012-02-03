@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -122,7 +122,7 @@ public class RGISParser extends AbstractParser {
         	Element privacySettingElement = (Element) privacySettingsNodeList.item(itr);
         	
         	// Instantiate a new Privacy Setting and add the identifier
-        	PrivacySetting ps = new PrivacySetting(privacySettingElement.getAttribute("identifier"), null);
+        	RGISPrivacySetting ps = new RGISPrivacySetting(privacySettingElement.getAttribute("identifier"), null);
             
         	// Get the valid value description
             List<String[]> validValueDescrList = parseNodes(privacySettingElement, "validValueDescription");

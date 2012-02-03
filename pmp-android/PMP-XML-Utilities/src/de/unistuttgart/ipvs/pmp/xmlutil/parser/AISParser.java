@@ -26,9 +26,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 
@@ -119,7 +119,7 @@ public class AISParser extends AbstractParser {
 					.getAttribute("identifier");
 
 			// Instantiate the service feature and add it to the AIS
-			ServiceFeature sf = new ServiceFeature(identifier);
+			AISServiceFeature sf = new AISServiceFeature(identifier);
 			this.ais.addServiceFeature(sf);
 
 			// Parse name and descriptions
@@ -135,7 +135,7 @@ public class AISParser extends AbstractParser {
 
 				// Instantiate the required resource group and add the
 				// identifier
-				RequiredResourceGroup rrg = new RequiredResourceGroup(
+				AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(
 						rrgElement.getAttribute("identifier"));
 
 				// Add the required resource group to the service feature
@@ -148,7 +148,7 @@ public class AISParser extends AbstractParser {
 				// Add to the app information set (building objects)
 				for (String[] privacySettingArray : privacySettingList) {
 					// Add identifier and value
-					rrg.addPrivacySetting(new PrivacySetting(
+					rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(
 							privacySettingArray[1], privacySettingArray[0]));
 				}
 			}

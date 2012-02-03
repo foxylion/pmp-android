@@ -19,12 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -38,14 +36,14 @@ public class AIS extends BasicIS {
 	/**
 	 * This list contains all service features of the app.
 	 */
-	private List<ServiceFeature> serviceFeatureList;
+	private List<AISServiceFeature> serviceFeatures;
 
 	/**
 	 * Constructor is used to instantiate the data structures.
 	 */
 	public AIS() {
 		super();
-		this.serviceFeatureList = new ArrayList<ServiceFeature>();
+		this.serviceFeatures = new ArrayList<AISServiceFeature>();
 	}
 
 	/**
@@ -54,8 +52,8 @@ public class AIS extends BasicIS {
 	 * @param sf
 	 *            service feature
 	 */
-	public void addServiceFeature(ServiceFeature sf) {
-		this.serviceFeatureList.add(sf);
+	public void addServiceFeature(AISServiceFeature sf) {
+		this.serviceFeatures.add(sf);
 	}
 
 	/**
@@ -64,8 +62,8 @@ public class AIS extends BasicIS {
 	 * @param sf
 	 *            service feature
 	 */
-	public void removeServiceFeature(ServiceFeature sf) {
-		this.serviceFeatureList.remove(sf);
+	public void removeServiceFeature(AISServiceFeature sf) {
+		this.serviceFeatures.remove(sf);
 	}
 
 	/**
@@ -73,8 +71,24 @@ public class AIS extends BasicIS {
 	 * 
 	 * @return list with service features
 	 */
-	public List<ServiceFeature> getServiceFeatures() {
-		return this.serviceFeatureList;
+	public List<AISServiceFeature> getServiceFeatures() {
+		return this.serviceFeatures;
+	}
+
+	/**
+	 * Get a service feature for a given identifier. Null, if no service feature
+	 * exists for the given identifier.
+	 * 
+	 * @param identifier
+	 *            identifier of the service feature
+	 * @return service feature with given identifier, null if none exists.
+	 */
+	public AISServiceFeature getServiceFeatureForIdentifier(String identifier) {
+		for (AISServiceFeature sf : this.serviceFeatures) {
+			if (sf.getIdentifier().equals(identifier))
+				return sf;
+		}
+		return null;
 	}
 
 }
