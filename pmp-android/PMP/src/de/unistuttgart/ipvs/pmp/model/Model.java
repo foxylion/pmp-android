@@ -134,7 +134,7 @@ public class Model implements IModel, Observer {
     @Override
     public IApp getApp(String appPackage) {
         checkCached();
-        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
         
         return this.cache.getApps().get(appPackage);
     }
@@ -143,9 +143,9 @@ public class Model implements IModel, Observer {
     @Override
     public RegistrationResult registerApp(final String appPackage) {
         checkCached();
-        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
-        Assert.isNull(getApp(appPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "appPackage",
-                appPackage));
+        Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
+        Assert.isNull(getApp(appPackage), ModelMisuseError.class, Assert.ILLEGAL_ALREADY_INSTALLED, "appPackage",
+                appPackage);
         
         // check XML
         try {
@@ -169,7 +169,7 @@ public class Model implements IModel, Observer {
             
             // apply new app to DB, then model
             App newApp = new AppPersistenceProvider(null).createElementData(appPackage);
-            Assert.nonNull(newApp, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newApp", newApp));
+            Assert.nonNull(newApp, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newApp", newApp);
             this.cache.getApps().put(appPackage, newApp);
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
@@ -177,7 +177,7 @@ public class Model implements IModel, Observer {
             for (AISServiceFeature sf : ais.getServiceFeatures()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
                         sf.getIdentifier(), sf.getRequiredResourceGroups());
-                Assert.nonNull(newSF, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newSF", newSF));
+                Assert.nonNull(newSF, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newSF", newSF);
                 this.cache.getServiceFeatures().get(newApp).put(sf.getIdentifier(), newSF);
             }
             
@@ -223,7 +223,7 @@ public class Model implements IModel, Observer {
     @Override
     public boolean unregisterApp(String appPackage) {
         checkCached();
-        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
+        Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
         
         App app = this.cache.getApps().get(appPackage);
         if (app == null) {
@@ -238,8 +238,8 @@ public class Model implements IModel, Observer {
                 // remember that presets have to be disabled once their required apps get uninstalled
                 for (IPreset preset : app.getAssignedPresets()) {
                     // this time, there's no way but to cast (or run manually through all apps)                     
-                    Assert.instanceOf(preset, Preset.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "preset",
-                            preset));
+                    Assert.instanceOf(preset, Preset.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "preset",
+                            preset);
                     Preset castPreset = (Preset) preset;
                     
                     // since these presets were assigned to the app they now are guaranteed not to be available.
@@ -269,7 +269,7 @@ public class Model implements IModel, Observer {
     @Override
     public IResourceGroup getResourceGroup(String rgPackage) {
         checkCached();
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         return this.cache.getResourceGroups().get(rgPackage);
     }
     
@@ -278,11 +278,11 @@ public class Model implements IModel, Observer {
     public boolean installResourceGroup(String rgPackage, boolean dontDownload) throws InvalidXMLException,
             InvalidPluginException {
         checkCached();
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
-        Assert.isNull(getResourceGroup(rgPackage), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED, "rgPackage",
-                rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
+        Assert.isNull(getResourceGroup(rgPackage), ModelMisuseError.class, Assert.ILLEGAL_ALREADY_INSTALLED,
+                "rgPackage", rgPackage);
         if (this.unallowedInstall.contains(rgPackage)) {
-            throw new ModelMisuseError(Assert.ILLEGAL_SIGBUS_INSTALL, "rgPackage", rgPackage);
+            throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIGBUS_INSTALL, "rgPackage", rgPackage));
         }
         
         try {
@@ -290,7 +290,7 @@ public class Model implements IModel, Observer {
             if (!dontDownload) {
                 // download the plugin
                 File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
-                Assert.nonNull(temp, new ModelMisuseError(Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage));
+                Assert.nonNull(temp, ModelMisuseError.class, Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage);
                 
                 // add it
                 FileInputStream fis;
@@ -306,7 +306,7 @@ public class Model implements IModel, Observer {
                         }
                     }
                 } catch (FileNotFoundException fnfe) {
-                    throw new ModelIntegrityError(Assert.ILLEGAL_MISSING_FILE, rgPackage, rgPackage);
+                    throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_MISSING_FILE, rgPackage, rgPackage));
                 }
                 
                 // remove temporary file
@@ -341,7 +341,7 @@ public class Model implements IModel, Observer {
             
             // apply new RG to DB, then model
             ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(rgPackage);
-            Assert.nonNull(newRG, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newRG", newRG));
+            Assert.nonNull(newRG, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newRG", newRG);
             this.cache.getResourceGroups().put(rgPackage, newRG);
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
@@ -349,7 +349,7 @@ public class Model implements IModel, Observer {
             for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
                         ps.getIdentifier());
-                Assert.nonNull(newPS, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPS", newPS));
+                Assert.nonNull(newPS, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newPS", newPS);
                 this.cache.getPrivacySettings().get(newRG).put(ps.getIdentifier(), newPS);
             }
             
@@ -402,7 +402,7 @@ public class Model implements IModel, Observer {
     @Override
     public boolean uninstallResourceGroup(String rgPackage) {
         checkCached();
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         
         ResourceGroup rg = this.cache.getResourceGroups().get(rgPackage);
         if (rg == null) {
@@ -468,7 +468,7 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset[] getPresets(ModelElement creator) {
         checkCached();
-        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        Assert.isValidCreator(creator, ModelMisuseError.class, Assert.ILLEGAL_CREATOR, "creator", creator);
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
@@ -482,8 +482,8 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset getPreset(IModelElement creator, String presetIdentifier) {
         checkCached();
-        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
-        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
+        Assert.isValidCreator(creator, ModelMisuseError.class, Assert.ILLEGAL_CREATOR, "creator", creator);
+        Assert.nonNull(presetIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL, "identifier", presetIdentifier);
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
@@ -497,16 +497,16 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset addPreset(IModelElement creator, String presetIdentifier, String name, String description) {
         checkCached();
-        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
-        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
-        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
-        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
-        Assert.isNull(getPreset(creator, presetIdentifier), new ModelMisuseError(Assert.ILLEGAL_ALREADY_INSTALLED,
-                "preset", (creator == null ? "null" : creator.toString()) + ", " + presetIdentifier));
+        Assert.isValidCreator(creator, ModelMisuseError.class, Assert.ILLEGAL_CREATOR, "creator", creator);
+        Assert.nonNull(presetIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL, "identifier", presetIdentifier);
+        Assert.nonNull(name, ModelMisuseError.class, Assert.ILLEGAL_NULL, "name", name);
+        Assert.nonNull(description, ModelMisuseError.class, Assert.ILLEGAL_NULL, "description", description);
+        Assert.isNull(getPreset(creator, presetIdentifier), ModelMisuseError.class, Assert.ILLEGAL_ALREADY_INSTALLED,
+                "preset", (creator == null ? "null" : creator.toString()) + ", " + presetIdentifier);
         
         Preset newPreset = new PresetPersistenceProvider(null).createElementData(creator, presetIdentifier, name,
                 description);
-        Assert.nonNull(newPreset, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPreset", newPreset));
+        Assert.nonNull(newPreset, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newPreset", newPreset);
         
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
         if (creatorMap == null) {
@@ -521,8 +521,8 @@ public class Model implements IModel, Observer {
     @Override
     public IPreset addUserPreset(String name, String description) {
         checkCached();
-        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
-        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
+        Assert.nonNull(name, ModelMisuseError.class, Assert.ILLEGAL_NULL, "name", name);
+        Assert.nonNull(description, ModelMisuseError.class, Assert.ILLEGAL_NULL, "description", description);
         
         // prepare standard
         Map<String, Preset> creatorMap = this.cache.getPresets().get(null);
@@ -545,8 +545,8 @@ public class Model implements IModel, Observer {
     @Override
     public boolean removePreset(IModelElement creator, String presetIdentifier) {
         checkCached();
-        Assert.nonNull(presetIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "identifier", presetIdentifier));
-        Assert.isValidCreator(creator, new ModelMisuseError(Assert.ILLEGAL_CREATOR, "creator", creator));
+        Assert.nonNull(presetIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL, "identifier", presetIdentifier);
+        Assert.isValidCreator(creator, ModelMisuseError.class, Assert.ILLEGAL_CREATOR, "creator", creator);
         
         // does the creator map exist?
         Map<String, Preset> creatorMap = this.cache.getPresets().get(creator);
@@ -568,7 +568,7 @@ public class Model implements IModel, Observer {
                 try {
                     for (IApp app : p.getAssignedApps()) {
                         // this time, there's no way but to cast (or run manually through all apps)
-                        Assert.instanceOf(app, App.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app));
+                        Assert.instanceOf(app, App.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "app", app);
                         App castApp = (App) app;
                         castApp.removePreset(p);
                     }

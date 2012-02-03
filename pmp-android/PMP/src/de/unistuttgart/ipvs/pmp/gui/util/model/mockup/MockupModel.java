@@ -69,7 +69,7 @@ public class MockupModel implements IModel {
         
         for (IPreset preset : app.getAssignedPresets()) {
             // this time, there's no way but to cast (or run manually through all apps)                     
-            Assert.instanceOf(preset, Preset.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "preset", preset));
+            Assert.instanceOf(preset, Preset.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "preset", preset);
             Preset castPreset = (Preset) preset;
             
             // since these presets were assigned to the app they now are guaranteed not to be available.
@@ -188,7 +188,7 @@ public class MockupModel implements IModel {
             
             for (IApp app : p.getAssignedApps()) {
                 // this time, there's no way but to cast (or run manually through all apps)
-                Assert.instanceOf(app, App.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app));
+                Assert.instanceOf(app, App.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "app", app);
                 App castApp = (App) app;
                 castApp.removePreset(p);
             }

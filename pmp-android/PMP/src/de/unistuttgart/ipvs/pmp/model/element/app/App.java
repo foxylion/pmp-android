@@ -104,8 +104,8 @@ public class App extends ModelElement implements IApp {
     @Override
     public IServiceFeature getServiceFeature(String serviceFeatureIdentifier) {
         checkCached();
-        Assert.nonNull(serviceFeatureIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeatureIdentifier",
-                serviceFeatureIdentifier));
+        Assert.nonNull(serviceFeatureIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL,
+                "serviceFeatureIdentifier", serviceFeatureIdentifier);
         return this.serviceFeatures.get(serviceFeatureIdentifier);
     }
     
@@ -167,7 +167,7 @@ public class App extends ModelElement implements IApp {
      */
     public void removePreset(Preset p) {
         checkCached();
-        Assert.nonNull(p, new ModelIntegrityError(Assert.ILLEGAL_NULL, "p", p));
+        Assert.nonNull(p, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "p", p);
         this.assignedPresets.remove(p);
         verifyServiceFeatures();
     }
@@ -175,7 +175,7 @@ public class App extends ModelElement implements IApp {
     
     public void addPreset(Preset p) {
         checkCached();
-        Assert.nonNull(p, new ModelIntegrityError(Assert.ILLEGAL_NULL, "p", p));
+        Assert.nonNull(p, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "p", p);
         this.assignedPresets.add(p);
         verifyServiceFeatures();
     }

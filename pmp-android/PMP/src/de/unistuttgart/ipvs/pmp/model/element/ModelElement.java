@@ -38,7 +38,7 @@ public abstract class ModelElement {
     
     
     public ModelElement(String identifier) {
-        Assert.nonNull(identifier, new ModelIntegrityError(Assert.ILLEGAL_NULL, "identifier", identifier));
+        Assert.nonNull(identifier, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "identifier", identifier);
         this.cached = false;
         
         if (identifier == null) {
@@ -163,7 +163,7 @@ public abstract class ModelElement {
         
         // assure persistence != null and all data available
         if (!checkCached()) {
-            throw new ModelIntegrityError(Assert.ILLEGAL_UNCACHED, "ModelElement", this);
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_UNCACHED, "ModelElement", this));
         }
         
         this.persistenceProvider.deleteElementData();
@@ -185,7 +185,7 @@ public abstract class ModelElement {
         }
         
         if (!isCached()) {
-            throw new ModelIntegrityError(Assert.ILLEGAL_UNCACHED, "ModelElement", this);
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_UNCACHED, "ModelElement", this));
         }
         
         this.persistenceProvider.storeElementData();

@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.assertion;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -42,10 +45,42 @@ public class Assert {
      */
     public static String format(String errString, String refName, Object reference) {
         if (reference != null) {
-            return String.format(errString, refName, reference.toString());
+            return String.format(errString, reference.toString(), refName);
         } else {
-            return String.format(errString, refName, "null");
+            return String.format(errString, "null", refName);
         }
+    }
+    
+    
+    /**
+     * Constructs an instance of reaction with the parameters given.
+     * 
+     * @param reaction
+     * @param formatText
+     * @param referenceName
+     * @param reference
+     * @return
+     */
+    private static AssertError construct(Class<? extends AssertError> reaction, String formatText,
+            String referenceName, Object reference) {
+        try {
+            Constructor<? extends AssertError> aec = reaction.getConstructor(String.class);
+            AssertError ae = aec.newInstance(format(formatText, referenceName, reference));
+            return ae;
+        } catch (SecurityException e) {
+            Log.e("Was not allowed to get constructor: ", e);
+        } catch (NoSuchMethodException e) {
+            Log.e("Constructor not present in AssertError descendant: ", e);
+        } catch (IllegalArgumentException e) {
+            Log.e("Constructor was unable to process String argument: ", e);
+        } catch (InstantiationException e) {
+            Log.e("AssertError descendant was not instantiable: ", e);
+        } catch (IllegalAccessException e) {
+            Log.e("Constructor was not accessible: ", e);
+        } catch (InvocationTargetException e) {
+            Log.e("Unexpected exception ind constructor: ", e);
+        }
+        return new AssertError("Reflection error while trying to print error message.");
     }
     
     
@@ -55,10 +90,12 @@ public class Assert {
      * @param check
      * @param reaction
      */
-    public static void nonNull(Object check, Error reaction) {
+    public static void nonNull(Object check, Class<? extends AssertError> reaction, String formatText,
+            String referenceName, Object reference) {
         if (check == null) {
-            Log.e("Assertion", reaction);
-            throw reaction;
+            AssertError ae = construct(reaction, formatText, referenceName, reference);
+            Log.e("Assertion", ae);
+            throw ae;
         }
     }
     
@@ -69,10 +106,12 @@ public class Assert {
      * @param check
      * @param reaction
      */
-    public static void isNull(Object check, Error reaction) {
+    public static void isNull(Object check, Class<? extends AssertError> reaction, String formatText,
+            String referenceName, Object reference) {
         if (check != null) {
-            Log.e("Assertion", reaction);
-            throw reaction;
+            AssertError ae = construct(reaction, formatText, referenceName, reference);
+            Log.e("Assertion", ae);
+            throw ae;
         }
     }
     
@@ -83,10 +122,12 @@ public class Assert {
      * @param check
      * @param reaction
      */
-    public static void isValidCreator(Object check, Error reaction) {
+    public static void isValidCreator(Object check, Class<? extends AssertError> reaction, String formatText,
+            String referenceName, Object reference) {
         if ((check != null) && !(check instanceof IApp) && !(check instanceof IResourceGroup)) {
-            Log.e("Assertion", reaction);
-            throw reaction;
+            AssertError ae = construct(reaction, formatText, referenceName, reference);
+            Log.e("Assertion", ae);
+            throw ae;
         }
     }
     
@@ -98,10 +139,12 @@ public class Assert {
      * @param clazz
      * @param reaction
      */
-    public static void instanceOf(Object check, Class<?> clazz, Error reaction) {
+    public static void instanceOf(Object check, Class<?> clazz, Class<? extends AssertError> reaction,
+            String formatText, String referenceName, Object reference) {
         if (!clazz.isAssignableFrom(check.getClass())) {
-            Log.e("Assertion", reaction);
-            throw reaction;
+            AssertError ae = construct(reaction, formatText, referenceName, reference);
+            Log.e("Assertion", ae);
+            throw ae;
         }
     }
     
