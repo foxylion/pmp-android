@@ -11,7 +11,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.GpsStatus;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
@@ -24,7 +23,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.Location;
 
 public class AbsoluteLocationResource extends Resource {
 	
-	private TimerTask timeoutTask = null;
 	private Timer timeoutTimer = null;
 	
 	private Location locationRG;
@@ -67,8 +65,7 @@ public class AbsoluteLocationResource extends Resource {
 			locationListener = new DefaultLocationListener();
 			
 			timeoutTimer = new Timer();
-			timeoutTask = new UpdateRequestVerificator();
-			timeoutTimer.schedule(timeoutTask, UpdateRequest.MAX_TIME_BETWEEN_REQUEST,
+			timeoutTimer.schedule(new UpdateRequestVerificator(), UpdateRequest.MAX_TIME_BETWEEN_REQUEST,
 					UpdateRequest.MAX_TIME_BETWEEN_REQUEST);
 		}
 		
@@ -97,9 +94,11 @@ public class AbsoluteLocationResource extends Resource {
 		return gpsEnabled;
 	}
 	
+	
 	public boolean isActive() {
 		return (locationListener != null);
 	}
+	
 	
 	public boolean isFixed() {
 		return fixed;
@@ -153,12 +152,17 @@ public class AbsoluteLocationResource extends Resource {
 	
 	
 	private void createNotification() {
-		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
-				Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.icon_delete, "GPS is disabled, please enable it.", 0);
 		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		notification.contentIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
+		PendingIntent pIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
+		
+		Notification notification = new Notification(R.drawable.icon_delete, "GPS is disabled, please enable it.",
+				System.currentTimeMillis());
+		notification.setLatestEventInfo(this.locationRG.getContext(), "GPS disabled",
+				"Please enable it to use the Location Resource..", pIntent);
+		
+		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
+				Context.NOTIFICATION_SERVICE);
 		notificationManager.notify("gpsDisabledNotification", 0, notification);
 	}
 	
