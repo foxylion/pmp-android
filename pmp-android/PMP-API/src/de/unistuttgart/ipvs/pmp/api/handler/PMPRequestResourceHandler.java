@@ -20,7 +20,7 @@ public class PMPRequestResourceHandler extends PMPHandler {
      * @param resource
      *            the identifier of the resource
      * @param binder
-     *            the AIDL interface for the resource
+     *            the AIDL interface for the resource, or null, if no such resource exists
      */
     public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
     }
