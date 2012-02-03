@@ -118,10 +118,21 @@ public class PluginProvider implements IPluginProvider {
      * @param rgPackage
      */
     private void checkCached(String rgPackage) {
+        // RGIS
+        if (this.cacheRGIS.get(rgPackage) == null) {
+            try {
+                this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
+            } catch (FileNotFoundException fnfe) {
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe));
+            } catch (IOException ioe) {
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe));
+            }
+        }
+        
         // object
         if (this.cache.get(rgPackage) == null) {
             String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
-            String className = getClassName(rgPackage);
+            String className = this.cacheRGIS.get(rgPackage).getClassName();
             
             try {
                 this.cache.put(rgPackage, loadRGObject(rgPackage, apkName, className));
@@ -139,30 +150,6 @@ public class PluginProvider implements IPluginProvider {
             
         }
         
-        // RGIS
-        if (this.cacheRGIS.get(rgPackage) == null) {
-            
-            try {
-                this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
-            } catch (FileNotFoundException fnfe) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe));
-            } catch (IOException ioe) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe));
-            }
-            
-        }
-    }
-    
-    
-    /**
-     * 
-     * @param rgPackage
-     * @return the must-have class name of the main class for that package
-     */
-    private String getClassName(String rgPackage) {
-        String[] packageNames = rgPackage.split("\\.");
-        String result = packageNames[packageNames.length - 1];
-        return Character.toUpperCase(result.charAt(0)) + result.substring(1);
     }
     
     
@@ -221,7 +208,7 @@ public class PluginProvider implements IPluginProvider {
         
         // identify the important attributes first
         String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
-        String className = getClassName(rgPackage);
+        String className = "unknown";
         String errorMsg;
         
         try {
@@ -238,6 +225,7 @@ public class PluginProvider implements IPluginProvider {
                 
                 // create the RGIS
                 RGIS rgis = loadRGIS(rgPackage);
+                className = rgis.getClassName();
                 
                 // extract icon
                 ZipEntry iconEntry = zipApk.getEntry(rgis.getIconLocation());
