@@ -48,6 +48,7 @@ public class TCPServer {
         }
         
         this.connectionAcceptThread = new AcceptingConnectionThread();
+        this.connectionAcceptThread.start();
     }
     
     
@@ -56,6 +57,7 @@ public class TCPServer {
      */
     public void stop() {
         try {
+            this.connectionAcceptThread.interrupt();
             this.socket.close();
         } catch (IOException e) {
             System.out.println("[E] Failed to stop server. (Error: " + e.getMessage());
@@ -119,10 +121,10 @@ public class TCPServer {
                             LocalizedResourceGroup[] rgs = JPMPPS.get().findResourceGroups(req.getLocale(),
                                     req.getFilter(), JPMPPS.LIMIT);
                             
-                            if (ResponseHashChecker.checkHash(req.getLocale(), rgs, req.getHash())) {
+                            if (ResponseHasher.checkHash(req.getLocale(), rgs, req.getHash())) {
                                 output.writeObject(new CachedRequestResponse());
                             } else {
-                                output.writeObject(new ResourceGroupsResponse(rgs));
+                                output.writeObject(new ResourceGroupsResponse(rgs, ResponseHasher.hash(req.getLocale(), rgs)));
                             }
                         } else if (request instanceof RequestResourceGroupPackage) {
                             ResourceGroup rg = Model.get().getResourceGroups()

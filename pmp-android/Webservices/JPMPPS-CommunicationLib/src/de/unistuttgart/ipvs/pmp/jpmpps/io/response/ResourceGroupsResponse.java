@@ -17,14 +17,17 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 	private static final long serialVersionUID = 1L;
 
 	private byte[] resourceGroups;
+	
+	private byte[] hash;
 
 	/**
 	 * Creates a new {@link ResourceGroupsResponse}.
 	 * 
 	 * @param rgs {@link LocalizedResourceGroup} which should be attached.
 	 */
-	public ResourceGroupsResponse(LocalizedResourceGroup[] rgs) {
+	public ResourceGroupsResponse(LocalizedResourceGroup[] rgs, byte[] hash) {
 		this.resourceGroups = toByteArray(rgs, true);
+		this.hash = hash;
 	}
 
 	/**
@@ -44,4 +47,7 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 		return rgs;
 	}
 
+	public byte[] getHash() {
+		return hash;
+	}
 }
