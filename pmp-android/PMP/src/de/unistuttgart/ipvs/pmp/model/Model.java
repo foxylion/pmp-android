@@ -47,6 +47,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -167,6 +168,19 @@ public class Model implements IModel, Observer {
                 }
             } finally {
                 ipcc.disconnect();
+            }
+            
+            // verify RG revision availability
+            for (AISServiceFeature aissf : ais.getServiceFeatures()) {
+                for (AISRequiredResourceGroup aisrrg : aissf.getRequiredResourceGroups()) {
+                    IResourceGroup rg = getResourceGroup(aisrrg.getIdentifier());
+                    if ((rg != null) && (rg.getRevision() < new Integer(aisrrg.getMinRevision()))) {
+                        /* error during connecting to service */
+                        Log.w(appPackage + " requests newer ResourceGroups.");
+                        return new RegistrationResult(false, "Requesting newer ResourceGroups not supported.");
+                    }
+                    
+                }
             }
             
             // apply new app to DB, then model
