@@ -127,7 +127,7 @@ public class LocationUpdateHandler implements LocationListener {
 					.getInstance().getTripId(), (float) location.getLatitude(),
 					(float) location.getLongitude())) {
 			case Constants.STATUS_UPDATED:
-				Toast.makeText(context, "Status updated", Toast.LENGTH_LONG)
+				Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT)
 						.show();
 
 				/**
@@ -214,6 +214,7 @@ public class LocationUpdateHandler implements LocationListener {
 								(int) (location.getLatitude() * 1E6),
 								(int) (location.getLongitude() * 1E6));
 
+						// notiID
 						notiID++;
 
 						MapModel.getInstance().add2PassengerOverlay(context,

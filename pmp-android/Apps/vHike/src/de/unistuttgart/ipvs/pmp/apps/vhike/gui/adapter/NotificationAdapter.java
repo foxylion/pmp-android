@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -96,10 +97,11 @@ public class NotificationAdapter extends BaseAdapter {
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
+		final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 
 		// determine which id to receive
 		if (mWhichHitcher == 0) {
-			List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+			
 			queryID = lqo.get(position).getQueryid();
 			userID = lqo.get(position).getUserid();
 		} else {
@@ -181,37 +183,38 @@ public class NotificationAdapter extends BaseAdapter {
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				
+				queryID = lqo.get(position).getQueryid();
+				
 				if (mWhichHitcher == 0) {
-//					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
-//							.getInstance().getTripId(), queryID,
-//							me.getUsername() + ": Need a ride?")) {
-//					case Constants.STATUS_SENT:
+					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
+							.getInstance().getTripId(), queryID,
+							me.getUsername() + ": Need a ride?")) {
+					case Constants.STATUS_SENT:
+						Log.i("P: " + position + ", " + queryID);
+						accept_invite
+								.setBackgroundResource(R.drawable.bg_waiting);
 //
-//						accept_invite
-//								.setBackgroundResource(R.drawable.bg_waiting);
-//						
-//						
 //						notifyDataSetChanged();
-//						Toast.makeText(context, "STATUS_SENT",
-//								Toast.LENGTH_SHORT).show();
-//
-//						break;
-//					case Constants.STATUS_INVALID_TRIP:
-//						Toast.makeText(context, "STATUS_INVALID_TRIP",
-//								Toast.LENGTH_SHORT).show();
-//						break;
-//					case Constants.STATUS_INVALID_QUERY:
-//						Toast.makeText(context, "INVALID_QUERY",
-//								Toast.LENGTH_SHORT).show();
-//						break;
-//					case Constants.STATUS_ALREADY_SENT:
-//						Toast.makeText(context, "ALREADY SENT",
-//								Toast.LENGTH_SHORT);
-//						break;
-//					}
-					accept_invite
-					.setBackgroundResource(R.drawable.bg_waiting);
+						Toast.makeText(context, "STATUS_SENT",
+								Toast.LENGTH_SHORT).show();
+
+						break;
+					case Constants.STATUS_INVALID_TRIP:
+						Toast.makeText(context, "STATUS_INVALID_TRIP",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case Constants.STATUS_INVALID_QUERY:
+						Toast.makeText(context, "INVALID_QUERY",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case Constants.STATUS_ALREADY_SENT:
+						Log.i("P: " + position + ", " + queryID);
+						Toast.makeText(context, "ALREADY SENT",
+								Toast.LENGTH_SHORT).show();
+						break;
+					}
+					
 				} else {
 
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
@@ -238,7 +241,6 @@ public class NotificationAdapter extends BaseAdapter {
 					}
 				}
 
-				accept_invite.refreshDrawableState();
 				accept_invite.invalidate();
 
 			}

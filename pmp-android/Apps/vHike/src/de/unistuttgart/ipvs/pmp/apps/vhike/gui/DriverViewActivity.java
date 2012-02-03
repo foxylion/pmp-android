@@ -135,9 +135,9 @@ public class DriverViewActivity extends MapActivity {
 					.getInstance().getTripId())) {
 			case (Constants.STATUS_UPDATED): {
 
-				// MapModel.getInstance().clearDriverOverlayList();
-				// MapModel.getInstance().clearHitchPassengers();
-				// MapModel.getInstance().clearDriverNotificationAdapter();
+				MapModel.getInstance().clearDriverOverlayList();
+				MapModel.getInstance().clearHitchPassengers();
+				MapModel.getInstance().clearDriverNotificationAdapter();
 				locationManager = null;
 
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
