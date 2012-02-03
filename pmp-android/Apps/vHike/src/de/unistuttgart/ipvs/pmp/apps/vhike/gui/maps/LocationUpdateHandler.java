@@ -147,25 +147,30 @@ public class LocationUpdateHandler implements LocationListener {
 						Profile passenger = ctrl.getProfile(Model.getInstance()
 								.getSid(), lqo.get(i).getUserid());
 
-						// add an passenger to overlay
-						MapModel.getInstance().add2DriverOverlay(context,
-								gpsPassenger, passenger, mapView, 1);
-						Log.i("Added overlay");
+						if (!Model.getInstance().isInBannList(
+								lqo.get(i).getUserid())) {
+							// add an passenger to overlay
+							MapModel.getInstance().add2DriverOverlay(context,
+									gpsPassenger, passenger, mapView, 1);
 
-						// add up ID for statusbar notification
-						notiID++;
+							// add up ID for statusbar notification
+							notiID++;
 
-						// add passenger to slider list
-						MapModel.getInstance().getHitchPassengers()
-								.add(passenger);
-						// notify user
-						MapModel.getInstance().fireNotification(context,
-								passenger, lqo.get(i).getUserid(), 0, notiID, mapView);
-						// notify list
-						MapModel.getInstance().getDriverAdapter(context, mapView)
-								.notifyDataSetChanged();
-						mapView.invalidate();
-						mapView.postInvalidate();
+							// add passenger to slider list
+							MapModel.getInstance().getHitchPassengers()
+									.add(passenger);
+							// notify user
+							MapModel.getInstance().fireNotification(context,
+									passenger, lqo.get(i).getUserid(), 0,
+									notiID, mapView);
+							// notify list
+							MapModel.getInstance()
+									.getDriverAdapter(context, mapView)
+									.notifyDataSetChanged();
+							mapView.invalidate();
+							mapView.postInvalidate();
+						}
+
 					}
 				} else {
 					Toast.makeText(context, "No hitchhikers within perimeter",
@@ -221,8 +226,10 @@ public class LocationUpdateHandler implements LocationListener {
 								gpsDriver, driver, mapView, 1);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
-								driver, loo.get(i).getUser_id(), 1, notiID, mapView);
-						MapModel.getInstance().getPassengerAdapter(context, mapView)
+								driver, loo.get(i).getUser_id(), 1, notiID,
+								mapView);
+						MapModel.getInstance()
+								.getPassengerAdapter(context, mapView)
 								.notifyDataSetChanged();
 					}
 				} else {

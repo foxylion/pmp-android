@@ -97,6 +97,7 @@ public class NotificationAdapter extends BaseAdapter {
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
+		
 		final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 
 		// determine which id to receive
@@ -121,6 +122,7 @@ public class NotificationAdapter extends BaseAdapter {
 							.remove(position);
 					MapModel.getInstance().getDriverOverlayList(mapView)
 							.remove(position + 1);
+					Model.getInstance().addToBannList(userID);
 					mapView.invalidate();
 					notifyDataSetChanged();
 				} else {
