@@ -15,7 +15,33 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  * 
  */
 public class Model {
-
+	/**
+	 * Invited users
+	 */
+	private List<Integer> offeredUser;
+	
+	public boolean isInInvitedList(int userid){
+		boolean invited = false;
+		for (int invID : offeredUser) {
+			if (userid == invID) {
+				invited = true;
+			} else {
+				invited = false;
+			}
+		}
+		return invited;
+	}
+	/**
+	 * Adds a user to the Offered List
+	 * @param userid
+	 */
+	public void addToInvitedUser(int userid){
+		offeredUser.add(userid);
+	}
+	
+	public void clearInvitedUserList(){
+		offeredUser.clear();
+	}
 	/**
 	 * Declined userlist
 	 */
