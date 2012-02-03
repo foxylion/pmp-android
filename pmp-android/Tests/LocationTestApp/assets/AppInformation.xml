@@ -13,7 +13,7 @@
 			<defaultDescription lang="en">Shows the detailed location of the device.</defaultDescription>
 			<description lang="de">Zeigt die genaue Position des Geräts an.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">
 				<privacySetting identifier="useAbsoluteLocation">true</privacySetting>
 				<privacySetting identifier="showSpeed">true</privacySetting>
 				<privacySetting identifier="showAccuracy">true</privacySetting>
