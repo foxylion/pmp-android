@@ -19,14 +19,14 @@ public class ResourceGroupPackageResponse extends AbstractResponse {
 	 * @param resourceGroup {@link InputStream} of the package which should be attached.
 	 */
 	public ResourceGroupPackageResponse(InputStream resourceGroup) {
-		this.resourceGroup = toByteArray(resourceGroup, true);
+		this.resourceGroup = toByteArray(resourceGroup, false);
 	}
 
 	/**
 	 * @return Returns the package as an {@link InputStream}.
 	 */
 	public InputStream getResourceGroupInputStream() {
-		return fromByteArray(this.resourceGroup, true);
+		return fromByteArray(this.resourceGroup, false);
 	}
 
 	

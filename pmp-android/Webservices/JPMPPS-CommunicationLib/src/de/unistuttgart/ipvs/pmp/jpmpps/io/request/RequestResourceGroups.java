@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
-import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 
 /**
  * Message should be submitted when a list of available {@link ResourceGroup}s

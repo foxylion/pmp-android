@@ -18,18 +18,6 @@ public class LocalizedResourceGroup implements Serializable {
 	private String description;
 	private String identifier;
 	private long revision;
-	
-	/**
-	 * Creates a localized version of the given {@link ResourceGroup}.
-	 * 
-	 * @param rg
-	 *            {@link ResourceGroup} which should be localized.
-	 * @param locale
-	 *            Locale in which the {@link ResourceGroup} should be localized.
-	 */
-	public LocalizedResourceGroup(ResourceGroup rg, String locale) {
-		
-	}
 
 	public String getName() {
 		return name;

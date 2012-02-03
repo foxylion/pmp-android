@@ -26,7 +26,7 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 	 * @param rgs {@link LocalizedResourceGroup} which should be attached.
 	 */
 	public ResourceGroupsResponse(LocalizedResourceGroup[] rgs, byte[] hash) {
-		this.resourceGroups = toByteArray(rgs, true);
+		this.resourceGroups = toByteArray(rgs, false);
 		this.hash = hash;
 	}
 
@@ -38,8 +38,9 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 
 		try {
 			ObjectInputStream ois = new ObjectInputStream(fromByteArray(
-					resourceGroups, true));
+					resourceGroups, false));
 			rgs = (LocalizedResourceGroup[]) ois.readObject();
+			ois.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,6 +48,9 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 		return rgs;
 	}
 
+	/**
+	 * @return Returns the hash of the response.
+	 */
 	public byte[] getHash() {
 		return hash;
 	}

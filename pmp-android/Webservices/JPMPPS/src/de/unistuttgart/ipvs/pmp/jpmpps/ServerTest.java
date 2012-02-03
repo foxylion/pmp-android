@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 
 
 public class ServerTest {
@@ -22,6 +23,11 @@ public class ServerTest {
             Object result = input.readObject();
             
             System.out.println(result.getClass());
+            
+            if(result instanceof ResourceGroupsResponse) {
+                ResourceGroupsResponse rgr = (ResourceGroupsResponse) result;
+                System.out.println(rgr.getResourceGroups()[0].getIdentifier());
+            }
             
             output.writeObject(new RequestCommunicationEnd());
             

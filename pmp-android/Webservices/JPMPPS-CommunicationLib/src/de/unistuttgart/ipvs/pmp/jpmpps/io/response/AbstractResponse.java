@@ -43,6 +43,9 @@ public abstract class AbstractResponse implements Serializable {
 			}
 			out.writeObject(object);
 			result = baos.toByteArray();
+
+			out.close();
+			baos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

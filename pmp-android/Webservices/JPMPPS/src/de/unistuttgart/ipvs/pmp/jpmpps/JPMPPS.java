@@ -2,6 +2,10 @@ package de.unistuttgart.ipvs.pmp.jpmpps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
@@ -107,6 +111,34 @@ public class JPMPPS {
 	public LocalizedResourceGroup[] findResourceGroups(String locale,
 			String filter, int limit) {
 
-		return null;
+	    List<LocalizedResourceGroup> list = new ArrayList<LocalizedResourceGroup>();
+	    
+	    
+	    
+	    String[] filters = filter.split(",");
+	    
+	    for(Map.Entry<String, ResourceGroup> entry : Model.get().getResourceGroups().entrySet()) {
+	        if (filter.length() == 0) {
+	            list.add(entry.getValue().getLocalized(locale));
+	        } else {
+    	        for(String f : filters) {
+    	            if(f.startsWith("package:") && f.substring(8).equals(entry.getKey())) {
+    	                list.add(entry.getValue().getLocalized(locale));
+    	            } else if (entry.getValue().getRGIS().getNameForLocale(Locale.ENGLISH).contains(f)) {
+    	                list.add(entry.getValue().getLocalized(locale));
+    	            }
+    	            
+    	            if(list.size() == 10) {
+    	                break;
+    	            }
+    	        }
+	        }
+	        
+	        if(list.size() == 10) {
+	            break;
+	        }
+	    }
+	    
+		return list.toArray(new LocalizedResourceGroup[list.size()]);
 	}
 }
