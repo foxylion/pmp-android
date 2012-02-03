@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -64,8 +65,10 @@ public class AdapterAvailable extends BaseAdapter {
         
         /*
          * TODO: Get revision out of the apk! Tobis task :-)
+         *          Must be communicated from server side, we do not send APKs without a good reason ;)
          */
-        int rgRev = 42;
+        long rgRev = -880658238000L;
+        String rgRevHR = RevisionReader.get().toHumanReadable(rgRev);
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,14 +93,14 @@ public class AdapterAvailable extends BaseAdapter {
             /* RG is already installed. */
             if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
                 /* A newer version is available */
-                state.setText(this.context.getResources().getString(R.string.update) + " - rev. " + rgRev);
+                state.setText(this.context.getResources().getString(R.string.update) + " - rev. " + rgRevHR);
             } else {
                 /* already up to date */
                 state.setText(this.context.getResources().getString(R.string.installed));
             }
         } else {
             /* RG is not installed. */
-            state.setText(this.context.getResources().getString(R.string.new_string) + " - rev. " + rgRev);
+            state.setText(this.context.getResources().getString(R.string.new_string) + " - rev. " + rgRevHR);
         }
         
         return entryView;

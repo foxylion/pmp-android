@@ -156,6 +156,8 @@ public class ServerProvider implements IServerProvider {
         // load the package names of all RGs
         String[] rgs;
         RGIS[] result;
+        
+        long before = System.currentTimeMillis();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             if (!downloadFile(SEARCH_FOR + searchPattern, baos)) {
@@ -174,6 +176,9 @@ public class ServerProvider implements IServerProvider {
             rgs = new String[0];
             
         }
+        long after = System.currentTimeMillis();
+        
+        Log.v("Parsing the server result took " + (after - before) + "ms");
         
         result = new RGIS[rgs.length];
         
@@ -188,11 +193,7 @@ public class ServerProvider implements IServerProvider {
             }
             
             // the BASBridge prevents us from copying a huge amount of arrays
-            long before = System.currentTimeMillis();
             result[i] = XMLUtilityProxy.parseRGISXML(basb.toInputStream());
-            long after = System.currentTimeMillis();
-            
-            Log.v("Parsing one XML took us " + (after - before) + "ms");
             
             this.callback.tasks(1 + i + 1, 1 + rgs.length);
         }
