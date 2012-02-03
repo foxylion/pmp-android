@@ -1,54 +1,58 @@
 package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
+import java.util.Comparator;
+
 import android.content.Context;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class IntegerPrivacySetting extends AbstractPrivacySetting<Integer> {
+/**
+ * {@link DefaultPrivacySetting} for {@link Integer}.
+ * 
+ * @author Tobias Kuhn, Jakob Jarosch
+ * 
+ */
+public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
-    private int multipliactor = 0;
+    private IntegerPrivacySettingView view = null;
     
     
-    public IntegerPrivacySetting(boolean smallerIsBetter) {
-        if (smallerIsBetter) {
-            multipliactor = -1;
-        } else {
-            multipliactor = 1;
-        }
+    public IntegerPrivacySetting() {
+        this(false);
     }
     
     
-    @Override
-    public String getHumanReadableValue(String value) throws PrivacySettingValueException {
-        try {
-            return "" + Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            throw new PrivacySettingValueException();
-        }
-    }
-    
-    
-    @Override
-    public boolean permits(Integer value, Integer reference) {
-        return ((value.compareTo(reference) * multipliactor) >= 0);
-    }
-    
-    
-    @Override
-    public Integer parseValue(String value) throws PrivacySettingValueException {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            throw new PrivacySettingValueException();
-        }
+    public IntegerPrivacySetting(final boolean smallerIsBetter) {
+        super(new Comparator<Integer>() {
+            
+            @Override
+            public int compare(Integer object1, Integer object2) {
+                int cmp = object1.compareTo(object2);
+                
+                if (smallerIsBetter) {
+                    return cmp;
+                } else {
+                    return -cmp;
+                }
+            }
+        });
     }
     
     
     @Override
     public IPrivacySettingView<Integer> getView(Context context) {
-        return new IntegerPrivacySettingView(context);
+        if (this.view == null) {
+            this.view = new IntegerPrivacySettingView(context);
+        }
+        return this.view;
+    }
+    
+    
+    @Override
+    public Integer parseValue(String value) throws PrivacySettingValueException {
+        return Integer.parseInt(value);
     }
 }
 
