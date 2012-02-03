@@ -68,16 +68,16 @@ public class AdapterAvailable extends BaseAdapter {
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
-        String nameString = rgis.getNameForLocale(Locale.getDefault()).getName();
+        String nameString = rgis.getNameForLocale(Locale.getDefault());
         if (nameString == null) {
-            nameString = rgis.getNameForLocale(Locale.ENGLISH).getName();
+            nameString = rgis.getNameForLocale(Locale.ENGLISH);
         }
         name.setText(nameString);
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
-        String descriptionString = rgis.getDescriptionForLocale(Locale.getDefault()).getDescription();
+        String descriptionString = rgis.getDescriptionForLocale(Locale.getDefault());
         if (descriptionString == null) {
-            descriptionString = rgis.getDescriptionForLocale(Locale.ENGLISH).getDescription();
+            descriptionString = rgis.getDescriptionForLocale(Locale.ENGLISH);
         }
         description.setText(descriptionString);
         

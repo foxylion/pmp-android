@@ -22,11 +22,12 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * 
@@ -283,7 +284,7 @@ public class MockupControl {
     
     public static void createPS(RGIS rgis, MockupRG rg) {
         MockupPrivacySetting ps;
-        for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting privacySetting : rgis.getPrivacySettings()) {
+        for (RGISPrivacySetting privacySetting : rgis.getPrivacySettings()) {
             ps = new MockupPrivacySetting(rg, privacySetting.getIdentifier(), new BooleanPrivacySetting());
             rg.addPS(privacySetting.getIdentifier(), ps);
         }
@@ -292,17 +293,17 @@ public class MockupControl {
     
     public static void createSF(AIS ais, MockupApp app) {
         MockupServiceFeature sf;
-        for (ServiceFeature serviceFeature : ais.getServiceFeatures()) {
+        for (AISServiceFeature serviceFeature : ais.getServiceFeatures()) {
             
             boolean available = true;
-            for (RequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+            for (AISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
                 IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg == null) {
                     available = false;
                     break;
                     
                 } else {
-                    for (de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                    for (AISRequiredPrivacySetting privacySetting : rrg.getPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps == null) {
                             available = false;
@@ -313,10 +314,10 @@ public class MockupControl {
             }
             
             sf = new MockupServiceFeature(app, serviceFeature.getIdentifier(), available);
-            for (RequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+            for (AISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
                 IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg != null) {
-                    for (PrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                    for (AISRequiredPrivacySetting privacySetting : rrg.getPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps != null) {
                             sf.addPS((MockupPrivacySetting) ps, privacySetting.getValue());

@@ -45,8 +45,10 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * <p>
@@ -172,7 +174,7 @@ public class Model implements IModel, Observer {
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
             // apply new SF to DB, then model
-            for (de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature sf : ais.getServiceFeatures()) {
+            for (AISServiceFeature sf : ais.getServiceFeatures()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
                         sf.getIdentifier(), sf.getRequiredResourceGroups());
                 Assert.nonNull(newSF, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newSF", newSF));
@@ -329,7 +331,7 @@ public class Model implements IModel, Observer {
                 throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
                         rg.getRgPackage());
             }
-            for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting ps : rgis.getPrivacySettings()) {
+            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 AbstractPrivacySetting<?> aps = rg.getPrivacySetting(ps.getIdentifier());
                 if (aps == null) {
                     throw new InvalidXMLException("PrivacySetting (XML, objects)", ps.getIdentifier(),
@@ -344,7 +346,7 @@ public class Model implements IModel, Observer {
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
             // apply new PS to DB, then model
-            for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting ps : rgis.getPrivacySettings()) {
+            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
                         ps.getIdentifier());
                 Assert.nonNull(newPS, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPS", newPS));
