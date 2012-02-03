@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches">
-		<revision>4</revision>
-		<defaultName lang="en">Device Switches</defaultName>
+	<resourceGroupInformation 
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches"
+		icon="res/drawable-hdpi/icon.png"
+		className="Switches">
+		<name lang="en">Device Switches</name>
 		<name lang="de">Geräteschalter</name>
-		<icon>res/drawable-hdpi/icon.png</icon>
-		<defaultDescription lang="en">Three Swiss witch bitches,
+		<description lang="en">Three Swiss witch bitches,
 			which wished to be switched Swiss
 			witch bitches, wish to watch three
 			Swiss Swatch watch switches. Which
@@ -13,7 +14,7 @@
 			be a switched Swiss witch bitch, wishes
 			to watch which Swiss Swatch
 			watch switch?
-		</defaultDescription>
+		</description>
 		<description lang="de">Drei Schweizer Hexen-Hündinnen, die
 			ausgewechselte Schweizer Hexen-Hündinnen sein wollten, würden sich
 			gerne drei Schweizer Swatch-Uhr-Schalter anschauen.
@@ -25,23 +26,25 @@
 		</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting identifier="CanWifiState">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">WiFi state</defaultName>
+		<privacySetting 
+			identifier="CanWifiState"
+			validValueDescription="'true', 'false'">
+			<name lang="en">WiFi state</name>
 			<name lang="de">WLAN-Status</name>
-			<defaultDescription lang="en">Allows to view the WiFi
+			<description lang="en">Allows to view the WiFi
 				state.
-			</defaultDescription>
+			</description>
 			<description lang="de">Erlaubt den WLAN-Status anzuzeigen.
 			</description>
 		</privacySetting>
-		<privacySetting identifier="CanWifiSwitch">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Change WiFi state</defaultName>
+		<privacySetting
+			identifier="CanWifiSwitch"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Change WiFi state</name>
 			<name lang="de">WLAN-Status ändern</name>
-			<defaultDescription lang="en">Allows to switch the WiFi
+			<description lang="en">Allows to switch the WiFi
 				switch.
-			</defaultDescription>
+			</description>
 			<description lang="de">Erlaubt den WLAN-Schalter umzuschalten.
 			</description>
 		</privacySetting>
