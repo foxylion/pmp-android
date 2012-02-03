@@ -6,13 +6,13 @@
   /><g
   ><defs id="defs1"
     ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath1"
-      ><path d="M-7 -7 L528 -7 L528 111 L-7 111 L-7 -7 Z"
+      ><path d="M-7 -7 L575 -7 L575 111 L-7 111 L-7 -7 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath2"
-      ><path d="M0 0 L0 96 L517 96 L517 0 Z"
+      ><path d="M0 0 L0 96 L564 96 L564 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath3"
-      ><path d="M0 0 L517 0 L517 15 L0 15 L0 0 Z"
+      ><path d="M0 0 L564 0 L564 15 L0 15 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath4"
       ><path d="M-7 -7 L621 -7 L621 291 L-7 291 L-7 -7 Z"
@@ -21,13 +21,13 @@
       ><path d="M0 0 L610 0 L610 15 L0 15 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath6"
-      ><path d="M-7 -7 L183 -7 L183 173 L-7 173 L-7 -7 Z"
+      ><path d="M-7 -7 L226 -7 L226 173 L-7 173 L-7 -7 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath7"
-      ><path d="M0 0 L0 158 L172 158 L172 0 Z"
+      ><path d="M0 0 L0 158 L215 158 L215 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath8"
-      ><path d="M0 0 L172 0 L172 15 L0 15 L0 0 Z"
+      ><path d="M0 0 L215 0 L215 15 L0 15 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath9"
       ><path d="M-7 -7 L121 -7 L121 51 L-7 51 L-7 -7 Z"
@@ -135,7 +135,7 @@
       ><path d="M0 0 L273 0 L273 104 L0 104 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath44"
-      ><path d="M0 0 L161 0 L161 104 L0 104 L0 0 Z"
+      ><path d="M0 0 L118 0 L118 104 L0 104 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath45"
       ><path d="M0 0 L104 0 L104 193 L0 193 L0 0 Z"
@@ -169,11 +169,11 @@
     ><rect x="0" width="1114" height="706" y="0" stroke="none"
     /></g
     ><g font-size="11" transform="translate(390,592)" fill-opacity="1" fill="lime" text-rendering="geometricPrecision" font-family="sans-serif" stroke="lime" font-weight="bold" stroke-opacity="1"
-    ><rect x="0" width="517" height="100" y="0" clip-path="url(#clipPath1)" stroke="none"
+    ><rect x="0" width="564" height="100" y="0" clip-path="url(#clipPath1)" stroke="none"
     /></g
     ><g font-size="11" stroke-linecap="butt" transform="translate(390,592)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke-linejoin="round" stroke="black" font-weight="bold" stroke-opacity="1" stroke-miterlimit="0"
-    ><rect fill="none" x="0" width="517" height="100" y="0" clip-path="url(#clipPath1)"
-      /><line y2="15" fill="none" x1="0" clip-path="url(#clipPath1)" x2="517" y1="15"
+    ><rect fill="none" x="0" width="564" height="100" y="0" clip-path="url(#clipPath1)"
+      /><line y2="15" fill="none" x1="0" clip-path="url(#clipPath1)" x2="564" y1="15"
     /></g
     ><g font-size="11" transform="translate(390,607)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="14" clip-path="url(#clipPath2)" stroke="none"
@@ -181,12 +181,12 @@
       ><text x="2" xml:space="preserve" y="29" clip-path="url(#clipPath2)" stroke="none"
       >+getContextAnnotation(ps : PrivacySetting) : IContextAnnotation []</text
       ><text x="2" xml:space="preserve" y="44" clip-path="url(#clipPath2)" stroke="none"
-      >+assignContextAnnotation(ps : PrivacySetting, context : IContext, contextValue : String, psValue : String)</text
+      >+assignContextAnnotation(ps : PrivacySetting, context : IContext, contextCondition : String, overrideValue : String)</text
       ><text x="2" xml:space="preserve" y="59" clip-path="url(#clipPath2)" stroke="none"
       >+removeContextAnnotation(ps : PrivacySetting, context : IContextAnnotation)</text
     ></g
     ><g font-size="11" transform="translate(390,592)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
-    ><text x="241" xml:space="preserve" y="12" clip-path="url(#clipPath3)" stroke="none"
+    ><text x="265" xml:space="preserve" y="12" clip-path="url(#clipPath3)" stroke="none"
       >Preset</text
     ></g
     ><g font-size="11" transform="translate(0,2)" fill-opacity="1" fill="yellow" text-rendering="geometricPrecision" font-family="sans-serif" stroke="yellow" stroke-opacity="1"
@@ -202,33 +202,33 @@
       >contexts</text
     ></g
     ><g font-size="11" transform="translate(390,352)" fill-opacity="1" fill="lime" text-rendering="geometricPrecision" font-family="sans-serif" stroke="lime" font-weight="bold" stroke-opacity="1"
-    ><rect x="0" width="172" height="162" y="0" clip-path="url(#clipPath6)" stroke="none"
+    ><rect x="0" width="215" height="162" y="0" clip-path="url(#clipPath6)" stroke="none"
     /></g
     ><g font-size="11" stroke-linecap="butt" transform="translate(390,352)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke-linejoin="round" stroke="black" font-weight="bold" stroke-opacity="1" stroke-miterlimit="0"
-    ><rect fill="none" x="0" width="172" height="162" y="0" clip-path="url(#clipPath6)"
-      /><line y2="15" fill="none" x1="0" clip-path="url(#clipPath6)" x2="172" y1="15"
+    ><rect fill="none" x="0" width="215" height="162" y="0" clip-path="url(#clipPath6)"
+      /><line y2="15" fill="none" x1="0" clip-path="url(#clipPath6)" x2="215" y1="15"
     /></g
     ><g font-size="11" transform="translate(390,367)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="14" clip-path="url(#clipPath7)" stroke="none"
       >-context : IContext</text
       ><text x="2" xml:space="preserve" y="29" clip-path="url(#clipPath7)" stroke="none"
-      >-contextValue : String</text
+      >-contextCondition : String</text
       ><text x="2" xml:space="preserve" y="44" clip-path="url(#clipPath7)" stroke="none"
-      >-privacySettingValue : String</text
-      ><line stroke-linecap="butt" clip-path="url(#clipPath7)" fill="none" x1="0" x2="172" y1="49" stroke-linejoin="bevel" y2="49" stroke-miterlimit="0"
+      >-overrideValue : String</text
+      ><line stroke-linecap="butt" clip-path="url(#clipPath7)" fill="none" x1="0" x2="215" y1="49" stroke-linejoin="bevel" y2="49" stroke-miterlimit="0"
       /><text x="2" xml:space="preserve" y="63" clip-path="url(#clipPath7)" stroke="none"
       >+getContext() : IContext</text
       ><text x="2" xml:space="preserve" y="78" clip-path="url(#clipPath7)" stroke="none"
-      >+getContextValue() : String</text
+      >+getContextCondition() : String</text
       ><text x="2" xml:space="preserve" y="93" clip-path="url(#clipPath7)" stroke="none"
-      >+getPrivacySettingValue() : String</text
+      >+getOverridePrivacySettingValue() : String</text
       ><text x="2" xml:space="preserve" y="108" clip-path="url(#clipPath7)" stroke="none"
       >+isActive() : boolean</text
       ><text x="2" xml:space="preserve" y="123" clip-path="url(#clipPath7)" stroke="none"
       >+getCurrentPSValue() : String</text
     ></g
     ><g font-size="11" transform="translate(390,352)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
-    ><text x="36" xml:space="preserve" y="12" clip-path="url(#clipPath8)" stroke="none"
+    ><text x="58" xml:space="preserve" y="12" clip-path="url(#clipPath8)" stroke="none"
       >ContextAnnotation</text
     ></g
     ><g font-size="11" transform="translate(30,222)" fill-opacity="1" fill="rgb(255,200,0)" text-rendering="geometricPrecision" font-family="sans-serif" stroke="rgb(255,200,0)" font-weight="bold" stroke-opacity="1"
@@ -251,16 +251,18 @@
     /></g
     ><g font-size="11" transform="translate(390,117)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" stroke-opacity="1"
     ><text x="2" xml:space="preserve" y="14" clip-path="url(#clipPath13)" stroke="none"
-      >+getName() : String</text
+      >+getIdentifier() : String</text
       ><text x="2" xml:space="preserve" y="29" clip-path="url(#clipPath13)" stroke="none"
-      >+getDescription() : String</text
+      >+getName() : String</text
       ><text x="2" xml:space="preserve" y="44" clip-path="url(#clipPath13)" stroke="none"
-      >+getIcon() : Drawable</text
+      >+getDescription() : String</text
       ><text x="2" xml:space="preserve" y="59" clip-path="url(#clipPath13)" stroke="none"
-      >+getActivity() : ContextActivity</text
+      >+getIcon() : Drawable</text
       ><text x="2" xml:space="preserve" y="74" clip-path="url(#clipPath13)" stroke="none"
-      >+update() : long</text
+      >+getActivity() : ContextActivity</text
       ><text x="2" xml:space="preserve" y="89" clip-path="url(#clipPath13)" stroke="none"
+      >+update() : long</text
+      ><text x="2" xml:space="preserve" y="104" clip-path="url(#clipPath13)" stroke="none"
       >+getLastState(String : value) : boolean</text
     ></g
     ><g font-size="11" transform="translate(390,102)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
@@ -421,8 +423,8 @@
       /><line stroke-dashoffset="0" clip-path="url(#clipPath40)" fill="none" x1="50" x2="56" y1="149" y2="137" stroke-dasharray="none"
       /><line stroke-dashoffset="0" clip-path="url(#clipPath40)" fill="none" x1="50" x2="44" y1="149" y2="137" stroke-dasharray="none"
     /></g
-    ><g font-size="11" stroke-linecap="butt" transform="translate(512,352)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke-linejoin="round" stroke-dasharray="4" stroke="black" stroke-opacity="1"
-    ><line y2="50" fill="none" x1="107" clip-path="url(#clipPath44)" x2="50" y1="50"
+    ><g font-size="11" stroke-linecap="butt" transform="translate(555,352)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke-linejoin="round" stroke-dasharray="4" stroke="black" stroke-opacity="1"
+    ><line y2="50" fill="none" x1="64" clip-path="url(#clipPath44)" x2="50" y1="50"
     /></g
     ><g font-size="11" stroke-linecap="butt" transform="translate(830,22)" stroke-dashoffset="1" fill-opacity="1" fill="black" text-rendering="geometricPrecision" font-family="sans-serif" stroke-linejoin="round" stroke-dasharray="5" stroke="black" stroke-opacity="1"
     ><line y2="139" fill="none" x1="50" clip-path="url(#clipPath45)" x2="50" y1="50"
