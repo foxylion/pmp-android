@@ -14,6 +14,7 @@ try {
     $trip = Trip::loadTrip($_POST["trip"]);
     $query = Query::loadQuery($_POST["query"]);
     $driver = Session::getInstance()->getLoggedInUser();
+		
      
     // Show message if there's no data for the given values
     if ($trip == null) {

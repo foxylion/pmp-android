@@ -27,39 +27,35 @@ class Trip {
     /**
      * Loads a trip from the database and returns a trip-object storing the information
      * of the loaded trip
-     * @param int $id  ID of the user to load from the database
+     * 
+		 * @param int $id  ID of the user to load from the database
      * @return Trip Object storing data of the loaded trip or null, if trip with the
      *              given id does not exists or parameter id is not numeric
      * @throws InvalidArgumentException Thrown, if the trip's id is invalid
      */
     public static function loadTrip($id) {
         if (!General::validId($id)) {
-            throw new InvalidArgumentException("The trip-id is not valid.");
+            throw new InvalidArgumentException("The trip-ID is not valid.");
         }
 
         $db = Database::getInstance();
         $row = $db->fetch($db->query("SELECT 
                                         t.*, t.`id` AS tid,
                                         u.*, u.`id` AS uid
-                                      FROM 
-                                        `" . DB_PREFIX . "_trip` AS t,
-                                        `" . DB_PREFIX . "_user` AS u
-                                      WHERE t.`driver` = u.`id`
+                                      FROM `" . DB_PREFIX . "_trip` AS t
+                                      INNER JOIN `" . DB_PREFIX . "_user` AS u ON t.`driver` = u.`id`
                                       AND t.`id` = " . $id));
-
         if ($db->getAffectedRows() <= 0) {
             return null;
         }
-
         return self::loadTripBySqlResult($row, "tid", "uid");
-
     }
 
     /**
      * Creates a trip from a given sql-result array.
      * This has to include the user-data of the driver!
      * @param Array $result Array storing the information of the trip
-     *                      This has to be an array where the key representes
+     *                      This has to be an array where the key represents
      *                      the tables name.
      * @param String $idFieldName Specifies the name of the id-field. Used when
      *                          the id field name is changed by SQL's "AS" statement
@@ -81,8 +77,8 @@ class Trip {
         $trip->id = (int)$result[$idFieldName];
         $trip->driver = User::loadUserBySqlResult($result, $userIdFieldName);
         $trip->availSeats = $result["avail_seats"];
-        $trip->currentLat = $result["current_lat"];
-        $trip->currentLon = $result["current_lon"];
+        // $trip->currentLat = $result["current_lat"];
+        // $trip->currentLon = $result["current_lon"];
         $trip->destination = $result["destination"];
         $trip->creation = $result["creation"];
         $trip->ending = $result["ending"];

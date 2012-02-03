@@ -23,7 +23,7 @@ class Session {
     
 
     /**
-     * Load logged in unser data from database if user is logged in 
+     * Load logged in user data from database if user is logged in 
      */
     private function __construct() {
         // Define and start session
@@ -36,7 +36,7 @@ class Session {
             return;
         }
                 
-        // Make sure that the user's ip-address matches the address of the last login
+        // Make sure that the user's IP-address matches the address of the last login
         if ($_SESSION["ip"] != $_SERVER["REMOTE_ADDR"]) {
             return;
         }

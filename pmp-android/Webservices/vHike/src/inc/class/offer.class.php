@@ -173,8 +173,6 @@ class Offer {
                     )");
         
        return $db->getId();      
-           
-        
     }
     
     /**
