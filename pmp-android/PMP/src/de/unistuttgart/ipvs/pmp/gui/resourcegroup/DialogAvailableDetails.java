@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
-import java.util.Locale;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Handler;
@@ -13,11 +11,11 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * The {@link DialogAvailableDetails} displays informations about an available Resourcegroup.
@@ -26,7 +24,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class DialogAvailableDetails extends Dialog {
     
-    protected RGIS rgInformation;
+    protected LocalizedResourceGroup rgInformation;
     
     private Handler handler;
     
@@ -41,7 +39,7 @@ public class DialogAvailableDetails extends Dialog {
      * @param rgInformation
      *            The informations about the Resourcegroup.
      */
-    public DialogAvailableDetails(TabAvailable tab, RGIS rgInformation) {
+    public DialogAvailableDetails(TabAvailable tab, LocalizedResourceGroup rgInformation) {
         super(tab);
         
         this.tab = tab;
@@ -54,17 +52,11 @@ public class DialogAvailableDetails extends Dialog {
         setContentView(R.layout.dialog_resourcegroup_available);
         
         BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
-        String title = rgInformation.getNameForLocale(Locale.getDefault());
-        if (title == null) {
-            title = rgInformation.getNameForLocale(Locale.ENGLISH);
-        }
+        String title = rgInformation.getName();
         btv.setTitle(title);
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
-        String description = rgInformation.getDescriptionForLocale(Locale.getDefault());
-        if (description == null) {
-            description = rgInformation.getDescriptionForLocale(Locale.ENGLISH);
-        }
+        String description = rgInformation.getDescription();
         tv.setText(description);
         
         /* Disable the install button when rg already installed. */
