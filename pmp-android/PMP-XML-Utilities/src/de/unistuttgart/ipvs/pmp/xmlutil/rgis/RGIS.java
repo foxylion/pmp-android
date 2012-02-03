@@ -22,7 +22,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 
 /**
