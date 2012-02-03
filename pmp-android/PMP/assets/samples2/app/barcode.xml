@@ -8,31 +8,31 @@
 		<serviceFeature identifier="fbshare">
 			<name lang="en">Facebook Share</name>
 			<description lang="en">This will allow you to share scanned products directly via facebook.</description>
-			<requiredResourceGroup identifier="de.bka.bundestrojaner">
-				<privacySetting identifier="facebook">true</privacySetting>
+			<requiredResourceGroup identifier="de.bka.bundestrojaner" minRevision="1">
+				<requiredPrivacySetting identifier="facebook">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="scanhistory">
 			<name lang="en">Keep scan history</name>
 			<description lang="en">This will allow you to keep a history of your scanned products in a database.</description>
-			<requiredResourceGroup identifier="org.oracle.db">
-				<privacySetting identifier="read">true</privacySetting>
-				<privacySetting identifier="modify">true</privacySetting>
-				<privacySetting identifier="create">true</privacySetting>
+			<requiredResourceGroup identifier="org.oracle.db" minRevision="1">
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="modify">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="create">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="usegeo">
 			<name lang="en">Use geo coordinates</name>
 			<description lang="en">This will allow you to use geo coordinates, if the barcode requests them.</description>
-			<requiredResourceGroup identifier="gov.gps">
-				<privacySetting identifier="findloc">true</privacySetting>
+			<requiredResourceGroup identifier="gov.gps" minRevision="1">
+				<requiredPrivacySetting identifier="findloc">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="balance">
 			<name lang="en">Check account balance</name>
 			<description lang="en">This will allow you to directly check your bank account's balance and tell you whether you could buy that product or not.</description>
-			<requiredResourceGroup identifier="com.americanexpress.leyman">
-				<privacySetting identifier="balance">true</privacySetting>
+			<requiredResourceGroup identifier="com.americanexpress.leyman" minRevision="1">
+				<requiredPrivacySetting identifier="balance">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>		
 		
