@@ -44,13 +44,12 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 public class LocationAppActivity extends MapActivity {
     
     private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
-    private static final String R_NAME = "absoluteLocation";
+    private static final String R_NAME = "absoluteLocationResource";
     
     private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
     
     public Handler handler;
     
-    private TimerTask timerTask = new DefaultTimerTask();
     private Timer timer = null;
     
     
@@ -114,7 +113,14 @@ public class LocationAppActivity extends MapActivity {
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
             loc.startLocationLookup(1000, 10.0F);
-            Toast.makeText(this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
+            
+            handler.post(new Runnable() {
+                
+                public void run() {
+                    
+                    Toast.makeText(LocationAppActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
+                }
+            });
             
             startContinousLookup();
         } catch (RemoteException e) {
@@ -126,7 +132,7 @@ public class LocationAppActivity extends MapActivity {
     
     private void startContinousLookup() {
         timer = new Timer();
-        timer.schedule(timerTask, 1000, 1000);
+        timer.schedule(new DefaultTimerTask(), 1000, 1000);
     }
     
     
@@ -219,8 +225,8 @@ public class LocationAppActivity extends MapActivity {
                     
                     if (isFixedD) {
                         MapController controller = ((MapView) findViewById(R.id.MapView)).getController();
-                        controller.animateTo(new GeoPoint(new Double(longitudeD * Math.pow(10, 6)).intValue(),
-                                new Double(longitudeD * Math.pow(10, 6)).intValue()));
+                        controller.animateTo(new GeoPoint((int) (latitudeD * 1E6), (int) (longitudeD * 1E6)));
+                        controller.setZoom(17);
                     }
                     
                     ((TextView) findViewById(R.id.TextView_Information)).setText(Html.fromHtml("<html>"

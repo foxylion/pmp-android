@@ -7,16 +7,14 @@
 			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
 		</assignedApps>
 		<assignedPrivacySettings>
-			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" psIdentifier="read">
+			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" rgRevision="12" psIdentifier="read">
 				<grantedValue>true</grantedValue>
-				<contextType>Zeit</contextType>
-				<contextValue>Every Monday</contextValue>
-			</ps>
-			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" psIdentifier="write">
+				<context type="time">Every Monday</context>
+			</privacySetting>
+			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" rgRevision="1" psIdentifier="write">
 				<grantedValue>true</grantedValue>
-				<contextType>Zeit</contextType>
-				<contextValue>Every Wednesday</contextValue>	
-			</ps>
+				<context type="time">Every Wednesday</context>	
+			</privacySetting>
 		</assignedPrivacySettings>
 	</preset>
 	<preset identifier="preset2" creator="null">
@@ -25,9 +23,9 @@
 			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
 		</assignedApps>
 		<assignedPrivacySettings>
-			<ps rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" psIdentifier="write">
+			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" rgRevision="12" psIdentifier="write">
 				<grantedValue>true</grantedValue>
-			</ps>
+			</privacySetting>
 		</assignedPrivacySettings>
 	</preset>
 </presetSet>
