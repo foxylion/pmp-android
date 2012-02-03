@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location">
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location">
 		<revision>1</revision>
 		<defaultName lang="en">Location</defaultName>
 		<name lang="de">Ortung</name>
@@ -15,6 +16,20 @@
 			<name lang="de">Genaue Ortung</name>
 			<defaultDescription lang="en">Obtains access to the exact current location.</defaultDescription>
 			<description lang="de">Erlaubt Zugriff auf die aktuell exakte Position.</description>
+		</privacySetting>
+		<privacySetting identifier="showAccuracy">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Use accuracy</defaultName>
+			<name lang="de">Genauigkeit nutzen</name>
+			<defaultDescription lang="en">Obtains access to the current accuracy of the location.</defaultDescription>
+			<description lang="de">Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</description>
+		</privacySetting>
+		<privacySetting identifier="showSpeed">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Current speed</defaultName>
+			<name lang="de">Aktuelle Geschwindigkeit</name>
+			<defaultDescription lang="en">Obtains access to the current speed.</defaultDescription>
+			<description lang="de">Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</description>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>
