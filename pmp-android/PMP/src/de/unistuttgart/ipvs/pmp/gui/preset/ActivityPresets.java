@@ -142,7 +142,7 @@ public class ActivityPresets extends Activity {
                 /*
                  * Add a Preset
                  */
-                DialogPresetEdit dialog = new DialogPresetEdit(this, callback, null);
+                DialogPresetEdit dialog = new DialogPresetEdit(this, this.callback, null);
                 dialog.show();
                 break;
             case R.id.presets_menu_show_trash_bin:
@@ -168,6 +168,7 @@ public class ActivityPresets extends Activity {
                 builder.setMessage(getString(R.string.presets_alert_clear_trash_bin)).setCancelable(false)
                         .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 for (IPreset preset : ModelProxy.get().getPresets()) {
                                     if (preset.isDeleted()) {
@@ -181,6 +182,7 @@ public class ActivityPresets extends Activity {
                             }
                         }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
@@ -201,14 +203,14 @@ public class ActivityPresets extends Activity {
     public boolean onContextItemSelected(MenuItem menuItem) {
         // The menu information
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        if (menuInfo.targetView == presetListView) {
+        if (menuInfo.targetView == this.presetListView) {
             IPreset preset = this.presetList.get(menuInfo.position);
             switch (menuItem.getItemId()) {
                 case 0:
                     /*
                      * Clicked on "Edit name and description"
                      */
-                    DialogPresetEdit dialog = new DialogPresetEdit(this, callback, preset);
+                    DialogPresetEdit dialog = new DialogPresetEdit(this, this.callback, preset);
                     dialog.show();
                     return true;
                 case 1:
@@ -219,7 +221,7 @@ public class ActivityPresets extends Activity {
                     refresh();
                     return true;
             }
-        } else if (menuInfo.targetView == presetTrashBinListView) {
+        } else if (menuInfo.targetView == this.presetTrashBinListView) {
             IPreset preset = this.presetTrashBinList.get(menuInfo.position);
             // Context menu of a deleted preset
             switch (menuItem.getItemId()) {
@@ -357,16 +359,16 @@ public class ActivityPresets extends Activity {
         // Show label, if a list is empty
         TextView labelPresetList = (TextView) findViewById(R.id.Presets_Text_View_No_Presets_Existing);
         if (this.presetList.size() == 0) {
-            labelPresetList.setVisibility(TextView.VISIBLE);
+            labelPresetList.setVisibility(View.VISIBLE);
         } else {
-            labelPresetList.setVisibility(TextView.GONE);
+            labelPresetList.setVisibility(View.GONE);
         }
         
         TextView labelTrashBinList = (TextView) findViewById(R.id.Presets_Text_View_Trash_Bin_Empty);
         if (this.presetTrashBinList.size() == 0 && PMPPreferences.getInstance().isPresetTrashBinVisible()) {
-            labelTrashBinList.setVisibility(TextView.VISIBLE);
+            labelTrashBinList.setVisibility(View.VISIBLE);
         } else {
-            labelTrashBinList.setVisibility(TextView.GONE);
+            labelTrashBinList.setVisibility(View.GONE);
         }
         
     }
@@ -381,9 +383,9 @@ public class ActivityPresets extends Activity {
     private void showTrashBin(boolean flag) {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Presets_Trash_Bin);
         if (flag) {
-            linearLayout.setVisibility(LinearLayout.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
         } else {
-            linearLayout.setVisibility(LinearLayout.GONE);
+            linearLayout.setVisibility(View.GONE);
         }
     }
 }

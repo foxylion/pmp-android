@@ -17,8 +17,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @see IServerProvider
@@ -149,24 +149,24 @@ public class ServerProvider implements IServerProvider {
     
     
     @Override
-    public RgInformationSet[] findResourceGroups(String searchPattern) {
-        Assert.nonNull(searchPattern, new ModelMisuseError(Assert.ILLEGAL_NULL, "searchString", searchPattern));
+    public RGIS[] findResourceGroups(String searchPattern) {
+        Assert.nonNull(searchPattern, ModelMisuseError.class, Assert.ILLEGAL_NULL, "searchString", searchPattern);
         this.callback.tasks(0, -1);
         
         // load the package names of all RGs
         String[] rgs;
-        RgInformationSet[] result;
+        RGIS[] result;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             if (!downloadFile(SEARCH_FOR + searchPattern, baos)) {
-                return new RgInformationSet[0];
+                return new RGIS[0];
             }
             
             String response = baos.toString("UTF-8");
             if (response.trim().length() > 0) {
                 rgs = response.split("\n");
             } else {
-                return new RgInformationSet[0];
+                return new RGIS[0];
             }
             
         } catch (UnsupportedEncodingException uee) {
@@ -175,7 +175,7 @@ public class ServerProvider implements IServerProvider {
             
         }
         
-        result = new RgInformationSet[rgs.length];
+        result = new RGIS[rgs.length];
         
         // load all the XMLs
         ByteArrayStreamBridge basb = new ByteArrayStreamBridge(BUFFER_SIZE);
@@ -184,12 +184,12 @@ public class ServerProvider implements IServerProvider {
             this.callback.tasks(1 + i, 1 + rgs.length);
             
             if (!downloadFile(rgs[i] + XML_STR, basb)) {
-                return new RgInformationSet[0];
+                return new RGIS[0];
             }
             
             // the BASBridge prevents us from copying a huge amount of arrays
             long before = System.currentTimeMillis();
-            result[i] = RgInformationSetParser.createRgInformationSet(basb.toInputStream());
+            result[i] = XMLUtilityProxy.parseRGISXML(basb.toInputStream());
             long after = System.currentTimeMillis();
             
             Log.v("Parsing one XML took us " + (after - before) + "ms");
@@ -203,7 +203,7 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public File downloadResourceGroup(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         try {
             this.callback.tasks(0, 1);
             

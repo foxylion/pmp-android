@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.location.resource;
 
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IntegerPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.Location;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.PermissionValidator;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
@@ -10,7 +11,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	private Location locationRG;
 	private AbsoluteLocationResource absoluteLocationR;
 	private String appIdentifier;
-	private PermissionValidator ps;
+	private PermissionValidator psv;
 	
 	private UpdateRequest updateRequest = null;
 	
@@ -20,12 +21,12 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 		this.absoluteLocationR = absoluteLocationR;
 		this.appIdentifier = appIdentifier;
 		
-		this.ps = new PermissionValidator(this.locationRG, this.appIdentifier);
+		this.psv = new PermissionValidator(this.locationRG, this.appIdentifier);
 	}
 	
 	
 	public void startLocationLookup(long minTime, float minDistance) throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateRequest = new UpdateRequest(minTime, minDistance);
 		absoluteLocationR.startLocationLookup(appIdentifier, updateRequest);
@@ -33,7 +34,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public void endLocationLookup() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -43,7 +44,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public boolean isGpsEnabled() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -52,7 +53,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public boolean isActive() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -61,7 +62,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public boolean isFixed() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -70,7 +71,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public boolean isUpdateAvailable() {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -80,7 +81,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public double getLongitude() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -90,7 +91,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public double getLatitude() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
 		
 		updateLastRequest();
 		
@@ -100,19 +101,22 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	
 	public float getAccuracy() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
-		ps.validate(Location.PS_SHOW_ACCURACY, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_SHOW_ACCURACY, "true");
 		
 		updateLastRequest();
 		
-		// TODO Use the min Detail Privacy Setting as lower inaccuracy level.
-		return this.absoluteLocationR.getAccuracy();
+		if(this.psv.getIntValue(Location.PS_LOCATION_PRECISION) > this.absoluteLocationR.getAccuracy()) {
+			return this.psv.getIntValue(Location.PS_LOCATION_PRECISION);
+		} else {
+			return this.absoluteLocationR.getAccuracy();
+		}
 	}
 	
 	
 	public float getSpeed() throws RemoteException {
-		ps.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
-		ps.validate(Location.PS_SHOW_SPEED, "true");
+		psv.validate(Location.PS_USE_ABSOLUTE_LOCATION, "true");
+		psv.validate(Location.PS_SHOW_SPEED, "true");
 		
 		updateLastRequest();
 		

@@ -26,8 +26,6 @@ public class InstallReceiver extends BroadcastReceiver {
         
         // TODO: in case anyone touches this again, make it use the PluginProvider methods.
         String[] packageNames = intentPackage.split("\\.");
-        String result = packageNames[packageNames.length - 1];
-        
         try {
             Resources res = context.getPackageManager().getResourcesForApplication(intentPackage);
             InputStream is = res.getAssets().open("rgis.xml");

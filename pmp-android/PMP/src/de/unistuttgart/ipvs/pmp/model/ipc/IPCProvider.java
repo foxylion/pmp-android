@@ -141,8 +141,8 @@ public class IPCProvider {
      *            service feature is active i.e. granted
      */
     public synchronized void queue(String appPackage, Map<ServiceFeature, Boolean> verification) {
-        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
-        Assert.nonNull(verification, new ModelMisuseError(Assert.ILLEGAL_NULL, "verification", verification));
+        Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
+        Assert.nonNull(verification, ModelMisuseError.class, Assert.ILLEGAL_NULL, "verification", verification);
         
         // create the new bundle
         Bundle b = new Bundle();

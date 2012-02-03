@@ -160,14 +160,14 @@ public abstract class AbstractParser {
 		for (String[] nameArray : nameList) {
 			Name name = new Name();
 			name.setLocale(new Locale(nameArray[1]));
-			name.setString(nameArray[0].replaceAll("\t", "")
+			name.setName(nameArray[0].replaceAll("\t", "")
 					.replaceAll("\n", " ").trim());
 			is.addName(name);
 		}
 		for (String[] descriptionArray : descriptionList) {
 			Description descr = new Description();
 			descr.setLocale(new Locale(descriptionArray[1]));
-			descr.setString(descriptionArray[0].replaceAll("\t", "")
+			descr.setDescription(descriptionArray[0].replaceAll("\t", "")
 					.replaceAll("\n", " ").trim());
 			is.addDescription(descr);
 		}

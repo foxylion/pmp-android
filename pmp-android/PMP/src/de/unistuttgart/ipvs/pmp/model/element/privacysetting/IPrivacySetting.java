@@ -20,16 +20,16 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
 import android.content.Context;
-import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link IPrivacySetting} interface represents a PrivacySetting of a {@link IResourceGroup}. It can be fetched from
- * an {@link IServiceFeature}, {@link IPreset} or {@link IResourceGroup}.<br>
+ * an {@link IServiceFeature}, {@link IPreset} or {@link IResourceGroup}.
  * 
  * @author Jakob Jarosch
  */
@@ -104,12 +104,25 @@ public interface IPrivacySetting extends IModelElement {
     public boolean permits(String reference, String value) throws PrivacySettingValueException;
     
     
-    public View getView(Context context);
+    /**
+     * 
+     * @param context
+     *            context to use for the view
+     * @return an @link{IPrivacySettingView} object to display and change the values of the privacy setting.
+     */
+    public IPrivacySettingView<?> getView(Context context);
     
     
-    public String getViewValue(View view);
-    
-    
-    public void setViewValue(View view, String value) throws PrivacySettingValueException;
+    /**
+     * Convenience method for {@link IPrivacySettingView#setViewValue(Object)} if you only have a string.
+     * 
+     * @param context
+     *            context to use for the view
+     * @param value
+     *            the string to parse
+     * @throws PrivacySettingValueException
+     *             if the privacy setting rejected the value
+     */
+    public void setViewValue(Context context, String value) throws PrivacySettingValueException;
     
 }

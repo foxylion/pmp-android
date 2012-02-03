@@ -2,8 +2,8 @@ package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,7 +17,8 @@ import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.xml.app.RequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 
 /**
  * The persistence provider for {@link ServiceFeature}s.
@@ -80,7 +81,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
+        throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_METHOD, "storeElementData", this));
     }
     
     
@@ -110,7 +111,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
      *         {@link ServiceFeaturePersistenceProvider}, or null, if the creation was not possible
      */
     public ServiceFeature createElementData(App app, String identifier,
-            Map<String, RequiredResourceGroup> requiredResourceGroups) {
+            List<AISRequiredResourceGroup> requiredResourceGroups) {
         // store in db
         SQLiteDatabase sqldb = getDoh().getWritableDatabase();
         try {
@@ -124,14 +125,14 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
             }
             
             // refer to all the required resource groups
-            for (Entry<String, RequiredResourceGroup> entry : requiredResourceGroups.entrySet()) {
-                for (Entry<String, String> e : entry.getValue().getPrivacySettingsMap().entrySet()) {
+            for (AISRequiredResourceGroup rrg : requiredResourceGroups) {
+                for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
                     cv = new ContentValues();
-                    cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, entry.getKey());
-                    cv.put(PRIVACYSETTING_IDENTIFIER, e.getKey());
+                    cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getIdentifier());
+                    cv.put(PRIVACYSETTING_IDENTIFIER, ps.getIdentifier());
                     cv.put(SERVICEFEATURE_APP_PACKAGE, app.getIdentifier());
                     cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
-                    cv.put(REQUIREDVALUE, e.getValue());
+                    cv.put(REQUIREDVALUE, ps.getValue());
                     if (sqldb.insert(TBL_SFReqPSValue, null, cv) == -1) {
                         Log.e("Could not write required privacy setting for service feature. Corruption of database very likely.");
                         return null;

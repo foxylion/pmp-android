@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -69,7 +70,7 @@ public class MockupModel implements IModel {
         
         for (IPreset preset : app.getAssignedPresets()) {
             // this time, there's no way but to cast (or run manually through all apps)                     
-            Assert.instanceOf(preset, Preset.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "preset", preset));
+            Assert.instanceOf(preset, Preset.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "preset", preset);
             Preset castPreset = (Preset) preset;
             
             // since these presets were assigned to the app they now are guaranteed not to be available.
@@ -188,7 +189,7 @@ public class MockupModel implements IModel {
             
             for (IApp app : p.getAssignedApps()) {
                 // this time, there's no way but to cast (or run manually through all apps)
-                Assert.instanceOf(app, App.class, new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app));
+                Assert.instanceOf(app, App.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "app", app);
                 App castApp = (App) app;
                 castApp.removePreset(p);
             }
@@ -205,6 +206,12 @@ public class MockupModel implements IModel {
         this.cache.getResourceGroups().clear();
         this.cache.getPrivacySettings().clear();
         this.cache.getPresets().clear();
+    }
+    
+    
+    @Override
+    public IContext[] getContexts() {
+        throw new UnsupportedOperationException();
     }
     
 }

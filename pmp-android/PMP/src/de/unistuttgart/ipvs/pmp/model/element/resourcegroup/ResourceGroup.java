@@ -12,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @see IResourceGroup
@@ -24,7 +24,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     /**
      * localized values
      */
-    protected RgInformationSet rgis;
+    protected RGIS rgis;
     
     /**
      * internal data & links
@@ -54,9 +54,9 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String getName() {
         checkCached();
-        String name = this.rgis.getNames().get(Locale.getDefault());
+        String name = this.rgis.getNameForLocale(Locale.getDefault());
         if (name == null) {
-            name = this.rgis.getNames().get(Locale.ENGLISH);
+            name = this.rgis.getNameForLocale(Locale.ENGLISH);
         }
         return name;
     }
@@ -65,9 +65,9 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public String getDescription() {
         checkCached();
-        String description = this.rgis.getDescriptions().get(Locale.getDefault());
+        String description = this.rgis.getDescriptionForLocale(Locale.getDefault());
         if (description == null) {
-            description = this.rgis.getDescriptions().get(Locale.ENGLISH);
+            description = this.rgis.getDescriptionForLocale(Locale.ENGLISH);
         }
         return description;
     }
@@ -83,7 +83,10 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public int getRevision() {
         checkCached();
-        return new Integer(this.rgis.getRevision());
+        /*
+         * TODO: Get revision out of the apk! Tobis task :-)
+         */
+        return 42;
     }
     
     
@@ -98,8 +101,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public IPrivacySetting getPrivacySetting(String privacySettingIdentifier) {
         checkCached();
-        Assert.nonNull(privacySettingIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySettingIdentifier",
-                privacySettingIdentifier));
+        Assert.nonNull(privacySettingIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL,
+                "privacySettingIdentifier", privacySettingIdentifier);
         return this.privacySettings.get(privacySettingIdentifier);
     }
     
@@ -107,8 +110,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public IBinder getResource(String appPackage, String resource) {
         checkCached();
-        Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
-        Assert.nonNull(resource, new ModelMisuseError(Assert.ILLEGAL_NULL, "resource", resource));
+        Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
+        Assert.nonNull(resource, ModelMisuseError.class, Assert.ILLEGAL_NULL, "resource", resource);
         
         Resource res = this.link.getResource(resource);
         if (res != null) {
@@ -120,7 +123,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     /* inter-model communication */
-    public RgInformationSet getRgis() {
+    public RGIS getRgis() {
         checkCached();
         return this.rgis;
     }

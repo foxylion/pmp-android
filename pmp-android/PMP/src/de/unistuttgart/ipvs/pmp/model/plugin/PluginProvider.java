@@ -23,8 +23,8 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @see IPluginProvider
@@ -76,7 +76,7 @@ public class PluginProvider implements IPluginProvider {
      * fields
      */
     private Map<String, ResourceGroup> cache;
-    private Map<String, RgInformationSet> cacheRGIS;
+    private Map<String, RGIS> cacheRGIS;
     
     /*
      * singleton stuff
@@ -92,7 +92,7 @@ public class PluginProvider implements IPluginProvider {
     
     private PluginProvider() {
         this.cache = new HashMap<String, ResourceGroup>();
-        this.cacheRGIS = new HashMap<String, RgInformationSet>();
+        this.cacheRGIS = new HashMap<String, RGIS>();
         
         if (!PLUGIN_BASE_DIR.mkdirs() && !PLUGIN_BASE_DIR.exists()) {
             Log.e("Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
@@ -118,51 +118,38 @@ public class PluginProvider implements IPluginProvider {
      * @param rgPackage
      */
     private void checkCached(String rgPackage) {
+        // RGIS
+        if (this.cacheRGIS.get(rgPackage) == null) {
+            try {
+                this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
+            } catch (FileNotFoundException fnfe) {
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe));
+            } catch (IOException ioe) {
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe));
+            }
+        }
+        
         // object
         if (this.cache.get(rgPackage) == null) {
             String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
-            String className = getClassName(rgPackage);
+            String className = this.cacheRGIS.get(rgPackage).getClassName();
             
             try {
                 this.cache.put(rgPackage, loadRGObject(rgPackage, apkName, className));
             } catch (ClassNotFoundException cnfe) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, cnfe);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, cnfe));
             } catch (NoSuchMethodException nsme) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, nsme);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, nsme));
             } catch (InstantiationException ie) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ie);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ie));
             } catch (IllegalAccessException iae) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, iae);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, iae));
             } catch (InvocationTargetException ite) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ite);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ite));
             }
             
         }
         
-        // RGIS
-        if (this.cacheRGIS.get(rgPackage) == null) {
-            
-            try {
-                this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
-            } catch (FileNotFoundException fnfe) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe);
-            } catch (IOException ioe) {
-                throw new ModelMisuseError(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe);
-            }
-            
-        }
-    }
-    
-    
-    /**
-     * 
-     * @param rgPackage
-     * @return the must-have class name of the main class for that package
-     */
-    private String getClassName(String rgPackage) {
-        String[] packageNames = rgPackage.split("\\.");
-        String result = packageNames[packageNames.length - 1];
-        return Character.toUpperCase(result.charAt(0)) + result.substring(1);
     }
     
     
@@ -209,19 +196,19 @@ public class PluginProvider implements IPluginProvider {
     
     @Override
     public void injectFile(String rgPackage, InputStream input) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
-        Assert.nonNull(input, new ModelMisuseError(Assert.ILLEGAL_NULL, "input", input));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
+        Assert.nonNull(input, ModelMisuseError.class, Assert.ILLEGAL_NULL, "input", input);
         copyFile(input, PLUGIN_APK_DIR_STR + rgPackage + APK_STR);
     }
     
     
     @Override
     public void install(String rgPackage) throws InvalidPluginException {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         
         // identify the important attributes first
         String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
-        String className = getClassName(rgPackage);
+        String className = "unknown";
         String errorMsg;
         
         try {
@@ -237,7 +224,8 @@ public class PluginProvider implements IPluginProvider {
                 }
                 
                 // create the RGIS
-                RgInformationSet rgis = loadRGIS(rgPackage);
+                RGIS rgis = loadRGIS(rgPackage);
+                className = rgis.getClassName();
                 
                 // extract icon
                 ZipEntry iconEntry = zipApk.getEntry(rgis.getIconLocation());
@@ -336,10 +324,10 @@ public class PluginProvider implements IPluginProvider {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private RgInformationSet loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
+    private RGIS loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(PLUGIN_ASSET_DIR_STR + rgPackage + ".xml");
         try {
-            return RgInformationSetParser.createRgInformationSet(fis);
+            return XMLUtilityProxy.parseRGISXML(fis);
         } finally {
             fis.close();
         }
@@ -348,7 +336,7 @@ public class PluginProvider implements IPluginProvider {
     
     @Override
     public void uninstall(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         this.cache.remove(rgPackage);
         this.cacheRGIS.remove(rgPackage);
         deleteFile(PLUGIN_ASSET_DIR_STR + rgPackage + PNG_STR);
@@ -359,15 +347,15 @@ public class PluginProvider implements IPluginProvider {
     
     @Override
     public ResourceGroup getResourceGroupObject(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         checkCached(rgPackage);
         return this.cache.get(rgPackage);
     }
     
     
     @Override
-    public RgInformationSet getRGIS(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+    public RGIS getRGIS(String rgPackage) {
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         checkCached(rgPackage);
         return this.cacheRGIS.get(rgPackage);
         
@@ -376,7 +364,7 @@ public class PluginProvider implements IPluginProvider {
     
     @Override
     public Drawable getIcon(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         checkCached(rgPackage);
         return Drawable.createFromPath(PLUGIN_ASSET_DIR_STR + rgPackage + ".png");
     }

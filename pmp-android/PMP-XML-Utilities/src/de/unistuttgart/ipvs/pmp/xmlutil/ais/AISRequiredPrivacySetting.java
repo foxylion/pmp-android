@@ -24,7 +24,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
  * @author Marcus Vetter
  * 
  */
-public class PrivacySetting {
+public class AISRequiredPrivacySetting {
 
 	/**
 	 * The identifier of the Privacy Setting
@@ -44,7 +44,7 @@ public class PrivacySetting {
 	 * @param value
 	 *            value of the Privacy Setting
 	 */
-	public PrivacySetting(String identifier, String value) {
+	public AISRequiredPrivacySetting(String identifier, String value) {
 		this.setIdentifier(identifier);
 		this.setValue(value);
 	}

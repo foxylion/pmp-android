@@ -20,9 +20,9 @@
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -48,30 +48,31 @@ public class ISPrinter {
 		System.out.println("-- App-Information: ---");
 		System.out.println("-----------------------");
 		for (Name name : ais.getNames()) {
-			System.out.println("Name: " + name.getString() + " (Locale: "
+			System.out.println("Name: " + name.getName() + " (Locale: "
 					+ name.getLocale().getLanguage() + ")");
 		}
 		for (Description descr : ais.getDescriptions()) {
-			System.out.println("Description: " + descr.getString()
+			System.out.println("Description: " + descr.getDescription()
 					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 		}
 		System.out.println("-----------------------");
 		System.out.println("-- Service Features: --");
 		System.out.println("-----------------------");
-		for (ServiceFeature sf : ais.getServiceFeatures()) {
+		for (AISServiceFeature sf : ais.getServiceFeatures()) {
 			System.out.println("Identifier: " + sf.getIdentifier());
 			for (Name name : sf.getNames()) {
-				System.out.println("Name: " + name.getString() + " (Locale: "
+				System.out.println("Name: " + name.getName() + " (Locale: "
 						+ name.getLocale().getLanguage() + ")");
 			}
 			for (Description descr : sf.getDescriptions()) {
-				System.out.println("Description: " + descr.getString()
+				System.out.println("Description: " + descr.getDescription()
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
-			for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+			for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
 				System.out.println("Required Resource Group ID: "
 						+ rrg.getIdentifier());
-				for (PrivacySetting ps : rrg.getPrivacySettings()) {
+				System.out.println("minRevision: " + rrg.getMinRevision());
+				for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
 					System.out.println("- Privacy Setting Value: "
 							+ ps.getValue() + " (Identifier: "
 							+ ps.getIdentifier() + ")");
@@ -95,31 +96,30 @@ public class ISPrinter {
 		System.out.println("--- Rg-Information: ---");
 		System.out.println("-----------------------");
 		System.out.println("Identifier: " + rgis.getIdentifier());
-		System.out.println("Revision: " + rgis.getRevision());
 		System.out.println("IconLocation: " + rgis.getIconLocation());
 		System.out.println("Class Name: " + rgis.getClassName());
 		for (Name name : rgis.getNames()) {
-			System.out.println("Name: " + name.getString() + " (Locale: "
+			System.out.println("Name: " + name.getName() + " (Locale: "
 					+ name.getLocale().getLanguage() + ")");
 		}
 		for (Description descr : rgis.getDescriptions()) {
-			System.out.println("Description: " + descr.getString()
+			System.out.println("Description: " + descr.getDescription()
 					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 		}
 		System.out.println("-----------------------");
 		System.out.println("-- Privacy Settings: --");
 		System.out.println("-----------------------");
-		for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting ps : rgis
+		for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis
 				.getPrivacySettings()) {
 			System.out.println("Identifier: " + ps.getIdentifier());
 			System.out.println("Valid value description: "
 					+ ps.getValidValueDescription());
 			for (Name name : ps.getNames()) {
-				System.out.println("Name: " + name.getString() + " (Locale: "
+				System.out.println("Name: " + name.getName() + " (Locale: "
 						+ name.getLocale().getLanguage() + ")");
 			}
 			for (Description descr : ps.getDescriptions()) {
-				System.out.println("Description: " + descr.getString()
+				System.out.println("Description: " + descr.getDescription()
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
 			System.out.println("-----------------------");

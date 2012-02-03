@@ -60,10 +60,10 @@ public class AdapterServiceFeatures extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ListItemServiceFeature entryView = serviceFeatureViews.get(serviceFeature);
+        ListItemServiceFeature entryView = this.serviceFeatureViews.get(serviceFeature);
         if (entryView == null) {
             entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
-            serviceFeatureViews.put(serviceFeature, entryView);
+            this.serviceFeatureViews.put(serviceFeature, entryView);
         }
         
         return entryView;
@@ -74,7 +74,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
      * Refreshes all listed views.
      */
     public void refreshAllViews() {
-        for (Entry<IServiceFeature, ListItemServiceFeature> view : serviceFeatureViews.entrySet()) {
+        for (Entry<IServiceFeature, ListItemServiceFeature> view : this.serviceFeatureViews.entrySet()) {
             view.getValue().refresh(false);
         }
     }

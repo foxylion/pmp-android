@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -42,7 +42,7 @@ public class RGISParser extends AbstractParser {
     /**
      * RgInformationSet
      */
-    private RGIS rgis = new RGIS();    
+    private RGIS rgis;    
     
     /**
      * This method parses a given xml (by the xml url) and returns a created
@@ -53,6 +53,9 @@ public class RGISParser extends AbstractParser {
     public RGIS parse(InputStream xmlStream) {
 		// Initialize
 		initParser(xmlStream);
+		
+		// Create new RGIS
+		rgis = new RGIS();
         
         // Check, if the root node is named correctly
         if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet")) {
@@ -102,7 +105,6 @@ public class RGISParser extends AbstractParser {
         // Create results and add them to the rg information set
         this.rgis.setIdentifier(rgInformationElement.getAttribute("identifier"));
         this.rgis.setIconLocation(rgInformationElement.getAttribute("icon"));
-        this.rgis.setRevision(rgInformationElement.getAttribute("revision"));
         this.rgis.setClassName(rgInformationElement.getAttribute("className"));
     }
     
@@ -122,7 +124,7 @@ public class RGISParser extends AbstractParser {
         	Element privacySettingElement = (Element) privacySettingsNodeList.item(itr);
         	
         	// Instantiate a new Privacy Setting and add the identifier
-        	PrivacySetting ps = new PrivacySetting(privacySettingElement.getAttribute("identifier"), null);
+        	RGISPrivacySetting ps = new RGISPrivacySetting(privacySettingElement.getAttribute("identifier"), null);
             
         	// Get the valid value description
             List<String[]> validValueDescrList = parseNodes(privacySettingElement, "validValueDescription");

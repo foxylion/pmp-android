@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="gov.gps">
-		<icon>location.of.the.icon</icon>
-		<revision>1</revision>
-		<defaultName lang="en">GPS</defaultName>
-		<defaultDescription lang="en">The official GPS resource from the DoD that can track you - I mean - you can track your position.</defaultDescription>
+	<resourceGroupInformation
+		identifier="gov.gps"
+		revision="1"
+		icon="location.of.the.icon"
+		className="xy">
+		<name lang="en">GPS</name>
+		<description lang="en">The official GPS resource from the DoD that can track you - I mean - you can track your position.</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting identifier="findloc">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Find Location</defaultName>
-			<defaultDescription lang="en">May find your location. May maybe not.</defaultDescription>
+		<privacySetting
+			identifier="findloc"
+			validValueDescription="'true' and 'false' are valid values.">
+			<name lang="en">Find Location</name>
+			<description lang="en">May find your location. May maybe not.</description>
 		</privacySetting>
-		<privacySetting identifier="modify">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Modify</defaultName>
-			<defaultDescription lang="en">Gives the permission to modify your location (physically).</defaultDescription>
+		<privacySetting
+			identifier="modify"
+			validValueDescription="'true' and 'false' are valid values.">
+			<name lang="en">Modify</name>
+			<description lang="en">Gives the permission to modify your location (physically).</description>
 		</privacySetting>
-		<privacySetting identifier="missiles">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Set Tomahawk Missile Target</defaultName>
-			<defaultDescription lang="en">Errr... I forgot what that one was for...</defaultDescription>
+		<privacySetting
+			identifier="missiles"
+			validValueDescription="'true' and 'false' are valid values.">
+			<name lang="en">Set Tomahawk Missile Target</name>
+			<description lang="en">Errr... I forgot what that one was for...</description>
 		</privacySetting>		
 	</privacySettings>
 </resourceGroupInformationSet>

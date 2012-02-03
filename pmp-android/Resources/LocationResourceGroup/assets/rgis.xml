@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation
-		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location">
-		<revision>1</revision>
-		<defaultName lang="en">Location</defaultName>
+	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" revision="1" icon="res/drawable-hdpi/icon.png" className="Location">
+
+		<name lang="en">Location</name>
 		<name lang="de">Ortung</name>
-		<icon>res/drawable-hdpi/icon.png</icon>
-		<defaultDescription lang="en">Obtains access to the current location of the device.</defaultDescription>
+		<description lang="en">Obtains access to the current location of the device.</description>
 		<description lang="de">Erlaubt Zugriff auf den aktuellen Standort des Geräts.</description>
 	</resourceGroupInformation>
 	<privacySettings>
@@ -23,6 +21,13 @@
 			<name lang="de">Genauigkeit nutzen</name>
 			<defaultDescription lang="en">Obtains access to the current accuracy of the location.</defaultDescription>
 			<description lang="de">Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</description>
+		</privacySetting>
+		<privacySetting identifier="locationPrecision">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Location precision</defaultName>
+			<name lang="de">Genauigkeit der Ortung</name>
+			<defaultDescription lang="en">How precise the location should be.</defaultDescription>
+			<description lang="de">Wie genau die Ortung sein soll.</description>
 		</privacySetting>
 		<privacySetting identifier="showSpeed">
 			<!-- Valid value: "true", "false" -->

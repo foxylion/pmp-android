@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.model;
 
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -199,6 +200,13 @@ public interface IModel {
      * @return true, if and only if the preset was found and removed
      */
     public boolean removePreset(IModelElement creator, String presetIdentifier);
+    
+    
+    /**
+     * 
+     * @return all {@link IContext}s known by PMP.
+     */
+    public IContext[] getContexts();
     
     
     /**

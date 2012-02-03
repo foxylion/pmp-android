@@ -22,8 +22,6 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 /**
@@ -33,6 +31,9 @@ import android.widget.LinearLayout;
  * 
  */
 public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
+    
+    private IPrivacySettingView<Boolean> view = null;
+    
     
     @Override
     public Boolean parseValue(String value) throws PrivacySettingValueException {
@@ -51,56 +52,47 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     
     @Override
-    public View getView(Context context) {
-        return new BooleanPrivacyLevelView(context);
+    public IPrivacySettingView<Boolean> getView(Context context) {
+        if (this.view == null) {
+            this.view = new BooleanPrivacyLevelView(context);
+        }
+        return this.view;
     }
-    
-    
-    @Override
-    public String getViewValue(View view) {
-        return ((BooleanPrivacyLevelView) view).getValue().toString();
-    }
-    
-    
-    @Override
-    public void setViewValue(View view, Boolean value) {
-        ((BooleanPrivacyLevelView) view).setValue(value);
-    }
-    
 }
 
-class BooleanPrivacyLevelView extends LinearLayout {
+/**
+ * {@link IPrivacySettingView} for {@link BooleanPrivacySetting}
+ * 
+ * @author Jakob Jarosch
+ * 
+ */
+class BooleanPrivacySettingView extends LinearLayout implements IPrivacySettingView<Boolean> {
     
     private CheckBox checkBox;
-    private Boolean value;
     
     
-    public BooleanPrivacyLevelView(Context context) {
+    public BooleanPrivacySettingView(Context context) {
         super(context);
-        
         this.checkBox = new CheckBox(context);
-        
         addView(this.checkBox);
-        
-        this.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BooleanPrivacyLevelView.this.value = isChecked;
-            }
-        });
-        
-        setValue(false);
     }
     
     
-    public void setValue(Boolean bool) {
-        this.value = bool;
-        this.checkBox.setChecked(bool);
+    @Override
+    public View asView() {
+        return this;
     }
     
     
-    public Boolean getValue() {
-        return this.value;
+    @Override
+    public void setViewValue(Boolean value) throws PrivacySettingValueException {
+        this.checkBox.setChecked(value);
     }
+    
+    
+    @Override
+    public String getViewValue() {
+        return String.valueOf(this.checkBox.isChecked());
+    }
+    
 }

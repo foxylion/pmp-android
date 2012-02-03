@@ -23,6 +23,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.model.element.app.App;
 
 /**
  * 

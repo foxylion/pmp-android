@@ -22,7 +22,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 
 /**
  * @see IApp
@@ -34,7 +34,7 @@ public class App extends ModelElement implements IApp {
     /**
      * localized values
      */
-    protected AppInformationSet ais;
+    protected AIS ais;
     
     /**
      * internal data & links
@@ -64,9 +64,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getName() {
         checkCached();
-        String name = this.ais.getNames().get(Locale.getDefault());
+        String name = this.ais.getNameForLocale(Locale.getDefault());
         if (name == null) {
-            name = this.ais.getNames().get(Locale.ENGLISH);
+            name = this.ais.getNameForLocale(Locale.ENGLISH);
         }
         return name;
     }
@@ -75,9 +75,9 @@ public class App extends ModelElement implements IApp {
     @Override
     public String getDescription() {
         checkCached();
-        String description = this.ais.getDescriptions().get(Locale.getDefault());
+        String description = this.ais.getDescriptionForLocale(Locale.getDefault());
         if (description == null) {
-            description = this.ais.getDescriptions().get(Locale.ENGLISH);
+            description = this.ais.getDescriptionForLocale(Locale.ENGLISH);
         }
         return description;
     }
@@ -104,8 +104,8 @@ public class App extends ModelElement implements IApp {
     @Override
     public IServiceFeature getServiceFeature(String serviceFeatureIdentifier) {
         checkCached();
-        Assert.nonNull(serviceFeatureIdentifier, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeatureIdentifier",
-                serviceFeatureIdentifier));
+        Assert.nonNull(serviceFeatureIdentifier, ModelMisuseError.class, Assert.ILLEGAL_NULL,
+                "serviceFeatureIdentifier", serviceFeatureIdentifier);
         return this.serviceFeatures.get(serviceFeatureIdentifier);
     }
     
@@ -154,7 +154,7 @@ public class App extends ModelElement implements IApp {
     
     /* inter-model communication */
     
-    public AppInformationSet getAis() {
+    public AIS getAis() {
         checkCached();
         return this.ais;
     }
@@ -167,7 +167,7 @@ public class App extends ModelElement implements IApp {
      */
     public void removePreset(Preset p) {
         checkCached();
-        Assert.nonNull(p, new ModelIntegrityError(Assert.ILLEGAL_NULL, "p", p));
+        Assert.nonNull(p, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "p", p);
         this.assignedPresets.remove(p);
         verifyServiceFeatures();
     }
@@ -175,7 +175,7 @@ public class App extends ModelElement implements IApp {
     
     public void addPreset(Preset p) {
         checkCached();
-        Assert.nonNull(p, new ModelIntegrityError(Assert.ILLEGAL_NULL, "p", p));
+        Assert.nonNull(p, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "p", p);
         this.assignedPresets.add(p);
         verifyServiceFeatures();
     }

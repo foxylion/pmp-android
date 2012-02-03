@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 
 /**
@@ -39,11 +40,6 @@ public class RGIS extends BasicIS {
 	private String identifier;
 
 	/**
-	 * The revision of the resource group
-	 */
-	private String revision;
-
-	/**
 	 * The icon of the resource group
 	 */
 	private String iconLocation;
@@ -56,7 +52,7 @@ public class RGIS extends BasicIS {
 	/**
 	 * This list contains all privacy settings of the resource group.
 	 */
-	private List<PrivacySetting> privacySettings = new ArrayList<PrivacySetting>();
+	private List<RGISPrivacySetting> privacySettings = new ArrayList<RGISPrivacySetting>();
 
 	/**
 	 * Add a privacy setting to the resourcegroup
@@ -64,7 +60,7 @@ public class RGIS extends BasicIS {
 	 * @param privacySetting
 	 *            privacy setting to add
 	 */
-	public void addPrivacySetting(PrivacySetting privacySetting) {
+	public void addPrivacySetting(RGISPrivacySetting privacySetting) {
 		this.privacySettings.add(privacySetting);
 	}
 
@@ -73,7 +69,7 @@ public class RGIS extends BasicIS {
 	 * 
 	 * @return list with privacy settings
 	 */
-	public List<PrivacySetting> getPrivacySettings() {
+	public List<RGISPrivacySetting> getPrivacySettings() {
 		return this.privacySettings;
 	}
 
@@ -83,8 +79,24 @@ public class RGIS extends BasicIS {
 	 * @param privacySetting
 	 *            privacy setting to remove
 	 */
-	public void removePrivacySetting(PrivacySetting privacySetting) {
+	public void removePrivacySetting(RGISPrivacySetting privacySetting) {
 		this.privacySettings.remove(privacySetting);
+	}
+
+	/**
+	 * Get a privacy setting for a given identifier. Null, if no privacy setting
+	 * exists for the given identifier.
+	 * 
+	 * @param identifier
+	 *            identifier of the privacy setting
+	 * @return privacy setting with given identifier, null if none exists.
+	 */
+	public RGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
+		for (RGISPrivacySetting ps : this.privacySettings) {
+			if (ps.getIdentifier().equals(identifier))
+				return ps;
+		}
+		return null;
 	}
 
 	/**
@@ -104,25 +116,6 @@ public class RGIS extends BasicIS {
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
-	}
-
-	/**
-	 * Get the revision of the resource group
-	 * 
-	 * @return the revision
-	 */
-	public String getRevision() {
-		return this.revision;
-	}
-
-	/**
-	 * Set the revision of the resource group
-	 * 
-	 * @param revision
-	 *            the revision of the resource group
-	 */
-	public void setRevision(String revision) {
-		this.revision = revision;
 	}
 
 	/**

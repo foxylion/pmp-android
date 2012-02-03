@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.PrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.RequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 
@@ -137,10 +137,10 @@ public class AISValidator {
 	 */
 	public static void validateAISDiffPSValuesForDiffSFs(AIS ais) {
 
-		for (ServiceFeature sf : ais.getServiceFeatures()) {
+		for (AISServiceFeature sf : ais.getServiceFeatures()) {
 
 			// Iterate through all other Service Features
-			COMPARE_SF: for (ServiceFeature sfCompare : ais
+			COMPARE_SF: for (AISServiceFeature sfCompare : ais
 					.getServiceFeatures()) {
 
 				// If it's the same sf identifier, continue
@@ -153,10 +153,10 @@ public class AISValidator {
 						.getRequiredResourceGroups().size()) {
 					continue COMPARE_SF;
 				}
-				for (RequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+				for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
 
 					// Iterate through all RRGs of the sfCompare
-					for (RequiredResourceGroup rrgCompare : sfCompare
+					for (AISRequiredResourceGroup rrgCompare : sfCompare
 							.getRequiredResourceGroups()) {
 
 						// Continue, if the RRGs do not have the same identifier
@@ -173,10 +173,10 @@ public class AISValidator {
 						}
 
 						// Iterate through all PSs of the rrg
-						for (PrivacySetting ps : rrg.getPrivacySettings()) {
+						for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
 
 							// Iterate through all PSs of the rrgCompare
-							for (PrivacySetting psCompare : rrgCompare
+							for (AISRequiredPrivacySetting psCompare : rrgCompare
 									.getPrivacySettings()) {
 
 								// Continue, if they have different PSs

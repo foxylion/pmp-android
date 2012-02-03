@@ -129,8 +129,8 @@ public class DialogPrivacySettingAssign extends Dialog {
         this.psExpandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view_assign_pss);
         
         // Add the adapter
-        AdapterPrivacySettingsAssign ppsAdapter = new AdapterPrivacySettingsAssign(getContext(), this.preset, this.rgList,
-                this.psList);
+        AdapterPrivacySettingsAssign ppsAdapter = new AdapterPrivacySettingsAssign(getContext(), this.preset,
+                this.rgList, this.psList);
         this.psExpandableListView.setAdapter(ppsAdapter);
         
         // Add the listener
@@ -138,8 +138,9 @@ public class DialogPrivacySettingAssign extends Dialog {
             
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                DialogPrivacySettingAssign.this.presetPSsTab.showChangeValueDialog(DialogPrivacySettingAssign.this.psList.get(
-                        groupPosition).get(childPosition));
+                DialogPrivacySettingAssign.this.presetPSsTab
+                        .showChangeValueDialog(DialogPrivacySettingAssign.this.psList.get(groupPosition).get(
+                                childPosition));
                 dismiss();
                 return true;
             }

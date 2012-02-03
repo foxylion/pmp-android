@@ -123,8 +123,8 @@ public class ListItemServiceFeature extends LinearLayout {
         }
         
         /* When the flag is set all other elements in the list will be also refreshed. */
-        if (recursive && adapterServiceFeatures != null) {
-            adapterServiceFeatures.refreshAllViews();
+        if (recursive && this.adapterServiceFeatures != null) {
+            this.adapterServiceFeatures.refreshAllViews();
         }
     }
     

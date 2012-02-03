@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">Barcode Scanner</defaultName>
-		<defaultDescription lang="en">Barcode Scanner can scan barcodes and view details about the scanned product. Or just about the number that is in that barcode.</defaultDescription>
+		<name lang="en">Barcode Scanner</name>
+		<description lang="en">Barcode Scanner can scan barcodes and view details about the scanned product. Or just about the number that is in that barcode.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fbshare">
-			<defaultName lang="en">Facebook Share</defaultName>
-			<defaultDescription lang="en">This will allow you to share scanned products directly via facebook.</defaultDescription>
-			<requiredResourceGroup identifier="de.bka.bundestrojaner">
-				<privacySetting identifier="facebook">true</privacySetting>
+			<name lang="en">Facebook Share</name>
+			<description lang="en">This will allow you to share scanned products directly via facebook.</description>
+			<requiredResourceGroup identifier="de.bka.bundestrojaner" minRevision="1">
+				<requiredPrivacySetting identifier="facebook">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="scanhistory">
-			<defaultName lang="en">Keep scan history</defaultName>
-			<defaultDescription lang="en">This will allow you to keep a history of your scanned products in a database.</defaultDescription>
-			<requiredResourceGroup identifier="org.oracle.db">
-				<privacySetting identifier="read">true</privacySetting>
-				<privacySetting identifier="modify">true</privacySetting>
-				<privacySetting identifier="create">true</privacySetting>
+			<name lang="en">Keep scan history</name>
+			<description lang="en">This will allow you to keep a history of your scanned products in a database.</description>
+			<requiredResourceGroup identifier="org.oracle.db" minRevision="1">
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="modify">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="create">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="usegeo">
-			<defaultName lang="en">Use geo coordinates</defaultName>
-			<defaultDescription lang="en">This will allow you to use geo coordinates, if the barcode requests them.</defaultDescription>
-			<requiredResourceGroup identifier="gov.gps">
-				<privacySetting identifier="findloc">true</privacySetting>
+			<name lang="en">Use geo coordinates</name>
+			<description lang="en">This will allow you to use geo coordinates, if the barcode requests them.</description>
+			<requiredResourceGroup identifier="gov.gps" minRevision="1">
+				<requiredPrivacySetting identifier="findloc">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="balance">
-			<defaultName lang="en">Check account balance</defaultName>
-			<defaultDescription lang="en">This will allow you to directly check your bank account's balance and tell you whether you could buy that product or not.</defaultDescription>
-			<requiredResourceGroup identifier="com.americanexpress.leyman">
-				<privacySetting identifier="balance">true</privacySetting>
+			<name lang="en">Check account balance</name>
+			<description lang="en">This will allow you to directly check your bank account's balance and tell you whether you could buy that product or not.</description>
+			<requiredResourceGroup identifier="com.americanexpress.leyman" minRevision="1">
+				<requiredPrivacySetting identifier="balance">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>		
 		
