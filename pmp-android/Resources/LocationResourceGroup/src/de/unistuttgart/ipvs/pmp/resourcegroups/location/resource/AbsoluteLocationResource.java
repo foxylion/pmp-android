@@ -11,10 +11,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
@@ -35,7 +38,6 @@ public class AbsoluteLocationResource extends Resource {
 	Map<String, UpdateRequest> requests = new HashMap<String, UpdateRequest>();
 	
 	private boolean gpsEnabled = false;
-	private boolean fixed = false;
 	
 	private double longitude = 0.0;
 	private double latitude = 0.0;
@@ -44,6 +46,8 @@ public class AbsoluteLocationResource extends Resource {
 	private float speed = 0.0F;
 	
 	private long lastUpdate = 0;
+	
+	private boolean fixed = false;
 	
 	
 	public AbsoluteLocationResource(Location locationRG) {
@@ -78,9 +82,16 @@ public class AbsoluteLocationResource extends Resource {
 			fixed = false;
 		}
 		
-		locationManager.removeUpdates(locationListener);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
-				locationListener, Looper.getMainLooper());
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			
+			public void run() {
+				locationManager.removeUpdates(locationListener);
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
+						locationListener);
+				locationManager.addGpsStatusListener(new DefaultGpsStatusListener());
+			}
+		});
+		
 	}
 	
 	
@@ -91,13 +102,13 @@ public class AbsoluteLocationResource extends Resource {
 			locationManager.removeUpdates(locationListener);
 			locationListener = null;
 			timeoutTimer.cancel();
-			fixed = false;
 			gpsEnabled = false;
 			accuracy = 0.0F;
 			speed = 0.0F;
 			lastUpdate = 0;
 			longitude = 0.0;
 			latitude = 0.0;
+			fixed = false;
 		}
 	}
 	
@@ -113,7 +124,8 @@ public class AbsoluteLocationResource extends Resource {
 	
 	
 	public boolean isFixed() {
-		return fixed;
+		return (System.currentTimeMillis() - lastUpdate) < (calcMinTime() * 2);
+		
 	}
 	
 	
@@ -186,7 +198,6 @@ public class AbsoluteLocationResource extends Resource {
 			latitude = location.getLatitude();
 			accuracy = location.getAccuracy();
 			speed = location.getSpeed();
-			fixed = true;
 		}
 		
 		
@@ -203,11 +214,9 @@ public class AbsoluteLocationResource extends Resource {
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			switch (status) {
 				case LocationProvider.AVAILABLE:
-					AbsoluteLocationResource.this.fixed = true;
 					break;
 				
 				case LocationProvider.TEMPORARILY_UNAVAILABLE:
-					AbsoluteLocationResource.this.fixed = false;
 					break;
 				
 				case LocationProvider.OUT_OF_SERVICE:
@@ -216,6 +225,24 @@ public class AbsoluteLocationResource extends Resource {
 			}
 			
 		}
+	}
+	
+	class DefaultGpsStatusListener implements GpsStatus.Listener {
+		
+		public void onGpsStatusChanged(int event) {
+			switch (event) {
+				case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+					GpsStatus status = locationManager.getGpsStatus(null);
+					for (GpsSatellite sat : status.getSatellites()) {
+						if (sat.usedInFix()) {
+							fixed = true;
+							break;
+						}
+					}
+					break;
+			}
+		}
+		
 	}
 	
 	class UpdateRequestVerificator extends TimerTask {
