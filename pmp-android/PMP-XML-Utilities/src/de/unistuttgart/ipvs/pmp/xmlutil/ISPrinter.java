@@ -96,7 +96,6 @@ public class ISPrinter {
 		System.out.println("--- Rg-Information: ---");
 		System.out.println("-----------------------");
 		System.out.println("Identifier: " + rgis.getIdentifier());
-		System.out.println("Revision: " + rgis.getRevision());
 		System.out.println("IconLocation: " + rgis.getIconLocation());
 		System.out.println("Class Name: " + rgis.getClassName());
 		for (Name name : rgis.getNames()) {

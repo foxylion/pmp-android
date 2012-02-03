@@ -105,7 +105,6 @@ public class RGISParser extends AbstractParser {
         // Create results and add them to the rg information set
         this.rgis.setIdentifier(rgInformationElement.getAttribute("identifier"));
         this.rgis.setIconLocation(rgInformationElement.getAttribute("icon"));
-        this.rgis.setRevision(rgInformationElement.getAttribute("revision"));
         this.rgis.setClassName(rgInformationElement.getAttribute("className"));
     }
     
