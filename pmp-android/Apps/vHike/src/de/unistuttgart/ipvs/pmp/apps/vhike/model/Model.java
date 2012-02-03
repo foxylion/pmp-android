@@ -160,6 +160,7 @@ public class Model {
 	 */
 	private Model() {
 		bannedUser = new ArrayList<Integer>();
+		offeredUser = new ArrayList<Integer>();
 	}
 
 	/**
