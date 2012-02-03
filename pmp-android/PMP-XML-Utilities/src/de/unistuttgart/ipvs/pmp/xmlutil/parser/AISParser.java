@@ -44,7 +44,7 @@ public class AISParser extends AbstractParser {
 	/**
 	 * AppInformationSet
 	 */
-	private AIS ais = new AIS();
+	private AIS ais;
 
 	/**
 	 * This method parses a given xml (by the xml url) and returns a created app
@@ -55,6 +55,9 @@ public class AISParser extends AbstractParser {
 	public AIS parse(InputStream xmlStream) {
 		// Initialize
 		initParser(xmlStream);
+		
+		// Create new AIS
+		ais = new AIS();
 
 		// Check, if the root node is named correctly
 		if (!this.doc.getDocumentElement().getNodeName()
@@ -136,14 +139,14 @@ public class AISParser extends AbstractParser {
 				// Instantiate the required resource group and add the
 				// identifier
 				AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(
-						rrgElement.getAttribute("identifier"));
+						rrgElement.getAttribute("identifier"), rrgElement.getAttribute("minRevision"));
 
 				// Add the required resource group to the service feature
 				sf.addRequiredResourceGroup(rrg);
 
 				// Parse the required resource group
 				List<String[]> privacySettingList = parseNodes(rrgElement,
-						"privacySetting", "identifier");
+						"requiredPrivacySetting", "identifier");
 
 				// Add to the app information set (building objects)
 				for (String[] privacySettingArray : privacySettingList) {
@@ -154,5 +157,4 @@ public class AISParser extends AbstractParser {
 			}
 		}
 	}
-
 }

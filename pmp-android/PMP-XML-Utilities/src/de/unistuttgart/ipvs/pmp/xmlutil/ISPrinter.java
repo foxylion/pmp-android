@@ -71,6 +71,7 @@ public class ISPrinter {
 			for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
 				System.out.println("Required Resource Group ID: "
 						+ rrg.getIdentifier());
+				System.out.println("minRevision: " + rrg.getMinRevision());
 				for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
 					System.out.println("- Privacy Setting Value: "
 							+ ps.getValue() + " (Identifier: "

@@ -43,6 +43,11 @@ public class AISRequiredResourceGroup implements Serializable {
 	private String identifier;
 
 	/**
+	 * Min revision
+	 */
+	private String minRevision;
+
+	/**
 	 * Constructor without attributes
 	 */
 	public AISRequiredResourceGroup() {
@@ -54,8 +59,9 @@ public class AISRequiredResourceGroup implements Serializable {
 	 * @param identifier
 	 *            identifier to set
 	 */
-	public AISRequiredResourceGroup(String identifier) {
+	public AISRequiredResourceGroup(String identifier, String minRevision) {
 		this.setIdentifier(identifier);
+		this.setMinRevision(minRevision);
 	}
 
 	/**
@@ -81,6 +87,25 @@ public class AISRequiredResourceGroup implements Serializable {
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	/**
+	 * Get the min revision
+	 * 
+	 * @return the min revision
+	 */
+	public String getMinRevision() {
+		return minRevision;
+	}
+
+	/**
+	 * Set the min revision
+	 * 
+	 * @param minRevision
+	 *            min revision to set
+	 */
+	public void setMinRevision(String minRevision) {
+		this.minRevision = minRevision;
 	}
 
 	/**

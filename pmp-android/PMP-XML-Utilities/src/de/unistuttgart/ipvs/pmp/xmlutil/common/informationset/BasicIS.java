@@ -51,17 +51,17 @@ public abstract class BasicIS {
 	}
 
 	/**
-	 * Get a name for a specific locale.
+	 * Get a name-string for a specific locale.
 	 * 
 	 * @param locale
 	 *            locale
-	 * @return the name object for the given locale. Null, if no name for the
+	 * @return the name-string for the given locale. Null, if no name for the
 	 *         given locale exists.
 	 */
-	public Name getNameForLocale(Locale locale) {
+	public String getNameForLocale(Locale locale) {
 		for (Name name : this.names) {
-			if (name.getLocale() == locale)
-				return name;
+			if (name.getLocale().getLanguage().equals(locale.getLanguage()))
+				return name.getName();
 		}
 		return null;
 	}
@@ -96,17 +96,17 @@ public abstract class BasicIS {
 	}
 	
 	/**
-	 * Get a description for a specific locale.
+	 * Get a description-string for a specific locale.
 	 * 
 	 * @param locale
 	 *            locale
-	 * @return the description object for the given locale. Null, if no description for the
+	 * @return the description-string for the given locale. Null, if no description for the
 	 *         given locale exists.
 	 */
-	public Description getDescriptionForLocale(Locale locale) {
+	public String getDescriptionForLocale(Locale locale) {
 		for (Description descr : this.descriptions) {
-			if (descr.getLocale() == locale)
-				return descr;
+			if (descr.getLocale().getLanguage().equals(locale.getLanguage()))
+				return descr.getDescription();
 		}
 		return null;
 	}

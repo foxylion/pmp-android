@@ -42,7 +42,7 @@ public class RGISParser extends AbstractParser {
     /**
      * RgInformationSet
      */
-    private RGIS rgis = new RGIS();    
+    private RGIS rgis;    
     
     /**
      * This method parses a given xml (by the xml url) and returns a created
@@ -53,6 +53,9 @@ public class RGISParser extends AbstractParser {
     public RGIS parse(InputStream xmlStream) {
 		// Initialize
 		initParser(xmlStream);
+		
+		// Create new RGIS
+		rgis = new RGIS();
         
         // Check, if the root node is named correctly
         if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet")) {
