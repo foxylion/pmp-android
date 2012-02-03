@@ -9,10 +9,10 @@ import java.util.TimerTask;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
+import android.content.IntentFilter;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
@@ -45,9 +45,27 @@ public class AbsoluteLocationResource extends Resource {
 	private float accuracy = 0.0F;
 	private float speed = 0.0F;
 	
-	private long lastUpdate = 0;
-	
 	private boolean fixed = false;
+	
+	private long lastUpdate;
+	
+	/**
+	 * Broadcast intent action indicating that the GPS has either started or stopped receiving GPS
+	 * fixes. An intent extra provides this state as a boolean, where {@code true} means that the
+	 * GPS is actively receiving fixes.
+	 * 
+	 * @see #EXTRA_ENABLED
+	 */
+	public static final String GPS_FIX_CHANGE_ACTION = "android.location.GPS_FIX_CHANGE";
+	
+	/**
+	 * The lookup key for a boolean that indicates whether GPS is enabled or disabled. {@code true}
+	 * means GPS is enabled. Retrieve it with
+	 * {@link android.content.Intent#getBooleanExtra(String,boolean)}.
+	 */
+	public static final String EXTRA_ENABLED = "enabled";
+	
+	private BroadcastReceiver receiver = new DefaultBroadcastReceiver();
 	
 	
 	public AbsoluteLocationResource(Location locationRG) {
@@ -79,8 +97,9 @@ public class AbsoluteLocationResource extends Resource {
 			gpsEnabled = false;
 		} else {
 			gpsEnabled = true;
-			fixed = false;
 		}
+		
+		this.locationRG.getContext().registerReceiver(receiver, new IntentFilter(GPS_FIX_CHANGE_ACTION));
 		
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			
@@ -88,7 +107,6 @@ public class AbsoluteLocationResource extends Resource {
 				locationManager.removeUpdates(locationListener);
 				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
 						locationListener);
-				locationManager.addGpsStatusListener(new DefaultGpsStatusListener());
 			}
 		});
 		
@@ -100,14 +118,15 @@ public class AbsoluteLocationResource extends Resource {
 		
 		if (requests.size() == 0 && locationListener != null) {
 			locationManager.removeUpdates(locationListener);
+			this.locationRG.getContext().unregisterReceiver(receiver);
 			locationListener = null;
 			timeoutTimer.cancel();
 			gpsEnabled = false;
 			accuracy = 0.0F;
 			speed = 0.0F;
-			lastUpdate = 0;
 			longitude = 0.0;
 			latitude = 0.0;
+			lastUpdate = 0;
 			fixed = false;
 		}
 	}
@@ -184,10 +203,18 @@ public class AbsoluteLocationResource extends Resource {
 				System.currentTimeMillis());
 		notification.setLatestEventInfo(this.locationRG.getContext(), "GPS disabled",
 				"Please enable it to use the Location Resource..", pIntent);
+		notification.flags = Notification.FLAG_AUTO_CANCEL;
+		notification.vibrate = new long[] { 250, 250, 250 };
 		
 		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
 				Context.NOTIFICATION_SERVICE);
 		notificationManager.notify("gpsDisabledNotification", 0, notification);
+	}
+	
+	private void removeNotification() {
+		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
+				Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel("gpsDisabledNotification", 0);
 	}
 	
 	class DefaultLocationListener implements LocationListener {
@@ -198,6 +225,7 @@ public class AbsoluteLocationResource extends Resource {
 			latitude = location.getLatitude();
 			accuracy = location.getAccuracy();
 			speed = location.getSpeed();
+			fixed = true;
 		}
 		
 		
@@ -208,6 +236,7 @@ public class AbsoluteLocationResource extends Resource {
 		
 		public void onProviderEnabled(String provider) {
 			AbsoluteLocationResource.this.gpsEnabled = true;
+			removeNotification();
 		}
 		
 		
@@ -221,26 +250,19 @@ public class AbsoluteLocationResource extends Resource {
 				
 				case LocationProvider.OUT_OF_SERVICE:
 					AbsoluteLocationResource.this.gpsEnabled = false;
+					AbsoluteLocationResource.this.fixed = false;
+					createNotification();
 					break;
 			}
 			
 		}
 	}
 	
-	class DefaultGpsStatusListener implements GpsStatus.Listener {
+	class DefaultBroadcastReceiver extends BroadcastReceiver {
 		
-		public void onGpsStatusChanged(int event) {
-			switch (event) {
-				case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-					GpsStatus status = locationManager.getGpsStatus(null);
-					for (GpsSatellite sat : status.getSatellites()) {
-						if (sat.usedInFix()) {
-							fixed = true;
-							break;
-						}
-					}
-					break;
-			}
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			fixed = intent.getBooleanExtra(EXTRA_ENABLED, false);
 		}
 	}
 	

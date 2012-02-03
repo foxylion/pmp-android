@@ -50,7 +50,7 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     @Override
     public IPrivacySettingView<Boolean> getView(Context context) {
-        return new BooleanPrivacyLevelView(context);
+        return new BooleanPrivacySettingView(context);
     }
     
 }
@@ -61,12 +61,12 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
  * @author Jakob Jarosch
  * 
  */
-class BooleanPrivacyLevelView extends LinearLayout implements IPrivacySettingView<Boolean> {
+class BooleanPrivacySettingView extends LinearLayout implements IPrivacySettingView<Boolean> {
     
     private CheckBox checkBox;
     
     
-    public BooleanPrivacyLevelView(Context context) {
+    public BooleanPrivacySettingView(Context context) {
         super(context);
         this.checkBox = new CheckBox(context);
         addView(this.checkBox);

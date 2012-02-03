@@ -22,6 +22,13 @@
 			<defaultDescription lang="en">Obtains access to the current accuracy of the location.</defaultDescription>
 			<description lang="de">Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</description>
 		</privacySetting>
+		<privacySetting identifier="locationPrecision">
+			<!-- Valid value: "true", "false" -->
+			<defaultName lang="en">Location precision</defaultName>
+			<name lang="de">Genauigkeit der Ortung</name>
+			<defaultDescription lang="en">How precise the location should be.</defaultDescription>
+			<description lang="de">Wie genau die Ortung sein soll.</description>
+		</privacySetting>
 		<privacySetting identifier="showSpeed">
 			<!-- Valid value: "true", "false" -->
 			<defaultName lang="en">Current speed</defaultName>
