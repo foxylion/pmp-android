@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Looper;
 import android.provider.Settings;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
@@ -71,11 +72,15 @@ public class AbsoluteLocationResource extends Resource {
 		
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createNotification();
+			gpsEnabled = false;
+		} else {
+			gpsEnabled = true;
+			fixed = false;
 		}
 		
 		locationManager.removeUpdates(locationListener);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
-				locationListener);
+				locationListener, Looper.getMainLooper());
 	}
 	
 	
@@ -86,6 +91,13 @@ public class AbsoluteLocationResource extends Resource {
 			locationManager.removeUpdates(locationListener);
 			locationListener = null;
 			timeoutTimer.cancel();
+			fixed = false;
+			gpsEnabled = false;
+			accuracy = 0.0F;
+			speed = 0.0F;
+			lastUpdate = 0;
+			longitude = 0.0;
+			latitude = 0.0;
 		}
 	}
 	
@@ -174,6 +186,7 @@ public class AbsoluteLocationResource extends Resource {
 			latitude = location.getLatitude();
 			accuracy = location.getAccuracy();
 			speed = location.getSpeed();
+			fixed = true;
 		}
 		
 		

@@ -225,8 +225,8 @@ public class LocationAppActivity extends MapActivity {
                     
                     if (isFixedD) {
                         MapController controller = ((MapView) findViewById(R.id.MapView)).getController();
-                        controller.animateTo(new GeoPoint(new Double(longitudeD * Math.pow(10, 6)).intValue(),
-                                new Double(longitudeD * Math.pow(10, 6)).intValue()));
+                        controller.animateTo(new GeoPoint((int) (latitudeD * 1E6), (int) (longitudeD * 1E6)));
+                        controller.setZoom(17);
                     }
                     
                     ((TextView) findViewById(R.id.TextView_Information)).setText(Html.fromHtml("<html>"
