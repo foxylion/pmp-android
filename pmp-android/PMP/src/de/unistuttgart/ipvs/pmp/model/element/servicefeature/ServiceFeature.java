@@ -104,7 +104,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     @Override
     public String getRequiredPrivacySettingValue(IPrivacySetting privacySetting) {
         checkCached();
-        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
+        Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         return this.privacySettingValues.get(privacySetting);
     }
     

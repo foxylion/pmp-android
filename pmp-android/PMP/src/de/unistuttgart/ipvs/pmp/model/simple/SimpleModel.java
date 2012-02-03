@@ -40,7 +40,7 @@ public class SimpleModel implements ISimpleModel {
     
     @Override
     public void convertExpertToSimple(IModel model) {
-        Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
+        Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
         
         // keep this state, now save all active SF
         Map<IApp, IServiceFeature[]> actives = new HashMap<IApp, IServiceFeature[]>();
@@ -81,13 +81,13 @@ public class SimpleModel implements ISimpleModel {
      *            if true, will throw {@link ModelMisuseError}s.
      */
     public boolean isSimpleMode(IModel model, boolean allergic) {
-        Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
+        Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
         
         for (IPreset p : model.getPresets()) {
             // check that each non-user preset is deleted
             if (p.isBundled() && !p.isDeleted()) {
                 if (allergic) {
-                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                    throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
                 }
                 return false;
             }
@@ -95,7 +95,7 @@ public class SimpleModel implements ISimpleModel {
             // check that all existing presets correspond to one app only
             if (p.getAssignedApps().length != 1) {
                 if (allergic) {
-                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "p", p);
+                    throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
                 }
                 return false;
             }
@@ -112,7 +112,7 @@ public class SimpleModel implements ISimpleModel {
             
             if (activePresets > 1) {
                 if (allergic) {
-                    throw new ModelMisuseError(Assert.ILLEGAL_SIMPLE_MODE, "a", a);
+                    throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "a", a));
                 }
                 return false;
             }
@@ -124,8 +124,8 @@ public class SimpleModel implements ISimpleModel {
     
     @Override
     public boolean setServiceFeatureActive(IModel model, IServiceFeature serviceFeature, boolean active) {
-        Assert.nonNull(model, new ModelMisuseError(Assert.ILLEGAL_NULL, "model", model));
-        Assert.nonNull(serviceFeature, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature));
+        Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
+        Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
         
         if (!isSimpleMode(model, true)) {
             return false;
@@ -183,8 +183,8 @@ public class SimpleModel implements ISimpleModel {
      * @return said preset
      */
     private IPreset createPresetForApp(IModel model, IApp app) {
-        Assert.nonNull(model, new ModelIntegrityError(Assert.ILLEGAL_NULL, "model", model));
-        Assert.nonNull(app, new ModelIntegrityError(Assert.ILLEGAL_NULL, "app", app));
+        Assert.nonNull(model, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "model", model);
+        Assert.nonNull(app, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "app", app);
         
         IPreset p = model.addUserPreset(app.getName(), "");
         p.assignApp(app);

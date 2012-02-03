@@ -47,7 +47,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
             this.element.description = c.getString(c.getColumnIndex(DESCRIPTION));
             this.element.deleted = Boolean.valueOf(c.getString(c.getColumnIndex(DELETED)));
         } else {
-            throw new ModelIntegrityError(Assert.ILLEGAL_DB, "Preset", this);
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_DB, "Preset", this));
         }
         c.close();
         

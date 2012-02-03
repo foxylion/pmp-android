@@ -15,7 +15,31 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  * 
  */
 public class Model {
-
+	/**
+	 * Invited users
+	 */
+	private List<Integer> offeredUser;
+	
+	public boolean isInInvitedList(int userid){
+		boolean invited = false;
+		for (int invID : offeredUser) {
+			if (userid == invID) {
+				invited = true;
+			} 
+		}
+		return invited;
+	}
+	/**
+	 * Adds a user to the Offered List
+	 * @param userid
+	 */
+	public void addToInvitedUser(int userid){
+		offeredUser.add(userid);
+	}
+	
+	public void clearInvitedUserList(){
+		offeredUser.clear();
+	}
 	/**
 	 * Declined userlist
 	 */
@@ -32,8 +56,6 @@ public class Model {
 		for (int bannedID : bannedUser) {
 			if (userid == bannedID) {
 				banned = true;
-			} else {
-				banned = false;
 			}
 		}
 
@@ -134,6 +156,7 @@ public class Model {
 	 */
 	private Model() {
 		bannedUser = new ArrayList<Integer>();
+		offeredUser = new ArrayList<Integer>();
 	}
 
 	/**

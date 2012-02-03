@@ -61,18 +61,18 @@ public class ActivityResourceGroups extends TabActivity {
      * Checks if the Activity has been started with extended parameters like requested service features.
      */
     private void setupTabs() {
-        tabHost = (TabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup();
+        this.tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        this.tabHost.setup();
         TabHost.TabSpec spec;
         Intent intent;
         
         intent = new Intent(getIntent()).setClass(this, TabInstalled.class);
-        spec = tabHost.newTabSpec(TAB_INSTALLED).setIndicator(getString(R.string.installed)).setContent(intent);
-        tabHost.addTab(spec);
+        spec = this.tabHost.newTabSpec(TAB_INSTALLED).setIndicator(getString(R.string.installed)).setContent(intent);
+        this.tabHost.addTab(spec);
         
         intent = new Intent(getIntent()).setClass(this, TabAvailable.class);
-        spec = tabHost.newTabSpec(TAB_AVAILABLE).setIndicator(getString(R.string.available)).setContent(intent);
-        tabHost.addTab(spec);
+        spec = this.tabHost.newTabSpec(TAB_AVAILABLE).setIndicator(getString(R.string.available)).setContent(intent);
+        this.tabHost.addTab(spec);
     }
     
     

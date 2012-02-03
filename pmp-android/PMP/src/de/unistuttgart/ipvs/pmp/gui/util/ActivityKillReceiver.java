@@ -33,7 +33,7 @@ public class ActivityKillReceiver extends BroadcastReceiver {
     
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-        activity.finish();
+        this.activity.finish();
     }
     
     

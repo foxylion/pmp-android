@@ -135,7 +135,8 @@ public class TabAvailable extends Activity {
                     }
                 });
                 
-                final RGIS[] informationSets = ServerProvider.getInstance().findResourceGroups(filter);
+                final RGIS[] informationSets = ServerProvider.getInstance()
+                        .findResourceGroups(TabAvailable.this.filter);
                 
                 /* Parse the downloaded list */
                 runOnUiThread(new Runnable() {

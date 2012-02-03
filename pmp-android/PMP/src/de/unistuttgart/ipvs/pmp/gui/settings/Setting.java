@@ -33,10 +33,10 @@ public class Setting {
      *            icon of the Setting (drawable)
      */
     public Setting(SettingIdentifier identifier, String name, String description, Drawable icon) {
-        this.setIdentifier(identifier);
-        this.setName(name);
-        this.setDescription(description);
-        this.setIcon(icon);
+        setIdentifier(identifier);
+        setName(name);
+        setDescription(description);
+        setIcon(icon);
     }
     
     
@@ -44,7 +44,7 @@ public class Setting {
      * @return Identifier of the Setting
      */
     public SettingIdentifier getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     
@@ -61,7 +61,7 @@ public class Setting {
      * @return name of the Setting
      */
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
@@ -78,7 +78,7 @@ public class Setting {
      * @return description of the Setting
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     
@@ -95,7 +95,7 @@ public class Setting {
      * @return icon of the Setting
      */
     public Drawable getIcon() {
-        return icon;
+        return this.icon;
     }
     
     
@@ -115,7 +115,7 @@ public class Setting {
      * @return flag, whether the Setting is enabled or not.
      */
     public boolean isEnabled() {
-        switch (identifier) {
+        switch (this.identifier) {
             case EXPERT_MODE:
                 return PMPPreferences.getInstance().isExpertMode();
             case PRESET_TRASH_BIN_VISIBILITY:
@@ -132,7 +132,7 @@ public class Setting {
      *            flag
      */
     public void setEnabled(boolean enabled) {
-        switch (identifier) {
+        switch (this.identifier) {
             case EXPERT_MODE:
                 PMPPreferences.getInstance().setExpertMode(enabled);
                 break;

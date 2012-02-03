@@ -32,6 +32,9 @@ import android.widget.LinearLayout;
  */
 public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
+    private IPrivacySettingView<Boolean> view = null;
+    
+    
     @Override
     public Boolean parseValue(String value) throws PrivacySettingValueException {
         if (value == null) {
@@ -50,9 +53,11 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     @Override
     public IPrivacySettingView<Boolean> getView(Context context) {
-        return new BooleanPrivacySettingView(context);
+        if (this.view == null) {
+            this.view = new BooleanPrivacyLevelView(context);
+        }
+        return this.view;
     }
-    
 }
 
 /**

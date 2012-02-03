@@ -53,12 +53,13 @@ public class DialogConfirmDelete extends Dialog {
                 /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
                 new Thread() {
                     
+                    @Override
                     public void run() {
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
                         }
-                        KillAppUtil.killAppAndRestartActivity(installedTab.getParent());
+                        KillAppUtil.killAppAndRestartActivity(DialogConfirmDelete.this.installedTab.getParent());
                     };
                 }.start();
                 

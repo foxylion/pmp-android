@@ -150,7 +150,7 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public RGIS[] findResourceGroups(String searchPattern) {
-        Assert.nonNull(searchPattern, new ModelMisuseError(Assert.ILLEGAL_NULL, "searchString", searchPattern));
+        Assert.nonNull(searchPattern, ModelMisuseError.class, Assert.ILLEGAL_NULL, "searchString", searchPattern);
         this.callback.tasks(0, -1);
         
         // load the package names of all RGs
@@ -203,7 +203,7 @@ public class ServerProvider implements IServerProvider {
     
     @Override
     public File downloadResourceGroup(String rgPackage) {
-        Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         try {
             this.callback.tasks(0, 1);
             

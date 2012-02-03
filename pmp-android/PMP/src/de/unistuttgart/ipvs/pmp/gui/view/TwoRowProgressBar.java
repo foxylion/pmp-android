@@ -22,27 +22,27 @@ public class TwoRowProgressBar extends Dialog {
         
         setContentView(R.layout.dialog_two_row_progressbar);
         
-        pbTasksContainer = (LinearLayout) findViewById(R.id.LinearLayout_Progress_Tasks);
-        pbTasks = (ProgressBar) findViewById(R.id.ProgressBar_Tasks);
-        pbProgress = (ProgressBar) findViewById(R.id.ProgressBar_Progress);
+        this.pbTasksContainer = (LinearLayout) findViewById(R.id.LinearLayout_Progress_Tasks);
+        this.pbTasks = (ProgressBar) findViewById(R.id.ProgressBar_Tasks);
+        this.pbProgress = (ProgressBar) findViewById(R.id.ProgressBar_Progress);
     }
     
     
     public void setTaskProgress(int current, int max) {
         if (max <= 1) {
-            pbTasksContainer.setVisibility(View.GONE);
+            this.pbTasksContainer.setVisibility(View.GONE);
         } else {
-            pbTasksContainer.setVisibility(View.VISIBLE);
+            this.pbTasksContainer.setVisibility(View.VISIBLE);
         }
         
-        pbTasks.setMax(max);
-        pbTasks.setProgress(current);
+        this.pbTasks.setMax(max);
+        this.pbTasks.setProgress(current);
     }
     
     
     public void setProgress(int current, int max) {
-        pbProgress.setMax(max);
-        pbProgress.setProgress(current);
+        this.pbProgress.setMax(max);
+        this.pbProgress.setProgress(current);
     }
     
 }

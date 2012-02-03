@@ -38,6 +38,7 @@ public class DriverViewActivity extends MapActivity {
 	private MapView mapView;
 	private MapController mapController;
 	private LocationManager locationManager;
+	private LocationUpdateHandler luh;
 	private GeoPoint p;
 
 	private Controller ctrl;
@@ -114,9 +115,10 @@ public class DriverViewActivity extends MapActivity {
 	 */
 	private void startTripByUpdating() {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		luh = new LocationUpdateHandler(context, locationManager, mapView,
+				mapController, p, imADriver);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, new LocationUpdateHandler(context, locationManager, mapView,
-						mapController, p, imADriver));
+				0, luh);
 	}
 
 	@Override
@@ -135,10 +137,12 @@ public class DriverViewActivity extends MapActivity {
 					.getInstance().getTripId())) {
 			case (Constants.STATUS_UPDATED): {
 
-				// MapModel.getInstance().clearDriverOverlayList();
-				// MapModel.getInstance().clearHitchPassengers();
-				// MapModel.getInstance().clearDriverNotificationAdapter();
-				locationManager = null;
+				MapModel.getInstance().clearDriverOverlayList();
+				MapModel.getInstance().clearHitchPassengers();
+				MapModel.getInstance().clearDriverNotificationAdapter();
+				locationManager.removeUpdates(luh);
+				Model.getInstance().clearBannList();
+				Model.getInstance().clearInvitedUserList();
 
 				Toast.makeText(DriverViewActivity.this, "Trip ended",
 						Toast.LENGTH_LONG).show();
@@ -175,7 +179,7 @@ public class DriverViewActivity extends MapActivity {
 		}
 		return true;
 	}
-
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
