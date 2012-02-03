@@ -19,10 +19,13 @@
             pmp:borderColor="#ff0000"
             pmp:icon="@drawable/icon" />
 
+        <!-- Certificate-Key: 0yPWnYj0YYrftWuBvOCyCEwJZRaN6wEPJBLshXw -->
+        <!-- Jakob-Key:       0yPWnYj0YYrexFzoDWIwjQVhfc0Um4tmDZuWOZw -->
+        
         <com.google.android.maps.MapView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0yPWnYj0YYrftWuBvOCyCEwJZRaN6wEPJBLshXw"
+            android:apiKey="0yPWnYj0YYrexFzoDWIwjQVhfc0Um4tmDZuWOZw"
             android:id="@+id/MapView" />
     </LinearLayout>
 
