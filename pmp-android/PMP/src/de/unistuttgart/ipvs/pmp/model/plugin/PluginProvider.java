@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -77,6 +78,7 @@ public class PluginProvider implements IPluginProvider {
      */
     private Map<String, ResourceGroup> cache;
     private Map<String, RGIS> cacheRGIS;
+    private Map<String, Long> cacheRevision;
     
     /*
      * singleton stuff
@@ -93,6 +95,7 @@ public class PluginProvider implements IPluginProvider {
     private PluginProvider() {
         this.cache = new HashMap<String, ResourceGroup>();
         this.cacheRGIS = new HashMap<String, RGIS>();
+        this.cacheRevision = new HashMap<String, Long>();
         
         if (!PLUGIN_BASE_DIR.mkdirs() && !PLUGIN_BASE_DIR.exists()) {
             Log.e("Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
@@ -129,9 +132,10 @@ public class PluginProvider implements IPluginProvider {
             }
         }
         
+        String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
+        
         // object
         if (this.cache.get(rgPackage) == null) {
-            String apkName = PLUGIN_APK_DIR_STR + rgPackage + APK_STR;
             String className = this.cacheRGIS.get(rgPackage).getClassName();
             
             try {
@@ -148,6 +152,13 @@ public class PluginProvider implements IPluginProvider {
                 throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ite));
             }
             
+        }
+        
+        // revision
+        if (this.cacheRevision.get(rgPackage) == null) {
+            Long revision = RevisionReader.get().readRevision(new File(apkName));
+            
+            this.cacheRevision.put(rgPackage, revision);
         }
         
     }
@@ -238,9 +249,13 @@ public class PluginProvider implements IPluginProvider {
                 // load main class
                 ResourceGroup rg = loadRGObject(rgPackage, apkName, className);
                 
+                // establish the revision
+                Long revision = RevisionReader.get().readRevision(new File(apkName));
+                
                 // store in cache
                 this.cache.put(rgPackage, rg);
                 this.cacheRGIS.put(rgPackage, rgis);
+                this.cacheRevision.put(rgPackage, revision);
                 
             } finally {
                 zipApk.close();
@@ -339,6 +354,7 @@ public class PluginProvider implements IPluginProvider {
         Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         this.cache.remove(rgPackage);
         this.cacheRGIS.remove(rgPackage);
+        this.cacheRevision.remove(rgPackage);
         deleteFile(PLUGIN_ASSET_DIR_STR + rgPackage + PNG_STR);
         deleteFile(PLUGIN_ASSET_DIR_STR + rgPackage + XML_STR);
         deleteFile(PLUGIN_APK_DIR_STR + rgPackage + APK_STR);
@@ -367,6 +383,18 @@ public class PluginProvider implements IPluginProvider {
         Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         checkCached(rgPackage);
         return Drawable.createFromPath(PLUGIN_ASSET_DIR_STR + rgPackage + ".png");
+    }
+    
+    
+    @Override
+    public long getRevision(String rgPackage) {
+        Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
+        checkCached(rgPackage);
+        Long result = this.cacheRevision.get(rgPackage);
+        if (result == null) {
+            result = 0L;
+        }
+        return result;
     }
     
 }

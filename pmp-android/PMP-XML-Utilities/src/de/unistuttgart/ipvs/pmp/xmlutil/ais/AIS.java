@@ -32,63 +32,69 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * @author Marcus Vetter
  */
 public class AIS extends BasicIS {
-
-	/**
-	 * This list contains all service features of the app.
-	 */
-	private List<AISServiceFeature> serviceFeatures;
-
-	/**
-	 * Constructor is used to instantiate the data structures.
-	 */
-	public AIS() {
-		super();
-		this.serviceFeatures = new ArrayList<AISServiceFeature>();
-	}
-
-	/**
-	 * Add a service feature to the app
-	 * 
-	 * @param sf
-	 *            service feature
-	 */
-	public void addServiceFeature(AISServiceFeature sf) {
-		this.serviceFeatures.add(sf);
-	}
-
-	/**
-	 * Remove a service feature of the app
-	 * 
-	 * @param sf
-	 *            service feature
-	 */
-	public void removeServiceFeature(AISServiceFeature sf) {
-		this.serviceFeatures.remove(sf);
-	}
-
-	/**
-	 * Get the list which contains all service features
-	 * 
-	 * @return list with service features
-	 */
-	public List<AISServiceFeature> getServiceFeatures() {
-		return this.serviceFeatures;
-	}
-
-	/**
-	 * Get a service feature for a given identifier. Null, if no service feature
-	 * exists for the given identifier.
-	 * 
-	 * @param identifier
-	 *            identifier of the service feature
-	 * @return service feature with given identifier, null if none exists.
-	 */
-	public AISServiceFeature getServiceFeatureForIdentifier(String identifier) {
-		for (AISServiceFeature sf : this.serviceFeatures) {
-			if (sf.getIdentifier().equals(identifier))
-				return sf;
-		}
-		return null;
-	}
-
+    
+    /**
+     * This list contains all service features of the app.
+     */
+    private List<AISServiceFeature> serviceFeatures;
+    
+    
+    /**
+     * Constructor is used to instantiate the data structures.
+     */
+    public AIS() {
+        super();
+        this.serviceFeatures = new ArrayList<AISServiceFeature>();
+    }
+    
+    
+    /**
+     * Add a service feature to the app
+     * 
+     * @param sf
+     *            service feature
+     */
+    public void addServiceFeature(AISServiceFeature sf) {
+        this.serviceFeatures.add(sf);
+    }
+    
+    
+    /**
+     * Remove a service feature of the app
+     * 
+     * @param sf
+     *            service feature
+     */
+    public void removeServiceFeature(AISServiceFeature sf) {
+        this.serviceFeatures.remove(sf);
+    }
+    
+    
+    /**
+     * Get the list which contains all service features
+     * 
+     * @return list with service features
+     */
+    public List<AISServiceFeature> getServiceFeatures() {
+        return this.serviceFeatures;
+    }
+    
+    
+    /**
+     * Get a service feature for a given identifier. Null, if no service feature
+     * exists for the given identifier.
+     * 
+     * @param identifier
+     *            identifier of the service feature
+     * @return service feature with given identifier, null if none exists.
+     */
+    public AISServiceFeature getServiceFeatureForIdentifier(String identifier) {
+        for (AISServiceFeature sf : this.serviceFeatures) {
+            if (sf.getIdentifier().equals(identifier)) {
+                return sf;
+            }
+        }
+        return null;
+    }
+    
 }

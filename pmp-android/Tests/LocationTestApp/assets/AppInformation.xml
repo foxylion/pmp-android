@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">LocationTestApp</defaultName>
+		<name lang="en">LocationTestApp</name>
 		<name lang="de">Ortungs Testapp</name>
-		<defaultDescription lang="en">App for testing the location resource.</defaultDescription>
+		<description lang="en">App for testing the location resource.</description>
 		<description lang="de">App um die Ortungsressource zu testen.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="useAbsoluteLocation">
-			<defaultName lang="en">View Detailed Location</defaultName>
+			<name lang="en">View Detailed Location</name>
 			<name lang="de">Genaue Position anzeigen</name>
-			<defaultDescription lang="en">Shows the detailed location of the device.</defaultDescription>
+			<description lang="en">Shows the detailed location of the device.</description>
 			<description lang="de">Zeigt die genaue Position des Geräts an.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">

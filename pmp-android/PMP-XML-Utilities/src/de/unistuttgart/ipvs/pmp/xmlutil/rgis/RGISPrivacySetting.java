@@ -27,72 +27,78 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * 
  */
 public class RGISPrivacySetting extends BasicIS {
-
-	/**
-	 * Identifier of the privacy setting
-	 */
-	private String identifier;
-
-	/**
-	 * A description of the valid values for this privacy setting
-	 */
-	private String validValueDescription;
-
-	/**
-	 * Constructor without attributes
-	 */
-	public RGISPrivacySetting() {
-	}
-
-	/**
-	 * Constructor to set the identifier and the valid value description
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 * @param validValueDescription
-	 *            validValueDescription to set
-	 */
-	public RGISPrivacySetting(String identifier, String validValueDescription) {
-		this.setIdentifier(identifier);
-		this.setValidValueDescription(validValueDescription);
-	}
-
-	/**
-	 * Get the identifier
-	 * 
-	 * @return identifier
-	 */
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	/**
-	 * Set the identifier
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	/**
-	 * Get the description for valid values
-	 * 
-	 * @return description for valid values
-	 */
-	public String getValidValueDescription() {
-		return validValueDescription;
-	}
-
-	/**
-	 * Set the description for valid values
-	 * 
-	 * @param validValueDescription
-	 *            description for valid values
-	 */
-	public void setValidValueDescription(String validValueDescription) {
-		this.validValueDescription = validValueDescription;
-	}
-
+    
+    /**
+     * Identifier of the privacy setting
+     */
+    private String identifier;
+    
+    /**
+     * A description of the valid values for this privacy setting
+     */
+    private String validValueDescription;
+    
+    
+    /**
+     * Constructor without attributes
+     */
+    public RGISPrivacySetting() {
+    }
+    
+    
+    /**
+     * Constructor to set the identifier and the valid value description
+     * 
+     * @param identifier
+     *            identifier to set
+     * @param validValueDescription
+     *            validValueDescription to set
+     */
+    public RGISPrivacySetting(String identifier, String validValueDescription) {
+        setIdentifier(identifier);
+        setValidValueDescription(validValueDescription);
+    }
+    
+    
+    /**
+     * Get the identifier
+     * 
+     * @return identifier
+     */
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    /**
+     * Set the identifier
+     * 
+     * @param identifier
+     *            identifier to set
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
+    /**
+     * Get the description for valid values
+     * 
+     * @return description for valid values
+     */
+    public String getValidValueDescription() {
+        return this.validValueDescription;
+    }
+    
+    
+    /**
+     * Set the description for valid values
+     * 
+     * @param validValueDescription
+     *            description for valid values
+     */
+    public void setValidValueDescription(String validValueDescription) {
+        this.validValueDescription = validValueDescription;
+    }
+    
 }

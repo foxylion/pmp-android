@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.context.TimeContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
@@ -160,6 +162,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             cacheAppsSFs(db);
             cacheRGsPSs(db);
             cachePresets(db);
+            cacheContexts(db);
             
         } finally {
             db.close();
@@ -260,7 +263,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
     
     
     /**
-     * Caches all the {@link Preset}s.
+     * Caches all the {@link Preset}s and ContextAnnotations.
      * 
      * @param db
      */
@@ -294,6 +297,17 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             } while (cursor.moveToNext());
         }
         cursor.close();
+        
+    }
+    
+    
+    /**
+     * Caches all the {@link IContext}s.
+     * 
+     * @param db
+     */
+    private void cacheContexts(SQLiteDatabase db) {
+        this.cache.getContexts().add(new TimeContext());
         
     }
     

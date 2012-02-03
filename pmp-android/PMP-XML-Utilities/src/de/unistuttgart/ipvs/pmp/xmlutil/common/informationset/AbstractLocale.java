@@ -24,17 +24,20 @@ import java.util.Locale;
 /**
  * 
  * @author Marcus Vetter
- *
+ * 
  */
 public abstract class AbstractLocale {
-	
-	private Locale locale;
-
-	public Locale getLocale() {
-		return locale;
-	}
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-
+    
+    private Locale locale;
+    
+    
+    public Locale getLocale() {
+        return this.locale;
+    }
+    
+    
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+    
 }

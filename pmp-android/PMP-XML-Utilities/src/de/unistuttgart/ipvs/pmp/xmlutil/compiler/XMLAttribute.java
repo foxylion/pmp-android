@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 /**
  * 
  * @author Tobias Kuhn
- *
+ * 
  */
 public class XMLAttribute {
     

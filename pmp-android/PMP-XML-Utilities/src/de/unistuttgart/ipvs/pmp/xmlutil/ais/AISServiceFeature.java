@@ -33,102 +33,110 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * 
  */
 public class AISServiceFeature extends BasicIS implements Serializable {
-
-	/**
-	 * Serial
-	 */
-	private static final long serialVersionUID = -3279934293726339125L;
-
-	/**
-	 * The identifier
-	 */
-	private String identifier;
-
-	/**
-	 * This list contains all required resource groups of the service feature.
-	 */
-	private List<AISRequiredResourceGroup> requiredResourceGroups = new ArrayList<AISRequiredResourceGroup>();
-
-	/**
-	 * Constructor without attributes
-	 */
-	public AISServiceFeature() {
-	}
-
-	/**
-	 * Constructor to set the identifier
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 */
-	public AISServiceFeature(String identifier) {
-		this.setIdentifier(identifier);
-	}
-
-	/**
-	 * Get all required resource groups of the service feature
-	 * 
-	 * @return list with required resource groups
-	 */
-	public List<AISRequiredResourceGroup> getRequiredResourceGroups() {
-		return this.requiredResourceGroups;
-	}
-
-	/**
-	 * Add a required resource group to the service feature
-	 * 
-	 * @param rrg
-	 *            the required Resourcegroup to add
-	 */
-	public void addRequiredResourceGroup(AISRequiredResourceGroup rrg) {
-		this.requiredResourceGroups.add(rrg);
-	}
-
-	/**
-	 * Remove a required resource group from the service feature
-	 * 
-	 * @param rrg
-	 *            required resource group to remove
-	 */
-	public void removeRequiredResourceGroup(AISRequiredResourceGroup rrg) {
-		this.requiredResourceGroups.remove(rrg);
-	}
-
-	/**
-	 * Get a required resource group for a given identifier. Null, if no
-	 * required resource group exists for the given identifier.
-	 * 
-	 * @param identifier
-	 *            identifier of the required resource group
-	 * @return required resource group with given identifier, null if none
-	 *         exists.
-	 */
-	public AISRequiredResourceGroup getRequiredResourceGroupForIdentifier(
-			String identifier) {
-		for (AISRequiredResourceGroup rrg : this.requiredResourceGroups) {
-			if (rrg.getIdentifier().equals(identifier))
-				return rrg;
-		}
-		return null;
-	}
-
-	/**
-	 * Get the identifier
-	 * 
-	 * @return identifier
-	 */
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	/**
-	 * Set the identifier
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = -3279934293726339125L;
+    
+    /**
+     * The identifier
+     */
+    private String identifier;
+    
+    /**
+     * This list contains all required resource groups of the service feature.
+     */
+    private List<AISRequiredResourceGroup> requiredResourceGroups = new ArrayList<AISRequiredResourceGroup>();
+    
+    
+    /**
+     * Constructor without attributes
+     */
+    public AISServiceFeature() {
+    }
+    
+    
+    /**
+     * Constructor to set the identifier
+     * 
+     * @param identifier
+     *            identifier to set
+     */
+    public AISServiceFeature(String identifier) {
+        setIdentifier(identifier);
+    }
+    
+    
+    /**
+     * Get all required resource groups of the service feature
+     * 
+     * @return list with required resource groups
+     */
+    public List<AISRequiredResourceGroup> getRequiredResourceGroups() {
+        return this.requiredResourceGroups;
+    }
+    
+    
+    /**
+     * Add a required resource group to the service feature
+     * 
+     * @param rrg
+     *            the required Resourcegroup to add
+     */
+    public void addRequiredResourceGroup(AISRequiredResourceGroup rrg) {
+        this.requiredResourceGroups.add(rrg);
+    }
+    
+    
+    /**
+     * Remove a required resource group from the service feature
+     * 
+     * @param rrg
+     *            required resource group to remove
+     */
+    public void removeRequiredResourceGroup(AISRequiredResourceGroup rrg) {
+        this.requiredResourceGroups.remove(rrg);
+    }
+    
+    
+    /**
+     * Get a required resource group for a given identifier. Null, if no
+     * required resource group exists for the given identifier.
+     * 
+     * @param identifier
+     *            identifier of the required resource group
+     * @return required resource group with given identifier, null if none
+     *         exists.
+     */
+    public AISRequiredResourceGroup getRequiredResourceGroupForIdentifier(String identifier) {
+        for (AISRequiredResourceGroup rrg : this.requiredResourceGroups) {
+            if (rrg.getIdentifier().equals(identifier)) {
+                return rrg;
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Get the identifier
+     * 
+     * @return identifier
+     */
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    /**
+     * Set the identifier
+     * 
+     * @param identifier
+     *            identifier to set
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
 }

@@ -33,126 +33,137 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * 
  */
 public class RGIS extends BasicIS {
-
-	/**
-	 * The identifier of the resource group
-	 */
-	private String identifier;
-
-	/**
-	 * The icon of the resource group
-	 */
-	private String iconLocation;
-
-	/**
-	 * The class name of the resource group
-	 */
-	private String className;
-
-	/**
-	 * This list contains all privacy settings of the resource group.
-	 */
-	private List<RGISPrivacySetting> privacySettings = new ArrayList<RGISPrivacySetting>();
-
-	/**
-	 * Add a privacy setting to the resourcegroup
-	 * 
-	 * @param privacySetting
-	 *            privacy setting to add
-	 */
-	public void addPrivacySetting(RGISPrivacySetting privacySetting) {
-		this.privacySettings.add(privacySetting);
-	}
-
-	/**
-	 * Get the list which contains all privacy settings
-	 * 
-	 * @return list with privacy settings
-	 */
-	public List<RGISPrivacySetting> getPrivacySettings() {
-		return this.privacySettings;
-	}
-
-	/**
-	 * Remove a privacy setting from resource group
-	 * 
-	 * @param privacySetting
-	 *            privacy setting to remove
-	 */
-	public void removePrivacySetting(RGISPrivacySetting privacySetting) {
-		this.privacySettings.remove(privacySetting);
-	}
-
-	/**
-	 * Get a privacy setting for a given identifier. Null, if no privacy setting
-	 * exists for the given identifier.
-	 * 
-	 * @param identifier
-	 *            identifier of the privacy setting
-	 * @return privacy setting with given identifier, null if none exists.
-	 */
-	public RGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
-		for (RGISPrivacySetting ps : this.privacySettings) {
-			if (ps.getIdentifier().equals(identifier))
-				return ps;
-		}
-		return null;
-	}
-
-	/**
-	 * Get the identifier of the resource group
-	 * 
-	 * @return the identifier
-	 */
-	public String getIdentifier() {
-		return this.identifier;
-	}
-
-	/**
-	 * Set the identifier of the resource group
-	 * 
-	 * @param identifier
-	 *            the identifier of the resource group
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	/**
-	 * Get the location of the icon of the resource group
-	 * 
-	 * @return location of the icon of the resource group
-	 */
-	public String getIconLocation() {
-		return this.iconLocation;
-	}
-
-	/**
-	 * Set the location of the icon of the resource group
-	 * 
-	 * @param iconLocation
-	 *            the location of the icon of the resource group
-	 */
-	public void setIconLocation(String iconLocation) {
-		this.iconLocation = iconLocation;
-	}
-
-	/**
-	 * Get the class name of the resource group
-	 * 
-	 * @return class name of the resource group
-	 */
-	public String getClassName() {
-		return className;
-	}
-
-	/**
-	 * Set the class name of the resource group
-	 * 
-	 * @param className
-	 *            class name of the resource group
-	 */
-	public void setClassName(String className) {
-		this.className = className;
-	}
+    
+    /**
+     * The identifier of the resource group
+     */
+    private String identifier;
+    
+    /**
+     * The icon of the resource group
+     */
+    private String iconLocation;
+    
+    /**
+     * The class name of the resource group
+     */
+    private String className;
+    
+    /**
+     * This list contains all privacy settings of the resource group.
+     */
+    private List<RGISPrivacySetting> privacySettings = new ArrayList<RGISPrivacySetting>();
+    
+    
+    /**
+     * Add a privacy setting to the resourcegroup
+     * 
+     * @param privacySetting
+     *            privacy setting to add
+     */
+    public void addPrivacySetting(RGISPrivacySetting privacySetting) {
+        this.privacySettings.add(privacySetting);
+    }
+    
+    
+    /**
+     * Get the list which contains all privacy settings
+     * 
+     * @return list with privacy settings
+     */
+    public List<RGISPrivacySetting> getPrivacySettings() {
+        return this.privacySettings;
+    }
+    
+    
+    /**
+     * Remove a privacy setting from resource group
+     * 
+     * @param privacySetting
+     *            privacy setting to remove
+     */
+    public void removePrivacySetting(RGISPrivacySetting privacySetting) {
+        this.privacySettings.remove(privacySetting);
+    }
+    
+    
+    /**
+     * Get a privacy setting for a given identifier. Null, if no privacy setting
+     * exists for the given identifier.
+     * 
+     * @param identifier
+     *            identifier of the privacy setting
+     * @return privacy setting with given identifier, null if none exists.
+     */
+    public RGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
+        for (RGISPrivacySetting ps : this.privacySettings) {
+            if (ps.getIdentifier().equals(identifier)) {
+                return ps;
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Get the identifier of the resource group
+     * 
+     * @return the identifier
+     */
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    /**
+     * Set the identifier of the resource group
+     * 
+     * @param identifier
+     *            the identifier of the resource group
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
+    /**
+     * Get the location of the icon of the resource group
+     * 
+     * @return location of the icon of the resource group
+     */
+    public String getIconLocation() {
+        return this.iconLocation;
+    }
+    
+    
+    /**
+     * Set the location of the icon of the resource group
+     * 
+     * @param iconLocation
+     *            the location of the icon of the resource group
+     */
+    public void setIconLocation(String iconLocation) {
+        this.iconLocation = iconLocation;
+    }
+    
+    
+    /**
+     * Get the class name of the resource group
+     * 
+     * @return class name of the resource group
+     */
+    public String getClassName() {
+        return this.className;
+    }
+    
+    
+    /**
+     * Set the class name of the resource group
+     * 
+     * @param className
+     *            class name of the resource group
+     */
+    public void setClassName(String className) {
+        this.className = className;
+    }
 }

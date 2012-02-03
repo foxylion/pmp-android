@@ -31,130 +31,138 @@ import java.util.List;
  * 
  */
 public class AISRequiredResourceGroup implements Serializable {
-
-	/**
-	 * Serial
-	 */
-	private static final long serialVersionUID = 5951904689151789055L;
-
-	/**
-	 * Identifier
-	 */
-	private String identifier;
-
-	/**
-	 * Min revision
-	 */
-	private String minRevision;
-
-	/**
-	 * Constructor without attributes
-	 */
-	public AISRequiredResourceGroup() {
-	}
-
-	/**
-	 * Constructor to set the identifier
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 */
-	public AISRequiredResourceGroup(String identifier, String minRevision) {
-		this.setIdentifier(identifier);
-		this.setMinRevision(minRevision);
-	}
-
-	/**
-	 * This list contains all required privacy settings of the required resource
-	 * group.
-	 */
-	private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
-
-	/**
-	 * Get the identifier
-	 * 
-	 * @return identifier
-	 */
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	/**
-	 * Set the identifier
-	 * 
-	 * @param identifier
-	 *            identifier to set
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	/**
-	 * Get the min revision
-	 * 
-	 * @return the min revision
-	 */
-	public String getMinRevision() {
-		return minRevision;
-	}
-
-	/**
-	 * Set the min revision
-	 * 
-	 * @param minRevision
-	 *            min revision to set
-	 */
-	public void setMinRevision(String minRevision) {
-		this.minRevision = minRevision;
-	}
-
-	/**
-	 * Get all privacy settings of the required resource group
-	 * 
-	 * @return list of privacy settings
-	 */
-	public List<AISRequiredPrivacySetting> getPrivacySettings() {
-		return this.requiredPrivacySettings;
-	}
-
-	/**
-	 * Add a privacy setting to the required resource group
-	 * 
-	 * @param privacySetting
-	 *            privacySetting to add
-	 */
-	public void addRequiredPrivacySetting(
-			AISRequiredPrivacySetting privacySetting) {
-		this.requiredPrivacySettings.add(privacySetting);
-	}
-
-	/**
-	 * Remove a privacy setting from the required resource group
-	 * 
-	 * @param privacySetting
-	 *            privacySetting to remove
-	 */
-	public void removeRequiredPrivacySetting(
-			AISRequiredPrivacySetting privacySetting) {
-		this.requiredPrivacySettings.remove(privacySetting);
-	}
-
-	/**
-	 * Get a required privacy setting for a given identifier. Null, if no
-	 * required privacy setting exists for the given identifier.
-	 * 
-	 * @param identifier
-	 *            identifier of the required privacy setting
-	 * @return required privacy setting with given identifier, null if none
-	 *         exists.
-	 */
-	public AISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(
-			String identifier) {
-		for (AISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
-			if (rps.getIdentifier().equals(identifier))
-				return rps;
-		}
-		return null;
-	}
-
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = 5951904689151789055L;
+    
+    /**
+     * Identifier
+     */
+    private String identifier;
+    
+    /**
+     * Min revision
+     */
+    private String minRevision;
+    
+    
+    /**
+     * Constructor without attributes
+     */
+    public AISRequiredResourceGroup() {
+    }
+    
+    
+    /**
+     * Constructor to set the identifier
+     * 
+     * @param identifier
+     *            identifier to set
+     */
+    public AISRequiredResourceGroup(String identifier, String minRevision) {
+        setIdentifier(identifier);
+        setMinRevision(minRevision);
+    }
+    
+    /**
+     * This list contains all required privacy settings of the required resource
+     * group.
+     */
+    private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
+    
+    
+    /**
+     * Get the identifier
+     * 
+     * @return identifier
+     */
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    /**
+     * Set the identifier
+     * 
+     * @param identifier
+     *            identifier to set
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
+    /**
+     * Get the min revision
+     * 
+     * @return the min revision
+     */
+    public String getMinRevision() {
+        return this.minRevision;
+    }
+    
+    
+    /**
+     * Set the min revision
+     * 
+     * @param minRevision
+     *            min revision to set
+     */
+    public void setMinRevision(String minRevision) {
+        this.minRevision = minRevision;
+    }
+    
+    
+    /**
+     * Get all privacy settings of the required resource group
+     * 
+     * @return list of privacy settings
+     */
+    public List<AISRequiredPrivacySetting> getPrivacySettings() {
+        return this.requiredPrivacySettings;
+    }
+    
+    
+    /**
+     * Add a privacy setting to the required resource group
+     * 
+     * @param privacySetting
+     *            privacySetting to add
+     */
+    public void addRequiredPrivacySetting(AISRequiredPrivacySetting privacySetting) {
+        this.requiredPrivacySettings.add(privacySetting);
+    }
+    
+    
+    /**
+     * Remove a privacy setting from the required resource group
+     * 
+     * @param privacySetting
+     *            privacySetting to remove
+     */
+    public void removeRequiredPrivacySetting(AISRequiredPrivacySetting privacySetting) {
+        this.requiredPrivacySettings.remove(privacySetting);
+    }
+    
+    
+    /**
+     * Get a required privacy setting for a given identifier. Null, if no
+     * required privacy setting exists for the given identifier.
+     * 
+     * @param identifier
+     *            identifier of the required privacy setting
+     * @return required privacy setting with given identifier, null if none
+     *         exists.
+     */
+    public AISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(String identifier) {
+        for (AISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
+            if (rps.getIdentifier().equals(identifier)) {
+                return rps;
+            }
+        }
+        return null;
+    }
+    
 }

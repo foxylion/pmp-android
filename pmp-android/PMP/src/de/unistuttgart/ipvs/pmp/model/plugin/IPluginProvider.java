@@ -75,4 +75,14 @@ public interface IPluginProvider {
      */
     public abstract Drawable getIcon(String rgPackage);
     
+    
+    /**
+     * Looks for the cached revision of the resource group.
+     * 
+     * @param rgPackage
+     *            the main package of the resource group's apk
+     * @return the revision for the specified resource group
+     */
+    public abstract long getRevision(String rgPackage);
+    
 }

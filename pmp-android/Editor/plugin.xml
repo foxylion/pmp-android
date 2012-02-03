@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+         <editor
+            name="AIS Editor"
+            default="true"
+            filenames="ais.xml"
+            icon="icons/sample.gif"
+            class="de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor">
+      </editor>
+       <editor
+            name="RGIS Editor"
+            default="true"
+            filenames="rgis.xml"
+            icon="icons/sample.gif"
+            class="de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+         <category
+            name="Privacy Management Platform"
+            id="privacymanagementplatform">
+      </category>
+      <wizard
+            name="App-Information-Set (ais.xml)"
+            icon="icons/pmpicon.gif"
+            category="privacymanagementplatform"
+            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
+      </wizard>
+            <wizard
+            name="Resourcegroup-Information-Set (rgis.xml)"
+            icon="icons/pmpicon.gif"
+            category="privacymanagementplatform"
+            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
+      </wizard>
+   </extension>
+
+</plugin>

@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database">
-		<icon>res/drawable-xhdpi/icon.png</icon>
-		<defaultName lang="en">Database</defaultName>
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
+		icon="res/drawable-xhdpi/icon.png"
+		className="Database">
+		<name lang="en">Database</name>
 		<name lang="de">Datenbank</name>
-		<defaultDescription lang="en">Database Resource to
+		<description lang="en">Database Resource to
 			provide basic functions like read and write into a database.
-		</defaultDescription>
+		</description>
 		<description lang="de">Datenbank Ressource die grundlegende
 			Funktionen bietet wie z.B. lesen und schreiben in eine Datenbank
 		</description>
-		<revision>2</revision>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting identifier="read">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Read out of database</defaultName>
+		<privacySetting
+			identifier="read"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Read out of database</name>
 			<name lang="de">Aus Datenbank lesen</name>
-			<defaultDescription lang="en">Allows to read out of a
+			<description lang="en">Allows to read out of a
 				database
-			</defaultDescription>
+			</description>
 			<description lang="de">Erlaubt aus einer Datenbank zu lesen.
 			</description>
 		</privacySetting>
-		<privacySetting identifier="modify">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Modify database</defaultName>
+		<privacySetting
+			identifier="modify"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Modify database</name>
 			<name lang="de">Datenbank modifizieren</name>
-			<defaultDescription lang="en">Allows to modify a
+			<description lang="en">Allows to modify a
 				database.
-			</defaultDescription>
+			</description>
 			<description lang="de">Erlaubt eine Datenbank zu modifizieren.
 			</description>
 		</privacySetting>
-		<privacySetting identifier="create">
-			<!-- Valid value: "true", "false" -->
-			<defaultName lang="en">Create tables</defaultName>
+		<privacySetting
+			identifier="create"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Create tables</name>
 			<name lang="de">Tabellen erstellen</name>
-			<defaultDescription lang="en">Allows to create new
+			<description lang="en">Allows to create new
 				tables.
-			</defaultDescription>
+			</description>
 			<description lang="de">Erlaubt neue Tabellen zu erstellen
 			</description>
 		</privacySetting>
