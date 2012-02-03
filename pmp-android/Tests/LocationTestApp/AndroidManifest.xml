@@ -9,19 +9,26 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
-        <activity android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="mainActivity" android:value="de.unistuttgart.ipvs.pmp.apps.locationtestapp.gui.LocationAppActivity" />
+
+            <meta-data
+                android:name="mainActivity"
+                android:value="de.unistuttgart.ipvs.pmp.apps.locationtestapp.gui.LocationAppActivity" />
         </activity>
         <activity
             android:name=".gui.LocationAppActivity"
-            android:label="@string/app_name">
-            </activity>
+            android:label="@string/app_name" >
+        </activity>
 
         <!-- The service of the app where pmp connects to -->
         <service

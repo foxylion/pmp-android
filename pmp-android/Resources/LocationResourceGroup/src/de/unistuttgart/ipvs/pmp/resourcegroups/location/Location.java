@@ -11,6 +11,9 @@ public class Location extends ResourceGroup {
 	
 	public static final String R_ABSOLUTE_LOCATION = "absoluteLocationResource";
 	public static final String PS_USE_ABSOLUTE_LOCATION = "useAbsoluteLocation";
+
+	public static final String PS_SHOW_ACCURACY = "showAccuracy";
+	public static final String PS_SHOW_SPEED = "showSpeed";
 	
 	
 	/**
@@ -25,6 +28,7 @@ public class Location extends ResourceGroup {
 		registerResource(R_ABSOLUTE_LOCATION, new AbsoluteLocationResource(this));
 		
 		registerPrivacySetting(PS_USE_ABSOLUTE_LOCATION, new BooleanPrivacySetting());
-		
+		registerPrivacySetting(PS_SHOW_ACCURACY, new BooleanPrivacySetting());
+		registerPrivacySetting(PS_SHOW_SPEED, new BooleanPrivacySetting());
 	}
 }
