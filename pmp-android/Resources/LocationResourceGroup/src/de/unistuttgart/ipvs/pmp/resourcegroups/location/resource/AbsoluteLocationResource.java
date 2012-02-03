@@ -32,7 +32,6 @@ public class AbsoluteLocationResource extends Resource {
 	private LocationManager locationManager;
 	
 	private LocationListener locationListener = null;
-	private GpsStatus.Listener gpsStatusListener = null;
 	
 	Map<String, UpdateRequest> requests = new HashMap<String, UpdateRequest>();
 	
@@ -80,18 +79,15 @@ public class AbsoluteLocationResource extends Resource {
 		locationManager.removeUpdates(locationListener);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
 				locationListener);
-		locationManager.addGpsStatusListener(gpsStatusListener);
 	}
 	
 	
 	public void endLocationLookup(String appIdentifier) {
 		requests.remove(appIdentifier);
 		
-		if (requests.size() == 0 && locationListener != null && gpsStatusListener != null) {
-			locationManager.removeGpsStatusListener(gpsStatusListener);
+		if (requests.size() == 0 && locationListener != null) {
 			locationManager.removeUpdates(locationListener);
 			locationListener = null;
-			gpsStatusListener = null;
 			timeoutTimer.cancel();
 		}
 	}
