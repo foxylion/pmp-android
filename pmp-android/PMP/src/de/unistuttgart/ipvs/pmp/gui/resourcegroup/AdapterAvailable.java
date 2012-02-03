@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * The {@link RgAvailableAdapter} is the list of available Resourcegroups in the {@link TabAvailable}.
@@ -30,10 +29,10 @@ public class AdapterAvailable extends BaseAdapter {
     /**
      * List of all Resource Groups which should be displayed.
      */
-    private List<RGIS> rgs;
+    private List<LocalizedResourceGroup> rgs;
     
     
-    public AdapterAvailable(Context context, List<RGIS> rgs) {
+    public AdapterAvailable(Context context, List<LocalizedResourceGroup> rgs) {
         this.context = context;
         this.rgs = rgs;
     }
@@ -59,15 +58,11 @@ public class AdapterAvailable extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RGIS rgis = this.rgs.get(position);
+        LocalizedResourceGroup rgis = this.rgs.get(position);
         
         String rgId = rgis.getIdentifier();
         
-        /*
-         * TODO: Get revision out of the apk! Tobis task :-)
-         *          Must be communicated from server side, we do not send APKs without a good reason ;)
-         */
-        long rgRev = -880658238000L;
+        long rgRev = rgis.getRevision();
         String rgRevHR = RevisionReader.get().toHumanReadable(rgRev);
         
         /* load the layout from the xml file */
@@ -75,17 +70,11 @@ public class AdapterAvailable extends BaseAdapter {
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_resourcegroups_available, null);
         /* Set name, description and state of the requested Resource Group */
         TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
-        String nameString = rgis.getNameForLocale(Locale.getDefault());
-        if (nameString == null) {
-            nameString = rgis.getNameForLocale(Locale.ENGLISH);
-        }
+        String nameString = rgis.getName();
         name.setText(nameString);
         
         TextView description = (TextView) entryView.findViewById(R.id.TextView_Description);
-        String descriptionString = rgis.getDescriptionForLocale(Locale.getDefault());
-        if (descriptionString == null) {
-            descriptionString = rgis.getDescriptionForLocale(Locale.ENGLISH);
-        }
+        String descriptionString = rgis.getDescription();
         description.setText(descriptionString);
         
         TextView state = (TextView) entryView.findViewById(R.id.TextView_Status);
