@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -29,6 +30,7 @@ public class ModelCache {
     private Map<ResourceGroup, Map<String, PrivacySetting>> privacySettings;
     private Map<String, ResourceGroup> resourceGroups;
     private Map<App, Map<String, ServiceFeature>> serviceFeatures;
+    private List<IContext> contexts;
     
     
     public ModelCache() {
@@ -37,6 +39,7 @@ public class ModelCache {
         this.privacySettings = new HashMap<ResourceGroup, Map<String, PrivacySetting>>();
         this.resourceGroups = new HashMap<String, ResourceGroup>();
         this.serviceFeatures = new HashMap<App, Map<String, ServiceFeature>>();
+        this.contexts = new ArrayList<IContext>();
     }
     
     
@@ -71,6 +74,11 @@ public class ModelCache {
             result.addAll(this.presets.get(me).values());
         }
         return result;
+    }
+    
+    
+    public List<IContext> getContexts() {
+        return this.contexts;
     }
     
 }

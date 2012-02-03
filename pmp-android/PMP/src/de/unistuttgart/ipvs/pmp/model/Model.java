@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,6 +21,7 @@ import de.unistuttgart.ipvs.pmp.api.ipc.IPCConnection;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
@@ -586,6 +588,14 @@ public class Model implements IModel, Observer {
     public void clearAll() {
         PersistenceProvider.getInstance().getDoh().cleanTables();
         PersistenceProvider.getInstance().releaseCache();
+    }
+    
+    
+    @Override
+    public IContext[] getContexts() {
+        checkCached();
+        List<IContext> result = this.cache.getContexts();
+        return result.toArray(new IContext[result.size()]);
     }
     
 }

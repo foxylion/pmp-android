@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -205,6 +206,12 @@ public class MockupModel implements IModel {
         this.cache.getResourceGroups().clear();
         this.cache.getPrivacySettings().clear();
         this.cache.getPresets().clear();
+    }
+    
+    
+    @Override
+    public IContext[] getContexts() {
+        throw new UnsupportedOperationException();
     }
     
 }
