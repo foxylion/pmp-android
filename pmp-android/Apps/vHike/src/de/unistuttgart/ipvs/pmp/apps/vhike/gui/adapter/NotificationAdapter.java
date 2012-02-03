@@ -84,7 +84,10 @@ public class NotificationAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		hitchhiker = hitchhikers.get(position);
-
+		
+		Log.i("POsition NOTI ADAPT: "+ position); 
+		
+		
 		/* load the layout from the xml file */
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -97,13 +100,17 @@ public class NotificationAdapter extends BaseAdapter {
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
+		
 		final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 
 		// determine which id to receive
 		if (mWhichHitcher == 0) {
 
 			queryID = lqo.get(position).getQueryid();
+			
 			userID = lqo.get(position).getUserid();
+			Log.i("USERID: " + userID);
+			Log.i("Position: " + position);
 		} else {
 			List<OfferObject> loo = Model.getInstance().getOfferHolder();
 			offerID = loo.get(position).getOffer_id();
@@ -111,10 +118,10 @@ public class NotificationAdapter extends BaseAdapter {
 		}
 
 		if (Model.getInstance().isInInvitedList(userID)) {
-			Log.i("USERID: " + userID);
+			
 			accept_invite.setBackgroundResource(R.drawable.bg_waiting);
 			accept_invite.invalidate();
-		}
+		}		
 
 		dismiss.setOnClickListener(new OnClickListener() {
 			@Override
@@ -203,6 +210,7 @@ public class NotificationAdapter extends BaseAdapter {
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
 						Model.getInstance().addToInvitedUser(userID);
+						Log.i("USER ID ADDED: " + userID);
 						//
 						// notifyDataSetChanged();
 						Toast.makeText(context, "STATUS_SENT",

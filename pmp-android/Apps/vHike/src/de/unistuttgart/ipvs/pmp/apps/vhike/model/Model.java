@@ -25,9 +25,7 @@ public class Model {
 		for (int invID : offeredUser) {
 			if (userid == invID) {
 				invited = true;
-			} else {
-				invited = false;
-			}
+			} 
 		}
 		return invited;
 	}
@@ -58,8 +56,6 @@ public class Model {
 		for (int bannedID : bannedUser) {
 			if (userid == bannedID) {
 				banned = true;
-			} else {
-				banned = false;
 			}
 		}
 
