@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
 
 /**
@@ -108,7 +109,13 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         checkCached();
         Assert.nonNull(appPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "appPackage", appPackage));
         Assert.nonNull(resource, new ModelMisuseError(Assert.ILLEGAL_NULL, "resource", resource));
-        return this.link.getResource(resource).getAndroidInterface(appPackage);
+        
+        Resource res = this.link.getResource(resource);
+        if (res != null) {
+            return res.getAndroidInterface(appPackage);
+        } else {
+            return null;
+        }
     }
     
     
