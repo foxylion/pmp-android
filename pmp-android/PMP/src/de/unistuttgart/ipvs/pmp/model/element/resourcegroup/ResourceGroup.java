@@ -32,6 +32,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     protected Map<String, PrivacySetting> privacySettings;
     protected Drawable icon;
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
+    protected long revision;
     
     
     /* organizational */
@@ -81,12 +82,9 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     @Override
-    public int getRevision() {
+    public long getRevision() {
         checkCached();
-        /*
-         * TODO: Get revision out of the apk! Tobis task :-)
-         */
-        return 42;
+        return this.revision;
     }
     
     

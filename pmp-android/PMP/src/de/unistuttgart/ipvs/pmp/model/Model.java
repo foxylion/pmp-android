@@ -174,8 +174,9 @@ public class Model implements IModel, Observer {
             for (AISServiceFeature aissf : ais.getServiceFeatures()) {
                 for (AISRequiredResourceGroup aisrrg : aissf.getRequiredResourceGroups()) {
                     IResourceGroup rg = getResourceGroup(aisrrg.getIdentifier());
-                    if ((rg != null) && (rg.getRevision() < new Integer(aisrrg.getMinRevision()))) {
-                        /* error during connecting to service */
+                    
+                    if ((rg != null) && (rg.getRevision() < new Long(aisrrg.getMinRevision()))) {
+                        /* error during resource group request */
                         Log.w(appPackage + " requests newer ResourceGroups.");
                         return new RegistrationResult(false, "Requesting newer ResourceGroups not supported.");
                     }
