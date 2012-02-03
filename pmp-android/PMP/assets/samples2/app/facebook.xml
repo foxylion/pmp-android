@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">Facebook</defaultName>
-		<defaultDescription lang="en">With this App you can surf on your facebook floor, wall and ceiling.</defaultDescription>
+		<name lang="en">Facebook</name>
+		<description lang="en">With this App you can surf on your facebook floor, wall and ceiling.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Use facebook. Easily. Now.</defaultDescription>
+			<name lang="en">Facebook</name>
+			<description lang="en">Use facebook. Easily. Now.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="store">
-			<defaultName lang="en">Store passwords</defaultName>
-			<defaultDescription lang="en">Connect all your passwords to your facebook account. Easily. Now.</defaultDescription>
+			<name lang="en">Store passwords</name>
+			<description lang="en">Connect all your passwords to your facebook account. Easily. Now.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 				<privacySetting identifier="psw">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="location">
-			<defaultName lang="en">Update your location</defaultName>
-			<defaultDescription lang="en">Tell your friends where you are. Easily. Now.</defaultDescription>
+			<name lang="en">Update your location</name>
+			<description lang="en">Tell your friends where you are. Easily. Now.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
@@ -31,8 +31,8 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="camera">
-			<defaultName lang="en">Take frequent pictures</defaultName>
-			<defaultDescription lang="en">Take pictures every minute or so and show them to all your facebook friends. Easily. Now.</defaultDescription>
+			<name lang="en">Take frequent pictures</name>
+			<description lang="en">Take pictures every minute or so and show them to all your facebook friends. Easily. Now.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>

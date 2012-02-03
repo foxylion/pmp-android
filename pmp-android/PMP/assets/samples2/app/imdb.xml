@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">IMDb</defaultName>
-		<defaultDescription lang="en">IMDb gives you access to the greatest movie database worldwide.</defaultDescription>
+		<name lang="en">IMDb</name>
+		<description lang="en">IMDb gives you access to the greatest movie database worldwide.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Allows you to tell your friends about this really cool movie. (That actually sucks)</defaultDescription>
+			<name lang="en">Facebook</name>
+			<description lang="en">Allows you to tell your friends about this really cool movie. (That actually sucks)</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="store">
-			<defaultName lang="en">Use watch history</defaultName>
-			<defaultDescription lang="en">Allows you to keep track of the movies you watched and the ones you liked.</defaultDescription>
+			<name lang="en">Use watch history</name>
+			<description lang="en">Allows you to keep track of the movies you watched and the ones you liked.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>
@@ -25,15 +25,15 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="visit">
-			<defaultName lang="en">Visit filming locations</defaultName>
-			<defaultDescription lang="en">Allows you to travel directly to the places where the movies were filmed. (Not guaranteed to put you on solid land)</defaultDescription>			
+			<name lang="en">Visit filming locations</name>
+			<description lang="en">Allows you to travel directly to the places where the movies were filmed. (Not guaranteed to put you on solid land)</description>			
 			<requiredResourceGroup identifier="gov.gps">
 				<privacySetting identifier="modify">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="nuke">
-			<defaultName lang="en">Nuke this sh..</defaultName>
-			<defaultDescription lang="en">Allows you to nuke the film crew who produced such an unappealing pile of you know what.</defaultDescription>
+			<name lang="en">Nuke this sh..</name>
+			<description lang="en">Allows you to nuke the film crew who produced such an unappealing pile of you know what.</description>
 			<requiredResourceGroup identifier="gov.gps">
 				<privacySetting identifier="missiles">true</privacySetting>
 			</requiredResourceGroup>

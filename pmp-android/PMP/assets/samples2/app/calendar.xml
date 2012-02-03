@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">Calendar</defaultName>
+		<name lang="en">Calendar</name>
 		<name lang="de">Kalender</name>
-		<defaultDescription lang="en">This App is used to test
+		<description lang="en">This App is used to test
 			the privacy management platform. It provides simple calendar
 			functionalities.
-		</defaultDescription>
+		</description>
 		<description lang="de">Die App wird verwendet um die Privacy
 			Manangement Platform zu testen. Sie stellt einfache Funktionalitäten
 			eines Kalenders zur Verfügung.
@@ -14,11 +14,11 @@
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="1">
-			<defaultName lang="en">Read calendar entries</defaultName>
+			<name lang="en">Read calendar entries</name>
 			<name lang="de">Kalendereinträge lesen</name>
-			<defaultDescription lang="en">I can read calendar
+			<description lang="en">I can read calendar
 				entries.
-			</defaultDescription>
+			</description>
 			<description lang="de">Ich kann Kalendereinträge lesen.
 			</description>
 			<requiredResourceGroup
@@ -27,12 +27,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="2">
-			<defaultName lang="en">Write calendar entries
-			</defaultName>
+			<name lang="en">Write calendar entries
+			</name>
 			<name lang="de">Kalendereinträge schreiben</name>
-			<defaultDescription lang="en">I can write
+			<description lang="en">I can write
 				calendar entries.
-			</defaultDescription>
+			</description>
 			<description lang="de">Ich kann Kalendereinträge schreiben.
 			</description>
 			<requiredResourceGroup
@@ -42,13 +42,13 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="3">
-			<defaultName lang="en">Send calendar entries via email
-			</defaultName>
+			<name lang="en">Send calendar entries via email
+			</name>
 			<name lang="de">Kalendereinträge per E-Mail
 				versenden
 			</name>
-			<defaultDescription lang="en">I can send calendar entries via email.
-			</defaultDescription>
+			<description lang="en">I can send calendar entries via email.
+			</description>
 			<description lang="de">Ich kann Kalendereinträge per E-Mail versenden.
 			</description>
 			<requiredResourceGroup
@@ -57,12 +57,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="4">
-			<defaultName lang="en">Import calendar entries
-			</defaultName>
+			<name lang="en">Import calendar entries
+			</name>
 			<name lang="de">Kalendereinträge importieren
 			</name>
-			<defaultDescription lang="en">I can	import calendar entries.
-			</defaultDescription>
+			<description lang="en">I can	import calendar entries.
+			</description>
 			<description lang="de">Ich Kalendereinträge importieren.
 			</description>
 			<requiredResourceGroup
@@ -72,12 +72,12 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="5">
-			<defaultName lang="en">Export calendar entries
-			</defaultName>
+			<name lang="en">Export calendar entries
+			</name>
 			<name lang="de">Kalendereinträge exportieren
 			</name>
-			<defaultDescription lang="en">I can export calendar entries.
-			</defaultDescription>
+			<description lang="en">I can export calendar entries.
+			</description>
 			<description lang="de">Ich kann Kalendereinträge exportieren.
 			</description>
 			<requiredResourceGroup

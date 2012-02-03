@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">Google Mail</defaultName>
-		<defaultDescription lang="en">With Google Mail you can manage your mails. Or you can get the feeling that you can.</defaultDescription>
+		<name lang="en">Google Mail</name>
+		<description lang="en">With Google Mail you can manage your mails. Or you can get the feeling that you can.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Share all your mails on facebook.</defaultDescription>
+			<name lang="en">Facebook</name>
+			<description lang="en">Share all your mails on facebook.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="store">
-			<defaultName lang="en">Cache mails</defaultName>
-			<defaultDescription lang="en">Cache your mails on your phone, so it takes less time to manage your mails.</defaultDescription>
+			<name lang="en">Cache mails</name>
+			<description lang="en">Cache your mails on your phone, so it takes less time to manage your mails.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>
@@ -22,15 +22,15 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="location">
-			<defaultName lang="en">Use geo position</defaultName>
-			<defaultDescription lang="en">Use geo coordinates to give you a more precise sorting of your emails for your location.</defaultDescription>			
+			<name lang="en">Use geo position</name>
+			<description lang="en">Use geo coordinates to give you a more precise sorting of your emails for your location.</description>			
 			<requiredResourceGroup identifier="gov.gps">
 				<privacySetting identifier="findloc">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="feedback">
-			<defaultName lang="en">Give feedback</defaultName>
-			<defaultDescription lang="en">Tell us what features you are missing and what bugs drive you insane.</defaultDescription>
+			<name lang="en">Give feedback</name>
+			<description lang="en">Tell us what features you are missing and what bugs drive you insane.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>

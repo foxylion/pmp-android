@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">RSS</defaultName>
-		<defaultDescription lang="en">Access news feeds directly without any troubles.</defaultDescription>
+		<name lang="en">RSS</name>
+		<description lang="en">Access news feeds directly without any troubles.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Tell all your friends what you are reading without any troubles.</defaultDescription>			
+			<name lang="en">Facebook</name>
+			<description lang="en">Tell all your friends what you are reading without any troubles.</description>			
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="cache">
-			<defaultName lang="en">Cache your news</defaultName>
-			<defaultDescription lang="en">Saves all your feeds in the local database without any troubles.</defaultDescription>
+			<name lang="en">Cache your news</name>
+			<description lang="en">Saves all your feeds in the local database without any troubles.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>

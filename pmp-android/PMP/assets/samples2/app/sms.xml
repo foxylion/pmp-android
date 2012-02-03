@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">SMS</defaultName>
-		<defaultDescription lang="en">Use the app to send short messages to your friends.</defaultDescription>
+		<name lang="en">SMS</name>
+		<description lang="en">Use the app to send short messages to your friends.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Share all your SMS on facebook.</defaultDescription>
+			<name lang="en">Facebook</name>
+			<description lang="en">Share all your SMS on facebook.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="store">
-			<defaultName lang="en">Store on device</defaultName>
-			<defaultDescription lang="en">Store all your SMS on your device.</defaultDescription>
+			<name lang="en">Store on device</name>
+			<description lang="en">Store all your SMS on your device.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>
@@ -22,8 +22,8 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="telldoc">
-			<defaultName lang="en">Inform your doctor</defaultName>
-			<defaultDescription lang="en">Tell your doctor via SMS if your candley castley score got too low and you need to stock up on defense armys.</defaultDescription>			
+			<name lang="en">Inform your doctor</name>
+			<description lang="en">Tell your doctor via SMS if your candley castley score got too low and you need to stock up on defense armys.</description>			
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="kk">true</privacySetting>
 			</requiredResourceGroup>
@@ -32,8 +32,8 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="autopay">
-			<defaultName lang="en">Reload cash automatically</defaultName>
-			<defaultDescription lang="en">Automatically charges your bank account, if your cash on your phone account is too low to send more SMS.</defaultDescription>
+			<name lang="en">Reload cash automatically</name>
+			<description lang="en">Automatically charges your bank account, if your cash on your phone account is too low to send more SMS.</description>
 			<requiredResourceGroup identifier="com.americanexpress.leyman">
 				<privacySetting identifier="balance">true</privacySetting>
 				<privacySetting identifier="charge">true</privacySetting>

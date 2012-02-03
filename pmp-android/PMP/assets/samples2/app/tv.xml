@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">TV App</defaultName>
-		<defaultDescription lang="en">Brings all the TV channels to your mobile device.</defaultDescription>
+		<name lang="en">TV App</name>
+		<description lang="en">Brings all the TV channels to your mobile device.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="fb">
-			<defaultName lang="en">Facebook</defaultName>
-			<defaultDescription lang="en">Tell all your friends what crap you are watching.</defaultDescription>
+			<name lang="en">Facebook</name>
+			<description lang="en">Tell all your friends what crap you are watching.</description>
 			<requiredResourceGroup identifier="de.bka.bundestrojaner">
 				<privacySetting identifier="facebook">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="store">
-			<defaultName lang="en">Record</defaultName>
-			<defaultDescription lang="en">Record your favorite movies to the SD card.</defaultDescription>
+			<name lang="en">Record</name>
+			<description lang="en">Record your favorite movies to the SD card.</description>
 			<requiredResourceGroup identifier="org.oracle.db">
 				<privacySetting identifier="read">true</privacySetting>
 				<privacySetting identifier="modify">true</privacySetting>
@@ -22,15 +22,15 @@
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="changeloc">
-			<defaultName lang="en">Transport to place with better reception</defaultName>
-			<defaultDescription lang="en">Only got 1 bar? No 4G? Fear no more, go directly to a place where the stream doesn't break up every 4.5 seconds.</defaultDescription>			
+			<name lang="en">Transport to place with better reception</name>
+			<description lang="en">Only got 1 bar? No 4G? Fear no more, go directly to a place where the stream doesn't break up every 4.5 seconds.</description>			
 			<requiredResourceGroup identifier="gov.gps">
 				<privacySetting identifier="modify">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="autopay">
-			<defaultName lang="en">Watch Sky</defaultName>
-			<defaultDescription lang="en">I'm watching something better. I'm watching Sky.</defaultDescription>
+			<name lang="en">Watch Sky</name>
+			<description lang="en">I'm watching something better. I'm watching Sky.</description>
 			<requiredResourceGroup identifier="com.americanexpress.leyman">
 				<privacySetting identifier="balance">true</privacySetting>
 				<privacySetting identifier="charge">true</privacySetting>
