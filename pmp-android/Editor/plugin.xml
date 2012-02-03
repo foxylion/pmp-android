@@ -28,14 +28,14 @@
       </category>
       <wizard
             name="App-Information-Set (ais.xml)"
-            icon="icons/sample.gif"
+            icon="icons/pmpicon.gif"
             category="privacymanagementplatform"
             class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
             id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
       </wizard>
             <wizard
             name="Resourcegroup-Information-Set (rgis.xml)"
-            icon="icons/sample.gif"
+            icon="icons/pmpicon.gif"
             category="privacymanagementplatform"
             class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
             id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
