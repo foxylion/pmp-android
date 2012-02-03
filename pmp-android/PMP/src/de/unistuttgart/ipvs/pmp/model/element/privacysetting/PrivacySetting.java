@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 import java.util.Locale;
 
 import android.content.Context;
-import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
@@ -11,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -112,25 +112,19 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public View getView(Context context) {
+    public IPrivacySettingView<?> getView(Context context) {
         checkCached();
+        Assert.nonNull(context, new ModelMisuseError(Assert.ILLEGAL_NULL, "context", context));
         return this.link.getView(context);
     }
     
     
     @Override
-    public String getViewValue(View view) {
+    public void setViewValue(Context context, String value) throws PrivacySettingValueException {
         checkCached();
-        Assert.nonNull(view, new ModelMisuseError(Assert.ILLEGAL_NULL, "view", view));
-        return this.link.getViewValue(view);
-    }
-    
-    
-    @Override
-    public void setViewValue(View view, String value) throws PrivacySettingValueException {
-        checkCached();
-        Assert.nonNull(view, new ModelMisuseError(Assert.ILLEGAL_NULL, "view", view));
-        this.link.setViewValue(view, value);
+        Assert.nonNull(context, new ModelMisuseError(Assert.ILLEGAL_NULL, "context", context));
+        Assert.nonNull(value, new ModelMisuseError(Assert.ILLEGAL_NULL, "value", value));
+        this.link.setViewValue(context, value);
     }
     
 }

@@ -11,12 +11,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.provider.Settings;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
@@ -24,7 +27,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.Location;
 
 public class AbsoluteLocationResource extends Resource {
 	
-	private TimerTask timeoutTask = null;
 	private Timer timeoutTimer = null;
 	
 	private Location locationRG;
@@ -36,7 +38,6 @@ public class AbsoluteLocationResource extends Resource {
 	Map<String, UpdateRequest> requests = new HashMap<String, UpdateRequest>();
 	
 	private boolean gpsEnabled = false;
-	private boolean fixed = false;
 	
 	private double longitude = 0.0;
 	private double latitude = 0.0;
@@ -45,6 +46,8 @@ public class AbsoluteLocationResource extends Resource {
 	private float speed = 0.0F;
 	
 	private long lastUpdate = 0;
+	
+	private boolean fixed = false;
 	
 	
 	public AbsoluteLocationResource(Location locationRG) {
@@ -67,18 +70,28 @@ public class AbsoluteLocationResource extends Resource {
 			locationListener = new DefaultLocationListener();
 			
 			timeoutTimer = new Timer();
-			timeoutTask = new UpdateRequestVerificator();
-			timeoutTimer.schedule(timeoutTask, UpdateRequest.MAX_TIME_BETWEEN_REQUEST,
+			timeoutTimer.schedule(new UpdateRequestVerificator(), UpdateRequest.MAX_TIME_BETWEEN_REQUEST,
 					UpdateRequest.MAX_TIME_BETWEEN_REQUEST);
 		}
 		
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createNotification();
+			gpsEnabled = false;
+		} else {
+			gpsEnabled = true;
+			fixed = false;
 		}
 		
-		locationManager.removeUpdates(locationListener);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
-				locationListener);
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			
+			public void run() {
+				locationManager.removeUpdates(locationListener);
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, calcMinTime(), calcMinDistance(),
+						locationListener);
+				locationManager.addGpsStatusListener(new DefaultGpsStatusListener());
+			}
+		});
+		
 	}
 	
 	
@@ -89,6 +102,13 @@ public class AbsoluteLocationResource extends Resource {
 			locationManager.removeUpdates(locationListener);
 			locationListener = null;
 			timeoutTimer.cancel();
+			gpsEnabled = false;
+			accuracy = 0.0F;
+			speed = 0.0F;
+			lastUpdate = 0;
+			longitude = 0.0;
+			latitude = 0.0;
+			fixed = false;
 		}
 	}
 	
@@ -97,12 +117,15 @@ public class AbsoluteLocationResource extends Resource {
 		return gpsEnabled;
 	}
 	
+	
 	public boolean isActive() {
 		return (locationListener != null);
 	}
 	
+	
 	public boolean isFixed() {
 		return fixed;
+		
 	}
 	
 	
@@ -153,12 +176,17 @@ public class AbsoluteLocationResource extends Resource {
 	
 	
 	private void createNotification() {
-		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
-				Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.icon_delete, "GPS is disabled, please enable it.", 0);
 		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		notification.contentIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
+		PendingIntent pIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
+		
+		Notification notification = new Notification(R.drawable.icon_delete, "GPS is disabled, please enable it.",
+				System.currentTimeMillis());
+		notification.setLatestEventInfo(this.locationRG.getContext(), "GPS disabled",
+				"Please enable it to use the Location Resource..", pIntent);
+		
+		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
+				Context.NOTIFICATION_SERVICE);
 		notificationManager.notify("gpsDisabledNotification", 0, notification);
 	}
 	
@@ -186,11 +214,9 @@ public class AbsoluteLocationResource extends Resource {
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			switch (status) {
 				case LocationProvider.AVAILABLE:
-					AbsoluteLocationResource.this.fixed = true;
 					break;
 				
 				case LocationProvider.TEMPORARILY_UNAVAILABLE:
-					AbsoluteLocationResource.this.fixed = false;
 					break;
 				
 				case LocationProvider.OUT_OF_SERVICE:
@@ -198,6 +224,23 @@ public class AbsoluteLocationResource extends Resource {
 					break;
 			}
 			
+		}
+	}
+	
+	class DefaultGpsStatusListener implements GpsStatus.Listener {
+		
+		public void onGpsStatusChanged(int event) {
+			switch (event) {
+				case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+					GpsStatus status = locationManager.getGpsStatus(null);
+					for (GpsSatellite sat : status.getSatellites()) {
+						if (sat.usedInFix()) {
+							fixed = true;
+							break;
+						}
+					}
+					break;
+			}
 		}
 	}
 	

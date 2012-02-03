@@ -1,30 +1,51 @@
 <presetSet>
-	<preset identifier="preset1" creator="null">
-		<name>Preset 1</name>
-		<description>My first Preset</description>
+	<preset 
+		identifier="preset1"
+		creator="null"
+		name="Preset 1"
+		description="My first Preset">
 		<assignedApps>
-			<app>de.unistuttgart.ipvs.pmp.apps.calendarapp</app>
-			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
+			<app identifier="de.unistuttgart.ipvs.pmp.apps.calendarapp" />
+			<app identifier="de.unistuttgart.ipvs.pmp.apps.simpleapp" />
 		</assignedApps>
 		<assignedPrivacySettings>
-			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" rgRevision="12" psIdentifier="read">
-				<grantedValue>true</grantedValue>
-				<context type="time">Every Monday</context>
+			<privacySetting 
+				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
+				rgRevision="12"
+				psIdentifier="read">
+				<value>true</value>
+				<context 
+					type="time" 
+					condition="Every Monday">
+					<overrideValue>false</overrideValue>
+				</context>
 			</privacySetting>
-			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" rgRevision="1" psIdentifier="write">
-				<grantedValue>true</grantedValue>
-				<context type="time">Every Wednesday</context>	
+			<privacySetting 
+				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem"
+				rgRevision="1"
+				psIdentifier="write">
+				<value>true</value>
+				<context 
+					type="time"
+					condition="Every Wednesday">
+					<overrideValue>false</overrideValue>
+				</context>
 			</privacySetting>
 		</assignedPrivacySettings>
 	</preset>
-	<preset identifier="preset2" creator="null">
-		<name>Preset 2</name>
+	<preset 
+		identifier="preset2"
+		creator="null"
+		name="Preset 2">
 		<assignedApps>
-			<app>de.unistuttgart.ipvs.pmp.apps.simpleapp</app>
+			<app identifier="de.unistuttgart.ipvs.pmp.apps.simpleapp" />
 		</assignedApps>
 		<assignedPrivacySettings>
-			<privacySetting rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" rgRevision="12" psIdentifier="write">
-				<grantedValue>true</grantedValue>
+			<privacySetting 
+				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
+				rgRevision="12"
+				psIdentifier="write">
+				<value>true</value>
 			</privacySetting>
 		</assignedPrivacySettings>
 	</preset>
