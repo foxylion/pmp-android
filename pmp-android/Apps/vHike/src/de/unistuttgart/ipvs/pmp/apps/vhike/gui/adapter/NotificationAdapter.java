@@ -183,32 +183,35 @@ public class NotificationAdapter extends BaseAdapter {
 			public void onClick(View v) {
 
 				if (mWhichHitcher == 0) {
-					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
-							.getInstance().getTripId(), queryID,
-							me.getUsername() + ": Need a ride?")) {
-					case Constants.STATUS_SENT:
-
-						accept_invite
-								.setBackgroundResource(R.drawable.bg_waiting);
-
-						notifyDataSetChanged();
-						Toast.makeText(context, "STATUS_SENT",
-								Toast.LENGTH_SHORT).show();
-
-						break;
-					case Constants.STATUS_INVALID_TRIP:
-						Toast.makeText(context, "STATUS_INVALID_TRIP",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case Constants.STATUS_INVALID_QUERY:
-						Toast.makeText(context, "INVALID_QUERY",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case Constants.STATUS_ALREADY_SENT:
-						Toast.makeText(context, "ALREADY SENT",
-								Toast.LENGTH_SHORT);
-						break;
-					}
+//					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
+//							.getInstance().getTripId(), queryID,
+//							me.getUsername() + ": Need a ride?")) {
+//					case Constants.STATUS_SENT:
+//
+//						accept_invite
+//								.setBackgroundResource(R.drawable.bg_waiting);
+//						
+//						
+//						notifyDataSetChanged();
+//						Toast.makeText(context, "STATUS_SENT",
+//								Toast.LENGTH_SHORT).show();
+//
+//						break;
+//					case Constants.STATUS_INVALID_TRIP:
+//						Toast.makeText(context, "STATUS_INVALID_TRIP",
+//								Toast.LENGTH_SHORT).show();
+//						break;
+//					case Constants.STATUS_INVALID_QUERY:
+//						Toast.makeText(context, "INVALID_QUERY",
+//								Toast.LENGTH_SHORT).show();
+//						break;
+//					case Constants.STATUS_ALREADY_SENT:
+//						Toast.makeText(context, "ALREADY SENT",
+//								Toast.LENGTH_SHORT);
+//						break;
+//					}
+					accept_invite
+					.setBackgroundResource(R.drawable.bg_waiting);
 				} else {
 
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
