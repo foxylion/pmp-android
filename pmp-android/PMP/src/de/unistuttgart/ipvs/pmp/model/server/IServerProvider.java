@@ -40,4 +40,10 @@ public interface IServerProvider {
      *            the new callback to call or null for no callback
      */
     public void setCallback(IServerDownloadCallback callback);
+    
+    
+    /**
+     * Cleans the entire download cache.
+     */
+    public void cleanCache();
 }

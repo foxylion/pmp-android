@@ -132,7 +132,7 @@
     <!-- ResourceGroups -->
     <string name="rg_fetching_resources">Fetching Resources from server.\nPlease wait…</string>
     <string name="rg_server_not_available">The update server was not reachable, or no Resources are available. Try it again in a few minutes by pressing "Update".</string>
-    <string name="rg_removed_success">The Resource has been successfully removed.</string>
+    <string name="rg_removed_success">The Resource has been successfully removed. Restarting PMP, please wait a second.</string>
     <string name="rg_processing_installation">Processing installation request…</string>
     <string name="rg_confirm_remove">Confirm removing Resource</string>
     <string name="rg_confirm_description">The Resource \'%1$s\' is going to be removed. If you confirm this all stored informations of the Resource will be deleted.</string>

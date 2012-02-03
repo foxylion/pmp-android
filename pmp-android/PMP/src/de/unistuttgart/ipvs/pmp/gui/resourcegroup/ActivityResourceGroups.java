@@ -66,11 +66,11 @@ public class ActivityResourceGroups extends TabActivity {
         TabHost.TabSpec spec;
         Intent intent;
         
-        intent = getIntent().setClass(this, TabInstalled.class);
+        intent = new Intent(getIntent()).setClass(this, TabInstalled.class);
         spec = tabHost.newTabSpec(TAB_INSTALLED).setIndicator(getString(R.string.installed)).setContent(intent);
         tabHost.addTab(spec);
         
-        intent = getIntent().setClass(this, TabAvailable.class);
+        intent = new Intent(getIntent()).setClass(this, TabAvailable.class);
         spec = tabHost.newTabSpec(TAB_AVAILABLE).setIndicator(getString(R.string.available)).setContent(intent);
         tabHost.addTab(spec);
     }

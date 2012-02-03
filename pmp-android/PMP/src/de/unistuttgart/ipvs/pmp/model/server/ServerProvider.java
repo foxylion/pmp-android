@@ -1,8 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +33,9 @@ public class ServerProvider implements IServerProvider {
     private static final String SERVER_URL = "http://pmp-android.no-ip.org/";
     private static final String SEARCH_FOR = "?q=";
     private static final long CALLBACK_INTERVAL = 100L;
+    private static final long CACHE_DURATION = 3600L * 1000L;
+    
+    private static final int BUFFER_SIZE = 32 * 1024;
     
     private static final String APK_STR = ".apk";
     private static final String XML_STR = ".xml";
@@ -75,13 +78,33 @@ public class ServerProvider implements IServerProvider {
      */
     private boolean downloadFile(String address, OutputStream writeTo) {
         try {
-            URLConnection urlc = new URL(SERVER_URL + address).openConnection();
+            InputStream inputStream = null;
+            int length = 0;
+            FileOutputStream cacheTo = null;
             
-            InputStream inputStream = urlc.getInputStream();
-            byte[] buffer = new byte[32 * 1024];
+            // try to use the cache
+            File cacheFile = new File(TEMPORARY_PATH + String.valueOf(address.hashCode()));
+            if (cacheFile.exists()) {
+                if (cacheFile.lastModified() + CACHE_DURATION < System.currentTimeMillis()) {
+                    cacheFile.delete();
+                    
+                } else {
+                    inputStream = new FileInputStream(cacheFile);
+                    length = (int) cacheFile.length();
+                    
+                }
+            }
+            
+            // nothing found
+            if (inputStream == null) {
+                URLConnection urlc = new URL(SERVER_URL + address).openConnection();
+                inputStream = urlc.getInputStream();
+                length = urlc.getContentLength();
+                cacheTo = new FileOutputStream(cacheFile);
+            }
+            byte[] buffer = new byte[BUFFER_SIZE];
             
             // callback stuff
-            int length = urlc.getContentLength();
             int position = 0;
             long lastCallback = System.currentTimeMillis();
             this.callback.download(0, length);
@@ -93,6 +116,9 @@ public class ServerProvider implements IServerProvider {
                     break;
                 }
                 writeTo.write(buffer, 0, read);
+                if (cacheTo != null) {
+                    cacheTo.write(buffer, 0, read);
+                }
                 
                 // just callback
                 position += read;
@@ -102,7 +128,14 @@ public class ServerProvider implements IServerProvider {
                 }
             }
             
-            // callback
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (cacheTo != null) {
+                cacheTo.close();
+            }
+            
+            // callback            
             this.callback.download(length, length);
             
             return true;
@@ -140,48 +173,26 @@ public class ServerProvider implements IServerProvider {
             Log.e("UTF-8 is missing. This should not happen.", uee);
             rgs = new String[0];
             
-        } finally {
-            try {
-                baos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new RgInformationSet[0];
-            }
         }
         
         result = new RgInformationSet[rgs.length];
         
         // load all the XMLs
+        ByteArrayStreamBridge basb = new ByteArrayStreamBridge(BUFFER_SIZE);
+        
         for (int i = 0; i < rgs.length; i++) {
             this.callback.tasks(1 + i, 1 + rgs.length);
             
-            // maybe this can be done less complicated, but i don't know for now
-            ByteArrayOutputStream xmlbaos = new ByteArrayOutputStream();
-            try {
-                if (!downloadFile(rgs[i] + XML_STR, xmlbaos)) {
-                    return new RgInformationSet[0];
-                }
-                
-                ByteArrayInputStream bais = new ByteArrayInputStream(xmlbaos.toByteArray());
-                try {
-                    result[i] = RgInformationSetParser.createRgInformationSet(bais);
-                    
-                } finally {
-                    try {
-                        bais.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return new RgInformationSet[0];
-                    }
-                }
-            } finally {
-                try {
-                    xmlbaos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return new RgInformationSet[0];
-                }
+            if (!downloadFile(rgs[i] + XML_STR, basb)) {
+                return new RgInformationSet[0];
             }
+            
+            // the BASBridge prevents us from copying a huge amount of arrays
+            long before = System.currentTimeMillis();
+            result[i] = RgInformationSetParser.createRgInformationSet(basb.toInputStream());
+            long after = System.currentTimeMillis();
+            
+            Log.v("Parsing one XML took us " + (after - before) + "ms");
             
             this.callback.tasks(1 + i + 1, 1 + rgs.length);
         }
@@ -228,6 +239,15 @@ public class ServerProvider implements IServerProvider {
         } else {
             this.callback = callback;
         }
+    }
+    
+    
+    @Override
+    public void cleanCache() {
+        for (File f : new File(TEMPORARY_PATH).listFiles()) {
+            f.delete();
+        }
+        
     }
     
 }

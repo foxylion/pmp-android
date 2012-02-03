@@ -5,15 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +20,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.util.KillAppUtil;
 
 public class DebugInstallRGActivity extends Activity {
     
@@ -72,13 +69,7 @@ public class DebugInstallRGActivity extends Activity {
                     
                     // we need to restart PMP since we need a clean DexClassLoader
                     if (uninstall) {
-                        
-                        PendingIntent pi = PendingIntent.getActivity(getBaseContext(), 0, new Intent(getIntent()),
-                                getIntent().getFlags());
-                        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000L, pi);
-                        // this is going to hurt me more than it does you
-                        System.exit(0);
+                        KillAppUtil.killAppAndRestartActivity(DebugInstallRGActivity.this);
                     }
                     
                 } else {
