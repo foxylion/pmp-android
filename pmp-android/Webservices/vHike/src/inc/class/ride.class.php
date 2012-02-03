@@ -230,6 +230,20 @@ class Ride {
         return $this->passengers;
     }
 
+	/**
+	 * Mark an user as picked up
+	 * @return true if succeed, false otherwise
+	 */
+	static function pick_up($user_id, $trip_id){
+		$db = Database::getInstance();
+		$query = $db->query("UPDATE `dev_ride` SET `picked_up`=1 where passenger =$user_id and trip=$trip_id");
+		if($db->getAffectedRows()>0){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
 }
 
 ?>
