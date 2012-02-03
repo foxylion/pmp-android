@@ -33,7 +33,7 @@ public class DebugInstallRGActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        handler = new Handler();
+        this.handler = new Handler();
     }
     
     
@@ -43,17 +43,17 @@ public class DebugInstallRGActivity extends Activity {
         
         final String pkg = getIntent().getStringExtra("pkg");
         
-        pd = new ProgressDialog(this);
-        pd.setTitle("Install Resource Group");
-        pd.setMessage("Injecting '" + pkg + "'...");
-        pd.setCancelable(false);
-        LongTaskProgressDialog<Void, Void, Void> ltpd = new LongTaskProgressDialog<Void, Void, Void>(pd) {
+        this.pd = new ProgressDialog(this);
+        this.pd.setTitle("Install Resource Group");
+        this.pd.setMessage("Injecting '" + pkg + "'...");
+        this.pd.setCancelable(false);
+        LongTaskProgressDialog<Void, Void, Void> ltpd = new LongTaskProgressDialog<Void, Void, Void>(this.pd) {
             
             @Override
             public Void run(Void... params) {
                 if (ModelProxy.get().getResourceGroup(pkg) != null) {
                     final boolean uninstall = ModelProxy.get().uninstallResourceGroup(pkg);
-                    handler.post(new Runnable() {
+                    DebugInstallRGActivity.this.handler.post(new Runnable() {
                         
                         @Override
                         public void run() {
@@ -105,8 +105,8 @@ public class DebugInstallRGActivity extends Activity {
             
             @Override
             protected void onPostExecute(Void result) {
-                pd.dismiss();
-                if (dialog == null) {
+                DebugInstallRGActivity.this.pd.dismiss();
+                if (DebugInstallRGActivity.this.dialog == null) {
                     Toast.makeText(DebugInstallRGActivity.this, "Installed RG successfully.", Toast.LENGTH_SHORT)
                             .show();
                     DebugInstallRGActivity.this.finish();
@@ -135,7 +135,7 @@ public class DebugInstallRGActivity extends Activity {
      * @param msg
      */
     protected void complain(final String title, final String msg) {
-        handler.post(new Runnable() {
+        this.handler.post(new Runnable() {
             
             @Override
             public void run() {
@@ -146,7 +146,7 @@ public class DebugInstallRGActivity extends Activity {
                     
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        pd.dismiss();
+                        DebugInstallRGActivity.this.pd.dismiss();
                         dialog.dismiss();
                         DebugInstallRGActivity.this.finish();
                     }

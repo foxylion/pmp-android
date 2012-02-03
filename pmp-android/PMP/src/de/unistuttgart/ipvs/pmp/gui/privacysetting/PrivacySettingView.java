@@ -34,7 +34,7 @@ public class PrivacySettingView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySetting(getContext(), privacySetting).show();
+                new DialogPrivacySetting(getContext(), PrivacySettingView.this.privacySetting).show();
             }
         });
     }

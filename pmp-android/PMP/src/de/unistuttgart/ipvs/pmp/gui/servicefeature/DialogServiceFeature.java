@@ -94,8 +94,8 @@ public class DialogServiceFeature extends Dialog {
         TextView descriptionTv = (TextView) findViewById(R.id.TextView_Description);
         descriptionTv.setText(serviceFeature.getDescription());
         
-        psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
-        rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
+        this.psContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_PS_Information);
+        this.rgContainer = (LinearLayout) findViewById(R.id.LinearLayout_Container_RG_Information);
         
         refresh();
         
@@ -108,8 +108,8 @@ public class DialogServiceFeature extends Dialog {
         LinearLayout psLayout = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
         psLayout.removeAllViews();
         
-        for (IPrivacySetting privacySetting : serviceFeature.getRequiredPrivacySettings()) {
-            psLayout.addView(new PrivacySettingView(getContext(), serviceFeature, privacySetting));
+        for (IPrivacySetting privacySetting : this.serviceFeature.getRequiredPrivacySettings()) {
+            psLayout.addView(new PrivacySettingView(getContext(), this.serviceFeature, privacySetting));
         }
         
         /* Update the Buttons */
@@ -120,7 +120,7 @@ public class DialogServiceFeature extends Dialog {
         Button addToPreset = (Button) findViewById(R.id.Button_AddToPreset);
         
         /* Update the label of the enable/disable button */
-        if (serviceFeature.isActive()) {
+        if (this.serviceFeature.isActive()) {
             enableDisableButton.setText(getContext().getResources().getString(R.string.disable));
         } else {
             enableDisableButton.setText(getContext().getResources().getString(R.string.enable));
@@ -136,9 +136,9 @@ public class DialogServiceFeature extends Dialog {
         /* Now enable the buttons by request. */
         
         /* Select between available Service Feature and unavailable*/
-        if (serviceFeature.isAvailable()) {
-            psContainer.setVisibility(View.VISIBLE);
-            rgContainer.setVisibility(View.GONE);
+        if (this.serviceFeature.isAvailable()) {
+            this.psContainer.setVisibility(View.VISIBLE);
+            this.rgContainer.setVisibility(View.GONE);
             
             /* Select between expert mode and simple mode */
             if (PMPPreferences.getInstance().isExpertMode()) {
@@ -148,8 +148,8 @@ public class DialogServiceFeature extends Dialog {
                 enableDisableButton.setVisibility(View.VISIBLE);
             }
         } else {
-            psContainer.setVisibility(View.GONE);
-            rgContainer.setVisibility(View.VISIBLE);
+            this.psContainer.setVisibility(View.GONE);
+            this.rgContainer.setVisibility(View.VISIBLE);
             
             oneClickInstallRGs.setVisibility(View.VISIBLE);
             showMissingRGs.setVisibility(View.VISIBLE);
@@ -163,7 +163,7 @@ public class DialogServiceFeature extends Dialog {
     
     
     public IServiceFeature getServiceFeature() {
-        return serviceFeature;
+        return this.serviceFeature;
     }
     
     
@@ -206,7 +206,8 @@ public class DialogServiceFeature extends Dialog {
             
             @Override
             public void onClick(View v) {
-                String[] missingResourceGroup = RGInstaller.getMissingResourceGroups(serviceFeature);
+                String[] missingResourceGroup = RGInstaller
+                        .getMissingResourceGroups(DialogServiceFeature.this.serviceFeature);
                 Intent intent = GUITools.createFilterAvailableRGsIntent(missingResourceGroup);
                 getContext().startActivity(intent);
                 dismiss();
@@ -217,8 +218,10 @@ public class DialogServiceFeature extends Dialog {
             
             @Override
             public void onClick(View v) {
-                String[] missingResourceGroup = RGInstaller.getMissingResourceGroups(serviceFeature);
-                RGInstaller.installResourceGroups(getContext(), handler, missingResourceGroup);
+                String[] missingResourceGroup = RGInstaller
+                        .getMissingResourceGroups(DialogServiceFeature.this.serviceFeature);
+                RGInstaller
+                        .installResourceGroups(getContext(), DialogServiceFeature.this.handler, missingResourceGroup);
                 
                 refresh();
             }
@@ -229,10 +232,11 @@ public class DialogServiceFeature extends Dialog {
             @Override
             public void onClick(View v) {
                 IPreset preset = ModelProxy.get().addUserPreset(
-                        serviceFeature.getApp().getName() + " - " + serviceFeature.getName(), "");
+                        DialogServiceFeature.this.serviceFeature.getApp().getName() + " - "
+                                + DialogServiceFeature.this.serviceFeature.getName(), "");
                 preset.startUpdate();
-                preset.assignApp(serviceFeature.getApp());
-                preset.assignServiceFeature(serviceFeature);
+                preset.assignApp(DialogServiceFeature.this.serviceFeature.getApp());
+                preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
                 preset.endUpdate();
                 
                 if (DialogServiceFeature.this.serviceFeatureView != null) {

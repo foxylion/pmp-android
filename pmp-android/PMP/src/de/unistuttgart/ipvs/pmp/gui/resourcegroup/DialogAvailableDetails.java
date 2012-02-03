@@ -141,7 +141,7 @@ public class DialogAvailableDetails extends Dialog {
                                 Toast.makeText(DialogAvailableDetails.this.getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                                 
-                                tab.updateDownloadList();
+                                DialogAvailableDetails.this.tab.updateDownloadList();
                                 
                                 DialogAvailableDetails.this.dismiss();
                             }
