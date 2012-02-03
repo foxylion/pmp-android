@@ -124,7 +124,7 @@ public class AbsoluteLocationResource extends Resource {
 	
 	
 	public boolean isFixed() {
-		return (System.currentTimeMillis() - lastUpdate) < (calcMinTime() * 2);
+		return fixed;
 		
 	}
 	
@@ -242,7 +242,6 @@ public class AbsoluteLocationResource extends Resource {
 					break;
 			}
 		}
-		
 	}
 	
 	class UpdateRequestVerificator extends TimerTask {
