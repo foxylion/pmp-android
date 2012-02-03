@@ -26,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * @author Marcus Vetter
  * 
  */
-public class PrivacySetting extends BasicIS {
+public class RGISPrivacySetting extends BasicIS {
 
 	/**
 	 * Identifier of the privacy setting
@@ -41,7 +41,7 @@ public class PrivacySetting extends BasicIS {
 	/**
 	 * Constructor without attributes
 	 */
-	public PrivacySetting() {
+	public RGISPrivacySetting() {
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class PrivacySetting extends BasicIS {
 	 * @param validValueDescription
 	 *            validValueDescription to set
 	 */
-	public PrivacySetting(String identifier, String validValueDescription) {
+	public RGISPrivacySetting(String identifier, String validValueDescription) {
 		this.setIdentifier(identifier);
 		this.setValidValueDescription(validValueDescription);
 	}

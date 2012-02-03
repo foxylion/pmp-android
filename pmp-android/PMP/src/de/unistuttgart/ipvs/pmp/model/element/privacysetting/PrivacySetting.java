@@ -57,11 +57,11 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public String getName() {
-        String name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getNames()
-                .get(Locale.getDefault());
+        String name = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                .getNameForLocale(Locale.getDefault());
         if (name == null) {
-            name = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier()).getNames()
-                    .get(Locale.ENGLISH);
+            name = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                    .getNameForLocale(Locale.ENGLISH);
         }
         return name;
     }
@@ -69,11 +69,11 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     @Override
     public String getDescription() {
-        String description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier())
-                .getDescriptions().get(Locale.getDefault());
+        String description = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                .getDescriptionForLocale(Locale.getDefault());
         if (description == null) {
-            description = this.resourceGroup.getRgis().getPrivacySettingsMap().get(getLocalIdentifier())
-                    .getDescriptions().get(Locale.ENGLISH);
+            description = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                    .getDescriptionForLocale(Locale.ENGLISH);
         }
         return description;
     }

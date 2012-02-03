@@ -17,7 +17,7 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * The {@link DialogAvailableDetails} displays informations about an available Resourcegroup.
@@ -26,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
  */
 public class DialogAvailableDetails extends Dialog {
     
-    protected RgInformationSet rgInformation;
+    protected RGIS rgInformation;
     
     private Handler handler;
     
@@ -41,7 +41,7 @@ public class DialogAvailableDetails extends Dialog {
      * @param rgInformation
      *            The informations about the Resourcegroup.
      */
-    public DialogAvailableDetails(TabAvailable tab, RgInformationSet rgInformation) {
+    public DialogAvailableDetails(TabAvailable tab, RGIS rgInformation) {
         super(tab);
         
         this.tab = tab;
@@ -54,16 +54,16 @@ public class DialogAvailableDetails extends Dialog {
         setContentView(R.layout.dialog_resourcegroup_available);
         
         BasicTitleView btv = (BasicTitleView) findViewById(R.id.Title);
-        String title = rgInformation.getNames().get(Locale.getDefault());
+        String title = rgInformation.getNameForLocale(Locale.getDefault());
         if (title == null) {
-            title = rgInformation.getNames().get(Locale.ENGLISH);
+            title = rgInformation.getNameForLocale(Locale.ENGLISH);
         }
         btv.setTitle(title);
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
-        String description = rgInformation.getDescriptions().get(Locale.getDefault());
+        String description = rgInformation.getDescriptionForLocale(Locale.getDefault());
         if (description == null) {
-            description = rgInformation.getDescriptions().get(Locale.ENGLISH);
+            description = rgInformation.getDescriptionForLocale(Locale.ENGLISH);
         }
         tv.setText(description);
         

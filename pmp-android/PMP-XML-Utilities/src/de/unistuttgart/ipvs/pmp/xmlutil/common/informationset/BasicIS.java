@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class abstracts common used fields and methods for information sets
@@ -50,6 +51,22 @@ public abstract class BasicIS {
 	}
 
 	/**
+	 * Get a name-string for a specific locale.
+	 * 
+	 * @param locale
+	 *            locale
+	 * @return the name-string for the given locale. Null, if no name for the
+	 *         given locale exists.
+	 */
+	public String getNameForLocale(Locale locale) {
+		for (Name name : this.names) {
+			if (name.getLocale().getLanguage().equals(locale.getLanguage()))
+				return name.getName();
+		}
+		return null;
+	}
+
+	/**
 	 * Add a name.
 	 * 
 	 * @param name
@@ -76,6 +93,22 @@ public abstract class BasicIS {
 	 */
 	public List<Description> getDescriptions() {
 		return this.descriptions;
+	}
+	
+	/**
+	 * Get a description-string for a specific locale.
+	 * 
+	 * @param locale
+	 *            locale
+	 * @return the description-string for the given locale. Null, if no description for the
+	 *         given locale exists.
+	 */
+	public String getDescriptionForLocale(Locale locale) {
+		for (Description descr : this.descriptions) {
+			if (descr.getLocale().getLanguage().equals(locale.getLanguage()))
+				return descr.getDescription();
+		}
+		return null;
 	}
 
 	/**

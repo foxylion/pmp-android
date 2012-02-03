@@ -71,10 +71,11 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getName() {
-        String name = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getNames()
-                .get(Locale.getDefault());
+        String name = this.app.getAis().getServiceFeatureForIdentifier(getLocalIdentifier())
+                .getNameForLocale(Locale.getDefault());
         if (name == null) {
-            name = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getNames().get(Locale.ENGLISH);
+            name = this.app.getAis().getServiceFeatureForIdentifier(getLocalIdentifier())
+                    .getNameForLocale(Locale.ENGLISH);
         }
         return name;
     }
@@ -82,11 +83,11 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     @Override
     public String getDescription() {
-        String description = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getDescriptions()
-                .get(Locale.getDefault());
+        String description = this.app.getAis().getServiceFeatureForIdentifier(getLocalIdentifier())
+                .getDescriptionForLocale(Locale.getDefault());
         if (description == null) {
-            description = this.app.getAis().getServiceFeaturesMap().get(getLocalIdentifier()).getDescriptions()
-                    .get(Locale.ENGLISH);
+            description = this.app.getAis().getServiceFeatureForIdentifier(getLocalIdentifier())
+                    .getDescriptionForLocale(Locale.ENGLISH);
         }
         return description;
     }

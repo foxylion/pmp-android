@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.server;
 import java.io.File;
 
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * Provider for managing all communication to the RG package server of PMP.
@@ -20,7 +20,7 @@ public interface IServerProvider {
      *            the string for which shall be searched
      * @return an array of RGIS for all resource groups fitting that pattern
      */
-    public RgInformationSet[] findResourceGroups(String searchPattern);
+    public RGIS[] findResourceGroups(String searchPattern);
     
     
     /**

@@ -23,8 +23,8 @@ import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @see IPluginProvider
@@ -76,7 +76,7 @@ public class PluginProvider implements IPluginProvider {
      * fields
      */
     private Map<String, ResourceGroup> cache;
-    private Map<String, RgInformationSet> cacheRGIS;
+    private Map<String, RGIS> cacheRGIS;
     
     /*
      * singleton stuff
@@ -92,7 +92,7 @@ public class PluginProvider implements IPluginProvider {
     
     private PluginProvider() {
         this.cache = new HashMap<String, ResourceGroup>();
-        this.cacheRGIS = new HashMap<String, RgInformationSet>();
+        this.cacheRGIS = new HashMap<String, RGIS>();
         
         if (!PLUGIN_BASE_DIR.mkdirs() && !PLUGIN_BASE_DIR.exists()) {
             Log.e("Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
@@ -237,7 +237,7 @@ public class PluginProvider implements IPluginProvider {
                 }
                 
                 // create the RGIS
-                RgInformationSet rgis = loadRGIS(rgPackage);
+                RGIS rgis = loadRGIS(rgPackage);
                 
                 // extract icon
                 ZipEntry iconEntry = zipApk.getEntry(rgis.getIconLocation());
@@ -336,10 +336,10 @@ public class PluginProvider implements IPluginProvider {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private RgInformationSet loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
+    private RGIS loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(PLUGIN_ASSET_DIR_STR + rgPackage + ".xml");
         try {
-            return RgInformationSetParser.createRgInformationSet(fis);
+            return XMLUtilityProxy.parseRGISXML(fis);
         } finally {
             fis.close();
         }
@@ -366,7 +366,7 @@ public class PluginProvider implements IPluginProvider {
     
     
     @Override
-    public RgInformationSet getRGIS(String rgPackage) {
+    public RGIS getRGIS(String rgPackage) {
         Assert.nonNull(rgPackage, new ModelMisuseError(Assert.ILLEGAL_NULL, "rgPackage", rgPackage));
         checkCached(rgPackage);
         return this.cacheRGIS.get(rgPackage);

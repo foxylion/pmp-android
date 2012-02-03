@@ -30,7 +30,7 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public class RequiredResourceGroup implements Serializable {
+public class AISRequiredResourceGroup implements Serializable {
 
 	/**
 	 * Serial
@@ -41,11 +41,16 @@ public class RequiredResourceGroup implements Serializable {
 	 * Identifier
 	 */
 	private String identifier;
-	
+
+	/**
+	 * Min revision
+	 */
+	private String minRevision;
+
 	/**
 	 * Constructor without attributes
 	 */
-	public RequiredResourceGroup() {
+	public AISRequiredResourceGroup() {
 	}
 
 	/**
@@ -54,15 +59,16 @@ public class RequiredResourceGroup implements Serializable {
 	 * @param identifier
 	 *            identifier to set
 	 */
-	public RequiredResourceGroup(String identifier) {
+	public AISRequiredResourceGroup(String identifier, String minRevision) {
 		this.setIdentifier(identifier);
+		this.setMinRevision(minRevision);
 	}
 
 	/**
 	 * This list contains all required privacy settings of the required resource
 	 * group.
 	 */
-	private List<PrivacySetting> privacySettings = new ArrayList<PrivacySetting>();
+	private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
 
 	/**
 	 * Get the identifier
@@ -84,12 +90,31 @@ public class RequiredResourceGroup implements Serializable {
 	}
 
 	/**
+	 * Get the min revision
+	 * 
+	 * @return the min revision
+	 */
+	public String getMinRevision() {
+		return minRevision;
+	}
+
+	/**
+	 * Set the min revision
+	 * 
+	 * @param minRevision
+	 *            min revision to set
+	 */
+	public void setMinRevision(String minRevision) {
+		this.minRevision = minRevision;
+	}
+
+	/**
 	 * Get all privacy settings of the required resource group
 	 * 
 	 * @return list of privacy settings
 	 */
-	public List<PrivacySetting> getPrivacySettings() {
-		return this.privacySettings;
+	public List<AISRequiredPrivacySetting> getPrivacySettings() {
+		return this.requiredPrivacySettings;
 	}
 
 	/**
@@ -98,8 +123,9 @@ public class RequiredResourceGroup implements Serializable {
 	 * @param privacySetting
 	 *            privacySetting to add
 	 */
-	public void addPrivacySetting(PrivacySetting privacySetting) {
-		this.privacySettings.add(privacySetting);
+	public void addRequiredPrivacySetting(
+			AISRequiredPrivacySetting privacySetting) {
+		this.requiredPrivacySettings.add(privacySetting);
 	}
 
 	/**
@@ -108,8 +134,27 @@ public class RequiredResourceGroup implements Serializable {
 	 * @param privacySetting
 	 *            privacySetting to remove
 	 */
-	public void removePrivacySetting(PrivacySetting privacySetting) {
-		this.privacySettings.remove(privacySetting);
+	public void removeRequiredPrivacySetting(
+			AISRequiredPrivacySetting privacySetting) {
+		this.requiredPrivacySettings.remove(privacySetting);
+	}
+
+	/**
+	 * Get a required privacy setting for a given identifier. Null, if no
+	 * required privacy setting exists for the given identifier.
+	 * 
+	 * @param identifier
+	 *            identifier of the required privacy setting
+	 * @return required privacy setting with given identifier, null if none
+	 *         exists.
+	 */
+	public AISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(
+			String identifier) {
+		for (AISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
+			if (rps.getIdentifier().equals(identifier))
+				return rps;
+		}
+		return null;
 	}
 
 }

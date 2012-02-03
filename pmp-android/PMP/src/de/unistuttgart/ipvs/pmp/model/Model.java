@@ -43,10 +43,12 @@ import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
-import de.unistuttgart.ipvs.pmp.util.xml.XMLParserException;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSet;
-import de.unistuttgart.ipvs.pmp.util.xml.app.AppInformationSetParser;
-import de.unistuttgart.ipvs.pmp.util.xml.rg.RgInformationSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * <p>
@@ -150,7 +152,7 @@ public class Model implements IModel, Observer {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
                     .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
-            AppInformationSet ais = AppInformationSetParser.createAppInformationSet(xmlStream);
+            AIS ais = XMLUtilityProxy.parseAISXML(xmlStream);
             
             // check service availability
             IPCConnection ipcc = new IPCConnection(PMPApplication.getContext());
@@ -172,11 +174,11 @@ public class Model implements IModel, Observer {
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
             // apply new SF to DB, then model
-            for (String sfIdentifier : ais.getServiceFeaturesMap().keySet()) {
+            for (AISServiceFeature sf : ais.getServiceFeatures()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
-                        sfIdentifier, ais.getServiceFeaturesMap().get(sfIdentifier).getRequiredResourceGroups());
+                        sf.getIdentifier(), sf.getRequiredResourceGroups());
                 Assert.nonNull(newSF, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newSF", newSF));
-                this.cache.getServiceFeatures().get(newApp).put(sfIdentifier, newSF);
+                this.cache.getServiceFeatures().get(newApp).put(sf.getIdentifier(), newSF);
             }
             
             // remember that illegal presets have to be enabled once their missing apps get installed
@@ -210,10 +212,10 @@ public class Model implements IModel, Observer {
             Log.w(appPackage + " has failed registration with PMP.", nnfe);
             return new RegistrationResult(false, nnfe.getMessage());
             
-        } catch (final XMLParserException xmlpe) {
+        } catch (final ParserException xmlpe) {
             /* error during XML validation */
             Log.w(appPackage + " has failed registration with PMP.", xmlpe);
-            return new RegistrationResult(false, xmlpe.getDetails());
+            return new RegistrationResult(false, xmlpe.getMessage());
         }
     }
     
@@ -317,7 +319,7 @@ public class Model implements IModel, Observer {
             PluginProvider.getInstance().install(rgPackage);
             
             // get the RGIS
-            RgInformationSet rgis = PluginProvider.getInstance().getRGIS(rgPackage);
+            RGIS rgis = PluginProvider.getInstance().getRGIS(rgPackage);
             
             // check it is valid
             de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
@@ -329,10 +331,11 @@ public class Model implements IModel, Observer {
                 throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
                         rg.getRgPackage());
             }
-            for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
-                AbstractPrivacySetting<?> aps = rg.getPrivacySetting(psIdentifier);
+            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+                AbstractPrivacySetting<?> aps = rg.getPrivacySetting(ps.getIdentifier());
                 if (aps == null) {
-                    throw new InvalidXMLException("PrivacySetting (XML, objects)", psIdentifier, psIdentifier);
+                    throw new InvalidXMLException("PrivacySetting (XML, objects)", ps.getIdentifier(),
+                            ps.getIdentifier());
                 }
             }
             
@@ -343,11 +346,11 @@ public class Model implements IModel, Observer {
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
             // apply new PS to DB, then model
-            for (String psIdentifier : rgis.getPrivacySettingsMap().keySet()) {
+            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
-                        psIdentifier);
+                        ps.getIdentifier());
                 Assert.nonNull(newPS, new ModelIntegrityError(Assert.ILLEGAL_NULL, "newPS", newPS));
-                this.cache.getPrivacySettings().get(newRG).put(psIdentifier, newPS);
+                this.cache.getPrivacySettings().get(newRG).put(ps.getIdentifier(), newPS);
             }
             
             IPCProvider.getInstance().startUpdate();
@@ -388,7 +391,7 @@ public class Model implements IModel, Observer {
                 IPCProvider.getInstance().endUpdate();
             }
             return true;
-        } catch (XMLParserException xmlpe) {
+        } catch (ParserException xmlpe) {
             /* error during XML validation */
             Log.w(rgPackage + " has failed installation with PMP.", xmlpe);
             return false;
