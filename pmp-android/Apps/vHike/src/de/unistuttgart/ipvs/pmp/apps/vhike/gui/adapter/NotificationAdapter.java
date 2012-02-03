@@ -97,18 +97,23 @@ public class NotificationAdapter extends BaseAdapter {
 		TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
 		final Button accept_invite = (Button) entryView
 				.findViewById(R.id.acceptBtn);
-		
 		final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
 
 		// determine which id to receive
 		if (mWhichHitcher == 0) {
-			
+
 			queryID = lqo.get(position).getQueryid();
 			userID = lqo.get(position).getUserid();
 		} else {
 			List<OfferObject> loo = Model.getInstance().getOfferHolder();
 			offerID = loo.get(position).getOffer_id();
 			driverID = loo.get(position).getUser_id();
+		}
+
+		if (Model.getInstance().isInInvitedList(userID)) {
+			Log.i("USERID: " + userID);
+			accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+			accept_invite.invalidate();
 		}
 
 		dismiss.setOnClickListener(new OnClickListener() {
@@ -185,9 +190,10 @@ public class NotificationAdapter extends BaseAdapter {
 		accept_invite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				queryID = lqo.get(position).getQueryid();
-				
+				userID = lqo.get(position).getUserid();
+
 				if (mWhichHitcher == 0) {
 					switch (ctrl.sendOffer(Model.getInstance().getSid(), Model
 							.getInstance().getTripId(), queryID,
@@ -196,8 +202,9 @@ public class NotificationAdapter extends BaseAdapter {
 						Log.i("P: " + position + ", " + queryID);
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
-//
-//						notifyDataSetChanged();
+						Model.getInstance().addToInvitedUser(userID);
+						//
+						// notifyDataSetChanged();
 						Toast.makeText(context, "STATUS_SENT",
 								Toast.LENGTH_SHORT).show();
 
@@ -216,7 +223,7 @@ public class NotificationAdapter extends BaseAdapter {
 								Toast.LENGTH_SHORT).show();
 						break;
 					}
-					
+
 				} else {
 
 					switch (ctrl.handleOffer(Model.getInstance().getSid(),
