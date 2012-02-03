@@ -40,11 +40,6 @@ public class RGIS extends BasicIS {
 	private String identifier;
 
 	/**
-	 * The revision of the resource group
-	 */
-	private String revision;
-
-	/**
 	 * The icon of the resource group
 	 */
 	private String iconLocation;
@@ -87,7 +82,7 @@ public class RGIS extends BasicIS {
 	public void removePrivacySetting(RGISPrivacySetting privacySetting) {
 		this.privacySettings.remove(privacySetting);
 	}
-	
+
 	/**
 	 * Get a privacy setting for a given identifier. Null, if no privacy setting
 	 * exists for the given identifier.
@@ -121,25 +116,6 @@ public class RGIS extends BasicIS {
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
-	}
-
-	/**
-	 * Get the revision of the resource group
-	 * 
-	 * @return the revision
-	 */
-	public String getRevision() {
-		return this.revision;
-	}
-
-	/**
-	 * Set the revision of the resource group
-	 * 
-	 * @param revision
-	 *            the revision of the resource group
-	 */
-	public void setRevision(String revision) {
-		this.revision = revision;
 	}
 
 	/**

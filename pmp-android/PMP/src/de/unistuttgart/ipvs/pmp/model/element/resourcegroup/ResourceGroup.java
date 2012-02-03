@@ -83,7 +83,10 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     @Override
     public int getRevision() {
         checkCached();
-        return new Integer(this.rgis.getRevision());
+        /*
+         * TODO: Get revision out of the apk! Tobis task :-)
+         */
+        return 42;
     }
     
     

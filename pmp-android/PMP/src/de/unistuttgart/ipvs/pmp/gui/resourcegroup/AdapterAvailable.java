@@ -61,7 +61,11 @@ public class AdapterAvailable extends BaseAdapter {
         RGIS rgis = this.rgs.get(position);
         
         String rgId = rgis.getIdentifier();
-        int rgRev = Integer.parseInt(rgis.getRevision());
+        
+        /*
+         * TODO: Get revision out of the apk! Tobis task :-)
+         */
+        int rgRev = 42;
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

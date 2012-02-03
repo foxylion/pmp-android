@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class ISPrinter {
 
 	/**
-	 * Print the app information set to the log
+	 * Print the app information set to the console
 	 * 
 	 * @param ais
 	 *            the app information set for printing
@@ -45,7 +45,7 @@ public class ISPrinter {
 		System.out.println("-----------------------");
 		System.out.println("----- XML-Parser ------");
 		System.out.println("-----------------------");
-		System.out.println("-- App-Information: ---");
+		System.out.println("--------- AIS ---------");
 		System.out.println("-----------------------");
 		for (Name name : ais.getNames()) {
 			System.out.println("Name: " + name.getName() + " (Locale: "
@@ -69,13 +69,9 @@ public class ISPrinter {
 						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
 			}
 			for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
-				System.out.println("Required Resource Group ID: "
-						+ rrg.getIdentifier());
-				System.out.println("minRevision: " + rrg.getMinRevision());
+				System.out.println("Required Resource Group (Identifier: " + rrg.getIdentifier() + ", minRevision: " + rrg.getMinRevision() + ")");
 				for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
-					System.out.println("- Privacy Setting Value: "
-							+ ps.getValue() + " (Identifier: "
-							+ ps.getIdentifier() + ")");
+					System.out.println("- Privacy Setting (Identifier: " + ps.getIdentifier() + ", Value: " + ps.getValue() + ")");
 				}
 			}
 			System.out.println("-----------------------");
@@ -84,7 +80,7 @@ public class ISPrinter {
 	}
 
 	/**
-	 * Print the rg information set to the log
+	 * Print the rgis set to the console
 	 * 
 	 * @param rgis
 	 *            the rg information set for printing
@@ -93,10 +89,9 @@ public class ISPrinter {
 		System.out.println("-----------------------");
 		System.out.println("----- XML-Parser ------");
 		System.out.println("-----------------------");
-		System.out.println("--- Rg-Information: ---");
+		System.out.println("-------- RGIS ---------");
 		System.out.println("-----------------------");
 		System.out.println("Identifier: " + rgis.getIdentifier());
-		System.out.println("Revision: " + rgis.getRevision());
 		System.out.println("IconLocation: " + rgis.getIconLocation());
 		System.out.println("Class Name: " + rgis.getClassName());
 		for (Name name : rgis.getNames()) {
