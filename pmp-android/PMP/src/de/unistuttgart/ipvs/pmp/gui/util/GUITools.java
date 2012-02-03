@@ -8,7 +8,6 @@ import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabAvailable;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-import de.unistuttgart.ipvs.pmp.util.StringUtil;
 
 public class GUITools {
     
@@ -112,7 +111,15 @@ public class GUITools {
     public static Intent createFilterAvailableRGsIntent(String[] filteredRGIdentifiers) {
         Intent intent = new Intent(PMPApplication.getContext(), ActivityResourceGroups.class);
         intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.FILTER_AVAILABLE_RGS);
-        intent.putExtra(GUIConstants.RGS_FILTER, StringUtil.join(",", filteredRGIdentifiers));
+        
+        StringBuffer sb = new StringBuffer();
+        for (String s : filteredRGIdentifiers) {
+            if (sb.length() > 0) {
+                sb.append(",");
+            }
+            sb.append(s);
+        }
+        intent.putExtra(GUIConstants.RGS_FILTER, sb.toString());
         
         return intent;
     }

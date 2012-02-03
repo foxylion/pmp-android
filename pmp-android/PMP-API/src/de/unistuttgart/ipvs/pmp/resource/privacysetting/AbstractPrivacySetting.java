@@ -20,7 +20,6 @@
 package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 import android.content.Context;
-import android.view.View;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
 /**
@@ -154,24 +153,28 @@ public abstract class AbstractPrivacySetting<T> {
     }
     
     
-    public abstract View getView(Context context);
-    
-    
-    public abstract String getViewValue(View view);
-    
-    
     /**
+     * Gets a {@link IPrivacySettingView} to display and edit the privacy setting value.
      * 
+     * @param context
+     *            context to use for the view
+     * 
+     * @return an {@link IPrivacySettingView} that can display and change privacy setting values
      */
-    public abstract void setViewValue(View view, T value) throws PrivacySettingValueException;
+    public abstract IPrivacySettingView<T> getView(Context context);
     
     
     /**
-     * Convenience method for {@link AbstractPrivacySetting#setViewValue(View, Object)} if you only have a string.
+     * Convenience method for {@link IPrivacySettingView#setViewValue(Object)} if you only have a string.
      * 
+     * @param context
+     *            context to use for the view
+     * @param value
+     *            the string to parse
      * @throws PrivacySettingValueException
+     *             if the privacy setting rejected the value
      */
-    public void setViewValue(View view, String value) throws PrivacySettingValueException {
-        setViewValue(view, parseValue(value));
+    public void setViewValue(Context context, String value) throws PrivacySettingValueException {
+        getView(context).setViewValue(parseValue(value));
     }
 }

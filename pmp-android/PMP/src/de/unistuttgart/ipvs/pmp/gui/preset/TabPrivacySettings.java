@@ -28,6 +28,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -109,7 +110,8 @@ public class TabPrivacySettings extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_pss_assign_pss:
-                DialogPrivacySettingAssign dialog = new DialogPrivacySettingAssign(TabPrivacySettings.this, this, this.preset);
+                DialogPrivacySettingAssign dialog = new DialogPrivacySettingAssign(TabPrivacySettings.this, this,
+                        this.preset);
                 
                 // Check, if there are Apps available which are not assigned yet
                 if (dialog.getSizeOfRGList() > 0) {
@@ -155,7 +157,8 @@ public class TabPrivacySettings extends Activity {
                 
                 return true;
             case 2:
-                new DialogConfirmRemovePrivacySetting(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this).show();
+                new DialogConfirmRemovePrivacySetting(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this)
+                        .show();
                 
                 return true;
         }
@@ -200,7 +203,7 @@ public class TabPrivacySettings extends Activity {
         
         AlertDialog.Builder alertDialogChangeValue = new AlertDialog.Builder(this);
         
-        final View psView = ps.getView(this);
+        final IPrivacySettingView<?> psView = ps.getView(this);
         
         // Set currentValue, if the Privacy Setting is already assigned
         String currentValue = this.preset.getGrantedPrivacySettingValue(ps);
@@ -208,19 +211,19 @@ public class TabPrivacySettings extends Activity {
         if (currentValue != null) {
             try {
                 title = getString(R.string.change_value);
-                ps.setViewValue(psView, currentValue);
+                ps.setViewValue(this, currentValue);
             } catch (PrivacySettingValueException e) {
                 // not possible
             }
         } else {
             title = getString(R.string.set_value);
         }
-        alertDialogChangeValue.setView(psView);
+        alertDialogChangeValue.setView(psView.asView());
         alertDialogChangeValue.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                TabPrivacySettings.this.preset.assignPrivacySetting(ps, ps.getViewValue(psView));
+                TabPrivacySettings.this.preset.assignPrivacySetting(ps, psView.getViewValue());
                 TabPrivacySettings.this.updateList();
                 dialog.dismiss();
             }
