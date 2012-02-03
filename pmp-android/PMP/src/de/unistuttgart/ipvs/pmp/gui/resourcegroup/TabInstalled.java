@@ -80,8 +80,8 @@ public class TabInstalled extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int item, long arg3) {
-                new DialogInstalledDetails(TabInstalled.this, TabInstalled.this,
-                        TabInstalled.this.resourceGroups.get(item)).show();
+                new DialogInstalledDetails(TabInstalled.this, TabInstalled.this, TabInstalled.this.resourceGroups
+                        .get(item)).show();
             }
         });
     }

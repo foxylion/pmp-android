@@ -107,7 +107,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void setName(String name) {
         checkCached();
-        Assert.nonNull(name, new ModelMisuseError(Assert.ILLEGAL_NULL, "name", name));
+        Assert.nonNull(name, ModelMisuseError.class, Assert.ILLEGAL_NULL, "name", name);
         this.name = name;
         persist();
     }
@@ -123,7 +123,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void setDescription(String description) {
         checkCached();
-        Assert.nonNull(description, new ModelMisuseError(Assert.ILLEGAL_NULL, "description", description));
+        Assert.nonNull(description, ModelMisuseError.class, Assert.ILLEGAL_NULL, "description", description);
         this.description = description;
         persist();
     }
@@ -140,7 +140,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public String getGrantedPrivacySettingValue(IPrivacySetting privacySetting) {
         checkCached();
-        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
+        Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         return this.privacySettingValues.get(privacySetting);
     }
     
@@ -155,7 +155,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public boolean isAppAssigned(IApp app) {
         checkCached();
-        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
+        Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
         return this.assignedApps.contains(app);
     }
     
@@ -163,7 +163,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void assignApp(IApp app) {
         checkCached();
-        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
+        Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
@@ -173,7 +173,7 @@ public class Preset extends ModelElement implements IPreset {
         if (app instanceof App) {
             ((App) app).addPreset(this);
         } else {
-            throw new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app);
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_CLASS, "app", app));
         }
     }
     
@@ -181,7 +181,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void removeApp(IApp app) {
         checkCached();
-        Assert.nonNull(app, new ModelMisuseError(Assert.ILLEGAL_NULL, "app", app));
+        Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
@@ -191,7 +191,7 @@ public class Preset extends ModelElement implements IPreset {
         if (app instanceof App) {
             ((App) app).removePreset(this);
         } else {
-            throw new ModelIntegrityError(Assert.ILLEGAL_CLASS, "app", app);
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_CLASS, "app", app));
         }
     }
     
@@ -199,8 +199,8 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void assignPrivacySetting(IPrivacySetting privacySetting, String value) {
         checkCached();
-        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
-        Assert.nonNull(value, new ModelMisuseError(Assert.ILLEGAL_NULL, "value", value));
+        Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
+        Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
@@ -214,7 +214,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void removePrivacySetting(IPrivacySetting privacySetting) {
         checkCached();
-        Assert.nonNull(privacySetting, new ModelMisuseError(Assert.ILLEGAL_NULL, "privacySetting", privacySetting));
+        Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).removePrivacySetting(privacySetting);
@@ -228,7 +228,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public void assignServiceFeature(IServiceFeature serviceFeature) {
         checkCached();
-        Assert.nonNull(serviceFeature, new ModelMisuseError(Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature));
+        Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
         
         startUpdate();
         try {
@@ -295,7 +295,7 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public boolean removeMissingApp(MissingApp missingApp) {
         checkCached();
-        Assert.nonNull(missingApp, new ModelMisuseError(Assert.ILLEGAL_NULL, "missingApp", missingApp));
+        Assert.nonNull(missingApp, ModelMisuseError.class, Assert.ILLEGAL_NULL, "missingApp", missingApp);
         
         if (this.missingApps.contains(missingApp) && (this.persistenceProvider != null)) {
             this.missingApps.remove(missingApp);
@@ -327,7 +327,7 @@ public class Preset extends ModelElement implements IPreset {
      * @param a
      */
     public void removeDeletedApp(App a) {
-        Assert.nonNull(a, new ModelIntegrityError(Assert.ILLEGAL_NULL, "a", a));
+        Assert.nonNull(a, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "a", a);
         this.assignedApps.remove(a);
     }
     

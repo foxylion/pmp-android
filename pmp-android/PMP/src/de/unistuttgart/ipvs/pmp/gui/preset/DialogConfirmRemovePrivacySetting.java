@@ -45,9 +45,10 @@ public class DialogConfirmRemovePrivacySetting extends Dialog {
                 DialogConfirmRemovePrivacySetting.this.presetPSsTab
                         .removePrivacySetting(DialogConfirmRemovePrivacySetting.this.privacySetting);
                 
-                Toast.makeText(DialogConfirmRemovePrivacySetting.this.getContext(),
-                        DialogConfirmRemovePrivacySetting.this.getContext().getString(R.string.preset_removed_ps_success),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        DialogConfirmRemovePrivacySetting.this.getContext(),
+                        DialogConfirmRemovePrivacySetting.this.getContext().getString(
+                                R.string.preset_removed_ps_success), Toast.LENGTH_LONG).show();
                 
                 DialogConfirmRemovePrivacySetting.this.dismiss();
             }

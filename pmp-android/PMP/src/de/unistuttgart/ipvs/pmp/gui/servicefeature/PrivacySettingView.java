@@ -54,7 +54,8 @@ public class PrivacySettingView extends LinearLayout {
         View v = layoutInflater.inflate(R.layout.listitem_app_ps, null);
         addView(v);
         
-        setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         
         addListener();
         
@@ -116,7 +117,7 @@ public class PrivacySettingView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySetting(getContext(), privacySetting).show();
+                new DialogPrivacySetting(getContext(), PrivacySettingView.this.privacySetting).show();
             }
         });
     }

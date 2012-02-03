@@ -37,7 +37,7 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
+        throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_METHOD, "storeElementData", this));
     }
     
     

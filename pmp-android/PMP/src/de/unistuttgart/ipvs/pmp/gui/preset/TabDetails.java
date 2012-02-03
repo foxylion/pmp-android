@@ -70,12 +70,12 @@ public class TabDetails extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_details_change_description:
-                new DialogPresetEdit(this, callback, this.preset).show();
+                new DialogPresetEdit(this, this.callback, this.preset).show();
                 break;
             
             case R.id.preset_tab_details_remove:
                 this.preset.setDeleted(true);
-                this.finish();
+                finish();
                 break;
         }
         
@@ -99,7 +99,7 @@ public class TabDetails extends Activity {
             ((ActivityPreset) getParent()).refresh();
         }
         
-        ((TextView) findViewById(R.id.TextView_Description)).setText(preset.getDescription());
+        ((TextView) findViewById(R.id.TextView_Description)).setText(this.preset.getDescription());
         ((TextView) findViewById(R.id.TextView_Statistics)).setText(Html.fromHtml("<html><b>Assigned Apps:</b> "
                 + this.preset.getAssignedApps().length + "<br/>" + "<b>Assigned Privacy Settings:</b> "
                 + this.preset.getGrantedPrivacySettings().length + "<br/><br/>" + "<b>Used Contexts:</b> nyi<br/>"
@@ -143,7 +143,7 @@ public class TabDetails extends Activity {
             @Override
             public void onClick(View v) {
                 String[] missingRGs = RGInstaller.getMissingResourceGroups(TabDetails.this.preset);
-                RGInstaller.installResourceGroups(TabDetails.this, handler, missingRGs);
+                RGInstaller.installResourceGroups(TabDetails.this, TabDetails.this.handler, missingRGs);
             }
         });
         
@@ -163,7 +163,7 @@ public class TabDetails extends Activity {
             
             @Override
             public void onClick(View v) {
-                for (MissingApp app : preset.getMissingApps()) {
+                for (MissingApp app : TabDetails.this.preset.getMissingApps()) {
                     // TODO Implement the remove of missing apps from the preset.
                     // preset.removeApp((IApp) app);
                 }

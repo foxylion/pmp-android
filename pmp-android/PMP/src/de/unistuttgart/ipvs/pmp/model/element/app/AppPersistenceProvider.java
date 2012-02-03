@@ -46,8 +46,8 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         InputStream is = null;
         try {
             Resources appResources = this.element.resourcesOfIdentifierPackage(PMPApplication.getContext());
-            Assert.nonNull(appResources,
-                    new ModelIntegrityError(Assert.ILLEGAL_UNINSTALLED_ACCESS, "app", this.element));
+            Assert.nonNull(appResources, ModelIntegrityError.class, Assert.ILLEGAL_UNINSTALLED_ACCESS, "app",
+                    this.element);
             
             is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
             this.element.ais = XMLUtilityProxy.parseAISXML(is);
@@ -62,7 +62,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     @Override
     protected void storeElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // this method should never be called
-        throw new ModelIntegrityError(Assert.ILLEGAL_METHOD, "storeElementData", this);
+        throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_METHOD, "storeElementData", this));
     }
     
     
