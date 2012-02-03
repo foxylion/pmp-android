@@ -30,105 +30,115 @@ import java.util.Locale;
  * 
  */
 public abstract class BasicIS {
-
-	/**
-	 * This list contains all names.
-	 */
-	protected List<Name> names = new ArrayList<Name>();
-
-	/**
-	 * This list contains all descriptions.
-	 */
-	protected List<Description> descriptions = new ArrayList<Description>();
-
-	/**
-	 * Get all names.
-	 * 
-	 * @return list with names
-	 */
-	public List<Name> getNames() {
-		return this.names;
-	}
-
-	/**
-	 * Get a name-string for a specific locale.
-	 * 
-	 * @param locale
-	 *            locale
-	 * @return the name-string for the given locale. Null, if no name for the
-	 *         given locale exists.
-	 */
-	public String getNameForLocale(Locale locale) {
-		for (Name name : this.names) {
-			if (name.getLocale().getLanguage().equals(locale.getLanguage()))
-				return name.getName();
-		}
-		return null;
-	}
-
-	/**
-	 * Add a name.
-	 * 
-	 * @param name
-	 *            name to add
-	 */
-	public void addName(Name name) {
-		this.names.add(name);
-	}
-
-	/**
-	 * Remove a name.
-	 * 
-	 * @param name
-	 *            name to remove
-	 */
-	public void removeName(Name name) {
-		this.names.remove(name);
-	}
-
-	/**
-	 * Get all descriptions.
-	 * 
-	 * @return list with descriptions
-	 */
-	public List<Description> getDescriptions() {
-		return this.descriptions;
-	}
-	
-	/**
-	 * Get a description-string for a specific locale.
-	 * 
-	 * @param locale
-	 *            locale
-	 * @return the description-string for the given locale. Null, if no description for the
-	 *         given locale exists.
-	 */
-	public String getDescriptionForLocale(Locale locale) {
-		for (Description descr : this.descriptions) {
-			if (descr.getLocale().getLanguage().equals(locale.getLanguage()))
-				return descr.getDescription();
-		}
-		return null;
-	}
-
-	/**
-	 * Add a description
-	 * 
-	 * @param description
-	 *            description to add
-	 */
-	public void addDescription(Description description) {
-		this.descriptions.add(description);
-	}
-
-	/**
-	 * Remove a description
-	 * 
-	 * @param description
-	 *            description to remove
-	 */
-	public void removeDescription(Description description) {
-		this.descriptions.remove(description);
-	}
-
+    
+    /**
+     * This list contains all names.
+     */
+    protected List<Name> names = new ArrayList<Name>();
+    
+    /**
+     * This list contains all descriptions.
+     */
+    protected List<Description> descriptions = new ArrayList<Description>();
+    
+    
+    /**
+     * Get all names.
+     * 
+     * @return list with names
+     */
+    public List<Name> getNames() {
+        return this.names;
+    }
+    
+    
+    /**
+     * Get a name-string for a specific locale.
+     * 
+     * @param locale
+     *            locale
+     * @return the name-string for the given locale. Null, if no name for the
+     *         given locale exists.
+     */
+    public String getNameForLocale(Locale locale) {
+        for (Name name : this.names) {
+            if (name.getLocale().getLanguage().equals(locale.getLanguage())) {
+                return name.getName();
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Add a name.
+     * 
+     * @param name
+     *            name to add
+     */
+    public void addName(Name name) {
+        this.names.add(name);
+    }
+    
+    
+    /**
+     * Remove a name.
+     * 
+     * @param name
+     *            name to remove
+     */
+    public void removeName(Name name) {
+        this.names.remove(name);
+    }
+    
+    
+    /**
+     * Get all descriptions.
+     * 
+     * @return list with descriptions
+     */
+    public List<Description> getDescriptions() {
+        return this.descriptions;
+    }
+    
+    
+    /**
+     * Get a description-string for a specific locale.
+     * 
+     * @param locale
+     *            locale
+     * @return the description-string for the given locale. Null, if no description for the
+     *         given locale exists.
+     */
+    public String getDescriptionForLocale(Locale locale) {
+        for (Description descr : this.descriptions) {
+            if (descr.getLocale().getLanguage().equals(locale.getLanguage())) {
+                return descr.getDescription();
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Add a description
+     * 
+     * @param description
+     *            description to add
+     */
+    public void addDescription(Description description) {
+        this.descriptions.add(description);
+    }
+    
+    
+    /**
+     * Remove a description
+     * 
+     * @param description
+     *            description to remove
+     */
+    public void removeDescription(Description description) {
+        this.descriptions.remove(description);
+    }
+    
 }

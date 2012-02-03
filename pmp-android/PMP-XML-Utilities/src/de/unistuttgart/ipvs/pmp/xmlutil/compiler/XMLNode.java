@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 
  * @author Tobias Kuhn
- *
+ * 
  */
 public class XMLNode {
     

@@ -22,18 +22,20 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 /**
  * 
  * @author Marcus Vetter
- *
+ * 
  */
 public class Name extends AbstractLocale {
-	
-	private String name;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+    
+    private String name;
+    
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }

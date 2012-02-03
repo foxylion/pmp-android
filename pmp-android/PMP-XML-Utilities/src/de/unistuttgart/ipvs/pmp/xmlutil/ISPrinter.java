@@ -34,93 +34,90 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ISPrinter {
-
-	/**
-	 * Print the app information set to the console
-	 * 
-	 * @param ais
-	 *            the app information set for printing
-	 */
-	public static void printAIS(AIS ais) {
-		System.out.println("-----------------------");
-		System.out.println("----- XML-Parser ------");
-		System.out.println("-----------------------");
-		System.out.println("--------- AIS ---------");
-		System.out.println("-----------------------");
-		for (Name name : ais.getNames()) {
-			System.out.println("Name: " + name.getName() + " (Locale: "
-					+ name.getLocale().getLanguage() + ")");
-		}
-		for (Description descr : ais.getDescriptions()) {
-			System.out.println("Description: " + descr.getDescription()
-					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
-		}
-		System.out.println("-----------------------");
-		System.out.println("-- Service Features: --");
-		System.out.println("-----------------------");
-		for (AISServiceFeature sf : ais.getServiceFeatures()) {
-			System.out.println("Identifier: " + sf.getIdentifier());
-			for (Name name : sf.getNames()) {
-				System.out.println("Name: " + name.getName() + " (Locale: "
-						+ name.getLocale().getLanguage() + ")");
-			}
-			for (Description descr : sf.getDescriptions()) {
-				System.out.println("Description: " + descr.getDescription()
-						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
-			}
-			for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
-				System.out.println("Required Resource Group (Identifier: " + rrg.getIdentifier() + ", minRevision: " + rrg.getMinRevision() + ")");
-				for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
-					System.out.println("- Privacy Setting (Identifier: " + ps.getIdentifier() + ", Value: " + ps.getValue() + ")");
-				}
-			}
-			System.out.println("-----------------------");
-		}
-		System.out.println("-----------------------");
-	}
-
-	/**
-	 * Print the rgis set to the console
-	 * 
-	 * @param rgis
-	 *            the rg information set for printing
-	 */
-	public static void printRGIS(RGIS rgis) {
-		System.out.println("-----------------------");
-		System.out.println("----- XML-Parser ------");
-		System.out.println("-----------------------");
-		System.out.println("-------- RGIS ---------");
-		System.out.println("-----------------------");
-		System.out.println("Identifier: " + rgis.getIdentifier());
-		System.out.println("IconLocation: " + rgis.getIconLocation());
-		System.out.println("Class Name: " + rgis.getClassName());
-		for (Name name : rgis.getNames()) {
-			System.out.println("Name: " + name.getName() + " (Locale: "
-					+ name.getLocale().getLanguage() + ")");
-		}
-		for (Description descr : rgis.getDescriptions()) {
-			System.out.println("Description: " + descr.getDescription()
-					+ " (Locale: " + descr.getLocale().getLanguage() + ")");
-		}
-		System.out.println("-----------------------");
-		System.out.println("-- Privacy Settings: --");
-		System.out.println("-----------------------");
-		for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis
-				.getPrivacySettings()) {
-			System.out.println("Identifier: " + ps.getIdentifier());
-			System.out.println("Valid value description: "
-					+ ps.getValidValueDescription());
-			for (Name name : ps.getNames()) {
-				System.out.println("Name: " + name.getName() + " (Locale: "
-						+ name.getLocale().getLanguage() + ")");
-			}
-			for (Description descr : ps.getDescriptions()) {
-				System.out.println("Description: " + descr.getDescription()
-						+ " (Locale: " + descr.getLocale().getLanguage() + ")");
-			}
-			System.out.println("-----------------------");
-		}
-		System.out.println("-----------------------");
-	}
-
+    
+    /**
+     * Print the app information set to the console
+     * 
+     * @param ais
+     *            the app information set for printing
+     */
+    public static void printAIS(AIS ais) {
+        System.out.println("-----------------------");
+        System.out.println("----- XML-Parser ------");
+        System.out.println("-----------------------");
+        System.out.println("--------- AIS ---------");
+        System.out.println("-----------------------");
+        for (Name name : ais.getNames()) {
+            System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+        }
+        for (Description descr : ais.getDescriptions()) {
+            System.out.println("Description: " + descr.getDescription() + " (Locale: "
+                    + descr.getLocale().getLanguage() + ")");
+        }
+        System.out.println("-----------------------");
+        System.out.println("-- Service Features: --");
+        System.out.println("-----------------------");
+        for (AISServiceFeature sf : ais.getServiceFeatures()) {
+            System.out.println("Identifier: " + sf.getIdentifier());
+            for (Name name : sf.getNames()) {
+                System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+            }
+            for (Description descr : sf.getDescriptions()) {
+                System.out.println("Description: " + descr.getDescription() + " (Locale: "
+                        + descr.getLocale().getLanguage() + ")");
+            }
+            for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+                System.out.println("Required Resource Group (Identifier: " + rrg.getIdentifier() + ", minRevision: "
+                        + rrg.getMinRevision() + ")");
+                for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
+                    System.out.println("- Privacy Setting (Identifier: " + ps.getIdentifier() + ", Value: "
+                            + ps.getValue() + ")");
+                }
+            }
+            System.out.println("-----------------------");
+        }
+        System.out.println("-----------------------");
+    }
+    
+    
+    /**
+     * Print the rgis set to the console
+     * 
+     * @param rgis
+     *            the rg information set for printing
+     */
+    public static void printRGIS(RGIS rgis) {
+        System.out.println("-----------------------");
+        System.out.println("----- XML-Parser ------");
+        System.out.println("-----------------------");
+        System.out.println("-------- RGIS ---------");
+        System.out.println("-----------------------");
+        System.out.println("Identifier: " + rgis.getIdentifier());
+        System.out.println("IconLocation: " + rgis.getIconLocation());
+        System.out.println("Class Name: " + rgis.getClassName());
+        for (Name name : rgis.getNames()) {
+            System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+        }
+        for (Description descr : rgis.getDescriptions()) {
+            System.out.println("Description: " + descr.getDescription() + " (Locale: "
+                    + descr.getLocale().getLanguage() + ")");
+        }
+        System.out.println("-----------------------");
+        System.out.println("-- Privacy Settings: --");
+        System.out.println("-----------------------");
+        for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            System.out.println("Identifier: " + ps.getIdentifier());
+            System.out.println("Valid value description: " + ps.getValidValueDescription());
+            for (Name name : ps.getNames()) {
+                System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+            }
+            for (Description descr : ps.getDescriptions()) {
+                System.out.println("Description: " + descr.getDescription() + " (Locale: "
+                        + descr.getLocale().getLanguage() + ")");
+            }
+            System.out.println("-----------------------");
+        }
+        System.out.println("-----------------------");
+    }
+    
 }
