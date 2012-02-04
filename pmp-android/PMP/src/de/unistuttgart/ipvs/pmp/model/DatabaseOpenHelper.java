@@ -75,7 +75,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      * List of all SQL-files for database-clean, the key is the version of the database.
      */
     private static final String whereIsCleanSql(int dbVersion) {
-        return String.format("database-clean-v%d.sql", dbVersion);
+        return String.format("database-v%d-clean.sql", dbVersion);
     }
     
     
@@ -174,7 +174,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         try {
             InputStream is = this.context.getAssets().open(filename);
             InputStreamReader bis = new InputStreamReader(is, Charset.forName("UTF-8"));
-            BufferedReader br = new BufferedReader(bis);
+            BufferedReader br = new BufferedReader(bis, 4096);
             StringBuilder sb = new StringBuilder();
             try {
                 String curLine = null;

@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS Preset_AssignedApp (
 
 
 CREATE TABLE IF NOT EXISTS Context_AnnotatedPrivacySettingValue (
-	PresetSettingResourceGroupPackage TEXT NOT NULL,
+	PrivacySettingResourceGroupPackage TEXT NOT NULL,
 	PrivacySettingIdentifier TEXT NOT NULL,
 	PresetCreator TEXT NOT NULL,
 	PresetIdentifier TEXT NOT NULL,
