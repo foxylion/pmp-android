@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.response;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -65,8 +66,9 @@ public abstract class AbstractResponse implements Serializable {
 	 */
 	protected byte[] toByteArray(InputStream in, boolean compression) {
 		byte[] result = null;
+		
 		try {
-			BufferedReader inR = new BufferedReader(new InputStreamReader(in));
+		    BufferedInputStream inR = new BufferedInputStream(in);
 			ByteArrayOutputStream aios = new ByteArrayOutputStream();
 
 			BufferedOutputStream out;
@@ -77,11 +79,16 @@ public abstract class AbstractResponse implements Serializable {
 				out = new BufferedOutputStream(aios);
 			}
 
-			int readByte;
-
-			while ((readByte = inR.read()) != -1) {
-				out.write(readByte);
-			}
+			final int BUFFER_SIZE = 32 * 1024;
+			byte[] buffer = new byte[BUFFER_SIZE];
+            
+            int read = -1;
+            do {
+                read = inR.read(buffer, 0, BUFFER_SIZE);
+                if (read > -1) {
+                    out.write(buffer, 0, read);
+                }
+            } while (read > -1);
 
 			result = aios.toByteArray();
 
