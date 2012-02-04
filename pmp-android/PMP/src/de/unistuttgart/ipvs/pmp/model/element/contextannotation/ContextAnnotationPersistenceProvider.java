@@ -4,8 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import de.unistuttgart.ipvs.pmp.model.Model;
-import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -34,12 +33,12 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 new String[] { CONTEXT_TYPE, CONTEXT_CONDITION, OVERRIDE_GRANTED_VALUE },
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
                         + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
-                new String[] { getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() }, null, null, null);
         
         if (c.moveToFirst()) {
-            this.element.context = findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
+            this.element.context = PersistenceProvider.findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
             this.element.condition = c.getString(c.getColumnIndex(CONTEXT_CONDITION));
             this.element.overrideValue = c.getString(c.getColumnIndex(OVERRIDE_GRANTED_VALUE));
         } else {
@@ -61,7 +60,7 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 cv,
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
                         + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
-                new String[] { getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() });
     }
@@ -74,7 +73,7 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 "DELETE FROM " + TBL_CONTEXT_ANNOTATIONS + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                         + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND " + PRIVACYSETTING_IDENTIFIER
                         + " = ?",
-                new String[] { getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() });
         
@@ -104,7 +103,7 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
         SQLiteDatabase sqldb = getDoh().getWritableDatabase();
         try {
             ContentValues cv = new ContentValues();
-            cv.put(PRESET_CREATOR, getPresetCreatorString(preset));
+            cv.put(PRESET_CREATOR, PersistenceProvider.getPresetCreatorString(preset));
             cv.put(PRESET_IDENTIFIER, preset.getLocalIdentifier());
             cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, privacySetting.getResourceGroup().getIdentifier());
             cv.put(PRIVACYSETTING_IDENTIFIER, privacySetting.getLocalIdentifier());
@@ -125,30 +124,5 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
         result.setPersistenceProvider(this);
         
         return result;
-    }
-    
-    
-    protected static String getPresetCreatorString(IPreset preset) {
-        if (preset.getCreator() == null) {
-            return PersistenceConstants.PACKAGE_SEPARATOR;
-        } else {
-            return preset.getCreator().getIdentifier();
-        }
-    }
-    
-    
-    /**
-     * 
-     * @param contextId
-     * @return the {@link IContext} for contextName
-     */
-    private static IContext findContext(String contextId) {
-        for (IContext context : Model.getInstance().getContexts()) {
-            if (context.getIdentifier().equals(contextId)) {
-                return context;
-            }
-        }
-        
-        throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_MISSING_CONTEXT, "contextId", contextId));
     }
 }

@@ -39,8 +39,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         qb.setTables(TBL_PRESET);
         Cursor c = qb.query(rdb, new String[] { NAME, DESCRIPTION, DELETED }, CREATOR + " = ? AND " + IDENTIFIER
-                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null,
-                null, null);
+                + " = ?", new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() },
+                null, null, null);
         
         if (c.moveToFirst()) {
             this.element.name = c.getString(c.getColumnIndex(NAME));
@@ -54,8 +54,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         // load privacy setting values
         qb.setTables(TBL_GrantPSValue);
         Cursor cps = qb.query(rdb, new String[] { PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER,
-                GRANTEDVALUE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?",
-                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null, null, null);
+                GRANTEDVALUE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
+                getPresetCreatorString(this.element), this.element.getLocalIdentifier() }, null, null, null);
         
         this.element.privacySettingValues = new HashMap<IPrivacySetting, String>();
         this.element.missingPrivacySettings = new ArrayList<MissingPrivacySettingValue>();
@@ -92,8 +92,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         // load assigned apps
         qb.setTables(TBL_PresetAssignedApp);
         Cursor capp = qb.query(rdb, new String[] { APP_PACKAGE }, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() }, null,
-                null, null);
+                + " = ?", new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() },
+                null, null, null);
         this.element.assignedApps = new ArrayList<IApp>();
         
         if (capp.moveToFirst()) {
@@ -122,8 +122,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         cv.put(DESCRIPTION, this.element.description);
         cv.put(DELETED, String.valueOf(this.element.deleted));
         
-        wdb.update(TBL_PRESET, cv, CREATOR + " = ? AND " + IDENTIFIER + " = ?",
-                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+        wdb.update(TBL_PRESET, cv, CREATOR + " = ? AND " + IDENTIFIER + " = ?", new String[] {
+                getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
     }
     
     
@@ -131,16 +131,16 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete preset granted privacy setting value references
         wdb.execSQL("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                + " = ?", new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+                + " = ?", new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
         // delete preset assigned apps references
         wdb.execSQL("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
                 + PRESET_IDENTIFIER + " = ?",
-                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+                new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
         // delete preset
         wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + CREATOR + " = ? AND " + IDENTIFIER + " = ?",
-                new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier() });
+                new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
     }
     
@@ -150,7 +150,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         try {
             ContentValues cv = new ContentValues();
             cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
-            cv.put(PRESET_CREATOR, this.element.getCreatorString());
+            cv.put(PRESET_CREATOR, getPresetCreatorString(this.element));
             cv.put(APP_PACKAGE, app.getIdentifier());
             
             wdb.insert(PersistenceConstants.TBL_PresetAssignedApp, null, cv);
@@ -163,11 +163,9 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     protected void removeApp(IApp app) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         try {
-            wdb.rawQuery(
-                    "DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
-                            + PRESET_IDENTIFIER + " = ? AND " + APP_PACKAGE + " = ?",
-                    new String[] { this.element.getCreatorString(), this.element.getLocalIdentifier(),
-                            app.getIdentifier() });
+            wdb.rawQuery("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
+                    + PRESET_IDENTIFIER + " = ? AND " + APP_PACKAGE + " = ?", new String[] {
+                    getPresetCreatorString(this.element), this.element.getLocalIdentifier(), app.getIdentifier() });
         } finally {
             wdb.close();
         }
@@ -180,7 +178,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
             ContentValues cv = new ContentValues();
             cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, ps.getResourceGroup().getIdentifier());
             cv.put(PRIVACYSETTING_IDENTIFIER, ps.getLocalIdentifier());
-            cv.put(PRESET_CREATOR, this.element.getCreatorString());
+            cv.put(PRESET_CREATOR, getPresetCreatorString(this.element));
             cv.put(PRESET_IDENTIFIER, this.element.getLocalIdentifier());
             cv.put(GRANTEDVALUE, value);
             
@@ -190,7 +188,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 wdb.update(TBL_GrantPSValue, cv, PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
                         + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                         + " = ?", new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                        this.element.getCreatorString(), this.element.getLocalIdentifier() });
+                        getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
             }
         } finally {
             wdb.close();
@@ -201,12 +199,11 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     protected void removePrivacySetting(IPrivacySetting ps) {
         SQLiteDatabase wdb = getDoh().getWritableDatabase();
         try {
-            wdb.rawQuery(
-                    "DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
-                            + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND "
-                            + PRESET_IDENTIFIER + " = ?",
+            wdb.rawQuery("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
+                    + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_CREATOR + " = ? AND "
+                    + PRESET_IDENTIFIER + " = ?",
                     new String[] { ps.getResourceGroup().getIdentifier(), ps.getLocalIdentifier(),
-                            this.element.getCreatorString(), this.element.getLocalIdentifier() });
+                            getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         } finally {
             wdb.close();
         }

@@ -88,15 +88,6 @@ public class Preset extends ModelElement implements IPreset {
     }
     
     
-    protected String getCreatorString() {
-        if (this.creator == null) {
-            return PersistenceConstants.PACKAGE_SEPARATOR;
-        } else {
-            return this.creator.getIdentifier();
-        }
-    }
-    
-    
     @Override
     public String getName() {
         checkCached();
