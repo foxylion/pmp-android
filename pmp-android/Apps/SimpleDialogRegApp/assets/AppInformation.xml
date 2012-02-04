@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appInformationSet>
 	<appInformation>
-		<defaultName lang="en">SimpleDialogRegApp</defaultName>
-		<defaultDescription lang="en">Just a simple App.</defaultDescription>
+		<name lang="en">SimpleDialogRegApp</name>
+		<description lang="en">Just a simple App.</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="wifiState">
-			<defaultName lang="en">View wifi state</defaultName>
+			<name lang="en">View wifi state</name>
 			<name lang="de">WLAN-Status anzeigen</name>
-			<defaultDescription lang="en">Shows the current wireless state.</defaultDescription>
+			<description lang="en">Shows the current wireless state.</description>
 			<description lang="de">Zeigt den akutellen WLAN-Status an.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
 				<privacySetting identifier="CanWifiState">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="wifiChange">
-			<defaultName lang="en">Change wifi state</defaultName>
+			<name lang="en">Change wifi state</name>
 			<name lang="de">WLAN-Status ändern</name>
-			<defaultDescription lang="en">Ability to change the current wireless state.</defaultDescription>
+			<description lang="en">Ability to change the current wireless state.</description>
 			<description lang="de">Lässt es zu den aktuellen WLAN-Status zu ändern.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
 				<privacySetting identifier="CanWifiSwitch">true</privacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>

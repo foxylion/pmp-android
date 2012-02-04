@@ -57,9 +57,9 @@ public interface IResourceGroup extends IModelElement {
     
     
     /**
-     * @return the revision number as defined in the XML
+     * @return the revision number as the modification date of classes or xml
      */
-    public int getRevision();
+    public long getRevision();
     
     
     /**

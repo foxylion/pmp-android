@@ -76,43 +76,43 @@
     <string name="main_description">Welcome to the Privacy Management Platform. Tap on a button to interact with PMP. You can also enable the expert-mode in the settings.</string>
 
     <plurals name="main_statistics_apps">
-        <item quantity="zero">- No Apps are registered so far</item>
-        <item quantity="one">- 1 App is registered so far</item>
-        <item quantity="other">- %d Apps are registered so far</item>
+        <item quantity="zero">- No Apps are registered yet</item>
+        <item quantity="one">- 1 App is registered yet</item>
+        <item quantity="other">- %d Apps are registered yet</item>
     </plurals>
     <plurals name="main_statistics_rgs">
-        <item quantity="zero">- No Resourcegroups are installed</item>
-        <item quantity="one">- 1 Resourcegroup is installed</item>
-        <item quantity="other">- %d Resourcegroups are installed</item>
+        <item quantity="zero">- No Resourcegroups were installed</item>
+        <item quantity="one">- 1 Resourcegroup was installed</item>
+        <item quantity="other">- %d Resourcegroups were installed</item>
     </plurals>
     <plurals name="main_statistics_presets">
-        <item quantity="zero">- No Presets are created</item>
-        <item quantity="one">- 1 Preset is created</item>
-        <item quantity="other">- %d Presets are created</item>
+        <item quantity="zero">- No Presets have been created</item>
+        <item quantity="one">- 1 Preset has been created</item>
+        <item quantity="other">- %d Presets have been created</item>
     </plurals>
 
-    <string name="main_presets_disabled">The Presets are only available over the expert mode, please enable it in the settings to use the Presets feature.</string>
+    <string name="main_presets_disabled">The Presets are only available in the expert mode, please enable it in the settings to use the Presets feature.</string>
 
     <!-- Settings -->
     <string name="settings_expertmode_description">Enables the Presets feature in PMP</string>
     <string name="settings_preset_trash_bin_visible">Preset trash bin visible</string>
-    <string name="settings_preset_trash_bin_description">Check to show the trashed Presets</string>
+    <string name="settings_preset_trash_bin_description">Check to show the trashed Presets.</string>
 
     <!-- Apps -->
-    <string name="apps_description">All at PMP registered Apps are listed here. Select an App to view more information.</string>
+    <string name="apps_description">All Apps registered at PMP are listed here. Select an App to view more information.</string>
     <string name="apps_no_apps">Currently there are no Apps registered at PMP. Install a compatible App to fill the list.</string>
 
     <!-- App Details -->
-    <string name="app_servicefeature_enabled">The Service Feature \'%s\' is now active.</string>
-    <string name="app_servicefeature_disabled">The Service Feature \'%s\' is now disabled.</string>
-    <string name="app_removed">App has been successfully unregistered from PMP.</string>
-    <string name="app_not_opened">App can\'t be opened.</string>
-    <string name="app_successfully_unregistered">App has been successfully unregistered from PMP.</string>
+    <string name="app_servicefeature_enabled">The Service Feature \'%s\' has been actived.</string>
+    <string name="app_servicefeature_disabled">The Service Feature \'%s\' has been deactivated.</string>
+    <string name="app_removed">App was successfully removed from PMP.</string>
+    <string name="app_not_opened">App cannot be opened.</string>
+    <string name="app_successfully_unregistered">App was successfully removed from PMP.</string>
 
     <!-- Service Features Tab/Dialog -->
     <string name="service_feature_title">Details: %1$s</string>
     <string name="ps_invalid_value">required value is invalid</string>
-    <string name="tab_sfs_description_simplemode">Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed out entries are not available, tap to view more details, why.</string>
+    <string name="tab_sfs_description_simplemode">Enabled Service Features are green and have a tick. Disabled Service Features are red and have a cross. Greyed-out entries are not available, tap to view more details about why.</string>
     <string name="tab_sfs_description_expertmode">Enabled Service Features are green, disabled Service Features are red. In the expert mode you can change them by adding Presets to the App.</string>
     <string name="missing_rgs_description">You have to install the missing Resources before you can use the Service Feature.</string>
     <string name="missing_rgs_show">Show missing Resources</string>
@@ -122,10 +122,10 @@
     <string name="button_add_to_preset">Add to\nPreset</string>
     <string name="app_sf_back_to_the_app">Done, back to the App.</string>
     <string name="add_sf_to_preset">Add Service Feature to Preset</string>
-    <string name="add_sf_to_preset_description">Add on a Preset to add the Privacy Settings of the Service Feature to that Preset.</string>
+    <string name="add_sf_to_preset_description">Adds the Privacy Settings of this Service Feature to a Preset.</string>
 
     <!-- App-Presets Tab -->
-    <string name="tab_presets_description_simplemode">You can only use the Presets feature if you enable the Expert Mode in the settings.</string>
+    <string name="tab_presets_description_simplemode">You can only use the Presets feature, if you enable the Expert Mode in the settings.</string>
     <string name="tab_presets_description_expertmode">You can tap on a Preset to change it or use the menu to assign another Preset to the App.</string>
     <string name="tab_presets_no_presets">Currently there are no Presets assigned to the App. Assign some Presets to fill the list.</string>
 
@@ -135,34 +135,34 @@
     <string name="rg_removed_success">The Resource has been successfully removed. Restarting PMP, please wait a second.</string>
     <string name="rg_processing_installation">Processing installation request…</string>
     <string name="rg_confirm_remove">Confirm removing Resource</string>
-    <string name="rg_confirm_description">The Resource \'%1$s\' is going to be removed. If you confirm this all stored informations of the Resource will be deleted.</string>
-    <string name="rgs_installed_no_rgs">Currently there are no Resources installed. Install a Resource over the \'Available\'-tab to fill the list.</string>
+    <string name="rg_confirm_description">The Resource \'%1$s\' is going to be removed. If you confirm this all stored data of the Resource will be deleted as well.</string>
+    <string name="rgs_installed_no_rgs">Currently there are no Resources installed. Install a Resource using the \'Available\' tab to fill the list.</string>
     <string name="install_progress_overall">Overall progress</string>
     <string name="install_progress_task">Progress of current task</string>
 
     <!-- Overview of Presets -->
     <string name="presets_description">All existing Presets are listed here. Select a Preset to view more information.</string>
     <string name="presets_alert_clear_trash_bin">Are you sure to clear the trash bin?</string>
-    <string name="presets_no_presets_existing">There are currently no Presets existing.</string>
+    <string name="presets_no_presets_existing">There are currently no Presets.</string>
     <string name="presets_trash_bin_empty">The trash bin is empty.</string>
 
     <!-- One Preset / Tab: Details -->
-    <string name="preset_missing_apps_or_rgs">The Preset has been disabled, because Resources missing, or a assigned App has been removed.\nUse the buttons below to fix the problems.</string>
+    <string name="preset_missing_apps_or_rgs">The Preset has been disabled, because Resources are missing, or an assigned App has been removed.\nUse the buttons below to fix the problems.</string>
     <string name="button_remove_missing_apps">Remove\nmissing Apps</string>
 
     <!-- One Preset / Tab: Apps -->
-    <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on menu to assign Apps.</string>
+    <string name="preset_tab_apps_no_apps_assigned">There are currently no Apps assigned.\nClick on the menu to assign Apps.</string>
     <string name="preset_tab_apps_all_apps_assigned">All currently available Apps are already assigned.</string>
 
     <!-- One Preset / Tab: Privacy Settings -->
     <string name="preset_tab_pss_no_pss_assigned">There are currently no Privacy Settings assigned.\nClick on menu to assign Privacy Settings.</string>
     <string name="preset_tab_pss_all_pss_already_assigned">All currently available Privacy Settings are already assigned.</string>
     <string name="preset_confirm_remove_ps">Confirm removing Privacy Setting</string>
-    <string name="preset_confirm_remove_ps_description">The Privacy Setting \'%1$s\' is going to be removed. If you confirm this all stored informations in the Privacy Setting will be removed as well.</string>
+    <string name="preset_confirm_remove_ps_description">The Privacy Setting \'%1$s\' is going to be removed. If you confirm this all stored data in the Privacy Setting will be removed as well.</string>
     <string name="preset_removed_ps_success">The Privacy Setting has been successfully removed from the Preset.</string>
 
     <!-- About the app -->
-    <string name="about_text">The Privacy Management Platform is developed, in case of a research project, at University Stuttgart.</string>
+    <string name="about_text">The Privacy Management Platform is developed as a research project at the University Stuttgart.</string>
 
     <!-- Developer console -->
     <string name="dev_con_launcher_activity">Launcher Activity</string>

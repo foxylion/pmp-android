@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
@@ -174,8 +176,9 @@ public class Model implements IModel, Observer {
             for (AISServiceFeature aissf : ais.getServiceFeatures()) {
                 for (AISRequiredResourceGroup aisrrg : aissf.getRequiredResourceGroups()) {
                     IResourceGroup rg = getResourceGroup(aisrrg.getIdentifier());
-                    if ((rg != null) && (rg.getRevision() < new Integer(aisrrg.getMinRevision()))) {
-                        /* error during connecting to service */
+                    
+                    if ((rg != null) && (rg.getRevision() < new Long(aisrrg.getMinRevision()))) {
+                        /* error during resource group request */
                         Log.w(appPackage + " requests newer ResourceGroups.");
                         return new RegistrationResult(false, "Requesting newer ResourceGroups not supported.");
                     }
@@ -612,4 +615,28 @@ public class Model implements IModel, Observer {
         return result.toArray(new IContext[result.size()]);
     }
     
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations() {
+        checkCached();
+        List<IContextAnnotation> result = this.cache.getAllContextAnnotations();
+        return result.toArray(new IContextAnnotation[result.size()]);
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations(IContext context) {
+        checkCached();
+        Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
+        
+        List<IContextAnnotation> allCAs = this.cache.getAllContextAnnotations();
+        List<IContextAnnotation> result = new ArrayList<IContextAnnotation>();
+        for (IContextAnnotation ca : allCAs) {
+            if (ca.getContext().equals(context)) {
+                result.add(ca);
+            }
+        }
+        
+        return result.toArray(new IContextAnnotation[result.size()]);
+    }
 }

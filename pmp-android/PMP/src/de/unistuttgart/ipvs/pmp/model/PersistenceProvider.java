@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,11 +11,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.context.TimeContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotationPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySettingPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -143,6 +153,13 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 p.checkCached();
             }
         }
+        for (Map<IPrivacySetting, List<ContextAnnotation>> psMap : this.cache.getContextAnnotations().values()) {
+            for (List<ContextAnnotation> caList : psMap.values()) {
+                for (ContextAnnotation ca : caList) {
+                    ca.checkCached();
+                }
+            }
+        }
         
     }
     
@@ -160,6 +177,8 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             cacheAppsSFs(db);
             cacheRGsPSs(db);
             cachePresets(db);
+            cacheCAs(db);
+            cacheContexts(db);
             
         } finally {
             db.close();
@@ -295,6 +314,116 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         }
         cursor.close();
         
+    }
+    
+    
+    /**
+     * Caches all the {@link ContextAnnotation}s.
+     * 
+     * @param db
+     */
+    private void cacheCAs(SQLiteDatabase db) {
+        SQLiteQueryBuilder builder = this.doh.builder();
+        builder.setTables(TBL_CONTEXT_ANNOTATIONS);
+        
+        Cursor cursor = builder.query(db, new String[] { PRESET_CREATOR, PRESET_IDENTIFIER,
+                PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER }, null, null, null, null, null);
+        
+        if (cursor.moveToFirst()) {
+            do {
+                // find the data, translate it
+                // preset
+                String pCreator = cursor.getString(cursor.getColumnIndex(PRESET_CREATOR));
+                IModelElement pCreatorElement = this.cache.getApps().get(pCreator);
+                if (pCreatorElement == null) {
+                    pCreatorElement = this.cache.getResourceGroups().get(pCreator);
+                }
+                String pIdentifier = cursor.getString(cursor.getColumnIndex(PRESET_IDENTIFIER));
+                // translate
+                Map<String, Preset> creatorPresets = this.cache.getPresets().get(pCreatorElement);
+                if (creatorPresets == null) {
+                    continue;
+                }
+                Preset preset = creatorPresets.get(pIdentifier);
+                if (preset == null) {
+                    continue;
+                }
+                
+                // ps
+                String psRGPackage = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
+                String psIdentifier = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+                // translate
+                ResourceGroup psRG = this.cache.getResourceGroups().get(psRGPackage);
+                if (psRG == null) {
+                    continue;
+                }
+                PrivacySetting ps = this.cache.getPrivacySettings().get(psRG).get(psIdentifier);
+                if (ps == null) {
+                    continue;
+                }
+                
+                // create item
+                ContextAnnotation ca = new ContextAnnotation(preset, ps);
+                ca.setPersistenceProvider(new ContextAnnotationPersistenceProvider(ca));
+                
+                // apply to cache
+                Map<IPrivacySetting, List<ContextAnnotation>> psList = this.cache.getContextAnnotations().get(preset);
+                if (psList == null) {
+                    psList = new HashMap<IPrivacySetting, List<ContextAnnotation>>();
+                    this.cache.getContextAnnotations().put(preset, psList);
+                }
+                List<ContextAnnotation> caList = psList.get(ps);
+                if (caList == null) {
+                    caList = new ArrayList<ContextAnnotation>();
+                    psList.put(ps, caList);
+                }
+                caList.add(ca);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        
+    }
+    
+    
+    /**
+     * Caches all the {@link IContext}s.
+     * 
+     * @param db
+     */
+    private void cacheContexts(SQLiteDatabase db) {
+        this.cache.getContexts().add(new TimeContext());
+        
+    }
+    
+    
+    /**
+     * Translates the creator of a preset into a DB string
+     * 
+     * @param preset
+     * @return
+     */
+    protected final static String getPresetCreatorString(IPreset preset) {
+        if (preset.getCreator() == null) {
+            return PersistenceConstants.PACKAGE_SEPARATOR;
+        } else {
+            return preset.getCreator().getIdentifier();
+        }
+    }
+    
+    
+    /**
+     * 
+     * @param contextId
+     * @return the {@link IContext} for contextName
+     */
+    protected final static IContext findContext(String contextId) {
+        for (IContext context : Model.getInstance().getContexts()) {
+            if (context.getIdentifier().equals(contextId)) {
+                return context;
+            }
+        }
+        
+        throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_MISSING_CONTEXT, "contextId", contextId));
     }
     
 }

@@ -18,9 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
+import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * The {@link TabAvailable} contains all available Resourcegroups.
@@ -49,7 +49,7 @@ public class TabAvailable extends Activity {
     /**
      * List of all registered Apps.
      */
-    protected List<RGIS> rgisList;
+    protected List<LocalizedResourceGroup> rgisList;
     
     /**
      * {@link ListView} is the view reference for the Resource Groups list.
@@ -135,8 +135,8 @@ public class TabAvailable extends Activity {
                     }
                 });
                 
-                final RGIS[] informationSets = ServerProvider.getInstance()
-                        .findResourceGroups(TabAvailable.this.filter);
+                final LocalizedResourceGroup[] informationSets = ServerProvider.getInstance().findResourceGroups(
+                        TabAvailable.this.filter);
                 
                 /* Parse the downloaded list */
                 runOnUiThread(new Runnable() {
@@ -159,7 +159,7 @@ public class TabAvailable extends Activity {
      * @param informationSets
      *            Downloaded informationsets.
      */
-    protected void parseDownloadedList(RGIS[] informationSets) {
+    protected void parseDownloadedList(LocalizedResourceGroup[] informationSets) {
         this.lastUpdateContainer.setVisibility(View.VISIBLE);
         this.updateProgressContainer.setVisibility(View.GONE);
         

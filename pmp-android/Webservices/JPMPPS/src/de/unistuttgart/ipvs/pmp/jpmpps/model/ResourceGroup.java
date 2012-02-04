@@ -3,7 +3,16 @@ package de.unistuttgart.ipvs.pmp.jpmpps.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * Class which holds the information about a resource group (identifier, name,
@@ -16,12 +25,16 @@ public class ResourceGroup {
 
 	private File path;
 	
+	private RGIS parsedRGIS = null;
+	
+	private long revision = Long.MIN_VALUE;
+
 	/**
 	 * Creates a new ResourceGroup.
 	 */
-	public ResourceGroup(String filename) throws FileNotFoundException {
-		this.path = new File(filename);
-		
+	public ResourceGroup(File filename) throws FileNotFoundException {
+		this.path = filename;
+
 		if (!this.path.isFile()) {
 			throw new FileNotFoundException();
 		}
@@ -46,4 +59,47 @@ public class ResourceGroup {
 
 		return null;
 	}
+
+	public RGIS getRGIS() {
+		if(parsedRGIS != null) {
+			return parsedRGIS;
+		}
+		
+		/* Start new parsing proccess. */
+		RGISParser parser = new RGISParser();
+
+		try {
+			ZipFile zip = new ZipFile(getPath());
+			ZipEntry entry = zip.getEntry("assets/rgis.xml");
+			if (entry == null) {
+				System.out.println("[E] rgis.xml does not exist in package " + getPath().getName()+ ".");
+				return null;
+			}
+			InputStream stream = zip.getInputStream(entry);
+			parsedRGIS = parser.parse(stream);
+			
+		} catch (IOException e) {
+			System.out.println("[E] Failed to load rgis.xml from package " + getPath().toString() + ", skipping. (Error: " + e.getMessage() + ")");
+		}
+		
+		/* Load the revision of the rg */
+		
+		
+		return parsedRGIS;
+	}
+
+    public LocalizedResourceGroup getLocalized(String locale) {
+        LocalizedResourceGroup lrg = new LocalizedResourceGroup();
+        
+        String name = getRGIS().getNameForLocale(new Locale(locale));
+        lrg.setName(name != null ? name : getRGIS().getNameForLocale(Locale.ENGLISH));
+        
+        String description = getRGIS().getDescriptionForLocale(new Locale(locale));
+        lrg.setDescription(description != null ? description : getRGIS().getDescriptionForLocale(Locale.ENGLISH));
+        
+        lrg.setIdentifier(getRGIS().getIdentifier());
+        lrg.setRevision(RevisionReader.get().readRevision(path));
+        
+        return lrg;
+    }
 }

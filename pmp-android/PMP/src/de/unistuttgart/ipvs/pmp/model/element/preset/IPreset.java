@@ -19,8 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -258,4 +260,41 @@ public interface IPreset extends IModelElement {
      * @return true, if and only if the missing app was actually missing in this presets and the removal was successful
      */
     public boolean removeMissingApp(MissingApp missingApp);
+    
+    
+    /**
+     * Gets all the {@link IContextAnnotation}s for a privacy setting in this preset.
+     * 
+     * @param privacySetting
+     *            annotated {@link IPrivacySetting}
+     * @return a list of all {@link IContextAnnotation} that annotate privacySetting
+     */
+    public IContextAnnotation[] getContextAnnotations(IPrivacySetting privacySetting);
+    
+    
+    /**
+     * Assigns a new {@link IContextAnnotation} to a privacy setting in this preset.
+     * 
+     * @param privacySetting
+     *            annotated {@link IPrivacySetting}
+     * @param context
+     *            the context to use
+     * @param contextCondition
+     *            the condition for the context under which this annotation shall be active
+     * @param overrideValue
+     *            the privacy setting value that should override the preset value, if this context is active
+     */
+    public void assignContextAnnotation(IPrivacySetting privacySetting, IContext context, String contextCondition,
+            String overrideValue);
+    
+    
+    /**
+     * Removes an existing {@link IContextAnnotation} from a privacy setting in this preset.
+     * 
+     * @param privacySetting
+     *            annotated {@link IPrivacySetting}
+     * @param contextAnnotation
+     *            the context annotation to remove
+     */
+    public void removeContextAnnotation(IPrivacySetting privacySetting, IContextAnnotation contextAnnotation);
 }

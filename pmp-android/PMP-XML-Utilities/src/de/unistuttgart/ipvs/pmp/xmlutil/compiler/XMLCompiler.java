@@ -26,7 +26,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * 
  * @author Tobias Kuhn
- *
+ * 
  */
 public class XMLCompiler {
     

@@ -14,6 +14,13 @@ import de.unistuttgart.ipvs.pmp.service.PMPService;
 public interface IContext {
     
     /**
+     * 
+     * @return a unique, simple text identifier for this context
+     */
+    public String getIdentifier();
+    
+    
+    /**
      * @return the localized name of the context
      */
     public String getName();
@@ -56,4 +63,5 @@ public interface IContext {
      * @return true, if and only if condition was true after the last state update
      */
     public boolean getLastState(String condition);
+    
 }

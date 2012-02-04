@@ -2,7 +2,6 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation
 		identifier="gov.gps"
-		revision="1"
 		icon="location.of.the.icon"
 		className="xy">
 		<name lang="en">GPS</name>

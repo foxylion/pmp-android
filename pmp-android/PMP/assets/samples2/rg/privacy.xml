@@ -2,7 +2,6 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation
 		identifier="de.bka.bundestrojaner"
-		revision="12"
 		icon="location.of.the.icon"
 		className="xy">
 		<name lang="en">Privacy</name>

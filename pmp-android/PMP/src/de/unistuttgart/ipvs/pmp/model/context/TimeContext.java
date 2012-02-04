@@ -9,6 +9,12 @@ public class TimeContext implements IContext {
     
     
     @Override
+    public String getIdentifier() {
+        return "TimeContext";
+    }
+    
+    
+    @Override
     public String getName() {
         // TODO Auto-generated method stub
         return null;

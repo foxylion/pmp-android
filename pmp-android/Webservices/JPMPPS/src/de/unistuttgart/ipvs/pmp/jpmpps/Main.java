@@ -32,6 +32,7 @@ public class Main {
 		}
 
 		// Start the server
-		new JPMPPS(args[0]);
+		JPMPPS.get(new File(args[0])).initialize();
+		JPMPPS.get().startServer();
 	}
 }

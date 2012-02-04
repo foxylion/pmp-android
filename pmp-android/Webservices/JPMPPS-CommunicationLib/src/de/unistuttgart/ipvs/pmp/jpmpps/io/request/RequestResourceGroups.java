@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
-import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 
 /**
  * Message should be submitted when a list of available {@link ResourceGroup}s
@@ -20,6 +19,7 @@ public class RequestResourceGroups implements IRequest {
 	
 	private String locale;
 	private String filter;
+	private byte[] hash;
 
 	/**
 	 * Creates a new request for the given locale.
@@ -37,12 +37,17 @@ public class RequestResourceGroups implements IRequest {
 	 * @param filter Filter which should be applied on the search.
 	 */
 	public RequestResourceGroups(String locale, String filter) {
+		this(locale, filter, null);
+	}
+	
+	public RequestResourceGroups(String locale, String filter, byte[] hash) {
 		this.locale = locale;
 
 		if (filter == null) {
 			filter = "";
 		}
 		this.filter = filter;
+		this.hash = hash;
 	}
 
 	/**
@@ -57,5 +62,12 @@ public class RequestResourceGroups implements IRequest {
 	 */
 	public String getFilter() {
 		return this.filter;
+	}
+	
+	/**
+	 * @return Returns the hash of the request.
+	 */
+	public byte[] getHash() {
+		return hash;
 	}
 }

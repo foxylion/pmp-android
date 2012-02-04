@@ -8,7 +8,10 @@ import java.util.Map;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
@@ -31,6 +34,7 @@ public class ModelCache {
     private Map<String, ResourceGroup> resourceGroups;
     private Map<App, Map<String, ServiceFeature>> serviceFeatures;
     private List<IContext> contexts;
+    private Map<Preset, Map<IPrivacySetting, List<ContextAnnotation>>> contextAnnotations;
     
     
     public ModelCache() {
@@ -40,6 +44,7 @@ public class ModelCache {
         this.resourceGroups = new HashMap<String, ResourceGroup>();
         this.serviceFeatures = new HashMap<App, Map<String, ServiceFeature>>();
         this.contexts = new ArrayList<IContext>();
+        this.contextAnnotations = new HashMap<Preset, Map<IPrivacySetting, List<ContextAnnotation>>>();
     }
     
     
@@ -70,8 +75,8 @@ public class ModelCache {
     
     public List<Preset> getAllPresets() {
         List<Preset> result = new ArrayList<Preset>();
-        for (IModelElement me : this.presets.keySet()) {
-            result.addAll(this.presets.get(me).values());
+        for (Map<String, Preset> creatorMap : this.presets.values()) {
+            result.addAll(creatorMap.values());
         }
         return result;
     }
@@ -81,4 +86,20 @@ public class ModelCache {
         return this.contexts;
     }
     
+    
+    public Map<Preset, Map<IPrivacySetting, List<ContextAnnotation>>> getContextAnnotations() {
+        return this.contextAnnotations;
+    }
+    
+    
+    public List<IContextAnnotation> getAllContextAnnotations() {
+        List<IContextAnnotation> result = new ArrayList<IContextAnnotation>();
+        
+        for (Map<IPrivacySetting, List<ContextAnnotation>> psMap : this.contextAnnotations.values()) {
+            for (List<ContextAnnotation> list : psMap.values()) {
+                result.addAll(list);
+            }
+        }
+        return result;
+    }
 }

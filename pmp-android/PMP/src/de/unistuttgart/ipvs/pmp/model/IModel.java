@@ -23,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
@@ -207,6 +208,22 @@ public interface IModel {
      * @return all {@link IContext}s known by PMP.
      */
     public IContext[] getContexts();
+    
+    
+    /**
+     * 
+     * @return all {@link IContextAnnotation} known by PMP.
+     */
+    public IContextAnnotation[] getContextAnnotations();
+    
+    
+    /**
+     * 
+     * @param context
+     *            the context that the resulting {@link IContextAnnotation}s must use
+     * @return all {@link IContextAnnotation} using a specific context
+     */
+    public IContextAnnotation[] getContextAnnotations(IContext context);
     
     
     /**
