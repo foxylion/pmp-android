@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotationPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
@@ -46,7 +47,7 @@ public class Preset extends ModelElement implements IPreset {
      */
     protected Map<IPrivacySetting, String> privacySettingValues;
     protected List<IApp> assignedApps;
-    protected Map<IPrivacySetting, List<IContextAnnotation>> contextAnnotations;
+    protected Map<IPrivacySetting, List<ContextAnnotation>> contextAnnotations;
     
     protected List<MissingPrivacySettingValue> missingPrivacySettings;
     protected List<MissingApp> missingApps;
@@ -310,7 +311,7 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         
-        List<IContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
+        List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
         if (psList == null) {
             return new IContextAnnotation[0];
         }
@@ -329,15 +330,14 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
         
         // the cA are linked to the cache directly
-        List<IContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
+        List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
         if (psList == null) {
-            psList = new ArrayList<IContextAnnotation>();
+            psList = new ArrayList<ContextAnnotation>();
             this.contextAnnotations.put(privacySetting, psList);
         }
         
-        IContextAnnotation ca = new ContextAnnotationPersistenceProvider(null).createElementData(this, privacySetting,
+        ContextAnnotation ca = new ContextAnnotationPersistenceProvider(null).createElementData(this, privacySetting,
                 context, contextCondition, overrideValue);
-        
         psList.add(ca);
         
         rollout();
@@ -353,13 +353,13 @@ public class Preset extends ModelElement implements IPreset {
                 contextCondition);
         
         // the cA are linked to the cache directly
-        List<IContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
+        List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
         if (psList == null) {
             return;
         }
         
-        IContextAnnotation toRemove = null;
-        for (IContextAnnotation ca : psList) {
+        ContextAnnotation toRemove = null;
+        for (ContextAnnotation ca : psList) {
             if (ca.getContext().equals(context) && ca.getContextCondition().equals(contextCondition)) {
                 toRemove = ca;
                 break;
@@ -370,6 +370,7 @@ public class Preset extends ModelElement implements IPreset {
             return;
         }
         psList.remove(toRemove);
+        toRemove.delete();
         
         rollout();
     }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,7 +29,6 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
-import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
@@ -619,7 +619,7 @@ public class Model implements IModel, Observer {
     @Override
     public IContextAnnotation[] getContextAnnotations() {
         checkCached();
-        List<ContextAnnotation> result = this.cache.getAllContextAnnotations();
+        List<IContextAnnotation> result = this.cache.getAllContextAnnotations();
         return result.toArray(new IContextAnnotation[result.size()]);
     }
     
@@ -629,12 +629,14 @@ public class Model implements IModel, Observer {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
         
-        List<ContextAnnotation> result = this.cache.getContextAnnotations().get(context);
-        if (result == null) {
-            return new IContextAnnotation[0];
-        } else {
-            return result.toArray(new IContextAnnotation[result.size()]);
+        List<IContextAnnotation> allCAs = this.cache.getAllContextAnnotations();
+        List<IContextAnnotation> result = new ArrayList<IContextAnnotation>();
+        for (IContextAnnotation ca : allCAs) {
+            if (ca.getContext().equals(context)) {
+                result.add(ca);
+            }
         }
+        
+        return result.toArray(new IContextAnnotation[result.size()]);
     }
-    
 }

@@ -23,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotatio
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySettingPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -152,9 +153,11 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 p.checkCached();
             }
         }
-        for (List<ContextAnnotation> caList : this.cache.getContextAnnotations().values()) {
-            for (ContextAnnotation ca : caList) {
-                ca.checkCached();
+        for (Map<IPrivacySetting, List<ContextAnnotation>> psMap : this.cache.getContextAnnotations().values()) {
+            for (List<ContextAnnotation> caList : psMap.values()) {
+                for (ContextAnnotation ca : caList) {
+                    ca.checkCached();
+                }
             }
         }
         
@@ -324,8 +327,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         builder.setTables(TBL_CONTEXT_ANNOTATIONS);
         
         Cursor cursor = builder.query(db, new String[] { PRESET_CREATOR, PRESET_IDENTIFIER,
-                PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER, CONTEXT_TYPE }, null, null, null,
-                null, null);
+                PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER }, null, null, null, null, null);
         
         if (cursor.moveToFirst()) {
             do {
@@ -342,8 +344,8 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 if (creatorPresets == null) {
                     continue;
                 }
-                Preset p = creatorPresets.get(pIdentifier);
-                if (p == null) {
+                Preset preset = creatorPresets.get(pIdentifier);
+                if (preset == null) {
                     continue;
                 }
                 
@@ -360,21 +362,22 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                     continue;
                 }
                 
-                // context
-                String contextType = cursor.getString(cursor.getColumnIndex(CONTEXT_TYPE));
-                IContext context = findContext(contextType);
-                
                 // create item
-                ContextAnnotation ca = new ContextAnnotation(p, ps);
+                ContextAnnotation ca = new ContextAnnotation(preset, ps);
                 ca.setPersistenceProvider(new ContextAnnotationPersistenceProvider(ca));
                 
                 // apply to cache
-                List<ContextAnnotation> contextList = this.cache.getContextAnnotations().get(context);
-                if (contextList == null) {
-                    contextList = new ArrayList<ContextAnnotation>();
-                    this.cache.getContextAnnotations().put(context, contextList);
+                Map<IPrivacySetting, List<ContextAnnotation>> psList = this.cache.getContextAnnotations().get(preset);
+                if (psList == null) {
+                    psList = new HashMap<IPrivacySetting, List<ContextAnnotation>>();
+                    this.cache.getContextAnnotations().put(preset, psList);
                 }
-                contextList.add(ca);
+                List<ContextAnnotation> caList = psList.get(ps);
+                if (caList == null) {
+                    caList = new ArrayList<ContextAnnotation>();
+                    psList.put(ps, caList);
+                }
+                caList.add(ca);
             } while (cursor.moveToNext());
         }
         cursor.close();
