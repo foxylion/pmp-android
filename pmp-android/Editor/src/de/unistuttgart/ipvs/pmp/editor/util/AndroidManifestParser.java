@@ -1,11 +1,19 @@
 package de.unistuttgart.ipvs.pmp.editor.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,7 +74,7 @@ public class AndroidManifestParser {
     /**
      * Android intent category Launcher
      */
-    private final String ANDROID_CATEGORY_LAUNCHER = "android.intent.action.MAIN";
+    private final String ANDROID_CATEGORY_LAUNCHER = "android.intent.category.LAUNCHER";
 
     /**
      * Android meta-data node
@@ -101,8 +109,22 @@ public class AndroidManifestParser {
 
     }
 
-    public void addPMPActivity(InputStream xmlStream)
-	    throws ParserConfigurationException, SAXException, IOException {
+    /**
+     * Adds the registration activity to the given XML File
+     * 
+     * @param xmlStream
+     *            XML stream to the file
+     * @param file
+     *            same XML {@link File}
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws TransformerFactoryConfigurationError
+     * @throws TransformerException
+     */
+    public void addPMPActivity(InputStream xmlStream, File file)
+	    throws ParserConfigurationException, SAXException, IOException,
+	    TransformerFactoryConfigurationError, TransformerException {
 	instantiate(xmlStream);
 	String androidName = "";
 	String androidLabel = "";
@@ -164,13 +186,21 @@ public class AndroidManifestParser {
 
 	    if (parentNode != null) {
 		parentNode.replaceChild(newElement, mainActivityNode);
+		newElement.normalize();
 	    } else {
 		throw new NullPointerException(
 			"No parent node found for the activty node");
 	    }
 	}
-	
-	// WRITE BACK THE CHANGE ???
+
+	// Write back the changes
+	Transformer transformer = TransformerFactory.newInstance()
+		.newTransformer();
+	DOMSource source = new DOMSource(doc);
+	FileOutputStream os = new FileOutputStream(file);
+	StreamResult result = new StreamResult(os);
+	transformer.transform(source, result);
+
     }
 
     /**
