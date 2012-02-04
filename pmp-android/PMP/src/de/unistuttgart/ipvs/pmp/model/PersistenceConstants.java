@@ -4,8 +4,6 @@ package de.unistuttgart.ipvs.pmp.model;
  * A class that stores all the persistence strings as constants. Turned out to be an interface, so you can easily add it
  * inside a {@link PersistenceProvider} class via inheritance.
  * 
- * Does not yet contain contexts.
- * 
  * @author Tobias Kuhn
  * 
  */
@@ -51,6 +49,11 @@ public interface PersistenceConstants {
      */
     static final String TBL_PresetAssignedApp = "Preset_AssignedApp";
     
+    /**
+     * table storing the context annotations for a preset
+     */
+    static final String TBL_CONTEXT_ANNOTATIONS = "Context_AnnotatedPrivacySettingValue";
+    
     /*
      * identifying columns
      */
@@ -78,6 +81,9 @@ public interface PersistenceConstants {
     static final String NAME = "Name";
     static final String DESCRIPTION = "Description";
     static final String DELETED = "Deleted";
+    static final String CONTEXT_TYPE = "ContextType";
+    static final String CONTEXT_CONDITION = "ContextCondition";
+    static final String OVERRIDE_GRANTED_VALUE = "OverrideGrantedValue";
     
     /*
      * meta data constants
@@ -93,9 +99,4 @@ public interface PersistenceConstants {
      */
     public static final String APP_XML_NAME = "AppInformation.xml";
     
-    /**
-     * The XML file name for rgs.
-     */
-    @Deprecated
-    public static final String RG_XML_NAME = "RGInformation.xml";
 }
