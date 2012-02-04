@@ -8,6 +8,7 @@ import java.util.Map;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -31,6 +32,7 @@ public class ModelCache {
     private Map<String, ResourceGroup> resourceGroups;
     private Map<App, Map<String, ServiceFeature>> serviceFeatures;
     private List<IContext> contexts;
+    private Map<IContext, List<ContextAnnotation>> contextAnnotations;
     
     
     public ModelCache() {
@@ -40,6 +42,7 @@ public class ModelCache {
         this.resourceGroups = new HashMap<String, ResourceGroup>();
         this.serviceFeatures = new HashMap<App, Map<String, ServiceFeature>>();
         this.contexts = new ArrayList<IContext>();
+        this.contextAnnotations = new HashMap<IContext, List<ContextAnnotation>>();
     }
     
     
@@ -70,8 +73,8 @@ public class ModelCache {
     
     public List<Preset> getAllPresets() {
         List<Preset> result = new ArrayList<Preset>();
-        for (IModelElement me : this.presets.keySet()) {
-            result.addAll(this.presets.get(me).values());
+        for (Map<String, Preset> creatorMap : this.presets.values()) {
+            result.addAll(creatorMap.values());
         }
         return result;
     }
@@ -79,6 +82,20 @@ public class ModelCache {
     
     public List<IContext> getContexts() {
         return this.contexts;
+    }
+    
+    
+    public Map<IContext, List<ContextAnnotation>> getContextAnnotations() {
+        return this.contextAnnotations;
+    }
+    
+    
+    public List<ContextAnnotation> getAllContextAnnotations() {
+        List<ContextAnnotation> result = new ArrayList<ContextAnnotation>();
+        for (List<ContextAnnotation> list : this.contextAnnotations.values()) {
+            result.addAll(list);
+        }
+        return result;
     }
     
 }

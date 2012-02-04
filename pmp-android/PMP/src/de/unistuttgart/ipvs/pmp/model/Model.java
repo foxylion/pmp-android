@@ -28,6 +28,8 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
@@ -611,6 +613,28 @@ public class Model implements IModel, Observer {
         checkCached();
         List<IContext> result = this.cache.getContexts();
         return result.toArray(new IContext[result.size()]);
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations() {
+        checkCached();
+        List<ContextAnnotation> result = this.cache.getAllContextAnnotations();
+        return result.toArray(new IContextAnnotation[result.size()]);
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations(IContext context) {
+        checkCached();
+        Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
+        
+        List<ContextAnnotation> result = this.cache.getContextAnnotations().get(context);
+        if (result == null) {
+            return new IContextAnnotation[0];
+        } else {
+            return result.toArray(new IContextAnnotation[result.size()]);
+        }
     }
     
 }

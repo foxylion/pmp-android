@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.model.context.TimeContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.AppPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.PresetPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -263,7 +264,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
     
     
     /**
-     * Caches all the {@link Preset}s and ContextAnnotations.
+     * Caches all the {@link Preset}s and {@link ContextAnnotation}s.
      * 
      * @param db
      */

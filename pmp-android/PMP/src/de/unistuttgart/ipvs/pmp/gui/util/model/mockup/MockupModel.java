@@ -13,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -211,6 +212,18 @@ public class MockupModel implements IModel {
     
     @Override
     public IContext[] getContexts() {
+        throw new UnsupportedOperationException();
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations() {
+        throw new UnsupportedOperationException();
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getContextAnnotations(IContext context) {
         throw new UnsupportedOperationException();
     }
     
