@@ -50,7 +50,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     /**
      * Current database version.
      */
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     
     /**
      * The context used to open the files from assets folder.
@@ -62,16 +62,21 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     private SQLiteQueryBuilder sqlqb;
     
+    
     /**
      * List of all SQL-files for database-creation, the key is the version of the database.
      */
-    private static final String[] SQL_FILES = new String[] { null, "database-v1.sql", "database-v2.sql" };
+    private static final String whereIsSql(int dbVersion) {
+        return String.format("database-v%d.sql", dbVersion);
+    }
+    
     
     /**
      * List of all SQL-files for database-clean, the key is the version of the database.
      */
-    private static final String[] CLEAN_SQL_FILES = new String[] { null, "database-v1-clean.sql",
-            "database-v2-clean.sql" };
+    private static final String whereIsCleanSql(int dbVersion) {
+        return String.format("database-clean-v%d.sql", dbVersion);
+    }
     
     
     /**
@@ -89,14 +94,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("creating database structure.");
+        Log.d("Creating database structure");
         
-        String sqlQueries = readSqlFile(SQL_FILES[DB_VERSION]);
+        String sqlQueries = readSqlFile(whereIsSql(DB_VERSION));
         
         if (sqlQueries != null) {
-            Log.d("Successfully read the database from " + SQL_FILES[DB_VERSION] + ", executing now...");
-            DatabaseOpenHelper.executeMultipleQueries(db, sqlQueries);
-            Log.d("Created the database (with or without errors, see above).");
+            Log.d("Executing " + whereIsSql(DB_VERSION) + " ...");
+            if (DatabaseOpenHelper.executeMultipleQueries(db, sqlQueries)) {
+                Log.d("Created database");
+            } else {
+                Log.w("Database not created");
+            }
+            
         }
     }
     
@@ -106,9 +115,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("Will try to update database from " + oldVersion + " to " + newVersion);
+        Log.d("Update request " + oldVersion + " to " + newVersion);
         
-        if ((newVersion == 2) && (oldVersion < 2)) {
+        if ((newVersion == DB_VERSION) && (oldVersion < DB_VERSION)) {
+            Log.d("Forcing db re-creation");
+            
             // delete everything in sight
             Cursor c = db.rawQuery(
                     "SELECT name FROM sqlite_master WHERE type = 'table' AND name != 'android_metadata'", null);
@@ -131,14 +142,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void cleanTables() {
         Log.d("Cleaning database.");
         
-        String sqlQueries = readSqlFile(CLEAN_SQL_FILES[DB_VERSION]);
+        String sqlQueries = readSqlFile(whereIsCleanSql(DB_VERSION));
         
         if (sqlQueries != null) {
-            Log.d("Successfully read the queries from " + CLEAN_SQL_FILES[DB_VERSION] + ", executing now...");
+            Log.d("Executing " + whereIsCleanSql(DB_VERSION) + " ...");
             SQLiteDatabase sqldb = getWritableDatabase();
             try {
-                DatabaseOpenHelper.executeMultipleQueries(sqldb, sqlQueries);
-                Log.d("Cleaned database (with, or without errors, see above).");
+                if (DatabaseOpenHelper.executeMultipleQueries(sqldb, sqlQueries)) {
+                    Log.d("Cleaned database");
+                } else {
+                    Log.w("Database not cleaned");
+                }
             } finally {
                 sqldb.close();
             }
@@ -193,9 +207,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      *            The {@link SQLiteDatabase} which should be used to execute the queries.
      * @param queries
      *            The queries which should be executed.
+     * @return true, if and only if all queries were executed
      */
-    public static void executeMultipleQueries(SQLiteDatabase db, String queries) {
-        Log.v("------- SQL-Queries to be executed ------");
+    public static boolean executeMultipleQueries(SQLiteDatabase db, String queries) {
+        boolean result = true;
+        
+        Log.v("------- Executing SQL Queries  ------");
         
         for (String query : queries.split(";")) {
             
@@ -208,13 +225,15 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             
             try {
                 db.execSQL(query);
-                Log.d("Query execution successful");
             } catch (SQLException e) {
                 Log.e("Got an SQLException while executing query", e);
+                result = false;
             }
         }
         
-        Log.v("-------     End of SQL-Queries     ------");
+        Log.v("------- SQL Queries Complete   ------");
+        
+        return result;
     }
     
     
