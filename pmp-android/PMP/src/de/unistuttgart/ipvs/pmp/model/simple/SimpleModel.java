@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -50,6 +51,12 @@ public class SimpleModel implements ISimpleModel {
         
         // delete all user presets
         for (IPreset p : model.getPresets(null)) {
+            // and all CAs
+            for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
+                for (IContextAnnotation ca : p.getContextAnnotations(ps)) {
+                    p.removeContextAnnotation(ps, ca);
+                }
+            }
             model.removePreset(null, p.getLocalIdentifier());
         }
         // deactivate all non-user presets
@@ -99,6 +106,17 @@ public class SimpleModel implements ISimpleModel {
                 }
                 return false;
             }
+            
+            // check that no CAs are present
+            for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
+                if (p.getContextAnnotations(ps).length > 0) {
+                    if (allergic) {
+                        throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
+                    }
+                    return false;
+                }
+            }
+            
         }
         
         for (IApp a : model.getApps()) {

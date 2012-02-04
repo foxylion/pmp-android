@@ -293,10 +293,8 @@ public interface IPreset extends IModelElement {
      * 
      * @param privacySetting
      *            annotated {@link IPrivacySetting}
-     * @param context
-     *            the context that is used
-     * @param contextCondition
-     *            the condition for the context under which this annotation is active
+     * @param contextAnnotation
+     *            the context annotation to remove
      */
-    public void removeContextAnnotation(IPrivacySetting privacySetting, IContext context, String contextCondition);
+    public void removeContextAnnotation(IPrivacySetting privacySetting, IContextAnnotation contextAnnotation);
 }

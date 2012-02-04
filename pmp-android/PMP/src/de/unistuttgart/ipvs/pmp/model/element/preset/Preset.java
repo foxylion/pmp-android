@@ -345,12 +345,11 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public void removeContextAnnotation(IPrivacySetting privacySetting, IContext context, String contextCondition) {
+    public void removeContextAnnotation(IPrivacySetting privacySetting, IContextAnnotation contextAnnotation) {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
-        Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        Assert.nonNull(contextCondition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextCondition",
-                contextCondition);
+        Assert.nonNull(contextAnnotation, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextAnnotation",
+                contextAnnotation);
         
         // the cA are linked to the cache directly
         List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
@@ -358,19 +357,12 @@ public class Preset extends ModelElement implements IPreset {
             return;
         }
         
-        ContextAnnotation toRemove = null;
-        for (ContextAnnotation ca : psList) {
-            if (ca.getContext().equals(context) && ca.getContextCondition().equals(contextCondition)) {
-                toRemove = ca;
-                break;
-            }
-        }
-        
-        if (toRemove == null) {
+        int caLoc = psList.indexOf(contextAnnotation);
+        if (caLoc < 0) {
             return;
         }
-        psList.remove(toRemove);
-        toRemove.delete();
+        ContextAnnotation removed = psList.remove(caLoc);
+        removed.delete();
         
         rollout();
     }
