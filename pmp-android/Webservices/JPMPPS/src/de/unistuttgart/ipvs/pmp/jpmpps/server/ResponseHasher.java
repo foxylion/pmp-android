@@ -13,6 +13,7 @@ public class ResponseHasher {
         hashBuilder.append(locale);
         for (LocalizedResourceGroup rg : rgs) {
             hashBuilder.append(rg.getIdentifier());
+            hashBuilder.append(rg.getRevision());
         }
         
         try {
