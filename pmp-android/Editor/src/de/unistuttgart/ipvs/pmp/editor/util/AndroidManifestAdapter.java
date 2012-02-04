@@ -2,7 +2,10 @@ package de.unistuttgart.ipvs.pmp.editor.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -10,6 +13,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.xml.sax.SAXException;
 
 public class AndroidManifestAdapter {
 
@@ -21,11 +25,12 @@ public class AndroidManifestAdapter {
      * @param xmlFile
      *            file name (should be AndroidManifest.xml)
      * @return the app identifier
-     * @throws FileNotFoundException
-     *             thrown if the AndroidManifest.xml is not found
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
      */
     public String getAppIdentifier(String xmlPath, String xmlFile)
-	    throws FileNotFoundException {
+	    throws ParserConfigurationException, SAXException, IOException {
 	return new AndroidManifestParser().getAppIdentifier(getInputStream(
 		xmlPath, xmlFile));
     }
@@ -34,8 +39,10 @@ public class AndroidManifestAdapter {
 	throw new UnsupportedOperationException();
     }
 
-    public boolean isMainActivityExisting() {
-	throw new UnsupportedOperationException();
+    public boolean isMainActivityExisting(String xmlPath, String xmlFile)
+	    throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
+	return new AndroidManifestParser()
+		.isMainActivityExisting(getInputStream(xmlPath, xmlFile));
     }
 
     /**
