@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Locale;
 
@@ -48,7 +47,6 @@ public class ServerProvider implements IServerProvider {
      * fields
      */
     private IServerDownloadCallback callback;
-    private Socket tcpSocket;
     
     /*
      * singleton stuff
@@ -67,27 +65,32 @@ public class ServerProvider implements IServerProvider {
             Log.e("Error while creating directory in ServerProvider.");
         }
         this.callback = NullServerDownloadCallback.instance;
-        this.tcpSocket = new Socket();
     }
     
     
     public AbstractResponse handleRequest(IRequest request) throws IOException, ClassNotFoundException {
-        if (!this.tcpSocket.isConnected()) {
-            this.tcpSocket.connect(new InetSocketAddress(SERVER_URL, SERVER_PORT));
+        Socket tcpSocket = new Socket(SERVER_URL, SERVER_PORT);
+        
+        Object result = null;
+        
+        ObjectOutputStream oos = new ObjectOutputStream(tcpSocket.getOutputStream());
+        ObjectInputStream ois = new ObjectInputStream(tcpSocket.getInputStream());
+        try {
+            
+            oos.writeObject(request);
+            result = ois.readObject();
+            if (!(result instanceof AbstractResponse)) {
+                throw new ClassNotFoundException();
+            }
+            
+            oos.writeObject(new RequestCommunicationEnd());
+            
+        } finally {
+            ois.close();
+            oos.close();
         }
         
-        ObjectOutputStream oos = new ObjectOutputStream(this.tcpSocket.getOutputStream());
-        ObjectInputStream ois = new ObjectInputStream(this.tcpSocket.getInputStream());
-        
-        oos.writeObject(request);
-        Object o = ois.readObject();
-        if (!(o instanceof AbstractResponse)) {
-            throw new ClassNotFoundException();
-        }
-        
-        oos.writeObject(new RequestCommunicationEnd());
-        
-        return (AbstractResponse) o;
+        return (AbstractResponse) result;
     }
     
     

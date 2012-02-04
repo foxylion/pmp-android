@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * A class to make certain actions in the {@link ServerProvider} easier and faster because the briding functionality
+ * A class to make certain actions in the server easier and faster because the briding functionality
  * from {@link OutputStream} to {@link InputStream} is required.
  * 
  * @author Tobias Kuhn
