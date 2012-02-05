@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
@@ -22,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
+import de.unistuttgart.ipvs.pmp.util.BootReceiver;
 
 /**
  * @see IPreset
@@ -339,6 +341,8 @@ public class Preset extends ModelElement implements IPreset {
         ContextAnnotation ca = new ContextAnnotationPersistenceProvider(null).createElementData(this, privacySetting,
                 context, contextCondition, overrideValue);
         psList.add(ca);
+        
+        BootReceiver.startService(PMPApplication.getContext());
         
         rollout();
     }
