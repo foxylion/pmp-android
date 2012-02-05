@@ -180,21 +180,18 @@ public class ServerProvider implements IServerProvider {
         AbstractRequest request = null;
         switch (comType) {
             case REQUEST_RESOURCE_GROUP_APK:
+                request = new RequestResourceGroupPackage(requestString);
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupPackageResponse)) {
-                    // we are missing the caching
-                    request = new RequestResourceGroupPackage(requestString);
-                } else {
-                    request = new RequestResourceGroupPackage(requestString);
+                    ResourceGroupPackageResponse rgpr = (ResourceGroupPackageResponse) cachedResponse;
+                    request.setCacheHash(rgpr.getCacheHash());
                 }
                 break;
             
             case REQUEST_SEARCH_RESULTS:
+                request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupsResponse)) {
                     ResourceGroupsResponse rgr = (ResourceGroupsResponse) cachedResponse;
-                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
                     request.setCacheHash(rgr.getHash());
-                } else {
-                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
                 }
                 break;
         }
