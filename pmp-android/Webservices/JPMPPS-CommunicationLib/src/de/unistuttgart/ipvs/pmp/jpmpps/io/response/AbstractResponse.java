@@ -19,6 +19,22 @@ public abstract class AbstractResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private byte[] cacheHash = new byte[0];
+	
+	/**
+	 * @return Returns the CacheHash of the response.
+	 */
+	public byte[] getCacheHash() {
+		return cacheHash;
+	}
+	
+	/**
+	 * Sets a cacheHash for the response.
+	 */
+	protected void setCacheHash(byte[] cacheHash) {
+		this.cacheHash = cacheHash;
+	}
+	
 	/**
 	 * Creates a byte array from an {@link Object}.
 	 * 

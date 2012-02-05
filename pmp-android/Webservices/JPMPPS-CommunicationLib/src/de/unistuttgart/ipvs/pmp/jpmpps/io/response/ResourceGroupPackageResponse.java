@@ -18,8 +18,9 @@ public class ResourceGroupPackageResponse extends AbstractResponse {
 	 * 
 	 * @param resourceGroup {@link InputStream} of the package which should be attached.
 	 */
-	public ResourceGroupPackageResponse(InputStream resourceGroup) {
+	public ResourceGroupPackageResponse(InputStream resourceGroup, byte[] cacheHash) {
 		this.resourceGroup = toByteArray(resourceGroup);
+		setCacheHash(cacheHash);
 	}
 
 	/**
@@ -28,7 +29,4 @@ public class ResourceGroupPackageResponse extends AbstractResponse {
 	public InputStream getResourceGroupInputStream() {
 		return fromByteArray(this.resourceGroup);
 	}
-
-	
-
 }

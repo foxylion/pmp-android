@@ -67,10 +67,7 @@ public class ResourceGroup {
     
     
     public RGIS getRGIS() {
-        long currentRevision = revision;
-        if (lastRevisionUpdate + REVISION_CHECK_DELAY < System.currentTimeMillis()) {
-            currentRevision = RevisionReader.get().readRevision(path);
-        }
+        long currentRevision = getRevision();
         
         if (parsedRGIS != null && revision == currentRevision) {
             return parsedRGIS;
@@ -98,6 +95,19 @@ public class ResourceGroup {
         }
         
         return parsedRGIS;
+    }
+    
+    
+    /**
+     * @return Returns the revision of the {@link ResourceGroup}.
+     */
+    public long getRevision() {
+        long revision = this.revision;
+        if (this.lastRevisionUpdate + REVISION_CHECK_DELAY < System.currentTimeMillis()) {
+            revision = RevisionReader.get().readRevision(path);
+        }
+        
+        return revision;
     }
     
     

@@ -227,7 +227,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                     return false;
                 }
             } catch (SQLiteException e) {
-                Log.v("Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteExcetion: ", e);
                 return false;
             }
             //            if (cursor == null || cursor.getCount()<1) {
@@ -255,7 +255,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             // Check the tableName
             tableName = strip(tableName);
             if (!Pattern.matches(TABLE_NAME, tableName)) {
-                Log.d("Table name '" + tableName + "' invalid. " + TABLE_NAME);
+                Log.d(this, "Table name '" + tableName + "' invalid. " + TABLE_NAME);
                 return false;
             }
             
@@ -275,7 +275,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                     sql.append("\"").append(strip(e.getKey().toString())).append("\" ")
                             .append(strip(e.getValue().toString())).append(", ");
                 } else {
-                    Log.d("Column description is not valid: " + e.toString());
+                    Log.d(this, "Column description is not valid: " + e.toString());
                     return false;
                 }
             }
@@ -292,13 +292,13 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             // Execute the query and return result
             closeCursor();
             openWritableDB();
-            Log.v("Execute create table SQL query: " + sql.toString());
+            Log.v(this, "Execute create table SQL query: " + sql.toString());
             try {
                 this.cursor = this.db.rawQuery(sql.toString(), null);
             } catch (SQLiteException e) {
-                Log.e("Error creating table: ", e);
+                Log.e(this, "Error creating table: ", e);
             }
-            Log.v("Table creation result: " + this.cursor.getCount());
+            Log.v(this, "Table creation result: " + this.cursor.getCount());
             if (this.cursor.getCount() != -1) {
                 return true;
             } else {
@@ -317,7 +317,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             try {
                 result = this.db.insert(table, nullColumnHack, getContentValues(values));
             } catch (SQLiteException e) {
-                Log.v("Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteExcetion: ", e);
             }
             return result;
         } else {
@@ -500,7 +500,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             try {
                 this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
             } catch (SQLiteException e) {
-                Log.v("Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteExcetion: ", e);
             }
             if (this.cursor == null) {
                 return -1;
@@ -525,7 +525,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             try {
                 this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
             } catch (SQLiteException e) {
-                Log.v("Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteExcetion: ", e);
             }
             if (this.cursor == null) {
                 return -1;
@@ -551,7 +551,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             // Check the tableName
             tableName = strip(tableName);
             if (!Pattern.matches(DatabaseConnectionImpl.TABLE_NAME, tableName)) {
-                Log.d("Table name '" + tableName + "' invalid. " + DatabaseConnectionImpl.TABLE_NAME);
+                Log.d(this, "Table name '" + tableName + "' invalid. " + DatabaseConnectionImpl.TABLE_NAME);
                 return false;
             }
             
@@ -562,7 +562,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             try {
                 this.cursor = this.db.rawQuery(sql, null);
             } catch (SQLiteException e) {
-                Log.v("Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteExcetion: ", e);
                 return false;
             }
             

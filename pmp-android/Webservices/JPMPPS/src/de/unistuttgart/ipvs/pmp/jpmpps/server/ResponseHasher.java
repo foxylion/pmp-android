@@ -31,6 +31,22 @@ public class ResponseHasher {
         return null;
     }
     
+    public static byte[] hash(long revision) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(new Long(revision).toString().getBytes(), 0, new Long(revision).toString().length());
+            return md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Do not know the MD5-Hashing alogrithm.");
+            
+            if (JPMPPS.DEBUG) {
+                e.printStackTrace();
+            }
+        }
+        
+        return null;
+    }
+    
     
     public static boolean checkHash(String locale, LocalizedResourceGroup[] rgs, byte[] hash) {
         byte[] checkHash = hash(locale, rgs);

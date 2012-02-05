@@ -129,7 +129,7 @@ public class TCPServer {
                             if (rg == null) {
                                 output.writeObject(new NoSuchResourceGroupPackageResponse());
                             } else {
-                                output.writeObject(new ResourceGroupPackageResponse(rg.getInputStream()));
+                                output.writeObject(new ResourceGroupPackageResponse(rg.getInputStream(), ResponseHasher.hash(rg.getRevision())));
                             }
                         } else if (request instanceof RequestCommunicationEnd) {
                             end = true;
