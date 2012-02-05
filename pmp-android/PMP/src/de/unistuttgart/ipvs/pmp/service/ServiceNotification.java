@@ -58,7 +58,13 @@ public class ServiceNotification {
         if (!displaying && (bound || working)) {
             Notification notification = makeNotification(context);
             
-            notification.iconLevel = (working ? 2 : 0) | (bound ? 1 : 0);
+            if (bound && working) {
+                notification.icon = R.drawable.svc_nfc_bound_working;
+            } else if (bound) {
+                notification.icon = R.drawable.svc_nfc_bound;
+            } else if (working) {
+                notification.icon = R.drawable.svc_nfc_working;
+            }
             
             // go go go
             nm.notify(NOTIFICATION_ID, notification);
@@ -74,7 +80,13 @@ public class ServiceNotification {
                 // need for updating
                 Notification notification = makeNotification(context);
                 
-                notification.iconLevel = (working ? 2 : 0) | (bound ? 1 : 0);
+                if (bound && working) {
+                    notification.icon = R.drawable.svc_nfc_bound_working;
+                } else if (bound) {
+                    notification.icon = R.drawable.svc_nfc_bound;
+                } else if (working) {
+                    notification.icon = R.drawable.svc_nfc_working;
+                }
                 
                 nm.notify(NOTIFICATION_ID, notification);
                 displaying = true;
@@ -89,7 +101,7 @@ public class ServiceNotification {
      */
     private static Notification makeNotification(Context context) {
         // make the notification
-        Notification notification = new Notification(R.drawable.svc_nfc, context.getString(R.string.svc_nfc_title),
+        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.svc_nfc_title),
                 System.currentTimeMillis());
         
         // have to specify that we open the main activity
