@@ -65,7 +65,7 @@ public class JPMPPS {
     
     private TCPServer server = null;
     
-    private Timer timer;
+    private Timer timer = new Timer();
     
     
     /**
