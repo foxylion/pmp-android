@@ -141,7 +141,7 @@ public class CalendarAppActivity extends ListActivity {
             
             @Override
             public void onBindingFailed() {
-                Log.e("Binding failed...");
+                Log.e(this, "Binding failed...");
             }
             
         });
@@ -197,7 +197,7 @@ public class CalendarAppActivity extends ListActivity {
                                                     + getString(R.string.desc) + ": " + clicked.getDescrpition() + "\n"
                                                     + severity);
                                 } catch (RemoteException e) {
-                                    Log.e("Couldn't send E-Mail", e);
+                                    Log.e(this, "Couldn't send E-Mail", e);
                                 }
                                 
                             } 

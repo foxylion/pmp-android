@@ -165,7 +165,7 @@ public class Model implements IModel, Observer {
                 ipcc.setDestinationService(appPackage);
                 if (ipcc.getBinder() == null) {
                     /* error during connecting to service */
-                    Log.w(appPackage + " has failed registration with PMP.");
+                    Log.w(this, appPackage + " has failed registration with PMP.");
                     return new RegistrationResult(false, "Service not available.");
                 }
             } finally {
@@ -179,7 +179,7 @@ public class Model implements IModel, Observer {
                     
                     if ((rg != null) && (rg.getRevision() < new Long(aisrrg.getMinRevision()))) {
                         /* error during resource group request */
-                        Log.w(appPackage + " requests newer ResourceGroups.");
+                        Log.w(this, appPackage + " requests newer ResourceGroups.");
                         return new RegistrationResult(false, "Requesting newer ResourceGroups not supported.");
                     }
                     
@@ -218,22 +218,22 @@ public class Model implements IModel, Observer {
             }
             
             // "Hello thar, App!"
-            Log.d(appPackage + " has successfully registered.");
+            Log.d(this, appPackage + " has successfully registered.");
             return new RegistrationResult(true);
             
         } catch (final IOException ioe) {
             /* error during finding files */
-            Log.w(appPackage + " has failed registration with PMP.", ioe);
+            Log.w(this, appPackage + " has failed registration with PMP.", ioe);
             return new RegistrationResult(false, ioe.getMessage());
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
-            Log.w(appPackage + " has failed registration with PMP.", nnfe);
+            Log.w(this, appPackage + " has failed registration with PMP.", nnfe);
             return new RegistrationResult(false, nnfe.getMessage());
             
         } catch (final ParserException xmlpe) {
             /* error during XML validation */
-            Log.w(appPackage + " has failed registration with PMP.", xmlpe);
+            Log.w(this, appPackage + " has failed registration with PMP.", xmlpe);
             return new RegistrationResult(false, xmlpe.getMessage());
         }
     }
@@ -321,7 +321,7 @@ public class Model implements IModel, Observer {
                         try {
                             fis.close();
                         } catch (IOException ioe) {
-                            Log.e("IO exception during install RG", ioe);
+                            Log.e(this, "IO exception during install RG", ioe);
                         }
                     }
                 } catch (FileNotFoundException fnfe) {
@@ -330,7 +330,7 @@ public class Model implements IModel, Observer {
                 
                 // remove temporary file
                 if (!temp.delete()) {
-                    Log.e("Could not delete temporary file: " + temp.getAbsolutePath());
+                    Log.e(this, "Could not delete temporary file: " + temp.getAbsolutePath());
                 }
             }
             
@@ -412,7 +412,7 @@ public class Model implements IModel, Observer {
             return true;
         } catch (ParserException xmlpe) {
             /* error during XML validation */
-            Log.w(rgPackage + " has failed installation with PMP.", xmlpe);
+            Log.w(this, rgPackage + " has failed installation with PMP.", xmlpe);
             return false;
         }
     }

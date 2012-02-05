@@ -62,7 +62,7 @@ public class IPCProvider {
      */
     public synchronized void startUpdate() {
         this.updateSession.incrementAndGet();
-        Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " started.");
+        Log.d(this, "IPC delayed update layer " + String.valueOf(this.updateSession) + " started.");
     }
     
     
@@ -70,7 +70,7 @@ public class IPCProvider {
      * Ends one cumulative update session started by {@link IPCProvider#startUpdate()}.
      */
     public synchronized void endUpdate() {
-        Log.d("IPC delayed update layer " + String.valueOf(this.updateSession) + " ended.");
+        Log.d(this, "IPC delayed update layer " + String.valueOf(this.updateSession) + " ended.");
         if (this.updateSession.get() > 0) {
             this.updateSession.decrementAndGet();
         }
@@ -84,7 +84,7 @@ public class IPCProvider {
      * Rolls-out all queued up IPC operations.
      */
     private synchronized void rollout() {
-        Log.d("Performing IPC rollout...");
+        Log.d(this, "Performing IPC rollout...");
         
         // launch a new Thread, that's cool these days
         
@@ -106,11 +106,11 @@ public class IPCProvider {
                     try {
                         id = appBinder.getInterfaceDescriptor();
                     } catch (RemoteException re) {
-                        Log.e("Remote exception while getting interface descriptor: ", re);
+                        Log.e(this, "Remote exception while getting interface descriptor: ", re);
                     }
                     
                     if (!id.equals(IAppService.class.getName())) {
-                        Log.e("Binder to " + key + " was not IAppService but " + id);
+                        Log.e(this, "Binder to " + key + " was not IAppService but " + id);
                     }
                     
                     IAppService as = IAppService.Stub.asInterface(appBinder);
@@ -119,10 +119,10 @@ public class IPCProvider {
                         try {
                             as.updateServiceFeatures(value);
                         } catch (RemoteException re) {
-                            Log.e("Remote exception while updating service features for " + key + ": ", re);
+                            Log.e(this, "Remote exception while updating service features for " + key + ": ", re);
                         }
                     } else {
-                        Log.d("Rollout value went missing while iterating through key list");
+                        Log.d(this, "Rollout value went missing while iterating through key list");
                     }
                 }
                 
@@ -156,7 +156,7 @@ public class IPCProvider {
         if (this.updateSession.intValue() == 0) {
             rollout();
         } else {
-            Log.d("IPC connection queued.");
+            Log.d(this, "IPC connection queued.");
         }
     }
     

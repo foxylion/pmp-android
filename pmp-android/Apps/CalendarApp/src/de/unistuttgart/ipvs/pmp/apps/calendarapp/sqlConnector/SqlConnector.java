@@ -108,7 +108,7 @@ public class SqlConnector {
                                 
                                 // Storing in the model
                                 Model.getInstance().addAppointment(new Appointment(id, name, desc, date, severity));
-                                Log.v("Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
+                                Log.v(this, "Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
                                         + " name: " + name + " description: " + columns[1] + " severity "
                                         + severity.toString());
                                 
@@ -119,12 +119,12 @@ public class SqlConnector {
                             Model.getInstance().scrollToActualDate();
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_load));
-                            Log.e("Remote Exception", e);
+                            Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("RemoteException", e);
+                                Log.e(this, "RemoteException", e);
                             }
                         }
                     }
@@ -175,27 +175,27 @@ public class SqlConnector {
                             values.put(SqlConnector.this.SEVERITY, severity.toString());
                             
                             long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
-                            Log.v("Return value of insert: " + result);
+                            Log.v(this, "Return value of insert: " + result);
                             if (result != -1) {
                                 idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
                                         SqlConnector.this.DATE);
                                 
-                                Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
+                                Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                         + " description: " + description);
                                 Model.getInstance().addAppointment(
                                         new Appointment(id, name, description, date, severity));
                             } else {
                                 showToast(appContext.getString(R.string.err_store));
-                                Log.e("Appointment not stored");
+                                Log.e(this, "Appointment not stored");
                             }
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_store));
-                            Log.e("Remote Exception", e);
+                            Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("RemoteException", e);
+                                Log.e(this, "RemoteException", e);
                             }
                         }
                     }
@@ -246,22 +246,22 @@ public class SqlConnector {
                             values.put(SqlConnector.this.SEVERITY, severity.toString());
                             
                             long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
-                            Log.v("Return value of insert: " + result);
+                            Log.v(this, "Return value of insert: " + result);
                             if (result != -1) {
-                                Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: " + date
+                                Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                         + " description: " + description);
                             } else {
                                 showToast(appContext.getString(R.string.err_store));
-                                Log.e("Appointment not stored");
+                                Log.e(this, "Appointment not stored");
                             }
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_store));
-                            Log.e("Remote Exception", e);
+                            Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("RemoteException", e);
+                                Log.e(this, "RemoteException", e);
                             }
                         }
                     }
@@ -288,7 +288,7 @@ public class SqlConnector {
                     
                     if (createTable(idc)) {
                         try {
-                            Log.v("Trying to delete appointment with id: " + appointment.getId() + " name: "
+                            Log.v(this, "Trying to delete appointment with id: " + appointment.getId() + " name: "
                                     + appointment.getName() + " Description: " + appointment.getDescrpition());
                             
                             String[] args = new String[1];
@@ -298,19 +298,19 @@ public class SqlConnector {
                              * Delete the date out of the database
                              */
                             if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
-                                Log.v("Deleting date: id: " + String.valueOf(appointment.getId()));
+                                Log.v(this, "Deleting date: id: " + String.valueOf(appointment.getId()));
                                 Model.getInstance().deleteAppointment(appointment);
                             } else {
                                 showToast(appContext.getString(R.string.err_del));
                             }
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_del));
-                            Log.e("Remote Exception", e);
+                            Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("RemoteException", e);
+                                Log.e(this, "RemoteException", e);
                             }
                         }
                     }
@@ -331,19 +331,19 @@ public class SqlConnector {
                     try {
                         if (idc.isTableExisted(DB_TABLE_NAME)) {
                             if (idc.deleteTable(DB_TABLE_NAME)) {
-                                Log.d("Table deleted");
+                                Log.d(this, "Table deleted");
                             } else {
-                                Log.e("Could not delete table");
+                                Log.e(this, "Could not delete table");
                             }
                         }
                     } catch (RemoteException e) {
                         showToast(appContext.getString(R.string.err_del));
-                        Log.e("RemoteException", e);
+                        Log.e(this, "RemoteException", e);
                     } finally {
                         try {
                             idc.close();
                         } catch (RemoteException e) {
-                            Log.e("RemoteException", e);
+                            Log.e(this, "RemoteException", e);
                         }
                     }
                 }
@@ -393,19 +393,19 @@ public class SqlConnector {
                             if (idc.update(SqlConnector.this.DB_TABLE_NAME, values, SqlConnector.this.ID + " = "
                                     + String.valueOf(id), null) == 1) {
                                 Model.getInstance().changeAppointment(id, date, oldDate, name, description, severity);
-                                Log.v("Changing date with id " + String.valueOf(id) + " to: name: " + name + " date: "
+                                Log.v(this, "Changing date with id " + String.valueOf(id) + " to: name: " + name + " date: "
                                         + date + " description: " + description + " severity: " + severity.toString());
                             } else {
                                 showToast(appContext.getString(R.string.err_change));
                             }
                         } catch (RemoteException e) {
                             showToast(appContext.getString(R.string.err_change));
-                            Log.e("Remote Exception", e);
+                            Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
                                 idc.close();
                             } catch (RemoteException e) {
-                                Log.e("RemoteException", e);
+                                Log.e(this, "RemoteException", e);
                             }
                         }
                     }
@@ -448,29 +448,29 @@ public class SqlConnector {
                                 values.put(SqlConnector.this.SEVERITY, app.getSeverity().toString());
                                 
                                 long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
-                                Log.v("Return value of insert: " + result);
+                                Log.v(this, "Return value of insert: " + result);
                                 if (result != -1) {
                                     idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
                                             SqlConnector.this.DATE);
                                     
-                                    Log.v("Storing new appointment: id: " + String.valueOf(id) + " date: "
+                                    Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: "
                                             + app.getDate() + " description: " + app.getDescrpition());
                                     
                                 } else {
                                     showToast(appContext.getString(R.string.err_store));
-                                    Log.e("Appointment not stored");
+                                    Log.e(this, "Appointment not stored");
                                 }
                             }
                         }
                     } catch (RemoteException e) {
                         showToast(appContext.getString(R.string.err_del));
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     } finally {
                         UiManager.getInstance().getImportActivity().finish();
                         try {
                             idc.close();
                         } catch (RemoteException e) {
-                            Log.e("RemoteException", e);
+                            Log.e(this, "RemoteException", e);
                         }
                     }
                 }
@@ -499,23 +499,23 @@ public class SqlConnector {
                 columns.put(SqlConnector.this.SEVERITY, "TEXT");
                 
                 // Creates the table
-                Log.v("Creating table");
+                Log.v(this, "Creating table");
                 
                 // Create the table
                 if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
-                    Log.v("Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
+                    Log.v(this, "Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
                     return true;
                 } else {
-                    Log.e("Couldn't create table");
+                    Log.e(this, "Couldn't create table");
                     showToast(appContext.getString(R.string.err_create));
                     return false;
                 }
             } else {
-                Log.v("Table already exists");
+                Log.v(this, "Table already exists");
                 return true;
             }
         } catch (RemoteException e) {
-            Log.e("RemoteException", e);
+            Log.e(this, "RemoteException", e);
         }
         return false;
     }

@@ -69,15 +69,15 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
-                    Log.w(String.format("Unavailable preset cached (RG '%s' not present).", rgPackage));
+                    Log.w(this, String.format("Unavailable preset cached (RG '%s' not present).", rgPackage));
                     this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
                             grantValue));
                     
                 } else {
                     PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                     if (ps == null) {
-                        Log.w(String.format("Unavailable preset cached (PS '%s' not found in RG '%s').", psIdentifier,
-                                rg));
+                        Log.w(this, String.format("Unavailable preset cached (PS '%s' not found in RG '%s').",
+                                psIdentifier, rg));
                         this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
                                 grantValue));
                         
@@ -102,7 +102,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 
                 App app = getCache().getApps().get(appPackage);
                 if (app == null) {
-                    Log.w(String.format("Unavailable preset cached (App '%s' not found).", appPackage));
+                    Log.w(this, String.format("Unavailable preset cached (App '%s' not found).", appPackage));
                     this.element.missingApps.add(new MissingApp(appPackage));
                     
                 } else {

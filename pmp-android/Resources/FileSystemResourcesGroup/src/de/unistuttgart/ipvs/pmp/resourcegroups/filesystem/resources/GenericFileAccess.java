@@ -76,10 +76,10 @@ public class GenericFileAccess extends IFileAccess.Stub {
         try {
             return Utils.readFileToString(new File(path));
         } catch (FileNotFoundException e) {
-            Log.d("Cannot open file: " + path, e);
+            Log.d(this, "Cannot open file: " + path, e);
             throw new RemoteException();
         } catch (IOException e) {
-            Log.d("Cannot read file", e);
+            Log.d(this, "Cannot read file", e);
             throw new RemoteException();
         }
     }
@@ -110,7 +110,7 @@ public class GenericFileAccess extends IFileAccess.Stub {
             Utils.writeStringToFile(file, data, append);
             return true;
         } catch (IOException e) {
-            Log.d("Cannot write data to " + path);
+            Log.d(this, "Cannot write data to " + path);
             return false;
         }
     }

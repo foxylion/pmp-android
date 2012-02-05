@@ -53,7 +53,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
             this.element.ais = XMLUtilityProxy.parseAISXML(is);
             
         } catch (IOException e) {
-            Log.e("Did no longer find the app XML during loading its data.");
+            Log.e(this, "Did no longer find the app XML during loading its data.");
             e.printStackTrace();
         }
     }

@@ -173,7 +173,8 @@ public class ActivityPresets extends Activity {
                                 for (IPreset preset : ModelProxy.get().getPresets()) {
                                     if (preset.isDeleted()) {
                                         ModelProxy.get().removePreset(preset.getCreator(), preset.getLocalIdentifier());
-                                        Log.d("Deleted Preset \"" + preset.getName() + "\" (by cleaning the trash bin)");
+                                        Log.d(this, "Deleted Preset \"" + preset.getName()
+                                                + "\" (by cleaning the trash bin)");
                                     }
                                     
                                 }

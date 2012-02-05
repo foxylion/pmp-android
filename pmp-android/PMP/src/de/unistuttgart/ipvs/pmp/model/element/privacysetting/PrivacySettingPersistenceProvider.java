@@ -73,7 +73,7 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
             cv.put(RESOURCEGROUP_PACKAGE, rg.getIdentifier());
             cv.put(IDENTIFIER, identifier);
             if (sqldb.insert(TBL_PRIVACYSETTING, null, cv) == -1) {
-                Log.e("Could not write service feature.");
+                Log.e(this, "Could not write service feature.");
                 return null;
             }
         } finally {

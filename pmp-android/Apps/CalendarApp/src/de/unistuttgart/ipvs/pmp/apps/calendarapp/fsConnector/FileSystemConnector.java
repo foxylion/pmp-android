@@ -98,7 +98,7 @@ public class FileSystemConnector {
         // Check, if the filename is valid
         if (!fileName.matches("[[a-zA-Z0-9]|.|_|\\-| ]*")) {
             UiManager.getInstance().showInvalidFileNameDialog(Model.getInstance().getContext());
-            Log.d("Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
+            Log.d(this, "Invalid file name, regex: [[a-zA-Z0-9]|.|_|\\-| ]*");
             return;
         }
         
@@ -166,17 +166,17 @@ public class FileSystemConnector {
                             Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_succeed,
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e("Exporting failed");
+                            Log.e(this, "Exporting failed");
                             Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_failed,
                                     Toast.LENGTH_SHORT);
                         }
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     } finally {
                         Looper.loop();
                     }
                 } else {
-                    Log.e("Could not connect to filesystem ressource");
+                    Log.e(this, "Could not connect to filesystem ressource");
                 }
             }
         });
@@ -210,7 +210,7 @@ public class FileSystemConnector {
                         
                         // Check, if the import string is null
                         if (FileSystemConnector.this.importString == null) {
-                            Log.e("Importing failed!");
+                            Log.e(this, "Importing failed!");
                         } else {
                             
                             // The import string (split by newlines)
@@ -226,7 +226,7 @@ public class FileSystemConnector {
                                 boolean rowThree = importArray[2].equals("PRODID:CALENDAR_APP_EXAMPLE_FOR_PMP");
                                 boolean rowLast = importArray[importArray.length - 1].equals("END:VCALENDAR");
                                 if (!(rowOne && rowTwo && rowThree && rowLast)) {
-                                    Log.e("Import meta data is invalid");
+                                    Log.e(this, "Import meta data is invalid");
                                     success = false;
                                 }
                             } else {
@@ -270,7 +270,7 @@ public class FileSystemConnector {
                                             try {
                                                 sev = Integer.valueOf(importRow.substring(9));
                                             } catch (NumberFormatException e) {
-                                                Log.e("Could not parse severity", e);
+                                                Log.e(this, "Could not parse severity", e);
                                             }
                                             
                                             switch (sev) {
@@ -299,7 +299,7 @@ public class FileSystemConnector {
                                             if (!dateString
                                                     .matches("\\d\\d\\d\\d[0-1]\\d\\d\\dT[0-2]\\d[0-5]\\d[0-5]\\dZ")) {
                                                 success = false;
-                                                Log.e("Date does not match the regular expression pattern!");
+                                                Log.e(this, "Date does not match the regular expression pattern!");
                                             } else {
                                                 SimpleDateFormat formatterDate = new SimpleDateFormat("yyyyMMdd",
                                                         Locale.getDefault());
@@ -343,7 +343,7 @@ public class FileSystemConnector {
                             
                             // If something went wrong, log the error
                             if (!success) {
-                                Log.e("Import data invalid; imported as far as posible");
+                                Log.e(this, "Import data invalid; imported as far as posible");
                                 Toast.makeText(Model.getInstance().getImportContext(),
                                         R.string.import_data_invalid_toast, Toast.LENGTH_SHORT).show();
                                 UiManager.getInstance().getImportActivity().finish();
@@ -352,7 +352,7 @@ public class FileSystemConnector {
                                 SqlConnector sqlCon = new SqlConnector();
                                 sqlCon.storeAppointmentListInEmptyList(importAppointmentList);
                                 
-                                Log.d("Import succeed");
+                                Log.d(this, "Import succeed");
                                 Toast.makeText(Model.getInstance().getContext(), R.string.import_succeed_toast,
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -360,12 +360,12 @@ public class FileSystemConnector {
                         }
                         
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     } finally {
                         Looper.loop();
                     }
                 } else {
-                    Log.e("Could not connect to filesystem ressource");
+                    Log.e(this, "Could not connect to filesystem ressource");
                 }
             }
         });
@@ -401,12 +401,12 @@ public class FileSystemConnector {
                         } catch (Exception e) {
                             boolean makeDir = ifa.makeDirs(FOLDER_NAME);
                             if (makeDir) {
-                                Log.d("Created folder " + FOLDER_NAME);
+                                Log.d(this, "Created folder " + FOLDER_NAME);
                                 invokeNextAction = true;
                             } else {
                                 Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing,
                                         Toast.LENGTH_LONG).show();
-                                Log.d("If you want to use the import/export functionality, you have to insert a SD-Card!");
+                                Log.d(this, "If you want to use the import/export functionality, you have to insert a SD-Card!");
                             }
                         }
                         
@@ -416,7 +416,7 @@ public class FileSystemConnector {
                                     // Check, if list of appointments is empty
                                     List<Appointment> appointments = Model.getInstance().getAppointmentList();
                                     if (appointments == null || appointments.size() == 0) {
-                                        Log.d("Can not export appointment. There are no appointments available!");
+                                        Log.d(this, "Can not export appointment. There are no appointments available!");
                                         UiManager.getInstance().showAppointmentsListEmptyDialog(
                                                 Model.getInstance().getContext());
                                     } else {
@@ -438,7 +438,7 @@ public class FileSystemConnector {
                         }
                         
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     } finally {
                         Looper.loop();
                     }
@@ -463,7 +463,7 @@ public class FileSystemConnector {
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 Looper.prepare();
                 if (binder != null) {
-                    Log.d(rgIdentifier + " connected");
+                    Log.d(this, rgIdentifier + " connected");
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         
@@ -477,11 +477,11 @@ public class FileSystemConnector {
                             Looper.loop();
                         }
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     }
                     
                 } else {
-                    Log.e("Could not connect to filesystem ressource");
+                    Log.e(this, "Could not connect to filesystem ressource");
                 }
             }
         });
@@ -497,7 +497,7 @@ public class FileSystemConnector {
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
-                    Log.d(rgIdentifier + " connected");
+                    Log.d(this, rgIdentifier + " connected");
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         List<FileDetails> fileList = new ArrayList<FileDetails>();
@@ -508,7 +508,7 @@ public class FileSystemConnector {
                             }
                         }
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     }
                 }
             }
@@ -525,7 +525,7 @@ public class FileSystemConnector {
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder != null) {
-                    Log.d(rgIdentifier + " connected");
+                    Log.d(this, rgIdentifier + " connected");
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
                         List<FileDetails> fileList = new ArrayList<FileDetails>();
@@ -536,7 +536,7 @@ public class FileSystemConnector {
                             }
                         }
                     } catch (RemoteException e) {
-                        Log.e("Remote Exception", e);
+                        Log.e(this, "Remote Exception", e);
                     }
                 }
             }

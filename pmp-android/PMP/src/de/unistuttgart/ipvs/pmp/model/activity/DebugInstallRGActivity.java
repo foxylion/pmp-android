@@ -85,17 +85,17 @@ public class DebugInstallRGActivity extends Activity {
                         try {
                             ModelProxy.get().installResourceGroup(pkg, true);
                         } catch (InvalidXMLException ixmle) {
-                            Log.e("Invalid XML", ixmle);
+                            Log.e(this, "Invalid XML", ixmle);
                             complain("Invalid XML", ixmle);
                         } catch (InvalidPluginException ipe) {
-                            Log.e("Invalid Plugin", ipe);
+                            Log.e(this, "Invalid Plugin", ipe);
                             complain("Invalid Plugin", ipe);
                         }
                     } catch (IOException ioe) {
-                        Log.e("Cannot install RG", ioe);
+                        Log.e(this, "Cannot install RG", ioe);
                         complain("Cannot install RG", ioe);
                     } catch (NameNotFoundException e) {
-                        Log.e("DebugInstallRGActivity not found the " + pkg + " details: ", e);
+                        Log.e(this, "DebugInstallRGActivity not found the " + pkg + " details: ", e);
                     }
                     
                 }

@@ -269,7 +269,7 @@ public class Model {
                             
                             arrayAdapter.notifyDataSetChanged();
                         } else {
-                            Log.e("List of this day not found");
+                            Log.e(this, "List of this day not found");
                         }
                     }
                 });

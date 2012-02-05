@@ -82,10 +82,11 @@ public class PrivacySettingView extends LinearLayout {
                     + this.privacySetting.getHumanReadableValue(this.serviceFeature
                             .getRequiredPrivacySettingValue(this.privacySetting)));
         } catch (PrivacySettingValueException e) {
-            Log.e("The Privacy Setting '" + this.privacySetting.getName() + "' of Service Feature '"
-                    + this.serviceFeature.getName() + " (" + this.serviceFeature.getApp().getName()
-                    + ")' has an invalid value set '"
-                    + this.serviceFeature.getRequiredPrivacySettingValue(this.privacySetting) + "'", e);
+            Log.e(this,
+                    "The Privacy Setting '" + this.privacySetting.getName() + "' of Service Feature '"
+                            + this.serviceFeature.getName() + " (" + this.serviceFeature.getApp().getName()
+                            + ")' has an invalid value set '"
+                            + this.serviceFeature.getRequiredPrivacySettingValue(this.privacySetting) + "'", e);
             
             tvDescription.setText(Html.fromHtml("<span style=\"color:red;\">"
                     + getContext().getResources().getString(R.string.ps_invalid_value) + "</span>"));
@@ -103,7 +104,7 @@ public class PrivacySettingView extends LinearLayout {
                 stateImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_delete));
             }
         } catch (PrivacySettingValueException e) {
-            Log.e("A given Privacy Setting could not be compared with another one (ps.permits() failed).", e);
+            Log.e(this, "A given Privacy Setting could not be compared with another one (ps.permits() failed).", e);
         }
     }
     

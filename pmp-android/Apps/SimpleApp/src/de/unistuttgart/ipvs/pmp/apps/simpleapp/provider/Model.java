@@ -55,7 +55,7 @@ public class Model {
 				try {
 					remote.setState(state);
 				} catch (Exception e) {
-					Log.e("Could not set Wifi State", e);
+					Log.e(this, "Could not set Wifi State", e);
 					makeToast("Wifi state could not be changed");
 				}
 			}
@@ -84,7 +84,7 @@ public class Model {
 							wirelessToggleButton.setChecked(state);
 
 						} catch (Exception e) {
-							Log.e("Could not get Wifi State", e);
+							Log.e(this, "Could not get Wifi State", e);
 							makeToast("Wifi state couldn't be fetched");
 						}
 					}

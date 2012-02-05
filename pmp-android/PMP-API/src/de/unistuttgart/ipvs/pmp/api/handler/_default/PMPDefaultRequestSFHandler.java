@@ -58,7 +58,7 @@ public class PMPDefaultRequestSFHandler extends PMPRequestServiceFeaturesHandler
         try {
             this.semaphore.acquire();
         } catch (InterruptedException e) {
-            Log.e("Interrupted the ServiceFeatureHandler", e);
+            Log.e(this, "Interrupted the ServiceFeatureHandler", e);
         }
         
         /* Abort the IPCRequest if requested by the user. */

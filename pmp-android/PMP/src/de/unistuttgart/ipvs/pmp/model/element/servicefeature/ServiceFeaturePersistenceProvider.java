@@ -54,7 +54,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                 
                 ResourceGroup rg = getCache().getResourceGroups().get(rgPackage);
                 if (rg == null) {
-                    Log.w("Unavailable service feature cached (RG not present).");
+                    Log.w(this, "Unavailable service feature cached (RG not present).");
                     this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
                             reqValue));
                     
@@ -63,7 +63,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                     PrivacySetting ps = pss.get(psIdentifier);
                     
                     if (ps == null) {
-                        Log.w("Unavailable service feature cached (PS not found in RG).");
+                        Log.w(this, "Unavailable service feature cached (PS not found in RG).");
                         this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
                                 reqValue));
                         
@@ -120,7 +120,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
             cv.put(IDENTIFIER, identifier);
             
             if (sqldb.insert(TBL_SERVICEFEATURE, null, cv) == -1) {
-                Log.e("Could not write service feature.");
+                Log.e(this, "Could not write service feature.");
                 return null;
             }
             
@@ -134,7 +134,8 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                     cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
                     cv.put(REQUIREDVALUE, ps.getValue());
                     if (sqldb.insert(TBL_SFReqPSValue, null, cv) == -1) {
-                        Log.e("Could not write required privacy setting for service feature. Corruption of database very likely.");
+                        Log.e(this,
+                                "Could not write required privacy setting for service feature. Corruption of database very likely.");
                         return null;
                     }
                 }

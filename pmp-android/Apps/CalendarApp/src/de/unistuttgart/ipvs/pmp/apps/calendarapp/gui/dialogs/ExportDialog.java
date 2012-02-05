@@ -102,10 +102,10 @@ public class ExportDialog extends Dialog {
             final String fileName = ExportDialog.this.fileTextView.getText().toString();
             if (fileName.length() != 0) {
                 if (!Model.getInstance().isFileNameExisting(fileName)) {
-                    Log.d("Exporting...");
+                    Log.d(this, "Exporting...");
                     new FileSystemConnector().exportAppointments(Model.getInstance().getAppointmentList(), fileName);
                 } else {
-                    Log.d("Filename already exists!");
+                    Log.d(this, "Filename already exists!");
                     
                     // Show the confirm dialog for overwriting the file
                     new AlertDialog.Builder(Model.getInstance().getContext())
@@ -117,7 +117,7 @@ public class ExportDialog extends Dialog {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Override the file
-                                    Log.d("Exporting... Filename: " + fileName);
+                                    Log.d(this, "Exporting... Filename: " + fileName);
                                     new FileSystemConnector().exportAppointments(Model.getInstance()
                                             .getAppointmentList(), fileName);
                                 }
@@ -129,7 +129,7 @@ public class ExportDialog extends Dialog {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(Model.getInstance().getContext(), R.string.export_toast_cancel,
                                             Toast.LENGTH_SHORT).show();
-                                    Log.d("Exporting canceled.");
+                                    Log.d(this, "Exporting canceled.");
                                 }
                             }).show();
                     

@@ -38,10 +38,10 @@ public class Email extends ResourceGroup {
     }
 
     public void onRegistrationSuccess() {
-	Log.d("Registration success.");
+	Log.d(this, "Registration success.");
     }
 
     public void onRegistrationFailed(String message) {
-	Log.e("Registration failed with \"" + message + "\"");
+	Log.e(this, "Registration failed with \"" + message + "\"");
     }
 }

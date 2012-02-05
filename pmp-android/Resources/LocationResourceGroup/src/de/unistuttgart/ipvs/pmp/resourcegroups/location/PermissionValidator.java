@@ -32,7 +32,7 @@ public class PermissionValidator {
 						+ " with at least " + requiredValue + " as required value");
 			}
 		} catch (PrivacySettingValueException e) {
-			Log.e("Something went wrong while validating the permissions for Privacy Settings.", e);
+			Log.e(this, "Something went wrong while validating the permissions for Privacy Settings.", e);
 		}
 	}
 	

@@ -130,7 +130,7 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
             return PresetController.verifyServiceFeature(this);
             
         } catch (PrivacySettingValueException plve) {
-            Log.e("Could not check whether service feature is active.", plve);
+            Log.e(this, "Could not check whether service feature is active.", plve);
             return false;
         }
     }
