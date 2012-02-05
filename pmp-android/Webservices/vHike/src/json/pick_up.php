@@ -13,17 +13,21 @@ try {
 
 	if (General::validId($_POST["user_id"])) {
 		$user_id = $_POST["user_id"];
-		$driver = Session::getInstance() -> getLoggedInUser();
+		$driver = Session::getInstance()->getLoggedInUser();
 
-		$trip_id = $driver -> getCurrentTripId();
+		$trip_id = $driver->getCurrentTripId();
 		if ($trip_id) {
 			if (Ride::pick_up($user_id, $trip_id)) {
 				$output = array("successful" => true);
 			} else {
-				$output = array("successful" => false, "error" => "not_picked_up", "msg" => "Not able to pick up the user");
+				$output = array("successful" => false,
+								"error"      => "not_picked_up",
+								"msg"        => "Not able to pick up the user");
 			}
-		}else{
-			$output = array("successful" => false, "error" => "no_trip", "msg" => "No trip found");
+		} else {
+			$output = array("successful" => false,
+							"error"      => "no_trip",
+							"msg"        => "No trip found");
 		}
 		echo Json::arrayToJson($output);
 	}
@@ -33,5 +37,5 @@ try {
 } catch (DatabaseException1 $de) {
 	Json::printDatabaseError($de);
 }
-Database::getInstance() -> disconnect();
+Database::getInstance()->disconnect();
 ?>

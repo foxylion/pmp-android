@@ -1,59 +1,66 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Trip</title>
-<style type="text/css">
-body, td, th {
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: small;
-}
-body {
-	background-color: #EEE;
-}
-</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Trip</title>
+    <style type="text/css">
+        body, td, th {
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: small;
+        }
+
+        body {
+            background-color: #EEE;
+        }
+    </style>
 </head>
 
 <body>
 <h1>Ride management</h1>
+
 <h2>View history</h2>
+
 <form action="../ride_history.php" method="post" target="r">
-  <table>
-    <tr>
-      <td>Role:</td>
-      <td><input checked name="role" type="radio" value="driver" />driver <input name="role" type="radio" value="passenger" />passenger</td>
-    </tr>
-    <tr>
-      <td>Buttons:</td>
-      <td colspan="2"><input type="submit" />
-        <input type="reset" /></td>
-    </tr>
-  </table>
+    <table>
+        <tr>
+            <td>Role:</td>
+            <td><input checked name="role" type="radio" value="driver"/>driver <input name="role" type="radio"
+                                                                                      value="passenger"/>passenger
+            </td>
+        </tr>
+        <tr>
+            <td>Buttons:</td>
+            <td colspan="2"><input type="submit"/>
+                <input type="reset"/></td>
+        </tr>
+    </table>
 </form>
 
 <h2><a href="../trip_passengers.php" target="r">View passengers</a></h2>
 
 <h2>Rate user</h2>
+
 <form action="../ride_rate.php" method="post" target="r">
-  <table>
-    <tr>
-      <td>Recipient:</td>
-      <td><input name="recipient" type="text" value="" /></td>
-    </tr>
-    <tr>
-      <td>Trip:</td>
-      <td><input name="trip" type="text" value="" /></td>
-    </tr>
-    <tr>
-      <td>Rating:</td>
-      <td><input name="rating" type="text" value="" /> (1 &le; x &le; 5)</td>
-    </tr>
-    <tr>
-      <td>Buttons:</td>
-      <td colspan="2"><input type="submit" />
-        <input type="reset" /></td>
-    </tr>
-  </table>
+    <table>
+        <tr>
+            <td>Recipient:</td>
+            <td><input name="recipient" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Trip:</td>
+            <td><input name="trip" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td>Rating:</td>
+            <td><input name="rating" type="text" value=""/> (1 &le; x &le; 5)</td>
+        </tr>
+        <tr>
+            <td>Buttons:</td>
+            <td colspan="2"><input type="submit"/>
+                <input type="reset"/></td>
+        </tr>
+    </table>
 </form>
 
 </body>

@@ -9,12 +9,13 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-    $user = Session::getInstance()->getLoggedInUser();
-    $user->updateVisibility($_POST["email_public"], $_POST["firstname_public"], 
-            $_POST["lastname_public"], $_POST["tel_public"]);
-    echo Json::arrayToJson(array("successful" => true, "status" => "updated"));
+	$user = Session::getInstance()->getLoggedInUser();
+	$user->updateVisibility($_POST["email_public"], $_POST["firstname_public"],
+							$_POST["lastname_public"], $_POST["tel_public"]);
+	echo Json::arrayToJson(array("successful" => true,
+								 "status"     => "updated"));
 } catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
+	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
 ?>

@@ -11,21 +11,26 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-    $offers = Offer::loadOffers(Session::getInstance()->getLoggedInUser());
-    $offersOutput = array();
-    foreach ($offers as $offer) {
-        $offersOutput[] = array("offer" => $offer->getId(), 
-                                "userid" => $offer->getDriver()->getId(),
-                                "username" => $offer->getDriver()->getUsername(),
-                                "rating" => $offer->getDriver()->getRatingAvg(),
-                                "rating_num" => $offer->getDriver()->getRatingNum(),
-                                "lat" => $offer->getCurrentLat(),
-                                "lon" => $offer->getCurrentLon());
-    }
-    $output = array("successful" => true, "offers" => $offersOutput);
-    echo Json::arrayToJson($output);
+	$offers = Offer::loadOffers(Session::getInstance()->getLoggedInUser());
+	$offersOutput = null;
+	if ($offers && count($offers) > 0) {
+		$offersOutput = array();
+		foreach ($offers as $offer) {
+			$offersOutput[] = array("offer"       => $offer->getId(),
+									"userid"      => $offer->getTrip()->getDriver()->getId(),
+									"username"    => $offer->getTrip()->getDriver()->getUsername(),
+									"rating"      => $offer->getTrip()->getDriver()->getRatingAvg(),
+									"rating_num"  => $offer->getTrip()->getDriver()->getRatingNum(),
+									"lat"         => $offer->getTrip()->getCurrentLat(),
+									"lon"         => $offer->getTrip()->getCurrentLon(),
+									"last_update" => $offer->getTrip()->getLastUpdate());
+		}
+	}
+	$output = array("successful" => true,
+					"offers"	 => $offersOutput);
+	echo Json::arrayToJson($output);
 } catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
+	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
 ?>

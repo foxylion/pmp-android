@@ -9,29 +9,30 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-    // Get trip for the given id
-    $trip = Trip::loadTrip($_POST["id"]);
-    
-    // Make sure that this trip exists and belongs to the logged in user
-    if ($trip == null) {
-        $status = "no_trip";
-    } elseif (!$trip->getDriver()->isEqual(Session::getInstance()->getLoggedInUser())) {
-        $status = "invalid_user";
-    } elseif ($trip->hasEnded()) {
-        $status = "has_ended";
-    } elseif ($trip->updateData($_POST["avail_seats"])) {
-        $status = "updated";
-    } else {
-        $status = "already_uptodate";
-    }
-    
-    echo Json::arrayToJson($output = array("successful" => true, "status" => $status));
+	// Get trip for the given id
+	$trip = Trip::loadTrip($_POST["id"]);
 
-    
+	// Make sure that this trip exists and belongs to the logged in user
+	if ($trip == null) {
+		$status = "no_trip";
+	} elseif (!$trip->getDriver()->isEqual(Session::getInstance()->getLoggedInUser())) {
+		$status = "invalid_user";
+	} elseif ($trip->hasEnded()) {
+		$status = "has_ended";
+	} elseif ($trip->updateData($_POST["avail_seats"])) {
+		$status = "updated";
+	} else {
+		$status = "already_uptodate";
+	}
+
+	echo Json::arrayToJson($output = array("successful" => true,
+										   "status"     => $status));
+
+
 } catch (InvalidArgumentException $iae) {
-    Json::printInvalidInputError();
+	Json::printInvalidInputError();
 } catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
+	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
 ?>
