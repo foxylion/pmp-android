@@ -38,6 +38,8 @@ public class MockupControl {
     
     private static final List<Throwable> youreDoingItWrong = new ArrayList<Throwable>();
     
+    private static final String TAG = "MockupControl";
+    
     private static MockupApp app1;
     private static MockupApp app2;
     private static MockupApp app3;
@@ -123,7 +125,7 @@ public class MockupControl {
             p1.assignPrivacySetting(rg3.getPrivacySetting("psw"), "true");
             p1.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
-            Log.e("app1, app2, app3 or rg1 was null. Could not assign the preset 1.");
+            Log.e(TAG, "app1, app2, app3 or rg1 was null. Could not assign the preset 1.");
         }
         
         ident = "preset_2";
@@ -138,7 +140,7 @@ public class MockupControl {
             p2.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
             p2.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
         } else {
-            Log.e("app3, app4 or rg1 was null. Could not assign the preset 2.");
+            Log.e(TAG, "app3, app4 or rg1 was null. Could not assign the preset 2.");
         }
         
         ident = "preset_3";
@@ -152,7 +154,7 @@ public class MockupControl {
             p3.assignPrivacySetting(rg3.getPrivacySetting("facebook"), "true");
             p3.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
-            Log.e("app1 or rg1 was null. Could not assign the preset 3.");
+            Log.e(TAG, "app1 or rg1 was null. Could not assign the preset 3.");
         }
         
         ident = "preset_4";
@@ -166,7 +168,7 @@ public class MockupControl {
             p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
             p4.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
-            Log.e("app1, app3 or rg1 was null. Could not assign the preset 4.");
+            Log.e(TAG, "app1, app3 or rg1 was null. Could not assign the preset 4.");
         }
     }
     
@@ -336,7 +338,7 @@ public class MockupControl {
             result = XMLUtilityProxy.parseRGISXML(context.getAssets().open("samples2/rg/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
-            Log.e("Could not mock RGIS", t);
+            Log.e(TAG, "Could not mock RGIS", t);
         }
         return result;
     }
@@ -348,7 +350,7 @@ public class MockupControl {
             result = XMLUtilityProxy.parseAISXML(context.getAssets().open("samples2/app/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
-            Log.e("Could not mock AIS", t);
+            Log.e(TAG, "Could not mock AIS", t);
         }
         return result;
     }

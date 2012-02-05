@@ -107,13 +107,13 @@ public class ExternalFileAccess extends IFileAccess.Stub {
         try {
             return Utils.readFileToString(getExternalDirectory(path));
         } catch (FileNotFoundException e) {
-            Log.d("Cannot open file: " + path, e);
+            Log.d(this, "Cannot open file: " + path, e);
             throw new RemoteException();
         } catch (IOException e) {
-            Log.d("Cannot read file", e);
+            Log.d(this, "Cannot read file", e);
             throw new RemoteException();
         } catch (IllegalArgumentException e) {
-            Log.d(SWITCHING_EXCEPTION, e);
+            Log.d(this, SWITCHING_EXCEPTION, e);
             throw new IllegalAccessError(SWITCHING_EXCEPTION);
         }
         
@@ -148,10 +148,10 @@ public class ExternalFileAccess extends IFileAccess.Stub {
             Utils.writeStringToFile(getExternalDirectory(path), data, append);
             return true;
         } catch (IOException e) {
-            Log.d("Cannot write data to " + path);
+            Log.d(this, "Cannot write data to " + path);
             return false;
         } catch (IllegalArgumentException e) {
-            Log.d(SWITCHING_EXCEPTION, e);
+            Log.d(this, SWITCHING_EXCEPTION, e);
             throw new IllegalAccessError(SWITCHING_EXCEPTION);
         }
     }
@@ -179,7 +179,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
         try {
             return getExternalDirectory(path).delete();
         } catch (IllegalArgumentException e) {
-            Log.d(SWITCHING_EXCEPTION, e);
+            Log.d(this, SWITCHING_EXCEPTION, e);
             throw new IllegalAccessError(SWITCHING_EXCEPTION);
         }
     }
@@ -207,7 +207,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
         try {
             return Utils.getFileDetailsList(getExternalDirectory(directory));
         } catch (IllegalArgumentException e) {
-            Log.d(SWITCHING_EXCEPTION, e);
+            Log.d(this, SWITCHING_EXCEPTION, e);
             throw new IllegalAccessError(SWITCHING_EXCEPTION);
         }
     }
@@ -236,7 +236,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
         try {
             return getExternalDirectory(path).mkdirs();
         } catch (IllegalArgumentException e) {
-            Log.d(SWITCHING_EXCEPTION, e);
+            Log.d(this, SWITCHING_EXCEPTION, e);
             throw new IllegalAccessError(SWITCHING_EXCEPTION);
         }
     }

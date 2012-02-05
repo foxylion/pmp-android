@@ -59,11 +59,11 @@ public class Filesystem extends ResourceGroup {
     }
     
     public void onRegistrationSuccess() {
-        Log.d("Registration was successfull");
+        Log.d(this, "Registration was successfull");
     }
     
     
     public void onRegistrationFailed(String message) {
-        Log.d("Registration failed: " + message);
+        Log.d(this, "Registration failed: " + message);
     }
 }

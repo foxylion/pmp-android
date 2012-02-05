@@ -37,10 +37,10 @@ public class InstallReceiver extends BroadcastReceiver {
             
         } catch (IOException ioe) {
             // don't care - desired behavior
-            Log.v("InstallReceiver ignoring : " + intentPackage);
+            Log.v(this, "InstallReceiver ignoring : " + intentPackage);
             
         } catch (NameNotFoundException nnfe) {
-            Log.e("InstallReceiver failed lookup : ", nnfe);
+            Log.e(this, "InstallReceiver failed lookup : ", nnfe);
         }
     }
 }

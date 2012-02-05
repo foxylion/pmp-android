@@ -42,6 +42,8 @@ import de.unistuttgart.ipvs.pmp.Log;
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
     
+    private static final String TAG = "DatabaseOpenHelper";
+    
     /**
      * Name of the database.
      */
@@ -94,16 +96,16 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("Creating database structure");
+        Log.d(this, "Creating database structure");
         
         String sqlQueries = readSqlFile(whereIsSql(DB_VERSION));
         
         if (sqlQueries != null) {
-            Log.d("Executing " + whereIsSql(DB_VERSION) + " ...");
+            Log.d(this, "Executing " + whereIsSql(DB_VERSION) + " ...");
             if (DatabaseOpenHelper.executeMultipleQueries(db, sqlQueries)) {
-                Log.d("Created database");
+                Log.d(this, "Created database");
             } else {
-                Log.w("Database not created");
+                Log.w(this, "Database not created");
             }
             
         }
@@ -115,10 +117,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("Update request " + oldVersion + " to " + newVersion);
+        Log.d(this, "Update request " + oldVersion + " to " + newVersion);
         
         if ((newVersion == DB_VERSION) && (oldVersion < DB_VERSION)) {
-            Log.d("Forcing db re-creation");
+            Log.d(this, "Forcing db re-creation");
             
             // delete everything in sight
             Cursor c = db.rawQuery(
@@ -140,18 +142,18 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      * Cleans all data from the tables.
      */
     public void cleanTables() {
-        Log.d("Cleaning database.");
+        Log.d(this, "Cleaning database.");
         
         String sqlQueries = readSqlFile(whereIsCleanSql(DB_VERSION));
         
         if (sqlQueries != null) {
-            Log.d("Executing " + whereIsCleanSql(DB_VERSION) + " ...");
+            Log.d(this, "Executing " + whereIsCleanSql(DB_VERSION) + " ...");
             SQLiteDatabase sqldb = getWritableDatabase();
             try {
                 if (DatabaseOpenHelper.executeMultipleQueries(sqldb, sqlQueries)) {
-                    Log.d("Cleaned database");
+                    Log.d(this, "Cleaned database");
                 } else {
-                    Log.w("Database not cleaned");
+                    Log.w(this, "Database not cleaned");
                 }
             } finally {
                 sqldb.close();
@@ -192,7 +194,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             sqlQuery = sb.toString();
             
         } catch (IOException e) {
-            Log.e("Reading the SQL file from " + filename + " failed.", e);
+            Log.e(this, "Reading the SQL file from " + filename + " failed.", e);
             sqlQuery = null;
         }
         
@@ -212,7 +214,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public static boolean executeMultipleQueries(SQLiteDatabase db, String queries) {
         boolean result = true;
         
-        Log.v("------- Executing SQL Queries  ------");
+        Log.v(TAG, "------- Executing SQL Queries  ------");
         
         for (String query : queries.split(";")) {
             
@@ -221,17 +223,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 continue;
             }
             
-            Log.v(query);
+            Log.v(TAG, query);
             
             try {
                 db.execSQL(query);
             } catch (SQLException e) {
-                Log.e("Got an SQLException while executing query", e);
+                Log.e(TAG, "Got an SQLException while executing query", e);
                 result = false;
             }
         }
         
-        Log.v("------- SQL Queries Complete   ------");
+        Log.v(TAG, "------- SQL Queries Complete   ------");
         
         return result;
     }
@@ -253,22 +255,22 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             if (c.moveToFirst()) {
                 do {
                     String tbl = c.getString(c.getColumnIndex("name"));
-                    Log.d("TABLE '" + tbl + "'");
+                    Log.d(this, "TABLE '" + tbl + "'");
                     this.sqlqb.setTables(tbl);
                     
                     // null anyone?
                     Cursor c2 = this.sqlqb.query(db, null, null, null, null, null, null);
                     if (c2.moveToFirst()) {
                         do {
-                            Log.d("  row " + (1 + c2.getPosition()) + " of " + c2.getCount());
+                            Log.d(this, "  row " + (1 + c2.getPosition()) + " of " + c2.getCount());
                             
                             for (int i = 0; i < c2.getColumnCount(); i++) {
-                                Log.d("     " + c2.getColumnName(i) + " => '" + c2.getString(i) + "'");
+                                Log.d(this, "     " + c2.getColumnName(i) + " => '" + c2.getString(i) + "'");
                             }
                             
                         } while (c2.moveToNext());
                     } else {
-                        Log.d("  empty table");
+                        Log.d(this, "  empty table");
                     }
                     c2.close();
                     

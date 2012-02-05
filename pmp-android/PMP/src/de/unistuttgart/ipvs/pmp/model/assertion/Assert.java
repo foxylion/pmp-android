@@ -15,6 +15,8 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
  */
 public class Assert {
     
+    private static final String TAG = "Assert";
+    
     /*
      * all kinds of strings used in error messages
      */
@@ -69,17 +71,17 @@ public class Assert {
             AssertError ae = aec.newInstance(format(formatText, referenceName, reference));
             return ae;
         } catch (SecurityException e) {
-            Log.e("Was not allowed to get constructor: ", e);
+            Log.e(TAG, "Was not allowed to get constructor: ", e);
         } catch (NoSuchMethodException e) {
-            Log.e("Constructor not present in AssertError descendant: ", e);
+            Log.e(TAG, "Constructor not present in AssertError descendant: ", e);
         } catch (IllegalArgumentException e) {
-            Log.e("Constructor was unable to process String argument: ", e);
+            Log.e(TAG, "Constructor was unable to process String argument: ", e);
         } catch (InstantiationException e) {
-            Log.e("AssertError descendant was not instantiable: ", e);
+            Log.e(TAG, "AssertError descendant was not instantiable: ", e);
         } catch (IllegalAccessException e) {
-            Log.e("Constructor was not accessible: ", e);
+            Log.e(TAG, "Constructor was not accessible: ", e);
         } catch (InvocationTargetException e) {
-            Log.e("Unexpected exception ind constructor: ", e);
+            Log.e(TAG, "Unexpected exception ind constructor: ", e);
         }
         return new AssertError("Reflection error while trying to print error message.");
     }
@@ -95,7 +97,7 @@ public class Assert {
             String referenceName, Object reference) {
         if (check == null) {
             AssertError ae = construct(reaction, formatText, referenceName, reference);
-            Log.e("Assertion", ae);
+            Log.e(TAG, "Assertion", ae);
             throw ae;
         }
     }
@@ -111,7 +113,7 @@ public class Assert {
             String referenceName, Object reference) {
         if (check != null) {
             AssertError ae = construct(reaction, formatText, referenceName, reference);
-            Log.e("Assertion", ae);
+            Log.e(TAG, "Assertion", ae);
             throw ae;
         }
     }
@@ -127,7 +129,7 @@ public class Assert {
             String referenceName, Object reference) {
         if ((check != null) && !(check instanceof IApp) && !(check instanceof IResourceGroup)) {
             AssertError ae = construct(reaction, formatText, referenceName, reference);
-            Log.e("Assertion", ae);
+            Log.e(TAG, "Assertion", ae);
             throw ae;
         }
     }
@@ -144,7 +146,7 @@ public class Assert {
             String formatText, String referenceName, Object reference) {
         if (!clazz.isAssignableFrom(check.getClass())) {
             AssertError ae = construct(reaction, formatText, referenceName, reference);
-            Log.e("Assertion", ae);
+            Log.e(TAG, "Assertion", ae);
             throw ae;
         }
     }

@@ -230,7 +230,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
             
             this.mainActivityIntent = createMainActivityIntent(activityName);
         } catch (NameNotFoundException e) {
-            Log.e("Failed to load package details from android package manager.", e);
+            Log.e(this, "Failed to load package details from android package manager.", e);
         }
     }
     

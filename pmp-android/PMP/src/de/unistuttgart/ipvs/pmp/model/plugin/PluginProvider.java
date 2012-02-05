@@ -98,19 +98,19 @@ public class PluginProvider implements IPluginProvider {
         this.cacheRevision = new HashMap<String, Long>();
         
         if (!PLUGIN_BASE_DIR.mkdirs() && !PLUGIN_BASE_DIR.exists()) {
-            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
+            Log.e(this, "Error while creating directory in PluginProvider: " + PLUGIN_BASE_DIR.getAbsolutePath());
         }
         
         if (!PLUGIN_APK_DIR.mkdirs() && !PLUGIN_APK_DIR.exists()) {
-            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_APK_DIR.getAbsolutePath());
+            Log.e(this, "Error while creating directory in PluginProvider: " + PLUGIN_APK_DIR.getAbsolutePath());
         }
         
         if (!PLUGIN_DEX_DIR.mkdirs() && !PLUGIN_DEX_DIR.exists()) {
-            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_DEX_DIR.getAbsolutePath());
+            Log.e(this, "Error while creating directory in PluginProvider: " + PLUGIN_DEX_DIR.getAbsolutePath());
         }
         
         if (!PLUGIN_ASSET_DIR.mkdirs() && !PLUGIN_ASSET_DIR.exists()) {
-            Log.e("Error while creating directory in PluginProvider: " + PLUGIN_ASSET_DIR.getAbsolutePath());
+            Log.e(this, "Error while creating directory in PluginProvider: " + PLUGIN_ASSET_DIR.getAbsolutePath());
         }
     }
     
@@ -187,7 +187,7 @@ public class PluginProvider implements IPluginProvider {
                 
             }
         } catch (IOException ioe) {
-            Log.e("IO exception during copy file to " + target, ioe);
+            Log.e(this, "IO exception during copy file to " + target, ioe);
         }
         
     }
@@ -200,7 +200,7 @@ public class PluginProvider implements IPluginProvider {
      */
     private void deleteFile(String fileName) {
         if (!(new File(fileName).delete())) {
-            Log.e("Error while deleting " + fileName);
+            Log.e(this, "Error while deleting " + fileName);
         }
     }
     
@@ -263,39 +263,39 @@ public class PluginProvider implements IPluginProvider {
             
         } catch (ClassNotFoundException cnfe) {
             errorMsg = String.format(ERROR_CLASS_NOT_FOUND, rgPackage, apkName, className);
-            Log.e(errorMsg, cnfe);
+            Log.e(this, errorMsg, cnfe);
             throw new InvalidPluginException(errorMsg, cnfe);
         } catch (ClassCastException cce) {
             errorMsg = String.format(ERROR_CLASS_NOT_CASTABLE, rgPackage, apkName, className);
-            Log.e(errorMsg, cce);
+            Log.e(this, errorMsg, cce);
             throw new InvalidPluginException(errorMsg, cce);
         } catch (SecurityException se) {
             errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED, rgPackage, apkName, className);
-            Log.e(errorMsg, se);
+            Log.e(this, errorMsg, se);
             throw new InvalidPluginException(errorMsg, se);
         } catch (NoSuchMethodException nsme) {
             errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_FOUND, rgPackage, apkName, className);
-            Log.e(errorMsg, nsme);
+            Log.e(this, errorMsg, nsme);
             throw new InvalidPluginException(errorMsg, nsme);
         } catch (IllegalArgumentException iae) {
             errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT, rgPackage, apkName, className);
-            Log.e(errorMsg, iae);
+            Log.e(this, errorMsg, iae);
             throw new InvalidPluginException(errorMsg, iae);
         } catch (InstantiationException ie) {
             errorMsg = String.format(ERROR_CLASS_NOT_INSTANTIABLE, rgPackage, apkName, className);
-            Log.e(errorMsg, ie);
+            Log.e(this, errorMsg, ie);
             throw new InvalidPluginException(errorMsg, ie);
         } catch (IllegalAccessException iae) {
             errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE, rgPackage, apkName, className);
-            Log.e(errorMsg, iae);
+            Log.e(this, errorMsg, iae);
             throw new InvalidPluginException(errorMsg, iae);
         } catch (InvocationTargetException ite) {
             errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION, rgPackage, apkName, className);
-            Log.e(errorMsg, ite);
+            Log.e(this, errorMsg, ite);
             throw new InvalidPluginException(errorMsg, ite);
         } catch (IOException ioe) {
             errorMsg = String.format(ERROR_ASSETS_NOT_ACCESSIBLE, rgPackage, apkName, className);
-            Log.e(errorMsg, ioe);
+            Log.e(this, errorMsg, ioe);
             throw new InvalidPluginException(errorMsg, ioe);
         }
     }

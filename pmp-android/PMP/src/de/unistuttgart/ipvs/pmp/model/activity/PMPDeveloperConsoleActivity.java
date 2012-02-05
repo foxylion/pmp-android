@@ -174,7 +174,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     Toast.makeText(PMPDeveloperConsoleActivity.this, "Cleaned tables", Toast.LENGTH_SHORT).show();
                     
                 } catch (Throwable t) {
-                    Log.e("While cleaning tables: ", t);
+                    Log.e(this, "While cleaning tables: ", t);
                 }
             }
         });
@@ -220,14 +220,14 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     try {
                         ModelProxy.get().installResourceGroup(rgId.getText().toString(), true);
                     } catch (InvalidXMLException ixmle) {
-                        Log.e("Invalid XML", ixmle);
+                        Log.e(this, "Invalid XML", ixmle);
                         complain("Invalid XML", ixmle);
                     } catch (InvalidPluginException ipe) {
-                        Log.e("Invalid Plugin", ipe);
+                        Log.e(this, "Invalid Plugin", ipe);
                         complain("Invalid Plugin", ipe);
                     }
                 } catch (IOException ioe) {
-                    Log.e("Cannot install RG", ioe);
+                    Log.e(this, "Cannot install RG", ioe);
                     complain("Cannot install RG", ioe);
                 }
                 
@@ -254,47 +254,47 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     ModelCache mc = (ModelCache) f.get(m);
                     
                     if (mc == null) {
-                        Log.d("MODEL CACHE == NULL");
+                        Log.d(this, "MODEL CACHE == NULL");
                         return;
                     }
                     
                     // and off you go
-                    Log.d("LIST OF APPs");
+                    Log.d(this, "LIST OF APPs");
                     for (Entry<String, App> e : mc.getApps().entrySet()) {
-                        Log.d(String.format("  %s => %s", e.getKey(), e.getValue()));
+                        Log.d(this, String.format("  %s => %s", e.getKey(), e.getValue()));
                     }
                     
-                    Log.d("LIST OF SFs");
+                    Log.d(this, "LIST OF SFs");
                     for (Entry<App, Map<String, ServiceFeature>> e : mc.getServiceFeatures().entrySet()) {
-                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        Log.d(this, String.format("  MAP FOR %s", e.getKey()));
                         for (Entry<String, ServiceFeature> e2 : e.getValue().entrySet()) {
-                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                            Log.d(this, String.format("     %s => %s", e2.getKey(), e2.getValue()));
                         }
                     }
                     
-                    Log.d("LIST OF RGs");
+                    Log.d(this, "LIST OF RGs");
                     for (Entry<String, ResourceGroup> e : mc.getResourceGroups().entrySet()) {
-                        Log.d(String.format("  %s => %s", e.getKey(), e.getValue()));
+                        Log.d(this, String.format("  %s => %s", e.getKey(), e.getValue()));
                     }
                     
-                    Log.d("LIST OF PSs");
+                    Log.d(this, "LIST OF PSs");
                     for (Entry<ResourceGroup, Map<String, PrivacySetting>> e : mc.getPrivacySettings().entrySet()) {
-                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        Log.d(this, String.format("  MAP FOR %s", e.getKey()));
                         for (Entry<String, PrivacySetting> e2 : e.getValue().entrySet()) {
-                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                            Log.d(this, String.format("     %s => %s", e2.getKey(), e2.getValue()));
                         }
                     }
                     
-                    Log.d("LIST OF PRESETs");
+                    Log.d(this, "LIST OF PRESETs");
                     for (Entry<IModelElement, Map<String, Preset>> e : mc.getPresets().entrySet()) {
-                        Log.d(String.format("  MAP FOR %s", e.getKey()));
+                        Log.d(this, String.format("  MAP FOR %s", e.getKey()));
                         for (Entry<String, Preset> e2 : e.getValue().entrySet()) {
-                            Log.d(String.format("     %s => %s", e2.getKey(), e2.getValue()));
+                            Log.d(this, String.format("     %s => %s", e2.getKey(), e2.getValue()));
                         }
                     }
                     
                 } catch (Throwable t) {
-                    Log.e("While debugging model: ", t);
+                    Log.e(this, "While debugging model: ", t);
                 }
                 
             }
@@ -318,7 +318,7 @@ public class PMPDeveloperConsoleActivity extends Activity {
                     doh.debug();
                     
                 } catch (Throwable t) {
-                    Log.e("While debugging db: ", t);
+                    Log.e(this, "While debugging db: ", t);
                 }
             }
             

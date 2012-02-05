@@ -67,7 +67,7 @@ public class ServerProvider implements IServerProvider {
     
     private ServerProvider() {
         if (!PMPApplication.getContext().getCacheDir().mkdirs() && !PMPApplication.getContext().getCacheDir().exists()) {
-            Log.e("Error while creating directory in ServerProvider.");
+            Log.e(this, "Error while creating directory in ServerProvider.");
         }
         this.callback = NullServerDownloadCallback.instance;
     }
@@ -82,18 +82,18 @@ public class ServerProvider implements IServerProvider {
         ObjectInputStream ois = new ObjectInputStream(tcpSocket.getInputStream());
         try {
             
-            Log.d("[ServerConnection] Sending request " + request.toString() + " ...");
+            Log.d(this, "[ServerConnection] Sending request " + request.toString() + " ...");
             this.callback.step(3, 7);
             oos.writeObject(request);
             
-            Log.d("[ServerConnection] Receiving ...");
+            Log.d(this, "[ServerConnection] Receiving ...");
             this.callback.step(4, 7);
             result = ois.readObject();
             if (!(result instanceof AbstractResponse)) {
                 throw new ClassNotFoundException();
             }
             
-            Log.d("[ServerConnection] Sending RequestCommunicationEnd ...");
+            Log.d(this, "[ServerConnection] Sending RequestCommunicationEnd ...");
             this.callback.step(5, 7);
             oos.writeObject(new RequestCommunicationEnd());
             
@@ -154,23 +154,23 @@ public class ServerProvider implements IServerProvider {
                 }
                 
             } catch (IOException e) {
-                Log.e("IOException during loading cache", e);
+                Log.e(this, "IOException during loading cache", e);
                 cachedResponse = null;
                 
             } catch (ClassNotFoundException e) {
-                Log.e("ClassNotFoundException during loading cache", e);
+                Log.e(this, "ClassNotFoundException during loading cache", e);
                 cachedResponse = null;
                 
             }
         }
         
-        Log.v("[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
+        Log.v(this, "[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
         this.callback.step(1, 7);
         
         // if the cache is that new it is extremely unlikely that something has changed
         // e.g. we're installing several RGs
         if ((cachedResponse != null) && (cacheFile.lastModified() + LOCAL_CACHE_ONLY_TIME > System.currentTimeMillis())) {
-            Log.v("[ServerConnection] Using fresh cache");
+            Log.v(this, "[ServerConnection] Using fresh cache");
             this.callback.step(1, 1);
             return cachedResponse;
         }
@@ -209,10 +209,10 @@ public class ServerProvider implements IServerProvider {
         try {
             response = handleRequest(request);
         } catch (IOException e) {
-            Log.e("IOException during " + request.getClass().getSimpleName(), e);
+            Log.e(this, "IOException during " + request.getClass().getSimpleName(), e);
             return null;
         } catch (ClassNotFoundException e) {
-            Log.e("ClassNotFoundException during " + request.getClass().getSimpleName(), e);
+            Log.e(this, "ClassNotFoundException during " + request.getClass().getSimpleName(), e);
             return null;
         }
         
@@ -220,7 +220,7 @@ public class ServerProvider implements IServerProvider {
         
         if (response instanceof CachedRequestResponse) {
             // okay to use cache     
-            Log.v("[ServerConnection] Received Cache-OK message, using cache");
+            Log.v(this, "[ServerConnection] Received Cache-OK message, using cache");
             this.callback.step(6, 6);
             return cachedResponse;
             
@@ -240,10 +240,10 @@ public class ServerProvider implements IServerProvider {
                     fos.close();
                 }
             } catch (IOException e) {
-                Log.e("IOException during " + response.getClass().getSimpleName(), e);
+                Log.e(this, "IOException during " + response.getClass().getSimpleName(), e);
             }
             
-            Log.v("[ServerConnection] New cache written");
+            Log.v(this, "[ServerConnection] New cache written");
             this.callback.step(7, 7);
             return response;
         }
@@ -305,7 +305,7 @@ public class ServerProvider implements IServerProvider {
             return tmp;
             
         } catch (IOException ioe) {
-            Log.e("IO exception during downloading RG " + rgPackage, ioe);
+            Log.e(this, "IO exception during downloading RG " + rgPackage, ioe);
             return null;
         }
     }

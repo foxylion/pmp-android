@@ -55,7 +55,7 @@ public class IPCScheduler extends Thread {
      */
     public void queue(IPCCommand command) {
         if (!this.queue.offer(command)) {
-            Log.e("BlockingQueue ran out of capacity!");
+            Log.e(this, "BlockingQueue ran out of capacity!");
         }
     }
     

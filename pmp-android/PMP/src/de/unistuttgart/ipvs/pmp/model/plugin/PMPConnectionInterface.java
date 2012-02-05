@@ -60,7 +60,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
             return PresetController.findBestValue(a, ps);
             
         } catch (PrivacySettingValueException plve) {
-            Log.e("Error while calculating privacy setting value.", plve);
+            Log.e(this, "Error while calculating privacy setting value.", plve);
             return null;
         }
     }

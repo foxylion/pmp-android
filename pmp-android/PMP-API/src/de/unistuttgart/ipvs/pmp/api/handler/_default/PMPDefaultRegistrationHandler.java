@@ -98,7 +98,7 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
             try {
                 s.acquire();
             } catch (InterruptedException e) {
-                Log.e("Interrupted the RegistrationHandler", e);
+                Log.e(this, "Interrupted the RegistrationHandler", e);
             }
         }
     }

@@ -33,17 +33,17 @@ public abstract class IPC2PMPCommand<T extends PMPHandler> extends IPCCommand {
         try {
             id = binder.getInterfaceDescriptor();
         } catch (RemoteException re) {
-            Log.e("Cannot get interface descriptor: ", re);
+            Log.e(this, "Cannot get interface descriptor: ", re);
         }
         
         if (id.equals(IPMPService.class.getName())) {
             try {
                 executeOnPMP(IPMPService.Stub.asInterface(binder));
             } catch (RemoteException re) {
-                Log.e("Unexpected remote exception: ", re);
+                Log.e(this, "Unexpected remote exception: ", re);
             }
         } else {
-            Log.e("Got wrong IBinder for PMP: " + id);
+            Log.e(this, "Got wrong IBinder for PMP: " + id);
         }
     }
     

@@ -133,7 +133,7 @@ public class App extends ModelElement implements IApp {
             IPCProvider.getInstance().queue(getIdentifier(), verification);
             
         } catch (PrivacySettingValueException plve) {
-            Log.e("Could not check which service features are active.", plve);
+            Log.e(this, "Could not check which service features are active.", plve);
         }
     }
     

@@ -140,9 +140,9 @@ public class PMP implements IPMP {
      * @param update
      */
     protected void onServiceFeatureUpdate(final Bundle update) {
-        Log.d(this + " caching service features...");
+        Log.d(this, this + " caching service features...");
         for (String sfId : update.keySet()) {
-            Log.v(this + " received " + sfId + " = " + update.getBoolean(sfId));
+            Log.v(this, this + " received " + sfId + " = " + update.getBoolean(sfId));
             this.sfsCache.put(sfId, update.getBoolean(sfId));
         }
         
@@ -166,7 +166,7 @@ public class PMP implements IPMP {
      * @param binder
      */
     protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-        Log.d(this + " caching resource...");
+        Log.d(this, this + " caching resource...");
         if (binder != null) {
             this.resCache.put(resource, binder);
         }
