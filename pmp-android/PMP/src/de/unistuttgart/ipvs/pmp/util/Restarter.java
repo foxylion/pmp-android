@@ -13,7 +13,7 @@ import android.content.Intent;
  * @author Jakob Jarosch
  * 
  */
-public class KillAppUtil {
+public class Restarter {
     
     /**
      * Kills the referenced {@link Application} and restarts the {@link Activity}.
