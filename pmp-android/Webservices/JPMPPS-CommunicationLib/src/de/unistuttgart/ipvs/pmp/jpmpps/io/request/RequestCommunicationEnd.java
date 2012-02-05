@@ -6,7 +6,7 @@ package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
  * 
  * @author Jakob Jarosch
  */
-public class RequestCommunicationEnd implements IRequest {
+public class RequestCommunicationEnd extends AbstractRequest {
 
 	private static final long serialVersionUID = 1L;
 

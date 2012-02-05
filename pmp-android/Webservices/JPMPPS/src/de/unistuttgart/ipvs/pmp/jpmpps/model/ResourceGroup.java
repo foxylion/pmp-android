@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -22,72 +21,93 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ResourceGroup {
-
-	private File path;
-	
-	private RGIS parsedRGIS = null;
-	
-	private long revision = Long.MIN_VALUE;
-
-	/**
-	 * Creates a new ResourceGroup.
-	 */
-	public ResourceGroup(File filename) throws FileNotFoundException {
-		this.path = filename;
-
-		if (!this.path.isFile()) {
-			throw new FileNotFoundException();
-		}
-	}
-
-	/**
-	 * @return Returns the Path to the file.
-	 */
-	public File getPath() {
-		return this.path;
-	}
-
-	/**
-	 * @return Returns a {@link InputStream} for the {@link ResourceGroup}.
-	 */
-	public InputStream getInputStream() {
-		try {
-			return new FileInputStream(this.path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public RGIS getRGIS() {
-		if(parsedRGIS != null) {
-			return parsedRGIS;
-		}
-		
-		/* Start new parsing proccess. */
-		RGISParser parser = new RGISParser();
-
-		try {
-			ZipFile zip = new ZipFile(getPath());
-			ZipEntry entry = zip.getEntry("assets/rgis.xml");
-			if (entry == null) {
-				System.out.println("[E] rgis.xml does not exist in package " + getPath().getName()+ ".");
-				return null;
-			}
-			InputStream stream = zip.getInputStream(entry);
-			parsedRGIS = parser.parse(stream);
-			
-		} catch (IOException e) {
-			System.out.println("[E] Failed to load rgis.xml from package " + getPath().toString() + ", skipping. (Error: " + e.getMessage() + ")");
-		}
-		
-		/* Load the revision of the rg */
-		
-		
-		return parsedRGIS;
-	}
-
+    
+    private static final int REVISION_CHECK_DELAY = 60 * 1000;
+    
+    private File path;
+    
+    private RGIS parsedRGIS = null;
+    
+    private long revision = Long.MIN_VALUE;
+    private long lastRevisionUpdate = 0;
+    
+    
+    /**
+     * Creates a new ResourceGroup.
+     */
+    public ResourceGroup(File filename) throws FileNotFoundException {
+        this.path = filename;
+        
+        if (!this.path.isFile()) {
+            throw new FileNotFoundException();
+        }
+    }
+    
+    
+    /**
+     * @return Returns the Path to the file.
+     */
+    public File getPath() {
+        return this.path;
+    }
+    
+    
+    /**
+     * @return Returns a {@link InputStream} for the {@link ResourceGroup}.
+     */
+    public InputStream getInputStream() {
+        try {
+            return new FileInputStream(this.path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
+    public RGIS getRGIS() {
+        long currentRevision = revision;
+        if (lastRevisionUpdate + REVISION_CHECK_DELAY < System.currentTimeMillis()) {
+            currentRevision = RevisionReader.get().readRevision(path);
+        }
+        
+        if (parsedRGIS != null && revision == currentRevision) {
+            return parsedRGIS;
+        }
+        
+        /* Update the revision */
+        revision = currentRevision;
+        
+        /* Start new parsing execution. */
+        RGISParser parser = new RGISParser();
+        
+        try {
+            ZipFile zip = new ZipFile(getPath());
+            ZipEntry entry = zip.getEntry("assets/rgis.xml");
+            if (entry == null) {
+                System.out.println("[E] rgis.xml does not exist in package " + getPath().getName() + ".");
+                return null;
+            }
+            InputStream stream = zip.getInputStream(entry);
+            parsedRGIS = parser.parse(stream);
+            
+        } catch (IOException e) {
+            System.out.println("[E] Failed to load rgis.xml from package " + getPath().toString()
+                    + ", skipping. (Error: " + e.getMessage() + ")");
+        }
+        
+        return parsedRGIS;
+    }
+    
+    
+    /**
+     * Returns a localized version of the {@link ResourceGroup}.
+     * 
+     * @param locale
+     *            Locale in which the resource group should be returned.
+     * @return A localized version of the {@link ResourceGroup}.
+     */
     public LocalizedResourceGroup getLocalized(String locale) {
         LocalizedResourceGroup lrg = new LocalizedResourceGroup();
         

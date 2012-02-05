@@ -12,7 +12,7 @@ import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.IRequest;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.request.AbstractRequest;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
@@ -73,7 +73,7 @@ public class ServerProvider implements IServerProvider {
     }
     
     
-    public AbstractResponse handleRequest(IRequest request) throws IOException, ClassNotFoundException {
+    public AbstractResponse handleRequest(AbstractRequest request) throws IOException, ClassNotFoundException {
         Socket tcpSocket = new Socket(SERVER_URL, SERVER_PORT);
         
         Object result = null;
@@ -176,7 +176,7 @@ public class ServerProvider implements IServerProvider {
         }
         
         // send request
-        IRequest request = null;
+        AbstractRequest request = null;
         switch (comType) {
             case REQUEST_RESOURCE_GROUP_APK:
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupPackageResponse)) {
@@ -191,7 +191,8 @@ public class ServerProvider implements IServerProvider {
             case REQUEST_SEARCH_RESULTS:
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupsResponse)) {
                     ResourceGroupsResponse rgr = (ResourceGroupsResponse) cachedResponse;
-                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString, rgr.getHash());
+                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
+                    request.setCacheHash(rgr.getHash());
                 } else {
                     request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
                 }

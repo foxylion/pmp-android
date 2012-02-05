@@ -2,16 +2,12 @@ package de.unistuttgart.ipvs.pmp.jpmpps.io.response;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * {@link AbstractResponse} gives ability to convert given data into byte arrays
@@ -28,20 +24,13 @@ public abstract class AbstractResponse implements Serializable {
 	 * 
 	 * @param object
 	 *            {@link Object} which should be converted into an byte array.
-	 * @param compression
-	 *            True when byte array should be compressed, otherwise false.
 	 * @return Converted {@link Object}.
 	 */
-	protected byte[] toByteArray(Object object, boolean compression) {
+	protected byte[] toByteArray(Object object) {
 		byte[] result = null;
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream out;
-			if (compression) {
-				out = new ObjectOutputStream(new GZIPOutputStream(baos));
-			} else {
-				out = new ObjectOutputStream(baos);
-			}
+			ObjectOutputStream out = new ObjectOutputStream(baos);
 			out.writeObject(object);
 			result = baos.toByteArray();
 
@@ -60,35 +49,26 @@ public abstract class AbstractResponse implements Serializable {
 	 * @param in
 	 *            {@link InputStream} which should be converted into an byte
 	 *            array.
-	 * @param compression
-	 *            True when byte array should be compressed, otherwise false.
 	 * @return Converted {@link InputStream}.
 	 */
-	protected byte[] toByteArray(InputStream in, boolean compression) {
+	protected byte[] toByteArray(InputStream in) {
 		byte[] result = null;
-		
+
 		try {
-		    BufferedInputStream inR = new BufferedInputStream(in);
+			BufferedInputStream inR = new BufferedInputStream(in);
 			ByteArrayOutputStream aios = new ByteArrayOutputStream();
 
-			BufferedOutputStream out;
-
-			if (compression) {
-				out = new BufferedOutputStream(new GZIPOutputStream(aios));
-			} else {
-				out = new BufferedOutputStream(aios);
-			}
-
+			BufferedOutputStream out = new BufferedOutputStream(aios);
 			final int BUFFER_SIZE = 32 * 1024;
 			byte[] buffer = new byte[BUFFER_SIZE];
-            
-            int read = -1;
-            do {
-                read = inR.read(buffer, 0, BUFFER_SIZE);
-                if (read > -1) {
-                    out.write(buffer, 0, read);
-                }
-            } while (read > -1);
+
+			int read = -1;
+			do {
+				read = inR.read(buffer, 0, BUFFER_SIZE);
+				if (read > -1) {
+					out.write(buffer, 0, read);
+				}
+			} while (read > -1);
 
 			result = aios.toByteArray();
 
@@ -108,21 +88,9 @@ public abstract class AbstractResponse implements Serializable {
 	 * @param data
 	 *            byte array which should be converted to an {@link InputStream}
 	 *            .
-	 * @param uncompression
-	 *            True when byte array should be uncompressed, otherwise false.
 	 * @return Converted byte array.
 	 */
-	protected InputStream fromByteArray(byte[] data, boolean uncompression) {
-		try {
-			ByteArrayInputStream bais = new ByteArrayInputStream(data);
-			if (uncompression) {
-				return new GZIPInputStream(bais);
-			} else {
-				return bais;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	protected InputStream fromByteArray(byte[] data) {
+		return new ByteArrayInputStream(data);
 	}
 }

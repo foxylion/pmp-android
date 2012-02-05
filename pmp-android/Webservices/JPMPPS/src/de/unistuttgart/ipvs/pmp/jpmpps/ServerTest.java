@@ -20,7 +20,7 @@ public class ServerTest {
     
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("127.0.0.1", JPMPPS.LISTEN_PORT);
+            Socket socket = new Socket("foxylion.de", JPMPPS.LISTEN_PORT);
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             

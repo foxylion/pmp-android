@@ -17,16 +17,17 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 	private static final long serialVersionUID = 1L;
 
 	private byte[] resourceGroups;
-	
+
 	private byte[] hash;
 
 	/**
 	 * Creates a new {@link ResourceGroupsResponse}.
 	 * 
-	 * @param rgs {@link LocalizedResourceGroup} which should be attached.
+	 * @param rgs
+	 *            {@link LocalizedResourceGroup} which should be attached.
 	 */
 	public ResourceGroupsResponse(LocalizedResourceGroup[] rgs, byte[] hash) {
-		this.resourceGroups = toByteArray(rgs, false);
+		this.resourceGroups = toByteArray(rgs);
 		this.hash = hash;
 	}
 
@@ -37,8 +38,8 @@ public class ResourceGroupsResponse extends AbstractResponse implements
 		LocalizedResourceGroup[] rgs = null;
 
 		try {
-			ObjectInputStream ois = new ObjectInputStream(fromByteArray(
-					resourceGroups, false));
+			ObjectInputStream ois = new ObjectInputStream(
+					fromByteArray(resourceGroups));
 			rgs = (LocalizedResourceGroup[]) ois.readObject();
 			ois.close();
 		} catch (Exception e) {

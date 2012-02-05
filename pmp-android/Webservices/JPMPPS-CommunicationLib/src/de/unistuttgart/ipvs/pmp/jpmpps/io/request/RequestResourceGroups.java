@@ -13,13 +13,12 @@ package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
  * 
  * @author Jakob Jarosch
  */
-public class RequestResourceGroups implements IRequest {
+public class RequestResourceGroups extends AbstractRequest {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String locale;
 	private String filter;
-	private byte[] hash;
 
 	/**
 	 * Creates a new request for the given locale.
@@ -37,19 +36,22 @@ public class RequestResourceGroups implements IRequest {
 	 * @param filter Filter which should be applied on the search.
 	 */
 	public RequestResourceGroups(String locale, String filter) {
-		this(locale, filter, null);
-	}
-	
-	public RequestResourceGroups(String locale, String filter, byte[] hash) {
 		this.locale = locale;
 
 		if (filter == null) {
 			filter = "";
 		}
 		this.filter = filter;
-		this.hash = hash;
 	}
 
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+	
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+	
 	/**
 	 * @return Returns the locale of the request.
 	 */
@@ -62,12 +64,5 @@ public class RequestResourceGroups implements IRequest {
 	 */
 	public String getFilter() {
 		return this.filter;
-	}
-	
-	/**
-	 * @return Returns the hash of the request.
-	 */
-	public byte[] getHash() {
-		return hash;
 	}
 }

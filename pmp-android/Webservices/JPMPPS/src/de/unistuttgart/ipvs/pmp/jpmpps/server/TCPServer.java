@@ -21,8 +21,6 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 
 public class TCPServer {
     
-    private int port;
-    
     private ServerSocket socket;
     
     private AcceptingConnectionThread connectionAcceptThread = null;
@@ -35,7 +33,6 @@ public class TCPServer {
      *            Port which the server should listen on.
      */
     public TCPServer(int port) {
-        this.port = port;
         
         try {
             this.socket = new ServerSocket(port);
@@ -121,7 +118,7 @@ public class TCPServer {
                             LocalizedResourceGroup[] rgs = JPMPPS.get().findResourceGroups(req.getLocale(),
                                     req.getFilter(), JPMPPS.LIMIT);
                             
-                            if (ResponseHasher.checkHash(req.getLocale(), rgs, req.getHash())) {
+                            if (ResponseHasher.checkHash(req.getLocale(), rgs, req.getCacheHash())) {
                                 output.writeObject(new CachedRequestResponse());
                             } else {
                                 output.writeObject(new ResourceGroupsResponse(rgs, ResponseHasher.hash(req.getLocale(), rgs)));
