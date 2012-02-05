@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupPackageResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 
 /**
@@ -81,12 +82,19 @@ public class ServerProvider implements IServerProvider {
         ObjectInputStream ois = new ObjectInputStream(tcpSocket.getInputStream());
         try {
             
+            Log.d("[ServerConnection] Sending request " + request.toString() + " ...");
+            this.callback.step(3, 7);
             oos.writeObject(request);
+            
+            Log.d("[ServerConnection] Receiving ...");
+            this.callback.step(4, 7);
             result = ois.readObject();
             if (!(result instanceof AbstractResponse)) {
                 throw new ClassNotFoundException();
             }
             
+            Log.d("[ServerConnection] Sending RequestCommunicationEnd ...");
+            this.callback.step(5, 7);
             oos.writeObject(new RequestCommunicationEnd());
             
         } finally {
@@ -102,18 +110,24 @@ public class ServerProvider implements IServerProvider {
      * Retrieves an {@link AbstractResponse} that fits the request.
      * 
      * @param requestString
-     *            isRG ? rgPackage : search string
-     * @param isRG
-     *            whether this requestString is a rgPackage or a search string
+     *            comType == REQUEST_APK ? rgPackage : search string
+     * @param comType
+     *            which kind of request is associated with this string
      * @return the corresponding {@link AbstractResponse}, or null if an error occurred
      */
-    public AbstractResponse getResponseFor(String requestString, boolean isRG) {
+    public AbstractResponse getResponseFor(String requestString, CommunicationType comType) {
         String cacheHash;
-        if (isRG) {
-            cacheHash = "r" + String.valueOf(requestString.hashCode());
-        } else {
-            cacheHash = String.valueOf(requestString.hashCode());
+        switch (comType) {
+            case REQUEST_RESOURCE_GROUP_APK:
+                cacheHash = "r" + String.valueOf(requestString.hashCode());
+                break;
+            
+            default:
+                cacheHash = String.valueOf(requestString.hashCode());
+                break;
         }
+        
+        this.callback.step(0, 7);
         
         // check whether cache would be available
         AbstractResponse cachedResponse = null;
@@ -150,31 +164,45 @@ public class ServerProvider implements IServerProvider {
             }
         }
         
+        Log.v("[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
+        this.callback.step(1, 7);
+        
         // if the cache is that new it is extremely unlikely that something has changed
         // e.g. we're installing several RGs
         if ((cachedResponse != null) && (cacheFile.lastModified() + LOCAL_CACHE_ONLY_TIME > System.currentTimeMillis())) {
+            Log.v("[ServerConnection] Using fresh cache");
+            this.callback.step(1, 1);
             return cachedResponse;
         }
         
         // send request
-        IRequest request;
-        if (isRG) {
-            if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupPackageResponse)) {
-                ResourceGroupPackageResponse rgpr = (ResourceGroupPackageResponse) cachedResponse;
-                // we are missing the caching
-                request = new RequestResourceGroupPackage(requestString);
-            } else {
-                request = new RequestResourceGroupPackage(requestString);
-            }
+        IRequest request = null;
+        switch (comType) {
+            case REQUEST_RESOURCE_GROUP_APK:
+                if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupPackageResponse)) {
+                    ResourceGroupPackageResponse rgpr = (ResourceGroupPackageResponse) cachedResponse;
+                    // we are missing the caching
+                    request = new RequestResourceGroupPackage(requestString);
+                } else {
+                    request = new RequestResourceGroupPackage(requestString);
+                }
+                break;
             
-        } else {
-            if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupsResponse)) {
-                ResourceGroupsResponse rgr = (ResourceGroupsResponse) cachedResponse;
-                request = new RequestResourceGroups(Locale.getDefault().toString(), requestString, rgr.getHash());
-            } else {
-                request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
-            }
+            case REQUEST_SEARCH_RESULTS:
+                if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupsResponse)) {
+                    ResourceGroupsResponse rgr = (ResourceGroupsResponse) cachedResponse;
+                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString, rgr.getHash());
+                } else {
+                    request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
+                }
+                break;
         }
+        
+        if (request == null) {
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_NULL, "request", request));
+        }
+        
+        this.callback.step(2, 7);
         
         // handle request, fetch response
         AbstractResponse response;
@@ -188,8 +216,12 @@ public class ServerProvider implements IServerProvider {
             return null;
         }
         
+        this.callback.step(6, 7);
+        
         if (response instanceof CachedRequestResponse) {
-            // okay to use cache                
+            // okay to use cache     
+            Log.v("[ServerConnection] Received Cache-OK message, using cache");
+            this.callback.step(6, 6);
             return cachedResponse;
             
         } else {
@@ -211,6 +243,8 @@ public class ServerProvider implements IServerProvider {
                 Log.e("IOException during " + response.getClass().getSimpleName(), e);
             }
             
+            Log.v("[ServerConnection] New cache written");
+            this.callback.step(7, 7);
             return response;
         }
         
@@ -220,16 +254,14 @@ public class ServerProvider implements IServerProvider {
     @Override
     public LocalizedResourceGroup[] findResourceGroups(String searchPattern) {
         Assert.nonNull(searchPattern, ModelMisuseError.class, Assert.ILLEGAL_NULL, "searchPattern", searchPattern);
-        this.callback.tasks(0, 1);
         
         // get response
-        AbstractResponse response = getResponseFor(searchPattern, false);
+        AbstractResponse response = getResponseFor(searchPattern, CommunicationType.REQUEST_SEARCH_RESULTS);
         if ((response == null) || !(response instanceof ResourceGroupsResponse)) {
             return new LocalizedResourceGroup[0];
         }
         
         ResourceGroupsResponse rgr = (ResourceGroupsResponse) response;
-        this.callback.tasks(1, 1);
         
         return rgr.getResourceGroups();
     }
@@ -239,13 +271,12 @@ public class ServerProvider implements IServerProvider {
     public File downloadResourceGroup(String rgPackage) {
         Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         try {
-            this.callback.tasks(0, 1);
             
             File tmp = new File(TEMPORARY_PATH + rgPackage + APK_STR);
             FileOutputStream fos = new FileOutputStream(tmp);
             try {
                 // get response
-                AbstractResponse response = getResponseFor(rgPackage, true);
+                AbstractResponse response = getResponseFor(rgPackage, CommunicationType.REQUEST_RESOURCE_GROUP_APK);
                 if ((response == null) || !(response instanceof ResourceGroupPackageResponse)) {
                     return null;
                 }
@@ -271,7 +302,6 @@ public class ServerProvider implements IServerProvider {
                 fos.close();
             }
             
-            this.callback.tasks(1, 1);
             return tmp;
             
         } catch (IOException ioe) {

@@ -86,7 +86,7 @@ public class DialogAvailableDetails extends Dialog {
                 ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
                     
                     @Override
-                    public void tasks(int position, int length) {
+                    public void step(int position, int length) {
                     }
                     
                     

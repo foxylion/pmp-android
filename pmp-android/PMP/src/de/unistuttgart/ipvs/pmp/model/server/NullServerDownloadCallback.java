@@ -21,7 +21,7 @@ public class NullServerDownloadCallback implements IServerDownloadCallback {
     
     
     @Override
-    public void tasks(int position, int length) {
+    public void step(int position, int length) {
     }
     
 }

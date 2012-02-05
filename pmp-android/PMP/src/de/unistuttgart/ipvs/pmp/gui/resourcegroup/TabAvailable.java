@@ -124,7 +124,7 @@ public class TabAvailable extends Activity {
                 ServerProvider.getInstance().setCallback(new IServerDownloadCallback() {
                     
                     @Override
-                    public void tasks(int position, int length) {
+                    public void step(int position, int length) {
                         TabAvailable.this.updateTaskProgressBar.setMax(length);
                         TabAvailable.this.updateTaskProgressBar.setProgress(position);
                     }
