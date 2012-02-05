@@ -19,9 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.service;
 
+import java.util.concurrent.Semaphore;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.util.Restarter;
@@ -53,11 +56,13 @@ public class PMPService extends Service {
     
     private boolean scheduled;
     private PMPServiceContextThread thread;
+    private Semaphore mutex;
     
     
     public PMPService() {
         this.scheduled = false;
-        this.thread = new PMPServiceContextThread();
+        this.thread = new PMPServiceContextThread(this);
+        this.mutex = new Semaphore(1);
     }
     
     
@@ -85,14 +90,24 @@ public class PMPService extends Service {
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getBooleanExtra(Restarter.RESTARTER_IDENTIFIER, false)) {
+        try {
+            this.mutex.acquire();
+            
+            if (intent.getBooleanExtra(Restarter.RESTARTER_IDENTIFIER, false)) {
+                this.scheduled = false;
+            }
+        } catch (InterruptedException e) {
+            Log.e(this, "Interrupted while onStartCommand", e);
             this.scheduled = false;
+            
+        } finally {
+            this.mutex.release();
         }
         
         ServiceNotification.setWorking(true);
         
         if (!this.thread.isAlive()) {
-            this.thread = new PMPServiceContextThread();
+            this.thread = new PMPServiceContextThread(this);
             this.thread.start();
             return START_STICKY;
             
@@ -109,14 +124,27 @@ public class PMPService extends Service {
      *            corresponding id
      * @param stop
      *            whether to stop the service or not.
+     * @throws InterruptedException
      */
-    public synchronized void contextsDone(boolean stop) {
-        if (!stop && !this.scheduled) {
-            Restarter.scheduleServiceRestart(this, CONTEXT_SERVICE_INTERVAL);
-            this.scheduled = true;
+    public void contextsDone(boolean stop) {
+        
+        try {
+            this.mutex.acquire();
+            if (!stop && !this.scheduled) {
+                Restarter.scheduleServiceRestart(this, CONTEXT_SERVICE_INTERVAL);
+                this.scheduled = true;
+            }
+            
+        } catch (InterruptedException e) {
+            Log.e(this, "Interrupted while contextsDone", e);
+            
+        } finally {
+            this.mutex.release();
         }
+        
         ServiceNotification.setWorking(false);
         stopSelf();
+        
     }
     
 }

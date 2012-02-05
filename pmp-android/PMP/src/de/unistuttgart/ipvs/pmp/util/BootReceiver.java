@@ -15,6 +15,14 @@ public class BootReceiver extends android.content.BroadcastReceiver {
     
     @Override
     public void onReceive(Context context, Intent intent) {
+        startService(context);
+    }
+    
+    
+    /**
+     * @param context
+     */
+    public static void startService(Context context) {
         Intent startService = new Intent(context, PMPService.class);
         context.startService(startService);
     }
