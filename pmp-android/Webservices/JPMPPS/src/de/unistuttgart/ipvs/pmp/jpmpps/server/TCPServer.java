@@ -128,6 +128,8 @@ public class TCPServer {
                                     .get(((RequestResourceGroupPackage) request).getPackageName());
                             if (rg == null) {
                                 output.writeObject(new NoSuchResourceGroupPackageResponse());
+                            } else if (ResponseHasher.checkHash(rg, ((RequestResourceGroupPackage) request).getCacheHash())) {
+                                output.writeObject(new CachedRequestResponse()); 
                             } else {
                                 output.writeObject(new ResourceGroupPackageResponse(rg.getInputStream(), ResponseHasher.hash(rg.getRevision())));
                             }

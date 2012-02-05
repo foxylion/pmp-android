@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
+import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 
 public class ResponseHasher {
     
@@ -31,6 +32,7 @@ public class ResponseHasher {
         return null;
     }
     
+    
     public static byte[] hash(long revision) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -48,9 +50,16 @@ public class ResponseHasher {
     }
     
     
-    public static boolean checkHash(String locale, LocalizedResourceGroup[] rgs, byte[] hash) {
+    public static boolean checkHash(String locale, LocalizedResourceGroup[] rgs, byte[] cacheHash) {
         byte[] checkHash = hash(locale, rgs);
         
-        return new String(checkHash).equals(hash);
+        return new String(checkHash).equals(cacheHash);
+    }
+    
+    
+    public static boolean checkHash(ResourceGroup rg, byte[] cacheHash) {
+        byte[] checkHash = hash(rg.getRevision());
+        
+        return new String(checkHash).equals(cacheHash);
     }
 }
