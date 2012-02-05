@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import de.unistuttgart.ipvs.pmp.service.PMPService;
 
 /**
  * Util class for restarting the pmp after a dex code remove to be prepared for injecting a new code version.
@@ -27,5 +28,15 @@ public class Restarter {
         AlarmManager am = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000L, pi);
         System.exit(0);
+    }
+    
+    
+    /**
+     * Restarts the given service
+     */
+    public static void scheduleServiceRestart(Context context, long in) {
+        PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, PMPService.class), 0);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC, System.currentTimeMillis() + in, pi);
     }
 }

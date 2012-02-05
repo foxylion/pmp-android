@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 /**
  * 
@@ -34,6 +35,9 @@ import de.unistuttgart.ipvs.pmp.model.element.app.App;
  * @author Jakob Jarosch
  */
 public class PMPService extends Service {
+    
+    private static final long CONTEXT_SERVICE_INTERVAL = 5L * 60L * 1000L;
+    
     
     @Override
     public IBinder onBind(Intent intent) {
@@ -59,8 +63,18 @@ public class PMPService extends Service {
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO implement
-        return START_NOT_STICKY;
+        ServiceNotification.setWorking(true);
+        new PMPServiceContextThread(startId).start();
+        return START_STICKY;
+    }
+    
+    
+    public synchronized void contextsDone(int startId, boolean stop) {
+        if (!stop) {
+            Restarter.scheduleServiceRestart(this, CONTEXT_SERVICE_INTERVAL);
+        }
+        ServiceNotification.setWorking(false);
+        stopSelfResult(startId);
     }
     
 }
