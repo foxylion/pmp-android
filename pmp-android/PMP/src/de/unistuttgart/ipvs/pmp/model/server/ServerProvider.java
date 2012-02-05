@@ -164,7 +164,8 @@ public class ServerProvider implements IServerProvider {
             }
         }
         
-        Log.v(this, "[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
+        Log.v(this,
+                "[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
         this.callback.step(1, 7);
         
         // if the cache is that new it is extremely unlikely that something has changed
@@ -180,7 +181,6 @@ public class ServerProvider implements IServerProvider {
         switch (comType) {
             case REQUEST_RESOURCE_GROUP_APK:
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupPackageResponse)) {
-                    ResourceGroupPackageResponse rgpr = (ResourceGroupPackageResponse) cachedResponse;
                     // we are missing the caching
                     request = new RequestResourceGroupPackage(requestString);
                 } else {

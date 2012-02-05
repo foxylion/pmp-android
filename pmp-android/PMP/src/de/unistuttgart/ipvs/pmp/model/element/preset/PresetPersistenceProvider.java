@@ -76,8 +76,8 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 } else {
                     PrivacySetting ps = getCache().getPrivacySettings().get(rg).get(psIdentifier);
                     if (ps == null) {
-                        Log.w(this, String.format("Unavailable preset cached (PS '%s' not found in RG '%s').", psIdentifier,
-                                rg));
+                        Log.w(this, String.format("Unavailable preset cached (PS '%s' not found in RG '%s').",
+                                psIdentifier, rg));
                         this.element.missingPrivacySettings.add(new MissingPrivacySettingValue(rgPackage, psIdentifier,
                                 grantValue));
                         

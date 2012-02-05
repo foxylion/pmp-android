@@ -33,7 +33,8 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 new String[] { CONTEXT_TYPE, CONTEXT_CONDITION, OVERRIDE_GRANTED_VALUE },
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
                         + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
-                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
+                        this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() }, null, null, null);
         
@@ -60,7 +61,8 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 cv,
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
                         + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
-                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
+                        this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() });
     }
@@ -73,7 +75,8 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 "DELETE FROM " + TBL_CONTEXT_ANNOTATIONS + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                         + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND " + PRIVACYSETTING_IDENTIFIER
                         + " = ?",
-                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset), this.element.preset.getLocalIdentifier(),
+                new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
+                        this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() });
         

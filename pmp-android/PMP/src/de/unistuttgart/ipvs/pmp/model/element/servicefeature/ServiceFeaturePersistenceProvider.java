@@ -134,7 +134,8 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                     cv.put(SERVICEFEATURE_IDENTIFIER, identifier);
                     cv.put(REQUIREDVALUE, ps.getValue());
                     if (sqldb.insert(TBL_SFReqPSValue, null, cv) == -1) {
-                        Log.e(this, "Could not write required privacy setting for service feature. Corruption of database very likely.");
+                        Log.e(this,
+                                "Could not write required privacy setting for service feature. Corruption of database very likely.");
                         return null;
                     }
                 }
