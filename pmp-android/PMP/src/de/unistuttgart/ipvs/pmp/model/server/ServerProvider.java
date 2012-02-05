@@ -39,8 +39,12 @@ public class ServerProvider implements IServerProvider {
     
     private static final int BUFFER_SIZE = 32 * 1024;
     
-    private static final String APK_STR = ".apk";
+    /**
+     * Amount of time where the cache is that fresh that the server is not even contacted in milliseconds.
+     */
+    private static final long LOCAL_CACHE_ONLY_TIME = 60000L;
     
+    private static final String APK_STR = ".apk";
     private static final String TEMPORARY_PATH = PMPApplication.getContext().getCacheDir().getAbsolutePath() + "/";
     
     /*
@@ -144,6 +148,12 @@ public class ServerProvider implements IServerProvider {
                 cachedResponse = null;
                 
             }
+        }
+        
+        // if the cache is that new it is extremely unlikely that something has changed
+        // e.g. we're installing several RGs
+        if ((cachedResponse != null) && (cacheFile.lastModified() + LOCAL_CACHE_ONLY_TIME > System.currentTimeMillis())) {
+            return cachedResponse;
         }
         
         // send request
