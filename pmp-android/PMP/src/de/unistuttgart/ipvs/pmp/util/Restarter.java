@@ -16,6 +16,9 @@ import de.unistuttgart.ipvs.pmp.service.PMPService;
  */
 public class Restarter {
     
+    public static final String RESTARTER_IDENTIFIER = "scheduledByRestarter";
+    
+    
     /**
      * Kills the referenced {@link Application} and restarts the {@link Activity}.
      * 
@@ -32,10 +35,12 @@ public class Restarter {
     
     
     /**
-     * Restarts the given service
+     * Restarts the given service in <code>in</code> time.
      */
     public static void scheduleServiceRestart(Context context, long in) {
-        PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, PMPService.class), 0);
+        Intent intent = new Intent(context, PMPService.class);
+        intent.putExtra(RESTARTER_IDENTIFIER, true);
+        PendingIntent pi = PendingIntent.getService(context, 0, intent, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC, System.currentTimeMillis() + in, pi);
     }

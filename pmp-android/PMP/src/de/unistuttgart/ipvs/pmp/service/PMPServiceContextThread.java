@@ -8,7 +8,7 @@ package de.unistuttgart.ipvs.pmp.service;
  */
 public class PMPServiceContextThread extends Thread {
     
-    public PMPServiceContextThread(int startId) {
+    public PMPServiceContextThread() {
         // TODO Auto-generated constructor stub
     }
 }

@@ -28,8 +28,21 @@ import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 /**
  * 
+ * <p>
  * External service for communication between PMP and {@link App}s. Do not directly connect to the service, use the
  * {@link PMP} API instead.
+ * </p>
+ * 
+ * <p>
+ * Additionally used for the contexts with {@link PMPServiceContextThread}. Semantics are:
+ * </p>
+ * <ul>
+ * <li>If not yet started, it will start and launch one {@link PMPServiceContextThread}.</li>
+ * <li>If started and an {@link PMPServiceContextThread} is present, the start will be ignored.</li>
+ * <li>If started and an {@link PMPServiceContextThread} is not present, another one will be launched.</li>
+ * <li>If the {@link PMPServiceContextThread} completes, it can schedule the next start unless it has already been
+ * scheduled.</li>
+ * </ul>
  * 
  * 
  * @author Jakob Jarosch
@@ -37,6 +50,15 @@ import de.unistuttgart.ipvs.pmp.util.Restarter;
 public class PMPService extends Service {
     
     private static final long CONTEXT_SERVICE_INTERVAL = 5L * 60L * 1000L;
+    
+    private boolean scheduled;
+    private PMPServiceContextThread thread;
+    
+    
+    public PMPService() {
+        this.scheduled = false;
+        this.thread = new PMPServiceContextThread();
+    }
     
     
     @Override
@@ -63,18 +85,38 @@ public class PMPService extends Service {
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getBooleanExtra(Restarter.RESTARTER_IDENTIFIER, false)) {
+            this.scheduled = false;
+        }
+        
         ServiceNotification.setWorking(true);
-        new PMPServiceContextThread(startId).start();
-        return START_STICKY;
+        
+        if (!this.thread.isAlive()) {
+            this.thread = new PMPServiceContextThread();
+            this.thread.start();
+            return START_STICKY;
+            
+        } else {
+            return START_NOT_STICKY;
+        }
     }
     
     
-    public synchronized void contextsDone(int startId, boolean stop) {
-        if (!stop) {
+    /**
+     * Called by the {@link PMPServiceContextThread} once its done.
+     * 
+     * @param startId
+     *            corresponding id
+     * @param stop
+     *            whether to stop the service or not.
+     */
+    public synchronized void contextsDone(boolean stop) {
+        if (!stop && !this.scheduled) {
             Restarter.scheduleServiceRestart(this, CONTEXT_SERVICE_INTERVAL);
+            this.scheduled = true;
         }
         ServiceNotification.setWorking(false);
-        stopSelfResult(startId);
+        stopSelf();
     }
     
 }
