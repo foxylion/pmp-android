@@ -60,7 +60,7 @@ public class UpdateData extends Dialog {
 					Toast.makeText(v.getContext(), "Updated",
 							Toast.LENGTH_SHORT).show();
 				
-					Log.i("Destination:"
+					Log.i(this, "Destination:"
 							+ MapModel.getInstance().getDestination()
 							+ ", Seats: "
 							+ MapModel.getInstance().getNumSeats());

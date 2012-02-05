@@ -85,7 +85,7 @@ public class NotificationAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		hitchhiker = hitchhikers.get(position);
 		
-		Log.i("POsition NOTI ADAPT: "+ position); 
+		Log.i(this, "POsition NOTI ADAPT: "+ position); 
 		
 		
 		/* load the layout from the xml file */
@@ -109,8 +109,8 @@ public class NotificationAdapter extends BaseAdapter {
 			queryID = lqo.get(position).getQueryid();
 			
 			userID = lqo.get(position).getUserid();
-			Log.i("USERID: " + userID);
-			Log.i("Position: " + position);
+			Log.i(this, "USERID: " + userID);
+			Log.i(this, "Position: " + position);
 		} else {
 			List<OfferObject> loo = Model.getInstance().getOfferHolder();
 			offerID = loo.get(position).getOffer_id();
@@ -206,11 +206,11 @@ public class NotificationAdapter extends BaseAdapter {
 							.getInstance().getTripId(), queryID,
 							me.getUsername() + ": Need a ride?")) {
 					case Constants.STATUS_SENT:
-						Log.i("P: " + position + ", " + queryID);
+						Log.i(this, "P: " + position + ", " + queryID);
 						accept_invite
 								.setBackgroundResource(R.drawable.bg_waiting);
 						Model.getInstance().addToInvitedUser(userID);
-						Log.i("USER ID ADDED: " + userID);
+						Log.i(this, "USER ID ADDED: " + userID);
 						//
 						// notifyDataSetChanged();
 						Toast.makeText(context, "STATUS_SENT",
@@ -226,7 +226,7 @@ public class NotificationAdapter extends BaseAdapter {
 								Toast.LENGTH_SHORT).show();
 						break;
 					case Constants.STATUS_ALREADY_SENT:
-						Log.i("P: " + position + ", " + queryID);
+						Log.i(this, "P: " + position + ", " + queryID);
 						Toast.makeText(context, "ALREADY SENT",
 								Toast.LENGTH_SHORT).show();
 						break;

@@ -33,7 +33,7 @@ public class ProfileActivity extends Activity {
 		int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
 		int passengerID = getIntent().getExtras().getInt("PASSENGER_ID");
 
-		Log.i("ID: " + passengerID + ", WHO: " + whoIsIt);
+		Log.i(this, "ID: " + passengerID + ", WHO: " + whoIsIt);
 
 		if (whoIsIt == 0) {
 			profile = Model.getInstance().getOwnProfile();

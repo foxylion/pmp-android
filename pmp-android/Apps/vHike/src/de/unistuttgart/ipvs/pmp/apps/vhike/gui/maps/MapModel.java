@@ -281,7 +281,7 @@ public class MapModel {
 			slider_Driver = (SlidingDrawer) ((Activity) context)
 					.findViewById(R.id.notiSlider);
 			slider_Driver.open();
-			Log.i("Slider opened");
+			Log.i(this, "Slider opened");
 			getDriverAdapter(context, mapView).notifyDataSetChanged();
 		} else {
 			// getHitchDrivers().clear();
