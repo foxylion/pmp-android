@@ -37,7 +37,30 @@ public class PMPService extends Service {
     
     @Override
     public IBinder onBind(Intent intent) {
+        ServiceNotification.setBound(true);
         return new PMPServiceImplementation();
+    }
+    
+    
+    @Override
+    public boolean onUnbind(Intent intent) {
+        ServiceNotification.setBound(false);
+        return super.onUnbind(intent);
+    }
+    
+    
+    @Override
+    public void onDestroy() {
+        ServiceNotification.setBound(false);
+        ServiceNotification.setWorking(false);
+        super.onDestroy();
+    }
+    
+    
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // TODO implement
+        return START_NOT_STICKY;
     }
     
 }

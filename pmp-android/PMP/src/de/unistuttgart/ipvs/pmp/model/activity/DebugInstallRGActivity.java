@@ -20,7 +20,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
-import de.unistuttgart.ipvs.pmp.util.KillAppUtil;
+import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 public class DebugInstallRGActivity extends Activity {
     
@@ -69,7 +69,7 @@ public class DebugInstallRGActivity extends Activity {
                     
                     // we need to restart PMP since we need a clean DexClassLoader
                     if (uninstall) {
-                        KillAppUtil.killAppAndRestartActivity(DebugInstallRGActivity.this);
+                        Restarter.killAppAndRestartActivity(DebugInstallRGActivity.this);
                     }
                     
                 } else {

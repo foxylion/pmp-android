@@ -61,6 +61,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
+import de.unistuttgart.ipvs.pmp.service.ServiceNotification;
 
 public class PMPDeveloperConsoleActivity extends Activity {
     
@@ -321,6 +322,30 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 }
             }
             
+        });
+        
+        /*
+         * svc nfc bound
+         */
+        ToggleButton svc_nfc_bound = (ToggleButton) findViewById(R.id.svc_nfc_bound_switch);
+        svc_nfc_bound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ServiceNotification.setBound(isChecked);
+            }
+        });
+        
+        /*
+         * svc nfc working
+         */
+        ToggleButton svc_nfc_working = (ToggleButton) findViewById(R.id.svc_nfc_working_switch);
+        svc_nfc_working.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ServiceNotification.setWorking(isChecked);
+            }
         });
         
     }

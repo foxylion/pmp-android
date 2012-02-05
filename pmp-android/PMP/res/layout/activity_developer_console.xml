@@ -219,5 +219,38 @@
 		    </LinearLayout>
 		</LinearLayout>
 
+		<LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="#555555"
+		    android:orientation="vertical" >
+
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:paddingLeft="5dp"
+		        android:text="@string/dev_con_svc_nfc"
+		        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		    <LinearLayout
+		        android:id="@+id/linearLayout2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+
+		        <ToggleButton
+		            android:id="@+id/svc_nfc_bound_switch"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"/>
+
+		        <ToggleButton
+		            android:id="@+id/svc_nfc_working_switch"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"/>
+
+		    </LinearLayout>
+
+		</LinearLayout>
+
 	</LinearLayout>
 </ScrollView>

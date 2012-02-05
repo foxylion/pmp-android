@@ -10,7 +10,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.util.KillAppUtil;
+import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 public class DialogConfirmDelete extends Dialog {
     
@@ -59,7 +59,7 @@ public class DialogConfirmDelete extends Dialog {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
                         }
-                        KillAppUtil.killAppAndRestartActivity(DialogConfirmDelete.this.installedTab.getParent());
+                        Restarter.killAppAndRestartActivity(DialogConfirmDelete.this.installedTab.getParent());
                     };
                 }.start();
                 
