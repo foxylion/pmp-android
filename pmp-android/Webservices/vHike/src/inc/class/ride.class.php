@@ -252,11 +252,15 @@ class Ride {
 	static function offer_accepted($trip_id){
 	   $db = Database::getInstance();
 	   $query = $db->query("SELECT passenger,picked_up FROM dev_ride WHERE trip= $trip_id");
-	   while($row=$db->fetch($query)) {
-	   	$return[] = $row;
-   	   }
-	   return $return;
+	   $return = null;
+	   if($query){	   
+	   	while($row=$db->fetch($query)) {
+		   	$return[] = $row;
+	   	   }
+		
 	   }
+	   return $return;
+	}
 }
 
 ?>

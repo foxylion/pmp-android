@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -848,6 +849,7 @@ public class JSonRequestReader {
         return status;
     }
     
+    
     /**
      * Hitchhiker can accept or decline an offer
      * 
@@ -879,6 +881,40 @@ public class JSonRequestReader {
             }
         }
         return false;
+    }
+    
+    
+    public static List<PassengerObject> offer_accepted(String sid, int trip_id) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id), true));
+        JsonObject object = null;
+        
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "offer_accepted.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        List<PassengerObject> objects = new ArrayList<PassengerObject>();
+        String status = "";
+        JsonArray array_passengers;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                array_passengers = object.get("passengers").getAsJsonArray();
+                for (JsonElement jsonElement : array_passengers) {
+                    JsonObject pass_obj = jsonElement.getAsJsonObject();
+                    PassengerObject passenger = new PassengerObject(pass_obj.get("passenger").getAsInt(), pass_obj.get(
+                            "picked_up").getAsBoolean());
+                    objects.add(passenger);
+                }
+            }
+        }
+        return objects;
     }
     
     
