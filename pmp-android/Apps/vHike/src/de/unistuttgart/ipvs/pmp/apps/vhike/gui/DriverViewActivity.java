@@ -1,12 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer;
-
-import java.util.TimerTask;
-
 import android.content.Context;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,7 +17,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -53,7 +45,6 @@ public class DriverViewActivity extends MapActivity {
     
     private int imADriver = 0;
     
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,17 +59,6 @@ public class DriverViewActivity extends MapActivity {
         
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearAnnouncPD();
-        
-        Timer t = new Timer();
-        // bla
-        t.schedule(new TimerTask() {
-            
-            @Override
-            public void run() {
-            Log.i(this, "5 Sekunden");
-            }
-            
-        }, 0, 5000); //alle 5 sekunden...
         
     }
     
@@ -164,6 +144,7 @@ public class DriverViewActivity extends MapActivity {
                         locationManager.removeUpdates(luh);
                         Model.getInstance().clearBannList();
                         Model.getInstance().clearInvitedUserList();
+                        MapModel.getInstance().cancelTimer();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
                         this.finish();
