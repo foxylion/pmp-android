@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +30,12 @@ import java.util.Locale;
  * @author Marcus Vetter
  * 
  */
-public abstract class BasicIS {
+public abstract class BasicIS implements Serializable {
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = -7705624993277295194L;
     
     /**
      * This list contains all names.

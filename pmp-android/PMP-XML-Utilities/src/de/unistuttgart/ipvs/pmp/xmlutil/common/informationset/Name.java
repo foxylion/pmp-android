@@ -26,14 +26,33 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
  */
 public class Name extends AbstractLocale {
     
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = -8792729039613615548L;
+    
+    /**
+     * The name
+     */
     private String name;
     
     
+    /**
+     * Get the name
+     * 
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
     
     
+    /**
+     * Set the name
+     * 
+     * @param name
+     *            name to set
+     */
     public void setName(String name) {
         this.name = name;
     }

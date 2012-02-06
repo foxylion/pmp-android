@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
@@ -26,16 +27,35 @@ import java.util.Locale;
  * @author Marcus Vetter
  * 
  */
-public abstract class AbstractLocale {
+public abstract class AbstractLocale implements Serializable {
     
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = 3460350171916583341L;
+    
+    /**
+     * Locale
+     */
     private Locale locale;
     
     
+    /**
+     * Get the locale
+     * 
+     * @return locale
+     */
     public Locale getLocale() {
         return this.locale;
     }
     
     
+    /**
+     * Set the locale
+     * 
+     * @param locale
+     *            locale to set
+     */
     public void setLocale(Locale locale) {
         this.locale = locale;
     }

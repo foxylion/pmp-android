@@ -29,6 +29,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 public class RGISPrivacySetting extends BasicIS {
     
     /**
+     * Serial
+     */
+    private static final long serialVersionUID = -3533822744161444028L;
+    
+    /**
      * Identifier of the privacy setting
      */
     private String identifier;

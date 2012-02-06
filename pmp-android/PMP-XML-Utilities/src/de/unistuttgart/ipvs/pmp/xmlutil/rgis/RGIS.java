@@ -35,6 +35,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 public class RGIS extends BasicIS {
     
     /**
+     * Serial
+     */
+    private static final long serialVersionUID = 8978212582601842275L;
+    
+    /**
      * The identifier of the resource group
      */
     private String identifier;

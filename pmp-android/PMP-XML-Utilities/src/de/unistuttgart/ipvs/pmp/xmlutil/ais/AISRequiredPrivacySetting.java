@@ -19,12 +19,19 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredPrivacySetting {
+public class AISRequiredPrivacySetting implements Serializable {
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = -2494745855919623707L;
     
     /**
      * The identifier of the Privacy Setting
