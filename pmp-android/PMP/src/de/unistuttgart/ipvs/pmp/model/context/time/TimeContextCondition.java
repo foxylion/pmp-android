@@ -156,4 +156,55 @@ public class TimeContextCondition {
         //     or it's     wrapping AND NOT begin <= date <= end
         return this.timeWraps ^ dateBetweenBeginAndEnd;
     }
+    
+    
+    /*
+     * Getters / Setters for view
+     */
+    
+    public boolean isTimeWrapping() {
+        return this.timeWraps;
+    }
+    
+    
+    protected boolean isUTC() {
+        return this.isUTC;
+    }
+    
+    
+    protected void setUTC(boolean isUTC) {
+        this.isUTC = isUTC;
+    }
+    
+    
+    protected TimeContextConditionTime getBegin() {
+        return this.begin;
+    }
+    
+    
+    protected TimeContextConditionTime getEnd() {
+        return this.end;
+    }
+    
+    
+    protected TimeContextConditionIntervalType getInterval() {
+        return this.interval;
+    }
+    
+    
+    protected void setInterval(TimeContextConditionIntervalType interval) {
+        this.interval = interval;
+    }
+    
+    
+    protected List<Integer> getDays() {
+        return this.days;
+    }
+    
+    
+    public boolean representsWholeDay() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
 }
