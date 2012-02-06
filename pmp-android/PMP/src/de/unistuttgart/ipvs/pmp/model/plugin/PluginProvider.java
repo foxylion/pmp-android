@@ -71,7 +71,7 @@ public class PluginProvider implements IPluginProvider {
             + ERROR;
     private static final String ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION = "Constructor of main class throws exception"
             + ERROR;
-    private static final String ERROR_ASSETS_NOT_ACCESSIBLE = "Accessing the assets failed" + ERROR;
+    private static final String ERROR_APK_NOT_ACCESSIBLE = "Accessing the apk or the assets failed" + ERROR;
     
     /*
      * fields
@@ -294,7 +294,7 @@ public class PluginProvider implements IPluginProvider {
             Log.e(this, errorMsg, ite);
             throw new InvalidPluginException(errorMsg, ite);
         } catch (IOException ioe) {
-            errorMsg = String.format(ERROR_ASSETS_NOT_ACCESSIBLE, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_APK_NOT_ACCESSIBLE, rgPackage, apkName, className);
             Log.e(this, errorMsg, ioe);
             throw new InvalidPluginException(errorMsg, ioe);
         }
