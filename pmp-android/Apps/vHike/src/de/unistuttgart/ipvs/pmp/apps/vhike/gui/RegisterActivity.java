@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import android.app.Activity;
 import android.os.Bundle;
@@ -203,12 +204,25 @@ public class RegisterActivity extends Activity {
                 map.put("description", et_desc.getText().toString());
                 
                 if (validRegistrationForm(cMobile, cEmail, cPw)) {
-                    ctrl.register(map);
+                    switch (ctrl.register(map)) {
+                        case Constants.REG_STAT_USED_USERNAME:
+                            Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                            break;
+                        case Constants.REG_STAT_USED_MAIL:
+                            Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                            break;
+                        case Constants.REG_STAT_REGISTERED:
+                            Toast.makeText(RegisterActivity.this,
+                                    "Registration send.\nValidate your email to finish registration",
+                                    Toast.LENGTH_SHORT).show();
+                            RegisterActivity.this.finish();
+                            break;
+                        case Constants.REG_NOT_SUCCESSFUL:
+                            Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                     
-                    Toast.makeText(RegisterActivity.this,
-                            "Registration send.\nValidate your email to finish registration", Toast.LENGTH_LONG).show();
-                    
-                    RegisterActivity.this.finish();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Registration failed. Please check input", Toast.LENGTH_LONG)
                             .show();
