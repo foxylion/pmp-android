@@ -18,6 +18,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.editor.exceptions.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.PMPActivityAlreadyExistsException;
+
+/**
+ * Calls the {@link AndroidManifestParser} to provide the functions of the
+ * parser
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class AndroidManifestAdapter {
 
     /**
@@ -34,6 +44,7 @@ public class AndroidManifestAdapter {
      */
     public String getAppIdentifier(String xmlPath, String xmlFile)
 	    throws ParserConfigurationException, SAXException, IOException {
+	
 	return new AndroidManifestParser().getAppIdentifier(getInputStream(
 		xmlPath, xmlFile));
     }
@@ -55,12 +66,38 @@ public class AndroidManifestAdapter {
      * @throws IOException
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
+     * @throws PMPActivityAlreadyExistsException
      */
     public void addPMPActivityToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, TransformerFactoryConfigurationError,
-	    TransformerException {
+	    TransformerException, PMPActivityAlreadyExistsException {
+
 	new AndroidManifestParser().addPMPActivity(
+		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
+    }
+
+    /**
+     * Adds the PMP service to the AndroidManifest.xml
+     * 
+     * @param xmlPath
+     *            path to the XML file
+     * @param xmlFile
+     *            filename
+     * @throws FileNotFoundException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws AndroidApplicationException
+     * @throws TransformerFactoryConfigurationError
+     * @throws TransformerException
+     */
+    public void addPMPServiceToManifest(String xmlPath, String xmlFile)
+	    throws FileNotFoundException, ParserConfigurationException,
+	    SAXException, IOException, AndroidApplicationException,
+	    TransformerFactoryConfigurationError, TransformerException {
+
+	new AndroidManifestParser().addPMPServiceToManifest(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
     }
 

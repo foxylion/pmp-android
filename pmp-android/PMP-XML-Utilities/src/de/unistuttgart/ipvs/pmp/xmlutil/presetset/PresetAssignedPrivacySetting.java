@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,12 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignedPrivacySetting {
+public class PresetAssignedPrivacySetting implements Serializable {
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = -408591657122277763L;
     
     /**
      * The resource group identifier

@@ -1,11 +1,18 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetPSContext {
+public class PresetPSContext implements Serializable {
+    
+    /**
+     * Serial
+     */
+    private static final long serialVersionUID = 8503765925521936460L;
     
     /**
      * The type

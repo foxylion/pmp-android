@@ -1,12 +1,18 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignedApp {
+public class PresetAssignedApp implements Serializable {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6897921426190796025L;
     /**
      * The identifier
      */
