@@ -6,7 +6,7 @@ package de.unistuttgart.ipvs.pmp.model.context.time;
  * @author Tobias Kuhn
  * 
  */
-public class TimeContextConditionTime {
+public class TimeContextConditionTime implements Comparable<TimeContextConditionTime> {
     
     private int hour, minute, second;
     
@@ -45,5 +45,15 @@ public class TimeContextConditionTime {
     
     public void setSecond(int second) {
         this.second = second;
+    }
+    
+    
+    @Override
+    public int compareTo(TimeContextConditionTime another) {
+        if (another == null) {
+            return 0;
+        }
+        
+        return (this.second - another.second) + (this.minute - another.minute) + (this.hour - another.hour);
     }
 }

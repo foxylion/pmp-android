@@ -15,6 +15,8 @@ public enum TimeContextConditionIntervalType {
     REPEAT_MONTHLY('M'),
     REPEAT_YEARLY('Y');
     
+    private static final String DAY_SEPARATOR = ",";
+    
     /**
      * The character that identifies this type in a {@link TimeContextCondition} string.
      */
@@ -31,25 +33,48 @@ public enum TimeContextConditionIntervalType {
     }
     
     
-    public String makeList(List<TimeContextConditionDay> days) {
+    /**
+     * Converts a {@link TimeContextConditionDay} list into a string for this interval
+     * 
+     * @param days
+     * @return
+     */
+    public String makeList(List<Integer> days) {
         StringBuffer sb = new StringBuffer();
         
-        for (TimeContextConditionDay tccd : days) {
-            sb.append(tccd.getDay());
-            if (this == REPEAT_YEARLY) {
-                sb.append("~");
-                sb.append(tccd.getMonth());
-            }
-            sb.append(",");
+        for (Integer tccd : days) {
+            sb.append(tccd);
+            sb.append(DAY_SEPARATOR);
         }
         
         return sb.toString();
     }
     
     
-    public List<TimeContextConditionDay> makeDays(String list) {
-        List<TimeContextConditionDay> result = new ArrayList<TimeContextConditionDay>();
+    /**
+     * Converts a string into a {@link TimeContextConditionDay} list for this interval
+     * 
+     * @param list
+     * @return
+     */
+    public List<Integer> makeDays(String list) {
+        List<Integer> result = new ArrayList<Integer>();
+        
+        for (String day : list.split(DAY_SEPARATOR)) {
+            result.add(Integer.parseInt(day), 0);
+        }
         
         return result;
+    }
+    
+    
+    public static TimeContextConditionIntervalType getForIdentifier(Character identifier) {
+        for (TimeContextConditionIntervalType tccit : values()) {
+            if (tccit.getIdentifier().equals(identifier)) {
+                return tccit;
+            }
+        }
+        
+        return null;
     }
 }
