@@ -32,6 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 
 /**
  * This XML Parser parses a given xml (for an app) and creates a app information
@@ -135,14 +136,14 @@ public class AISParser extends AbstractParser {
                 sf.addRequiredResourceGroup(rrg);
                 
                 // Parse the required resource group
-                List<String[]> privacySettingList = parseNodes(rrgElement, XMLConstants.RPS,
+                List<ParsedNode> privacySettingList = parseNodes(rrgElement, XMLConstants.RPS,
                         XMLConstants.IDENTIFIER_ATTRIBUTE);
                 
                 // Add to the app information set (building objects)
-                for (String[] privacySettingArray : privacySettingList) {
+                for (ParsedNode privacySettingNode : privacySettingList) {
                     // Add identifier and value
-                    rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingArray[1],
-                            privacySettingArray[0]));
+                    rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingNode
+                            .getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE), privacySettingNode.getValue()));
                 }
             }
         }
