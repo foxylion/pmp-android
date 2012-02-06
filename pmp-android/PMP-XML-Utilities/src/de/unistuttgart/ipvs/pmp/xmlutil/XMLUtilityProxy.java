@@ -23,8 +23,10 @@ import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.PresetSetCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.RGISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.PresetSetParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -37,12 +39,14 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class XMLUtilityProxy {
     
     /**
-     * The AIS-/RGIS-Parser and -Compiler
+     * The AIS-/RGIS-/PresetSet-Parser and -Compiler
      */
     private static AISParser aisParser = new AISParser();
     private static AISCompiler aisCompiler = new AISCompiler();
     private static RGISParser rgisParser = new RGISParser();
     private static RGISCompiler rgisCompiler = new RGISCompiler();
+    private static PresetSetParser presetSetParser = new PresetSetParser();
+    private static PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
     
     
     /**
