@@ -35,6 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
@@ -150,8 +151,9 @@ public abstract class AbstractParser {
      */
     protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
         // Create results
-        List<String[]> nameList = parseNodes(rootElement, "name", "lang");
-        List<String[]> descriptionList = parseNodes(rootElement, "description", "lang");
+        List<String[]> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTRIBUTE);
+        List<String[]> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION,
+                XMLConstants.LANGUAGE_ATTRIBUTE);
         
         // Add to the app information set
         for (String[] nameArray : nameList) {

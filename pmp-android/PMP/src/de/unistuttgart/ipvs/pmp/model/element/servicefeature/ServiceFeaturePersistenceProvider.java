@@ -126,7 +126,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
             
             // refer to all the required resource groups
             for (AISRequiredResourceGroup rrg : requiredResourceGroups) {
-                for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
+                for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
                     cv = new ContentValues();
                     cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getIdentifier());
                     cv.put(PRIVACYSETTING_IDENTIFIER, ps.getIdentifier());
