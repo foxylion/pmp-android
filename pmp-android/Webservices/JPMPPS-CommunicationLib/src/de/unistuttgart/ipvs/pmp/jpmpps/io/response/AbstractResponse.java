@@ -69,27 +69,25 @@ public abstract class AbstractResponse implements Serializable {
 	 */
 	protected byte[] toByteArray(InputStream in) {
 		byte[] result = null;
+		final int BUFFER_SIZE = 32 * 1024;
 
 		try {
 			BufferedInputStream inR = new BufferedInputStream(in);
-			ByteArrayOutputStream aios = new ByteArrayOutputStream();
-
-			BufferedOutputStream out = new BufferedOutputStream(aios);
-			final int BUFFER_SIZE = 32 * 1024;
+			ByteArrayOutputStream aios = new ByteArrayOutputStream(BUFFER_SIZE);
+			
 			byte[] buffer = new byte[BUFFER_SIZE];
 
 			int read = -1;
 			do {
 				read = inR.read(buffer, 0, BUFFER_SIZE);
 				if (read > -1) {
-					out.write(buffer, 0, read);
+					aios.write(buffer, 0, read);
 				}
 			} while (read > -1);
 
 			result = aios.toByteArray();
 
 			inR.close();
-			out.close();
 			aios.close();
 		} catch (IOException e) {
 			e.printStackTrace();
