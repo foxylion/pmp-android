@@ -182,5 +182,9 @@
     <string name="svc_nfc_title">PMP</string>
     <string name="svc_nfc_extended_title">PMP Service</string>
     <string name="svc_nfc_description">PMP</string>
+    
+    <!-- Contexts -->
+    <string name="contexts_time_name">Time Context</string>
+    <string name="contexts_time_desc">The Time Context allows to define context dependencies based on the current time.</string>
 
 </resources>

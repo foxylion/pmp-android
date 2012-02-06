@@ -244,6 +244,23 @@ class Ride {
 		}
 		
 	}
+
+	/**
+	 * Get the users from ride table
+	 * @return true if succeed, false otherwise
+	 */
+	static function offer_accepted($trip_id){
+	   $db = Database::getInstance();
+	   $query = $db->query("SELECT passenger,picked_up FROM dev_ride WHERE trip= $trip_id");
+	   $return = null;
+	   if($query){	   
+	   	while($row=$db->fetch($query)) {
+		   	$return[] = $row;
+	   	   }
+		
+	   }
+	   return $return;
+	}
 }
 
 ?>

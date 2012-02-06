@@ -24,6 +24,7 @@ import java.io.InputStream;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -58,14 +59,14 @@ public class RGISParser extends AbstractParser {
         this.rgis = new RGIS();
         
         // Check, if the root node is named correctly
-        if (!this.doc.getDocumentElement().getNodeName().equals("resourceGroupInformationSet")) {
+        if (!this.doc.getDocumentElement().getNodeName().equals(XMLConstants.RGIS)) {
             throw new ParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
         }
         
         // The main nodes "resourceGroupInformation" and "privacySettings" are
         // required once.
-        NodeList rgInformation = this.doc.getElementsByTagName("resourceGroupInformation");
-        NodeList privacySettings = this.doc.getElementsByTagName("privacySettings");
+        NodeList rgInformation = this.doc.getElementsByTagName(XMLConstants.RGI);
+        NodeList privacySettings = this.doc.getElementsByTagName(XMLConstants.PSS);
         
         // Check, if there is exactly one resourceGroupInformation and one
         // privacySettings node
@@ -82,7 +83,7 @@ public class RGISParser extends AbstractParser {
         }
         
         // Check, if there are only 2 child nodes of appInformationSet
-        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName("resourceGroupInformationSet").item(0));
+        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName(XMLConstants.RGIS).item(0));
         
         // Parse the nodes
         parseRgInformationNode((Element) rgInformation.item(0));
@@ -103,9 +104,9 @@ public class RGISParser extends AbstractParser {
         parseNameDescriptionNodes(rgInformationElement, this.rgis);
         
         // Create results and add them to the rg information set
-        this.rgis.setIdentifier(rgInformationElement.getAttribute("identifier"));
-        this.rgis.setIconLocation(rgInformationElement.getAttribute("icon"));
-        this.rgis.setClassName(rgInformationElement.getAttribute("className"));
+        this.rgis.setIdentifier(rgInformationElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE));
+        this.rgis.setIconLocation(rgInformationElement.getAttribute(XMLConstants.ICON_ATTRIBUTE));
+        this.rgis.setClassName(rgInformationElement.getAttribute(XMLConstants.CLASS_NAME_ATTRIBUTE));
     }
     
     
@@ -116,7 +117,7 @@ public class RGISParser extends AbstractParser {
      *            starting with this root element
      */
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
-        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName("privacySetting");
+        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName(XMLConstants.PS);
         
         // Parse the Privacy Settings
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
@@ -125,8 +126,9 @@ public class RGISParser extends AbstractParser {
             
             // Instantiate a new Privacy Setting and add the identifier and
             // validValueDescription
-            RGISPrivacySetting ps = new RGISPrivacySetting(privacySettingElement.getAttribute("identifier"),
-                    privacySettingElement.getAttribute("validValueDescription"));
+            RGISPrivacySetting ps = new RGISPrivacySetting(
+                    privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE),
+                    privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTRIBUTE));
             
             // Parse names and descriptions
             parseNameDescriptionNodes(privacySettingElement, ps);

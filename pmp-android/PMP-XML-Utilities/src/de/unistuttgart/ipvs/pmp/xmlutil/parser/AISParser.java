@@ -29,8 +29,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 
 /**
  * This XML Parser parses a given xml (for an app) and creates a app information
@@ -61,14 +63,14 @@ public class AISParser extends AbstractParser {
         this.ais = new AIS();
         
         // Check, if the root node is named correctly
-        if (!this.doc.getDocumentElement().getNodeName().equals("appInformationSet")) {
+        if (!this.doc.getDocumentElement().getNodeName().equals(XMLConstants.AIS)) {
             throw new ParserException(Type.BAD_ROOT_NODE_NAME, "The name of the root node is invalid.");
         }
         
         // The main nodes "appInformation" and "serviceFeatures" are
         // required once.
-        NodeList appInformation = this.doc.getElementsByTagName("appInformation");
-        NodeList serviceFeatures = this.doc.getElementsByTagName("serviceFeatures");
+        NodeList appInformation = this.doc.getElementsByTagName(XMLConstants.AI);
+        NodeList serviceFeatures = this.doc.getElementsByTagName(XMLConstants.SFS);
         
         // Check, if there is exactly one appInformation and one service
         // features node
@@ -84,7 +86,7 @@ public class AISParser extends AbstractParser {
         }
         
         // Check, if there are only 2 child nodes of appInformationSet
-        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName("appInformationSet").item(0));
+        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName(XMLConstants.AIS).item(0));
         
         // Parse the app information nodes
         parseNameDescriptionNodes((Element) appInformation.item(0), this.ais);
@@ -101,14 +103,14 @@ public class AISParser extends AbstractParser {
      *            starting with this root element
      */
     private void parseServiceFeaturesNode(Element serviceFeaturesElement) {
-        NodeList serviceFeaturesNodeList = serviceFeaturesElement.getElementsByTagName("serviceFeature");
+        NodeList serviceFeaturesNodeList = serviceFeaturesElement.getElementsByTagName(XMLConstants.SF);
         
         // Parse the defined Service Features
         for (int itr = 0; itr < serviceFeaturesNodeList.getLength(); itr++) {
             Element serviceFeatureElement = (Element) serviceFeaturesNodeList.item(itr);
             
             // Get the identifier
-            String identifier = serviceFeatureElement.getAttribute("identifier");
+            String identifier = serviceFeatureElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE);
             
             // Instantiate the service feature and add it to the AIS
             AISServiceFeature sf = new AISServiceFeature(identifier);
@@ -118,7 +120,7 @@ public class AISParser extends AbstractParser {
             parseNameDescriptionNodes(serviceFeatureElement, sf);
             
             // Get the node list of the required resource groups
-            NodeList rrgNodeList = serviceFeatureElement.getElementsByTagName("requiredResourceGroup");
+            NodeList rrgNodeList = serviceFeatureElement.getElementsByTagName(XMLConstants.RRG);
             
             // Parse all required resource groups
             for (int rrgItr = 0; rrgItr < rrgNodeList.getLength(); rrgItr++) {
@@ -126,20 +128,22 @@ public class AISParser extends AbstractParser {
                 
                 // Instantiate the required resource group and add the
                 // identifier
-                AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(rrgElement.getAttribute("identifier"),
-                        rrgElement.getAttribute("minRevision"));
+                AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(
+                        rrgElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE),
+                        rrgElement.getAttribute(XMLConstants.MINREVISION_ATTRIBUTE));
                 
                 // Add the required resource group to the service feature
                 sf.addRequiredResourceGroup(rrg);
                 
                 // Parse the required resource group
-                List<String[]> privacySettingList = parseNodes(rrgElement, "requiredPrivacySetting", "identifier");
+                List<ParsedNode> privacySettingList = parseNodes(rrgElement, XMLConstants.RPS,
+                        XMLConstants.IDENTIFIER_ATTRIBUTE);
                 
                 // Add to the app information set (building objects)
-                for (String[] privacySettingArray : privacySettingList) {
+                for (ParsedNode privacySettingNode : privacySettingList) {
                     // Add identifier and value
-                    rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingArray[1],
-                            privacySettingArray[0]));
+                    rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingNode
+                            .getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE), privacySettingNode.getValue()));
                 }
             }
         }

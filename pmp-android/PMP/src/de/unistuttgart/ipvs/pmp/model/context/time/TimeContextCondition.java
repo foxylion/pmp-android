@@ -1,5 +1,13 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * The parsed condition for a {@link TimeContext}.
  * 
@@ -8,6 +16,12 @@ package de.unistuttgart.ipvs.pmp.model.context.time;
  */
 public class TimeContextCondition {
     
+    private static Map<String, TimeContextCondition> cache = new HashMap<String, TimeContextCondition>();
+    
+    private static Pattern CONDITION_PATTERN = Pattern
+            .compile("((utc)?)([0-2][0-9]):([0-5][0-9]):([0-5][0-9])-([0-2][0-9]):([0-5][0-9]):([0-5][0-9])-(.)([0-9,]*)");
+    
+    
     /**
      * Parses a {@link TimeContextCondition} from a string.
      * 
@@ -15,14 +29,78 @@ public class TimeContextCondition {
      * @return
      */
     public static TimeContextCondition parse(String condition) {
-        // TODO Auto-generated method stub
-        return null;
+        TimeContextCondition result = cache.get(condition);
+        
+        if (result == null) {
+            Matcher match = CONDITION_PATTERN.matcher(condition);
+            if (!match.matches()) {
+                throw new IllegalArgumentException("TimeContextCondition was not formatted properly: " + condition);
+            }
+            
+            boolean utc = match.group(1).length() > 0;
+            int beginHour = Integer.parseInt(match.group(2));
+            int beginMin = Integer.parseInt(match.group(3));
+            int beginSec = Integer.parseInt(match.group(4));
+            int endHour = Integer.parseInt(match.group(5));
+            int endMin = Integer.parseInt(match.group(6));
+            int endSec = Integer.parseInt(match.group(7));
+            TimeContextConditionIntervalType tccit = TimeContextConditionIntervalType.getForIdentifier(match.group(8)
+                    .charAt(0));
+            List<Integer> tccdList = tccit.makeDays(match.group(9));
+            
+            result = new TimeContextCondition(utc, new TimeContextConditionTime(beginHour, beginMin, beginSec),
+                    new TimeContextConditionTime(endHour, endMin, endSec), tccit, tccdList);
+            cache.put(condition, result);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Whether the time is fixed at a point, i.e. 08:00 always at this time zone,
+     * then the time is converted to UTC and the information is in UTC.
+     * In this case begin and end could wrap at 00:00:00.
+     * If this is false the time is always relative to the local time zone of the user.
+     */
+    private boolean isUTC;
+    
+    /**
+     * If and only if begin is later than end, i.e. it starts on one UTC day and then goes on to the next one
+     */
+    private boolean timeWraps;
+    
+    /**
+     * Begin and end during a 24-hrs period. May wrap, if isUTC.
+     */
+    private TimeContextConditionTime begin, end;
+    
+    /**
+     * The interval to repeat the time, i.e. which days
+     */
+    private TimeContextConditionIntervalType interval;
+    
+    /**
+     * The specific days in the interval
+     */
+    private List<Integer> days;
+    
+    
+    public TimeContextCondition(boolean isUTC, TimeContextConditionTime begin, TimeContextConditionTime end,
+            TimeContextConditionIntervalType interval, List<Integer> days) {
+        this.isUTC = isUTC;
+        this.begin = begin;
+        this.end = end;
+        this.timeWraps = begin.compareTo(end) > 0;
+        this.interval = interval;
+        this.days = days;
     }
     
     
-    private TimeContextCondition(int type, long start, long end) {
-        
-        // TODO Auto-generated constructor stub
+    @Override
+    public String toString() {
+        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", isUTC ? "utc" : "", this.begin.getHour(),
+                this.begin.getMinute(), this.begin.getSecond(), this.end.getHour(), this.end.getMinute(),
+                this.end.getSecond(), this.interval.getIdentifier(), this.interval.makeList(this.days));
     }
     
     
@@ -33,8 +111,49 @@ public class TimeContextCondition {
      * @return
      */
     public boolean satisfiedIn(long state) {
-        // TODO Auto-generated method stub
-        return false;
+        Calendar cal;
+        if (isUTC) {
+            cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        } else {
+            cal = Calendar.getInstance();
+        }
+        cal.setTimeInMillis(state);
+        
+        // check day is okay
+        switch (this.interval) {
+            case REPEAT_DAILY:
+                break;
+            
+            case REPEAT_WEEKLY:
+                if (!this.days.contains(cal.get(Calendar.DAY_OF_WEEK))) {
+                    return false;
+                }
+                break;
+            
+            case REPEAT_MONTHLY:
+                if (!this.days.contains(cal.get(Calendar.DAY_OF_MONTH))) {
+                    return false;
+                }
+                break;
+            
+            case REPEAT_YEARLY:
+                if (!this.days.contains(cal.get(Calendar.DAY_OF_YEAR))) {
+                    return false;
+                }
+                break;
+        }
+        
+        // check time
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int min = cal.get(Calendar.MINUTE);
+        int sec = cal.get(Calendar.SECOND);
+        
+        boolean dateBetweenBeginAndEnd = (this.begin.getHour() <= hour) && (hour <= this.end.getHour())
+                && (this.begin.getMinute() <= min) && (min <= this.end.getMinute()) && (this.begin.getSecond() <= sec)
+                && (sec <= this.end.getSecond());
+        
+        // either it's NOT wrapping AND     begin <= date <= end
+        //     or it's     wrapping AND NOT begin <= date <= end
+        return this.timeWraps ^ dateBetweenBeginAndEnd;
     }
-    
 }

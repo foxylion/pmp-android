@@ -305,7 +305,7 @@ public class MockupControl {
                     break;
                     
                 } else {
-                    for (AISRequiredPrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                    for (AISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps == null) {
                             available = false;
@@ -319,7 +319,7 @@ public class MockupControl {
             for (AISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
                 IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg != null) {
-                    for (AISRequiredPrivacySetting privacySetting : rrg.getPrivacySettings()) {
+                    for (AISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps != null) {
                             sf.addPS((MockupPrivacySetting) ps, privacySetting.getValue());

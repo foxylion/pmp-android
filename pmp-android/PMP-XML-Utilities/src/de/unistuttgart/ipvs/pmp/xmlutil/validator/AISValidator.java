@@ -166,15 +166,15 @@ public class AISValidator {
                         
                         // Continue, if they have a different number of PSs
                         // within one RRG
-                        if (rrg.getPrivacySettings().size() != rrgCompare.getPrivacySettings().size()) {
+                        if (rrg.getRequiredPrivacySettings().size() != rrgCompare.getRequiredPrivacySettings().size()) {
                             continue COMPARE_SF;
                         }
                         
                         // Iterate through all PSs of the rrg
-                        for (AISRequiredPrivacySetting ps : rrg.getPrivacySettings()) {
+                        for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
                             
                             // Iterate through all PSs of the rrgCompare
-                            for (AISRequiredPrivacySetting psCompare : rrgCompare.getPrivacySettings()) {
+                            for (AISRequiredPrivacySetting psCompare : rrgCompare.getRequiredPrivacySettings()) {
                                 
                                 // Continue, if they have different PSs
                                 // identifier

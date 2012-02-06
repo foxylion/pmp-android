@@ -97,6 +97,6 @@ public interface PersistenceConstants {
     /**
      * The XML file name for apps.
      */
-    public static final String APP_XML_NAME = "AppInformation.xml";
+    public static final String APP_XML_NAME = "ais.xml";
     
 }

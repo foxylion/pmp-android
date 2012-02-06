@@ -35,11 +35,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 
 /**
  * This class abstracts common used methods for the xml parsers of an app or
@@ -97,45 +99,39 @@ public abstract class AbstractParser {
      *            Name of the node
      * @param attributeNames
      *            the names for the attributes (optional)
-     * @return The list contains one array for each parsed node. The values of
-     *         the arrays are defined as follow: Array[0] = value of this node
-     *         Array[1..i] = values of the given attributes
+     * @return The list contains all parsed nodes
      */
-    protected List<String[]> parseNodes(Element rootElement, String nodeName, String... attributeNames) {
+    protected List<ParsedNode> parseNodes(Element rootElement, String nodeName, String... attributeNames) {
         
         // Get the node list
         NodeList nodeList = rootElement.getElementsByTagName(nodeName);
         
-        // Instantiate the result list array
-        List<String[]> resultListArray = new ArrayList<String[]>();
+        // Result list
+        List<ParsedNode> parsedNodes = new ArrayList<ParsedNode>();
         
         // iterate through all nodes
         for (int nodeListItr = 0; nodeListItr < nodeList.getLength(); nodeListItr++) {
             // Get the element
             Element element = (Element) nodeList.item(nodeListItr);
             
-            // Build the result array
-            int resultArrayLength = attributeNames.length + 1;
-            String[] resultArray = new String[resultArrayLength];
-            
-            // Init
-            resultArray[0] = "";
+            // Instantiate the parsed node
+            ParsedNode parsedNode = new ParsedNode();
             
             // iterate through the node values
             for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
-                resultArray[0] = resultArray[0] + element.getChildNodes().item(itemItr).getNodeValue();
+                parsedNode.setValue(parsedNode.getValue() + element.getChildNodes().item(itemItr).getNodeValue());
             }
             
             // Get the attributes given as parameters
-            for (int attrItr = 1; attrItr < resultArrayLength; attrItr++) {
-                resultArray[attrItr] = element.getAttribute(attributeNames[attrItr - 1]);
+            for (int attrItr = 0; attrItr < attributeNames.length; attrItr++) {
+                parsedNode.putAttribute(attributeNames[attrItr], element.getAttribute(attributeNames[attrItr]));
             }
             
             // Add the result array to the result list of arrays
-            resultListArray.add(resultArray);
+            parsedNodes.add(parsedNode);
         }
         
-        return resultListArray;
+        return parsedNodes;
     }
     
     
@@ -150,20 +146,21 @@ public abstract class AbstractParser {
      */
     protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
         // Create results
-        List<String[]> nameList = parseNodes(rootElement, "name", "lang");
-        List<String[]> descriptionList = parseNodes(rootElement, "description", "lang");
+        List<ParsedNode> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTRIBUTE);
+        List<ParsedNode> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION,
+                XMLConstants.LANGUAGE_ATTRIBUTE);
         
         // Add to the app information set
-        for (String[] nameArray : nameList) {
+        for (ParsedNode nameNode : nameList) {
             Name name = new Name();
-            name.setLocale(new Locale(nameArray[1]));
-            name.setName(nameArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
+            name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTRIBUTE)));
+            name.setName(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addName(name);
         }
-        for (String[] descriptionArray : descriptionList) {
+        for (ParsedNode descriptionNode : descriptionList) {
             Description descr = new Description();
-            descr.setLocale(new Locale(descriptionArray[1]));
-            descr.setDescription(descriptionArray[0].replaceAll("\t", "").replaceAll("\n", " ").trim());
+            descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTRIBUTE)));
+            descr.setDescription(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addDescription(descr);
         }
     }
