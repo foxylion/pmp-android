@@ -41,34 +41,7 @@ public class CreateWizard extends Wizard implements INewWizard {
 
     @Override
     public void init(IWorkbench Workbench, IStructuredSelection Selection) {
-	try {
-	    new AndroidManifestAdapter().addPMPActivityToManifest("/Test2/", "AndroidManifest.xml");
-	    new AndroidManifestAdapter().addPMPServiceToManifest("/Test2/", "AndroidManifest.xml");
-	} catch (FileNotFoundException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (ParserConfigurationException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (SAXException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (TransformerFactoryConfigurationError e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (TransformerException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (PMPActivityAlreadyExistsException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (AndroidApplicationException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+	
     }
 
     @Override
