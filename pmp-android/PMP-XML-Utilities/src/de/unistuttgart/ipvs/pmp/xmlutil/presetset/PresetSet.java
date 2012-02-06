@@ -17,9 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.xmlutil.preset;
+package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -32,5 +34,42 @@ public class PresetSet implements Serializable {
      * Serial
      */
     private static final long serialVersionUID = -3603193651021108354L;
+    
+    /**
+     * All presets
+     */
+    private List<Preset> presets = new ArrayList<Preset>();
+    
+    
+    /**
+     * Get all Presets
+     * 
+     * @return list with all Presets
+     */
+    public List<Preset> getPreset() {
+        return presets;
+    }
+    
+    
+    /**
+     * Add a Preset
+     * 
+     * @param preset
+     *            Preset to add
+     */
+    public void addPreset(Preset preset) {
+        this.presets.add(preset);
+    }
+    
+    
+    /**
+     * Remove a Preset
+     * 
+     * @param preset
+     *            Preset to remove
+     */
+    public void removePreset(Preset preset) {
+        this.presets.remove(preset);
+    }
     
 }
