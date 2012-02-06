@@ -409,7 +409,7 @@ public class AndroidManifestParser {
 	action.setAttribute(ANDROID_NAME, getAppIdentifier(xmlStream));
 
 	intentFilter.appendChild(action);
-	service.appendChild(action);
+	service.appendChild(intentFilter);
 
 	applicationElement.appendChild(service);
 
