@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 
@@ -381,6 +382,22 @@ public class Controller {
         return Constants.STATUS_ERROR;
     }
     
+    /**
+     * Picks up a hitchhiker
+     * @param sid
+     * @param user_id
+     * @return true if succeeded, false otherwise
+     */
+    public boolean pick_up(String sid, int user_id) {
+        Boolean bool = JSonRequestReader.pick_up(sid, user_id);
+        
+        return bool;
+    }
+    
+    public List<PassengerObject> offer_accepted(String sid, int trip_id) {
+        List<PassengerObject> bool = JSonRequestReader.offer_accepted(sid, trip_id);
+        return bool;
+    }
     
     /**
      * Returns the History of an user
