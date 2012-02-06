@@ -146,7 +146,7 @@ public class TCPServer {
                         } else if (request instanceof RequestRGIS) {
                             /* REQUEST: ResourceGroup-RGIS */
                             ResourceGroup rg = Model.get().getResourceGroups()
-                                    .get(((RequestResourceGroupPackage) request).getPackageName());
+                                    .get(((RequestRGIS) request).getPackageName());
                             
                             if (ResponseHasher.checkHash(rg, ((RequestRGIS) request).getCacheHash())) {
                                 output.writeObject(new CachedRequestResponse());
