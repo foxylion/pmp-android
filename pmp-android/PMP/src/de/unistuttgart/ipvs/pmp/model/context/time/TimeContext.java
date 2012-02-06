@@ -1,9 +1,11 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
-import de.unistuttgart.ipvs.pmp.model.context.IContext;
-import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 
 public class TimeContext implements IContext {
     
@@ -25,22 +27,19 @@ public class TimeContext implements IContext {
     
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return PMPApplication.getContext().getString(R.string.contexts_time_name);
     }
     
     
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
-        return null;
+        return PMPApplication.getContext().getString(R.string.contexts_time_desc);
     }
     
     
     @Override
     public Drawable getIcon() {
-        // TODO Auto-generated method stub
-        return null;
+        return PMPApplication.getContext().getResources().getDrawable(R.drawable.contexts_time_icon);
     }
     
     
