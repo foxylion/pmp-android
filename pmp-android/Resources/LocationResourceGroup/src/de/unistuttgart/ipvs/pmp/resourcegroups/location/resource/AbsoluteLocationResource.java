@@ -23,13 +23,13 @@ import android.os.Looper;
 import android.provider.Settings;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
-import de.unistuttgart.ipvs.pmp.resourcegroups.location.Location;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.LocationResourceGroup;
 
 public class AbsoluteLocationResource extends Resource {
 	
 	private Timer timeoutTimer = null;
 	
-	private Location locationRG;
+	private LocationResourceGroup locationRG;
 	
 	private LocationManager locationManager;
 	
@@ -68,7 +68,7 @@ public class AbsoluteLocationResource extends Resource {
 	private BroadcastReceiver receiver = new DefaultBroadcastReceiver();
 	
 	
-	public AbsoluteLocationResource(Location locationRG) {
+	public AbsoluteLocationResource(LocationResourceGroup locationRG) {
 		this.locationRG = locationRG;
 		
 		locationManager = (LocationManager) this.locationRG.getContext().getSystemService(Context.LOCATION_SERVICE);
