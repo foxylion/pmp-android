@@ -1584,7 +1584,7 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
         </tr>
       </table>
 
-      <h3 id="interface_pick_up">Mitfahrer abholen</h3>
+      <h3 id="interface_offer_handle">Mitfahrer abholen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>

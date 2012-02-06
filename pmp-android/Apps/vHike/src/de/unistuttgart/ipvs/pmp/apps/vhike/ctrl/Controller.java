@@ -381,6 +381,17 @@ public class Controller {
         return Constants.STATUS_ERROR;
     }
     
+    /**
+     * Picks up a hitchhiker
+     * @param sid
+     * @param user_id
+     * @return true if succeeded, false otherwise
+     */
+    public boolean pick_up(String sid, int user_id) {
+        Boolean bool = JSonRequestReader.pick_up(sid, user_id);
+        
+        return bool;
+    }
     
     /**
      * Returns the History of an user

@@ -848,6 +848,39 @@ public class JSonRequestReader {
         return status;
     }
     
+    /**
+     * Hitchhiker can accept or decline an offer
+     * 
+     * @param sid
+     * @param offer_id
+     * @param accept
+     * @return status
+     */
+    public static boolean pick_up(String sid, int user_id) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("user_id", String.valueOf(user_id), true));
+        JsonObject object = null;
+        
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "pick_up.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
     /**
      * Returns the history for the user
