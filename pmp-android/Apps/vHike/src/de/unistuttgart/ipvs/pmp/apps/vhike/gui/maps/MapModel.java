@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList;
+import java.util.ArrayList;  
 import java.util.List;
 
 import android.app.Activity;
@@ -373,5 +373,5 @@ public class MapModel {
 			mapView.invalidate();
 		}
 	}
-
+	
 }
