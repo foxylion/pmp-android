@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.editor.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +9,13 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -22,6 +23,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.editor.exceptions.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.PMPActivityAlreadyExistsException;
+
+/**
+ * Parses the AndroidManifest.xml to get the identifier of the app and to put
+ * the PMP registration activity to the XML file
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class AndroidManifestParser {
 
     /**
@@ -32,7 +43,7 @@ public class AndroidManifestParser {
     /**
      * Activity node
      */
-    private final String ACTIVITY = "activity";
+    private final String ANDROID_ACTIVITY = "activity";
 
     /**
      * Path to the PMP registration activity
@@ -84,6 +95,22 @@ public class AndroidManifestParser {
     private final String ANDROID_META_DATA_MAIN_ACTIVITY = "mainActivity";
 
     /**
+     * Android application
+     */
+    private final String ANDROID_APPLICATION = "application";
+
+    /**
+     * Android package attribute
+     */
+    private final String ANDROID_PACKAGE = "package";
+
+    /**
+     * Android Service
+     */
+    private final String ANDROID_SERVICE = "service";
+    private final String PMP_SERVICE_NAME = "de.unistuttgart.ipvs.pmp.service.app.AppService";
+
+    /**
      * Gets the AppIdentifier out of an AndroidManifest.xml
      * 
      * @param xmlStream
@@ -105,7 +132,7 @@ public class AndroidManifestParser {
 	// Get the attributes to get the package name
 	NamedNodeMap attribute = node.getAttributes();
 
-	return attribute.getNamedItem("package").getNodeValue();
+	return attribute.getNamedItem(ANDROID_PACKAGE).getNodeValue();
 
     }
 
@@ -121,23 +148,28 @@ public class AndroidManifestParser {
      * @throws IOException
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
+     * @throws PMPActivityAlreadyExistsException
      */
     public void addPMPActivity(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
-	    TransformerFactoryConfigurationError, TransformerException {
+	    TransformerFactoryConfigurationError, TransformerException,
+	    PMPActivityAlreadyExistsException {
 	instantiate(xmlStream);
+
+	isPMPActivityExisting();
+
 	String androidName = "";
 	String androidLabel = "";
 	String appIdentifier = getAppIdentifier(xmlStream);
 
 	Node mainActivityNode = getMainActivityNode();
 	Node parentNode = mainActivityNode.getParentNode();
-	if (mainActivityNode != null) {
+	if (mainActivityNode != null && parentNode != null) {
 
 	    // Get the required information out of the old node
 	    NamedNodeMap attributes = mainActivityNode.getAttributes();
-	    Node androidNameNode = attributes.getNamedItem("android:name");
-	    Node androidLabelNode = attributes.getNamedItem("android:label");
+	    Node androidNameNode = attributes.getNamedItem(ANDROID_NAME);
+	    Node androidLabelNode = attributes.getNamedItem(ANDROID_LABEL);
 	    if (androidNameNode != null && androidLabelNode != null) {
 
 		androidLabel = androidLabelNode.getNodeValue();
@@ -154,13 +186,13 @@ public class AndroidManifestParser {
 	    }
 
 	    // Create the new node
-	    Element newElement = doc.createElement(ACTIVITY);
+	    Element newElement = doc.createElement(ANDROID_ACTIVITY);
 	    newElement.setAttribute(ANDROID_NAME, PMP_ACTIVITY);
 	    newElement.setAttribute(ANDROID_LABEL, androidLabel);
 	    newElement.setAttribute(ANDROID_THEME, PMP_ANDROID_THEME);
 
 	    // Create the intent-filter node
-	    Element intentFilter = doc.createElement(ANDROID_INTENT_FILTER);
+	    Element newIntentFilter = doc.createElement(ANDROID_INTENT_FILTER);
 
 	    // Create the action element
 	    Element action = doc.createElement(ANDROID_ACTION);
@@ -171,11 +203,11 @@ public class AndroidManifestParser {
 	    category.setAttribute(ANDROID_NAME, ANDROID_CATEGORY_LAUNCHER);
 
 	    // Append action and category to the intent filter
-	    intentFilter.appendChild(action);
-	    intentFilter.appendChild(category);
+	    newIntentFilter.appendChild(action);
+	    newIntentFilter.appendChild(category);
 
 	    // Append the intent filter
-	    newElement.appendChild(intentFilter);
+	    newElement.appendChild(newIntentFilter);
 
 	    // Meta data node
 	    Element metaData = doc.createElement(ANDROID_META_DATA);
@@ -184,23 +216,58 @@ public class AndroidManifestParser {
 
 	    newElement.appendChild(metaData);
 
-	    if (parentNode != null) {
-		parentNode.replaceChild(newElement, mainActivityNode);
-		newElement.normalize();
-	    } else {
-		throw new NullPointerException(
-			"No parent node found for the activty node");
+	    // Remove the intent filters from the old activity
+	    NodeList activityNodes = mainActivityNode.getChildNodes();
+	    Element intentFilters = null;
+
+	    for (int itr = 0; itr < activityNodes.getLength(); itr++) {
+
+		// Get the intent filters
+		if (activityNodes.item(itr).getNodeName()
+			.equals(ANDROID_INTENT_FILTER)) {
+		    intentFilters = (Element) activityNodes.item(itr);
+
+		    // Get the actions node from the intent-filters
+		    NodeList actions = intentFilters
+			    .getElementsByTagName(ANDROID_ACTION);
+
+		    // Search for the android:name="android.intent.action.MAIN"
+		    // attribute and delete it
+		    for (int itr2 = 0; itr2 < actions.getLength(); itr2++) {
+			Element actionTest = (Element) actions.item(itr2);
+			if (actionTest.getAttribute(ANDROID_NAME).equals(
+				ANDROID_ACTION_MAIN)) {
+			    intentFilters.removeChild(actionTest);
+			    continue;
+			}
+		    }
+
+		    // Get the categories from the intent-filters
+		    NodeList categories = intentFilters
+			    .getElementsByTagName(ANDROID_CATEGORY);
+
+		    // Search for the
+		    // android:name="android.intent.category.LAUNCHER" attribute
+		    // and delete it
+		    for (int itr3 = 0; itr3 < categories.getLength(); itr3++) {
+			Element categoryTest = (Element) categories.item(itr3);
+			if (categoryTest.getAttribute(ANDROID_NAME).equals(
+				ANDROID_CATEGORY_LAUNCHER)) {
+			    intentFilters.removeChild(categoryTest);
+			    continue;
+			}
+		    }
+		}
 	    }
+
+	    parentNode.appendChild(newElement);
+	    newElement.normalize();
+	    doc.normalize();
+	} else {
+	    throw new NullPointerException("Node was null");
 	}
 
-	// Write back the changes
-	Transformer transformer = TransformerFactory.newInstance()
-		.newTransformer();
-	DOMSource source = new DOMSource(doc);
-	FileOutputStream os = new FileOutputStream(file);
-	StreamResult result = new StreamResult(os);
-	transformer.transform(source, result);
-
+	writeBackChanges(file);
     }
 
     /**
@@ -219,14 +286,32 @@ public class AndroidManifestParser {
 		NamedNodeMap attributes = action.getAttributes();
 		Node attribute = attributes.getNamedItem(ANDROID_NAME);
 		if (attribute != null
-			&& attribute.getNodeValue().equals(
-				"android.intent.action.MAIN")) {
+			&& attribute.getNodeValue().equals(ANDROID_ACTION_MAIN)) {
 		    Node actionParent = action.getParentNode();
 		    return actionParent.getParentNode();
 		}
 	    }
 	}
 	return null;
+    }
+
+    /**
+     * Checks if there is a activity node with the attribute
+     * "android:name="de.unistuttgart
+     * .ipvs.pmp.api.gui.registration.RegistrationActivity""
+     * 
+     * @return false if the activity is found, true otherwise
+     */
+    private void isPMPActivityExisting()
+	    throws PMPActivityAlreadyExistsException {
+	NodeList activities = doc.getElementsByTagName(ANDROID_ACTIVITY);
+	for (int itr = 0; itr < activities.getLength(); itr++) {
+	    Element activity = (Element) activities.item(itr);
+	    if (activity.getAttribute(ANDROID_NAME).equals(PMP_ACTIVITY)) {
+		throw new PMPActivityAlreadyExistsException(
+			"PMP registration activity already existing");
+	    }
+	}
     }
 
     /**
@@ -283,6 +368,80 @@ public class AndroidManifestParser {
 	db = dbf.newDocumentBuilder();
 	this.doc = db.parse(xmlStream);
 	this.doc.getDocumentElement().normalize();
+    }
 
+    /**
+     * Adds the PMP service to the AndroidManifest.xml
+     * 
+     * @param xmlStream
+     *            Stream to the XML file
+     * @param file
+     *            same XML {@link File}
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws AndroidApplicationException
+     * @throws TransformerFactoryConfigurationError
+     * @throws TransformerException
+     */
+    public void addPMPServiceToManifest(InputStream xmlStream, File file)
+	    throws ParserConfigurationException, SAXException, IOException,
+	    AndroidApplicationException, TransformerFactoryConfigurationError,
+	    TransformerException {
+	instantiate(xmlStream);
+
+	NodeList application = doc.getElementsByTagName(ANDROID_APPLICATION);
+	if (application.getLength() > 1) {
+	    throw new AndroidApplicationException(application.getLength()
+		    + " application nodes were found.");
+	}
+	Element applicationElement = (Element) application.item(0);
+
+	// Create the service element
+	Element service = doc.createElement(ANDROID_SERVICE);
+	service.setAttribute(ANDROID_NAME, PMP_SERVICE_NAME);
+
+	// Create the intent-filter element
+	Element intentFilter = doc.createElement(ANDROID_INTENT_FILTER);
+
+	// Create the action element
+	Element action = doc.createElement(ANDROID_ACTION);
+	action.setAttribute(ANDROID_NAME, getAppIdentifier(xmlStream));
+
+	intentFilter.appendChild(action);
+	service.appendChild(action);
+
+	applicationElement.appendChild(service);
+
+	writeBackChanges(file);
+    }
+
+    /**
+     * Writes the changes back to the {@link File}
+     * 
+     * @param file
+     *            file to write
+     * @throws TransformerFactoryConfigurationError
+     * @throws FileNotFoundException
+     * @throws TransformerException
+     */
+    private void writeBackChanges(File file)
+	    throws TransformerFactoryConfigurationError, FileNotFoundException,
+	    TransformerException {
+	// Write back the changes
+	Transformer transformer = TransformerFactory.newInstance()
+		.newTransformer();
+
+	// Format the XML document
+	transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+	transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+	transformer.setOutputProperty(
+		"{http://xml.apache.org/xslt}indent-amount", "2");
+	transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+	DOMSource source = new DOMSource(doc);
+	FileOutputStream os = new FileOutputStream(file);
+	StreamResult result = new StreamResult(os);
+	transformer.transform(source, result);
     }
 }
