@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractResponse implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private byte[] cacheHash = new byte[0];
 	

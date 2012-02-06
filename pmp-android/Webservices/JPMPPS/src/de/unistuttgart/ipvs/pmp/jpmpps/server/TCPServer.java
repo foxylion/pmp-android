@@ -8,11 +8,13 @@ import java.net.Socket;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestRGIS;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.CachedRequestResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.InvalidRequestResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.NoSuchResourceGroupPackageResponse;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.response.NoSuchPackageResponse;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.response.RGISResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupPackageResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
@@ -113,7 +115,9 @@ public class TCPServer {
                 while (!end) {
                     try {
                         Object request = input.readObject();
+                        
                         if (request instanceof RequestResourceGroups) {
+                            /* REQUEST: ResourecGroups-List */
                             RequestResourceGroups req = (RequestResourceGroups) request;
                             LocalizedResourceGroup[] rgs = JPMPPS.get().findResourceGroups(req.getLocale(),
                                     req.getFilter(), JPMPPS.LIMIT);
@@ -121,25 +125,46 @@ public class TCPServer {
                             if (ResponseHasher.checkHash(req.getLocale(), rgs, req.getCacheHash())) {
                                 output.writeObject(new CachedRequestResponse());
                             } else {
-                                output.writeObject(new ResourceGroupsResponse(rgs, ResponseHasher.hash(req.getLocale(), rgs)));
+                                output.writeObject(new ResourceGroupsResponse(rgs, ResponseHasher.hash(req.getLocale(),
+                                        rgs)));
                             }
+                            
                         } else if (request instanceof RequestResourceGroupPackage) {
+                            /* REQUEST: ResourceGroup-Package */
                             ResourceGroup rg = Model.get().getResourceGroups()
                                     .get(((RequestResourceGroupPackage) request).getPackageName());
                             if (rg == null) {
-                                output.writeObject(new NoSuchResourceGroupPackageResponse());
-                            } else if (ResponseHasher.checkHash(rg, ((RequestResourceGroupPackage) request).getCacheHash())) {
-                                output.writeObject(new CachedRequestResponse()); 
+                                output.writeObject(new NoSuchPackageResponse());
+                            } else if (ResponseHasher.checkHash(rg,
+                                    ((RequestResourceGroupPackage) request).getCacheHash())) {
+                                output.writeObject(new CachedRequestResponse());
                             } else {
-                                output.writeObject(new ResourceGroupPackageResponse(rg.getInputStream(), ResponseHasher.hash(rg.getRevision())));
+                                output.writeObject(new ResourceGroupPackageResponse(rg.getInputStream(), ResponseHasher
+                                        .hash(rg.getRevision())));
                             }
+                            
+                        } else if (request instanceof RequestRGIS) {
+                            /* REQUEST: ResourceGroup-RGIS */
+                            ResourceGroup rg = Model.get().getResourceGroups()
+                                    .get(((RequestResourceGroupPackage) request).getPackageName());
+                            
+                            if (ResponseHasher.checkHash(rg, ((RequestRGIS) request).getCacheHash())) {
+                                output.writeObject(new CachedRequestResponse());
+                            } else {
+                                output.writeObject(new RGISResponse(rg.getRGIS(), ResponseHasher.hash(rg.getRevision())));
+                            }
+                            
                         } else if (request instanceof RequestCommunicationEnd) {
+                            /* REQUEST: Communication END */
                             end = true;
+                            
                         } else {
+                            /* REQUEST: UNKNOWN */
                             output.writeObject(new InvalidRequestResponse());
                         }
                         
                         continue;
+                        /* REQUEST: UNKNOWN */
                     } catch (ClassNotFoundException e) {
                         System.out.println("[E] Received an unknown object from " + this.socket.getInetAddress());
                         

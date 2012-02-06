@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 public class ResourceGroupsResponse extends AbstractResponse implements
 		Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private byte[] resourceGroups;
 

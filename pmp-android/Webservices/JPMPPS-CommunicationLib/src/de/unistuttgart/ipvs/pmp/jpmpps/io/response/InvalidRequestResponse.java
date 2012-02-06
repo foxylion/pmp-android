@@ -7,6 +7,6 @@ package de.unistuttgart.ipvs.pmp.jpmpps.io.response;
  */
 public class InvalidRequestResponse extends AbstractResponse {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 }
