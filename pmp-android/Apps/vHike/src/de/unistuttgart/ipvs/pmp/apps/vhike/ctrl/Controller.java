@@ -79,19 +79,19 @@ public class Controller {
         
         if (status.equals("registered")) {
             return Constants.REG_STAT_REGISTERED;
-        } else if (status.equals("username_exists")) {
+        } else if (status.contains("username_exists")) {
             return Constants.REG_STAT_USED_USERNAME;
-        } else if (status.equals("email_exists")) {
+        } else if (status.contains("email_exists")) {
             return Constants.REG_STAT_USED_MAIL;
-        } else if (status.equals("invalid_username")) {
+        } else if (status.contains("invalid_username")) {
             return Constants.REG_STAT_INVALID_USERNAME;
-        } else if (status.equals("invalid_password")) {
+        } else if (status.contains("invalid_password")) {
             return Constants.REG_STAT_INVALID_PW;
-        } else if (status.equals("invalid_firstname")) {
+        } else if (status.contains("invalid_firstname")) {
             return Constants.REG_STAT_INVALID_FIRSTNAME;
-        } else if (status.equals("invalid_lastname")) {
+        } else if (status.contains("invalid_lastname")) {
             return Constants.REG_STAT_INVALID_LASTNAME;
-        } else if (status.equals("invalid_tel")) {
+        } else if (status.contains("invalid_tel")) {
             return Constants.REG_STAT_INVALID_TEL;
         }
         
