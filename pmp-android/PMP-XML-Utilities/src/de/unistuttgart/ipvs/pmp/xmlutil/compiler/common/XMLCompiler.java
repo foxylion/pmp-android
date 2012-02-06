@@ -17,11 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
+package de.unistuttgart.ipvs.pmp.xmlutil.compiler.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * 
@@ -29,9 +38,6 @@ import java.io.UnsupportedEncodingException;
  * 
  */
 public class XMLCompiler {
-    
-    private static final String LINE_BREAK = System.getProperty("line.separator");
-    
     
     private XMLCompiler() {
     }
@@ -45,11 +51,27 @@ public class XMLCompiler {
     public static String compile(XMLNode mainNode) {
         StringBuilder sb = new StringBuilder();
         
-        sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-        sb.append(LINE_BREAK);
         appendNode(mainNode, sb);
         
-        return sb.toString();
+        return prettyFormat(sb.toString());
+        
+    }
+    
+    
+    private static String prettyFormat(String input) {
+        try {
+            Source xmlInput = new StreamSource(new StringReader(input));
+            StringWriter stringWriter = new StringWriter();
+            StreamResult xmlOutput = new StreamResult(stringWriter);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", 3);
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(xmlInput, xmlOutput);
+            return xmlOutput.getWriter().toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e); // simple exception handling, please review it
+        }
     }
     
     
@@ -82,13 +104,11 @@ public class XMLCompiler {
             if (!node.hasChildren()) {
                 // empty node
                 sb.append(String.format("%s%s>", benignSpaces ? " " : "", noClose ? "" : "/"));
-                sb.append(LINE_BREAK);
                 return;
                 
             } else {
                 // children node
                 sb.append(String.format("%s>", benignSpaces ? " " : ""));
-                sb.append(LINE_BREAK);
                 
                 for (XMLNode xmln : node.getChildren()) {
                     appendNode(xmln, sb);
@@ -103,6 +123,6 @@ public class XMLCompiler {
             sb.append(node.getName());
             sb.append(">");
         }
-        sb.append(LINE_BREAK);
     }
+    
 }
