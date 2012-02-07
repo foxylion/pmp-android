@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import android.content.Context;
@@ -105,8 +104,6 @@ public class TimeContextView extends LinearLayout implements IContextView {
             timeZoneDeltaHrs = timeZoneDeltaMin / 60;
             timeZoneDeltaMin %= 60;
         }
-        Calendar cal;
-        
         // set field values
         this.beginPicker.setCurrentHour(timeZoneDeltaHrs + this.value.getBegin().getHour());
         this.beginPicker.setCurrentMinute(timeZoneDeltaMin + this.value.getBegin().getMinute());

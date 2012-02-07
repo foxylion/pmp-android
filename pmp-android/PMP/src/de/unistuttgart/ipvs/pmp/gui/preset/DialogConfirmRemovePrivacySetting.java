@@ -13,8 +13,8 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
 public class DialogConfirmRemovePrivacySetting extends Dialog {
     
-    private IPrivacySetting privacySetting;
-    private TabPrivacySettings presetPSsTab;
+    protected IPrivacySetting privacySetting;
+    protected TabPrivacySettings presetPSsTab;
     
     
     public DialogConfirmRemovePrivacySetting(Context context, IPreset preset, IPrivacySetting privacySetting,

@@ -29,7 +29,7 @@ public enum TimeContextConditionIntervalType {
     
     
     public Character getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     

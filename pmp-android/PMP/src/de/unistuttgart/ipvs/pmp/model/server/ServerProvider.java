@@ -198,7 +198,7 @@ public class ServerProvider implements IServerProvider {
         }
         
         if (request == null) {
-            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_NULL, "request", request));
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_NULL, "request", null));
         }
         
         this.callback.step(2, 7);
@@ -323,7 +323,9 @@ public class ServerProvider implements IServerProvider {
     @Override
     public void cleanCache() {
         for (File f : new File(TEMPORARY_PATH).listFiles()) {
-            f.delete();
+            if (!f.delete()) {
+                Log.w(this, "Could not clean cache: " + f.getName());
+            }
         }
         
     }
