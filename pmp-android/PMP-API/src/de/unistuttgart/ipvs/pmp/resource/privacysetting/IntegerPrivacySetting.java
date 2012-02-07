@@ -29,12 +29,10 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
             
             @Override
             public int compare(Integer object1, Integer object2) {
-                int cmp = object1.compareTo(object2);
-                
                 if (smallerIsBetter) {
-                    return cmp;
+                    return object1.compareTo(object2);
                 } else {
-                    return -cmp;
+                    return object2.compareTo(object1);
                 }
             }
         });
@@ -71,7 +69,8 @@ class IntegerPrivacySettingView extends LinearLayout implements IPrivacySettingV
         super(context);
         this.editText = new EditText(context);
         this.editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        this.editText.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        this.editText.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         addView(this.editText);
     }
     
