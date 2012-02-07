@@ -2,8 +2,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -12,8 +10,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.widget.Button;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 
@@ -24,12 +20,9 @@ import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 
 /**
  * MapModel grants access to all elements needed to work with the map view
@@ -53,10 +46,6 @@ public class MapModel {
     private NotificationAdapter driverAdapter;
     private NotificationAdapter passengerAdapter;
     
-    private TimerTask timerTask;
-    private Handler handler;
-    private Timer timer;
-    
     
     public static MapModel getInstance() {
         if (instance == null) {
@@ -64,68 +53,6 @@ public class MapModel {
         }
         return instance;
     }
-    
-    
-    /**
-     * Set time interval
-     * 
-     * @return timerTask
-     */
-    public TimerTask checkAcceptedOffersIntervall(final Button acceptButton, final int userID) {
-        if (timerTask == null) {
-            timerTask = new TimerTask() {
-                
-                public void run() {
-                    handler.post(new Runnable() {
-                        
-                        public void run() {
-                            Controller ctrl = new Controller();
-                            List<PassengerObject> lpo = ctrl.offer_accepted(Model.getInstance().getSid(), Model
-                                    .getInstance().getTripId());
-                            // check if invitations were accepted
-                            if (lpo.size() > 0) {
-                                for (int i = 0; i < lpo.size(); i++) {
-                                    // set button/invitation as checked
-                                    if (lpo.get(i).getUser_id() == userID) {
-                                        acceptButton.setBackgroundResource(R.drawable.bg_check);
-                                        // count down available seats
-                                        ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
-                                                .getTripId(), MapModel.getInstance().getNumSeats() - 1);
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            };
-        }
-        return timerTask;
-    }
-    
-    
-    /**
-     * timer to schedule time interval
-     * 
-     * @return timer
-     */
-    public Timer checkAcceptedOffersTimer() {
-        if (timer == null) {
-            timer = new Timer();
-        }
-        return timer;
-    }
-    
-    
-    /**
-     * Cancel timer
-     */
-    public void cancelTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-    
     
     /**
      * Holds all overlays of the the drivers Mapview
