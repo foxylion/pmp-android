@@ -6,7 +6,7 @@ package de.unistuttgart.ipvs.pmp.jpmpps.io.response;
  * @author Jakob Jarosch
  */
 public class CachedRequestResponse extends AbstractResponse {
-
-	private static final long serialVersionUID = 2L;
-
+    
+    private static final long serialVersionUID = 2L;
+    
 }

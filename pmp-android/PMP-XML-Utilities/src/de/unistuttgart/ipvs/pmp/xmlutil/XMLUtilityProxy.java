@@ -19,17 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
-import java.io.InputStream;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.PresetSetCompiler;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.RGISCompiler;
-import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
-import de.unistuttgart.ipvs.pmp.xmlutil.parser.PresetSetParser;
-import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-
 /**
  * This proxy provides XML utilities for Apps, Resourcegroups and Presets
  * 
@@ -39,14 +28,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class XMLUtilityProxy {
     
     /**
-     * The AIS-/RGIS-/PresetSet-Parser and -Compiler
+     * The util classes AppUtil, RGUtil and PresetUtil
      */
-    private static AISParser aisParser = new AISParser();
-    private static AISCompiler aisCompiler = new AISCompiler();
-    private static RGISParser rgisParser = new RGISParser();
-    private static RGISCompiler rgisCompiler = new RGISCompiler();
-    private static PresetSetParser presetSetParser = new PresetSetParser();
-    private static PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
+    private static AppUtil appUtil = new AppUtil();
+    private static RGUtil rgUtil = new RGUtil();
+    private static PresetUtil presetUtil = new PresetUtil();
     
     
     /**
@@ -57,92 +43,32 @@ public class XMLUtilityProxy {
     
     
     /**
-     * This method creates an app information set for a given xml url.
+     * Get the app utilities
      * 
-     * @param xmlURL
-     *            url to the xml file
-     * @return app information set
+     * @return app utilities
      */
-    public static AIS parseAISXML(InputStream xmlStream) {
-        return aisParser.parse(xmlStream);
+    public static AppUtil getAppUtil() {
+        return appUtil;
     }
     
     
     /**
-     * This method creates an xml file for a given AIS
+     * Get the resource group utilities
      * 
-     * @param ais
-     *            AIS to compile
-     * @return compiled xml file
+     * @return resource group utilities
      */
-    public static InputStream compileAISXML(AIS ais) {
-        return aisCompiler.compile(ais);
+    public static RGUtil getRGUtil() {
+        return rgUtil;
     }
     
     
     /**
-     * Create a blank AIS-Object
+     * Get the preset utilities
      * 
-     * @return blank AIS-Object
+     * @return preset utilities
      */
-    public static AIS createBlankAIS() {
-        return new AIS();
-    }
-    
-    
-    /**
-     * Print an AIS
-     * 
-     * @param ais
-     *            AIS to print
-     */
-    public static void printAIS(AIS ais) {
-        ISPrinter.printAIS(ais);
-    }
-    
-    
-    /**
-     * This method creates an resourcegroup information set for a given xml url.
-     * 
-     * @param xmlURL
-     *            url to the xml file
-     * @return resourcegroup information set
-     */
-    public static RGIS parseRGISXML(InputStream xmlStream) {
-        return rgisParser.parse(xmlStream);
-    }
-    
-    
-    /**
-     * This method creates an xml file for a given ARG
-     * 
-     * @param rgis
-     *            RGIS to compile
-     * @return compiled xml file
-     */
-    public static InputStream compileRGISXML(RGIS rgis) {
-        return rgisCompiler.compile(rgis);
-    }
-    
-    
-    /**
-     * Create a blank RGIS-Object
-     * 
-     * @return blank RGIS-Object
-     */
-    public static RGIS createBlankRGIS() {
-        return new RGIS();
-    }
-    
-    
-    /**
-     * Print an RGIS
-     * 
-     * @param rgis
-     *            RGIS to print
-     */
-    public static void printRGIS(RGIS rgis) {
-        ISPrinter.printRGIS(rgis);
+    public static PresetUtil getPresetUtil() {
+        return presetUtil;
     }
     
 }

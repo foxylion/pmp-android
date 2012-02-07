@@ -6,7 +6,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IntegerPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.resource.AbsoluteLocationResource;
 
-public class Location extends ResourceGroup {
+public class LocationResourceGroup extends ResourceGroup {
 	
 	public static final String PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
 	
@@ -20,12 +20,12 @@ public class Location extends ResourceGroup {
 	
 	
 	/**
-	 * Creates a new {@link Location}.
+	 * Creates a new {@link LocationResourceGroup}.
 	 * 
 	 * @param rgPackage Packagename of the ResourceGroup
 	 * @param pmpci Connectioninterface to PMP.
 	 */
-	public Location(IPMPConnectionInterface pmpci) {
+	public LocationResourceGroup(IPMPConnectionInterface pmpci) {
 		super(PACKAGE_NAME, pmpci);
 		
 		registerResource(R_ABSOLUTE_LOCATION, new AbsoluteLocationResource(this));

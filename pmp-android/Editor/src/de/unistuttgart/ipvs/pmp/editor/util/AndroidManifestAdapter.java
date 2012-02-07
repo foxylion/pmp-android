@@ -18,8 +18,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.xml.sax.SAXException;
 
-import de.unistuttgart.ipvs.pmp.editor.exceptions.AndroidApplicationException;
-import de.unistuttgart.ipvs.pmp.editor.exceptions.PMPActivityAlreadyExistsException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 
 /**
  * Calls the {@link AndroidManifestParser} to provide the functions of the
@@ -67,11 +69,12 @@ public class AndroidManifestAdapter {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
+     * @throws NoMainActivityException 
      */
     public void addPMPActivityToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPActivityAlreadyExistsException {
+	    TransformerException, PMPActivityAlreadyExistsException, NoMainActivityException {
 
 	new AndroidManifestParser().addPMPActivity(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
@@ -91,34 +94,15 @@ public class AndroidManifestAdapter {
      * @throws AndroidApplicationException
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
+     * @throws PMPServiceAlreadyExists
      */
     public void addPMPServiceToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, AndroidApplicationException,
-	    TransformerFactoryConfigurationError, TransformerException {
+	    TransformerFactoryConfigurationError, TransformerException, PMPServiceAlreadyExists {
 
 	new AndroidManifestParser().addPMPServiceToManifest(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
-    }
-
-    /**
-     * Checks if there is a main activity declared in the AndroidManifest
-     * 
-     * @param xmlPath
-     *            path to the XML file
-     * @param xmlFile
-     *            filename
-     * @return true if it exists, false otherwise
-     * @throws FileNotFoundException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    public boolean isMainActivityExisting(String xmlPath, String xmlFile)
-	    throws FileNotFoundException, ParserConfigurationException,
-	    SAXException, IOException {
-	return new AndroidManifestParser()
-		.isMainActivityExisting(getInputStream(xmlPath, xmlFile));
     }
 
     /**

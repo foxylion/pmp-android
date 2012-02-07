@@ -193,13 +193,15 @@ public class NotificationAdapter extends BaseAdapter {
                     switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
                             me.getUsername() + ": Need a ride?")) {
                         case Constants.STATUS_SENT:
-                            Log.i(this, "P: " + position + ", " + queryID);
+                            
                             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                             Model.getInstance().addToInvitedUser(userID);
-                            Log.i(this, "USER ID ADDED: " + userID);
-                            //
-                            // notifyDataSetChanged();
-                            Toast.makeText(context, "STATUS_SENT", Toast.LENGTH_SHORT).show();
+
+                            // check for offer updates for this button
+                            MapModel.getInstance()
+                                    .checkAcceptedOffersTimer()
+                                    .schedule(MapModel.getInstance().checkAcceptedOffersIntervall(accept_invite, userID), 300,
+                                            10000);
                             
                             break;
                         case Constants.STATUS_INVALID_TRIP:

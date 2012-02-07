@@ -68,7 +68,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      * @return the rgIdentifier
      */
     public String getRgIdentifier() {
-        return rgIdentifier;
+        return this.rgIdentifier;
     }
     
     
@@ -89,7 +89,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      * @return the rgRevision
      */
     public String getRgRevision() {
-        return rgRevision;
+        return this.rgRevision;
     }
     
     
@@ -110,7 +110,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      * @return the psIdentifier
      */
     public String getPsIdentifier() {
-        return psIdentifier;
+        return this.psIdentifier;
     }
     
     
@@ -131,7 +131,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      * @return the value
      */
     public String getValue() {
-        return value;
+        return this.value;
     }
     
     
@@ -152,7 +152,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      * @return the contexts
      */
     public List<PresetPSContext> getContexts() {
-        return contexts;
+        return this.contexts;
     }
     
     
@@ -163,7 +163,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      *            Context to add
      */
     public void addContext(PresetPSContext context) {
-        contexts.add(context);
+        this.contexts.add(context);
     }
     
     
@@ -174,7 +174,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
      *            Context to remove
      */
     public void removeContext(PresetPSContext context) {
-        contexts.remove(context);
+        this.contexts.remove(context);
     }
     
 }

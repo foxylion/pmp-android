@@ -10,7 +10,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
 public class PrivacySettingView extends LinearLayout {
     
-    private IPrivacySetting privacySetting;
+    protected IPrivacySetting privacySetting;
     
     
     public PrivacySettingView(Context context, IPrivacySetting privacySetting) {

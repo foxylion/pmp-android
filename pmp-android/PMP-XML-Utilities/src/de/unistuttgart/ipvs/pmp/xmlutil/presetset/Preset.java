@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -34,6 +36,16 @@ public class Preset implements Serializable {
      */
     private String description;
     
+    /**
+     * The assigned apps
+     */
+    private List<PresetAssignedApp> assignedApps = new ArrayList<PresetAssignedApp>();
+    
+    /**
+     * The assigned privacy settings
+     */
+    private List<PresetAssignedPrivacySetting> assignedPrivacySettings = new ArrayList<PresetAssignedPrivacySetting>();
+    
     
     /**
      * Constructor to set the attributes
@@ -61,7 +73,7 @@ public class Preset implements Serializable {
      * @return the identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     
@@ -82,7 +94,7 @@ public class Preset implements Serializable {
      * @return the creator
      */
     public String getCreator() {
-        return creator;
+        return this.creator;
     }
     
     
@@ -103,7 +115,7 @@ public class Preset implements Serializable {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
@@ -124,7 +136,7 @@ public class Preset implements Serializable {
      * @return the description
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     
@@ -136,6 +148,70 @@ public class Preset implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    
+    /**
+     * Get all assigned apps
+     * 
+     * @return assigned apps
+     */
+    public List<PresetAssignedApp> getAssignedApps() {
+        return assignedApps;
+    }
+    
+    
+    /**
+     * Add an assigned app
+     * 
+     * @param assignedApp
+     *            assigned app to add
+     */
+    public void addAssignedApp(PresetAssignedApp assignedApp) {
+        assignedApps.add(assignedApp);
+    }
+    
+    
+    /**
+     * Remove an assigned app
+     * 
+     * @param assignedApp
+     *            assigned app to remove
+     */
+    public void removeAssignedApp(PresetAssignedApp assignedApp) {
+        assignedApps.remove(assignedApp);
+    }
+    
+    
+    /**
+     * Get all assigned privacy settings
+     * 
+     * @return assigned privacy settings
+     */
+    public List<PresetAssignedPrivacySetting> getAssignedPrivacySettings() {
+        return assignedPrivacySettings;
+    }
+    
+    
+    /**
+     * Add an assigned privacy setting
+     * 
+     * @param assignedPrivacySetting
+     *            assigned privacy setting to add
+     */
+    public void addAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+        assignedPrivacySettings.add(assignedPrivacySetting);
+    }
+    
+    
+    /**
+     * Remove an assigned privacy setting
+     * 
+     * @param assignedPrivacySetting
+     *            assigned privacy setting to remove
+     */
+    public void removeAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+        assignedPrivacySettings.remove(assignedPrivacySetting);
     }
     
 }

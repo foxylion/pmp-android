@@ -342,7 +342,7 @@ public class PluginProvider implements IPluginProvider {
     private RGIS loadRGIS(String rgPackage) throws FileNotFoundException, IOException {
         FileInputStream fis = new FileInputStream(PLUGIN_ASSET_DIR_STR + rgPackage + ".xml");
         try {
-            return XMLUtilityProxy.parseRGISXML(fis);
+            return XMLUtilityProxy.getRGUtil().parse(fis);
         } finally {
             fis.close();
         }

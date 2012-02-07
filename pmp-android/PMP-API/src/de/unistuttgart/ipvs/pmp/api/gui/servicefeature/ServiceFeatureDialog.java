@@ -10,7 +10,7 @@ import de.unistuttgart.ipvs.pmp.api.handler._default.PMPDefaultRequestSFHandler;
 
 public class ServiceFeatureDialog extends Dialog {
     
-    private PMPDefaultRequestSFHandler defaultRegistrationHandler;
+    protected PMPDefaultRequestSFHandler defaultRegistrationHandler;
     
     
     public ServiceFeatureDialog(Activity activity, PMPDefaultRequestSFHandler defaultRegistrationHandler) {

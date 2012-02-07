@@ -25,7 +25,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * This Class provides static methods to print a given AIS or RGIS.
@@ -105,7 +111,7 @@ public class ISPrinter {
         System.out.println("-----------------------");
         System.out.println("-- Privacy Settings: --");
         System.out.println("-----------------------");
-        for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
             System.out.println("Identifier: " + ps.getIdentifier());
             System.out.println("Valid value description: " + ps.getValidValueDescription());
             for (Name name : ps.getNames()) {
@@ -114,6 +120,49 @@ public class ISPrinter {
             for (Description descr : ps.getDescriptions()) {
                 System.out.println("Description: " + descr.getDescription() + " (Locale: "
                         + descr.getLocale().getLanguage() + ")");
+            }
+            System.out.println("-----------------------");
+        }
+        System.out.println("-----------------------");
+    }
+    
+    
+    /**
+     * Print the presetSet set to the console
+     * 
+     * @param presetSet
+     *            the presetSet set for printing
+     */
+    public static void printPresetSet(PresetSet presetSet) {
+        System.out.println("-----------------------");
+        System.out.println("----- XML-Parser ------");
+        System.out.println("-----------------------");
+        System.out.println("------ PresetSet ------");
+        System.out.println("-----------------------");
+        for (Preset preset : presetSet.getPresets()) {
+            System.out.println("--- Preset ---");
+            System.out.println("Identifier: " + preset.getIdentifier());
+            System.out.println("Creator: " + preset.getCreator());
+            System.out.println("Name: " + preset.getName());
+            System.out.println("Description: " + preset.getDescription());
+            System.out.println("Assigned Apps:");
+            for (PresetAssignedApp app : preset.getAssignedApps()) {
+                System.out.println("- Identifier: " + app.getIdentifier());
+            }
+            System.out.println("Assigned Privacy Settings:");
+            for (PresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
+                System.out.println("RG-Identifier: " + ps.getRgIdentifier());
+                System.out.println("RG-Revision: " + ps.getRgRevision());
+                System.out.println("PS-Identifier: " + ps.getPsIdentifier());
+                System.out.println("Value: " + ps.getValue());
+                for (PresetPSContext context : ps.getContexts()) {
+                    System.out.println("- Context");
+                    System.out.println("- Type: " + context.getType());
+                    System.out.println("- Condition: " + context.getCondition());
+                    System.out.println("- Override-Value: " + context.getOverrideValue());
+                    System.out.println("----");
+                }
+                System.out.println("----");
             }
             System.out.println("-----------------------");
         }

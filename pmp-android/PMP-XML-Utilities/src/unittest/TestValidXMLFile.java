@@ -19,32 +19,26 @@
  */
 package unittest;
 
-import java.io.IOException;
-import java.net.URL;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 public class TestValidXMLFile {
     
     public static void main(String[] args) {
-        AIS ais = null;
-        RGIS rgis = null;
-        try {
-            ais = XMLUtilityProxy.parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
-            XMLUtilityProxy.printAIS(ais);
-            ais = XMLUtilityProxy.parseAISXML(XMLUtilityProxy.compileAISXML(ais));
-            XMLUtilityProxy.printAIS(ais);
-            
-            rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
-            XMLUtilityProxy.printRGIS(rgis);
-            rgis = XMLUtilityProxy.parseRGISXML(XMLUtilityProxy.compileRGISXML(rgis));
-            XMLUtilityProxy.printRGIS(rgis);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //        AIS ais = null;
+        //        RGIS rgis = null;
+        //        try {
+        //            ais = XMLUtilityProxy.parse(new URL("http://mvvt.de/ais.xml").openStream());
+        //            XMLUtilityProxy.printAIS(ais);
+        //            ais = XMLUtilityProxy.parse(XMLUtilityProxy.compileAISXML(ais));
+        //            XMLUtilityProxy.printAIS(ais);
+        //            
+        //            rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
+        //            XMLUtilityProxy.printRGIS(rgis);
+        //            rgis = XMLUtilityProxy.parseRGISXML(XMLUtilityProxy.compileRGISXML(rgis));
+        //            XMLUtilityProxy.printRGIS(rgis);
+        //        } catch (IOException e) {
+        //            // TODO Auto-generated catch block
+        //            e.printStackTrace();
+        //        }
         
     }
 }

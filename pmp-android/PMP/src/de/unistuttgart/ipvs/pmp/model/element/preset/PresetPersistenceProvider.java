@@ -113,7 +113,7 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         capp.close();
         
         // load context annotations out of the cache
-        this.element.contextAnnotations = getCache().getContextAnnotations().get(this);
+        this.element.contextAnnotations = getCache().getContextAnnotations().get(this.element);
         
     }
     

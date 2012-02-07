@@ -3,7 +3,7 @@
 	<resourceGroupInformation 
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location"
 		icon="res/drawable-hdpi/icon.png"
-		className="Location">
+		className="LocationResourceGroup">
 		<name lang="en">Location</name>
 		<name lang="de">Ortung</name>
 		<description lang="en">Obtains access to the current location of the device.</description>

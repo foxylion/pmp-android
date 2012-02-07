@@ -224,10 +224,14 @@ public class BasicTitleView extends LinearLayout {
         ImageView backAction = (ImageView) findViewById(R.id.ImageView_BackIcon);
         if (this.backActionAvailable) {
             backAction.setVisibility(View.VISIBLE);
-            iv.setClickable(true);
+            if (iv != null) {
+                iv.setClickable(true);
+            }
         } else {
             backAction.setVisibility(View.GONE);
-            iv.setClickable(false);
+            if (iv != null) {
+                iv.setClickable(false);
+            }
         }
     }
 }
