@@ -22,7 +22,11 @@ package de.unistuttgart.ipvs.pmp.xmlutil;
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.PresetSetCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.RGISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.PresetSetParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -35,10 +39,14 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class XMLUtilityProxy {
     
     /**
-     * The AISParser and RGISParser
+     * The AIS-/RGIS-/PresetSet-Parser and -Compiler
      */
     private static AISParser aisParser = new AISParser();
+    private static AISCompiler aisCompiler = new AISCompiler();
     private static RGISParser rgisParser = new RGISParser();
+    private static RGISCompiler rgisCompiler = new RGISCompiler();
+    private static PresetSetParser presetSetParser = new PresetSetParser();
+    private static PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
     
     
     /**
@@ -56,10 +64,19 @@ public class XMLUtilityProxy {
      * @return app information set
      */
     public static AIS parseAISXML(InputStream xmlStream) {
-        long a = System.currentTimeMillis();
-        AIS ais = aisParser.parse(xmlStream);
-        System.out.println("Parsing AIS took " + Long.toString(System.currentTimeMillis() - a) + "ms.");
-        return ais;
+        return aisParser.parse(xmlStream);
+    }
+    
+    
+    /**
+     * This method creates an xml file for a given AIS
+     * 
+     * @param ais
+     *            AIS to compile
+     * @return compiled xml file
+     */
+    public static InputStream compileAISXML(AIS ais) {
+        return aisCompiler.compile(ais);
     }
     
     
@@ -92,10 +109,19 @@ public class XMLUtilityProxy {
      * @return resourcegroup information set
      */
     public static RGIS parseRGISXML(InputStream xmlStream) {
-        long a = System.currentTimeMillis();
-        RGIS rgis = rgisParser.parse(xmlStream);
-        System.out.println("Parsing RGIS took " + Long.toString(System.currentTimeMillis() - a) + "ms.");
-        return rgis;
+        return rgisParser.parse(xmlStream);
+    }
+    
+    
+    /**
+     * This method creates an xml file for a given ARG
+     * 
+     * @param rgis
+     *            RGIS to compile
+     * @return compiled xml file
+     */
+    public static InputStream compileRGISXML(RGIS rgis) {
+        return rgisCompiler.compile(rgis);
     }
     
     

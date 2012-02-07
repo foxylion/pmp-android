@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPSConstants;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.AbstractRequest;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
@@ -35,8 +36,8 @@ public class ServerProvider implements IServerProvider {
     /*
      * constants
      */
-    private static final String SERVER_URL = "pmp-android.no-ip.org";
-    private static final int SERVER_PORT = 3133;
+    private static final String SERVER_URL = JPMPPSConstants.HOSTNAME;
+    private static final int SERVER_PORT = JPMPPSConstants.PORT;
     
     private static final int BUFFER_SIZE = 32 * 1024;
     

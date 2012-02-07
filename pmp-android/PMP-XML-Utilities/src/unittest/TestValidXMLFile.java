@@ -29,16 +29,22 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class TestValidXMLFile {
     
     public static void main(String[] args) {
+        AIS ais = null;
+        RGIS rgis = null;
         try {
-            AIS ais = XMLUtilityProxy.parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
+            ais = XMLUtilityProxy.parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
+            XMLUtilityProxy.printAIS(ais);
+            ais = XMLUtilityProxy.parseAISXML(XMLUtilityProxy.compileAISXML(ais));
             XMLUtilityProxy.printAIS(ais);
             
-            RGIS rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
+            rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());
+            XMLUtilityProxy.printRGIS(rgis);
+            rgis = XMLUtilityProxy.parseRGISXML(XMLUtilityProxy.compileRGISXML(rgis));
             XMLUtilityProxy.printRGIS(rgis);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
     }
-    
 }

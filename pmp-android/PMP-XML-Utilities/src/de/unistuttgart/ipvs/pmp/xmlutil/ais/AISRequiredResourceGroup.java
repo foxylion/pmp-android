@@ -120,7 +120,7 @@ public class AISRequiredResourceGroup implements Serializable {
      * 
      * @return list of privacy settings
      */
-    public List<AISRequiredPrivacySetting> getPrivacySettings() {
+    public List<AISRequiredPrivacySetting> getRequiredPrivacySettings() {
         return this.requiredPrivacySettings;
     }
     
