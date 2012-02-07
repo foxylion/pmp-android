@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -85,50 +86,40 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
     private void doFinish(String containerName, String fileName,
 	    IProgressMonitor monitor) throws CoreException {
 
-	// Split only the project out of the string
-	String[] projects = containerName.split("/");
-
-	// The project name
-	String project = "";
-	if (projects.length >= 2) {
-	    project = "/" + projects[1];
-	}
-
 	monitor.beginTask("Creating ais.xml", 2);
 	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 	IResource resource = root.findMember(new Path(containerName));
-	if (!resource.exists() || !(resource instanceof IContainer)) {
-	    throwCoreException("Container \"" + project + "\" does not exist.");
-
-	    AIS ais = new AIS();
-	    IContainer container = (IContainer) resource;
-	    final IFile file = container.getFile(new Path("/assets/" + fileName));
-	    try {
-//		InputStream stream = new AISCompiler().compile(ais);
-		 InputStream stream = new
-		 ByteArrayInputStream("abc".getBytes());
-		if (file.exists()) {
-		    file.setContents(stream, true, true, monitor);
-		} else {
-		    file.create(stream, true, monitor);
-		}
-		stream.close();
-	    } catch (IOException e) {
-	    }
-	    monitor.worked(1);
-	    monitor.setTaskName("Opening file for editing...");
-	    getShell().getDisplay().asyncExec(new Runnable() {
-		public void run() {
-		    IWorkbenchPage page = PlatformUI.getWorkbench()
-			    .getActiveWorkbenchWindow().getActivePage();
-		    try {
-			IDE.openEditor(page, file, true);
-		    } catch (PartInitException e) {
-		    }
-		}
-	    });
-	    monitor.worked(1);
+	if (!resource.exists()) {
+	    new ContainerCreator(ResourcesPlugin.getWorkspace(), new Path(
+		    containerName)).createContainer(monitor);
 	}
+	 AIS ais = new AIS();
+	IContainer container = (IContainer) resource;
+	final IFile file = container.getFile(new Path(fileName));
+	try {
+//	     InputStream stream = new AISCompiler().compile(ais);
+	    InputStream stream = new ByteArrayInputStream("abc".getBytes());
+	    if (file.exists()) {
+		file.setContents(stream, true, true, monitor);
+	    } else {
+		file.create(stream, true, monitor);
+	    }
+	    stream.close();
+	} catch (IOException e) {
+	}
+	monitor.worked(1);
+	monitor.setTaskName("Opening file for editing...");
+	getShell().getDisplay().asyncExec(new Runnable() {
+	    public void run() {
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+			.getActiveWorkbenchWindow().getActivePage();
+		try {
+		    IDE.openEditor(page, file, true);
+		} catch (PartInitException e) {
+		}
+	    }
+	});
+	monitor.worked(1);
     }
 
     private void throwCoreException(String message) throws CoreException {
