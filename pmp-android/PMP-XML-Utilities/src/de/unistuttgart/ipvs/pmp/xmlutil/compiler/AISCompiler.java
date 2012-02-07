@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
@@ -74,7 +93,7 @@ public class AISCompiler extends BasicISCompiler {
             XMLNode sfNode = new XMLNode(XMLConstants.SF);
             
             // Add identifier
-            sfNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE, sf.getIdentifier()));
+            sfNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, sf.getIdentifier()));
             
             // Add the name and description nodes
             for (XMLNode nameDescrNode : createNameDescriptionNodes(sf)) {
@@ -109,13 +128,13 @@ public class AISCompiler extends BasicISCompiler {
             XMLNode rrgNode = new XMLNode(XMLConstants.RRG);
             
             // Add identifier and minRevision
-            rrgNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE, rrg.getIdentifier()));
-            rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTRIBUTE, rrg.getMinRevision()));
+            rrgNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rrg.getIdentifier()));
+            rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTR, rrg.getMinRevision()));
             
             // Add required privacy settings
             for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                 XMLNode rpsNode = new XMLNode(XMLConstants.RPS);
-                rpsNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE, rps.getIdentifier()));
+                rpsNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rps.getIdentifier()));
                 rpsNode.setCDATAContent(rps.getValue());
                 rrgNode.addChild(rpsNode);
             }

@@ -30,15 +30,15 @@
             name="App-Information-Set (ais.xml)"
             icon="icons/pmpicon.gif"
             category="privacymanagementplatform"
-            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
-            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
+            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.ais.CreateWizardAIS"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.ais.CreateWizardAIS">
       </wizard>
             <wizard
             name="Resourcegroup-Information-Set (rgis.xml)"
             icon="icons/pmpicon.gif"
             category="privacymanagementplatform"
-            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard"
-            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.CreateWizard">
+            class="de.unistuttgart.ipvs.pmp.editor.ui.wizard.rgis.CreateWizardRGIS"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.rgis.CreateWizardRGIS">
       </wizard>
    </extension>
 
