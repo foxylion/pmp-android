@@ -32,9 +32,9 @@ public class TestValidXMLFile {
         AIS ais = null;
         RGIS rgis = null;
         try {
-            ais = XMLUtilityProxy.parseAISXML(new URL("http://mvvt.de/ais.xml").openStream());
+            ais = XMLUtilityProxy.parse(new URL("http://mvvt.de/ais.xml").openStream());
             XMLUtilityProxy.printAIS(ais);
-            ais = XMLUtilityProxy.parseAISXML(XMLUtilityProxy.compileAISXML(ais));
+            ais = XMLUtilityProxy.parse(XMLUtilityProxy.compileAISXML(ais));
             XMLUtilityProxy.printAIS(ais);
             
             rgis = XMLUtilityProxy.parseRGISXML(new URL("http://mvvt.de/rgis.xml").openStream());

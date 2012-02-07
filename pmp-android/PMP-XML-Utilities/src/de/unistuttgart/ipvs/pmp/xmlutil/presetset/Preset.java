@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -33,6 +35,16 @@ public class Preset implements Serializable {
      * The description
      */
     private String description;
+    
+    /**
+     * The assigned apps
+     */
+    private List<PresetAssignedApp> assignedApps = new ArrayList<PresetAssignedApp>();
+    
+    /**
+     * The assigned privacy settings
+     */
+    private List<PresetAssignedPrivacySetting> assignedPrivacySettings = new ArrayList<PresetAssignedPrivacySetting>();
     
     
     /**
@@ -136,6 +148,70 @@ public class Preset implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    
+    /**
+     * Get all assigned apps
+     * 
+     * @return assigned apps
+     */
+    public List<PresetAssignedApp> getAssignedApps() {
+        return assignedApps;
+    }
+    
+    
+    /**
+     * Add an assigned app
+     * 
+     * @param assignedApp
+     *            assigned app to add
+     */
+    public void addAssignedApp(PresetAssignedApp assignedApp) {
+        assignedApps.add(assignedApp);
+    }
+    
+    
+    /**
+     * Remove an assigned app
+     * 
+     * @param assignedApp
+     *            assigned app to remove
+     */
+    public void removeAssignedApp(PresetAssignedApp assignedApp) {
+        assignedApps.remove(assignedApp);
+    }
+    
+    
+    /**
+     * Get all assigned privacy settings
+     * 
+     * @return assigned privacy settings
+     */
+    public List<PresetAssignedPrivacySetting> getAssignedPrivacySettings() {
+        return assignedPrivacySettings;
+    }
+    
+    
+    /**
+     * Add an assigned privacy setting
+     * 
+     * @param assignedPrivacySetting
+     *            assigned privacy setting to add
+     */
+    public void addAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+        assignedPrivacySettings.add(assignedPrivacySetting);
+    }
+    
+    
+    /**
+     * Remove an assigned privacy setting
+     * 
+     * @param assignedPrivacySetting
+     *            assigned privacy setting to remove
+     */
+    public void removeAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+        assignedPrivacySettings.remove(assignedPrivacySetting);
     }
     
 }
