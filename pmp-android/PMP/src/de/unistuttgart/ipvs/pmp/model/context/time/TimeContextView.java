@@ -3,8 +3,11 @@ package de.unistuttgart.ipvs.pmp.model.context.time;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
@@ -20,6 +23,8 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
  */
 public class TimeContextView extends LinearLayout implements IContextView {
     
+    private static TimeZone UTC = TimeZone.getTimeZone("GMT");
+    
     /**
      * Value currently in the view
      */
@@ -28,7 +33,7 @@ public class TimeContextView extends LinearLayout implements IContextView {
     /**
      * {@link TimePicker}s
      */
-    private TimePicker beginPicker, endPicker;
+    protected TimePicker beginPicker, endPicker;
     
     /**
      * {@link CheckBox} for whole day
@@ -41,8 +46,19 @@ public class TimeContextView extends LinearLayout implements IContextView {
     private RadioButton timeWithPhone, timeWithLocation;
     
     
+    public TimeContextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setup(context);
+    }
+    
+    
     public TimeContextView(Context context) {
         super(context);
+        setup(context);
+    }
+    
+    
+    private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
         inflate(context, R.layout.contexts_time_view, this);
@@ -59,7 +75,24 @@ public class TimeContextView extends LinearLayout implements IContextView {
     
     
     private void addListeners() {
-        // TODO actions in Listneers        
+        this.dayBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                TimeContextView.this.beginPicker.setEnabled(!isChecked);
+                TimeContextView.this.endPicker.setEnabled(!isChecked);
+                
+                if (isChecked) {
+                    TimeContextView.this.beginPicker.setCurrentHour(0);
+                    TimeContextView.this.beginPicker.setCurrentMinute(0);
+                    //TimeContextView.this.beginPicker.setCurrentSecond(0);
+                    
+                    TimeContextView.this.endPicker.setCurrentHour(23);
+                    TimeContextView.this.endPicker.setCurrentMinute(59);
+                    //TimeContextView.this.endPicker.setCurrentSecond(59);
+                }
+            }
+        });
     }
     
     
@@ -73,21 +106,19 @@ public class TimeContextView extends LinearLayout implements IContextView {
     public String getViewCondition() {
         this.value.setUTC(this.timeWithLocation.isChecked());
         
-        int timeZoneDeltaMin = 0;
-        int timeZoneDeltaHrs = 0;
-        if (this.value.isUTC()) {
-            timeZoneDeltaMin = TimeZone.getDefault().getRawOffset() / 60000;
-            timeZoneDeltaHrs = timeZoneDeltaMin / 60;
-            timeZoneDeltaMin %= 60;
-        }
-        
-        this.value.getBegin().setHour(this.beginPicker.getCurrentHour() - timeZoneDeltaHrs);
-        this.value.getBegin().setMinute(this.beginPicker.getCurrentMinute() - timeZoneDeltaMin);
+        this.value.getBegin().setHour(this.beginPicker.getCurrentHour());
+        this.value.getBegin().setMinute(this.beginPicker.getCurrentMinute());
         this.value.getBegin().setSecond(0);
         
-        this.value.getEnd().setHour(this.endPicker.getCurrentHour() - timeZoneDeltaHrs);
-        this.value.getEnd().setMinute(this.endPicker.getCurrentMinute() - timeZoneDeltaMin);
+        this.value.getEnd().setHour(this.endPicker.getCurrentHour());
+        this.value.getEnd().setMinute(this.endPicker.getCurrentMinute());
         this.value.getEnd().setSecond(0);
+        
+        if (this.value.isUTC()) {
+            // convert to UTC
+            this.value.getBegin().convertTimeZone(TimeZone.getDefault(), UTC);
+            this.value.getEnd().convertTimeZone(TimeZone.getDefault(), UTC);
+        }
         
         return this.value.toString();
     }
@@ -97,21 +128,20 @@ public class TimeContextView extends LinearLayout implements IContextView {
     public void setViewCondition(String condition) throws InvalidConditionException {
         this.value = TimeContextCondition.parse(condition);
         
-        int timeZoneDeltaMin = 0;
-        int timeZoneDeltaHrs = 0;
+        TimeContextConditionTime begin = this.value.getBegin();
+        TimeContextConditionTime end = this.value.getEnd();
         if (this.value.isUTC()) {
-            timeZoneDeltaMin = TimeZone.getDefault().getRawOffset() / 60000;
-            timeZoneDeltaHrs = timeZoneDeltaMin / 60;
-            timeZoneDeltaMin %= 60;
+            begin.convertTimeZone(UTC, TimeZone.getDefault());
+            end.convertTimeZone(UTC, TimeZone.getDefault());
         }
         // set field values
-        this.beginPicker.setCurrentHour(timeZoneDeltaHrs + this.value.getBegin().getHour());
-        this.beginPicker.setCurrentMinute(timeZoneDeltaMin + this.value.getBegin().getMinute());
-        //this.beginPicker.setCurrentSecond(timeZoneDelta + this.value.getBegin().getSecond());
+        this.beginPicker.setCurrentHour(begin.getHour());
+        this.beginPicker.setCurrentMinute(begin.getMinute());
+        //this.beginPicker.setCurrentSecond(begin.getSecond());
         
-        this.endPicker.setCurrentHour(timeZoneDeltaHrs + this.value.getEnd().getHour());
-        this.endPicker.setCurrentMinute(timeZoneDeltaMin + this.value.getEnd().getMinute());
-        //this.endPicker.setCurrentSecond(this.value.getEnd().getSecond());
+        this.endPicker.setCurrentHour(end.getHour());
+        this.endPicker.setCurrentMinute(end.getMinute());
+        //this.endPicker.setCurrentSecond(end.getSecond());
         
         this.dayBox.setChecked(this.value.representsWholeDay());
         

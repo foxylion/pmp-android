@@ -252,5 +252,10 @@
 
 		</LinearLayout>
 
+		<de.unistuttgart.ipvs.pmp.model.context.TimeContextView
+		    android:id="@+id/timeContextView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+
 	</LinearLayout>
 </ScrollView>
