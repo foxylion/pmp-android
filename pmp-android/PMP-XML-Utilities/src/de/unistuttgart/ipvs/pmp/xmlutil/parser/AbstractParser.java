@@ -146,20 +146,20 @@ public abstract class AbstractParser {
      */
     protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
         // Create results
-        List<ParsedNode> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTRIBUTE);
+        List<ParsedNode> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTR);
         List<ParsedNode> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION,
-                XMLConstants.LANGUAGE_ATTRIBUTE);
+                XMLConstants.LANGUAGE_ATTR);
         
         // Add to the app information set
         for (ParsedNode nameNode : nameList) {
             Name name = new Name();
-            name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTRIBUTE)));
+            name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
             name.setName(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addName(name);
         }
         for (ParsedNode descriptionNode : descriptionList) {
             Description descr = new Description();
-            descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTRIBUTE)));
+            descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
             descr.setDescription(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addDescription(descr);
         }

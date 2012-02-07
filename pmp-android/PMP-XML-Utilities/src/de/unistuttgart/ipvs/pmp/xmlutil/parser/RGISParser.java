@@ -104,9 +104,9 @@ public class RGISParser extends AbstractParser {
         parseNameDescriptionNodes(rgInformationElement, this.rgis);
         
         // Create results and add them to the rg information set
-        this.rgis.setIdentifier(rgInformationElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE));
-        this.rgis.setIconLocation(rgInformationElement.getAttribute(XMLConstants.ICON_ATTRIBUTE));
-        this.rgis.setClassName(rgInformationElement.getAttribute(XMLConstants.CLASS_NAME_ATTRIBUTE));
+        this.rgis.setIdentifier(rgInformationElement.getAttribute(XMLConstants.IDENTIFIER_ATTR));
+        this.rgis.setIconLocation(rgInformationElement.getAttribute(XMLConstants.ICON_ATTR));
+        this.rgis.setClassName(rgInformationElement.getAttribute(XMLConstants.CLASS_NAME_ATTR));
     }
     
     
@@ -117,7 +117,7 @@ public class RGISParser extends AbstractParser {
      *            starting with this root element
      */
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
-        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName(XMLConstants.PS);
+        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName(XMLConstants.PRIVACY_SETTING);
         
         // Parse the Privacy Settings
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
@@ -127,8 +127,8 @@ public class RGISParser extends AbstractParser {
             // Instantiate a new Privacy Setting and add the identifier and
             // validValueDescription
             RGISPrivacySetting ps = new RGISPrivacySetting(
-                    privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE),
-                    privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTRIBUTE));
+                    privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTR),
+                    privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR));
             
             // Parse names and descriptions
             parseNameDescriptionNodes(privacySettingElement, ps);

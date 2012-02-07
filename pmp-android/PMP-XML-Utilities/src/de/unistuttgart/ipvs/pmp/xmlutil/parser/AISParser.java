@@ -110,7 +110,7 @@ public class AISParser extends AbstractParser {
             Element serviceFeatureElement = (Element) serviceFeaturesNodeList.item(itr);
             
             // Get the identifier
-            String identifier = serviceFeatureElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE);
+            String identifier = serviceFeatureElement.getAttribute(XMLConstants.IDENTIFIER_ATTR);
             
             // Instantiate the service feature and add it to the AIS
             AISServiceFeature sf = new AISServiceFeature(identifier);
@@ -129,21 +129,21 @@ public class AISParser extends AbstractParser {
                 // Instantiate the required resource group and add the
                 // identifier
                 AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(
-                        rrgElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE),
-                        rrgElement.getAttribute(XMLConstants.MINREVISION_ATTRIBUTE));
+                        rrgElement.getAttribute(XMLConstants.IDENTIFIER_ATTR),
+                        rrgElement.getAttribute(XMLConstants.MINREVISION_ATTR));
                 
                 // Add the required resource group to the service feature
                 sf.addRequiredResourceGroup(rrg);
                 
                 // Parse the required resource group
                 List<ParsedNode> privacySettingList = parseNodes(rrgElement, XMLConstants.RPS,
-                        XMLConstants.IDENTIFIER_ATTRIBUTE);
+                        XMLConstants.IDENTIFIER_ATTR);
                 
                 // Add to the app information set (building objects)
                 for (ParsedNode privacySettingNode : privacySettingList) {
                     // Add identifier and value
                     rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingNode
-                            .getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE), privacySettingNode.getValue()));
+                            .getAttribute(XMLConstants.IDENTIFIER_ATTR), privacySettingNode.getValue()));
                 }
             }
         }
