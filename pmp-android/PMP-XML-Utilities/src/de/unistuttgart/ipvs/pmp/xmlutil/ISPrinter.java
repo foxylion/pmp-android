@@ -140,7 +140,6 @@ public class ISPrinter {
         System.out.println("------ PresetSet ------");
         System.out.println("-----------------------");
         for (Preset preset : presetSet.getPresets()) {
-            System.out.println("--- Preset ---");
             System.out.println("Identifier: " + preset.getIdentifier());
             System.out.println("Creator: " + preset.getCreator());
             System.out.println("Name: " + preset.getName());

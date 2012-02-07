@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
@@ -34,9 +53,9 @@ public class RGISCompiler extends BasicISCompiler {
         XMLNode pssNode = new XMLNode(XMLConstants.PSS);
         
         // Add attributes to the rgiNode
-        rgiNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE, rgis.getIdentifier()));
-        rgiNode.addAttribute(new XMLAttribute(XMLConstants.ICON_ATTRIBUTE, rgis.getIconLocation()));
-        rgiNode.addAttribute(new XMLAttribute(XMLConstants.CLASS_NAME_ATTRIBUTE, rgis.getClassName()));
+        rgiNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rgis.getIdentifier()));
+        rgiNode.addAttribute(new XMLAttribute(XMLConstants.ICON_ATTR, rgis.getIconLocation()));
+        rgiNode.addAttribute(new XMLAttribute(XMLConstants.CLASS_NAME_ATTR, rgis.getClassName()));
         
         // Add appInformation childs
         for (XMLNode nameDescrNode : createNameDescriptionNodes(rgis)) {
@@ -74,11 +93,11 @@ public class RGISCompiler extends BasicISCompiler {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
         
         for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
-            XMLNode psNode = new XMLNode(XMLConstants.PS);
+            XMLNode psNode = new XMLNode(XMLConstants.PRIVACY_SETTING);
             
             // Add identifier
-            psNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE, ps.getIdentifier()));
-            psNode.addAttribute(new XMLAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTRIBUTE, ps
+            psNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, ps.getIdentifier()));
+            psNode.addAttribute(new XMLAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR, ps
                     .getValidValueDescription()));
             
             // Add the name and description nodes
