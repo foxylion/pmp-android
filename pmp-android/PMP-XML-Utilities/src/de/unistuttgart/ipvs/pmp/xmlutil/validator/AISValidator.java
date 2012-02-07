@@ -96,7 +96,7 @@ public class AISValidator {
      *            identifier to validate
      */
     public void validateIdentifier(String identifier) {
-        if (identifier.equals("") || identifier == null) {
+        if (identifier == null || identifier.equals("")) {
             throw new ParserException(Type.IDENTIFIER_MISSING, "The identifier of the resource group is missing.");
         }
     }
@@ -109,7 +109,7 @@ public class AISValidator {
      *            value to validate
      */
     public void validateValueNotEmpty(String value) {
-        if (value.equals("") || value == null) {
+        if (value == null || value.equals("")) {
             throw new ParserException(Type.VALUE_MISSING, "The value of a node is empty.");
         }
     }
