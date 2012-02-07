@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
 import java.util.List;
+import java.util.Timer;
 
 import com.google.android.maps.MapView;
 
@@ -9,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.CheckAcceptedOffers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -52,6 +54,8 @@ public class NotificationAdapter extends BaseAdapter {
     private int driverID;
     private MapView mapView;
     
+    private CheckAcceptedOffers cao;
+    private Timer timer;
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
@@ -198,10 +202,10 @@ public class NotificationAdapter extends BaseAdapter {
                             Model.getInstance().addToInvitedUser(userID);
 
                             // check for offer updates for this button
-                            MapModel.getInstance()
-                                    .checkAcceptedOffersTimer()
-                                    .schedule(MapModel.getInstance().checkAcceptedOffersIntervall(accept_invite, userID), 300,
-                                            10000);
+                            cao = new CheckAcceptedOffers(accept_invite, userID);
+                            cao.run();
+                            timer = new Timer();
+                            timer.schedule(cao, 300, 10000);
                             
                             break;
                         case Constants.STATUS_INVALID_TRIP:
