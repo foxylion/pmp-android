@@ -5,8 +5,10 @@ import org.eclipse.ui.forms.editor.FormPage;
 
 public class PrivacySettingsPage extends FormPage {
 
+	public static final String ID = "rgis_ps";
+	
 	public PrivacySettingsPage(FormEditor parent) {
-		super(parent, "Privacy Settings", "PS Tab");
+		super(parent, ID, "Privacy Settings");
 		// TODO Auto-generated constructor stub
 	}
 
