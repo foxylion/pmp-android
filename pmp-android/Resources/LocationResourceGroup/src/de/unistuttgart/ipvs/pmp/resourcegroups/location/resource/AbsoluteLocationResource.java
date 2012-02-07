@@ -15,39 +15,76 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
-import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.LocationResourceGroup;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.R;
 
+/**
+ * The {@link AbsoluteLocationResource} provides access to the android GPS location module.
+ * 
+ * @author Jakob Jarosch
+ */
 public class AbsoluteLocationResource extends Resource {
 	
+	/**
+	 * Timer for checking the usage of the resource.
+	 */
 	private Timer timeoutTimer = null;
 	
+	/**
+	 * Reference to the {@link LocationResourceGroup}.
+	 */
 	private LocationResourceGroup locationRG;
 	
+	/**
+	 * Location manager which provides access to the GPS location.
+	 */
 	private LocationManager locationManager;
 	
+	/**
+	 * {@link LocationListener} to fetch informations from the GPS module.
+	 */
 	private LocationListener locationListener = null;
 	
+	/**
+	 * Map holds all current requests.
+	 */
 	Map<String, UpdateRequest> requests = new HashMap<String, UpdateRequest>();
 	
+	/**
+	 * Boolean is set to true when GPS is enabled.
+	 */
 	private boolean gpsEnabled = false;
 	
-	private double longitude = 0.0;
-	private double latitude = 0.0;
+	/**
+	 * Current latitude.
+	 */
+	private double latitude = -1000.0;
 	
+	/**
+	 * Current longitude.
+	 */
+	private double longitude = -1000.0;
+	
+	/**
+	 * Current accuracy.
+	 */
 	private float accuracy = 0.0F;
+	
+	/**
+	 * Current speed.
+	 */
 	private float speed = 0.0F;
 	
+	/**
+	 * Is set to true when the GPS signal is fixed.
+	 */
 	private boolean fixed = false;
-	
-	private long lastUpdate;
 	
 	/**
 	 * Broadcast intent action indicating that the GPS has either started or stopped receiving GPS
@@ -65,9 +102,18 @@ public class AbsoluteLocationResource extends Resource {
 	 */
 	public static final String EXTRA_ENABLED = "enabled";
 	
+	/**
+	 * A {@link BroadcastReceiver} to detect if the GPS module has a fix on the current location.
+	 */
 	private BroadcastReceiver receiver = new DefaultBroadcastReceiver();
 	
 	
+	/**
+	 * Create a new instance of the {@link AbsoluteLocationImpl}.
+	 * 
+	 * @param locationRG
+	 *            Reference to the {@link LocationResourceGroup}.
+	 */
 	public AbsoluteLocationResource(LocationResourceGroup locationRG) {
 		this.locationRG = locationRG;
 		
@@ -81,9 +127,18 @@ public class AbsoluteLocationResource extends Resource {
 	}
 	
 	
+	/**
+	 * Starts a new location lookup.
+	 * 
+	 * @param appIdentifier
+	 *            Identifier of the App.
+	 * @param request
+	 *            Used UpdateRequest with details about minTime and minDistance.
+	 */
 	public void startLocationLookup(String appIdentifier, UpdateRequest request) {
 		requests.put(appIdentifier, request);
 		
+		/* Create new locationListener, and timer if not already done. */
 		if (locationListener == null) {
 			locationListener = new DefaultLocationListener();
 			
@@ -92,6 +147,7 @@ public class AbsoluteLocationResource extends Resource {
 					UpdateRequest.MAX_TIME_BETWEEN_REQUEST);
 		}
 		
+		/* If the GPS is not already enabled, create a notification. */
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			createNotification();
 			gpsEnabled = false;
@@ -99,8 +155,10 @@ public class AbsoluteLocationResource extends Resource {
 			gpsEnabled = true;
 		}
 		
+		/* Register the BroadcastReceiver for detecting a GPS location fix. */
 		this.locationRG.getContext().registerReceiver(receiver, new IntentFilter(GPS_FIX_CHANGE_ACTION));
 		
+		/* Start the request for location updates in a handler-thread to prevent exceptions. */
 		new Handler(Looper.getMainLooper()).post(new Runnable() {
 			
 			public void run() {
@@ -113,9 +171,16 @@ public class AbsoluteLocationResource extends Resource {
 	}
 	
 	
+	/**
+	 * Ends the location lookup for a specific app.
+	 * 
+	 * @param appIdentifier
+	 *            App which do not require any more location lookups.
+	 */
 	public void endLocationLookup(String appIdentifier) {
 		requests.remove(appIdentifier);
 		
+		/* When no more Apps are listening for the location, stop updates. */
 		if (requests.size() == 0 && locationListener != null) {
 			locationManager.removeUpdates(locationListener);
 			this.locationRG.getContext().unregisterReceiver(receiver);
@@ -124,50 +189,72 @@ public class AbsoluteLocationResource extends Resource {
 			gpsEnabled = false;
 			accuracy = 0.0F;
 			speed = 0.0F;
-			longitude = 0.0;
-			latitude = 0.0;
-			lastUpdate = 0;
+			longitude = -1000.0;
+			latitude = -1000.0;
 			fixed = false;
 		}
 	}
 	
 	
+	/**
+	 * @return Returns whether GPS is enabled or not.
+	 */
 	public boolean isGpsEnabled() {
 		return gpsEnabled;
 	}
 	
 	
+	/**
+	 * @return Returns whether GPS location lookup is active or not.
+	 */
 	public boolean isActive() {
 		return (locationListener != null);
 	}
 	
 	
+	/**
+	 * @return Returns whether the GPS has a fixed location or not.
+	 */
 	public boolean isFixed() {
 		return fixed;
-		
 	}
 	
 	
+	/**
+	 * @return Returns the current longitude. Or -1000.0 If there was no previous fix.
+	 */
 	public double getLongitude() {
 		return longitude;
 	}
 	
 	
+	/**
+	 * @return Returns the current latitude. Or -1000.0 If there was no previous fix.
+	 */
 	public double getLatitude() {
 		return latitude;
 	}
 	
 	
+	/**
+	 * @return Returns the current accuracy.
+	 */
 	public float getAccuracy() {
 		return accuracy;
 	}
 	
 	
+	/**
+	 * @return Returns the current speed.
+	 */
 	public float getSpeed() {
 		return speed;
 	}
 	
 	
+	/**
+	 * @return Calculates the minimal distance of all update requests.
+	 */
 	private float calcMinDistance() {
 		float min = Float.MAX_VALUE;
 		
@@ -181,6 +268,9 @@ public class AbsoluteLocationResource extends Resource {
 	}
 	
 	
+	/**
+	 * @return Calculates the minimal time of all update requests.
+	 */
 	private long calcMinTime() {
 		long min = Long.MAX_VALUE;
 		
@@ -194,15 +284,19 @@ public class AbsoluteLocationResource extends Resource {
 	}
 	
 	
+	/**
+	 * Creates a new notification.
+	 */
 	private void createNotification() {
 		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent pIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
 		
-		Notification notification = new Notification(R.drawable.icon_delete, "GPS is disabled, please enable it.",
-				System.currentTimeMillis());
-		notification.setLatestEventInfo(this.locationRG.getContext(), "GPS disabled",
-				"Please enable it to use the Location Resource..", pIntent);
+		Notification notification = new Notification(R.drawable.pmp_rg_location_error, locationRG.getContext()
+				.getString(R.string.pmp_rg_location_notification_infotext), System.currentTimeMillis());
+		notification.setLatestEventInfo(this.locationRG.getContext(),
+				locationRG.getContext().getString(R.string.pmp_rg_location_notification_title), locationRG.getContext()
+						.getString(R.string.pmp_rg_location_notification_description), pIntent);
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 		notification.vibrate = new long[] { 250, 250, 250 };
 		
@@ -211,16 +305,24 @@ public class AbsoluteLocationResource extends Resource {
 		notificationManager.notify("gpsDisabledNotification", 0, notification);
 	}
 	
+	
+	/**
+	 * Hides the notification.
+	 */
 	private void removeNotification() {
 		NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
 				Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel("gpsDisabledNotification", 0);
 	}
 	
+	/**
+	 * {@link DefaultLocationListener} used to receive updates from the {@link LocationManager}.
+	 * 
+	 * @author Jakob Jarosch
+	 */
 	class DefaultLocationListener implements LocationListener {
 		
 		public void onLocationChanged(android.location.Location location) {
-			lastUpdate = System.currentTimeMillis();
 			longitude = location.getLongitude();
 			latitude = location.getLatitude();
 			accuracy = location.getAccuracy();
@@ -243,23 +345,15 @@ public class AbsoluteLocationResource extends Resource {
 		
 		
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-//			switch (status) {
-//				case LocationProvider.AVAILABLE:
-//					break;
-//				
-//				case LocationProvider.TEMPORARILY_UNAVAILABLE:
-//					break;
-//				
-//				case LocationProvider.OUT_OF_SERVICE:
-//					AbsoluteLocationResource.this.gpsEnabled = false;
-//					AbsoluteLocationResource.this.fixed = false;
-//					createNotification();
-//					break;
-//			}
-			
+			/* Not required. */
 		}
 	}
 	
+	/**
+	 * {@link DefaultBroadcastReceiver} to receive changes of the gps fix state.
+	 * 
+	 * @author Jakob Jarosch
+	 */
 	class DefaultBroadcastReceiver extends BroadcastReceiver {
 		
 		@Override
@@ -268,6 +362,12 @@ public class AbsoluteLocationResource extends Resource {
 		}
 	}
 	
+	/**
+	 * {@link UpdateRequestVerificator} task is used to check if App has not recently requested any
+	 * update and can be removed from the list of active requests.
+	 * 
+	 * @author Jakob Jarosch
+	 */
 	class UpdateRequestVerificator extends TimerTask {
 		
 		public void run() {
