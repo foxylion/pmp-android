@@ -82,6 +82,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     @Override
     public boolean isActive() {
+        checkCached();
         return this.context.getLastState(this.condition);
     }
     

@@ -61,7 +61,7 @@ public class Preset implements Serializable {
      * @return the identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     
@@ -82,7 +82,7 @@ public class Preset implements Serializable {
      * @return the creator
      */
     public String getCreator() {
-        return creator;
+        return this.creator;
     }
     
     
@@ -103,7 +103,7 @@ public class Preset implements Serializable {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
@@ -124,7 +124,7 @@ public class Preset implements Serializable {
      * @return the description
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
     
     

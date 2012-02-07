@@ -98,7 +98,7 @@ public class TimeContextCondition {
     
     @Override
     public String toString() {
-        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", isUTC ? "utc" : "", this.begin.getHour(),
+        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", this.isUTC ? "utc" : "", this.begin.getHour(),
                 this.begin.getMinute(), this.begin.getSecond(), this.end.getHour(), this.end.getMinute(),
                 this.end.getSecond(), this.interval.getIdentifier(), this.interval.makeList(this.days));
     }
@@ -112,7 +112,7 @@ public class TimeContextCondition {
      */
     public boolean satisfiedIn(long state) {
         Calendar cal;
-        if (isUTC) {
+        if (this.isUTC) {
             cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         } else {
             cal = Calendar.getInstance();

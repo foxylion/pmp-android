@@ -42,7 +42,7 @@ public class PMP implements IPMP {
     /**
      * The static instance of the API
      */
-    private static PMP instance = null;
+    private static volatile PMP instance = null;
     
     /**
      * The {@link Application} for which this API shall perform operations.
@@ -225,7 +225,9 @@ public class PMP implements IPMP {
         IPCCommand ipc = new IPC2PMPUpdateServiceFeaturesCommand(handler, this.application.getPackageName(),
                 makeTimeout(timeout));
         if (handler != null) {
-            this.callOnUpdate.offer(handler);
+            if (!this.callOnUpdate.offer(handler)) {
+                Log.e(this, "Could not register handler to call on update.");
+            }
         }
         this.scheduler.queue(ipc);
     }

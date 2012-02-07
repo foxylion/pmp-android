@@ -22,9 +22,9 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 public class TabDetails extends Activity {
     
-    private IPreset preset;
+    protected IPreset preset;
     
-    private Handler handler;
+    protected Handler handler;
     
     private DialogPresetEditCallback callback = new DialogPresetEditCallback() {
         
@@ -94,7 +94,7 @@ public class TabDetails extends Activity {
     }
     
     
-    private void refresh() {
+    protected void refresh() {
         if (getParent() != null && getParent() instanceof ActivityPreset) {
             ((ActivityPreset) getParent()).refresh();
         }
