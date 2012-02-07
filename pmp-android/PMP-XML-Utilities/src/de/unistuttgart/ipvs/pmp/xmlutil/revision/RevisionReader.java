@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.revision;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -86,6 +86,6 @@ public class RevisionReader {
      * @return the revision in human readable form
      */
     public String toHumanReadable(long revision) {
-        return SimpleDateFormat.getDateTimeInstance().format(new Date(revision));
+        return DateFormat.getDateTimeInstance().format(new Date(revision));
     }
 }

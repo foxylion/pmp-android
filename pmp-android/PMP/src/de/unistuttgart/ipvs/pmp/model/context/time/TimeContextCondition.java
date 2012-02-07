@@ -57,20 +57,14 @@ public class TimeContextCondition {
     }
     
     /**
-     * Whether the time is fixed at a point, i.e. 08:00 always at this time zone,
+     * Whether the time is fixed at a point, i.e. e.g. 08:00 always at this time zone,
      * then the time is converted to UTC and the information is in UTC.
-     * In this case begin and end could wrap at 00:00:00.
      * If this is false the time is always relative to the local time zone of the user.
      */
     private boolean isUTC;
     
     /**
-     * If and only if begin is later than end, i.e. it starts on one UTC day and then goes on to the next one
-     */
-    private boolean timeWraps;
-    
-    /**
-     * Begin and end during a 24-hrs period. May wrap, if isUTC.
+     * Begin and end during a 24-hrs period. May wrap.
      */
     private TimeContextConditionTime begin, end;
     
@@ -90,7 +84,6 @@ public class TimeContextCondition {
         this.isUTC = isUTC;
         this.begin = begin;
         this.end = end;
-        this.timeWraps = begin.compareTo(end) > 0;
         this.interval = interval;
         this.days = days;
     }
@@ -98,7 +91,7 @@ public class TimeContextCondition {
     
     @Override
     public String toString() {
-        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", isUTC ? "utc" : "", this.begin.getHour(),
+        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", this.isUTC ? "utc" : "", this.begin.getHour(),
                 this.begin.getMinute(), this.begin.getSecond(), this.end.getHour(), this.end.getMinute(),
                 this.end.getSecond(), this.interval.getIdentifier(), this.interval.makeList(this.days));
     }
@@ -112,7 +105,7 @@ public class TimeContextCondition {
      */
     public boolean satisfiedIn(long state) {
         Calendar cal;
-        if (isUTC) {
+        if (this.isUTC) {
             cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         } else {
             cal = Calendar.getInstance();
@@ -148,12 +141,57 @@ public class TimeContextCondition {
         int min = cal.get(Calendar.MINUTE);
         int sec = cal.get(Calendar.SECOND);
         
+        boolean timeWraps = this.begin.compareTo(this.end) > 0;
         boolean dateBetweenBeginAndEnd = (this.begin.getHour() <= hour) && (hour <= this.end.getHour())
                 && (this.begin.getMinute() <= min) && (min <= this.end.getMinute()) && (this.begin.getSecond() <= sec)
                 && (sec <= this.end.getSecond());
         
         // either it's NOT wrapping AND     begin <= date <= end
         //     or it's     wrapping AND NOT begin <= date <= end
-        return this.timeWraps ^ dateBetweenBeginAndEnd;
+        return timeWraps ^ dateBetweenBeginAndEnd;
+    }
+    
+    
+    /*
+     * Getters / Setters for view
+     */
+    
+    protected boolean isUTC() {
+        return this.isUTC;
+    }
+    
+    
+    protected void setUTC(boolean isUTC) {
+        this.isUTC = isUTC;
+    }
+    
+    
+    protected TimeContextConditionTime getBegin() {
+        return this.begin;
+    }
+    
+    
+    protected TimeContextConditionTime getEnd() {
+        return this.end;
+    }
+    
+    
+    protected TimeContextConditionIntervalType getInterval() {
+        return this.interval;
+    }
+    
+    
+    protected void setInterval(TimeContextConditionIntervalType interval) {
+        this.interval = interval;
+    }
+    
+    
+    protected List<Integer> getDays() {
+        return this.days;
+    }
+    
+    
+    public boolean representsWholeDay() {
+        return this.begin.getDifferenceInSeconds(this.end, true) >= TimeContextConditionTime.SECONDS_PER_DAY - 1;
     }
 }

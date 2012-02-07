@@ -56,12 +56,12 @@ public class ActivityPresets extends Activity {
     /**
      * ListView of all Presets
      */
-    private ListView presetListView;
+    protected ListView presetListView;
     
     /**
      * ListView of all Preset in the trash bin
      */
-    private ListView presetTrashBinListView;
+    protected ListView presetTrashBinListView;
     
     /**
      * The {@link ActivityKillReceiver}.

@@ -68,26 +68,27 @@ public class RGISParser extends AbstractParser {
         NodeList rgInformation = this.doc.getElementsByTagName(XMLConstants.RGI);
         NodeList privacySettings = this.doc.getElementsByTagName(XMLConstants.PSS);
         
-        // Check, if there is exactly one resourceGroupInformation and one
+        // Check, if there is a maximum of one resourceGroupInformation and one
         // privacySettings node
-        if (rgInformation.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node resourceGroupInformation is missing!");
+        int maxValid = 0;
+        if (rgInformation.getLength() == 1) {
+            // Parse the rg information node
+            parseRgInformationNode((Element) rgInformation.item(0));
+            maxValid++;
         } else if (rgInformation.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN,
                     "The node resourceGroupInformation occurred too often!");
         }
-        if (privacySettings.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node privacySettings is missing!");
+        if (privacySettings.getLength() == 1) {
+            // Parse the privacy settings node
+            parsePrivacySettingsNode((Element) privacySettings.item(0));
+            maxValid++;
         } else if (privacySettings.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node privacySettings occurred too often!");
         }
         
-        // Check, if there are only 2 child nodes of appInformationSet
-        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName(XMLConstants.RGIS).item(0));
-        
-        // Parse the nodes
-        parseRgInformationNode((Element) rgInformation.item(0));
-        parsePrivacySettingsNode((Element) privacySettings.item(0));
+        // Check, if there are a maximum of maxValid child nodes of the root node
+        checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.RGIS).item(0));
         
         return this.rgis;
     }
@@ -104,9 +105,9 @@ public class RGISParser extends AbstractParser {
         parseNameDescriptionNodes(rgInformationElement, this.rgis);
         
         // Create results and add them to the rg information set
-        this.rgis.setIdentifier(rgInformationElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE));
-        this.rgis.setIconLocation(rgInformationElement.getAttribute(XMLConstants.ICON_ATTRIBUTE));
-        this.rgis.setClassName(rgInformationElement.getAttribute(XMLConstants.CLASS_NAME_ATTRIBUTE));
+        this.rgis.setIdentifier(rgInformationElement.getAttribute(XMLConstants.IDENTIFIER_ATTR));
+        this.rgis.setIconLocation(rgInformationElement.getAttribute(XMLConstants.ICON_ATTR));
+        this.rgis.setClassName(rgInformationElement.getAttribute(XMLConstants.CLASS_NAME_ATTR));
     }
     
     
@@ -117,7 +118,7 @@ public class RGISParser extends AbstractParser {
      *            starting with this root element
      */
     private void parsePrivacySettingsNode(Element privacySettingsElement) {
-        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName(XMLConstants.PS);
+        NodeList privacySettingsNodeList = privacySettingsElement.getElementsByTagName(XMLConstants.PRIVACY_SETTING);
         
         // Parse the Privacy Settings
         for (int itr = 0; itr < privacySettingsNodeList.getLength(); itr++) {
@@ -127,8 +128,8 @@ public class RGISParser extends AbstractParser {
             // Instantiate a new Privacy Setting and add the identifier and
             // validValueDescription
             RGISPrivacySetting ps = new RGISPrivacySetting(
-                    privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTRIBUTE),
-                    privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTRIBUTE));
+                    privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTR),
+                    privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR));
             
             // Parse names and descriptions
             parseNameDescriptionNodes(privacySettingElement, ps);

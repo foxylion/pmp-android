@@ -36,7 +36,7 @@ public class PresetAssignedApp implements Serializable {
      * @return the identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
     
     

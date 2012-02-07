@@ -1,14 +1,23 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.editor.FormEditor;
 
-public class RgisEditor extends MultiPageEditorPart {
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
+
+public class RgisEditor extends FormEditor {
 
     @Override
-    protected void createPages() {
-	// TODO Auto-generated method stub
-	
+    protected void addPages() {
+    	try {
+			addPage(new GeneralPage(this));
+			addPage(new PrivacySettingsPage(this));
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override
@@ -28,4 +37,5 @@ public class RgisEditor extends MultiPageEditorPart {
 	// TODO Auto-generated method stub
 	return false;
     }
+
 }

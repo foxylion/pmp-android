@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -69,8 +70,9 @@ public class XMLCompiler {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(xmlInput, xmlOutput);
             return xmlOutput.getWriter().toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
+            
+        } catch (TransformerException e) {
+            return input;
         }
     }
     

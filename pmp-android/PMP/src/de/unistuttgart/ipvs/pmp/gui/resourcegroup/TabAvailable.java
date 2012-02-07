@@ -64,7 +64,7 @@ public class TabAvailable extends Activity {
     /**
      * Filter which should be used for filtering the available RGs.
      */
-    private String filter;
+    protected String filter;
     
     
     @Override
@@ -83,9 +83,6 @@ public class TabAvailable extends Activity {
         this.rgisViewList.setClickable(true);
         
         this.filter = GUITools.getAvailableRGsFilter(getIntent());
-        if (this.filter == null) {
-            this.filter = "";
-        }
         
         addListener();
     }

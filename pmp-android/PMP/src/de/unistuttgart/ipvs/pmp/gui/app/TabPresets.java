@@ -35,7 +35,7 @@ public class TabPresets extends Activity {
     /**
      * The reference to the real App in the model.
      */
-    private IApp app;
+    protected IApp app;
     
     
     @Override
@@ -97,7 +97,7 @@ public class TabPresets extends Activity {
     /**
      * Initiates the list of all assigned Presets.
      */
-    private void refresh() {
+    protected void refresh() {
         final List<IPreset> presetsList = new ArrayList<IPreset>();
         /* Only add undeleted presets to the list. */
         for (IPreset preset : this.app.getAssignedPresets()) {

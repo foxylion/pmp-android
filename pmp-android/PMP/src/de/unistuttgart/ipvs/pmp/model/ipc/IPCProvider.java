@@ -34,7 +34,7 @@ public class IPCProvider {
     /**
      * The map containing the IPC operations to be performed.
      */
-    private final ConcurrentMap<String, Bundle> queue;
+    protected final ConcurrentMap<String, Bundle> queue;
     
     /**
      * Singleton stuff

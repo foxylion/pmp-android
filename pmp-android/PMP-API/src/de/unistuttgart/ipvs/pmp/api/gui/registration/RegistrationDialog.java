@@ -29,12 +29,12 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
     /**
      * The layout elements.
      */
-    private RegistrationElements elements;
+    protected RegistrationElements elements;
     
     /**
      * {@link IPMP} instance.
      */
-    private IPMP pmp;
+    protected IPMP pmp;
     
     /**
      * The MainActivity of the App.

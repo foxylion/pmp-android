@@ -25,15 +25,32 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
- * This Class provides static methods to print a given AIS or RGIS.
+ * This Class provides static methods to print a given AIS, RGIS and PresetSet.
  * 
  * @author Marcus Vetter
  * 
  */
 public class ISPrinter {
+    
+    /**
+     * Method for printing
+     * 
+     * @param s
+     *            String to print
+     */
+    private static void p(String s) {
+        System.out.println(s);
+    }
+    
     
     /**
      * Print the app information set to the console
@@ -42,41 +59,34 @@ public class ISPrinter {
      *            the app information set for printing
      */
     public static void printAIS(AIS ais) {
-        System.out.println("-----------------------");
-        System.out.println("----- XML-Parser ------");
-        System.out.println("-----------------------");
-        System.out.println("--------- AIS ---------");
-        System.out.println("-----------------------");
+        p("------------------------------------");
+        p("- Printout of the AIS --------------");
+        p("------------------------------------");
         for (Name name : ais.getNames()) {
-            System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+            p("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
         }
         for (Description descr : ais.getDescriptions()) {
-            System.out.println("Description: " + descr.getDescription() + " (Locale: "
-                    + descr.getLocale().getLanguage() + ")");
+            p("Description: " + descr.getDescription() + " (Locale: " + descr.getLocale().getLanguage() + ")");
         }
-        System.out.println("-----------------------");
-        System.out.println("-- Service Features: --");
-        System.out.println("-----------------------");
+        p("SFs:");
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
-            System.out.println("Identifier: " + sf.getIdentifier());
+            p("Identifier: " + sf.getIdentifier());
             for (Name name : sf.getNames()) {
-                System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+                p("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
             }
             for (Description descr : sf.getDescriptions()) {
-                System.out.println("Description: " + descr.getDescription() + " (Locale: "
-                        + descr.getLocale().getLanguage() + ")");
+                p("Description: " + descr.getDescription() + " (Locale: " + descr.getLocale().getLanguage() + ")");
             }
             for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
-                System.out.println("Required Resource Group (Identifier: " + rrg.getIdentifier() + ", minRevision: "
+                p("Required Resource Group (Identifier: " + rrg.getIdentifier() + ", minRevision: "
                         + rrg.getMinRevision() + ")");
                 for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
-                    System.out.println("- Privacy Setting (Identifier: " + ps.getIdentifier() + ", Value: "
-                            + ps.getValue() + ")");
+                    p("- Privacy Setting (Identifier: " + ps.getIdentifier() + ", Value: " + ps.getValue() + ")");
                 }
             }
-            System.out.println("-----------------------");
+            p("-----");
         }
-        System.out.println("-----------------------");
+        p("------------------------------------");
     }
     
     
@@ -87,37 +97,71 @@ public class ISPrinter {
      *            the rg information set for printing
      */
     public static void printRGIS(RGIS rgis) {
-        System.out.println("-----------------------");
-        System.out.println("----- XML-Parser ------");
-        System.out.println("-----------------------");
-        System.out.println("-------- RGIS ---------");
-        System.out.println("-----------------------");
-        System.out.println("Identifier: " + rgis.getIdentifier());
-        System.out.println("IconLocation: " + rgis.getIconLocation());
-        System.out.println("Class Name: " + rgis.getClassName());
+        p("------------------------------------");
+        p("- Printout of thr RGIS -------------");
+        p("------------------------------------");
+        p("Identifier: " + rgis.getIdentifier());
+        p("IconLocation: " + rgis.getIconLocation());
+        p("Class Name: " + rgis.getClassName());
         for (Name name : rgis.getNames()) {
-            System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+            p("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
         }
         for (Description descr : rgis.getDescriptions()) {
-            System.out.println("Description: " + descr.getDescription() + " (Locale: "
-                    + descr.getLocale().getLanguage() + ")");
+            p("Description: " + descr.getDescription() + " (Locale: " + descr.getLocale().getLanguage() + ")");
         }
-        System.out.println("-----------------------");
-        System.out.println("-- Privacy Settings: --");
-        System.out.println("-----------------------");
-        for (de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting ps : rgis.getPrivacySettings()) {
-            System.out.println("Identifier: " + ps.getIdentifier());
-            System.out.println("Valid value description: " + ps.getValidValueDescription());
+        p("PSs:");
+        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            p("Identifier: " + ps.getIdentifier());
+            p("Valid value description: " + ps.getValidValueDescription());
             for (Name name : ps.getNames()) {
-                System.out.println("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
+                p("Name: " + name.getName() + " (Locale: " + name.getLocale().getLanguage() + ")");
             }
             for (Description descr : ps.getDescriptions()) {
-                System.out.println("Description: " + descr.getDescription() + " (Locale: "
-                        + descr.getLocale().getLanguage() + ")");
+                p("Description: " + descr.getDescription() + " (Locale: " + descr.getLocale().getLanguage() + ")");
             }
-            System.out.println("-----------------------");
+            p("----");
         }
-        System.out.println("-----------------------");
+        p("------------------------------------");
+    }
+    
+    
+    /**
+     * Print the presetSet set to the console
+     * 
+     * @param presetSet
+     *            the presetSet set for printing
+     */
+    public static void printPresetSet(PresetSet presetSet) {
+        p("------------------------------------");
+        p("- Printout of the PresetSet --------");
+        p("------------------------------------");
+        for (Preset preset : presetSet.getPresets()) {
+            p("> Identifier:  " + preset.getIdentifier());
+            p("> Creator:     " + preset.getCreator());
+            p("> Name:        " + preset.getName());
+            p("> Description: " + preset.getDescription());
+            p("");
+            p("Assigned Apps:");
+            for (PresetAssignedApp app : preset.getAssignedApps()) {
+                p("> " + app.getIdentifier());
+            }
+            p("");
+            p("Assigned Privacy Settings:");
+            for (PresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
+                p("> RG:    " + ps.getRgIdentifier() + " (Revision: " + ps.getRgRevision() + ")");
+                p("> PS:    " + ps.getPsIdentifier());
+                p("> Value: " + ps.getValue());
+                for (PresetPSContext context : ps.getContexts()) {
+                    p("> Context:");
+                    p("   > Type: " + context.getType());
+                    p("   > Condition: " + context.getCondition());
+                    p("   > Override-Value: " + context.getOverrideValue());
+                }
+                p("");
+            }
+            p("------------------------------------");
+        }
+        p("------------------------------------");
     }
     
 }

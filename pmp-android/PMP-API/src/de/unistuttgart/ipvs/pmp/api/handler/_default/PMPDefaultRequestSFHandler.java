@@ -22,7 +22,7 @@ public class PMPDefaultRequestSFHandler extends PMPRequestServiceFeaturesHandler
     /**
      * The {@link Activity} which initiated the registration.
      */
-    private Activity activity;
+    protected Activity activity;
     
     /**
      * Boolean which is set to true when the request should be killed.

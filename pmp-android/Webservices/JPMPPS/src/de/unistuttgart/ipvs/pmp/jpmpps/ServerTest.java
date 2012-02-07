@@ -20,7 +20,7 @@ public class ServerTest {
     
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("localhost", JPMPPSConstants.PORT);
+            Socket socket = new Socket(JPMPPSConstants.HOSTNAME, JPMPPSConstants.PORT);
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             

@@ -46,8 +46,8 @@ public class PresetSet implements Serializable {
      * 
      * @return list with all Presets
      */
-    public List<Preset> getPreset() {
-        return presets;
+    public List<Preset> getPresets() {
+        return this.presets;
     }
     
     

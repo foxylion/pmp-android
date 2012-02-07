@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
+import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPSConstants;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.AbstractRequest;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
@@ -35,8 +36,8 @@ public class ServerProvider implements IServerProvider {
     /*
      * constants
      */
-    private static final String SERVER_URL = "pmp-android.no-ip.org";
-    private static final int SERVER_PORT = 3133;
+    private static final String SERVER_URL = JPMPPSConstants.HOSTNAME;
+    private static final int SERVER_PORT = JPMPPSConstants.PORT;
     
     private static final int BUFFER_SIZE = 32 * 1024;
     
@@ -197,7 +198,7 @@ public class ServerProvider implements IServerProvider {
         }
         
         if (request == null) {
-            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_NULL, "request", request));
+            throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_NULL, "request", null));
         }
         
         this.callback.step(2, 7);
@@ -322,7 +323,9 @@ public class ServerProvider implements IServerProvider {
     @Override
     public void cleanCache() {
         for (File f : new File(TEMPORARY_PATH).listFiles()) {
-            f.delete();
+            if (!f.delete()) {
+                Log.w(this, "Could not clean cache: " + f.getName());
+            }
         }
         
     }

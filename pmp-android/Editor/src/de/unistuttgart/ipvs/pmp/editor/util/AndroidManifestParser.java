@@ -23,8 +23,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import de.unistuttgart.ipvs.pmp.editor.exceptions.AndroidApplicationException;
-import de.unistuttgart.ipvs.pmp.editor.exceptions.PMPActivityAlreadyExistsException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 
 /**
  * Parses the AndroidManifest.xml to get the identifier of the app and to put
@@ -111,6 +113,13 @@ public class AndroidManifestParser {
     private final String PMP_SERVICE_NAME = "de.unistuttgart.ipvs.pmp.service.app.AppService";
 
     /**
+     * Protected construct, access only through the
+     * {@link AndroidManifestAdapter}
+     */
+    protected AndroidManifestParser() {
+    }
+
+    /**
      * Gets the AppIdentifier out of an AndroidManifest.xml
      * 
      * @param xmlStream
@@ -120,7 +129,7 @@ public class AndroidManifestParser {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public String getAppIdentifier(InputStream xmlStream)
+    protected String getAppIdentifier(InputStream xmlStream)
 	    throws ParserConfigurationException, SAXException, IOException {
 	if (doc == null) {
 	    instantiate(xmlStream);
@@ -149,14 +158,17 @@ public class AndroidManifestParser {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
+     * @throws NoMainActivityException
      */
-    public void addPMPActivity(InputStream xmlStream, File file)
+    protected void addPMPActivity(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    TransformerFactoryConfigurationError, TransformerException,
-	    PMPActivityAlreadyExistsException {
+	    PMPActivityAlreadyExistsException, NoMainActivityException {
 	instantiate(xmlStream);
 
 	isPMPActivityExisting();
+
+	isMainActivityExisting(xmlStream);
 
 	String androidName = "";
 	String androidLabel = "";
@@ -274,8 +286,9 @@ public class AndroidManifestParser {
      * Returns the {@link Node} that contains the MainActivity IntentFilter
      * 
      * @return {@link Node} that contains the MainActivity or <code>null</code>
+     * @throws NoMainActivityException 
      */
-    private Node getMainActivityNode() {
+    private Node getMainActivityNode() throws NoMainActivityException {
 	// Get all "action" nodes
 	NodeList actions = doc.getElementsByTagName(ANDROID_ACTION);
 
@@ -292,7 +305,7 @@ public class AndroidManifestParser {
 		}
 	    }
 	}
-	return null;
+	throw new NoMainActivityException("No main activity found");
     }
 
     /**
@@ -324,10 +337,14 @@ public class AndroidManifestParser {
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
+     * @throws NoMainActivityException
      */
-    public boolean isMainActivityExisting(InputStream xmlStream)
-	    throws ParserConfigurationException, SAXException, IOException {
-	instantiate(xmlStream);
+    protected void isMainActivityExisting(InputStream xmlStream)
+	    throws ParserConfigurationException, SAXException, IOException,
+	    NoMainActivityException {
+	if (doc == null) {
+	    instantiate(xmlStream);
+	}
 
 	// Get all "action" nodes
 	NodeList actions = doc.getElementsByTagName("action");
@@ -341,11 +358,11 @@ public class AndroidManifestParser {
 		if (attribute != null
 			&& attribute.getNodeValue().equals(
 				"android.intent.action.MAIN")) {
-		    return true;
+		    return;
 		}
 	    }
 	}
-	return false;
+	throw new NoMainActivityException("No main activity declared");
     }
 
     /**
@@ -383,11 +400,12 @@ public class AndroidManifestParser {
      * @throws AndroidApplicationException
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
+     * @throws PMPServiceAlreadyExists
      */
-    public void addPMPServiceToManifest(InputStream xmlStream, File file)
+    protected void addPMPServiceToManifest(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    AndroidApplicationException, TransformerFactoryConfigurationError,
-	    TransformerException {
+	    TransformerException, PMPServiceAlreadyExists {
 	instantiate(xmlStream);
 
 	NodeList application = doc.getElementsByTagName(ANDROID_APPLICATION);
@@ -396,6 +414,8 @@ public class AndroidManifestParser {
 		    + " application nodes were found.");
 	}
 	Element applicationElement = (Element) application.item(0);
+
+	isPMPServiceExisting(applicationElement);
 
 	// Create the service element
 	Element service = doc.createElement(ANDROID_SERVICE);
@@ -414,6 +434,28 @@ public class AndroidManifestParser {
 	applicationElement.appendChild(service);
 
 	writeBackChanges(file);
+    }
+
+    /**
+     * Checks if the PMP service is already declared at the AndroidManifest.xml
+     * 
+     * @param applicationElement
+     *            {@link Element} to the application node
+     * @throws PMPServiceAlreadyExists
+     */
+    private void isPMPServiceExisting(Element applicationElement)
+	    throws PMPServiceAlreadyExists {
+	NodeList services = applicationElement
+		.getElementsByTagName(ANDROID_SERVICE);
+	for (int itr = 0; itr < services.getLength(); itr++) {
+	    Element service = (Element) services.item(itr);
+	    String attribute = service.getAttribute(ANDROID_NAME);
+	    if (attribute.equals(PMP_SERVICE_NAME)) {
+		throw new PMPServiceAlreadyExists(
+			"PMP service already declared");
+	    }
+	}
+
     }
 
     /**

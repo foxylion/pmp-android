@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/contexts_time_begin_time"/>
+
+    <TimePicker
+        android:id="@+id/beginPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/contexts_time_end_time" android:paddingTop="10dp"/>
+
+    <TimePicker
+        android:id="@+id/endPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:id="@+id/dayBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contexts_time_whole_day"/>
+
+    <RadioGroup
+        android:id="@+id/radioKinds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/kindWithPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/contexts_time_time_with_phone"/>
+
+        <RadioButton
+            android:id="@+id/kindWithLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contexts_time_time_with_location" />
+    </RadioGroup>
+
+</LinearLayout>

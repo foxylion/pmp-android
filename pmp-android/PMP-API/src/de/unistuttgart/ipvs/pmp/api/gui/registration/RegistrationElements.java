@@ -20,7 +20,7 @@ class RegistrationElements {
     /**
      * The parent UI. Also see ({@link IRegistrationUI}.
      */
-    private IRegistrationUI parentUi;
+    protected IRegistrationUI parentUi;
     
     /**
      * The Failure-TextView "missing activity".

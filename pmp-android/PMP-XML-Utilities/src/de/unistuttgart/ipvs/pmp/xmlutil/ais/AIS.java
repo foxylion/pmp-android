@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends BasicIS implements Serializable {
+public class AIS extends BasicIS {
     
     /**
      * Serial
