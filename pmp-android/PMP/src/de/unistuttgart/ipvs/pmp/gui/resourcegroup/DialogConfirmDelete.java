@@ -14,9 +14,9 @@ import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 public class DialogConfirmDelete extends Dialog {
     
-    private IResourceGroup resourceGroup;
-    private Dialog installedDetails;
-    private TabInstalled installedTab;
+    protected IResourceGroup resourceGroup;
+    protected Dialog installedDetails;
+    protected TabInstalled installedTab;
     
     
     public DialogConfirmDelete(Context context, IResourceGroup resourceGroup, Dialog installedDetails,

@@ -53,7 +53,7 @@ public class DialogServiceFeature extends Dialog {
     /**
      * Handler for GUI interaction.
      */
-    private Handler handler;
+    protected Handler handler;
     
     
     /**

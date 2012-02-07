@@ -53,7 +53,7 @@ public class PresetPSContext implements Serializable {
      * @return the type
      */
     public String getType() {
-        return type;
+        return this.type;
     }
     
     
@@ -74,7 +74,7 @@ public class PresetPSContext implements Serializable {
      * @return the condition
      */
     public String getCondition() {
-        return condition;
+        return this.condition;
     }
     
     
@@ -95,7 +95,7 @@ public class PresetPSContext implements Serializable {
      * @return the overrideValue
      */
     public String getOverrideValue() {
-        return overrideValue;
+        return this.overrideValue;
     }
     
     

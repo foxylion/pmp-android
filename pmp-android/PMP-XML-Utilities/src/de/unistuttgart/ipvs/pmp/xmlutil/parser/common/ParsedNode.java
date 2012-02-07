@@ -29,7 +29,7 @@ public class ParsedNode {
      * @return the value
      */
     public String getValue() {
-        return value;
+        return this.value;
     }
     
     
@@ -50,7 +50,7 @@ public class ParsedNode {
      * @return the attributes
      */
     public Map<String, String> getAttributes() {
-        return attributes;
+        return this.attributes;
     }
     
     
@@ -62,9 +62,10 @@ public class ParsedNode {
      * @return value of the attribute
      */
     public String getAttribute(String attributeName) {
-        if (attributes.get(attributeName) == null)
+        if (this.attributes.get(attributeName) == null) {
             return "";
-        return attributes.get(attributeName);
+        }
+        return this.attributes.get(attributeName);
     }
     
     
@@ -77,7 +78,7 @@ public class ParsedNode {
      *            value of the attribute (value)
      */
     public void putAttribute(String attrName, String attrValue) {
-        attributes.put(attrName, attrValue);
+        this.attributes.put(attrName, attrValue);
     }
     
 }

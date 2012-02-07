@@ -19,7 +19,7 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     
     public int getHour() {
-        return hour;
+        return this.hour;
     }
     
     
@@ -29,7 +29,7 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     
     public int getMinute() {
-        return minute;
+        return this.minute;
     }
     
     
@@ -39,7 +39,7 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     
     public int getSecond() {
-        return second;
+        return this.second;
     }
     
     
@@ -49,11 +49,23 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     
     @Override
-    public int compareTo(TimeContextConditionTime another) {
-        if (another == null) {
-            return 0;
+    public boolean equals(Object o) {
+        if ((o == null) || (!(o instanceof TimeContextConditionTime))) {
+            return false;
         }
-        
+        TimeContextConditionTime another = (TimeContextConditionTime) o;
+        return (this.second == another.second) && (this.minute == another.minute) && (this.hour == another.hour);
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return this.second ^ this.minute ^ this.hour;
+    }
+    
+    
+    @Override
+    public int compareTo(TimeContextConditionTime another) {
         return (this.second - another.second) + (this.minute - another.minute) + (this.hour - another.hour);
     }
 }

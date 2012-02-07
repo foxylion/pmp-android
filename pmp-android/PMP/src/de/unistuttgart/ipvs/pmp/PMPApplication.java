@@ -44,8 +44,6 @@ public class PMPApplication extends Application {
         super.onCreate();
         
         PMPApplication.instance = this;
-        
-        Log.setTagSufix(Constants.PMP_LOG_SUFIX);
     }
     
     

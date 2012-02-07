@@ -53,8 +53,6 @@ public class JPMPPS {
         return instance;
     }
     
-    public static final int LISTEN_PORT = 3133;
-    
     public static final boolean DEBUG = true;
     
     public static final int LIMIT = 10;
@@ -91,7 +89,7 @@ public class JPMPPS {
      */
     public void startServer() {
         if (this.server == null) {
-            this.server = new TCPServer(LISTEN_PORT);
+            this.server = new TCPServer(JPMPPSConstants.PORT);
         }
     }
     

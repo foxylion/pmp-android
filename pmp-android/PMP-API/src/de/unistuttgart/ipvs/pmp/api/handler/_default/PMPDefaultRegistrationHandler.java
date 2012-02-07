@@ -20,12 +20,12 @@ public class PMPDefaultRegistrationHandler extends PMPRegistrationHandler {
     /**
      * The corresponding registration {@link Dialog}.
      */
-    private RegistrationDialog dialog;
+    protected RegistrationDialog dialog;
     
     /**
      * The {@link Activity} which initiated the registration.
      */
-    private Activity activity;
+    protected Activity activity;
     
     
     /**

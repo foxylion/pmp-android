@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.api.ipc.command.IPCCommand;
  * @author Tobias Kuhn
  * 
  */
-public class IPCScheduler extends Thread {
+public final class IPCScheduler extends Thread {
     
     /**
      * The queue that contains all the commands to be executed
@@ -30,7 +30,7 @@ public class IPCScheduler extends Thread {
     /**
      * The connection to be used while executing commands.
      */
-    private IPCConnection connection;
+    protected IPCConnection connection;
     
     
     /**

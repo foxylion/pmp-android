@@ -26,9 +26,9 @@ public class DialogAvailableDetails extends Dialog {
     
     protected LocalizedResourceGroup rgInformation;
     
-    private Handler handler;
+    protected Handler handler;
     
-    private TabAvailable tab;
+    protected TabAvailable tab;
     
     
     /**

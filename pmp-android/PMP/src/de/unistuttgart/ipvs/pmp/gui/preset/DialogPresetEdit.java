@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
+import java.util.Locale;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -53,7 +55,7 @@ public class DialogPresetEdit extends Dialog {
     /**
      * The default name of the Preset
      */
-    private String defaultName = "";
+    protected String defaultName = "";
     
     
     /**
@@ -172,7 +174,7 @@ public class DialogPresetEdit extends Dialog {
             String nameText = String.valueOf(nameField.getText());
             
             for (IPreset preset : ModelProxy.get().getPresets()) {
-                if (preset.getName().toLowerCase().equals(nameText.toLowerCase())) {
+                if (preset.getName().toLowerCase(Locale.getDefault()).equals(nameText.toLowerCase(Locale.getDefault()))) {
                     nameField.setError("Another Preset is already called " + nameText);
                 }
                 

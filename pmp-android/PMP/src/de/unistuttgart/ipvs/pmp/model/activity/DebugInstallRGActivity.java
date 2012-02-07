@@ -24,9 +24,9 @@ import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 public class DebugInstallRGActivity extends Activity {
     
-    private Handler handler;
-    private Dialog dialog;
-    private ProgressDialog pd;
+    protected Handler handler;
+    protected Dialog dialog;
+    protected ProgressDialog pd;
     
     
     @Override

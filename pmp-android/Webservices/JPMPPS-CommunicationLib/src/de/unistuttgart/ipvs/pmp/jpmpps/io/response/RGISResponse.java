@@ -11,38 +11,51 @@ import java.io.Serializable;
  * @author Jakob Jarosch
  */
 public class RGISResponse extends AbstractResponse {
-
-	private static final long serialVersionUID = 2L;
-
-	private byte[] rgis = null;
-
-	/**
-	 * Creates a new {@link RGISResponse}.
-	 * 
-	 * @param resourceGroup {@link InputStream} of the package which should be attached.
-	 */
-	public RGISResponse(Serializable rgis, byte[] cacheHash) {
-		if (!rgis.getClass().getSimpleName().equals("RGIS")) {
-			throw new IllegalArgumentException();
-		}
-		
-		this.rgis = toByteArray(rgis);
-		setCacheHash(cacheHash);
-	}
-
-	/**
-	 * @return Returns the package as an {@link Serializable}. Must be casted to RGIS.
-	 */
-	public Object getRGIS() {
-		try {
-			ObjectInputStream ois = new ObjectInputStream(fromByteArray(this.rgis));
-			return ois.readObject();
-		} catch(ClassNotFoundException e) {
-			throw new IllegalAccessError("When you use this method you must also add the PMP-XML-UTILITIES to your library");
-		} catch (IOException e) {
-			System.out.println("[E] While reading the object from bytearray (Error: " + e.getMessage() + ")");
-			e.printStackTrace();
-		}
-		return null;
-	}
+    
+    private static final long serialVersionUID = 2L;
+    
+    private byte[] rgis = null;
+    
+    
+    /**
+     * Creates a new {@link RGISResponse}.
+     * 
+     * @param resourceGroup
+     *            {@link InputStream} of the package which should be attached.
+     */
+    public RGISResponse(Serializable rgis, byte[] cacheHash) {
+        if (!rgis.getClass().getSimpleName().equals("RGIS")) {
+            throw new IllegalArgumentException();
+        }
+        
+        this.rgis = toByteArray(rgis);
+        setCacheHash(cacheHash);
+    }
+    
+    
+    /**
+     * @return Returns the package as an {@link Serializable}. Must be casted to RGIS.
+     */
+    public Object getRGIS() {
+        try {
+            
+            ObjectInputStream ois = null;
+            try {
+                ois = new ObjectInputStream(fromByteArray(this.rgis));
+                return ois.readObject();
+            } finally {
+                if (ois != null) {
+                    ois.close();
+                }
+            }
+            
+        } catch (ClassNotFoundException e) {
+            throw new IllegalAccessError(
+                    "When you use this method you must also add the PMP-XML-UTILITIES to your library");
+        } catch (IOException e) {
+            System.out.println("[E] While reading the object from bytearray (Error: " + e.getMessage() + ")");
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

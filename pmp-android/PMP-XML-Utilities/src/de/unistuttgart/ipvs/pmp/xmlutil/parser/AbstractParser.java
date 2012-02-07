@@ -123,8 +123,8 @@ public abstract class AbstractParser {
             }
             
             // Get the attributes given as parameters
-            for (int attrItr = 0; attrItr < attributeNames.length; attrItr++) {
-                parsedNode.putAttribute(attributeNames[attrItr], element.getAttribute(attributeNames[attrItr]));
+            for (String attributeName : attributeNames) {
+                parsedNode.putAttribute(attributeName, element.getAttribute(attributeName));
             }
             
             // Add the result array to the result list of arrays

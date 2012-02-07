@@ -24,6 +24,8 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.exception;
  * @author Marcus Vetter
  * 
  */
-public class CompilerException {
+public class CompilerException extends Exception {
+    
+    private static final long serialVersionUID = -2068455569008323121L;
     
 }

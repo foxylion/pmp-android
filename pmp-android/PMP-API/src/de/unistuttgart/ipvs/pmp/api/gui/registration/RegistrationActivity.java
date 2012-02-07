@@ -54,12 +54,12 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     /**
      * The layout elements.
      */
-    private RegistrationElements elements;
+    protected RegistrationElements elements;
     
     /**
      * {@link IPMP} instance.
      */
-    private IPMP pmp;
+    protected IPMP pmp;
     
     /**
      * Handler which can be used to invoke actions in the ui Thread.
@@ -103,7 +103,7 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
     /**
      * Loads all GUI elements.
      */
-    private void loadGUI() {
+    protected void loadGUI() {
         setContentView(R.layout.pmp_api_registration);
         
         this.elements = new RegistrationElements(this);
@@ -122,12 +122,6 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
             invokeEvent(RegistrationEventTypes.SF_SCREEN_CLOSED);
             overridePendingTransition(0, 0);
         }
-    }
-    
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
     
     
