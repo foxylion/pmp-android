@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.editor.exceptions;
+package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
 
 /**
  * Thrown if a PMP registration activity is already found at the

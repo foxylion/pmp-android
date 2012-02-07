@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.unistuttgart.ipvs.pmp.editor.exceptions;
+package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
 
 /**
  * Thrown if there are more than one application node at the AndroidManifest.xml
