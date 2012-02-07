@@ -286,8 +286,9 @@ public class AndroidManifestParser {
      * Returns the {@link Node} that contains the MainActivity IntentFilter
      * 
      * @return {@link Node} that contains the MainActivity or <code>null</code>
+     * @throws NoMainActivityException 
      */
-    private Node getMainActivityNode() {
+    private Node getMainActivityNode() throws NoMainActivityException {
 	// Get all "action" nodes
 	NodeList actions = doc.getElementsByTagName(ANDROID_ACTION);
 
@@ -304,7 +305,7 @@ public class AndroidManifestParser {
 		}
 	    }
 	}
-	return null;
+	throw new NoMainActivityException("No main activity found");
     }
 
     /**
