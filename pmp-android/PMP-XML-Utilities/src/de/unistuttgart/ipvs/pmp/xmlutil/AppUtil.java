@@ -17,8 +17,8 @@ public class AppUtil {
     /**
      * The AISParser and -Compiler
      */
-    private static AISParser aisParser = new AISParser();
-    private static AISCompiler aisCompiler = new AISCompiler();
+    private AISParser aisParser = new AISParser();
+    private AISCompiler aisCompiler = new AISCompiler();
     
     
     /**
@@ -28,7 +28,7 @@ public class AppUtil {
      *            url to the xml file
      * @return app information set
      */
-    public static AIS parse(InputStream xmlStream) {
+    public AIS parse(InputStream xmlStream) {
         return aisParser.parse(xmlStream);
     }
     
@@ -40,7 +40,7 @@ public class AppUtil {
      *            AIS to compile
      * @return compiled xml file
      */
-    public static InputStream compile(AIS ais) {
+    public InputStream compile(AIS ais) {
         return aisCompiler.compile(ais);
     }
     
@@ -50,7 +50,7 @@ public class AppUtil {
      * 
      * @return blank AIS-Object
      */
-    public static AIS createBlankAIS() {
+    public AIS createBlankAIS() {
         return new AIS();
     }
     
@@ -61,7 +61,7 @@ public class AppUtil {
      * @param ais
      *            AIS to print
      */
-    public static void print(AIS ais) {
+    public void print(AIS ais) {
         ISPrinter.printAIS(ais);
     }
     

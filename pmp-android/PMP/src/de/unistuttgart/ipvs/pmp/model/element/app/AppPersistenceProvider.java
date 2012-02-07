@@ -50,7 +50,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
                     this.element);
             
             is = appResources.getAssets().open(PersistenceConstants.APP_XML_NAME);
-            this.element.ais = XMLUtilityProxy.parseAISXML(is);
+            this.element.ais = XMLUtilityProxy.getAppUtil().parse(is);
             
         } catch (IOException e) {
             Log.e(this, "Did no longer find the app XML during loading its data.");

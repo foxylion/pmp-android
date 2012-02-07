@@ -17,8 +17,8 @@ public class PresetUtil {
     /**
      * The PresetSetParser and -Compiler
      */
-    private static PresetSetParser presetSetParser = new PresetSetParser();
-    private static PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
+    private PresetSetParser presetSetParser = new PresetSetParser();
+    private PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
     
     
     /**
@@ -28,7 +28,7 @@ public class PresetUtil {
      *            url to the xml file
      * @return PresetSet
      */
-    public static PresetSet parse(InputStream xmlStream) {
+    public PresetSet parse(InputStream xmlStream) {
         return presetSetParser.parse(xmlStream);
     }
     
@@ -40,7 +40,7 @@ public class PresetUtil {
      *            RGIS to compile
      * @return compiled xml file
      */
-    public static InputStream compile(PresetSet presetSet) {
+    public InputStream compile(PresetSet presetSet) {
         return presetSetCompiler.compile(presetSet);
     }
     
@@ -50,7 +50,7 @@ public class PresetUtil {
      * 
      * @return blank PresetSet-Object
      */
-    public static PresetSet createBlankPresetSet() {
+    public PresetSet createBlankPresetSet() {
         return new PresetSet();
     }
     
@@ -61,7 +61,7 @@ public class PresetUtil {
      * @param presetSet
      *            PresetSet to print
      */
-    public static void print(PresetSet presetSet) {
+    public void print(PresetSet presetSet) {
         ISPrinter.printPresetSet(presetSet);
     }
     

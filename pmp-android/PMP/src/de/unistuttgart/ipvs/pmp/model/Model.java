@@ -157,7 +157,7 @@ public class Model implements IModel, Observer {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
                     .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
-            AIS ais = XMLUtilityProxy.parseAISXML(xmlStream);
+            AIS ais = XMLUtilityProxy.getAppUtil().parse(xmlStream);
             
             // check service availability
             IPCConnection ipcc = new IPCConnection(PMPApplication.getContext());

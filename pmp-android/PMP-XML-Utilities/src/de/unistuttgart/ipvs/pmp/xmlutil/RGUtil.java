@@ -17,8 +17,8 @@ public class RGUtil {
     /**
      * The RGISParser and -Compiler
      */
-    private static RGISParser rgisParser = new RGISParser();
-    private static RGISCompiler rgisCompiler = new RGISCompiler();
+    private RGISParser rgisParser = new RGISParser();
+    private RGISCompiler rgisCompiler = new RGISCompiler();
     
     
     /**
@@ -28,7 +28,7 @@ public class RGUtil {
      *            url to the xml file
      * @return resourcegroup information set
      */
-    public static RGIS parse(InputStream xmlStream) {
+    public RGIS parse(InputStream xmlStream) {
         return rgisParser.parse(xmlStream);
     }
     
@@ -40,7 +40,7 @@ public class RGUtil {
      *            RGIS to compile
      * @return compiled xml file
      */
-    public static InputStream compile(RGIS rgis) {
+    public InputStream compile(RGIS rgis) {
         return rgisCompiler.compile(rgis);
     }
     
@@ -50,7 +50,7 @@ public class RGUtil {
      * 
      * @return blank RGIS-Object
      */
-    public static RGIS createBlankRGIS() {
+    public RGIS createBlankRGIS() {
         return new RGIS();
     }
     
@@ -61,7 +61,7 @@ public class RGUtil {
      * @param rgis
      *            RGIS to print
      */
-    public static void print(RGIS rgis) {
+    public void print(RGIS rgis) {
         ISPrinter.printRGIS(rgis);
     }
     

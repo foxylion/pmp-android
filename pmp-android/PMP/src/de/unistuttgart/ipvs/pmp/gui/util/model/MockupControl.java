@@ -335,7 +335,7 @@ public class MockupControl {
     public static RGIS getRGIS(Context context, String fileName) {
         RGIS result = null;
         try {
-            result = XMLUtilityProxy.parseRGISXML(context.getAssets().open("samples2/rg/" + fileName));
+            result = XMLUtilityProxy.getRGUtil().parse(context.getAssets().open("samples2/rg/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
             Log.e(TAG, "Could not mock RGIS", t);
@@ -347,7 +347,7 @@ public class MockupControl {
     public static AIS getAIS(Context context, String fileName) {
         AIS result = null;
         try {
-            result = XMLUtilityProxy.parseAISXML(context.getAssets().open("samples2/app/" + fileName));
+            result = XMLUtilityProxy.getAppUtil().parse(context.getAssets().open("samples2/app/" + fileName));
         } catch (Throwable t) {
             youreDoingItWrong.add(t);
             Log.e(TAG, "Could not mock AIS", t);
