@@ -72,25 +72,26 @@ public class AISParser extends AbstractParser {
         NodeList appInformation = this.doc.getElementsByTagName(XMLConstants.AI);
         NodeList serviceFeatures = this.doc.getElementsByTagName(XMLConstants.SFS);
         
-        // Check, if there is exactly one appInformation and one service
+        // Check, if there is maximal one appInformation and one service
         // features node
-        if (appInformation.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node appInformation is missing!");
+        int maxValid = 0;
+        if (appInformation.getLength() == 1) {
+            // Parse the app information node
+            parseNameDescriptionNodes((Element) appInformation.item(0), this.ais);
+            maxValid++;
         } else if (appInformation.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node appInformation occurred too often!");
         }
-        if (serviceFeatures.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node serviceFeatures is missing!");
+        if (serviceFeatures.getLength() == 1) {
+            // Parse the service features node
+            parseServiceFeaturesNode((Element) serviceFeatures.item(0));
+            maxValid++;
         } else if (serviceFeatures.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node serviceFeatures occurred too often!");
         }
         
-        // Check, if there are only 2 child nodes of appInformationSet
-        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName(XMLConstants.AIS).item(0));
-        
-        // Parse the app information nodes
-        parseNameDescriptionNodes((Element) appInformation.item(0), this.ais);
-        parseServiceFeaturesNode((Element) serviceFeatures.item(0));
+        // Check, if there are a maximum of maxValid child nodes of the root node
+        checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.AIS).item(0));
         
         return this.ais;
     }

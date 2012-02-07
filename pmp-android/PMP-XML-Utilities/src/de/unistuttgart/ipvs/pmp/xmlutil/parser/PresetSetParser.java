@@ -92,19 +92,31 @@ public class PresetSetParser extends AbstractParser {
         // Instantiate new Preset
         Preset preset = new Preset(identifier, creator, name, description);
         
+        int maxValid = 0;
         // Get the assignedApps-NodeList and parse the elements
         NodeList assignedAppsNodeList = presetElement.getElementsByTagName(XMLConstants.ASSIGNED_APPS);
-        for (int itr = 0; itr < assignedAppsNodeList.getLength(); itr++) {
+        if (assignedAppsNodeList.getLength() == 1) {
             // Parse the assignedAppsElement
-            parseAssignedApps((Element) assignedAppsNodeList.item(itr), preset);
+            parseAssignedApps((Element) assignedAppsNodeList.item(0), preset);
+            maxValid++;
+        } else if (assignedAppsNodeList.getLength() > 1) {
+            throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node " + XMLConstants.ASSIGNED_APPS
+                    + " occurred too often!");
         }
         
         // Get the assignedPrivacySettings-NodeList and parse the elements
         NodeList assignedPSsNodeList = presetElement.getElementsByTagName(XMLConstants.ASSIGNED_PRIVACY_SETTINGS);
-        for (int itr = 0; itr < assignedPSsNodeList.getLength(); itr++) {
+        if (assignedPSsNodeList.getLength() == 1) {
             // Parse the assignedPrivacySettingsElement
-            parseAssignedPSs((Element) assignedPSsNodeList.item(itr), preset);
+            parseAssignedPSs((Element) assignedPSsNodeList.item(0), preset);
+            maxValid++;
+        } else if (assignedPSsNodeList.getLength() > 1) {
+            throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node "
+                    + XMLConstants.ASSIGNED_PRIVACY_SETTINGS + " occurred too often!");
         }
+        
+        // Check, if there are a maximum of maxValid child nodes of the root node
+        checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
         
         // Add preset to Preset Set
         presetSet.addPreset(preset);
@@ -162,13 +174,23 @@ public class PresetSetParser extends AbstractParser {
             preset.addAssignedPrivacySetting(assignedPS);
             
             // Get the value
+            int maxValid = 0;
             List<ParsedNode> valueList = parseNodes(psElement, XMLConstants.VALUE);
-            for (ParsedNode valueNode : valueList) {
-                assignedPS.setValue(valueNode.getValue());
+            if (valueList.size() == 1) {
+                // Set the value
+                assignedPS.setValue(valueList.get(0).getValue());
+                maxValid++;
+            } else if (valueList.size() > 1) {
+                throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node " + XMLConstants.VALUE
+                        + " occurred too often!");
             }
             
             // Parse the contexts
-            parseContexts(psElement, assignedPS);
+            int numberOfParsedContexts = parseContexts(psElement, assignedPS);
+            
+            // Check, if there are more nodes then expected
+            maxValid += numberOfParsedContexts;
+            checkMaxNumberOfNodes(maxValid, psElement);
             
             psItr++;
         }
@@ -183,7 +205,7 @@ public class PresetSetParser extends AbstractParser {
      * @param assignedPS
      *            the assigned privacy setting object
      */
-    private void parseContexts(Element psElement, PresetAssignedPrivacySetting assignedPS) {
+    private int parseContexts(Element psElement, PresetAssignedPrivacySetting assignedPS) {
         // Get the list of all assigned privacy settings
         List<ParsedNode> contextLists = parseNodes(psElement, XMLConstants.CONTEXT, XMLConstants.CONTEXT_TYPE_ATTR,
                 XMLConstants.CONTEXT_CONDITION_ATTR);
@@ -204,10 +226,21 @@ public class PresetSetParser extends AbstractParser {
             
             // Get the override value
             List<ParsedNode> overrideValueList = parseNodes(contextElement, XMLConstants.CONTEXT_OVERRIDE_VALUE);
-            for (ParsedNode valueNode : overrideValueList) {
-                context.setOverrideValue(valueNode.getValue());
+            int maxValid = 0;
+            if (overrideValueList.size() == 1) {
+                // Set the override value
+                context.setOverrideValue(overrideValueList.get(0).getValue());
+                maxValid++;
+            } else if (overrideValueList.size() > 1) {
+                throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node "
+                        + XMLConstants.CONTEXT_OVERRIDE_VALUE + " occurred too often!");
             }
+            checkMaxNumberOfNodes(maxValid, contextElement);
+            
+            contextItr++;
         }
+        
+        return contextItr;
     }
     
 }

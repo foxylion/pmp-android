@@ -147,8 +147,7 @@ public abstract class AbstractParser {
     protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
         // Create results
         List<ParsedNode> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTR);
-        List<ParsedNode> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION,
-                XMLConstants.LANGUAGE_ATTR);
+        List<ParsedNode> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION, XMLConstants.LANGUAGE_ATTR);
         
         // Add to the app information set
         for (ParsedNode nameNode : nameList) {
@@ -167,16 +166,16 @@ public abstract class AbstractParser {
     
     
     /**
-     * This methods checks, if a parent has exactly the number of child nodes
+     * This methods checks, if a parent has the maximum number of child nodes
      * expected by the parameter "expectedNumber"
      * 
-     * @param expectedNumber
-     *            expected number of occurrences of child nodes of the given
+     * @param expectedMaxNumber
+     *            expected maximum number of occurrences of child nodes of the given
      *            parent (root element)
      * @param rootElement
      *            the root element to check it's children
      */
-    public void checkNumberOfNodes(int expectedNumber, Element rootElement) {
+    public void checkMaxNumberOfNodes(int expectedMaxNumber, Element rootElement) {
         int numberOfNodes = 0;
         
         for (int itr = 0; itr < rootElement.getChildNodes().getLength(); itr++) {
@@ -185,11 +184,8 @@ public abstract class AbstractParser {
             }
         }
         
-        if (expectedNumber < numberOfNodes) {
+        if (expectedMaxNumber < numberOfNodes) {
             throw new ParserException(Type.UNEXPECTED_NODE, "Unexpected node found. It's parent is "
-                    + rootElement.getNodeName());
-        } else if (expectedNumber > numberOfNodes) {
-            throw new ParserException(Type.NODE_MISSING, "There is at least one node missing. It's parent is "
                     + rootElement.getNodeName());
         }
     }

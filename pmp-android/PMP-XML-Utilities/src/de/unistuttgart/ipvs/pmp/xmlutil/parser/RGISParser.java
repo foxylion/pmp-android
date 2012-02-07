@@ -68,26 +68,27 @@ public class RGISParser extends AbstractParser {
         NodeList rgInformation = this.doc.getElementsByTagName(XMLConstants.RGI);
         NodeList privacySettings = this.doc.getElementsByTagName(XMLConstants.PSS);
         
-        // Check, if there is exactly one resourceGroupInformation and one
+        // Check, if there is a maximum of one resourceGroupInformation and one
         // privacySettings node
-        if (rgInformation.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node resourceGroupInformation is missing!");
+        int maxValid = 0;
+        if (rgInformation.getLength() == 1) {
+            // Parse the rg information node
+            parseRgInformationNode((Element) rgInformation.item(0));
+            maxValid++;
         } else if (rgInformation.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN,
                     "The node resourceGroupInformation occurred too often!");
         }
-        if (privacySettings.getLength() < 1) {
-            throw new ParserException(Type.NODE_MISSING, "The node privacySettings is missing!");
+        if (privacySettings.getLength() == 1) {
+            // Parse the privacy settings node
+            parsePrivacySettingsNode((Element) privacySettings.item(0));
+            maxValid++;
         } else if (privacySettings.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node privacySettings occurred too often!");
         }
         
-        // Check, if there are only 2 child nodes of appInformationSet
-        checkNumberOfNodes(2, (Element) this.doc.getElementsByTagName(XMLConstants.RGIS).item(0));
-        
-        // Parse the nodes
-        parseRgInformationNode((Element) rgInformation.item(0));
-        parsePrivacySettingsNode((Element) privacySettings.item(0));
+        // Check, if there are a maximum of maxValid child nodes of the root node
+        checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.RGIS).item(0));
         
         return this.rgis;
     }
