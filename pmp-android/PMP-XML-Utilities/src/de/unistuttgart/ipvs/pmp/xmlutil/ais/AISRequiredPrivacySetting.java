@@ -36,12 +36,12 @@ public class AISRequiredPrivacySetting implements Serializable {
     /**
      * The identifier of the Privacy Setting
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * The value of the Privacy Setting
      */
-    private String value;
+    private String value = "";
     
     
     /**

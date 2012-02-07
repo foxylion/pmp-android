@@ -34,7 +34,7 @@ public class Name extends AbstractLocale {
     /**
      * The name
      */
-    private String name;
+    private String name = "";
     
     
     /**

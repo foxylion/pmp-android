@@ -40,12 +40,12 @@ public class AISRequiredResourceGroup implements Serializable {
     /**
      * Identifier
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * Min revision
      */
-    private String minRevision;
+    private String minRevision = "";
     
     
     /**

@@ -42,17 +42,17 @@ public class RGIS extends BasicIS {
     /**
      * The identifier of the resource group
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * The icon of the resource group
      */
-    private String iconLocation;
+    private String iconLocation = "";
     
     /**
      * The class name of the resource group
      */
-    private String className;
+    private String className = "";
     
     /**
      * This list contains all privacy settings of the resource group.

@@ -19,22 +19,22 @@ public class PresetAssignedPrivacySetting implements Serializable {
     /**
      * The resource group identifier
      */
-    private String rgIdentifier;
+    private String rgIdentifier = "";
     
     /**
      * The resource group revision
      */
-    private String rgRevision;
+    private String rgRevision = "";
     
     /**
      * The privacy setting identifier
      */
-    private String psIdentifier;
+    private String psIdentifier = "";
     
     /**
      * The value
      */
-    private String value;
+    private String value = "";
     
     /**
      * List of contexts

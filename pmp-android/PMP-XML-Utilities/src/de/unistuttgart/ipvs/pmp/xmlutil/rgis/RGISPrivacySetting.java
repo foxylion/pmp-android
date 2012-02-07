@@ -36,12 +36,12 @@ public class RGISPrivacySetting extends BasicIS {
     /**
      * Identifier of the privacy setting
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * A description of the valid values for this privacy setting
      */
-    private String validValueDescription;
+    private String validValueDescription = "";
     
     
     /**

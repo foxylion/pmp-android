@@ -66,7 +66,7 @@ public class XMLConstants {
     public static final String DESCRIPTION_ATTR = "description";
     public static final String CREATOR_ATTR = "creator";
     public static final String RG_IDENTIFIER_ATTR = "rgIdentifier";
-    public static final String RG_REIVION_ATTR = "rgRevision";
+    public static final String RG_REVISION_ATTR = "rgRevision";
     public static final String PS_IDENTIFIER_ATTR = "psIdentifier";
     public static final String CONTEXT_TYPE_ATTR = "type";
     public static final String CONTEXT_CONDITION_ATTR = "condition";

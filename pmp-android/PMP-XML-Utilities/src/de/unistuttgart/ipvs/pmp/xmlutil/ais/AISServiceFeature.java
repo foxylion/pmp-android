@@ -41,7 +41,7 @@ public class AISServiceFeature extends BasicIS {
     /**
      * The identifier
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * This list contains all required resource groups of the service feature.
