@@ -19,9 +19,10 @@ public class NoMainActivityException extends Exception {
     private static final long serialVersionUID = 3621590944193678970L;
 
     /**
-     * The message to display
+     * Constructor to send a message
      * 
      * @param message
+     *            to display
      */
     public NoMainActivityException(String message) {
 	super(message);

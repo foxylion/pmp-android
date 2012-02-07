@@ -8,7 +8,6 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-
 public class CreateWizardAIS extends Wizard implements INewWizard {
     private WizardPageCreateAIS page;
     private ISelection selection;

@@ -18,10 +18,10 @@ public class PMPActivityAlreadyExistsException extends Exception {
     private static final long serialVersionUID = -5744810497729968292L;
 
     /**
-     * Message to display
+     * Constructor to send a message
      * 
      * @param msg
-     *            message
+     *            message to display
      */
     public PMPActivityAlreadyExistsException(String msg) {
 	super(msg);

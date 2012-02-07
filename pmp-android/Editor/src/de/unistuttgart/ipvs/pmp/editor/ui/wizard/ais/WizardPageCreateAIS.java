@@ -25,8 +25,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
 
+/**
+ * The {@link WizardPage} of the AIS wizard
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class WizardPageCreateAIS extends WizardPage {
     /**
      * {@link Text} for the project
@@ -128,6 +135,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    if (result.length == 1) {
 		String[] split = ((Path) result[0]).toString().split("/");
 		assetsFolderText.setText("/" + split[1] + "/assets");
+		dialogChanged();
 	    }
 	}
     }
@@ -147,6 +155,13 @@ public class WizardPageCreateAIS extends WizardPage {
 
 	IResource container = ResourcesPlugin.getWorkspace().getRoot()
 		.findMember(new Path(project));
+
+	// Path doesn't start with a "/"
+	if (!getProjectName().startsWith("/")) {
+	    updateStatus("Path has to start with \"/\"");
+	    identifier.setText("");
+	    return;
+	}
 
 	// No project entered
 	if (getProjectName().length() == 0) {
@@ -184,6 +199,8 @@ public class WizardPageCreateAIS extends WizardPage {
 	} catch (IOException e) {
 	    updateStatus("Project must be an Android-Project");
 	    return;
+	} catch (AppIdentifierNotFoundException e) {
+	    updateStatus(e.getMessage());
 	}
 
 	// Assets folder is not specified at the path
@@ -208,6 +225,11 @@ public class WizardPageCreateAIS extends WizardPage {
 	setPageComplete(message == null);
     }
 
+    /**
+     * Returns the selected project with the /assets appended
+     * 
+     * @return project path + "/assets"
+     */
     public String getProjectName() {
 	return assetsFolderText.getText();
     }

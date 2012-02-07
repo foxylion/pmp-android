@@ -17,10 +17,10 @@ public class AndroidApplicationException extends Exception {
     private static final long serialVersionUID = 3962159094569678970L;
 
     /**
-     * Message to display
+     *	Constructor to send a message
      * 
      * @param msg
-     *            message
+     *            message to display
      */
     public AndroidApplicationException(String msg) {
 	super(msg);
