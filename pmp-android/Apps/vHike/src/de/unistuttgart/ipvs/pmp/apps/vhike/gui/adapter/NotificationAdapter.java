@@ -57,6 +57,7 @@ public class NotificationAdapter extends BaseAdapter {
     private CheckAcceptedOffers cao;
     private Timer timer;
     
+    
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
         this.hitchhikers = hitchhikers;
@@ -111,6 +112,11 @@ public class NotificationAdapter extends BaseAdapter {
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
             
+            if (Model.getInstance().isPicked(userID)) {
+                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                accept_invite.setEnabled(false);
+            }
+            
         } else {
             List<OfferObject> loo = Model.getInstance().getOfferHolder();
             offerID = loo.get(position).getOffer_id();
@@ -121,9 +127,6 @@ public class NotificationAdapter extends BaseAdapter {
             
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
             accept_invite.invalidate();
-        } else if (Model.getInstance().isPicked(userID)) {
-            accept_invite.setBackgroundResource(R.drawable.bg_disabled);
-            accept_invite.setEnabled(false);
         }
         
         dismiss.setOnClickListener(new OnClickListener() {
@@ -203,7 +206,7 @@ public class NotificationAdapter extends BaseAdapter {
                             
                             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                             Model.getInstance().addToInvitedUser(userID);
-
+                            
                             // check for offer updates for this button
                             cao = new CheckAcceptedOffers(accept_invite, name, userID);
                             cao.run();
