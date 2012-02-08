@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.util.List;
+import java.util.Timer;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -13,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
@@ -51,8 +53,9 @@ public class PassengerViewActivity extends MapActivity {
 	private LocationManager locationManager;
 	private GeoPoint p;
 	private int notiID;
-
-	// private SlidingDrawer drawer;
+	
+	private Check4Offers c4o;
+	private Timer timer;
 
 	double lat;
 	double lng;
@@ -110,31 +113,36 @@ public class PassengerViewActivity extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
 
-		Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
-		simulation.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				List<OfferObject> loo = ctrl.viewOffers(Model.getInstance()
-						.getSid());
-				if (loo != null && loo.size() > 0) {
-					for (int i = 0; i < loo.size(); i++) {
-						Profile driver = ctrl.getProfile(Model.getInstance()
-								.getSid(), loo.get(i).getUser_id());
-						int lat = (int) (loo.get(i).getLat() * 1E6);
-						int lng = (int) (loo.get(i).getLon() * 1E6);
-						GeoPoint gpsDriver = new GeoPoint(lat, lng);
-						notiID++;
-
-						MapModel.getInstance().add2PassengerOverlay(context,
-								gpsDriver, driver, mapView, 1, 0);
-						MapModel.getInstance().getHitchDrivers().add(driver);
-						MapModel.getInstance().fireNotification(context,
-								driver, loo.get(i).getUser_id(), 1, notiID, mapView);
-						appsAdapter.notifyDataSetChanged();
-					}
-				}
-			}
-		});
+		// check for offers every 10 seconds
+		c4o = new Check4Offers(mapView, context);
+		c4o.run();
+		timer = new Timer();
+		timer.schedule(c4o, 300, 10000);
+		
+		// check for offers manually
+        Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
+        simulation.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                List<OfferObject> loo = ctrl.viewOffers(Model.getInstance().getSid());
+                if (loo != null && loo.size() > 0) {
+                    for (int i = 0; i < loo.size(); i++) {
+                        Profile driver = ctrl.getProfile(Model.getInstance().getSid(), loo.get(i).getUser_id());
+                        int lat = (int) (loo.get(i).getLat() * 1E6);
+                        int lng = (int) (loo.get(i).getLon() * 1E6);
+                        GeoPoint gpsDriver = new GeoPoint(lat, lng);
+                        notiID++;
+                        
+                        MapModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
+                        MapModel.getInstance().getHitchDrivers().add(driver);
+                        MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, notiID,
+                                mapView);
+                        appsAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 	}
 
 	/**
