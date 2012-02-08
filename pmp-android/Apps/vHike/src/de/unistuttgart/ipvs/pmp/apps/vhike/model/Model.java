@@ -20,7 +20,13 @@ public class Model {
     public void setUserID(){
         
     }
+    
+    
     List<Integer> foundUsers;
+    
+    public List<Integer> getFindList(){
+        return foundUsers;
+    }
     
     public boolean isFinded(int userid) {
         boolean picked = false;
