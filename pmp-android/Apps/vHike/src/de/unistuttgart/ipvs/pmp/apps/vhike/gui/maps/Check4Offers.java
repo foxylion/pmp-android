@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -43,6 +44,8 @@ public class Check4Offers extends TimerTask {
             
             @Override
             public void run() {
+                
+                
                 Profile me = Model.getInstance().getOwnProfile();
                 
                 if (Model.getInstance().isPicked(me.getID())) {
@@ -68,12 +71,12 @@ public class Check4Offers extends TimerTask {
                             MapModel.getInstance().getHitchDrivers().add(driver);
                             
                             if (!Model.getInstance().isFinded(loo.get(i).getUser_id())) {
-                                MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, 0,
+                                MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1,
                                         mapView);
                                 MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             }
                             
-                            Model.getInstance().addToFoundUsers(loo.get(i).getUser_id());
+                            Model.getInstance().addToFoundUsers(new FoundProfilePos(loo.get(i).getUser_id(), lat, lng));
                         }
                     }
                 }

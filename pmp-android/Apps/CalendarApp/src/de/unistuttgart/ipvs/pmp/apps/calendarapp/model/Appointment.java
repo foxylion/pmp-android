@@ -75,7 +75,7 @@ public class Appointment implements Serializable {
     public Appointment(int id, String name, String descrpition, Date date, Severity severity) {
         this.name = name;
         this.descrpition = descrpition;
-        this.date = date;
+        this.date = (Date) date.clone();
         this.id = id;
         this.severity = severity;
     }
@@ -108,7 +108,7 @@ public class Appointment implements Serializable {
      * @return the date as string
      */
     public Date getDate() {
-        return this.date;
+        return (Date) this.date.clone();
     }
     
     
@@ -119,7 +119,7 @@ public class Appointment implements Serializable {
      *            to set
      */
     public void setDate(Date date) {
-        this.date = date;
+        this.date = (Date) date.clone();
     }
     
     
@@ -152,7 +152,7 @@ public class Appointment implements Serializable {
      * @return
      */
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
@@ -172,7 +172,7 @@ public class Appointment implements Serializable {
      * @return {@link Severity}
      */
     public Severity getSeverity() {
-        return severity;
+        return this.severity;
     }
     
     
