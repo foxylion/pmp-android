@@ -17,10 +17,22 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 public class Model {
     
     
-    public void setUserID(){
-        
+    List<Integer> acceptedUsers;
+    public boolean isAccepted(int userid) {
+        boolean accepted = false;
+        for (int invID : acceptedUsers) {
+            if (userid == invID) {
+                accepted = true;
+            }
+        }
+        return accepted;
     }
-    
+    public void addToAcceptedUsers(int user){
+        acceptedUsers.add(user);
+    }
+    public void clearAcceptedUsers(){
+        acceptedUsers.clear();
+    }
     
     List<FoundProfilePos> foundUsers;
     
