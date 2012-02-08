@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -13,14 +12,14 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -28,15 +27,18 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
-
+/**
+ * Creates a new "ais.xml" in the given project in the assets folder
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class CreateWizardAIS extends Wizard implements INewWizard {
     private WizardPageCreateAIS page;
     private ISelection selection;
 
     /**
-     * Constructor for SampleNewWizard.
+     * Constructor for the ais CreateWizard.
      */
     public CreateWizardAIS() {
 	super();
@@ -56,13 +58,47 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
 
     @Override
     public boolean performFinish() {
+
+	// Get the file to create
 	final String containerName = page.getProjectName();
 	final String fileName = "ais.xml";
+	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	final IResource resource = root.findMember(new Path(containerName));
+	IContainer container = (IContainer) resource;
+
+	// To create
+	final IFile file = container.getFile(new Path(fileName));
+
+	// If the file exists, show a warning that the file exists
+	if (file.exists()) {
+	    int style = SWT.ICON_QUESTION | SWT.YES | SWT.NO;
+	    MessageBox messageBox = new MessageBox(getShell(), style);
+	    messageBox.setText("Save \"ais.xml\"");
+	    messageBox
+		    .setMessage("\"ais.xml\" already existing.\n Should it be replaced?");
+	    int result = messageBox.open();
+	    switch (result) {
+	    // Overwrite it
+	    case SWT.YES:
+		break;
+	    // Do nothing
+	    case SWT.NO:
+		return false;
+	    }
+	}
+
+	// Runnable to show the progress
 	IRunnableWithProgress op = new IRunnableWithProgress() {
 	    public void run(IProgressMonitor monitor)
 		    throws InvocationTargetException {
 		try {
-		    doFinish(containerName, fileName, monitor);
+		    // If the file doesn't exist, create the files and folder
+		    if (!resource.exists()) {
+			new ContainerCreator(ResourcesPlugin.getWorkspace(),
+				new Path(containerName))
+				.createContainer(monitor);
+		    }
+		    doFinish(file, monitor);
 		} catch (CoreException e) {
 		    throw new InvocationTargetException(e);
 		} finally {
@@ -70,6 +106,7 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
 		}
 	    }
 	};
+
 	try {
 	    getContainer().run(true, false, op);
 	} catch (InterruptedException e) {
@@ -83,32 +120,30 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
 	return true;
     }
 
-    private void doFinish(String containerName, String fileName,
-	    IProgressMonitor monitor) throws CoreException {
+    private void doFinish(final IFile file, IProgressMonitor monitor)
+	    throws CoreException {
 
 	monitor.beginTask("Creating ais.xml", 2);
-	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-	IResource resource = root.findMember(new Path(containerName));
-	if (!resource.exists()) {
-	    new ContainerCreator(ResourcesPlugin.getWorkspace(), new Path(
-		    containerName)).createContainer(monitor);
-	}
-	 AIS ais = new AIS();
-	IContainer container = (IContainer) resource;
-	final IFile file = container.getFile(new Path(fileName));
+
+	// Write an empty file
 	try {
-//	     InputStream stream = new AISCompiler().compile(ais);
-	    InputStream stream = new ByteArrayInputStream("abc".getBytes());
+	    InputStream stream = new ByteArrayInputStream("".getBytes());
+
+	    // ais.xml exists -> write it
 	    if (file.exists()) {
 		file.setContents(stream, true, true, monitor);
 	    } else {
+		// ais.xml doesn't exist -> create it
 		file.create(stream, true, monitor);
 	    }
 	    stream.close();
 	} catch (IOException e) {
 	}
+	
 	monitor.worked(1);
 	monitor.setTaskName("Opening file for editing...");
+	
+	// Try to open the editor with the file
 	getShell().getDisplay().asyncExec(new Runnable() {
 	    public void run() {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
@@ -121,11 +156,4 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
 	});
 	monitor.worked(1);
     }
-
-    private void throwCoreException(String message) throws CoreException {
-	IStatus status = new Status(IStatus.ERROR,
-		"Editor for App-Information-Sets", IStatus.OK, message, null);
-	throw new CoreException(status);
-    }
-
 }
