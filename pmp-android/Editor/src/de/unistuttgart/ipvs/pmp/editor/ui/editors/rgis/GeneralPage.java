@@ -76,31 +76,17 @@ public class GeneralPage extends FormPage {
 		// Create elements stored inside this section
 		Composite client = toolkit.createComposite(section, SWT.None);
 
-		client.setLayout(new GridLayout(2, false));
+		client.setLayout(new GridLayout(1, true));
 		
 		GridData layoutData = new GridData();
 		layoutData.horizontalAlignment = GridData.FILL;
 		layoutData.grabExcessHorizontalSpace = true;
 		
 		// Prepare table
-		new InformationTable(client, layoutData);
-		/**Table table = toolkit.createTable(client, SWT.VIRTUAL);
-		table.setLayoutData(layoutData);
-		table.setHeaderVisible(true);
+		InformationTable table = new InformationTable(section, toolkit);
+
 		
-		// Set the table's header
-		new TableColumn(table, SWT.None).setText("Locale");
-		new TableColumn(table, SWT.None).setText("Name");
-		new TableColumn(table, SWT.None).setText("Description");
-		
-		// Pack columns
-		for (TableColumn column : table.getColumns()) {
-			column.pack();
-		}
-		*/
-		//
-		
-		section.setClient(client);
+		section.setClient(table.getControl());
 	}
 	
 	/**
