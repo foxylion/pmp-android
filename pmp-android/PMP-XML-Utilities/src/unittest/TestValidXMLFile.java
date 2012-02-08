@@ -25,20 +25,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
 
 public class TestValidXMLFile {
     
     private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
     private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
+    
+    private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
     
     
     /**
@@ -82,6 +88,11 @@ public class TestValidXMLFile {
                 out.write(buf, 0, len);
             out.close();
             is.close();
+            
+            // Test defect AIS
+            AIS defectAIS = appUtil.parse(new URL(aisDefectURL).openStream());
+            List<AISIssue> aisIssues = AISValidator.validateAIS(defectAIS);
+            Printer.printAISIssues(aisIssues);
             
         } catch (IOException e) {
             // TODO Auto-generated catch block
