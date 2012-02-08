@@ -61,8 +61,8 @@ public class Check4Queries extends TimerTask {
                 List<FoundProfilePos> fpp = Model.getInstance().getFindList();
                 if (fpp != null) {
                     for (int i = 0; i < fpp.size(); i++) {
-                        int lat = (int) (fpp.get(i).getLat() * 1E6);
-                        int lng = (int) (fpp.get(i).getLon() * 1E6);
+                        int lat = (int) (37.4221 * 1E6);
+                        int lng = (int) (-122.0841 * 1E6);
                         GeoPoint gpsFound = new GeoPoint(lat, lng);
                         
                         Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), fpp.get(i).getUserid());
