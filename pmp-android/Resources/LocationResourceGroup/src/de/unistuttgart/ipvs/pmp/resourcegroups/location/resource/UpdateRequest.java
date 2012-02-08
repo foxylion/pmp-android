@@ -7,37 +7,45 @@ class UpdateRequest {
 	private long minTime;
 	private float minDistance;
 	private long lastRequest;
-
+	
+	
 	public UpdateRequest(long minTime, float minDistance) {
 		this.minTime = minTime;
 		this.minDistance = minDistance;
 		this.lastRequest = System.currentTimeMillis();
 	}
 	
+	
 	public long getMinTime() {
-		return minTime;
+		return this.minTime;
 	}
-
+	
+	
 	public void setMinTime(long minTime) {
 		this.minTime = minTime;
 	}
-
+	
+	
 	public float getMinDistance() {
-		return minDistance;
+		return this.minDistance;
 	}
-
+	
+	
 	public void setMinDistance(float minDistance) {
 		this.minDistance = minDistance;
 	}
-
+	
+	
 	public long getLastRequest() {
-		return lastRequest;
+		return this.lastRequest;
 	}
+	
 	
 	public boolean isOutdated() {
 		return (System.currentTimeMillis() > (this.lastRequest + MAX_TIME_BETWEEN_REQUEST));
 	}
-
+	
+	
 	public void setLastRequest(long lastRequest) {
 		this.lastRequest = lastRequest;
 	}

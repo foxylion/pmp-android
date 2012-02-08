@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
-import android.content.Context;
 import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
@@ -130,7 +129,6 @@ public class PrivacySettings {
     public static final String EXTERNAL_DOWNLOAD_LIST = "ext_download_l";
     public static final String EXTERNAL_DOWNLOAD_DELETE = "ext_download_d";
     public static final String EXTERNAL_DOWNLOAD_MAKE_DIRS = "ext_download_mkdirs";
-
     
     private ResourceGroup rg;
     
@@ -144,77 +142,75 @@ public class PrivacySettings {
     public PrivacySettings(ResourceGroup rg) {
         this.rg = rg;
     }
-
     
-
     
     /**
-         * Adds all generated privacy settings to a resource-group
-         * 
-         * @param rg
-         *            Resource-group to which the privacy settings should be added
-         */
-        public void registerPrivacySettings() {
-            rg.registerPrivacySetting(GENERIC_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(GENERIC_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(GENERIC_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(GENERIC_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(GENERIC_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_BASE_DIR_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_BASE_DIR_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_BASE_DIR_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_BASE_DIR_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_BASE_DIR_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_MUSIC_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MUSIC_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MUSIC_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MUSIC_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MUSIC_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_PODCASTS_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PODCASTS_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PODCASTS_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PODCASTS_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PODCASTS_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_RINGTONES_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_RINGTONES_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_RINGTONES_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_RINGTONES_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_RINGTONES_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_ALARMS_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_ALARMS_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_ALARMS_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_ALARMS_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_ALARMS_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_PICTURES_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PICTURES_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PICTURES_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PICTURES_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_PICTURES_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_MOVIES_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MOVIES_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MOVIES_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MOVIES_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_MOVIES_MAKE_DIRS, new BooleanPrivacySetting());
-            
-            rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_READ, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_WRITE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_LIST, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_DELETE, new BooleanPrivacySetting());
-            rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_MAKE_DIRS, new BooleanPrivacySetting());
-        }
+     * Adds all generated privacy settings to a resource-group
+     * 
+     * @param rg
+     *            Resource-group to which the privacy settings should be added
+     */
+    public void registerPrivacySettings() {
+        this.rg.registerPrivacySetting(GENERIC_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(GENERIC_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(GENERIC_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(GENERIC_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(GENERIC_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_BASE_DIR_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_BASE_DIR_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_BASE_DIR_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_BASE_DIR_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_BASE_DIR_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_MUSIC_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MUSIC_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MUSIC_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MUSIC_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MUSIC_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_PODCASTS_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PODCASTS_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PODCASTS_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PODCASTS_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PODCASTS_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_RINGTONES_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_RINGTONES_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_RINGTONES_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_RINGTONES_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_RINGTONES_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_ALARMS_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_ALARMS_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_ALARMS_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_ALARMS_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_ALARMS_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_NOTIFICATIONS_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_PICTURES_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PICTURES_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PICTURES_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PICTURES_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_PICTURES_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_MOVIES_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MOVIES_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MOVIES_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MOVIES_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_MOVIES_MAKE_DIRS, new BooleanPrivacySetting());
+        
+        this.rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_READ, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_WRITE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_LIST, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_DELETE, new BooleanPrivacySetting());
+        this.rg.registerPrivacySetting(EXTERNAL_DOWNLOAD_MAKE_DIRS, new BooleanPrivacySetting());
+    }
     
     
     /**

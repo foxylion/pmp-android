@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: DatabaseResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -123,8 +123,8 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     private boolean isCreate() {
         try {
-            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_CREATE))
-                    .permits(this.appID, true);
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_CREATE)).permits(
+                    this.appID, true);
         } catch (PrivacySettingValueException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -135,8 +135,8 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     private boolean isModify() {
         try {
-            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_MODIFY))
-                    .permits(this.appID, true);
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_MODIFY)).permits(
+                    this.appID, true);
         } catch (PrivacySettingValueException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -235,9 +235,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             //            } else {
             //            }
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     
@@ -321,9 +319,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             }
             return result;
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     
@@ -334,9 +330,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             openWritableDB();
             return this.db.delete(table, whereClause, whereArgs);
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     
@@ -347,9 +341,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             openWritableDB();
             return this.db.update(table, getContentValues(values), whereClause, whereArgs);
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     
@@ -357,9 +349,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public String[] getCurrentRow() throws RemoteException {
         if (this.cursor == null || !isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if (this.cursor.isAfterLast() || this.cursor.isBeforeFirst()) {
             return null;
         } else {
@@ -375,9 +365,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public double getAsDouble(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if (this.cursor.getColumnCount() <= column) {
             RemoteException ex = new RemoteException();
             ex.initCause(new IndexOutOfBoundsException());
@@ -391,9 +379,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public int getAsInteger(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if (this.cursor.getColumnCount() <= column) {
             RemoteException ex = new RemoteException();
             ex.initCause(new IndexOutOfBoundsException());
@@ -407,9 +393,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public String[] getRowAndNext() throws RemoteException {
         if (!isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if (this.cursor == null) {
             return null;
         } else if (this.cursor.isAfterLast() || this.cursor.isBeforeFirst()) {
@@ -429,9 +413,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public String[] getRowAt(int position) throws RemoteException {
         if (this.cursor == null || !isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if ((this.cursor.getCount() <= position) || (position < 0)) {
             return null;
         } else {
@@ -458,9 +440,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public String getAsString(int column) throws RemoteException {
         if (this.cursor == null || !isRead()) {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         } else if (this.cursor.getColumnCount() <= column) {
             RemoteException ex = new RemoteException();
             ex.initCause(new IndexOutOfBoundsException());
@@ -509,9 +489,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                 return this.cursor.getCount();
             }
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     
@@ -525,7 +503,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             try {
                 this.cursor = this.db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
             } catch (SQLiteException e) {
-                Log.v(this, "Caught SQLiteExcetion: ", e);
+                Log.v(this, "Caught SQLiteException: ", e);
             }
             if (this.cursor == null) {
                 return -1;
@@ -534,9 +512,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
                 return this.cursor.getCount();
             }
         } else {
-            RemoteException ex = new RemoteException();
-            ex.initCause(new UnauthorizedActionException(this.exceptionMessage));
-            throw ex;
+            throw new SecurityException();
         }
     }
     

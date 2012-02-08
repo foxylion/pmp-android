@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: EmailResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,23 +25,25 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 public class Email extends ResourceGroup {
-
+    
     public static final String PRIVACY_SETTING_SEND_EMAIL = "canSendEmail";
     public static final String RESOURCE_EMAIL_OPERATIONS = "emailOperations";
-
+    
+    
     public Email(IPMPConnectionInterface pmpci) {
-	super("de.unistuttgart.ipvs.pmp.resourcegroups.email", pmpci);
-
-	registerResource(RESOURCE_EMAIL_OPERATIONS, new EmailResource());
-	registerPrivacySetting(PRIVACY_SETTING_SEND_EMAIL,
-		new BooleanPrivacySetting());
+        super("de.unistuttgart.ipvs.pmp.resourcegroups.email", pmpci);
+        
+        registerResource(RESOURCE_EMAIL_OPERATIONS, new EmailResource());
+        registerPrivacySetting(PRIVACY_SETTING_SEND_EMAIL, new BooleanPrivacySetting());
     }
-
+    
+    
     public void onRegistrationSuccess() {
-	Log.d(this, "Registration success.");
+        Log.d(this, "Registration success.");
     }
-
+    
+    
     public void onRegistrationFailed(String message) {
-	Log.e(this, "Registration failed with \"" + message + "\"");
+        Log.e(this, "Registration failed with \"" + message + "\"");
     }
 }

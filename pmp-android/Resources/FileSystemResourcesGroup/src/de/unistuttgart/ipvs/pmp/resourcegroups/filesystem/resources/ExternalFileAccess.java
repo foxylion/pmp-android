@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: FileSystemResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -92,7 +92,8 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            set to <code>example/testFile.txt</code>, then <code>Music/example/testFile.txt</code> will be read).
      * @return Data of the selected file.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character
+     *             for
      *             switching into a upper directory (typically <code>../</code>).
      * @throws RemoteException
      *             Thrown, if file is not readable (e.g. does not exist).
@@ -101,20 +102,20 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     public String read(String path) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(Functions.READ)) {
-            throw new IllegalAccessError("External file reading not allowed");
+            throw new SecurityException();
         }
         
         try {
             return Utils.readFileToString(getExternalDirectory(path));
         } catch (FileNotFoundException e) {
             Log.d(this, "Cannot open file: " + path, e);
-            throw new RemoteException();
+            throw new IllegalArgumentException();
         } catch (IOException e) {
             Log.d(this, "Cannot read file", e);
-            throw new RemoteException();
+            throw new IllegalArgumentException();
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
-            throw new IllegalAccessError(SWITCHING_EXCEPTION);
+            throw new SecurityException();
         }
         
     }
@@ -134,14 +135,15 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            True, if data should be appended to the existing file data. Otherwise it's data will be overwritten.
      * @return True, if data was successfully written.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character
+     *             for
      *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean write(String path, String data, boolean append) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(Functions.WRITE)) {
-            throw new IllegalAccessError("External file reading not allowed");
+            throw new SecurityException();
         }
         
         try {
@@ -152,7 +154,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
             return false;
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
-            throw new IllegalAccessError(SWITCHING_EXCEPTION);
+            throw new SecurityException();
         }
     }
     
@@ -167,20 +169,21 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            <code>Music/example/testDir</code> will be deleted).
      * @return True, if file or directory was deleted successfully.
      * @throws IllegalAccessError
-     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character for
+     *             Thrown, if app's privacy setting is not set or the <code>path</code> parameters contains character
+     *             for
      *             switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean delete(String path) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(Functions.DELETE)) {
-            throw new IllegalAccessError("External file reading not allowed");
+            throw new SecurityException();
         }
         try {
             return getExternalDirectory(path).delete();
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
-            throw new IllegalAccessError(SWITCHING_EXCEPTION);
+            throw new SecurityException();
         }
     }
     
@@ -194,21 +197,22 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            in <code>Music/example/testDir</code> will be generated).
      * @return List of detailed file information data or null, if path points to a non existing directory or a file.
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains
+     *             character
      *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public List<FileDetails> list(String directory) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(Functions.LIST)) {
-            throw new IllegalAccessError("External file reading not allowed");
+            throw new SecurityException();
         }
         
         try {
             return Utils.getFileDetailsList(getExternalDirectory(directory));
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
-            throw new IllegalAccessError(SWITCHING_EXCEPTION);
+            throw new SecurityException();
         }
     }
     
@@ -223,21 +227,23 @@ public class ExternalFileAccess extends IFileAccess.Stub {
      *            will be created).
      * @return True, if directories where created successfully.
      * @throws IllegalAccessError
-     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains character
+     *             Thrown, if the app's privacy setting is not set or the <code>path</code> parameters contains
+     *             character
      *             for switching into a upper directory (typically <code>../</code>).
      */
     @Override
     public boolean makeDirs(String path) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(Functions.MAKE_DIRS)) {
-            throw new IllegalAccessError("External file reading not allowed");
+            throw new SecurityException();
         }
         
         try {
             return getExternalDirectory(path).mkdirs();
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
-            throw new IllegalAccessError(SWITCHING_EXCEPTION);
+            throw new SecurityException();
+            
         }
     }
     
@@ -255,7 +261,8 @@ public class ExternalFileAccess extends IFileAccess.Stub {
     private File getExternalDirectory(String subpath) throws IllegalArgumentException {
         // Prevent switching into an upper directory using "../"
         if (subpath.contains("..")) {
-            throw new IllegalArgumentException(SWITCHING_EXCEPTION);
+            throw new SecurityException();
+            
         }
         
         File root = Environment.getExternalStorageDirectory();
