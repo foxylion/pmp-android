@@ -76,6 +76,9 @@ public class Check4Offers extends TimerTask {
                                 MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             }
                             
+                            MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+                            mapView.invalidate();
+                            mapView.postInvalidate();
                             Model.getInstance().addToFoundUsers(new FoundProfilePos(loo.get(i).getUser_id(), lat, lng));
                         }
                     }
