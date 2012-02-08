@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
@@ -57,6 +58,37 @@ public class Check4Queries extends TimerTask {
                 GeoPoint gps = new GeoPoint(lati, lngi);
                 MapModel.getInstance().add2DriverOverlay(context, gps, me, mapView, 0, 0);
                 
+                List<FoundProfilePos> fpp = Model.getInstance().getFindList();
+                for (int i = 0; i < fpp.size(); i++) {
+                    int lat = (int) (fpp.get(i).getLat() * 1E6);
+                    int lng = (int) (fpp.get(i).getLon() * 1E6);
+                    GeoPoint gpsFound = new GeoPoint(lat, lng);
+                    
+                    Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), fpp.get(i).getUserid());
+                    if (!Model.getInstance().isInBannList(fpp.get(i).getUserid())) {
+                        // add an passenger to overlay
+                        MapModel.getInstance().add2DriverOverlay(context, gpsFound, passenger, mapView, 1,
+                                fpp.get(i).getUserid());
+                        
+                        // add up ID for statusbar notification
+                        
+                        // add passenger to slider list
+                        MapModel.getInstance().getHitchPassengers().add(passenger);
+                        
+                        if (!Model.getInstance().isFinded(fpp.get(i).getUserid())) {
+                            // notify user
+                            MapModel.getInstance().fireNotification(context, passenger, fpp.get(i).getUserid(), 0,
+                                    mapView);
+                        }
+                        
+                        // notify list
+                        MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+                        mapView.invalidate();
+                        mapView.postInvalidate();
+                        Log.i(this, "Found passenger");
+                    }
+                }
+                
                 /**
                  * search for passenger within perimeter (10 km for testing
                  * purposes)
@@ -85,16 +117,16 @@ public class Check4Queries extends TimerTask {
                             if (!Model.getInstance().isFinded(lqo.get(i).getUserid())) {
                                 // notify user
                                 MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
-                                        0, mapView);
+                                        mapView);
+                                // notify list
+                                MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             }
                             
-                            // notify list
-                            MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             mapView.invalidate();
                             mapView.postInvalidate();
                             
-                            Model.getInstance().addToFoundUsers(lqo.get(i).getUserid());
                             Log.i(this, "Found passenger");
+                            Model.getInstance().addToFoundUsers(new FoundProfilePos(lqo.get(i).getUserid(), lat, lng));
                         }
                         
                     }

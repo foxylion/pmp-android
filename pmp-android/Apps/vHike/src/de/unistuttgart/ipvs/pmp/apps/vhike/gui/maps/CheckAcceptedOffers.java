@@ -12,6 +12,7 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 
@@ -65,6 +66,9 @@ public class CheckAcceptedOffers extends TimerTask {
                         // set button/invitation as checked
                         if (lpo.get(i).getUser_id() == userID) {
                             acceptButton.setBackgroundResource(R.drawable.bg_check);
+                            
+//                            Model.getInstance().addToFoundUsers(new FoundProfilePos(userID, lat, lng));
+                            
                             acceptButton.setOnClickListener(new View.OnClickListener() {
                                 
                                 @Override
@@ -73,20 +77,18 @@ public class CheckAcceptedOffers extends TimerTask {
                                     name.setTextColor(Color.BLUE);
                                     acceptButton.setBackgroundResource(R.drawable.bg_disabled);
                                     acceptButton.setEnabled(false);
-                                    // stop checking
-                                    cancel();
                                     
+                                    // add to list which contains all picked up users
+                                    Model.getInstance().addToPickedUser(userID);
                                 }
                             });
-                            
-                            Log.i(this, "OFFER ACCEPTED");
                             
                             // count down available seats
                             ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
                                     .getInstance().getNumSeats() - 1);
                             
-                            // in Bannliste
-                            Model.getInstance().addToPickedUser(userID);
+                            // stop checking
+                            cancel();
                         }
                     }
                 }

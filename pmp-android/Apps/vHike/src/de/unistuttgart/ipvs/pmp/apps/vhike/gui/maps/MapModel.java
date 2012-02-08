@@ -54,6 +54,7 @@ public class MapModel {
         return instance;
     }
     
+    
     /**
      * Holds all overlays of the the drivers Mapview
      * 
@@ -245,8 +246,7 @@ public class MapModel {
      * @param context
      * @param profile
      */
-    public void fireNotification(Context context, Profile profile, int profileID, int which1, int notiID,
-            MapView mapView) {
+    public void fireNotification(Context context, Profile profile, int profileID, int which1, MapView mapView) {
         
         // get reference to notificationManager
         String ns = Context.NOTIFICATION_SERVICE;
@@ -260,14 +260,13 @@ public class MapModel {
         // instantiate the notification
         if (which1 == 0) {
             icon = R.drawable.passenger_logo;
-            contentTitle = profile.getUsername() + " wants a ride!";
-            contentText = "Touch to open profile";
-            tickerText = "Found passenger!";
+            contentTitle = "vHike found a hitchhiker";
+            contentText = "A Hitchhiker was found";
+            tickerText = "vHike found a hitchhiker!";
         } else {
-            icon = R.drawable.icon_ride;
-            contentTitle = profile.getUsername() + " says: Hop on in!";
-            contentText = "Touch to open profile";
-            tickerText = "Found driver!";
+            contentTitle = "vHike found a hitchhiker";
+            contentText = "A Hitchhiker was found";
+            tickerText = "vHike found a hitchhiker!";
         }
         
         long when = System.currentTimeMillis();
@@ -276,17 +275,13 @@ public class MapModel {
         notification.defaults |= Notification.DEFAULT_SOUND;
         
         // define the notification's message and PendingContent
-        Intent notificationIntent = new Intent(context, ProfileActivity.class);
-        notificationIntent.putExtra("MY_PROFILE", 1);
-        notificationIntent.putExtra("PASSENGER_ID", profileID);
-        
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, null, 0);
         
         notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         
         // pass notification to notificationManager
-        mNotificationManager.notify(notiID, notification);
+        mNotificationManager.notify(0, notification);
         
         if (which1 == 0) {
             // getHitchPassengers().clear();
@@ -315,7 +310,8 @@ public class MapModel {
      * @param passenger
      * @param mapView
      */
-    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1, int userID) {
+    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1,
+            int userID) {
         Drawable drawable;
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
@@ -348,7 +344,8 @@ public class MapModel {
      * @param driver
      * @param mapView
      */
-    public void add2PassengerOverlay(Context context, GeoPoint gps, Profile profile, MapView mapView, int which1, int userID) {
+    public void add2PassengerOverlay(Context context, GeoPoint gps, Profile profile, MapView mapView, int which1,
+            int userID) {
         Drawable drawable;
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
