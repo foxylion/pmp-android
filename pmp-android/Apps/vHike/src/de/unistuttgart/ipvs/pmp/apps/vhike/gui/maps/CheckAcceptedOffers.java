@@ -88,6 +88,7 @@ public class CheckAcceptedOffers extends TimerTask {
                             cancel();
                             
                             // in Bannliste
+                            Model.getInstance().addToPickedUser(userID);
                         }
                     }
                 }

@@ -121,6 +121,9 @@ public class NotificationAdapter extends BaseAdapter {
             
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
             accept_invite.invalidate();
+        } else if (Model.getInstance().isPicked(userID)) {
+            accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+            accept_invite.setEnabled(false);
         }
         
         dismiss.setOnClickListener(new OnClickListener() {
