@@ -16,9 +16,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
@@ -43,9 +45,10 @@ public class AndroidManifestAdapter {
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
+     * @throws AppIdentifierNotFoundException 
      */
     public String getAppIdentifier(String xmlPath, String xmlFile)
-	    throws ParserConfigurationException, SAXException, IOException {
+	    throws ParserConfigurationException, SAXException, IOException, AppIdentifierNotFoundException {
 	
 	return new AndroidManifestParser().getAppIdentifier(getInputStream(
 		xmlPath, xmlFile));
@@ -70,11 +73,12 @@ public class AndroidManifestAdapter {
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
      * @throws NoMainActivityException 
+     * @throws AppIdentifierNotFoundException 
      */
     public void addPMPActivityToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPActivityAlreadyExistsException, NoMainActivityException {
+	    TransformerException, PMPActivityAlreadyExistsException, NoMainActivityException, AppIdentifierNotFoundException {
 
 	new AndroidManifestParser().addPMPActivity(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
@@ -95,11 +99,13 @@ public class AndroidManifestAdapter {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPServiceAlreadyExists
+     * @throws AppIdentifierNotFoundException 
+     * @throws DOMException 
      */
     public void addPMPServiceToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, AndroidApplicationException,
-	    TransformerFactoryConfigurationError, TransformerException, PMPServiceAlreadyExists {
+	    TransformerFactoryConfigurationError, TransformerException, PMPServiceAlreadyExists, DOMException, AppIdentifierNotFoundException {
 
 	new AndroidManifestParser().addPMPServiceToManifest(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));

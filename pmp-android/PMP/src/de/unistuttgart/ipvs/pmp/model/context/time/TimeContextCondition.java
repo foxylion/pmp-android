@@ -57,20 +57,14 @@ public class TimeContextCondition {
     }
     
     /**
-     * Whether the time is fixed at a point, i.e. 08:00 always at this time zone,
+     * Whether the time is fixed at a point, i.e. e.g. 08:00 always at this time zone,
      * then the time is converted to UTC and the information is in UTC.
-     * In this case begin and end could wrap at 00:00:00.
      * If this is false the time is always relative to the local time zone of the user.
      */
     private boolean isUTC;
     
     /**
-     * If and only if begin is later than end, i.e. it starts on one UTC day and then goes on to the next one
-     */
-    private boolean timeWraps;
-    
-    /**
-     * Begin and end during a 24-hrs period. May wrap, if isUTC.
+     * Begin and end during a 24-hrs period. May wrap.
      */
     private TimeContextConditionTime begin, end;
     
@@ -90,7 +84,6 @@ public class TimeContextCondition {
         this.isUTC = isUTC;
         this.begin = begin;
         this.end = end;
-        this.timeWraps = begin.compareTo(end) > 0;
         this.interval = interval;
         this.days = days;
     }
@@ -148,24 +141,20 @@ public class TimeContextCondition {
         int min = cal.get(Calendar.MINUTE);
         int sec = cal.get(Calendar.SECOND);
         
+        boolean timeWraps = this.begin.compareTo(this.end) > 0;
         boolean dateBetweenBeginAndEnd = (this.begin.getHour() <= hour) && (hour <= this.end.getHour())
                 && (this.begin.getMinute() <= min) && (min <= this.end.getMinute()) && (this.begin.getSecond() <= sec)
                 && (sec <= this.end.getSecond());
         
         // either it's NOT wrapping AND     begin <= date <= end
         //     or it's     wrapping AND NOT begin <= date <= end
-        return this.timeWraps ^ dateBetweenBeginAndEnd;
+        return timeWraps ^ dateBetweenBeginAndEnd;
     }
     
     
     /*
      * Getters / Setters for view
      */
-    
-    public boolean isTimeWrapping() {
-        return this.timeWraps;
-    }
-    
     
     protected boolean isUTC() {
         return this.isUTC;
@@ -203,8 +192,6 @@ public class TimeContextCondition {
     
     
     public boolean representsWholeDay() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.begin.getDifferenceInSeconds(this.end, true) >= TimeContextConditionTime.SECONDS_PER_DAY - 1;
     }
-    
 }

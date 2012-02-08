@@ -34,7 +34,7 @@ public class Description extends AbstractLocale {
     /**
      * Description
      */
-    private String description;
+    private String description = "";
     
     
     /**

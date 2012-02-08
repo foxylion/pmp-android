@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
 import java.util.List;
+import java.util.Timer;
 
 import com.google.android.maps.MapView;
 
@@ -9,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.CheckAcceptedOffers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -51,6 +53,9 @@ public class NotificationAdapter extends BaseAdapter {
     private int userID;
     private int driverID;
     private MapView mapView;
+    
+    private CheckAcceptedOffers cao;
+    private Timer timer;
     
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
@@ -96,7 +101,7 @@ public class NotificationAdapter extends BaseAdapter {
         
         Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
         RatingBar noti_rb = (RatingBar) entryView.findViewById(R.id.notification_ratingbar);
-        TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+        final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
         final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
@@ -106,6 +111,11 @@ public class NotificationAdapter extends BaseAdapter {
             
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
+            
+            if (Model.getInstance().isPicked(userID)) {
+                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                accept_invite.setEnabled(false);
+            }
             
         } else {
             List<OfferObject> loo = Model.getInstance().getOfferHolder();
@@ -186,8 +196,10 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                queryID = lqo.get(position).getQueryid();
-                userID = lqo.get(position).getUserid();
+                if (mWhichHitcher == 0) {
+                    queryID = lqo.get(position).getQueryid();
+                    userID = lqo.get(position).getUserid();
+                }
                 
                 if (mWhichHitcher == 0) {
                     switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
@@ -196,12 +208,12 @@ public class NotificationAdapter extends BaseAdapter {
                             
                             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                             Model.getInstance().addToInvitedUser(userID);
-
+                            
                             // check for offer updates for this button
-                            MapModel.getInstance()
-                                    .checkAcceptedOffersTimer()
-                                    .schedule(MapModel.getInstance().checkAcceptedOffersIntervall(accept_invite, userID), 300,
-                                            10000);
+                            cao = new CheckAcceptedOffers(accept_invite, name, userID);
+                            cao.run();
+                            timer = new Timer();
+                            timer.schedule(cao, 300, 10000);
                             
                             break;
                         case Constants.STATUS_INVALID_TRIP:
@@ -211,7 +223,7 @@ public class NotificationAdapter extends BaseAdapter {
                             Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
                             break;
                         case Constants.STATUS_ALREADY_SENT:
-                            Log.i(this, "P: " + position + ", " + queryID);
+                            
                             Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
                             break;
                     }

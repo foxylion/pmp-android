@@ -34,13 +34,7 @@ public class ServerProvider implements IServerProvider {
 
 	private List<RGIS> rgisList = null;
 
-	/**
-	 * Returns a list of all available resource-groups.
-	 * If this list hasn't been fetched from the server before, a connection to the server will
-	 * be established to gather all available resource-groups (see {@link updateResourceGroupList()}
-	 * @return
-	 * @throws IOException
-	 */
+	@Override
 	public List<RGIS> getAvailableRessourceGroups() throws IOException {
 		// If this is the first access to the list, gather RGIS from server
 		if (rgisList == null) {
@@ -50,12 +44,7 @@ public class ServerProvider implements IServerProvider {
 		return rgisList;
 	}
 
-	/**
-	 * Contacts the server to to gather all currently available resource-groups
-	 * and update the RGIS-List.
-	 * 
-	 * @throws IOException Thrown, if server is not reachable or returns invalid values
-	 */
+	@Override
 	public void updateResourceGroupList() throws IOException {
 		Socket server = null;
 		ObjectOutputStream out = null;

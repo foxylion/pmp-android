@@ -63,6 +63,9 @@ public class TestValidXMLFile {
             // Test PresetSet
             PresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
             presetUtil.print(presetSet);
+            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
+            presetUtil.print(presetSet);
+            
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

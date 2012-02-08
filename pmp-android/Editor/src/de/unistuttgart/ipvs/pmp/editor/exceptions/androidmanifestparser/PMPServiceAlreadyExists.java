@@ -18,10 +18,10 @@ public class PMPServiceAlreadyExists extends Exception {
     private static final long serialVersionUID = -8944727079675898809L;
 
     /**
-     * Message to display
+     * Constructor to send a message
      * 
      * @param msg
-     *            message
+     *            message to display
      */
     public PMPServiceAlreadyExists(String msg) {
 	super(msg);

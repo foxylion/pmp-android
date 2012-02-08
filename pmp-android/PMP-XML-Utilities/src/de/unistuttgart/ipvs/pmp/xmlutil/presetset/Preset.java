@@ -19,22 +19,22 @@ public class Preset implements Serializable {
     /**
      * The identifier
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * The creator
      */
-    private String creator;
+    private String creator = "";
     
     /**
      * The name
      */
-    private String name;
+    private String name = "";
     
     /**
      * The description
      */
-    private String description;
+    private String description = "";
     
     /**
      * The assigned apps

@@ -134,34 +134,34 @@ public class Controller {
     }
     
     
-    /**
-     * Updates the position of the driver <br>
-     * Use {@link userUpdatePos} instead
-     * 
-     * @param sid
-     * @param trip_id
-     * @param current_lat
-     * @param current_lon
-     * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
-     *         STATUS_INVALID_USER see {@link Constants} and design.html
-     */
-    @Deprecated
-    public int tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) {
-        String status = JSonRequestReader.tripUpdatePos(sid, trip_id, current_lat, current_lon);
-        Log.i(this, current_lat + " " + current_lon);
-        if (status.equals("updated")) {
-            return Constants.STATUS_UPDATED;
-        } else if (status.equals("already_uptodate")) {
-            return Constants.STATUS_UPTODATE;
-        } else if (status.equals("no_trip")) {
-            return Constants.STATUS_NOTRIP;
-        } else if (status.equals("has_ended")) {
-            return Constants.STATUS_HASENDED;
-        } else if (status.equals("invalid_user")) {
-            return Constants.STATUS_INVALID_USER;
-        }
-        return 0;
-    }
+//    /**
+//     * Updates the position of the driver <br>
+//     * Use {@link userUpdatePos} instead
+//     * 
+//     * @param sid
+//     * @param trip_id
+//     * @param current_lat
+//     * @param current_lon
+//     * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_NOTRIP, STATUS_HASENDED
+//     *         STATUS_INVALID_USER see {@link Constants} and design.html
+//     */
+//    @Deprecated
+//    public int tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) {
+//        String status = JSonRequestReader.tripUpdatePos(sid, trip_id, current_lat, current_lon);
+//        Log.i(this, current_lat + " " + current_lon);
+//        if (status.equals("updated")) {
+//            return Constants.STATUS_UPDATED;
+//        } else if (status.equals("already_uptodate")) {
+//            return Constants.STATUS_UPTODATE;
+//        } else if (status.equals("no_trip")) {
+//            return Constants.STATUS_NOTRIP;
+//        } else if (status.equals("has_ended")) {
+//            return Constants.STATUS_HASENDED;
+//        } else if (status.equals("invalid_user")) {
+//            return Constants.STATUS_INVALID_USER;
+//        }
+//        return 0;
+//    }
     
     
     /**
@@ -393,7 +393,12 @@ public class Controller {
         
         return bool;
     }
-    
+    /**
+     * Get a List with Passengers and their status to pick up.
+     * @param sid Session id
+     * @param trip_id Trip id
+     * @return List of {@link PassengerObject}
+     */
     public List<PassengerObject> offer_accepted(String sid, int trip_id) {
         List<PassengerObject> bool = JSonRequestReader.offer_accepted(sid, trip_id);
         return bool;
