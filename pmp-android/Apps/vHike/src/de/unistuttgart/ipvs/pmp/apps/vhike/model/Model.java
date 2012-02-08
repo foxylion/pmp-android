@@ -16,6 +16,41 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class Model {
     
+    
+    /**
+     * Current positions
+     */
+    private double current_lat = 0;
+    private double current_lon = 0;
+    /**
+     * sets the curren latitude
+     * @param lat
+     */
+    public void setLatitude(double lat){
+        current_lat = lat;
+    }
+    /**
+     * sets the curren longtitude
+     * @param lat
+     */
+    public void setLongtitude(double lon){
+        current_lon = lon;
+    }
+    /**
+     * 
+     * @return latitude
+     */
+    public double getLatitude() {
+        return current_lat;
+    }
+    /**
+     * 
+     * @return longtitude
+     */
+    public double getLongtitude() {
+        return current_lon;
+    }
+
     /**
      * picked up users
      */

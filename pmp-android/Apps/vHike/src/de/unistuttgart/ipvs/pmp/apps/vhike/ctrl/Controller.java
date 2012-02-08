@@ -389,8 +389,17 @@ public class Controller {
      * @return true if succeeded, false otherwise
      */
     public boolean pick_up(String sid, int user_id) {
-        Boolean bool = JSonRequestReader.pick_up(sid, user_id);
+        boolean bool = JSonRequestReader.pick_up(sid, user_id);
         
+        return bool;
+    }
+    /**
+     * Checks if the user where picked up
+     * @param sid
+     * @return true if picked up, false otherwise
+     */
+    public boolean isPicked(String sid){
+        boolean bool = JSonRequestReader.isPicked(sid);
         return bool;
     }
     /**
