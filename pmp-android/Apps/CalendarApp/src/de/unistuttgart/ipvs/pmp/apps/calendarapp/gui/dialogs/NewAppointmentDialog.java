@@ -97,20 +97,20 @@ public class NewAppointmentDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+        requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.add_todo_dialog);
-        this.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_add);
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_add);
         
         this.dPicker = (DatePicker) findViewById(R.id.datePicker);
         this.desc = (TextView) findViewById(R.id.description);
         this.confirm = (Button) findViewById(R.id.ConfirmButton);
         this.name = (TextView) findViewById(R.id.name);
         
-        high = (RadioButton) findViewById(R.id.severity_high);
-        middle = (RadioButton) findViewById(R.id.severity_middle);
-        low = (RadioButton) findViewById(R.id.severity_low);
+        this.high = (RadioButton) findViewById(R.id.severity_high);
+        this.middle = (RadioButton) findViewById(R.id.severity_middle);
+        this.low = (RadioButton) findViewById(R.id.severity_low);
         
         this.confirm.setOnClickListener(new ConfirmListener());
         
@@ -143,21 +143,20 @@ public class NewAppointmentDialog extends Dialog {
             Calendar cal = new GregorianCalendar(year, month, day);
             
             Severity severity = null;
-            if (high.isChecked()) {
+            if (NewAppointmentDialog.this.high.isChecked()) {
                 severity = Severity.HIGH;
             }
             
-            if (middle.isChecked()) {
+            if (NewAppointmentDialog.this.middle.isChecked()) {
                 severity = Severity.MIDDLE;
             }
             
-            if (low.isChecked()) {
+            if (NewAppointmentDialog.this.low.isChecked()) {
                 severity = Severity.LOW;
             }
             
             // Stores the date
-            new SqlConnector().storeNewAppointment(cal.getTime(),
-                    NewAppointmentDialog.this.name.getText().toString(),
+            new SqlConnector().storeNewAppointment(cal.getTime(), NewAppointmentDialog.this.name.getText().toString(),
                     NewAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();
         }

@@ -47,12 +47,12 @@ public class SqlConnector {
     /**
      * Identifier of the needed resource group
      */
-    private final String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
+    private final static String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
     
     /**
      * Resource identifier
      */
-    private String resIdentifier = "DatabaseRG";
+    private static String resIdentifier = "DatabaseRG";
     
     /**
      * {@link Context} of the {@link CalendarAppActivity}
@@ -67,12 +67,12 @@ public class SqlConnector {
     /*
      * Constants for the database table
      */
-    private final String DB_TABLE_NAME = "Appointments";
-    private final String ID = "ID";
-    private final String NAME = "Name";
-    private final String DESC = "Description";
-    private final String DATE = "Date";
-    private final String SEVERITY = "Severity";
+    private static final String DB_TABLE_NAME = "Appointments";
+    private static final String ID = "ID";
+    private static final String NAME = "Name";
+    private static final String DESC = "Description";
+    private static final String DATE = "Date";
+    private static final String SEVERITY = "Severity";
     
     
     /**
@@ -81,7 +81,7 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -92,12 +92,11 @@ public class SqlConnector {
                         // Getting the number of the rows
                         long rowCount;
                         try {
-                            rowCount = idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
-                                    SqlConnector.this.DATE);
+                            rowCount = idc.query(SqlConnector.DB_TABLE_NAME, null, null, null, null, null,
+                                    SqlConnector.DATE);
                             // Getting the rows 
                             for (int itr = 0; itr < rowCount; itr++) {
-                                String[] columns = {};
-                                columns = idc.getRowAt(itr);
+                                String[] columns = idc.getRowAt(itr);
                                 
                                 // Storing everything from this appointment
                                 int id = Integer.valueOf(columns[0]);
@@ -108,9 +107,10 @@ public class SqlConnector {
                                 
                                 // Storing in the model
                                 Model.getInstance().addAppointment(new Appointment(id, name, desc, date, severity));
-                                Log.v(this, "Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
-                                        + " name: " + name + " description: " + columns[1] + " severity "
-                                        + severity.toString());
+                                Log.v(this,
+                                        "Loading appointment: ID: " + String.valueOf(id) + " date: " + columns[2]
+                                                + " name: " + name + " description: " + columns[1] + " severity "
+                                                + severity.toString());
                                 
                                 if (id > Model.getInstance().getHighestId()) {
                                     Model.getInstance().setHighestId(id);
@@ -118,7 +118,7 @@ public class SqlConnector {
                             }
                             Model.getInstance().scrollToActualDate();
                         } catch (RemoteException e) {
-                            showToast(appContext.getString(R.string.err_load));
+                            showToast(SqlConnector.this.appContext.getString(R.string.err_load));
                             Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
@@ -154,7 +154,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -168,28 +168,27 @@ public class SqlConnector {
                             Map<String, String> values = new HashMap<String, String>();
                             int id = Model.getInstance().getNewHighestId();
                             
-                            values.put(ID, String.valueOf(id));
-                            values.put(SqlConnector.this.NAME, name);
-                            values.put(SqlConnector.this.DESC, description);
-                            values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
-                            values.put(SqlConnector.this.SEVERITY, severity.toString());
+                            values.put(SqlConnector.ID, String.valueOf(id));
+                            values.put(SqlConnector.NAME, name);
+                            values.put(SqlConnector.DESC, description);
+                            values.put(SqlConnector.DATE, String.valueOf(date.getTime()));
+                            values.put(SqlConnector.SEVERITY, severity.toString());
                             
-                            long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                            long result = idc.insert(SqlConnector.DB_TABLE_NAME, null, values);
                             Log.v(this, "Return value of insert: " + result);
                             if (result != -1) {
-                                idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
-                                        SqlConnector.this.DATE);
+                                idc.query(SqlConnector.DB_TABLE_NAME, null, null, null, null, null, SqlConnector.DATE);
                                 
                                 Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                         + " description: " + description);
                                 Model.getInstance().addAppointment(
                                         new Appointment(id, name, description, date, severity));
                             } else {
-                                showToast(appContext.getString(R.string.err_store));
+                                showToast(SqlConnector.this.appContext.getString(R.string.err_store));
                                 Log.e(this, "Appointment not stored");
                             }
                         } catch (RemoteException e) {
-                            showToast(appContext.getString(R.string.err_store));
+                            showToast(SqlConnector.this.appContext.getString(R.string.err_store));
                             Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
@@ -225,7 +224,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -239,23 +238,23 @@ public class SqlConnector {
                             
                             int id = Model.getInstance().getNewHighestId();
                             
-                            values.put(ID, String.valueOf(id));
-                            values.put(SqlConnector.this.NAME, name);
-                            values.put(SqlConnector.this.DESC, description);
-                            values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
-                            values.put(SqlConnector.this.SEVERITY, severity.toString());
+                            values.put(SqlConnector.ID, String.valueOf(id));
+                            values.put(SqlConnector.NAME, name);
+                            values.put(SqlConnector.DESC, description);
+                            values.put(SqlConnector.DATE, String.valueOf(date.getTime()));
+                            values.put(SqlConnector.SEVERITY, severity.toString());
                             
-                            long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                            long result = idc.insert(SqlConnector.DB_TABLE_NAME, null, values);
                             Log.v(this, "Return value of insert: " + result);
                             if (result != -1) {
                                 Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                         + " description: " + description);
                             } else {
-                                showToast(appContext.getString(R.string.err_store));
+                                showToast(SqlConnector.this.appContext.getString(R.string.err_store));
                                 Log.e(this, "Appointment not stored");
                             }
                         } catch (RemoteException e) {
-                            showToast(appContext.getString(R.string.err_store));
+                            showToast(SqlConnector.this.appContext.getString(R.string.err_store));
                             Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
@@ -279,7 +278,7 @@ public class SqlConnector {
      *            id of the appointment to delete
      */
     public void deleteAppointment(final Appointment appointment) {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -297,14 +296,14 @@ public class SqlConnector {
                             /*
                              * Delete the date out of the database
                              */
-                            if (idc.delete(SqlConnector.this.DB_TABLE_NAME, SqlConnector.this.ID + " = ?", args) == 1) {
+                            if (idc.delete(SqlConnector.DB_TABLE_NAME, SqlConnector.ID + " = ?", args) == 1) {
                                 Log.v(this, "Deleting date: id: " + String.valueOf(appointment.getId()));
                                 Model.getInstance().deleteAppointment(appointment);
                             } else {
-                                showToast(appContext.getString(R.string.err_del));
+                                showToast(SqlConnector.this.appContext.getString(R.string.err_del));
                             }
                         } catch (RemoteException e) {
-                            showToast(appContext.getString(R.string.err_del));
+                            showToast(SqlConnector.this.appContext.getString(R.string.err_del));
                             Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
@@ -321,7 +320,7 @@ public class SqlConnector {
     
     
     public void deleteAllApointments() {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -329,15 +328,15 @@ public class SqlConnector {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
                     try {
-                        if (idc.isTableExisted(DB_TABLE_NAME)) {
-                            if (idc.deleteTable(DB_TABLE_NAME)) {
+                        if (idc.isTableExisted(SqlConnector.DB_TABLE_NAME)) {
+                            if (idc.deleteTable(SqlConnector.DB_TABLE_NAME)) {
                                 Log.d(this, "Table deleted");
                             } else {
                                 Log.e(this, "Could not delete table");
                             }
                         }
                     } catch (RemoteException e) {
-                        showToast(appContext.getString(R.string.err_del));
+                        showToast(SqlConnector.this.appContext.getString(R.string.err_del));
                         Log.e(this, "RemoteException", e);
                     } finally {
                         try {
@@ -370,7 +369,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -381,25 +380,27 @@ public class SqlConnector {
                         try {
                             Map<String, String> values = new HashMap<String, String>();
                             
-                            values.put(SqlConnector.this.NAME, name);
-                            values.put(SqlConnector.this.DESC, description);
-                            values.put(SqlConnector.this.DATE, String.valueOf(date.getTime()));
-                            values.put(SqlConnector.this.SEVERITY, severity.toString());
+                            values.put(SqlConnector.NAME, name);
+                            values.put(SqlConnector.DESC, description);
+                            values.put(SqlConnector.DATE, String.valueOf(date.getTime()));
+                            values.put(SqlConnector.SEVERITY, severity.toString());
                             
                             /*
                              * Change the date in the database and only if one row
                              * was changed change, then change it in the model
                              */
-                            if (idc.update(SqlConnector.this.DB_TABLE_NAME, values, SqlConnector.this.ID + " = "
-                                    + String.valueOf(id), null) == 1) {
+                            if (idc.update(SqlConnector.DB_TABLE_NAME, values,
+                                    SqlConnector.ID + " = " + String.valueOf(id), null) == 1) {
                                 Model.getInstance().changeAppointment(id, date, oldDate, name, description, severity);
-                                Log.v(this, "Changing date with id " + String.valueOf(id) + " to: name: " + name + " date: "
-                                        + date + " description: " + description + " severity: " + severity.toString());
+                                Log.v(this,
+                                        "Changing date with id " + String.valueOf(id) + " to: name: " + name
+                                                + " date: " + date + " description: " + description + " severity: "
+                                                + severity.toString());
                             } else {
-                                showToast(appContext.getString(R.string.err_change));
+                                showToast(SqlConnector.this.appContext.getString(R.string.err_change));
                             }
                         } catch (RemoteException e) {
-                            showToast(appContext.getString(R.string.err_change));
+                            showToast(SqlConnector.this.appContext.getString(R.string.err_change));
                             Log.e(this, "Remote Exception", e);
                         } finally {
                             try {
@@ -423,7 +424,7 @@ public class SqlConnector {
      *            {@link ArrayList} with {@link Appointment}s to store
      */
     public void storeAppointmentListInEmptyList(final ArrayList<Appointment> appList) {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -441,29 +442,30 @@ public class SqlConnector {
                                 
                                 int id = Model.getInstance().getNewHighestId();
                                 
-                                values.put(ID, String.valueOf(id));
-                                values.put(SqlConnector.this.NAME, app.getName());
-                                values.put(SqlConnector.this.DESC, app.getDescrpition());
-                                values.put(SqlConnector.this.DATE, String.valueOf(app.getDate().getTime()));
-                                values.put(SqlConnector.this.SEVERITY, app.getSeverity().toString());
+                                values.put(SqlConnector.ID, String.valueOf(id));
+                                values.put(SqlConnector.NAME, app.getName());
+                                values.put(SqlConnector.DESC, app.getDescrpition());
+                                values.put(SqlConnector.DATE, String.valueOf(app.getDate().getTime()));
+                                values.put(SqlConnector.SEVERITY, app.getSeverity().toString());
                                 
-                                long result = idc.insert(SqlConnector.this.DB_TABLE_NAME, null, values);
+                                long result = idc.insert(SqlConnector.DB_TABLE_NAME, null, values);
                                 Log.v(this, "Return value of insert: " + result);
                                 if (result != -1) {
-                                    idc.query(SqlConnector.this.DB_TABLE_NAME, null, null, null, null, null,
-                                            SqlConnector.this.DATE);
+                                    idc.query(SqlConnector.DB_TABLE_NAME, null, null, null, null, null,
+                                            SqlConnector.DATE);
                                     
-                                    Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: "
-                                            + app.getDate() + " description: " + app.getDescrpition());
+                                    Log.v(this,
+                                            "Storing new appointment: id: " + String.valueOf(id) + " date: "
+                                                    + app.getDate() + " description: " + app.getDescrpition());
                                     
                                 } else {
-                                    showToast(appContext.getString(R.string.err_store));
+                                    showToast(SqlConnector.this.appContext.getString(R.string.err_store));
                                     Log.e(this, "Appointment not stored");
                                 }
                             }
                         }
                     } catch (RemoteException e) {
-                        showToast(appContext.getString(R.string.err_del));
+                        showToast(SqlConnector.this.appContext.getString(R.string.err_del));
                         Log.e(this, "Remote Exception", e);
                     } finally {
                         UiManager.getInstance().getImportActivity().finish();
@@ -488,26 +490,26 @@ public class SqlConnector {
      */
     private Boolean createTable(IDatabaseConnection idc) {
         try {
-            if (!idc.isTableExisted(SqlConnector.this.DB_TABLE_NAME)) {
+            if (!idc.isTableExisted(SqlConnector.DB_TABLE_NAME)) {
                 
                 // Columns of the table
                 Map<String, String> columns = new HashMap<String, String>();
-                columns.put(SqlConnector.this.ID, "INTEGER");
-                columns.put(SqlConnector.this.NAME, "TEXT");
-                columns.put(SqlConnector.this.DESC, "TEXT");
-                columns.put(SqlConnector.this.DATE, "TEXT");
-                columns.put(SqlConnector.this.SEVERITY, "TEXT");
+                columns.put(SqlConnector.ID, "INTEGER");
+                columns.put(SqlConnector.NAME, "TEXT");
+                columns.put(SqlConnector.DESC, "TEXT");
+                columns.put(SqlConnector.DATE, "TEXT");
+                columns.put(SqlConnector.SEVERITY, "TEXT");
                 
                 // Creates the table
                 Log.v(this, "Creating table");
                 
                 // Create the table
-                if (idc.createTable(SqlConnector.this.DB_TABLE_NAME, columns, null)) {
-                    Log.v(this, "Table created. Name: " + SqlConnector.this.DB_TABLE_NAME);
+                if (idc.createTable(SqlConnector.DB_TABLE_NAME, columns, null)) {
+                    Log.v(this, "Table created. Name: " + SqlConnector.DB_TABLE_NAME);
                     return true;
                 } else {
                     Log.e(this, "Couldn't create table");
-                    showToast(appContext.getString(R.string.err_create));
+                    showToast(this.appContext.getString(R.string.err_create));
                     return false;
                 }
             } else {
@@ -530,6 +532,7 @@ public class SqlConnector {
     private void showToast(final String message) {
         new Thread() {
             
+            @Override
             public void run() {
                 Looper.prepare();
                 Toast.makeText(Model.getInstance().getContext(), message, Toast.LENGTH_SHORT).show();

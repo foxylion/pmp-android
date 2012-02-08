@@ -26,13 +26,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 
 /**
  * Creates the view for the header of a section
@@ -66,13 +66,13 @@ public class HeaderAdapter extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return headers.size();
+        return this.headers.size();
     }
     
     
     @Override
     public Object getItem(int position) {
-        return headers.get(position);
+        return this.headers.get(position);
     }
     
     
@@ -86,11 +86,11 @@ public class HeaderAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_header, null);
         }
         
-        Long dateTime = headers.get(position);
+        Long dateTime = this.headers.get(position);
         
         if (dateTime != null) {
             TextView header = (TextView) view.findViewById(R.id.list_header_title);
@@ -111,8 +111,9 @@ public class HeaderAdapter extends BaseAdapter {
      *            {@link Date#getTime()}
      */
     public void add(Long section) {
-        if (!headers.contains(section))
-            headers.add(section);
+        if (!this.headers.contains(section)) {
+            this.headers.add(section);
+        }
     }
     
     
@@ -120,7 +121,7 @@ public class HeaderAdapter extends BaseAdapter {
      * Sorts the headers
      */
     public void sort() {
-        Collections.sort(headers);
+        Collections.sort(this.headers);
     }
     
     
@@ -132,7 +133,7 @@ public class HeaderAdapter extends BaseAdapter {
      *            key of the header
      */
     public void remove(Long key) {
-        headers.remove(key);
+        this.headers.remove(key);
     }
     
     
@@ -140,7 +141,7 @@ public class HeaderAdapter extends BaseAdapter {
      * Clears everything
      */
     public void clear() {
-        headers.clear();
+        this.headers.clear();
     }
     
 }
