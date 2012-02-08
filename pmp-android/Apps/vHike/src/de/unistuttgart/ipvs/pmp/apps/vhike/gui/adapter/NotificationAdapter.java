@@ -104,7 +104,6 @@ public class NotificationAdapter extends BaseAdapter {
         final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
-        
         // determine which id to receive
         if (mWhichHitcher == 0) {
             final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
@@ -113,7 +112,7 @@ public class NotificationAdapter extends BaseAdapter {
             if (lqo != null) {
                 Log.i(this, "LQO size: " + lqo.size());
                 queryID = lqo.get(position).getQueryid();
-                userID = lqo.get(position).getUserid();    
+                userID = lqo.get(position).getUserid();
             }
             
             if (Model.getInstance().isPicked(hitchhiker.getID())) {
@@ -132,6 +131,12 @@ public class NotificationAdapter extends BaseAdapter {
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
             Log.i(this, "Offer waiting");
             accept_invite.invalidate();
+            
+            if (Model.getInstance().isAccepted(hitchhiker.getID())) {
+                accept_invite.setBackgroundColor(R.drawable.bg_check);
+                accept_invite.invalidate();
+                Log.i(this, "Offer waiting to accepted");
+            }
         }
         
         dismiss.setOnClickListener(new OnClickListener() {
