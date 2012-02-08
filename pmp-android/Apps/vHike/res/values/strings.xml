@@ -76,5 +76,6 @@
     <string name="ride_date">Date</string>
     <string name="dialog_next">Next</string>
     <string name="dialog_back">Back</string>
+    <string name="pick_up">Pick Up</string>
 
 </resources>

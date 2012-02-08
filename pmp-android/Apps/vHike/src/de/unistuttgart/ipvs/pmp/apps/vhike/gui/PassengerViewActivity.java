@@ -126,7 +126,7 @@ public class PassengerViewActivity extends MapActivity {
 						notiID++;
 
 						MapModel.getInstance().add2PassengerOverlay(context,
-								gpsDriver, driver, mapView, 1);
+								gpsDriver, driver, mapView, 1, 0);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1, notiID, mapView);
@@ -161,7 +161,7 @@ public class PassengerViewActivity extends MapActivity {
 			Drawable drawablePassenger = context.getResources().getDrawable(
 					R.drawable.passenger_logo);
 			PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
-					context);
+					context, 0);
 
 			OverlayItem oPassengerItem = new OverlayItem(gPosition,
 					"I need a ride!", "User: " + me.getUsername()
