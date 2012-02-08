@@ -25,7 +25,7 @@ public class CheckAcceptedOffers extends TimerTask {
     private Button acceptButton;
     private int userID;
     private Handler handler;
-    
+    private Controller ctrl;
     
     /**
      * Handles time interval to check for accepted offers
@@ -39,6 +39,7 @@ public class CheckAcceptedOffers extends TimerTask {
         this.acceptButton = acceptButton;
         this.userID = userID;
         handler = new Handler();
+        ctrl = new Controller();
     }
     
     
@@ -49,7 +50,6 @@ public class CheckAcceptedOffers extends TimerTask {
             
             public void run() {
                 Log.i(this, "Checking");
-                Controller ctrl = new Controller();
                 List<PassengerObject> lpo = ctrl.offer_accepted(Model.getInstance().getSid(), Model.getInstance()
                         .getTripId());
                 // check if invitations were accepted
@@ -61,8 +61,8 @@ public class CheckAcceptedOffers extends TimerTask {
                             acceptButton.setBackgroundResource(R.drawable.bg_check);
                             Log.i(this, "OFFER ACCEPTED");
                             // count down available seats
-                            // ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
-                            // .getInstance().getNumSeats() - 1);
+                            ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
+                                    .getInstance().getNumSeats() - 1);
                             
                             // stop checking
                             cancel();
