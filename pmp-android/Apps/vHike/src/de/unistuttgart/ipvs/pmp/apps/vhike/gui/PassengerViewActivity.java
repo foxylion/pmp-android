@@ -43,83 +43,85 @@ import android.widget.Toast;
  * 
  */
 public class PassengerViewActivity extends MapActivity {
-
-	private Controller ctrl;
-	private NotificationAdapter appsAdapter;
-
-	private Context context;
-	private MapView mapView;
-	private MapController mapController;
-	private LocationManager locationManager;
-	private GeoPoint p;
-	private int notiID;
-	
-	private Check4Offers c4o;
-	private Timer timer;
-
-	double lat;
-	double lng;
-
-	private int imAPassenger = 1;
-
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_passengerview);
-
-		ctrl = new Controller();
-		MapModel.getInstance().initDriversList();
-
-		showHitchhikers();
-		setMapView();
-		startQuery();
-
-		vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this)
-				.dismiss();
-		vhikeDialogs.getInstance().clearSearchPD();
-	}
-
-	public PassengerViewActivity() {
-		this.context = PassengerViewActivity.this;
-	}
-
-	/**
-	 * adds drivers (hitchhikers) to the notification slider
-	 */
-	private void showHitchhikers() {
-
-		ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
-		pLV.setClickable(true);
-
-		appsAdapter = MapModel.getInstance().getPassengerAdapter(context, mapView);
-		pLV.setAdapter(appsAdapter);
-	}
-
-	/**
-	 * adds hitchhiker/driver to hitchiker list
-	 * 
-	 * @param hitchhiker
-	 */
-	public void addHitchhiker(Profile hitchhiker) {
-		MapModel.getInstance().getHitchDrivers().add(hitchhiker);
-		appsAdapter.notifyDataSetChanged();
-	}
-
-	/**
-	 * displays the map from xml file including a button to get current user
-	 * location
-	 */
-	private void setMapView() {
-		mapView = (MapView) findViewById(R.id.passengerMapView);
-		mapView.setBuiltInZoomControls(true);
-		mapController = mapView.getController();
-
-		// check for offers every 10 seconds
-		c4o = new Check4Offers(mapView, context);
-		c4o.run();
-		timer = new Timer();
-		timer.schedule(c4o, 300, 10000);
-		
-		// check for offers manually
+    
+    private Controller ctrl;
+    private NotificationAdapter appsAdapter;
+    
+    private Context context;
+    private MapView mapView;
+    private MapController mapController;
+    private LocationManager locationManager;
+    private GeoPoint p;
+    private int notiID;
+    
+    private Check4Offers c4o;
+    private Timer timer;
+    
+    double lat;
+    double lng;
+    
+    
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_passengerview);
+        
+        ctrl = new Controller();
+        MapModel.getInstance().initDriversList();
+        
+        showHitchhikers();
+        setMapView();
+        startQuery();
+        
+        vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
+        vhikeDialogs.getInstance().clearSearchPD();
+    }
+    
+    
+    public PassengerViewActivity() {
+        this.context = PassengerViewActivity.this;
+    }
+    
+    
+    /**
+     * adds drivers (hitchhikers) to the notification slider
+     */
+    private void showHitchhikers() {
+        
+        ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
+        pLV.setClickable(true);
+        
+        appsAdapter = MapModel.getInstance().getPassengerAdapter(context, mapView);
+        pLV.setAdapter(appsAdapter);
+    }
+    
+    
+    /**
+     * adds hitchhiker/driver to hitchiker list
+     * 
+     * @param hitchhiker
+     */
+    public void addHitchhiker(Profile hitchhiker) {
+        MapModel.getInstance().getHitchDrivers().add(hitchhiker);
+        appsAdapter.notifyDataSetChanged();
+    }
+    
+    
+    /**
+     * displays the map from xml file including a button to get current user
+     * location
+     */
+    private void setMapView() {
+        mapView = (MapView) findViewById(R.id.passengerMapView);
+        mapView.setBuiltInZoomControls(true);
+        mapController = mapView.getController();
+        
+        // check for offers every 10 seconds
+        c4o = new Check4Offers(mapView, context);
+        c4o.run();
+        timer = new Timer();
+        timer.schedule(c4o, 300, 10000);
+        
+        // check for offers manually
         Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
         simulation.setOnClickListener(new OnClickListener() {
             
@@ -143,104 +145,98 @@ public class PassengerViewActivity extends MapActivity {
                 }
             }
         });
-	}
-
-	/**
-	 * start query by sending gps, destination and number of needed seats to
-	 * server
-	 */
-	private void startQuery() {
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, new LocationUpdateHandler(context, locationManager, mapView,
-						mapController, p, imAPassenger));
-		Controller ctrl = new Controller();
-		Location location = locationManager
-				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-		if (location != null) {
-			int lat = (int) (location.getLatitude() * 1E6);
-			int lng = (int) (location.getLongitude() * 1E6);
-
-			Profile me = Model.getInstance().getOwnProfile();
-			GeoPoint gPosition = new GeoPoint(lat, lng);
-
-			// Passenger drawable and overlay
-			Drawable drawablePassenger = context.getResources().getDrawable(
-					R.drawable.passenger_logo);
-			PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger,
-					context, 0);
-
-			OverlayItem oPassengerItem = new OverlayItem(gPosition,
-					"I need a ride!", "User: " + me.getUsername()
-							+ ", Rating: " + me.getRating_avg());
-			pOverlay.addOverlay(oPassengerItem);
-
-			MapModel.getInstance().getPassengerOverlayList(mapView)
-					.add(pOverlay);
-
-			switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel
-					.getInstance().getDestination(), (float) location
-					.getLatitude(), (float) location.getLongitude(), MapModel
-					.getInstance().getNumSeats())) {
-			case (Constants.QUERY_ID_ERROR):
-				Toast.makeText(PassengerViewActivity.this, "Query error",
-						Toast.LENGTH_LONG).show();
-				break;
-			default:
-				Toast.makeText(PassengerViewActivity.this,
-						"Query started/updated", Toast.LENGTH_SHORT).show();
-				break;
-			}
-		} else {
-			Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.passengerview_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Provisorisch
-		MapModel.getInstance().clearPassengerOverlayList();
-		// Provi
-		switch (item.getItemId()) {
-		case R.id.mi_passenger_endTrip:
-			switch (ctrl.stopQuery(Model.getInstance().getSid(), Model
-					.getInstance().getQueryId())) {
-			case Constants.STATUS_QUERY_DELETED:
-				Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-
-				MapModel.getInstance().clearPassengerOverlayList();
-				MapModel.getInstance().clearHitchDrivers();
-				MapModel.getInstance().clearPassengerNotificationAdapter();
-
-				PassengerViewActivity.this.finish();
-				break;
-			case Constants.STATUS_NO_QUERY:
-				Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
-				break;
-			case Constants.STATUS_INVALID_USER:
-				Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT)
-						.show();
-				break;
-			}
-			break;
-		case R.id.mi_passenger_updateData:
-			vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
-			break;
-		}
-		return true;
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
-
+    }
+    
+    
+    /**
+     * start query by sending gps, destination and number of needed seats to
+     * server
+     */
+    private void startQuery() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationUpdateHandler(context,
+                locationManager, mapView, mapController, p));
+        Controller ctrl = new Controller();
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+        if (location != null) {
+            int lat = (int) (location.getLatitude() * 1E6);
+            int lng = (int) (location.getLongitude() * 1E6);
+            
+            Profile me = Model.getInstance().getOwnProfile();
+            GeoPoint gPosition = new GeoPoint(lat, lng);
+            
+            // Passenger drawable and overlay
+            Drawable drawablePassenger = context.getResources().getDrawable(R.drawable.passenger_logo);
+            PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger, context, 0);
+            
+            OverlayItem oPassengerItem = new OverlayItem(gPosition, "I need a ride!", "User: " + me.getUsername()
+                    + ", Rating: " + me.getRating_avg());
+            pOverlay.addOverlay(oPassengerItem);
+            
+            MapModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
+            
+            switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel.getInstance().getDestination(),
+                    (float) location.getLatitude(), (float) location.getLongitude(), MapModel.getInstance()
+                            .getNumSeats())) {
+                case (Constants.QUERY_ID_ERROR):
+                    Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        } else {
+            Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.passengerview_menu, menu);
+        return true;
+    }
+    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Provisorisch
+        MapModel.getInstance().clearPassengerOverlayList();
+        // Provi
+        switch (item.getItemId()) {
+            case R.id.mi_passenger_endTrip:
+                switch (ctrl.stopQuery(Model.getInstance().getSid(), Model.getInstance().getQueryId())) {
+                    case Constants.STATUS_QUERY_DELETED:
+                        Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                        
+                        MapModel.getInstance().clearPassengerOverlayList();
+                        MapModel.getInstance().clearHitchDrivers();
+                        MapModel.getInstance().clearPassengerNotificationAdapter();
+                        Model.getInstance().clearFoundUsers();
+                        
+                        PassengerViewActivity.this.finish();
+                        break;
+                    case Constants.STATUS_NO_QUERY:
+                        Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+                        break;
+                    case Constants.STATUS_INVALID_USER:
+                        Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                break;
+            case R.id.mi_passenger_updateData:
+                vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+                break;
+        }
+        return true;
+    }
+    
+    
+    @Override
+    protected boolean isRouteDisplayed() {
+        return false;
+    }
+    
 }
