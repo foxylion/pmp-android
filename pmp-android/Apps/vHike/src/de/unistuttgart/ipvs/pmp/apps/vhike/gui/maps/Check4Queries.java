@@ -115,15 +115,16 @@ public class Check4Queries extends TimerTask {
                                 // notify user
                                 MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
                                         mapView);
+                                
+                                // notify list
+                                MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+                                mapView.invalidate();
+                                mapView.postInvalidate();
+                                
+                                Log.i(this, "Found passenger in QuerySearch");
+                                Model.getInstance().addToFoundUsers(
+                                        new FoundProfilePos(lqo.get(i).getUserid(), lat, lng));
                             }
-                            
-                            // notify list
-                            MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
-                            mapView.invalidate();
-                            mapView.postInvalidate();
-                            
-                            Log.i(this, "Found passenger in QuerySearch");
-                            Model.getInstance().addToFoundUsers(new FoundProfilePos(lqo.get(i).getUserid(), lat, lng));
                         }
                         
                     }
