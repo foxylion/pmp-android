@@ -158,6 +158,8 @@ public class DriverViewActivity extends MapActivity {
                         locationManager.removeUpdates(luh);
                         Model.getInstance().clearBannList();
                         Model.getInstance().clearInvitedUserList();
+                        Model.getInstance().clearFoundUsers();
+                        Model.getInstance().clearPickedUserList();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
                         this.finish();

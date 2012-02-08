@@ -214,6 +214,7 @@ public class PassengerViewActivity extends MapActivity {
                         MapModel.getInstance().clearPassengerOverlayList();
                         MapModel.getInstance().clearHitchDrivers();
                         MapModel.getInstance().clearPassengerNotificationAdapter();
+                        Model.getInstance().clearFoundUsers();
                         
                         PassengerViewActivity.this.finish();
                         break;
