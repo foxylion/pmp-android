@@ -196,7 +196,10 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                queryID = lqo.get(position).getQueryid();
+                if (mWhichHitcher == 0) {
+                    queryID = lqo.get(position).getQueryid();
+                }
+                
                 userID = lqo.get(position).getUserid();
                 
                 if (mWhichHitcher == 0) {
