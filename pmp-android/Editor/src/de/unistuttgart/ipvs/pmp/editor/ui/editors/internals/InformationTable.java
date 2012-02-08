@@ -22,24 +22,45 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class InformationTable {
 	
+	private final Composite composite;
 	private final TableViewer tableViewer;
 	private final StoredInformation storedInformation = new StoredInformation();
 
-	public InformationTable(Composite parent, Object layoutData) {
+	public InformationTable(final Composite parent, FormToolkit toolkit) {
+		composite = toolkit.createComposite(parent);
+		composite.setLayout(new GridLayout(1, true));
+		
+		final GridData layoutData = new GridData();
+		layoutData.horizontalAlignment = GridData.FILL;
+		layoutData.grabExcessHorizontalSpace = true;
+		
+		// Workaround for SWT-Bug needed (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
+		layoutData.widthHint = 1;
 		
 		// Set layout as we want to set a relative columns width
-		Composite tableComposite = new Composite(parent, SWT.NONE);
+		Composite tableComposite = new Composite(composite, SWT.NONE);
 		tableComposite.setLayoutData(layoutData);
 		TableColumnLayout columnLayout = new TableColumnLayout();
 		tableComposite.setLayout(columnLayout);
 		
+		
+		
 		// Define the table's view
-		tableViewer = new TableViewer(tableComposite, SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer.getTable().setLayoutData(layoutData);
 		tableViewer.getTable().setHeaderVisible(true);
 		tableViewer.getTable().setLinesVisible(true);
 		
@@ -77,12 +98,34 @@ public class InformationTable {
 				
 			}
 		});
+		
+		Button addButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		addButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				storedInformation.add(new Information("fr", "frac", "blabla2"));
+				tableViewer.getTable().setLayoutData(layoutData);
+				parent.getParent().layout(true);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+	
+	public Composite getControl() {
+		return composite;
 	}
 	
 	private void buildColumns(TableColumnLayout columnLayout) {
 		// Locale
 		TableViewerColumn localeColumn = new TableViewerColumn(tableViewer, SWT.BORDER);
-		columnLayout.setColumnData(localeColumn.getColumn(), new ColumnPixelData(100));
+		columnLayout.setColumnData(localeColumn.getColumn(), new ColumnPixelData(50, true));
 		localeColumn.getColumn().setText("Locale");
 		localeColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -90,7 +133,7 @@ public class InformationTable {
 				return ((Information)element).getLocale();
 			}
 		});
-		localeColumn.setEditingSupport(new ObservableValueEditingSupport(tableViewer, new DataBindingContext()) {
+		/*localeColumn.setEditingSupport(new ObservableValueEditingSupport(tableViewer, new DataBindingContext()) {
 
 			@Override
 			protected IObservableValue doCreateCellEditorObservable(
@@ -110,10 +153,13 @@ public class InformationTable {
 			}
 			
 		});
+		*/
+
+		
 		
 		// Name
 		TableViewerColumn nameColumn = new TableViewerColumn(tableViewer, SWT.BORDER);
-		columnLayout.setColumnData(nameColumn.getColumn(), new ColumnWeightData(1));
+		columnLayout.setColumnData(nameColumn.getColumn(), new ColumnWeightData(50, true));
 		nameColumn.getColumn().setText("Name");
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -121,6 +167,8 @@ public class InformationTable {
 				return ((Information)element).getName();
 			}
 		});
+
+		/*
 		nameColumn.setEditingSupport(new ObservableValueEditingSupport(tableViewer, new DataBindingContext()) {
 
 			@Override
@@ -140,11 +188,11 @@ public class InformationTable {
 				return new TextCellEditor((Composite) tableViewer.getControl());
 			}
 			
-		});
-		
+		});*/
+
 		// Description
 		TableViewerColumn descriptionColumn = new TableViewerColumn(tableViewer, SWT.BORDER);
-		columnLayout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(2));
+		columnLayout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(50, true));
 		descriptionColumn.getColumn().setText("Description");
 		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override

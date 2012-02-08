@@ -10,6 +10,12 @@ public class StoredInformation {
 	public StoredInformation() {
 		information.add(new Information("de","Dateisystem","blbal"));
 		information.add(new Information("en","Filesysten","blabla"));
+		information.add(new Information("en","Filesysten","blabla"));
+		information.add(new Information("en","Filesysten","blabla"));
+	}
+	
+	public void add(Information i) {
+		information.add(i);
 	}
 	
 	protected IObservableList getObservableList() {
