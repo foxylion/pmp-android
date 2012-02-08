@@ -21,12 +21,14 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
 import java.io.Serializable;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredPrivacySetting implements Serializable {
+public class AISRequiredPrivacySetting implements Serializable, AISIssueLocation {
     
     /**
      * Serial
@@ -36,12 +38,12 @@ public class AISRequiredPrivacySetting implements Serializable {
     /**
      * The identifier of the Privacy Setting
      */
-    private String identifier;
+    private String identifier = "";
     
     /**
      * The value of the Privacy Setting
      */
-    private String value;
+    private String value = "";
     
     
     /**

@@ -16,6 +16,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -24,6 +26,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
@@ -128,9 +131,10 @@ public class AndroidManifestParser {
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
+     * @throws AppIdentifierNotFoundException 
      */
     protected String getAppIdentifier(InputStream xmlStream)
-	    throws ParserConfigurationException, SAXException, IOException {
+	    throws ParserConfigurationException, SAXException, IOException, AppIdentifierNotFoundException {
 	if (doc == null) {
 	    instantiate(xmlStream);
 	}
@@ -140,8 +144,13 @@ public class AndroidManifestParser {
 
 	// Get the attributes to get the package name
 	NamedNodeMap attribute = node.getAttributes();
-
-	return attribute.getNamedItem(ANDROID_PACKAGE).getNodeValue();
+	String identifier = attribute.getNamedItem(ANDROID_PACKAGE)
+		.getNodeValue();
+	if (identifier != null) {
+	    return identifier;
+	} else {
+	    throw new AppIdentifierNotFoundException("App identifier not found");
+	}
 
     }
 
@@ -159,11 +168,12 @@ public class AndroidManifestParser {
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
      * @throws NoMainActivityException
+     * @throws AppIdentifierNotFoundException 
      */
     protected void addPMPActivity(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    TransformerFactoryConfigurationError, TransformerException,
-	    PMPActivityAlreadyExistsException, NoMainActivityException {
+	    PMPActivityAlreadyExistsException, NoMainActivityException, AppIdentifierNotFoundException {
 	instantiate(xmlStream);
 
 	isPMPActivityExisting();
@@ -286,7 +296,7 @@ public class AndroidManifestParser {
      * Returns the {@link Node} that contains the MainActivity IntentFilter
      * 
      * @return {@link Node} that contains the MainActivity or <code>null</code>
-     * @throws NoMainActivityException 
+     * @throws NoMainActivityException
      */
     private Node getMainActivityNode() throws NoMainActivityException {
 	// Get all "action" nodes
@@ -401,11 +411,13 @@ public class AndroidManifestParser {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPServiceAlreadyExists
+     * @throws AppIdentifierNotFoundException 
+     * @throws DOMException 
      */
     protected void addPMPServiceToManifest(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    AndroidApplicationException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPServiceAlreadyExists {
+	    TransformerException, PMPServiceAlreadyExists, DOMException, AppIdentifierNotFoundException {
 	instantiate(xmlStream);
 
 	NodeList application = doc.getElementsByTagName(ANDROID_APPLICATION);

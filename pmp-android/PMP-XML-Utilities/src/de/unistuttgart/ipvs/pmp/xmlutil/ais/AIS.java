@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -31,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends BasicIS {
+public class AIS extends BasicIS implements AISIssueLocation {
     
     /**
      * Serial

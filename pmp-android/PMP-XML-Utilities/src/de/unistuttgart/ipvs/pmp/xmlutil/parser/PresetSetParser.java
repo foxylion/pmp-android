@@ -154,7 +154,7 @@ public class PresetSetParser extends AbstractParser {
     private void parseAssignedPSs(Element assignedPSsElement, Preset preset) {
         // Get the list of all assigned privacy settings
         List<ParsedNode> assignedPSNodes = parseNodes(assignedPSsElement, XMLConstants.PRIVACY_SETTING,
-                XMLConstants.RG_IDENTIFIER_ATTR, XMLConstants.RG_REIVION_ATTR, XMLConstants.PS_IDENTIFIER_ATTR);
+                XMLConstants.RG_IDENTIFIER_ATTR, XMLConstants.RG_REVISION_ATTR, XMLConstants.PS_IDENTIFIER_ATTR);
         
         // Add all assigned privacy settings to the preset and parse the contexts
         int psItr = 0;
@@ -165,7 +165,7 @@ public class PresetSetParser extends AbstractParser {
             
             // Get the attributes
             String rgIdentifier = psNode.getAttribute(XMLConstants.RG_IDENTIFIER_ATTR);
-            String rgRevision = psNode.getAttribute(XMLConstants.RG_REIVION_ATTR);
+            String rgRevision = psNode.getAttribute(XMLConstants.RG_REVISION_ATTR);
             String psIdentifier = psNode.getAttribute(XMLConstants.PS_IDENTIFIER_ATTR);
             
             // Instantiate and add the PresetAssignedPrivacySetting

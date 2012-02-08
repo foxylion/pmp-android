@@ -25,8 +25,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.xml.sax.SAXException;
 
+import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
 
+/**
+ * The {@link WizardPage} of the AIS wizard
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class WizardPageCreateAIS extends WizardPage {
     /**
      * {@link Text} for the project
@@ -128,6 +135,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    if (result.length == 1) {
 		String[] split = ((Path) result[0]).toString().split("/");
 		assetsFolderText.setText("/" + split[1] + "/assets");
+		dialogChanged();
 	    }
 	}
     }
@@ -145,8 +153,15 @@ public class WizardPageCreateAIS extends WizardPage {
 	    project = "/" + projects[1];
 	}
 
-	IResource container = ResourcesPlugin.getWorkspace().getRoot()
+	IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
 		.findMember(new Path(project));
+
+	// Path doesn't start with a "/"
+	if (!getProjectName().startsWith("/")) {
+	    updateStatus("Path has to start with \"/\"");
+	    identifier.setText("");
+	    return;
+	}
 
 	// No project entered
 	if (getProjectName().length() == 0) {
@@ -156,15 +171,15 @@ public class WizardPageCreateAIS extends WizardPage {
 	}
 
 	// Project doesn't exist
-	if (container == null
-		|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+	if (iRes == null
+		|| (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 	    updateStatus("Project container must exist");
 	    identifier.setText("");
 	    return;
 	}
 
 	// Project isn't writable
-	if (!container.isAccessible()) {
+	if (!iRes.isAccessible()) {
 	    updateStatus("Project must be writable");
 	    identifier.setText("");
 	    return;
@@ -183,6 +198,9 @@ public class WizardPageCreateAIS extends WizardPage {
 	    return;
 	} catch (IOException e) {
 	    updateStatus("Project must be an Android-Project");
+	    return;
+	} catch (AppIdentifierNotFoundException e) {
+	    updateStatus(e.getMessage());
 	    return;
 	}
 
@@ -208,7 +226,29 @@ public class WizardPageCreateAIS extends WizardPage {
 	setPageComplete(message == null);
     }
 
+    /**
+     * Returns the selected project with the /assets appended
+     * 
+     * @return project path + "/assets"
+     */
     public String getProjectName() {
 	return assetsFolderText.getText();
+    }
+
+    /**
+     * Returns the project without the "/assets"
+     * 
+     * @return project only
+     */
+    public String getProjectOnly() {
+	// Split only the project out of the string
+	String[] projects = getProjectName().split("/");
+
+	// The project name
+	String project = "";
+	if (projects.length >= 2) {
+	    project = projects[1];
+	}
+	return project;
     }
 }

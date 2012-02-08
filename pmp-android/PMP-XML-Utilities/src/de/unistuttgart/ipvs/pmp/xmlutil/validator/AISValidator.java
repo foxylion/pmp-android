@@ -19,8 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
@@ -28,105 +28,196 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueType;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISValidator {
+public class AISValidator extends AbstractValidator {
     
     /**
-     * This method validates, if a given locale attribute exists and is valid.
+     * Validate the whole AIS
      * 
-     * @param nodeResultList
-     *            the given node result list array.
+     * @param ais
+     *            the ais
+     * @return List with issues as result of the validation
      */
-    public void validateLocaleAttribute(List<String[]> nodeResultList) {
-        // Check all nodes
-        for (String[] nodeArray : nodeResultList) {
-            // Check, if the locale is missing
-            if (nodeArray[1].equals("")) {
-                throw new ParserException(Type.LOCALE_MISSING, "The locale of " + nodeArray[0] + " is missing!");
+    public static List<AISIssue> validateAIS(AIS ais) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        issueList.addAll(validateAppInformation(ais));
+        issueList.addAll(validateServiceFeatures(ais));
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate the app information
+     * 
+     * @param ais
+     *            the ais
+     * @return List with issues as result of the validation
+     */
+    public static List<AISIssue> validateAppInformation(AIS ais) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        issueList.addAll(validateNames(ais));
+        issueList.addAll(validateDescriptions(ais));
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate the names of a given {@link AISIssueLocation}
+     * 
+     * @param location
+     *            the AISIssueLocation
+     * @return List with issues as result of the validation
+     */
+    public static List<AISIssue> validateNames(AISIssueLocation location) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        // Check, if this location has names and descriptions (extends from BasicIS)
+        if (location instanceof BasicIS) {
+            boolean englishLocaleExists = false;
+            List<String> localesOccurred = new ArrayList<String>();
+            
+            for (Name name : ((BasicIS) location).getNames()) {
+                
+                // Instantiate possible issues
+                AISIssue localeMissing = new AISIssue(AISIssueType.NAME_LOCALE_MISSING, location);
+                AISIssue localeInvalid = new AISIssue(AISIssueType.NAME_LOCALE_INVALID, location);
+                AISIssue nameEmpty = new AISIssue(AISIssueType.NAME_EMPTY, location);
+                
+                // Flag, if the locale is missing
+                boolean localeAvailable = true;
+                
+                // Check, if the locale is set
+                if (name.getLocale() == null || !checkValueSet(name.getLocale().getLanguage())) {
+                    issueList.add(localeMissing);
+                    localeAvailable = false;
+                    
+                } else if (!checkLocale(name.getLocale())) {
+                    // if the locale is invalid
+                    issueList.add(localeInvalid);
+                } else {
+                    // Check, if its the english attribute
+                    if (checkLocaleAttributeEN(name.getLocale())) {
+                        englishLocaleExists = true;
+                    }
+                    
+                    String locale = name.getLocale().getLanguage();
+                    if (!localesOccurred.contains(locale)) {
+                        localesOccurred.add(locale);
+                    } else {
+                        // Check, if this issue is already added to the issuelist
+                        boolean issueAlreadyExists = false;
+                        for (AISIssue issueExisting : issueList) {
+                            if (issueExisting.getType().equals(AISIssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN)
+                                    && issueExisting.getLocation().equals(location)
+                                    && issueExisting.getParameters().size() == 1
+                                    && issueExisting.getParameters().get(0).equals(locale)) {
+                                issueAlreadyExists = true;
+                            }
+                        }
+                        if (!issueAlreadyExists) {
+                            AISIssue localesOccurredTooOften = new AISIssue(
+                                    AISIssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN, location);
+                            localesOccurredTooOften.addParameter(locale);
+                            issueList.add(localesOccurredTooOften);
+                        }
+                        
+                    }
+                }
+                
+                // Check, if the name is set
+                if (!checkValueSet(name.getName())) {
+                    issueList.add(nameEmpty);
+                    // Add the information of the locale to the name issue
+                    if (localeAvailable) {
+                        nameEmpty.addParameter(name.getLocale().getLanguage());
+                    }
+                } else {
+                    // Add the information of the name to the locale issues
+                    localeMissing.addParameter(name.getName());
+                    localeInvalid.addParameter(name.getName());
+                }
             }
-            // Check, if the locale is valid
-            if (!checkLocale(nodeArray[1])) {
-                throw new ParserException(Type.LOCALE_INVALID, "The locale " + nodeArray[1] + " of " + nodeArray[0]
-                        + " is invalid!");
+            
+            // Add an issue, that the english locale is missing
+            if (!englishLocaleExists) {
+                issueList.add(new AISIssue(AISIssueType.NAME_LOCALE_EN_MISSING, location));
+            }
+            
+        }
+        
+        return issueList;
+        
+    }
+    
+    
+    /**
+     * Validate the description of a given {@link AISIssueLocation}
+     * 
+     * @param location
+     *            the AISIssueLocation
+     * @return List with issues as result of the validation
+     */
+    public static List<AISIssue> validateDescriptions(AISIssueLocation location) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        // Check, if this location has descriptions (extends from BasicIS)
+        if (location instanceof BasicIS) {
+            for (Description descr : ((BasicIS) location).getDescriptions()) {
+                
             }
         }
+        
+        return issueList;
     }
     
     
     /**
-     * Check, if the given locale (as string) is valid.
+     * Validate all service features of the given AIS
      * 
-     * @param givenLocale
-     *            locale to check (as string)
-     * @return flag, if the given local is valid or not.
+     * @param ais
+     *            the ais
+     * @return List with issues as result of the validation
      */
-    public boolean checkLocale(String givenLocale) {
-        for (String locale : Locale.getISOLanguages()) {
-            if (locale.equals(givenLocale)) {
-                return true;
-            }
+    public static List<AISIssue> validateServiceFeatures(AIS ais) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        for (AISServiceFeature sf : ais.getServiceFeatures()) {
+            issueList.addAll(validateServiceFeature(sf));
         }
-        return false;
+        
+        return issueList;
     }
     
     
     /**
-     * Check, if the lang attribute value of a given lang attribute equals "en"
+     * Validate the given service feature
      * 
-     * @param langAttributeValue
-     *            the lang attribute value
+     * @param sf
+     *            the service feature
+     * @return List with issues as result of the validation
      */
-    public void validateLocaleAttributeEN(String langAttributeValue) {
-        if (!langAttributeValue.equals("en")) {
-            throw new ParserException(Type.LOCALE_INVALID,
-                    "The lang attribute value of the default name/description has to be \"en\"");
-        }
-    }
-    
-    
-    /**
-     * The method validates, if the identifier is set
-     * 
-     * @param identifier
-     *            identifier to validate
-     */
-    public void validateIdentifier(String identifier) {
-        if (identifier == null || identifier.equals("")) {
-            throw new ParserException(Type.IDENTIFIER_MISSING, "The identifier of the resource group is missing.");
-        }
-    }
-    
-    
-    /**
-     * The method validates, if a given value is set
-     * 
-     * @param value
-     *            value to validate
-     */
-    public void validateValueNotEmpty(String value) {
-        if (value == null || value.equals("")) {
-            throw new ParserException(Type.VALUE_MISSING, "The value of a node is empty.");
-        }
-    }
-    
-    
-    /**
-     * The method validates, if a given list of string value are set
-     * 
-     * @param values
-     *            values to validate
-     */
-    public void validateValueListNotEmpty(List<String[]> values) {
-        for (String[] stringArray : values) {
-            for (String element : stringArray) {
-                validateValueNotEmpty(element);
-            }
-        }
+    public static List<AISIssue> validateServiceFeature(AISServiceFeature sf) {
+        List<AISIssue> issueList = new ArrayList<AISIssue>();
+        
+        issueList.addAll(validateNames(sf));
+        issueList.addAll(validateDescriptions(sf));
+        
+        return issueList;
     }
     
     

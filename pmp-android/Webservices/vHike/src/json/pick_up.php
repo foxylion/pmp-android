@@ -11,8 +11,8 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 
-	if (General::validId($_POST["user_id"])) {
-		$user_id = $_POST["user_id"];
+	if (General::validateId('user_id')) {
+		$user_id = $_POST['user_id'];
 		$driver = Session::getInstance()->getLoggedInUser();
 
 		$trip_id = $driver->getCurrentTripId();

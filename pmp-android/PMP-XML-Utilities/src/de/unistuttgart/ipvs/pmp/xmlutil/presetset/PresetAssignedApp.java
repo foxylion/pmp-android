@@ -16,7 +16,7 @@ public class PresetAssignedApp implements Serializable {
     /**
      * The identifier
      */
-    private String identifier;
+    private String identifier = "";
     
     
     /**

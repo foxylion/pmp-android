@@ -17,17 +17,17 @@ public class PresetPSContext implements Serializable {
     /**
      * The type
      */
-    private String type;
+    private String type = "";
     
     /**
      * The condition
      */
-    private String condition;
+    private String condition = "";
     
     /**
      * The override value
      */
-    private String overrideValue;
+    private String overrideValue = "";
     
     
     /**

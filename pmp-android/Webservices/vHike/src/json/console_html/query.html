@@ -1,73 +1,80 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+"http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Query Management</title>
-    <style type="text/css">
-        body, td, th {
-            font-family: Tahoma, Geneva, sans-serif;
-            font-size: small;
-        }
-
-        body {
-            background-color: #EEE;
-        }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Query Management</title>
+<style type="text/css">
+body, td, th {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: small;
+}
+body {
+	background-color: #EEE;
+}
+</style>
 </head>
 <body>
 <h1>Rider Tools</h1>
-
 <h2>Start a ride request</h2>
-
 <form action="../query_start.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Destination</td>
-            <td><input name="destination" type="text" value="Berlin"/></td>
-        </tr>
-        <tr>
-            <td>Current lat.</td>
-            <td><input name="current_lat" type="text" value="48.783173"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.</td>
-            <td><input name="current_lon" type="text" value="9.181051"/></td>
-        </tr>
-        <tr>
-            <td>Wanted seats</td>
-            <td><input name="seats" type="text" value="2"/></td>
-        </tr>
-        <tr>
-            <td>Buttons</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Destination</td>
+      <td><input name="destination" type="text" value="Berlin" /></td>
+    </tr>
+    <tr>
+      <td>Current lat.</td>
+      <td><input name="current_lat" type="text" value="48.783173" /></td>
+    </tr>
+    <tr>
+      <td>Current lon.</td>
+      <td><input name="current_lon" type="text" value="9.181051" /></td>
+    </tr>
+    <tr>
+      <td>Wanted seats</td>
+      <td><input name="seats" type="text" value="2" /></td>
+    </tr>
+    <tr>
+      <td>Buttons</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
 <h2>Search for drivers</h2>
-
 <form action="../ride_search.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Current lat.</td>
-            <td><input name="lat" type="text" value="48.783173"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.</td>
-            <td><input name="lon" type="text" value="9.181051"/></td>
-        </tr>
-        <tr>
-            <td>Distance</td>
-            <td><input name="distance" type="text" value="5000"/></td>
-        </tr>
-        <tr>
-            <td>Buttons</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Current lat.</td>
+      <td><input name="lat" type="text" value="48.783173" /></td>
+    </tr>
+    <tr>
+      <td>Current lon.</td>
+      <td><input name="lon" type="text" value="9.181051" /></td>
+    </tr>
+    <tr>
+      <td>Distance</td>
+      <td><input name="distance" type="text" value="5000" /></td>
+    </tr>
+    <tr>
+      <td>Buttons</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
+<h2>Is picked</h2>
+<form action="../isPicked.php" method="post" target="r">
+  <table>
+    <tr>
+      <td>Buttons</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
+</form>
+
 <p>&nbsp;</p>
 </body>
 </html>
