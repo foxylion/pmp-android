@@ -128,13 +128,11 @@ public class DriverViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p, imADriver);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
-        if (Model.getInstance().getLatitude() != 0 && Model.getInstance().getLongtitude() != 0) {
-            c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
-                    .getLongtitude());
-            c4q.run();
-            timer = new Timer();
-            timer.schedule(c4q, 300, 10000);
-        }
+        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
+                .getLongtitude());
+        c4q.run();
+        timer = new Timer();
+        timer.schedule(c4q, 300, 10000);
         
     }
     

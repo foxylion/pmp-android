@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -44,6 +45,7 @@ public class Check4Queries extends TimerTask {
             
             @Override
             public void run() {
+                Log.i(this, "Searching...");
                 /**
                  * search for passenger within perimeter (10 km for testing
                  * purposes)
@@ -76,6 +78,8 @@ public class Check4Queries extends TimerTask {
                             MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             mapView.invalidate();
                             mapView.postInvalidate();
+                            
+                            Log.i(this, "Found passenger");
                         }
                         
                     }
