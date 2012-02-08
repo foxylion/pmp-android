@@ -232,8 +232,7 @@ public class NotificationAdapter extends BaseAdapter {
                     switch (ctrl.handleOffer(Model.getInstance().getSid(), offerID, true)) {
                         case Constants.STATUS_HANDLED:
                             Toast.makeText(context, "HANDLED: ACCEPT", Toast.LENGTH_SHORT).show();
-                            // Entfernen
-                            notifyDataSetChanged();
+
                             accept_invite.setBackgroundResource(R.drawable.bg_check);
                             accept_invite.refreshDrawableState();
                             accept_invite.invalidate();
