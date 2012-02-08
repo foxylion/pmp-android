@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.List;
+import java.util.List; 
 import java.util.TimerTask;
 
 import android.graphics.Color;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.R.color;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
@@ -73,7 +72,9 @@ public class CheckAcceptedOffers extends TimerTask {
                                 public void onClick(View v) {
                                     ctrl.pick_up(Model.getInstance().getSid(), userID);
                                     name.setTextColor(Color.BLUE);
-                                    Toast.makeText(v.getContext(), "Picked Up", Toast.LENGTH_SHORT).show();
+                                    acceptButton.setBackgroundResource(R.drawable.bg_disabled);
+                                    acceptButton.setEnabled(false);
+                                    Toast.makeText(v.getContext(), "Pick uped", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             
