@@ -153,7 +153,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    project = "/" + projects[1];
 	}
 
-	IResource container = ResourcesPlugin.getWorkspace().getRoot()
+	IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
 		.findMember(new Path(project));
 
 	// Path doesn't start with a "/"
@@ -171,15 +171,15 @@ public class WizardPageCreateAIS extends WizardPage {
 	}
 
 	// Project doesn't exist
-	if (container == null
-		|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+	if (iRes == null
+		|| (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 	    updateStatus("Project container must exist");
 	    identifier.setText("");
 	    return;
 	}
 
 	// Project isn't writable
-	if (!container.isAccessible()) {
+	if (!iRes.isAccessible()) {
 	    updateStatus("Project must be writable");
 	    identifier.setText("");
 	    return;
@@ -208,6 +208,8 @@ public class WizardPageCreateAIS extends WizardPage {
 	    updateStatus("Assets folder must be specified at the root of your project");
 	    return;
 	}
+	
+	
 
 	// Everything correct
 	updateStatus(null);

@@ -1,11 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.util.List;
+import java.util.List; 
 import java.util.Timer;
 
 import com.google.android.maps.MapView;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -57,6 +56,7 @@ public class NotificationAdapter extends BaseAdapter {
     private CheckAcceptedOffers cao;
     private Timer timer;
     
+    
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
         this.hitchhikers = hitchhikers;
@@ -100,7 +100,7 @@ public class NotificationAdapter extends BaseAdapter {
         
         Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
         RatingBar noti_rb = (RatingBar) entryView.findViewById(R.id.notification_ratingbar);
-        TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+        final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
         final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
@@ -110,6 +110,11 @@ public class NotificationAdapter extends BaseAdapter {
             
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
+            
+            if (Model.getInstance().isPicked(userID)) {
+                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                accept_invite.setEnabled(false);
+            }
             
         } else {
             List<OfferObject> loo = Model.getInstance().getOfferHolder();
@@ -190,8 +195,10 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                queryID = lqo.get(position).getQueryid();
-                userID = lqo.get(position).getUserid();
+                if (mWhichHitcher == 0) {
+                    queryID = lqo.get(position).getQueryid();
+                    userID = lqo.get(position).getUserid();
+                }
                 
                 if (mWhichHitcher == 0) {
                     switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
@@ -200,9 +207,9 @@ public class NotificationAdapter extends BaseAdapter {
                             
                             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                             Model.getInstance().addToInvitedUser(userID);
-
+                            
                             // check for offer updates for this button
-                            cao = new CheckAcceptedOffers(accept_invite, userID);
+                            cao = new CheckAcceptedOffers(accept_invite, name, userID);
                             cao.run();
                             timer = new Timer();
                             timer.schedule(cao, 300, 10000);
@@ -215,7 +222,7 @@ public class NotificationAdapter extends BaseAdapter {
                             Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
                             break;
                         case Constants.STATUS_ALREADY_SENT:
-                            Log.i(this, "P: " + position + ", " + queryID);
+                            
                             Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
                             break;
                     }

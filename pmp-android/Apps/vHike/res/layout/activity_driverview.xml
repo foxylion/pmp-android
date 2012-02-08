@@ -16,7 +16,7 @@
         android:layout_height="fill_parent"
         android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
-
+    <!--
     <HorizontalScrollView
         android:id="@+id/my_scrollview"
         android:layout_width="fill_parent"
@@ -37,7 +37,8 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </HorizontalScrollView>
+    </HorizontalScrollView>
+    -->
 
     <SlidingDrawer
         android:id="@+id/notiSlider"

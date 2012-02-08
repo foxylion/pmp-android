@@ -315,7 +315,7 @@ public class MapModel {
      * @param passenger
      * @param mapView
      */
-    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1) {
+    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1, int userID) {
         Drawable drawable;
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
@@ -328,7 +328,7 @@ public class MapModel {
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, userID);
             OverlayItem opPassengerItem = new OverlayItem(gps, "I need a ride", "User: " + passenger.getUsername()
                     + ", Rating: " + passenger.getRating_avg());
             passengerOverlay.addOverlay(opPassengerItem);
@@ -348,11 +348,11 @@ public class MapModel {
      * @param driver
      * @param mapView
      */
-    public void add2PassengerOverlay(Context context, GeoPoint gps, Profile profile, MapView mapView, int which1) {
+    public void add2PassengerOverlay(Context context, GeoPoint gps, Profile profile, MapView mapView, int which1, int userID) {
         Drawable drawable;
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, userID);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);

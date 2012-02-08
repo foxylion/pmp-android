@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+
 /**
  * This is a representation of a resource group, which is required for a
  * specific service feature. It contains a list of required privacy settings.
@@ -30,7 +32,7 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredResourceGroup implements Serializable {
+public class AISRequiredResourceGroup implements Serializable, AISIssueLocation {
     
     /**
      * Serial

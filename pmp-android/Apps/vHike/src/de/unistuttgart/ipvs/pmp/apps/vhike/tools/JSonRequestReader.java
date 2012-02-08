@@ -789,23 +789,28 @@ public class JSonRequestReader {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                JsonArray array = object.get("offers").getAsJsonArray();
-                
-                offerObjects = new ArrayList<OfferObject>();
-                for (int i = 0; i < array.size(); i++) {
-                    JsonObject Iobject = array.get(i).getAsJsonObject();
-                    int offer_id = Iobject.get("offer").getAsInt();
-                    int user_id = Iobject.get("userid").getAsInt();
-                    String username = Iobject.get("username").getAsString();
-                    float rating = Iobject.get("rating").getAsFloat();
-                    float rating_num = Iobject.get("rating_num").getAsFloat();
-                    float lat = Iobject.get("lat").getAsFloat();
-                    float lon = Iobject.get("lon").getAsFloat();
-                    
-                    OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
-                    offerObjects.add(oObject);
+                JsonArray array;
+                try{
+                    array = object.get("offers").getAsJsonArray();   
+                    offerObjects = new ArrayList<OfferObject>();
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonObject Iobject = array.get(i).getAsJsonObject();
+                        int offer_id = Iobject.get("offer").getAsInt();
+                        int user_id = Iobject.get("userid").getAsInt();
+                        String username = Iobject.get("username").getAsString();
+                        float rating = Iobject.get("rating").getAsFloat();
+                        float rating_num = Iobject.get("rating_num").getAsFloat();
+                        float lat = Iobject.get("lat").getAsFloat();
+                        float lon = Iobject.get("lon").getAsFloat();
+                        
+                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
+                        offerObjects.add(oObject);
+                    }
+                    Model.getInstance().setOfferHolder(offerObjects);
+                }catch(Exception ex){
+                    offerObjects = new ArrayList<OfferObject>();
                 }
-                Model.getInstance().setOfferHolder(offerObjects);
+                
                 return offerObjects;
             }
         }
@@ -881,6 +886,31 @@ public class JSonRequestReader {
             }
         }
         return false;
+    }
+    
+    public static boolean isPicked(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        JsonObject object = null;
+        
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "isPicked.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        boolean picked = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                picked = object.get("picked").getAsBoolean();
+            }
+        }
+        return picked;
     }
     
     

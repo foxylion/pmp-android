@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -17,6 +18,8 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
 
 
 public class GeneralPage extends FormPage {
@@ -71,15 +74,31 @@ public class GeneralPage extends FormPage {
 		Section section = createSection(parent, "Localization", toolkit);
 		
 		// Create elements stored inside this section
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
+		Composite client = toolkit.createComposite(section, SWT.None);
 
 		client.setLayout(new GridLayout(2, false));
 		
-		GridData textLayout = new GridData();
-		textLayout.horizontalAlignment = GridData.FILL;
-		textLayout.grabExcessHorizontalSpace = true;
+		GridData layoutData = new GridData();
+		layoutData.horizontalAlignment = GridData.FILL;
+		layoutData.grabExcessHorizontalSpace = true;
 		
-		toolkit.createLabel(client, "Put in table here");
+		// Prepare table
+		new InformationTable(client, layoutData);
+		/**Table table = toolkit.createTable(client, SWT.VIRTUAL);
+		table.setLayoutData(layoutData);
+		table.setHeaderVisible(true);
+		
+		// Set the table's header
+		new TableColumn(table, SWT.None).setText("Locale");
+		new TableColumn(table, SWT.None).setText("Name");
+		new TableColumn(table, SWT.None).setText("Description");
+		
+		// Pack columns
+		for (TableColumn column : table.getColumns()) {
+			column.pack();
+		}
+		*/
+		//
 		
 		section.setClient(client);
 	}

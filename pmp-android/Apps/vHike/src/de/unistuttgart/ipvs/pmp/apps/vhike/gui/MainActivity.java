@@ -68,8 +68,6 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(v.getContext(),
 						SettingsActivity.class);
-//				Intent intent = new Intent(v.getContext(),
-//						Prefs.class);
 				MainActivity.this.startActivity(intent);
 			}
 
