@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.io.IOException; 
+import java.io.IOException;  
 import java.util.List;
 import java.util.Locale;
 
@@ -13,7 +13,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.Prefs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
@@ -68,29 +67,8 @@ public class LocationUpdateHandler implements LocationListener {
 
 		ctrl = new Controller();
 
-		updateGPSprefs();
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				GPSupdateInterval, GPSmoveInterval, (LocationListener) this);
-	}
-
-	// Method to assign GPS prefs
-	public void updateGPSprefs() {
-		int gpsPref = Integer.parseInt(Prefs.getGPSPref(context
-				.getApplicationContext()));
-		switch (gpsPref) {
-		case 1:
-			GPSupdateInterval = 5000; // milliseconds
-			GPSmoveInterval = 1; // meters
-			break;
-		case 2:
-			GPSupdateInterval = 10000;
-			GPSmoveInterval = 100;
-			break;
-		case 3:
-			GPSupdateInterval = 125000;
-			GPSmoveInterval = 1000;
-			break;
-		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -117,7 +95,7 @@ public class LocationUpdateHandler implements LocationListener {
 
 			// draw me in
 			MapModel.getInstance().add2DriverOverlay(context, gPosition, me,
-					mapView, 0);
+					mapView, 0, 0);
 
 			/**
 			 * send server updated latitude and longitude
@@ -150,7 +128,7 @@ public class LocationUpdateHandler implements LocationListener {
 								lqo.get(i).getUserid())) {
 							// add an passenger to overlay
 							MapModel.getInstance().add2DriverOverlay(context,
-									gpsPassenger, passenger, mapView, 1);
+									gpsPassenger, passenger, mapView, 1, lqo.get(i).getUserid());
 
 							// add up ID for statusbar notification
 							notiID++;
@@ -201,7 +179,7 @@ public class LocationUpdateHandler implements LocationListener {
 
 			// draw me in
 			MapModel.getInstance().add2PassengerOverlay(context, gPosition, me,
-					mapView, 0);
+					mapView, 0, 0);
 
 			switch (ctrl.userUpdatePos(Model.getInstance().getSid(),
 					(float) location.getLatitude(),
@@ -222,7 +200,7 @@ public class LocationUpdateHandler implements LocationListener {
 						notiID++;
 
 						MapModel.getInstance().add2PassengerOverlay(context,
-								gpsDriver, driver, mapView, 1);
+								gpsDriver, driver, mapView, 1, 0);
 						MapModel.getInstance().getHitchDrivers().add(driver);
 						MapModel.getInstance().fireNotification(context,
 								driver, loo.get(i).getUser_id(), 1, notiID,
