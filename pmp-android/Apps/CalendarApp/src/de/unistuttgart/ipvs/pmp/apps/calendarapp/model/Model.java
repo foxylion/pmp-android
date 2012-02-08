@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import android.os.Handler;
@@ -41,7 +42,7 @@ public class Model {
     /**
      * Instance of this class
      */
-    private static Model instance;
+    private static volatile Model instance;
     
     /**
      * Stores for every existing day a list of {@link Appointment}s
@@ -120,12 +121,14 @@ public class Model {
      */
     public void loadAppointments(ArrayList<Appointment> appList) {
         
-        dayAppointments.clear();
+        this.dayAppointments.clear();
         for (Appointment app : appList) {
             addAppointment(app);
         }
         
-        this.arrayAdapter.notifyDataSetChanged();
+        if (this.arrayAdapter != null) {
+            this.arrayAdapter.notifyDataSetChanged();
+        }
         
         // Update the visibility of the "no appointments avaiable" textview
         getContext().updateNoAvaiableAppointmentsTextView();
@@ -187,23 +190,24 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
                         Long key = creatKey(appointment.getDate());
-                        if (dayAppointments.containsKey(key)) {
-                            dayAppointments.get(key).add(appointment);
+                        if (Model.this.dayAppointments.containsKey(key)) {
+                            Model.this.dayAppointments.get(key).add(appointment);
                         } else {
                             ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
                             appointmentList.add(appointment);
-                            dayAppointments.put(key, appointmentList);
-                            AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(appContext,
+                            Model.this.dayAppointments.put(key, appointmentList);
+                            AppointmentArrayAdapter adapter = new AppointmentArrayAdapter(Model.this.appContext,
                                     R.layout.list_item, appointmentList);
-                            adapters.put(key, adapter);
-                            arrayAdapter.addSection(key, adapter);
+                            Model.this.adapters.put(key, adapter);
+                            Model.this.arrayAdapter.addSection(key, adapter);
                         }
                         
-                        arrayAdapter.notifyDataSetChanged();
+                        Model.this.arrayAdapter.notifyDataSetChanged();
                         
                         // Update the visibility of the "no appointments available" textview
                         getContext().updateNoAvaiableAppointmentsTextView();
@@ -232,14 +236,15 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
                         Long key = creatKey(oldDate);
                         
                         Appointment toDel = null;
-                        if (dayAppointments.containsKey(key)) {
-                            ArrayList<Appointment> appList = dayAppointments.get(key);
+                        if (Model.this.dayAppointments.containsKey(key)) {
+                            ArrayList<Appointment> appList = Model.this.dayAppointments.get(key);
                             for (Appointment appointment : appList) {
                                 
                                 // The date remains the same
@@ -248,7 +253,7 @@ public class Model {
                                     appointment.setName(name);
                                     appointment.setDescription(description);
                                     appointment.setSeverity(severity);
-                                    adapters.get(key).notifyDataSetChanged();
+                                    Model.this.adapters.get(key).notifyDataSetChanged();
                                     break;
                                     
                                     // The date changes
@@ -267,7 +272,7 @@ public class Model {
                                 addAppointment(new Appointment(id, name, description, date, severity));
                             }
                             
-                            arrayAdapter.notifyDataSetChanged();
+                            Model.this.arrayAdapter.notifyDataSetChanged();
                         } else {
                             Log.e(this, "List of this day not found");
                         }
@@ -285,7 +290,7 @@ public class Model {
      */
     public ArrayList<Appointment> getAppointmentList() {
         ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
-        for (Entry<Long, ArrayList<Appointment>> entry : dayAppointments.entrySet()) {
+        for (Entry<Long, ArrayList<Appointment>> entry : this.dayAppointments.entrySet()) {
             appointmentList.addAll(entry.getValue());
         }
         return appointmentList;
@@ -293,7 +298,7 @@ public class Model {
     
     
     public Boolean isModelEmpty() {
-        return dayAppointments.isEmpty();
+        return this.dayAppointments.isEmpty();
     }
     
     
@@ -305,15 +310,16 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
-                        dayAppointments.clear();
-                        adapters.clear();
-                        arrayAdapter.reset();
+                        Model.this.dayAppointments.clear();
+                        Model.this.adapters.clear();
+                        Model.this.arrayAdapter.reset();
                         
-                        arrayAdapter.notifyDataSetChanged();
-                        appContext.updateNoAvaiableAppointmentsTextView();
+                        Model.this.arrayAdapter.notifyDataSetChanged();
+                        Model.this.appContext.updateNoAvaiableAppointmentsTextView();
                     }
                 });
             }
@@ -329,14 +335,15 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
-                        dayAppointments.clear();
-                        adapters.clear();
-                        arrayAdapter.reset();
+                        Model.this.dayAppointments.clear();
+                        Model.this.adapters.clear();
+                        Model.this.arrayAdapter.reset();
                         
-                        arrayAdapter.notifyDataSetChanged();
+                        Model.this.arrayAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -386,12 +393,13 @@ public class Model {
             
             @Override
             public void run() {
-                importHandler.post(new Runnable() {
+                Model.this.importHandler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
-                        fileList.remove(file);
-                        if (importArrayAdapter != null) {
-                            importArrayAdapter.notifyDataSetChanged();
+                        Model.this.fileList.remove(file);
+                        if (Model.this.importArrayAdapter != null) {
+                            Model.this.importArrayAdapter.notifyDataSetChanged();
                         }
                         
                         // Update the visibility of the "no files available" textview
@@ -421,12 +429,13 @@ public class Model {
             
             @Override
             public void run() {
-                importHandler.post(new Runnable() {
+                Model.this.importHandler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
-                        fileList.add(file);
-                        if (importArrayAdapter != null) {
-                            importArrayAdapter.notifyDataSetChanged();
+                        Model.this.fileList.add(file);
+                        if (Model.this.importArrayAdapter != null) {
+                            Model.this.importArrayAdapter.notifyDataSetChanged();
                         }
                         
                         // Update the visibility of the "no files available" textview
@@ -447,9 +456,9 @@ public class Model {
      *            to add
      */
     public void addFileToListExport(FileDetails file) {
-        fileList.add(file);
-        if (importArrayAdapter != null) {
-            importArrayAdapter.notifyDataSetChanged();
+        this.fileList.add(file);
+        if (this.importArrayAdapter != null) {
+            this.importArrayAdapter.notifyDataSetChanged();
         }
         
         // Update the visibility of the "no files available" textview
@@ -463,9 +472,9 @@ public class Model {
      * Clear the file list of the model
      */
     public void clearFileList() {
-        fileList.clear();
-        if (importArrayAdapter != null) {
-            importArrayAdapter.notifyDataSetChanged();
+        this.fileList.clear();
+        if (this.importArrayAdapter != null) {
+            this.importArrayAdapter.notifyDataSetChanged();
         }
         
         // Update the visibility of the "no files avaiable" textview
@@ -484,7 +493,8 @@ public class Model {
      */
     public boolean isFileNameExisting(String filenameToCheck) {
         for (FileDetails file : this.fileList) {
-            if (file.getName().toLowerCase().equals(filenameToCheck.toLowerCase())) {
+            if (file.getName().toLowerCase(Locale.getDefault())
+                    .equals(filenameToCheck.toLowerCase(Locale.getDefault()))) {
                 return true;
             }
         }
@@ -555,13 +565,14 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
                         ArrayList<Long> toDelete = new ArrayList<Long>();
                         
                         // Search the correct list of this day
-                        for (Entry<Long, ArrayList<Appointment>> dayList : dayAppointments.entrySet()) {
+                        for (Entry<Long, ArrayList<Appointment>> dayList : Model.this.dayAppointments.entrySet()) {
                             if (dayList.getValue().contains(appointment)) {
                                 
                                 // Delete the entry out of this day list
@@ -572,8 +583,8 @@ public class Model {
                                  * remember what to delete out of the list of days
                                  */
                                 if (dayList.getValue().isEmpty()) {
-                                    arrayAdapter.removeEmptyHeadersAndSections();
-                                    adapters.remove(dayList.getKey());
+                                    Model.this.arrayAdapter.removeEmptyHeadersAndSections();
+                                    Model.this.adapters.remove(dayList.getKey());
                                     toDelete.add(dayList.getKey());
                                 }
                             }
@@ -581,10 +592,10 @@ public class Model {
                         
                         // Delete the day lists out of the whole list
                         for (Long del : toDelete) {
-                            dayAppointments.remove(del);
+                            Model.this.dayAppointments.remove(del);
                         }
-                        arrayAdapter.notifyDataSetChanged();
-                        appContext.updateNoAvaiableAppointmentsTextView();
+                        Model.this.arrayAdapter.notifyDataSetChanged();
+                        Model.this.appContext.updateNoAvaiableAppointmentsTextView();
                     }
                 });
             }
@@ -596,11 +607,15 @@ public class Model {
      * Delete all appointments from the database and model
      */
     public void deleteAllAppointments() {
-        dayAppointments.clear();
-        arrayAdapter.reset();
-        arrayAdapter.notifyDataSetChanged();
-        adapters.clear();
-        appContext.updateNoAvaiableAppointmentsTextView();
+        this.dayAppointments.clear();
+        if (this.arrayAdapter != null) {
+            this.arrayAdapter.reset();
+            this.arrayAdapter.notifyDataSetChanged();
+        }
+        this.adapters.clear();
+        if (this.appContext != null) {
+            this.appContext.updateNoAvaiableAppointmentsTextView();
+        }
         SqlConnector connector = new SqlConnector();
         connector.deleteAllApointments();
     }
@@ -612,7 +627,7 @@ public class Model {
      * @return highestId
      */
     public int getHighestId() {
-        return highestId;
+        return this.highestId;
     }
     
     
@@ -633,8 +648,8 @@ public class Model {
      * @return highestId++
      */
     public int getNewHighestId() {
-        highestId++;
-        return highestId;
+        this.highestId++;
+        return this.highestId;
     }
     
     
@@ -657,10 +672,12 @@ public class Model {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                Model.this.handler.post(new Runnable() {
                     
+                    @Override
                     public void run() {
-                        appContext.getListView().setSelection(arrayAdapter.getActualAppointmentPosition());
+                        Model.this.appContext.getListView().setSelection(
+                                Model.this.arrayAdapter.getActualAppointmentPosition());
                     }
                 });
             }

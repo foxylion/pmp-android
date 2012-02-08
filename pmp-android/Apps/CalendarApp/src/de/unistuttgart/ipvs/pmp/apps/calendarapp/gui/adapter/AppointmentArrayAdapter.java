@@ -21,8 +21,6 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter;
 
 import java.util.ArrayList;
 
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -31,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
 
 /**
  * Implements the {@link ArrayAdapter} to show the custom entries
@@ -70,7 +70,7 @@ public class AppointmentArrayAdapter extends ArrayAdapter<Appointment> {
     
     @Override
     public int getCount() {
-        return items.size();
+        return this.items.size();
     }
     
     
@@ -78,15 +78,15 @@ public class AppointmentArrayAdapter extends ArrayAdapter<Appointment> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_item, null);
         }
         
-        Appointment appointm = items.get(position);
+        Appointment appointm = this.items.get(position);
         if (appointm != null) {
             TextView textTop = (TextView) view.findViewById(R.id.toptext);
             TextView textBottom = (TextView) view.findViewById(R.id.bottomtext);
-            View severity = (View) view.findViewById(R.id.severity);
+            View severity = view.findViewById(R.id.severity);
             
             // Set the color of the severity
             switch (appointm.getSeverity()) {
