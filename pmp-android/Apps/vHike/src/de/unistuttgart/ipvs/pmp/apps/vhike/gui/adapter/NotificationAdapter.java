@@ -129,13 +129,13 @@ public class NotificationAdapter extends BaseAdapter {
         if (Model.getInstance().isInInvitedList(hitchhiker.getID())) {
             
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
-            Log.i(this, "Offer waiting");
+            Log.i(this, "Offer waiting " + hitchhiker.getID());
             accept_invite.invalidate();
             
             if (Model.getInstance().isAccepted(hitchhiker.getID())) {
                 accept_invite.setBackgroundColor(R.drawable.bg_check);
                 accept_invite.invalidate();
-                Log.i(this, "Offer waiting to accepted");
+                Log.i(this, "Offer waiting to accepted " + hitchhiker.getID());
             }
         }
         
