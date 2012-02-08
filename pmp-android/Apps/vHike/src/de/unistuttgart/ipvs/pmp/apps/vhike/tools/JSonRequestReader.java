@@ -357,42 +357,42 @@ public class JSonRequestReader {
     }
     
     
-    /**
-     * update the position of the user (driver)
-     * 
-     * @param sid
-     * @param trip_id
-     * @param current_lat
-     * @param current_lon
-     * @return
-     */
-    public static String tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) {
-        
-        listToParse.clear();
-        listToParse.add(new ParamObject("sid", sid, false));
-        
-        listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
-        listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat), true));
-        listToParse.add(new ParamObject("current_lon", String.valueOf(current_lon), true));
-        
-        JsonObject object = null;
-        try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_update_pos.php", false);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        boolean suc = false;
-        String status = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            status = object.get("status").getAsString();
-            return status;
-        }
-        
-        return status;
-    }
+//    /**
+//     * update the position of the user (driver)
+//     * 
+//     * @param sid
+//     * @param trip_id
+//     * @param current_lat
+//     * @param current_lon
+//     * @return
+//     */
+//    public static String tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) {
+//        
+//        listToParse.clear();
+//        listToParse.add(new ParamObject("sid", sid, false));
+//        
+//        listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
+//        listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat), true));
+//        listToParse.add(new ParamObject("current_lon", String.valueOf(current_lon), true));
+//        
+//        JsonObject object = null;
+//        try {
+//            object = JSonRequestProvider.doRequest(listToParse, "trip_update_pos.php", false);
+//        } catch (ClientProtocolException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        boolean suc = false;
+//        String status = null;
+//        if (object != null) {
+//            suc = object.get("successful").getAsBoolean();
+//            status = object.get("status").getAsString();
+//            return status;
+//        }
+//        
+//        return status;
+//    }
     
     
     public static String userUpdatePos(String sid, float lat, float lon) {

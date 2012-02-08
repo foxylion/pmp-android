@@ -393,7 +393,12 @@ public class Controller {
         
         return bool;
     }
-    
+    /**
+     * Get a List with Passengers and their status to pick up.
+     * @param sid Session id
+     * @param trip_id Trip id
+     * @return List of {@link PassengerObject}
+     */
     public List<PassengerObject> offer_accepted(String sid, int trip_id) {
         List<PassengerObject> bool = JSonRequestReader.offer_accepted(sid, trip_id);
         return bool;
