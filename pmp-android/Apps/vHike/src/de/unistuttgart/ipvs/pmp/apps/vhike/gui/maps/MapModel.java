@@ -316,8 +316,10 @@ public class MapModel {
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
             DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps);
+//            OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
+//                    + ", Rating: " + passenger.getRating_avg());
             OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
-                    + ", Rating: " + passenger.getRating_avg());
+                    + ", Rating: " + 2);
             driverOverlay.addOverlay(opDriverItem);
             
             MapModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
