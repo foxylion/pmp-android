@@ -107,6 +107,7 @@ public class NotificationAdapter extends BaseAdapter {
         // determine which id to receive
         if (mWhichHitcher == 0) {
             final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+            Log.i(this, "Position: " + position);
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
             
