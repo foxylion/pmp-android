@@ -20,11 +20,31 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
 /**
- * This is the interface for a AISIssue location
+ * Here are listed all possible types of RGISIssues
  * 
  * @author Marcus Vetter
  * 
  */
-public interface AISIssueLocation {
+public enum RGISIssueType {
+    
+    NAME_LOCALE_INVALID,
+    NAME_LOCALE_MISSING,
+    NAME_LOCALE_OCCURRED_TOO_OFTEN,
+    NAME_LOCALE_EN_MISSING,
+    NAME_EMPTY,
+    
+    DESCR_LOCALE_INVALID,
+    DESCR_LOCALE_MISSING,
+    DESCR_LOCALE_OCCURRED_TOO_OFTEN,
+    DESCR_LOCALE_EN_MISSING,
+    DESCR_EMPTY,
+    
+    RGI_IDENTIFIER_MISSING,
+    RGI_ICON_MISSING,
+    RGI_CLASSNAME_MISSING,
+    
+    PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
+    PS_IDENTIFIER_MISSING,
+    PS_VALID_VALUE_DESCRIPTION_MISSING
     
 }

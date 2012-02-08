@@ -19,25 +19,17 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
-/**
- * Instantiate this class, if an issue in the AIS occurrs.
- * You have to set the location and type of the issue and can also set a parameter, e.g. identifier or language
- * attribute
- * 
- * @author Marcus Vetter
- * 
- */
-public class AISIssue extends AbstractIssue {
+public class RGISIssue extends AbstractIssue {
     
     /**
      * The location of the issue
      */
-    private AISIssueLocation location;
+    private RGISIssueLocation location;
     
     /**
      * The type of the issue
      */
-    private AISIssueType type;
+    private RGISIssueType type;
     
     
     /**
@@ -48,7 +40,7 @@ public class AISIssue extends AbstractIssue {
      * @param location
      *            location of the issue
      */
-    public AISIssue(AISIssueType type, AISIssueLocation location) {
+    public RGISIssue(RGISIssueType type, RGISIssueLocation location) {
         this.type = type;
         this.location = location;
     }
@@ -59,7 +51,7 @@ public class AISIssue extends AbstractIssue {
      * 
      * @return the location
      */
-    public AISIssueLocation getLocation() {
+    public RGISIssueLocation getLocation() {
         return location;
     }
     
@@ -70,7 +62,7 @@ public class AISIssue extends AbstractIssue {
      * @param location
      *            the location to set
      */
-    public void setLocation(AISIssueLocation location) {
+    public void setLocation(RGISIssueLocation location) {
         this.location = location;
     }
     
@@ -80,7 +72,7 @@ public class AISIssue extends AbstractIssue {
      * 
      * @return the type
      */
-    public AISIssueType getType() {
+    public RGISIssueType getType() {
         return type;
     }
     
@@ -91,7 +83,7 @@ public class AISIssue extends AbstractIssue {
      * @param type
      *            the type to set
      */
-    public void setType(AISIssueType type) {
+    public void setType(RGISIssueType type) {
         this.type = type;
     }
     

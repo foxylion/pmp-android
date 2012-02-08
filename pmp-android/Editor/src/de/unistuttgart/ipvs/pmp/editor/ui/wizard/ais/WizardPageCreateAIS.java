@@ -201,6 +201,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    return;
 	} catch (AppIdentifierNotFoundException e) {
 	    updateStatus(e.getMessage());
+	    return;
 	}
 
 	// Assets folder is not specified at the path
@@ -208,8 +209,6 @@ public class WizardPageCreateAIS extends WizardPage {
 	    updateStatus("Assets folder must be specified at the root of your project");
 	    return;
 	}
-	
-	
 
 	// Everything correct
 	updateStatus(null);
@@ -234,5 +233,22 @@ public class WizardPageCreateAIS extends WizardPage {
      */
     public String getProjectName() {
 	return assetsFolderText.getText();
+    }
+
+    /**
+     * Returns the project without the "/assets"
+     * 
+     * @return project only
+     */
+    public String getProjectOnly() {
+	// Split only the project out of the string
+	String[] projects = getProjectName().split("/");
+
+	// The project name
+	String project = "";
+	if (projects.length >= 2) {
+	    project = projects[1];
+	}
+	return project;
     }
 }

@@ -20,11 +20,11 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
 /**
- * This is the interface for a AISIssue location
+ * This is the interface for a RGISIssue location
  * 
  * @author Marcus Vetter
  * 
  */
-public interface AISIssueLocation {
+public interface RGISIssueLocation {
     
 }

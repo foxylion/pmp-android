@@ -17,6 +17,35 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 public class Model {
     
     
+    public void setUserID(){
+        
+    }
+    
+    
+    List<FoundProfilePos> foundUsers;
+    
+    public List<FoundProfilePos> getFindList(){
+        return foundUsers;
+    }
+    
+    public boolean isFinded(int userid) {
+        boolean picked = false;
+        for (FoundProfilePos invID : foundUsers) {
+            if (userid == invID.getUserid()) {
+                picked = true;
+            }
+        }
+        return picked;
+    }
+    
+    public void addToFoundUsers(FoundProfilePos user){
+        foundUsers.add(user);
+    }
+    
+    public void clearFoundUsers(){
+        foundUsers.clear();
+    }
+    
     /**
      * Current positions
      */
@@ -251,6 +280,7 @@ public class Model {
         bannedUser = new ArrayList<Integer>();
         offeredUser = new ArrayList<Integer>();
         pickedUsers = new ArrayList<Integer>();
+        foundUsers = new ArrayList<FoundProfilePos>();
     }
     
     
