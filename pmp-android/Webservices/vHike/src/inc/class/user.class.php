@@ -509,6 +509,36 @@ class user {
 		return $arr;
 	}
 
+	public function deleteAllQueries() {
+		$db = Database::getInstance();
+		return $db->getAffectedRows($db->query("DELETE FROM " . DB_PREFIX . "_query WHERE passenger=" . $this->id));
+	}
+
+	public function deleteQuery($query_id) {
+		$db = Database::getInstance();
+		return $db->getAffectedRows($db->query("DELETE FROM " . DB_PREFIX . "_query " .
+												   "WHERE passenger=" . $this->id . " AND id={$query_id}"));
+	}
+
+	public function isQueryExisted($destination) {
+		$db = Database::getInstance();
+		$result = $db->query("SELECT `id` FROM `" . DB_PREFIX . "_query` " .
+								 "WHERE `passenger`=" . $this->id . " AND `destination`='{$destination}'");
+		return $db->getNumRows($result) > 0;
+	}
+
+	public function isRideExisted($destination) {
+		$db = Database::getInstance();
+		$result = $db->query("SELECT ride.id FROM dev_ride AS ride\n" .
+								 "INNER JOIN dev_trip AS trip ON ride.trip = trip.id\n" .
+								 "WHERE\n" .
+								 "trip.ending = 0 AND\n" .
+								 "ride.passenger = " . $this->id . " AND\n" .
+								 "trip.destination = '{$destination}'");
+		print_r($result);
+		return $db->getNumRows($result) > 0;
+	}
+
 	// Get trip info from a rider's ID
 	public function getCurrentRideTripInfo() {
 		$db = Database::getInstance();
@@ -542,7 +572,7 @@ class user {
 			"ride.passenger =" . $this->getId() . " AND " .
 			"trip.ending = 0 LIMIT 1";
 		$row = $db->fetch($query);
-		if ($db->getAffectedRows() == 0 || $row["tripid"]==null) {
+		if ($db->getAffectedRows() == 0 || $row["tripid"] == null) {
 			return null;
 		} else {
 			return $row;
@@ -612,15 +642,17 @@ class user {
 	 * Returns the current position of the user.
 	 * @return Position The user's position
 	 */
-	public function getPosition() {
+	public function getCurrentPosition() {
 		$db = Database::getInstance();
-		$row = $db->fetch($db->query("SELECT `latitude`, `longitude`, `last_update` " . "FROM " . DB_PREFIX . "_position WHERE `user` = " . $this->getId()));
-		if ($db->getAffectedRows() <= 0) {
+		$result = $db->query('SELECT `latitude`, `longitude`, UNIX_TIMESTAMP(`last_update`) as last_update ' .
+								 'FROM ' . DB_PREFIX . '_position WHERE `user`=' . $this->getId());
+		if ($db->getNumRows($result) <= 0) {
 			return null;
 		}
-		$pos = array("latitude"   => (float)$row["latitude"],
-					 "longitude"  => (float)$row["longitude"],
-					 "lastUpdate" => (int)$row["last_update"]);
+		$row = $db->fetch($result);
+		$pos = array("latitude"	=> (float)$row["latitude"],
+					 "longitude"   => (float)$row["longitude"],
+					 "last_update" => (int)$row["last_update"]);
 		return $pos;
 	}
 
