@@ -198,9 +198,8 @@ public class NotificationAdapter extends BaseAdapter {
                 
                 if (mWhichHitcher == 0) {
                     queryID = lqo.get(position).getQueryid();
+                    userID = lqo.get(position).getUserid();
                 }
-                
-                userID = lqo.get(position).getUserid();
                 
                 if (mWhichHitcher == 0) {
                     switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
