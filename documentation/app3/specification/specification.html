@@ -1,289 +1,453 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-	<title>Spezifikation - App3 (Informations-App)</title>
-	<script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
-	<script type="text/javascript" src="../../_layout/script.js"></script>
-	<script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-  
-  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
-	<link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
-	<link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
-	<div id="wrapper">
-		<div id="page-head-date">06. Februar 2012</div>
-		<div id="page-head-title">App3</div>
-		<div id="page-title">App3 Spezifikation</div>
-		<div id="page-version">Version 3.3</div>
-		
-		<nav>
-			<div class="title">Inhaltsverzeichnis</div>
-			<ul>
-			</ul>
-		</nav>
-		
-		<!-- here comes the content of the specification -->
-		<div id="content">
-		
-			<h1 id="versionshistorie">Versionshistorie</h1>
+    <head>
+        <title>Spezifikation - App3 (Informations-App)</title>
+        <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../../_layout/script.js"></script>
+        <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 
-<h3>Version 3.3 (06.02.2012)</h3>
-					<ul>
-						<li>Ressourcengruppen verbessert</li>
-						<li></li>
-					</ul>
-			
-			
-<h3>Version 3.2 (03.03.2012)</h3>
-					<ul>
-						<li>Verbesserter GUI Prototyp</li>
-						<li>Ressourcengruppen hinzugefügt</li>
-					</ul>
-			
+        <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+        <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+        <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="page-head-date">06. Februar 2012</div>
+            <div id="page-head-title">App3</div>
+            <div id="page-title">App3 Spezifikation</div>
+            <div id="page-version">Version 3.3</div>
 
-			<h3>Version 3.1 (31.01.2012)</h3>
-					<ul>
-						<li>Etwas bezüglich der Oberfläche hinzugefügt.</li>
-						<li>Die entsprechenden Use Cases in einem externen Dokument verfasst.</li>
-					</ul>
-			
-			
-				<h3>Version 3.0 (29.01.2012)</h3>
-					<ul>
-						<li>Erstes Gerüst der Spezifikationsvorlage</li>
-					</ul>
+            <nav>
+                <div class="title">Inhaltsverzeichnis</div>
+                <ul>
+                </ul>
+            </nav>
+
+            <!-- here comes the content of the specification -->
+            <div id="content">
+
+                <h1 id="versionshistorie">Versionshistorie</h1>
+
+                <h3>Version 3.3 (06.02.2012)</h3>
+                <ul>
+                    <li>Ressourcengruppen verbessert</li>
+                    <li>Panels hinzugefügt</li>
+                </ul>
 
 
-			<h1 id="einleitung">Einleitung</h1>
-			<p></p>
-			
-				<h2 id="zweck">Zweck</h2>
-				<p>Dieses Dokument stellt die Spezifikation des Unterprojektes "App3" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.  
-				Das Dokument summiert
-				die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
-				Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
-				Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
-				damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
-				<p>Die Spezifikation definiert dabei einen grafischen Prototypen für die spätere Benutzeroberfläche,
-				beschreibt die gewünschten Funktionsabläufe und definiert im Begriffslexikon die
-				Bedeutung von speziellen Begriffen.</p>
-			
-				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
-				<p>App3 dient hauptsächlich als Demonstrationsprogramm bzw. Showcase um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
-		
-
-				<h2 id="leserkreis">Leserkreis</h2>
-				<p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
-				<ul>
-					<li>den Entwicklern von PMP</li>
-					<li>dem Kunden</li>
-					<li>dem Betreuern des Studienprojekts</li>
-				</ul>
-				
-				<div class="pagebreak"></div>
-			
-				<h2 id="konventionen">Konventionen</h2>
-				<p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
-				<ul>
-					<li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
-					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
-					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
-					<li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
-				</ul>
-
-			
-			<h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
-				<h2 id="use-cases">Use Cases</h2>
-				Die Use Cases wurden in ein separates Dokument ausgelagert.
-			
-				<h2 id="anforderungen-an-pmp">Anforderungen an App3</h2>
-			
-					<h3 id="oberflaeche">Oberfläche</h3>
-					<p>Die Oberfläche von App3 wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
-			
-					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
-					<p>App3 wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
-					
-			
-			<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
-				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
-				<p>App3 wird von einem durchschnittlichen Android-Nutzer bedient werden können. Allgemein lässt sich über die App sagen, dass diese dem Nutzer keine großartigen Aufgaben stellen wird.</p>
-	
-			
-				<div class="pagebreak"></div>
-			
-				<h2 id="leistungsanforderungen">Leistungsanforderungen</h3>
-				<p>App3 wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
-
-					
-				<h2 id="robustheit">Robustheit</h2>
-				<p>Es werden keine speziellen Anforderungen an die Robustheit gestellt.</p>
-				
-				<h2 id="sicherheit">Sicherheit</h2>
-				<p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
-			
-				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-				<p>App3 wird kompatibel zur aktuellen PMP Version sein (PMP v3.x).</p>
-				
-				<h2 id="internationalisierung">Internationalisierung</h2>
-				<p>Die einzige verfügbare Sprache für App3 ist Englisch.</p>
-			
-				<h2 id="installation">Installation</h2>
-				<p>App3 wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
-			
-				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
-				<p>Es ist keine Erweiterungsmöglichkeit für die Software vorgesehen.</p>
-				
-				<h2 id="wartbarkeit">Wartbarkeit</h2>
-				<p>Es werden keine speziellen Anforderungen an die Wartbarkeit von App3 gestellt.</p>
-			
-				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-				<p>App3 wird als eine zu PMP kompatible Beispielapp entwickelt.</p>
-				
-				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-				<p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. App3 wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
-			
-			<div class="pagebreak"></div>
-
-			<h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
-
-			<h2 id="ui-home">Hauptmenü</h2>
-			
-			<div class="uip">
-				<a href="gui-prototype/app3-menu.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app3-menu.png" alt="Home" width="45%" class="right">
-				</a>
-				
-				<p><b>Hauptmenü der App3</b></p>
-				<p>Das Menü der Informations-App besteht aus folgenden Kategorien:</p>
-					<p><b>News</b></p>
-					<p>Hier werden die News für den ausgewählten Zeitraum und der ausgesuchten Region angezeigt</p>
-					<p><b>Buisness</b></p>
-					<p>Hier werden die Informationen bezüglich des Buisnesslebens, zum Beispiel die Aktienkurse, angezeigt</p>
-					<p><b>Weather</b></p>
-					<p>Hier werden die Wettervorhersagen für den ausgewählten Zeitraum und der ausgesuchten Region angezeigt</p>
-					<p><b>Sport</b></p>
-					<p>Hier werden die Informationen bezüglich der Sportneuigkeiten, zum Beispiel die letzten Ergäbnisse der Bundesliga, 					angezeigt</p>
-				
-				<div class="clear"></div>
+                <h3>Version 3.2 (03.03.2012)</h3>
+                <ul>
+                    <li>Verbesserter GUI Prototyp</li>
+                    <li>Ressourcengruppen hinzugefügt</li>
+                </ul>
 
 
-			<div class="pagebreak"></div>
-			
-			<h2 id="ui-resourcegroups">Ressourcengruppen</h2>
-			<p><b>---</b></p>
-			
-			
-			<div class="pagebreak"></div>
-			
-			<h2 id="ui-einstellungen">Einstellungen</h2>
-			
-			<div class="uip">
-				<a href="gui-prototype/app3-news-options.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/app3-news-options.png" alt="Einstellungen Übersicht" width="45%" class="right">
-				</a>
-				
-				<p><b>Position der Einstellungen</b></p>
-				<p>Zu den Einstellungen der einzelnen Kategorien gelingt man über die Tabs, die sich im Informationsfenster der jeweiligen 						Kategorien befinden.</p>
-				<p><b>Granularität der Einstellungen</b></p>
-				<p>Wie man am Beispiel der Kategorie "News" sehen kann, besteht die Möglichkeit die Einstellungen bezüglich des Orts und der Zeit 				vorzunehmen. Allerdings können die Einstellungen je nach Kategorie etwas variieren.</p>
-				<p><b>Darstellung</b></p>
-				<p>Der aktive Tab wird beleuchtet. Der inaktive - ausgegraut. Die aktiven Einstellungen werden ebenfalls farbig hervorgehoben.</p>
-				<div class="clear"></div>
-			</div>
-			
-			<div class="pagebreak"></div>
-			
-			<h1 id="begriffslexikon">Begriffslexikon</h1>
-				<h2 id="bgl-app">App</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>App</th></tr>
-					<tr><th class="left">Synonyme</th><td>Applikation</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Android-System ausgeführt wird. Eine App definiert mindestens ein Service Feature, das mehrere Services enthalten kann. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
-				</table>
+                <h3>Version 3.1 (31.01.2012)</h3>
+                <ul>
+                    <li>Etwas bezüglich der Oberfläche hinzugefügt.</li>
+                    <li>Die entsprechenden Use Cases in einem externen Dokument verfasst.</li>
+                </ul>
 
-				
-				<h2 id="bgl-kontext">Kontext</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
-					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Setting abhängen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
-				</table>
-				
 
-			
-				<h2 id="bgl-privacysetting">Privacy Setting</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
-					<tr><th class="left">Synonyme</th><td>Privacy Flag, Privacy Level</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Setting kann kontext-abhängig sein. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Settings wie "Lesen" oder "Schreiben" anbieten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
-				</table>
+                <h3>Version 3.0 (29.01.2012)</h3>
+                <ul>
+                    <li>Erstes Gerüst der Spezifikationsvorlage</li>
+                </ul>
 
-				<h2 id="bgl-ressource">Ressource</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Ressource</th></tr>
-					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Funktions- oder Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "E-Mail-Zugriff" könnte die Ressourcen "Absender", "Empfänger", "Betreff", "Inhalt" und "Anhang" enthalten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Die Ressource wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
-				</table>
-				
-				<div class="pagebreak"></div>
-				
-				<h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
-					<tr><th class="left">Synonyme</th><td>Ressourcenkategorie</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Eine Ressourcengruppe ist eine sinnverwandte Zusammenfassung einzelner Ressourcen.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Es könnte eine Ressourcengruppe zum Zugriff auf das Dateisystem, auf GPS-Empfang oder auf einen Web-Service geben.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Die Ressourcengruppe bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Die Ressourcengruppe wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
-				</table>
-				
 
-				
-				<h2 id="bgl-servicefeature">Service Feature</h2>
-				<table>
-					<tr><th class="left">Begriff</th><th>Service Feature</th></tr>
-					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Service Feature ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Settings erfüllt wird.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Die App "Kalender" könnte die Service Features "Kalendereinträge lesen", "Kalendereinträge schreiben" und "Kalendereinträge per E-Mail versenden" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy Setting verschiedener Ressourcengruppen verlangt, aber dafür auch mehr Services angeboten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Service Feature ist weder ein Privacy Setting noch ein Preset.</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Ein Service Feature bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Es können mehrere Service Features gleichzeitig aktiviert sein.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Das Service Feature wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
-					<tr><th class="left">Unklarheiten</th><td>Das aus der Spezifikationsversion 1.x bekannte Service Level wird vom Service Feature abgelöst.</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
-				</table>
-			
-			<div class="pagebreak"></div>
-			
-				
+                <h1 id="einleitung">Einleitung</h1>
+                <p></p>
+
+                <h2 id="zweck">Zweck</h2>
+                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "App3" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.  
+                    Das Dokument summiert
+                    die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
+                    Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
+                    Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
+                    damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
+                <p>Die Spezifikation definiert dabei einen grafischen Prototypen für die spätere Benutzeroberfläche,
+                    beschreibt die gewünschten Funktionsabläufe und definiert im Begriffslexikon die
+                    Bedeutung von speziellen Begriffen.</p>
+
+                <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
+                <p>App3 dient hauptsächlich als Demonstrationsprogramm bzw. Showcase um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
+
+
+                <h2 id="leserkreis">Leserkreis</h2>
+                <p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+                <ul>
+                    <li>den Entwicklern von PMP</li>
+                    <li>dem Kunden</li>
+                    <li>dem Betreuern des Studienprojekts</li>
+                </ul>
+
+                <div class="pagebreak"></div>
+
+                <h2 id="konventionen">Konventionen</h2>
+                <p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+                <ul>
+                    <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+                    <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+                    <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+                    <li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+                </ul>
+
+
+                <h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
+                <h2 id="use-cases">Use Cases</h2>
+                Die Use Cases wurden in ein separates Dokument ausgelagert.
+
+                <h2 id="anforderungen-an-pmp">Anforderungen an App3</h2>
+
+                <h3 id="oberflaeche">Oberfläche</h3>
+                <p>Die Oberfläche von App3 wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+
+                <h3 id="standardeinstellungen">Standardeinstellungen</h3>
+                <p>App3 wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
+
+
+                <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
+                <h2 id="bedienbarkeit">Bedienbarkeit</h2>
+                <p>App3 wird von einem durchschnittlichen Android-Nutzer bedient werden können. Allgemein lässt sich über die App sagen, dass diese dem Nutzer keine großartigen Aufgaben stellen wird.</p>
+
+
+                <div class="pagebreak"></div>
+
+                <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
+                <p>App3 wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+
+                <h2 id="robustheit">Robustheit</h2>
+                <p>Es werden keine speziellen Anforderungen an die Robustheit gestellt.</p>
+
+                <h2 id="sicherheit">Sicherheit</h2>
+                <p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
+
+                <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+                <p>App3 wird kompatibel zur aktuellen PMP Version sein (PMP v3.x).</p>
+
+                <h2 id="internationalisierung">Internationalisierung</h2>
+                <p>Die einzige verfügbare Sprache für App3 ist Englisch.</p>
+
+                <h2 id="installation">Installation</h2>
+                <p>App3 wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+
+                <h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
+                <p>Es ist keine Erweiterungsmöglichkeit für die Software vorgesehen.</p>
+
+                <h2 id="wartbarkeit">Wartbarkeit</h2>
+                <p>Es werden keine speziellen Anforderungen an die Wartbarkeit von App3 gestellt.</p>
+
+                <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+                <p>App3 wird als eine zu PMP kompatible Beispielapp entwickelt.</p>
+
+                <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. App3 wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+
+                <div class="pagebreak"></div>
+
+                <h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
+
+                <h2 id="ui-mainactivity">Startbildschirm</h2>
+                <div class="uip">
+                    <a href="gui-prototype/screen-1.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/screen-1.png" alt="Home" width="45%" class="left">
+                    </a>
+                    <p>Nach dem Starten von App3 wird automatisch der Startbildschirm geöffnet. Grundsätzlich wird in App3 immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/screen-2.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/screen-2.png" alt="Home" width="45%" class="left">
+                    </a>
+                    <p>Durch "wischen" auf dem Bildschirm kann zwischen den einzelnen Panels hin und hergeschaltet werden.</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/screen-3.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/screen-3.png" alt="Home" width="45%" class="left">
+                    </a>
+                    <p>Auf jeden Panel werden bestimmte Ressourcengruppen getestet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte App3 gewährt wurden. Eine Übersicht über alle Panels finden sie im Punkt <a href="#">Panels</a></p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/screen-4.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/screen-4.png" alt="Home" width="45%" class="left">
+                    </a>
+                    <p>Sollte ein Panel nicht "Out of the Box" funktionieren oder weitere Konfiguration nötig sein, so kann mit der "Menü" Taste das Menü zum aufrufen der Einstellungen geöffnet werden.</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/screen-5.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/screen-5.png" alt="Home" width="45%" class="left">
+                    </a>
+                    <p>Jedes Panel besitzt dabei eigene Settings.</p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+
+            <h2 id="ui-panels">Panels</h2>
+            <div class="uip">
+
+                <p></p>
+            </div>
+
+            <div class="pagebreak"></div>
+
+            <h1 id="ui-resourcegroups">Ressourcengruppen</h2>
+                <div class="uip">
+
+
+                    <p></p>
+                    <p>
+                        Es werden alle Ressourcengruppen aufgelistet, der Name bezieht sich auf die Deutsche Übersetzung, dahinter wird in der Form [Name, full.class.path] der englische Name der Ressourcengruppe und
+                        der Klassenpfad angegeben.
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Verbindungen</strong><br />
+                            [Connection, de.unistuttgart.ipvs.pmp.resourcegroups.connection]<br />
+                            Erweitert java.net.Socket, java.net.URLConnection, java.net.ServerSocket mit Sicherheitsprüfungen.
+                            <ul>
+                                <li>PrivacyLevels
+                                    <ul>
+                                        <li>
+                                            <strong>Socket</strong><br />
+                                            Ermöglicht die Freigabe zur Verbindung zu bestimmen Adressen und Ports.<br />
+                                            Mögliche Werte:<br />
+                                            einzelne Adresse (String), mehrere Adressen (String Array)<br />
+                                            Die einzelnen Adressen werden in der Form "Adresse:Port" als String gespeichert, dabei ist die Verwendung von Platzhaltern ist möglich. Beispiel: 65.34.12.*:453*
+                                        </li>
+                                        <li>
+                                            <strong>Server</strong>
+                                        </li>
+                                        <li>
+                                            <strong>HTTP</strong>
+                                        </li>
+                                        <li>
+                                            <strong>FTP</strong><br />
+                                            Ermöglichst die Freigabe von bestimmten Ports.<br />
+                                            Mögliche Werte:<br />
+                                            einzelner Port (Integer), mehrere Ports (Integer Array),<br />
+                                            die Verwendung von Platzhaltern ist möglich.
+                                        </li>
+                                        <li>
+                                            <strong>File</strong>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Feeds</strong><br />
+                            https://github.com/ahorn/android-rss
+                            <ul>
+                                <li>
+                                    <strong>URL</strong>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Dateisystem</strong><br />
+                            [Filesystem
+                            <ul>
+                                <li>Lesen (true, false, /sd-card/My-App)
+                                </li>
+                                <li>Schreiben (read, readwrite)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Standort</strong>
+                            <ul>
+                                <li>Land (true, false)
+                                </li>
+                                <li>Stadt (true, false)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>GPS</strong>
+                            <ul>
+                                <li>Genauigkeit (1m, 10, 100, 1000, 10km, 100km)
+                                </li>
+                                <li>Fester Standort (0.4536723/0.2346784)
+                                </li>
+                                <li> 
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Bluetooth</strong>
+                        </li>
+                        <li>
+                            <strong>Audio</strong>
+                            <ul>
+                                <li>
+                                    <div class="doc-permission-description">
+                                        Audio aufnehmen
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="doc-permission-description">
+                                        Audio wiedergeben
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="doc-permission-description">
+                                        Audioeinstellungen verändern
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Batterie</strong>
+                        </li>
+                        <li>
+                            <strong>Kontakte</strong>
+                            <ul>
+                                <li>Eigene Details auslesen (Vorname, Name, Email, Telefonnummer, ...)
+                                </li>
+                                <li>Anzahl der Kontakte auslesen (true, false)
+                                </li>
+                                <li>Details der Kontakte auslesen (Vorname, Name, Email, Telefonnummer, ...)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Accounts</strong>
+                            <ul>
+                                <li>Authentifizierung</li>
+                                <li>Anzahl der Kontakte auslesen (true, false)
+                                </li>
+                                <li>Details der Kontakte auslesen (Vorname, Name, Email, Telefonnummer, ...)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Privatssphäre</strong>
+                            <ul>
+                                <li>HISTORY
+                                </li>
+                                <li>BOOKMARKS
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>System</strong>
+                            <ul>
+                                <li>Standby-Modus deaktivieren
+                                </li>
+                                <li>Tastensperre deaktivieren
+                                </li>
+                                <li>Aktive Apps abrufen
+                                </li>
+                                <li>Read IMEI
+                                </li>
+                                <li>Read Unique Phone ID
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div class="pagebreak"></div>
+
+                <div class="pagebreak"></div>
+                <h1 id="begriffslexikon">Begriffslexikon</h1>
+                <h2 id="bgl-app">App</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>App</th></tr>
+                    <tr><th class="left">Synonyme</th><td>Applikation</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Android-System ausgeführt wird. Eine App definiert mindestens ein Service Feature, das mehrere Services enthalten kann. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
+                </table>
+
+
+                <h2 id="bgl-kontext">Kontext</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>Kontext</th></tr>
+                    <tr><th class="left">Synonyme</th><td>-</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Setting abhängen.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+                </table>
+
+
+
+                <h2 id="bgl-privacysetting">Privacy Setting</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
+                    <tr><th class="left">Synonyme</th><td>Privacy Flag, Privacy Level</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Setting kann kontext-abhängig sein. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Settings wie "Lesen" oder "Schreiben" anbieten.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
+                </table>
+
+                <h2 id="bgl-ressource">Ressource</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>Ressource</th></tr>
+                    <tr><th class="left">Synonyme</th><td>-</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Funktions- oder Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "E-Mail-Zugriff" könnte die Ressourcen "Absender", "Empfänger", "Betreff", "Inhalt" und "Anhang" enthalten.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Die Ressource wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+                </table>
+
+                <div class="pagebreak"></div>
+
+                <h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
+                    <tr><th class="left">Synonyme</th><td>Ressourcenkategorie</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Eine Ressourcengruppe ist eine sinnverwandte Zusammenfassung einzelner Ressourcen.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Es könnte eine Ressourcengruppe zum Zugriff auf das Dateisystem, auf GPS-Empfang oder auf einen Web-Service geben.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Die Ressourcengruppe bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Die Ressourcengruppe wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+                </table>
+
+
+
+                <h2 id="bgl-servicefeature">Service Feature</h2>
+                <table>
+                    <tr><th class="left">Begriff</th><th>Service Feature</th></tr>
+                    <tr><th class="left">Synonyme</th><td>-</td></tr>
+                    <tr><th class="left">Bedeutung</th><td>Ein Service Feature ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Settings erfüllt wird.</td></tr>
+                    <tr><th class="left">Beispiele</th><td>Die App "Kalender" könnte die Service Features "Kalendereinträge lesen", "Kalendereinträge schreiben" und "Kalendereinträge per E-Mail versenden" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy Setting verschiedener Ressourcengruppen verlangt, aber dafür auch mehr Services angeboten.</td></tr>
+                    <tr><th class="left">Abgrenzung</th><td>Ein Service Feature ist weder ein Privacy Setting noch ein Preset.</td></tr>
+                    <tr><th class="left">Gültigkeit</th><td>Ein Service Feature bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Es können mehrere Service Features gleichzeitig aktiviert sein.</td></tr>
+                    <tr><th class="left">Bezeichnung</th><td>Das Service Feature wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+                    <tr><th class="left">Unklarheiten</th><td>Das aus der Spezifikationsversion 1.x bekannte Service Level wird vom Service Feature abgelöst.</td></tr>
+                    <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+                </table>
+
+                <div class="pagebreak"></div>
+
+        </div>
+    </div>
 </body>
 </html>

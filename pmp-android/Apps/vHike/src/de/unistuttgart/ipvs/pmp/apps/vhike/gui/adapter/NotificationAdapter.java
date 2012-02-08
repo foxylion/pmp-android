@@ -100,7 +100,7 @@ public class NotificationAdapter extends BaseAdapter {
         
         Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
         RatingBar noti_rb = (RatingBar) entryView.findViewById(R.id.notification_ratingbar);
-        TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+        final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
         final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
@@ -202,7 +202,7 @@ public class NotificationAdapter extends BaseAdapter {
                             Model.getInstance().addToInvitedUser(userID);
 
                             // check for offer updates for this button
-                            cao = new CheckAcceptedOffers(accept_invite, userID);
+                            cao = new CheckAcceptedOffers(accept_invite, name, userID);
                             cao.run();
                             timer = new Timer();
                             timer.schedule(cao, 300, 10000);
@@ -215,7 +215,7 @@ public class NotificationAdapter extends BaseAdapter {
                             Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
                             break;
                         case Constants.STATUS_ALREADY_SENT:
-                            Log.i(this, "P: " + position + ", " + queryID);
+                            
                             Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
                             break;
                     }
