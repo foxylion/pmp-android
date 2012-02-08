@@ -108,8 +108,12 @@ public class NotificationAdapter extends BaseAdapter {
         if (mWhichHitcher == 0) {
             final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
             Log.i(this, "Position: " + position);
-            queryID = lqo.get(position).getQueryid();
-            userID = lqo.get(position).getUserid();
+            Log.i(this, "LQO is null");
+            if (lqo != null) {
+                Log.i(this, "LQO size: " + lqo.size());
+                queryID = lqo.get(position).getQueryid();
+                userID = lqo.get(position).getUserid();    
+            }
             
             if (Model.getInstance().isPicked(userID)) {
                 accept_invite.setBackgroundResource(R.drawable.bg_disabled);
