@@ -26,11 +26,14 @@ public class CheckAcceptedOffers extends TimerTask {
     private int userID;
     private Handler handler;
     
+    
     /**
      * Handles time interval to check for accepted offers
      * 
-     * @param acceptButton: Button which background is changed if offer is accepted
-     * @param userID: userID to check for
+     * @param acceptButton
+     *            : Button which background is changed if offer is accepted
+     * @param userID
+     *            : userID to check for
      */
     public CheckAcceptedOffers(Button acceptButton, int userID) {
         this.acceptButton = acceptButton;
