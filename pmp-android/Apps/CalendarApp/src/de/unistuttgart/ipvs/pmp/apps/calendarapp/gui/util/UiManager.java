@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Model;
 
 public class UiManager {
     
-    private static UiManager instance = null;
+    private static volatile UiManager instance = null;
     
     private Dialog waitingDialog;
     
@@ -77,7 +77,9 @@ public class UiManager {
      * ()}
      */
     public void dismissWaitingDialog() {
-        this.waitingDialog.dismiss();
+        if (this.waitingDialog != null) {
+            this.waitingDialog.dismiss();
+        }
     }
     
     
@@ -173,8 +175,8 @@ public class UiManager {
      * @return
      */
     public ImportActivity getImportActivity() {
-        if (ia != null) {
-            return ia;
+        if (this.ia != null) {
+            return this.ia;
         } else {
             return new ImportActivity();
         }

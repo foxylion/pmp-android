@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.Timer;
+
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -41,9 +44,11 @@ public class DriverViewActivity extends MapActivity {
     private LocationUpdateHandler luh;
     private GeoPoint p;
     
+    private Check4Queries c4q;
+    private Timer timer;
+    
     private Controller ctrl;
     
-    private int imADriver = 0;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,8 +122,17 @@ public class DriverViewActivity extends MapActivity {
      */
     private void startTripByUpdating() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p, imADriver);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, luh);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
+        
+        // check for queries
+        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
+                .getLongtitude());
+        c4q.run();
+        timer = new Timer();
+        // schedule 
+        timer.schedule(c4q, 300, 10000);
+        
     }
     
     
@@ -144,6 +158,9 @@ public class DriverViewActivity extends MapActivity {
                         locationManager.removeUpdates(luh);
                         Model.getInstance().clearBannList();
                         Model.getInstance().clearInvitedUserList();
+                        Model.getInstance().clearFoundUsers();
+                        Model.getInstance().clearPickedUserList();
+                        timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
                         this.finish();

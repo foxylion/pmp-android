@@ -1,8 +1,8 @@
 /*
  * Copyright 2011 pmp-android development team
- * Project: DatabaseResourceGroup
+ * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups.database;
+package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
-public class UnauthorizedActionException extends Exception {
-    
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -4958080002756039115L;
-    
-    
-    public UnauthorizedActionException(String message) {
-        super(message);
-    }
+/**
+ * This is the interface for a AISIssue location
+ * 
+ * @author Marcus Vetter
+ * 
+ */
+public interface AISIssueLocation {
     
 }

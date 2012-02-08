@@ -81,7 +81,7 @@ public class AppUtil {
      *            AIS to print
      */
     public void print(AIS ais) {
-        ISPrinter.printAIS(ais);
+        Printer.printAIS(ais);
     }
     
 }

@@ -81,7 +81,7 @@ public class PresetUtil {
      *            PresetSet to print
      */
     public void print(PresetSet presetSet) {
-        ISPrinter.printPresetSet(presetSet);
+        Printer.printPresetSet(presetSet);
     }
     
 }

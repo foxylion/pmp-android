@@ -19,11 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 
-import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 
 /**
  * This resource gives access to files saved on the user's Andorid device. To do so, it defines several privacy
@@ -37,7 +35,8 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
  */
 public class Filesystem extends ResourceGroup {
     
-    public static final String PACKAGAE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    public static final String PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.filesystem";
+    
     
     /**
      * Creates the resource-group including its privacy settings and resources
@@ -50,13 +49,14 @@ public class Filesystem extends ResourceGroup {
      *             Throws if at least one privacy setting could not be instantiated.
      */
     public Filesystem(IPMPConnectionInterface pmpci) {
-        super(PACKAGAE_NAME, pmpci);
+        super(PACKAGE_NAME, pmpci);
         
         new PrivacySettings(this).registerPrivacySettings();
         
         Resources resources = new Resources();
         resources.registerResources(this);
     }
+    
     
     public void onRegistrationSuccess() {
         Log.d(this, "Registration was successfull");

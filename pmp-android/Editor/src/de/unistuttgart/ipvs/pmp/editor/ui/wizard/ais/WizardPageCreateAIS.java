@@ -153,7 +153,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    project = "/" + projects[1];
 	}
 
-	IResource container = ResourcesPlugin.getWorkspace().getRoot()
+	IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
 		.findMember(new Path(project));
 
 	// Path doesn't start with a "/"
@@ -171,15 +171,15 @@ public class WizardPageCreateAIS extends WizardPage {
 	}
 
 	// Project doesn't exist
-	if (container == null
-		|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+	if (iRes == null
+		|| (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 	    updateStatus("Project container must exist");
 	    identifier.setText("");
 	    return;
 	}
 
 	// Project isn't writable
-	if (!container.isAccessible()) {
+	if (!iRes.isAccessible()) {
 	    updateStatus("Project must be writable");
 	    identifier.setText("");
 	    return;
@@ -201,6 +201,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	    return;
 	} catch (AppIdentifierNotFoundException e) {
 	    updateStatus(e.getMessage());
+	    return;
 	}
 
 	// Assets folder is not specified at the path
@@ -232,5 +233,22 @@ public class WizardPageCreateAIS extends WizardPage {
      */
     public String getProjectName() {
 	return assetsFolderText.getText();
+    }
+
+    /**
+     * Returns the project without the "/assets"
+     * 
+     * @return project only
+     */
+    public String getProjectOnly() {
+	// Split only the project out of the string
+	String[] projects = getProjectName().split("/");
+
+	// The project name
+	String project = "";
+	if (projects.length >= 2) {
+	    project = projects[1];
+	}
+	return project;
     }
 }

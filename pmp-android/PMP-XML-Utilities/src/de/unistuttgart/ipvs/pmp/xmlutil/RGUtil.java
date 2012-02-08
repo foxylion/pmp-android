@@ -81,7 +81,7 @@ public class RGUtil {
      *            RGIS to print
      */
     public void print(RGIS rgis) {
-        ISPrinter.printRGIS(rgis);
+        Printer.printRGIS(rgis);
     }
     
 }

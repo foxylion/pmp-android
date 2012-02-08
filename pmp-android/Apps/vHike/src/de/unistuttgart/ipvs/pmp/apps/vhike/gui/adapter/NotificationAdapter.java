@@ -57,6 +57,7 @@ public class NotificationAdapter extends BaseAdapter {
     private CheckAcceptedOffers cao;
     private Timer timer;
     
+    
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
         this.hitchhikers = hitchhikers;
@@ -100,16 +101,19 @@ public class NotificationAdapter extends BaseAdapter {
         
         Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
         RatingBar noti_rb = (RatingBar) entryView.findViewById(R.id.notification_ratingbar);
-        TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
+        final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
-        
-        final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
         
         // determine which id to receive
         if (mWhichHitcher == 0) {
-            
+            final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
+            
+            if (Model.getInstance().isPicked(userID)) {
+                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                accept_invite.setEnabled(false);
+            }
             
         } else {
             List<OfferObject> loo = Model.getInstance().getOfferHolder();
@@ -120,6 +124,7 @@ public class NotificationAdapter extends BaseAdapter {
         if (Model.getInstance().isInInvitedList(userID)) {
             
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+            Log.i(this, "Offer waiting");
             accept_invite.invalidate();
         }
         
@@ -190,8 +195,11 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                queryID = lqo.get(position).getQueryid();
-                userID = lqo.get(position).getUserid();
+                if (mWhichHitcher == 0) {
+                    final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+                    queryID = lqo.get(position).getQueryid();
+                    userID = lqo.get(position).getUserid();
+                }
                 
                 if (mWhichHitcher == 0) {
                     switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
@@ -200,9 +208,9 @@ public class NotificationAdapter extends BaseAdapter {
                             
                             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                             Model.getInstance().addToInvitedUser(userID);
-
+                            
                             // check for offer updates for this button
-                            cao = new CheckAcceptedOffers(accept_invite, userID);
+                            cao = new CheckAcceptedOffers(accept_invite, name, userID);
                             cao.run();
                             timer = new Timer();
                             timer.schedule(cao, 300, 10000);
@@ -215,7 +223,7 @@ public class NotificationAdapter extends BaseAdapter {
                             Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
                             break;
                         case Constants.STATUS_ALREADY_SENT:
-                            Log.i(this, "P: " + position + ", " + queryID);
+                            
                             Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
                             break;
                     }
@@ -225,8 +233,7 @@ public class NotificationAdapter extends BaseAdapter {
                     switch (ctrl.handleOffer(Model.getInstance().getSid(), offerID, true)) {
                         case Constants.STATUS_HANDLED:
                             Toast.makeText(context, "HANDLED: ACCEPT", Toast.LENGTH_SHORT).show();
-                            // Entfernen
-                            notifyDataSetChanged();
+                            
                             accept_invite.setBackgroundResource(R.drawable.bg_check);
                             accept_invite.refreshDrawableState();
                             accept_invite.invalidate();

@@ -55,7 +55,7 @@ public class PassengerOverlay extends ItemizedOverlay {
         //        dialog.setMessage(item.getSnippet());
         //        dialog.show();
         PickUp pickUpDialog = new PickUp(mContext, userID);
-        pickUpDialog.setTitle(item.getTitle());
+        pickUpDialog.setTitle(item.getSnippet());
         pickUpDialog.show();
         return true;
     }

@@ -87,7 +87,7 @@ public class ChangeAppointmentDialog extends Dialog {
     
     public ChangeAppointmentDialog(Context context, Appointment clicked) {
         super(context);
-        appointment = clicked;
+        this.appointment = clicked;
     }
     
     
@@ -97,16 +97,16 @@ public class ChangeAppointmentDialog extends Dialog {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+        requestWindowFeature(Window.FEATURE_LEFT_ICON);
         setContentView(R.layout.date_dialog);
         
         this.setTitle(R.string.change_todo_dialog);
-        this.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_edit);
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.dialog_edit);
         
-        oldDate = this.appointment.getDate();
+        this.oldDate = this.appointment.getDate();
         
         Calendar cal = new GregorianCalendar();
-        cal.setTime(oldDate);
+        cal.setTime(this.oldDate);
         
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -124,20 +124,20 @@ public class ChangeAppointmentDialog extends Dialog {
         this.confirm = (Button) findViewById(R.id.ConfirmButton);
         this.confirm.setOnClickListener(new ConfirmListener());
         
-        high = (RadioButton) findViewById(R.id.severity_high);
-        middle = (RadioButton) findViewById(R.id.severity_middle);
-        low = (RadioButton) findViewById(R.id.severity_low);
+        this.high = (RadioButton) findViewById(R.id.severity_high);
+        this.middle = (RadioButton) findViewById(R.id.severity_middle);
+        this.low = (RadioButton) findViewById(R.id.severity_low);
         
         // Check the correct radio button
-        switch (appointment.getSeverity()) {
+        switch (this.appointment.getSeverity()) {
             case HIGH:
-                high.setChecked(true);
+                this.high.setChecked(true);
                 break;
             case MIDDLE:
-                middle.setChecked(true);
+                this.middle.setChecked(true);
                 break;
             case LOW:
-                low.setChecked(true);
+                this.low.setChecked(true);
                 break;
         }
         
@@ -169,20 +169,20 @@ public class ChangeAppointmentDialog extends Dialog {
             Calendar cal = new GregorianCalendar(year, month, day);
             
             Severity severity = null;
-            if (high.isChecked()) {
+            if (ChangeAppointmentDialog.this.high.isChecked()) {
                 severity = Severity.HIGH;
             }
             
-            if (middle.isChecked()) {
+            if (ChangeAppointmentDialog.this.middle.isChecked()) {
                 severity = Severity.MIDDLE;
             }
             
-            if (low.isChecked()) {
+            if (ChangeAppointmentDialog.this.low.isChecked()) {
                 severity = Severity.LOW;
             }
             
-            new SqlConnector().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(),
-                    cal.getTime(),oldDate, ChangeAppointmentDialog.this.name.getText().toString(),
+            new SqlConnector().changeAppointment(ChangeAppointmentDialog.this.appointment.getId(), cal.getTime(),
+                    ChangeAppointmentDialog.this.oldDate, ChangeAppointmentDialog.this.name.getText().toString(),
                     ChangeAppointmentDialog.this.desc.getText().toString(), severity);
             dismiss();
         }

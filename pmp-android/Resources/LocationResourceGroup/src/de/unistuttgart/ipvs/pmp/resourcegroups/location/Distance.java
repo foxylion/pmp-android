@@ -1,7 +1,5 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.location;
 
-import android.location.Address;
-import android.location.Location;
 
 /**
  * Class to calculate the distance between two points in arbitrary units.
@@ -21,7 +19,7 @@ public class Distance {
 	};
 	
 	/** Conversion factor to convert from degrees to radians */
-	private static final double DEGREES_TO_RADIANS = (double) (180 / Math.PI);
+	private static final double DEGREES_TO_RADIANS = (180 / Math.PI);
 	
 	
 	/**

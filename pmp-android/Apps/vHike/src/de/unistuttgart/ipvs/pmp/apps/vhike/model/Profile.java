@@ -16,6 +16,8 @@ public class Profile {
 	private String username;
 	private String email;
 	
+	private int id;
+	
 	private String firstname;
 	private String lastname;
 	private String tel;
@@ -35,7 +37,7 @@ public class Profile {
 	
 	/**
 	 * Constructor to initialize a profile
-	 * 
+	 * @param id
 	 * @param user_name
 	 * @param firstname
 	 * @param lastname
@@ -47,10 +49,11 @@ public class Profile {
 	 * @param regDate
 	 * 
 	 */
-	public Profile(String username, String email, String firstname, String lastname,
+	public Profile(int id, String username, String email, String firstname, String lastname,
 			String tel, String description, Date regDate,
 			boolean email_pub, boolean firstname_pub, boolean lastname_pub, boolean tel_pub, double rating_avg, double rating_num) {
-		this.username = username;
+		this.id = id;
+	    this.username = username;
 		this.email = email;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -64,6 +67,9 @@ public class Profile {
 		this.firstname_pub = firstname_pub;
 		this.lastname_pub = lastname_pub;
 		this.tel_pub = tel_pub;
+	}
+	public int getID(){
+	    return id;
 	}
 	/**
 	 * 

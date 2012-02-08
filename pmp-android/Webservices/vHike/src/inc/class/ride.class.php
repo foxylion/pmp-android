@@ -246,6 +246,25 @@ class Ride {
 	}
 
 	/**
+	 * Checks whether user is picked up or not
+	 * @return true if picked up, false otherwise
+	 */
+	static function is_picked($user_id){
+		$db = Database::getInstance();
+		$query = $db->query("SELECT picked_up FROM dev_ride WHERE passenger= $user_id");
+		
+		if($query){	   
+			while($row=$db->fetch($query)) {
+				if($row["picked_up"]==0){
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Get the users from ride table
 	 * @return true if succeed, false otherwise
 	 */

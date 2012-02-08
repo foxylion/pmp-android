@@ -148,7 +148,7 @@ public class FileSystemConnector {
         exportStringBuilder.append("END:VCALENDAR");
         exportString = exportStringBuilder.toString();
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -193,7 +193,7 @@ public class FileSystemConnector {
         // clear the import string
         this.importString = null;
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -380,7 +380,7 @@ public class FileSystemConnector {
      */
     public void prepare(final FileSystemListActionType type) {
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -406,7 +406,8 @@ public class FileSystemConnector {
                             } else {
                                 Toast.makeText(Model.getInstance().getContext(), R.string.sd_card_missing,
                                         Toast.LENGTH_LONG).show();
-                                Log.d(this, "If you want to use the import/export functionality, you have to insert a SD-Card!");
+                                Log.d(this,
+                                        "If you want to use the import/export functionality, you have to insert a SD-Card!");
                             }
                         }
                         
@@ -457,7 +458,7 @@ public class FileSystemConnector {
      */
     public void deleteFile(final FileDetails file) {
         
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -492,7 +493,7 @@ public class FileSystemConnector {
      * Lists the files that are stored on the sd card folder (used while importing)
      */
     public void listFilesImport() {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -500,8 +501,7 @@ public class FileSystemConnector {
                     Log.d(this, rgIdentifier + " connected");
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
-                        List<FileDetails> fileList = new ArrayList<FileDetails>();
-                        fileList = ifa.list(FOLDER_NAME);
+                        List<FileDetails> fileList = ifa.list(FOLDER_NAME);
                         if (fileList != null) {
                             for (FileDetails file : fileList) {
                                 Model.getInstance().addFileToList(file);
@@ -520,7 +520,7 @@ public class FileSystemConnector {
      * Lists the files that are stored on the sd card folder (used while exporting)
      */
     public void listFilesExport() {
-        PMP.get().getResource(pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -528,8 +528,7 @@ public class FileSystemConnector {
                     Log.d(this, rgIdentifier + " connected");
                     try {
                         IFileAccess ifa = IFileAccess.Stub.asInterface(binder);
-                        List<FileDetails> fileList = new ArrayList<FileDetails>();
-                        fileList = ifa.list(FOLDER_NAME);
+                        List<FileDetails> fileList = ifa.list(FOLDER_NAME);
                         if (fileList != null) {
                             for (FileDetails file : fileList) {
                                 Model.getInstance().addFileToListExport(file);

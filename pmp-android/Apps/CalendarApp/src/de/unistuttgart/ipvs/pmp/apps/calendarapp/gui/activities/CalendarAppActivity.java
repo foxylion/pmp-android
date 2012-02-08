@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.activities;
 
 import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -58,8 +59,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.email.IEmailOperations;
 
 public class CalendarAppActivity extends ListActivity {
     
-    private CalendarAppActivity self = this;
-    
     private Handler handler;
     
     
@@ -69,13 +68,13 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Model.getInstance().setContext(this.self);
-        handler = new Handler();
-        Model.getInstance().addHandler(handler);
+        Model.getInstance().setContext(this);
+        this.handler = new Handler();
+        Model.getInstance().addHandler(this.handler);
         
         setContentView(R.layout.list_layout);
         
-        SeparatedListAdapter spa = new SeparatedListAdapter(this.getApplicationContext());
+        SeparatedListAdapter spa = new SeparatedListAdapter(getApplicationContext());
         setListAdapter(spa);
         Model.getInstance().setArrayAdapter(spa);
         
@@ -83,7 +82,7 @@ public class CalendarAppActivity extends ListActivity {
          * Listener for long clicking on one item. Opens a context menu where
          * the user can delete a appointment or send it via email
          */
-        this.getListView().setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+        getListView().setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
             
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -100,34 +99,34 @@ public class CalendarAppActivity extends ListActivity {
         super.onResume();
         PMP.get().register(new PMPRegistrationHandler() {
             
-            private String toast = "";
+            private String toast = null;
             
             
             @Override
             public void onSuccess() {
                 PMP.get().updateServiceFeatures();
-                this.toast = self.getString(R.string.registration_succeed);
-                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+                this.toast = getString(R.string.registration_succeed);
+                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(true);
             }
             
             
             @Override
             public void onAlreadyRegistered() {
                 PMP.get().updateServiceFeatures();
-                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(true);
             }
             
             
             @Override
             public void onFailure(String message) {
-                this.toast = self.getString(R.string.registration_failed);
-                ((CalendarApp) self.getApplication()).changeFunctionalityAccordingToServiceFeature(false);
+                this.toast = getString(R.string.registration_failed);
+                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(false);
             }
             
             
             @Override
             public void onFinalize() {
-                if (!toast.equals("")) {
+                if (this.toast != null) {
                     CalendarAppActivity.this.handler.post(new Runnable() {
                         
                         @Override
@@ -200,14 +199,13 @@ public class CalendarAppActivity extends ListActivity {
                                     Log.e(this, "Couldn't send E-Mail", e);
                                 }
                                 
-                            } 
+                            }
                         }
                     });
-        }else {
+        } else {
             ArrayList<String> sfs = new ArrayList<String>();
             sfs.add("send");
-            UiManager.getInstance().showServiceFeatureInsufficientDialog(
-                    sfs.toArray(new String[sfs.size()]));
+            UiManager.getInstance().showServiceFeatureInsufficientDialog(sfs.toArray(new String[sfs.size()]));
             Looper.loop();
         }
         

@@ -20,13 +20,14 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class RGISPrivacySetting extends BasicIS {
+public class RGISPrivacySetting extends BasicIS implements RGISIssueLocation {
     
     /**
      * Serial

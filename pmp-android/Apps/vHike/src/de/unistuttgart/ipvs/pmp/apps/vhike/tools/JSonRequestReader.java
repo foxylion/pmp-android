@@ -200,6 +200,7 @@ public class JSonRequestReader {
         int rating_num = 0;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
+            id = object.get("id").getAsInt();
             username = object.get("username").getAsString();
             Log.i(TAG, "USERNAME:" + username);
             email = object.get("email").getAsString();
@@ -223,7 +224,7 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(id, username, email, firstname, lastname, tel, description, date, email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -266,11 +267,12 @@ public class JSonRequestReader {
         boolean firstname_public = false;
         boolean lastname_public = false;
         boolean tel_public = false;
-        
+        int userid = 0;
         double rating_avg = 0;
         int rating_num = 0;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
+            userid = object.get("id").getAsInt();
             email_public = object.get("email_public").getAsBoolean();
             firstname_public = object.get("firstname_public").getAsBoolean();
             lastname_public = object.get("lastname_public").getAsBoolean();
@@ -304,7 +306,7 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date, email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -422,6 +424,37 @@ public class JSonRequestReader {
         }
         
         return status;
+    }
+    
+    public static PositionObject getUserPosition(String sid, int user_id) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("user_id", String.valueOf(user_id), true));
+        
+        JsonObject object = null;
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "getPosition.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        JsonArray array;
+        PositionObject posObj = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                array = object.get("position").getAsJsonArray();
+                float lat = array.get(0).getAsFloat();
+                float lon = array.get(1).getAsFloat();
+                posObj = new PositionObject(lat, lon);
+            }
+            
+        }
+        return posObj;
     }
     
     
@@ -789,23 +822,28 @@ public class JSonRequestReader {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                JsonArray array = object.get("offers").getAsJsonArray();
-                
-                offerObjects = new ArrayList<OfferObject>();
-                for (int i = 0; i < array.size(); i++) {
-                    JsonObject Iobject = array.get(i).getAsJsonObject();
-                    int offer_id = Iobject.get("offer").getAsInt();
-                    int user_id = Iobject.get("userid").getAsInt();
-                    String username = Iobject.get("username").getAsString();
-                    float rating = Iobject.get("rating").getAsFloat();
-                    float rating_num = Iobject.get("rating_num").getAsFloat();
-                    float lat = Iobject.get("lat").getAsFloat();
-                    float lon = Iobject.get("lon").getAsFloat();
-                    
-                    OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
-                    offerObjects.add(oObject);
+                JsonArray array;
+                try{
+                    array = object.get("offers").getAsJsonArray();   
+                    offerObjects = new ArrayList<OfferObject>();
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonObject Iobject = array.get(i).getAsJsonObject();
+                        int offer_id = Iobject.get("offer").getAsInt();
+                        int user_id = Iobject.get("userid").getAsInt();
+                        String username = Iobject.get("username").getAsString();
+                        float rating = Iobject.get("rating").getAsFloat();
+                        float rating_num = Iobject.get("rating_num").getAsFloat();
+                        float lat = Iobject.get("lat").getAsFloat();
+                        float lon = Iobject.get("lon").getAsFloat();
+                        
+                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
+                        offerObjects.add(oObject);
+                    }
+                    Model.getInstance().setOfferHolder(offerObjects);
+                }catch(Exception ex){
+                    offerObjects = new ArrayList<OfferObject>();
                 }
-                Model.getInstance().setOfferHolder(offerObjects);
+                
                 return offerObjects;
             }
         }
@@ -881,6 +919,31 @@ public class JSonRequestReader {
             }
         }
         return false;
+    }
+    
+    public static boolean isPicked(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        JsonObject object = null;
+        
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "isPicked.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        boolean picked = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                picked = object.get("picked").getAsBoolean();
+            }
+        }
+        return picked;
     }
     
     

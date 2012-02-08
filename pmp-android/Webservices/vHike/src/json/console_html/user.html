@@ -1,205 +1,198 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>User management</title>
-    <style type="text/css">
-        body, td, th {
-            font-family: Tahoma, Geneva, sans-serif;
-            font-size: small;
-        }
-
-        body {
-            background-color: #EEE;
-        }
-
-        .auto-style1 {
-            text-align: right;
-        }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>User management</title>
+<style type="text/css">
+body, td, th {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: small;
+}
+body {
+	background-color: #EEE;
+}
+.auto-style1 {
+	text-align: right;
+}
+</style>
 </head>
 
 <body bgcolor="#D5EAFF">
 <h1>User management</h1>
-
 <h2>Login/Logout</h2>
 <table>
+  	<tr>
+  	  <th>Username</th>
+  	  <th>Password</th>  	  <th>Login</th>  	  <th>Logout</th>
+  	</tr>
+  <form action="../login.php" method="post" target="r">
     <tr>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Login</th>
-        <th>Logout</th>
+      <td><input checked="checked" name="username" type="radio" value="demo" />demo<input name="username" type="radio" value="demo1" />demo1<input name="username" type="radio" value="demo2" />demo2<input name="username" type="radio" value="demo3" />demo3<input name="username" type="radio" value="demo4" />demo4<input name="username" type="radio" value="demo5" />demo5</td>
+      <td><input name="password" type="text" size="4" /></td>
+      <td><input value="login" type="submit" /></td>
+      <td><a href="../logout.php" target="r">logout</a></td>
     </tr>
-    <form action="../login.php" method="post" target="r">
-        <tr>
-            <td><input checked="checked" name="username" type="radio" value="demo"/>demo<input name="username"
-                                                                                               type="radio"
-                                                                                               value="demo1"/>demo1<input
-                    name="username" type="radio" value="demo2"/>demo2<input name="username" type="radio" value="demo3"/>demo3<input
-                    name="username" type="radio" value="demo4"/>demo4<input name="username" type="radio" value="demo5"/>demo5
-            </td>
-            <td><input name="password" type="text" size="4"/></td>
-            <td><input value="login" type="submit"/></td>
-            <td><a href="../logout.php" target="r">logout</a></td>
-        </tr>
-    </form>
-    <form action="../login.php" method="post" target="r">
-        <tr>
-            <td class="auto-style1">
-                <input name="username" type="text" value="bestHitcher" size="8" style="width: 347px"/></td>
-            <td><input name="password" type="text" size="4"/></td>
-            <td><input value="login" type="submit"/></td>
-            <td><a href="../logout.php" target="r">logout</a></td>
-        </tr>
-    </form>
+  </form>
+  <form action="../login.php" method="post" target="r">
+    <tr>
+      <td class="auto-style1">
+	  <input name="username" type="text" value="bestHitcher" size="8" style="width: 347px" /></td>
+      <td><input name="password" type="text" size="4" /></td>
+      <td><input value="login" type="submit" /></td>
+      <td><a href="../logout.php" target="r">logout</a></td>
+    </tr>
+  </form>
 </table>
 <h2>Register</h2>
-
 <form action="../register.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input name="username" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input name="password" type="password"/></td>
-        </tr>
-        <tr>
-            <td>E-Mail:</td>
-            <td><input name="email" type="text"/></td>
-            <td><input type="checkbox" name="email_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Firstname:</td>
-            <td><input name="firstname" type="text"/></td>
-            <td><input type="checkbox" name="firstname_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Lastname:</td>
-            <td><input name="lastname" type="text"/></td>
-            <td><input type="checkbox" name="lastname_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Tel.:</td>
-            <td><input name="tel" type="text"/></td>
-            <td><input type="checkbox" name="tel_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td><input name="description" type="text"/></td>
-            <td>(Optional)</td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input value="register" type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Username:</td>
+      <td><input name="username" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td><input name="password" type="password" /></td>
+    </tr>
+    <tr>
+      <td>E-Mail:</td>
+      <td><input name="email" type="text" /></td>
+      <td><input type="checkbox" name="email_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Firstname:</td>
+      <td><input name="firstname" type="text" /></td>
+      <td><input type="checkbox" name="firstname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Lastname:</td>
+      <td><input name="lastname" type="text" /></td>
+      <td><input type="checkbox" name="lastname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Tel.:</td>
+      <td><input name="tel" type="text" /></td>
+      <td><input type="checkbox" name="tel_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td><input name="description" type="text" /></td>
+      <td>(Optional)</td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td colspan="2"><input value="register" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
 
 <h2>Edit profile</h2>
-
 <form action="../profile_edit.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Firstname:</td>
-            <td><input name="firstname" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Lastname:</td>
-            <td><input name="lastname" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Tel.:</td>
-            <td><input name="tel" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td><input name="description" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td><input value="update" type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Firstname:</td>
+      <td><input name="firstname" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Lastname:</td>
+      <td><input name="lastname" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Tel.:</td>
+      <td><input name="tel" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td><input name="description" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
-<h2><a name="updatepos"/>Update position</h2>
-
+<h2><a name="updatepos" />Update position</h2>
 <form action="../user_update_pos.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Current lat.:</td>
-            <td><input name="lat" type="text" value="48.782409"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.:</td>
-            <td><input name="lon" type="text" value="9.183648"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td>Current lat.:</td>
+      <td><input name="lat" type="text" value="48.782409" /></td>
+    </tr>
+    <tr>
+      <td>Current lon.:</td>
+      <td><input name="lon" type="text" value="9.183648"/></td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td colspan="2"><input type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
 
 <h2>Edit visibility</h2>
-
 <form action="../profile_edit_visibility.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>E-Mail:</td>
-            <td><input type="checkbox" name="email_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Firstname:</td>
-            <td><input type="checkbox" name="firstname_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Lastname:</td>
-            <td><input type="checkbox" name="lastname_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Tel.:</td>
-            <td><input type="checkbox" name="tel_public" value="true"/>
-                Public
-            </td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td><input value="update" type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+  <table>
+     <tr>
+      <td>E-Mail:</td>
+      <td><input type="checkbox" name="email_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Firstname:</td>
+      <td><input type="checkbox" name="firstname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Lastname:</td>
+      <td><input type="checkbox" name="lastname_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Tel.:</td>
+      <td><input type="checkbox" name="tel_public" value="true" />
+        Public</td>
+    </tr>
+    <tr>
+      <td>Buttons:</td>
+      <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+  </table>
 </form>
 
 <h2>View profile</h2>
 <table>
-    <tr>
-        <form action="../get_profile.php" method="get" target="r">
-            <td>User-ID:</td>
-            <td><input name="id" type="text" value="1" size="4"/></td>
-            <td><input value="show" type="submit"/></td>
-            <td><a href="../own_profile.php" target="r">own profile</a></td>
-        </form>
-    </tr>
+  <tr>
+    <form action="../get_profile.php" method="get" target="r">
+      <td>User-ID:</td>
+      <td><input name="id" type="text" value="1" size="4" /></td>
+      <td><input value="show" type="submit" /></td>
+      <td><a href="../own_profile.php" target="r">own profile</a></td>
+    </form>
+  </tr>
 </table>
+<h2>View user position </h2>
+    <form action="../get_position.php" method="post" target="r">
+<table>
+  <tr>
+
+      <td>User-ID:</td>
+      <td><input name="user_id" type="text" value="1" size="4" /></td>
+      <tr>
+      <td>Buttons:</td>
+      <td><input value="update" type="submit" />
+        <input type="reset" /></td>
+    </tr>
+
+  </tr>
+</table>
+</form>
 </body>
 </html>

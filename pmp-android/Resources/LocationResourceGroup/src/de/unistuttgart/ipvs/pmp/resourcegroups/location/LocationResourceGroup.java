@@ -22,8 +22,10 @@ public class LocationResourceGroup extends ResourceGroup {
 	/**
 	 * Creates a new {@link LocationResourceGroup}.
 	 * 
-	 * @param rgPackage Packagename of the ResourceGroup
-	 * @param pmpci Connectioninterface to PMP.
+	 * @param rgPackage
+	 *            Packagename of the ResourceGroup
+	 * @param pmpci
+	 *            Connectioninterface to PMP.
 	 */
 	public LocationResourceGroup(IPMPConnectionInterface pmpci) {
 		super(PACKAGE_NAME, pmpci);

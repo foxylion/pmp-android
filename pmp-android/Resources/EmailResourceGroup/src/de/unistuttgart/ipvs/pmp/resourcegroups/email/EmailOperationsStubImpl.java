@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: EmailResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,20 +41,17 @@ public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     
     @Override
     public void sendEmail(String to, String subject, String body) throws RemoteException {
-    	BooleanPrivacySetting bps = (BooleanPrivacySetting) this.resource
+        BooleanPrivacySetting bps = (BooleanPrivacySetting) this.resource
                 .getPrivacySetting(Email.PRIVACY_SETTING_SEND_EMAIL);
         
-	try {
-	    if (!bps.permits(this.appIdentifier, true)) {
-		throw new IllegalAccessError();
-	    }
-	} catch (IllegalAccessError e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (PrivacySettingValueException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+        try {
+            if (!bps.permits(this.appIdentifier, true)) {
+                throw new SecurityException();
+            }
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

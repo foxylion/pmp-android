@@ -24,7 +24,7 @@ public class PermissionValidator {
 	
 	public void validate(String psIdentifier, String requiredValue) {
 		AbstractPrivacySetting<?> ps = this.rg.getPrivacySetting(psIdentifier);
-		String grantedValue = this.rg.getPMPPrivacySettingValue(psIdentifier, appIdentifier);
+		String grantedValue = this.rg.getPMPPrivacySettingValue(psIdentifier, this.appIdentifier);
 		
 		try {
 			if (!ps.permits(grantedValue, requiredValue)) {
@@ -38,7 +38,7 @@ public class PermissionValidator {
 	
 	
 	public int getIntValue(String psIdentifier) {
-		String value = this.rg.getPMPPrivacySettingValue(psIdentifier, appIdentifier);
+		String value = this.rg.getPMPPrivacySettingValue(psIdentifier, this.appIdentifier);
 		if (value == null) {
 			return 100000;
 		} else {

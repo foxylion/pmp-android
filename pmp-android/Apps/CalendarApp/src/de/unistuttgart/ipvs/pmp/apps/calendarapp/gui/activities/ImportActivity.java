@@ -52,7 +52,7 @@ public class ImportActivity extends ListActivity {
     /**
      * The arrayAdapter of the list
      */
-    private static ArrayAdapter<FileDetails> importArrayAdapter;
+    private ArrayAdapter<FileDetails> importArrayAdapter;
     
     
     /**
@@ -77,10 +77,10 @@ public class ImportActivity extends ListActivity {
         new FileSystemConnector().prepare(FileSystemListActionType.NONE);
         
         // Array adapter that is needed to show the list of dates
-        importArrayAdapter = new ArrayAdapter<FileDetails>(this, R.layout.import_list_item, Model.getInstance()
+        this.importArrayAdapter = new ArrayAdapter<FileDetails>(this, R.layout.import_list_item, Model.getInstance()
                 .getFileList());
-        Model.getInstance().setImportArrayAdapter(importArrayAdapter);
-        setListAdapter(importArrayAdapter);
+        Model.getInstance().setImportArrayAdapter(this.importArrayAdapter);
+        setListAdapter(this.importArrayAdapter);
         new FileSystemConnector().listFilesImport();
         ListView listView = getListView();
         listView.setTextFilterEnabled(true);
@@ -148,7 +148,7 @@ public class ImportActivity extends ListActivity {
     
     
     /**
-     * Update the visibility of the "no files avaiable" textview
+     * Update the visibility of the "no files available" textview
      */
     public void updateNoAvaiableFilesTextView() {
         // add text view "no appointments available", if the list is empty
