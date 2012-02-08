@@ -101,16 +101,17 @@ public class Check4Queries extends TimerTask {
                         Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), lqo.get(i).getUserid());
                         
                         if (!Model.getInstance().isInBannList(lqo.get(i).getUserid())) {
-                            // add an passenger to overlay
-                            MapModel.getInstance().add2DriverOverlay(context, gpsPassenger, passenger, mapView, 1,
-                                    lqo.get(i).getUserid());
-                            
-                            // add up ID for statusbar notification
-                            
-                            // add passenger to slider list
-                            MapModel.getInstance().getHitchPassengers().add(passenger);
                             
                             if (!Model.getInstance().isFinded(lqo.get(i).getUserid())) {
+                                // add an passenger to overlay
+                                MapModel.getInstance().add2DriverOverlay(context, gpsPassenger, passenger, mapView, 1,
+                                        lqo.get(i).getUserid());
+                                
+                                // add up ID for statusbar notification
+                                
+                                // add passenger to slider list
+                                MapModel.getInstance().getHitchPassengers().add(passenger);
+                                
                                 // notify user
                                 MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
                                         mapView);
