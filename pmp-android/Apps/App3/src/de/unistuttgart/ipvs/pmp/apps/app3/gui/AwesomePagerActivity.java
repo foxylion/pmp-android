@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.app3.gui;
 
-import de.unistuttgart.ipvs.pmp.apps.app3.R;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
