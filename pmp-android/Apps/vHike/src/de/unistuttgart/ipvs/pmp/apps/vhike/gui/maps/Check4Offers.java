@@ -62,9 +62,15 @@ public class Check4Offers extends TimerTask {
                         
                         MapModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
                         MapModel.getInstance().getHitchDrivers().add(driver);
-                        MapModel.getInstance()
-                                .fireNotification(context, driver, loo.get(i).getUser_id(), 1, 0, mapView);
+                        
+                        if (!Model.getInstance().isFinded(loo.get(i).getUser_id())) {
+                            MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, 0,
+                                    mapView);
+                        }
+                        
                         MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+                        
+                        Model.getInstance().addToFoundUsers(loo.get(i).getUser_id());
                     }
                 }
             }

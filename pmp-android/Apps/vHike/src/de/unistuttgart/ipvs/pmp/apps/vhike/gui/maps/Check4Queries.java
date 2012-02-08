@@ -81,14 +81,19 @@ public class Check4Queries extends TimerTask {
                             
                             // add passenger to slider list
                             MapModel.getInstance().getHitchPassengers().add(passenger);
-                            // notify user
-                            MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0, 0,
-                                    mapView);
+                            
+                            if (!Model.getInstance().isFinded(lqo.get(i).getUserid())) {
+                                // notify user
+                                MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
+                                        0, mapView);
+                            }
+                            
                             // notify list
                             MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             mapView.invalidate();
                             mapView.postInvalidate();
                             
+                            Model.getInstance().addToFoundUsers(lqo.get(i).getUserid());
                             Log.i(this, "Found passenger");
                         }
                         
