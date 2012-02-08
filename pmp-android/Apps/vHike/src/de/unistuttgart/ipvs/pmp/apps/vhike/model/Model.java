@@ -47,6 +47,10 @@ public class Model {
         pickedUsers.clear();
     }
     
+    
+    public void removePickedUser(int userid){
+        pickedUsers.remove(userid);
+    }
     /**
      * Invited users
      */
