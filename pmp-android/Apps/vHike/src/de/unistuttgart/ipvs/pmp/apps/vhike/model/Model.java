@@ -16,8 +16,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class Model {
     
-    
     List<Integer> acceptedUsers;
+    
+    
     public boolean isAccepted(int userid) {
         boolean accepted = false;
         for (int invID : acceptedUsers) {
@@ -27,18 +28,24 @@ public class Model {
         }
         return accepted;
     }
-    public void addToAcceptedUsers(int user){
+    
+    
+    public void addToAcceptedUsers(int user) {
         acceptedUsers.add(user);
     }
-    public void clearAcceptedUsers(){
+    
+    
+    public void clearAcceptedUsers() {
         acceptedUsers.clear();
     }
     
     List<FoundProfilePos> foundUsers;
     
-    public List<FoundProfilePos> getFindList(){
+    
+    public List<FoundProfilePos> getFindList() {
         return foundUsers;
     }
+    
     
     public boolean isFinded(int userid) {
         boolean picked = false;
@@ -50,11 +57,13 @@ public class Model {
         return picked;
     }
     
-    public void addToFoundUsers(FoundProfilePos user){
+    
+    public void addToFoundUsers(FoundProfilePos user) {
         foundUsers.add(user);
     }
     
-    public void clearFoundUsers(){
+    
+    public void clearFoundUsers() {
         foundUsers.clear();
     }
     
@@ -63,20 +72,28 @@ public class Model {
      */
     private double current_lat = 0;
     private double current_lon = 0;
+    
+    
     /**
      * sets the curren latitude
+     * 
      * @param lat
      */
-    public void setLatitude(double lat){
+    public void setLatitude(double lat) {
         current_lat = lat;
     }
+    
+    
     /**
      * sets the curren longtitude
+     * 
      * @param lat
      */
-    public void setLongtitude(double lon){
+    public void setLongtitude(double lon) {
         current_lon = lon;
     }
+    
+    
     /**
      * 
      * @return latitude
@@ -84,6 +101,8 @@ public class Model {
     public double getLatitude() {
         return current_lat;
     }
+    
+    
     /**
      * 
      * @return longtitude
@@ -91,7 +110,7 @@ public class Model {
     public double getLongtitude() {
         return current_lon;
     }
-
+    
     /**
      * picked up users
      */
@@ -124,9 +143,10 @@ public class Model {
     }
     
     
-    public void removePickedUser(int userid){
+    public void removePickedUser(int userid) {
         pickedUsers.remove(userid);
     }
+    
     /**
      * Invited users
      */
@@ -293,6 +313,7 @@ public class Model {
         offeredUser = new ArrayList<Integer>();
         pickedUsers = new ArrayList<Integer>();
         foundUsers = new ArrayList<FoundProfilePos>();
+        acceptedUsers = new ArrayList<Integer>();
     }
     
     
