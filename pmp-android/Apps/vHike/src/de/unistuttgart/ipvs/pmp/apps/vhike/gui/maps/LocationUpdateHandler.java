@@ -72,7 +72,6 @@ public class LocationUpdateHandler implements LocationListener {
     }
     
     
-    @SuppressWarnings("deprecation")
     public void onLocationChanged(Location location) {
         /**
          * draw an overlay for driver or passenger

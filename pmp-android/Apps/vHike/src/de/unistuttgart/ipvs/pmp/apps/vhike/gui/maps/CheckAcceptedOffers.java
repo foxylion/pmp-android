@@ -3,11 +3,16 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.List;
 import java.util.TimerTask;
 
+import android.graphics.Color;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.R.color;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
@@ -23,8 +28,10 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 public class CheckAcceptedOffers extends TimerTask {
     
     private Button acceptButton;
+    private TextView name;
     private int userID;
     private Handler handler;
+    private Controller ctrl;
     
     
     /**
@@ -35,10 +42,12 @@ public class CheckAcceptedOffers extends TimerTask {
      * @param userID
      *            : userID to check for
      */
-    public CheckAcceptedOffers(Button acceptButton, int userID) {
+    public CheckAcceptedOffers(Button acceptButton, TextView name, int userID) {
         this.acceptButton = acceptButton;
+        this.name = name;
         this.userID = userID;
         handler = new Handler();
+        ctrl = new Controller();
     }
     
     
@@ -49,7 +58,6 @@ public class CheckAcceptedOffers extends TimerTask {
             
             public void run() {
                 Log.i(this, "Checking");
-                Controller ctrl = new Controller();
                 List<PassengerObject> lpo = ctrl.offer_accepted(Model.getInstance().getSid(), Model.getInstance()
                         .getTripId());
                 // check if invitations were accepted
@@ -59,10 +67,21 @@ public class CheckAcceptedOffers extends TimerTask {
                         // set button/invitation as checked
                         if (lpo.get(i).getUser_id() == userID) {
                             acceptButton.setBackgroundResource(R.drawable.bg_check);
+                            acceptButton.setOnClickListener(new View.OnClickListener() {
+                                
+                                @Override
+                                public void onClick(View v) {
+                                    ctrl.pick_up(Model.getInstance().getSid(), userID);
+                                    name.setTextColor(Color.BLUE);
+                                    Toast.makeText(v.getContext(), "Picked Up", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            
                             Log.i(this, "OFFER ACCEPTED");
+                            
                             // count down available seats
-                            // ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
-                            // .getInstance().getNumSeats() - 1);
+                            ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
+                                    .getInstance().getNumSeats() - 1);
                             
                             // stop checking
                             cancel();
@@ -74,5 +93,4 @@ public class CheckAcceptedOffers extends TimerTask {
             }
         });
     }
-    
 }
