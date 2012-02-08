@@ -42,6 +42,15 @@ public class Check4Offers extends TimerTask {
             
             @Override
             public void run() {
+                MapModel.getInstance().clearPassengerOverlayList();
+                MapModel.getInstance().getHitchDrivers().clear();
+                
+                Profile me = Model.getInstance().getOwnProfile();
+                int lati = (int) (Model.getInstance().getLatitude() * 1E6);
+                int lngi = (int) (Model.getInstance().getLongtitude() * 1E6);
+                GeoPoint gps = new GeoPoint(lati, lngi);
+                MapModel.getInstance().add2PassengerOverlay(context, gps, me, mapView, 0, 1);
+                
                 List<OfferObject> loo = ctrl.viewOffers(Model.getInstance().getSid());
                 if (loo != null && loo.size() > 0) {
                     for (int i = 0; i < loo.size(); i++) {
