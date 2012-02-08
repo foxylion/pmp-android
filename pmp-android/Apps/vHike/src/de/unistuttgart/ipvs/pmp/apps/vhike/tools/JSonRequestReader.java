@@ -426,6 +426,37 @@ public class JSonRequestReader {
         return status;
     }
     
+    public static PositionObject getUserPosition(String sid, int user_id) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("user_id", String.valueOf(user_id), true));
+        
+        JsonObject object = null;
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "getPosition.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        JsonArray array;
+        PositionObject posObj = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                array = object.get("position").getAsJsonArray();
+                float lat = array.get(0).getAsFloat();
+                float lon = array.get(1).getAsFloat();
+                posObj = new PositionObject(lat, lon);
+            }
+            
+        }
+        return posObj;
+    }
+    
     
     /**
      * Update the data of the trip
