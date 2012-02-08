@@ -19,7 +19,7 @@ require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
 require ("./../inc/class/json.class.php");
 require ("./../inc/class/offer.class.php");
-// require ("./../inc/class/position.class.php");
+require ("./../inc/class/position.class.php");
 require ("./../inc/class/query.class.php");
 require ("./../inc/class/rating.class.php");
 require ("./../inc/class/ride.class.php");

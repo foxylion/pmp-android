@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 
@@ -210,6 +211,12 @@ public class Controller {
             return Constants.STATUS_INVALID_USER;
         }
         return 0;
+    }
+    
+    public PositionObject getUserPosition(String sid, int user_id){
+        PositionObject object = JSonRequestReader.getUserPosition(sid, user_id);
+        
+        return object;
     }
     
     
