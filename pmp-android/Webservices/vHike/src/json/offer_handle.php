@@ -1,39 +1,39 @@
 <?php
 /**
- * This service is used by a inquerier to accept or deny an offer
+ * This service is used by a inquirer to accept or deny an offer
  */
-define("INCLUDE", true);
-require("./../inc/json_framework.inc.php");
+define('INCLUDE', true);
+require('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
 // Verify user input
-if (!isset ($_POST["accept"]) && !is_bool($_POST["accept"])) {
+if (!isset ($_POST['accept']) OR !is_bool((boolean)$_POST['accept'])) {
 	Json::printInvalidInputError();
 }
 
 try {
 	// Check first if the given query-id belongs to the logged in user
-	$offer = Offer::loadOffer($_POST["offer"]);
+	$offer = Offer::loadOffer($_POST['offer']);
 	if ($offer == null) {
-		$status = "invalid_offer";
+		$status = 'invalid_offer';
 	} elseif ($offer->getQuery() == null
 		|| !$offer->getQuery()->getPassenger()->isEqual(Session::getInstance()->getLoggedInUser())
 	) {
-		$status = "invalid_user";
+		$status = 'invalid_user';
 	} else {
 		// Accept or deny the offer
-		if ($_POST["accept"] == "true") {
+		$status = 'handled';
+		if ((boolean)$_POST['accept'] == TRUE) {
 			$offer->accept();
-		} elseif ($_POST["accept"] == "false") {
+		} else {
 			$offer->deny();
 		}
-		$status = "handled";
 	}
 
-	$output = array("successful" => true,
-					"status"     => $status);
+	$output = array('successful' => true,
+					'status'	 => $status);
 	echo Json::arrayToJson($output);
 
 } catch (InvalidArgumentException $iae) {
@@ -42,4 +42,3 @@ try {
 	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
-?>

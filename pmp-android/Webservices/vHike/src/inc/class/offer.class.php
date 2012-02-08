@@ -42,7 +42,6 @@ class Offer {
 	 * @return Offer	Offer object storing the loaded information
 	 */
 	public static function loadOffer($id) {
-		// TODO: add position
 		if (!General::validId($id)) {
 			throw new InvalidArgumentException("The offer ID is invalid");
 		}
@@ -89,40 +88,40 @@ class Offer {
 		}
 
 		$db = Database::getInstance();
-		$query = $db->query("SELECT\n".
-								"u.username,\n".
-								"u.`password`,\n".
-								"u.email,\n".
-								"u.firstname,\n".
-								"u.lastname,\n".
-								"u.tel,\n".
-								"u.description,\n".
-								"u.regdate,\n".
-								"u.email_public,\n".
-								"u.firstname_public,\n".
-								"u.lastname_public,\n".
-								"u.tel_public,\n".
-								"u.activated,\n".
-								"u.id AS uid,\n".
-								"o.id AS oid,\n".
-								"o.`query`,\n".
-								"o.message,\n".
-								"t.driver,\n".
-								"t.avail_seats,\n".
-								"t.destination,\n".
-								"t.creation,\n".
-								"t.started,\n".
-								"t.ending,\n".
-								"t.id AS tid,\n".
-								"p.latitude AS current_lat,\n".
-								"p.longitude AS current_lon,\n".
-								"p.last_update\n".
-								"FROM\n".
-								"" . DB_PREFIX . "_offer AS o\n".
-								"INNER JOIN " . DB_PREFIX . "_query AS q ON o.`query` = q.id\n".
-								"INNER JOIN " . DB_PREFIX . "_trip AS t ON o.trip = t.id\n".
-								"INNER JOIN " . DB_PREFIX . "_user AS u ON t.driver = u.id\n".
-								"INNER JOIN " . DB_PREFIX . "_position AS p ON t.driver = p.`user`\n".
+		$query = $db->query("SELECT\n" .
+								"u.username,\n" .
+								"u.`password`,\n" .
+								"u.email,\n" .
+								"u.firstname,\n" .
+								"u.lastname,\n" .
+								"u.tel,\n" .
+								"u.description,\n" .
+								"u.regdate,\n" .
+								"u.email_public,\n" .
+								"u.firstname_public,\n" .
+								"u.lastname_public,\n" .
+								"u.tel_public,\n" .
+								"u.activated,\n" .
+								"u.id AS uid,\n" .
+								"o.id AS oid,\n" .
+								"o.`query`,\n" .
+								"o.message,\n" .
+								"t.driver,\n" .
+								"t.avail_seats,\n" .
+								"t.destination,\n" .
+								"t.creation,\n" .
+								"t.started,\n" .
+								"t.ending,\n" .
+								"t.id AS tid,\n" .
+								"p.latitude AS current_lat,\n" .
+								"p.longitude AS current_lon,\n" .
+								"p.last_update\n" .
+								"FROM\n" .
+								"" . DB_PREFIX . "_offer AS o\n" .
+								"INNER JOIN " . DB_PREFIX . "_query AS q ON o.`query` = q.id\n" .
+								"INNER JOIN " . DB_PREFIX . "_trip AS t ON o.trip = t.id\n" .
+								"INNER JOIN " . DB_PREFIX . "_user AS u ON t.driver = u.id\n" .
+								"INNER JOIN " . DB_PREFIX . "_position AS p ON t.driver = p.`user`\n" .
 								"WHERE q.`passenger` = " . $inquirer->getId());
 
 
@@ -276,14 +275,22 @@ class Offer {
 
 	public function accept() {
 		$db = Database::getInstance();
-		$db->query("INSERT INTO `" . DB_PREFIX . "_ride` (
+		try {
+			$db->query('START TRANSACTION');
+			$db->query('INSERT INTO `' . DB_PREFIX . '_ride` (
                         `passenger`,
                         `trip`
                     ) VALUES (
-                        " . $this->getQuery()->getPassengerId() . ",
-                        " . $this->trip->getId() . "
-                    )");
-		$this->delete();
+                        ' . $this->getQuery()->getPassengerId() . ',
+                        ' . $this->trip->getId() . '
+                    )');
+			$db->query('DELETE FROM `' . DB_PREFIX . '_query` WHERE id=' . $this->getQueryId());
+			$this->delete();
+			$db->query('COMMIT');
+		} catch (DatabaseException $dbe) {
+			$db->query('ROLLBACK');
+			throw $dbe;
+		}
 	}
 
 	public function deny() {
@@ -299,4 +306,3 @@ class Offer {
 		$db->query("DELETE FROM  `" . DB_PREFIX . "_offer` WHERE `id` = '" . $this->id . "'");
 	}
 }
-?>

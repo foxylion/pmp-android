@@ -888,6 +888,31 @@ public class JSonRequestReader {
         return false;
     }
     
+    public static boolean isPicked(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        JsonObject object = null;
+        
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "isPicked.php", false);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc = false;
+        String status = "";
+        boolean picked = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                picked = object.get("picked").getAsBoolean();
+            }
+        }
+        return picked;
+    }
+    
     
     public static List<PassengerObject> offer_accepted(String sid, int trip_id) {
         listToParse.clear();

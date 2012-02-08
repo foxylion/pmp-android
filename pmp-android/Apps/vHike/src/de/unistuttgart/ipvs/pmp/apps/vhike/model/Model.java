@@ -16,6 +16,60 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class Model {
     
+    List<Integer> foundUsers;
+    
+    public boolean isFinded(int userid) {
+        boolean picked = false;
+        for (int invID : foundUsers) {
+            if (userid == invID) {
+                picked = true;
+            }
+        }
+        return picked;
+    }
+    
+    public void addToFoundUsers(int userid){
+        foundUsers.add(userid);
+    }
+    
+    public void clearFoundUsers(){
+        foundUsers.clear();
+    }
+    
+    /**
+     * Current positions
+     */
+    private double current_lat = 0;
+    private double current_lon = 0;
+    /**
+     * sets the curren latitude
+     * @param lat
+     */
+    public void setLatitude(double lat){
+        current_lat = lat;
+    }
+    /**
+     * sets the curren longtitude
+     * @param lat
+     */
+    public void setLongtitude(double lon){
+        current_lon = lon;
+    }
+    /**
+     * 
+     * @return latitude
+     */
+    public double getLatitude() {
+        return current_lat;
+    }
+    /**
+     * 
+     * @return longtitude
+     */
+    public double getLongtitude() {
+        return current_lon;
+    }
+
     /**
      * picked up users
      */
@@ -216,6 +270,7 @@ public class Model {
         bannedUser = new ArrayList<Integer>();
         offeredUser = new ArrayList<Integer>();
         pickedUsers = new ArrayList<Integer>();
+        foundUsers = new ArrayList<Integer>();
     }
     
     

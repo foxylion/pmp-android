@@ -11,9 +11,6 @@ import com.google.android.maps.MapView;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
 import android.location.Address;
@@ -38,8 +35,6 @@ public class LocationUpdateHandler implements LocationListener {
     private MapController mapController;
     private GeoPoint gPosition;
     private Location location;
-    private int mWhichHitcher;
-    private int notiID = 0;
     
     private Controller ctrl;
     
@@ -57,13 +52,12 @@ public class LocationUpdateHandler implements LocationListener {
      * @param gPosition
      */
     public LocationUpdateHandler(Context context, LocationManager locationManager, MapView mapView,
-            MapController mapController, GeoPoint gPosition, int whichHitcher) {
+            MapController mapController, GeoPoint gPosition) {
         this.context = context;
         this.locationManager = locationManager;
         this.mapView = mapView;
         this.mapController = mapController;
         this.gPosition = gPosition;
-        mWhichHitcher = whichHitcher;
         
         ctrl = new Controller();
         
@@ -82,124 +76,24 @@ public class LocationUpdateHandler implements LocationListener {
         int lng = (int) (location.getLongitude() * 1E6);
         gPosition = new GeoPoint(lat, lng);
         
-        Profile me = Model.getInstance().getOwnProfile();
-        
-        // 0, driver is asking for his current location
-        // 1, passenger is asking for his current location
-        if (mWhichHitcher == 0) {
-            
-            // clear list first and draw everything new
-            MapModel.getInstance().clearDriverOverlayList();
-            MapModel.getInstance().getHitchPassengers().clear();
-            notiID = 0;
-            
-            // draw me in
-            MapModel.getInstance().add2DriverOverlay(context, gPosition, me, mapView, 0, 0);
-            
-            /**
-             * send server updated latitude and longitude
-             */
-            switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) location.getLatitude(),
-                    (float) location.getLongitude())) {
-                case Constants.STATUS_UPDATED:
-                    Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
-                    
-                    /**
-                     * search for passenger within perimeter (10 km for testing
-                     * purposes)
-                     */
-                    List<QueryObject> lqo = ctrl.searchQuery(Model.getInstance().getSid(),
-                            (float) location.getLatitude(), (float) location.getLongitude(), 10000);
-                    if (lqo != null) {
-                        for (int i = 0; i < lqo.size(); i++) {
-                            int lati = (int) (lqo.get(i).getCur_lat() * 1E6);
-                            int lngi = (int) (lqo.get(i).getCur_lon() * 1E6);
-                            GeoPoint gpsPassenger = new GeoPoint(lati, lngi);
-                            
-                            // create Profile of found passenger
-                            Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), lqo.get(i).getUserid());
-                            
-                            if (!Model.getInstance().isInBannList(lqo.get(i).getUserid())) {
-                                // add an passenger to overlay
-                                MapModel.getInstance().add2DriverOverlay(context, gpsPassenger, passenger, mapView, 1,
-                                        lqo.get(i).getUserid());
-                                
-                                // add up ID for statusbar notification
-                                notiID++;
-                                
-                                // add passenger to slider list
-                                MapModel.getInstance().getHitchPassengers().add(passenger);
-                                // notify user
-                                MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
-                                        notiID, mapView);
-                                // notify list
-                                MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
-                                mapView.invalidate();
-                                mapView.postInvalidate();
-                            }
-                            
-                        }
-                    } else {
-                        Toast.makeText(context, "No hitchhikers within perimeter", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case Constants.STATUS_UPTODATE:
-                    Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
-                    break;
-//                case Constants.STATUS_NOTRIP:
-//                    Toast.makeText(context, "Status no trip ", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case Constants.STATUS_HASENDED:
-//                    Toast.makeText(context, "Status trip ended", Toast.LENGTH_LONG).show();
-//                    break;
-//                case Constants.STATUS_INVALID_USER:
-//                    Toast.makeText(context, "Status invalid user", Toast.LENGTH_LONG).show();
-              case Constants.STATUS_ERROR:
-                  Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
-                  break;
-            }
-        } else {
-            // clear list
-            MapModel.getInstance().clearPassengerOverlayList();
-            MapModel.getInstance().getHitchDrivers().clear();
-            notiID = 0;
-            
-            // draw me in
-            MapModel.getInstance().add2PassengerOverlay(context, gPosition, me, mapView, 0, 0);
-            
-            switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) location.getLatitude(),
-                    (float) location.getLongitude())) {
-                case (Constants.STATUS_UPDATED):
-                    List<OfferObject> loo = ctrl.viewOffers(Model.getInstance().getSid());
-                    if (loo != null) {
-                        for (int i = 0; i < loo.size(); i++) {
-                            Profile driver = ctrl.getProfile(Model.getInstance().getSid(), loo.get(i).getUser_id());
-                            
-                            GeoPoint gpsDriver = new GeoPoint((int) (location.getLatitude() * 1E6),
-                                    (int) (location.getLongitude() * 1E6));
-                            
-                            // notiID
-                            notiID++;
-                            
-                            MapModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
-                            MapModel.getInstance().getHitchDrivers().add(driver);
-                            MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1,
-                                    notiID, mapView);
-                            MapModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
-                        }
-                    } else {
-                        Toast.makeText(context, "OfferObject null", Toast.LENGTH_SHORT).show();
-                    }
-                    
-                    Toast.makeText(context, "STATUS_UPDATED", Toast.LENGTH_SHORT).show();
-                    break;
-                case Constants.STATUS_UPTODATE:
-                    Toast.makeText(context, "NO UPDATE, UP 2 DATE", Toast.LENGTH_SHORT).show();
-                    break;
-                case Constants.STATUS_ERROR:
-                    Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
-                    break;
-            }
+        /**
+         * send server updated latitude and longitude
+         */
+        switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) location.getLatitude(),
+                (float) location.getLongitude())) {
+            case Constants.STATUS_UPDATED:
+                Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
+                
+                Model.getInstance().setLatitude(location.getLatitude());
+                Model.getInstance().setLongtitude(location.getLongitude());
+                
+                break;
+            case Constants.STATUS_UPTODATE:
+                Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
+                break;
+            case Constants.STATUS_ERROR:
+                Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
+                break;
         }
         
         mapController = mapView.getController();
