@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: DatabaseResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import de.unistuttgart.ipvs.pmp.resource.Resource;
  * 
  */
 public class DatabaseResource extends Resource {
-  
+    
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
         Database drg = (Database) getResourceGroup();

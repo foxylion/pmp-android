@@ -2,7 +2,7 @@
  * Copyright 2011 pmp-android development team
  * Project: FileSystemResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,10 +77,10 @@ public class GenericFileAccess extends IFileAccess.Stub {
             return Utils.readFileToString(new File(path));
         } catch (FileNotFoundException e) {
             Log.d(this, "Cannot open file: " + path, e);
-            throw new RemoteException();
+            throw new IllegalArgumentException();
         } catch (IOException e) {
             Log.d(this, "Cannot read file", e);
-            throw new RemoteException();
+            throw new IllegalArgumentException();
         }
     }
     
@@ -102,7 +102,8 @@ public class GenericFileAccess extends IFileAccess.Stub {
     public boolean write(String path, String data, boolean append) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(PrivacySettings.GENERIC_WRITE)) {
-            throw new IllegalAccessError("Generic file writing not allowed");
+            throw new SecurityException();
+            
         }
         
         File file = new File(path);
@@ -129,7 +130,8 @@ public class GenericFileAccess extends IFileAccess.Stub {
     public boolean delete(String path) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(PrivacySettings.GENERIC_DELETE)) {
-            throw new IllegalAccessError("Generic file deleting not allowed");
+            throw new SecurityException();
+            
         }
         
         return new File(path).delete();
@@ -149,7 +151,8 @@ public class GenericFileAccess extends IFileAccess.Stub {
     public List<FileDetails> list(String directory) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(PrivacySettings.GENERIC_LIST)) {
-            throw new IllegalAccessError("Generic file listing not allowed");
+            throw new SecurityException();
+            
         }
         
         return Utils.getFileDetailsList(new File(directory));
@@ -170,7 +173,8 @@ public class GenericFileAccess extends IFileAccess.Stub {
     public boolean makeDirs(String path) throws RemoteException {
         // Check if application is allowed to use this function
         if (!privacySettingSet(PrivacySettings.GENERIC_MAKE_DIRS)) {
-            throw new IllegalAccessError("Generic file listing not allowed");
+            throw new SecurityException();
+            
         }
         
         return new File(path).mkdirs();

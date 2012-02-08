@@ -16,7 +16,7 @@
 		<div id="page-head-date">07. February 2012</div>
 		<div id="page-head-title">App3: Informations-App</div>
 		<div id="page-title">App3: Informations-App <p>Entwurf</p></div>
-		<div id="page-version">Version 3.1</div>
+		<div id="page-version">Version 3.2</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -29,10 +29,16 @@
 		
 			<h1 id="versionshistorie">Versionshistorie</h1>
 				
-				<h3>Version 3.1 (07.02.2012)</h3>
+				<h3>Version 3.1 (08.02.2012)</h3>
 					<ul>
 						<li>Erstes Gerüst des Entwurfs</li>
 					</ul>
+
+				<h3>Version 3.2 (08.02.2012)</h3>
+					<ul>
+						<li>Klassendiagramm hinzugefügt</li>
+					</ul>
+
 
 			
 			<h1 id="einleitung">Einleitung</h1>
@@ -40,7 +46,7 @@
 			
 
 			<p>Die entworfene Software dient als eine Beispielapp, die die Funktionen der PMP bezüglich des Umgangs mit vielen Ressourcen prüft.</p>
-			<p>Die Software ist reine Testapp und soll keine ausgefallene Oberfläche besitzen. Dafür soll sie viele Ressourcengruppen für die PMP 						anbieten.</p>
+			<p>Die Software ist reine Testapp und soll keine ausgefallene Oberfläche besitzen. Dafür soll sie viele Ressourcengruppen für die PMP 							anbieten.</p>
 			<p>In erster Linie wird die Funktionalität der Software gesichert, sodass die zusätzlichen Ressourcengruppen nachhinein hinzugefügt werden.</p>
 
 
@@ -70,15 +76,23 @@
 
 			<h2 id="userinterface">UserInterface</h2>
 
-				<p>Die graphische Benutzungsschnittstelle besteht im wesentlichen aus wenigen Activity-Fenstern, die die gewünschten Informationen anbieten 						werden. Diese Activity-Fenster wird man durch ein Regler umschalten können. Auf die Funktionen der Schnittstelle wird über die entsprechende UI-Klasse zugegriffen.</p>
+				<p>Die graphische Benutzungsschnittstelle besteht im wesentlichen aus wenigen Activity-Fenstern, die die gewünschten Informationen anbieten 						werden. Diese Activity-Fenster wird man durch ein Regler umschalten können. Auf die Funktionen der Schnittstelle wird über die entsprechende UI-				Klasse zugegriffen.</p>
 
 			
 			<h2 id="resourcegroups">ResourceGroups</h2>
-				<p>Die Komponente ResourceGroups implementiert die Möglichkeiten die einzelnen Informationsbereiche individuell einstellen zu können. Dabei wird man zu der PMP verlinkt und nimmt die Einstellungen von dieser App aus.</p>
+				<p>Die Komponente ResourceGroups implementiert die Möglichkeiten die einzelnen Informationsbereiche individuell einstellen zu können. Dabei wird 				man unter anderem zu der PMP verlinkt und nimmt die Einstellungen von dieser App vor.</p>
 
 			<h2 id="pmpcomponent">PMP</h2>
-				<p>PMP ist einer Art externer Komponente, die die einzelnen Ressourcen-Gruppen der App3 verwaltet.</p>
-			
+				<p>PMP ist einer Art externer Komponente, die der einzelnen Ressourcen-Gruppen der App3 die Interfaces bereitstellt.</p>
+
+			<h1 id="klassendiagramm">Klassendiagramm</h1>	
+
+      			<p>    
+        		<img src="./app3-classes.png" alt="App3 - Components" style="width:90%">
+      			</p>	
+
+			<p>Die Klasse Model verwaltet die App3. Die Klasse App3Activity implementiert die Hauptactivity der App3. Diese ist nur eine der Informationpanels die 					vom Benutzer als die Startactivity ausgesucht wird. Als Beispiel eines Informationpanels wurde im Diagramm das Panel RSSFeedPanel mit der zugehörigen RG 				RSSFeed gewählt. Das dazugehörige Interface IRSSFeed wird von PMP bereitgestellt. Auf die selbe Art werden alle Ressourcen-Gruppen der App3 im System 					eingebunden. Die letzte Klasse App3SettingsActivity implementiert die Einstellungen der einzelnen Informationpanels.</p>
+	
 	
 </body>
 </html>
