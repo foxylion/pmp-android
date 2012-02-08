@@ -104,11 +104,9 @@ public class NotificationAdapter extends BaseAdapter {
         final TextView name = (TextView) entryView.findViewById(R.id.TextView_Name);
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
-        final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-        
         // determine which id to receive
         if (mWhichHitcher == 0) {
-            
+            final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
             queryID = lqo.get(position).getQueryid();
             userID = lqo.get(position).getUserid();
             
@@ -198,6 +196,7 @@ public class NotificationAdapter extends BaseAdapter {
             public void onClick(View v) {
                 
                 if (mWhichHitcher == 0) {
+                    final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
                     queryID = lqo.get(position).getQueryid();
                     userID = lqo.get(position).getUserid();
                 }
