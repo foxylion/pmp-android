@@ -12,8 +12,8 @@ class Query {
     private $id = -1;
     private $passenger = -1;
     private $seats = 0;
-    private $currentLat = 0.0;
-    private $currentLon = 0.0;
+//    private $currentLat = 0.0;
+//    private $currentLon = 0.0;
     private $destination = null;
     
     /**
@@ -108,7 +108,8 @@ class Query {
     /**
      * Updates the passenger's current position
      * @param int $queryid The passenger's id
-     * @return boolean  True, if data was updated successfully 
+     * @return boolean  True, if data was updated successfully
+	 * @deprecated
      */
     public function updatePosition($queryid) {
         if (!is_numeric($queryid) || $queryid < 1) {
@@ -166,13 +167,13 @@ class Query {
         return $this->seats;
     }
     
-    public function getCurrentLat() {
-        return $this->currentLat;
-    }
-    
-    public function getCurrentLon() {
-        return $this->currentLon;
-    }
+//    public function getCurrentLat() {
+//        return $this->currentLat;
+//    }
+//
+//    public function getCurrentLon() {
+//        return $this->currentLon;
+//    }
     
     public function getDestination() {
         return $this->destination;

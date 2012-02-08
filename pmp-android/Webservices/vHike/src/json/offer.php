@@ -10,7 +10,7 @@ require("./../inc/json_framework.inc.php");
 Json::printErrorIfNotLoggedIn();
 
 try {
-	// Load data for the given parameters
+	// Load data for the given parameters^^
 	$trip = Trip::loadTrip($_POST["trip"]);
 	$query = Query::loadQuery($_POST["query"]);
 	$driver = Session::getInstance()->getLoggedInUser();
