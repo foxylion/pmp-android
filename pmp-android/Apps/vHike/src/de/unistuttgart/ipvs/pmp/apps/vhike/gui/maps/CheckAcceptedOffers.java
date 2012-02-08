@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
@@ -74,7 +73,6 @@ public class CheckAcceptedOffers extends TimerTask {
                                     name.setTextColor(Color.BLUE);
                                     acceptButton.setBackgroundResource(R.drawable.bg_disabled);
                                     acceptButton.setEnabled(false);
-                                    Toast.makeText(v.getContext(), "Pick uped", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             

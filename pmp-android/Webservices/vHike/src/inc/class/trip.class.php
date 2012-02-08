@@ -1,10 +1,10 @@
 <?php
-if (!defined("INCLUDE")) {
+if (!defined('INCLUDE')) {
 	exit;
 }
 
 /**
- * Allows to create a new trip and gives access to exsiting trips and their data
+ * Allows to create a new trip and gives access to existing trips and their data
  * @author  Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
@@ -15,9 +15,6 @@ class Trip {
 	/** @var User */
 	private $driver = null;
 	private $availSeats = 0;
-	private $currentLat = 0.0;
-	private $currentLon = 0.0;
-	private $lastUpdate = null;
 	private $destination = null;
 	private $creation = null;
 	private $ending = 0;
@@ -81,15 +78,14 @@ class Trip {
 		$trip->id = (int)$result[$idFieldName];
 		$trip->driver = User::loadUserBySqlResult($result, $userIdFieldName);
 		$trip->availSeats = $result["avail_seats"];
-		$trip->currentLat = $result["current_lat"];
-		$trip->currentLon = $result["current_lon"];
-		$trip->lastUpdate = $result["last_update"];
+		//		$trip->currentLat = $result["current_lat"];
+		//		$trip->currentLon = $result["current_lon"];
+		//		$trip->lastUpdate = $result["last_update"];
 		$trip->destination = $result["destination"];
 		$trip->creation = $result["creation"];
 		$trip->ending = $result["ending"];
 
 		return $trip;
-
 	}
 
 
@@ -105,15 +101,13 @@ class Trip {
 	 * @return Trip The created trip
 	 * @throws InvalidArgumentException Thrown, if input data is invalid
 	 */
-	public static function create($driver, $availSeats, $currentLat, $currentLon, $destination) {
+	public static function create($driver, $availSeats, $destination) {
 		// Cancel if important information is missing
-		if (!($driver instanceof User) || $availSeats <= 0 || $availSeats >= 100 ||
-			!is_numeric($currentLat) || !is_numeric($currentLon) || !General::validLength($destination)
-		) {
+		if (!($driver instanceof User) || $availSeats <= 0 || $availSeats >= 100 || !General::validLength($destination)) {
 			throw new InvalidArgumentException("At least one parameter is of wrong type or format");
 		}
 
-		// Cancel if theres already an opend trip
+		// Cancel if there's already an opened trip
 		if (self::openTripExists($driver)) {
 			throw new InvalidArgumentException("At least one parameter is of wrong type or format", self::OPEN_TRIP_EXISTS);
 		}
@@ -125,15 +119,11 @@ class Trip {
 		$db->query("INSERT INTO `" . DB_PREFIX . "_trip` (
                         `driver`,
                         `avail_seats`,
-                        `current_lat`,
-                        `current_lon`,
                         `destination`,
                         `creation`
                     ) VALUES (
                         \"" . $driver->getId() . "\",
                         \"" . $availSeats . "\",
-                        \"" . $currentLat . "\",
-                        \"" . $currentLon . "\",
                         \"" . $destination . "\",
                         from_unixtime(" . $creation . ")
                     )");
@@ -142,8 +132,6 @@ class Trip {
 		$trip->id = $db->getId();
 		$trip->driver = $driver;
 		$trip->availSeats = $availSeats;
-		$trip->currentLat = $currentLat;
-		$trip->currentLon = $currentLon;
 		$trip->destination = $destination;
 		$trip->creation = Date(Database::DATE_TIME_FORMAT, $creation);
 
@@ -157,6 +145,7 @@ class Trip {
 	 * @param float $currentLon
 	 *
 	 * @return boolean  True, if data was updated successfully
+	 * @deprecated
 	 */
 	public function updatePosition($currentLat, $currentLon) {
 		if (!is_numeric($currentLat) || !is_numeric($currentLon)) {
@@ -171,8 +160,8 @@ class Trip {
                                AND `driver` = " . $this->driver->getId() . "
                                AND `ending` = 0");
 
-		$this->currentLat = $currentLat;
-		$this->currentLon = $currentLon;
+//		$this->currentLat = $currentLat;
+//		$this->currentLon = $currentLon;
 
 		return ($updated && $db->getAffectedRows() > 0);
 	}
@@ -180,12 +169,14 @@ class Trip {
 	/**
 	 * Updates the number of available seats in the driver car
 	 *
-	 * @param int $tripid The driver's id
+	 * @param $availSeats
+	 *
+	 * @internal param int $tripid The driver's id
 	 *
 	 * @return boolean  True, if data was updated successfully
 	 */
 	public function updateData($availSeats) {
-		if (!is_numeric($availSeats) || $availSeats <= 0 || $availSeats >= 100) {
+		if (!is_numeric($availSeats) || $availSeats < 0 || $availSeats > 100) {
 			throw new InvalidArgumentException("AvailSeats has to be numeric and between 1 and 99");
 		}
 
@@ -204,7 +195,7 @@ class Trip {
 	/**
 	 * Ends/closes the trip so that rating is now activated
 	 *
-	 * @param int $tripid The driver's id
+	 * @internal param int $tripid The driver's id
 	 *
 	 * @return boolean  True, if data was updated successfully
 	 */
@@ -234,11 +225,11 @@ class Trip {
 		}
 
 		$db = Database::getInstance();
-		$count = $db->query("SELECT * FROM `" . DB_PREFIX . "_trip`
+		$res = $db->query("SELECT * FROM `" . DB_PREFIX . "_trip`
                              WHERE `driver` = " . $driver->getId() . "
                              AND `ending` = 0");
 
-		return $db->getAffectedRows() > 0;
+		return $db->getNumRows($res) > 0;
 
 	}
 
@@ -293,17 +284,17 @@ class Trip {
 		return $this->availSeats;
 	}
 
-	public function getCurrentLat() {
-		return $this->currentLat;
-	}
+//	public function getCurrentLat() {
+//		return $this->currentLat;
+//	}
 
-	public function getCurrentLon() {
-		return $this->currentLon;
-	}
+//	public function getCurrentLon() {
+//		return $this->currentLon;
+//	}
 
-	public function getLastUpdate() {
-		return $this->lastUpdate;
-	}
+//	public function getLastUpdate() {
+//		return $this->lastUpdate;
+//	}
 
 	public function getDestination() {
 		return $this->destination;
@@ -326,4 +317,4 @@ class Trip {
 	}
 }
 
-?>
+// EOF trip.class.php

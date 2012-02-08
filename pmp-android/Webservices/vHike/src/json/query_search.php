@@ -25,17 +25,17 @@ try {
 		$result = $query->searchQuery($user->getId(), $_POST["distance"]);
 		if ($result) {
 			$output = array("successful" => true,
-							"status"     => "result",
-							"queries"    => $result);
+							"status"	 => "result",
+							"queries"	=> $result);
 			echo Json::arrayToJson($output);
 		} else {
 			$output = array("successful" => true,
-							"status"     => "no_query_found");
+							"status"	 => "no_query_found");
 			echo Json::arrayToJson($output);
 		}
 	} else {
 		$output = array("successful" => true,
-						"status"     => "no_trip");
+						"status"	 => "no_trip");
 		echo Json::arrayToJson($output);
 	}
 
