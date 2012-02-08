@@ -1,10 +1,11 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.util.List; 
+import java.util.List;
 import java.util.Timer;
 
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -125,6 +126,7 @@ public class NotificationAdapter extends BaseAdapter {
         if (Model.getInstance().isInInvitedList(userID)) {
             
             accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+            Log.i(this, "Offer waiting");
             accept_invite.invalidate();
         }
         
@@ -232,7 +234,7 @@ public class NotificationAdapter extends BaseAdapter {
                     switch (ctrl.handleOffer(Model.getInstance().getSid(), offerID, true)) {
                         case Constants.STATUS_HANDLED:
                             Toast.makeText(context, "HANDLED: ACCEPT", Toast.LENGTH_SHORT).show();
-
+                            
                             accept_invite.setBackgroundResource(R.drawable.bg_check);
                             accept_invite.refreshDrawableState();
                             accept_invite.invalidate();
