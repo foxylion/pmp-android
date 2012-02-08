@@ -682,12 +682,14 @@ public class JSonRequestReader {
                                 distance);
                         queryObjects.add(qObject);
                     }
-                    Model.getInstance().setQueryHolder(queryObjects);
+                    if(queryObjects!=null)
+                        Model.getInstance().setQueryHolder(queryObjects);
                     return queryObjects;
                 }
             }
         }
-        Model.getInstance().setQueryHolder(queryObjects);
+        if(queryObjects!=null)
+            Model.getInstance().setQueryHolder(queryObjects);
         return queryObjects;
     }
     

@@ -17,7 +17,6 @@ public class QueryObject {
 	float distance = 0;
 	public QueryObject(int queryid, int userid, String username, float cur_lat,
 			float cur_lon, int seats, float distance) {
-		super();
 		this.queryid = queryid;
 		this.userid = userid;
 		this.username = username;
