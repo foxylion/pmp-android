@@ -160,6 +160,7 @@ public class DriverViewActivity extends MapActivity {
                         Model.getInstance().clearInvitedUserList();
                         Model.getInstance().clearFoundUsers();
                         Model.getInstance().clearPickedUserList();
+                        timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
                         this.finish();

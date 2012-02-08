@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.List; 
+import java.util.List;
 import java.util.TimerTask;
 
 import android.graphics.Color;
@@ -73,6 +73,9 @@ public class CheckAcceptedOffers extends TimerTask {
                                     name.setTextColor(Color.BLUE);
                                     acceptButton.setBackgroundResource(R.drawable.bg_disabled);
                                     acceptButton.setEnabled(false);
+                                    // stop checking
+                                    cancel();
+                                    
                                 }
                             });
                             
@@ -81,9 +84,6 @@ public class CheckAcceptedOffers extends TimerTask {
                             // count down available seats
                             ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
                                     .getInstance().getNumSeats() - 1);
-                            
-                            // stop checking
-                            cancel();
                             
                             // in Bannliste
                             Model.getInstance().addToPickedUser(userID);
