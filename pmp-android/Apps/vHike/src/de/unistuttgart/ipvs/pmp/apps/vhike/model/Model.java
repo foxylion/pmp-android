@@ -22,24 +22,24 @@ public class Model {
     }
     
     
-    List<Integer> foundUsers;
+    List<FoundProfilePos> foundUsers;
     
-    public List<Integer> getFindList(){
+    public List<FoundProfilePos> getFindList(){
         return foundUsers;
     }
     
     public boolean isFinded(int userid) {
         boolean picked = false;
-        for (int invID : foundUsers) {
-            if (userid == invID) {
+        for (FoundProfilePos invID : foundUsers) {
+            if (userid == invID.getUserid()) {
                 picked = true;
             }
         }
         return picked;
     }
     
-    public void addToFoundUsers(int userid){
-        foundUsers.add(userid);
+    public void addToFoundUsers(FoundProfilePos user){
+        foundUsers.add(user);
     }
     
     public void clearFoundUsers(){
@@ -280,7 +280,7 @@ public class Model {
         bannedUser = new ArrayList<Integer>();
         offeredUser = new ArrayList<Integer>();
         pickedUsers = new ArrayList<Integer>();
-        foundUsers = new ArrayList<Integer>();
+        foundUsers = new ArrayList<FoundProfilePos>();
     }
     
     
