@@ -1,6 +1,14 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
-public class AISIssue {
+/**
+ * Instantiate this class, if an issue in the AIS occurrs.
+ * You have to set the location and type of the issue and can also set a parameter, e.g. identifier or language
+ * attribute
+ * 
+ * @author Marcus Vetter
+ * 
+ */
+public class AISIssue extends AbstractIssue {
     
     /**
      * The location of the issue
@@ -14,8 +22,18 @@ public class AISIssue {
     
     
     /**
+     * The constructor to set the type and location of the issue
      * 
+     * @param type
+     *            type of the issue
+     * @param location
+     *            location of the issue
      */
+    public AISIssue(AISIssueType type, AISIssueLocation location) {
+        this.type = type;
+        this.location = location;
+    }
+    
     
     /**
      * Get the location object for the issue

@@ -19,7 +19,11 @@
  */
 package unittest;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
@@ -65,6 +69,19 @@ public class TestValidXMLFile {
             presetUtil.print(presetSet);
             presetSet = presetUtil.parse(presetUtil.compile(presetSet));
             presetUtil.print(presetSet);
+            
+            // Test empty AIS compilation
+            File f = new File("C:/users/marcus/desktop/newais.xml");
+            
+            InputStream is = appUtil.compile(new AIS());
+            
+            OutputStream out = new FileOutputStream(f);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = is.read(buf)) > 0)
+                out.write(buf, 0, len);
+            out.close();
+            is.close();
             
         } catch (IOException e) {
             // TODO Auto-generated catch block
