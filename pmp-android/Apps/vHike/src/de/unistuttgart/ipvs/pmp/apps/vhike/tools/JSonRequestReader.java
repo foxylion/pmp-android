@@ -200,6 +200,7 @@ public class JSonRequestReader {
         int rating_num = 0;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
+            id = object.get("id").getAsInt();
             username = object.get("username").getAsString();
             Log.i(TAG, "USERNAME:" + username);
             email = object.get("email").getAsString();
@@ -223,7 +224,7 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(id, username, email, firstname, lastname, tel, description, date, email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -266,11 +267,12 @@ public class JSonRequestReader {
         boolean firstname_public = false;
         boolean lastname_public = false;
         boolean tel_public = false;
-        
+        int userid = 0;
         double rating_avg = 0;
         int rating_num = 0;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
+            userid = object.get("id").getAsInt();
             email_public = object.get("email_public").getAsBoolean();
             firstname_public = object.get("firstname_public").getAsBoolean();
             lastname_public = object.get("lastname_public").getAsBoolean();
@@ -304,7 +306,7 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date, email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }

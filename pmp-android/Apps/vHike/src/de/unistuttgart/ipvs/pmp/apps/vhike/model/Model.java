@@ -16,6 +16,10 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class Model {
     
+    
+    public void setUserID(){
+        
+    }
     List<Integer> foundUsers;
     
     public boolean isFinded(int userid) {
