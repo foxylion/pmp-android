@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -32,6 +34,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
 
 /**
  * This Class provides static methods to print a given AIS, RGIS and PresetSet.
@@ -39,7 +42,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  * @author Marcus Vetter
  * 
  */
-public class ISPrinter {
+public class Printer {
     
     /**
      * Method for printing
@@ -174,6 +177,22 @@ public class ISPrinter {
                 p("");
             }
             p("------------------------------------");
+        }
+        p("------------------------------------");
+    }
+    
+    
+    public static void printAISIssues(List<AISIssue> issueList) {
+        p("------------------------------------");
+        p("- Printout of the AISIssue list ----");
+        p("------------------------------------");
+        for (AISIssue issue : issueList) {
+            p("> Location: " + issue.getLocation());
+            p("> Type: " + issue.getType().toString());
+            for (String parameter : issue.getParameters()) {
+                p("> Parameter: " + parameter);
+            }
+            p("");
         }
         p("------------------------------------");
     }
