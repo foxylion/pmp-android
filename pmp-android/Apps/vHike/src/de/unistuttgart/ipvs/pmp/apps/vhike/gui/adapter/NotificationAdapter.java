@@ -248,6 +248,7 @@ public class NotificationAdapter extends BaseAdapter {
                             accept_invite.setBackgroundResource(R.drawable.bg_check);
                             accept_invite.refreshDrawableState();
                             accept_invite.invalidate();
+                            Model.getInstance().addToAcceptedUsers(hitchhiker.getID());
                             
                             break;
                         case Constants.STATUS_INVALID_OFFER:
