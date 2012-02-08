@@ -39,13 +39,25 @@ class General {
 
 	/**
 	 * Checks if the given parameter is a valid id
+	 * NOTICE: If you want to check an ID from $_POST, user validateId($input) instead to avoid PHP warning
+	 *
+	 * @param String $post_key The key of the variable in $_POST that need to be checked
+	 *
+	 * @return boolean True, if parameter is a valid id
+	 */
+	public static function validId($post_key) {
+		return (isset($post_key) && is_numeric($post_key) && $post_key > 0);
+	}
+
+	/**
+	 * Checks if the given parameter is a valid id
 	 *
 	 * @param String $input Input
 	 *
-	 * @return boolean  True, if parameter is avalid id
+	 * @return boolean  True, if parameter is a valid id
 	 */
-	public static function validId($input) {
-		return (isset($input) && is_numeric($input) && $input > 0);
+	public static function validateId($input) {
+		return (isset($_POST[$input]) && is_numeric($_POST[$input]) && $_POST[$input] > 0);
 	}
 
 	/**
@@ -54,11 +66,10 @@ class General {
 	 * @param String $input The input
 	 *
 	 * @return boolean  True, if the parameter is a floating-point number and a valid latitude
-	 * @deprecated Please use validateLatitude instead
 	 */
-	public static function validLatitude($input) {
-		return (isset($input) && is_numeric($input) && $input >= -90 && $input <= 90);
-	}
+//	public static function validLatitude($input) {
+//		return (isset($input) && is_numeric($input) && $input >= -90 && $input <= 90);
+//	}
 
 	/**
 	 * Checks in $_POST if the given parameter is a valid latitude value
@@ -77,11 +88,10 @@ class General {
 	 * @param String $input The input
 	 *
 	 * @return boolean  True, if the parameter is a floating-point number and a valid longitude
-	 * @deprecated Please use validateLongitude instead
 	 */
-	public static function validLongitude($input) {
-		return (isset($input) && is_numeric($input) && $input >= -180 && $input <= 180);
-	}
+//	public static function validLongitude($input) {
+//		return (isset($input) && is_numeric($input) && $input >= -180 && $input <= 180);
+//	}
 
 	/**
 	 * Checks in $_POST if the given parameter is a valid longitude value
@@ -114,4 +124,4 @@ class General {
 
 }
 
-?>
+// EOF general.class.php
