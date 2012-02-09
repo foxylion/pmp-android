@@ -90,15 +90,26 @@ public class ViewObject {
     }
     
     
-    public OnClickListener getOnClickListener() {
+    public OnClickListener getOnClickListener(int who) {
         OnClickListener listener = null;
+        // 0 = driver , 1 = passenger
+        final int whoAmI = who;
+        
         switch (status) {
             case Constants.V_OBJ_SATUS_FOUND:
                 listener = new OnClickListener() {
-                    
+                    Controller ctrl = new Controller();
                     @Override
                     public void onClick(View v) {
-                        Controller ctrl = new Controller();
+                        if(whoAmI == 0){
+                            listenerForDriver();
+                        }else{
+                            listenerForPassenger();
+                        }
+                    }
+                    
+                    public void listenerForDriver(){
+                        
                         //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT 
                         switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
                                 qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!")) {
@@ -122,6 +133,24 @@ public class ViewObject {
                                 break;
                         }
                     }
+                    public void listenerForPassenger(){
+                        switch(ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), true)){
+//                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
+                            case Constants.STATUS_HANDLED:
+                                status = Constants.V_OBJ_SATUS_ACCEPTED;
+                                Log.i(this, "OFFER HANDLED");
+                                break;
+                            case Constants.STATUS_INVALID_OFFER:
+                                Log.i(this, "INVALID OFFER");
+                                break;
+                            case Constants.STATUS_INVALID_USER:
+                                Log.i(this, "INVALID USER");
+                                break;
+                            case Constants.STATUS_ERROR:
+                                Log.i(this, "ERROR");
+                                break;
+                        }
+                    }
                 };
                 break;
             case Constants.V_OBJ_SATUS_INVITED:
@@ -139,7 +168,6 @@ public class ViewObject {
                     @Override
                     public void onClick(View v) {
                         Log.i(this, "Already SENT");
-                        
                     }
                 };
                 break;

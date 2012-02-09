@@ -36,7 +36,6 @@ public class Check4Offers extends TimerTask {
                 
                 loo = ctrl.viewOffers(Model.getInstance().getSid());
                 ViewModel.getInstance().updateLOO(loo);
-                
             }
         });
     }
