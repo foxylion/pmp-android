@@ -4,9 +4,9 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 public class FoundProfilePos {
 
     int userid;
-    double lat;
-    double lon;
-    public FoundProfilePos(int userid, double lat, double lon) {
+    float lat;
+    float lon;
+    public FoundProfilePos(int userid, float lat, float lon) {
         super();
         this.userid = userid;
         this.lat = lat;
@@ -17,11 +17,11 @@ public class FoundProfilePos {
         return userid;
     }
     
-    public double getLat() {
+    public float getLat() {
         return lat;
     }
     
-    public double getLon() {
+    public float getLon() {
         return lon;
     }
     

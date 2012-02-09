@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.CheckAcceptedOffers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -108,12 +109,15 @@ public class NotificationAdapter extends BaseAdapter {
         // determine which id to receive
         if (mWhichHitcher == 0) {
             final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+            List<FoundProfilePos> fpp = Model.getInstance().getFindList();
+            
             Log.i(this, "Position: " + position);
             Log.i(this, "LQO is null");
             if (lqo != null) {
                 Log.i(this, "LQO size: " + lqo.size());
-                queryID = lqo.get(position).getQueryid();
-                userID = lqo.get(position).getUserid();
+                //                queryID = lqo.get(position).getQueryid();
+//                userID = lqo.get(position).getUserid();
+                userID = hitchhiker.getID();
             }
             
         } else {
@@ -137,6 +141,8 @@ public class NotificationAdapter extends BaseAdapter {
                     Log.i(this, "IS PICKED");
                     accept_invite.setBackgroundResource(R.drawable.bg_disabled);
                     accept_invite.setEnabled(false);
+                    
+                    name.setTextColor(Color.BLUE);
                 }
             }
         }
@@ -203,18 +209,19 @@ public class NotificationAdapter extends BaseAdapter {
         noti_rb.setRating((float) hitchhiker.getRating_avg());
         me = Model.getInstance().getOwnProfile();
         
+        // if passenger accepted invitation change OnClickListener
         if (Model.getInstance().isAccepted(hitchhiker.getID())) {
             accept_invite.setOnClickListener(new View.OnClickListener() {
                 
                 @Override
                 public void onClick(View v) {
-                    ctrl.pick_up(Model.getInstance().getSid(), userID);
+                    ctrl.pick_up(Model.getInstance().getSid(), hitchhiker.getID());
                     name.setTextColor(Color.BLUE);
                     accept_invite.setBackgroundResource(R.drawable.bg_disabled);
                     accept_invite.setEnabled(false);
                     
                     // add to list which contains all picked up users
-                    Model.getInstance().addToPickedUser(userID);
+                    Model.getInstance().addToPickedUser(hitchhiker.getID());
                 }
             });
         } else {
