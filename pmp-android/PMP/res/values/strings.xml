@@ -191,5 +191,18 @@
     <string name="contexts_time_whole_day">Whole day</string>
     <string name="contexts_time_time_with_phone">Keep time zone with phone</string>
     <string name="contexts_time_time_with_location">Keep time zone with location</string>
+    <string name="contexts_time_interval">Interval:</string>
+    <string-array name="contexts_time_intervals">
+        <item >Daily</item><item >Weekly</item><item >Monthly</item><item >Yearly</item>
+    </string-array>
+	<string name="contexts_time_mon">Mon</string>
+	<string name="contexts_time_tue">Tue</string>
+	<string name="contexts_time_wed">Wed</string>
+	<string name="contexts_time_thu">Thu</string>
+	<string name="contexts_time_fri">Fri</string>
+	<string name="contexts_time_sat">Sat</string>
+	<string name="contexts_time_sun">Sun</string>
+	<string name="contexts_time_this_year_on">This year on:</string>    
+
 
 </resources>
