@@ -48,7 +48,6 @@ import android.widget.Toast;
 public class NotificationAdapter extends BaseAdapter {
     
     private Context context;
-    private Controller ctrl;
     private List<Profile> hitchhikers;
     private Profile hitchhiker;
     private Profile me;
@@ -66,7 +65,6 @@ public class NotificationAdapter extends BaseAdapter {
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
         this.hitchhikers = hitchhikers;
-        ctrl = new Controller();
         mWhichHitcher = whichHitcher;
         this.mapView = mapView;
     }
@@ -114,9 +112,8 @@ public class NotificationAdapter extends BaseAdapter {
         noti_rb.setRating((float) hitchhiker.getRating_avg());
         me = Model.getInstance().getOwnProfile();
         
-        List<ViewObject> lqo = ViewModel.getInstance().getLQO();
+        List<ViewObject> lqo = ViewModel.getInstance().getLVO();
         final ViewObject actObject = lqo.get(position);
-        
         
         dismiss.setOnClickListener(new OnClickListener() {
             
@@ -146,6 +143,7 @@ public class NotificationAdapter extends BaseAdapter {
             case Constants.V_OBJ_SATUS_PICKED_UP:
                 accept_invite.setOnClickListener(actObject.getOnClickListener());
                 accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                name.setTextColor(Color.BLUE);
                 break;
         }
         

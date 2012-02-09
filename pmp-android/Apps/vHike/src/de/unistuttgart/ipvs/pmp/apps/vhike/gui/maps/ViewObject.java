@@ -4,7 +4,6 @@ import java.util.Timer;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -14,7 +13,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 public class ViewObject {
-    
     
     private float lat;
     private float lon;
@@ -38,13 +36,17 @@ public class ViewObject {
         this.lon = lon;
     }
     
-    public float getLat(){
+    
+    public float getLat() {
         return lat;
     }
     
-    public float getLon(){
+    
+    public float getLon() {
         return lon;
     }
+    
+    
     public Profile getProfile() {
         return profile;
     }
@@ -82,9 +84,11 @@ public class ViewObject {
         this.status = status;
     }
     
-    public ViewObject getViewObjectToBann(){
+    
+    public ViewObject getViewObjectToBann() {
         return this;
     }
+    
     
     public OnClickListener getOnClickListener() {
         OnClickListener listener = null;
@@ -148,6 +152,10 @@ public class ViewObject {
                         if (ctrl.pick_up(Model.getInstance().getSid(), profile.getID())) {
                             Log.i(this, "Picked up user: " + profile.getID());
                             status = Constants.V_OBJ_SATUS_PICKED_UP;
+                            
+                            // count down one available seats
+                            ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(),
+                                    ViewModel.getInstance().getNumSeats() - 1);
                         } else {
                             Log.i(this, "Not picked up user: " + profile.getID());
                         }

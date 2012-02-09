@@ -7,9 +7,7 @@ import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
  * Check for ride queries every given time interval
@@ -22,11 +20,6 @@ public class Check4AcceptedOffers extends TimerTask {
     
     private Handler handler;
     private Controller ctrl;
-    private Profile me;
-    private List<QueryObject> lqo;
-    private float lat;
-    private float lng;
-    private int perimeter = 10000;
     private ViewObject object;
     
     
