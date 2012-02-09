@@ -116,6 +116,7 @@ public class NotificationAdapter extends BaseAdapter {
             }
             
             if (Model.getInstance().isPicked(hitchhiker.getID())) {
+                Log.i(this, "IS PICKED");
                 accept_invite.setBackgroundResource(R.drawable.bg_disabled);
                 accept_invite.setEnabled(false);
             }
@@ -133,7 +134,7 @@ public class NotificationAdapter extends BaseAdapter {
             accept_invite.invalidate();
             
             if (Model.getInstance().isAccepted(hitchhiker.getID())) {
-                accept_invite.setBackgroundColor(R.drawable.bg_check);
+                accept_invite.setBackgroundResource(R.drawable.bg_check);
                 accept_invite.invalidate();
                 Log.i(this, "Offer waiting to accepted " + hitchhiker.getID());
             }
@@ -222,7 +223,7 @@ public class NotificationAdapter extends BaseAdapter {
                             
                             // check for offer updates for this button
                             cao = new CheckAcceptedOffers(accept_invite, name, userID);
-                            cao.run();
+//                            cao.run();
                             timer = new Timer();
                             timer.schedule(cao, 300, 10000);
                             
