@@ -314,6 +314,9 @@ public class ViewModel {
         }
     }
     
+    public void setNewNumSeats(int newSeatNumber) {
+        numSeats = newSeatNumber;
+    }
     
     /**
      * get destination set by user

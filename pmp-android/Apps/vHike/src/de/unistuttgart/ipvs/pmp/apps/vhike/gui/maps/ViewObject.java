@@ -154,8 +154,9 @@ public class ViewObject {
                             status = Constants.V_OBJ_SATUS_PICKED_UP;
                             
                             // count down one available seats
+                            ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats() - 1);
                             ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(),
-                                    ViewModel.getInstance().getNumSeats() - 1);
+                                    ViewModel.getInstance().getNumSeats());
                         } else {
                             Log.i(this, "Not picked up user: " + profile.getID());
                         }
