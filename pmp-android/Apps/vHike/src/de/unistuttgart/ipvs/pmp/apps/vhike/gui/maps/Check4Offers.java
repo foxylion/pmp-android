@@ -25,14 +25,10 @@ public class Check4Offers extends TimerTask {
     
     private Handler handler;
     private Controller ctrl;
-    private MapView mapView;
-    private Context context;
+    private List<OfferObject> loo;
     
     
-    public Check4Offers(MapView mapView, Context context) {
-        this.mapView = mapView;
-        this.context = context;
-        
+    public Check4Offers() {
         handler = new Handler();
         ctrl = new Controller();
     }
@@ -44,9 +40,11 @@ public class Check4Offers extends TimerTask {
             
             @Override
             public void run() {
+    
+                loo = ctrl.viewOffers(Model.getInstance().getSid());
+                ViewModel.getInstance().updateLOO(loo);
                 
             }
-            
         });
     }
     

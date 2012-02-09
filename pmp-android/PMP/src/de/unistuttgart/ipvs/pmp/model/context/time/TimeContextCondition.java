@@ -130,7 +130,8 @@ public class TimeContextCondition {
                 break;
             
             case REPEAT_YEARLY:
-                if (!this.days.contains(cal.get(Calendar.DAY_OF_YEAR))) {
+                if ((this.days.size() != 2) || (this.days.get(0) != cal.get(Calendar.MONTH))
+                        || (this.days.get(1) != cal.get(Calendar.DAY_OF_MONTH))) {
                     return false;
                 }
                 break;

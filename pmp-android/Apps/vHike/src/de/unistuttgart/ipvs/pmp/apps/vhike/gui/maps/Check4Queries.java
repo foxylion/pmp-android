@@ -3,41 +3,40 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.List;
 import java.util.TimerTask;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
-import android.os.Handler;
-import android.widget.Toast;
-
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
+import android.os.Handler;
+
+/**
+ * Check for ride queries every given time interval
+ * 
+ * 
+ * @author andres
+ * 
+ */
 public class Check4Queries extends TimerTask {
     
     private Handler handler;
     private Controller ctrl;
-    private MapView mapView;
-    private Context context;
-    //    private Location location;
+    private Profile me;
+    private List<QueryObject> lqo;
+    private float lat;
+    private float lng;
+    private int perimeter = 10000;
     
-    private double lat;
-    private double lng;
     
-    
-    public Check4Queries(MapView mapView, Context context, double lat, double lng) {
-        this.mapView = mapView;
-        this.context = context;
-        //        this.location = location;
-        this.lat = lat;
-        this.lng = lng;
-        
+    /**
+     * 
+     */
+    public Check4Queries() {
         handler = new Handler();
         ctrl = new Controller();
+        
+        // get my Profile to retrieve latitude and longitude later
+        me = Model.getInstance().getOwnProfile();
     }
     
     
@@ -47,8 +46,18 @@ public class Check4Queries extends TimerTask {
             
             @Override
             public void run() {
+                
+                // retrieve my latitude and longitude, my current location
+                lat = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLat();
+                lng = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLon();
+                
+                // retrieve all hitchhikers searching for a ride within my perimeter
+                lqo = ctrl.searchQuery(Model.getInstance().getSid(), lat, lng, perimeter);
+                
+                // send ViewModel new list of hitchhikers
+                ViewModel.getInstance().updateLVO(lqo);
+                
             }
-            
         });
     }
     
