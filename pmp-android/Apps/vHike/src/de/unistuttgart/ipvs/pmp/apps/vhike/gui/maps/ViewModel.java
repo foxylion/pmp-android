@@ -85,6 +85,13 @@ public class ViewModel {
         updateView();
     }
     
+    public float getMy_lat(){
+        return my_lat;
+    }
+    
+    public float getMy_lon(){
+        return my_lon;
+    }
     
     public void clearViewModel() {
         clearlvo();
