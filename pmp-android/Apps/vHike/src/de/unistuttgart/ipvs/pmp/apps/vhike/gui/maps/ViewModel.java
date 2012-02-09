@@ -174,6 +174,7 @@ public class ViewModel {
                     } else {
                         Profile driver = ctrl.getProfile(Model.getInstance().getSid(), offerObject.getUser_id());
                         ViewObject vObject = new ViewObject(lat, lng, driver);
+                        vObject.setoObject(offerObject);
                         lvo.add(vObject);
                         fireNotification(context, driver, driver.getID(), 0, mapView);
                         getPassengerAdapter(context, mapView).notifyDataSetChanged();

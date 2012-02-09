@@ -134,6 +134,9 @@ public class ViewObject {
                         }
                     }
                     public void listenerForPassenger(){
+                        if(oObject== null){
+                            Log.i(this, "oObject is Null");
+                        }
                         switch(ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), true)){
 //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
