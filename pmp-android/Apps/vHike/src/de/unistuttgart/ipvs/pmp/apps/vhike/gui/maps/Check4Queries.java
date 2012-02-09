@@ -3,41 +3,40 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.List;
 import java.util.TimerTask;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
-import android.os.Handler;
-import android.widget.Toast;
-
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
+import android.os.Handler;
+
+/**
+ * Check for ride queries every given time interval
+ * 
+ * 
+ * @author andres
+ * 
+ */
 public class Check4Queries extends TimerTask {
     
     private Handler handler;
     private Controller ctrl;
-    private MapView mapView;
-    private Context context;
-    //    private Location location;
+    private Profile me;
+    private List<QueryObject> lqo;
+    private float lat;
+    private float lng;
+    private int perimeter = 10000;
     
-    private double lat;
-    private double lng;
     
-    
-    public Check4Queries(MapView mapView, Context context, double lat, double lng) {
-        this.mapView = mapView;
-        this.context = context;
-        //        this.location = location;
-        this.lat = lat;
-        this.lng = lng;
-        
+    /**
+     * 
+     */
+    public Check4Queries() {
         handler = new Handler();
         ctrl = new Controller();
+        
+        // get my Profile to retrieve latitude and longitude later
+        me = Model.getInstance().getOwnProfile();
     }
     
     
@@ -47,98 +46,18 @@ public class Check4Queries extends TimerTask {
             
             @Override
             public void run() {
-                Log.i(this, "Searching...");
                 
-                MapModel.getInstance().clearDriverOverlayList();
-                MapModel.getInstance().getHitchPassengers().clear();
+                // retrieve my latitude and longitude, my current location
+                lat = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLat();
+                lng = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLon();
                 
-                Profile me = Model.getInstance().getOwnProfile();
-                int lati = (int) (Model.getInstance().getLatitude() * 1E6);
-                int lngi = (int) (Model.getInstance().getLongtitude() * 1E6);
-                GeoPoint gps = new GeoPoint(lati, lngi);
-                MapModel.getInstance().add2DriverOverlay(context, gps, me, mapView, 0, 0);
+                // retrieve all hitchhikers searching for a ride within my perimeter
+                lqo = ctrl.searchQuery(Model.getInstance().getSid(), lat, lng, perimeter);
                 
-                List<FoundProfilePos> fpp = Model.getInstance().getFindList();
-                if (fpp != null) {
-                    for (int i = 0; i < fpp.size(); i++) {
-                        // falsche gps
-                        int lat = (int) (fpp.get(i).getLat() * 1E6);
-                        int lng = (int) (fpp.get(i).getLon() * 1E6);
-                        Log.i(this, "FPP OBJ, Lat: " + fpp.get(i).getLat() + ", Lng: " + fpp.get(i).getLon());
-                        Log.i(this, "FPP GPS, Lat: " + lat + ", Lng: " + lng);
-                        GeoPoint gpsFound = new GeoPoint(lat, lng);
-                        
-                        Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), fpp.get(i).getUserid());
-                        if (!Model.getInstance().isInBannList(fpp.get(i).getUserid())) {
-                            // add an passenger to overlay
-                            MapModel.getInstance().add2DriverOverlay(context, gpsFound, passenger, mapView, 1,
-                                    fpp.get(i).getUserid());
-                            
-                            // add up ID for statusbar notification
-                            
-                            // add passenger to slider list
-                            MapModel.getInstance().getHitchPassengers().add(passenger);
-                            
-                            // notify list
-                            MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
-                            mapView.invalidate();
-                            mapView.postInvalidate();
-                            Log.i(this, "Found passenger in FoundList");
-                        }
-                    }
-                }
+                // send ViewModel new list of hitchhikers
+                ViewModel.getInstance().updateLVO(lqo);
                 
-                /**
-                 * search for passenger within perimeter (10 km for testing
-                 * purposes)
-                 */
-                List<QueryObject> lqo = ctrl.searchQuery(Model.getInstance().getSid(), (float) lat, (float) lng, 10000);
-                
-                if (lqo != null) {
-                    for (int i = 0; i < lqo.size(); i++) {
-                        int lat = (int) (lqo.get(i).getCur_lat() * 1E6);
-                        int lng = (int) (lqo.get(i).getCur_lon() * 1E6);
-                        Log.i(this, "FPP LQO, Lat: " + lqo.get(i).getCur_lat() + ", Lng: " + lqo.get(i).getCur_lon());
-                        Log.i(this, "FPP LQO KON, Lat: " + lat + ", Lng: " + lng);
-                        GeoPoint gpsPassenger = new GeoPoint(lat, lng);
-                        
-                        // create Profile of found passenger
-                        Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), lqo.get(i).getUserid());
-                        
-                        if (!Model.getInstance().isInBannList(lqo.get(i).getUserid())) {
-                            
-                            if (!Model.getInstance().isFinded(lqo.get(i).getUserid())) {
-                                // add an passenger to overlay
-                                MapModel.getInstance().add2DriverOverlay(context, gpsPassenger, passenger, mapView, 1,
-                                        lqo.get(i).getUserid());
-                                
-                                // add up ID for statusbar notification
-                                
-                                // add passenger to slider list
-                                MapModel.getInstance().getHitchPassengers().add(passenger);
-                                
-                                // notify user
-                                MapModel.getInstance().fireNotification(context, passenger, lqo.get(i).getUserid(), 0,
-                                        mapView);
-                                
-                                // notify list
-                                MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
-                                mapView.invalidate();
-                                mapView.postInvalidate();
-                                
-                                Log.i(this, "Found passenger in QuerySearch");
-                                Model.getInstance().addToFoundUsers(
-                                        new FoundProfilePos(lqo.get(i).getUserid(), lqo.get(i).getCur_lat(), lqo.get(i)
-                                                .getCur_lon(), lqo.get(i).getQueryid()));
-                            }
-                        }
-                        
-                    }
-                } else {
-                    Toast.makeText(context, "No hitchhikers within perimeter", Toast.LENGTH_SHORT).show();
-                }
             }
-            
         });
     }
     
