@@ -1,48 +1,47 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationListener;
 import org.eclipse.jface.viewers.ColumnViewerEditorDeactivationEvent;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+/**
+ * Creates a table with columns for the locale, name and description.
+ * It provides a add button, which allow the user to add a new entry and a delete button
+ * to remove existing entries.
+ * All entries of this table are user-editable.
+ * 
+ * @author Patrick Strobel
+ *
+ */
 public class InformationTable {
 	
 	private final Composite composite;
 	private final TableViewer tableViewer;
-	private final StoredInformation storedInformation = new StoredInformation();
+	private final StoredInformation storedInformation;
 
-	public InformationTable(final Composite parent, FormToolkit toolkit) {
+	public InformationTable(final Composite parent, StoredInformation storedInfo, FormToolkit toolkit) {
+		storedInformation = storedInfo;
+		
 		composite = toolkit.createComposite(parent);
 		composite.setLayout(new GridLayout(1, true));
 		
+		// Use grid layout so that the table uses the whole screen width
 		final GridData layoutData = new GridData();
 		layoutData.horizontalAlignment = GridData.FILL;
 		layoutData.grabExcessHorizontalSpace = true;
@@ -57,7 +56,6 @@ public class InformationTable {
 		tableComposite.setLayout(columnLayout);
 		
 		
-		
 		// Define the table's view
 		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewer.getTable().setLayoutData(layoutData);
@@ -68,8 +66,8 @@ public class InformationTable {
 		buildColumns(columnLayout);
 		
 		// Add content
-		tableViewer.setContentProvider(new ObservableListContentProvider());
-		tableViewer.setInput(storedInformation.getObservableList());
+		tableViewer.setContentProvider(new MapContentProvider());
+		tableViewer.setInput(storedInformation.getMap());
 		
 		// Add listener to auto-update the table whenever a value is changed by the user
 		tableViewer.getColumnViewerEditor().addEditorActivationListener(new ColumnViewerEditorActivationListener() {
@@ -99,20 +97,42 @@ public class InformationTable {
 			}
 		});
 		
-		Button addButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		Composite buttonCompo = toolkit.createComposite(composite);
+		buttonCompo.setLayout(new RowLayout());
+		
+		// Add button to allow the user to add a new entry
+		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				storedInformation.add(new Information("fr", "frac", "blabla2"));
-				tableViewer.getTable().setLayoutData(layoutData);
-				parent.getParent().layout(true);
+				// Add empty entry to table
+				storedInformation.add(new Information("-", "-", "-"));
+				
+				// Refresh view
+				//tableViewer.getTable().setLayoutData(layoutData);
+				tableViewer.refresh();
+				parent.getParent().layout();
 			}
+			
+		});
+		
+		// Add button to allow the user to remove a selected entry
+		Button deleteButton = toolkit.createButton(buttonCompo, "Delete", SWT.PUSH);
+		deleteButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void widgetSelected(SelectionEvent e) {
+				// Remove entry from model if an entry is selected
+				StructuredSelection sel = (StructuredSelection) tableViewer.getSelection();
+				Information info = (Information)sel.getFirstElement();
+				if (info != null) {
+					storedInformation.remove(info.getLocale());
+					
+					// Refresh view and layout
+					tableViewer.refresh();
+					parent.getParent().layout();
+				}
 			}
 			
 		});
@@ -133,28 +153,22 @@ public class InformationTable {
 				return ((Information)element).getLocale();
 			}
 		});
-		/*localeColumn.setEditingSupport(new ObservableValueEditingSupport(tableViewer, new DataBindingContext()) {
+		localeColumn.setEditingSupport(new LocaleEditingSupport(tableViewer) {
 
 			@Override
-			protected IObservableValue doCreateCellEditorObservable(
-					CellEditor cellEditor) {
-				return ViewersObservables.observeSingleSelection(((ComboBoxViewerCellEditor) cellEditor).getViewer());
+			protected Object getValue(Object element) {
+				return ((Information)element).getLocale();
 			}
 
 			@Override
-			protected IObservableValue doCreateElementObservable(
-					Object element, ViewerCell cell) {
-				return BeansObservables.observeValue(element, "locale");
-			}
-
-			@Override
-			protected CellEditor getCellEditor(Object element) {
-				return new ComboBoxViewerCellEditor((Composite) tableViewer.getControl());
+			protected void setValue(Object element, Object value) {
+				// Set locale only if it's not in use by another entry
+				if (!storedInformation.localeExists((String)value)) {
+					((Information)element).setLocale((String)value);
+				}
 			}
 			
 		});
-		*/
-
 		
 		
 		// Name
@@ -168,27 +182,19 @@ public class InformationTable {
 			}
 		});
 
-		/*
-		nameColumn.setEditingSupport(new ObservableValueEditingSupport(tableViewer, new DataBindingContext()) {
+		nameColumn.setEditingSupport(new TextEditingSupport(tableViewer) {
 
 			@Override
-			protected IObservableValue doCreateCellEditorObservable(
-					CellEditor cellEditor) {
-				return SWTObservables.observeText((Text) cellEditor.getControl(), SWT.Modify);
+			protected Object getValue(Object element) {
+				return ((Information)element).getName();
 			}
 
 			@Override
-			protected IObservableValue doCreateElementObservable(
-					Object element, ViewerCell cell) {
-				return BeansObservables.observeValue(element, "name");
+			protected void setValue(Object element, Object value) {
+				((Information)element).setName((String)value);
+				
 			}
-
-			@Override
-			protected CellEditor getCellEditor(Object element) {
-				return new TextCellEditor((Composite) tableViewer.getControl());
-			}
-			
-		});*/
+		});
 
 		// Description
 		TableViewerColumn descriptionColumn = new TableViewerColumn(tableViewer, SWT.BORDER);
@@ -198,6 +204,21 @@ public class InformationTable {
 			@Override
 			public String getText(Object element) {
 				return ((Information)element).getDescription();
+			}
+		});
+		
+		descriptionColumn.setEditingSupport(new TextEditingSupport(tableViewer) {
+
+			
+			@Override
+			protected Object getValue(Object element) {
+				return ((Information)element).getDescription();
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				((Information)element).setDescription((String)value);
+				
 			}
 		});
 	}
