@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
@@ -109,14 +110,13 @@ public class NotificationAdapter extends BaseAdapter {
         // determine which id to receive
         if (mWhichHitcher == 0) {
             final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-            List<FoundProfilePos> fpp = Model.getInstance().getFindList();
             
             Log.i(this, "Position: " + position);
             Log.i(this, "LQO is null");
             if (lqo != null) {
                 Log.i(this, "LQO size: " + lqo.size());
                 //                queryID = lqo.get(position).getQueryid();
-//                userID = lqo.get(position).getUserid();
+                //                userID = lqo.get(position).getUserid();
                 userID = hitchhiker.getID();
             }
             
@@ -232,7 +232,10 @@ public class NotificationAdapter extends BaseAdapter {
                     
                     if (mWhichHitcher == 0) {
                         final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-                        queryID = lqo.get(position).getQueryid();
+                        List<FoundProfilePos> lfpp = Model.getInstance().getFindList();
+                        List<SliderObject> lso = ctrl.mergeQOLwithFU(lqo, lfpp);
+                        
+                        queryID = lso.get(position).getObject().getQueyId();
                         userID = lqo.get(position).getUserid();
                     }
                     

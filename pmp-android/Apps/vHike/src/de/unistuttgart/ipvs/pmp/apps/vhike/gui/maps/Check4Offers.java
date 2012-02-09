@@ -45,7 +45,6 @@ public class Check4Offers extends TimerTask {
             @Override
             public void run() {
                 
-                
                 Profile me = Model.getInstance().getOwnProfile();
                 
                 if (Model.getInstance().isPicked(me.getID())) {
@@ -79,7 +78,9 @@ public class Check4Offers extends TimerTask {
                             MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
                             mapView.invalidate();
                             mapView.postInvalidate();
-                            Model.getInstance().addToFoundUsers(new FoundProfilePos(loo.get(i).getUser_id(), lat, lng));
+                            Model.getInstance().addToFoundUsers(
+                                    new FoundProfilePos(loo.get(i).getUser_id(), loo.get(i).getLat(), loo.get(i)
+                                            .getLon(), -1));
                         }
                     }
                 }

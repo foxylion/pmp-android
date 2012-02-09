@@ -67,7 +67,6 @@ public class CheckAcceptedOffers extends TimerTask {
                         if (lpo.get(i).getUser_id() == userID) {
                             Model.getInstance().addToAcceptedUsers(userID);
                             acceptButton.setBackgroundResource(R.drawable.bg_check);
-//                            acceptButton.invalidate();
                             
                             Log.i(this, " Offer Accepted");
                             

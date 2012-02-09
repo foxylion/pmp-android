@@ -64,6 +64,8 @@ public class Check4Queries extends TimerTask {
                         // falsche gps
                         int lat = (int) (fpp.get(i).getLat() * 1E6);
                         int lng = (int) (fpp.get(i).getLon() * 1E6);
+                        Log.i(this, "FPP OBJ, Lat: " + fpp.get(i).getLat() + ", Lng: " + fpp.get(i).getLon());
+                        Log.i(this, "FPP GPS, Lat: " + lat + ", Lng: " + lng);
                         GeoPoint gpsFound = new GeoPoint(lat, lng);
                         
                         Profile passenger = ctrl.getProfile(Model.getInstance().getSid(), fpp.get(i).getUserid());
@@ -96,6 +98,8 @@ public class Check4Queries extends TimerTask {
                     for (int i = 0; i < lqo.size(); i++) {
                         int lat = (int) (lqo.get(i).getCur_lat() * 1E6);
                         int lng = (int) (lqo.get(i).getCur_lon() * 1E6);
+                        Log.i(this, "FPP LQO, Lat: " + lqo.get(i).getCur_lat() + ", Lng: " + lqo.get(i).getCur_lon());
+                        Log.i(this, "FPP LQO KON, Lat: " + lat + ", Lng: " + lng);
                         GeoPoint gpsPassenger = new GeoPoint(lat, lng);
                         
                         // create Profile of found passenger
@@ -124,7 +128,8 @@ public class Check4Queries extends TimerTask {
                                 
                                 Log.i(this, "Found passenger in QuerySearch");
                                 Model.getInstance().addToFoundUsers(
-                                        new FoundProfilePos(lqo.get(i).getUserid(), lat, lng));
+                                        new FoundProfilePos(lqo.get(i).getUserid(), lqo.get(i).getCur_lat(), lqo.get(i)
+                                                .getCur_lon(), lqo.get(i).getQueryid()));
                             }
                         }
                         
