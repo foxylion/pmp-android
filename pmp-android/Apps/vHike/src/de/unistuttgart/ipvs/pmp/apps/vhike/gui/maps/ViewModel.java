@@ -35,50 +35,106 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  */
 public class ViewModel {
     
-    private List<ViewObject> lvo;
+    private List<ViewObject> lqo;
     Controller ctrl = new Controller();
     private List<ViewObject> banned;
-    
+    MapView mapView;
+    Context context;
+    private float my_lat;
+    private float my_lon;
+    public List<ViewObject> getLQO(){
+        return lqo;
+    }
     
     private ViewModel() {
-        lvo = new ArrayList<ViewObject>();
+        lqo = new ArrayList<ViewObject>();
         banned = new ArrayList<ViewObject>();
     }
     
     
     public void addToBanned(ViewObject vObject) {
         banned.add(vObject);
-        removeFromLVO(vObject);
+        removeFromLQO(vObject);
     }
     
-    private void removeFromLVO(ViewObject toRMVvObject){
+    private void removeFromLQO(ViewObject toRMVvObject){
         int i = 0;
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : lqo) {
             
             if(vObject.getProfile().getID()== toRMVvObject.getProfile().getID()){
-                lvo.remove(i);
+                lqo.remove(i);
             }
             i++;
         }
     }
     
+    public void updateView(){
+        updateLQO(new ArrayList<QueryObject>());
+        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        mapView.invalidate();
+    }
     
-    public void updateLVO(List<QueryObject> queries) {
+    
+    public void setMyPosition(float my_lat, float my_lon){
+        this.my_lat = my_lat;
+        this.my_lon = my_lon;
+        updateView();
+    }
+    public void clearViewModel(){
+        clearLQO();
+        clearBanList();
+        my_lat = 0;
+        my_lon = 0;
+    }
+    private void clearLQO(){
+        lqo.clear();
+    }
+    public void updateLQO(List<QueryObject> queries) {
         
+        
+        ViewModel.getInstance().clearDriverOverlayList();
+        ViewModel.getInstance().getHitchPassengers().clear();
+
+        // Add me to the mapView
+        int my_new_lat = (int) (my_lat * 1E6);
+        int my_new_lon = (int) (my_lon * 1E6);
+        GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
+        ViewModel.getInstance().add2DriverOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0,
+                Model.getInstance().getOwnProfile().getID());
+        
+        
+        try{
         for (QueryObject queryObject : queries) {
             float lat = queryObject.getCur_lat();
             float lon = queryObject.getCur_lon();
-            if (isInBanned(queryObject.getUserid())) {
+            if (!isInBanned(queryObject.getUserid())) {
                 if (isInLVO(queryObject.getUserid())) {
                     updateViewObject(queryObject.getUserid(), lat, lon);
                 } else {
                     Profile profile = ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
                     ViewObject vObject = new ViewObject(lat, lon, profile);
                     vObject.setqObject(queryObject);
-                    lvo.add(vObject);
+                    lqo.add(vObject);
+                    // Popup slider if new found
+                    ViewModel.getInstance().fireNotification(context, profile, profile.getID(), 1,
+                            mapView);
+
                 }
             }
-            
+        }
+        }catch(Exception ex){
+        }
+        
+        
+        for(ViewObject vObject : lqo){
+            int lat = (int) (vObject.getLat() * 1E6);
+            int lng = (int) (vObject.getLon() * 1E6);
+            GeoPoint gpsDriver = new GeoPoint(lat, lng);
+            ViewModel.getInstance().add2DriverOverlay(context, gpsDriver, vObject.getProfile(), mapView, 1,
+                    vObject.getProfile().getID());
+            ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
+            ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+            mapView.invalidate();
         }
     }
     
@@ -87,13 +143,16 @@ public class ViewModel {
      * Updates the viewObject
      */
     private void updateViewObject(int userid, float lat, float lon) {
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : lqo) {
             if (vObject.getProfile().getID() == userid) {
                 vObject.updatePos(lat, lon);
             }
         }
     }
     
+    private void clearBanList(){
+        banned.clear();
+    }
     
     private boolean isInBanned(int userid) {
         boolean isInBanned = false;
@@ -108,7 +167,7 @@ public class ViewModel {
     
     private boolean isInLVO(int userid) {
         boolean isInLVO = false;
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : lqo) {
             if (vObject.getProfile().getID() == userid) {
                 isInLVO = true;
             }
@@ -287,6 +346,8 @@ public class ViewModel {
      * @return
      */
     public NotificationAdapter getDriverAdapter(Context context, MapView mapView) {
+        this.context = context;
+        this.mapView = mapView;
         if (driverAdapter == null) {
             driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0, mapView);
         }

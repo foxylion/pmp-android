@@ -75,6 +75,9 @@ public class LocationUpdateHandler implements LocationListener {
         int lat = (int) (location.getLatitude() * 1E6);
         int lng = (int) (location.getLongitude() * 1E6);
         gPosition = new GeoPoint(lat, lng);
+        // Set my position to ViewModel
+        ViewModel.getInstance().setMyPosition((float) location.getLatitude(),
+                (float) location.getLongitude());
         
         /**
          * send server updated latitude and longitude

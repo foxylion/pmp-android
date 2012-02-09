@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
+import java.util.Timer;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -13,12 +15,14 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 public class ViewObject {
     
+    
     private float lat;
     private float lon;
     private Profile profile;
     private QueryObject qObject;
     private OfferObject oObject;
     int status;
+    
     
     public ViewObject(float lat, float lon, Profile profile) {
         super();
@@ -34,7 +38,13 @@ public class ViewObject {
         this.lon = lon;
     }
     
+    public float getLat(){
+        return lat;
+    }
     
+    public float getLon(){
+        return lon;
+    }
     public Profile getProfile() {
         return profile;
     }
@@ -72,6 +82,9 @@ public class ViewObject {
         this.status = status;
     }
     
+    public ViewObject getViewObjectToBann(){
+        return this;
+    }
     
     public OnClickListener getOnClickListener() {
         OnClickListener listener = null;
@@ -88,13 +101,11 @@ public class ViewObject {
                             case Constants.STATUS_SENT:
                                 status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
                                 // START TIMER HIER
-                                //
-                                //
-                                //
-                                
-                                
-                                
+                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann());
+                                Timer timer = new Timer();
+                                timer.schedule(c4ao, 300, 10000);
                                 Log.i(this, "Offer sent.");
+                                ViewModel.getInstance().updateView();
                                 break;
                             case Constants.STATUS_INVALID_TRIP:
                                 Log.i(this, "Invalid trip_id in sendOffer()");
@@ -124,6 +135,7 @@ public class ViewObject {
                     @Override
                     public void onClick(View v) {
                         Log.i(this, "Already SENT");
+                        
                     }
                 };
                 break;
@@ -139,7 +151,7 @@ public class ViewObject {
                         } else {
                             Log.i(this, "Not picked up user: " + profile.getID());
                         }
-                        
+                        ViewModel.getInstance().updateView();
                     }
                 };
                 break;
@@ -164,6 +176,5 @@ public class ViewObject {
                 break;
         }
         return listener;
-        
     }
 }

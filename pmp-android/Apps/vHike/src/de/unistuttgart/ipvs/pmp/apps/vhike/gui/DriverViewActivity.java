@@ -19,6 +19,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -125,13 +126,10 @@ public class DriverViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
-        // check for queries
-//        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
-//                .getLongtitude());
-//        c4q.run();
-//        timer = new Timer();
-//        // schedule 
-//        timer.schedule(c4q, 300, 10000);
+        // Start Check4Queries Class to check for queries
+        Check4Queries c4q = new Check4Queries();
+        timer = new Timer();
+        timer.schedule(c4q, 300, 10000);
         
     }
     
@@ -153,10 +151,11 @@ public class DriverViewActivity extends MapActivity {
                     case (Constants.STATUS_UPDATED): {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
+                        ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         locationManager.removeUpdates(luh);
-
+                        
                         timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();

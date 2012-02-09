@@ -42,7 +42,7 @@ public class Check4Offers extends TimerTask {
             public void run() {
     
                 loo = ctrl.viewOffers(Model.getInstance().getSid());
-                ViewModel.getInstance().updateLOO(loo);
+//                ViewModel.getInstance().updateLOO(loo);
                 
             }
         });
