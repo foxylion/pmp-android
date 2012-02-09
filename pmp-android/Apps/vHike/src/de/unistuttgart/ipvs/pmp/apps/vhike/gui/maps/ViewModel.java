@@ -426,6 +426,8 @@ public class ViewModel {
      * @return
      */
     public NotificationAdapter getPassengerAdapter(Context context, MapView mapView) {
+        this.context = context;
+        this.mapView = mapView;
         if (passengerAdapter == null) {
             passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1, mapView);
         }
@@ -549,6 +551,9 @@ public class ViewModel {
             int userID) {
         Drawable drawable;
         if (which1 == 0) {
+            if(context == null){
+                Log.i(this, "Context null");
+            }
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, userID);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
