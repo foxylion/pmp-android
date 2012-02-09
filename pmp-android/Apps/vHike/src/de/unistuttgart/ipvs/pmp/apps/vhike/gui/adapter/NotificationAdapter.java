@@ -125,23 +125,23 @@ public class NotificationAdapter extends BaseAdapter {
         });
         switch (actObject.getStatus()) {
             case Constants.V_OBJ_SATUS_FOUND:
-                accept_invite.setOnClickListener(actObject.getOnClickListener());
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
                 break;
             case Constants.V_OBJ_SATUS_INVITED:
-                accept_invite.setOnClickListener(actObject.getOnClickListener());
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
                 accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                 
                 break;
             case Constants.V_OBJ_SATUS_AWAIT_ACCEPTION:
-                accept_invite.setOnClickListener(actObject.getOnClickListener());
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
                 accept_invite.setBackgroundResource(R.drawable.bg_waiting);
                 break;
             case Constants.V_OBJ_SATUS_ACCEPTED:
-                accept_invite.setOnClickListener(actObject.getOnClickListener());
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
                 accept_invite.setBackgroundResource(R.drawable.bg_check);
                 break;
             case Constants.V_OBJ_SATUS_PICKED_UP:
-                accept_invite.setOnClickListener(actObject.getOnClickListener());
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
                 accept_invite.setBackgroundResource(R.drawable.bg_disabled);
                 name.setTextColor(Color.BLUE);
                 break;
