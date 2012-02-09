@@ -19,6 +19,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -115,12 +116,6 @@ public class NotificationAdapter extends BaseAdapter {
                 userID = lqo.get(position).getUserid();
             }
             
-            if (Model.getInstance().isPicked(hitchhiker.getID())) {
-                Log.i(this, "IS PICKED");
-                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
-                accept_invite.setEnabled(false);
-            }
-            
         } else {
             List<OfferObject> loo = Model.getInstance().getOfferHolder();
             offerID = loo.get(position).getOffer_id();
@@ -137,6 +132,12 @@ public class NotificationAdapter extends BaseAdapter {
                 accept_invite.setBackgroundResource(R.drawable.bg_check);
                 accept_invite.invalidate();
                 Log.i(this, "Offer waiting to accepted " + hitchhiker.getID());
+                
+                if (Model.getInstance().isPicked(hitchhiker.getID())) {
+                    Log.i(this, "IS PICKED");
+                    accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                    accept_invite.setEnabled(false);
+                }
             }
         }
         
@@ -202,69 +203,84 @@ public class NotificationAdapter extends BaseAdapter {
         noti_rb.setRating((float) hitchhiker.getRating_avg());
         me = Model.getInstance().getOwnProfile();
         
-        accept_invite.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
+        if (Model.getInstance().isAccepted(hitchhiker.getID())) {
+            accept_invite.setOnClickListener(new View.OnClickListener() {
                 
-                if (mWhichHitcher == 0) {
-                    final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-                    queryID = lqo.get(position).getQueryid();
-                    userID = lqo.get(position).getUserid();
+                @Override
+                public void onClick(View v) {
+                    ctrl.pick_up(Model.getInstance().getSid(), userID);
+                    name.setTextColor(Color.BLUE);
+                    accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                    accept_invite.setEnabled(false);
+                    
+                    // add to list which contains all picked up users
+                    Model.getInstance().addToPickedUser(userID);
                 }
+            });
+        } else {
+            accept_invite.setOnClickListener(new OnClickListener() {
                 
-                if (mWhichHitcher == 0) {
-                    switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
-                            me.getUsername() + ": Need a ride?")) {
-                        case Constants.STATUS_SENT:
-                            
-                            accept_invite.setBackgroundResource(R.drawable.bg_waiting);
-                            Model.getInstance().addToInvitedUser(userID);
-                            
-                            // check for offer updates for this button
-                            cao = new CheckAcceptedOffers(accept_invite, name, userID);
-//                            cao.run();
-                            timer = new Timer();
-                            timer.schedule(cao, 300, 10000);
-                            
-                            break;
-                        case Constants.STATUS_INVALID_TRIP:
-                            Toast.makeText(context, "STATUS_INVALID_TRIP", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.STATUS_INVALID_QUERY:
-                            Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.STATUS_ALREADY_SENT:
-                            
-                            Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
-                            break;
+                @Override
+                public void onClick(View v) {
+                    
+                    if (mWhichHitcher == 0) {
+                        final List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+                        queryID = lqo.get(position).getQueryid();
+                        userID = lqo.get(position).getUserid();
                     }
                     
-                } else {
-                    
-                    switch (ctrl.handleOffer(Model.getInstance().getSid(), offerID, true)) {
-                        case Constants.STATUS_HANDLED:
-                            Toast.makeText(context, "HANDLED: ACCEPT", Toast.LENGTH_SHORT).show();
-                            
-                            accept_invite.setBackgroundResource(R.drawable.bg_check);
-                            accept_invite.refreshDrawableState();
-                            accept_invite.invalidate();
-                            Model.getInstance().addToAcceptedUsers(hitchhiker.getID());
-                            
-                            break;
-                        case Constants.STATUS_INVALID_OFFER:
-                            Toast.makeText(context, "INVALID_OFFER", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.STATUS_INVALID_USER:
-                            Toast.makeText(context, "INVALID_USER", Toast.LENGTH_SHORT).show();
-                            break;
+                    if (mWhichHitcher == 0) {
+                        switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(), queryID,
+                                me.getUsername() + ": Need a ride?")) {
+                            case Constants.STATUS_SENT:
+                                
+                                accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+                                Model.getInstance().addToInvitedUser(userID);
+                                
+                                // check for offer updates for this button
+                                cao = new CheckAcceptedOffers(accept_invite, name, userID);
+                                //                                cao.run();
+                                timer = new Timer();
+                                timer.schedule(cao, 300, 10000);
+                                
+                                break;
+                            case Constants.STATUS_INVALID_TRIP:
+                                Toast.makeText(context, "STATUS_INVALID_TRIP", Toast.LENGTH_SHORT).show();
+                                break;
+                            case Constants.STATUS_INVALID_QUERY:
+                                Toast.makeText(context, "INVALID_QUERY", Toast.LENGTH_SHORT).show();
+                                break;
+                            case Constants.STATUS_ALREADY_SENT:
+                                
+                                Toast.makeText(context, "ALREADY SENT", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        
+                    } else {
+                        
+                        switch (ctrl.handleOffer(Model.getInstance().getSid(), offerID, true)) {
+                            case Constants.STATUS_HANDLED:
+                                Toast.makeText(context, "HANDLED: ACCEPT", Toast.LENGTH_SHORT).show();
+                                
+                                accept_invite.setBackgroundResource(R.drawable.bg_check);
+                                accept_invite.refreshDrawableState();
+                                accept_invite.invalidate();
+                                
+                                break;
+                            case Constants.STATUS_INVALID_OFFER:
+                                Toast.makeText(context, "INVALID_OFFER", Toast.LENGTH_SHORT).show();
+                                break;
+                            case Constants.STATUS_INVALID_USER:
+                                Toast.makeText(context, "INVALID_USER", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
                     }
+                    
+                    accept_invite.invalidate();
+                    
                 }
-                
-                accept_invite.invalidate();
-                
-            }
-        });
+            });
+        }
         
         return entryView;
     }
