@@ -2,15 +2,10 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
 
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -20,15 +15,28 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
 
-
+/**
+ * General-Page of the RGIS-Editor
+ * @author Patrick Strobel
+ *
+ */
 public class GeneralPage extends FormPage {
+	
+	private String identifier;
+	private StoredInformation localization = new StoredInformation();
 	
 	public static final String ID = "rgis_general";
 
-	public GeneralPage(FormEditor parent) {
+	public GeneralPage(FormEditor parent, String identifier) {
 		super(parent, ID, "General");
+		this.identifier = identifier;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public StoredInformation getLocalization() {
+		return localization;
 	}
 	
 	@Override
@@ -59,12 +67,14 @@ public class GeneralPage extends FormPage {
 		textLayout.grabExcessHorizontalSpace = true;
 		
 		toolkit.createLabel(client, "Identifier");
-		Text identifier = toolkit.createText(client, "123");
+		Text identifier = toolkit.createText(client, this.identifier);
 		identifier.setLayoutData(textLayout);
 		
+		/*
 		toolkit.createLabel(client, "Revision");
 		Text revision = toolkit.createText(client, "123");
 		revision.setLayoutData(textLayout);
+		*/
 		
 		section.setClient(client);
 	}
@@ -83,7 +93,7 @@ public class GeneralPage extends FormPage {
 		layoutData.grabExcessHorizontalSpace = true;
 		
 		// Prepare table
-		InformationTable table = new InformationTable(section, toolkit);
+		InformationTable table = new InformationTable(section, localization, toolkit);
 
 		
 		section.setClient(table.getControl());
@@ -109,6 +119,7 @@ public class GeneralPage extends FormPage {
 		
 		return section;
 	}
+	
 	
 	
 
