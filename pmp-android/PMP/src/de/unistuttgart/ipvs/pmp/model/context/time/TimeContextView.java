@@ -227,11 +227,11 @@ public class TimeContextView extends LinearLayout implements IContextView {
         this.value.getDays().clear();
         switch (this.intervalSpinner.getSelectedItemPosition()) {
             case 0:
-                this.value.setInterval(TimeContextConditionIntervalType.REPEAT_DAILY);
+                this.value.setInterval(TimeContextIntervalType.REPEAT_DAILY);
                 break;
             
             case 1:
-                this.value.setInterval(TimeContextConditionIntervalType.REPEAT_WEEKLY);
+                this.value.setInterval(TimeContextIntervalType.REPEAT_WEEKLY);
                 for (int i = 0; i < this.monthlyCB.size(); i++) {
                     if (this.monthlyCB.get(i).isChecked()) {
                         switch (i) {
@@ -262,7 +262,7 @@ public class TimeContextView extends LinearLayout implements IContextView {
                 break;
             
             case 2:
-                this.value.setInterval(TimeContextConditionIntervalType.REPEAT_MONTHLY);
+                this.value.setInterval(TimeContextIntervalType.REPEAT_MONTHLY);
                 for (int i = 0; i < this.monthlyCB.size(); i++) {
                     if (this.monthlyCB.get(i).isChecked()) {
                         this.value.getDays().add(i + 1);
@@ -271,7 +271,7 @@ public class TimeContextView extends LinearLayout implements IContextView {
                 break;
             
             case 3:
-                this.value.setInterval(TimeContextConditionIntervalType.REPEAT_YEARLY);
+                this.value.setInterval(TimeContextIntervalType.REPEAT_YEARLY);
                 this.value.getDays().add(this.anniversary.getMonth());
                 this.value.getDays().add(this.anniversary.getDayOfMonth());
                 break;
@@ -297,8 +297,8 @@ public class TimeContextView extends LinearLayout implements IContextView {
     public void setViewCondition(String condition) throws InvalidConditionException {
         this.value = TimeContextCondition.parse(condition);
         
-        TimeContextConditionTime begin = this.value.getBegin();
-        TimeContextConditionTime end = this.value.getEnd();
+        TimeContextTime begin = this.value.getBegin();
+        TimeContextTime end = this.value.getEnd();
         if (this.value.isUTC()) {
             begin.convertTimeZone(UTC, TimeZone.getDefault());
             end.convertTimeZone(UTC, TimeZone.getDefault());

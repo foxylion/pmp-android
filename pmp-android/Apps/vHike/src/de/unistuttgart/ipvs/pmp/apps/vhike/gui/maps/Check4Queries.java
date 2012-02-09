@@ -3,12 +3,13 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.List;
 import java.util.TimerTask;
 
+import android.os.Handler;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
-
-import android.os.Handler;
 
 /**
  * Check for ride queries every given time interval
@@ -48,15 +49,19 @@ public class Check4Queries extends TimerTask {
             public void run() {
                 
                 // retrieve my latitude and longitude, my current location
-                lat = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLat();
-                lng = (float) ctrl.getUserPosition(Model.getInstance().getSid(), me.getID()).getLon();
                 
+                try {
+                    PositionObject pObject = ctrl.getUserPosition(Model.getInstance().getSid(), me.getID());
+                    lat = (float) pObject.getLat();
+                    lng = (float) pObject.getLon();
+                } catch (Exception ex) {
+                    Log.i(this, "NULLPOINTER");
+                }
                 // retrieve all hitchhikers searching for a ride within my perimeter
                 lqo = ctrl.searchQuery(Model.getInstance().getSid(), lat, lng, perimeter);
                 
                 // send ViewModel new list of hitchhikers
-                ViewModel.getInstance().updateLVO(lqo);
-                
+                ViewModel.getInstance().updateLQO(lqo);
             }
         });
     }

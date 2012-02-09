@@ -3,16 +3,9 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.List;
 import java.util.TimerTask;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
 import android.os.Handler;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 
 /**
@@ -40,7 +33,7 @@ public class Check4Offers extends TimerTask {
             
             @Override
             public void run() {
-    
+                
                 loo = ctrl.viewOffers(Model.getInstance().getSid());
                 ViewModel.getInstance().updateLOO(loo);
                 

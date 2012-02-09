@@ -50,9 +50,12 @@ public interface IContext {
     /**
      * The main state update called by the {@link PMPService} in a different thread.
      * 
+     * @param context
+     *            the context of the {@link PMPService}
+     * 
      * @return the time in {@link System#currentTimeMillis()} domain to perform the next update on
      */
-    public long update();
+    public long update(Context context);
     
     
     /**

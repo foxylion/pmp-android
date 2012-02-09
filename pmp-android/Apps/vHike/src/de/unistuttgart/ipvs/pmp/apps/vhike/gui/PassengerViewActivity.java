@@ -116,7 +116,7 @@ public class PassengerViewActivity extends MapActivity {
         mapController = mapView.getController();
         
         // check for offers every 10 seconds
-        c4o = new Check4Offers(mapView, context);
+//        c4o = new Check4Offers(mapView, context);
         c4o.run();
         timer = new Timer();
         timer.schedule(c4o, 300, 10000);
