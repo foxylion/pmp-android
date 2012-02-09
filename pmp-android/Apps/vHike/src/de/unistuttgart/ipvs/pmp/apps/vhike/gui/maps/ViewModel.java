@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -125,7 +125,7 @@ public class ViewModel {
                         lvo.add(vObject);
                         // Popup slider if new found
                         ViewModel.getInstance().fireNotification(context, profile, profile.getID(), 1, mapView);
-                        
+                        getDriverAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }
             }
@@ -146,6 +146,7 @@ public class ViewModel {
     
     
     public void updateLOO(List<OfferObject> loo) {
+        
         clearPassengerOverlayList();
         getHitchDrivers().clear();
         
@@ -153,7 +154,7 @@ public class ViewModel {
         int my_new_lat = (int) (my_lat * 1E6);
         int my_new_lon = (int) (my_lon * 1E6);
         GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
-        add2PassengerOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 1, Model.getInstance()
+        add2PassengerOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0, Model.getInstance()
                 .getOwnProfile().getID());
         
         try {
@@ -168,6 +169,7 @@ public class ViewModel {
                         ViewObject vObject = new ViewObject(lat, lng, driver);
                         lvo.add(vObject);
                         fireNotification(context, driver, driver.getID(), 0, mapView);
+                        getPassengerAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }
             }
@@ -314,9 +316,11 @@ public class ViewModel {
         }
     }
     
+    
     public void setNewNumSeats(int newSeatNumber) {
         numSeats = newSeatNumber;
     }
+    
     
     /**
      * get destination set by user
@@ -513,10 +517,8 @@ public class ViewModel {
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
             DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps);
-            //            OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
-            //                    + ", Rating: " + passenger.getRating_avg());
             OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
-                    + ", Rating: " + 2);
+                    + ", Rating: " + passenger.getRating_avg());
             driverOverlay.addOverlay(opDriverItem);
             
             ViewModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
@@ -567,7 +569,5 @@ public class ViewModel {
             mapView.invalidate();
         }
     }
-    //==========================================================================
-    //=================NEW LIFE ================================
     
 }

@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer;
+import java.util.Timer; 
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -43,9 +41,7 @@ public class DriverViewActivity extends MapActivity {
     private MapController mapController;
     private LocationManager locationManager;
     private LocationUpdateHandler luh;
-    private GeoPoint p;
     
-    private Check4Queries c4q;
     private Timer timer;
     
     private Controller ctrl;
@@ -123,7 +119,7 @@ public class DriverViewActivity extends MapActivity {
      */
     private void startTripByUpdating() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
         // Start Check4Queries Class to check for queries
