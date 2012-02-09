@@ -236,7 +236,7 @@ public class NotificationAdapter extends BaseAdapter {
                         List<SliderObject> lso = ctrl.mergeQOLwithFU(lqo, lfpp);
                         
                         queryID = lso.get(position).getObject().getQueyId();
-                        userID = lqo.get(position).getUserid();
+                        userID = hitchhiker.getID();
                     }
                     
                     if (mWhichHitcher == 0) {
