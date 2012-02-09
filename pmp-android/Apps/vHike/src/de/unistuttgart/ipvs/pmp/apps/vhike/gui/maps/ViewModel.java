@@ -20,9 +20,12 @@ import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
  * MapModel grants access to all elements needed to work with the map view
@@ -30,9 +33,43 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
  * @author andres
  * 
  */
-public class MapModel {
+public class ViewModel {
     
-    private static MapModel instance;
+    private List<ViewObject> lvo;
+    Controller ctrl = new Controller();
+    
+    
+    private ViewModel() {
+        lvo = new ArrayList<ViewObject>();
+    }
+    
+    
+    public void updateLVO(List<QueryObject> queries) {
+        
+        for (QueryObject queryObject : queries) {
+            float lat = queryObject.getCur_lat();
+            float lon = queryObject.getCur_lon();
+            if (isInLVO(queryObject.getUserid())) {
+                
+            }else{
+                Profile profile = ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
+                ViewObject vObject = new ViewObject(lat, lon, profile);
+                vObject.setqObject(queryObject);    
+            }
+            
+            
+        }
+        
+    }
+    
+    private void updateViewObject(){
+        
+    }
+    private boolean isInLVO(int userid) {
+        return false;
+    }
+    
+    private static ViewModel instance;
     private List<Overlay> mapDriverOverlays;
     private List<Overlay> mapPassengerOverlays;
     private String destination;
@@ -47,9 +84,9 @@ public class MapModel {
     private NotificationAdapter passengerAdapter;
     
     
-    public static MapModel getInstance() {
+    public static ViewModel getInstance() {
         if (instance == null) {
-            instance = new MapModel();
+            instance = new ViewModel();
         }
         return instance;
     }
@@ -316,13 +353,13 @@ public class MapModel {
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
             DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps);
-//            OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
-//                    + ", Rating: " + passenger.getRating_avg());
+            //            OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
+            //                    + ", Rating: " + passenger.getRating_avg());
             OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
                     + ", Rating: " + 2);
             driverOverlay.addOverlay(opDriverItem);
             
-            MapModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
+            ViewModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
@@ -332,7 +369,7 @@ public class MapModel {
             passengerOverlay.addOverlay(opPassengerItem);
             
             // add found passenger to overlay
-            MapModel.getInstance().getDriverOverlayList(mapView).add(passengerOverlay);
+            ViewModel.getInstance().getDriverOverlayList(mapView).add(passengerOverlay);
             mapView.invalidate();
         }
     }
@@ -356,7 +393,7 @@ public class MapModel {
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
             
-            MapModel.getInstance().getPassengerOverlayList(mapView).add(passengerOverlay);
+            ViewModel.getInstance().getPassengerOverlayList(mapView).add(passengerOverlay);
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
@@ -366,9 +403,11 @@ public class MapModel {
             driverOverlay.addOverlay(opPassengerItem);
             
             // add found passenger to overlay
-            MapModel.getInstance().getPassengerOverlayList(mapView).add(driverOverlay);
+            ViewModel.getInstance().getPassengerOverlayList(mapView).add(driverOverlay);
             mapView.invalidate();
         }
     }
+    //==========================================================================
+    //=================NEW LIFE ================================
     
 }

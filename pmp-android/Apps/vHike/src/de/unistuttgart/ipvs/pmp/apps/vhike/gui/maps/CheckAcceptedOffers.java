@@ -56,44 +56,7 @@ public class CheckAcceptedOffers extends TimerTask {
         handler.post(new Runnable() {
             
             public void run() {
-                Log.i(this, "Checking");
-                List<PassengerObject> lpo = ctrl.offer_accepted(Model.getInstance().getSid(), Model.getInstance()
-                        .getTripId());
-                // check if invitations were accepted
-                if (lpo.size() > 0) {
-                    
-                    for (int i = 0; i < lpo.size(); i++) {
-                        // set button/invitation as checked
-                        if (lpo.get(i).getUser_id() == userID) {
-                            Model.getInstance().addToAcceptedUsers(userID);
-                            acceptButton.setBackgroundResource(R.drawable.bg_check);
-//                            acceptButton.invalidate();
-                            
-                            Log.i(this, " Offer Accepted");
-                            
-                            acceptButton.setOnClickListener(new View.OnClickListener() {
-                                
-                                @Override
-                                public void onClick(View v) {
-                                    ctrl.pick_up(Model.getInstance().getSid(), userID);
-                                    name.setTextColor(Color.BLUE);
-                                    acceptButton.setBackgroundResource(R.drawable.bg_disabled);
-                                    acceptButton.setEnabled(false);
-                                    
-                                    // add to list which contains all picked up users
-                                    Model.getInstance().addToPickedUser(userID);
-                                }
-                            });
-                            
-                            // count down available seats
-                            ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), MapModel
-                                    .getInstance().getNumSeats() - 1);
-                            
-                            // stop checking
-                            cancel();
-                        }
-                    }
-                }
+                
             }
         });
     }
