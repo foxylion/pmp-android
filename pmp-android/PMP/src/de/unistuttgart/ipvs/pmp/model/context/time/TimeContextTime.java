@@ -8,7 +8,7 @@ import java.util.TimeZone;
  * @author Tobias Kuhn
  * 
  */
-public class TimeContextConditionTime implements Comparable<TimeContextConditionTime> {
+public class TimeContextTime implements Comparable<TimeContextTime> {
     
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MINUTES_PER_HOUR = 60;
@@ -19,17 +19,17 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     private int hour, minute, second;
     
     
-    public TimeContextConditionTime(int hour, int minute, int second) {
+    public TimeContextTime(int hour, int minute, int second) {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
     }
     
     
-    public TimeContextConditionTime(TimeContextConditionTime timeContextConditionTime) {
-        this.hour = timeContextConditionTime.hour;
-        this.minute = timeContextConditionTime.minute;
-        this.second = timeContextConditionTime.second;
+    public TimeContextTime(TimeContextTime timeContextTime) {
+        this.hour = timeContextTime.hour;
+        this.minute = timeContextTime.minute;
+        this.second = timeContextTime.second;
     }
     
     
@@ -109,7 +109,7 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
      *            <code>to</code> lies on the next day
      * @return
      */
-    public int getDifferenceInSeconds(TimeContextConditionTime to, boolean assumeNextDayIfWrap) {
+    public int getDifferenceInSeconds(TimeContextTime to, boolean assumeNextDayIfWrap) {
         if (assumeNextDayIfWrap && (this.compareTo(to) > 0)) {
             return SECONDS_PER_DAY - to.getDifferenceInSeconds(this, false);
         } else {
@@ -122,10 +122,10 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     @Override
     public boolean equals(Object o) {
-        if ((o == null) || (!(o instanceof TimeContextConditionTime))) {
+        if ((o == null) || (!(o instanceof TimeContextTime))) {
             return false;
         }
-        TimeContextConditionTime another = (TimeContextConditionTime) o;
+        TimeContextTime another = (TimeContextTime) o;
         return (this.second == another.second) && (this.minute == another.minute) && (this.hour == another.hour);
     }
     
@@ -137,7 +137,7 @@ public class TimeContextConditionTime implements Comparable<TimeContextCondition
     
     
     @Override
-    public int compareTo(TimeContextConditionTime another) {
+    public int compareTo(TimeContextTime another) {
         return (this.second - another.second) + (this.minute - another.minute) + (this.hour - another.hour);
     }
 }

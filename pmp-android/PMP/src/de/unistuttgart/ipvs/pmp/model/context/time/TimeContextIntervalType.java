@@ -9,7 +9,7 @@ import java.util.List;
  * @author Tobias Kuhn
  * 
  */
-public enum TimeContextConditionIntervalType {
+public enum TimeContextIntervalType {
     REPEAT_DAILY('D'),
     REPEAT_WEEKLY('W'),
     REPEAT_MONTHLY('M'),
@@ -23,7 +23,7 @@ public enum TimeContextConditionIntervalType {
     private Character identifier;
     
     
-    private TimeContextConditionIntervalType(Character identifier) {
+    private TimeContextIntervalType(Character identifier) {
         this.identifier = identifier;
     }
     
@@ -68,8 +68,8 @@ public enum TimeContextConditionIntervalType {
     }
     
     
-    public static TimeContextConditionIntervalType getForIdentifier(Character identifier) {
-        for (TimeContextConditionIntervalType tccit : values()) {
+    public static TimeContextIntervalType getForIdentifier(Character identifier) {
+        for (TimeContextIntervalType tccit : values()) {
             if (tccit.getIdentifier().equals(identifier)) {
                 return tccit;
             }

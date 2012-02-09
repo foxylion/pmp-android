@@ -44,12 +44,12 @@ public class TimeContextCondition {
             int endHour = Integer.parseInt(match.group(5));
             int endMin = Integer.parseInt(match.group(6));
             int endSec = Integer.parseInt(match.group(7));
-            TimeContextConditionIntervalType tccit = TimeContextConditionIntervalType.getForIdentifier(match.group(8)
+            TimeContextIntervalType tccit = TimeContextIntervalType.getForIdentifier(match.group(8)
                     .charAt(0));
             List<Integer> tccdList = tccit.makeDays(match.group(9));
             
-            result = new TimeContextCondition(utc, new TimeContextConditionTime(beginHour, beginMin, beginSec),
-                    new TimeContextConditionTime(endHour, endMin, endSec), tccit, tccdList);
+            result = new TimeContextCondition(utc, new TimeContextTime(beginHour, beginMin, beginSec),
+                    new TimeContextTime(endHour, endMin, endSec), tccit, tccdList);
             cache.put(condition, result);
         }
         
@@ -66,12 +66,12 @@ public class TimeContextCondition {
     /**
      * Begin and end during a 24-hrs period. May wrap.
      */
-    private TimeContextConditionTime begin, end;
+    private TimeContextTime begin, end;
     
     /**
      * The interval to repeat the time, i.e. which days
      */
-    private TimeContextConditionIntervalType interval;
+    private TimeContextIntervalType interval;
     
     /**
      * The specific days in the interval
@@ -79,8 +79,8 @@ public class TimeContextCondition {
     private List<Integer> days;
     
     
-    public TimeContextCondition(boolean isUTC, TimeContextConditionTime begin, TimeContextConditionTime end,
-            TimeContextConditionIntervalType interval, List<Integer> days) {
+    public TimeContextCondition(boolean isUTC, TimeContextTime begin, TimeContextTime end,
+            TimeContextIntervalType interval, List<Integer> days) {
         this.isUTC = isUTC;
         this.begin = begin;
         this.end = end;
@@ -167,22 +167,22 @@ public class TimeContextCondition {
     }
     
     
-    protected TimeContextConditionTime getBegin() {
+    protected TimeContextTime getBegin() {
         return this.begin;
     }
     
     
-    protected TimeContextConditionTime getEnd() {
+    protected TimeContextTime getEnd() {
         return this.end;
     }
     
     
-    protected TimeContextConditionIntervalType getInterval() {
+    protected TimeContextIntervalType getInterval() {
         return this.interval;
     }
     
     
-    protected void setInterval(TimeContextConditionIntervalType interval) {
+    protected void setInterval(TimeContextIntervalType interval) {
         this.interval = interval;
     }
     
@@ -193,6 +193,6 @@ public class TimeContextCondition {
     
     
     public boolean representsWholeDay() {
-        return this.begin.getDifferenceInSeconds(this.end, true) >= TimeContextConditionTime.SECONDS_PER_DAY - 1;
+        return this.begin.getDifferenceInSeconds(this.end, true) >= TimeContextTime.SECONDS_PER_DAY - 1;
     }
 }
