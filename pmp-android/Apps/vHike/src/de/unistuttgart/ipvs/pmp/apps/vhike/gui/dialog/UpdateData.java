@@ -4,7 +4,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import android.app.Dialog;
 import android.content.Context;
@@ -50,20 +50,20 @@ public class UpdateData extends Dialog {
 
 			@Override
 			public void onClick(View v) {
-				MapModel.getInstance().setDestination(spinner_destination);
-				MapModel.getInstance().setNumSeats(spinner_numSeats);
+				ViewModel.getInstance().setDestination(spinner_destination);
+				ViewModel.getInstance().setNumSeats(spinner_numSeats);
 
 				switch (ctrl.tripUpdateData(Model.getInstance().getSid(), Model
-						.getInstance().getTripId(), MapModel.getInstance()
+						.getInstance().getTripId(), ViewModel.getInstance()
 						.getNumSeats())) {
 				case (Constants.STATUS_UPDATED):
 					Toast.makeText(v.getContext(), "Updated",
 							Toast.LENGTH_SHORT).show();
 				
 					Log.i(this, "Destination:"
-							+ MapModel.getInstance().getDestination()
+							+ ViewModel.getInstance().getDestination()
 							+ ", Seats: "
-							+ MapModel.getInstance().getNumSeats());
+							+ ViewModel.getInstance().getNumSeats());
 					cancel();
 					break;
 				case Constants.STATUS_UPTODATE:

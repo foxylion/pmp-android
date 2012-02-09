@@ -18,7 +18,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
@@ -77,11 +77,11 @@ public class RideActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				MapModel.getInstance().setDestination(spinner);
-				MapModel.getInstance().setNumSeats(spinnerSeats);
+				ViewModel.getInstance().setDestination(spinner);
+				ViewModel.getInstance().setNumSeats(spinnerSeats);
 
 				switch (ctrl.announceTrip(Model.getInstance().getSid(),
-						MapModel.getInstance().getDestination(), 0, 0, MapModel
+						ViewModel.getInstance().getDestination(), 0, 0, ViewModel
 								.getInstance().getNumSeats())) {
 				case Constants.TRIP_STATUS_ANNOUNCED: {
 					Toast.makeText(RideActivity.this, "Announced trip",
@@ -118,9 +118,9 @@ public class RideActivity extends Activity {
 														"Trip ended",
 														Toast.LENGTH_LONG)
 														.show();
-												MapModel.getInstance()
+												ViewModel.getInstance()
 														.clearDriverOverlayList();
-												MapModel.getInstance()
+												ViewModel.getInstance()
 														.clearHitchPassengers();
 												dialog.cancel();
 												break;
@@ -193,8 +193,8 @@ public class RideActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				MapModel.getInstance().setDestination(spinner);
-				MapModel.getInstance().setNumSeats(spinnerSeats);
+				ViewModel.getInstance().setDestination(spinner);
+				ViewModel.getInstance().setNumSeats(spinnerSeats);
 
 				vhikeDialogs.getInstance().getSearchPD(RideActivity.this)
 						.show();

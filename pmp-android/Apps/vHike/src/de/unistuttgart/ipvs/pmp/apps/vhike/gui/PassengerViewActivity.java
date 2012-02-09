@@ -16,7 +16,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -66,7 +66,7 @@ public class PassengerViewActivity extends MapActivity {
         setContentView(R.layout.activity_passengerview);
         
         ctrl = new Controller();
-        MapModel.getInstance().initDriversList();
+        ViewModel.getInstance().initDriversList();
         
         showHitchhikers();
         setMapView();
@@ -90,7 +90,7 @@ public class PassengerViewActivity extends MapActivity {
         ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
         pLV.setClickable(true);
         
-        appsAdapter = MapModel.getInstance().getPassengerAdapter(context, mapView);
+        appsAdapter = ViewModel.getInstance().getPassengerAdapter(context, mapView);
         pLV.setAdapter(appsAdapter);
     }
     
@@ -101,7 +101,7 @@ public class PassengerViewActivity extends MapActivity {
      * @param hitchhiker
      */
     public void addHitchhiker(Profile hitchhiker) {
-        MapModel.getInstance().getHitchDrivers().add(hitchhiker);
+        ViewModel.getInstance().getHitchDrivers().add(hitchhiker);
         appsAdapter.notifyDataSetChanged();
     }
     
@@ -136,9 +136,9 @@ public class PassengerViewActivity extends MapActivity {
                         GeoPoint gpsDriver = new GeoPoint(lat, lng);
                         notiID++;
                         
-                        MapModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
-                        MapModel.getInstance().getHitchDrivers().add(driver);
-                        MapModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, mapView);
+                        ViewModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
+                        ViewModel.getInstance().getHitchDrivers().add(driver);
+                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, mapView);
                         appsAdapter.notifyDataSetChanged();
                     }
                 }
@@ -173,10 +173,10 @@ public class PassengerViewActivity extends MapActivity {
                     + ", Rating: " + me.getRating_avg());
             pOverlay.addOverlay(oPassengerItem);
             
-            MapModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
+            ViewModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
             
-            switch (ctrl.startQuery(Model.getInstance().getSid(), MapModel.getInstance().getDestination(),
-                    (float) location.getLatitude(), (float) location.getLongitude(), MapModel.getInstance()
+            switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(),
+                    (float) location.getLatitude(), (float) location.getLongitude(), ViewModel.getInstance()
                             .getNumSeats())) {
                 case (Constants.QUERY_ID_ERROR):
                     Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_LONG).show();
@@ -202,7 +202,7 @@ public class PassengerViewActivity extends MapActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Provisorisch
-        MapModel.getInstance().clearPassengerOverlayList();
+        ViewModel.getInstance().clearPassengerOverlayList();
         // Provi
         switch (item.getItemId()) {
             case R.id.mi_passenger_endTrip:
@@ -210,10 +210,9 @@ public class PassengerViewActivity extends MapActivity {
                     case Constants.STATUS_QUERY_DELETED:
                         Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                         
-                        MapModel.getInstance().clearPassengerOverlayList();
-                        MapModel.getInstance().clearHitchDrivers();
-                        MapModel.getInstance().clearPassengerNotificationAdapter();
-                        Model.getInstance().clearFoundUsers();
+                        ViewModel.getInstance().clearPassengerOverlayList();
+                        ViewModel.getInstance().clearHitchDrivers();
+                        ViewModel.getInstance().clearPassengerNotificationAdapter();
                         
                         PassengerViewActivity.this.finish();
                         break;

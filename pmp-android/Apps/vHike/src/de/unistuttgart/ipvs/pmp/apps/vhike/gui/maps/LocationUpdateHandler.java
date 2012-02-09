@@ -83,9 +83,9 @@ public class LocationUpdateHandler implements LocationListener {
                 (float) location.getLongitude())) {
             case Constants.STATUS_UPDATED:
                 Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
-                
-                Model.getInstance().setLatitude(location.getLatitude());
-                Model.getInstance().setLongtitude(location.getLongitude());
+                // Add to ViewModel
+//                Model.getInstance().setLatitude(location.getLatitude());
+//                Model.getInstance().setLongtitude(location.getLongitude());
                 
                 break;
             case Constants.STATUS_UPTODATE:

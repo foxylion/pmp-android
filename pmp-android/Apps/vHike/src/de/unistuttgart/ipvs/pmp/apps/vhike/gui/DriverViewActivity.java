@@ -25,7 +25,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.MapModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
@@ -56,7 +56,7 @@ public class DriverViewActivity extends MapActivity {
         setContentView(R.layout.activity_driverview);
         
         ctrl = new Controller();
-        MapModel.getInstance().initPassengersList();
+        ViewModel.getInstance().initPassengersList();
         
         setMapView();
         showHitchhikers();
@@ -80,7 +80,7 @@ public class DriverViewActivity extends MapActivity {
         
         ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
         pLV.setClickable(true);
-        pLV.setAdapter(MapModel.getInstance().getDriverAdapter(context, mapView));
+        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(context, mapView));
     }
     
     
@@ -90,8 +90,8 @@ public class DriverViewActivity extends MapActivity {
      * @param hitchhiker
      */
     public void addHitchhiker(Profile hitchhiker) {
-        MapModel.getInstance().getHitchPassengers().add(hitchhiker);
-        MapModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        ViewModel.getInstance().getHitchPassengers().add(hitchhiker);
+        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
     }
     
     
@@ -126,12 +126,12 @@ public class DriverViewActivity extends MapActivity {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
         // check for queries
-        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
-                .getLongtitude());
-        c4q.run();
-        timer = new Timer();
-        // schedule 
-        timer.schedule(c4q, 300, 10000);
+//        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
+//                .getLongtitude());
+//        c4q.run();
+//        timer = new Timer();
+//        // schedule 
+//        timer.schedule(c4q, 300, 10000);
         
     }
     
@@ -152,14 +152,11 @@ public class DriverViewActivity extends MapActivity {
                 switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
                     case (Constants.STATUS_UPDATED): {
                         
-                        MapModel.getInstance().clearDriverOverlayList();
-                        MapModel.getInstance().clearHitchPassengers();
-                        MapModel.getInstance().clearDriverNotificationAdapter();
+                        ViewModel.getInstance().clearDriverOverlayList();
+                        ViewModel.getInstance().clearHitchPassengers();
+                        ViewModel.getInstance().clearDriverNotificationAdapter();
                         locationManager.removeUpdates(luh);
-                        Model.getInstance().clearBannList();
-                        Model.getInstance().clearInvitedUserList();
-                        Model.getInstance().clearFoundUsers();
-                        Model.getInstance().clearPickedUserList();
+
                         timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
