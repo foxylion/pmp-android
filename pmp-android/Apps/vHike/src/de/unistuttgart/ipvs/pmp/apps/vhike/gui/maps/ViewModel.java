@@ -118,6 +118,7 @@ public class ViewModel {
         ViewModel.getInstance().add2DriverOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0,
                 Model.getInstance().getOwnProfile().getID());
         
+        
         try {
             for (QueryObject queryObject : queries) {
                 float lat = queryObject.getCur_lat();
@@ -148,6 +149,7 @@ public class ViewModel {
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
             mapView.invalidate();
+            mapView.postInvalidate();
         }
     }
     
@@ -192,6 +194,7 @@ public class ViewModel {
             getHitchDrivers().add(vObject.getProfile());
             getPassengerAdapter(context, mapView).notifyDataSetChanged();
             mapView.invalidate();
+            mapView.postInvalidate();
         }
     }
     

@@ -108,6 +108,20 @@ public class NotificationAdapter extends BaseAdapter {
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
         name.setText(hitchhiker.getUsername());
+        name.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                
+                userID = hitchhiker.getID();
+                
+                intent.putExtra("PROFILE_ID", userID);  
+                intent.putExtra("MY_PROFILE", 1);
+                
+                context.startActivity(intent);
+            }
+        });
         
         noti_rb.setRating((float) hitchhiker.getRating_avg());
         me = Model.getInstance().getOwnProfile();
