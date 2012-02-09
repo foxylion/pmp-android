@@ -203,6 +203,9 @@
 	<string name="contexts_time_sat">Sat</string>
 	<string name="contexts_time_sun">Sun</string>
 	<string name="contexts_time_this_year_on">This year on:</string>    
+	
+	<string name="contexts_location_name">Location Context</string>
+    <string name="contexts_location_desc">The Location Context allows to define context dependencies based on the current location.</string>
 
 
 </resources>

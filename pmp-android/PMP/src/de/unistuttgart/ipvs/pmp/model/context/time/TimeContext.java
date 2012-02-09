@@ -53,7 +53,7 @@ public class TimeContext implements IContext {
     
     
     @Override
-    public long update() {
+    public long update(Context context) {
         this.lastState = System.currentTimeMillis();
         return 0L;
     }
