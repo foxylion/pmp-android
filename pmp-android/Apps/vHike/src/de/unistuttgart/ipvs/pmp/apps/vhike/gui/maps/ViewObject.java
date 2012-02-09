@@ -1,25 +1,42 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 public class ViewObject {
     
-   private  float lat;
-   private  float lon;
-   private Profile profile;
-   private QueryObject qObject;
-   private  OfferObject oObject;
-    
+    private float lat;
+    private float lon;
+    private Profile profile;
+    private QueryObject qObject;
+    private OfferObject oObject;
     int status;
-    
     
     public ViewObject(float lat, float lon, Profile profile) {
         super();
+        this.status = Constants.V_OBJ_SATUS_FOUND;
         this.lat = lat;
         this.lon = lon;
         this.profile = profile;
+    }
+    
+    
+    public void updatePos(float lat, float lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
+    
+    
+    public Profile getProfile() {
+        return profile;
     }
     
     
@@ -47,6 +64,7 @@ public class ViewObject {
         return status;
     }
     
+    
     /**
      * Status: FOUND, INVITED, AWAIT_ACCEPTION, ACCEPTED, PICKED_UP, BANNED
      */
@@ -54,4 +72,98 @@ public class ViewObject {
         this.status = status;
     }
     
+    
+    public OnClickListener getOnClickListener() {
+        OnClickListener listener = null;
+        switch (status) {
+            case Constants.V_OBJ_SATUS_FOUND:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Controller ctrl = new Controller();
+                        //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT 
+                        switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
+                                qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!")) {
+                            case Constants.STATUS_SENT:
+                                status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
+                                // START TIMER HIER
+                                //
+                                //
+                                //
+                                
+                                
+                                
+                                Log.i(this, "Offer sent.");
+                                break;
+                            case Constants.STATUS_INVALID_TRIP:
+                                Log.i(this, "Invalid trip_id in sendOffer()");
+                                break;
+                            case Constants.STATUS_INVALID_QUERY:
+                                Log.i(this, "Invalid query_id in sendOffer()");
+                                break;
+                            case Constants.STATUS_ALREADY_SENT:
+                                Log.i(this, "Already sent offer!");
+                                break;
+                        }
+                    }
+                };
+                break;
+            case Constants.V_OBJ_SATUS_INVITED:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(this, "Already SENT");
+                    }
+                };
+                break;
+            case Constants.V_OBJ_SATUS_AWAIT_ACCEPTION:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(this, "Already SENT");
+                    }
+                };
+                break;
+            case Constants.V_OBJ_SATUS_ACCEPTED:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Controller ctrl = new Controller();
+                        if (ctrl.pick_up(Model.getInstance().getSid(), profile.getID())) {
+                            Log.i(this, "Picked up user: " + profile.getID());
+                            status = Constants.V_OBJ_SATUS_PICKED_UP;
+                        } else {
+                            Log.i(this, "Not picked up user: " + profile.getID());
+                        }
+                        
+                    }
+                };
+                break;
+            case Constants.V_OBJ_SATUS_PICKED_UP:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(this, "User is picked up!");
+                    }
+                };
+                
+                break;
+            case Constants.V_OBJ_SATUS_BANNED:
+                listener = new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(this, "User is banned!");
+                    }
+                };
+                break;
+        }
+        return listener;
+        
+    }
 }

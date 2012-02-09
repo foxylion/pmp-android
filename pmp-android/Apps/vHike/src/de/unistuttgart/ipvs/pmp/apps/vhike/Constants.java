@@ -58,4 +58,12 @@ public class Constants {
 	
 	public static final String ROLE_DRIVER = "driver";
 	public static final String ROLE_PASSENGER = "passenger";
+	
+	
+	public static final int V_OBJ_SATUS_FOUND = 70;
+	public static final int V_OBJ_SATUS_INVITED = 71;
+	public static final int V_OBJ_SATUS_AWAIT_ACCEPTION = 72;
+	public static final int V_OBJ_SATUS_ACCEPTED = 73;
+	public static final int V_OBJ_SATUS_PICKED_UP = 74;
+	public static final int V_OBJ_SATUS_BANNED = 75;
 }

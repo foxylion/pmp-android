@@ -37,10 +37,29 @@ public class ViewModel {
     
     private List<ViewObject> lvo;
     Controller ctrl = new Controller();
+    private List<ViewObject> banned;
     
     
     private ViewModel() {
         lvo = new ArrayList<ViewObject>();
+        banned = new ArrayList<ViewObject>();
+    }
+    
+    
+    public void addToBanned(ViewObject vObject) {
+        banned.add(vObject);
+        removeFromLVO(vObject);
+    }
+    
+    private void removeFromLVO(ViewObject toRMVvObject){
+        int i = 0;
+        for (ViewObject vObject : lvo) {
+            
+            if(vObject.getProfile().getID()== toRMVvObject.getProfile().getID()){
+                lvo.remove(i);
+            }
+            i++;
+        }
     }
     
     
@@ -49,24 +68,52 @@ public class ViewModel {
         for (QueryObject queryObject : queries) {
             float lat = queryObject.getCur_lat();
             float lon = queryObject.getCur_lon();
-            if (isInLVO(queryObject.getUserid())) {
-                
-            }else{
-                Profile profile = ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
-                ViewObject vObject = new ViewObject(lat, lon, profile);
-                vObject.setqObject(queryObject);    
+            if (isInBanned(queryObject.getUserid())) {
+                if (isInLVO(queryObject.getUserid())) {
+                    updateViewObject(queryObject.getUserid(), lat, lon);
+                } else {
+                    Profile profile = ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
+                    ViewObject vObject = new ViewObject(lat, lon, profile);
+                    vObject.setqObject(queryObject);
+                    lvo.add(vObject);
+                }
             }
             
-            
         }
-        
     }
     
-    private void updateViewObject(){
-        
+    
+    /**
+     * Updates the viewObject
+     */
+    private void updateViewObject(int userid, float lat, float lon) {
+        for (ViewObject vObject : lvo) {
+            if (vObject.getProfile().getID() == userid) {
+                vObject.updatePos(lat, lon);
+            }
+        }
     }
+    
+    
+    private boolean isInBanned(int userid) {
+        boolean isInBanned = false;
+        for (ViewObject vObject : banned) {
+            if (vObject.getProfile().getID() == userid) {
+                isInBanned = true;
+            }
+        }
+        return isInBanned;
+    }
+    
+    
     private boolean isInLVO(int userid) {
-        return false;
+        boolean isInLVO = false;
+        for (ViewObject vObject : lvo) {
+            if (vObject.getProfile().getID() == userid) {
+                isInLVO = true;
+            }
+        }
+        return isInLVO;
     }
     
     private static ViewModel instance;
