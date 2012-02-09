@@ -147,6 +147,16 @@ public class PassengerViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
+        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), ViewModel
+                .getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance().getNumSeats())) {
+            case (Constants.QUERY_ID_ERROR):
+                Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        
         // check for offers every 10 seconds
         Check4Offers c4o = new Check4Offers();
         timer = new Timer();
