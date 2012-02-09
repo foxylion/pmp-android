@@ -90,6 +90,21 @@ public class ViewObject {
     }
     
     
+    public OnClickListener getDenieOfferClickListener(){
+        OnClickListener listener = null;
+        
+        listener = new OnClickListener() {
+            Controller ctrl = new Controller();
+            @Override
+            public void onClick(View v) {
+                ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), false);
+            }
+        };
+        
+        
+        return listener;
+    }
+    
     public OnClickListener getOnClickListener(int who) {
         OnClickListener listener = null;
         // 0 = driver , 1 = passenger
