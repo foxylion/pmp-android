@@ -20,7 +20,7 @@ public class ViewObject {
     private QueryObject qObject;
     private OfferObject oObject;
     int status;
-    
+    ViewObject me;
     
     public ViewObject(float lat, float lon, Profile profile) {
         super();
@@ -28,6 +28,7 @@ public class ViewObject {
         this.lat = lat;
         this.lon = lon;
         this.profile = profile;
+        me = this;
     }
     
     
@@ -98,6 +99,8 @@ public class ViewObject {
             @Override
             public void onClick(View v) {
                 ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), false);
+                status = Constants.V_OBJ_SATUS_BANNED;
+                ViewModel.getInstance().addToBanned(me);
                 ViewModel.getInstance().updateView(1);
             }
         };
