@@ -9,17 +9,32 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 
+/**
+ * The editor for App-Information-Sets that contains the {@link AISGeneralPage}
+ * and the {@link AISServiceFeaturesPage}
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public class AisEditor extends FormEditor {
-    
-	private AISGeneralPage generalPage;
+
+    /**
+     * The {@link AISGeneralPage}
+     */
+    private AISGeneralPage generalPage;
+
+    /**
+     * The {@link AISServiceFeaturesPage}
+     */
+    private AISServiceFeaturesPage sfPage;
 
     /*
      * (non-Javadoc)
@@ -36,15 +51,19 @@ public class AisEditor extends FormEditor {
 		if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
 		    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 		}
-		
-		AIS ais = XMLUtilityProxy.getAppUtil().parse(input.getFile().getContents());
-		
+
+		AIS ais = XMLUtilityProxy.getAppUtil().parse(
+			input.getFile().getContents());
+
 		// Store ais in the Model
 		Model.getInstance().setAis(ais);
+		
+		// Create the pages
 		generalPage = new AISGeneralPage(this);
-		StoredInformation loc = generalPage.getLocalization();
-
+		sfPage = new AISServiceFeaturesPage(this);
+		
 		// Add names and descriptions to table
+		StoredInformation loc = generalPage.getLocalization();
 		for (Name name : ais.getNames()) {
 		    loc.addName(name.getLocale().getLanguage(), name.getName());
 		}
@@ -57,7 +76,7 @@ public class AisEditor extends FormEditor {
 	    }
 
 	    addPage(generalPage);
-	    addPage(new PrivacySettingsPage(this));
+	    addPage(sfPage);
 	} catch (PartInitException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

@@ -146,6 +146,11 @@ public class AISGeneralPage extends FormPage {
 	return section;
     }
 
+    /**
+     * Returns all stored information of the table
+     * 
+     * @return {@link StoredInformation}
+     */
     public StoredInformation getLocalization() {
 	return localization;
     }
