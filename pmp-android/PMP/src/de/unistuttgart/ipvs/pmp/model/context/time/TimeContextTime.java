@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
+import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
@@ -30,6 +31,14 @@ public class TimeContextTime implements Comparable<TimeContextTime> {
         this.hour = timeContextTime.hour;
         this.minute = timeContextTime.minute;
         this.second = timeContextTime.second;
+    }
+    
+    
+    public TimeContextTime() {
+        Calendar cal = Calendar.getInstance();
+        this.hour = cal.get(Calendar.HOUR_OF_DAY);
+        this.minute = cal.get(Calendar.MINUTE);
+        this.second = cal.get(Calendar.SECOND);
     }
     
     
