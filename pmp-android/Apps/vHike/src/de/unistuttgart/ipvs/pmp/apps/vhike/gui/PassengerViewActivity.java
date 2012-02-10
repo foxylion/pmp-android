@@ -189,8 +189,9 @@ public class PassengerViewActivity extends MapActivity {
                         ViewModel.getInstance().getHitchDrivers().clear();
                         locationManager.removeUpdates(luh);
                         timer.cancel();
+                        ViewModel.getInstance().clearViewModel();
                         
-                        this.finish();
+                        PassengerViewActivity.this.finish();
                         break;
                     case Constants.STATUS_NO_QUERY:
                         Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
