@@ -1087,8 +1087,8 @@ public class JSonRequestReader {
     public static String rateUser(String sid, int userid, int tripid, int rating){
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
-        listToParse.add(new ParamObject("userid", String.valueOf(userid), true));
-        listToParse.add(new ParamObject("tripid", String.valueOf(tripid), true));
+        listToParse.add(new ParamObject("recepient", String.valueOf(userid), true));
+        listToParse.add(new ParamObject("trip", String.valueOf(tripid), true));
         listToParse.add(new ParamObject("rating", String.valueOf(rating), true));
         
         JsonObject object = null;
