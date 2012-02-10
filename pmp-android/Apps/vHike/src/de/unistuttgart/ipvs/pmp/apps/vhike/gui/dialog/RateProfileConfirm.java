@@ -41,9 +41,9 @@ public class RateProfileConfirm extends Dialog {
                 // rate
                 Controller ctrl = new Controller();
                if( ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating)){
-                   Log.i(this, "RATED "+ profileID + ", WITH " + rating);   
+                   Log.i(this, "RATED "+ profileID + ", WITH " + rating + ", TripID " + tripID);   
                }else{
-                   Log.i(this, "Not RATED "+ profileID + ", WITH " + rating);
+                   Log.i(this, "Not RATED "+ profileID + ", WITH " + rating + ", TripID " + tripID);
                }
                 
                 cancel();
