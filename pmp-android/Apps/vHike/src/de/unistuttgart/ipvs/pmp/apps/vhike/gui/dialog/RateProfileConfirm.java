@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -9,9 +10,15 @@ import android.widget.Button;
 
 public class RateProfileConfirm extends Dialog {
     
-    public RateProfileConfirm(Context context) {
+    private int profileID;
+    private int rating;
+    
+    
+    public RateProfileConfirm(Context context, final int profileID, final int rating) {
         super(context);
         setContentView(R.layout.dialog_rate_profile);
+        this.profileID = profileID;
+        this.rating = rating;
         
         Button cancel = (Button) findViewById(R.id.btn_cancel_rate);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -28,8 +35,8 @@ public class RateProfileConfirm extends Dialog {
             @Override
             public void onClick(View v) {
                 // rate
-//                Controller ctrl = new Controller();
-//                ctrl.
+                Controller ctrl = new Controller();
+                ctrl.rateUser(Model.getInstance().getSid(), profileID, Model.getInstance().getTripId(), rating);
                 cancel();
             }
         });

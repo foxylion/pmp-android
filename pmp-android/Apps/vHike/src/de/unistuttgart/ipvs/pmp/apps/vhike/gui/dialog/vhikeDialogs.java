@@ -138,9 +138,9 @@ public class vhikeDialogs {
     }
     
     
-    public RateProfileConfirm getRateProfileConfirmation(Context context) {
+    public RateProfileConfirm getRateProfileConfirmation(Context context, int profileID, int rating) {
         if (rpc == null) {
-            rpc = new RateProfileConfirm(context);
+            rpc = new RateProfileConfirm(context, profileID, rating);
         }
         return rpc;
     }
