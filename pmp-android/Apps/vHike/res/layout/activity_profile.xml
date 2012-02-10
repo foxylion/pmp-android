@@ -50,7 +50,6 @@
                 android:layout_height="80dp"
                 android:layout_marginRight="3dp"
                 android:text="no information" />
-
         </LinearLayout>
     </LinearLayout>
 
@@ -146,12 +145,18 @@
                         android:textColor="@color/dark_blue"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/et_email"
+                    <HorizontalScrollView
                         android:layout_width="148dp"
-                        android:layout_height="wrap_content"
-                        android:text="email@hitch.com" >
-                    </EditText>
+                        android:layout_height="50dp"
+                        android:scrollbars="none" >
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            android:layout_width="148dp"
+                            android:layout_height="wrap_content"
+                            android:text="email@hitch.com" >
+                        </EditText>
+                    </HorizontalScrollView>
                 </LinearLayout>
             </LinearLayout>
 
@@ -190,7 +195,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:orientation="vertical"
         android:padding="10dp" >
 

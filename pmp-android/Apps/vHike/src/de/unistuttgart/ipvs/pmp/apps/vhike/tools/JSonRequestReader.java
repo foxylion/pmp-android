@@ -791,10 +791,14 @@ public class JSonRequestReader {
         }
         boolean suc = false;
         String status = "";
+        String offer_id;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
+                if(status.equals("sent")){
+                    status = String.valueOf(object.get("offer_id").getAsInt());
+                }
                 return status;
             }
         }
@@ -949,15 +953,15 @@ public class JSonRequestReader {
     }
     
     
-    public static List<PassengerObject> offer_accepted(String sid, int trip_id) {
+    public static String offer_accepted(String sid, int offer_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
         
-        listToParse.add(new ParamObject("trip_id", String.valueOf(trip_id), true));
+        listToParse.add(new ParamObject("offer_id", String.valueOf(offer_id), true));
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "offer_accepted.php", false);
+            object = JSonRequestProvider.doRequest(listToParse, "offer_status.php", false);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -966,20 +970,13 @@ public class JSonRequestReader {
         boolean suc = false;
         List<PassengerObject> objects = new ArrayList<PassengerObject>();
         String status = "";
-        JsonArray array_passengers;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                array_passengers = object.get("passengers").getAsJsonArray();
-                for (JsonElement jsonElement : array_passengers) {
-                    JsonObject pass_obj = jsonElement.getAsJsonObject();
-                    PassengerObject passenger = new PassengerObject(pass_obj.get("passenger").getAsInt(), pass_obj.get(
-                            "picked_up").getAsBoolean());
-                    objects.add(passenger);
-                }
+                status = object.get("status").getAsString();
             }
         }
-        return objects;
+        return status;
     }
     
     
@@ -1081,6 +1078,33 @@ public class JSonRequestReader {
         return historyObjects;
     }
     
+    
+    public static String rateUser(String sid, int userid, int tripid, int rating){
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("userid", String.valueOf(userid), true));
+        listToParse.add(new ParamObject("tripid", String.valueOf(tripid), true));
+        listToParse.add(new ParamObject("rating", String.valueOf(rating), true));
+        
+        JsonObject object = null;
+        try {
+            object = JSonRequestProvider.doRequest(listToParse, "ride_rate.php", false);
+            
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boolean suc=false;
+        String status="";
+        if(object!=null){
+            suc = object.get("successful").getAsBoolean();
+            if(suc){
+                status = object.get("status").getAsString();
+            }
+        }
+        return status;
+    }
     
     /**
      * Dummy method don't touch it

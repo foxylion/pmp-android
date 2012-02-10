@@ -7,32 +7,30 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.PassengerOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,18 +42,14 @@ import android.widget.Toast;
  */
 public class PassengerViewActivity extends MapActivity {
     
-    private Controller ctrl;
-    private NotificationAdapter appsAdapter;
-    
     private Context context;
     private MapView mapView;
     private MapController mapController;
     private LocationManager locationManager;
-    private GeoPoint p;
-    private int notiID;
+    private LocationUpdateHandler luh;
     
-    private Check4Offers c4o;
     private Timer timer;
+    private Controller ctrl;
     
     double lat;
     double lng;
@@ -68,8 +62,8 @@ public class PassengerViewActivity extends MapActivity {
         ctrl = new Controller();
         ViewModel.getInstance().initDriversList();
         
-        showHitchhikers();
         setMapView();
+        showHitchhikers();
         startQuery();
         
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
@@ -89,9 +83,7 @@ public class PassengerViewActivity extends MapActivity {
         
         ListView pLV = (ListView) findViewById(R.id.ListView_DHitchhikers);
         pLV.setClickable(true);
-        
-        appsAdapter = ViewModel.getInstance().getPassengerAdapter(context, mapView);
-        pLV.setAdapter(appsAdapter);
+        pLV.setAdapter(ViewModel.getInstance().getPassengerAdapter(context, mapView));
     }
     
     
@@ -102,7 +94,7 @@ public class PassengerViewActivity extends MapActivity {
      */
     public void addHitchhiker(Profile hitchhiker) {
         ViewModel.getInstance().getHitchDrivers().add(hitchhiker);
-        appsAdapter.notifyDataSetChanged();
+        ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
     }
     
     
@@ -110,16 +102,16 @@ public class PassengerViewActivity extends MapActivity {
      * displays the map from xml file including a button to get current user
      * location
      */
+    @SuppressWarnings("deprecation")
     private void setMapView() {
         mapView = (MapView) findViewById(R.id.passengerMapView);
-        mapView.setBuiltInZoomControls(true);
+        LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
+        zoomView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        zoomView.setVerticalScrollBarEnabled(true);
+        mapView.addView(zoomView);
         mapController = mapView.getController();
-        
-        // check for offers every 10 seconds
-        c4o = new Check4Offers(mapView, context);
-        c4o.run();
-        timer = new Timer();
-        timer.schedule(c4o, 300, 10000);
         
         // check for offers manually
         Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
@@ -134,12 +126,12 @@ public class PassengerViewActivity extends MapActivity {
                         int lat = (int) (loo.get(i).getLat() * 1E6);
                         int lng = (int) (loo.get(i).getLon() * 1E6);
                         GeoPoint gpsDriver = new GeoPoint(lat, lng);
-                        notiID++;
                         
                         ViewModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
                         ViewModel.getInstance().getHitchDrivers().add(driver);
-                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, mapView);
-                        appsAdapter.notifyDataSetChanged();
+                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 0, mapView,
+                                1);
+                        ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }
             }
@@ -153,41 +145,23 @@ public class PassengerViewActivity extends MapActivity {
      */
     private void startQuery() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationUpdateHandler(context,
-                locationManager, mapView, mapController, p));
-        Controller ctrl = new Controller();
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 1);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
-        if (location != null) {
-            int lat = (int) (location.getLatitude() * 1E6);
-            int lng = (int) (location.getLongitude() * 1E6);
-            
-            Profile me = Model.getInstance().getOwnProfile();
-            GeoPoint gPosition = new GeoPoint(lat, lng);
-            
-            // Passenger drawable and overlay
-            Drawable drawablePassenger = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay pOverlay = new PassengerOverlay(drawablePassenger, context, 0);
-            
-            OverlayItem oPassengerItem = new OverlayItem(gPosition, "I need a ride!", "User: " + me.getUsername()
-                    + ", Rating: " + me.getRating_avg());
-            pOverlay.addOverlay(oPassengerItem);
-            
-            ViewModel.getInstance().getPassengerOverlayList(mapView).add(pOverlay);
-            
-            switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(),
-                    (float) location.getLatitude(), (float) location.getLongitude(), ViewModel.getInstance()
-                            .getNumSeats())) {
-                case (Constants.QUERY_ID_ERROR):
-                    Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_LONG).show();
-                    break;
-                default:
-                    Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        } else {
-            Toast.makeText(context, "Location null", Toast.LENGTH_SHORT).show();
+        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), ViewModel
+                .getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance().getNumSeats())) {
+            case (Constants.QUERY_ID_ERROR):
+                Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
+                break;
         }
+        
+        // check for offers every 10 seconds
+        Check4Offers c4o = new Check4Offers();
+        timer = new Timer();
+        timer.schedule(c4o, 300, 10000);
     }
     
     
@@ -211,10 +185,11 @@ public class PassengerViewActivity extends MapActivity {
                         Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                         
                         ViewModel.getInstance().clearPassengerOverlayList();
-                        ViewModel.getInstance().clearHitchDrivers();
-                        ViewModel.getInstance().clearPassengerNotificationAdapter();
+                        ViewModel.getInstance().getHitchDrivers().clear();
+                        locationManager.removeUpdates(luh);
+                        timer.cancel();
                         
-                        PassengerViewActivity.this.finish();
+                        this.finish();
                         break;
                     case Constants.STATUS_NO_QUERY:
                         Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();

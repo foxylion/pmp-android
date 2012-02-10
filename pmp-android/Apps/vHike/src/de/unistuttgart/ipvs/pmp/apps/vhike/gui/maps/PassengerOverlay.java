@@ -2,13 +2,12 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
-
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.PickUp;
 
 /**
  * Overlay for passengers, handling the drawable icon, tap actions and drawing
@@ -22,7 +21,6 @@ public class PassengerOverlay extends ItemizedOverlay {
     
     private Context mContext;
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
-    private int userID;
     
     
     /**
@@ -31,10 +29,9 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, int userID) {
+    public PassengerOverlay(Drawable defaultMarker, Context context) {
         super(boundCenterBottom(defaultMarker));
         mContext = context;
-        this.userID = userID;
     }
     
     
@@ -50,13 +47,10 @@ public class PassengerOverlay extends ItemizedOverlay {
     @Override
     protected boolean onTap(int i) {
         OverlayItem item = mOverlays.get(i);
-        //        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        //        dialog.setTitle(item.getTitle());
-        //        dialog.setMessage(item.getSnippet());
-        //        dialog.show();
-        PickUp pickUpDialog = new PickUp(mContext, userID);
-        pickUpDialog.setTitle(item.getSnippet());
-        pickUpDialog.show();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle(item.getTitle());
+        dialog.setMessage(item.getSnippet());
+        dialog.show();
         return true;
     }
     

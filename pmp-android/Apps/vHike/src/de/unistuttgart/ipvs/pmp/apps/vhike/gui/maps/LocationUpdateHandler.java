@@ -8,6 +8,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -35,6 +36,7 @@ public class LocationUpdateHandler implements LocationListener {
     private MapController mapController;
     private GeoPoint gPosition;
     private Location location;
+    private int whichHitcher;
     
     private Controller ctrl;
     
@@ -52,12 +54,12 @@ public class LocationUpdateHandler implements LocationListener {
      * @param gPosition
      */
     public LocationUpdateHandler(Context context, LocationManager locationManager, MapView mapView,
-            MapController mapController, GeoPoint gPosition) {
+            MapController mapController, int whichHitcher) {
         this.context = context;
         this.locationManager = locationManager;
         this.mapView = mapView;
         this.mapController = mapController;
-        this.gPosition = gPosition;
+        this.whichHitcher = whichHitcher;
         
         ctrl = new Controller();
         
@@ -67,6 +69,7 @@ public class LocationUpdateHandler implements LocationListener {
     
     
     public void onLocationChanged(Location location) {
+        
         /**
          * draw an overlay for driver or passenger
          */
@@ -75,6 +78,10 @@ public class LocationUpdateHandler implements LocationListener {
         int lat = (int) (location.getLatitude() * 1E6);
         int lng = (int) (location.getLongitude() * 1E6);
         gPosition = new GeoPoint(lat, lng);
+        // Set my position to ViewModel
+        ViewModel.getInstance().setMyPosition((float) location.getLatitude(), (float) location.getLongitude(),
+                whichHitcher);
+        Log.i(this, "Lat: " + location.getLatitude() + ", Lng: " + location.getLongitude());
         
         /**
          * send server updated latitude and longitude
@@ -83,10 +90,6 @@ public class LocationUpdateHandler implements LocationListener {
                 (float) location.getLongitude())) {
             case Constants.STATUS_UPDATED:
                 Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
-                // Add to ViewModel
-//                Model.getInstance().setLatitude(location.getLatitude());
-//                Model.getInstance().setLongtitude(location.getLongitude());
-                
                 break;
             case Constants.STATUS_UPTODATE:
                 Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();

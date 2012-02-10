@@ -4,9 +4,13 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.HistoryActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.HistoryMenuActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.HistoryRideActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +24,11 @@ public class HistoryAdapter extends BaseAdapter{
 	
 	Context context;
 	List<HistoryRideObject> historyRides;
-	public HistoryAdapter(Context context, List<HistoryRideObject> historyRides ) {
+	String role;
+	public HistoryAdapter(Context context, List<HistoryRideObject> historyRides, String role ) {
 		this.context = context;
 		this.historyRides = historyRides;
+		this.role = role;
 	}
 	@Override
 	public int getCount() {
@@ -40,7 +46,7 @@ public class HistoryAdapter extends BaseAdapter{
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final HistoryRideObject hRideObject = historyRides.get(position);
 		
 		LayoutInflater inflater = (LayoutInflater) context
@@ -53,13 +59,21 @@ public class HistoryAdapter extends BaseAdapter{
 		
 		tv_date.setText("Date: " + hRideObject.getCreation());
 		tv_destination.setText("Destination:" + hRideObject.getDestination());
+		if(hRideObject.getTripid() == 0){
+		    ;
+		}else{
+		    entryView.setOnClickListener(new OnClickListener() {
+	            @Override
+	            public void onClick(View v) {
+	                Intent intent = new Intent(context,
+	                        HistoryRideActivity.class);
+	                intent.putExtra("ID", position);
+	                intent.putExtra("ROLE", role);
+	                context.startActivity(intent);
+	            }
+	        });    
+		}
 		
-		entryView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, hRideObject.getDestination(), Toast.LENGTH_SHORT).show();
-			}
-		});
 		
 		return entryView;
 	}

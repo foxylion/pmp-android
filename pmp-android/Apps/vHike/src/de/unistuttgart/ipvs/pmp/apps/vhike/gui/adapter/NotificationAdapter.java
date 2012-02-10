@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 import java.util.List;
 import java.util.Timer;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -12,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.CheckAcceptedOffers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -46,25 +48,17 @@ import android.widget.Toast;
 public class NotificationAdapter extends BaseAdapter {
     
     private Context context;
-    private Controller ctrl;
     private List<Profile> hitchhikers;
     private Profile hitchhiker;
     private Profile me;
     private int mWhichHitcher;
-    private int queryID;
-    private int offerID;
     private int userID;
-    private int driverID;
     private MapView mapView;
-    
-    private CheckAcceptedOffers cao;
-    private Timer timer;
     
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
         this.context = context;
         this.hitchhikers = hitchhikers;
-        ctrl = new Controller();
         mWhichHitcher = whichHitcher;
         this.mapView = mapView;
     }
@@ -108,11 +102,58 @@ public class NotificationAdapter extends BaseAdapter {
         final Button accept_invite = (Button) entryView.findViewById(R.id.acceptBtn);
         
         name.setText(hitchhiker.getUsername());
-      
+        name.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                
+                userID = hitchhiker.getID();
+                
+                intent.putExtra("PROFILE_ID", userID);
+                intent.putExtra("MY_PROFILE", 1);
+                
+                context.startActivity(intent);
+            }
+        });
         
         noti_rb.setRating((float) hitchhiker.getRating_avg());
         me = Model.getInstance().getOwnProfile();
         
+        List<ViewObject> lqo = ViewModel.getInstance().getLVO();
+        final ViewObject actObject = lqo.get(position);
+        
+        dismiss.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
+                ViewModel.getInstance().updateView(mWhichHitcher);
+            }
+        });
+        switch (actObject.getStatus()) {
+            case Constants.V_OBJ_SATUS_FOUND:
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
+                break;
+            case Constants.V_OBJ_SATUS_INVITED:
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
+                accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+                
+                break;
+            case Constants.V_OBJ_SATUS_AWAIT_ACCEPTION:
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
+                accept_invite.setBackgroundResource(R.drawable.bg_waiting);
+                break;
+            case Constants.V_OBJ_SATUS_ACCEPTED:
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
+                accept_invite.setBackgroundResource(R.drawable.bg_check);
+                break;
+            case Constants.V_OBJ_SATUS_PICKED_UP:
+                accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
+                accept_invite.setBackgroundResource(R.drawable.bg_disabled);
+                name.setTextColor(Color.BLUE);
+                break;
+        }
         
         return entryView;
     }

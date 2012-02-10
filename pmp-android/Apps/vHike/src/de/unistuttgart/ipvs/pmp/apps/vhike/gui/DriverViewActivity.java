@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer;
+import java.util.Timer; 
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -42,9 +41,7 @@ public class DriverViewActivity extends MapActivity {
     private MapController mapController;
     private LocationManager locationManager;
     private LocationUpdateHandler luh;
-    private GeoPoint p;
     
-    private Check4Queries c4q;
     private Timer timer;
     
     private Controller ctrl;
@@ -122,16 +119,13 @@ public class DriverViewActivity extends MapActivity {
      */
     private void startTripByUpdating() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, p);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-        // check for queries
-//        c4q = new Check4Queries(mapView, context, Model.getInstance().getLatitude(), Model.getInstance()
-//                .getLongtitude());
-//        c4q.run();
-//        timer = new Timer();
-//        // schedule 
-//        timer.schedule(c4q, 300, 10000);
+        // Start Check4Queries Class to check for queries
+        Check4Queries c4q = new Check4Queries();
+        timer = new Timer();
+        timer.schedule(c4q, 300, 10000);
         
     }
     
@@ -153,10 +147,11 @@ public class DriverViewActivity extends MapActivity {
                     case (Constants.STATUS_UPDATED): {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
+                        ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         locationManager.removeUpdates(luh);
-
+                        
                         timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
