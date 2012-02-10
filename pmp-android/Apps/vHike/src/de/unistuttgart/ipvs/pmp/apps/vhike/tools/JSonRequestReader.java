@@ -612,6 +612,7 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
+                Log.i(TAG, "STATUS AFTER STOPQUERY:" + status);
                 return status;
             }
             
