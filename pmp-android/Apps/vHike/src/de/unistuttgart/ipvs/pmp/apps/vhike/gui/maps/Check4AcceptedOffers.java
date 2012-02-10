@@ -41,14 +41,19 @@ public class Check4AcceptedOffers extends TimerTask {
             @Override
             public void run() {
                 
-                List<PassengerObject> pasObjects = ctrl.offer_accepted(Model.getInstance().getSid(), Model
-                        .getInstance().getTripId());
-                for (PassengerObject passengerObject : pasObjects) {
-                    if (passengerObject.getUser_id() == object.getqObject().getUserid()) {
+                switch (ctrl.offer_accepted(Model.getInstance().getSid(), 2)) {
+                    case Constants.STATUS_UNREAD:
+                        break;
+                    case Constants.STATUS_ACCEPTED:
                         object.setStatus(Constants.V_OBJ_SATUS_ACCEPTED);
                         ViewModel.getInstance().updateView();
                         cancel();
-                    }
+                        break;
+                    case Constants.STATUS_DENIED:
+                        object.setStatus(Constants.V_OBJ_SATUS_BANNED);
+                        cancel();
+                        break;
+                        
                 }
             }
         });

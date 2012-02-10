@@ -54,7 +54,7 @@ public class HistoryActivity extends ListActivity {
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}
 
-		this.adapter = new HistoryAdapter(this, historyRides);
+		this.adapter = new HistoryAdapter(this, historyRides, Constants.ROLE_PASSENGER);
 		setListAdapter(this.adapter);
 	}
 
@@ -69,7 +69,7 @@ public class HistoryActivity extends ListActivity {
 			historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
 		}
 		
-		this.adapter = new HistoryAdapter(this, historyRides);
+		this.adapter = new HistoryAdapter(this, historyRides, Constants.ROLE_DRIVER);
 		setListAdapter(this.adapter);
 	}
 

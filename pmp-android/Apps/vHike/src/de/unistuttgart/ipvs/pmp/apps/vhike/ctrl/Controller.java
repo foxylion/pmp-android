@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.stream.JsonReader;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
@@ -441,9 +443,17 @@ public class Controller {
      *            Trip id
      * @return List of {@link PassengerObject}
      */
-    public List<PassengerObject> offer_accepted(String sid, int trip_id) {
-        List<PassengerObject> bool = JSonRequestReader.offer_accepted(sid, trip_id);
-        return bool;
+    public int offer_accepted(String sid, int offer_id) {
+        String status = JSonRequestReader.offer_accepted(sid, offer_id);
+        if (status.equals("unread")) {
+            return Constants.STATUS_UNREAD;
+        } else if (status.equals("accepted")) {
+            return Constants.STATUS_ACCEPTED;
+        } else if (status.equals("denied")) {
+            return Constants.STATUS_DENIED;
+        }
+        
+        return Constants.STATUS_UNREAD;
     }
     
     
@@ -458,7 +468,17 @@ public class Controller {
         List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
         
         return list;
+    }
+    
+    
+    public boolean rateUser(String sid, int userid, int tripid, int rating) {
+        String status = JSonRequestReader.rateUser(sid, userid, tripid, rating);
         
+        if (status.equals("rated")) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
 }
