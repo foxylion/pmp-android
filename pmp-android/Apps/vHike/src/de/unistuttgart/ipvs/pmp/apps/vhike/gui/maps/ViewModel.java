@@ -191,6 +191,7 @@ public class ViewModel {
                         ViewObject vObject = new ViewObject(lat, lng, driver);
                         vObject.setoObject(offerObject);
                         lvo.add(vObject);
+                        newFound = true;
                     }
                 }
             }
