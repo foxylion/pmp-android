@@ -107,7 +107,7 @@ public class GeneralPage extends FormPage {
 	 * @return
 	 */
 	private Section createSection(Composite parent, String title, FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.TWISTIE | Section.SHORT_TITLE_BAR);
+		Section section = toolkit.createSection(parent, Section.TWISTIE | Section.TITLE_BAR);
 		section.setText(title);
 		section.setExpanded(true);
 		

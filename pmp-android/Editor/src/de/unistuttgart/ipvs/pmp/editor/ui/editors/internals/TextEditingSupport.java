@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class TextEditingSupport extends EditingSupport {
 	
-	private TextCellEditor editor;
+	protected TextCellEditor editor;
 	
 	public TextEditingSupport(ColumnViewer viewer) {
 		super(viewer);
