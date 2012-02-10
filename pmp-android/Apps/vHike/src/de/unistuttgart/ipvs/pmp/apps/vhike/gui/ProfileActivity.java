@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,23 +69,21 @@ public class ProfileActivity extends Activity {
         
         if (ratingModus == 1) {
             rb.setIsIndicator(false);
-            rb.setOnTouchListener(new View.OnTouchListener() {
+            rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
                 
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    int rating = (int) rb.getRating();
-                    vhikeDialogs.getInstance().getRateProfileConfirmation(v.getContext(), profileID, rating, tripID).show();
-                    return false;
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    vhikeDialogs.getInstance()
+                            .getRateProfileConfirmation(ProfileActivity.this, profileID, (int) rating, tripID).show();
                 }
             });
         } else {
             rb.setIsIndicator(true);
-            rb.setOnTouchListener(new View.OnTouchListener() {
+            rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     // do nothing
-                    return false;
                 }
             });
         }
