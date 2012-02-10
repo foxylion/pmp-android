@@ -31,6 +31,7 @@ public class ProfileActivity extends Activity {
 	private void setUpProfile() {
 		int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
 		int profileID = getIntent().getExtras().getInt("PROFILE_ID");
+		int ratingModus = getIntent().getExtras().getInt("RATING_MODUS");
 
 		if (whoIsIt == 0) {
 			profile = Model.getInstance().getOwnProfile();
@@ -58,6 +59,10 @@ public class ProfileActivity extends Activity {
 
 		RatingBar rb = (RatingBar) findViewById(R.id.ratingbar_profile);
 		rb.setRating((float) profile.getRating_avg());
+		
+		if (ratingModus == 1) {
+		    rb.setClickable(true);
+		}
 
 		TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
 		tv_rating.setText(String.valueOf(profile.getRating_avg()));
@@ -66,6 +71,7 @@ public class ProfileActivity extends Activity {
 		et_desc.setText(profile.getDescription());
 		// // car = "";
 		// et_car.setText(car);
+		
 	}
 
 	@Override

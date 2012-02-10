@@ -128,7 +128,7 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
-                ViewModel.getInstance().updateView();
+                ViewModel.getInstance().updateView(mWhichHitcher);
             }
         });
         switch (actObject.getStatus()) {

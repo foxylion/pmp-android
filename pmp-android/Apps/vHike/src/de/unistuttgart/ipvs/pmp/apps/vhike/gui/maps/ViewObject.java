@@ -135,7 +135,7 @@ public class ViewObject {
                                 Timer timer = new Timer();
                                 timer.schedule(c4ao, 300, 10000);
                                 Log.i(this, "Offer sent.");
-                                ViewModel.getInstance().updateView();
+                                ViewModel.getInstance().updateView(0);
                                 break;
                             case Constants.STATUS_INVALID_TRIP:
                                 Log.i(this, "Invalid trip_id in sendOffer()");
@@ -206,7 +206,7 @@ public class ViewObject {
                         } else {
                             Log.i(this, "Not picked up user: " + profile.getID());
                         }
-                        ViewModel.getInstance().updateView();
+                        ViewModel.getInstance().updateView(0);
                     }
                 };
                 break;

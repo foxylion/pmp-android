@@ -119,8 +119,8 @@ public class DriverViewActivity extends MapActivity {
      */
     private void startTripByUpdating() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
         // Start Check4Queries Class to check for queries
         Check4Queries c4q = new Check4Queries();

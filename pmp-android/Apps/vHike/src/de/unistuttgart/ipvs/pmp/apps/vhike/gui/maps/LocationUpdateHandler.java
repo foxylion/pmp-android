@@ -36,6 +36,7 @@ public class LocationUpdateHandler implements LocationListener {
     private MapController mapController;
     private GeoPoint gPosition;
     private Location location;
+    private int whichHitcher;
     
     private Controller ctrl;
     
@@ -53,11 +54,12 @@ public class LocationUpdateHandler implements LocationListener {
      * @param gPosition
      */
     public LocationUpdateHandler(Context context, LocationManager locationManager, MapView mapView,
-            MapController mapController) {
+            MapController mapController, int whichHitcher) {
         this.context = context;
         this.locationManager = locationManager;
         this.mapView = mapView;
         this.mapController = mapController;
+        this.whichHitcher = whichHitcher;
         
         ctrl = new Controller();
         
@@ -77,7 +79,8 @@ public class LocationUpdateHandler implements LocationListener {
         int lng = (int) (location.getLongitude() * 1E6);
         gPosition = new GeoPoint(lat, lng);
         // Set my position to ViewModel
-        ViewModel.getInstance().setMyPosition((float) location.getLatitude(), (float) location.getLongitude());
+        ViewModel.getInstance().setMyPosition((float) location.getLatitude(), (float) location.getLongitude(),
+                whichHitcher);
         Log.i(this, "Lat: " + location.getLatitude() + ", Lng: " + location.getLongitude());
         
         /**

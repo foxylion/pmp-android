@@ -46,7 +46,7 @@ public class Check4AcceptedOffers extends TimerTask {
                 for (PassengerObject passengerObject : pasObjects) {
                     if (passengerObject.getUser_id() == object.getqObject().getUserid()) {
                         object.setStatus(Constants.V_OBJ_SATUS_ACCEPTED);
-                        ViewModel.getInstance().updateView();
+                        ViewModel.getInstance().updateView(0);
                         cancel();
                     }
                 }
