@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 public class ProfileActivity extends Activity {
     
     private Profile profile;
+    private RatingBar rb;
     
     static final String[] RECENT_RIDES = new String[] { "01.01.2011, Stuttgart", "02.01.2011, Berlin",
             "03.01.2011, Vaihingen", "..." };
@@ -36,12 +39,12 @@ public class ProfileActivity extends Activity {
         int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
         final int profileID = getIntent().getExtras().getInt("PROFILE_ID");
         int ratingModus = getIntent().getExtras().getInt("RATING_MODUS");
+        Log.i(this, "RatingMod: " + ratingModus);
         
         if (whoIsIt == 0) {
             profile = Model.getInstance().getOwnProfile();
         } else {
             Controller ctrl = new Controller();
-            
             profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
         }
         
@@ -60,21 +63,30 @@ public class ProfileActivity extends Activity {
         EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
         et_mobile.setText(profile.getTel());
         
-        final RatingBar rb = (RatingBar) findViewById(R.id.ratingbar_profile);
+        rb = (RatingBar) findViewById(R.id.ratingbar_profile);
         rb.setRating((float) profile.getRating_avg());
         
         if (ratingModus == 1) {
-            rb.setClickable(true);
-            rb.setOnClickListener(new View.OnClickListener() {
-                int rating = (int) rb.getRating();
+            rb.setIsIndicator(false);
+            rb.setOnTouchListener(new View.OnTouchListener() {
                 
                 @Override
-                public void onClick(View v) {
+                public boolean onTouch(View v, MotionEvent event) {
+                    int rating = (int) rb.getRating();
                     vhikeDialogs.getInstance().getRateProfileConfirmation(v.getContext(), profileID, rating).show();
+                    return false;
                 }
             });
         } else {
-            rb.setClickable(false);
+            rb.setIsIndicator(true);
+            rb.setOnTouchListener(new View.OnTouchListener() {
+                
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // do nothing
+                    return false;
+                }
+            });
         }
         
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);

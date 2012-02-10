@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -17,6 +18,7 @@ public class RateProfileConfirm extends Dialog {
     public RateProfileConfirm(Context context, final int profileID, final int rating) {
         super(context);
         setContentView(R.layout.dialog_rate_profile);
+        setTitle("Confirm rating");
         this.profileID = profileID;
         this.rating = rating;
         
@@ -36,7 +38,8 @@ public class RateProfileConfirm extends Dialog {
             public void onClick(View v) {
                 // rate
                 Controller ctrl = new Controller();
-                ctrl.rateUser(Model.getInstance().getSid(), profileID, Model.getInstance().getTripId(), rating);
+                ctrl.rateUser(Model.getInstance().getSid(), profileID, tripid, rating);
+                Log.i(this, "RATED "+ profileID + ", WITH " + rating);
                 cancel();
             }
         });

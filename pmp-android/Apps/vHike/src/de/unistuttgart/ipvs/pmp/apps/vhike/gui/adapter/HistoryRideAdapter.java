@@ -65,6 +65,8 @@ public class HistoryRideAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 intent.putExtra("RATING_MODUS", 1);
+                intent.putExtra("MY_PROFILE", 1);
+                intent.putExtra("PROFILE_ID", hPersonObject.getUserid());
                 context.startActivity(intent);
             }
         });
