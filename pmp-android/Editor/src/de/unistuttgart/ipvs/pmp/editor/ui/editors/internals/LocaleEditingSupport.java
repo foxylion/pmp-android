@@ -11,13 +11,16 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class LocaleEditingSupport extends EditingSupport {
 
-	private ComboBoxViewerCellEditor editor;
+	//private ComboBoxViewerCellEditor editor;
+	private AutocompleteTextCellEditor editor;
 	
 	public LocaleEditingSupport(TableViewer viewer) {
 		super(viewer);
-		editor = new ComboBoxViewerCellEditor((Composite) viewer.getControl());
+		/*editor = new ComboBoxViewerCellEditor((Composite) viewer.getControl());
 		editor.setContentProvider(new ArrayContentProvider());
 		editor.setInput(Locale.getISOLanguages());
+		*/
+		editor = new AutocompleteTextCellEditor((Composite) viewer.getControl(), Locale.getISOCountries());
 	}
 
 	@Override

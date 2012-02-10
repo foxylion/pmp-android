@@ -1,11 +1,6 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
-import java.util.Locale;
-
-import org.eclipse.jface.fieldassist.AutoCompleteField;
-import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -16,7 +11,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -24,8 +18,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -162,15 +154,8 @@ public class InformationTable {
 			}
 		});		
 		
-		localeColumn.setEditingSupport(new TextEditingSupport(tableViewer) {
+		localeColumn.setEditingSupport(new LocaleEditingSupport(tableViewer) {
 			
-			@Override
-			protected CellEditor getCellEditor(Object element) {
-				new AutoCompleteField(editor.getControl(), new TextContentAdapter(),
-						Locale.getISOCountries());
-				return editor;
-			}
-
 			@Override
 			protected Object getValue(Object element) {
 				return ((Information)element).getLocale();
