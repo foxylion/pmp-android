@@ -115,9 +115,6 @@ public class InformationTable {
 	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		// Add empty entry to table
-		IStructuredSelection structuredSelection = (IStructuredSelection) tableViewer
-			.getSelection();
-		System.out.println((String) structuredSelection.getFirstElement());
 		storedInformation.add(new Information("-", "-", "-"));
 
 		// Refresh view
