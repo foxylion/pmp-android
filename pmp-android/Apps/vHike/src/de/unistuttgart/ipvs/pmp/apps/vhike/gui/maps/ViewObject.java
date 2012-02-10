@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -123,7 +124,7 @@ public class ViewObject {
                         if(whoAmI == 0){
                             listenerForDriver();
                         }else{
-                            listenerForPassenger();
+                            listenerForPassenger(v);
                         }
                     }
                     
@@ -153,7 +154,7 @@ public class ViewObject {
                                 break;
                         }
                     }
-                    public void listenerForPassenger(){
+                    public void listenerForPassenger(View v){
                         if(oObject== null){
                             Log.i(this, "oObject is Null");
                         }
@@ -161,6 +162,7 @@ public class ViewObject {
 //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
                                 status = Constants.V_OBJ_SATUS_ACCEPTED;
+                                vhikeDialogs.getInstance().getW4PU(v.getContext()).show();
                                 Log.i(this, "OFFER HANDLED");
                                 break;
                             case Constants.STATUS_INVALID_OFFER:
