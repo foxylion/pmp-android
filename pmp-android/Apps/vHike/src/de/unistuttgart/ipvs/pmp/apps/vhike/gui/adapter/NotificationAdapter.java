@@ -52,14 +52,8 @@ public class NotificationAdapter extends BaseAdapter {
     private Profile hitchhiker;
     private Profile me;
     private int mWhichHitcher;
-    private int queryID;
-    private int offerID;
     private int userID;
-    private int driverID;
     private MapView mapView;
-    
-    private CheckAcceptedOffers cao;
-    private Timer timer;
     
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
@@ -116,7 +110,7 @@ public class NotificationAdapter extends BaseAdapter {
                 
                 userID = hitchhiker.getID();
                 
-                intent.putExtra("PROFILE_ID", userID);  
+                intent.putExtra("PROFILE_ID", userID);
                 intent.putExtra("MY_PROFILE", 1);
                 
                 context.startActivity(intent);

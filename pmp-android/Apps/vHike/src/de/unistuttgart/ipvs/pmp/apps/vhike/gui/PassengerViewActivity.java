@@ -129,7 +129,7 @@ public class PassengerViewActivity extends MapActivity {
                         
                         ViewModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
                         ViewModel.getInstance().getHitchDrivers().add(driver);
-                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 1, mapView);
+                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 0, mapView, 1);
                         ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }

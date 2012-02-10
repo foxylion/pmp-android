@@ -29,7 +29,7 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, int userID) {
+    public PassengerOverlay(Drawable defaultMarker, Context context) {
         super(boundCenterBottom(defaultMarker));
         mContext = context;
     }

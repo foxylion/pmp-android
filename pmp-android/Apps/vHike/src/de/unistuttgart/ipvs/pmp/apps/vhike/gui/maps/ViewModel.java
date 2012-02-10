@@ -41,6 +41,7 @@ public class ViewModel {
     Context context;
     private float my_lat;
     private float my_lon;
+    private boolean newFound = false;
     
     
     public List<ViewObject> getLVO() {
@@ -85,13 +86,16 @@ public class ViewModel {
         updateView();
     }
     
-    public float getMy_lat(){
+    
+    public float getMy_lat() {
         return my_lat;
     }
     
-    public float getMy_lon(){
+    
+    public float getMy_lon() {
         return my_lon;
     }
+    
     
     public void clearViewModel() {
         clearlvo();
@@ -110,14 +114,13 @@ public class ViewModel {
         
         ViewModel.getInstance().clearDriverOverlayList();
         ViewModel.getInstance().getHitchPassengers().clear();
+        newFound = false;
         
         // Add me to the mapView
         int my_new_lat = (int) (my_lat * 1E6);
         int my_new_lon = (int) (my_lon * 1E6);
         GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
-        ViewModel.getInstance().add2DriverOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0,
-                Model.getInstance().getOwnProfile().getID());
-        
+        ViewModel.getInstance().add2DriverOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0);
         
         try {
             for (QueryObject queryObject : queries) {
@@ -131,9 +134,7 @@ public class ViewModel {
                         ViewObject vObject = new ViewObject(lat, lon, profile);
                         vObject.setqObject(queryObject);
                         lvo.add(vObject);
-                        // Popup slider if new found
-                        ViewModel.getInstance().fireNotification(context, profile, profile.getID(), 1, mapView);
-                        getDriverAdapter(context, mapView).notifyDataSetChanged();
+                        newFound = true;
                     }
                 }
             }
@@ -144,10 +145,15 @@ public class ViewModel {
             int lat = (int) (vObject.getLat() * 1E6);
             int lng = (int) (vObject.getLon() * 1E6);
             GeoPoint gpsPassenger = new GeoPoint(lat, lng);
-            ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1,
-                    vObject.getProfile().getID());
+            ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1);
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
-            ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+            
+            // Popup slider if new found
+            if (newFound) {
+                ViewModel.getInstance().fireNotification(context, vObject.getProfile(), vObject.getProfile().getID(),
+                        1, mapView, 0);
+            }
+            getDriverAdapter(context, mapView).notifyDataSetChanged();
             mapView.invalidate();
             mapView.postInvalidate();
         }
@@ -158,6 +164,7 @@ public class ViewModel {
         
         clearPassengerOverlayList();
         getHitchDrivers().clear();
+        newFound = false;
         
         // Add me to the mapView
         int my_new_lat = (int) (my_lat * 1E6);
@@ -178,8 +185,6 @@ public class ViewModel {
                         ViewObject vObject = new ViewObject(lat, lng, driver);
                         vObject.setoObject(offerObject);
                         lvo.add(vObject);
-                        fireNotification(context, driver, driver.getID(), 0, mapView);
-                        getPassengerAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }
             }
@@ -192,6 +197,11 @@ public class ViewModel {
             GeoPoint gpsDriver = new GeoPoint(lat, lng);
             add2PassengerOverlay(context, gpsDriver, vObject.getProfile(), mapView, 1, vObject.getProfile().getID());
             getHitchDrivers().add(vObject.getProfile());
+            
+            // notify user on hitchhiker found
+            if (newFound) {
+                fireNotification(context, vObject.getProfile(), vObject.getProfile().getID(), 0, mapView, 1);
+            }
             getPassengerAdapter(context, mapView).notifyDataSetChanged();
             mapView.invalidate();
             mapView.postInvalidate();
@@ -460,7 +470,8 @@ public class ViewModel {
      * @param context
      * @param profile
      */
-    public void fireNotification(Context context, Profile profile, int profileID, int which1, MapView mapView) {
+    public void fireNotification(Context context, Profile profile, int profileID, int which1, MapView mapView,
+            int whichSlider) {
         
         // get reference to notificationManager
         String ns = Context.NOTIFICATION_SERVICE;
@@ -473,15 +484,13 @@ public class ViewModel {
         
         // instantiate the notification
         if (which1 == 0) {
-            icon = R.drawable.passenger_logo;
-            contentTitle = "vHike found a hitchhiker";
-            contentText = "A Hitchhiker was found";
-            tickerText = "vHike found a hitchhiker!";
+            icon = R.drawable.icon_ride;
         } else {
-            contentTitle = "vHike found a hitchhiker";
-            contentText = "A Hitchhiker was found";
-            tickerText = "vHike found a hitchhiker!";
+            icon = R.drawable.passenger_logo;
         }
+        contentTitle = "vHike found a hitchhiker";
+        contentText = "A Hitchhiker was found";
+        tickerText = "vHike found a hitchhiker!";
         
         long when = System.currentTimeMillis();
         
@@ -497,17 +506,12 @@ public class ViewModel {
         // pass notification to notificationManager
         mNotificationManager.notify(0, notification);
         
-        if (which1 == 0) {
-            // getHitchPassengers().clear();
-            // getHitchPassengers().add(profile);
-            
+        if (whichSlider == 0) {
             slider_Driver = (SlidingDrawer) ((Activity) context).findViewById(R.id.notiSlider);
             slider_Driver.open();
             Log.i(this, "Slider opened");
             getDriverAdapter(context, mapView).notifyDataSetChanged();
         } else {
-            // getHitchDrivers().clear();
-            // getHitchDrivers().add(profile);
             slider_Passenger = (SlidingDrawer) ((Activity) context).findViewById(R.id.slidingDrawer);
             slider_Passenger.open();
             getPassengerAdapter(context, mapView).notifyDataSetChanged();
@@ -524,8 +528,7 @@ public class ViewModel {
      * @param passenger
      * @param mapView
      */
-    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1,
-            int userID) {
+    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1) {
         Drawable drawable;
         if (which1 == 0) {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
@@ -538,7 +541,7 @@ public class ViewModel {
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, userID);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
             OverlayItem opPassengerItem = new OverlayItem(gps, "I need a ride", "User: " + passenger.getUsername()
                     + ", Rating: " + passenger.getRating_avg());
             passengerOverlay.addOverlay(opPassengerItem);
@@ -562,11 +565,11 @@ public class ViewModel {
             int userID) {
         Drawable drawable;
         if (which1 == 0) {
-            if(context == null){
+            if (context == null) {
                 Log.i(this, "Context null");
             }
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, userID);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
