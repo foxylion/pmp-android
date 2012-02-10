@@ -8,6 +8,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -183,7 +184,7 @@ public class PassengerViewActivity extends MapActivity {
                 switch (ctrl.stopQuery(Model.getInstance().getSid(), Model.getInstance().getQueryId())) {
                     case Constants.STATUS_QUERY_DELETED:
                         Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                        
+                        Log.i(this, "QUERY DELTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();
                         locationManager.removeUpdates(luh);

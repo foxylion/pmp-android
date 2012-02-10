@@ -121,6 +121,7 @@ public class NotificationAdapter extends BaseAdapter {
         me = Model.getInstance().getOwnProfile();
         
         List<ViewObject> lqo = ViewModel.getInstance().getLVO();
+        Log.i(this, "Position: " + position);
         final ViewObject actObject = lqo.get(position);
         
         dismiss.setOnClickListener(new OnClickListener() {
