@@ -369,14 +369,15 @@ public class Controller {
         String status = JSonRequestReader.sendOffer(sid, trip_id, query_id, message);
         
         if (!status.equals("")) {
-            if (status.equals("sent")) {
-                return Constants.STATUS_SENT;
-            } else if (status.equals("invalid_trip")) {
+            
+            if (status.equals("invalid_trip")) {
                 return Constants.STATUS_INVALID_TRIP;
             } else if (status.equals("invalid_query")) {
                 return Constants.STATUS_INVALID_QUERY;
             } else if (status.equals("already_sent")) {
                 return Constants.STATUS_ALREADY_SENT;
+            }else{
+                return Integer.valueOf(status);
             }
         }
         return Constants.STATUS_ERROR;

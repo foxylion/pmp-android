@@ -84,6 +84,9 @@ public class TimeContextView extends LinearLayout implements IContextView {
     private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
+        this.value = new TimeContextCondition(false, new TimeContextTime(), new TimeContextTime(),
+                TimeContextIntervalType.REPEAT_DAILY, new ArrayList<Integer>());
+        
         inflate(context, R.layout.contexts_time_view, this);
         
         // set fields

@@ -21,15 +21,16 @@ public class Check4AcceptedOffers extends TimerTask {
     private Handler handler;
     private Controller ctrl;
     private ViewObject object;
-    
+    private int offer_id;
     
     /**
      * 
      */
-    public Check4AcceptedOffers(ViewObject object) {
+    public Check4AcceptedOffers(ViewObject object, int offer_id) {
         handler = new Handler();
         ctrl = new Controller();
         this.object = object;
+        this.offer_id = offer_id;
         
     }
     
@@ -41,7 +42,7 @@ public class Check4AcceptedOffers extends TimerTask {
             @Override
             public void run() {
                 
-                switch (ctrl.offer_accepted(Model.getInstance().getSid(), 2)) {
+                switch (ctrl.offer_accepted(Model.getInstance().getSid(), offer_id)) {
                     case Constants.STATUS_UNREAD:
                         break;
                     case Constants.STATUS_ACCEPTED:
