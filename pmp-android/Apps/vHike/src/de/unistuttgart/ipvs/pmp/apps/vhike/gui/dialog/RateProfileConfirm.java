@@ -40,8 +40,12 @@ public class RateProfileConfirm extends Dialog {
             public void onClick(View v) {
                 // rate
                 Controller ctrl = new Controller();
-                ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating);
-                Log.i(this, "RATED "+ profileID + ", WITH " + rating);
+               if( ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating)){
+                   Log.i(this, "RATED "+ profileID + ", WITH " + rating);   
+               }else{
+                   Log.i(this, "Not RATED "+ profileID + ", WITH " + rating);
+               }
+                
                 cancel();
             }
         });
