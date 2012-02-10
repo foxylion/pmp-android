@@ -56,7 +56,7 @@ public class HistoryRideAdapter extends BaseAdapter {
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.history_profile_item, null);
         tv_username = (TextView) entryView.findViewById(R.id.tv_username);
         rating_bar = (RatingBar) entryView.findViewById(R.id.ratingbar);
-        
+
         tv_username.setText(hPersonObject.getUsername());
         rating_bar.setRating(hPersonObject.getRating());
         // Get and prepare Title
