@@ -176,8 +176,7 @@ public class PassengerViewActivity extends MapActivity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Provisorisch
-        ViewModel.getInstance().clearPassengerOverlayList();
+        
         // Provi
         switch (item.getItemId()) {
             case R.id.mi_passenger_endTrip:
@@ -195,10 +194,22 @@ public class PassengerViewActivity extends MapActivity {
                         break;
                     case Constants.STATUS_NO_QUERY:
                         Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "NO QUERY");
                         break;
                     case Constants.STATUS_INVALID_USER:
                         Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "INVALID USER");
                         break;
+                    default:
+                        Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "QUERY DELeTED");
+                        ViewModel.getInstance().clearPassengerOverlayList();
+                        ViewModel.getInstance().getHitchDrivers().clear();
+                        locationManager.removeUpdates(luh);
+                        timer.cancel();
+                        ViewModel.getInstance().clearViewModel();
+                        
+                        PassengerViewActivity.this.finish();
                 }
                 break;
             case R.id.mi_passenger_updateData:
