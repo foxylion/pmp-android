@@ -125,18 +125,10 @@ public class ViewObject {
                     
                     public void listenerForDriver(){
                         
-                        //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT 
-                        switch (ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
-                                qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!")) {
-                            case Constants.STATUS_SENT:
-                                status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
-                                // START TIMER HIER
-                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann());
-                                Timer timer = new Timer();
-                                timer.schedule(c4ao, 300, 10000);
-                                Log.i(this, "Offer sent.");
-                                ViewModel.getInstance().updateView(0);
-                                break;
+                        //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT
+                        int result = ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
+                                qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!");
+                        switch (result) {
                             case Constants.STATUS_INVALID_TRIP:
                                 Log.i(this, "Invalid trip_id in sendOffer()");
                                 break;
@@ -145,6 +137,15 @@ public class ViewObject {
                                 break;
                             case Constants.STATUS_ALREADY_SENT:
                                 Log.i(this, "Already sent offer!");
+                                break;
+                            default:
+                                status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
+                                // START TIMER HIER
+                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann(),result);
+                                Timer timer = new Timer();
+                                timer.schedule(c4ao, 300, 10000);
+                                Log.i(this, "Offer sent.");
+                                ViewModel.getInstance().updateView(0);
                                 break;
                         }
                     }

@@ -791,10 +791,14 @@ public class JSonRequestReader {
         }
         boolean suc = false;
         String status = "";
+        String offer_id;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
+                if(status.equals("sent")){
+                    status = String.valueOf(object.get("offer_id").getAsInt());
+                }
                 return status;
             }
         }
