@@ -68,7 +68,7 @@ public class StoredInformation {
 	}
 	
 	/**
-	 * Changes the key of a map-entry into a new ky
+	 * Changes the key of a map-entry into a new key
 	 * @param oldL	Old locale
 	 * @param newL	New Locale
 	 */
