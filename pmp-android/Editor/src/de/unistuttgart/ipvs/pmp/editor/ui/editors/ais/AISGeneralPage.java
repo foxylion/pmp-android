@@ -15,23 +15,29 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
 
 /**
- * @author Thorsten
+ * Creates the "General" page for the {@link AisEditor}
+ * 
+ * @author Thorsten Berberich
  * 
  */
 public class AISGeneralPage extends FormPage {
 
-    public static final String ID = "rgis_general";
+    /**
+     * ID of this page
+     */
+    public static final String ID = "ais_general";
 
     private StoredInformation localization = new StoredInformation();
 
     /**
+     * Constructor
+     * 
      * @param editor
-     * @param id
-     * @param title
      */
     public AISGeneralPage(FormEditor editor) {
 	super(editor, ID, "General");
@@ -48,6 +54,14 @@ public class AISGeneralPage extends FormPage {
 	addLocalizationSection(form.getBody(), toolkit);
     }
 
+    /**
+     * Adds the properties section to the page
+     * 
+     * @param parent
+     *            parent {@link Composite}
+     * @param toolkit
+     *            {@link FormToolkit}
+     */
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
 	// Set the section's parameters
 	Section section = createSectionWithDescription(parent, "Preferences",
@@ -73,6 +87,14 @@ public class AISGeneralPage extends FormPage {
 	section.setClient(client);
     }
 
+    /**
+     * Adds the localization section to the page with the table
+     * 
+     * @param parent
+     *            parent {@link Composite}
+     * @param toolkit
+     *            {@link FormToolkit}
+     */
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
 	// Set the section's parameters
 	Section section = createSectionWithDescription(parent, "Localization",
@@ -98,8 +120,13 @@ public class AISGeneralPage extends FormPage {
      * Creates a default section which spans over the whole editor
      * 
      * @param parent
+     *            parent {@link Composite}
      * @param title
+     *            the title
      * @param toolkit
+     *            {@link FormToolkit}
+     * @param desc
+     *            description of the Section
      * @return
      */
     private Section createSectionWithDescription(Composite parent,
