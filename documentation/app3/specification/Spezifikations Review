@@ -1,0 +1,116 @@
+Rechtschreibprüfung
+
+Deckblatt:
+-Nicht App3 als Name, neuer Name.
+
+Versionshistory:
+-Version 3.2 falsches Datum, nicht März.
+
+2.2:
+- "bzw. Showcase" streichen
+- "neu entwickelt" streichen
+
+3.2.2:
+- weitere Bedingung: PMP muss installiert sein
+
+4.1:
+- 2. Satz streichen
+- Umbruch nach 4.1 streichen
+
+Kapitel 4.3, 4.4, 4.8 streichen
+
+4.5:
+- Version von Android adden
+
+4.6:
+- sollte trotzdem für mehrere Sprachen erweiterbar sein
+
+4.9:
+- javadoc, modularisierter Aufbau der Komponenten
+
+4.10:
+- entweder Abhängigkeiten eintragen, PMP und Ressourcengruppen
+
+5.1:
+- Starbildschirm in "Ansichten" umbennen
+- "...wird der Startbildschirm geöffnet" umschreiben
+- "wischen" groß und ohne Anführungszeichen
+- Kann man die Reihenfolge der Panels ändern?
+- 3. Box: Punkt am Schluss, "getestet" zu "verwendet", "sie" zu "sich", "punkt" zu "Kapitel", oder weglassen
+- 4. Box: "nicht out-of-the box" zu "sollte es Konfigurationsmöglichkeiten geben"
+- 4. Box: "zum Aufrufen"
+- 5. Box: entfernen
+
+5.2:
+- Verschiebe Absatz ins Begriffslexikon
+- "neu implementiert" entfernen
+
+5. Allgemein:
+- Zu allen Panels: benutzbare Ressourcengruppen
+- Nummerierung für einzelne Panels
+- Immer "RSS-Feed", Ressourcengruppen auschreiben
+- Immer "XYZ-Panel"
+
+5. Nachrichten-Panel
+- Zweiten Satz überarbeiten
+
+5. Browser-Panel
+- Funktionalität genauer spezifizieren
+- zu Mengengerüst hinzufügen
+
+5. Webservice-Panel
+- entfernen
+
+5. Kontakte-Panel
+- Kommafehler!!!!einseelf
+
+5. Systeminformation-Panel
+- "Android-System" mit Bindestrich
+
+5. Hardware-Panel
+- Kommafehler
+- Hardware-Geräte statt Devices
+- über statt für
+- Ein/Ausschalten der Hardware-Geräte
+- Genauer spezifizieren
+
+Panel Vorschläge:
+- Aktueller Ort mit Karte, mit versenden Option (für Email)
+- Panel mit Facebook Statusmeldungen
+- Kommende Kalender-Events anzeigen (CalenderApp)
+- Anzeigen von Photos auf dem Handy
+- Übersetzungspanel
+
+6. Ressourcengruppen
+- "neu implementiert" zu "benutzt werden" ändern
+- "deutsche" klein schreiben
+- ", welche"
+
+Privacy Settings:
+- null = keine Rechte
+- all = alle Rechte
+
+6.1 InternetRessource raus
+
+6.2.1.
+- Neues Privacy Setting: alle X Minuten herunterladen
+
+6.4
+- "Muss mit Jakob.." entfernen
+- Zweimal "Stadt"
+- letzter Punkt entfernen
+
+6.5 Hardware
+- Bessere Privacy Settings, teilweise aufsplitten
+
+6.7 Browser
+- Privacy Settings teilweise aufsplitten
+
+6.8 System
+- streichen
+
+7.
+- null Verweise raus
+- Neuer Punkt "Panel"
+
+Use-Cases entfernen
