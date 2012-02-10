@@ -98,6 +98,7 @@ public class ViewObject {
             @Override
             public void onClick(View v) {
                 ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), false);
+                ViewModel.getInstance().updateView(1);
             }
         };
         

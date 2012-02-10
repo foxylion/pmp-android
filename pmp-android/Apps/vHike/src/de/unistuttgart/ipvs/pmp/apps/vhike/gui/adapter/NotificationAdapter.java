@@ -123,14 +123,19 @@ public class NotificationAdapter extends BaseAdapter {
         List<ViewObject> lqo = ViewModel.getInstance().getLVO();
         final ViewObject actObject = lqo.get(position);
         
-        dismiss.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
-                ViewModel.getInstance().updateView(mWhichHitcher);
-            }
-        });
+        if(mWhichHitcher == 0){
+            dismiss.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
+                    ViewModel.getInstance().updateView(mWhichHitcher);
+                }
+            });    
+        }else{
+            dismiss.setOnClickListener(actObject.getDenieOfferClickListener());
+        }
+        
         switch (actObject.getStatus()) {
             case Constants.V_OBJ_SATUS_FOUND:
                 accept_invite.setOnClickListener(actObject.getOnClickListener(mWhichHitcher));
