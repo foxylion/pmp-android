@@ -478,7 +478,7 @@ public class Controller {
     
     public boolean rateUser(String sid, int userid, int tripid, int rating) {
         String status = JSonRequestReader.rateUser(sid, userid, tripid, rating);
-        
+        Log.i(this, "CONTROLLER STATUS AFTER RATING:" + status);
         if (status.equals("rated")) {
             return true;
         } else {
