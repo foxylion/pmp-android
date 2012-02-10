@@ -39,7 +39,7 @@ public class ProfileActivity extends Activity {
         int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
         final int profileID = getIntent().getExtras().getInt("PROFILE_ID");
         int ratingModus = getIntent().getExtras().getInt("RATING_MODUS");
-        Log.i(this, "RatingMod: " + ratingModus);
+        final int tripID = getIntent().getExtras().getInt("TRIP_ID");
         
         if (whoIsIt == 0) {
             profile = Model.getInstance().getOwnProfile();
@@ -73,7 +73,7 @@ public class ProfileActivity extends Activity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     int rating = (int) rb.getRating();
-                    vhikeDialogs.getInstance().getRateProfileConfirmation(v.getContext(), profileID, rating).show();
+                    vhikeDialogs.getInstance().getRateProfileConfirmation(v.getContext(), profileID, rating, tripID).show();
                     return false;
                 }
             });

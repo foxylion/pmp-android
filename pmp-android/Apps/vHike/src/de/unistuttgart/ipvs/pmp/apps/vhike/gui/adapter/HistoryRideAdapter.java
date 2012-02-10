@@ -27,6 +27,7 @@ public class HistoryRideAdapter extends BaseAdapter {
     public HistoryRideAdapter(Context context, List<HistoryPersonObject> hPersonObjects, int tripid) {
         this.hPersonObjects = hPersonObjects;
         this.context = context;
+        this.tripid = tripid;
     }
     
     
@@ -67,6 +68,7 @@ public class HistoryRideAdapter extends BaseAdapter {
                 intent.putExtra("RATING_MODUS", 1);
                 intent.putExtra("MY_PROFILE", 1);
                 intent.putExtra("PROFILE_ID", hPersonObject.getUserid());
+                intent.putExtra("TRIP_ID", tripid);
                 context.startActivity(intent);
             }
         });

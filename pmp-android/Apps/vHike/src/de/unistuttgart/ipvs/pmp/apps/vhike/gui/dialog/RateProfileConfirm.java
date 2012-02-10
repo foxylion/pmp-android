@@ -13,14 +13,16 @@ public class RateProfileConfirm extends Dialog {
     
     private int profileID;
     private int rating;
+    private int tripID;
     
     
-    public RateProfileConfirm(Context context, final int profileID, final int rating) {
+    public RateProfileConfirm(Context context, final int profileID, final int rating, final int tripID) {
         super(context);
         setContentView(R.layout.dialog_rate_profile);
         setTitle("Confirm rating");
         this.profileID = profileID;
         this.rating = rating;
+        this.tripID = tripID;
         
         Button cancel = (Button) findViewById(R.id.btn_cancel_rate);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +40,7 @@ public class RateProfileConfirm extends Dialog {
             public void onClick(View v) {
                 // rate
                 Controller ctrl = new Controller();
-                ctrl.rateUser(Model.getInstance().getSid(), profileID, tripid, rating);
+                ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating);
                 Log.i(this, "RATED "+ profileID + ", WITH " + rating);
                 cancel();
             }
