@@ -67,6 +67,7 @@ public class ProfileActivity extends Activity {
         rb = (RatingBar) findViewById(R.id.ratingbar_profile);
         rb.setRating((float) profile.getRating_avg());
         
+        
         if (ratingModus == 1) {
             rb.setIsIndicator(false);
             rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {

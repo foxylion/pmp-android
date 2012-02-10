@@ -19,6 +19,7 @@ import com.google.android.maps.OverlayItem;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -151,6 +152,7 @@ public class ViewModel {
             int lat = (int) (vObject.getLat() * 1E6);
             int lng = (int) (vObject.getLon() * 1E6);
             GeoPoint gpsPassenger = new GeoPoint(lat, lng);
+            if(vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP)
             ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1);
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             

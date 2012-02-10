@@ -612,6 +612,7 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
+                Log.i(TAG, "STATUS AFTER STOPQUERY:" + status);
                 return status;
             }
             
@@ -1017,7 +1018,8 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 array_rides = object.get("rides").getAsJsonArray();
-                Log.i(TAG, array_rides.toString());
+                Log.i(TAG, "Array rides: "  + array_rides.toString());
+                Log.i(TAG, "Array rides: "  + array_rides.size());
                 historyObjects = new ArrayList<HistoryRideObject>();
                 
                 for (int i = 0; i < array_rides.size(); i++) {
@@ -1087,8 +1089,8 @@ public class JSonRequestReader {
     public static String rateUser(String sid, int userid, int tripid, int rating){
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
-        listToParse.add(new ParamObject("userid", String.valueOf(userid), true));
-        listToParse.add(new ParamObject("tripid", String.valueOf(tripid), true));
+        listToParse.add(new ParamObject("recipient", String.valueOf(userid), true));
+        listToParse.add(new ParamObject("trip", String.valueOf(tripid), true));
         listToParse.add(new ParamObject("rating", String.valueOf(rating), true));
         
         JsonObject object = null;
