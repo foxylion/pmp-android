@@ -22,9 +22,9 @@ public class HistoryRideAdapter extends BaseAdapter {
     RatingBar rating_bar;
     Context context;
     List<HistoryPersonObject> hPersonObjects;
+    int tripid;
     
-    
-    public HistoryRideAdapter(Context context, List<HistoryPersonObject> hPersonObjects) {
+    public HistoryRideAdapter(Context context, List<HistoryPersonObject> hPersonObjects, int tripid) {
         this.hPersonObjects = hPersonObjects;
         this.context = context;
     }

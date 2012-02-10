@@ -887,9 +887,11 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
+                Log.i(null, "STATUS after handleOFFER: " +status);
                 return status;
             }
         }
+        Log.i(null, "STATUS after handleOFFER: " +status );
         return status;
     }
     
@@ -976,6 +978,7 @@ public class JSonRequestReader {
                 status = object.get("status").getAsString();
             }
         }
+        
         return status;
     }
     
@@ -1016,8 +1019,9 @@ public class JSonRequestReader {
                 array_rides = object.get("rides").getAsJsonArray();
                 Log.i(TAG, array_rides.toString());
                 historyObjects = new ArrayList<HistoryRideObject>();
-                historyPersons = new ArrayList<HistoryPersonObject>();
+                
                 for (int i = 0; i < array_rides.size(); i++) {
+                    historyPersons = new ArrayList<HistoryPersonObject>();
                     JsonObject IObject = array_rides.get(i).getAsJsonObject();
                     int tripid = IObject.get("trip").getAsInt();
                     int avail_seats = IObject.get("avail_seats").getAsInt();
@@ -1067,6 +1071,7 @@ public class JSonRequestReader {
                                 rated);
                         historyPersons.add(person);
                     }
+                    Log.i(null, "IN READER HISTORYPERSONS" + historyPersons.size());
                     HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination,
                             historyPersons);
                     historyObjects.add(ride);

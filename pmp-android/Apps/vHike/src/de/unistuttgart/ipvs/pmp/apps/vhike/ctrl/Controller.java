@@ -397,12 +397,16 @@ public class Controller {
         String status = JSonRequestReader.handleOffer(sid, offer_id, accept);
         
         if (!status.equals("")) {
-            if (status.equals("handled")) {
+            if (status.equals("accepted")) {
                 return Constants.STATUS_HANDLED;
             } else if (status.equals("invalid_offer")) {
                 return Constants.STATUS_INVALID_OFFER;
             } else if (status.equals("invalid_user")) {
                 return Constants.STATUS_INVALID_USER;
+            }else if(status.equals("denied")){
+                return Constants.STATUS_ERROR;
+            }else if(status.equals("cannot_update")){
+                return Constants.STATUS_ERROR;
             }
         }
         return Constants.STATUS_ERROR;
@@ -467,7 +471,7 @@ public class Controller {
      */
     public List<HistoryRideObject> getHistory(String sid, String role) {
         List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
-        
+        Log.i(this, "getHistory history size: " + list.size());
         return list;
     }
     
