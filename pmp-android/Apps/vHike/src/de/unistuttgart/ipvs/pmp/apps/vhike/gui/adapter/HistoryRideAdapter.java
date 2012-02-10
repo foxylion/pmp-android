@@ -1,14 +1,12 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.util.List;
+import java.util.List; 
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
-import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HistoryRideAdapter extends BaseAdapter {
     
@@ -66,7 +63,9 @@ public class HistoryRideAdapter extends BaseAdapter {
             
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "MOAHAADOJF", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("RATING_MODUS", 1);
+                context.startActivity(intent);
             }
         });
         return entryView;

@@ -136,4 +136,12 @@ public class vhikeDialogs {
         }
         return w4pu;
     }
+    
+    
+    public RateProfileConfirm getRateProfileConfirmation(Context context) {
+        if (rpc == null) {
+            rpc = new RateProfileConfirm(context);
+        }
+        return rpc;
+    }
 }
