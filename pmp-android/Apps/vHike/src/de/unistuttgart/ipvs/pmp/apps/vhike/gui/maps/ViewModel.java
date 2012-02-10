@@ -61,6 +61,7 @@ public class ViewModel {
     }
     
     
+    
     private void removeFromlvo(ViewObject toRMVvObject) {
         int i = 0;
         for (ViewObject vObject : lvo) {
@@ -73,17 +74,22 @@ public class ViewModel {
     }
     
     
-    public void updateView() {
-        updateLQO(new ArrayList<QueryObject>());
-        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+    public void updateView(int whichHitcher) {
+        if (whichHitcher == 0) {
+            updateLQO(new ArrayList<QueryObject>());
+            ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        } else {
+            updateLOO(new ArrayList<OfferObject>());
+            ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
+        }
         mapView.invalidate();
     }
     
     
-    public void setMyPosition(float my_lat, float my_lon) {
+    public void setMyPosition(float my_lat, float my_lon, int whichHitcher) {
         this.my_lat = my_lat;
         this.my_lon = my_lon;
-        updateView();
+        updateView(whichHitcher);
     }
     
     
@@ -538,6 +544,7 @@ public class ViewModel {
             driverOverlay.addOverlay(opDriverItem);
             
             ViewModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
+            Log.i(this, "OVERLAY D: DRIVER ADDED");
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
@@ -546,8 +553,10 @@ public class ViewModel {
                     + ", Rating: " + passenger.getRating_avg());
             passengerOverlay.addOverlay(opPassengerItem);
             
+            
             // add found passenger to overlay
             ViewModel.getInstance().getDriverOverlayList(mapView).add(passengerOverlay);
+            Log.i(this, "OVERLAY D: PASSENGER ADDED");
             mapView.invalidate();
         }
     }
@@ -575,6 +584,7 @@ public class ViewModel {
             passengerOverlay.addOverlay(opDriverItem);
             
             ViewModel.getInstance().getPassengerOverlayList(mapView).add(passengerOverlay);
+            Log.i(this, "OVERLAY P: PASSENGER ADDED");
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.icon_ride);
@@ -585,6 +595,7 @@ public class ViewModel {
             
             // add found passenger to overlay
             ViewModel.getInstance().getPassengerOverlayList(mapView).add(driverOverlay);
+            Log.i(this, "OVERLAY P: DRIVER ADDED");
             mapView.invalidate();
         }
     }

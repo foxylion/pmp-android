@@ -78,5 +78,10 @@
     <string name="dialog_back">Back</string>
     <string name="pick_up">Pick Up</string>
     <string name="unknown">Unknown</string>
+    <string name="description">Description</string>
+    <string name="default_OK">OK</string>
+    <string name="wait4PickUp">Please wait for your driver to pick you up...</string>
+    <string name="rateProfile">Send rating?</string>
+    <string name="default_CANCEL">Cancel</string>
 
 </resources>

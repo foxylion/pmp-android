@@ -129,7 +129,8 @@ public class PassengerViewActivity extends MapActivity {
                         
                         ViewModel.getInstance().add2PassengerOverlay(context, gpsDriver, driver, mapView, 1, 0);
                         ViewModel.getInstance().getHitchDrivers().add(driver);
-                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 0, mapView, 1);
+                        ViewModel.getInstance().fireNotification(context, driver, loo.get(i).getUser_id(), 0, mapView,
+                                1);
                         ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
                     }
                 }
@@ -144,7 +145,7 @@ public class PassengerViewActivity extends MapActivity {
      */
     private void startQuery() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController);
+        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 1);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
         switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), ViewModel
@@ -184,8 +185,7 @@ public class PassengerViewActivity extends MapActivity {
                         Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                         
                         ViewModel.getInstance().clearPassengerOverlayList();
-                        ViewModel.getInstance().clearHitchDrivers();
-                        ViewModel.getInstance().clearPassengerNotificationAdapter();
+                        ViewModel.getInstance().getHitchDrivers().clear();
                         locationManager.removeUpdates(luh);
                         timer.cancel();
                         

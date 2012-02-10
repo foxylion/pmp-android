@@ -6,12 +6,20 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
-    
-    
-    <Button
-        android:id="@+id/btn_pick_up"
+    <TextView
+        android:id="@+id/tv_wait"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/pick_up" />
+        android:layout_height="wrap_content"
+        android:text="@string/wait4PickUp"
+        android:textColor="@color/dark_blue" />
+
+    <Button
+        android:id="@+id/btn_query_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_wait"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/default_OK" />
 
 </RelativeLayout>

@@ -46,7 +46,7 @@ public class Check4AcceptedOffers extends TimerTask {
                         break;
                     case Constants.STATUS_ACCEPTED:
                         object.setStatus(Constants.V_OBJ_SATUS_ACCEPTED);
-                        ViewModel.getInstance().updateView();
+                        ViewModel.getInstance().updateView(0);
                         cancel();
                         break;
                     case Constants.STATUS_DENIED:
