@@ -54,7 +54,6 @@ public class AisEditor extends FormEditor {
 		if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
 		    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 		}
-
 		AIS ais = XMLUtilityProxy.getAppUtil().parse(
 			input.getFile().getContents());
 
