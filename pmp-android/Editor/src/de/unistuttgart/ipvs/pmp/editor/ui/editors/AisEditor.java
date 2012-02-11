@@ -57,11 +57,11 @@ public class AisEditor extends FormEditor {
 
 		// Store ais in the Model
 		Model.getInstance().setAis(ais);
-		
+
 		// Create the pages
 		generalPage = new AISGeneralPage(this);
 		sfPage = new AISServiceFeaturesPage(this);
-		
+
 		// Add names and descriptions to table
 		StoredInformation loc = generalPage.getLocalization();
 		for (Name name : ais.getNames()) {
