@@ -15,6 +15,11 @@ import java.util.regex.Pattern;
  */
 public class LocationContextCondition {
     
+    /**
+     * Earth radius in kilometers. Assumes earth is a sphere.
+     */
+    private static final double EARTH_RADIUS = 6371.0;
+    
     private static Map<String, LocationContextCondition> cache = new HashMap<String, LocationContextCondition>();
     
     private static Pattern CONDITION_PATTERN = Pattern.compile("([0-9\\.]+);([0-9\\.]+);([0-9\\.]~[0-9\\.]--)+");
@@ -67,11 +72,31 @@ public class LocationContextCondition {
      */
     private double hysteresis;
     
+    /**
+     * We save the result of the last check for this {@link LocationContextCondition} so that hysteresis is possible.
+     * We can do this because the {@link LocationContextCondition} are actually cached (see static methods).
+     */
+    private boolean lastCheck;
+    
     
     public LocationContextCondition(double uncertainty, double hysteresis, List<LocationContextGeoPoint> polygon) {
+        if (hysteresis >= uncertainty) {
+            throw new IllegalArgumentException("Hysteresis must not be equal or larger than uncertainty.");
+        }
+        if (polygon.size() == 0) {
+            throw new IllegalArgumentException("Polygon must not be empty.");
+        }
+        if ((hysteresis < 0.0) || (uncertainty < 0.0)) {
+            throw new IllegalArgumentException("Hysteresis and uncertainty must be positive values.");
+        }
+        if (uncertainty >= 2.0 * Math.PI * EARTH_RADIUS) {
+            uncertainty = 2.0 * Math.PI * EARTH_RADIUS;
+        }
+        
         this.uncertainty = uncertainty;
         this.hysteresis = hysteresis;
         this.polygon = polygon;
+        this.lastCheck = false;
     }
     
     
@@ -96,39 +121,99 @@ public class LocationContextCondition {
      * @return
      */
     public boolean satisfiedIn(LocationContextState state) {
-        // TODO hysteresis
+        // change the desired uncertainty based on the last state and the hysteresis
+        double uncertainty = this.uncertainty + (this.lastCheck ? this.hysteresis : -this.hysteresis);
         
         // we do this first because the point-in-polygon test might suffer problems
-        //if the single point is too close to the polygon
-        if (geoCircleIntersectsPolygon(state, (state.getAccuracy() + this.uncertainty) / 1000f)) {
+        // if the single point is too close to the polygon
+        if (geoCircleIntersectsPolygon(state, (state.getAccuracy() + uncertainty) / 1000f)) {
+            this.lastCheck = true;
             return true;
+            
         } else if (pointInPolygon(state)) {
+            this.lastCheck = true;
             return true;
         }
         
+        this.lastCheck = false;
         return false;
     }
     
     
     /**
-     * Tests whether a circle around p with diameter d kilometers does intersect the polygon.
+     * Tests whether a circle around p with diameter dist kilometers does intersect the polygon.
      * 
      * @param p
-     * @param d
+     * @param dist
      * @return
      */
-    private boolean geoCircleIntersectsPolygon(LocationContextGeoPoint p, double d) {
+    private boolean geoCircleIntersectsPolygon(LocationContextGeoPoint p, double dist) {
+        
+        // convert dist from km in degrees (this is an approximation)
+        double distDeg = dist / (2.0 * Math.PI * EARTH_RADIUS);
+        if (distDeg > 180.0) {
+            distDeg -= 180.0;
+        }
+        
         // for each line in the polygon
         for (int i = 0; i < this.polygon.size() - 1; i++) {
-            double lat = this.polygon.get(i).getLatitude();
-            double lon = this.polygon.get(i).getLongitude();
-            double latD = this.polygon.get(i + 1).getLatitude() - lat;
-            double lonD = this.polygon.get(i + 1).getLongitude() - lon;
+            double latOrig = this.polygon.get(i).getLatitude();
+            double lonOrig = this.polygon.get(i).getLongitude();
+            double latDir = this.polygon.get(i + 1).getLatitude() - latOrig;
+            double lonDir = this.polygon.get(i + 1).getLongitude() - lonOrig;
             
-            // TODO...
+            // |o + t*d| = dist^2 (for sphere in 0,0)
+            // <o+td, o+td> = dist^2
+            // o^2 + t^2d^2 + 2td = dist^2
+            // t^2d^2 + 2otd + o^2 - dist^2 = 0
             
+            // transform the ray into the MCS of p
+            latOrig -= p.getLatitude();
+            lonOrig -= p.getLongitude();
+            
+            double a = latDir * latDir + lonDir * lonDir;
+            double b = 2.0 * (latOrig * latDir + lonOrig * lonDir);
+            double c = latOrig * latOrig + lonOrig * lonOrig - distDeg * distDeg;
+            
+            double t[] = solveQE(a, b, c);
+            for (double solution : t) {
+                if ((solution >= 0.0) && (solution <= 1.0)) {
+                    return true;
+                }
+            }
         }
         return false;
+    }
+    
+    
+    /**
+     * Solves a quadratic equation without introducing FP numeric subtraction loss of significance.
+     * 
+     * @param a
+     * @param b
+     * @param c
+     * @return zero, one or two x so, that ax<sup>2</sup>+bx+c = 0, whereas the x are sorted by their value
+     */
+    private double[] solveQE(double a, double b, double c) {
+        double det = b * b - 4 * a * c;
+        
+        if (det < 0) {
+            // imaginary result
+            return new double[0];
+        }
+        det = Math.sqrt(det);
+        
+        double q = -0.5 * (b + ((b >= 0) ? +1 : -1) * det);
+        double x1 = q / a;
+        double x2 = c / q;
+        
+        if (x1 < x2) {
+            return new double[] { x1, x2 };
+        } else if (x2 < x1) {
+            return new double[] { x2, x1 };
+        } else {
+            return new double[] { x1 };
+        }
     }
     
     
@@ -141,7 +226,7 @@ public class LocationContextCondition {
      */
     private boolean pointInPolygon(LocationContextGeoPoint p) {
         /*
-         * imagine a ray cast from p in direction (1,1).
+         * imagine a ray cast from p in direction (1,1) for simplicity's sake
          */
         
         int intersections = 0;
@@ -152,6 +237,8 @@ public class LocationContextCondition {
             double lon = this.polygon.get(i).getLongitude();
             double latD = this.polygon.get(i + 1).getLatitude() - lat;
             double lonD = this.polygon.get(i + 1).getLongitude() - lon;
+            
+            // o+seg*d = 0+1t
             
             // find the segment parameter, i.e. whether the intersection
             // is on the selected part of the line segment, i.e. seg in [0,1]
