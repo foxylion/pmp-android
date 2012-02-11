@@ -4,9 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.util.MapsAPIKeyAsset;
 
 /**
  * View component for the {@link LocationContext}.
@@ -20,6 +24,11 @@ public class LocationContextView extends LinearLayout implements IContextView {
      * Value currently in the view
      */
     private LocationContextCondition value;
+    
+    /**
+     * The {@link MapView}
+     */
+    private MapView map;
     
     
     public LocationContextView(Context context, AttributeSet attrs) {
@@ -37,7 +46,15 @@ public class LocationContextView extends LinearLayout implements IContextView {
     private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
-        inflate(context, R.layout.contexts_time_view, this);
+        String mapKey = MapsAPIKeyAsset.getKey(context);
+        if (mapKey == null) {
+            // if not existing, I'm taking you down with me!
+            throw new IllegalAccessError();
+        }
+        
+        this.map = new MapView(context, mapKey);
+        addView(this.map);
+        inflate(context, R.layout.contexts_location_view, this);
         
         // set fields
         addListeners();

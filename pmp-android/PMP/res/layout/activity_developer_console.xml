@@ -252,7 +252,7 @@
 
 		</LinearLayout>
 
-		<de.unistuttgart.ipvs.pmp.model.context.time.TimeContextView
+		<de.unistuttgart.ipvs.pmp.model.context.location.LocationContextView
 		    android:id="@+id/timeContextView1"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content" />

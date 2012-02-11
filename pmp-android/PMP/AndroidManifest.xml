@@ -82,7 +82,9 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-
+		
+		<!-- requires the Maps Library -->
+		<uses-library android:name="com.google.android.maps" />
 
 		<!-- The PMPService can be loaded by using the intent action name declared 
 			3 lines below. -->
