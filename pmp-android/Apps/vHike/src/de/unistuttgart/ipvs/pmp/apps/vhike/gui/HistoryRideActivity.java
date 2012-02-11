@@ -18,6 +18,7 @@ public class HistoryRideActivity extends ListActivity{
     HistoryRideAdapter adapter;
     List<HistoryPersonObject> hPersonObjects;
     Controller ctrl;
+    int tripid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +33,11 @@ public class HistoryRideActivity extends ListActivity{
             hPersonObjects.add(new HistoryPersonObject(0, "no user found", 0, 0, false));
         }else{
             hPersonObjects = historyRides.get(id).getPersons();    
+            tripid = historyRides.get(id).getTripid();
         }
         
         Log.i(this, "Größe von Persons: "+hPersonObjects.size()+", ID: "+ id);
-        this.adapter = new HistoryRideAdapter(HistoryRideActivity.this, hPersonObjects);
+        this.adapter = new HistoryRideAdapter(HistoryRideActivity.this, hPersonObjects, tripid);
         setListAdapter(adapter);
     }
 }

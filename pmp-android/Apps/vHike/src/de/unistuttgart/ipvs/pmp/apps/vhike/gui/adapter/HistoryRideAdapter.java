@@ -22,11 +22,12 @@ public class HistoryRideAdapter extends BaseAdapter {
     RatingBar rating_bar;
     Context context;
     List<HistoryPersonObject> hPersonObjects;
+    int tripid;
     
-    
-    public HistoryRideAdapter(Context context, List<HistoryPersonObject> hPersonObjects) {
+    public HistoryRideAdapter(Context context, List<HistoryPersonObject> hPersonObjects, int tripid) {
         this.hPersonObjects = hPersonObjects;
         this.context = context;
+        this.tripid = tripid;
     }
     
     
@@ -55,7 +56,7 @@ public class HistoryRideAdapter extends BaseAdapter {
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.history_profile_item, null);
         tv_username = (TextView) entryView.findViewById(R.id.tv_username);
         rating_bar = (RatingBar) entryView.findViewById(R.id.ratingbar);
-        
+
         tv_username.setText(hPersonObject.getUsername());
         rating_bar.setRating(hPersonObject.getRating());
         // Get and prepare Title
@@ -65,6 +66,9 @@ public class HistoryRideAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 intent.putExtra("RATING_MODUS", 1);
+                intent.putExtra("MY_PROFILE", 1);
+                intent.putExtra("PROFILE_ID", hPersonObject.getUserid());
+                intent.putExtra("TRIP_ID", tripid);
                 context.startActivity(intent);
             }
         });
