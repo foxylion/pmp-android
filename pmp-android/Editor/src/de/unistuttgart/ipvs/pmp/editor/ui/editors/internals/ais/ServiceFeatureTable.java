@@ -110,6 +110,9 @@ public class ServiceFeatureTable implements IDoubleClickListener {
 			new ServiceFeatureInputValidator());
 
 		if (dialog.open() == Window.OK) {
+		    
+		    // Add the service feature and set the dirty flag
+		    Model.getInstance().setAISDirty(true);
 		    String result = dialog.getValue();
 		    Model.getInstance().getAis()
 			    .addServiceFeature(new AISServiceFeature(result));
@@ -117,9 +120,34 @@ public class ServiceFeatureTable implements IDoubleClickListener {
 		    // Refresh view
 		    table.refresh();
 		    parent.getParent().layout();
-
 		}
 
+	    }
+
+	});
+
+	// Delete button to allow the user to delete a entry
+	Button delButton = toolkit
+		.createButton(buttonCompo, "Delete", SWT.PUSH);
+	delButton.addSelectionListener(new SelectionAdapter() {
+
+	    @Override
+	    public void widgetSelected(SelectionEvent e) {
+
+		// Check if sth. is selected
+		if (table.getTable().getSelectionCount() > 0) {
+		    // Delete the entry out of the table and the model
+		    int index = table.getTable().getSelectionIndex();
+		    table.getTable().remove(index);
+		    Model.getInstance().getAis().getServiceFeatures()
+			    .remove(index);
+		    
+		    // Set the dirty flag
+		    Model.getInstance().setAISDirty(true);
+		    // Refresh view
+		    table.refresh();
+		    parent.getParent().layout();
+		}
 	    }
 
 	});
@@ -136,6 +164,8 @@ public class ServiceFeatureTable implements IDoubleClickListener {
     public void doubleClick(DoubleClickEvent arg0) {
 	TableViewer viewer = (TableViewer) arg0.getSource();
 	Table table = viewer.getTable();
+
+	// Get the selected item
 	int index = table.getSelectionIndex();
 	TableItem item = table.getItem(index);
 	InputDialog dialog = new InputDialog(parentShell,
@@ -145,9 +175,14 @@ public class ServiceFeatureTable implements IDoubleClickListener {
 
 	if (dialog.open() == Window.OK) {
 	    String result = dialog.getValue();
-	    item.setText(result);
-	    Model.getInstance().getAis().getServiceFeatures().get(index)
-		    .setIdentifier(result);
+
+	    // If it's not the same name than change it and set the dirty flag
+	    if (!result.equals(item.getText())) {
+		item.setText(result);
+		Model.getInstance().getAis().getServiceFeatures().get(index)
+			.setIdentifier(result);
+		Model.getInstance().setAISDirty(true);
+	    }
 	}
     }
 }

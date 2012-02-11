@@ -1,8 +1,11 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors;
 
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
@@ -78,11 +81,11 @@ public class AisEditor extends FormEditor {
 	    addPage(generalPage);
 	    addPage(sfPage);
 	} catch (PartInitException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    MessageDialog.openError(this.getSite().getShell(), "Error",
+			"Could not open file.");
 	} catch (CoreException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    MessageDialog.openError(this.getSite().getShell(), "Error",
+			"Could not open file.");
 	}
     }
 
@@ -93,9 +96,20 @@ public class AisEditor extends FormEditor {
      * IProgressMonitor)
      */
     @Override
-    public void doSave(IProgressMonitor arg0) {
-	// TODO Auto-generated method stub
+    public void doSave(IProgressMonitor mon) {
+	FileEditorInput input = (FileEditorInput) this.getEditorInput();
+	InputStream is = XMLUtilityProxy.getAppUtil().compile(
+		Model.getInstance().getAis());
+	try {
+	    // Save the file
+	    input.getFile().setContents(is, true, true, mon);
 
+	    // Set the dirty flag to false because it was just saved
+	    Model.getInstance().setAISDirty(false);
+	} catch (CoreException e) {
+	    MessageDialog.openError(this.getSite().getShell(), "Error",
+			"Could not save file.");
+	}
     }
 
     /*
@@ -105,8 +119,12 @@ public class AisEditor extends FormEditor {
      */
     @Override
     public void doSaveAs() {
-	// TODO Auto-generated method stub
+	// Not allowed
+    }
 
+    @Override
+    public boolean isDirty() {
+	return Model.getInstance().isAisDirty();
     }
 
     /*
@@ -116,7 +134,6 @@ public class AisEditor extends FormEditor {
      */
     @Override
     public boolean isSaveAsAllowed() {
-	// TODO Auto-generated method stub
 	return false;
     }
 }
