@@ -1,16 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.IManagedForm;
@@ -22,10 +16,10 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTable;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
 
 /**
  * Creates the preferences page for the {@link AisEditor}
@@ -40,6 +34,9 @@ public class AISServiceFeaturesPage extends FormPage {
      */
     public static final String ID = "ais_service_features";
 
+    public int width;
+    public int height;
+
     /**
      * Constructor
      * 
@@ -47,6 +44,8 @@ public class AISServiceFeaturesPage extends FormPage {
      */
     public AISServiceFeaturesPage(FormEditor editor) {
 	super(editor, ID, "Service Features");
+	width = editor.getSite().getShell().getSize().x;
+	height = editor.getSite().getShell().getSize().y;
     }
 
     @Override
@@ -70,23 +69,14 @@ public class AISServiceFeaturesPage extends FormPage {
 	// Create elements stored inside this section
 	Composite client = toolkit.createComposite(section, SWT.NULL);
 	client.setLayout(new FillLayout());
-	client.setSize(parent.getSize());
 
-	Table table = toolkit.createTable(client, SWT.BORDER);
-	table.setHeaderVisible(true);
-	table.setLinesVisible(true);
-	TableColumn identifier = new TableColumn(table, SWT.CENTER);
-	identifier.setText("Identifier");
-	
-	TableColumnLayout tableColumnLayout = new TableColumnLayout();
-	tableColumnLayout.setColumnData(identifier, new ColumnWeightData(100));
-	client.setLayout(tableColumnLayout);
-	identifier.setResizable(false);
-	
+	new ServiceFeatureTable(client, toolkit,
+		height);
 	section.setClient(client);
     }
-    
-    private void addServiceFeatureSectionTree(Composite parent, FormToolkit toolkit) {
+
+    private void addServiceFeatureSectionTree(Composite parent,
+	    FormToolkit toolkit) {
 	// Set the section's parameters
 	Section section = createSectionWithDescription(parent,
 		"Service Features", toolkit,
@@ -139,7 +129,7 @@ public class AISServiceFeaturesPage extends FormPage {
 
 	GridData layoutData = new GridData();
 	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
+	layoutData.widthHint = width / 4;
 
 	section.setLayoutData(layoutData);
 
