@@ -36,4 +36,23 @@ public class LocationContextGeoPoint {
         this.longitude = longitude;
     }
     
+    
+    @Override
+    public String toString() {
+        return String.format("%.4f %s, %.4f %s", Math.abs(latitude), latitude > 0 ? "N" : "S", Math.abs(longitude),
+                longitude > 0 ? "E" : "W");
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return Double.valueOf(this.latitude).hashCode() ^ Double.valueOf(this.longitude).hashCode();
+    }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        return o.hashCode() == hashCode();
+    }
+    
 }

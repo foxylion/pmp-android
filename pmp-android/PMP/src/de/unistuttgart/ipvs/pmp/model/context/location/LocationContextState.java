@@ -88,4 +88,22 @@ public class LocationContextState extends LocationContextGeoPoint {
     public synchronized void update(Location l) {
         update(l.getLatitude(), l.getLongitude(), l.getAccuracy(), l.getTime());
     }
+    
+    
+    @Override
+    public String toString() {
+        return super.toString() + ", accuracy " + this.accuracy + ", time " + this.time + ", set " + set;
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode() ^ Float.valueOf(this.accuracy).hashCode() ^ Long.valueOf(this.time).hashCode() ^ set;
+    }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }

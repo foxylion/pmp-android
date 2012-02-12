@@ -206,6 +206,9 @@
 	
 	<string name="contexts_location_name">Location Context</string>
     <string name="contexts_location_desc">The Location Context allows to define context dependencies based on the current location.</string>
+    <string name="contexts_location_coordinates">Polygon Coordinates</string>
+    <string name="contexts_location_uncertainty">Enclosing Uncertainty:</string>
+    <string name="contexts_location_hysteresis">Hysteresis:</string>
 
 
 </resources>
