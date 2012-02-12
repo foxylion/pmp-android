@@ -37,7 +37,7 @@ public class GeneralPage extends FormPage {
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Define general information");
+		form.setText("Defines general information");
 
 		form.getBody().setLayout(new GridLayout(1, false));
 

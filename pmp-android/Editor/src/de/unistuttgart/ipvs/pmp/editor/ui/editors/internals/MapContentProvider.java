@@ -6,6 +6,10 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+/**
+ * Feeds a table with data from a map
+ * @author Patrick Strobel
+ */
 public class MapContentProvider implements IContentProvider, IStructuredContentProvider {
 
 	@Override

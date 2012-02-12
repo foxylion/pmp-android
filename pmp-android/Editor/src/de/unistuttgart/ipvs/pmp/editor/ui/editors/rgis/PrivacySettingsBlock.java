@@ -8,7 +8,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -17,11 +16,15 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
+/**
+ * Manages the master block of the privacy settings pages
+ * 
+ * @author Patrick Strobel
+ *
+ */
 public class PrivacySettingsBlock extends MasterDetailsBlock {
 	
 	private FormPage form;
@@ -33,9 +36,13 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
 		FormToolkit toolkit = managedForm.getToolkit();
+		
+		// Create section
 		Section section = toolkit.createSection(parent, Section.TWISTIE | Section.TITLE_BAR);
 		section.setText("Privacy Settings");
 		section.setExpanded(true);
+		section.marginWidth = 5;
+		section.marginHeight = 5;
 		
 		Composite compo = toolkit.createComposite(section);
 		compo.setLayout(new GridLayout(2,false));
@@ -54,20 +61,16 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		treeViewer.getControl().setLayoutData(treeLayout);
 		
 
+		// Create listener that handles selections of tree-items
 		final SectionPart spart = new SectionPart(section);
 		managedForm.addPart(spart);
-		sashForm.setOrientation(SWT.HORIZONTAL);
 		managedForm.reflow(true);
 		
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				System.out.println("Selected");
 				managedForm.fireSelectionChanged(spart, event.getSelection());
-
-				
-				
 			}
 		});
 		
@@ -85,8 +88,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		System.out.println("Register");
-		detailsPart.registerPage(RGISPrivacySetting.class, new PrivacySettingDetailPage());
+		detailsPart.registerPage(RGISPrivacySetting.class, new PrivacySettingDetailsPage());
+		detailsPart.registerPage(String.class, new LocalizationDetailsPage());
 		
 	}
 

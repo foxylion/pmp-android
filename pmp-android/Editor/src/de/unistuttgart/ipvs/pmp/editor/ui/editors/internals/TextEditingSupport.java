@@ -6,6 +6,11 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * 
+ * @author Patrick Strobel
+ *
+ */
 public abstract class TextEditingSupport extends EditingSupport {
 	
 	protected TextCellEditor editor;

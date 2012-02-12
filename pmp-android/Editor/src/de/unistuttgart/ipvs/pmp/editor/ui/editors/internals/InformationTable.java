@@ -7,6 +7,8 @@ import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationListener;
 import org.eclipse.jface.viewers.ColumnViewerEditorDeactivationEvent;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -34,9 +36,11 @@ public class InformationTable {
 	private final Composite composite;
 	private final TableViewer tableViewer;
 	private final StoredInformation storedInformation;
+	private final Composite parent;
 
 	public InformationTable(final Composite parent,
 			StoredInformation storedInfo, FormToolkit toolkit) {
+		this.parent = parent;
 		storedInformation = storedInfo;
 
 		composite = toolkit.createComposite(parent);
@@ -71,6 +75,45 @@ public class InformationTable {
 		tableViewer.setContentProvider(new MapContentProvider());
 		tableViewer.setInput(storedInformation.getMap());
 
+		Composite buttonCompo = toolkit.createComposite(composite);
+		buttonCompo.setLayout(new RowLayout());
+
+		// Add button to allow the user to add a new entry
+		final Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+		addButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Add empty entry to table
+				storedInformation.add(new Information("-", "-", "-"));
+
+				refresh();
+
+			}
+
+		});
+
+		// Add button to allow the user to remove a selected entry
+		final Button removeButton = toolkit.createButton(buttonCompo, "Remove",
+				SWT.PUSH);
+		removeButton.setEnabled(false);
+		removeButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Remove entry from model if an entry is selected
+				StructuredSelection sel = (StructuredSelection) tableViewer
+						.getSelection();
+				Information info = (Information) sel.getFirstElement();
+				if (info != null) {
+					storedInformation.remove(info.getLocale());
+
+					refresh();
+				}
+			}
+
+		});
+
 		// Add listener to auto-update the table whenever a value is changed by
 		// the user
 		tableViewer.getColumnViewerEditor().addEditorActivationListener(
@@ -86,14 +129,14 @@ public class InformationTable {
 					@Override
 					public void beforeEditorActivated(
 							ColumnViewerEditorActivationEvent event) {
-						// TODO Auto-generated method stub
-
+						addButton.setEnabled(false);
 					}
 
 					@Override
 					public void afterEditorDeactivated(
 							ColumnViewerEditorDeactivationEvent event) {
 						tableViewer.refresh();
+						addButton.setEnabled(true);
 					}
 
 					@Override
@@ -103,52 +146,31 @@ public class InformationTable {
 
 					}
 				});
-
-		Composite buttonCompo = toolkit.createComposite(composite);
-		buttonCompo.setLayout(new RowLayout());
-
-		// Add button to allow the user to add a new entry
-		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
-		addButton.addSelectionListener(new SelectionAdapter() {
-
+		
+		// Only enable remove-button when a row is selected in the table
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Add empty entry to table
-				storedInformation.add(new Information("-", "-", "-"));
-
-				// Refresh view
-				// tableViewer.getTable().setLayoutData(layoutData);
-				tableViewer.refresh();
-				parent.getParent().layout();
+			public void selectionChanged(SelectionChangedEvent event) {
+				removeButton.setEnabled(!event.getSelection().isEmpty());	
 			}
-
-		});
-
-		// Add button to allow the user to remove a selected entry
-		Button deleteButton = toolkit.createButton(buttonCompo, "Remove",
-				SWT.PUSH);
-		deleteButton.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Remove entry from model if an entry is selected
-				StructuredSelection sel = (StructuredSelection) tableViewer
-						.getSelection();
-				Information info = (Information) sel.getFirstElement();
-				if (info != null) {
-					storedInformation.remove(info.getLocale());
-
-					// Refresh view and layout
-					tableViewer.refresh();
-					parent.getParent().layout();
-				}
-			}
-
 		});
 	}
 
 	public Composite getControl() {
 		return composite;
+	}
+
+	public void refresh() {
+		// Refresh view and layout
+		// tableViewer.getTable().setLayoutData(layoutData);
+		tableViewer.refresh();
+		parent.getParent().layout();
+		parent.layout();
+	}
+
+	public StoredInformation getStoredInformation() {
+		return storedInformation;
 	}
 
 	private void buildColumns(TableColumnLayout columnLayout) {
@@ -186,7 +208,7 @@ public class InformationTable {
 		TableViewerColumn nameColumn = new TableViewerColumn(tableViewer,
 				SWT.BORDER);
 		columnLayout.setColumnData(nameColumn.getColumn(),
-				new ColumnWeightData(50, true));
+				new ColumnWeightData(1, true));
 		nameColumn.getColumn().setText("Name");
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -213,7 +235,7 @@ public class InformationTable {
 		TableViewerColumn descriptionColumn = new TableViewerColumn(
 				tableViewer, SWT.BORDER);
 		columnLayout.setColumnData(descriptionColumn.getColumn(),
-				new ColumnWeightData(50, true));
+				new ColumnWeightData(2, true));
 		descriptionColumn.getColumn().setText("Description");
 		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override

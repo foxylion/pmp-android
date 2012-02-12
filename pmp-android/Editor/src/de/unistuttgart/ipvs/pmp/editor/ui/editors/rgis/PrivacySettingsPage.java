@@ -1,12 +1,15 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
+/**
+ * Privacy Settings page of the RGIS-Editor
+ * 
+ * @author Patrick Strobel
+ */
 public class PrivacySettingsPage extends FormPage {
 
 	public static final String ID = "rgis_ps";
@@ -22,12 +25,9 @@ public class PrivacySettingsPage extends FormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("PS");
+		form.setText("Defines the Privacy Setting");
 		
-		privacySettingsBlock.createContent(managedForm);
-		
-		
+		privacySettingsBlock.createContent(managedForm);		
 	}
 
 }

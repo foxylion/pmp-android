@@ -6,6 +6,11 @@ import org.eclipse.jface.viewers.Viewer;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
+/**
+ * Content provider that feeds the tree viewer with the data from the RGIS-Model
+ * 
+ * @author Patrick Strobel
+ */
 public class PrivacySettingsContentProvider implements ITreeContentProvider {
 
 	@Override
@@ -42,7 +47,7 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof RGISPrivacySetting) {
 			RGISPrivacySetting ps = (RGISPrivacySetting)parentElement;
-			return new String[] {ps.getDescriptionForLocale(Locale.ENGLISH), ps.getValidValueDescription()};
+			return new String[] {ps.getNameForLocale(Locale.ENGLISH), ps.getDescriptionForLocale(Locale.ENGLISH)};
 		}
 
 		return null;

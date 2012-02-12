@@ -7,7 +7,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 public class PrivacySettingsLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 		if (element instanceof RGISPrivacySetting) {
-			return ((RGISPrivacySetting)element).getIdentifier();
+			RGISPrivacySetting ps = (RGISPrivacySetting)element;
+			return ps.getIdentifier() + " (" + ps.getValidValueDescription() + ")";
 		} else {
 			return (String)element;
 		}
