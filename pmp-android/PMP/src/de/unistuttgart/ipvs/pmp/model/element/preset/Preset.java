@@ -2,8 +2,10 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
@@ -369,6 +371,22 @@ public class Preset extends ModelElement implements IPreset {
         removed.delete();
         
         rollout();
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+        Set<IContextAnnotation> result = new HashSet<IContextAnnotation>();
+        
+        for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
+            for (ContextAnnotation ca : psCA) {
+                for (IContextAnnotation conflictCA : ca.getConflictingContextAnnotations(preset)) {
+                    result.add(conflictCA);
+                }
+            }
+        }
+        
+        return result.toArray(new IContextAnnotation[result.size()]);
     }
     
     

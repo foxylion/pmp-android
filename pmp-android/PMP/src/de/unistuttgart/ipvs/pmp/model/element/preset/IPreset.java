@@ -297,4 +297,13 @@ public interface IPreset extends IModelElement {
      *            the context annotation to remove
      */
     public void removeContextAnnotation(IPrivacySetting privacySetting, IContextAnnotation contextAnnotation);
+    
+    
+    /**
+     * @param preset
+     *            the preset which shall be checked for conflicts
+     * @return an array of {@link IContextAnnotation} from the preset <code>preset</code> where each entry of the array
+     *         could possibly override this preset's context annotations' values.
+     */
+    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset);
 }

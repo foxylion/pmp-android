@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
@@ -91,6 +92,24 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     public String getCurrentPrivacySettingValue() {
         checkCached();
         return isActive() ? getOverridePrivacySettingValue() : null;
+    }
+    
+    
+    @Override
+    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+        boolean hasSameAppsAssigned = false;
+        for (IApp app : this.preset.getAssignedApps()) {
+            if (preset.isAppAssigned(app)) {
+                hasSameAppsAssigned = true;
+                break;
+            }
+        }
+        
+        if (!hasSameAppsAssigned) {
+            return new IContextAnnotation[0];
+        }
+        
+        return preset.getContextAnnotations(this.privacySetting);
     }
     
 }

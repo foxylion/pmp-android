@@ -89,4 +89,13 @@ public interface IContextAnnotation extends IModelElement {
      * @return if it is active, the value to override, else null
      */
     public String getCurrentPrivacySettingValue();
+    
+    
+    /**
+     * @param preset
+     *            the preset which shall be checked for conflicts
+     * @return an array of {@link IContextAnnotation} from the preset <code>preset</code> where each entry of the array
+     *         could possibly override this context annotation's value.
+     */
+    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset);
 }
