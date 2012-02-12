@@ -390,6 +390,22 @@ public class Preset extends ModelElement implements IPreset {
     }
     
     
+    @Override
+    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+        Set<IPrivacySetting> result = new HashSet<IPrivacySetting>();
+        
+        for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
+            for (ContextAnnotation ca : psCA) {
+                for (IPrivacySetting conflictPS : ca.getConflictingPrivacySettings(preset)) {
+                    result.add(conflictPS);
+                }
+            }
+        }
+        
+        return result.toArray(new IPrivacySetting[result.size()]);
+    }
+    
+    
     /* inter-model communication */
     
     /**

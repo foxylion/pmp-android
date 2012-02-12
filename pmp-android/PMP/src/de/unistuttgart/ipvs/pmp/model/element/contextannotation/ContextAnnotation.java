@@ -1,11 +1,13 @@
 package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * @see IContextAnnotation
@@ -112,4 +114,31 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         return preset.getContextAnnotations(this.privacySetting);
     }
     
+    
+    @Override
+    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+        boolean hasSameAppsAssigned = false;
+        for (IApp app : this.preset.getAssignedApps()) {
+            if (preset.isAppAssigned(app)) {
+                hasSameAppsAssigned = true;
+                break;
+            }
+        }
+        
+        if (!hasSameAppsAssigned) {
+            return new IPrivacySetting[0];
+        }
+        
+        String grantedByPreset = preset.getGrantedPrivacySettingValue(this.privacySetting);
+        try {
+            if (this.privacySetting.permits(this.overrideValue, grantedByPreset)) {
+                return new IPrivacySetting[] { this.privacySetting };
+            } else {
+                return new IPrivacySetting[0];
+            }
+        } catch (PrivacySettingValueException e) {
+            Log.e(this, "Invalid value while checking for CA/PS conflicts: ", e);
+            return new IPrivacySetting[0];
+        }
+    }
 }
