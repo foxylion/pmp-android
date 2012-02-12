@@ -7,13 +7,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
+import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -24,7 +22,6 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class RgisEditor extends FormEditor {
 	
 	private RGUtil rgutil = new RGUtil();
-	private GeneralPage generalPage;
 
     @Override
     protected void addPages() {
@@ -37,21 +34,13 @@ public class RgisEditor extends FormEditor {
     				input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
     			}
     			RGIS rgis = rgutil.parse(input.getFile().getContents());
-    			generalPage = new GeneralPage(this, rgis.getIdentifier());
-    			StoredInformation loc = generalPage.getLocalization();
+    			Model.getInstance().setRgis(rgis);
     			
-    			// Add names and descriptions to table
-    			for (Name name : rgis.getNames()) {
-					loc.addName(name.getLocale().getLanguage(), name.getName());
-				}
-    			for (Description desc : rgis.getDescriptions()) {
-					loc.addDescription(desc.getLocale().getLanguage(), desc.getDescription());
-				}
+ 
     		} catch (ParserException e) {
-    			generalPage = new GeneralPage(this, null);
     		}
 			
-			addPage(generalPage);
+			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block

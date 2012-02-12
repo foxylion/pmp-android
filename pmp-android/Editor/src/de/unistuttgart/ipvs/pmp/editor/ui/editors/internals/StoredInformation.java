@@ -14,6 +14,7 @@ public class StoredInformation {
 	private Map<String,Information> information =  new HashMap<String,Information>();
 	
 	public StoredInformation() {
+		
 	}
 	
 	/**

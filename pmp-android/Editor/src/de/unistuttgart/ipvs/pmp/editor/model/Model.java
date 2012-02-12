@@ -20,6 +20,11 @@ public class Model {
     private static Model instance = null;
 
     /**
+     * Indicates if the ais file has unsaved changes
+     */
+    private Boolean isAISDirty = false;
+
+    /**
      * The stored {@link AIS}
      */
     private AIS ais;
@@ -107,5 +112,23 @@ public class Model {
      */
     public void setRgisList(List<RGIS> rgisList) {
 	this.rgisList = rgisList;
+    }
+
+    /**
+     * True if it has unsaved changes, false if not
+     * 
+     * @return true if there are unsaved changes, false otherwise
+     */
+    public Boolean isAisDirty() {
+	return isAISDirty;
+    }
+
+    /**
+     * Sets the dirty flag of the ais file
+     * @param isAISDirty
+     *            false if it was just saved, true otherwise
+     */
+    public void setAISDirty(Boolean isAISDirty) {
+	this.isAISDirty = isAISDirty;
     }
 }
