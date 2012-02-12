@@ -47,11 +47,12 @@ public class AISServiceFeaturesPage extends FormPage {
     protected void createFormContent(IManagedForm managedForm) {
 	ScrolledForm form = managedForm.getForm();
 	FormToolkit toolkit = managedForm.getToolkit();
-	form.setText("Define general information");
+	form.setText("Define the Service Features");
 
 	form.getBody().setLayout(new GridLayout(2, false));
-//	new ServiceFeatureMasterBlock().createContent(managedForm);
-	addServiceFeatureSection(form.getBody(), toolkit);
+	new ServiceFeatureMasterBlock().createContent(managedForm);
+//	addServiceFeatureSection(form.getBody(), toolkit);
+//	addAttributesSection(form.getBody(), toolkit);
     }
 
     private void addServiceFeatureSection(Composite parent, FormToolkit toolkit) {
@@ -97,5 +98,4 @@ public class AISServiceFeaturesPage extends FormPage {
 
 	return section;
     }
-
 }

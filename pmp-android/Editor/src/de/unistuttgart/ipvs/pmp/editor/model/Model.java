@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.editor.model;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -38,6 +39,8 @@ public class Model {
      * The stored {@link RGIS} list that was downloaded from the server
      */
     private List<RGIS> rgisList;
+
+    private AisEditor aisEditor;
 
     /**
      * Private constructor because of singleton
@@ -125,10 +128,23 @@ public class Model {
 
     /**
      * Sets the dirty flag of the ais file
+     * 
      * @param isAISDirty
      *            false if it was just saved, true otherwise
      */
     public void setAISDirty(Boolean isAISDirty) {
 	this.isAISDirty = isAISDirty;
+	aisEditor.firePropertyChangedDirty();
+    }
+
+    /**
+     * Instance of the {@link AisEditor} to call the
+     * {@link AisEditor#firePropertyChangedDirty()}
+     * 
+     * @param aisEditor
+     *            the aisEditor to set
+     */
+    public void setAisEditor(AisEditor aisEditor) {
+	this.aisEditor = aisEditor;
     }
 }

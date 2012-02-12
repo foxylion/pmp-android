@@ -11,6 +11,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -94,8 +95,11 @@ public class ServiceFeatureTable implements IDoubleClickListener {
 	table.getTable().setLayoutData(layoutData);
 	tableComposite.setLayoutData(layoutData);
 
+	GridData buttonLayout = new GridData();
+	buttonLayout.verticalAlignment = SWT.BEGINNING;
 	Composite buttonCompo = toolkit.createComposite(composite);
-	buttonCompo.setLayout(new RowLayout());
+	buttonCompo.setLayoutData(buttonLayout);
+	buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 
 	// Add button to allow the user to add a new entry
 	Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);

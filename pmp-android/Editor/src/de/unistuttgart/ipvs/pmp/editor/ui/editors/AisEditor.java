@@ -76,15 +76,22 @@ public class AisEditor extends FormEditor {
 	    } catch (ParserException e) {
 		generalPage = new AISGeneralPage(this);
 	    }
+	    /*
+	     * Reset the dirty flag in the model and store this instance of this
+	     * editor that the model can call the firepropertyChanged
+	     */
+	    Model.getInstance().setAisEditor(this);
+	    Model.getInstance().setAISDirty(false);
 
+	    // Add the pages
 	    addPage(generalPage);
 	    addPage(sfPage);
 	} catch (PartInitException e) {
 	    MessageDialog.openError(this.getSite().getShell(), "Error",
-			"Could not open file.");
+		    "Could not open file.");
 	} catch (CoreException e) {
 	    MessageDialog.openError(this.getSite().getShell(), "Error",
-			"Could not open file.");
+		    "Could not open file.");
 	}
     }
 
@@ -107,7 +114,7 @@ public class AisEditor extends FormEditor {
 	    Model.getInstance().setAISDirty(false);
 	} catch (CoreException e) {
 	    MessageDialog.openError(this.getSite().getShell(), "Error",
-			"Could not save file.");
+		    "Could not save file.");
 	}
     }
 
@@ -134,5 +141,14 @@ public class AisEditor extends FormEditor {
     @Override
     public boolean isSaveAsAllowed() {
 	return false;
+    }
+
+    /**
+     * Called from the {@link Model} if the model is dirty to update the view
+     * and show that sth. has changed. This only calls
+     * {@link FormEditor#firePropertyChange(FormEditor.PROP_DIRTY)}
+     */
+    public void firePropertyChangedDirty() {
+	firePropertyChange(FormEditor.PROP_DIRTY);
     }
 }
