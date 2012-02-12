@@ -12,6 +12,7 @@ import java.util.Set;
 
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
@@ -25,6 +26,43 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
  * 
  */
 public class PresetController {
+    
+    /**
+     * Finds the actually granted privacy setting value for privacy setting <code>ps</code> in preset <code>p</code>.
+     * Incorporates looking through all context annotations and selecting the appropriate ones.
+     * 
+     * @param p
+     *            preset that contains the privacy setting value
+     * @param ps
+     *            the privacy setting whose value shall be found
+     * @return the actually set privacy setting value for <code>ps</code> in <code>p</code>
+     * @throws PrivacySettingValueException
+     *             if a value was rejected by the privacy setting
+     */
+    private static String findGrantedPSValue(IPreset p, IPrivacySetting ps) throws PrivacySettingValueException {
+        String lastValue = p.getGrantedPrivacySettingValue(ps);
+        boolean usingContexts = false;
+        
+        for (IContextAnnotation ca : p.getContextAnnotations(ps)) {
+            if (ca.isActive()) {
+                if (!usingContexts) {
+                    // override value, first context
+                    lastValue = ca.getOverridePrivacySettingValue();
+                    usingContexts = true;
+                    
+                } else {
+                    // additive logic inside contexts
+                    if (ps.permits(lastValue, ca.getOverridePrivacySettingValue())) {
+                        lastValue = ca.getOverridePrivacySettingValue();
+                    }
+                    
+                }
+            }
+        }
+        
+        return lastValue;
+    }
+    
     
     /**
      * Finds all the granted {@link IPrivacySetting} with their values for a specific {@link App} limiting the search to
@@ -50,7 +88,7 @@ public class PresetController {
             
             // check relevant
             for (IPrivacySetting ps : relevant) {
-                String grantNow = p.getGrantedPrivacySettingValue(ps);
+                String grantNow = findGrantedPSValue(p, ps);
                 
                 if (grantNow != null) {
                     String existing = granted.get(ps);
