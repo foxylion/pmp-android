@@ -50,7 +50,11 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
     @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
-        return Integer.parseInt(value);
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException nfe) {
+            throw new PrivacySettingValueException();
+        }
     }
 }
 
