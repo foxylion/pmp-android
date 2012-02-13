@@ -39,7 +39,6 @@ public class RgisEditor extends FormEditor {
  
     		} catch (ParserException e) {
     		}
-			
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
@@ -51,6 +50,8 @@ public class RgisEditor extends FormEditor {
 		}
     }
 
+   
+    
     @Override
     public void doSave(IProgressMonitor arg0) {
 	// TODO Auto-generated method stub

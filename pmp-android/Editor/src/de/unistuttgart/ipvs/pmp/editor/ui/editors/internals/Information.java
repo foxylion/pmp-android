@@ -29,7 +29,7 @@ public class Information {
 	
 
 	public void setLocale(String locale) {
-		this.store.changeLocale(this.locale, locale);
+		store.changeLocale(this.locale, locale);
 		this.locale = locale;
 	}
 	

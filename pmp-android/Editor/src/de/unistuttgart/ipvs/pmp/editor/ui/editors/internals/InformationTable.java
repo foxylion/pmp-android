@@ -37,6 +37,7 @@ public class InformationTable {
 	private final TableViewer tableViewer;
 	private final StoredInformation storedInformation;
 	private final Composite parent;
+	private boolean dirty = false;
 
 	public InformationTable(final Composite parent,
 			StoredInformation storedInfo, FormToolkit toolkit) {
@@ -86,7 +87,7 @@ public class InformationTable {
 			public void widgetSelected(SelectionEvent e) {
 				// Add empty entry to table
 				storedInformation.add(new Information("-", "-", "-"));
-
+				dirty = true;
 				refresh();
 
 			}
@@ -107,7 +108,7 @@ public class InformationTable {
 				Information info = (Information) sel.getFirstElement();
 				if (info != null) {
 					storedInformation.remove(info.getLocale());
-
+					dirty = true;
 					refresh();
 				}
 			}
@@ -172,6 +173,14 @@ public class InformationTable {
 	public StoredInformation getStoredInformation() {
 		return storedInformation;
 	}
+	
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+	
+	public boolean isDirty() {
+		return dirty;
+	}
 
 	private void buildColumns(TableColumnLayout columnLayout) {
 		// Locale
@@ -199,6 +208,7 @@ public class InformationTable {
 				// Set locale only if it's not in use by another entry
 				if (!storedInformation.localeExists((String) value)) {
 					((Information) element).setLocale((String) value);
+					dirty = true;
 				}
 			}
 
@@ -226,8 +236,11 @@ public class InformationTable {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Information) element).setName((String) value);
-
+				Information info = (Information) element;
+				if (info.getName() != value) {
+					info.setName((String) value);
+					dirty = true;
+				}
 			}
 		});
 
@@ -254,7 +267,11 @@ public class InformationTable {
 
 					@Override
 					protected void setValue(Object element, Object value) {
-						((Information) element).setDescription((String) value);
+						Information info = (Information) element;
+						if (info.getDescription() != value) {
+							info.setDescription((String) value);
+							dirty = true;
+						}
 
 					}
 				});
