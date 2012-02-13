@@ -2,11 +2,9 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * @author Thorsten Berberich

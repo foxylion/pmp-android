@@ -157,9 +157,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
      * forms.DetailsPart)
      */
     @Override
-    protected void registerPages(DetailsPart arg0) {
-	// TODO Auto-generated method stub
-
+    protected void registerPages(DetailsPart detailsPart) {
+	detailsPart.registerPage(AISServiceFeature.class, new ServiceFeatureDetailsPage());
     }
 
     /*
@@ -244,6 +243,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 	// The remove action
 	remove = new Action("Remove") {
+	    
+	    @Override
 	    public void run() {
 		Tree tree = treeViewer.getTree();
 		TreeItem[] selection = tree.getSelection();
