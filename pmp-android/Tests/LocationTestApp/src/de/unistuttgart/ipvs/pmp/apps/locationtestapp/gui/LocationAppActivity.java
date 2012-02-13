@@ -110,6 +110,20 @@ public class LocationAppActivity extends MapActivity {
     
     private void resourceCached() {
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            
+            handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(LocationAppActivity.this,
+                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            return;
+        }
+        
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
             loc.startLocationLookup(1000, 10.0F);
@@ -117,7 +131,6 @@ public class LocationAppActivity extends MapActivity {
             handler.post(new Runnable() {
                 
                 public void run() {
-                    
                     Toast.makeText(LocationAppActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
                 }
             });
