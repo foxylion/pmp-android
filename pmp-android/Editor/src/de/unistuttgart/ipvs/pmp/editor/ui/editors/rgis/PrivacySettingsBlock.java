@@ -4,6 +4,8 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -107,8 +109,18 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Get selected element
-				StructuredSelection sel = (StructuredSelection)treeViewer.getSelection();
-				RGISPrivacySetting ps = (RGISPrivacySetting) sel.getFirstElement();
+				RGISPrivacySetting ps = null;
+				TreeSelection sel = (TreeSelection)treeViewer.getSelection();
+				if (sel.getFirstElement() instanceof RGISPrivacySetting) {
+					ps = (RGISPrivacySetting) sel.getFirstElement();
+				} else {
+					// Get parent if default name/desc is selected
+					TreePath[] path = sel.getPaths();
+					if(path.length < 1) {
+						return;
+					}
+					ps = (RGISPrivacySetting)path[0].getFirstSegment();
+				}
 				
 				// Remove selected entry for model
 				RGIS rgis = Model.getInstance().getRgis();
