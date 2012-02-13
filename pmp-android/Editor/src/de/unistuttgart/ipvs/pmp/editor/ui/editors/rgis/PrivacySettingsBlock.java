@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -77,13 +78,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		managedForm.addPart(spart);
 		managedForm.reflow(true);
 		
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				managedForm.fireSelectionChanged(spart, event.getSelection());
-			}
-		});
+		
 		
 		// Add buttons
 		Composite buttonCompo = toolkit.createComposite(compo);
@@ -92,7 +87,6 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 		buttonCompo.setLayoutData(buttonLayout);
 		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
-		Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
 
@@ -105,6 +99,34 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 			}
 			
 		});
+
+		final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+		removeButton.setEnabled(false);
+		removeButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Get selected element
+				StructuredSelection sel = (StructuredSelection)treeViewer.getSelection();
+				RGISPrivacySetting ps = (RGISPrivacySetting) sel.getFirstElement();
+				
+				// Remove selected entry for model
+				RGIS rgis = Model.getInstance().getRgis();
+				rgis.removePrivacySetting(ps);
+				treeViewer.refresh();
+			}
+			
+		});
+		
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				managedForm.fireSelectionChanged(spart, event.getSelection());
+				removeButton.setEnabled(!event.getSelection().isEmpty());
+			}
+		});
+
 		section.setClient(compo);
 	}
 	

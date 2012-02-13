@@ -39,6 +39,8 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
 			if (name == null || name.isEmpty() || desc == null || desc.isEmpty()) {
 				return Images.ERROR16;
 			}
+			
+			return Images.INFO16;
 		}
 		
 		// Check if the default-name and desc are set and show warning when not
@@ -46,9 +48,11 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
 			if (((String)element).isEmpty()) {
 				return Images.ERROR16;
 			}
+			
+			return Images.FILE16;
 		}
 		
-		return Images.INFO16;
+		return null;
 	}
 
 }
