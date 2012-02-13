@@ -66,9 +66,9 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    Composite parent) {
 	parentShell = parent.getShell();
 	FormToolkit toolkit = managedForm.getToolkit();
-	Section section = toolkit.createSection(parent, Section.TWISTIE
+	Section section = toolkit.createSection(parent, Section.CLIENT_INDENT
 		| Section.TITLE_BAR);
-	section.setText("Privacy Settings");
+	section.setText("Service Features");
 	section.setExpanded(true);
 	creatSectionToolbar(section);
 
