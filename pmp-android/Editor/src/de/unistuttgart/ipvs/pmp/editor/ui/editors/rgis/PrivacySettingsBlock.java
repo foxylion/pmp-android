@@ -5,18 +5,21 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
-import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -27,11 +30,19 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  */
 public class PrivacySettingsBlock extends MasterDetailsBlock {
 	
-	private FormPage form;
+	private PrivacySettingsPage form;
+	private TreeViewer treeViewer;
+	private boolean dirty = false;
 	
-	public PrivacySettingsBlock(FormPage form) {
+	public PrivacySettingsBlock(PrivacySettingsPage form) {
 		this.form = form;
 	}
+	
+	public void setDirty(boolean dirty) {
+		form.setDirty(dirty);
+	}
+
+	
 
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
@@ -48,7 +59,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		compo.setLayout(new GridLayout(2,false));
 		
 		// Add tree
-		TreeViewer treeViewer = new TreeViewer(compo);
+		treeViewer = new TreeViewer(compo, SWT.BORDER);
 		treeViewer.setContentProvider(new PrivacySettingsContentProvider());
 		treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
 		treeViewer.setInput(Model.getInstance().getRgis());
@@ -80,16 +91,31 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		buttonLayout.verticalAlignment = SWT.BEGINNING;
 		buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 		buttonCompo.setLayoutData(buttonLayout);
-		toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
-		toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+		Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
 		
+		addButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				RGIS rgis = Model.getInstance().getRgis();
+				RGISPrivacySetting ps = new RGISPrivacySetting();
+				rgis.addPrivacySetting(ps);
+				treeViewer.refresh();
+			}
+			
+		});
 		section.setClient(compo);
+	}
+	
+	protected void refresh() {
+		treeViewer.refresh();
 	}
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(RGISPrivacySetting.class, new PrivacySettingDetailsPage());
-		detailsPart.registerPage(String.class, new LocalizationDetailsPage());
+		detailsPart.registerPage(RGISPrivacySetting.class, new PrivacySettingDetailsPage(this));
+		detailsPart.registerPage(String.class, new LocalizationDetailsPage(this));
 		
 	}
 

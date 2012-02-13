@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,14 +29,18 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class GeneralPage extends FormPage {
 
+	private IManagedForm managedForm;
 	public static final String ID = "rgis_general";
 
 	public GeneralPage(FormEditor parent) {
 		super(parent, ID, "General");
 	}
+	
+	
 
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
+		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Defines general information");
@@ -43,6 +49,7 @@ public class GeneralPage extends FormPage {
 
 		addPropertiesSection(form.getBody(), toolkit);
 		addLocalizationSection(form.getBody(), toolkit);
+		
 	}
 
 	private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
@@ -61,6 +68,20 @@ public class GeneralPage extends FormPage {
 		toolkit.createLabel(client, "Identifier");
 		Text identifier = toolkit.createText(client, Model.getInstance()
 				.getRgis().getIdentifier());
+		identifier.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				System.out.println("D: "+managedForm.isDirty());
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		identifier.setLayoutData(textLayout);
 
 		/*

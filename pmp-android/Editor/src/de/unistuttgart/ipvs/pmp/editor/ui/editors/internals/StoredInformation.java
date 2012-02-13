@@ -60,11 +60,15 @@ public class StoredInformation {
 		information.remove(locale);
 	}
 	
+	public void clear() {
+		information.clear();
+	}
+	
 	public boolean localeExists(String locale) {
 		return information.containsKey(locale);
 	}
 	
-	protected Map<String,Information> getMap() {
+	public Map<String,Information> getMap() {
 		return information;
 	}
 	
@@ -77,5 +81,6 @@ public class StoredInformation {
 		Information i = information.remove(oldL);
 		information.put(newL, i);
 	}
+
  
 }
