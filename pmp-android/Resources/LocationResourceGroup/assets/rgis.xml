@@ -1,46 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation 
-		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location"
-		icon="res/drawable-hdpi/icon.png"
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" icon="res/drawable-hdpi/icon.png"
 		className="LocationResourceGroup">
 		<name lang="en">Location</name>
 		<name lang="de">Ortung</name>
-		<description lang="en">Obtains access to the current location of the device.</description>
-		<description lang="de">Erlaubt Zugriff auf den aktuellen Standort des Geräts.</description>
+		<description lang="en">Obtains access to the current location
+			of the device.</description>
+		<description lang="de">Erlaubt Zugriff auf den aktuellen
+			Standort des Geräts.</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting 
-			identifier="useAbsoluteLocation"
+		<privacySetting identifier="useAbsoluteLocation"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Absolute location</name>
 			<name lang="de">Genaue Ortung</name>
-			<description lang="en">Obtains access to the exact current location.</description>
-			<description lang="de">Erlaubt Zugriff auf die aktuell exakte Position.</description>
+			<description lang="en">Obtains access to the exact current
+				location.</description>
+			<description lang="de">Erlaubt Zugriff auf die aktuell exakte
+				Position.</description>
 		</privacySetting>
-		<privacySetting 
-			identifier="showAccuracy"
+		<privacySetting identifier="useCoordinates"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Absolute location</name>
+			<name lang="de">Genaue Ortung</name>
+			<description lang="en">Obtains access to the exact current
+				location.</description>
+			<description lang="de">Erlaubt Zugriff auf die aktuell exakte
+				Position.</description>
+		</privacySetting>
+		<privacySetting identifier="useAccuracy"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Use accuracy</name>
 			<name lang="de">Genauigkeit nutzen</name>
-			<description lang="en">Obtains access to the current accuracy of the location.</description>
-			<description lang="de">Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</description>
+			<description lang="en">Obtains access to the current accuracy
+				of the location.</description>
+			<description lang="de">Erlaubt Zugriff auf die aktuell
+				Genauigkeit der Position.</description>
 		</privacySetting>
-		<privacySetting
-			identifier="locationPrecision"
-			validValueDescription="'true', 'false'">
-			<name lang="en">Location precision</name>
-			<name lang="de">Genauigkeit der Ortung</name>
-			<description lang="en">How precise the location should be.</description>
-			<description lang="de">Wie genau die Ortung sein soll.</description>
-		</privacySetting>
-		<privacySetting 
-			identifier="showSpeed"
+		<privacySetting identifier="useSpeed"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Current speed</name>
 			<name lang="de">Aktuelle Geschwindigkeit</name>
-			<description lang="en">Obtains access to the current speed.</description>
-			<description lang="de">Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</description>
+			<description lang="en">Obtains access to the current speed.
+			</description>
+			<description lang="de">Erlaubt Zugriff auf die aktuelle
+				Geschwindigkeit.</description>
+		</privacySetting>
+		<privacySetting identifier="useLocationDescription"
+			validValueDescription="'NONE', 'COUNTRY', 'CITY', 'STREET'">
+			<name lang="en">Description detail</name>
+			<name lang="de">Genauigkeit der Beschreibung</name>
+			<description lang="en">Obtains more or less detailed access to
+				a description of the current location.</description>
+			<description lang="de">Erlaubt Zugriff auf eine mehr oder
+				weniger genaue Beschreibung der aktuellen Position.</description>
+		</privacySetting>
+		<privacySetting identifier="locationPrecision"
+			validValueDescription="integer greater or equal 0">
+			<name lang="en">Location precision</name>
+			<name lang="de">Genauigkeit der Ortung</name>
+			<description lang="en">How precise the location should be.
+			</description>
+			<description lang="de">Wie genau die Ortung sein soll.
+			</description>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>
