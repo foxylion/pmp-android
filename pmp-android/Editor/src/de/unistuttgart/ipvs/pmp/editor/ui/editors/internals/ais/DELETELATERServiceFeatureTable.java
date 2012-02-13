@@ -14,7 +14,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -30,7 +29,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
  * @author Thorsten Berberich
  * 
  */
-public class ServiceFeatureTable implements IDoubleClickListener {
+public class DELETELATERServiceFeatureTable implements IDoubleClickListener {
 
     /**
      * {@link Shell} of the parent component, used to display dialogs
@@ -49,7 +48,7 @@ public class ServiceFeatureTable implements IDoubleClickListener {
      * @param bounds
      *            bounds of the editor
      */
-    public ServiceFeatureTable(final Composite parent, FormToolkit toolkit,
+    public DELETELATERServiceFeatureTable(final Composite parent, FormToolkit toolkit,
 	    int height) {
 	parentShell = parent.getShell();
 	Composite composite = toolkit.createComposite(parent);
@@ -75,7 +74,7 @@ public class ServiceFeatureTable implements IDoubleClickListener {
 
 	// Set the content
 	table.setLabelProvider(new LabelProvider());
-	table.setContentProvider(new ServiceFeatureContentProvider());
+//	table.setContentProvider(new DELETELATERServiceFeatureContentProvider());
 	table.setInput(Model.getInstance().getAis().getServiceFeatures());
 
 	// Create the identifier column
