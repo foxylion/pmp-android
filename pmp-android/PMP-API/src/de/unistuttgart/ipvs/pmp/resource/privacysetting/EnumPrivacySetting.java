@@ -32,7 +32,7 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
             }
             return Enum.valueOf(clazz, value);
         } catch (IllegalArgumentException iae) {
-            throw new PrivacySettingValueException();
+            throw new PrivacySettingValueException(iae);
         }
     }
     
@@ -42,6 +42,7 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
         if (this.view == null) {
             this.view = new EnumPrivacySettingView<T>(context, clazz);
         }
+        
         return this.view;
     }
 }
