@@ -30,4 +30,24 @@ public class PrivacySettingValueException extends Exception {
     
     private static final long serialVersionUID = -6411892866985727591L;
     
+    
+    public PrivacySettingValueException() {
+        super();
+    }
+    
+    
+    public PrivacySettingValueException(String detailMessage, Throwable throwable) {
+        super(detailMessage, throwable);
+    }
+    
+    
+    public PrivacySettingValueException(String detailMessage) {
+        super(detailMessage);
+    }
+    
+    
+    public PrivacySettingValueException(Throwable throwable) {
+        super(throwable);
+    }
+    
 }
