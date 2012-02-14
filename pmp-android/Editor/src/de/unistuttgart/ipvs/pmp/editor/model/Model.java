@@ -1,8 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.model;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
+import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -102,9 +104,23 @@ public class Model {
      * Gets the whole {@link RGIS} list from the server
      * 
      * @return the rgisList
+     * @throws IOException
      */
-    public List<RGIS> getRgisList() {
+    public List<RGIS> getRgisList() throws IOException {
+	ServerProvider server = new ServerProvider();
+	rgisList = server.getAvailableRessourceGroups();
 	return rgisList;
+    }
+
+    /**
+     * Updates the {@link RGIS} list from the server
+     * 
+     * @throws IOException
+     */
+    public void updateServerList() throws IOException {
+	ServerProvider server = new ServerProvider();
+	server.updateResourceGroupList();
+	rgisList = server.getAvailableRessourceGroups();
     }
 
     /**

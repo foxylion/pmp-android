@@ -49,16 +49,36 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
     private IManagedForm form;
 
     /**
-     * The displayed table
+     * The displayed description table
      */
-    private Table table;
+    private Table descriptionTable;
+    
+    /**
+     * The displayed name table
+     */
+    private Table nameTable;
 
     /**
-     * The Columns to resize
+     * The displayed section
      */
-    private TableColumn localeColumn;
-    private TableColumn nameColumn;
-    private TableColumn descColumn;
+    Section descriptionSection;
+    
+    /**
+     * The displayed section
+     */
+    Section nameSection;
+
+    /**
+     * The description Columns to resize
+     */
+    private TableColumn localeColumnDescription;
+    private TableColumn descColumnDescription;
+    
+    /**
+     * The name Columns to resize
+     */
+    private TableColumn localeColumnName;
+    private TableColumn nameColumnName;
 
     /**
      * The {@link AISServiceFeature} that is currently displayed
@@ -98,59 +118,132 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 	parentLayout.grabExcessVerticalSpace = true;
 	parentLayout.horizontalAlignment = GridData.FILL;
 	parentLayout.grabExcessHorizontalSpace = true;
-	parent.setLayout(new GridLayout());
+	parent.setLayout(new GridLayout(2, false));
 
 	// Attributes section
 	FormToolkit toolkit = form.getToolkit();
+	
+	// The name section
+	nameSection = toolkit.createSection(parent, Section.TWISTIE
+		| Section.TITLE_BAR);
+	nameSection.setText("Names");
+	nameSection.setLayout(new GridLayout(1, false));
+	nameSection.setExpanded(true);
+	nameSection.setLayoutData(parentLayout);
+	createSectionAttributeToolbar(nameSection);
 
-	Section attributeSection = toolkit.createSection(parent,
-		Section.TWISTIE | Section.TITLE_BAR);
-	attributeSection.setText("Attributes");
-	attributeSection.setLayout(new GridLayout(1, false));
-	attributeSection.setExpanded(true);
-	attributeSection.setLayoutData(parentLayout);
-	createSectionAttributeToolbar(attributeSection);
+	// The description section
+	descriptionSection = toolkit.createSection(parent, Section.TWISTIE
+		| Section.TITLE_BAR);
+	descriptionSection.setText("Descriptions");
+	descriptionSection.setLayout(new GridLayout(1, false));
+	descriptionSection.setExpanded(true);
+	descriptionSection.setLayoutData(parentLayout);
+	createSectionAttributeToolbar(descriptionSection);
 
+	// The Resourcegroup section
 	Section rgSection = toolkit.createSection(parent, Section.TWISTIE
 		| Section.TITLE_BAR);
 	rgSection.setText("Resourcegroups");
-	rgSection.setLayout(new GridLayout(2, false));
+	rgSection.setLayout(new GridLayout(1, false));
 	rgSection.setExpanded(true);
 	rgSection.setLayoutData(parentLayout);
 
-	TableViewer tableViewer = createAttributesTable(attributeSection,
-		toolkit);
-	attributeSection.setClient(tableViewer.getControl());
+	// Composite that is display in the description section
+	Composite descriptionComposite = toolkit.createComposite(descriptionSection);
+	descriptionComposite.setLayout(new GridLayout(1, false));
+	descriptionComposite.setLayoutData(parentLayout);
+	createDescriptionTable(descriptionComposite, toolkit);
 
+	// Composite that is display in the name section
+	Composite nameComposite = toolkit.createComposite(nameSection);
+	nameComposite.setLayout(new GridLayout(1, false));
+	nameComposite.setLayoutData(parentLayout);
+	createNameTable(nameComposite, toolkit);
+	
+	// Set the composites
+	descriptionSection.setClient(descriptionComposite);
+	nameSection.setClient(nameComposite);
     }
 
-    private TableViewer createAttributesTable(Composite parent,
+    /**
+     * Creates the attributes table
+     * 
+     * @param parent
+     *            parent {@link Composite}
+     * @param toolkit
+     *            {@link FormToolkit}
+     * @return the created {@link TableViewer}
+     */
+    private TableViewer createDescriptionTable(Composite parent,
 	    FormToolkit toolkit) {
 	// Use grid layout so that the table uses the whole screen width
 	final GridData layoutData = new GridData();
 	layoutData.horizontalAlignment = GridData.FILL;
 	layoutData.grabExcessHorizontalSpace = true;
+	layoutData.verticalAlignment = GridData.FILL;
+	layoutData.grabExcessVerticalSpace = true;
 
 	// Workaround for SWT-Bug needed
 	// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
 	layoutData.widthHint = 1;
 
 	TableViewer tv = new TableViewer(parent, SWT.BORDER
-		| SWT.FULL_SELECTION);
+		| SWT.FULL_SELECTION | SWT.MULTI);
 	tv.addDoubleClickListener(this);
 
 	// Define the table's view
-	table = tv.getTable();
-	table.setLayoutData(layoutData);
-	table.setHeaderVisible(true);
-	table.setLinesVisible(true);
+	descriptionTable = tv.getTable();
+	descriptionTable.setLayoutData(layoutData);
+	descriptionTable.setHeaderVisible(true);
+	descriptionTable.setLinesVisible(true);
 
-	localeColumn = new TableColumn(table, SWT.LEFT);
-	nameColumn = new TableColumn(table, SWT.LEFT);
-	descColumn = new TableColumn(table, SWT.LEFT);
-	localeColumn.setText("Locale");
-	nameColumn.setText("Name");
-	descColumn.setText("Description");
+	localeColumnDescription = new TableColumn(descriptionTable, SWT.LEFT);
+	descColumnDescription = new TableColumn(descriptionTable, SWT.LEFT);
+	localeColumnDescription.setText("Locale");
+	descColumnDescription.setText("Description");
+
+	return tv;
+    }
+    
+    /**
+     * Creates the attributes table
+     * 
+     * @param parent
+     *            parent {@link Composite}
+     * @param toolkit
+     *            {@link FormToolkit}
+     * @return the created {@link TableViewer}
+     */
+    private TableViewer createNameTable(Composite parent,
+	    FormToolkit toolkit) {
+	// Use grid layout so that the table uses the whole screen width
+	final GridData layoutData = new GridData();
+	layoutData.horizontalAlignment = GridData.FILL;
+	layoutData.grabExcessHorizontalSpace = true;
+	layoutData.verticalAlignment = GridData.FILL;
+	layoutData.grabExcessVerticalSpace = true;
+
+	// Workaround for SWT-Bug needed
+	// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
+	layoutData.widthHint = 1;
+
+	TableViewer tv = new TableViewer(parent, SWT.BORDER
+		| SWT.FULL_SELECTION | SWT.MULTI);
+	tv.addDoubleClickListener(this);
+
+	// Define the table's view
+	nameTable = tv.getTable();
+	nameTable.setLayoutData(layoutData);
+	nameTable.setHeaderVisible(true);
+	nameTable.setLinesVisible(true);
+
+	localeColumnName = new TableColumn(nameTable, SWT.LEFT);
+	nameColumnName = new TableColumn(nameTable, SWT.LEFT);
+	localeColumnName.setText("Locale");
+	nameColumnName.setText("Name");
+	nameColumnName.pack();
+	localeColumnName.pack();
 
 	return tv;
     }
@@ -230,28 +323,50 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
      */
     @Override
     public void selectionChanged(IFormPart arg0, ISelection selection) {
-	table.setRedraw(false);
-	table.removeAll();
-	TreePath[] path = ((TreeSelection) selection).getPaths();
-	AISServiceFeature serviceFeature = (AISServiceFeature) path[0]
-		.getFirstSegment();
-	displayed = serviceFeature;
-	if (serviceFeature instanceof AISServiceFeature) {
-	    for (Description desc : ((AISServiceFeature) serviceFeature)
-		    .getDescriptions()) {
-		Locale locale = desc.getLocale();
-		TableItem item = new TableItem(table, SWT.NONE);
-		item.setText(new String[] {
-			locale.toString(),
-			((AISServiceFeature) serviceFeature)
-				.getNameForLocale(locale),
-			desc.getDescription() });
+	if (arg0 != null && selection != null) {
+	    
+	    // Stop redrawing the list
+	    descriptionSection.setVisible(true);
+	    descriptionTable.setRedraw(false);
+	    nameTable.setRedraw(false);
+	    
+	    // Remove the old entries
+	    descriptionTable.removeAll();
+	    nameTable.removeAll();
+	    
+	    
+	    // Get the selected service feature
+	    TreePath[] path = ((TreeSelection) selection).getPaths();
+	    AISServiceFeature serviceFeature = (AISServiceFeature) path[0]
+		    .getFirstSegment();
+	    displayed = serviceFeature;
+	    if (serviceFeature instanceof AISServiceFeature) {
+		for (Description desc : serviceFeature.getDescriptions()) {
+		    Locale locale = desc.getLocale();
+		    TableItem item = new TableItem(descriptionTable, SWT.NONE);
+		    item.setText(new String[] { locale.toString(),
+			    desc.getDescription() });
+		}
+		
+		for (Name name : serviceFeature.getNames()){
+		    Locale locale = name.getLocale();
+		    TableItem item = new TableItem(nameTable, SWT.NONE);
+		    item.setText(new String[] {locale.toString(), name.getName()});
+		}
+		
+		// Pack all columns
+		localeColumnDescription.pack();
+		descColumnDescription.pack();
+		nameColumnName.pack();
+		localeColumnName.pack();
+		
+		nameTable.setRedraw(true);
+		nameTable.redraw();
+		descriptionTable.setRedraw(true);
+		descriptionTable.redraw();
+	    } else {
+		descriptionSection.setVisible(false);
 	    }
-	    localeColumn.pack();
-	    nameColumn.pack();
-	    descColumn.pack();
-	    table.setRedraw(true);
-	    table.redraw();
 	}
     }
 
@@ -284,39 +399,33 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 	    public void run() {
 		HashMap<String, String> values = new HashMap<String, String>();
 		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, null, values);
+			parentShell, null, null, values);
 		if (dialog.open() == Window.OK) {
-		    table.setRedraw(false);
+		    descriptionTable.setRedraw(false);
 
 		    // Get the values
-		    String name = values.get("name");
 		    String stringLocale = values.get("locale");
 		    String desc = values.get("description");
 
 		    // Create the table item
-		    TableItem item = new TableItem(table, SWT.NONE);
-		    item.setText(new String[] { stringLocale, name, desc });
+		    TableItem item = new TableItem(descriptionTable, SWT.NONE);
+		    item.setText(new String[] { stringLocale, desc });
 
 		    // Create the things for the model
 		    Locale locale = new Locale(stringLocale);
-		    Name aisName = new Name();
-		    aisName.setLocale(locale);
-		    aisName.setName(name);
 
 		    Description description = new Description();
 		    description.setLocale(locale);
 		    description.setDescription(desc);
 
 		    displayed.addDescription(description);
-		    displayed.addName(aisName);
 
-		    localeColumn.pack();
-		    nameColumn.pack();
-		    descColumn.pack();
+		    localeColumnDescription.pack();
+		    descColumnDescription.pack();
 
 		    Model.getInstance().setAISDirty(true);
-		    table.setRedraw(true);
-		    table.redraw();
+		    descriptionTable.setRedraw(true);
+		    descriptionTable.redraw();
 		}
 	    }
 	};
@@ -327,19 +436,24 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 
 	    @Override
 	    public void run() {
-		table.setRedraw(false);
-		for (int itemIndex : table.getSelectionIndices()) {
-		    displayed.getDescriptions().remove(itemIndex);
-		    displayed.getNames().remove(itemIndex);
-		    table.getItem(itemIndex).dispose();
+		descriptionTable.setRedraw(false);
+		int[] selections = descriptionTable.getSelectionIndices();
+
+		// Delete it reverse out of the model
+		for (int itr = selections.length - 1; itr >= 0; itr--) {
+		    displayed.getDescriptions().remove(selections[itr]);
+		    displayed.getNames().remove(selections[itr]);
 		}
 
-		localeColumn.pack();
-		nameColumn.pack();
-		descColumn.pack();
+		for (TableItem item : descriptionTable.getSelection()) {
+		    item.dispose();
+		}
 
-		table.setRedraw(true);
-		table.redraw();
+		localeColumnDescription.pack();
+		descColumnDescription.pack();
+
+		descriptionTable.setRedraw(true);
+		descriptionTable.redraw();
 		Model.getInstance().setAISDirty(true);
 	    }
 	};
@@ -362,44 +476,39 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
      */
     @Override
     public void doubleClick(DoubleClickEvent arg0) {
-	if (table.getSelectionCount() == 1) {
-	    int index = table.getSelectionIndex();
-	    TableItem selected = table.getItem(index);
+	if (descriptionTable.getSelectionCount() == 1) {
+	    int index = descriptionTable.getSelectionIndex();
+	    TableItem selected = descriptionTable.getItem(index);
 	    String oldLocale = selected.getText(0);
-	    String odlName = selected.getText(1);
-	    String oldDesc = selected.getText(2);
+	    String oldDesc = selected.getText(1);
 
 	    HashMap<String, String> values = new HashMap<String, String>();
 	    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-		    parentShell, oldLocale, odlName, oldDesc, values);
+		    parentShell, oldLocale, oldDesc, values);
 	    if (dialog.open() == Window.OK) {
 		// Get the values
-		String newName = values.get("name");
 		String newLocale = values.get("locale");
 		String newDesc = values.get("description");
-		if (newName.equals(odlName) && newLocale.equals(oldLocale)
-			&& newDesc.equals(oldDesc)) {
+		if (newLocale.equals(oldLocale) && newDesc.equals(oldDesc)) {
 		    // do nothing
 		} else {
-		    table.setRedraw(false);
+		    descriptionTable.setRedraw(false);
 
 		    // Change it at the table
-		    selected.setText(new String[] { newLocale, newName, newDesc });
+		    selected.setText(new String[] { newLocale, newDesc });
 
 		    displayed.getDescriptions().get(index)
 			    .setDescription(newDesc);
 		    displayed.getDescriptions().get(index)
 			    .setLocale(new Locale(newLocale));
-		    displayed.getNames().get(index).setName(newName);
 		    displayed.getNames().get(index)
 			    .setLocale(new Locale(newLocale));
 
-		    localeColumn.pack();
-		    nameColumn.pack();
-		    descColumn.pack();
+		    localeColumnDescription.pack();
+		    descColumnDescription.pack();
 
-		    table.setRedraw(true);
-		    table.redraw();
+		    descriptionTable.setRedraw(true);
+		    descriptionTable.redraw();
 
 		    Model.getInstance().setAISDirty(true);
 		}

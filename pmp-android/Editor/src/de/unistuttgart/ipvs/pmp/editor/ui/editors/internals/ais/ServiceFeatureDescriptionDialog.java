@@ -1,9 +1,12 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.fieldassist.AutoCompleteField;
+import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -57,7 +60,6 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      * The Strings that could be set
      */
     String locale;
-    String name;
     String description;
     
     /**
@@ -72,10 +74,9 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      *            {@link Shell} to display
      */
     public ServiceFeatureDescriptionDialog(Shell parentShell, String locale,
-	    String name, String desc, HashMap<String, String> values) {
+	    String desc, HashMap<String, String> values) {
 	super(parentShell);
 	this.locale = locale;
-	this.name = name;
 	this.description = desc;
 	this.values = values;
     }
@@ -123,12 +124,8 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	localeText.addModifyListener(this);
 	localeText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_FILL));
-
-	new Label(textComposite, SWT.FILL).setText("Name: ");
-	nameText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
-	nameText.addModifyListener(this);
-	nameText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_FILL));
+	
+	new AutoCompleteField(localeText, new TextContentAdapter(), Locale.getISOLanguages());
 
 	new Label(textComposite, SWT.FILL).setText("Description: ");
 	descText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
@@ -153,10 +150,6 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
     public void okPressed() {
 	if (localeText.getText() != null) {
 	    values.put("locale", localeText.getText());
-	}
-
-	if (nameText.getText() != null) {
-	    values.put("name", nameText.getText());
 	}
 
 	if (descText.getText() != null) {
@@ -184,11 +177,7 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	if (locale != null) {
 	    localeText.setText(locale);
 	}
-
-	if (name != null) {
-	    nameText.setText(name);
-	}
-
+	
 	if (description != null) {
 	    descText.setText(description);
 	}
