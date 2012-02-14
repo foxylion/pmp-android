@@ -46,4 +46,5 @@ try {
 	Json::printError("Some Error", $e->getMessage());
 }
 Database::getInstance()->disconnect();
-?>
+
+// EOF

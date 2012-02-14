@@ -13,17 +13,17 @@ class Json {
 	/**
 	 * Prints a default JSON-error-message
 	 *
-	 * @param String $error	 Typ of the error. Has to be one of the values
-	 *						  defined in the design document (e.g. "NOT_LOGGED_IN")
-	 * @param type   $msg	   Message to descripe the error in more detail
-	 * @param type   $exit	  If set to true, this function will close the database
-	 *						  connection and stops the execution of the script
-	 *						  after the message has been printed
+	 * @param String   $error	 Typ of the error. Has to be one of the values
+	 *                            defined in the design document (e.g. "NOT_LOGGED_IN")
+	 * @param String   $msg	   Message to describe the error in more detail
+	 * @param bool     $exit	  If set to true, this function will close the database
+	 *                            connection and stops the execution of the script
+	 *                            after the message has been printed
 	 */
 	public static function printError($error, $msg, $exit = true) {
-		$json = array("successful" => false,
-					  "error"	  => $error,
-					  "msg"		=> $msg);
+		$json = array('successful' => false,
+					  'error'	  => $error,
+					  'msg'		=> $msg);
 		echo self::arrayToJson($json);
 
 		// Exit script if required
@@ -40,7 +40,7 @@ class Json {
 	 * @param boolean		   $exit When set to true, the script will be stopped
 	 */
 	public static function printDatabaseError($exception, $exit = true) {
-		self::printError("invalid_database-query", $exception->__toString(), $exit);
+		self::printError('invalid_database-query', $exception->__toString(), $exit);
 	}
 
 	/**
@@ -48,8 +48,12 @@ class Json {
 	 *
 	 * @param boolean $exit When set to true, the script will be stopped
 	 */
-	public static function printInvalidInputError($exit = true) {
-		self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);
+	public static function printInvalidInputError($message = '', $exit = true) {
+		if ($message == '') {
+			self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);
+		} else {
+			self::printError("invalid_input", "$message is invalid", $exit);
+		}
 	}
 
 	/**
@@ -71,6 +75,7 @@ class Json {
 	 * @return string Generated JSON string
 	 */
 	public static function arrayToJson($array) {
+		header('Content-type: application/json');
 		$json = json_encode($array);
 
 		// Format JSON string if formation is enabled
@@ -143,4 +148,4 @@ class Json {
 
 }
 
-?>
+// EOF JSON.class.php

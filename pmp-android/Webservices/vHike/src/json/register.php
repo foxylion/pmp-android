@@ -54,4 +54,5 @@ try {
 }
 
 Database::getInstance()->disconnect();
-?>
+
+// EOF

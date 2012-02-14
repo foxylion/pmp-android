@@ -9,4 +9,5 @@ Session::getInstance()->logOut();
 $output = array("successful" => true);
 echo Json::arrayToJson($output);
 Database::getInstance()->disconnect();
-?>
+
+// EOF
