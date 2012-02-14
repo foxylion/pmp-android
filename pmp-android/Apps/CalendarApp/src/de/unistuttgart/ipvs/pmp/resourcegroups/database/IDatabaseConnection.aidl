@@ -8,6 +8,11 @@ import java.util.Map;
  */
 interface IDatabaseConnection {
 
+	/**
+	 * Open a database for read/write access. Should be done before any other method call.
+	 */
+	 void open(String databaseName);
+
     /**
      *  Close and clean up the current connection. 
      */
