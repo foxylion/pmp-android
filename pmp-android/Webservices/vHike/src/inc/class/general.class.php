@@ -61,6 +61,20 @@ class General {
 	}
 
 	/**
+	 * Checks is the given string is a boolean
+	 *
+	 * @static
+	 *
+	 * @param string $string The input string
+	 *
+	 * @return boolean TRUE, if the input string is "true", "false" (case ignored) or "0", "1"
+	 */
+	public static function isBoolean($string) {
+		return $string == 0 OR strcasecmp($string, "false") OR strcasecmp($string, "0") OR
+			$string == 1 OR strcasecmp($string, "true") OR strcasecmp($string, "1");
+	}
+
+	/**
 	 * Checks if the given parameter is a valid latitude
 	 *
 	 * @param String $input The input

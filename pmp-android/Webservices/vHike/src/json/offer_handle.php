@@ -9,7 +9,7 @@ require('./../inc/json_framework.inc.php');
 Json::printErrorIfNotLoggedIn();
 
 // Verify user input
-if (!isset ($_POST['accept']) OR !is_bool((boolean)$_POST['accept'])) {
+if (!isset ($_POST['accept']) OR !General::isBoolean($_POST['accept'])) {
 	Json::printInvalidInputError();
 }
 
@@ -24,11 +24,15 @@ try {
 		$status = 'invalid_user';
 	} else {
 		// Accept or deny the offer
-		$status = 'handled';
-		if ((boolean)$_POST['accept'] == TRUE) {
-			$offer->accept();
+		if ($_POST['accept'] == 1 OR strcasecmp($_POST['accept'], 'true')==0 OR strcasecmp($_POST['accept'], '1')==0) {
+			 $offer->accept();
+			$status = 'accepted';
 		} else {
-			$offer->deny();
+			if ($offer->deny()==0) {
+				$status = 'cannot_update';
+			} else {
+				$status = 'denied';
+			}
 		}
 	}
 
@@ -42,3 +46,5 @@ try {
 	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
+
+// EOF offer_handle.php

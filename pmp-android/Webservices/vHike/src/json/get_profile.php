@@ -53,4 +53,5 @@ try {
 	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
-?>
+
+// EOF get_profile.php

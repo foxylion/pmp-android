@@ -21,7 +21,7 @@ try {
 
 	// Get the list of hikers and print out the JSON formatted result
 	if ($user->getCurrentTripId() != NULL) {
-		// update coord
+		// TODO update coordination
 		$result = $query->searchQuery($user->getId(), $_POST["distance"]);
 		if ($result) {
 			$output = array("successful" => true,
@@ -43,4 +43,5 @@ try {
 	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
-?>
+
+// EOF query_search.php

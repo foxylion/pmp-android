@@ -12,12 +12,15 @@ $user = Session::getInstance()->getLoggedInUser();
 
 try {
 
-	if (isset($_POST['all']) && strcmp($_POST['all'], 'delete_all') == 0) {
+	if (isset($_POST['all']) && strcasecmp($_POST['all'], 'delete_all') == 0) {
 		$result = $user->deleteAllQueries();
 	} elseif (!General::validateId('query_id')) {
-		Json::printInvalidInputError();
+		echo $_POST['query_id'];
+		Json::printInvalidInputError('query_id');
+	} else {
+		$result = $user->deleteQuery($_POST['query_id']);
 	}
-	$result = $user->deleteQuery($_POST['query_id']);
+
 
 	echo Json::arrayToJson(array('successful'=> true, 'num_query_deleted' => $result));
 
