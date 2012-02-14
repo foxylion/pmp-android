@@ -33,6 +33,7 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.SetPrivacySetting;
 
 @SuppressWarnings("rawtypes")
 public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
@@ -46,7 +47,6 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     private String dbName;
     private int dbVersion = 1;
     private String appID;
-    private String exceptionMessage;
     
     private Context context;
     private DatabaseResource resource;
@@ -60,137 +60,23 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
         this.context = context;
         this.resource = resource;
         this.appID = appIdentifier;
-        this.dbName = this.appID;
-        this.exceptionMessage = context.getResources().getString(R.string.unauthorized_action_exception);
+        this.dbName = null;
+    }
+    
+    
+    @Override
+    public void open(String databaseName) throws RemoteException {
+        /* Database should be at least allowed to be read and database name should be allowed. */
+        if (!isDatabaseAllowed(databaseName) || !isRead()) {
+            throw new SecurityException("The Database is not allowed to be accessed.");
+        }
         
-        // TODO Feature: Allow access to other databases
-        // TODO Feature: New Privacy Setting for the maximum size of the DB.
-    }
-    
-    
-    /**
-     * Close the cursor and release it resources.
-     */
-    private void closeCursor() {
-        if (this.cursor != null) {
-            this.cursor.close();
-        }
-    }
-    
-    
-    // TODO Check content type!
-    private ContentValues getContentValues(Map values) {
-        if (values == null || values.isEmpty()) {
-            return null;
-        }
-        ContentValues cv = new ContentValues();
-        for (Object value : values.entrySet()) {
-            // TODO test if set is in right order??????????????????????????????
-            Entry e = (Entry) value;
-            if (String.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (String) e.getValue());
-            } else if (Integer.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Integer) e.getValue());
-            } else if (Long.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Long) e.getValue());
-            } else if (Short.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Short) e.getValue());
-            } else if (Boolean.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Boolean) e.getValue());
-            } else if (Float.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Float) e.getValue());
-            } else if (Double.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Double) e.getValue());
-            } else if (Byte.class.equals(e.getValue().getClass())) {
-                cv.put(e.getKey().toString(), (Byte) e.getValue());
-            } else {
-                try {
-                    byte[] b = (byte[]) e.getValue();
-                    cv.put(e.getKey().toString(), b);
-                } catch (Exception e2) {
-                    cv.put(e.getKey().toString(), e.getValue().toString());
-                }
-            }
-        }
-        return cv;
-    }
-    
-    
-    private String strip(String s) {
-        return s.trim().replaceAll("(\\s+)", " ");
-    }
-    
-    
-    private boolean isCreate() {
-        try {
-            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_CREATE)).permits(
-                    this.appID, true);
-        } catch (PrivacySettingValueException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
-    
-    
-    private boolean isModify() {
-        try {
-            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_MODIFY)).permits(
-                    this.appID, true);
-        } catch (PrivacySettingValueException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
-    
-    
-    private boolean isRead() {
-        try {
-            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PRIVACY_LEVEL_READ)).permits(
-                    this.appID, true);
-        } catch (PrivacySettingValueException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
-    
-    
-    /**
-     * Open a writable database object if necessary.
-     */
-    private void openWritableDB() {
-        if (this.db == null) {
-            // Open a database connection
-            if (this.helper == null) {
-                // TODO Feature: open other databases
-                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
-            }
-            this.db = this.helper.getWritableDatabase();
-        } else if (this.db.isReadOnly()) {
-            this.db.close();
-            if (this.helper == null) {
-                // TODO Feature: open other databases
-                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
-            }
-            this.db = this.helper.getWritableDatabase();
-        }
-    }
-    
-    
-    /**
-     * Open a read-only database object if necessary. If a database's already available, it will be used, even though it
-     * could be writable, since every actions are carefully checked
-     */
-    private void openReadableDB() {
-        if (this.db == null) {
-            // Open a database connection
-            if (this.helper == null) {
-                // TODO Feature: open other databases
-                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
-            }
-            this.db = this.helper.getReadableDatabase();
+        close();
+        
+        if (databaseName.equals("private")) {
+            this.dbName = "dbRg_private_" + this.appID;
+        } else {
+            this.dbName = "dbRg_public_" + databaseName;
         }
     }
     
@@ -559,6 +445,147 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
             return true;
         } else {
             return this.cursor.isAfterLast();
+        }
+    }
+    
+    
+    /**
+     * Close the cursor and release it resources.
+     */
+    private void closeCursor() {
+        if (this.cursor != null) {
+            this.cursor.close();
+        }
+    }
+    
+    
+    // TODO Check content type!
+    private ContentValues getContentValues(Map values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        ContentValues cv = new ContentValues();
+        for (Object value : values.entrySet()) {
+            // TODO test if set is in right order??????????????????????????????
+            Entry e = (Entry) value;
+            if (String.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (String) e.getValue());
+            } else if (Integer.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Integer) e.getValue());
+            } else if (Long.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Long) e.getValue());
+            } else if (Short.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Short) e.getValue());
+            } else if (Boolean.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Boolean) e.getValue());
+            } else if (Float.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Float) e.getValue());
+            } else if (Double.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Double) e.getValue());
+            } else if (Byte.class.equals(e.getValue().getClass())) {
+                cv.put(e.getKey().toString(), (Byte) e.getValue());
+            } else {
+                try {
+                    byte[] b = (byte[]) e.getValue();
+                    cv.put(e.getKey().toString(), b);
+                } catch (Exception e2) {
+                    cv.put(e.getKey().toString(), e.getValue().toString());
+                }
+            }
+        }
+        return cv;
+    }
+    
+    
+    private String strip(String s) {
+        return s.trim().replaceAll("(\\s+)", " ");
+    }
+    
+    
+    private boolean isCreate() {
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PS_CREATE)).permits(this.appID,
+                    true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    private boolean isModify() {
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PS_MODIFY)).permits(this.appID,
+                    true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    private boolean isRead() {
+        try {
+            return ((BooleanPrivacySetting) this.resource.getPrivacySetting(Database.PS_READ))
+                    .permits(this.appID, true);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    private boolean isDatabaseAllowed(String databaseName) {
+        try {
+            return ((SetPrivacySetting<String>) this.resource.getPrivacySetting(Database.PS_ALLOWED_DATABASES))
+                    .permits(this.appID, databaseName);
+        } catch (PrivacySettingValueException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+    
+    
+    /**
+     * Open a writable database object if necessary.
+     */
+    private void openWritableDB() {
+        if (this.db == null) {
+            // Open a database connection
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getWritableDatabase();
+        } else if (this.db.isReadOnly()) {
+            this.db.close();
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getWritableDatabase();
+        }
+    }
+    
+    
+    /**
+     * Open a read-only database object if necessary. If a database's already available, it will be used, even though it
+     * could be writable, since every actions are carefully checked
+     */
+    private void openReadableDB() {
+        if (this.db == null) {
+            // Open a database connection
+            if (this.helper == null) {
+                // TODO Feature: open other databases
+                this.helper = new DatabaseOpenHelper(this.context, this.dbName, this.dbVersion);
+            }
+            this.db = this.helper.getReadableDatabase();
         }
     }
 }

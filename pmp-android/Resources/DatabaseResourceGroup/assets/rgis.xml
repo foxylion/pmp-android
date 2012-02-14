@@ -6,12 +6,8 @@
 		className="Database">
 		<name lang="en">Database</name>
 		<name lang="de">Datenbank</name>
-		<description lang="en">Database Resource to
-			provide basic functions like read and write into a database.
-		</description>
-		<description lang="de">Datenbank Ressource die grundlegende
-			Funktionen bietet wie z.B. lesen und schreiben in eine Datenbank
-		</description>
+		<description lang="en">Database Resource to provide basic functions like read and write into a database.</description>
+		<description lang="de">Datenbank Ressource die grundlegende Funktionen bietet wie z.B. lesen und schreiben in eine Datenbank.</description>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting
@@ -19,33 +15,32 @@
 			validValueDescription="'true', 'false'">
 			<name lang="en">Read out of database</name>
 			<name lang="de">Aus Datenbank lesen</name>
-			<description lang="en">Allows to read out of a
-				database
-			</description>
-			<description lang="de">Erlaubt aus einer Datenbank zu lesen.
-			</description>
+			<description lang="en">Allows to read out of a database.</description>
+			<description lang="de">Erlaubt aus einer Datenbank zu lesen.</description>
 		</privacySetting>
 		<privacySetting
 			identifier="modify"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Modify database</name>
 			<name lang="de">Datenbank modifizieren</name>
-			<description lang="en">Allows to modify a
-				database.
-			</description>
-			<description lang="de">Erlaubt eine Datenbank zu modifizieren.
-			</description>
+			<description lang="en">Allows to modify a database.</description>
+			<description lang="de">Erlaubt eine Datenbank zu modifizieren.</description>
 		</privacySetting>
 		<privacySetting
 			identifier="create"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Create tables</name>
 			<name lang="de">Tabellen erstellen</name>
-			<description lang="en">Allows to create new
-				tables.
-			</description>
-			<description lang="de">Erlaubt neue Tabellen zu erstellen
-			</description>
+			<description lang="en">Allows to create new tables.</description>
+			<description lang="de">Erlaubt neue Tabellen zu erstellen</description>
+		</privacySetting>
+		<privacySetting
+			identifier="allowedDatabases"
+			validValueDescription="allowedDatabaseNames (String), separated by semicolon, `private` as database name for a only to the app visible database.">
+			<name lang="en">Allowed databases</name>
+			<name lang="de">Erlaubte Datenbanken</name>
+			<description lang="en">Names of the databases for which access is allowed.</description>
+			<description lang="de">Namen der Datenbanken für die ein Zugriff erlaubt ist.</description>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>
