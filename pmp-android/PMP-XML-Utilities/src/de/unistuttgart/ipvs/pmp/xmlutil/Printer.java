@@ -34,7 +34,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * This Class provides static methods to print a given AIS, RGIS and PresetSet.
@@ -56,6 +57,31 @@ public class Printer {
     
     
     /**
+     * Print the issues
+     * 
+     * @param location
+     *            location of the issues
+     * @param preString
+     *            the string before the print out
+     */
+    private static void printIssues(IssueLocation location, String preString) {
+        for (Issue issue : location.getIssues()) {
+            StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
+            if (issue.getParameters().size() > 0) {
+                sb.append(" (Parameter: ");
+                for (int itr = 0; itr < issue.getParameters().size(); itr++) {
+                    sb.append(" " + issue.getParameters().get(itr));
+                    if (itr < issue.getParameters().size() - 1)
+                        sb.append(", ");
+                }
+                sb.append(")");
+            }
+            p(sb.toString());
+        }
+    }
+    
+    
+    /**
      * Print the app information set to the console
      * 
      * @param ais
@@ -69,11 +95,14 @@ public class Printer {
         p("> Names:");
         for (Name name : ais.getNames()) {
             p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            printIssues(name, "   > ");
         }
         p("> Descriptions:");
         for (Description descr : ais.getDescriptions()) {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            printIssues(descr, "   > ");
         }
+        printIssues(ais, "> ");
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
             p("");
             p("Service Feature:");
@@ -182,11 +211,11 @@ public class Printer {
     }
     
     
-    public static void printAISIssues(List<AISIssue> issueList) {
+    public static void printIssues(List<Issue> issueList) {
         p("------------------------------------");
-        p("- Printout of the AISIssue list ----");
+        p("- Printout of the issue list -------");
         p("------------------------------------");
-        for (AISIssue issue : issueList) {
+        for (Issue issue : issueList) {
             p("> Location: " + issue.getLocation());
             p("> Type: " + issue.getType().toString());
             for (String parameter : issue.getParameters()) {

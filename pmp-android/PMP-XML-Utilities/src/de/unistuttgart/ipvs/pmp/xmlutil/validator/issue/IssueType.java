@@ -20,31 +20,65 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
 /**
- * Here are listed all possible types of RGISIssues
+ * Here are listed all possible types of AISIssues
  * 
  * @author Marcus Vetter
  * 
  */
-public enum RGISIssueType {
+public enum IssueType {
     
-    NAME_LOCALE_INVALID,
-    NAME_LOCALE_MISSING,
+    /**
+     * Common
+     */
+    LOCALE_INVALID,
+    LOCALE_MISSING,
+    EMPTY_VALUE,
+    
+    /**
+     * Common for all objects extending BasicIS
+     */
     NAME_LOCALE_OCCURRED_TOO_OFTEN,
     NAME_LOCALE_EN_MISSING,
-    NAME_EMPTY,
+    DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+    DESCRIPTION_LOCALE_EN_MISSING,
     
-    DESCR_LOCALE_INVALID,
-    DESCR_LOCALE_MISSING,
-    DESCR_LOCALE_OCCURRED_TOO_OFTEN,
-    DESCR_LOCALE_EN_MISSING,
-    DESCR_EMPTY,
+    /**
+     * Common for all objects having an identifier
+     */
+    IDENTIFIER_MISSING,
     
-    RGI_IDENTIFIER_MISSING,
-    RGI_ICON_MISSING,
-    RGI_CLASSNAME_MISSING,
+    /**
+     * AIS
+     */
+    SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
+    NO_SF_EXISTS,
+    AT_LEAST_TWO_SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE,
     
+    /**
+     * AISServiceFeature
+     */
+    RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
+    NO_RRG_EXISTS,
+    
+    /**
+     * AISRequiredResourceGroups
+     */
+    MINREVISION_MISSING,
+    MINREVISION_INVALID,
+    RPS_IDENTIFIER_OCCURRED_TOO_OFTEN,
+    NO_RPS_EXISTS,
+    
+    /**
+     * RGIS
+     */
+    ICON_MISSING,
+    CLASSNAME_MISSING,
     PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
-    PS_IDENTIFIER_MISSING,
-    PS_VALID_VALUE_DESCRIPTION_MISSING
+    NO_PS_EXISTS,
+    
+    /**
+     * RGISPrivacySetting
+     */
+    VALID_VALUE_DESCRIPTION_MISSING
     
 }

@@ -19,11 +19,7 @@
  */
 package unittest;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -33,10 +29,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 
 public class TestValidXMLFile {
     
@@ -59,40 +53,41 @@ public class TestValidXMLFile {
         
         try {
             // Test AIS
-            AIS ais = appUtil.parse(new URL(aisURL).openStream());
-            appUtil.print(ais);
-            ais = appUtil.parse(appUtil.compile(ais));
-            appUtil.print(ais);
+            //            AIS ais = appUtil.parse(new URL(aisURL).openStream());
+            //            appUtil.print(ais);
+            //            ais = appUtil.parse(appUtil.compile(ais));
+            //            appUtil.print(ais);
             
             // Test RGIS
-            RGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
-            rgUtil.print(rgis);
-            rgis = rgUtil.parse(rgUtil.compile(rgis));
-            rgUtil.print(rgis);
+            //            RGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
+            //            rgUtil.print(rgis);
+            //            rgis = rgUtil.parse(rgUtil.compile(rgis));
+            //            rgUtil.print(rgis);
             
             // Test PresetSet
-            PresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
-            presetUtil.print(presetSet);
-            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
-            presetUtil.print(presetSet);
+            //            PresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
+            //            presetUtil.print(presetSet);
+            //            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
+            //            presetUtil.print(presetSet);
             
             // Test empty AIS compilation
-            File f = new File("C:/users/marcus/desktop/newais.xml");
-            
-            InputStream is = appUtil.compile(new AIS());
-            
-            OutputStream out = new FileOutputStream(f);
-            byte buf[] = new byte[1024];
-            int len;
-            while ((len = is.read(buf)) > 0)
-                out.write(buf, 0, len);
-            out.close();
-            is.close();
+            //            File f = new File("C:/users/marcus/desktop/newais.xml");
+            //            
+            //            InputStream is = appUtil.compile(new AIS());
+            //            
+            //            OutputStream out = new FileOutputStream(f);
+            //            byte buf[] = new byte[1024];
+            //            int len;
+            //            while ((len = is.read(buf)) > 0)
+            //                out.write(buf, 0, len);
+            //            out.close();
+            //            is.close();
             
             // Test defect AIS
             AIS defectAIS = appUtil.parse(new URL(aisDefectURL).openStream());
-            List<AISIssue> aisIssues = AISValidator.validateAIS(defectAIS);
-            Printer.printAISIssues(aisIssues);
+            List<Issue> aisIssues = AISValidator.validateAIS(defectAIS, true);
+            Printer.printIssues(aisIssues);
+            Printer.printAIS(defectAIS);
             
         } catch (IOException e) {
             // TODO Auto-generated catch block

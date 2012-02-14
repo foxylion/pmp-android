@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -32,12 +31,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends BasicIS implements AISIssueLocation {
+public class AIS extends BasicIS {
     
     /**
      * Serial
      */
-    private static final long serialVersionUID = 5053855332785951797L;
+    private static final long serialVersionUID = -6652355069031983384L;
     
     /**
      * This list contains all service features of the app.

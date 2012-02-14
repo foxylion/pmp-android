@@ -28,12 +28,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueType;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 
 /**
  * 
@@ -42,18 +37,27 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueType;
  */
 public class AISValidator extends AbstractValidator {
     
+    public static void clearAllIssues(AIS ais) {
+        
+    }
+    
+    
     /**
      * Validate the whole AIS
      * 
      * @param ais
      *            the ais
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<AISIssue> validateAIS(AIS ais) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
+    public static List<Issue> validateAIS(AIS ais, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
         
-        issueList.addAll(validateAppInformation(ais));
-        issueList.addAll(validateServiceFeatures(ais));
+        // TODO: Clear all issues of all objects in the AIS!
+        
+        issueList.addAll(validateAppInformation(ais, attachData));
+        issueList.addAll(validateServiceFeatures(ais, attachData));
         
         return issueList;
     }
@@ -64,123 +68,15 @@ public class AISValidator extends AbstractValidator {
      * 
      * @param ais
      *            the ais
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<AISIssue> validateAppInformation(AIS ais) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
+    public static List<Issue> validateAppInformation(AIS ais, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
         
-        issueList.addAll(validateNames(ais));
-        issueList.addAll(validateDescriptions(ais));
-        
-        return issueList;
-    }
-    
-    
-    /**
-     * Validate the names of a given {@link AISIssueLocation}
-     * 
-     * @param location
-     *            the AISIssueLocation
-     * @return List with issues as result of the validation
-     */
-    public static List<AISIssue> validateNames(AISIssueLocation location) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
-        
-        // Check, if this location has names and descriptions (extends from BasicIS)
-        if (location instanceof BasicIS) {
-            boolean englishLocaleExists = false;
-            List<String> localesOccurred = new ArrayList<String>();
-            
-            for (Name name : ((BasicIS) location).getNames()) {
-                
-                // Instantiate possible issues
-                AISIssue localeMissing = new AISIssue(AISIssueType.NAME_LOCALE_MISSING, location);
-                AISIssue localeInvalid = new AISIssue(AISIssueType.NAME_LOCALE_INVALID, location);
-                AISIssue nameEmpty = new AISIssue(AISIssueType.NAME_EMPTY, location);
-                
-                // Flag, if the locale is missing
-                boolean localeAvailable = true;
-                
-                // Check, if the locale is set
-                if (name.getLocale() == null || !checkValueSet(name.getLocale().getLanguage())) {
-                    issueList.add(localeMissing);
-                    localeAvailable = false;
-                    
-                } else if (!checkLocale(name.getLocale())) {
-                    // if the locale is invalid
-                    issueList.add(localeInvalid);
-                } else {
-                    // Check, if its the english attribute
-                    if (checkLocaleAttributeEN(name.getLocale())) {
-                        englishLocaleExists = true;
-                    }
-                    
-                    String locale = name.getLocale().getLanguage();
-                    if (!localesOccurred.contains(locale)) {
-                        localesOccurred.add(locale);
-                    } else {
-                        // Check, if this issue is already added to the issuelist
-                        boolean issueAlreadyExists = false;
-                        for (AISIssue issueExisting : issueList) {
-                            if (issueExisting.getType().equals(AISIssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN)
-                                    && issueExisting.getLocation().equals(location)
-                                    && issueExisting.getParameters().size() == 1
-                                    && issueExisting.getParameters().get(0).equals(locale)) {
-                                issueAlreadyExists = true;
-                            }
-                        }
-                        if (!issueAlreadyExists) {
-                            AISIssue localesOccurredTooOften = new AISIssue(
-                                    AISIssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN, location);
-                            localesOccurredTooOften.addParameter(locale);
-                            issueList.add(localesOccurredTooOften);
-                        }
-                        
-                    }
-                }
-                
-                // Check, if the name is set
-                if (!checkValueSet(name.getName())) {
-                    issueList.add(nameEmpty);
-                    // Add the information of the locale to the name issue
-                    if (localeAvailable) {
-                        nameEmpty.addParameter(name.getLocale().getLanguage());
-                    }
-                } else {
-                    // Add the information of the name to the locale issues
-                    localeMissing.addParameter(name.getName());
-                    localeInvalid.addParameter(name.getName());
-                }
-            }
-            
-            // Add an issue, that the english locale is missing
-            if (!englishLocaleExists) {
-                issueList.add(new AISIssue(AISIssueType.NAME_LOCALE_EN_MISSING, location));
-            }
-            
-        }
-        
-        return issueList;
-        
-    }
-    
-    
-    /**
-     * Validate the description of a given {@link AISIssueLocation}
-     * 
-     * @param location
-     *            the AISIssueLocation
-     * @return List with issues as result of the validation
-     */
-    public static List<AISIssue> validateDescriptions(AISIssueLocation location) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
-        
-        // Check, if this location has descriptions (extends from BasicIS)
-        if (location instanceof BasicIS) {
-            for (Description descr : ((BasicIS) location).getDescriptions()) {
-                
-            }
-        }
+        issueList.addAll(validateNames(ais, attachData));
+        issueList.addAll(validateDescriptions(ais, attachData));
         
         return issueList;
     }
@@ -191,13 +87,15 @@ public class AISValidator extends AbstractValidator {
      * 
      * @param ais
      *            the ais
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<AISIssue> validateServiceFeatures(AIS ais) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
+    public static List<Issue> validateServiceFeatures(AIS ais, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
         
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
-            issueList.addAll(validateServiceFeature(sf));
+            issueList.addAll(validateServiceFeature(sf, attachData));
         }
         
         return issueList;
@@ -209,13 +107,15 @@ public class AISValidator extends AbstractValidator {
      * 
      * @param sf
      *            the service feature
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<AISIssue> validateServiceFeature(AISServiceFeature sf) {
-        List<AISIssue> issueList = new ArrayList<AISIssue>();
+    public static List<Issue> validateServiceFeature(AISServiceFeature sf, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
         
-        issueList.addAll(validateNames(sf));
-        issueList.addAll(validateDescriptions(sf));
+        issueList.addAll(validateNames(sf, attachData));
+        issueList.addAll(validateDescriptions(sf, attachData));
         
         return issueList;
     }
@@ -228,8 +128,10 @@ public class AISValidator extends AbstractValidator {
      * 
      * @param ais
      *            the AppInformationSet
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
      */
-    public static void validateAISDiffPSValuesForDiffSFs(AIS ais) {
+    public static void validateAISDiffPSValuesForDiffSFs(AIS ais, boolean attachData) {
         
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
             

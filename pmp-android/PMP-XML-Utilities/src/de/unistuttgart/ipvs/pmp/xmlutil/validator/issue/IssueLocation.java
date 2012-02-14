@@ -19,35 +19,55 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractIssue {
+/**
+ * This is the abstract class for an issue location
+ * 
+ * @author Marcus Vetter
+ * 
+ */
+public abstract class IssueLocation implements Serializable {
     
     /**
-     * List of parameters
+     * Serial
      */
-    private List<String> parameters = new ArrayList<String>();
+    private static final long serialVersionUID = 814952109838292372L;
+    
+    /**
+     * This list contains all issues appeared in this object
+     */
+    private List<Issue> issues = new ArrayList<Issue>();
     
     
     /**
-     * Get the parameter
+     * Get the issues
      * 
-     * @return the parameter ("", if no parameter exists)
+     * @return list of issues
      */
-    public List<String> getParameters() {
-        return parameters;
+    public List<Issue> getIssues() {
+        return issues;
     }
     
     
     /**
-     * Set the parameter
+     * Add an issue
      * 
-     * @param parameter
-     *            the parameter to set
+     * @param issue
+     *            issue to add
      */
-    public void addParameter(String parameter) {
-        this.parameters.add(parameter);
+    public void addIssue(Issue issue) {
+        issues.add(issue);
+    }
+    
+    
+    /**
+     * Clear all issues
+     */
+    public void clearIssues() {
+        issues.clear();
     }
     
 }

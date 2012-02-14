@@ -19,9 +19,143 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
+
 public class AbstractValidator {
+    
+    /**
+     * Validate the names of a given {@link IssueLocation}
+     * 
+     * @param location
+     *            the IssueLocation
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    public static List<Issue> validateNames(IssueLocation location, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
+        
+        // Check, if this location has names and descriptions (extends from BasicIS)
+        if (location instanceof BasicIS) {
+            boolean englishLocaleExists = false;
+            List<String> localesOccurred = new ArrayList<String>();
+            
+            for (Name name : ((BasicIS) location).getNames()) {
+                
+                // Instantiate possible issues
+                Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, name);
+                Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, name);
+                Issue nameEmpty = new Issue(IssueType.EMPTY_VALUE, name);
+                
+                // Flag, if the locale is missing
+                boolean localeAvailable = true;
+                
+                // Check, if the locale is set
+                if (name.getLocale() == null || !checkValueSet(name.getLocale().getLanguage())) {
+                    issueList.add(localeMissing);
+                    if (attachData)
+                        name.addIssue(localeMissing);
+                    localeAvailable = false;
+                    
+                } else if (!checkLocale(name.getLocale())) {
+                    // if the locale is invalid
+                    issueList.add(localeInvalid);
+                    if (attachData)
+                        name.addIssue(localeInvalid);
+                } else {
+                    // Check, if its the english attribute
+                    if (checkLocaleAttributeEN(name.getLocale())) {
+                        englishLocaleExists = true;
+                    }
+                    
+                    String locale = name.getLocale().getLanguage();
+                    if (!localesOccurred.contains(locale)) {
+                        localesOccurred.add(locale);
+                    } else {
+                        // Check, if this issue is already added to the issuelist
+                        boolean issueAlreadyExists = false;
+                        for (Issue issueExisting : issueList) {
+                            if (issueExisting.getType().equals(IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN)
+                                    && (issueExisting).getLocation().equals(location)
+                                    && issueExisting.getParameters().size() == 1
+                                    && issueExisting.getParameters().get(0).equals(locale)) {
+                                issueAlreadyExists = true;
+                            }
+                        }
+                        if (!issueAlreadyExists) {
+                            Issue localesOccurredTooOften = new Issue(IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
+                                    location);
+                            localesOccurredTooOften.addParameter(locale);
+                            issueList.add(localesOccurredTooOften);
+                            if (attachData)
+                                location.addIssue(localesOccurredTooOften);
+                        }
+                        
+                    }
+                }
+                
+                // Check, if the name is set
+                if (!checkValueSet(name.getName())) {
+                    issueList.add(nameEmpty);
+                    if (attachData)
+                        name.addIssue(nameEmpty);
+                    // Add the information of the locale to the name issue
+                    if (localeAvailable) {
+                        nameEmpty.addParameter(name.getLocale().getLanguage());
+                    }
+                } else {
+                    // Add the information of the name to the locale issues
+                    localeMissing.addParameter(name.getName());
+                    localeInvalid.addParameter(name.getName());
+                }
+            }
+            
+            // Add an issue, that the english locale is missing
+            if (!englishLocaleExists) {
+                Issue localeEnMissing = new Issue(IssueType.NAME_LOCALE_EN_MISSING, location);
+                issueList.add(localeEnMissing);
+                if (attachData)
+                    location.addIssue(localeEnMissing);
+            }
+            
+        }
+        
+        return issueList;
+        
+    }
+    
+    
+    /**
+     * Validate the description of a given {@link IssueLocation}
+     * 
+     * @param location
+     *            the IssueLocation
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    public static List<Issue> validateDescriptions(IssueLocation location, boolean attachData) {
+        List<Issue> issueList = new ArrayList<Issue>();
+        
+        // Check, if this location has descriptions (extends from BasicIS)
+        if (location instanceof BasicIS) {
+            for (Description descr : ((BasicIS) location).getDescriptions()) {
+                
+            }
+        }
+        
+        return issueList;
+    }
+    
     
     /**
      * Check, if the lang attribute value of a given lang attribute equals "en"

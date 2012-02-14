@@ -19,11 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * This is a representation of a resource group, which is required for a
@@ -32,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredResourceGroup implements Serializable, AISIssueLocation {
+public class AISRequiredResourceGroup extends IssueLocation {
     
     /**
      * Serial

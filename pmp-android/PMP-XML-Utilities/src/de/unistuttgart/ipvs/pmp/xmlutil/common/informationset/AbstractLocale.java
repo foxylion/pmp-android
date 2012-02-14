@@ -19,15 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
-import java.io.Serializable;
 import java.util.Locale;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public abstract class AbstractLocale implements Serializable {
+public abstract class AbstractLocale extends IssueLocation {
     
     /**
      * Serial

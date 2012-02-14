@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
 
 /**
  * 
@@ -33,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class RGIS extends BasicIS implements RGISIssueLocation {
+public class RGIS extends BasicIS {
     
     /**
      * Serial

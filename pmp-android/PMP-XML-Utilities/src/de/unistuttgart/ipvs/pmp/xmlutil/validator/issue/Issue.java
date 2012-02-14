@@ -19,17 +19,28 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
-public class RGISIssue extends AbstractIssue {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Marcus Vetter
+ */
+public class Issue {
     
     /**
      * The location of the issue
      */
-    private RGISIssueLocation location;
+    private IssueLocation location;
     
     /**
      * The type of the issue
      */
-    private RGISIssueType type;
+    private IssueType type;
+    
+    /**
+     * List of parameters
+     */
+    private List<String> parameters = new ArrayList<String>();
     
     
     /**
@@ -40,7 +51,7 @@ public class RGISIssue extends AbstractIssue {
      * @param location
      *            location of the issue
      */
-    public RGISIssue(RGISIssueType type, RGISIssueLocation location) {
+    public Issue(IssueType type, IssueLocation location) {
         this.type = type;
         this.location = location;
     }
@@ -51,7 +62,7 @@ public class RGISIssue extends AbstractIssue {
      * 
      * @return the location
      */
-    public RGISIssueLocation getLocation() {
+    public IssueLocation getLocation() {
         return location;
     }
     
@@ -62,7 +73,7 @@ public class RGISIssue extends AbstractIssue {
      * @param location
      *            the location to set
      */
-    public void setLocation(RGISIssueLocation location) {
+    public void setLocation(IssueLocation location) {
         this.location = location;
     }
     
@@ -72,7 +83,7 @@ public class RGISIssue extends AbstractIssue {
      * 
      * @return the type
      */
-    public RGISIssueType getType() {
+    public IssueType getType() {
         return type;
     }
     
@@ -83,8 +94,29 @@ public class RGISIssue extends AbstractIssue {
      * @param type
      *            the type to set
      */
-    public void setType(RGISIssueType type) {
+    public void setType(IssueType type) {
         this.type = type;
+    }
+    
+    
+    /**
+     * Get the parameter
+     * 
+     * @return the parameter ("", if no parameter exists)
+     */
+    public List<String> getParameters() {
+        return parameters;
+    }
+    
+    
+    /**
+     * Set the parameter
+     * 
+     * @param parameter
+     *            the parameter to set
+     */
+    public void addParameter(String parameter) {
+        this.parameters.add(parameter);
     }
     
 }
