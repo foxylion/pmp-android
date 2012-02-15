@@ -128,13 +128,13 @@ public class JPMPPS {
                         list.add(entry.getValue().getLocalized(locale));
                     }
                     
-                    if (list.size() == 10) {
+                    if (list.size() == limit) {
                         break;
                     }
                 }
             }
             
-            if (list.size() == 10) {
+            if (list.size() == limit) {
                 break;
             }
         }
