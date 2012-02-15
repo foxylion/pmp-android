@@ -12,7 +12,6 @@ import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.SetView;
 
 /**
@@ -22,8 +21,6 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.SetView;
  * 
  * @param <T>
  *            the {@link Serializable} type to be stored
- * @param <U>
- *            the {@link IntegerView} used to display the type
  */
 public class SetPrivacySetting<T extends Serializable> extends AbstractPrivacySetting<Set<T>> {
     
