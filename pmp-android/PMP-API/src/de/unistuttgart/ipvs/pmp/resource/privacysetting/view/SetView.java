@@ -38,6 +38,7 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
      */
     private int usedViews;
     
+    private Context context;
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
     private Object[] childViewConstructorInvocation;
     
@@ -49,12 +50,13 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
         this.editViews = new ArrayList<IPrivacySettingView<T>>();
         this.usedViews = 0;
         
+        this.context = context;
         this.childViewConstructor = childViewConstructor;
         this.childViewConstructorInvocation = childViewConstructorInvocation;
         
         setOrientation(LinearLayout.VERTICAL);
         
-        // TODO fix layout, add button, remove button
+        // TODO fix layout, "add" button, "remove" button
         
         TextView description = new TextView(context);
         description.setText("Enter the entries separated by '" + "'.");
@@ -69,7 +71,7 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
     
     private IPrivacySettingView<T> newView() throws PrivacySettingValueException {
         try {
-            return this.childViewConstructor.newInstance(this.childViewConstructorInvocation);
+            return this.childViewConstructor.newInstance(this.context, this.childViewConstructorInvocation);
         } catch (IllegalArgumentException e) {
             throw new PrivacySettingValueException(e.getMessage(), e);
         } catch (InstantiationException e) {
@@ -83,9 +85,16 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
     
     
     private void makeViews(int count) throws PrivacySettingValueException {
+        // add necessary
         for (int i = this.editViews.size(); i < count; i++) {
-            this.editViews.add(newView());
-            // TODO add them on the view
+            IPrivacySettingView<T> insert = newView();
+            this.editViews.add(insert);
+            addView(insert.asView());
+        }
+        
+        // remove unnecessary
+        for (int i = count; i < this.editViews.size(); i++) {
+            removeView(this.editViews.get(i).asView());
         }
     }
     
@@ -112,7 +121,6 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
     public String getViewValue() {
         Set<T> set = new HashSet<T>();
         
-        // TODO set set according to UI
         for (int i = 0; i < this.usedViews; i++) {
             set.add(this.editViews.get(i).getViewValueObject());
         }
