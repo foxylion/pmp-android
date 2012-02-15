@@ -37,7 +37,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -45,11 +47,11 @@ import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRegistrationHandler;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
-import de.unistuttgart.ipvs.pmp.apps.calendarapp.CalendarApp;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.R;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemConnector;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.fsConnector.FileSystemListActionType;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter.SeparatedListAdapter;
+import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.ChangeAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.dialogs.NewAppointmentDialog;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.util.UiManager;
 import de.unistuttgart.ipvs.pmp.apps.calendarapp.model.Appointment;
@@ -106,21 +108,21 @@ public class CalendarAppActivity extends ListActivity {
             public void onSuccess() {
                 PMP.get().updateServiceFeatures();
                 this.toast = getString(R.string.registration_succeed);
-                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+                afterRegistration(true);
             }
             
             
             @Override
             public void onAlreadyRegistered() {
                 PMP.get().updateServiceFeatures();
-                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(true);
+                afterRegistration(true);
             }
             
             
             @Override
             public void onFailure(String message) {
                 this.toast = getString(R.string.registration_failed);
-                ((CalendarApp) getApplication()).changeFunctionalityAccordingToServiceFeature(false);
+                afterRegistration(false);
             }
             
             
@@ -141,6 +143,50 @@ public class CalendarAppActivity extends ListActivity {
             @Override
             public void onBindingFailed() {
                 Log.e(this, "Binding failed...");
+            }
+            
+            
+            /**
+             * Changes the functionality of the app according to its set ServiceFeature
+             */
+            public void afterRegistration(boolean registerationSuccessful) {
+                
+                final Boolean read = PMP.get().isServiceFeatureEnabled("read");
+                final Boolean write = PMP.get().isServiceFeatureEnabled("write");
+                
+                // Clear the local list because you don't know if you can display the appointments
+                Model.getInstance().clearLocalList();
+                
+                if (read) {
+                    // Read files
+                    new SqlConnector().loadAppointments();
+                }
+                
+                /*
+                 * Listener for clicking one item. Opens a new dialog where the user can
+                 * change the date.
+                 */
+                Model.getInstance().getContext().getListView().setOnItemClickListener(new OnItemClickListener() {
+                    
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Object clicked = Model.getInstance().getArrayAdapter().getItem(position);
+                        if (write) {
+                            if (clicked instanceof Appointment) {
+                                Dialog changeDateDialog = new ChangeAppointmentDialog(Model.getInstance().getContext(),
+                                        (Appointment) clicked);
+                                changeDateDialog.show();
+                            }
+                        } else {
+                            String[] requested = new String[1];
+                            requested[0] = "write";
+                            UiManager.getInstance().showServiceFeatureInsufficientDialog(requested);
+                        }
+                    }
+                });
+                
+                // Update the "No appointments available" textview
+                Model.getInstance().getContext().updateNoAvaiableAppointmentsTextView();
             }
             
         });
