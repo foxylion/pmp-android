@@ -21,8 +21,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.SetPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
 
 /**
  * @author Jakob Jarosch

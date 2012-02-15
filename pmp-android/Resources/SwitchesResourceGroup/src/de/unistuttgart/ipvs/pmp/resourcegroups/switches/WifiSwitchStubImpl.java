@@ -22,8 +22,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resourcegroups.switches.IWifiSwitch.Stub;
 
 /**

@@ -22,8 +22,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.email;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 public class EmailOperationsStubImpl extends IEmailOperations.Stub {
     

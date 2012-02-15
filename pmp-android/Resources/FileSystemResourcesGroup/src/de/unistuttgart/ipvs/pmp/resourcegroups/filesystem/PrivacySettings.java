@@ -22,8 +22,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.filesystem;
 import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 /**
  * Defines all privacy settings used by the resources for accessing the file system
