@@ -44,8 +44,7 @@ public class TimeContextCondition {
             int endHour = Integer.parseInt(match.group(5));
             int endMin = Integer.parseInt(match.group(6));
             int endSec = Integer.parseInt(match.group(7));
-            TimeContextIntervalType tccit = TimeContextIntervalType.getForIdentifier(match.group(8)
-                    .charAt(0));
+            TimeContextIntervalType tccit = TimeContextIntervalType.getForIdentifier(match.group(8).charAt(0));
             List<Integer> tccdList = tccit.makeDays(match.group(9));
             
             result = new TimeContextCondition(utc, new TimeContextTime(beginHour, beginMin, beginSec),

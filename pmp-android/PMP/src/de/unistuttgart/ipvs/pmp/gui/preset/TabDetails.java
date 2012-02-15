@@ -166,7 +166,7 @@ public class TabDetails extends Activity {
             @Override
             public void onClick(View v) {
                 for (MissingApp app : TabDetails.this.preset.getMissingApps()) {
-                    preset.removeMissingApp(app);
+                    TabDetails.this.preset.removeMissingApp(app);
                 }
             }
         });
