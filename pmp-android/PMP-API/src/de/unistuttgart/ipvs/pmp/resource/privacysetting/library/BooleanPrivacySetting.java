@@ -17,12 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resource.privacysetting;
+package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.DefaultPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.BooleanView;
 import android.content.Context;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 
 /**
  * {@link DefaultPrivacySetting} for {@link Boolean}.
@@ -32,7 +33,7 @@ import android.widget.LinearLayout;
  */
 public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
-    private BooleanPrivacySettingView view = null;
+    private BooleanView view = null;
     
     
     @Override
@@ -54,45 +55,8 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     @Override
     public IPrivacySettingView<Boolean> getView(Context context) {
         if (this.view == null) {
-            this.view = new BooleanPrivacySettingView(context);
+            this.view = new BooleanView(context);
         }
         return this.view;
     }
-}
-
-/**
- * {@link IPrivacySettingView} for {@link BooleanPrivacySetting}
- * 
- * @author Jakob Jarosch
- * 
- */
-class BooleanPrivacySettingView extends LinearLayout implements IPrivacySettingView<Boolean> {
-    
-    private CheckBox checkBox;
-    
-    
-    public BooleanPrivacySettingView(Context context) {
-        super(context);
-        this.checkBox = new CheckBox(context);
-        addView(this.checkBox);
-    }
-    
-    
-    @Override
-    public View asView() {
-        return this;
-    }
-    
-    
-    @Override
-    public void setViewValue(Boolean value) throws PrivacySettingValueException {
-        this.checkBox.setChecked(value);
-    }
-    
-    
-    @Override
-    public String getViewValue() {
-        return String.valueOf(this.checkBox.isChecked());
-    }
-    
 }

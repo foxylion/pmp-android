@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.test.api.resource.privacysetting;
 
 import android.test.InstrumentationTestCase;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 public class BooleanPrivacySettingTest extends InstrumentationTestCase {
     

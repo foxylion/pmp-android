@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 /**
  * Resource Group for typical switches in Android (wifi, etc.). Has the privacy settings
