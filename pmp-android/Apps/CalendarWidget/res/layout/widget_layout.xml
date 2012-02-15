@@ -48,39 +48,41 @@
         android:background="@drawable/body" >
 
         <LinearLayout
+            android:id="@+id/widget_items"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <include layout="@layout/dark_widget_item" />            
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/item_bg_light"
-                android:gravity="center_vertical"
-                android:text="01.04.2012 - Aprilscherze"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/item_bg_dark"
-                android:gravity="center_vertical"
-                android:text="10.04.2012 - Birthday Jakob"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/empty_view"
             android:layout_width="fill_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/empty_view_text"
+            android:text="No calendar entries."
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/pmp_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Not registered at PMP,\nor Service Feature is\nnot activated."
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/loading_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Loading..."
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:visibility="visible" />
     </FrameLayout>
 
     <ImageView

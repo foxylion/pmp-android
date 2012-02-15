@@ -13,6 +13,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -38,6 +39,8 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
      */
     private int usedViews;
     
+    private LinearLayout viewsContainer;
+    
     private Context context;
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
     private Object[] childViewConstructorInvocation;
@@ -62,10 +65,39 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
         description.setText("Enter the entries separated by '" + "'.");
         addView(description);
         
-        /*this.editText = new EditText(context);
-        this.editText.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-        addView(this.editText);*/
+        viewsContainer = new LinearLayout(context);
+        viewsContainer.setOrientation(LinearLayout.VERTICAL);
+        addView(viewsContainer);
+        
+        LinearLayout ll = new LinearLayout(context);
+        
+        Button buttonAdd = new Button(context);
+        buttonAdd.setText("Add");
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                try {
+                    makeViews(usedViews + 1);
+                } catch (PrivacySettingValueException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        Button buttonRemove = new Button(context);
+        buttonRemove.setText("Remove");
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                try {
+                    makeViews(usedViews - 1);
+                } catch (PrivacySettingValueException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     
     
