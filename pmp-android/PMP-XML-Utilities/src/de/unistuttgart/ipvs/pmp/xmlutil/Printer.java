@@ -145,30 +145,35 @@ public class Printer {
         p("- Printout of the RGIS -------------");
         p("------------------------------------");
         p("Resourcegroup information:");
+        printIssues(rgis, "> ");
         p("> Identifier: " + rgis.getIdentifier());
         p("> IconLocation: " + rgis.getIconLocation());
         p("> Class Name: " + rgis.getClassName());
         p("> Names:");
         for (Name name : rgis.getNames()) {
             p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            printIssues(name, "   > ");
         }
         p("> Descriptions:");
         for (Description descr : rgis.getDescriptions()) {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            printIssues(descr, "   > ");
         }
         for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
             p("");
             p("Privacy Setting:");
+            printIssues(ps, "> ");
             p("> Identifier: " + ps.getIdentifier());
             p("> Valid value description: " + ps.getValidValueDescription());
             p("> Names:");
             for (Name name : ps.getNames()) {
-                
                 p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+                printIssues(name, "   > ");
             }
             p("> Descriptions: ");
             for (Description descr : ps.getDescriptions()) {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+                printIssues(descr, "   > ");
             }
         }
         p("------------------------------------");

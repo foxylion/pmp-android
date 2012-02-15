@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * 
@@ -149,11 +151,47 @@ public class RGIS extends BasicIdentifierIS {
     
     @Override
     public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-        super.clearNameIssues();
-        super.clearDescriptionIssues();
+        clearRGInformationIssuesAndPropagate();
+        clearPSIssuesAndPropagate();
+    }
+    
+    
+    /**
+     * Clear only issues referring to the resource group information
+     */
+    public void clearRGInformationIssuesAndPropagate() {
+        clearNameIssues();
+        clearDescriptionIssues();
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if (!((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) || (issue.getType() == IssueType.NO_PS_EXISTS))) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
+        }
+    }
+    
+    
+    /**
+     * Clear only issues referring to the privacy settings
+     */
+    public void clearPSIssuesAndPropagate() {
         for (RGISPrivacySetting ps : this.getPrivacySettings()) {
             ps.clearIssuesAndPropagate();
+        }
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if ((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN)
+                    || (issue.getType() == IssueType.NO_PS_EXISTS)) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
         }
     }
 }

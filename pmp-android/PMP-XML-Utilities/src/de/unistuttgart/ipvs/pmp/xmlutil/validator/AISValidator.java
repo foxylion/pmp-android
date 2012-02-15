@@ -55,7 +55,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateAIS(AIS ais, boolean attachData) {
+    public List<Issue> validateAIS(AIS ais, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -81,7 +81,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateAppInformation(AIS ais, boolean attachData) {
+    public List<Issue> validateAppInformation(AIS ais, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -110,7 +110,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateServiceFeatures(AIS ais, boolean attachData) {
+    public List<Issue> validateServiceFeatures(AIS ais, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -169,7 +169,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateServiceFeature(AISServiceFeature sf, boolean attachData) {
+    public List<Issue> validateServiceFeature(AISServiceFeature sf, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -232,7 +232,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateRequiredResourceGroup(AISRequiredResourceGroup rrg, boolean attachData) {
+    public List<Issue> validateRequiredResourceGroup(AISRequiredResourceGroup rrg, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -307,7 +307,7 @@ public class AISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public static List<Issue> validateRequiredPrivacySetting(AISRequiredPrivacySetting rps, boolean attachData) {
+    public List<Issue> validateRequiredPrivacySetting(AISRequiredPrivacySetting rps, boolean attachData) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Clear the attached issues, if the issues should be attached
@@ -339,7 +339,7 @@ public class AISValidator extends AbstractValidator {
      * @param location
      *            issue location
      */
-    public static void clearIssuesAndPropagate(IssueLocation location) {
+    public void clearIssuesAndPropagate(IssueLocation location) {
         location.clearIssuesAndPropagate();
     }
     
@@ -353,7 +353,7 @@ public class AISValidator extends AbstractValidator {
      *            the AppInformationSet
      * @return List with issues as result of the validation
      */
-    private static List<Issue> validateAISDiffPSValuesForDiffSFs(AIS ais) {
+    private List<Issue> validateAISDiffPSValuesForDiffSFs(AIS ais) {
         // Temporary list if invalid sf sets
         List<Set<AISServiceFeature>> invalidSFSets = new ArrayList<Set<AISServiceFeature>>();
         

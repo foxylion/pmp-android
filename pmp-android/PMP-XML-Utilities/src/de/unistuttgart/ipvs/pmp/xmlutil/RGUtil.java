@@ -24,6 +24,7 @@ import java.io.InputStream;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.RGISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 
 /**
  * Utility class for resource groups
@@ -34,10 +35,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class RGUtil {
     
     /**
-     * The RGISParser and -Compiler
+     * The RGISParser, -Compiler and -Validator
      */
-    private RGISParser rgisParser = new RGISParser();
-    private RGISCompiler rgisCompiler = new RGISCompiler();
+    private static RGISParser rgisParser = new RGISParser();
+    private static RGISCompiler rgisCompiler = new RGISCompiler();
+    private static RGISValidator rgisValidator = new RGISValidator();
     
     
     /**
@@ -61,6 +63,16 @@ public class RGUtil {
      */
     public InputStream compile(RGIS rgis) {
         return rgisCompiler.compile(rgis);
+    }
+    
+    
+    /**
+     * Get the validator for RGIS
+     * 
+     * @return RGISValidator
+     */
+    public RGISValidator getValidator() {
+        return rgisValidator;
     }
     
     
