@@ -58,20 +58,19 @@ public class PluginProvider implements IPluginProvider {
     private static final ClassLoader CLASS_LOADER = context.getClassLoader();
     
     // errors
-    private static final String ERROR = " (Trying to install '%s' from '%s' using main class '%s')";
-    private static final String ERROR_CLASS_NOT_FOUND = "Main class not found" + ERROR;
-    private static final String ERROR_CLASS_NOT_CASTABLE = "Main class of wrong type" + ERROR;
-    private static final String ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED = "Accessing constructor of main class not allowed"
-            + ERROR;
-    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_FOUND = "Constructor of main class not found" + ERROR;
-    private static final String ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT = "Constructor of main class expects invalid arguments"
-            + ERROR;
-    private static final String ERROR_CLASS_NOT_INSTANTIABLE = "Main class is not instantiable" + ERROR;
-    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE = "Constructor of main class not accessible"
-            + ERROR;
-    private static final String ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION = "Constructor of main class throws exception"
-            + ERROR;
-    private static final String ERROR_APK_NOT_ACCESSIBLE = "Accessing the apk or the assets failed" + ERROR;
+    private static final String DURING_INSTALL = " (Trying to install '%s' from '%s' using main class '%s')";
+    private static final String DURING_CACHE = " (Trying to load cache '%s' from '%s' using main class '%s')";
+    
+    private static final String ERROR_CLASS_NOT_FOUND = "Main class not found";
+    private static final String ERROR_CLASS_NOT_CASTABLE = "Main class of wrong type";
+    private static final String ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED = "Accessing constructor of main class not allowed";
+    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_FOUND = "Constructor of main class not found";
+    private static final String ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT = "Constructor of main class expects invalid arguments";
+    private static final String ERROR_CLASS_NOT_INSTANTIABLE = "Main class is not instantiable";
+    private static final String ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE = "Constructor of main class not accessible";
+    private static final String ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION = "Constructor of main class throws exception";
+    private static final String ERROR_APK_NOT_ACCESSIBLE = "Accessing the apk or the assets failed";
+    private static final String ERROR_RGIS_NOT_ACCESSIBLE = "Accessing the cached RGIS failed";
     
     /*
      * fields
@@ -121,14 +120,18 @@ public class PluginProvider implements IPluginProvider {
      * @param rgPackage
      */
     private void checkCached(String rgPackage) {
+        String errorMsg;
+        
         // RGIS
         if (this.cacheRGIS.get(rgPackage) == null) {
             try {
                 this.cacheRGIS.put(rgPackage, loadRGIS(rgPackage));
-            } catch (FileNotFoundException fnfe) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, fnfe));
+                
             } catch (IOException ioe) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ioe));
+                errorMsg = String.format(ERROR_RGIS_NOT_ACCESSIBLE + DURING_CACHE, rgPackage, PLUGIN_ASSET_DIR_STR
+                        + rgPackage + ".xml", "Unknown");
+                Log.e(this, errorMsg, ioe);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             }
         }
         
@@ -140,16 +143,30 @@ public class PluginProvider implements IPluginProvider {
             
             try {
                 this.cache.put(rgPackage, loadRGObject(rgPackage, apkName, className));
+                
             } catch (ClassNotFoundException cnfe) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, cnfe));
+                errorMsg = String.format(ERROR_CLASS_NOT_FOUND + DURING_CACHE, rgPackage, apkName, className);
+                Log.e(this, errorMsg, cnfe);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             } catch (NoSuchMethodException nsme) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, nsme));
+                errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_FOUND + DURING_CACHE, rgPackage, apkName,
+                        className);
+                Log.e(this, errorMsg, nsme);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             } catch (InstantiationException ie) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ie));
+                errorMsg = String.format(ERROR_CLASS_NOT_INSTANTIABLE + DURING_CACHE, rgPackage, apkName, className);
+                Log.e(this, errorMsg, ie);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             } catch (IllegalAccessException iae) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, iae));
+                errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE + DURING_CACHE, rgPackage, apkName,
+                        className);
+                Log.e(this, errorMsg, iae);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             } catch (InvocationTargetException ite) {
-                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_UNINSTALLED_ACCESS, rgPackage, ite));
+                errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION + DURING_CACHE, rgPackage, apkName,
+                        className);
+                Log.e(this, errorMsg, ite);
+                throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_PLUGIN_FAULT, "rgPackage", rgPackage));
             }
             
         }
@@ -262,39 +279,43 @@ public class PluginProvider implements IPluginProvider {
             }
             
         } catch (ClassNotFoundException cnfe) {
-            errorMsg = String.format(ERROR_CLASS_NOT_FOUND, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_NOT_FOUND + DURING_INSTALL, rgPackage, apkName, className);
             Log.e(this, errorMsg, cnfe);
             throw new InvalidPluginException(errorMsg, cnfe);
         } catch (ClassCastException cce) {
-            errorMsg = String.format(ERROR_CLASS_NOT_CASTABLE, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_NOT_CASTABLE + DURING_INSTALL, rgPackage, apkName, className);
             Log.e(this, errorMsg, cce);
             throw new InvalidPluginException(errorMsg, cce);
         } catch (SecurityException se) {
-            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_ACCESS_NOT_ALLOWED + DURING_INSTALL, rgPackage, apkName,
+                    className);
             Log.e(this, errorMsg, se);
             throw new InvalidPluginException(errorMsg, se);
         } catch (NoSuchMethodException nsme) {
-            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_FOUND, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_FOUND + DURING_INSTALL, rgPackage, apkName, className);
             Log.e(this, errorMsg, nsme);
             throw new InvalidPluginException(errorMsg, nsme);
         } catch (IllegalArgumentException iae) {
-            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_INVALID_ARGUMENT + DURING_INSTALL, rgPackage, apkName,
+                    className);
             Log.e(this, errorMsg, iae);
             throw new InvalidPluginException(errorMsg, iae);
         } catch (InstantiationException ie) {
-            errorMsg = String.format(ERROR_CLASS_NOT_INSTANTIABLE, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_NOT_INSTANTIABLE + DURING_INSTALL, rgPackage, apkName, className);
             Log.e(this, errorMsg, ie);
             throw new InvalidPluginException(errorMsg, ie);
         } catch (IllegalAccessException iae) {
-            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_NOT_ACCESSIBLE + DURING_INSTALL, rgPackage, apkName,
+                    className);
             Log.e(this, errorMsg, iae);
             throw new InvalidPluginException(errorMsg, iae);
         } catch (InvocationTargetException ite) {
-            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_CLASS_CONSTRUCTOR_THROWS_EXCEPTION + DURING_INSTALL, rgPackage, apkName,
+                    className);
             Log.e(this, errorMsg, ite);
             throw new InvalidPluginException(errorMsg, ite);
         } catch (IOException ioe) {
-            errorMsg = String.format(ERROR_APK_NOT_ACCESSIBLE, rgPackage, apkName, className);
+            errorMsg = String.format(ERROR_APK_NOT_ACCESSIBLE + DURING_INSTALL, rgPackage, apkName, className);
             Log.e(this, errorMsg, ioe);
             throw new InvalidPluginException(errorMsg, ioe);
         }

@@ -35,7 +35,8 @@ public class Assert {
     public static final String ILLEGAL_PACKAGE = "'%s' was expected to be a valid plugin package name, found plugin not downloadable however. (%s)";
     public static final String ILLEGAL_INTERRUPT = "'%s' was not expected while rolling out IPC, got an Interrupt however. (%s)";
     public static final String ILLEGAL_SIGBUS_INSTALL = "'%s' is not expected be re-installed without a restart, since this will cause a SIGBUS Android error. (%s)";
-    public static final String ILLEGAL_MISSING_CONTEXT = "'%s' is expeected to be an existing context, but was not found; likely an import error. (%s)";
+    public static final String ILLEGAL_MISSING_CONTEXT = "'%s' is expected to be an existing context, but was not found; likely an import error. (%s)";
+    public static final String ILLEGAL_PLUGIN_FAULT = "'%s' was expected to be an installed, working plugin but failed somehow. (%s)";
     
     
     /**

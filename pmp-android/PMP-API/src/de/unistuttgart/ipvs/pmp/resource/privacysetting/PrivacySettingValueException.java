@@ -21,7 +21,7 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting;
 
 /**
  * Exception that is thrown if a String value is supplied to a {@link AbstractPrivacySetting} which is not valid
- * according to the {@link AbstractPrivacySetting} s format criteria.
+ * according to the {@link AbstractPrivacySetting}'s format criteria.
  * 
  * @author Tobias Kuhn
  * 

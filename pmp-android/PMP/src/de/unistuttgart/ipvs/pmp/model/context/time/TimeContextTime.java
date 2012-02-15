@@ -119,7 +119,7 @@ public class TimeContextTime implements Comparable<TimeContextTime> {
      * @return
      */
     public int getDifferenceInSeconds(TimeContextTime to, boolean assumeNextDayIfWrap) {
-        if (assumeNextDayIfWrap && (this.compareTo(to) > 0)) {
+        if (assumeNextDayIfWrap && (compareTo(to) > 0)) {
             return SECONDS_PER_DAY - to.getDifferenceInSeconds(this, false);
         } else {
             return (to.second - this.second) + (to.minute - this.minute) * SECONDS_PER_MINUTE + (to.hour - this.hour)

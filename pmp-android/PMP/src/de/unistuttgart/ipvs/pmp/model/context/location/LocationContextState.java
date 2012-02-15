@@ -92,13 +92,14 @@ public class LocationContextState extends LocationContextGeoPoint {
     
     @Override
     public String toString() {
-        return super.toString() + ", accuracy " + this.accuracy + ", time " + this.time + ", set " + set;
+        return super.toString() + ", accuracy " + this.accuracy + ", time " + this.time + ", set " + this.set;
     }
     
     
     @Override
     public int hashCode() {
-        return super.hashCode() ^ Float.valueOf(this.accuracy).hashCode() ^ Long.valueOf(this.time).hashCode() ^ set;
+        return super.hashCode() ^ Float.valueOf(this.accuracy).hashCode() ^ Long.valueOf(this.time).hashCode()
+                ^ this.set;
     }
     
     
