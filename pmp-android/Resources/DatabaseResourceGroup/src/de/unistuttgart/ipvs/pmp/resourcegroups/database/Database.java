@@ -24,7 +24,7 @@ import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.StringConverters;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.StringConverter;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.StringView;
 
 /**
@@ -50,7 +50,7 @@ public class Database extends ResourceGroup {
         registerPrivacySetting(PS_CREATE, new BooleanPrivacySetting());
         try {
             registerPrivacySetting(PS_ALLOWED_DATABASES, new SetPrivacySetting<String>(
-                    new StringConverters.StringConverter(), StringView.class.getConstructor(Context.class)));
+                    new StringConverter.StringConverter(), StringView.class.getConstructor(Context.class)));
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {

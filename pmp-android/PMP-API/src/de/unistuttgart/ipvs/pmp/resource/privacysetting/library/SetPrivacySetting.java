@@ -8,6 +8,7 @@ import java.util.Set;
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.IStringConverter;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.SetView;
 

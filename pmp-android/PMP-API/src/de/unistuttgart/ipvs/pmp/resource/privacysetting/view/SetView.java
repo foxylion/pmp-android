@@ -54,8 +54,6 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         
         setOrientation(LinearLayout.VERTICAL);
         
-        // TODO fix layout, "add" button, "remove" button
-        
         TextView description = new TextView(context);
         description.setText("Enter the entries separated by '" + "'.");
         addView(description);
