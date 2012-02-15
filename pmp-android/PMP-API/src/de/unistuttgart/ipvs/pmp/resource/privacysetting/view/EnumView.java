@@ -39,4 +39,11 @@ public class EnumView<T extends Enum<T>> implements IPrivacySettingView<T> {
         this.spinner.setSelection(value.ordinal());
     }
     
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public T getViewValueObject() {
+        return (T) this.spinner.getSelectedItem();
+    }
+    
 }

@@ -114,7 +114,7 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
         
         // TODO set set according to UI
         for (int i = 0; i < this.usedViews; i++) {
-            //set.add(this.editViews.get(i).getViewValue());
+            set.add(this.editViews.get(i).getViewValueObject());
         }
         
         try {
@@ -134,5 +134,11 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
             Log.e(this, "Could not get view value:", e);
             return "";
         }
+    }
+    
+    
+    @Override
+    public Set<T> getViewValueObject() {
+        throw new UnsupportedOperationException();
     }
 }
