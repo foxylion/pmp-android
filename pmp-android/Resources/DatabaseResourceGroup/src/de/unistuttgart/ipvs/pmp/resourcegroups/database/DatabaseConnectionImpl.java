@@ -19,8 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -541,8 +543,10 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @SuppressWarnings("unchecked")
     private boolean isDatabaseAllowed(String databaseName) {
         try {
+            Set<String> referenceSet = new HashSet<String>();
+            referenceSet.add(databaseName);
             return ((SetPrivacySetting<String>) this.resource.getPrivacySetting(Database.PS_ALLOWED_DATABASES))
-                    .permits(this.appID, databaseName);
+                    .permits(this.appID, referenceSet);
         } catch (PrivacySettingValueException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

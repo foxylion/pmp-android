@@ -29,10 +29,10 @@
 
     <uses-permission android:name="android.permission.BIND_REMOTEVIEWS" />
 
-    <application android:label="Calendar Widget" >
+    <application android:label="Calendar Widget" android:icon="@drawable/icon">
         <activity
             android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
-            android:label="Calendar Widget" >
+            android:label="Calendar Widget"  android:icon="@drawable/icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
