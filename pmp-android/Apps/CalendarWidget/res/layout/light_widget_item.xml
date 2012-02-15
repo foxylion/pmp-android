@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<!--
+     Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,12 +14,28 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_item"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="46dp"
-    android:paddingLeft="25dp"
-    android:gravity="center_vertical"
+    android:layout_height="50dp"
     android:background="@drawable/item_bg_light"
-    android:textColor="#e5e5e1"
-    android:textSize="24sp" />
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="25dp" >
+
+    <TextView
+        android:id="@+id/widget_item_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-3dp"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/widget_item_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#e5e5e1"
+        android:textSize="14sp" />
+
+</LinearLayout>

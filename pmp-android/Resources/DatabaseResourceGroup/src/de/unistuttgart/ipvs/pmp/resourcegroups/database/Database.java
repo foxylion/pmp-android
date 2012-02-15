@@ -19,10 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
+import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.StringView;
 
 /**
  * @author Jakob Jarosch
@@ -45,6 +47,13 @@ public class Database extends ResourceGroup {
         registerPrivacySetting(PS_READ, new BooleanPrivacySetting());
         registerPrivacySetting(PS_MODIFY, new BooleanPrivacySetting());
         registerPrivacySetting(PS_CREATE, new BooleanPrivacySetting());
-        registerPrivacySetting(PS_ALLOWED_DATABASES, new SetPrivacySetting<String>(DATABASENAME_SEPARATOR));
+        try {
+            registerPrivacySetting(PS_ALLOWED_DATABASES,
+                    new SetPrivacySetting<String>(StringView.class.getConstructor(Context.class)));
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 }
