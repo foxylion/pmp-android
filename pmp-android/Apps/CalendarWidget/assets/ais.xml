@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">Calendar Widget</name>
+		<name lang="de">Kalender Widget</name>
+		<description lang="en">Displays the next appointments in a widget.</description>
+		<description lang="de">Zeigt die nächsten Termine in einem Widget an.</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="read">
+			<name lang="en">Read entries</name>
+			<name lang="de">Termine auslesen</name>
+			<description lang="en">Required to read the entries from the database.</description>
+			<description lang="de">Wird benötigt um die Einträge aus der Datenbank zu lesen.</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">appointments</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>
