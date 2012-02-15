@@ -49,8 +49,8 @@ public class Database extends ResourceGroup {
         registerPrivacySetting(PS_MODIFY, new BooleanPrivacySetting());
         registerPrivacySetting(PS_CREATE, new BooleanPrivacySetting());
         try {
-            registerPrivacySetting(PS_ALLOWED_DATABASES, new SetPrivacySetting<String>(
-                    new StringConverter.StringConverter(), StringView.class.getConstructor(Context.class)));
+            registerPrivacySetting(PS_ALLOWED_DATABASES, new SetPrivacySetting<String>(StringConverter.forString,
+                    StringView.class.getConstructor(Context.class)));
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {

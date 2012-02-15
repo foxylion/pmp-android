@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
+import java.util.List;
+
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -26,6 +28,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 
 /**
  * The {@link IPrivacySetting} interface represents a PrivacySetting of a {@link IResourceGroup}. It can be fetched from
@@ -64,6 +67,12 @@ public interface IPrivacySetting extends IModelElement {
      * @return Returns the localized description of the {@link IPrivacySetting}.
      */
     public String getDescription();
+    
+    
+    /**
+     * @return Returns the list of something unknown.
+     */
+    public List<RGISPSChangeDescription> getChangedDescription();
     
     
     /**
