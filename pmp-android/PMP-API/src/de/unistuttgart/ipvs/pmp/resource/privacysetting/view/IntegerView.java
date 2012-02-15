@@ -43,13 +43,12 @@ public class IntegerView extends LinearLayout implements IPrivacySettingView<Int
     
     
     @Override
-    public String getViewValue() {
-        return this.editText.getText().toString();
-    }
-    
-    
-    public Integer getViewValueObject() {
-        return Integer.valueOf(getViewValue());
+    public Integer getViewValue() {
+        try {
+            return Integer.valueOf(this.editText.getText().toString());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
     
 }
