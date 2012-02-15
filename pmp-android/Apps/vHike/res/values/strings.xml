@@ -83,5 +83,7 @@
     <string name="wait4PickUp">Please wait for your driver to pick you up...</string>
     <string name="rateProfile">Send rating?</string>
     <string name="default_CANCEL">Cancel</string>
+    <string name="default_remove">Remove destination</string>
+    <string name="default_new">New destination</string>
 
 </resources>
