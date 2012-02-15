@@ -17,6 +17,7 @@
 			<name lang="de">Lesen</name>
 			<description lang="en">Indicate the right to read an existed database.</description>
 			<description lang="de">Das Recht eine bestehenede Datenbank zu lesen.</description>
+			<changeDescription lang="en">If set, reading from a database is enabled.</changeDescription>
 		</privacySetting>
 		<privacySetting 
 			identifier="modify"
@@ -25,6 +26,7 @@
 			<name lang="de">Bearbeiten</name>
 			<description lang="en">Indicate the right to modify the data of a database, including inserting, updating and deleting data in tables but not deletion from tables.</description>
 			<description lang="de">Das Recht Daten einer Datenbank zu bearbeiten. Dazu gehört ebenfalls das Hinzufügen und Löschen von Daten, jedoch nicht das Löschen von Tabellen.</description>
+			<changeDescription lang="en">If set, modifing entries of a database is enabled.</changeDescription>
 		</privacySetting>
 		<privacySetting
 			identifier="create"
@@ -33,6 +35,7 @@
 			<name lang="de">Erstellen</name>
 			<description lang="en">Indicate the right to create and delete new tables.</description>
 			<description lang="de">Das Recht neue Tabellen in der Datenbank zu erstellen und löschen.</description>
+			<changeDescription lang="en">If set, creating entries in a database is enabled.</changeDescription>
 		</privacySetting>		
 	</privacySettings>
 </resourceGroupInformationSet>
