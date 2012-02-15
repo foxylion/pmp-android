@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 
-public class TestValidXMLFile {
+public class TestXMLFiles {
     
     private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
@@ -69,19 +69,6 @@ public class TestValidXMLFile {
             //            presetUtil.print(presetSet);
             //            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
             //            presetUtil.print(presetSet);
-            
-            // Test empty AIS compilation
-            //            File f = new File("C:/users/marcus/desktop/newais.xml");
-            //            
-            //            InputStream is = appUtil.compile(new AIS());
-            //            
-            //            OutputStream out = new FileOutputStream(f);
-            //            byte buf[] = new byte[1024];
-            //            int len;
-            //            while ((len = is.read(buf)) > 0)
-            //                out.write(buf, 0, len);
-            //            out.close();
-            //            is.close();
             
             // Test defect AIS
             AIS defectAIS = appUtil.parse(new URL(aisDefectURL).openStream());

@@ -125,4 +125,14 @@ public interface IPrivacySetting extends IModelElement {
      */
     public void setViewValue(Context context, String value) throws PrivacySettingValueException;
     
+    
+    /**
+     * Converts a view value to its string representation.
+     * 
+     * @param value
+     *            the value from the view
+     * @return the string representation of this value
+     */
+    public String convertViewValue(Object value);
+    
 }

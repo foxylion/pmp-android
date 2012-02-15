@@ -57,4 +57,10 @@ public class Name extends AbstractLocale {
         this.name = name;
     }
     
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+    }
+    
 }

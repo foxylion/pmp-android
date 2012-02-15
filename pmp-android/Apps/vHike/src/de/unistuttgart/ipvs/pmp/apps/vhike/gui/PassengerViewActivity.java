@@ -201,6 +201,7 @@ public class PassengerViewActivity extends MapActivity {
                         Log.i(this, "INVALID USER");
                         break;
                     default:
+                        // stop query
                         Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                         Log.i(this, "QUERY DELeTED");
                         ViewModel.getInstance().clearPassengerOverlayList();

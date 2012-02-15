@@ -35,14 +35,13 @@ public class Model {
     private Map<String, ResourceGroup> resourceGroups = new HashMap<String, ResourceGroup>();
     
     
-    
-    
     /**
      * @return Returns all available {@link ResourceGroup}.
      */
     public Map<String, ResourceGroup> getResourceGroups() {
         return resourceGroups;
     }
+    
     
     /**
      * Replaces the current {@link ResourceGroup}s with a new version.

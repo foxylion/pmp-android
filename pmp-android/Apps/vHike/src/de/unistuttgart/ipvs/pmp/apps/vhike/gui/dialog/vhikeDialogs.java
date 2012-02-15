@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;  
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -141,5 +142,10 @@ public class vhikeDialogs {
     public RateProfileConfirm getRateProfileConfirmation(Context context, int profileID, int rating, int tripID) {
         rpc = new RateProfileConfirm(context, profileID, rating, tripID);
         return rpc;
+    }
+    
+    
+    public SpinnerDialog spDialog(Context context) {
+        return new SpinnerDialog(context);
     }
 }

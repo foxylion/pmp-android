@@ -142,6 +142,19 @@ public abstract class AbstractPrivacySetting<T> {
     
     
     /**
+     * Should create the string representation for an actual object for this {@link AbstractPrivacySetting} that can
+     * later be
+     * recognized by {@link AbstractPrivacySetting#parseValue(String)}.
+     * If value is null or not the desired input type, it should return null.
+     * 
+     * @param value
+     *            the value requested to be translated to string
+     * @return a string corresponding to value, null, if value is null or not the desired input type
+     */
+    public abstract String valueToString(Object value);
+    
+    
+    /**
      * Gets the value for this {@link AbstractPrivacySetting} from PMP, if this {@link AbstractPrivacySetting} is
      * registered on a {@link ResourceGroup}.
      * 

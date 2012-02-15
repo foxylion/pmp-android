@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
 
 /**
  * This is a representation of a resource group, which is required for a
@@ -31,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredResourceGroup extends IssueLocation {
+public class AISRequiredResourceGroup extends IdentifierIS {
     
     /**
      * Serial
@@ -39,14 +39,15 @@ public class AISRequiredResourceGroup extends IssueLocation {
     private static final long serialVersionUID = 5951904689151789055L;
     
     /**
-     * Identifier
-     */
-    private String identifier = "";
-    
-    /**
      * Min revision
      */
     private String minRevision = "";
+    
+    /**
+     * This list contains all required privacy settings of the required resource
+     * group.
+     */
+    private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
     
     
     /**
@@ -57,41 +58,16 @@ public class AISRequiredResourceGroup extends IssueLocation {
     
     
     /**
-     * Constructor to set the identifier
+     * Constructor to set the identifier and minRevision
      * 
      * @param identifier
      *            identifier to set
+     * @param minRevision
+     *            the min revision of the rrg
      */
     public AISRequiredResourceGroup(String identifier, String minRevision) {
         setIdentifier(identifier);
         setMinRevision(minRevision);
-    }
-    
-    /**
-     * This list contains all required privacy settings of the required resource
-     * group.
-     */
-    private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
-    
-    
-    /**
-     * Get the identifier
-     * 
-     * @return identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
     
     
@@ -164,6 +140,15 @@ public class AISRequiredResourceGroup extends IssueLocation {
             }
         }
         return null;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+        for (AISRequiredPrivacySetting rps : this.getRequiredPrivacySettings()) {
+            rps.clearIssuesAndPropagate();
+        }
     }
     
 }

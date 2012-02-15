@@ -5,11 +5,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.TwoRowProgressBar;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
+import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
@@ -40,8 +42,21 @@ public class RGInstaller {
     }
     
     
-    public static void installResourceGroups(final Context context, final Handler guiHandler,
-            final String[] resourceGroups) {
+    /**
+     * Installs a new {@link ResourceGroup} with ui feedback.
+     * 
+     * @param context
+     *            Context required to create the dialog.
+     * @param resourceGroups
+     *            Identifiers of the ResourceGroups which should be installed.
+     * @param callback
+     *            A callback which is invoked on completion. Can be null if not required.
+     */
+    public static void installResourceGroups(final Context context, final String[] resourceGroups,
+            final ICallback callback) {
+        
+        final Handler guiHandler = new Handler(Looper.getMainLooper());
+        
         guiHandler.post(new Runnable() {
             
             @Override
@@ -109,6 +124,9 @@ public class RGInstaller {
                             @Override
                             public void run() {
                                 pb.dismiss();
+                                if (callback != null) {
+                                    callback.callback();
+                                }
                             }
                         });
                     };

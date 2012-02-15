@@ -127,4 +127,10 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         this.link.setViewValue(context, value);
     }
     
+    
+    @Override
+    public String convertViewValue(Object value) {
+        checkCached();
+        return this.link.valueToString(value);
+    }
 }

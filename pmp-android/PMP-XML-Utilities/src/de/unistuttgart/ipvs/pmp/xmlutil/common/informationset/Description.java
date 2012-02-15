@@ -57,4 +57,10 @@ public class Description extends AbstractLocale {
         this.description = description;
     }
     
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+    }
+    
 }

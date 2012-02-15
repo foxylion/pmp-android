@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
+import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -50,11 +50,6 @@ public class DialogServiceFeature extends Dialog {
      */
     private LinearLayout rgContainer;
     
-    /**
-     * Handler for GUI interaction.
-     */
-    protected Handler handler;
-    
     
     /**
      * @see DialogServiceFeature#ServiceFeatureDialog(Context, IServiceFeature, ListItemServiceFeature)
@@ -80,8 +75,6 @@ public class DialogServiceFeature extends Dialog {
         
         this.serviceFeature = serviceFeature;
         this.serviceFeatureView = serviceFeatureView;
-        
-        this.handler = new Handler();
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
@@ -220,10 +213,14 @@ public class DialogServiceFeature extends Dialog {
             public void onClick(View v) {
                 String[] missingResourceGroup = RGInstaller
                         .getMissingResourceGroups(DialogServiceFeature.this.serviceFeature);
-                RGInstaller
-                        .installResourceGroups(getContext(), DialogServiceFeature.this.handler, missingResourceGroup);
+                RGInstaller.installResourceGroups(getContext(), missingResourceGroup, new ICallback() {
+                    
+                    @Override
+                    public void callback(Object... paramteres) {
+                        refresh();
+                    }
+                });
                 
-                refresh();
             }
         });
         

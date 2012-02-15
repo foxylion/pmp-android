@@ -39,14 +39,8 @@ public class BooleanView extends LinearLayout implements IPrivacySettingView<Boo
     
     
     @Override
-    public String getViewValue() {
-        return String.valueOf(this.checkBox.isChecked());
-    }
-    
-    
-    @Override
-    public Boolean getViewValueObject() {
-        return Boolean.valueOf(getViewValue());
+    public Boolean getViewValue() {
+        return this.checkBox.isChecked();
     }
     
 }

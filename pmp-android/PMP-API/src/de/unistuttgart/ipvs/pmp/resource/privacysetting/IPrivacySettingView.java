@@ -21,16 +21,9 @@ public interface IPrivacySettingView<T> {
     
     /**
      * 
-     * @return the currently displayed value as a string readable by its {@link AbstractPrivacySetting}.
+     * @return the currently displayed value as an instance of T
      */
-    public String getViewValue();
-    
-    
-    /**
-     * 
-     * @return the currently displayed value as an actual object, if it used in a container privacy setting.
-     */
-    public T getViewValueObject();
+    public T getViewValue();
     
     
     /**

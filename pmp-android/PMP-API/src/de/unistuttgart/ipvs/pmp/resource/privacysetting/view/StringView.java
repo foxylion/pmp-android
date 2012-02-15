@@ -33,11 +33,4 @@ public class StringView extends TextView implements IPrivacySettingView<String> 
         
     }
     
-    
-    @Override
-    public String getViewValueObject() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
 }

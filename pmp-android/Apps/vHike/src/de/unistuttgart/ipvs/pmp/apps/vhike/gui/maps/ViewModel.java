@@ -62,7 +62,6 @@ public class ViewModel {
     }
     
     
-    
     private void removeFromlvo(ViewObject toRMVvObject) {
         int i = 0;
         for (ViewObject vObject : lvo) {
@@ -152,8 +151,8 @@ public class ViewModel {
             int lat = (int) (vObject.getLat() * 1E6);
             int lng = (int) (vObject.getLon() * 1E6);
             GeoPoint gpsPassenger = new GeoPoint(lat, lng);
-            if(vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP)
-            ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1);
+            if (vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP)
+                ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1);
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             
             // Popup slider if new found
@@ -266,6 +265,9 @@ public class ViewModel {
     
     private List<Profile> hitchDrivers;
     private List<Profile> hitchPassengers;
+    private List<Spinner> spinnersDest = new ArrayList<Spinner>();
+    
+    private Spinner clickedSpinner;
     
     private NotificationAdapter driverAdapter;
     private NotificationAdapter passengerAdapter;
@@ -278,6 +280,23 @@ public class ViewModel {
         return instance;
     }
     
+    
+    /**
+     * List containing all spinners/stop overs
+     * 
+     * @return
+     */
+    public List<Spinner> getSpinners() {
+        return this.spinnersDest;
+    }
+    
+    public void setClickedSpinner(Spinner spinner) {
+        clickedSpinner = spinner;
+    }
+    
+    public Spinner getClickedSpinner() {
+        return clickedSpinner;
+    }
     
     /**
      * Holds all overlays of the the drivers Mapview
@@ -330,7 +349,11 @@ public class ViewModel {
      * @param spDestination
      */
     public void setDestination(Spinner spDestination) {
-        destination = spDestination.getSelectedItem().toString();
+        destination = "";
+        for (int i = 0; i < spinnersDest.size(); i++) {
+            destination = destination + ";" + spinnersDest.get(i).getSelectedItem().toString();
+        }
+        destination = destination + ";";
     }
     
     
@@ -555,7 +578,6 @@ public class ViewModel {
             OverlayItem opPassengerItem = new OverlayItem(gps, "I need a ride", "User: " + passenger.getUsername()
                     + ", Rating: " + passenger.getRating_avg());
             passengerOverlay.addOverlay(opPassengerItem);
-            
             
             // add found passenger to overlay
             ViewModel.getInstance().getDriverOverlayList(mapView).add(passengerOverlay);

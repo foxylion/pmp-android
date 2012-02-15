@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarwidget;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
@@ -140,8 +142,13 @@ class UIUpdateThread extends Thread {
                     try {
                         database.open("appointments");
                         
-                        if (database.isTableExisted("bla")) {
-                            long rowCount = database.query(DB_TABLE_NAME, null, null, null, null, null, DATE);
+                        if (database.isTableExisted("appointments")) {
+                            long rowCount = database.queryWithLimit(
+                                    DB_TABLE_NAME,
+                                    null,
+                                    "date >= "
+                                            + new Date(new Date().getYear(), new Date().getMonth(), new Date().getDay())
+                                                    .getTime(), null, null, null, DATE, "4");
                             
                             String[][] entries = new String[(int) rowCount][2];
                             
@@ -154,12 +161,15 @@ class UIUpdateThread extends Thread {
                                 String name = columns[1];
                                 Date date = new Date(Long.valueOf(columns[4]));
                                 
-                                entries[itr][0] = date.getDay() + "." + date.getMonth() + "." + date.getYear();
+                                entries[itr][0] = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(date);
                                 entries[itr][1] = name;
                             }
+                            WidgetUpdateService.buildUpdate(context, entries, false);
                         } else {
                             WidgetUpdateService.buildUpdate(context, new String[][] {}, false);
                         }
+                        
+                        database.close();
                     } catch (SecurityException e) {
                         WidgetUpdateService.buildUpdate(context, null, true);
                         Log.d(WidgetUpdateService.class, "Failed to use resource, got a security exception.", e);

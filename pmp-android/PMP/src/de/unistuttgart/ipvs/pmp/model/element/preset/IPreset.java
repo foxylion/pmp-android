@@ -171,8 +171,8 @@ public interface IPreset extends IModelElement {
      * 
      * @param privacySetting
      *            The {@link IPrivacySetting} which should be set.
-     * @param the
-     *            value of the privacy setting
+     * @param value
+     *            the value of the privacy setting
      */
     public void assignPrivacySetting(IPrivacySetting privacySetting, String value);
     
