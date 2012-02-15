@@ -25,8 +25,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 

@@ -36,12 +36,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 
 /**
  * This class abstracts common used methods for the xml parsers of an app or

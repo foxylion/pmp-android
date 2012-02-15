@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.xmlutil.common.exception;
+package de.unistuttgart.ipvs.pmp.xmlutil.parser.common;
 
 /**
  * This class is used to create parser exceptions with a type and message.
@@ -25,12 +25,22 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.exception;
  * @author Marcus Vetter
  * 
  */
-public class ParserException extends AbstractException {
+public class ParserException extends RuntimeException {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = 5368379350530757117L;
+    
+    /**
+     * Message of the exception
+     */
+    private String message;
+    
+    /**
+     * The throwable
+     */
+    private Throwable throwable;
     
     /**
      * Type of the parser exception
@@ -67,6 +77,27 @@ public class ParserException extends AbstractException {
     
     
     /**
+     * Get the message of the exception
+     * 
+     * @return message of the exception
+     */
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+    
+    
+    /**
+     * Get the throwable
+     * 
+     * @return the throwable
+     */
+    public Throwable getParent() {
+        return this.throwable;
+    }
+    
+    
+    /**
      * Get the type of the exception
      * 
      * @return type of the exception
@@ -81,48 +112,11 @@ public class ParserException extends AbstractException {
      * @author Marcus Vetter
      */
     public enum Type {
-        /**
-         * A required node is missing
-         */
-        NODE_MISSING,
         
         /**
          * A node occurred too often
          */
         NODE_OCCURRED_TOO_OFTEN,
-        
-        /** A locale attribute is missing */
-        LOCALE_MISSING,
-        
-        /**
-         * A given locale attribute is invalid
-         */
-        LOCALE_INVALID,
-        
-        /**
-         * The identifier is missing
-         */
-        IDENTIFIER_MISSING,
-        
-        /**
-         * A value is missing
-         */
-        VALUE_MISSING,
-        
-        /**
-         * Service Features are missing
-         */
-        SERVICE_FEATURE_MISSING,
-        
-        /**
-         * Required Resourcegroup is missing
-         */
-        REQUIRED_RESOURCE_GROUP_MISSING,
-        
-        /**
-         * Privacy Setting is missing
-         */
-        PRIVACY_SETTING_MISSING,
         
         /**
          * The name of the root node is invalid
@@ -133,13 +127,6 @@ public class ParserException extends AbstractException {
          * The parser found an unexpected node
          */
         UNEXPECTED_NODE,
-        
-        /**
-         * The parser found at least two Service Features, which address the
-         * same required ResouceGroups and the same Privacy Settings with keys
-         * and values
-         */
-        AT_LEAST_TWO_SFS_ADDRESS_SAME_RRGS_AND_PSS,
         
         /**
          * The parser crashed, unknown reason
