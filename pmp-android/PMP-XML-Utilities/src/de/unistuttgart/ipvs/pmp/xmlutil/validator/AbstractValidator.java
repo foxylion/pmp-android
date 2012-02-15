@@ -47,7 +47,7 @@ public class AbstractValidator {
      *            location of the issue
      * @return List with issues as result of the validation
      */
-    protected static List<Issue> validateNames(IssueLocation location) {
+    protected List<Issue> validateNames(IssueLocation location) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Check, if this location has names and descriptions (extends from BasicIS)
@@ -138,7 +138,7 @@ public class AbstractValidator {
      *            the IssueLocation
      * @return List with issues as result of the validation
      */
-    protected static List<Issue> validateDescriptions(IssueLocation location) {
+    protected List<Issue> validateDescriptions(IssueLocation location) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Check, if this location has names and descriptions (extends from BasicIS)
@@ -229,7 +229,7 @@ public class AbstractValidator {
      *            the data to validate (with an identifier)
      * @return a list with all identifier, which occurred at least twice
      */
-    protected static List<String> validateOccurrenceOfIdentifierInIdentifierIS(List<IdentifierIS> locationWithIdentifier) {
+    protected List<String> validateOccurrenceOfIdentifierInIdentifierIS(List<IdentifierIS> locationWithIdentifier) {
         List<String> idList = new ArrayList<String>();
         for (IdentifierIS identifier : locationWithIdentifier) {
             String id = identifier.getIdentifier();
@@ -251,7 +251,7 @@ public class AbstractValidator {
      *            the data to validate (with an identifier)
      * @return a list with all identifier, which occurred at least twice
      */
-    protected static List<String> validateOccurrenceOfIdentifierInBasicIdentifierIS(
+    protected List<String> validateOccurrenceOfIdentifierInBasicIdentifierIS(
             List<BasicIdentifierIS> locationWithIdentifier) {
         List<String> idList = new ArrayList<String>();
         for (BasicIdentifierIS identifier : locationWithIdentifier) {
@@ -273,7 +273,7 @@ public class AbstractValidator {
      * @param locale
      *            the locale to validate
      */
-    protected static boolean checkLocaleAttributeEN(Locale locale) {
+    protected boolean checkLocaleAttributeEN(Locale locale) {
         return locale.getLanguage().equals("en");
     }
     
@@ -285,7 +285,7 @@ public class AbstractValidator {
      *            locale to check
      * @return flag, if the given local is valid or not.
      */
-    protected static boolean checkLocale(Locale givenLocale) {
+    protected boolean checkLocale(Locale givenLocale) {
         for (String locale : Locale.getISOLanguages()) {
             if (locale.equals(givenLocale.getLanguage())) {
                 return true;
@@ -302,7 +302,7 @@ public class AbstractValidator {
      *            value to validate
      * @return flag, if the value is set or not
      */
-    protected static boolean checkValueSet(String value) {
+    protected boolean checkValueSet(String value) {
         return !(value == null || value.equals(""));
     }
     
@@ -315,7 +315,7 @@ public class AbstractValidator {
      * @param attachData
      *            true, if the data should be attached with the issues
      */
-    protected static void attachData(List<Issue> issueList, boolean attachData) {
+    protected void attachData(List<Issue> issueList, boolean attachData) {
         if (attachData) {
             for (Issue issue : issueList) {
                 IssueLocation location = issue.getLocation();
