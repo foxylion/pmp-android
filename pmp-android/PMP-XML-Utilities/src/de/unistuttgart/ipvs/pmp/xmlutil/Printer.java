@@ -70,7 +70,7 @@ public class Printer {
             if (issue.getParameters().size() > 0) {
                 sb.append(" (Parameter: ");
                 for (int itr = 0; itr < issue.getParameters().size(); itr++) {
-                    sb.append(" " + issue.getParameters().get(itr));
+                    sb.append(issue.getParameters().get(itr));
                     if (itr < issue.getParameters().size() - 1)
                         sb.append(", ");
                 }
@@ -91,6 +91,7 @@ public class Printer {
         p("------------------------------------");
         p("- Printout of the AIS --------------");
         p("------------------------------------");
+        printIssues(ais, "> ");
         p("App information:");
         p("> Names:");
         for (Name name : ais.getNames()) {
@@ -102,26 +103,30 @@ public class Printer {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
             printIssues(descr, "   > ");
         }
-        printIssues(ais, "> ");
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
             p("");
             p("Service Feature:");
+            printIssues(sf, "> ");
             p("> Identifier: " + sf.getIdentifier());
             p("> Names:");
             for (Name name : sf.getNames()) {
                 p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+                printIssues(name, "   > ");
             }
             p("> Descriptions:");
             for (Description descr : sf.getDescriptions()) {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+                printIssues(descr, "   > ");
             }
             for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
                 p("> Required Resource Group:");
+                printIssues(rrg, "   > ");
                 p("   > Identifier: " + rrg.getIdentifier());
                 p("   > Min Revision: " + rrg.getMinRevision());
                 p("   > Privacy Settings:");
-                for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
-                    p("      > " + ps.getIdentifier() + ": " + ps.getValue());
+                for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+                    p("      > " + rps.getIdentifier() + ": " + rps.getValue());
+                    printIssues(rps, "      > ");
                 }
             }
         }

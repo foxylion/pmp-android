@@ -64,10 +64,19 @@ public abstract class IssueLocation implements Serializable {
     
     
     /**
-     * Clear all issues
+     * Remove an issue
+     * 
+     * @param issue
+     *            issue to remove
      */
-    public void clearIssues() {
-        issues.clear();
+    public void removeIssue(Issue issue) {
+        issues.remove(issue);
     }
+    
+    
+    /**
+     * Clear all issues and clear also all issues of linked data
+     */
+    public abstract void clearIssuesAndPropagate();
     
 }

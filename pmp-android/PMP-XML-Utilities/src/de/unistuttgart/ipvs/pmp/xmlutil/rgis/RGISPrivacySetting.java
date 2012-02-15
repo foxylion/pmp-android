@@ -19,24 +19,19 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class RGISPrivacySetting extends BasicIS {
+public class RGISPrivacySetting extends BasicIdentifierIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = -3533822744161444028L;
-    
-    /**
-     * Identifier of the privacy setting
-     */
-    private String identifier = "";
     
     /**
      * A description of the valid values for this privacy setting
@@ -66,27 +61,6 @@ public class RGISPrivacySetting extends BasicIS {
     
     
     /**
-     * Get the identifier
-     * 
-     * @return identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    
-    /**
      * Get the description for valid values
      * 
      * @return description for valid values
@@ -104,6 +78,14 @@ public class RGISPrivacySetting extends BasicIS {
      */
     public void setValidValueDescription(String validValueDescription) {
         this.validValueDescription = validValueDescription;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+        super.clearNameIssues();
+        super.clearDescriptionIssues();
     }
     
 }

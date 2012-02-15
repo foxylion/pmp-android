@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
 /**
  * 
@@ -32,17 +32,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
  * @author Marcus Vetter
  * 
  */
-public class RGIS extends BasicIS {
+public class RGIS extends BasicIdentifierIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = 8978212582601842275L;
-    
-    /**
-     * The identifier of the resource group
-     */
-    private String identifier = "";
     
     /**
      * The icon of the resource group
@@ -111,27 +106,6 @@ public class RGIS extends BasicIS {
     
     
     /**
-     * Get the identifier of the resource group
-     * 
-     * @return the identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier of the resource group
-     * 
-     * @param identifier
-     *            the identifier of the resource group
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    
-    /**
      * Get the location of the icon of the resource group
      * 
      * @return location of the icon of the resource group
@@ -170,5 +144,16 @@ public class RGIS extends BasicIS {
      */
     public void setClassName(String className) {
         this.className = className;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+        super.clearNameIssues();
+        super.clearDescriptionIssues();
+        for (RGISPrivacySetting ps : this.getPrivacySettings()) {
+            ps.clearIssuesAndPropagate();
+        }
     }
 }
