@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
@@ -201,7 +202,7 @@ public class TabPrivacySettings extends Activity {
      */
     public void showChangeValueDialog(final IPrivacySetting ps) {
         
-        AlertDialog.Builder alertDialogChangeValue = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alertDialogChangeValue = new AlertDialog.Builder(this);
         
         final IPrivacySettingView<?> psView = ps.getView(this);
         
@@ -218,7 +219,9 @@ public class TabPrivacySettings extends Activity {
         } else {
             title = getString(R.string.set_value);
         }
-        alertDialogChangeValue.setView(psView.asView());
+        final LinearLayout ll = new LinearLayout(this);
+        ll.addView(psView.asView());
+        alertDialogChangeValue.setView(ll);
         alertDialogChangeValue.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             
             @Override
@@ -226,6 +229,7 @@ public class TabPrivacySettings extends Activity {
                 TabPrivacySettings.this.preset.assignPrivacySetting(ps, psView.getViewValue());
                 TabPrivacySettings.this.updateList();
                 dialog.dismiss();
+                ll.removeAllViews();
             }
         });
         alertDialogChangeValue.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -233,6 +237,7 @@ public class TabPrivacySettings extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+                ll.removeAllViews();
             }
         });
         AlertDialog alertChangeValue = alertDialogChangeValue.create();
