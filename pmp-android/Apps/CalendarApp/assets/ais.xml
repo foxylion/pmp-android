@@ -13,8 +13,8 @@
 			<description lang="en">Calendar entries can be displayed.</description>
 			<description lang="de">Kalendereinträge können angezeigt werden.</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
-				<privacySetting identifier="read">true</privacySetting>
-				<privacySetting identifier="allowedDatabases">appointments</privacySetting>
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">appointments</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="write">
@@ -23,9 +23,9 @@
 			<description lang="en">Calendar entries can be added or changed.</description>
 			<description lang="de">Kalendereinträge können hinzugefügt oder bearbeitet werden.</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
-				<privacySetting identifier="modify">true</privacySetting>
-				<privacySetting identifier="create">true</privacySetting>
-				<privacySetting identifier="allowedDatabases">appointments</privacySetting>
+				<requiredPrivacySetting identifier="modify">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="create">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">appointments</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="send">
@@ -34,7 +34,7 @@
 			<description lang="en">Calendar entries can be sent via e-mail.</description>
 			<description lang="de">Kalendereinträge können per E-Mail versendet werden.</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email" minRevision="1">
-				<privacySetting identifier="canSendEmail">true</privacySetting>
+				<requiredPrivacySetting identifier="canSendEmail">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="import">
@@ -43,8 +43,8 @@
 			<description lang="en">Import calendar entries from the sd-card.</description>
 			<description lang="de">Kalendereinträge von der SD-Karte importieren.</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" minRevision="1">
-				<privacySetting identifier="ext_download_l">true</privacySetting>
-				<privacySetting identifier="ext_download_r">true</privacySetting>
+				<requiredPrivacySetting identifier="ext_download_l">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="ext_download_r">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="export">
@@ -53,9 +53,9 @@
 			<description lang="en">Export calendar entries to the sd-card.</description>
 			<description lang="de">Kalendereinträge auf die SD-Karte exportieren.</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" minRevision="1">
-				<privacySetting identifier="ext_download_d">true</privacySetting>
-				<privacySetting identifier="ext_download_w">true</privacySetting>
-				<privacySetting identifier="ext_download_mkdirs">true</privacySetting>
+				<requiredPrivacySetting identifier="ext_download_d">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="ext_download_w">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="ext_download_mkdirs">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>
