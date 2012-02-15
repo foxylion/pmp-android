@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
 /**
@@ -37,6 +40,11 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      * A description of the valid values for this privacy setting
      */
     private String validValueDescription = "";
+    
+    /**
+     * List of change descriptions
+     */
+    private List<RGISPSChangeDescription> changeDescriptions = new ArrayList<RGISPSChangeDescription>();
     
     
     /**
@@ -78,6 +86,38 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      */
     public void setValidValueDescription(String validValueDescription) {
         this.validValueDescription = validValueDescription;
+    }
+    
+    
+    /**
+     * Add a change descriptions to the privacy setting
+     * 
+     * @param changeDescription
+     *            change description to add
+     */
+    public void addChangeDescription(RGISPSChangeDescription changeDescription) {
+        this.changeDescriptions.add(changeDescription);
+    }
+    
+    
+    /**
+     * Get the list which contains all change descriptions
+     * 
+     * @return list with change descriptions
+     */
+    public List<RGISPSChangeDescription> getChangeDescriptions() {
+        return this.changeDescriptions;
+    }
+    
+    
+    /**
+     * Remove a change description from the privacy setting
+     * 
+     * @param changeDescription
+     *            change description to remove
+     */
+    public void removeChangeDescription(RGISPSChangeDescription changeDescription) {
+        this.changeDescriptions.remove(changeDescription);
     }
     
     

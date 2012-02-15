@@ -33,6 +33,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
@@ -174,6 +175,11 @@ public class Printer {
             for (Description descr : ps.getDescriptions()) {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
                 printIssues(descr, "   > ");
+            }
+            p("> Change descriptions: ");
+            for (RGISPSChangeDescription changeDescr : ps.getChangeDescriptions()) {
+                p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getChangeDescription());
+                printIssues(changeDescr, "   > ");
             }
         }
         p("------------------------------------");
