@@ -61,8 +61,8 @@
     <string name="driverView_updateData">Change trip info</string>
     <string name="dialog_apply">Apply</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="history_driver">Driver</string>
-    <string name="history_passenger">Passenger</string>
+    <string name="history_driver">Driver -History</string>
+    <string name="history_passenger">Passenger -History</string>
     <string name="history_title_menu">History</string>
     <string name="history_instruction">Please choose your role as you were travelling.</string>
     <string name="history_title_driver">History - Driver</string>
