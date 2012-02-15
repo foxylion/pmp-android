@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/ib_add"
-                android:fadeScrollbars="true" >
+                android:scrollbars="none" >
 
                 <LinearLayout
                     android:id="@+id/layout_dest"
