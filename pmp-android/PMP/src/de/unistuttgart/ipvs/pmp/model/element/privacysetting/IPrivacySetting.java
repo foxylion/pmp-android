@@ -70,7 +70,7 @@ public interface IPrivacySetting extends IModelElement {
     
     
     /**
-     * @return Returns the list of something unknown.
+     * @return Returns the list of something unknown...
      */
     public List<RGISPSChangeDescription> getChangedDescription();
     
