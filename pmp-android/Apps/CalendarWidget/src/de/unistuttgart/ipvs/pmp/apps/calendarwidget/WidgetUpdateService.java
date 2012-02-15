@@ -148,7 +148,7 @@ class UIUpdateThread extends Thread {
                                     null,
                                     "date >= "
                                             + new Date(new Date().getYear(), new Date().getMonth(), new Date().getDay())
-                                                    .getTime(), null, null, null, DATE, "6");
+                                                    .getTime(), null, null, null, DATE, "4");
                             
                             String[][] entries = new String[(int) rowCount][2];
                             
