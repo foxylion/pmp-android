@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.calendarwidget;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
@@ -159,7 +161,7 @@ class UIUpdateThread extends Thread {
                                 String name = columns[1];
                                 Date date = new Date(Long.valueOf(columns[4]));
                                 
-                                entries[itr][0] = date.getDay() + "." + date.getMonth() + "." + date.getYear();
+                                entries[itr][0] = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(date);
                                 entries[itr][1] = name;
                             }
                             WidgetUpdateService.buildUpdate(context, entries, false);

@@ -393,7 +393,6 @@ public class SqlConnector {
                             values.put(SqlConnector.DESC, description);
                             values.put(SqlConnector.DATE, String.valueOf(date.getTime()));
                             values.put(SqlConnector.SEVERITY, severity.toString());
-                            
                             /*
                              * Change the date in the database and only if one row
                              * was changed change, then change it in the model
