@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.HashSet;
@@ -22,41 +19,60 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.SetView;
  * @param <T>
  *            the {@link Serializable} type to be stored
  */
-public class SetPrivacySetting<T extends Serializable> extends AbstractPrivacySetting<Set<T>> {
+public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
+    
+    private static final String SEPARATOR = ";";
+    private static final String SEPARATOR_REGEX = "(^\\);";
+    private static final String ESCAPE_SEPARATOR = "\\;";
     
     private SetView<T> view = null;
+    
+    private StringConverter<T> converter;
+    
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
     private Object[] childViewConstructorInvocation;
     
     
-    public SetPrivacySetting(Constructor<? extends IPrivacySettingView<T>> childViewConstructor,
+    public SetPrivacySetting(StringConverter<T> converter,
+            Constructor<? extends IPrivacySettingView<T>> childViewConstructor,
             Object... childViewConstructorInvocation) {
         super();
+        this.converter = converter;
         this.childViewConstructor = childViewConstructor;
         this.childViewConstructorInvocation = childViewConstructorInvocation;
     }
     
     
-    @SuppressWarnings("unchecked")
     @Override
     public Set<T> parseValue(String value) throws PrivacySettingValueException {
         if ((value == null) || value.equals("")) {
             return new HashSet<T>();
         }
         
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(value.getBytes("UTF-8")));
-            try {
-                return (Set<T>) ois.readObject();
-            } finally {
-                ois.close();
-            }
-            
-        } catch (IOException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
-        } catch (ClassNotFoundException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
+        Set<T> set = new HashSet<T>();
+        for (String item : value.split(SEPARATOR_REGEX)) {
+            set.add(this.converter.valueOf(item.replace(ESCAPE_SEPARATOR, SEPARATOR)));
         }
+        
+        return set;
+    }
+    
+    
+    @Override
+    public String valueToString(Object value) {
+        if (value == null || !(value instanceof Set<?>)) {
+            return null;
+        }
+        @SuppressWarnings("unchecked")
+        Set<T> set = (Set<T>) value;
+        
+        StringBuilder sb = new StringBuilder();
+        for (T item : set) {
+            sb.append(this.converter.toString(item).replace(SEPARATOR, ESCAPE_SEPARATOR));
+            sb.append(SEPARATOR);
+        }
+        return sb.toString();
+        
     }
     
     
@@ -74,8 +90,8 @@ public class SetPrivacySetting<T extends Serializable> extends AbstractPrivacySe
         }
         
         StringBuilder sb = new StringBuilder();
-        for (T t : set) {
-            sb.append(t.toString());
+        for (T item : set) {
+            sb.append(item.toString());
             sb.append(", ");
         }
         return sb.substring(0, sb.length() - 2);

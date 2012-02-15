@@ -226,7 +226,7 @@ public class TabPrivacySettings extends Activity {
             
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                TabPrivacySettings.this.preset.assignPrivacySetting(ps, psView.getViewValue());
+                TabPrivacySettings.this.preset.assignPrivacySetting(ps, ps.convertValueToString(psView.getViewValue()));
                 TabPrivacySettings.this.updateList();
                 dialog.dismiss();
                 ll.removeAllViews();

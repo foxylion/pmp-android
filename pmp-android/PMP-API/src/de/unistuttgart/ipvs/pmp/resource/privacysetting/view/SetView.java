@@ -1,9 +1,5 @@
 package de.unistuttgart.ipvs.pmp.resource.privacysetting.view;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -16,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
@@ -27,7 +22,7 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySettin
  * @author Jakob Jarosch
  * 
  */
-public class SetView<T extends Serializable> extends LinearLayout implements IPrivacySettingView<Set<T>> {
+public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<T>> {
     
     /**
      * All child views in store
@@ -65,11 +60,11 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
         description.setText("Enter the entries separated by '" + "'.");
         addView(description);
         
-        viewsContainer = new LinearLayout(context);
-        viewsContainer.setOrientation(LinearLayout.VERTICAL);
-        addView(viewsContainer);
+        this.viewsContainer = new LinearLayout(context);
+        this.viewsContainer.setOrientation(LinearLayout.VERTICAL);
+        addView(this.viewsContainer);
         
-        LinearLayout ll = new LinearLayout(context);
+        new LinearLayout(context);
         
         Button buttonAdd = new Button(context);
         buttonAdd.setText("Add");
@@ -78,7 +73,7 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
             @Override
             public void onClick(View v) {
                 try {
-                    makeViews(usedViews + 1);
+                    makeViews(SetView.this.usedViews + 1);
                 } catch (PrivacySettingValueException e) {
                     e.printStackTrace();
                 }
@@ -92,7 +87,7 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
             @Override
             public void onClick(View v) {
                 try {
-                    makeViews(usedViews - 1);
+                    makeViews(SetView.this.usedViews - 1);
                 } catch (PrivacySettingValueException e) {
                     e.printStackTrace();
                 }
@@ -150,35 +145,14 @@ public class SetView<T extends Serializable> extends LinearLayout implements IPr
     
     
     @Override
-    public String getViewValue() {
+    public Set<T> getViewValue() {
         Set<T> set = new HashSet<T>();
         
         for (int i = 0; i < this.usedViews; i++) {
-            set.add(this.editViews.get(i).getViewValueObject());
+            set.add(this.editViews.get(i).getViewValue());
         }
         
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            try {
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                try {
-                    oos.writeObject(set);
-                    return baos.toString("UTF-8");
-                } finally {
-                    oos.close();
-                }
-            } finally {
-                baos.close();
-            }
-        } catch (IOException e) {
-            Log.e(this, "Could not get view value:", e);
-            return "";
-        }
+        return set;
     }
     
-    
-    @Override
-    public Set<T> getViewValueObject() {
-        throw new UnsupportedOperationException();
-    }
 }

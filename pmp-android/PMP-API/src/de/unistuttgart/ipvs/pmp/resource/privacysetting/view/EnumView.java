@@ -23,7 +23,7 @@ public class EnumView<T extends Enum<T>> implements IPrivacySettingView<T> {
     
     @Override
     public View asView() {
-        return spinner;
+        return this.spinner;
     }
     
     

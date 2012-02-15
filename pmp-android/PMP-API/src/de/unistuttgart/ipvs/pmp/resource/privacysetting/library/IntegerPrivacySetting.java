@@ -2,12 +2,11 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 
 import java.util.Comparator;
 
+import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.DefaultPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
-
-import android.content.Context;
 
 /**
  * {@link DefaultPrivacySetting} for {@link Integer}.
@@ -56,5 +55,15 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
         } catch (NumberFormatException nfe) {
             throw new PrivacySettingValueException();
         }
+    }
+    
+    
+    @Override
+    public String valueToString(Object value) {
+        if (value == null || !(value instanceof Integer)) {
+            return null;
+        }
+        Integer i = (Integer) value;
+        return i.toString();
     }
 }

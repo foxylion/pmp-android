@@ -19,11 +19,11 @@
  */
 package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 
+import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.DefaultPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.BooleanView;
-import android.content.Context;
 
 /**
  * {@link DefaultPrivacySetting} for {@link Boolean}.
@@ -53,10 +53,21 @@ public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
     
     @Override
+    public String valueToString(Object value) {
+        if (value == null || !(value instanceof Boolean)) {
+            return null;
+        }
+        Boolean b = (Boolean) value;
+        return b.toString();
+    }
+    
+    
+    @Override
     public IPrivacySettingView<Boolean> getView(Context context) {
         if (this.view == null) {
             this.view = new BooleanView(context);
         }
         return this.view;
     }
+    
 }
