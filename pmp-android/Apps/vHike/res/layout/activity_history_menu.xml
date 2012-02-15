@@ -6,49 +6,47 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:background="@drawable/main_background"
-    android:orientation="vertical"  >
-    
- 	<de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+    android:orientation="vertical" >
+
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         pmp:name="@string/history_title_menu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:icon="@drawable/logo_rd"
+        pmp:borderColor="@color/dark_blue"
+        pmp:icon="@drawable/logo_rd"
         pmp:textColor="@color/dark_blue" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
- 	<LinearLayout
- 	    android:id="@+id/linearLayout2"
- 	    android:layout_width="fill_parent"
- 	    android:layout_height="wrap_content"
- 	    android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
- 		<TextView
- 		    android:id="@+id/textView1"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
- 		    android:background="@color/white"
- 		    android:text="@string/history_instruction"
- 		    android:textAppearance="?android:attr/textAppearanceLarge"
- 		    android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="@string/history_instruction"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
- 	</LinearLayout>
-    
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content" >
 
-       <Button
-           android:id="@+id/Button_Driver_History"
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:layout_weight="1"
-           android:drawablePadding="10dp"
-           android:drawableTop="@drawable/icon_ride"
-           android:paddingTop="25sp"
-           android:text="@string/history_driver" >
-
+        <Button
+            android:id="@+id/Button_Driver_History"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/icon_ride"
+            android:paddingTop="25sp"
+            android:text="@string/history_driver" >
         </Button>
 
         <Button
@@ -61,7 +59,6 @@
             android:paddingTop="25sp"
             android:text="@string/history_passenger" >
         </Button>
-
     </LinearLayout>
 
 </LinearLayout>
