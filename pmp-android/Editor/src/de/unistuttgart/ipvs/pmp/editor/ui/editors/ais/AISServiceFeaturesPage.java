@@ -6,7 +6,6 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureMasterBlock;
 
 /**
  * Creates the preferences page for the {@link AisEditor}

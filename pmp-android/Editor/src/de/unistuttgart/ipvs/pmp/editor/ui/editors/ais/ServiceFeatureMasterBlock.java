@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
@@ -30,6 +30,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureInputValidator;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**

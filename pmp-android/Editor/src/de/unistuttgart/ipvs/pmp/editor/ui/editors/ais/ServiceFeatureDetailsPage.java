@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -32,6 +32,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
