@@ -6,7 +6,7 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
  * @author Tobias Kuhn
  * 
  */
-public interface StringConverter<T> {
+public interface IStringConverter<T> {
     
     public T valueOf(String string);
     

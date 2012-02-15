@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -682,5 +683,12 @@ public class Model {
                 });
             }
         }.start();
+    }
+    
+    
+    public void invokeBroadcast() {
+        Intent broadcast = new Intent();
+        broadcast.setAction("PMP_APP.CALENDAR_MODIFIED");
+        getContext().sendBroadcast(broadcast);
     }
 }

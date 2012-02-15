@@ -14,6 +14,4 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
 		context.startService(new Intent(context, WidgetUpdateService.class));
 	}
-
-	
 }

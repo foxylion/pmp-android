@@ -22,18 +22,18 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.SetView;
 public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     
     private static final String SEPARATOR = ";";
-    private static final String SEPARATOR_REGEX = "(^\\);";
+    private static final String SEPARATOR_REGEX = "\\;";
     private static final String ESCAPE_SEPARATOR = "\\;";
     
     private SetView<T> view = null;
     
-    private StringConverter<T> converter;
+    private IStringConverter<T> converter;
     
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
     private Object[] childViewConstructorInvocation;
     
     
-    public SetPrivacySetting(StringConverter<T> converter,
+    public SetPrivacySetting(IStringConverter<T> converter,
             Constructor<? extends IPrivacySettingView<T>> childViewConstructor,
             Object... childViewConstructorInvocation) {
         super();

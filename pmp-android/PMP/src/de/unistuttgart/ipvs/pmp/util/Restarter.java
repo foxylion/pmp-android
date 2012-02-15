@@ -26,8 +26,8 @@ public class Restarter {
      *            Activity which should be restarted.
      */
     public static final void killAppAndRestartActivity(Activity activity) {
-        PendingIntent pi = PendingIntent.getActivity(activity.getBaseContext(), 0, new Intent(activity.getIntent()),
-                activity.getIntent().getFlags());
+        Intent i = new Intent(activity.getIntent());
+        PendingIntent pi = PendingIntent.getActivity(activity.getBaseContext(), 0, i, activity.getIntent().getFlags());
         AlarmManager am = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000L, pi);
         System.exit(0);

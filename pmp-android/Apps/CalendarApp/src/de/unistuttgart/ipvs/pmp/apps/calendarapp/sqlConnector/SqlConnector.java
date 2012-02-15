@@ -131,6 +131,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -201,6 +203,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -268,6 +272,8 @@ public class SqlConnector {
             }
         });
         
+        Model.getInstance().invokeBroadcast();
+        
     }
     
     
@@ -316,6 +322,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -349,6 +357,7 @@ public class SqlConnector {
             }
         });
         
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -413,6 +422,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -477,8 +488,9 @@ public class SqlConnector {
                     }
                 }
             }
-            
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
