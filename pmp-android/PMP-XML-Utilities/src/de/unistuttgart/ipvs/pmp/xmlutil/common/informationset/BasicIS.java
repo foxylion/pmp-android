@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
  * @author Marcus Vetter
  * 
  */
-public abstract class BasicIS extends IssueLocation implements Serializable {
+public abstract class BasicIS extends IssueLocation {
     
     /**
      * Serial
@@ -147,6 +146,26 @@ public abstract class BasicIS extends IssueLocation implements Serializable {
      */
     public void removeDescription(Description description) {
         this.descriptions.remove(description);
+    }
+    
+    
+    /**
+     * Clear all issues of the names
+     */
+    public void clearNameIssues() {
+        for (Name name : this.getNames()) {
+            name.clearIssuesAndPropagate();
+        }
+    }
+    
+    
+    /**
+     * Clear all issues of the descriptions
+     */
+    public void clearDescriptionIssues() {
+        for (Description descr : this.getDescriptions()) {
+            descr.clearIssuesAndPropagate();
+        }
     }
     
 }
