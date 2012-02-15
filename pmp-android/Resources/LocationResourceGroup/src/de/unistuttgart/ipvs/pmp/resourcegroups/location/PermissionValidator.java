@@ -4,6 +4,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.EnumPrivacySetting;
 
 /**
  * Simple PrivacySetting verification.
@@ -42,18 +43,13 @@ public class PermissionValidator {
 	}
 	
 	
-	public void validate(UseLocationDescriptionEnum country) {
-		String value = this.rg.getPMPPrivacySettingValue(LocationResourceGroup.PS_USE_LOCATION_DESCRIPTION,
-				this.appIdentifier);
-		
-		if (value == null) {
-			value = UseLocationDescriptionEnum.NONE.name();
-		}
-		
-		AbstractPrivacySetting<?> ps = this.rg.getPrivacySetting(LocationResourceGroup.PS_USE_LOCATION_DESCRIPTION);
+	public void validate(UseLocationDescriptionEnum reference) {
+		@SuppressWarnings("unchecked")
+		EnumPrivacySetting<UseLocationDescriptionEnum> ps = (EnumPrivacySetting<UseLocationDescriptionEnum>) this.rg
+				.getPrivacySetting(LocationResourceGroup.PS_USE_LOCATION_DESCRIPTION);
 		boolean failed = true;
 		try {
-			if (ps.permits(country.name(), value)) {
+			if (ps.permits(this.appIdentifier, reference)) {
 				failed = false;
 			}
 		} catch (PrivacySettingValueException e) {
@@ -62,7 +58,7 @@ public class PermissionValidator {
 		
 		if (failed) {
 			throw new SecurityException("The requested action requires at the PrivacySetting "
-					+ LocationResourceGroup.PS_USE_LOCATION_DESCRIPTION + " with at least " + country.name()
+					+ LocationResourceGroup.PS_USE_LOCATION_DESCRIPTION + " with at least " + reference.name()
 					+ " as required value");
 		}
 	}

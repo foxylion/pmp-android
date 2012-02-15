@@ -136,5 +136,5 @@ interface IAbsoluteLocation {
 	 * @return Returns the current street, or null of no street
 	 *         could be fetched, could be possible if the IO failed.
 	 */
-	String getStreet();
+	String getAddress();
 }

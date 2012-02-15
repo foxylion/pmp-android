@@ -29,7 +29,7 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
             
             @Override
             public int compare(Integer object1, Integer object2) {
-                if (smallerIsBetter) {
+                if (!smallerIsBetter) {
                     return object1.compareTo(object2);
                 } else {
                     return object2.compareTo(object1);
