@@ -41,3 +41,5 @@ try {
 	Json::printDatabaseError($de);
 }
 Database::getInstance()->disconnect();
+
+// EOF query_start.php

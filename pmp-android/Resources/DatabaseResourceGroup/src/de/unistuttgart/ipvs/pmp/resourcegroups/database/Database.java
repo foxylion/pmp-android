@@ -19,40 +19,42 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.database;
 
-import de.unistuttgart.ipvs.pmp.Log;
+import android.content.Context;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.StringConverters;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.StringView;
 
 /**
- * @author Thorsten Berberich
+ * @author Jakob Jarosch
  * 
  */
 public class Database extends ResourceGroup {
     
-    public static final String RESOURCE_DATABASE = "DatabaseRG";
-    public static final String PRIVACY_LEVEL_READ = "read";
-    public static final String PRIVACY_LEVEL_MODIFY = "modify";
-    public static final String PRIVACY_LEVEL_CREATE = "create";
+    public static final String R_DATABASE = "databaseResource";
+    public static final String PS_READ = "read";
+    public static final String PS_MODIFY = "modify";
+    public static final String PS_CREATE = "create";
+    public static final String PS_ALLOWED_DATABASES = "allowedDatabases";
+    public static final String DATABASENAME_SEPARATOR = ";";
     
     
     public Database(IPMPConnectionInterface pmpci) {
         super("de.unistuttgart.ipvs.pmp.resourcegroups.database", pmpci);
         
-        registerResource(RESOURCE_DATABASE, new DatabaseResource());
-        registerPrivacySetting(PRIVACY_LEVEL_READ, new BooleanPrivacySetting());
-        registerPrivacySetting(PRIVACY_LEVEL_MODIFY, new BooleanPrivacySetting());
-        registerPrivacySetting(PRIVACY_LEVEL_CREATE, new BooleanPrivacySetting());
+        registerResource(R_DATABASE, new DatabaseResource());
+        registerPrivacySetting(PS_READ, new BooleanPrivacySetting());
+        registerPrivacySetting(PS_MODIFY, new BooleanPrivacySetting());
+        registerPrivacySetting(PS_CREATE, new BooleanPrivacySetting());
+        try {
+            registerPrivacySetting(PS_ALLOWED_DATABASES, new SetPrivacySetting<String>(
+                    new StringConverters.StringConverter(), StringView.class.getConstructor(Context.class)));
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
-    
-    
-    public void onRegistrationSuccess() {
-        Log.d(this, "Registration success.");
-    }
-    
-    
-    public void onRegistrationFailed(String message) {
-        Log.e(this, "Registration failed with \"" + message + "\"");
-    }
-    
 }

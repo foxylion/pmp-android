@@ -8,7 +8,7 @@ import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 public class ResourceGroupTest extends InstrumentationTestCase {
     

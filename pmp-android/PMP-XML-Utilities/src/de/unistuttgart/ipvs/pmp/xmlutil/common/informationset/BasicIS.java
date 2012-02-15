@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * This class abstracts common used fields and methods for information sets
@@ -31,7 +32,7 @@ import java.util.Locale;
  * @author Marcus Vetter
  * 
  */
-public abstract class BasicIS implements Serializable {
+public abstract class BasicIS extends IssueLocation implements Serializable {
     
     /**
      * Serial

@@ -68,8 +68,6 @@ class user {
 			throw new InvalidArgumentException("The offer ID is invalid");
 		}
 
-		//SELECT * FROM `dev_user` u LEFT JOIN `dev_position` p ON (u.`id` = p.`user`) WHERE u.`id` = 1
-
 		$db = Database::getInstance();
 		$row = $db->fetch($db->query("SELECT * FROM `" . DB_PREFIX . "_user` as u WHERE u.`id` = $id"));
 
@@ -475,6 +473,39 @@ class user {
 
 	}
 
+
+	/**
+	 * Returns the status of an offer
+	 *
+	 * @param string $offer_id ID of the offer
+	 *
+	 * @return int|array -1 if the offer is not available for this user
+	 * Row Status of the offer. 0 = recipient unread, 1 = reply unread, 1xx = accepted 1xxx = denied
+	 */
+	public function get_offer_status($offer_id) {
+		$db = Database::getInstance();
+		$result = $db->query("SELECT status, sender, recipient, time FROM " . DB_PREFIX . "_offer AS offer ".
+								 "WHERE offer.id={$offer_id} AND (sender={$this->id} OR recipient={$this->id})");
+		if ($db->getNumRows($result) == 1) {
+			return $db->fetch($result);
+		}
+		return -1;
+	}
+
+	/**
+	 * Set the status of an offer to reply read (for sender only)
+	 *
+	 * @param int $offer_id ID of the offer
+	 *
+	 * @return int Number of affected rows
+	 */public function set_offer_read($offer_id) {
+		$db = Database::getInstance();
+		$db->query("UPDATE " . DB_PREFIX . "_offer SET status=(status | 2), time=NOW() ".
+								 "WHERE offer.id={$offer_id} AND sender={$this->id}");
+
+		return $db->getAffectedRows();
+	}
+
 	public function getId() {
 		return $this->id;
 	}
@@ -529,55 +560,54 @@ class user {
 
 	public function isRideExisted($destination) {
 		$db = Database::getInstance();
-		$result = $db->query("SELECT ride.id FROM dev_ride AS ride\n" .
-								 "INNER JOIN dev_trip AS trip ON ride.trip = trip.id\n" .
+		$result = $db->query("SELECT ride.id FROM " . DB_PREFIX . "_ride AS ride\n" .
+								 "INNER JOIN " . DB_PREFIX . "_trip AS trip ON ride.trip = trip.id\n" .
 								 "WHERE\n" .
 								 "trip.ending = 0 AND\n" .
 								 "ride.passenger = " . $this->id . " AND\n" .
 								 "trip.destination = '{$destination}'");
-		print_r($result);
 		return $db->getNumRows($result) > 0;
 	}
 
 	// Get trip info from a rider's ID
-	public function getCurrentRideTripInfo() {
-		$db = Database::getInstance();
-		$query = $db->query("SELECT " .
-								"trip.id AS tripid, " .
-								"trip.driver, " .
-								"`user`.username, " .
-								"Avg(rate.rating) AS rating_avg, " .
-								"Count(rate.rating) AS rating_num " .
-								"FROM " .
-								"dev_trip AS trip " .
-								"INNER JOIN dev_ride AS ride ON trip.id = ride.trip " .
-								"INNER JOIN dev_user AS `user` ON trip.driver = `user`.id " .
-								"INNER JOIN dev_rating AS rate ON trip.driver = rate.recipient " .
-								"WHERE " .
-								"ride.passenger =" . $this->getId() . " AND " .
-								"trip.ending = 0 LIMIT 1");
-
-		echo "SELECT " .
-			"trip.id AS tripid, " .
-			"trip.driver, " .
-			"`user`.username, " .
-			"Avg(rate.rating) AS rating_avg, " .
-			"Count(rate.rating) AS rating_num " .
-			"FROM " .
-			"dev_trip AS trip " .
-			"INNER JOIN dev_ride AS ride ON trip.id = ride.trip " .
-			"INNER JOIN dev_user AS `user` ON trip.driver = `user`.id " .
-			"INNER JOIN dev_rating AS rate ON trip.driver = rate.recipient " .
-			"WHERE " .
-			"ride.passenger =" . $this->getId() . " AND " .
-			"trip.ending = 0 LIMIT 1";
-		$row = $db->fetch($query);
-		if ($db->getAffectedRows() == 0 || $row["tripid"] == null) {
-			return null;
-		} else {
-			return $row;
-		}
-	}
+//	public function getCurrentRideTripInfo() {
+//		$db = Database::getInstance();
+//		$query = $db->query("SELECT " .
+//								"trip.id AS tripid, " .
+//								"trip.driver, " .
+//								"`user`.username, " .
+//								"Avg(rate.rating) AS rating_avg, " .
+//								"Count(rate.rating) AS rating_num " .
+//								"FROM " .
+//								"" . DB_PREFIX . "_trip AS trip " .
+//								"INNER JOIN " . DB_PREFIX . "_ride AS ride ON trip.id = ride.trip " .
+//								"INNER JOIN " . DB_PREFIX . "_user AS `user` ON trip.driver = `user`.id " .
+//								"INNER JOIN " . DB_PREFIX . "_rating AS rate ON trip.driver = rate.recipient " .
+//								"WHERE " .
+//								"ride.passenger =" . $this->getId() . " AND " .
+//								"trip.ending = 0 LIMIT 1");
+//
+//		echo "SELECT " .
+//			"trip.id AS tripid, " .
+//			"trip.driver, " .
+//			"`user`.username, " .
+//			"Avg(rate.rating) AS rating_avg, " .
+//			"Count(rate.rating) AS rating_num " .
+//			"FROM " .
+//			"" . DB_PREFIX . "_trip AS trip " .
+//			"INNER JOIN " . DB_PREFIX . "_ride AS ride ON trip.id = ride.trip " .
+//			"INNER JOIN " . DB_PREFIX . "_user AS `user` ON trip.driver = `user`.id " .
+//			"INNER JOIN " . DB_PREFIX . "_rating AS rate ON trip.driver = rate.recipient " .
+//			"WHERE " .
+//			"ride.passenger =" . $this->getId() . " AND " .
+//			"trip.ending = 0 LIMIT 1";
+//		$row = $db->fetch($query);
+//		if ($db->getAffectedRows() == 0 || $row["tripid"] == null) {
+//			return null;
+//		} else {
+//			return $row;
+//		}
+//	}
 
 	/**
 	 * Update the current position of the user
@@ -775,4 +805,4 @@ class user {
 
 }
 
-?>
+// EOF user.class.php

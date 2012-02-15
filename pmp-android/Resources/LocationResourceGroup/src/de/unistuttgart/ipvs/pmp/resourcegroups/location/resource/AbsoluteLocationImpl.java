@@ -277,7 +277,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	}
 	
 	
-	public String getStreet() {
+	public String getAddress() {
 		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
 		this.psv.validate(UseLocationDescriptionEnum.STREET);
 		

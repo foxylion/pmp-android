@@ -1,12 +1,12 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
 
 import org.eclipse.jface.viewers.LabelProvider;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
+ * Provides the labels for the Service Feature Tree
+ * 
  * @author Thorsten Berberich
  * 
  */
@@ -22,11 +22,11 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
 	    return ((AISRequiredResourceGroup) input).getIdentifier();
 	}
 
-	if (input instanceof AISRequiredPrivacySetting) {
-	    return ((AISRequiredPrivacySetting) input).getIdentifier() + " : "
-		    + ((AISRequiredPrivacySetting) input).getValue();
-	}
-
 	return (String) input;
     }
+
+//    @Override
+//    public Image getImage(Object element) {
+//	// Check for errors and return the correct image
+//    }
 }

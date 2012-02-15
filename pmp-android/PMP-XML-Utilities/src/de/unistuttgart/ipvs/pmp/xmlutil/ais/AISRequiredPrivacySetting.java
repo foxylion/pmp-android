@@ -19,16 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import java.io.Serializable;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredPrivacySetting implements Serializable, AISIssueLocation {
+public class AISRequiredPrivacySetting extends IssueLocation {
     
     /**
      * Serial

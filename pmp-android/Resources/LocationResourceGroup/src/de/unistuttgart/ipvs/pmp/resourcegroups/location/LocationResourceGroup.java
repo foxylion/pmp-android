@@ -2,9 +2,9 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.location;
 
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.BooleanPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.EnumPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.IntegerPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.EnumPrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.IntegerPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.resource.AbsoluteLocationResource;
 
 public class LocationResourceGroup extends ResourceGroup {

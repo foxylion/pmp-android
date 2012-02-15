@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="app_name">Database ResourceGroup</string>
-    <string name="unauthorized_action_exception">This action isn\'t allowed by the user. If your Service Feature indicates otherwise, it could be that the user has changed the Service Feature of your Application.</string>
-
-</resources>
