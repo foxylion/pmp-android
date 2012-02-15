@@ -162,7 +162,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     @Override
     protected void registerPages(DetailsPart detailsPart) {
 	detailsPart.registerPage(AISServiceFeature.class,
-		new ServiceFeatureDetailsPage());
+		new ServiceFeatureNameDetailsPage());
     }
 
     /*

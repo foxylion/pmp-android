@@ -37,14 +37,9 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
     Text localeText;
 
     /**
-     * Name field that was entered
-     */
-    Text nameText;
-
-    /**
      * Description field that was entered
      */
-    Text descText;
+    Text fieldText;
 
     /**
      * The error text
@@ -61,7 +56,8 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      */
     String locale;
     String description;
-    
+    String title;
+
     /**
      * The entered values
      */
@@ -74,11 +70,12 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      *            {@link Shell} to display
      */
     public ServiceFeatureDescriptionDialog(Shell parentShell, String locale,
-	    String desc, HashMap<String, String> values) {
+	    String desc, HashMap<String, String> values, String title) {
 	super(parentShell);
 	this.locale = locale;
 	this.description = desc;
 	this.values = values;
+	this.title = title;
     }
 
     @Override
@@ -124,13 +121,14 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	localeText.addModifyListener(this);
 	localeText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_FILL));
-	
-	new AutoCompleteField(localeText, new TextContentAdapter(), Locale.getISOLanguages());
 
-	new Label(textComposite, SWT.FILL).setText("Description: ");
-	descText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
-	descText.addModifyListener(this);
-	descText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+	new AutoCompleteField(localeText, new TextContentAdapter(),
+		Locale.getISOLanguages());
+
+	new Label(textComposite, SWT.FILL).setText(title);
+	fieldText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
+	fieldText.addModifyListener(this);
+	fieldText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_FILL));
 
 	// The error message
@@ -152,12 +150,11 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	    values.put("locale", localeText.getText());
 	}
 
-	if (descText.getText() != null) {
-	    values.put("description", descText.getText());
+	if (fieldText.getText() != null) {
+	    values.put(title, fieldText.getText());
 	}
 	close();
     }
-
 
     /*
      * (non-Javadoc) @see
@@ -177,9 +174,9 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	if (locale != null) {
 	    localeText.setText(locale);
 	}
-	
+
 	if (description != null) {
-	    descText.setText(description);
+	    fieldText.setText(description);
 	}
     }
 
@@ -192,8 +189,7 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      */
     @Override
     public void modifyText(ModifyEvent arg0) {
-	if (localeText.getText().isEmpty() && nameText.getText().isEmpty()
-		&& descText.getText().isEmpty()) {
+	if (localeText.getText().isEmpty() && fieldText.getText().isEmpty()) {
 	    errorMessageText.setVisible(true);
 	    okButton.setEnabled(false);
 	} else {
