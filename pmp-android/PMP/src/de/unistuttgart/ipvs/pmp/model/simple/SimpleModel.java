@@ -100,7 +100,7 @@ public class SimpleModel implements ISimpleModel {
             }
             
             // check that all existing presets correspond to one app only
-            if (p.getAssignedApps().length != 1) {
+            if ((p.getAssignedApps().length != 1) && (p.getMissingApps().length != 1)) {
                 if (allergic) {
                     throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
                 }
