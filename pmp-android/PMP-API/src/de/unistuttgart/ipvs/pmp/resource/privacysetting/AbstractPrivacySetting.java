@@ -212,4 +212,18 @@ public abstract class AbstractPrivacySetting<T> {
     public void setViewValue(Context context, String value) throws PrivacySettingValueException {
         getView(context).setViewValue(parseValue(value));
     }
+    
+    
+    /**
+     * Convenience method for {@link IPrivacySettingView#getViewValue(Object)} if you only want a string.
+     * 
+     * @param context
+     *            context to use for the view
+     * @return the compiled string
+     * @throws PrivacySettingValueException
+     *             if the privacy setting rejected the value
+     */
+    public String getViewValue(Context context) {
+        return valueToString(getView(context).getViewValue());
+    }
 }
