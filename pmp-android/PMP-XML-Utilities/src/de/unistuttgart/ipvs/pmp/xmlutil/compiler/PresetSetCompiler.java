@@ -21,7 +21,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
@@ -129,9 +131,19 @@ public class PresetSetCompiler extends BasicISCompiler {
             // Instantiate the XML-Node
             XMLNode privacySettingNode = new XMLNode(XMLConstants.PRIVACY_SETTING);
             
+            // Transform the rg revision
+            String rgRevision = ps.getRgRevision();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            try {
+                Date date = new Date(Long.valueOf(rgRevision) * 1000);
+                rgRevision = sdf.format(date);
+            } catch (NumberFormatException nfe) {
+                // Ignore it. Something went wrong and the min revision was not an integer.
+            }
+            
             // Add the attributes
             privacySettingNode.addAttribute(new XMLAttribute(XMLConstants.RG_IDENTIFIER_ATTR, ps.getRgIdentifier()));
-            privacySettingNode.addAttribute(new XMLAttribute(XMLConstants.RG_REVISION_ATTR, ps.getRgRevision()));
+            privacySettingNode.addAttribute(new XMLAttribute(XMLConstants.RG_REVISION_ATTR, rgRevision));
             privacySettingNode.addAttribute(new XMLAttribute(XMLConstants.PS_IDENTIFIER_ATTR, ps.getPsIdentifier()));
             
             // Add the value

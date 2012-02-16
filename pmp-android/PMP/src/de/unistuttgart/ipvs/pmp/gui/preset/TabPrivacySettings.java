@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -19,18 +17,18 @@ import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySetting;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingRemove;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The "Assigned Privacy Settings" tab of a Preset
@@ -151,14 +149,17 @@ public class TabPrivacySettings extends Activity {
                 
                 return true;
             case 1:
-                /*
-                 *  Change PS value
-                 */
-                showChangeValueDialog(ps);
+                new DialogPrivacySettingEdit(this, this.preset, ps, new ICallback() {
+                    
+                    @Override
+                    public void callback(Object... paramteres) {
+                        updateList();
+                    }
+                }).show();
                 
                 return true;
             case 2:
-                new DialogConfirmRemovePrivacySetting(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this)
+                new DialogPrivacySettingRemove(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this)
                         .show();
                 
                 return true;
@@ -191,58 +192,6 @@ public class TabPrivacySettings extends Activity {
         if (!this.rgList.contains(ps.getResourceGroup())) {
             propagateExpandedGroups(expandedStates, tmpIndexOfRG);
         }
-    }
-    
-    
-    /**
-     * Show a dialog to change the value of the given Privacy Setting
-     * 
-     * @param ps
-     *            change value of the given Privacy Setting
-     */
-    public void showChangeValueDialog(final IPrivacySetting ps) {
-        
-        final AlertDialog.Builder alertDialogChangeValue = new AlertDialog.Builder(this);
-        
-        final IPrivacySettingView<?> psView = ps.getView(this);
-        
-        // Set currentValue, if the Privacy Setting is already assigned
-        String currentValue = this.preset.getGrantedPrivacySettingValue(ps);
-        String title = null;
-        if (currentValue != null) {
-            try {
-                title = getString(R.string.change_value);
-                ps.setViewValue(this, currentValue);
-            } catch (PrivacySettingValueException e) {
-                // not possible
-            }
-        } else {
-            title = getString(R.string.set_value);
-        }
-        final LinearLayout ll = new LinearLayout(this);
-        ll.addView(psView.asView());
-        alertDialogChangeValue.setView(ll);
-        alertDialogChangeValue.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                TabPrivacySettings.this.preset.assignPrivacySetting(ps, ps.convertViewValue(psView.getViewValue()));
-                TabPrivacySettings.this.updateList();
-                dialog.dismiss();
-                ll.removeAllViews();
-            }
-        });
-        alertDialogChangeValue.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                ll.removeAllViews();
-            }
-        });
-        AlertDialog alertChangeValue = alertDialogChangeValue.create();
-        alertChangeValue.setTitle(title);
-        alertChangeValue.show();
     }
     
     

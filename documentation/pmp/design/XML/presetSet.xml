@@ -11,7 +11,7 @@
 		<assignedPrivacySettings>
 			<privacySetting 
 				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
-				rgRevision="12"
+				rgRevision="2012-02-16 14:46:55 GMT+01:00"
 				psIdentifier="read">
 				<value>true</value>
 				<context 
@@ -22,7 +22,7 @@
 			</privacySetting>
 			<privacySetting 
 				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem"
-				rgRevision="1"
+				rgRevision="2012-02-16 14:46:55 GMT+01:00"
 				psIdentifier="write">
 				<value>true</value>
 				<context 
@@ -43,7 +43,7 @@
 		<assignedPrivacySettings>
 			<privacySetting 
 				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
-				rgRevision="12"
+				rgRevision="2012-02-16 14:46:55 GMT+01:00"
 				psIdentifier="write">
 				<value>true</value>
 			</privacySetting>
