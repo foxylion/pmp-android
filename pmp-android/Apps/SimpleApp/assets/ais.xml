@@ -14,7 +14,7 @@
 			<description lang="de">Zeigt den akutellen WLAN-Status an.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
-				<requiredprivacySetting identifier="CanWifiState">true</requiredprivacySetting>
+				<requiredPrivacySetting identifier="CanWifiState">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="wifiChange">
@@ -24,7 +24,7 @@
 			<description lang="de">Lässt es zu den aktuellen WLAN-Status zu ändern.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
-				<requiredprivacySetting identifier="CanWifiSwitch">true</requiredprivacySetting>
+				<requiredPrivacySetting identifier="CanWifiSwitch">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>
