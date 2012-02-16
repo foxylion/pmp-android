@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
@@ -118,6 +119,24 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      */
     public void removeChangeDescription(RGISPSChangeDescription changeDescription) {
         this.changeDescriptions.remove(changeDescription);
+    }
+    
+    
+    /**
+     * Get a change description-string for a specific locale.
+     * 
+     * @param locale
+     *            locale
+     * @return the change description-string for the given locale. Null, if no change description for the
+     *         given locale exists.
+     */
+    public String getChangeDescriptionForLocale(Locale locale) {
+        for (RGISPSChangeDescription changeDescr : this.changeDescriptions) {
+            if (changeDescr.getLocale().getLanguage().equals(locale.getLanguage())) {
+                return changeDescr.getChangeDescription();
+            }
+        }
+        return null;
     }
     
     
