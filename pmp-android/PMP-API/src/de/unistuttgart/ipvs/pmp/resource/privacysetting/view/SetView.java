@@ -141,7 +141,7 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         
         int i = 0;
         for (T item : value) {
-            this.editViews.get(i).setViewValue(item);
+            this.editViews.get(i++).setViewValue(item);
         }
     }
     
