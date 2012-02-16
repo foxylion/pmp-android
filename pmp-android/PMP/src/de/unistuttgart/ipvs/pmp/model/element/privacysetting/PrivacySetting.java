@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -13,7 +12,6 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 
 /**
  * @see IPrivacySetting
@@ -82,9 +80,14 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public List<RGISPSChangeDescription> getChangedDescription() {
-        return this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
-                .getChangeDescriptions();
+    public String getChangeDescription() {
+        String changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                .getChangeDescriptionForLocale(Locale.getDefault());
+        if (changeDescription == null) {
+            changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                    .getChangeDescriptionForLocale(Locale.ENGLISH);
+        }
+        return changeDescription;
     }
     
     
