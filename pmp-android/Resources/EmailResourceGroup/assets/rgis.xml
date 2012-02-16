@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
 	<resourceGroupInformation
-		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email"
-		icon="res/drawable-xhdpi/icon.png"
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email" icon="res/drawable-xhdpi/icon.png"
 		className="Email">
 		<name lang="en">E-Mail</name>
 		<name lang="de">E-Mail</name>
-		<description lang="en">Can send E-Mails.
-		</description>
-		<description lang="de">Kann E-Mails versenden.
-		</description>
+		<description lang="en">The Email Resource provides access to the email functionality in Android.</description>
+		<description lang="de">Die Email Ressource erlaubt den Zugriff auf Email-Funktionalitäten in Android.</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting 
-			identifier="canSendEmail"
+		<privacySetting identifier="canSendEmail"
 			validValueDescription="'true', 'false'">
 			<name lang="en">E-Mail send</name>
 			<name lang="de">E-Mail senden</name>
-			<description lang="en">Allows to send E-Mails.
-			</description>
-			<description lang="de">Erlaubt es E-Mail zu senden.
-			</description>
+			<description lang="en">Allows to send E-Mails.</description>
+			<description lang="de">Erlaubt es E-Mail zu senden.</description>
+			<defaultDescription lang="en">By ticking off the checkbox you enable access to the send mail feature.</defaultDescription>
+			<defaultDescription lang="de">Durch aktivieren der Checkbox wird die Email-versenden Funktionalität freigeschalten.</defaultDescription>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>
