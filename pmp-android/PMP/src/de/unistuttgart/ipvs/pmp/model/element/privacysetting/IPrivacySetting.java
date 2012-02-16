@@ -19,16 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import java.util.List;
-
 import android.content.Context;
+import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 
 /**
  * The {@link IPrivacySetting} interface represents a PrivacySetting of a {@link IResourceGroup}. It can be fetched from
@@ -70,9 +67,10 @@ public interface IPrivacySetting extends IModelElement {
     
     
     /**
-     * @return Returns the list of something unknown...
+     * @return Returns the localized change description of the {@link IPrivacySetting} supposed to be displayed with the
+     *         view.
      */
-    public List<RGISPSChangeDescription> getChangedDescription();
+    public String getChangeDescription();
     
     
     /**
@@ -117,18 +115,18 @@ public interface IPrivacySetting extends IModelElement {
      * 
      * @param context
      *            context to use for the view
-     * @return an @link{IPrivacySettingView} object to display and change the values of the privacy setting.
+     * @return a @link{View} to display and change the values of the privacy setting.
      */
-    public IPrivacySettingView<?> getView(Context context);
+    public View getView(Context context);
     
     
     /**
-     * Convenience method for {@link IPrivacySettingView#setViewValue(Object)} if you only have a string.
+     * Method to set the displayed value for the View, if you only have a string.
      * 
      * @param context
      *            context to use for the view
      * @param value
-     *            the string to parse
+     *            the string to parse, therefore the value to change the display to
      * @throws PrivacySettingValueException
      *             if the privacy setting rejected the value
      */
@@ -136,12 +134,13 @@ public interface IPrivacySetting extends IModelElement {
     
     
     /**
-     * Converts a view value to its string representation.
+     * Method to get the displayed value for the View, in order to get a string.
      * 
-     * @param value
-     *            the value from the view
-     * @return the string representation of this value
+     * @param context
+     *            context to use for the view
+     * @return
+     *         the value that was displayed, compiled to a string
      */
-    public String convertViewValue(Object value);
+    public String getViewValue(Context context);
     
 }

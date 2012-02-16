@@ -16,9 +16,6 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
  */
 public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
-    private IntegerView view = null;
-    
-    
     public IntegerPrivacySetting() {
         this(false);
     }
@@ -40,15 +37,6 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
     
     @Override
-    public IPrivacySettingView<Integer> getView(Context context) {
-        if (this.view == null) {
-            this.view = new IntegerView(context);
-        }
-        return this.view;
-    }
-    
-    
-    @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
         try {
             return Integer.parseInt(value);
@@ -65,5 +53,11 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
         }
         Integer i = (Integer) value;
         return i.toString();
+    }
+    
+    
+    @Override
+    public IPrivacySettingView<Integer> makeView(Context context) {
+        return new IntegerView(context);
     }
 }

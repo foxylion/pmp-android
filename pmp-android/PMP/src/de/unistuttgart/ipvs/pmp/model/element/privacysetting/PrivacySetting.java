@@ -1,9 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
-import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.view.View;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
@@ -11,9 +11,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 
 /**
  * @see IPrivacySetting
@@ -82,9 +80,14 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public List<RGISPSChangeDescription> getChangedDescription() {
-        return this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
-                .getChangeDescriptions();
+    public String getChangeDescription() {
+        String changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                .getChangeDescriptionForLocale(Locale.getDefault());
+        if (changeDescription == null) {
+            changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                    .getChangeDescriptionForLocale(Locale.ENGLISH);
+        }
+        return changeDescription;
     }
     
     
@@ -121,10 +124,10 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public IPrivacySettingView<?> getView(Context context) {
+    public View getView(Context context) {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        return this.link.getView(context);
+        return this.link.getView(context).asView();
     }
     
     
@@ -138,8 +141,10 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
-    public String convertViewValue(Object value) {
+    public String getViewValue(Context context) {
         checkCached();
-        return this.link.valueToString(value);
+        Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
+        return this.link.getViewValue(context);
     }
+    
 }
