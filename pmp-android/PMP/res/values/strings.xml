@@ -104,10 +104,8 @@
     <string name="apps_no_apps">Currently there are no Apps registered at PMP. Install a compatible App to fill the list.</string>
 
     <!-- App Details -->
-    <string name="app_servicefeature_enabled">The Service Feature \'%s\' has been actived.</string>
-    <string name="app_servicefeature_disabled">The Service Feature \'%s\' has been deactivated.</string>
-    <string name="app_removed">App was successfully removed from PMP.</string>
-    <string name="app_not_opened">App cannot be opened.</string>
+    <string name="app_removed">App successfully removed from PMP.</string>
+    <string name="app_not_opened">App can\'t be opened.</string>
     <string name="app_successfully_unregistered">App was successfully removed from PMP.</string>
 
     <!-- Service Features Tab/Dialog -->
