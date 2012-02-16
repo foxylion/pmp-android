@@ -21,14 +21,17 @@ package unittest;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 
 public class TestXMLFiles {
     
@@ -60,11 +63,11 @@ public class TestXMLFiles {
             //            ais = appUtil.parse(appUtil.compile(ais));
             //            appUtil.print(ais);
             
-            // Test RGIS
-            RGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
-            rgUtil.print(rgis);
-            rgis = rgUtil.parse(rgUtil.compile(rgis));
-            rgUtil.print(rgis);
+            //            // Test RGIS
+            //            RGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
+            //            rgUtil.print(rgis);
+            //            rgis = rgUtil.parse(rgUtil.compile(rgis));
+            //            rgUtil.print(rgis);
             
             //            // Test PresetSet
             //            PresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
@@ -78,11 +81,11 @@ public class TestXMLFiles {
             //            Printer.printIssues(aisIssues);
             //            Printer.printAIS(defectAIS);
             //            
-            //            // Test defect RGIS
-            //            RGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
-            //            List<Issue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
-            //            Printer.printIssues(rgisIssues);
-            //            Printer.printRGIS(defectRGIS);
+            // Test defect RGIS
+            RGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
+            List<Issue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
+            Printer.printIssues(rgisIssues);
+            Printer.printRGIS(defectRGIS);
             
         } catch (IOException e) {
             // TODO Auto-generated catch block

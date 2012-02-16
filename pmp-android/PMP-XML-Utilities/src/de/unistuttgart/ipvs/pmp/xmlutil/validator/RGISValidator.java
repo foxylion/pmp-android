@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
@@ -179,10 +180,11 @@ public class RGISValidator extends AbstractValidator {
             ps.clearIssuesAndPropagate();
         
         /*
-         * Validate names and descriptions
+         * Validate names, descriptions and change descriptions
          */
         issueList.addAll(validateNames(ps));
         issueList.addAll(validateDescriptions(ps));
+        issueList.addAll(validateChangeDescriptions(ps));
         
         /*
          * Validate, if the identifier is set
@@ -200,6 +202,93 @@ public class RGISValidator extends AbstractValidator {
         attachData(issueList, attachData);
         
         return issueList;
+    }
+    
+    
+    /**
+     * Validate the change description of a given privacy setting
+     * 
+     * @param privacySetting
+     *            the privacy setting
+     * @return List with issues as result of the validation
+     */
+    private List<Issue> validateChangeDescriptions(RGISPrivacySetting privacySetting) {
+        List<Issue> issueList = new ArrayList<Issue>();
+        
+        boolean englishLocaleExists = false;
+        List<String> localesOccurred = new ArrayList<String>();
+        
+        for (RGISPSChangeDescription changeDescription : privacySetting.getChangeDescriptions()) {
+            
+            // Instantiate possible issues
+            Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, changeDescription);
+            Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, changeDescription);
+            Issue changeDescriptionEmpty = new Issue(IssueType.EMPTY_VALUE, changeDescription);
+            
+            // Flag, if the locale is missing
+            boolean localeAvailable = true;
+            
+            // Check, if the locale is set
+            if (changeDescription.getLocale() == null || !checkValueSet(changeDescription.getLocale().getLanguage())) {
+                issueList.add(localeMissing);
+                localeAvailable = false;
+                
+            } else if (!checkLocale(changeDescription.getLocale())) {
+                // if the locale is invalid
+                issueList.add(localeInvalid);
+                // Add the information of the locale to the name issue
+                localeInvalid.addParameter(changeDescription.getLocale().getLanguage());
+            } else {
+                // Check, if its the english attribute
+                if (checkLocaleAttributeEN(changeDescription.getLocale())) {
+                    englishLocaleExists = true;
+                }
+                
+                String locale = changeDescription.getLocale().getLanguage();
+                if (!localesOccurred.contains(locale)) {
+                    localesOccurred.add(locale);
+                } else {
+                    // Check, if this issue is already added to the issuelist
+                    boolean issueAlreadyExists = false;
+                    for (Issue issueExisting : issueList) {
+                        if (issueExisting.getType().equals(IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)
+                                && (issueExisting).getLocation().equals(privacySetting)
+                                && issueExisting.getParameters().size() > 0
+                                && issueExisting.getParameters().get(0).equals(locale)) {
+                            issueAlreadyExists = true;
+                        }
+                    }
+                    if (!issueAlreadyExists) {
+                        Issue localesOccurredTooOften = new Issue(
+                                IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN, privacySetting);
+                        localesOccurredTooOften.addParameter(locale);
+                        issueList.add(localesOccurredTooOften);
+                    }
+                    
+                }
+            }
+            
+            // Check, if the change description is set
+            if (!checkValueSet(changeDescription.getChangeDescription())) {
+                issueList.add(changeDescriptionEmpty);
+                // Add the information of the locale to the name issue
+                if (localeAvailable) {
+                    changeDescriptionEmpty.addParameter(changeDescription.getLocale().getLanguage());
+                }
+            } else {
+                // Add the information of the change description to the locale issue
+                localeMissing.addParameter(changeDescription.getChangeDescription());
+            }
+        }
+        
+        // Add an issue: the English locale is missing
+        if (!englishLocaleExists) {
+            Issue localeEnMissing = new Issue(IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING, privacySetting);
+            issueList.add(localeEnMissing);
+        }
+        
+        return issueList;
+        
     }
     
     

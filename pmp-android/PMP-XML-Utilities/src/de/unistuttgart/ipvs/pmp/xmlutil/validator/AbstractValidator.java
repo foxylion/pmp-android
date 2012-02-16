@@ -204,7 +204,7 @@ public class AbstractValidator {
                         descriptionEmpty.addParameter(description.getLocale().getLanguage());
                     }
                 } else {
-                    // Add the information of the name to the locale issue
+                    // Add the information of the description to the locale issue
                     localeMissing.addParameter(description.getDescription());
                 }
             }
