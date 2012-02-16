@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
+import java.util.List;
+
 import android.graphics.drawable.Drawable;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
@@ -70,7 +72,7 @@ public interface IApp extends IModelElement {
     /**
      * @return the service features provided by the {@link IApp}.
      */
-    public IServiceFeature[] getServiceFeatures();
+    public List<IServiceFeature> getServiceFeatures();
     
     
     /**
@@ -84,9 +86,9 @@ public interface IApp extends IModelElement {
     
     
     /**
-     * @return Returns the currently active {@link IServiceFeature}s for this {@link IApp}.
+     * @return the currently active {@link IServiceFeature}s for this {@link IApp}.
      */
-    public IServiceFeature[] getActiveServiceFeatures();
+    public List<IServiceFeature> getActiveServiceFeatures();
     
     
     /**
@@ -104,9 +106,9 @@ public interface IApp extends IModelElement {
     
     
     /**
-     * @return Returns all {@link IPreset}s which were assigned to the {@link IApp}.
+     * @return all {@link IPreset}s which were assigned to the {@link IApp}.
      */
-    public IPreset[] getAssignedPresets();
+    public List<IPreset> getAssignedPresets();
     
     
     /**

@@ -24,7 +24,7 @@ public class PMPServiceContextThread extends Thread {
         boolean stop = false;
         
         for (IContext context : Model.getInstance().getContexts()) {
-            if (Model.getInstance().getContextAnnotations(context).length > 0) {
+            if (Model.getInstance().getContextAnnotations(context).size() > 0) {
                 context.update(this.service.getBaseContext());
                 // TODO actually use that return value
                 stop = false;

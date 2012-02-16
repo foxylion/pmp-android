@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.app;
 
-import java.util.Arrays;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -62,7 +62,7 @@ public class TabServiceFeatures extends Activity {
         }
         
         /* Load the offered Service Features into the list. */
-        IServiceFeature[] sfs = this.app.getServiceFeatures();
+        List<IServiceFeature> sfs = this.app.getServiceFeatures();
         
         ListView serviceFeaturesView = (ListView) findViewById(R.id.ListView_SFs);
         
@@ -75,7 +75,7 @@ public class TabServiceFeatures extends Activity {
             }
         });
         
-        AdapterServiceFeatures sFsAdapter = new AdapterServiceFeatures(this, Arrays.asList(sfs));
+        AdapterServiceFeatures sFsAdapter = new AdapterServiceFeatures(this, sfs);
         serviceFeaturesView.setAdapter(sFsAdapter);
     }
     

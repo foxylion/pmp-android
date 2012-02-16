@@ -36,38 +36,38 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
 public interface IPrivacySetting extends IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IPrivacySetting}.
+     * @return the <b>unique</b> identifier of the {@link IPrivacySetting}.
      */
     @Override
     public String getIdentifier();
     
     
     /**
-     * @return Returns the identifier of the {@link IPrivacySetting} in its {@link IResourceGroup}.
+     * @return the identifier of the {@link IPrivacySetting} in its {@link IResourceGroup}.
      */
     public String getLocalIdentifier();
     
     
     /**
-     * @return Returns the {@link IResourceGroup} this {@link IPrivacySetting} belongs to.
+     * @return the {@link IResourceGroup} this {@link IPrivacySetting} belongs to.
      */
     public IResourceGroup getResourceGroup();
     
     
     /**
-     * @return Returns the localized name of the {@link IPrivacySetting}.
+     * @return the localized name of the {@link IPrivacySetting}.
      */
     public String getName();
     
     
     /**
-     * @return Returns the localized description of the {@link IPrivacySetting}.
+     * @return the localized description of the {@link IPrivacySetting}.
      */
     public String getDescription();
     
     
     /**
-     * @return Returns the localized change description of the {@link IPrivacySetting} supposed to be displayed with the
+     * @return the localized change description of the {@link IPrivacySetting} supposed to be displayed with the
      *         view.
      */
     public String getChangeDescription();

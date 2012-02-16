@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -129,10 +128,9 @@ public class Model implements IModel, Observer {
      */
     
     @Override
-    public IApp[] getApps() {
+    public List<IApp> getApps() {
         checkCached();
-        Collection<App> result = this.cache.getApps().values();
-        return result.toArray(new IApp[result.size()]);
+        return new ArrayList<IApp>(this.cache.getApps().values());
     }
     
     
@@ -278,10 +276,9 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IResourceGroup[] getResourceGroups() {
+    public List<IResourceGroup> getResourceGroups() {
         checkCached();
-        Collection<ResourceGroup> result = this.cache.getResourceGroups().values();
-        return result.toArray(new IResourceGroup[result.size()]);
+        return new ArrayList<IResourceGroup>(this.cache.getResourceGroups().values());
     }
     
     
@@ -477,23 +474,22 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IPreset[] getPresets() {
+    public List<IPreset> getPresets() {
         checkCached();
-        Collection<Preset> result = this.cache.getAllPresets();
-        return result.toArray(new IPreset[result.size()]);
+        return new ArrayList<IPreset>(this.cache.getAllPresets());
     }
     
     
     @Override
-    public IPreset[] getPresets(ModelElement creator) {
+    public List<IPreset> getPresets(ModelElement creator) {
         checkCached();
         Assert.isValidCreator(creator, ModelMisuseError.class, Assert.ILLEGAL_CREATOR, "creator", creator);
         
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
-            return new IPreset[0];
+            return new ArrayList<IPreset>();
         } else {
-            return creatorPresets.values().toArray(new IPreset[creatorPresets.values().size()]);
+            return new ArrayList<IPreset>(creatorPresets.values());
         }
     }
     
@@ -609,23 +605,21 @@ public class Model implements IModel, Observer {
     
     
     @Override
-    public IContext[] getContexts() {
+    public List<IContext> getContexts() {
         checkCached();
-        List<IContext> result = this.cache.getContexts();
-        return result.toArray(new IContext[result.size()]);
+        return new ArrayList<IContext>(this.cache.getContexts());
     }
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations() {
+    public List<IContextAnnotation> getContextAnnotations() {
         checkCached();
-        List<IContextAnnotation> result = this.cache.getAllContextAnnotations();
-        return result.toArray(new IContextAnnotation[result.size()]);
+        return new ArrayList<IContextAnnotation>(this.cache.getAllContextAnnotations());
     }
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations(IContext context) {
+    public List<IContextAnnotation> getContextAnnotations(IContext context) {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
         
@@ -637,6 +631,6 @@ public class Model implements IModel, Observer {
             }
         }
         
-        return result.toArray(new IContextAnnotation[result.size()]);
+        return result;
     }
 }

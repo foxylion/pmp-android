@@ -34,7 +34,7 @@ public class PMPPreferences {
     
     
     /**
-     * @return Returns an instance of the {@link PMPPreferences}.
+     * @return an instance of the {@link PMPPreferences}.
      */
     public static PMPPreferences getInstance() {
         if (PMPPreferences.instance == null) {

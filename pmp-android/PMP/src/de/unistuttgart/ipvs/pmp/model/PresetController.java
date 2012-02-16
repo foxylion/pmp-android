@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -175,7 +174,7 @@ public class PresetController {
      */
     public static boolean verifyServiceFeature(ServiceFeature serviceFeature) throws PrivacySettingValueException {
         Map<IPrivacySetting, String> granted = findGranted(serviceFeature.getApp(),
-                Arrays.asList(serviceFeature.getRequiredPrivacySettings()));
+                serviceFeature.getRequiredPrivacySettings());
         return verifyServiceFeature(granted, serviceFeature);
     }
     

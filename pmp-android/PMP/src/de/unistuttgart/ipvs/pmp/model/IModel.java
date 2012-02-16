@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
@@ -41,9 +43,9 @@ import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 public interface IModel {
     
     /**
-     * @return Returns all {@link IApp}s known by PMP.
+     * @return all {@link IApp}s known by PMP.
      */
-    public IApp[] getApps();
+    public List<IApp> getApps();
     
     
     /**
@@ -51,7 +53,7 @@ public interface IModel {
      * 
      * @param appPackage
      *            Corresponding {@link IApp} identifier
-     * @return Returns the requested {@link IApp} or null if the {@link IApp} does not exists in PMP.
+     * @return the requested {@link IApp} or null if the {@link IApp} does not exists in PMP.
      */
     public IApp getApp(String appPackage);
     
@@ -83,9 +85,9 @@ public interface IModel {
     
     
     /**
-     * @return Returns all {@link IResourceGroup}s known by PMP.
+     * @return all {@link IResourceGroup}s known by PMP.
      */
-    public IResourceGroup[] getResourceGroups();
+    public List<IResourceGroup> getResourceGroups();
     
     
     /**
@@ -93,7 +95,7 @@ public interface IModel {
      * 
      * @param rgPackage
      *            Corresponding {@link IResourceGroup} identifier
-     * @return Returns the requested {@link IResourceGroup} or null if the {@link IResourceGroup} does not exists in
+     * @return the requested {@link IResourceGroup} or null if the {@link IResourceGroup} does not exists in
      *         PMP.
      */
     public IResourceGroup getResourceGroup(String rgPackage);
@@ -132,18 +134,18 @@ public interface IModel {
     
     
     /**
-     * @return Returns all {@link IPreset}s known by PMP.
+     * @return all {@link IPreset}s known by PMP.
      */
-    public IPreset[] getPresets();
+    public List<IPreset> getPresets();
     
     
     /**
      * @param creator
      *            null, if the user created this preset, the {@link IApp} or {@link IResourceGroup} if the
      *            {@link IPreset} is bundled.
-     * @return Returns all {@link IPreset}s which were created by creator or null, if none found
+     * @return all {@link IPreset}s which were created by creator or null, if none found
      */
-    public IPreset[] getPresets(ModelElement creator);
+    public List<IPreset> getPresets(ModelElement creator);
     
     
     /**
@@ -207,14 +209,14 @@ public interface IModel {
      * 
      * @return all {@link IContext}s known by PMP.
      */
-    public IContext[] getContexts();
+    public List<IContext> getContexts();
     
     
     /**
      * 
      * @return all {@link IContextAnnotation} known by PMP.
      */
-    public IContextAnnotation[] getContextAnnotations();
+    public List<IContextAnnotation> getContextAnnotations();
     
     
     /**
@@ -223,7 +225,7 @@ public interface IModel {
      *            the context that the resulting {@link IContextAnnotation}s must use
      * @return all {@link IContextAnnotation} using a specific context
      */
-    public IContextAnnotation[] getContextAnnotations(IContext context);
+    public List<IContextAnnotation> getContextAnnotations(IContext context);
     
     
     /**

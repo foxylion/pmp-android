@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.xml;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
@@ -19,7 +21,7 @@ public interface IXMLInterface {
      * @param presets
      * @return
      */
-    public PresetSet exportPresets(IPreset[] presets);
+    public PresetSet exportPresets(List<IPreset> presets);
     
     
     /**
@@ -29,6 +31,6 @@ public interface IXMLInterface {
      * @param override
      *            if existing presets shall be overridden or a new preset shall be generated
      */
-    public void importPresets(Preset[] presets, boolean override) throws InvalidPresetSetException;
+    public void importPresets(List<Preset> presets, boolean override) throws InvalidPresetSetException;
     
 }

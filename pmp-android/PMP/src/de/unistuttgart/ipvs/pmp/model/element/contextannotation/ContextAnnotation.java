@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -98,7 +101,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {
@@ -108,7 +111,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         }
         
         if (!hasSameAppsAssigned) {
-            return new IContextAnnotation[0];
+            return new ArrayList<IContextAnnotation>();
         }
         
         return preset.getContextAnnotations(this.privacySetting);
@@ -116,7 +119,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+    public boolean isPrivacySettingConflicting(IPreset preset) {
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {
@@ -126,19 +129,15 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         }
         
         if (!hasSameAppsAssigned) {
-            return new IPrivacySetting[0];
+            return false;
         }
         
         String grantedByPreset = preset.getGrantedPrivacySettingValue(this.privacySetting);
         try {
-            if (this.privacySetting.permits(this.overrideValue, grantedByPreset)) {
-                return new IPrivacySetting[] { this.privacySetting };
-            } else {
-                return new IPrivacySetting[0];
-            }
+            return this.privacySetting.permits(this.overrideValue, grantedByPreset);
         } catch (PrivacySettingValueException e) {
             Log.e(this, "Invalid value while checking for CA/PS conflicts: ", e);
-            return new IPrivacySetting[0];
+            return false;
         }
     }
 }
