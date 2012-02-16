@@ -83,7 +83,7 @@ public class LocationContextCondition {
         if (hysteresis >= uncertainty) {
             throw new IllegalArgumentException("Hysteresis must not be equal or larger than uncertainty.");
         }
-        if (polygon.size() == 0) {
+        if (polygon == null || polygon.size() == 0) {
             throw new IllegalArgumentException("Polygon must not be empty.");
         }
         if ((hysteresis < 0.0) || (uncertainty < 0.0)) {
@@ -284,6 +284,28 @@ public class LocationContextCondition {
     
     public List<LocationContextGeoPoint> getPolygon() {
         return this.polygon;
+    }
+    
+    
+    public double[] getPolygonLatitudeArray() {
+        double[] result = new double[this.polygon.size()];
+        
+        for (int i = 0; i < result.length; i++) {
+            result[i] = this.polygon.get(i).getLatitude();
+        }
+        
+        return result;
+    }
+    
+    
+    public double[] getPolygonLongitudeArray() {
+        double[] result = new double[this.polygon.size()];
+        
+        for (int i = 0; i < result.length; i++) {
+            result[i] = this.polygon.get(i).getLongitude();
+        }
+        
+        return result;
     }
     
 }

@@ -33,13 +33,19 @@
         android:id="@+id/hysteresisSeekBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:paddingLeft="10dp" android:paddingRight="10dp" android:max="100"/>
-
+
     <TextView
         android:id="@+id/hysteresisTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"/>
-
+    
+    <Button
+        android:id="@+id/changeCoordsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contexts_location_change_coordinates" />
+    
     <ExpandableListView
         android:id="@+id/coordinatesExpandableList"
         android:layout_width="fill_parent"

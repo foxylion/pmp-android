@@ -56,6 +56,9 @@
 		
 		<!-- Debug RG installer -->
 		<activity android:name=".model.activity.DebugInstallRGActivity" />
+		
+		<!-- Contexts -->
+		<activity android:name=".model.context.location.LocationContextMapView" />
 
 		<!-- // end of Activity declaration -->
 

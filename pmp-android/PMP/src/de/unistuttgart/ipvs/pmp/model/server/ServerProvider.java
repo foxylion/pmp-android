@@ -83,18 +83,18 @@ public class ServerProvider implements IServerProvider {
         ObjectInputStream ois = new ObjectInputStream(tcpSocket.getInputStream());
         try {
             
-            Log.d(this, "[ServerConnection] Sending request " + request.toString() + " ...");
+            Log.d(this, "Sending request " + request.toString() + " ...");
             this.callback.step(3, 7);
             oos.writeObject(request);
             
-            Log.d(this, "[ServerConnection] Receiving ...");
+            Log.d(this, "Receiving ...");
             this.callback.step(4, 7);
             result = ois.readObject();
             if (!(result instanceof AbstractResponse)) {
                 throw new ClassNotFoundException();
             }
             
-            Log.d(this, "[ServerConnection] Sending RequestCommunicationEnd ...");
+            Log.d(this, "Sending RequestCommunicationEnd ...");
             this.callback.step(5, 7);
             oos.writeObject(new RequestCommunicationEnd());
             
@@ -165,14 +165,13 @@ public class ServerProvider implements IServerProvider {
             }
         }
         
-        Log.v(this,
-                "[ServerConnection] Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
+        Log.v(this, "Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
         this.callback.step(1, 7);
         
         // if the cache is that new it is extremely unlikely that something has changed
         // e.g. we're installing several RGs
         if ((cachedResponse != null) && (cacheFile.lastModified() + LOCAL_CACHE_ONLY_TIME > System.currentTimeMillis())) {
-            Log.v(this, "[ServerConnection] Using fresh cache");
+            Log.v(this, "Using fresh cache");
             this.callback.step(1, 1);
             return cachedResponse;
         }
@@ -219,7 +218,7 @@ public class ServerProvider implements IServerProvider {
         
         if (response instanceof CachedRequestResponse) {
             // okay to use cache     
-            Log.v(this, "[ServerConnection] Received Cache-OK message, using cache");
+            Log.v(this, "Received Cache-OK message, using cache");
             this.callback.step(6, 6);
             return cachedResponse;
             
@@ -242,7 +241,7 @@ public class ServerProvider implements IServerProvider {
                 Log.e(this, "IOException during " + response.getClass().getSimpleName(), e);
             }
             
-            Log.v(this, "[ServerConnection] New cache written");
+            Log.v(this, "New cache written");
             this.callback.step(7, 7);
             return response;
         }
