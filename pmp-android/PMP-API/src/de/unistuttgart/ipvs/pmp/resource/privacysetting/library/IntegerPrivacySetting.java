@@ -40,7 +40,7 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
     @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
-        if (value == null) {
+        if (value == null || value.equals("")) {
             return (this.worstValue < this.bestValue ? this.worstValue : this.bestValue);
         }
         return StringConverter.forIntegerSafe.valueOf(value);
