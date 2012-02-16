@@ -119,12 +119,12 @@ public final class StringConverter {
      * PS library wrapped converters
      */
     
-    protected static final ISafeStringConverter<String> forStringSafe = wrapSafe(forString, "");
-    protected static final ISafeStringConverter<Boolean> forBooleanSafe = wrapSafe(forBoolean, Boolean.FALSE);
-    protected static final ISafeStringConverter<Long> forLongSafe = wrapSafe(forLong, 0L);
-    protected static final ISafeStringConverter<Integer> forIntegerSafe = wrapSafe(forInteger, 0);
-    protected static final ISafeStringConverter<Double> forDoubleSafe = wrapSafe(forDouble, 0.0);
-    protected static final ISafeStringConverter<Float> forFloatSafe = wrapSafe(forFloat, 0f);
+    public static final ISafeStringConverter<String> forStringSafe = wrapSafe(forString, "");
+    public static final ISafeStringConverter<Boolean> forBooleanSafe = wrapSafe(forBoolean, Boolean.FALSE);
+    public static final ISafeStringConverter<Long> forLongSafe = wrapSafe(forLong, 0L);
+    public static final ISafeStringConverter<Integer> forIntegerSafe = wrapSafe(forInteger, 0);
+    public static final ISafeStringConverter<Double> forDoubleSafe = wrapSafe(forDouble, 0.0);
+    public static final ISafeStringConverter<Float> forFloatSafe = wrapSafe(forFloat, 0f);
     
     
     /**
