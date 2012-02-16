@@ -14,7 +14,7 @@ public interface IServerDownloadCallback {
      * Called for the progress during one download.
      * 
      * @param position
-     *            the amount of bytes already read
+     *            the amount of bytes already READ
      * @param length
      *            the amount of bytes total
      * @deprecated pretty much impossible to use with {@link ObjectInputStream}.

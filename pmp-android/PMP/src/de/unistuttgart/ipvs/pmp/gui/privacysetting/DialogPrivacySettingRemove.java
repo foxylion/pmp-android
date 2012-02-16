@@ -46,10 +46,9 @@ public class DialogPrivacySettingRemove extends Dialog {
                 DialogPrivacySettingRemove.this.presetPSsTab
                         .removePrivacySetting(DialogPrivacySettingRemove.this.privacySetting);
                 
-                Toast.makeText(
-                        DialogPrivacySettingRemove.this.getContext(),
-                        DialogPrivacySettingRemove.this.getContext().getString(
-                                R.string.preset_removed_ps_success), Toast.LENGTH_LONG).show();
+                Toast.makeText(DialogPrivacySettingRemove.this.getContext(),
+                        DialogPrivacySettingRemove.this.getContext().getString(R.string.preset_removed_ps_success),
+                        Toast.LENGTH_LONG).show();
                 
                 DialogPrivacySettingRemove.this.dismiss();
             }

@@ -39,7 +39,7 @@ public class LocationContextGeoPoint {
     
     @Override
     public String toString() {
-        return String.format("%.4f %s, %.4f %s", Math.abs(this.latitude), this.latitude > 0 ? "N" : "S",
+        return String.format("%.6f %s, %.6f %s", Math.abs(this.latitude), this.latitude > 0 ? "N" : "S",
                 Math.abs(this.longitude), this.longitude > 0 ? "E" : "W");
     }
     

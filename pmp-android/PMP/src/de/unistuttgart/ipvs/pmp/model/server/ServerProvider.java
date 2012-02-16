@@ -165,8 +165,7 @@ public class ServerProvider implements IServerProvider {
             }
         }
         
-        Log.v(this,
-                "Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
+        Log.v(this, "Having cache == " + (cachedResponse == null ? "null" : cachedResponse.toString()));
         this.callback.step(1, 7);
         
         // if the cache is that new it is extremely unlikely that something has changed
