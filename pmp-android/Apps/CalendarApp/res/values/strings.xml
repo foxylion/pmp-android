@@ -5,7 +5,7 @@
     <color name="orange">#ffa200</color>
 
     <string name="app_name">Calendar</string>
-    <string name="new_todo">New appointment</string>
+    <string name="new_todo">New</string>
     <string name="desc">Description</string>
     <string name="conf">Confirm</string>
     <string name="add_todo_dialog">Add new appointment</string>
@@ -48,10 +48,10 @@
     <string name="ok">OK</string>
     <string name="change_sf">Change service feature</string>
     <string name="delete_all_appointments_question">Do you really want to delete all appointments?</string>
-    <string name="delete_all_appointments">Delete all appointments</string>
+    <string name="delete_all_appointments">Delete all</string>
     <string name="file_name">Filename:</string>
-    <string name="export_appointments">Export appointments</string>
-    <string name="import_appointments">Import appointments</string>
+    <string name="export_appointments">Export</string>
+    <string name="import_appointments">Import</string>
     <string name="date">Date: </string>
     <string name="invalid_file_name_title">Invalid filename</string>
     <string name="invalid_file_name_message">The entered filename is invalid.</string>
