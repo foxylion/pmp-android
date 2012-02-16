@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.TwoRowProgressBar;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
@@ -62,6 +63,7 @@ public class RGInstaller {
             @Override
             public void run() {
                 final TwoRowProgressBar pb = new TwoRowProgressBar(context);
+                pb.setTitle(context.getString(R.string.rg_processing_installation));
                 pb.setTaskProgress(0, resourceGroups.length);
                 pb.setProgress(0, 1);
                 pb.show();

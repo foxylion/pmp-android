@@ -6,47 +6,29 @@
 		className="Switches">
 		<name lang="en">Device Switches</name>
 		<name lang="de">Geräteschalter</name>
-		<description lang="en">Three Swiss witch bitches,
-			which wished to be switched Swiss
-			witch bitches, wish to watch three
-			Swiss Swatch watch switches. Which
-			Swiss witch-bitch which wishes to
-			be a switched Swiss witch bitch, wishes
-			to watch which Swiss Swatch
-			watch switch?
-		</description>
-		<description lang="de">Drei Schweizer Hexen-Hündinnen, die
-			ausgewechselte Schweizer Hexen-Hündinnen sein wollten, würden sich
-			gerne drei Schweizer Swatch-Uhr-Schalter anschauen.
-			Welche Schweizer
-			Hexen-Hündin, die eine ausgewechselte Schweizer
-			Hexen-Hündin sein
-			will, würde gerne welchen Schweizer
-			Swatch-Uhren-Schalter anschauen?
-		</description>
+		<description lang="en">Gives access to enabling and disabling of functions like WiFi and showing their actual state.</description>
+		<description lang="de">Erlaubt Funktionen des Geräts ein un auszuschalten bzw. deren Status anzuzeigen.</description>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting 
 			identifier="CanWifiState"
 			validValueDescription="'true', 'false'">
-			<name lang="en">WiFi state</name>
-			<name lang="de">WLAN-Status</name>
-			<description lang="en">Allows to view the WiFi
-				state.
-			</description>
-			<description lang="de">Erlaubt den WLAN-Status anzuzeigen.
-			</description>
+			<name lang="en">WiFi state anzeigen</name>
+			<name lang="de">WLAN-Status anzeigen</name>
+			<description lang="en">Allows to view the WiFi state.</description>
+			<description lang="de">Erlaubt den WLAN-Status anzuzeigen.</description>
+			<changeDescription lang="en">By ticking off the checkbox all assigned Apps can access the current WiFi state.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox können alle zugewiesenen Apps den aktuellen WLAN-Status lesen.</changeDescription>
 		</privacySetting>
 		<privacySetting
 			identifier="CanWifiSwitch"
 			validValueDescription="'true', 'false'">
 			<name lang="en">Change WiFi state</name>
 			<name lang="de">WLAN-Status ändern</name>
-			<description lang="en">Allows to switch the WiFi
-				switch.
-			</description>
-			<description lang="de">Erlaubt den WLAN-Schalter umzuschalten.
-			</description>
+			<description lang="en">Allows to switch the WiFi switch.</description>
+			<description lang="de">Erlaubt den WLAN-Schalter umzuschalten.</description>
+			<changeDescription lang="en">By ticking off the checkbox all assigned Apps can change the current WiFi state.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox können alle zugewiesenen Apps den aktuellen WLAN-Status ändern.</changeDescription>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>

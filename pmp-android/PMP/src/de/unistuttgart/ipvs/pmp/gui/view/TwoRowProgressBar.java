@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.R;
 
 public class TwoRowProgressBar extends Dialog {
     
+    private BasicTitleView btvTitle;
     private LinearLayout pbTasksContainer;
     private ProgressBar pbTasks;
     private ProgressBar pbProgress;
@@ -22,9 +23,16 @@ public class TwoRowProgressBar extends Dialog {
         
         setContentView(R.layout.dialog_two_row_progressbar);
         
+        this.btvTitle = (BasicTitleView) findViewById(R.id.Title);
         this.pbTasksContainer = (LinearLayout) findViewById(R.id.LinearLayout_Progress_Tasks);
         this.pbTasks = (ProgressBar) findViewById(R.id.ProgressBar_Tasks);
         this.pbProgress = (ProgressBar) findViewById(R.id.ProgressBar_Progress);
+    }
+    
+    
+    @Override
+    public void setTitle(CharSequence title) {
+        this.btvTitle.setTitle(title.toString());
     }
     
     

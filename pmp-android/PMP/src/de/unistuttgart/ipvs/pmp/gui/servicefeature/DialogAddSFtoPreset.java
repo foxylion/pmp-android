@@ -57,7 +57,7 @@ public class DialogAddSFtoPreset extends Dialog {
                 
                 /* Close the Dialog and close the underlying one as well */
                 dismiss();
-                dialog.refresh();
+                dialog.refresh(); // Refresh before dismiss to update main list
                 dialog.dismiss();
             }
         });

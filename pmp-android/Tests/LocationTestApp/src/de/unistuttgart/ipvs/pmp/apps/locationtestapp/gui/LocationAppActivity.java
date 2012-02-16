@@ -105,6 +105,8 @@ public class LocationAppActivity extends MapActivity {
             loc.endLocationLookup();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
     }
     
@@ -139,6 +141,15 @@ public class LocationAppActivity extends MapActivity {
             startContinousLookup();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(LocationAppActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
         }
         
     };
@@ -299,8 +310,7 @@ public class LocationAppActivity extends MapActivity {
                             + countryCodeD
                             + "<br/>"
                             + cityD
-                            + "; "
-                            + postalCodeD + "<br/>" + addressD + "</html>"));
+                            + "; " + postalCodeD + "<br/>" + addressD + "</html>"));
                     
                     ((ToggleButton) findViewById(R.id.ToggleButton_Active)).setChecked(isActiveD);
                     ((ToggleButton) findViewById(R.id.ToggleButton_Avaiable)).setChecked(isAvailableD);
