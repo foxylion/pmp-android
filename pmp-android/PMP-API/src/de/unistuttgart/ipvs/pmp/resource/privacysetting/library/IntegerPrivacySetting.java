@@ -38,21 +38,13 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
     @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException nfe) {
-            throw new PrivacySettingValueException();
-        }
+        return StringConverter.forIntegerSafe.valueOf(value);
     }
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Integer)) {
-            return null;
-        }
-        Integer i = (Integer) value;
-        return i.toString();
+    public String valueToString(Integer value) {
+        return StringConverter.forIntegerSafe.toString(value);
     }
     
     

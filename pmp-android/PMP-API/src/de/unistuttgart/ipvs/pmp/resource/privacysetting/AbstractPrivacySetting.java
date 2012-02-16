@@ -133,7 +133,7 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given
-     * String value.
+     * String value that can later be recognized by {@link AbstractPrivacySetting#valueToString(Object)}.
      * If value is null, it should create an object that corresponds to "no privacy setting value set".
      * 
      * @param value
@@ -148,15 +148,14 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * Should create the string representation for an actual object for this {@link AbstractPrivacySetting} that can
-     * later be
-     * recognized by {@link AbstractPrivacySetting#parseValue(String)}.
-     * If value is null or not the desired input type, it should return null.
+     * later be recognized by {@link AbstractPrivacySetting#parseValue(String)}.
+     * If value is null, it should return null.
      * 
      * @param value
      *            the value requested to be translated to string
      * @return a string corresponding to value, null, if value is null or not the desired input type
      */
-    public abstract String valueToString(Object value);
+    public abstract String valueToString(T value);
     
     
     /**

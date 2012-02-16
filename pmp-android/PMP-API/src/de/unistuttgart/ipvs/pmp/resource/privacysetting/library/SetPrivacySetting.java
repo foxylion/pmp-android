@@ -58,15 +58,13 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Set<?>)) {
+    public String valueToString(Set<T> value) {
+        if (value == null) {
             return null;
         }
-        @SuppressWarnings("unchecked")
-        Set<T> set = (Set<T>) value;
         
         StringBuilder sb = new StringBuilder();
-        for (T item : set) {
+        for (T item : value) {
             sb.append(this.converter.toString(item).replace(SEPARATOR, ESCAPE_SEPARATOR));
             sb.append(SEPARATOR);
         }

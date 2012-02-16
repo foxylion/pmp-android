@@ -37,13 +37,11 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Enum<?>)) {
+    public String valueToString(T value) {
+        if (value == null) {
             return null;
         }
-        @SuppressWarnings("unchecked")
-        Enum<T> e = (Enum<T>) value;
-        return e.name();
+        return value.name();
     }
     
     
