@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import android.content.Context;
@@ -64,9 +65,12 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
         }
         
         StringBuilder sb = new StringBuilder();
-        for (T item : value) {
-            sb.append(this.converter.toString(item).replace(SEPARATOR, ESCAPE_SEPARATOR));
-            sb.append(SEPARATOR);
+        Iterator<T> iter = value.iterator();
+        while (iter.hasNext()) {
+            sb.append(this.converter.toString(iter.next()).replace(SEPARATOR, ESCAPE_SEPARATOR));
+            if (iter.hasNext()) {
+                sb.append(SEPARATOR);
+            }
         }
         return sb.toString();
         

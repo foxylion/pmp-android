@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="pmp_api_add_item">Add item</string>
+    
     <string name="pmp_api_undefined">- UNDEFINED -</string>
     <string name="pmp_api_pmp">Privacy Management Platform</string>
 

@@ -3,15 +3,20 @@ package de.unistuttgart.ipvs.pmp.resource.privacysetting.view;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IPrivacySettingView;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySetting;
@@ -24,19 +29,12 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.SetPrivacySettin
  */
 public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<T>> {
     
-    /**
-     * All child views in store
-     */
-    private List<IPrivacySettingView<T>> editViews;
+    private LinearLayout mainContainer;
     
-    /**
-     * amount of actually used views to input data
-     */
-    private int usedViews;
+    private List<IPrivacySettingView<T>> views = new ArrayList<IPrivacySettingView<T>>();
     
-    private LinearLayout viewsContainer;
+    private Map<IPrivacySettingView<T>, LinearLayout> viewContainers = new HashMap<IPrivacySettingView<T>, LinearLayout>();
     
-    private Context context;
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
     private Object[] childViewConstructorInvocation;
     
@@ -45,86 +43,41 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
             Object[] childViewConstructorInvocation) {
         super(context);
         
-        this.editViews = new ArrayList<IPrivacySettingView<T>>();
-        this.usedViews = 0;
-        
-        this.context = context;
         this.childViewConstructor = childViewConstructor;
         this.childViewConstructorInvocation = childViewConstructorInvocation;
         
         setOrientation(LinearLayout.VERTICAL);
         
-        TextView description = new TextView(context);
-        description.setText("Enter the entries separated by '" + "'.");
-        addView(description);
+        /* Create a new main Container */
+        this.mainContainer = new LinearLayout(context);
+        this.mainContainer.setOrientation(LinearLayout.VERTICAL);
+        this.mainContainer.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        addView(this.mainContainer);
         
-        this.viewsContainer = new LinearLayout(context);
-        this.viewsContainer.setOrientation(LinearLayout.VERTICAL);
-        addView(this.viewsContainer);
-        
-        new LinearLayout(context);
-        
-        Button buttonAdd = new Button(context);
-        buttonAdd.setText("Add");
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        /* Create an Add-Icon */
+        LinearLayout addButtonLayout = new LinearLayout(getContext());
+        ImageView addButtonImage = new ImageView(getContext());
+        addButtonImage.setImageResource(R.drawable.pmp_api_icon_add_small);
+        addButtonLayout.addView(addButtonImage);
+        TextView addButtonText = new TextView(getContext());
+        addButtonText.setText(getContext().getString(R.string.pmp_api_add_item));
+        addButtonLayout.addView(addButtonText);
+        LayoutParams addButtonTextParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        addButtonTextParams.gravity = Gravity.CENTER_VERTICAL;
+        addButtonText.setLayoutParams(addButtonTextParams);
+        addButtonLayout.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 try {
-                    makeViews(SetView.this.usedViews + 1);
+                    addSubView(null);
                 } catch (PrivacySettingValueException e) {
-                    e.printStackTrace();
+                    Log.e(SetView.this, "Can't add a new view with null as start value.");
                 }
             }
         });
         
-        Button buttonRemove = new Button(context);
-        buttonRemove.setText("Remove");
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                try {
-                    makeViews(SetView.this.usedViews - 1);
-                } catch (PrivacySettingValueException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-    
-    
-    private IPrivacySettingView<T> newView() throws PrivacySettingValueException {
-        try {
-            if (this.childViewConstructorInvocation.length == 0) {
-                return this.childViewConstructor.newInstance(this.context);
-            } else {
-                return this.childViewConstructor.newInstance(this.context, this.childViewConstructorInvocation);
-            }
-        } catch (IllegalArgumentException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
-        } catch (InstantiationException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
-        } catch (InvocationTargetException e) {
-            throw new PrivacySettingValueException(e.getMessage(), e);
-        }
-    }
-    
-    
-    private void makeViews(int count) throws PrivacySettingValueException {
-        // add necessary
-        for (int i = this.editViews.size(); i < count; i++) {
-            IPrivacySettingView<T> insert = newView();
-            this.editViews.add(insert);
-            addView(insert.asView());
-        }
-        
-        // remove unnecessary
-        for (int i = count; i < this.editViews.size(); i++) {
-            removeView(this.editViews.get(i).asView());
-        }
+        addView(addButtonLayout);
     }
     
     
@@ -135,13 +88,15 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
     
     
     @Override
-    public void setViewValue(Set<T> value) throws PrivacySettingValueException {
-        this.usedViews = value.size();
-        makeViews(this.usedViews);
+    public void setViewValue(Set<T> values) throws PrivacySettingValueException {
+        /* Remove all currently displayed views. Creating a temporary new ArrayList to prevent a ConcurrentModificationException. */
+        List<IPrivacySettingView<T>> views = new ArrayList<IPrivacySettingView<T>>(this.views);
+        for (IPrivacySettingView<T> view : views) {
+            removeView(view);
+        }
         
-        int i = 0;
-        for (T item : value) {
-            this.editViews.get(i).setViewValue(item);
+        for (T value : values) {
+            addSubView(value);
         }
     }
     
@@ -150,11 +105,81 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
     public Set<T> getViewValue() {
         Set<T> set = new HashSet<T>();
         
-        for (int i = 0; i < this.usedViews; i++) {
-            set.add(this.editViews.get(i).getViewValue());
+        for (IPrivacySettingView<T> view : this.views) {
+            set.add(view.getViewValue());
         }
         
         return set;
+    }
+    
+    
+    private void addSubView(T value) throws PrivacySettingValueException {
+        /* Create a new view and assign value */
+        final IPrivacySettingView<T> newView = createSubView();
+        newView.setViewValue(value);
+        
+        /* Create a horizontal linear layout which will contain the new view and a remove button */
+        LinearLayout container = new LinearLayout(getContext());
+        container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        
+        /* Add the new view */
+        View realView = newView.asView();
+        LayoutParams realViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        realViewParams.weight = 1.0f;
+        realView.setLayoutParams(realViewParams);
+        
+        container.addView(realView);
+        
+        /* Create a remove button */
+        ImageView removeIcon = new ImageView(getContext());
+        removeIcon.setImageResource(R.drawable.pmp_api_icon_delete_small);
+        removeIcon.setClickable(true);
+        LayoutParams removeIconParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        removeIconParams.weight = 1.0f;
+        removeIconParams.gravity = Gravity.CENTER_VERTICAL;
+        removeIcon.setLayoutParams(removeIconParams);
+        removeIcon.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                removeView(newView);
+            }
+        });
+        
+        container.addView(removeIcon);
+        
+        /* Add the created elements to the SetView model */
+        views.add(newView);
+        viewContainers.put(newView, container);
+        
+        /* Add the new view to the mainContainer, to be displayed. */
+        mainContainer.addView(container);
+    }
+    
+    
+    private void removeView(IPrivacySettingView<T> view) {
+        mainContainer.removeView(viewContainers.get(view));
+        viewContainers.remove(view);
+        views.remove(view);
+    }
+    
+    
+    private IPrivacySettingView<T> createSubView() throws PrivacySettingValueException {
+        try {
+            if (this.childViewConstructorInvocation.length == 0) {
+                return this.childViewConstructor.newInstance(getContext());
+            } else {
+                return this.childViewConstructor.newInstance(getContext(), this.childViewConstructorInvocation);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new PrivacySettingValueException(e.getMessage(), e);
+        } catch (InstantiationException e) {
+            throw new PrivacySettingValueException(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            throw new PrivacySettingValueException(e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+            throw new PrivacySettingValueException(e.getMessage(), e);
+        }
     }
     
 }
