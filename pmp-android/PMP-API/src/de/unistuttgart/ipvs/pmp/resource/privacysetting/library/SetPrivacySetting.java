@@ -26,8 +26,6 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     private static final String SEPARATOR_REGEX = "\\;";
     private static final String ESCAPE_SEPARATOR = "\\;";
     
-    private SetView<T> view = null;
-    
     private IStringConverter<T> converter;
     
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
@@ -100,11 +98,8 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     
     
     @Override
-    public IPrivacySettingView<Set<T>> getView(Context context) {
-        if (this.view == null) {
-            this.view = new SetView<T>(context, this.childViewConstructor, this.childViewConstructorInvocation);
-        }
-        return this.view;
+    public IPrivacySettingView<Set<T>> makeView(Context context) {
+        return new SetView<T>(context, this.childViewConstructor, this.childViewConstructorInvocation);
     }
     
 }

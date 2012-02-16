@@ -15,7 +15,6 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.EnumView;
 public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting<T> {
     
     private final Class<T> clazz;
-    private EnumView<T> view = null;
     
     
     public EnumPrivacySetting(Class<T> enumClass) {
@@ -49,12 +48,8 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
     
     
     @Override
-    public IPrivacySettingView<T> getView(Context context) {
-        if (this.view == null) {
-            this.view = new EnumView<T>(context, this.clazz);
-        }
-        
-        return this.view;
+    public IPrivacySettingView<T> makeView(Context context) {
+        return new EnumView<T>(context, this.clazz);
     }
     
 }
