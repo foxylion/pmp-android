@@ -142,25 +142,25 @@ public class RegistrationStateListItem extends LinearLayout {
             case SUCCESS:
                 this.itemProgessPb.setVisibility(View.GONE);
                 this.itemStateIv.setVisibility(View.VISIBLE);
-                this.itemStateIv.setImageResource(R.drawable.icon_success);
+                this.itemStateIv.setImageResource(R.drawable.pmp_api_icon_success);
                 break;
             
             case FAIL:
                 this.itemProgessPb.setVisibility(View.GONE);
                 this.itemStateIv.setVisibility(View.VISIBLE);
-                this.itemStateIv.setImageResource(R.drawable.icon_delete);
+                this.itemStateIv.setImageResource(R.drawable.pmp_api_icon_failed);
                 break;
             
             case NEW:
                 this.itemProgessPb.setVisibility(View.GONE);
                 this.itemStateIv.setVisibility(View.VISIBLE);
-                this.itemStateIv.setImageResource(R.drawable.icon_arrow_left);
+                this.itemStateIv.setImageResource(R.drawable.pmp_api_icon_arrow_left);
                 break;
             
             case SKIPPED:
                 this.itemProgessPb.setVisibility(View.GONE);
                 this.itemStateIv.setVisibility(View.VISIBLE);
-                this.itemStateIv.setImageResource(R.drawable.icon_semi_success);
+                this.itemStateIv.setImageResource(R.drawable.pmp_api_icon_semi_success);
                 break;
         
         }
