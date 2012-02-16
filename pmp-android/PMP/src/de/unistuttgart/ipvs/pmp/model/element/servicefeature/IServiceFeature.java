@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
@@ -42,14 +44,14 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 public interface IServiceFeature extends IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IServiceFeature}.
+     * @return the <b>unique</b> identifier of the {@link IServiceFeature}.
      */
     @Override
     public String getIdentifier();
     
     
     /**
-     * @return Returns the identifier of the {@link IServiceFeature} in its {@link IApp}.
+     * @return the identifier of the {@link IServiceFeature} in its {@link IApp}.
      */
     public String getLocalIdentifier();
     
@@ -61,21 +63,21 @@ public interface IServiceFeature extends IModelElement {
     
     
     /**
-     * @return Returns the localized name of the {@link IServiceFeature}.
+     * @return the localized name of the {@link IServiceFeature}.
      */
     public String getName();
     
     
     /**
-     * @return Returns the localized description of the {@link IServiceFeature}.
+     * @return the localized description of the {@link IServiceFeature}.
      */
     public String getDescription();
     
     
     /**
-     * @return Returns the required {@link IPrivacySetting}s for the {@link IServiceFeature}.
+     * @return the required {@link IPrivacySetting}s for the {@link IServiceFeature}.
      */
-    public IPrivacySetting[] getRequiredPrivacySettings();
+    public List<IPrivacySetting> getRequiredPrivacySettings();
     
     
     /**
@@ -94,16 +96,16 @@ public interface IServiceFeature extends IModelElement {
     
     
     /**
-     * @return Returns true, if and only if this {@link IServiceFeature} can be used, i.e. all resource groups are
+     * @return true, if and only if this {@link IServiceFeature} can be used, i.e. all resource groups are
      *         present.
      */
     public boolean isAvailable();
     
     
     /**
-     * @return an array containing all the {@link MissingPrivacySettingValue}s that are missing for this service feature
+     * @return a list containing all the {@link MissingPrivacySettingValue}s that are missing for this service feature
      *         to be available
      */
-    public MissingPrivacySettingValue[] getMissingPrivacySettings();
+    public List<MissingPrivacySettingValue> getMissingPrivacySettings();
     
 }

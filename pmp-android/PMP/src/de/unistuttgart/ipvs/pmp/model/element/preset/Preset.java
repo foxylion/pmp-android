@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -131,10 +130,9 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IPrivacySetting[] getGrantedPrivacySettings() {
+    public List<IPrivacySetting> getGrantedPrivacySettings() {
         checkCached();
-        Collection<IPrivacySetting> result = this.privacySettingValues.keySet();
-        return result.toArray(new IPrivacySetting[result.size()]);
+        return new ArrayList<IPrivacySetting>(this.privacySettingValues.keySet());
     }
     
     
@@ -147,9 +145,9 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IApp[] getAssignedApps() {
+    public List<IApp> getAssignedApps() {
         checkCached();
-        return this.assignedApps.toArray(new IApp[this.assignedApps.size()]);
+        return new ArrayList<IApp>(this.assignedApps);
     }
     
     
@@ -251,16 +249,16 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public MissingPrivacySettingValue[] getMissingPrivacySettings() {
+    public List<MissingPrivacySettingValue> getMissingPrivacySettings() {
         checkCached();
-        return this.missingPrivacySettings.toArray(new MissingPrivacySettingValue[this.missingPrivacySettings.size()]);
+        return new ArrayList<MissingPrivacySettingValue>(this.missingPrivacySettings);
     }
     
     
     @Override
-    public MissingApp[] getMissingApps() {
+    public List<MissingApp> getMissingApps() {
         checkCached();
-        return this.missingApps.toArray(new MissingApp[this.missingApps.size()]);
+        return new ArrayList<MissingApp>(this.missingApps);
     }
     
     
@@ -311,15 +309,15 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations(IPrivacySetting privacySetting) {
+    public List<IContextAnnotation> getContextAnnotations(IPrivacySetting privacySetting) {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         
         List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
         if (psList == null) {
-            return new IContextAnnotation[0];
+            return new ArrayList<IContextAnnotation>();
         }
-        return psList.toArray(new IContextAnnotation[psList.size()]);
+        return new ArrayList<IContextAnnotation>(psList);
     }
     
     
@@ -375,7 +373,7 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
         Set<IContextAnnotation> result = new HashSet<IContextAnnotation>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
@@ -386,23 +384,23 @@ public class Preset extends ModelElement implements IPreset {
             }
         }
         
-        return result.toArray(new IContextAnnotation[result.size()]);
+        return new ArrayList<IContextAnnotation>(result);
     }
     
     
     @Override
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+    public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset) {
         Set<IPrivacySetting> result = new HashSet<IPrivacySetting>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
             for (ContextAnnotation ca : psCA) {
-                for (IPrivacySetting conflictPS : ca.getConflictingPrivacySettings(preset)) {
-                    result.add(conflictPS);
+                if (ca.isPrivacySettingConflicting(preset)) {
+                    result.add(ca.getPrivacySetting());
                 }
             }
         }
         
-        return result.toArray(new IPrivacySetting[result.size()]);
+        return new ArrayList<IPrivacySetting>(result);
     }
     
     

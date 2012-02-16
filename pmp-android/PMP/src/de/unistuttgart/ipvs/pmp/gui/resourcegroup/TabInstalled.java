@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -57,7 +56,7 @@ public class TabInstalled extends Activity {
      * Refreshs the list of installed Resourcegroups.
      */
     public void refreshList() {
-        this.resourceGroups = Arrays.asList(ModelProxy.get().getResourceGroups());
+        this.resourceGroups = ModelProxy.get().getResourceGroups();
         AdapterInstalled rgsAdapter = new AdapterInstalled(this, this.resourceGroups);
         
         this.installedRgsListView.setAdapter(rgsAdapter);

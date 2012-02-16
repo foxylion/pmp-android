@@ -48,7 +48,7 @@ public class PMPApplication extends Application {
     
     
     /**
-     * @return Returns an actual {@link Context} of the Application.
+     * @return an actual {@link Context} of the Application.
      */
     public static Context getContext() {
         return instance.getApplicationContext();

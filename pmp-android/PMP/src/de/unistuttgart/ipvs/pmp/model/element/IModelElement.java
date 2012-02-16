@@ -9,7 +9,7 @@ package de.unistuttgart.ipvs.pmp.model.element;
 public interface IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IModelElement}.
+     * @return the <b>unique</b> identifier of the {@link IModelElement}.
      */
     public String getIdentifier();
 }

@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -33,7 +35,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 public interface IContextAnnotation extends IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IContextAnnotation}.
+     * @return the <b>unique</b> identifier of the {@link IContextAnnotation}.
      */
     @Override
     public String getIdentifier();
@@ -94,17 +96,17 @@ public interface IContextAnnotation extends IModelElement {
     /**
      * @param preset
      *            the preset which shall be checked for conflicts
-     * @return an array of {@link IContextAnnotation} from the preset <code>preset</code> where each entry of the array
+     * @return a list of {@link IContextAnnotation} from the preset <code>preset</code> where each entry of the list
      *         could possibly override this context annotation's value.
      */
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset);
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset);
     
     
     /**
      * @param preset
      *            the preset which shall be checked for conflicts
-     * @return an array of {@link IPrivacySetting} from the preset <code>preset</code> where each entry of the array
-     *         could possibly override this context annotation's value.
+     * @return true, if and only if the value of {@link IPrivacySetting} from the preset <code>preset</code> could
+     *         possibly override this context annotation's value.
      */
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset);
+    public boolean isPrivacySettingConflicting(IPreset preset);
 }

@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.simple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,7 @@ public class SimpleModel implements ISimpleModel {
         Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
         
         // keep this state, now save all active SF
-        Map<IApp, IServiceFeature[]> actives = new HashMap<IApp, IServiceFeature[]>();
+        Map<IApp, List<IServiceFeature>> actives = new HashMap<IApp, List<IServiceFeature>>();
         for (IApp a : model.getApps()) {
             actives.put(a, a.getActiveServiceFeatures());
         }
@@ -65,7 +64,7 @@ public class SimpleModel implements ISimpleModel {
         }
         
         // install the simple mode presets for the apps
-        for (Entry<IApp, IServiceFeature[]> a : actives.entrySet()) {
+        for (Entry<IApp, List<IServiceFeature>> a : actives.entrySet()) {
             IPreset p = createPresetForApp(model, a.getKey());
             
             // assign all previously active SF to this one preset
@@ -100,7 +99,7 @@ public class SimpleModel implements ISimpleModel {
             }
             
             // check that all existing presets correspond to one app only
-            if ((p.getAssignedApps().length != 1) && (p.getMissingApps().length != 1)) {
+            if ((p.getAssignedApps().size() != 1) && (p.getMissingApps().size() != 1)) {
                 if (allergic) {
                     throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
                 }
@@ -109,7 +108,7 @@ public class SimpleModel implements ISimpleModel {
             
             // check that no CAs are present
             for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
-                if (p.getContextAnnotations(ps).length > 0) {
+                if (p.getContextAnnotations(ps).size() > 0) {
                     if (allergic) {
                         throw new ModelMisuseError(Assert.format(Assert.ILLEGAL_SIMPLE_MODE, "p", p));
                     }
@@ -152,13 +151,13 @@ public class SimpleModel implements ISimpleModel {
         IApp a = serviceFeature.getApp();
         IPreset p;
         // if no preset yet, create one
-        if (a.getAssignedPresets().length == 0) {
+        if (a.getAssignedPresets().size() == 0) {
             p = createPresetForApp(model, a);
         } else {
-            p = a.getAssignedPresets()[0];
+            p = a.getAssignedPresets().get(0);
         }
         
-        List<IServiceFeature> actives = new ArrayList<IServiceFeature>(Arrays.asList(a.getActiveServiceFeatures()));
+        List<IServiceFeature> actives = new ArrayList<IServiceFeature>(a.getActiveServiceFeatures());
         // check whether the active setting is already the case
         boolean contained = actives.contains(serviceFeature);
         if ((contained && active) || (!contained && !active)) {

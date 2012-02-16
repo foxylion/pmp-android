@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.xml;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -23,7 +25,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 public class XMLInterface implements IXMLInterface {
     
     @Override
-    public PresetSet exportPresets(IPreset[] presets) {
+    public PresetSet exportPresets(List<IPreset> presets) {
         PresetSet result = new PresetSet();
         
         // each preset
@@ -59,7 +61,7 @@ public class XMLInterface implements IXMLInterface {
     
     
     @Override
-    public void importPresets(Preset[] presets, boolean override) throws InvalidPresetSetException {
+    public void importPresets(List<Preset> presets, boolean override) throws InvalidPresetSetException {
         
         IModel m = Model.getInstance();
         

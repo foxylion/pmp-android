@@ -33,6 +33,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureInputValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeLabelProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeProvider;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
@@ -163,6 +164,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     protected void registerPages(DetailsPart detailsPart) {
 	detailsPart.registerPage(AISServiceFeature.class,
 		new ServiceFeatureNameDetailsPage());
+	detailsPart.registerPage(AISRequiredResourceGroup.class,
+		new ServiceFeatureRGDetailsPage());
     }
 
     /*

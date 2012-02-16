@@ -49,7 +49,7 @@ public class ActivityKillReceiver extends BroadcastReceiver {
     
     
     /**
-     * @return Returns an {@link IntentFilter} which reacts only on kill events.
+     * @return an {@link IntentFilter} which reacts only on kill events.
      */
     private IntentFilter getIntentFilter() {
         IntentFilter filter = IntentFilter.create(Intent.ACTION_MAIN, INTENT_MIME);

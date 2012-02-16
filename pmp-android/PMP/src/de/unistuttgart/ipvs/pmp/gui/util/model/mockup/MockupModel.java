@@ -1,7 +1,8 @@
 package de.unistuttgart.ipvs.pmp.gui.util.model.mockup;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
@@ -17,7 +18,6 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotati
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 
 /**
@@ -40,9 +40,8 @@ public class MockupModel implements IModel {
     
     
     @Override
-    public IApp[] getApps() {
-        Collection<App> result = this.cache.getApps().values();
-        return result.toArray(new IApp[result.size()]);
+    public List<IApp> getApps() {
+        return new ArrayList<IApp>(this.cache.getApps().values());
     }
     
     
@@ -86,9 +85,8 @@ public class MockupModel implements IModel {
     
     
     @Override
-    public IResourceGroup[] getResourceGroups() {
-        Collection<ResourceGroup> result = this.cache.getResourceGroups().values();
-        return result.toArray(new IResourceGroup[result.size()]);
+    public List<IResourceGroup> getResourceGroups() {
+        return new ArrayList<IResourceGroup>(this.cache.getResourceGroups().values());
     }
     
     
@@ -118,20 +116,18 @@ public class MockupModel implements IModel {
     
     
     @Override
-    public IPreset[] getPresets() {
-        Collection<Preset> result = this.cache.getAllPresets();
-        return result.toArray(new IPreset[result.size()]);
+    public List<IPreset> getPresets() {
+        return new ArrayList<IPreset>(this.cache.getAllPresets());
     }
     
     
     @Override
-    public IPreset[] getPresets(ModelElement creator) {
+    public List<IPreset> getPresets(ModelElement creator) {
         Map<String, Preset> creatorPresets = this.cache.getPresets().get(creator);
         if (creatorPresets == null) {
-            return new IPreset[0];
+            return new ArrayList<IPreset>();
         } else {
-            Collection<Preset> result = creatorPresets.values();
-            return result.toArray(new IPreset[result.size()]);
+            return new ArrayList<IPreset>(creatorPresets.values());
         }
     }
     
@@ -211,19 +207,19 @@ public class MockupModel implements IModel {
     
     
     @Override
-    public IContext[] getContexts() {
+    public List<IContext> getContexts() {
         throw new UnsupportedOperationException();
     }
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations() {
+    public List<IContextAnnotation> getContextAnnotations() {
         throw new UnsupportedOperationException();
     }
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations(IContext context) {
+    public List<IContextAnnotation> getContextAnnotations(IContext context) {
         throw new UnsupportedOperationException();
     }
     
