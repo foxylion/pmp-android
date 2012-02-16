@@ -62,11 +62,12 @@ public class DialogPrivacySettingEdit extends Dialog {
     
     private void buildDialog() {
         ((BasicTitleView) findViewById(R.id.Title)).setTitle(getContext().getString(R.string.change) + " "
-                + privacySetting.getName());
+                + this.privacySetting.getName());
         
         ((TextView) findViewById(R.id.TextView_Description)).setText(this.privacySetting.getChangeDescription());
         
-        ((LinearLayout) findViewById(R.id.LinearLayout_PrivacySetting)).addView(privacySetting.getView(getContext()));
+        ((LinearLayout) findViewById(R.id.LinearLayout_PrivacySetting)).addView(this.privacySetting
+                .getView(getContext()));
     }
     
     
@@ -75,7 +76,8 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onClick(View v) {
-                preset.assignPrivacySetting(privacySetting, getViewValue());
+                DialogPrivacySettingEdit.this.preset.assignPrivacySetting(DialogPrivacySettingEdit.this.privacySetting,
+                        getViewValue());
                 dismiss();
             }
         });
@@ -98,13 +100,13 @@ public class DialogPrivacySettingEdit extends Dialog {
         
         /* Inform callback if requested */
         if (this.callback != null) {
-            callback.callback();
+            this.callback.callback();
         }
     }
     
     
     private String getViewValue() {
-        return privacySetting.getViewValue(getContext());
+        return this.privacySetting.getViewValue(getContext());
     }
     
     

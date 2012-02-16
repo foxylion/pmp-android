@@ -208,9 +208,18 @@
 	
 	<string name="contexts_location_name">Location Context</string>
     <string name="contexts_location_desc">The Location Context allows to define context dependencies based on the current location.</string>
-    <string name="contexts_location_coordinates">Polygon Coordinates</string>
+    <string name="contexts_location_change_coordinates">Change coordinates on map</string>
+    <string name="contexts_location_coordinates">Polygon coordinates</string>
     <string name="contexts_location_uncertainty">Enclosing Uncertainty:</string>
     <string name="contexts_location_hysteresis">Hysteresis:</string>
+    
+    <string name="contexts_location_menu_header">Edit geo point</string>
+    <string name="contexts_location_add">Add here</string>
+    <string name="contexts_location_remove">Remove</string>
+    <string name="contexts_location_move">Move location</string>
+    <string name="contexts_location_clear">Clear all but one point</string>
+    
+    <string name="contexts_location_moving">Long tap somewhere to move the point</string>
 
 
 </resources>
