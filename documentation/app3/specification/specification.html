@@ -13,10 +13,10 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="page-head-date">08. Februar 2012</div>
+            <div id="page-head-date">13. Februar 2012</div>
             <div id="page-head-title">App3</div>
             <div id="page-title">App3 Spezifikation</div>
-            <div id="page-version">Version 3.4</div>
+            <div id="page-version">Version 3.5</div>
 
             <nav>
                 <div class="title">Inhaltsverzeichnis</div>
@@ -29,6 +29,13 @@
 
                 <h1 id="versionshistorie">Versionshistorie</h1>
 
+		<h3>Version 3.5 (13.02.2012)</h3>
+                <ul>
+                    <li>Erneut Ressourcengruppen verbessert</li>
+                    <li>Panels verbessert</li>
+                </ul>
+
+                
                 <h3>Version 3.4 (08.02.2012)</h3>
                 <ul>
                     <li>Erneut Ressourcengruppen verbessert</li>
@@ -42,7 +49,7 @@
                 </ul>
 
 
-                <h3>Version 3.2 (03.03.2012)</h3>
+                <h3>Version 3.2 (03.02.2012)</h3>
                 <ul>
                     <li>Verbesserter GUI Prototyp</li>
                     <li>Ressourcengruppen hinzugefügt</li>
@@ -67,8 +74,7 @@
 
                 <h2 id="zweck">Zweck</h2>
                 <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "App3" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.  
-                    Das Dokument summiert
-                    die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
+                    Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
                     Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
                     Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
                     damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
@@ -77,7 +83,7 @@
                     Bedeutung von speziellen Begriffen.</p>
 
                 <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
-                <p>App3 dient hauptsächlich als Demonstrationsprogramm bzw. Showcase um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
+                <p>App3 dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
 
 
                 <h2 id="leserkreis">Leserkreis</h2>
@@ -110,42 +116,30 @@
                 <p>Die Oberfläche von App3 wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>App3 wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
+                <p>App3 wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
                 <h2 id="bedienbarkeit">Bedienbarkeit</h2>
-                <p>App3 wird von einem durchschnittlichen Android-Nutzer bedient werden können. Allgemein lässt sich über die App sagen, dass diese dem Nutzer keine großartigen Aufgaben stellen wird.</p>
-
-
-                <div class="pagebreak"></div>
+                <p>App3 wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
                 <p>App3 wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
-                <h2 id="robustheit">Robustheit</h2>
-                <p>Es werden keine speziellen Anforderungen an die Robustheit gestellt.</p>
-
-                <h2 id="sicherheit">Sicherheit</h2>
-                <p>Es sind keine speziellen Sicherheitsfeatures notwendig.</p>
-
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-                <p>App3 wird kompatibel zur aktuellen PMP Version sein (PMP v3.x).</p>
+                <p>App3 wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
 
                 <h2 id="internationalisierung">Internationalisierung</h2>
-                <p>Die einzige verfügbare Sprache für App3 ist Englisch.</p>
+                <p>Die einzige verfügbare Sprache für App3 ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
 
                 <h2 id="installation">Installation</h2>
                 <p>App3 wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
 
-                <h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
-                <p>Es ist keine Erweiterungsmöglichkeit für die Software vorgesehen.</p>
-
                 <h2 id="wartbarkeit">Wartbarkeit</h2>
-                <p>Es werden keine speziellen Anforderungen an die Wartbarkeit von App3 gestellt.</p>
+                <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
 
                 <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-                <p>App3 wird als eine zu PMP kompatible Beispielapp entwickelt.</p>
+                <p>App3 hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
 
                 <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
                 <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. App3 wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
@@ -159,7 +153,7 @@
                     <a href="gui-prototype/screen-1.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-1.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Nach dem Starten von App3 wird automatisch der Startbildschirm geöffnet. Grundsätzlich wird in App3 immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
+                    <p>Nach dem Starten von App3 wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in App3 immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -167,7 +161,7 @@
                     <a href="gui-prototype/screen-2.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-2.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Durch "wischen" auf dem Bildschirm kann zwischen den einzelnen Panels hin und hergeschaltet werden.</p>
+                    <p>Durch Wischen auf dem Bildschirm kann zwischen den einzelnen Panels hin und hergeschaltet werden.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -175,7 +169,7 @@
                     <a href="gui-prototype/screen-3.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-3.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Auf jeden Panel werden bestimmte Ressourcengruppen getestet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte App3 gewährt wurden. Eine Übersicht über alle Panels finden sie im Punkt <a href="#">Panels</a></p>
+                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte App3 gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -183,15 +177,7 @@
                     <a href="gui-prototype/screen-4.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-4.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Sollte ein Panel nicht "Out of the Box" funktionieren oder weitere Konfiguration nötig sein, so kann mit der "Menü" Taste das Menü zum aufrufen der Einstellungen geöffnet werden.</p>
-                    <div class="clear"></div>
-                </div>
-
-                <div class="uip">
-                    <a href="gui-prototype/screen-5.png" rel="ui-prototype" class="fancybox">
-                        <img src="gui-prototype/screen-5.png" alt="Home" class="left" width="300" />
-                    </a>
-                    <p>Einstellungen für App3.</p>
+                    <p>Mit der "Menü"-Taste können weitere Einstellungen geöffnet werden.</p>
                     <div class="clear"></div>
                 </div>
             </div>
@@ -199,27 +185,22 @@
 
             <h2 id="ui-panels">Panels</h2>
 
-            <p>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine der neu implementierten Ressourcengruppen von PMP.</p>
-
-            <h3>Nachrichten Panel</h3>
+            <h3>Nachrichten-Panel</h3>
             <p>In diesem Panel werden verschiedene RSS Feeds abgerufen und dargestellt. Da die RG RSS-Feed erlaubt nur bestimmte Domain oder Teile davon können je nach Berechtigung alle, manche oder keine RSS-Feeds dargestellt werden.</p>
 
-            <h3>Browser Panel</h3>
+            <h3>Browser-Panel</h3>
             <p>In diesem Panel werden einige Bookmarks, die letzten besuchten Webseiten sowie die Suchhistory angezeigt.</p>
 
-            <h3>Wetter Panel</h3>
+            <h3>Wetter-Panel</h3>
             <p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt. Je nach Berechtigungen und Verfügbarkeit der Ressourcen wird der Standort ermittelt oder ein vorkonfigurierter Standort verwendet.</p>
 
-            <h3>Webservice Panel</h3>
-            <p>In diesem Panel werden unterschiedliche Internetfunktionen getestet und die Resultate angezeigt.</p>
-
-            <h3>Kontakte Panel</h3>
+            <h3>Kontakte-Panel</h3>
             <p>Es werden je nach Berechtigung, die Kontakte mit verschiedenen Details wie Email, Adresse und Bilder angezeigt.</p>
 
-            <h3>System Information Panel</h3>
-            <p>Hier werden verschiedene Details über das laufende Android System angezeigt.</p>
+            <h3>System-Panel</h3>
+            <p>Hier werden verschiedene Details über das Android System angezeigt.</p>
 
-            <h3>Hardware Panel</h3>
+            <h3>Hardware-Panel</h3>
             <p>Es werden je nach Berechtigung, verschiedene Informationen für Hardwaredevices wie Kamera, Audio, GPS, Bluetooth, WLAN ausgegeben.</p>
 
             <div class="pagebreak"></div>
@@ -233,56 +214,7 @@
                     Bei jedem Privacy Setting werden die möglichen Werte aufgelistet.
                 </p>
             </div>
-            <h2 id="internet">Internet</h2>
-            <p>[Internet, de.unistuttgart.ipvs.pmp.resourcegroups.internet]</p>
-            <ul>
-                <li>
-                    <h3 id="http">HTTP</h3>
-                    <p>Ermöglicht die Freigabe einer HTTP Verbindung und verwendet folgende Privacy Settings:</p>                   
-                    <ul>
-                        <li>
-                            <h4 id="http-access">HTTP Access</h4>
-                            <p><em>false, read, write, read/write</em></p>
-                        </li>
-                        <li>
-                            <h4 id="http-address">HTTP Address</h4>
-                            <p><em>null, url, multiple urls</em></p>
-                        </li>
-                    </ul>
-
-                    <h3 id="ftp">FTP</h3>
-                    <p>Ermöglicht die Freigabe einer FTP Verbindung und verwendet folgende Privacy Settings:</p>                   
-                    <ul>
-                        <li>
-                            <h4 id="ftp-access">FTP Access</h4>
-                            <p><em>false, read, write, read/write</em></p>
-                        </li>                                
-                        <li>
-                            <h4 id="ftp-address">FTP Address</h4>
-                            <p><em>null, url, multiple urls</em></p>
-                        </li>
-                    </ul>
-
-                    <h3 id="tcp">TCP</h3>
-                    <p>Ermöglicht die Freigabe einer TCP Verbindung und verwendet folgende Privacy Settings:</p>                   
-                    <ul>
-                        <li>
-                            <h4 id="tcp-access">TCP Access</h4>
-                            <p><em>false, client, server, client/server</em></p>
-                        </li>
-                        <li>
-                            <h4 id="tcp-address">TCP Address</h4>
-                            <p><em>null, address(IP:PORT), multiple addresses(IP:PORT)</em></p>
-                        </li>
-                        <li>
-                            <h4 id="tcp-port">TCP Port</h4>
-                            <p>Ermöglicht limitierung der HTTP Freigabe auf (eine) bestimmte Domain(s).<br />
-                            <p><em>null, address(IP:PORT), multiple addresses(IP:PORT)</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
+            
             <h2 id="feeds">Internetdienste</h2>
             <p>[WebServices, de.unistuttgart.ipvs.pmp.resourcegroups.webservices]</p>
             <ul>
@@ -462,7 +394,20 @@
                 <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-service"></span>, <span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
             </table>
 
-
+	    <h2 id="bgl-panel">Panel</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Kontext</th></tr>
+                <tr><th class="left">Synonyme</th><td>-</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppen von PMP.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+            </table>
+            
+            
             <h2 id="bgl-kontext">Kontext</h2>
             <table>
                 <tr><th class="left">Begriff</th><th>Kontext</th></tr>
