@@ -135,7 +135,6 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     public void setViewValue(Context context, String value) throws PrivacySettingValueException {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
         this.link.setViewValue(context, value);
     }
     

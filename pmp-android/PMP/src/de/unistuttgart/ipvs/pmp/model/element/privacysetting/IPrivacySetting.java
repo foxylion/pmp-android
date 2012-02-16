@@ -126,7 +126,8 @@ public interface IPrivacySetting extends IModelElement {
      * @param context
      *            context to use for the view
      * @param value
-     *            the string to parse, therefore the value to change the display to
+     *            the string to parse, therefore the value to change the display to, or null, if a value shall be set
+     *            that corresponds to "no value set"
      * @throws PrivacySettingValueException
      *             if the privacy setting rejected the value
      */
