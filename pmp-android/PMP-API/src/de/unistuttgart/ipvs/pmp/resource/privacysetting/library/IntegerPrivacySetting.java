@@ -16,28 +16,33 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
  */
 public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
-    public IntegerPrivacySetting() {
-        this(false);
-    }
+    private int worstValue;
+    private int bestValue;
     
     
-    public IntegerPrivacySetting(final boolean smallerIsBetter) {
+    public IntegerPrivacySetting(final int worstValue, final int bestValue) {
         super(new Comparator<Integer>() {
             
             @Override
             public int compare(Integer object1, Integer object2) {
-                if (!smallerIsBetter) {
+                if (worstValue < bestValue) {
                     return object1.compareTo(object2);
                 } else {
                     return object2.compareTo(object1);
                 }
             }
         });
+        
+        this.worstValue = worstValue;
+        this.bestValue = bestValue;
     }
     
     
     @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
+        if (value == null) {
+            return (this.worstValue < this.bestValue ? this.worstValue : this.bestValue);
+        }
         return StringConverter.forIntegerSafe.valueOf(value);
     }
     
