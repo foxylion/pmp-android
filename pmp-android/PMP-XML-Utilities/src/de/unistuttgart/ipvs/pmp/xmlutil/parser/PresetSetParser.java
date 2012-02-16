@@ -20,6 +20,9 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.parser;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -167,6 +170,16 @@ public class PresetSetParser extends AbstractParser {
             String rgIdentifier = psNode.getAttribute(XMLConstants.RG_IDENTIFIER_ATTR);
             String rgRevision = psNode.getAttribute(XMLConstants.RG_REVISION_ATTR);
             String psIdentifier = psNode.getAttribute(XMLConstants.PS_IDENTIFIER_ATTR);
+            
+            // Transforme the rgRevision
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            try {
+                Date date = sdf.parse(rgRevision);
+                rgRevision = String.valueOf(date.getTime() / 1000);
+            } catch (ParseException e) {
+                // The parse exception can be ignored.
+                // If the time was in another format, the validator will find it.
+            }
             
             // Instantiate and add the PresetAssignedPrivacySetting
             PresetAssignedPrivacySetting assignedPS = new PresetAssignedPrivacySetting(rgIdentifier, rgRevision,
