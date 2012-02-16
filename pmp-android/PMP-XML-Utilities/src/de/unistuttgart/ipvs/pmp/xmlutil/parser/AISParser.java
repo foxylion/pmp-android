@@ -20,6 +20,9 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.parser;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -128,10 +131,21 @@ public class AISParser extends AbstractParser {
                 Element rrgElement = (Element) rrgNodeList.item(rrgItr);
                 
                 // Instantiate the required resource group and add the
-                // identifier
+                // identifier and min revision
+                
+                // If the min revision is a simple date format, convert it into an integer (seconds)
+                String minRevision = rrgElement.getAttribute(XMLConstants.MINREVISION_ATTR);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                try {
+                    Date date = sdf.parse(minRevision);
+                    minRevision = String.valueOf(date.getTime() / 1000);
+                } catch (ParseException e) {
+                    // The parse exception can be ignored.
+                    // If the time was in another format, the validator will find it.
+                }
+                
                 AISRequiredResourceGroup rrg = new AISRequiredResourceGroup(
-                        rrgElement.getAttribute(XMLConstants.IDENTIFIER_ATTR),
-                        rrgElement.getAttribute(XMLConstants.MINREVISION_ATTR));
+                        rrgElement.getAttribute(XMLConstants.IDENTIFIER_ATTR), minRevision);
                 
                 // Add the required resource group to the service feature
                 sf.addRequiredResourceGroup(rrg);

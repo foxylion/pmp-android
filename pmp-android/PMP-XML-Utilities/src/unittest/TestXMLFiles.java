@@ -20,24 +20,24 @@
 package unittest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
-import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 
 public class TestXMLFiles {
     
-    private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
+    //  private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
     private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
+    
+    private static String aisURL = "http://mvvt.de/ais.xml";
     
     private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
     private static String rgisDefectURL = "http://mvvt.de/rgis_defect.xml";
@@ -57,12 +57,14 @@ public class TestXMLFiles {
         RGISValidator rgisValidator = rgUtil.getValidator();
         
         try {
-            //            // Test AIS
-            //            AIS ais = appUtil.parse(new URL(aisURL).openStream());
-            //            appUtil.print(ais);
-            //            ais = appUtil.parse(appUtil.compile(ais));
-            //            appUtil.print(ais);
-            
+            // Test AIS
+            AIS ais = appUtil.parse(new URL(aisURL).openStream());
+            appUtil.print(ais);
+            InputStream compiledXML = appUtil.compile(ais);
+            ais = appUtil.parse(compiledXML);
+            appUtil.print(ais);
+            aisValidator.validateAIS(ais, true);
+            appUtil.print(ais);
             //            // Test RGIS
             //            RGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
             //            rgUtil.print(rgis);
@@ -81,11 +83,11 @@ public class TestXMLFiles {
             //            Printer.printIssues(aisIssues);
             //            Printer.printAIS(defectAIS);
             //            
-            // Test defect RGIS
-            RGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
-            List<Issue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
-            Printer.printIssues(rgisIssues);
-            Printer.printRGIS(defectRGIS);
+            //            // Test defect RGIS
+            //            RGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
+            //            List<Issue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
+            //            Printer.printIssues(rgisIssues);
+            //            Printer.printRGIS(defectRGIS);
             
         } catch (IOException e) {
             // TODO Auto-generated catch block
