@@ -21,9 +21,9 @@ public interface IPrivacySettingView<T> {
     
     /**
      * 
-     * @return the currently displayed value as a string
+     * @return the currently displayed value as an instance of T
      */
-    public String getViewValue();
+    public T getViewValue();
     
     
     /**

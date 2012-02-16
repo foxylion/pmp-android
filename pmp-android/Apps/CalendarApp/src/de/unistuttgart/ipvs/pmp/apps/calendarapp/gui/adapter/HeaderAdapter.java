@@ -21,10 +21,9 @@ package de.unistuttgart.ipvs.pmp.apps.calendarapp.gui.adapter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -95,10 +94,7 @@ public class HeaderAdapter extends BaseAdapter {
         if (dateTime != null) {
             TextView header = (TextView) view.findViewById(R.id.list_header_title);
             Date date = new Date(dateTime);
-            Calendar cal = new GregorianCalendar();
-            cal.setTime(date);
-            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-            header.setText(dateFormat.format(cal.getTime()));
+            header.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(date));
         }
         return view;
     }

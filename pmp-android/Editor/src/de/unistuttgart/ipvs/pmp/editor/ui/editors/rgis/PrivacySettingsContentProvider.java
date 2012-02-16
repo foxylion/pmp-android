@@ -47,7 +47,19 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof RGISPrivacySetting) {
 			RGISPrivacySetting ps = (RGISPrivacySetting)parentElement;
-			return new String[] {ps.getNameForLocale(Locale.ENGLISH), ps.getDescriptionForLocale(Locale.ENGLISH)};
+			
+			// Return default (English) name and description if set
+			String name = ps.getNameForLocale(Locale.ENGLISH);
+			String desc = ps.getDescriptionForLocale(Locale.ENGLISH);
+			
+			if (name == null) {
+				name = "";
+			}
+			
+			if (desc == null) {
+				desc = "";
+			}
+			return new String[] {name, desc};
 		}
 
 		return null;
@@ -61,7 +73,7 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
-		return (element instanceof RGISPrivacySetting);
+		return (element instanceof RGISPrivacySetting );
 	}
 
 }

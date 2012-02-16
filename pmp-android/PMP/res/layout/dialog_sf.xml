@@ -86,7 +86,7 @@
             android:id="@+id/Button_ViewMissingRGs"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.85"
             android:text="@string/button_view_missing_rgs" />
 
         <Button

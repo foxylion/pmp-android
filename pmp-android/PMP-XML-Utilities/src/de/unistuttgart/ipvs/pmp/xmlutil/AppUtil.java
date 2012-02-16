@@ -24,6 +24,7 @@ import java.io.InputStream;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 
 /**
  * Utility class for apps
@@ -34,10 +35,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
 public class AppUtil {
     
     /**
-     * The AISParser and -Compiler
+     * The AISParser, -Compiler and -Validator
      */
-    private AISParser aisParser = new AISParser();
-    private AISCompiler aisCompiler = new AISCompiler();
+    private static AISParser aisParser = new AISParser();
+    private static AISCompiler aisCompiler = new AISCompiler();
+    private static AISValidator aisValidator = new AISValidator();
     
     
     /**
@@ -61,6 +63,16 @@ public class AppUtil {
      */
     public InputStream compile(AIS ais) {
         return aisCompiler.compile(ais);
+    }
+    
+    
+    /**
+     * Get the validator for AIS
+     * 
+     * @return AISValidator
+     */
+    public AISValidator getValidator() {
+        return aisValidator;
     }
     
     

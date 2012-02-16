@@ -310,6 +310,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                     this.cache.getPresets().put(creatorElement, creatorMap);
                 }
                 creatorMap.put(identifier, p);
+                
             } while (cursor.moveToNext());
         }
         cursor.close();

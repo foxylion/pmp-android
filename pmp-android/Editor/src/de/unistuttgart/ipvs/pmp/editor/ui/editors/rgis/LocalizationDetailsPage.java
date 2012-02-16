@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
+import java.util.Locale;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -11,6 +13,8 @@ import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Information;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
@@ -25,8 +29,14 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  */
 public class LocalizationDetailsPage implements IDetailsPage {
 
+	private final PrivacySettingsBlock block;
 	private IManagedForm form;
 	private InformationTable localizationTable;
+	private RGISPrivacySetting privacySetting;
+	
+	public LocalizationDetailsPage(PrivacySettingsBlock block) {
+		this.block = block;
+	}
 	
 	@Override
 	public void initialize(IManagedForm form) {
@@ -64,20 +74,36 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
-		return false;
+		return localizationTable.isDirty();
 	}
 
 	@Override
 	public void commit(boolean onSave) {
-		// TODO Auto-generated method stub
+		// Write data form locale-table into model
+		privacySetting.getNames().clear();
+		privacySetting.getDescriptions().clear();
 		
+		for (Information info : localizationTable.getStoredInformation().getMap().values()) {
+			Name name = new Name();
+			name.setLocale(new Locale(info.getLocale()));
+			name.setName(info.getName());
+			privacySetting.addName(name);
+		}
+		
+		for (Information info : localizationTable.getStoredInformation().getMap().values()) {
+			Description desc = new Description();
+			desc.setLocale(new Locale(info.getLocale()));
+			desc.setDescription(info.getDescription());
+			privacySetting.addDescription(desc);
+		}
+		
+		block.refresh();
+		localizationTable.setDirty(false);
+		block.setDirty(true);		
 	}
 
 	@Override
 	public boolean setFormInput(Object input) {
-		System.out.println("Set Input");
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -89,13 +115,11 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean isStale() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -103,21 +127,32 @@ public class LocalizationDetailsPage implements IDetailsPage {
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		// Get parent element (PS-Object)
 		TreePath[] path = ((TreeSelection)selection).getPaths();
-		RGISPrivacySetting ps = (RGISPrivacySetting)path[0].getFirstSegment();
+		
+		// This happens if the user deletes the default name/desc
+		if (path.length < 1) {
+			return;
+		}
+		privacySetting = (RGISPrivacySetting)path[0].getFirstSegment();
+		
+		update();
+	}
+	
+	private void update() {
 		StoredInformation localization = localizationTable.getStoredInformation();
+		localization.clear();
 
 		// Fill table with data from ps-object
-		for (Name name : ps.getNames()) {
+		for (Name name : privacySetting.getNames()) {
 			localization.addName(name.getLocale().getLanguage(), name.getName());
 		}
 		
-		for (Description desc : ps.getDescriptions()) {
+		for (Description desc : privacySetting.getDescriptions()) {
 			localization.addDescription(desc.getLocale().getLanguage(), desc.getDescription());
 		}
 		
 		localizationTable.refresh();
-		
 	}
+	
 
 
 	

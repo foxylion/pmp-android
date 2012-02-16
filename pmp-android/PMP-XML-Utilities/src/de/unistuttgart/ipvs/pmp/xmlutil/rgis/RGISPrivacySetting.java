@@ -19,15 +19,18 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class RGISPrivacySetting extends BasicIS implements RGISIssueLocation {
+public class RGISPrivacySetting extends BasicIdentifierIS {
     
     /**
      * Serial
@@ -35,14 +38,14 @@ public class RGISPrivacySetting extends BasicIS implements RGISIssueLocation {
     private static final long serialVersionUID = -3533822744161444028L;
     
     /**
-     * Identifier of the privacy setting
-     */
-    private String identifier = "";
-    
-    /**
      * A description of the valid values for this privacy setting
      */
     private String validValueDescription = "";
+    
+    /**
+     * List of change descriptions
+     */
+    private List<RGISPSChangeDescription> changeDescriptions = new ArrayList<RGISPSChangeDescription>();
     
     
     /**
@@ -67,27 +70,6 @@ public class RGISPrivacySetting extends BasicIS implements RGISIssueLocation {
     
     
     /**
-     * Get the identifier
-     * 
-     * @return identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    
-    /**
      * Get the description for valid values
      * 
      * @return description for valid values
@@ -105,6 +87,64 @@ public class RGISPrivacySetting extends BasicIS implements RGISIssueLocation {
      */
     public void setValidValueDescription(String validValueDescription) {
         this.validValueDescription = validValueDescription;
+    }
+    
+    
+    /**
+     * Add a change descriptions to the privacy setting
+     * 
+     * @param changeDescription
+     *            change description to add
+     */
+    public void addChangeDescription(RGISPSChangeDescription changeDescription) {
+        this.changeDescriptions.add(changeDescription);
+    }
+    
+    
+    /**
+     * Get the list which contains all change descriptions
+     * 
+     * @return list with change descriptions
+     */
+    public List<RGISPSChangeDescription> getChangeDescriptions() {
+        return this.changeDescriptions;
+    }
+    
+    
+    /**
+     * Remove a change description from the privacy setting
+     * 
+     * @param changeDescription
+     *            change description to remove
+     */
+    public void removeChangeDescription(RGISPSChangeDescription changeDescription) {
+        this.changeDescriptions.remove(changeDescription);
+    }
+    
+    
+    /**
+     * Get a change description-string for a specific locale.
+     * 
+     * @param locale
+     *            locale
+     * @return the change description-string for the given locale. Null, if no change description for the
+     *         given locale exists.
+     */
+    public String getChangeDescriptionForLocale(Locale locale) {
+        for (RGISPSChangeDescription changeDescr : this.changeDescriptions) {
+            if (changeDescr.getLocale().getLanguage().equals(locale.getLanguage())) {
+                return changeDescr.getChangeDescription();
+            }
+        }
+        return null;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+        super.clearNameIssues();
+        super.clearDescriptionIssues();
     }
     
 }

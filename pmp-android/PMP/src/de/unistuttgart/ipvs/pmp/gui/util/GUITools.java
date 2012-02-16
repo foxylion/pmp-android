@@ -113,9 +113,10 @@ public class GUITools {
         intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.FILTER_AVAILABLE_RGS);
         
         StringBuffer sb = new StringBuffer();
+        sb.append("package:");
         for (String s : filteredRGIdentifiers) {
             if (sb.length() > 0) {
-                sb.append(",");
+                sb.append(",package:");
             }
             sb.append(s);
         }

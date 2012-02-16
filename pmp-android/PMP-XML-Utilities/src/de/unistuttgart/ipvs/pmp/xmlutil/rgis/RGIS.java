@@ -22,8 +22,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * 
@@ -33,17 +34,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.RGISIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class RGIS extends BasicIS implements RGISIssueLocation {
+public class RGIS extends BasicIdentifierIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = 8978212582601842275L;
-    
-    /**
-     * The identifier of the resource group
-     */
-    private String identifier = "";
     
     /**
      * The icon of the resource group
@@ -112,27 +108,6 @@ public class RGIS extends BasicIS implements RGISIssueLocation {
     
     
     /**
-     * Get the identifier of the resource group
-     * 
-     * @return the identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier of the resource group
-     * 
-     * @param identifier
-     *            the identifier of the resource group
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    
-    /**
      * Get the location of the icon of the resource group
      * 
      * @return location of the icon of the resource group
@@ -171,5 +146,52 @@ public class RGIS extends BasicIS implements RGISIssueLocation {
      */
     public void setClassName(String className) {
         this.className = className;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        clearRGInformationIssuesAndPropagate();
+        clearPSIssuesAndPropagate();
+    }
+    
+    
+    /**
+     * Clear only issues referring to the resource group information
+     */
+    public void clearRGInformationIssuesAndPropagate() {
+        clearNameIssues();
+        clearDescriptionIssues();
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if (!((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) || (issue.getType() == IssueType.NO_PS_EXISTS))) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
+        }
+    }
+    
+    
+    /**
+     * Clear only issues referring to the privacy settings
+     */
+    public void clearPSIssuesAndPropagate() {
+        for (RGISPrivacySetting ps : this.getPrivacySettings()) {
+            ps.clearIssuesAndPropagate();
+        }
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if ((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN)
+                    || (issue.getType() == IssueType.NO_PS_EXISTS)) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
+        }
     }
 }

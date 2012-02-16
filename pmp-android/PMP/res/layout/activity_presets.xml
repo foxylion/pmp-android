@@ -67,13 +67,6 @@
 
         <include layout="@layout/view_divider_strong" />
 
-    <TextView
-        android:id="@+id/Presets_Text_View_Trash_Bin_Empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/presets_trash_bin_empty" />
-
     <ListView
         android:id="@+id/ListView_Presets_Trash_Bin"
         android:layout_width="fill_parent"

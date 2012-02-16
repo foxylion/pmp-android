@@ -117,13 +117,13 @@ class Offer {
 								"p.longitude AS current_lon,\n" .
 								"p.last_update\n" .
 								"FROM\n" .
-								"" . DB_PREFIX . "_offer AS o\n" .
+								DB_PREFIX . "_offer AS o\n" .
 								"INNER JOIN " . DB_PREFIX . "_query AS q ON o.`query` = q.id\n" .
 								"INNER JOIN " . DB_PREFIX . "_trip AS t ON o.trip = t.id\n" .
 								"INNER JOIN " . DB_PREFIX . "_user AS u ON t.driver = u.id\n" .
 								"INNER JOIN " . DB_PREFIX . "_position AS p ON t.driver = p.`user`\n" .
-								"WHERE q.`passenger` = " . $inquirer->getId());
-
+								"WHERE q.`passenger` = " . $inquirer->getId() . " AND " .
+								" (o.status & 3) != 3");
 
 		$offers = array();
 
@@ -172,10 +172,16 @@ class Offer {
 		$db->query("INSERT INTO `" . DB_PREFIX . "_offer` (
                         `trip`,
                         `query`,
+                        `sender`,
+                        `recipient`,
+                        `time`,
                         `message`
                     ) VALUES (
                         " . $trip->getId() . ",
                         " . $query->getId() . ",
+                        " . $driver->getId() . ",
+                        " . $query->getPassengerId() . ",
+                        NOW(),
                         \"" . $message . "\"
                     )");
 
@@ -206,7 +212,7 @@ class Offer {
 	}
 
 	/**
-	 * Returns the offer's id
+	 * Returns the offer id
 	 * @return int
 	 */
 	public function getId() {
@@ -284,8 +290,12 @@ class Offer {
                         ' . $this->getQuery()->getPassengerId() . ',
                         ' . $this->trip->getId() . '
                     )');
+			$db->query("UPDATE " . DB_PREFIX . "_offer AS offer SET offer.`status`=" . bindec('0101') . ", time=NOW()\n" .
+						   "WHERE\n" .
+						   "offer.trip={$this->trip->getId()} AND\n" .
+						   "offer.`query`={$this->getQueryId()} ");
 			$db->query('DELETE FROM `' . DB_PREFIX . '_query` WHERE id=' . $this->getQueryId());
-			$this->delete();
+			//			$this->delete();
 			$db->query('COMMIT');
 		} catch (DatabaseException $dbe) {
 			$db->query('ROLLBACK');
@@ -294,9 +304,13 @@ class Offer {
 	}
 
 	public function deny() {
-		$this->delete();
+		$db = Database::getInstance();
+		$db->query("UPDATE " . DB_PREFIX . "_offer AS offer SET offer.`status`=" . bindec('1001') . ", time=NOW()\n" .
+					   "WHERE\n" .
+					   "offer.trip={$this->trip->getId()} AND\n" .
+					   "offer.`query`={$this->getQueryId()} ");
+		return $db->getAffectedRows();
 	}
-
 
 	/**
 	 * Deletes this offer from the table
@@ -306,3 +320,5 @@ class Offer {
 		$db->query("DELETE FROM  `" . DB_PREFIX . "_offer` WHERE `id` = '" . $this->id . "'");
 	}
 }
+
+// EOF offer.class.php

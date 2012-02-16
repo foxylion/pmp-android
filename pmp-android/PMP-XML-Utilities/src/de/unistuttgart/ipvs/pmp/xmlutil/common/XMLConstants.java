@@ -49,6 +49,7 @@ public class XMLConstants {
     public static final String ICON_ATTR = "icon";
     public static final String CLASS_NAME_ATTR = "className";
     public static final String VALID_VALUE_DESCRIPTION_ATTR = "validValueDescription";
+    public static final String CHANGE_DESCRIPTION = "changeDescription";
     
     /**
      * PresetSet

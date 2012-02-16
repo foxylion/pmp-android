@@ -19,11 +19,11 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * This class abstracts common used fields and methods for information sets
@@ -31,7 +31,7 @@ import java.util.Locale;
  * @author Marcus Vetter
  * 
  */
-public abstract class BasicIS implements Serializable {
+public abstract class BasicIS extends IssueLocation {
     
     /**
      * Serial
@@ -146,6 +146,26 @@ public abstract class BasicIS implements Serializable {
      */
     public void removeDescription(Description description) {
         this.descriptions.remove(description);
+    }
+    
+    
+    /**
+     * Clear all issues of the names
+     */
+    public void clearNameIssues() {
+        for (Name name : this.getNames()) {
+            name.clearIssuesAndPropagate();
+        }
+    }
+    
+    
+    /**
+     * Clear all issues of the descriptions
+     */
+    public void clearDescriptionIssues() {
+        for (Description descr : this.getDescriptions()) {
+            descr.clearIssuesAndPropagate();
+        }
     }
     
 }

@@ -67,6 +67,13 @@ public interface IPrivacySetting extends IModelElement {
     
     
     /**
+     * @return Returns the localized change description of the {@link IPrivacySetting} supposed to be displayed with the
+     *         view.
+     */
+    public String getChangeDescription();
+    
+    
+    /**
      * Returns true, if the privacy setting accepts this value for its internal processing.
      * 
      * @param value
@@ -124,5 +131,15 @@ public interface IPrivacySetting extends IModelElement {
      *             if the privacy setting rejected the value
      */
     public void setViewValue(Context context, String value) throws PrivacySettingValueException;
+    
+    
+    /**
+     * Converts a view value to its string representation.
+     * 
+     * @param value
+     *            the value from the view
+     * @return the string representation of this value
+     */
+    public String convertViewValue(Object value);
     
 }

@@ -4,11 +4,14 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
+ * Provides the Tree for the Service Features with informations out of the model
+ * The Tree will look like this: - ServiceFeatureName1 -requiredRGIdentifier1
+ * -requiredRGIdentifier1 - ServiceFeatureName2 -requiredRGIdentifier1
+ * 
  * @author Thorsten Berberich
  * 
  */
@@ -52,17 +55,6 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
 	    return ((AISServiceFeature) parent).getRequiredResourceGroups()
 		    .toArray();
 	}
-
-	if (parent instanceof AISRequiredResourceGroup) {
-	    return ((AISRequiredResourceGroup) parent)
-		    .getRequiredPrivacySettings().toArray();
-	}
-
-	if (parent instanceof AISRequiredPrivacySetting) {
-	    return new String[] {
-		    ((AISRequiredPrivacySetting) parent).getIdentifier(),
-		    ((AISRequiredPrivacySetting) parent).getValue() };
-	}
 	return null;
     }
 
@@ -82,17 +74,6 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
 	if (input instanceof AISServiceFeature) {
 	    return ((AISServiceFeature) input).getRequiredResourceGroups()
 		    .toArray();
-	}
-
-	if (input instanceof AISRequiredResourceGroup) {
-	    return ((AISRequiredResourceGroup) input)
-		    .getRequiredPrivacySettings().toArray();
-	}
-
-	if (input instanceof AISRequiredPrivacySetting) {
-	    return new String[] {
-		    ((AISRequiredPrivacySetting) input).getIdentifier(),
-		    ((AISRequiredPrivacySetting) input).getValue() };
 	}
 	return null;
     }
@@ -123,17 +104,14 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
 	}
 
 	if (input instanceof AISServiceFeature) {
-	    return !((AISServiceFeature) input).getRequiredResourceGroups().isEmpty();
+	    return !((AISServiceFeature) input).getRequiredResourceGroups()
+		    .isEmpty();
 	}
 
 	if (input instanceof AISRequiredResourceGroup) {
-	    return !((AISRequiredResourceGroup) input).getRequiredPrivacySettings().isEmpty();
-	}
-
-	if (input instanceof AISRequiredPrivacySetting) {
 	    return false;
 	}
-	
+
 	return false;
     }
 

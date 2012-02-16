@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -113,6 +115,10 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
         capp.close();
         
         // load context annotations out of the cache
+        if (!getCache().getContextAnnotations().containsKey(this.element)) {
+            getCache().getContextAnnotations().put(this.element,
+                    new HashMap<IPrivacySetting, List<ContextAnnotation>>());
+        }
         this.element.contextAnnotations = getCache().getContextAnnotations().get(this.element);
         
     }

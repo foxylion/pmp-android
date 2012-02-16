@@ -14,9 +14,12 @@
 			<description lang="de">Zeigt die genaue Position des Geräts an.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">
-				<privacySetting identifier="useAbsoluteLocation">true</privacySetting>
-				<privacySetting identifier="showSpeed">true</privacySetting>
-				<privacySetting identifier="showAccuracy">true</privacySetting>
+				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useCoordinates">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useSpeed">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useAccuracy">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useLocationDescription">STREET</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="locationPrecision">10</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>

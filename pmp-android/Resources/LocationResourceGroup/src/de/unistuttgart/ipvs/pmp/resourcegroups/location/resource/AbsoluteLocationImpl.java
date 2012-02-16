@@ -1,11 +1,17 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.location.resource;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.RemoteException;
+import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.Distance;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.LocationResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.PermissionValidator;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.UseLocationDescriptionEnum;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
@@ -74,6 +80,11 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	 * Last time when an update was returned.
 	 */
 	private long lastUpdate = 0;
+	
+	/**
+	 * Current LocationAddress.
+	 */
+	private Address lastAddress = null;
 	
 	
 	/**
@@ -159,6 +170,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 			this.lastLatitude = currentLatitude;
 			this.lastLongitude = currentLongitude;
 			this.lastUpdate = System.currentTimeMillis();
+			this.lastAddress = null;
 		}
 		
 		return update;
@@ -167,6 +179,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	public double getLongitude() throws RemoteException {
 		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(LocationResourceGroup.PS_USE_COORDINATES, "true");
 		updateLastRequest();
 		
 		calculateRandomInaccuracy();
@@ -177,6 +190,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	public double getLatitude() throws RemoteException {
 		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(LocationResourceGroup.PS_USE_COORDINATES, "true");
 		updateLastRequest();
 		
 		calculateRandomInaccuracy();
@@ -187,7 +201,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	public float getAccuracy() throws RemoteException {
 		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
-		this.psv.validate(LocationResourceGroup.PS_SHOW_ACCURACY, "true");
+		this.psv.validate(LocationResourceGroup.PS_USE_ACCURACY, "true");
 		updateLastRequest();
 		
 		if (this.psv.getIntValue(LocationResourceGroup.PS_LOCATION_PRECISION) > this.absoluteLocationR.getAccuracy()) {
@@ -200,13 +214,86 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 	
 	public float getSpeed() throws RemoteException {
 		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
-		this.psv.validate(LocationResourceGroup.PS_SHOW_SPEED, "true");
+		this.psv.validate(LocationResourceGroup.PS_USE_SPEED, "true");
 		updateLastRequest();
 		
 		return this.absoluteLocationR.getSpeed();
 	}
 	
 	
+	public String getCountryCode() {
+		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(UseLocationDescriptionEnum.COUNTRY);
+		
+		fetchAddress();
+		
+		if (this.lastAddress == null) {
+			return null;
+		} else {
+			return this.lastAddress.getCountryCode();
+		}
+	}
+	
+	
+	public String getCountryName() {
+		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(UseLocationDescriptionEnum.COUNTRY);
+		
+		fetchAddress();
+		
+		if (this.lastAddress == null) {
+			return null;
+		} else {
+			return this.lastAddress.getCountryName();
+		}
+	}
+	
+	
+	public String getLocality() {
+		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(UseLocationDescriptionEnum.CITY);
+		
+		fetchAddress();
+		
+		if (this.lastAddress == null) {
+			return null;
+		} else {
+			return this.lastAddress.getLocality();
+		}
+	}
+	
+	
+	public String getPostalCode() {
+		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(UseLocationDescriptionEnum.CITY);
+		
+		fetchAddress();
+		
+		if (this.lastAddress == null) {
+			return null;
+		} else {
+			return this.lastAddress.getPostalCode();
+		}
+	}
+	
+	
+	public String getAddress() {
+		this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
+		this.psv.validate(UseLocationDescriptionEnum.STREET);
+		
+		fetchAddress();
+		
+		if (this.lastAddress == null) {
+			return null;
+		} else {
+			return this.lastAddress.getAddressLine(0);
+		}
+	}
+	
+	
+	/**
+	 * Updates the time of the request.
+	 */
 	private void updateLastRequest() {
 		if (this.updateRequest != null) {
 			this.updateRequest.setLastRequest(System.currentTimeMillis());
@@ -235,6 +322,21 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 			this.randomInaccuracyLong = new Random().nextDouble() * precision;
 			this.lastRILatitude = newLatitude;
 			this.lastRILongitude = newLongitude;
+		}
+	}
+	
+	
+	private void fetchAddress() {
+		Geocoder gc = new Geocoder(this.locationRG.getContext());
+		
+		try {
+			List<Address> addresses = gc.getFromLocation(this.absoluteLocationR.getLatitude(),
+					this.absoluteLocationR.getLongitude(), 1);
+			if (addresses != null && addresses.size() > 0) {
+				this.lastAddress = addresses.get(0);
+			}
+		} catch (IOException e) {
+			Log.d("GPS Resource", "Failed to get an address for the curent location.", e);
 		}
 	}
 }

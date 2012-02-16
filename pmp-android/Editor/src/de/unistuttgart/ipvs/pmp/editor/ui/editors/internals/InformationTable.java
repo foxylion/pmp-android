@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
+import java.util.Arrays;
+import java.util.Locale;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
@@ -15,6 +18,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -37,6 +41,7 @@ public class InformationTable {
 	private final TableViewer tableViewer;
 	private final StoredInformation storedInformation;
 	private final Composite parent;
+	private boolean dirty = false;
 
 	public InformationTable(final Composite parent,
 			StoredInformation storedInfo, FormToolkit toolkit) {
@@ -79,14 +84,15 @@ public class InformationTable {
 		buttonCompo.setLayout(new RowLayout());
 
 		// Add button to allow the user to add a new entry
-		final Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+		final Button addButton = toolkit.createButton(buttonCompo, "Add",
+				SWT.PUSH);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Add empty entry to table
 				storedInformation.add(new Information("-", "-", "-"));
-
+				dirty = true;
 				refresh();
 
 			}
@@ -107,7 +113,7 @@ public class InformationTable {
 				Information info = (Information) sel.getFirstElement();
 				if (info != null) {
 					storedInformation.remove(info.getLocale());
-
+					dirty = true;
 					refresh();
 				}
 			}
@@ -146,15 +152,17 @@ public class InformationTable {
 
 					}
 				});
-		
+
 		// Only enable remove-button when a row is selected in the table
-		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				removeButton.setEnabled(!event.getSelection().isEmpty());	
-			}
-		});
+		tableViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						removeButton
+								.setEnabled(!event.getSelection().isEmpty());
+					}
+				});
 	}
 
 	public Composite getControl() {
@@ -173,7 +181,37 @@ public class InformationTable {
 		return storedInformation;
 	}
 
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
 	private void buildColumns(TableColumnLayout columnLayout) {
+		// Error
+		TableViewerColumn errorColumn = new TableViewerColumn(tableViewer,
+				SWT.BORDER);
+		columnLayout.setColumnData(errorColumn.getColumn(),
+				new ColumnPixelData(25,false));
+		errorColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return null;
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				String locale = ((Information) element).getLocale();
+				// Show an error if the locale is invalid
+				if (Arrays.binarySearch(Locale.getISOLanguages(), locale) < 0) {
+					return Images.ERROR16;
+				}
+				return Images.FILE16;
+			}
+		});
+
 		// Locale
 		TableViewerColumn localeColumn = new TableViewerColumn(tableViewer,
 				SWT.BORDER);
@@ -196,9 +234,12 @@ public class InformationTable {
 
 			@Override
 			protected void setValue(Object element, Object value) {
+				String locale = ((String) value).toLowerCase();
+
 				// Set locale only if it's not in use by another entry
-				if (!storedInformation.localeExists((String) value)) {
-					((Information) element).setLocale((String) value);
+				if (!storedInformation.localeExists(locale)) {
+					((Information) element).setLocale(locale);
+					dirty = true;
 				}
 			}
 
@@ -226,8 +267,11 @@ public class InformationTable {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Information) element).setName((String) value);
-
+				Information info = (Information) element;
+				if (info.getName() != value) {
+					info.setName((String) value);
+					dirty = true;
+				}
 			}
 		});
 
@@ -254,10 +298,15 @@ public class InformationTable {
 
 					@Override
 					protected void setValue(Object element, Object value) {
-						((Information) element).setDescription((String) value);
+						Information info = (Information) element;
+						if (info.getDescription() != value) {
+							info.setDescription((String) value);
+							dirty = true;
+						}
 
 					}
 				});
+
 	}
 
 }

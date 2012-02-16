@@ -365,11 +365,11 @@ public class ActivityPresets extends Activity {
             labelPresetList.setVisibility(View.GONE);
         }
         
-        TextView labelTrashBinList = (TextView) findViewById(R.id.Presets_Text_View_Trash_Bin_Empty);
-        if (this.presetTrashBinList.size() == 0 && PMPPreferences.getInstance().isPresetTrashBinVisible()) {
-            labelTrashBinList.setVisibility(View.VISIBLE);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Presets_Trash_Bin);
+        if (!PMPPreferences.getInstance().isPresetTrashBinVisible() || this.presetTrashBinList.size() == 0) {
+            linearLayout.setVisibility(View.GONE);
         } else {
-            labelTrashBinList.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
         }
         
     }
@@ -382,11 +382,6 @@ public class ActivityPresets extends Activity {
      *            flag if the trash bin should be shown or not
      */
     private void showTrashBin(boolean flag) {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.Presets_Trash_Bin);
-        if (flag) {
-            linearLayout.setVisibility(View.VISIBLE);
-        } else {
-            linearLayout.setVisibility(View.GONE);
-        }
+        
     }
 }

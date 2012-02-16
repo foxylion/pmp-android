@@ -22,11 +22,6 @@ package de.unistuttgart.ipvs.pmp.apps.locationtestapp.gui;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -35,6 +30,12 @@ import android.text.Html;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -110,14 +111,27 @@ public class LocationAppActivity extends MapActivity {
     
     private void resourceCached() {
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(LocationAppActivity.this,
+                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            return;
+        }
+        
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
             loc.startLocationLookup(1000, 10.0F);
             
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 public void run() {
-                    
                     Toast.makeText(LocationAppActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -131,15 +145,15 @@ public class LocationAppActivity extends MapActivity {
     
     
     private void startContinousLookup() {
-        timer = new Timer();
-        timer.schedule(new DefaultTimerTask(), 1000, 1000);
+        this.timer = new Timer();
+        this.timer.schedule(new DefaultTimerTask(), 1000, 1000);
     }
     
     
     private void stopContinousLookup() {
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
+        if (this.timer != null) {
+            this.timer.cancel();
+            this.timer = null;
         }
     }
     
@@ -168,6 +182,12 @@ public class LocationAppActivity extends MapActivity {
             double latitude = 0.0;
             float speed = 0.0F;
             float accuracy = 0.0F;
+            
+            String country = "";
+            String countryCode = "";
+            String city = "";
+            String postalCode = "";
+            String address = "";
             
             try {
                 try {
@@ -205,6 +225,31 @@ public class LocationAppActivity extends MapActivity {
                 } catch (SecurityException e) {
                     e.printStackTrace();
                 }
+                try {
+                    country = loc.getCountryName();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    countryCode = loc.getCountryCode();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    city = loc.getLocality();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    postalCode = loc.getPostalCode();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    address = loc.getAddress();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
                 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -219,7 +264,13 @@ public class LocationAppActivity extends MapActivity {
             final float speedD = speed;
             final float accuracyD = accuracy;
             
-            handler.post(new Runnable() {
+            final String countryD = country;
+            final String countryCodeD = countryCode;
+            final String cityD = city;
+            final String postalCodeD = postalCode;
+            final String addressD = address;
+            
+            LocationAppActivity.this.handler.post(new Runnable() {
                 
                 public void run() {
                     
@@ -230,8 +281,26 @@ public class LocationAppActivity extends MapActivity {
                     }
                     
                     ((TextView) findViewById(R.id.TextView_Information)).setText(Html.fromHtml("<html>"
-                            + "<b>Longitude:</b> " + longitudeD + "<br/>" + "<b>Longitude:</b> " + latitudeD + "<br/>"
-                            + "<b>Speed:</b> " + speedD + "<br/>" + "<b>Accuracy:</b> " + accuracyD + "</html>"));
+                            + "<b>Longitude:</b> "
+                            + longitudeD
+                            + "<br/>"
+                            + "<b>Longitude:</b> "
+                            + latitudeD
+                            + "<br/>"
+                            + "<b>Speed:</b> "
+                            + speedD
+                            + "<br/>"
+                            + "<b>Accuracy:</b> "
+                            + accuracyD
+                            + "<br>"
+                            + "<b>Details to Location:</b><br/>"
+                            + countryD
+                            + "; "
+                            + countryCodeD
+                            + "<br/>"
+                            + cityD
+                            + "; "
+                            + postalCodeD + "<br/>" + addressD + "</html>"));
                     
                     ((ToggleButton) findViewById(R.id.ToggleButton_Active)).setChecked(isActiveD);
                     ((ToggleButton) findViewById(R.id.ToggleButton_Avaiable)).setChecked(isAvailableD);

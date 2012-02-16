@@ -22,8 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
 
 /**
  * This is a service feature, which is assigned to an app and contains all
@@ -32,17 +31,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class AISServiceFeature extends BasicIS implements AISIssueLocation {
+public class AISServiceFeature extends BasicIdentifierIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = -3279934293726339125L;
-    
-    /**
-     * The identifier
-     */
-    private String identifier = "";
     
     /**
      * This list contains all required resource groups of the service feature.
@@ -119,24 +113,14 @@ public class AISServiceFeature extends BasicIS implements AISIssueLocation {
     }
     
     
-    /**
-     * Get the identifier
-     * 
-     * @return identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
+        super.clearNameIssues();
+        super.clearDescriptionIssues();
+        for (AISRequiredResourceGroup rrg : this.getRequiredResourceGroups()) {
+            rrg.clearIssuesAndPropagate();
+        }
     }
     
 }

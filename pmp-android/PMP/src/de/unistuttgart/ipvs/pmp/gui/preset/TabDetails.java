@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.gui.preset;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
+import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
@@ -23,8 +23,6 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 public class TabDetails extends Activity {
     
     protected IPreset preset;
-    
-    protected Handler handler;
     
     private DialogPresetEditCallback callback = new DialogPresetEditCallback() {
         
@@ -48,8 +46,6 @@ public class TabDetails extends Activity {
         // Get the preset
         String presetIdentifier = super.getIntent().getStringExtra(GUIConstants.PRESET_IDENTIFIER);
         this.preset = ModelProxy.get().getPreset(null, presetIdentifier);
-        
-        this.handler = new Handler();
         
         // Set view
         setContentView(R.layout.tab_preset_details);
@@ -143,7 +139,13 @@ public class TabDetails extends Activity {
             @Override
             public void onClick(View v) {
                 String[] missingRGs = RGInstaller.getMissingResourceGroups(TabDetails.this.preset);
-                RGInstaller.installResourceGroups(TabDetails.this, TabDetails.this.handler, missingRGs);
+                RGInstaller.installResourceGroups(TabDetails.this, missingRGs, new ICallback() {
+                    
+                    @Override
+                    public void callback(Object... paramteres) {
+                        refresh();
+                    }
+                });
             }
         });
         
@@ -164,8 +166,7 @@ public class TabDetails extends Activity {
             @Override
             public void onClick(View v) {
                 for (MissingApp app : TabDetails.this.preset.getMissingApps()) {
-                    // TODO Implement the remove of missing apps from the preset.
-                    // preset.removeApp((IApp) app);
+                    TabDetails.this.preset.removeMissingApp(app);
                 }
             }
         });

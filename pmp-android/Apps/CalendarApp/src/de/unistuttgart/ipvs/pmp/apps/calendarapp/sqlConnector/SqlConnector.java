@@ -47,12 +47,12 @@ public class SqlConnector {
     /**
      * Identifier of the needed resource group
      */
-    private final static String resGroupIdentifier = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
+    private static final String RG_IDENTIFIER = "de.unistuttgart.ipvs.pmp.resourcegroups.database";
     
     /**
      * Resource identifier
      */
-    private static String resIdentifier = "DatabaseRG";
+    private static final String R_IDENTIFIER = "databaseResource";
     
     /**
      * {@link Context} of the {@link CalendarAppActivity}
@@ -62,12 +62,12 @@ public class SqlConnector {
     /**
      * Identifier to get the resource
      */
-    private PMPResourceIdentifier pmpIdentifier = PMPResourceIdentifier.make(resGroupIdentifier, resIdentifier);
+    private static final PMPResourceIdentifier PMP_IDENTIFIER = PMPResourceIdentifier.make(RG_IDENTIFIER, R_IDENTIFIER);
     
     /*
      * Constants for the database table
      */
-    private static final String DB_TABLE_NAME = "Appointments";
+    private static final String DB_TABLE_NAME = "appointments";
     private static final String ID = "ID";
     private static final String NAME = "Name";
     private static final String DESC = "Description";
@@ -81,7 +81,7 @@ public class SqlConnector {
      * 
      */
     public void loadAppointments() {
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -131,6 +131,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -154,7 +156,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -201,6 +203,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -224,7 +228,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -268,6 +272,8 @@ public class SqlConnector {
             }
         });
         
+        Model.getInstance().invokeBroadcast();
+        
     }
     
     
@@ -278,7 +284,7 @@ public class SqlConnector {
      *            id of the appointment to delete
      */
     public void deleteAppointment(final Appointment appointment) {
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -316,11 +322,13 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
     public void deleteAllApointments() {
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -349,6 +357,7 @@ public class SqlConnector {
             }
         });
         
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -369,7 +378,7 @@ public class SqlConnector {
             return;
         }
         
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -384,7 +393,6 @@ public class SqlConnector {
                             values.put(SqlConnector.DESC, description);
                             values.put(SqlConnector.DATE, String.valueOf(date.getTime()));
                             values.put(SqlConnector.SEVERITY, severity.toString());
-                            
                             /*
                              * Change the date in the database and only if one row
                              * was changed change, then change it in the model
@@ -413,6 +421,8 @@ public class SqlConnector {
                 }
             }
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -424,7 +434,7 @@ public class SqlConnector {
      *            {@link ArrayList} with {@link Appointment}s to store
      */
     public void storeAppointmentListInEmptyList(final ArrayList<Appointment> appList) {
-        PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
@@ -477,8 +487,9 @@ public class SqlConnector {
                     }
                 }
             }
-            
         });
+        
+        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -490,6 +501,8 @@ public class SqlConnector {
      */
     private Boolean createTable(IDatabaseConnection idc) {
         try {
+            idc.open(DB_TABLE_NAME);
+            
             if (!idc.isTableExisted(SqlConnector.DB_TABLE_NAME)) {
                 
                 // Columns of the table

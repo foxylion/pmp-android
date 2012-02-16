@@ -80,6 +80,18 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     
     
     @Override
+    public String getChangeDescription() {
+        String changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                .getChangeDescriptionForLocale(Locale.getDefault());
+        if (changeDescription == null) {
+            changeDescription = this.resourceGroup.getRgis().getPrivacySettingForIdentifier(getLocalIdentifier())
+                    .getChangeDescriptionForLocale(Locale.ENGLISH);
+        }
+        return changeDescription;
+    }
+    
+    
+    @Override
     public String getLocalIdentifier() {
         return this.localIdentifier;
     }
@@ -127,4 +139,10 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         this.link.setViewValue(context, value);
     }
     
+    
+    @Override
+    public String convertViewValue(Object value) {
+        checkCached();
+        return this.link.valueToString(value);
+    }
 }

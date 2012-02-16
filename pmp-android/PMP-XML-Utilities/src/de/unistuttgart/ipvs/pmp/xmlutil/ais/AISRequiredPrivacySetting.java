@@ -19,26 +19,19 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import java.io.Serializable;
-
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredPrivacySetting implements Serializable, AISIssueLocation {
+public class AISRequiredPrivacySetting extends IdentifierIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = -2494745855919623707L;
-    
-    /**
-     * The identifier of the Privacy Setting
-     */
-    private String identifier = "";
     
     /**
      * The value of the Privacy Setting
@@ -61,27 +54,6 @@ public class AISRequiredPrivacySetting implements Serializable, AISIssueLocation
     
     
     /**
-     * Get the identifier
-     * 
-     * @return identifier
-     */
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
-     */
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    
-    /**
      * Get the value
      * 
      * @return value
@@ -99,6 +71,12 @@ public class AISRequiredPrivacySetting implements Serializable, AISIssueLocation
      */
     public void setValue(String value) {
         this.value = value;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }

@@ -33,8 +33,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
 /**
  * This Class provides static methods to print a given AIS, RGIS and PresetSet.
@@ -56,6 +58,31 @@ public class Printer {
     
     
     /**
+     * Print the issues
+     * 
+     * @param location
+     *            location of the issues
+     * @param preString
+     *            the string before the print out
+     */
+    private static void printIssues(IssueLocation location, String preString) {
+        for (Issue issue : location.getIssues()) {
+            StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
+            if (issue.getParameters().size() > 0) {
+                sb.append(" (Parameter: ");
+                for (int itr = 0; itr < issue.getParameters().size(); itr++) {
+                    sb.append(issue.getParameters().get(itr));
+                    if (itr < issue.getParameters().size() - 1)
+                        sb.append(", ");
+                }
+                sb.append(")");
+            }
+            p(sb.toString());
+        }
+    }
+    
+    
+    /**
      * Print the app information set to the console
      * 
      * @param ais
@@ -65,34 +92,42 @@ public class Printer {
         p("------------------------------------");
         p("- Printout of the AIS --------------");
         p("------------------------------------");
+        printIssues(ais, "> ");
         p("App information:");
         p("> Names:");
         for (Name name : ais.getNames()) {
             p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            printIssues(name, "   > ");
         }
         p("> Descriptions:");
         for (Description descr : ais.getDescriptions()) {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            printIssues(descr, "   > ");
         }
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
             p("");
             p("Service Feature:");
+            printIssues(sf, "> ");
             p("> Identifier: " + sf.getIdentifier());
             p("> Names:");
             for (Name name : sf.getNames()) {
                 p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+                printIssues(name, "   > ");
             }
             p("> Descriptions:");
             for (Description descr : sf.getDescriptions()) {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+                printIssues(descr, "   > ");
             }
             for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
                 p("> Required Resource Group:");
+                printIssues(rrg, "   > ");
                 p("   > Identifier: " + rrg.getIdentifier());
                 p("   > Min Revision: " + rrg.getMinRevision());
                 p("   > Privacy Settings:");
-                for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
-                    p("      > " + ps.getIdentifier() + ": " + ps.getValue());
+                for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+                    p("      > " + rps.getIdentifier() + ": " + rps.getValue());
+                    printIssues(rps, "      > ");
                 }
             }
         }
@@ -111,30 +146,40 @@ public class Printer {
         p("- Printout of the RGIS -------------");
         p("------------------------------------");
         p("Resourcegroup information:");
+        printIssues(rgis, "> ");
         p("> Identifier: " + rgis.getIdentifier());
         p("> IconLocation: " + rgis.getIconLocation());
         p("> Class Name: " + rgis.getClassName());
         p("> Names:");
         for (Name name : rgis.getNames()) {
             p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            printIssues(name, "   > ");
         }
         p("> Descriptions:");
         for (Description descr : rgis.getDescriptions()) {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            printIssues(descr, "   > ");
         }
         for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
             p("");
             p("Privacy Setting:");
+            printIssues(ps, "> ");
             p("> Identifier: " + ps.getIdentifier());
             p("> Valid value description: " + ps.getValidValueDescription());
             p("> Names:");
             for (Name name : ps.getNames()) {
-                
                 p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+                printIssues(name, "   > ");
             }
             p("> Descriptions: ");
             for (Description descr : ps.getDescriptions()) {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+                printIssues(descr, "   > ");
+            }
+            p("> Change descriptions: ");
+            for (RGISPSChangeDescription changeDescr : ps.getChangeDescriptions()) {
+                p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getChangeDescription());
+                printIssues(changeDescr, "   > ");
             }
         }
         p("------------------------------------");
@@ -182,11 +227,11 @@ public class Printer {
     }
     
     
-    public static void printAISIssues(List<AISIssue> issueList) {
+    public static void printIssues(List<Issue> issueList) {
         p("------------------------------------");
-        p("- Printout of the AISIssue list ----");
+        p("- Printout of the issue list -------");
         p("------------------------------------");
-        for (AISIssue issue : issueList) {
+        for (Issue issue : issueList) {
             p("> Location: " + issue.getLocation());
             p("> Type: " + issue.getType().toString());
             for (String parameter : issue.getParameters()) {

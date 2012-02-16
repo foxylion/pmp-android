@@ -233,40 +233,40 @@ class Trip {
 
 	}
 
-	public static function getPassengersFromTrip($tripid) {
-		$db = Database::getInstance();
-		$query = $db->query("SELECT ride.passenger AS passengerid, user.username, " .
-								"AVG(rate.rating) as rating_avg, COUNT(rate.rating) as rating_num " .
-								"FROM " . DB_PREFIX . "_ride AS ride " .
-								"INNER JOIN " . DB_PREFIX . "_user AS user ON ride.passenger=user.id " .
-								"INNER JOIN " . DB_PREFIX . "_rating AS rate ON ride.passenger = rate.recipient " .
-								"WHERE ride.trip=$tripid");
+//	public static function getPassengersFromTrip($tripid) {
+//		$db = Database::getInstance();
+//		$query = $db->query("SELECT ride.passenger AS passengerid, user.username, " .
+//								"AVG(rate.rating) as rating_avg, COUNT(rate.rating) as rating_num " .
+//								"FROM " . DB_PREFIX . "_ride AS ride " .
+//								"INNER JOIN " . DB_PREFIX . "_user AS user ON ride.passenger=user.id " .
+//								"INNER JOIN " . DB_PREFIX . "_rating AS rate ON ride.passenger = rate.recipient " .
+//								"WHERE ride.trip=$tripid");
+//
+//		$arr = null;
+//		for ($i = 0; $i < $db->getAffectedRows(); $i++) {
+//			$row = $db->fetch($query);
+//			if ($row["passengerid"] != null) {
+//				$arr[$i] = $row;
+//			}
+//		}
+//		return $arr;
+//	}
 
-		$arr = null;
-		for ($i = 0; $i < $db->getAffectedRows(); $i++) {
-			$row = $db->fetch($query);
-			if ($row["passengerid"] != null) {
-				$arr[$i] = $row;
-			}
-		}
-		return $arr;
-	}
-
-	public static function getPassengersFromRide($tripid, $userid) {
-		$db = Database::getInstance();
-		// Get passengers from trip except one's own info
-		$query = $db->query("SELECT dev_ride.passenger AS passengerid, dev_user.username, dev_user.rating_avg, " .
-								"dev_user.rating_num, dev_ride.passenger_rated, dev_ride.driver_rated " .
-								"FROM " . DB_PREFIX . "_ride INNER JOIN " . DB_PREFIX . "_user ON " . DB_PREFIX . "_ride.passenger = " . DB_PREFIX . "_user.id " .
-								"WHERE trip=$tripid AND passenger!=$userid");
-
-		$arr = null;
-		$i = 0;
-		while ($row = $db->fetch($query)) {
-			$arr[$i++] = $row;
-		}
-		return $arr;
-	}
+//	public static function getPassengersFromRide($tripid, $userid) {
+//		$db = Database::getInstance();
+//		// Get passengers from trip except one's own info
+//		$query = $db->query("SELECT " . DB_PREFIX . "_ride.passenger AS passengerid, " . DB_PREFIX . "_user.username, " . DB_PREFIX . "_user.rating_avg, " .
+//								"" . DB_PREFIX . "_user.rating_num, " . DB_PREFIX . "_ride.passenger_rated, " . DB_PREFIX . "_ride.driver_rated " .
+//								"FROM " . DB_PREFIX . "_ride INNER JOIN " . DB_PREFIX . "_user ON " . DB_PREFIX . "_ride.passenger = " . DB_PREFIX . "_user.id " .
+//								"WHERE trip=$tripid AND passenger!=$userid");
+//
+//		$arr = null;
+//		$i = 0;
+//		while ($row = $db->fetch($query)) {
+//			$arr[$i++] = $row;
+//		}
+//		return $arr;
+//	}
 
 	public function getId() {
 		return $this->id;

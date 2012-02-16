@@ -76,6 +76,9 @@ class Database {
 	 * @return MySql_result Query's result
 	 */
 	public function query($query) {
+		if (defined('ECHO'))
+			echo $query . "\n";
+
 		if ($this->handler == null || !$this->handler) {
 			throw new DatabaseException("Not connected to database");
 		}

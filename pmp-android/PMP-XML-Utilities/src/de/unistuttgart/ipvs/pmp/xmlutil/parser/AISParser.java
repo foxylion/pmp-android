@@ -30,9 +30,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 
 /**
  * This XML Parser parses a given xml (for an app) and creates a app information

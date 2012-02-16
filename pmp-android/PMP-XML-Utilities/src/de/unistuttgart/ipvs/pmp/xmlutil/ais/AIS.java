@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * This is an information set of the app. It contains all basic informations
@@ -32,12 +33,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.AISIssueLocation;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends BasicIS implements AISIssueLocation {
+public class AIS extends BasicIS {
     
     /**
      * Serial
      */
-    private static final long serialVersionUID = 5053855332785951797L;
+    private static final long serialVersionUID = -6652355069031983384L;
     
     /**
      * This list contains all service features of the app.
@@ -101,6 +102,55 @@ public class AIS extends BasicIS implements AISIssueLocation {
             }
         }
         return null;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        clearAppInformationIssuesAndPropagate();
+        clearServiceFeaturesIssuesAndPropagate();
+    }
+    
+    
+    /**
+     * Clear only issues referring to the app information
+     */
+    public void clearAppInformationIssuesAndPropagate() {
+        clearNameIssues();
+        clearDescriptionIssues();
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if (!((issue.getType() == IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)
+                    || (issue.getType() == IssueType.NO_SF_EXISTS) || (issue.getType() == IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN))) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
+        }
+    }
+    
+    
+    /**
+     * Clear only issues referring to the service features
+     */
+    public void clearServiceFeaturesIssuesAndPropagate() {
+        for (AISServiceFeature sf : this.getServiceFeatures()) {
+            sf.clearIssuesAndPropagate();
+        }
+        List<Issue> removeList = new ArrayList<Issue>();
+        for (Issue issue : getIssues()) {
+            if ((issue.getType() == IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)
+                    || (issue.getType() == IssueType.NO_SF_EXISTS)
+                    || (issue.getType() == IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN)) {
+                removeList.add(issue);
+            }
+        }
+        // Remove issues
+        for (Issue issue : removeList) {
+            removeIssue(issue);
+        }
     }
     
 }
