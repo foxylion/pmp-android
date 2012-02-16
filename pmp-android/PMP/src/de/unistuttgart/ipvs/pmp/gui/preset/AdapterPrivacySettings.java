@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link AdapterPrivacySettings} is the list of Privacy Settings in the {@link PresetPSsTabTab}.
@@ -84,7 +87,14 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
         name.setText(ps.getName());
         
         TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-        value.setText(this.context.getString(R.string.value) + ": " + this.preset.getGrantedPrivacySettingValue(ps));
+        try {
+            value.setText(this.context.getString(R.string.value) + ": "
+                    + ps.getHumanReadableValue(this.preset.getGrantedPrivacySettingValue(ps)));
+        } catch (PrivacySettingValueException e) {
+            Log.e(this, "The Privacy Setting value is invalid and is beeing marked red in the GUI", e);
+            value.setText(this.context.getString(R.string.value) + ": " + this.preset.getGrantedPrivacySettingValue(ps));
+            value.setTextColor(GUIConstants.COLOR_BG_RED);
+        }
         
         return entryView;
     }
