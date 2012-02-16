@@ -238,7 +238,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 			if (!(newName.equals(oldName.getName()) && newLocale
 				.equals(oldName.getLocale().toString()))) {
 			    nameTableViewer.getTable().setRedraw(false);
-			    
+
 			    Locale locale = new Locale(newLocale);
 
 			    oldName.setLocale(locale);
@@ -319,117 +319,58 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionTable.setLayoutData(layoutData);
 	descriptionTable.setHeaderVisible(true);
 	descriptionTable.setLinesVisible(true);
-	
+
 	// Add the double click listener
-	descriptionTableViewer.addDoubleClickListener(new IDoubleClickListener() {
-	    
-	    @Override
-	    public void doubleClick(DoubleClickEvent arg0) {
-		if (descriptionTableViewer.getTable().getSelectionCount() == 1) {
-		    Description oldDesc = (Description) descriptionTableViewer.getTable()
-			    .getSelection()[0].getData();
+	descriptionTableViewer
+		.addDoubleClickListener(new IDoubleClickListener() {
 
-		    // Show the dialog
-		    HashMap<String, String> values = new HashMap<String, String>();
-		    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			    parentShell, oldDesc.getLocale().toString(),
-			    oldDesc.getDescription(), values, "Description");
-		    if (dialog.open() == Window.OK) {
-			String newDesc = values.get("Description");
-			String newLocale = values.get("locale");
+		    @Override
+		    public void doubleClick(DoubleClickEvent arg0) {
+			if (descriptionTableViewer.getTable()
+				.getSelectionCount() == 1) {
+			    Description oldDesc = (Description) descriptionTableViewer
+				    .getTable().getSelection()[0].getData();
 
-			// Sth. has changed
-			if (!(newDesc.equals(oldDesc.getDescription()) && newLocale
-				.equals(oldDesc.getLocale().toString()))) {
-			    descriptionTableViewer.getTable().setRedraw(false);
-			    
-			    Locale locale = new Locale(newLocale);
+			    // Show the dialog
+			    HashMap<String, String> values = new HashMap<String, String>();
+			    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+				    parentShell,
+				    oldDesc.getLocale().toString(), oldDesc
+					    .getDescription(), values,
+				    "Description");
+			    if (dialog.open() == Window.OK) {
+				String newDesc = values.get("Description");
+				String newLocale = values.get("locale");
 
-			    oldDesc.setLocale(locale);
-			    oldDesc.setDescription(newDesc);
+				// Sth. has changed
+				if (!(newDesc.equals(oldDesc.getDescription()) && newLocale
+					.equals(oldDesc.getLocale().toString()))) {
+				    descriptionTableViewer.getTable()
+					    .setRedraw(false);
 
-			    Model.getInstance().setAISDirty(true);
-			    descriptionTableViewer.refresh();
+				    Locale locale = new Locale(newLocale);
 
-			    // Redraw the table
-			    ServiceFeatureNameDetailsPage.this.descColumn.pack();
-			    localeDescColumn.pack();
-			    
-			    descriptionTableViewer.getTable().setRedraw(true);
-			    descriptionTableViewer.getTable().redraw();
+				    oldDesc.setLocale(locale);
+				    oldDesc.setDescription(newDesc);
+
+				    Model.getInstance().setAISDirty(true);
+				    descriptionTableViewer.refresh();
+
+				    // Redraw the table
+				    ServiceFeatureNameDetailsPage.this.descColumn
+					    .pack();
+				    localeDescColumn.pack();
+
+				    descriptionTableViewer.getTable()
+					    .setRedraw(true);
+				    descriptionTableViewer.getTable().redraw();
+				}
+			    }
 			}
 		    }
-		}
-	    }
-	});
+		});
 
 	return descriptionTableViewer;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#commit(boolean)
-     */
-    @Override
-    public void commit(boolean arg0) {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#isDirty()
-     */
-    @Override
-    public boolean isDirty() {
-	return Model.getInstance().isAisDirty();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#isStale()
-     */
-    @Override
-    public boolean isStale() {
-	return false;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#refresh()
-     */
-    @Override
-    public void refresh() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#setFocus()
-     */
-    @Override
-    public void setFocus() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#setFormInput(java.lang.Object)
-     */
-    @Override
-    public boolean setFormInput(Object arg0) {
-	return false;
     }
 
     /*
@@ -642,5 +583,71 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#commit(boolean)
+     */
+    @Override
+    public void commit(boolean arg0) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#dispose()
+     */
+    @Override
+    public void dispose() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#isDirty()
+     */
+    @Override
+    public boolean isDirty() {
+	return Model.getInstance().isAisDirty();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#isStale()
+     */
+    @Override
+    public boolean isStale() {
+	return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#refresh()
+     */
+    @Override
+    public void refresh() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#setFocus()
+     */
+    @Override
+    public void setFocus() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.forms.IFormPart#setFormInput(java.lang.Object)
+     */
+    @Override
+    public boolean setFormInput(Object arg0) {
+	return false;
     }
 }

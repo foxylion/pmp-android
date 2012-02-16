@@ -4,15 +4,15 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 
 /**
- * Provides the description table with data
+ * Provides the required privacy settings table with content
  * 
  * @author Thorsten Berberich
  * 
  */
-public class DescriptionContentProvider implements IContentProvider,
+public class RequiredRGContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*
@@ -24,7 +24,8 @@ public class DescriptionContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISServiceFeature) arg0).getDescriptions().toArray();
+	return ((AISRequiredResourceGroup) arg0).getRequiredPrivacySettings()
+		.toArray();
     }
 
     /*
@@ -34,6 +35,8 @@ public class DescriptionContentProvider implements IContentProvider,
      */
     @Override
     public void dispose() {
+	// TODO Auto-generated method stub
+
     }
 
     /*
@@ -45,6 +48,8 @@ public class DescriptionContentProvider implements IContentProvider,
      */
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+	// TODO Auto-generated method stub
+
     }
 
 }
