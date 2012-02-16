@@ -2,6 +2,8 @@ package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.LongRunningTaskDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
@@ -152,16 +155,34 @@ public class ListItemServiceFeature extends LinearLayout {
      * @param newState
      *            The new State of the Service Feature.
      */
-    public void reactOnChange(boolean newState) {
-        SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(), ListItemServiceFeature.this.serviceFeature,
-                newState);
+    public void reactOnChange(final boolean newState) {
+        Runnable runnable = new Runnable() {
+            
+            @Override
+            public void run() {
+                SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(),
+                        ListItemServiceFeature.this.serviceFeature, newState);
+                
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        String toastText = getResources().getString(
+                                (serviceFeature.isActive() ? R.string.app_servicefeature_enabled
+                                        : R.string.app_servicefeature_disabled),
+                                ListItemServiceFeature.this.serviceFeature.getName());
+                        Toast.makeText(ListItemServiceFeature.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
+                        
+                        refresh();
+                    }
+                });
+                
+            }
+        };
         
-        String toastText = getResources().getString(
-                (newState ? R.string.app_servicefeature_enabled : R.string.app_servicefeature_disabled),
-                ListItemServiceFeature.this.serviceFeature.getName());
-        Toast.makeText(ListItemServiceFeature.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
+        new LongRunningTaskDialog(getContext(), runnable).setTitle("Changing Service Feature")
+                .setMessage("Please wait a moment until the Service Feature has been changed.").start();
         
-        refresh();
     }
     
     

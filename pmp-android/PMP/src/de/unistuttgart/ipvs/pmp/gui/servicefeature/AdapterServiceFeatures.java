@@ -62,10 +62,10 @@ public class AdapterServiceFeatures extends BaseAdapter {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
         ListItemServiceFeature entryView = this.serviceFeatureViews.get(serviceFeature);
-        if (entryView == null) {
-            entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
-            this.serviceFeatureViews.put(serviceFeature, entryView);
-        }
+        entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
+        this.serviceFeatureViews.put(serviceFeature, entryView);
+        
+        Log.v(this, "Returned view for " + serviceFeature.getIdentifier());
         
         return entryView;
     }
