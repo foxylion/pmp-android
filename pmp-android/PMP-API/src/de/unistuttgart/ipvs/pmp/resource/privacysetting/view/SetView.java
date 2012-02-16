@@ -96,7 +96,11 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
     
     private IPrivacySettingView<T> newView() throws PrivacySettingValueException {
         try {
-            return this.childViewConstructor.newInstance(this.context, this.childViewConstructorInvocation);
+            if (this.childViewConstructorInvocation.length == 0) {
+                return this.childViewConstructor.newInstance(this.context);
+            } else {
+                return this.childViewConstructor.newInstance(this.context, this.childViewConstructorInvocation);
+            }
         } catch (IllegalArgumentException e) {
             throw new PrivacySettingValueException(e.getMessage(), e);
         } catch (InstantiationException e) {
