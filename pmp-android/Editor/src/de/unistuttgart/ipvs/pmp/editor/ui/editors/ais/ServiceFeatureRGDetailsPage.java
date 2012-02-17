@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -7,13 +12,19 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -21,9 +32,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredRGContentProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * Shows the table with the details to the resource groups
@@ -102,6 +116,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 	psSection.setLayout(new GridLayout(1, false));
 	psSection.setExpanded(true);
 	psSection.setLayoutData(parentLayout);
+	createPrivacySettingSectionAttributeToolbar(psSection);
 
 	// Composite that is display in the description section
 	Composite psComposite = toolkit.createComposite(psSection);
@@ -205,6 +220,60 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
     @Override
     public boolean isDirty() {
 	return Model.getInstance().isAisDirty();
+    }
+
+    /**
+     * Adds the toolbar with the remove and add buttons to the description
+     * section
+     * 
+     * @param section
+     *            {@link Section} to set the toolbar
+     */
+    private void createPrivacySettingSectionAttributeToolbar(Section section) {
+	// Create the toolbar
+	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+	ToolBar toolbar = toolBarManager.createControl(section);
+
+	final Cursor handCursor = new Cursor(Display.getCurrent(),
+		SWT.CURSOR_HAND);
+	toolbar.setCursor(handCursor);
+	toolbar.addDisposeListener(new DisposeListener() {
+	    public void widgetDisposed(DisposeEvent e) {
+		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+		    handCursor.dispose();
+		}
+	    }
+	});
+
+	// Picture can be added also to the actions
+	Action add = new Action("Add") {
+
+	    @Override
+	    public void run() {
+		    SelectionDialog a = new RequiredPrivacySettingsDialog(
+			    parentShell, new RGIS());
+		    a.open();
+
+	    }
+	};
+	add.setToolTipText("Add a new required Privacy Setting for the Service Feature");
+
+	// The remove action
+	Action remove = new Action("Remove") {
+
+	    @Override
+	    public void run() {
+
+	    }
+	};
+	remove.setToolTipText("Remove the selected required Privacy Setting");
+
+	// Add the actions to the toolbar
+	toolBarManager.add(add);
+	toolBarManager.add(remove);
+
+	toolBarManager.update(true);
+	section.setTextClient(toolbar);
     }
 
     /*

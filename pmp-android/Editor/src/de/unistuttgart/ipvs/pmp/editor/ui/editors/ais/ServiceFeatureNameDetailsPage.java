@@ -229,7 +229,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    HashMap<String, String> values = new HashMap<String, String>();
 		    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
 			    parentShell, oldName.getLocale().toString(),
-			    oldName.getName(), values, "Name");
+			    oldName.getName(), values, "Name", "Change");
 		    if (dialog.open() == Window.OK) {
 			String newName = values.get("Name");
 			String newLocale = values.get("locale");
@@ -337,7 +337,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 				    parentShell,
 				    oldDesc.getLocale().toString(), oldDesc
 					    .getDescription(), values,
-				    "Description");
+				    "Description", "Change");
 			    if (dialog.open() == Window.OK) {
 				String newDesc = values.get("Description");
 				String newLocale = values.get("locale");
@@ -432,7 +432,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    public void run() {
 		HashMap<String, String> values = new HashMap<String, String>();
 		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Name");
+			parentShell, null, null, values, "Name", "Add");
 		if (dialog.open() == Window.OK) {
 		    nameTableViewer.getTable().setRedraw(false);
 
@@ -523,7 +523,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    public void run() {
 		HashMap<String, String> values = new HashMap<String, String>();
 		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Description");
+			parentShell, null, null, values, "Description", "Add");
 		if (dialog.open() == Window.OK) {
 		    descriptionTableViewer.getTable().setRedraw(false);
 

@@ -40,7 +40,7 @@ public class Model {
     /**
      * The stored {@link RGIS} list that was downloaded from the server
      */
-    private List<RGIS> rgisList;
+    private List<RGIS> rgisList = null;
 
     private AisEditor aisEditor;
 
@@ -107,8 +107,10 @@ public class Model {
      * @throws IOException
      */
     public List<RGIS> getRgisList() throws IOException {
-	ServerProvider server = new ServerProvider();
-	rgisList = server.getAvailableRessourceGroups();
+	if (rgisList == null) {
+	    ServerProvider server = new ServerProvider();
+	    rgisList = server.getAvailableRessourceGroups();
+	}
 	return rgisList;
     }
 
