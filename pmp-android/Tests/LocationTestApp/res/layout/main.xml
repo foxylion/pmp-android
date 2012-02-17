@@ -21,12 +21,13 @@
 
         <!-- Certificate-Key: 0yPWnYj0YYrftWuBvOCyCEwJZRaN6wEPJBLshXw -->
         <!-- Jakob-Key:       0yPWnYj0YYrexFzoDWIwjQVhfc0Um4tmDZuWOZw -->
-        
+        <!-- Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" -->
+
         <com.google.android.maps.MapView
+            android:id="@+id/MapView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0yPWnYj0YYrexFzoDWIwjQVhfc0Um4tmDZuWOZw"
-            android:id="@+id/MapView" />
+            android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" />
     </LinearLayout>
 
     <LinearLayout

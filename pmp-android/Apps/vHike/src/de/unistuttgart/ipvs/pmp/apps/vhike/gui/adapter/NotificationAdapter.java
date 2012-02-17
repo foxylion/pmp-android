@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.util.List;
+import java.util.List; 
 import java.util.Timer;
 
 import com.google.android.maps.GeoPoint;
@@ -11,7 +11,6 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.CheckAcceptedOffers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
