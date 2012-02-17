@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.logging.Level;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -46,6 +47,7 @@ import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -163,7 +165,8 @@ public class Model implements IModel, Observer {
                 ipcc.setDestinationService(appPackage);
                 if (ipcc.getBinder() == null) {
                     /* error during connecting to service */
-                    Log.w(this, appPackage + " has failed registration with PMP.");
+                    FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                            "App '%s' has failed registration with PMP: Service not available.", appPackage);
                     return new RegistrationResult(false, "Service not available.");
                 }
             } finally {
@@ -177,7 +180,14 @@ public class Model implements IModel, Observer {
                     
                     if ((rg != null) && (rg.getRevision() < new Long(aisrrg.getMinRevision()))) {
                         /* error during resource group request */
-                        Log.w(this, appPackage + " requests newer ResourceGroups.");
+                        FileLog.get()
+                                .logWithForward(
+                                        this,
+                                        null,
+                                        FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                        Level.WARNING,
+                                        "App '%s' has failed registration with PMP: Requests newer ResourceGroups than installed.",
+                                        appPackage);
                         return new RegistrationResult(false, "Requesting newer ResourceGroups not supported.");
                     }
                     
@@ -216,22 +226,26 @@ public class Model implements IModel, Observer {
             }
             
             // "Hello thar, App!"
-            Log.d(this, appPackage + " has successfully registered.");
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
+                    "App '%s' has successfully registered with PMP.", appPackage);
             return new RegistrationResult(true);
             
         } catch (final IOException ioe) {
             /* error during finding files */
-            Log.w(this, appPackage + " has failed registration with PMP.", ioe);
+            FileLog.get().logWithForward(this, ioe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "App '%s' has failed registration with PMP: Could not find associated files.", appPackage);
             return new RegistrationResult(false, ioe.getMessage());
             
         } catch (final NameNotFoundException nnfe) {
             /* error during finding files */
-            Log.w(this, appPackage + " has failed registration with PMP.", nnfe);
+            FileLog.get().logWithForward(this, nnfe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "App '%s' has failed registration with PMP: Could not find associated files.", appPackage);
             return new RegistrationResult(false, nnfe.getMessage());
             
         } catch (final ParserException xmlpe) {
             /* error during XML validation */
-            Log.w(this, appPackage + " has failed registration with PMP.", xmlpe);
+            FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "App '%s' has failed registration with PMP: Could not verify XML file.", appPackage);
             return new RegistrationResult(false, xmlpe.getMessage());
         }
     }
@@ -270,6 +284,8 @@ public class Model implements IModel, Observer {
                 IPCProvider.getInstance().endUpdate();
             }
             
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
+                    "App '%s' was removed from PMP.", appPackage);
             return true;
         }
     }
@@ -341,15 +357,24 @@ public class Model implements IModel, Observer {
             de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
                     rgPackage);
             if (!rgPackage.equals(rgis.getIdentifier())) {
+                FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                        "ResourceGroup '%s' has failed registration with PMP: XML inconsistent with PMP data.",
+                        rgPackage);
                 throw new InvalidXMLException("ResourceGroup package (parameter, XML)", rgPackage, rgis.getIdentifier());
             }
             if (!rgis.getIdentifier().equals(rg.getRgPackage())) {
+                FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                        "ResourceGroup '%s' has failed registration with PMP: XML inconsistent with PMP data.",
+                        rgPackage);
                 throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
                         rg.getRgPackage());
             }
             for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 AbstractPrivacySetting<?> aps = rg.getPrivacySetting(ps.getIdentifier());
                 if (aps == null) {
+                    FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                            "ResourceGroup '%s' has failed registration with PMP: XML inconsistent with PMP data.",
+                            rgPackage);
                     throw new InvalidXMLException("PrivacySetting (XML, objects)", ps.getIdentifier(),
                             ps.getIdentifier());
                 }
@@ -406,10 +431,14 @@ public class Model implements IModel, Observer {
             } finally {
                 IPCProvider.getInstance().endUpdate();
             }
+            
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
+                    "ResourceGroup '%s' has been successfully installed.", rgPackage);
             return true;
         } catch (ParserException xmlpe) {
             /* error during XML validation */
-            Log.w(this, rgPackage + " has failed installation with PMP.", xmlpe);
+            FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "ResourceGroup '%s' has failed registration with PMP: Could not verify XML file.", rgPackage);
             return false;
         }
     }
@@ -468,6 +497,8 @@ public class Model implements IModel, Observer {
                 IPCProvider.getInstance().endUpdate();
             }
             
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
+                    "ResourceGroup '%s' was removed from PMP.", rgPackage);
             return true;
         }
     }
