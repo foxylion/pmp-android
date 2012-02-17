@@ -164,6 +164,10 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
         
+        if (isAppAssigned(app)) {
+            return;
+        }
+        
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
         }
@@ -181,6 +185,10 @@ public class Preset extends ModelElement implements IPreset {
     public void removeApp(IApp app) {
         checkCached();
         Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
+        
+        if (!isAppAssigned(app)) {
+            return;
+        }
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
