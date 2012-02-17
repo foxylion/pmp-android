@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">vHike</name>
+		<name lang="de">vHike</name>
+		<description lang="en">App for testing various resources
+			among
+			them location, anonymity and vHike-Resources.
+		</description>
+		<description lang="de">App um Ressourcen wie Ortung, Anonymität
+			und vHike-Ressourcen zu zeigen.
+		</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="useAbsoluteLocation">
+			<name lang="en">View Detailed Location</name>
+			<name lang="de">Genaue Position anzeigen</name>
+			<description lang="en">Shows the detailed location of the
+				device.
+			</description>
+			<description lang="de">Zeigt die genaue Position des Geräts
+				an.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location"
+				minRevision="1">
+				<requiredPrivacySetting identifier="useAbsoluteLocation">true
+				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useCoordinates">true
+				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useSpeed">true
+				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useAccuracy">true
+				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useLocationDescription">STREET
+				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="locationPrecision">10
+				</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>
