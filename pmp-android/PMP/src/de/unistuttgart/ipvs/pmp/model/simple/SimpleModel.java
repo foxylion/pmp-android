@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotati
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 
 /**
  * @see ISimpleModel
@@ -42,35 +43,42 @@ public class SimpleModel implements ISimpleModel {
     public void convertExpertToSimple(IModel model) {
         Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
         
-        // keep this state, now save all active SF
-        Map<IApp, List<IServiceFeature>> actives = new HashMap<IApp, List<IServiceFeature>>();
-        for (IApp a : model.getApps()) {
-            actives.put(a, a.getActiveServiceFeatures());
-        }
-        
-        // delete all user presets
-        for (IPreset p : model.getPresets(null)) {
-            // and all CAs
-            for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
-                for (IContextAnnotation ca : p.getContextAnnotations(ps)) {
-                    p.removeContextAnnotation(ps, ca);
+        IPCProvider.getInstance().startUpdate();
+        try {
+            
+            // keep this state, now save all active SF
+            Map<IApp, List<IServiceFeature>> actives = new HashMap<IApp, List<IServiceFeature>>();
+            for (IApp a : model.getApps()) {
+                actives.put(a, a.getActiveServiceFeatures());
+            }
+            
+            // delete all user presets
+            for (IPreset p : model.getPresets(null)) {
+                // and all CAs
+                for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
+                    for (IContextAnnotation ca : p.getContextAnnotations(ps)) {
+                        p.removeContextAnnotation(ps, ca);
+                    }
+                }
+                model.removePreset(null, p.getLocalIdentifier());
+            }
+            // deactivate all non-user presets
+            for (IPreset p : model.getPresets()) {
+                p.setDeleted(true);
+            }
+            
+            // install the simple mode presets for the apps
+            for (Entry<IApp, List<IServiceFeature>> a : actives.entrySet()) {
+                IPreset p = createPresetForApp(model, a.getKey());
+                
+                // assign all previously active SF to this one preset
+                for (IServiceFeature sf : a.getValue()) {
+                    p.assignServiceFeature(sf);
                 }
             }
-            model.removePreset(null, p.getLocalIdentifier());
-        }
-        // deactivate all non-user presets
-        for (IPreset p : model.getPresets()) {
-            p.setDeleted(true);
-        }
-        
-        // install the simple mode presets for the apps
-        for (Entry<IApp, List<IServiceFeature>> a : actives.entrySet()) {
-            IPreset p = createPresetForApp(model, a.getKey());
             
-            // assign all previously active SF to this one preset
-            for (IServiceFeature sf : a.getValue()) {
-                p.assignServiceFeature(sf);
-            }
+        } finally {
+            IPCProvider.getInstance().endUpdate();
         }
     }
     
