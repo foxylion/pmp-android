@@ -42,8 +42,9 @@ public class LongRunningTaskDialog extends Dialog {
         show();
         new Thread() {
             
+            @Override
             public void run() {
-                runnable.run();
+                LongRunningTaskDialog.this.runnable.run();
                 
                 taskCompleted();
             };
