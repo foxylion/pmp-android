@@ -22,7 +22,7 @@ public class SettingsAdapter extends BaseAdapter {
     /**
      * List of all Settings
      */
-    private List<Setting> settings;
+    private List<SettingAbstract<?>> settings;
     
     
     /**
@@ -33,7 +33,7 @@ public class SettingsAdapter extends BaseAdapter {
      * @param settings
      *            list of Settings
      */
-    public SettingsAdapter(Context context, List<Setting> settings) {
+    public SettingsAdapter(Context context, List<SettingAbstract<?>> settings) {
         this.context = context;
         this.settings = settings;
     }
@@ -58,10 +58,18 @@ public class SettingsAdapter extends BaseAdapter {
     
     
     @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+    
+    
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         
-        Setting setting = this.settings.get(position);
-        SettingsView entryView = new SettingsView(this.context, setting);
+        View entryView = convertView;
+        if (entryView == null || !(entryView instanceof SettingListItem)) {
+            entryView = new SettingListItem(this.context, this.settings.get(position));
+        }
         
         return entryView;
     }
