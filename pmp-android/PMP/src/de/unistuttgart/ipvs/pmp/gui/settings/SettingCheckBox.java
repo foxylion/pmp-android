@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.settings;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 
 /**
  * Simple SettingCheckBox
@@ -86,7 +84,7 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
     
     
     /**
-     * Update the Linear Layout (Color) and the settingCheckbox, when the CheckBox has changed
+     * Update the settingCheckbox, when the CheckBox has changed
      * 
      * @param checked
      *            true, if the CheckBox is now selected
@@ -94,11 +92,6 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
     private void checkBoxChanged(boolean checked) {
         Log.d(this, "check Box Checked now " + checked);
         setValue(checked);
-        if (checked) {
-            this.linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
-        } else {
-            this.linlay.setBackgroundColor(Color.TRANSPARENT);
-        }
         this.linlay.invalidate();
     }
     

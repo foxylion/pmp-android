@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * The {@link ActivitySettings} enables the user to select between the expert mode and the normal mode.
@@ -59,6 +60,36 @@ public class ActivitySettings extends Activity {
         @Override
         public Boolean getValue() {
             return PMPPreferences.getInstance().isExpertMode();
+        }
+    }
+    
+    private final static class LogGranularityEvaluator implements ISettingEvaluator<Boolean> {
+        
+        private int level;
+        
+        
+        public LogGranularityEvaluator(int level) {
+            this.level = level;
+        }
+        
+        
+        @Override
+        public Boolean getValue() {
+            return (PMPPreferences.getInstance().getLoggingGranularity() & this.level) > 0;
+        }
+        
+        
+        @Override
+        public void setValue(Boolean newValue) {
+            int granularities = PMPPreferences.getInstance().getLoggingGranularity();
+            
+            if (newValue) {
+                granularities |= this.level;
+            } else {
+                granularities &= ~this.level;
+            }
+            
+            PMPPreferences.getInstance().setLoggingGranularity(granularities);
         }
     }
     
@@ -120,5 +151,22 @@ public class ActivitySettings extends Activity {
         this.settingsList.add(new SettingCheckBox(R.string.settings_preset_trash_bin_visible,
                 R.string.settings_preset_trash_bin_description, R.drawable.icon_expertmode,
                 new PresetTrashBinSettingEvaluator()));
+        
+        // add the log granularities
+        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_component_change,
+                R.string.settings_log_granularity_component_change_desc, R.drawable.icon_edit,
+                new LogGranularityEvaluator(FileLog.GRANULARITY_COMPONENT_CHANGES)));
+        
+        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_setting_change,
+                R.string.settings_log_granularity_setting_change_desc, R.drawable.icon_sfs,
+                new LogGranularityEvaluator(FileLog.GRANULARITY_SETTING_CHANGES)));
+        
+        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_context_change,
+                R.string.settings_log_granularity_context_change_desc, R.drawable.contexts_location_icon,
+                new LogGranularityEvaluator(FileLog.GRANULARITY_CONTEXT_CHANGES)));
+        
+        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_setting_request,
+                R.string.settings_log_granularity_setting_request_desc, R.drawable.icon_statistics,
+                new LogGranularityEvaluator(FileLog.GRANULARITY_SETTING_REQUESTS)));
     }
 }

@@ -98,8 +98,8 @@ public class PMPPreferences {
     /**
      * @return the logging granularities that are active
      */
-    public String[] getLoggingGranularity() {
-        return this.settings.getString(KEY_LOGGING_GRANULARITY, "").split(",");
+    public int getLoggingGranularity() {
+        return this.settings.getInt(KEY_LOGGING_GRANULARITY, 0);
     }
     
     
@@ -108,16 +108,9 @@ public class PMPPreferences {
      * 
      * @param granularities
      */
-    public void setLoggingGranularity(String[] granularities) {
+    public void setLoggingGranularity(int granularities) {
         SharedPreferences.Editor editor = this.settings.edit();
-        
-        StringBuilder logGran = new StringBuilder();
-        for (String gran : granularities) {
-            logGran.append(gran);
-            logGran.append(",");
-        }
-        
-        editor.putString(KEY_LOGGING_GRANULARITY, logGran.substring(0, logGran.length() - 1));
+        editor.putInt(KEY_LOGGING_GRANULARITY, granularities);
         editor.commit();
     }
 }
