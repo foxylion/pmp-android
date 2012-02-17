@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -97,11 +95,11 @@ public class SettingsView extends LinearLayout {
      * Add listener to the CheckBox and LinearLayout
      */
     private void addListener() {
-        this.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        this.checkBox.setOnClickListener(new View.OnClickListener() {
             
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkBoxChanged(isChecked);
+            public void onClick(View v) {
+                checkBoxChanged(checkBox.isChecked());
             }
         });
         
@@ -114,5 +112,4 @@ public class SettingsView extends LinearLayout {
             }
         });
     }
-    
 }
