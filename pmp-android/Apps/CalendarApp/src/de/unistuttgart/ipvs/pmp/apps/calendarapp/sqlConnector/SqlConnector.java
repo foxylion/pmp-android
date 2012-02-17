@@ -126,13 +126,13 @@ public class SqlConnector {
                             } catch (RemoteException e) {
                                 Log.e(this, "RemoteException", e);
                             }
+                            
+                            Model.getInstance().invokeBroadcast();
                         }
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -198,13 +198,14 @@ public class SqlConnector {
                             } catch (RemoteException e) {
                                 Log.e(this, "RemoteException", e);
                             }
+                            
+                            Model.getInstance().invokeBroadcast();
                         }
                     }
                 }
             }
         });
         
-        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -266,13 +267,13 @@ public class SqlConnector {
                             } catch (RemoteException e) {
                                 Log.e(this, "RemoteException", e);
                             }
+                            
+                            Model.getInstance().invokeBroadcast();
                         }
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
         
     }
     
@@ -317,13 +318,13 @@ public class SqlConnector {
                             } catch (RemoteException e) {
                                 Log.e(this, "RemoteException", e);
                             }
+                            
+                            Model.getInstance().invokeBroadcast();
                         }
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -352,12 +353,12 @@ public class SqlConnector {
                         } catch (RemoteException e) {
                             Log.e(this, "RemoteException", e);
                         }
+                        
+                        Model.getInstance().invokeBroadcast();
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -416,13 +417,13 @@ public class SqlConnector {
                             } catch (RemoteException e) {
                                 Log.e(this, "RemoteException", e);
                             }
+                            
+                            Model.getInstance().invokeBroadcast();
                         }
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
     }
     
     
@@ -484,12 +485,12 @@ public class SqlConnector {
                         } catch (RemoteException e) {
                             Log.e(this, "RemoteException", e);
                         }
+                        
+                        Model.getInstance().invokeBroadcast();
                     }
                 }
             }
         });
-        
-        Model.getInstance().invokeBroadcast();
     }
     
     

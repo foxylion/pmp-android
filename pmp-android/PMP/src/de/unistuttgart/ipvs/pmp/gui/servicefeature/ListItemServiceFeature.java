@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.LongRunningTaskDialog;
@@ -167,13 +166,6 @@ public class ListItemServiceFeature extends LinearLayout {
                     
                     @Override
                     public void run() {
-                        String toastText = getResources()
-                                .getString(
-                                        (ListItemServiceFeature.this.serviceFeature.isActive() ? R.string.app_servicefeature_enabled
-                                                : R.string.app_servicefeature_disabled),
-                                        ListItemServiceFeature.this.serviceFeature.getName());
-                        Toast.makeText(ListItemServiceFeature.this.getContext(), toastText, Toast.LENGTH_SHORT).show();
-                        
                         refresh();
                     }
                 });
