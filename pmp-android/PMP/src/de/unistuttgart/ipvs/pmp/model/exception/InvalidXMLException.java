@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.exception;
 
+
 /**
  * An exception that is thrown whenever a component is registered with PMP that contains an XML file that is somehow
  * corrupt.

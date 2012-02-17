@@ -57,6 +57,11 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
     String locale;
     String description;
     String title;
+    
+    /**
+     * Change or add
+     */
+    String type;
 
     /**
      * The entered values
@@ -70,18 +75,19 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      *            {@link Shell} to display
      */
     public ServiceFeatureDescriptionDialog(Shell parentShell, String locale,
-	    String desc, HashMap<String, String> values, String title) {
+	    String desc, HashMap<String, String> values, String title, String type) {
 	super(parentShell);
 	this.locale = locale;
 	this.description = desc;
 	this.values = values;
 	this.title = title;
+	this.type = type;
     }
 
     @Override
     protected void configureShell(Shell shell) {
 	super.configureShell(shell);
-	shell.setText("Add Attribute");
+	shell.setText(type +" " + title);
     }
 
     @Override
@@ -90,7 +96,7 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	Composite composite = (Composite) super.createDialogArea(parent);
 
 	// Create message
-	String message = "Add the attributes for the Service Feature";
+	String message = type +" the " +  title.toLowerCase() + " for the Service Feature";
 
 	Label label = new Label(composite, SWT.WRAP);
 	label.setText(message);

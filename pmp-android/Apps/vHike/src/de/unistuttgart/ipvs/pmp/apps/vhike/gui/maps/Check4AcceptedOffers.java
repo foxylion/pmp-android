@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.List;
 import java.util.TimerTask;
 
 import android.os.Handler;
@@ -8,7 +7,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 
 /**
  * Check for ride queries every given time interval

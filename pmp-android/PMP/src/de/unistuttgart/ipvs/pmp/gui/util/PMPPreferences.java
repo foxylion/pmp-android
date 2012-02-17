@@ -21,6 +21,7 @@ public class PMPPreferences {
      */
     private static final String KEY_EXPERT_MODE = "ExpertMode";
     private static final String KEY_PRESET_TRASH_BIN_VISIBLE = "PresetTrashBin";
+    private static final String KEY_LOGGING_GRANULARITY = "LoggingGranularity";
     
     private SharedPreferences settings;
     
@@ -90,6 +91,26 @@ public class PMPPreferences {
     public void setPresetTrashBinVisible(boolean visible) {
         SharedPreferences.Editor editor = this.settings.edit();
         editor.putBoolean(KEY_PRESET_TRASH_BIN_VISIBLE, visible);
+        editor.commit();
+    }
+    
+    
+    /**
+     * @return the logging granularities that are active
+     */
+    public int getLoggingGranularity() {
+        return this.settings.getInt(KEY_LOGGING_GRANULARITY, 0);
+    }
+    
+    
+    /**
+     * Sets the logging granularities to granularities.
+     * 
+     * @param granularities
+     */
+    public void setLoggingGranularity(int granularities) {
+        SharedPreferences.Editor editor = this.settings.edit();
+        editor.putInt(KEY_LOGGING_GRANULARITY, granularities);
         editor.commit();
     }
 }

@@ -400,7 +400,7 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 	    public void run() {
 		HashMap<String, String> values = new HashMap<String, String>();
 		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Name");
+			parentShell, null, null, values, "Name", "Add");
 		if (dialog.open() == Window.OK) {
 		    descriptionTable.setRedraw(false);
 
@@ -485,7 +485,7 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 
 	    HashMap<String, String> values = new HashMap<String, String>();
 	    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-		    parentShell, oldLocale, oldDesc, values, "Description");
+		    parentShell, oldLocale, oldDesc, values, "Description", "Change");
 	    if (dialog.open() == Window.OK) {
 		// Get the values
 		String newLocale = values.get("locale");
