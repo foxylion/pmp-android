@@ -3,24 +3,27 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization;
 import java.util.Locale;
 
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Information;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleEditingSupport;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TextEditingSupport;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.AbstractLocale;
@@ -36,7 +39,7 @@ public class LocaleTable {
 	private final Type type;
 	private final TableViewer tableViewer;
 	private boolean dirty = false;
-	public enum Type {NAME, LOCALE};
+	public enum Type {NAME, DESCRIPTION};
 	
 	public LocaleTable(Composite parent, BasicIS data, Type type, FormToolkit toolkit) {
 		this.parent = parent;
@@ -50,13 +53,15 @@ public class LocaleTable {
 		// Set layout so that the table uses the whole width
 		GridData tableLayout = new GridData();
 		tableLayout.horizontalAlignment = GridData.FILL;
+		tableLayout.verticalAlignment = GridData.FILL;
 		tableLayout.grabExcessHorizontalSpace = true;
+		tableLayout.grabExcessVerticalSpace = true;
 
 		// Workaround for SWT-Bug
 		// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
 		tableLayout.widthHint = 1;
 		
-		Composite tableCompo = new Composite(outerCompo, SWT.NONE);
+		Composite tableCompo = toolkit.createComposite(outerCompo);
 		tableCompo.setLayoutData(tableLayout);
 		TableColumnLayout columnLayout = new TableColumnLayout();
 		tableCompo.setLayout(columnLayout);
@@ -67,14 +72,87 @@ public class LocaleTable {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		buildColumns(columnLayout);
+		createColumns(columnLayout);
 		
 		tableViewer.setContentProvider(new ListContentProvider());
-		tableViewer.setInput(data);
+		if (type == Type.NAME) {
+			tableViewer.setInput(data.getNames());
+		} else {
+			tableViewer.setInput(data.getDescriptions());
+		}
+		
+		// Add buttons
+		createButtons(toolkit);
+		
 		
 	}
 	
-	private void buildColumns(TableColumnLayout columnLayout) {
+	/**
+	 * Create the add and remove button
+	 * @param toolkit
+	 */
+	private void createButtons(FormToolkit toolkit) {
+		Composite buttonCompo = toolkit.createComposite(outerCompo);
+		buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
+		GridData buttonLayout = new GridData();
+		buttonLayout.verticalAlignment = SWT.BEGINNING;
+		buttonCompo.setLayoutData(buttonLayout);
+		
+		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+		final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+		removeButton.setEnabled(false);
+		
+		addButton.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				if (type == Type.NAME) {
+					Name name = new Name();
+					name.setLocale(new Locale("-"));
+					name.setName("-");
+					data.addName(name);
+				} else {
+					Description desc = new Description();
+					desc.setLocale(new Locale("-"));
+					desc.setDescription("-");
+					data.addDescription(desc);
+				}
+				refresh();
+				
+			}
+		});
+		
+		removeButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				StructuredSelection sl = (StructuredSelection)tableViewer.getSelection();
+
+				if (type == Type.NAME) {
+					data.removeName((Name)sl.getFirstElement());
+				} else {
+					data.removeDescription((Description)sl.getFirstElement());
+				}
+				refresh();
+				
+			}
+		});
+		
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				removeButton.setEnabled(!event.getSelection().isEmpty());
+				
+			}
+		});
+	}
+	
+	/**
+	 * Creates the table's columns
+	 * @param columnLayout
+	 */
+	private void createColumns(TableColumnLayout columnLayout) {
 		
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
 			@Override
@@ -87,11 +165,12 @@ public class LocaleTable {
 			
 			@Override
 			protected Object getValue(Object element) {
-				return ((AbstractLocale)element).getLocale();
+				return ((AbstractLocale)element).getLocale().getLanguage();
 			}
 			
 			@Override
 			protected void setValue(Object element, Object value) {
+				System.out.println("setValue("+value+")");
 				AbstractLocale al = ((AbstractLocale)element);
 				String input = ((String)value).toLowerCase();
 				
@@ -100,6 +179,7 @@ public class LocaleTable {
 					Locale locale = new Locale(input);
 					((AbstractLocale)element).setLocale(locale);
 					dirty = true;
+					tableViewer.update(element, null);
 				}
 			}
 		};
@@ -174,7 +254,7 @@ public class LocaleTable {
 		if (width <= 0) {
 			columnLayout.setColumnData(control,	new ColumnWeightData(1,true));			
 		} else {
-			columnLayout.setColumnData(control,	new ColumnPixelData(25,true));
+			columnLayout.setColumnData(control,	new ColumnPixelData(width,true));
 		}
 		control.setText(text);
 		column.setLabelProvider(labelProvider);
@@ -195,7 +275,8 @@ public class LocaleTable {
 	 */
 	public void refresh() {
 		tableViewer.refresh();
-		parent.getParent().layout();
+	//parent.getParent().getParent().getParent().getParent().layout(true, true);
+	
 	}
 
 }
