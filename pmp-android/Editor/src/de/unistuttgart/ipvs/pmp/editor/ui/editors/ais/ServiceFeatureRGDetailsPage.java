@@ -1,10 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
+import java.util.HashMap;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -250,9 +250,87 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		    SelectionDialog a = new RequiredPrivacySettingsDialog(
-			    parentShell, new RGIS());
-		    a.open();
+		RGIS resGroups = null;
+
+		// Get the resource groups from the server
+		try {
+		    for (RGIS rgis : Model.getInstance().getRgisList()) {
+			if (rgis.getIdentifier().equals(
+				displayed.getIdentifier())) {
+			    resGroups = rgis;
+			}
+		    }
+		} catch (IOException e) {
+		    MessageDialog.openError(
+			    parentShell,
+			    "Error",
+			    "A error happend while downloading the Resource Groups from the server. \n\n "
+				    + "The error message was: \n \""
+				    + e.getMessage() + "\"");
+		}
+
+		// Build a custom RGIS with the privacy settings that are
+		// not set yet
+		RGIS customRGIS = resGroups;
+
+		// Check if there are RGs from the server
+		if (resGroups != null) {
+		    HashMap<String, RGISPrivacySetting> privacySettings = new HashMap<String, RGISPrivacySetting>();
+
+		    // Iterate through all available PSs
+		    for (RGISPrivacySetting ps : resGroups.getPrivacySettings()) {
+			privacySettings.put(ps.getIdentifier(), ps);
+		    }
+
+		    /*
+		     * Iterate through the set of required Privacy Settings and
+		     * delete the ones that are already added
+		     */
+		    for (AISRequiredPrivacySetting requiredPS : displayed
+			    .getRequiredPrivacySettings()) {
+			if (privacySettings.containsKey(requiredPS
+				.getIdentifier())) {
+			    customRGIS.removePrivacySetting(privacySettings
+				    .get(requiredPS.getIdentifier()));
+			}
+
+		    }
+
+		    // If there are some PS to add
+		    if (!customRGIS.getPrivacySettings().isEmpty()) {
+			
+			// Open the dialog
+			SelectionDialog dialog = new RequiredPrivacySettingsDialog(
+				parentShell, customRGIS);
+			dialog.open();
+			
+			// Get the results
+			if (dialog.getResult().length > 0) {
+			    
+			    // Store them at the model
+			    for (Object object : dialog.getResult()) {
+				AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) object;
+				displayed.addRequiredPrivacySetting(rps);
+			    }
+			    
+			    // Update the view
+			    psTableViewer.refresh();
+			    psTableViewer.getTable().setRedraw(false);
+			    identifierColumn.pack();
+			    valueColumn.pack();
+			    psTableViewer.getTable().redraw();
+			    psTableViewer.getTable().setRedraw(true);
+			    Model.getInstance().setAISDirty(true);
+			}
+			
+			// There are no PS to add to this service feature
+		    } else {
+			MessageDialog
+				.openInformation(parentShell,
+					"No Privacy Settings to add",
+					"You already added all Privacy Settings of this Resource Group");
+		    }
+		}
 
 	    }
 	};
@@ -263,7 +341,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-
+		// TODO
 	    }
 	};
 	remove.setToolTipText("Remove the selected required Privacy Setting");
