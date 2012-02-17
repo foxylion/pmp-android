@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 
@@ -75,7 +76,6 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
         this.linlay = (LinearLayout) entryView.findViewById(R.id.Setting_Linear_Layout);
         
         /* Update check box */
-        checkBoxChanged(getValue());
         this.checkBox.setChecked(getValue());
         
         /* Add Listener */
@@ -92,12 +92,14 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
      *            true, if the CheckBox is now selected
      */
     private void checkBoxChanged(boolean checked) {
+        Log.d(this, "check Box Checked now " + checked);
         setValue(checked);
         if (checked) {
             this.linlay.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
         } else {
             this.linlay.setBackgroundColor(Color.TRANSPARENT);
         }
+        this.linlay.invalidate();
     }
     
     
@@ -105,23 +107,20 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
      * Add listener to the CheckBox and LinearLayout
      */
     private void addListener() {
-        this.checkBox.setOnClickListener(new OnClickListener() {
+        OnClickListener changeValueListener = new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                checkBoxChanged(checkBox.isChecked());
-            }
-            
-        });
-        
-        this.linlay.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
+                Log.d(this, "onClick(), checkBox was " + SettingCheckBox.this.checkBox.isChecked() + ", getValue was "
+                        + getValue());
+                
                 boolean newState = !getValue();
                 checkBoxChanged(newState);
                 SettingCheckBox.this.checkBox.setChecked(newState);
             }
-        });
+        };
+        
+        this.checkBox.setOnClickListener(changeValueListener);
+        this.linlay.setOnClickListener(changeValueListener);
     }
 }

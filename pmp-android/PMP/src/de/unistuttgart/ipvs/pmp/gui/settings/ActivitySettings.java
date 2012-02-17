@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
+import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 
 /**
@@ -17,6 +19,48 @@ import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
  * @author Jakob Jarosch, Marcus Vetter
  */
 public class ActivitySettings extends Activity {
+    
+    private static final class PresetTrashBinSettingEvaluator implements ISettingEvaluator<Boolean> {
+        
+        @Override
+        public void setValue(Boolean newValue) {
+            PMPPreferences.getInstance().setPresetTrashBinVisible(newValue);
+        }
+        
+        
+        @Override
+        public Boolean getValue() {
+            return PMPPreferences.getInstance().isPresetTrashBinVisible();
+        }
+    }
+    
+    private final class ExpertModeSettingEvaluator implements ISettingEvaluator<Boolean> {
+        
+        @Override
+        public void setValue(Boolean newValue) {
+            
+            ProgressDialog pd = new ProgressDialog(ActivitySettings.this);
+            pd.setTitle(R.string.expert_mode);
+            pd.setCancelable(false);
+            LongTaskProgressDialog<Boolean, Void, Void> ltpd = new LongTaskProgressDialog<Boolean, Void, Void>(pd) {
+                
+                @Override
+                public Void run(Boolean... params) {
+                    PMPPreferences.getInstance().setExpertMode(params[0]);
+                    return null;
+                };
+            };
+            
+            ltpd.execute(newValue);
+            
+        }
+        
+        
+        @Override
+        public Boolean getValue() {
+            return PMPPreferences.getInstance().isExpertMode();
+        }
+    }
     
     /**
      * ListView of all Settings
@@ -70,35 +114,11 @@ public class ActivitySettings extends Activity {
     private void addSettings() {
         // add the ExpertMode-SettingCheckBox
         this.settingsList.add(new SettingCheckBox(R.string.expert_mode, R.string.settings_expertmode_description,
-                R.drawable.icon_expertmode, new ISettingEvaluator<Boolean>() {
-                    
-                    @Override
-                    public void setValue(Boolean newValue) {
-                        PMPPreferences.getInstance().setExpertMode(newValue);
-                    }
-                    
-                    
-                    @Override
-                    public Boolean getValue() {
-                        return PMPPreferences.getInstance().isExpertMode();
-                    }
-                }));
+                R.drawable.icon_expertmode, new ExpertModeSettingEvaluator()));
         
         // add the preset trash bin SettingCheckBox 
         this.settingsList.add(new SettingCheckBox(R.string.settings_preset_trash_bin_visible,
                 R.string.settings_preset_trash_bin_description, R.drawable.icon_expertmode,
-                new ISettingEvaluator<Boolean>() {
-                    
-                    @Override
-                    public void setValue(Boolean newValue) {
-                        PMPPreferences.getInstance().setPresetTrashBinVisible(newValue);
-                    }
-                    
-                    
-                    @Override
-                    public Boolean getValue() {
-                        return PMPPreferences.getInstance().isPresetTrashBinVisible();
-                    }
-                }));
+                new PresetTrashBinSettingEvaluator()));
     }
 }

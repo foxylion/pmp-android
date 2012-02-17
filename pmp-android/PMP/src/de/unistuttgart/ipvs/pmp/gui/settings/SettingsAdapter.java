@@ -65,12 +65,7 @@ public class SettingsAdapter extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        
-        View entryView = convertView;
-        if (entryView == null || !(entryView instanceof SettingListItem)) {
-            entryView = new SettingListItem(this.context, this.settings.get(position));
-        }
-        
+        View entryView = new SettingListItem(this.context, this.settings.get(position));
         return entryView;
     }
     
