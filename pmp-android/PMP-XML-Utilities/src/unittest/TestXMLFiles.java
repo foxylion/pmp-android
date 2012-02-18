@@ -30,7 +30,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
@@ -78,7 +78,7 @@ public class TestXMLFiles {
             rgUtil.print(rgis);
             
             // Test PresetSet
-            PresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
+            IPresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
             presetUtil.print(presetSet);
             presetSet = presetUtil.parse(presetUtil.compile(presetSet));
             presetUtil.print(presetSet);

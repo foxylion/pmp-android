@@ -22,6 +22,7 @@ import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.PresetSetCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.PresetSetParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 
@@ -47,7 +48,7 @@ public class PresetUtil {
      *            url to the xml file
      * @return PresetSet
      */
-    public PresetSet parse(InputStream xmlStream) {
+    public IPresetSet parse(InputStream xmlStream) {
         return presetSetParser.parse(xmlStream);
     }
     
@@ -59,7 +60,7 @@ public class PresetUtil {
      *            RGIS to compile
      * @return compiled xml file
      */
-    public InputStream compile(PresetSet presetSet) {
+    public InputStream compile(IPresetSet presetSet) {
         return presetSetCompiler.compile(presetSet);
     }
     
@@ -69,7 +70,7 @@ public class PresetUtil {
      * 
      * @return blank PresetSet-Object
      */
-    public PresetSet createBlankPresetSet() {
+    public IPresetSet createBlankPresetSet() {
         return new PresetSet();
     }
     
@@ -80,7 +81,7 @@ public class PresetUtil {
      * @param presetSet
      *            PresetSet to print
      */
-    public void print(PresetSet presetSet) {
+    public void print(IPresetSet presetSet) {
         Printer.printPresetSet(presetSet);
     }
     

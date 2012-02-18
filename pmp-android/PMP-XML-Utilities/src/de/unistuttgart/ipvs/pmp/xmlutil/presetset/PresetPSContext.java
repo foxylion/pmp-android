@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Marcus Vetter
  * 
  */
-public class PresetPSContext implements Serializable {
+public class PresetPSContext implements Serializable, IPresetPSContext {
     
     /**
      * Serial
@@ -47,64 +47,55 @@ public class PresetPSContext implements Serializable {
     }
     
     
-    /**
-     * Get the type
-     * 
-     * @return the type
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getType()
      */
+    @Override
     public String getType() {
         return this.type;
     }
     
     
-    /**
-     * Set the type
-     * 
-     * @param type
-     *            the type to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setType(java.lang.String)
      */
+    @Override
     public void setType(String type) {
         this.type = type;
     }
     
     
-    /**
-     * Get the condition
-     * 
-     * @return the condition
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getCondition()
      */
+    @Override
     public String getCondition() {
         return this.condition;
     }
     
     
-    /**
-     * Set the condition
-     * 
-     * @param condition
-     *            the condition to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setCondition(java.lang.String)
      */
+    @Override
     public void setCondition(String condition) {
         this.condition = condition;
     }
     
     
-    /**
-     * Get the override value
-     * 
-     * @return the overrideValue
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getOverrideValue()
      */
+    @Override
     public String getOverrideValue() {
         return this.overrideValue;
     }
     
     
-    /**
-     * Set the override value
-     * 
-     * @param overrideValue
-     *            the overrideValue to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setOverrideValue(java.lang.String)
      */
+    @Override
     public void setOverrideValue(String overrideValue) {
         this.overrideValue = overrideValue;
     }
