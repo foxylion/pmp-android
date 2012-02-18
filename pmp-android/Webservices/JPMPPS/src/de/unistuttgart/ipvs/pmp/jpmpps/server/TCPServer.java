@@ -73,7 +73,7 @@ public class TCPServer {
                 try {
                     Socket connection = socket.accept();
                     new SocketProcessingThread(connection).start();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println("[E] Failed accepting incomming connection. (Error: " + e.getMessage());
                     if (JPMPPS.DEBUG) {
                         e.printStackTrace();
@@ -93,7 +93,11 @@ public class TCPServer {
         
         public SocketProcessingThread(Socket socket) {
             this.socket = socket;
-            
+        }
+        
+        
+        @Override
+        public void run() {
             try {
                 input = new ObjectInputStream(this.socket.getInputStream());
                 output = new ObjectOutputStream(this.socket.getOutputStream());
@@ -107,7 +111,6 @@ public class TCPServer {
                 }
             }
         }
-        
         
         private void processing() {
             try {
