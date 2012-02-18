@@ -22,6 +22,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TableViewerFocusCellManager;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -102,8 +104,12 @@ public class LocaleTable {
 		TableViewerEditor.create(tableViewer, focusManager, activationStrategy, ColumnViewerEditor.TABBING_HORIZONTAL
 				| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
 				| ColumnViewerEditor.KEYBOARD_ACTIVATION);
+		
+		// Add table sorter
+		tableViewer.setSorter(new ViewerSorter());
 				
 		
+		// But data into table
 		tableViewer.setContentProvider(new ListContentProvider());
 		if (type == Type.NAME) {
 			tableViewer.setInput(data.getNames());
@@ -213,7 +219,17 @@ public class LocaleTable {
 			}
 		};
 		
-		buildColumn("Locale", 100, localeLabel, localeEditing, columnLayout);
+		TableViewerColumn localeColumn = buildColumn("Locale", 100, localeLabel, localeEditing, columnLayout);
+		new ColumnViewerSorter(tableViewer, localeColumn) {
+
+			@Override
+			public int doCompare(Viewer viewer, Object e1, Object e2) {
+				Locale locale1 = ((AbstractLocale)e1).getLocale();
+				Locale locale2 = ((AbstractLocale)e2).getLocale();
+				return locale1.getLanguage().compareToIgnoreCase(locale2.getLanguage());
+			}
+			
+		};
 		
 		ColumnLabelProvider valueLabel = new ColumnLabelProvider() {
 			@Override
@@ -246,12 +262,14 @@ public class LocaleTable {
 					if (!name.getName().equals(input)) {
 						name.setName(input);
 						dirty = true;
+						tableViewer.update(element, null);
 					}
 				} else {
 					Description desc = (Description)element;
 					if (!desc.equals(desc)) {
 						desc.setDescription(input);
 						dirty = true;
+						tableViewer.update(element, null);
 					}
 				}
 			}
@@ -265,7 +283,23 @@ public class LocaleTable {
 			valueTitle = "Description";
 		}
 		
-		buildColumn(valueTitle, 0, valueLabel, valueEditing, columnLayout);
+		TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel, valueEditing, columnLayout);
+		new ColumnViewerSorter(tableViewer, valueColumn) {
+
+			@Override
+			public int doCompare(Viewer viewer, Object e1, Object e2) {
+				String value1, value2;
+				if (type == Type.NAME) {
+					value1 = ((Name)e1).getName();
+					value2 = ((Name)e2).getName();
+				} else {
+					value1 = ((Description)e1).getDescription();
+					value2 = ((Description)e2).getDescription();					
+				}
+				return value1.compareToIgnoreCase(value2);
+			}
+			
+		};
 	}
 	
 	/**
@@ -277,9 +311,9 @@ public class LocaleTable {
 	 * @param editingSupport
 	 * @param columnLayout
 	 */
-	private void buildColumn(String text, int width, CellLabelProvider labelProvider, EditingSupport editingSupport, TableColumnLayout columnLayout) {
+	private TableViewerColumn buildColumn(String text, int width, CellLabelProvider labelProvider, EditingSupport editingSupport, TableColumnLayout columnLayout) {
 		TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.BORDER);
-		TableColumn control = column.getColumn();
+		final TableColumn control = column.getColumn();
 		if (width <= 0) {
 			columnLayout.setColumnData(control,	new ColumnWeightData(1,true));			
 		} else {
@@ -288,6 +322,51 @@ public class LocaleTable {
 		control.setText(text);
 		column.setLabelProvider(labelProvider);
 		column.setEditingSupport(editingSupport);
+		
+		return column;
+		
+		// Add sorter
+		/*control.addSelectionListener(new SelectionAdapter() {
+			private int direction = SWT.NONE;
+			public void widgetSelected(SelectionEvent e) {
+				
+				switch (direction) {
+					case SWT.NONE:
+						direction = SWT.DOWN;
+						break;
+					case SWT.DOWN:
+						direction = SWT.UP;
+						break;
+					case SWT.UP:
+						direction = SWT.None;
+						break;
+					
+				}
+				control.getParent().setSortColumn(control);
+				control.getParent().setSortDirection(direction);
+				tableViewer.setSorter(new ViewerSorter());
+				tableViewer.setComparator(new ViewerComparator() {
+					public int compare(Viewer viewer, Object e1, Object e2) {
+						System.out.println("e1"+ e1);
+						int compared = 0;
+						switch (direction) {
+							case SWT.NONE:
+								compared = 0;
+								break;
+							case SWT.DOWN:
+								break;
+							case SWT.UP:
+								compared *= -1;
+								break;						
+					}
+						System.out.println("compare");
+						return compared;
+					}
+				});
+				System.out.println("click");
+				refresh();
+			}
+		});*/
 		
 	}
 	
