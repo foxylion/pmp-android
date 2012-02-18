@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
@@ -25,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.util.BootReceiver;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * @see IPreset
@@ -209,6 +211,10 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
         
+        FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
+                "Requested to assign privacy setting '%s' (value '%s') to preset '%s'.", privacySetting.getName(),
+                value, getName());
+        
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
         }
@@ -236,6 +242,9 @@ public class Preset extends ModelElement implements IPreset {
     public void assignServiceFeature(IServiceFeature serviceFeature) {
         checkCached();
         Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
+        
+        FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
+                "Requested to assign service feature '%s' to preset '%s'.", serviceFeature.getName(), getName());
         
         startUpdate();
         try {
@@ -338,6 +347,15 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(contextCondition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextCondition",
                 contextCondition);
         Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
+        
+        FileLog.get()
+                .logWithForward(
+                        this,
+                        null,
+                        FileLog.GRANULARITY_SETTING_CHANGES,
+                        Level.FINE,
+                        "Requested to assign context '%s' under condition '%s' onto privacy setting '%s' to override value '%s' to preset '%s'.",
+                        context.getName(), contextCondition, privacySetting.getName(), overrideValue, getName());
         
         // the cA are linked to the cache directly
         List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
