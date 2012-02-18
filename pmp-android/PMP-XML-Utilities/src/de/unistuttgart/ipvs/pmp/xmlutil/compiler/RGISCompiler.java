@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -107,9 +107,9 @@ public class RGISCompiler extends BasicISCompiler {
             }
             
             // Compile the change descriptions
-            for (RGISPSChangeDescription changeDescr : ps.getChangeDescriptions()) {
+            for (LocalizedString changeDescr : ps.getChangeDescriptions()) {
                 XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION);
-                changeDescrNode.setContent(changeDescr.getChangeDescription());
+                changeDescrNode.setContent(changeDescr.getString());
                 changeDescrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, changeDescr.getLocale()
                         .getLanguage()));
                 psNode.addChild(changeDescrNode);
