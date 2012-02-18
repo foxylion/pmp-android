@@ -72,6 +72,13 @@ public interface IContextAnnotation extends IModelElement {
     
     /**
      * 
+     * @return the context condition in human-readable form
+     */
+    public String getHumanReadableContextCondition();
+    
+    
+    /**
+     * 
      * @return the value of the {@link IPrivacySetting} that it is overridden by in the annotated preset, if the
      *         condition is true in the assigned {@link IContext}
      */

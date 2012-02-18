@@ -308,4 +308,23 @@ public class LocationContextCondition {
         return result;
     }
     
+    
+    public String toHumanReadable() {
+        StringBuilder result = new StringBuilder();
+        
+        for (LocationContextGeoPoint point : this.polygon) {
+            result.append(point.toString());
+            result.append(", ");
+        }
+        
+        result.append("Uncertainty ");
+        result.append(this.uncertainty);
+        result.append("m, ");
+        result.append("Hysteresis ");
+        result.append(this.hysteresis);
+        result.append("m");
+        
+        return result.toString();
+    }
+    
 }

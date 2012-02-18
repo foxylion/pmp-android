@@ -88,6 +88,13 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
+    public String getHumanReadableContextCondition() {
+        checkCached();
+        return this.context.makeHumanReadable(this.condition);
+    }
+    
+    
+    @Override
     public String getOverridePrivacySettingValue() {
         checkCached();
         return this.overrideValue;
@@ -156,4 +163,5 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
             return false;
         }
     }
+    
 }
