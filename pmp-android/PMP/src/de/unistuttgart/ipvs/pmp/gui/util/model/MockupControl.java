@@ -21,7 +21,6 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
@@ -180,7 +179,7 @@ public class MockupControl {
     private static void initApps(Context activityContext) {
         String ident;
         MockupApp app;
-        AIS ais;
+        IAIS ais;
         
         ident = "org.barcode.scanner";
         if ((ais = getAIS(activityContext, "barcode.xml")) != null) {
@@ -345,8 +344,8 @@ public class MockupControl {
     }
     
     
-    public static AIS getAIS(Context context, String fileName) {
-        AIS result = null;
+    public static IAIS getAIS(Context context, String fileName) {
+        IAIS result = null;
         try {
             result = XMLUtilityProxy.getAppUtil().parse(context.getAssets().open("samples2/app/" + fileName));
         } catch (Throwable t) {
