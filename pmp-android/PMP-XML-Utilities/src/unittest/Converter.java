@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -28,11 +27,11 @@ public class Converter {
                         + "\\assets\\rgis.xml"));
         
         for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
-            for (Description d : ps.getDescriptions()) {
-                RGISPSChangeDescription d2 = new RGISPSChangeDescription();
-                d2.setLocale(d.getLocale());
-                d2.setChangeDescription(d.getDescription());
-                ps.addChangeDescription(d2);
+            for (LocalizedString description : ps.getDescriptions()) {
+                LocalizedString changeDescription = new LocalizedString();
+                changeDescription.setLocale(description.getLocale());
+                changeDescription.setString(description.getString());
+                ps.addChangeDescription(changeDescription);
             }
         }
         InputStream is = XMLUtilityProxy.getRGUtil().compile(rgis);
