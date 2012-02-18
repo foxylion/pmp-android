@@ -50,7 +50,7 @@ public class AppUtil {
      *            url to the xml file
      * @return app information set
      */
-    public AIS parse(InputStream xmlStream) {
+    public IAIS parse(InputStream xmlStream) {
         return aisParser.parse(xmlStream);
     }
     

@@ -50,7 +50,7 @@ public class RGUtil {
      *            url to the xml file
      * @return resourcegroup information set
      */
-    public RGIS parse(InputStream xmlStream) {
+    public IRGIS parse(InputStream xmlStream) {
         return rgisParser.parse(xmlStream);
     }
     

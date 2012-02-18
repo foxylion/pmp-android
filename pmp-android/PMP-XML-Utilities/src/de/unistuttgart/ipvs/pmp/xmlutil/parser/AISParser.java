@@ -32,6 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -49,7 +50,7 @@ public class AISParser extends AbstractParser {
     /**
      * AppInformationSet
      */
-    private AIS ais;
+    private IAIS ais;
     
     
     /**
@@ -58,7 +59,7 @@ public class AISParser extends AbstractParser {
      * 
      * @return created app information set
      */
-    public AIS parse(InputStream xmlStream) {
+    public IAIS parse(InputStream xmlStream) {
         // Initialize
         initParser(xmlStream);
         

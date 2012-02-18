@@ -41,19 +41,19 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     /**
      * This list contains all names.
      */
-    protected List<LocalizedString> names = new ArrayList<LocalizedString>();
+    protected List<ILocalizedString> names = new ArrayList<ILocalizedString>();
     
     /**
      * This list contains all descriptions.
      */
-    protected List<LocalizedString> descriptions = new ArrayList<LocalizedString>();
+    protected List<ILocalizedString> descriptions = new ArrayList<ILocalizedString>();
     
     
     /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getNames()
      */
     @Override
-    public List<LocalizedString> getNames() {
+    public List<ILocalizedString> getNames() {
         return this.names;
     }
     
@@ -76,7 +76,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#addName(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
      */
     @Override
-    public void addName(LocalizedString name) {
+    public void addName(ILocalizedString name) {
         this.names.add(name);
     }
     
@@ -94,7 +94,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getDescriptions()
      */
     @Override
-    public List<LocalizedString> getDescriptions() {
+    public List<ILocalizedString> getDescriptions() {
         return this.descriptions;
     }
     
@@ -117,7 +117,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#addDescription(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
      */
     @Override
-    public void addDescription(LocalizedString description) {
+    public void addDescription(ILocalizedString description) {
         this.descriptions.add(description);
     }
     
@@ -136,7 +136,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      */
     @Override
     public void clearNameIssues() {
-        for (LocalizedString name : this.getNames()) {
+        for (ILocalizedString name : this.getNames()) {
             name.clearIssuesAndPropagate();
         }
     }
@@ -147,7 +147,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      */
     @Override
     public void clearDescriptionIssues() {
-        for (LocalizedString descr : this.getDescriptions()) {
+        for (ILocalizedString descr : this.getDescriptions()) {
             descr.clearIssuesAndPropagate();
         }
     }

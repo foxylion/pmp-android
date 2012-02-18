@@ -36,7 +36,7 @@ public interface IBasicIS extends IIssueLocation {
      * 
      * @return list with names
      */
-    public abstract List<LocalizedString> getNames();
+    public abstract List<ILocalizedString> getNames();
     
     
     /**
@@ -56,7 +56,7 @@ public interface IBasicIS extends IIssueLocation {
      * @param name
      *            name to add
      */
-    public abstract void addName(LocalizedString name);
+    public abstract void addName(ILocalizedString name);
     
     
     /**
@@ -73,7 +73,7 @@ public interface IBasicIS extends IIssueLocation {
      * 
      * @return list with descriptions
      */
-    public abstract List<LocalizedString> getDescriptions();
+    public abstract List<ILocalizedString> getDescriptions();
     
     
     /**
@@ -93,7 +93,7 @@ public interface IBasicIS extends IIssueLocation {
      * @param description
      *            description to add
      */
-    public abstract void addDescription(LocalizedString description);
+    public abstract void addDescription(ILocalizedString description);
     
     
     /**
