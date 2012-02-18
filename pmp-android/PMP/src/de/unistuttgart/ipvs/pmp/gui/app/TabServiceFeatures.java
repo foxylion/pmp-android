@@ -28,6 +28,15 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
  */
 public class TabServiceFeatures extends Activity {
     
+    private static final class OpenSFDialogItemClickListener implements OnItemClickListener {
+        
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+            ((ListItemServiceFeature) view).openServiceFeatureDialog();
+        }
+    }
+
+
     /**
      * The reference to the real App in the model.
      */
@@ -67,13 +76,7 @@ public class TabServiceFeatures extends Activity {
         ListView serviceFeaturesView = (ListView) findViewById(R.id.ListView_SFs);
         
         serviceFeaturesView.setClickable(true);
-        serviceFeaturesView.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
-                ((ListItemServiceFeature) view).openServiceFeatureDialog();
-            }
-        });
+        serviceFeaturesView.setOnItemClickListener(new OpenSFDialogItemClickListener());
         
         AdapterServiceFeatures sFsAdapter = new AdapterServiceFeatures(this, sfs);
         serviceFeaturesView.setAdapter(sFsAdapter);

@@ -157,7 +157,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
         @Override
         public void run() {
             while (!isInterrupted()) {
-                synchronized (LocationContextMapView.DIRTY_FLAG) {
+                synchronized (LocationContextMapView.GEO_POINTS) {
                     if (LocationContextMapView.DIRTY_FLAG.get()) {
                         // load data back
                         LocationContextView.this.value.getPolygon().clear();

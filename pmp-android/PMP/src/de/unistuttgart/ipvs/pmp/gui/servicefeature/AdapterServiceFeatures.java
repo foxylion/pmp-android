@@ -61,7 +61,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
-        ListItemServiceFeature entryView = this.serviceFeatureViews.get(serviceFeature);
+        ListItemServiceFeature entryView;
         entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
         this.serviceFeatureViews.put(serviceFeature, entryView);
         

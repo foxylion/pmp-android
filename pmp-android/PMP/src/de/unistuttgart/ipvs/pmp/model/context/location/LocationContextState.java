@@ -105,6 +105,11 @@ public class LocationContextState extends LocationContextGeoPoint {
     
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (o == null || !(o instanceof LocationContextState)) {
+            return false;
+        }
+        
+        LocationContextState lcs = (LocationContextState) o;
+        return super.equals(lcs) && lcs.accuracy == this.accuracy && lcs.time == this.time && lcs.set == this.set;
     }
 }

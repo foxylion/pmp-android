@@ -101,8 +101,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         
         if (newState != this.lastState) {
             FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_CONTEXT_CHANGES, Level.FINE,
-                    "Context Annotation '%s' is now %s.", this.condition.toString(),
-                    newState ? "active" : "deactivated");
+                    "Context Annotation '%s' is now %s.", this.condition, newState ? "active" : "deactivated");
             
             this.lastState = newState;
         }

@@ -38,13 +38,13 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
                         this.element.privacySetting.getLocalIdentifier() }, null, null, null);
         
-        if (c.moveToFirst()) {
-            this.element.context = PersistenceProvider.findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
-            this.element.condition = c.getString(c.getColumnIndex(CONTEXT_CONDITION));
-            this.element.overrideValue = c.getString(c.getColumnIndex(OVERRIDE_GRANTED_VALUE));
-        } else {
+        if (!c.moveToFirst()) {
             throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_DB, "ContextAnnotation", this));
         }
+        
+        this.element.context = PersistenceProvider.findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
+        this.element.condition = c.getString(c.getColumnIndex(CONTEXT_CONDITION));
+        this.element.overrideValue = c.getString(c.getColumnIndex(OVERRIDE_GRANTED_VALUE));
         c.close();
     }
     

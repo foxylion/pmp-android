@@ -52,7 +52,11 @@ public class LocationContextGeoPoint {
     
     @Override
     public boolean equals(Object o) {
-        return o.hashCode() == hashCode();
+        if (o == null || !(o instanceof LocationContextGeoPoint)) {
+            return false;
+        }
+        LocationContextGeoPoint lcgp = (LocationContextGeoPoint) o;
+        return lcgp.latitude == this.latitude && lcgp.longitude == this.longitude;
     }
     
 }

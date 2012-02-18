@@ -52,8 +52,10 @@ public interface IPluginProvider {
      * @param rgPackage
      *            the main package of the resource group's apk
      * @return the one and only instance of the identified resource group in PMP
+     * @throws InvalidPluginException
+     *             if the supplied plugin is somehow corrupt
      */
-    public abstract ResourceGroup getResourceGroupObject(String rgPackage);
+    public abstract ResourceGroup getResourceGroupObject(String rgPackage) throws InvalidPluginException;
     
     
     /**
@@ -62,8 +64,14 @@ public interface IPluginProvider {
      * @param rgPackage
      *            the main package of the resource group's apk
      * @return the XML stream for the specified resource group or null if it wasn't found which should not happen
+     * @throws InvalidPluginException
+     *             if the supplied plugin is somehow corrupt
      */
+<<<<<<< HEAD
     public abstract IRGIS getRGIS(String rgPackage);
+=======
+    public abstract RGIS getRGIS(String rgPackage) throws InvalidPluginException;
+>>>>>>> a27e966704526cd5f88d33715bd72ca777cf2d55
     
     
     /**
@@ -72,8 +80,10 @@ public interface IPluginProvider {
      * @param rgPackage
      *            the main package of the resource group's apk
      * @return the icon for the specified resource group or null if it wasn't found which should not happen
+     * @throws InvalidPluginException
+     *             if the supplied plugin is somehow corrupt
      */
-    public abstract Drawable getIcon(String rgPackage);
+    public abstract Drawable getIcon(String rgPackage) throws InvalidPluginException;
     
     
     /**
@@ -82,7 +92,9 @@ public interface IPluginProvider {
      * @param rgPackage
      *            the main package of the resource group's apk
      * @return the revision for the specified resource group
+     * @throws InvalidPluginException
+     *             if the supplied plugin is somehow corrupt
      */
-    public abstract long getRevision(String rgPackage);
+    public abstract long getRevision(String rgPackage) throws InvalidPluginException;
     
 }

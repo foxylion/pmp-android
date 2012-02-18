@@ -40,12 +40,12 @@ public class LocationContextMapView extends MapActivity {
      */
     
     /**
-     * Flag to indicate that GEO_POINTS has changed. Also used to wrap accessing code in synchronized() blocks.
+     * Flag to indicate that GEO_POINTS has changed. May only be changed within synchronized(GEO_POINTS).
      */
     public static final AtomicBoolean DIRTY_FLAG = new AtomicBoolean(false);
     
     /**
-     * The actual data. May only be changed within synchronized(DIRTY_FLAG)
+     * The actual data. May only be changed within synchronized(GEO_POINTS).
      */
     public static final List<GeoPoint> GEO_POINTS = new ArrayList<GeoPoint>();
     
@@ -235,7 +235,7 @@ public class LocationContextMapView extends MapActivity {
                             if (movingPoint >= 0) {
                                 
                                 // move the point
-                                synchronized (DIRTY_FLAG) {
+                                synchronized (GEO_POINTS) {
                                     DIRTY_FLAG.set(true);
                                     GEO_POINTS.set(movingPoint, LocationContextMapView.this.contextPoint);
                                     LocationContextMapView.this.points.updateOverlays();
@@ -336,7 +336,7 @@ public class LocationContextMapView extends MapActivity {
         switch (item.getItemId()) {
         // remove
             case CONTEXT_MENU_REMOVE_BUTTON_ID:
-                synchronized (DIRTY_FLAG) {
+                synchronized (GEO_POINTS) {
                     if (GEO_POINTS.size() > 1) {
                         DIRTY_FLAG.set(true);
                         GEO_POINTS.remove(this.points.getSelected());
@@ -347,7 +347,7 @@ public class LocationContextMapView extends MapActivity {
             
             // add
             case CONTEXT_MENU_ADD_BUTTON_ID:
-                synchronized (DIRTY_FLAG) {
+                synchronized (GEO_POINTS) {
                     DIRTY_FLAG.set(true);
                     GEO_POINTS.add(this.contextPoint);
                     this.points.updateOverlays();
@@ -363,7 +363,7 @@ public class LocationContextMapView extends MapActivity {
             
             // clear
             case CONTEXT_MENU_CLEAR_BUTTON_ID:
-                synchronized (DIRTY_FLAG) {
+                synchronized (GEO_POINTS) {
                     // 1 point has to remain...
                     if (GEO_POINTS.size() > 1) {
                         DIRTY_FLAG.set(true);
