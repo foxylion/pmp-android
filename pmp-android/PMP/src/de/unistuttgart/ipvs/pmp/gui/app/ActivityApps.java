@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.app;
 
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -156,7 +155,7 @@ public class ActivityApps extends Activity {
      * Updates the AppsList, when a change occurred (like an App was installed or removed).
      */
     private void updateAppsList() {
-        this.appsList = Arrays.asList(ModelProxy.get().getApps());
+        this.appsList = ModelProxy.get().getApps();
         this.appsAdapter = new AdapterApps(this, this.appsList);
         this.appsViewList.setAdapter(this.appsAdapter);
         

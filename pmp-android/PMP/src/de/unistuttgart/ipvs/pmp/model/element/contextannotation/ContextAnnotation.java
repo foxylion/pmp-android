@@ -1,5 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -8,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * @see IContextAnnotation
@@ -29,6 +34,11 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     protected String condition;
     protected String overrideValue;
     
+    /**
+     * State before the last state, primarily needed for logging purposes
+     */
+    protected boolean lastState;
+    
     
     /* organizational */
     
@@ -37,6 +47,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
                 + privacySetting.getIdentifier());
         this.preset = preset;
         this.privacySetting = privacySetting;
+        this.lastState = false;
     }
     
     
@@ -86,7 +97,16 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     @Override
     public boolean isActive() {
         checkCached();
-        return this.context.getLastState(this.condition);
+        boolean newState = this.context.getLastState(this.condition);
+        
+        if (newState != this.lastState) {
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_CONTEXT_CHANGES, Level.FINE,
+                    "Context Annotation '%s' is now %s.", this.condition.toString(),
+                    newState ? "active" : "deactivated");
+            
+            this.lastState = newState;
+        }
+        return newState;
     }
     
     
@@ -98,7 +118,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {
@@ -108,7 +128,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         }
         
         if (!hasSameAppsAssigned) {
-            return new IContextAnnotation[0];
+            return new ArrayList<IContextAnnotation>();
         }
         
         return preset.getContextAnnotations(this.privacySetting);
@@ -116,7 +136,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+    public boolean isPrivacySettingConflicting(IPreset preset) {
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {
@@ -126,19 +146,15 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         }
         
         if (!hasSameAppsAssigned) {
-            return new IPrivacySetting[0];
+            return false;
         }
         
         String grantedByPreset = preset.getGrantedPrivacySettingValue(this.privacySetting);
         try {
-            if (this.privacySetting.permits(this.overrideValue, grantedByPreset)) {
-                return new IPrivacySetting[] { this.privacySetting };
-            } else {
-                return new IPrivacySetting[0];
-            }
+            return this.privacySetting.permits(this.overrideValue, grantedByPreset);
         } catch (PrivacySettingValueException e) {
             Log.e(this, "Invalid value while checking for CA/PS conflicts: ", e);
-            return new IPrivacySetting[0];
+            return false;
         }
     }
 }

@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
@@ -26,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.util.BootReceiver;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * @see IPreset
@@ -131,10 +132,9 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IPrivacySetting[] getGrantedPrivacySettings() {
+    public List<IPrivacySetting> getGrantedPrivacySettings() {
         checkCached();
-        Collection<IPrivacySetting> result = this.privacySettingValues.keySet();
-        return result.toArray(new IPrivacySetting[result.size()]);
+        return new ArrayList<IPrivacySetting>(this.privacySettingValues.keySet());
     }
     
     
@@ -147,9 +147,9 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IApp[] getAssignedApps() {
+    public List<IApp> getAssignedApps() {
         checkCached();
-        return this.assignedApps.toArray(new IApp[this.assignedApps.size()]);
+        return new ArrayList<IApp>(this.assignedApps);
     }
     
     
@@ -165,6 +165,10 @@ public class Preset extends ModelElement implements IPreset {
     public void assignApp(IApp app) {
         checkCached();
         Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
+        
+        if (isAppAssigned(app)) {
+            return;
+        }
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignApp(app);
@@ -184,6 +188,10 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(app, ModelMisuseError.class, Assert.ILLEGAL_NULL, "app", app);
         
+        if (!isAppAssigned(app)) {
+            return;
+        }
+        
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).removeApp(app);
         }
@@ -202,6 +210,10 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
+        
+        FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
+                "Requested to assign privacy setting '%s' (value '%s') to preset '%s'.", privacySetting.getName(),
+                value, getName());
         
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).assignPrivacySetting(privacySetting, value);
@@ -231,6 +243,9 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
         
+        FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
+                "Requested to assign service feature '%s' to preset '%s'.", serviceFeature.getName(), getName());
+        
         startUpdate();
         try {
             for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
@@ -251,16 +266,16 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public MissingPrivacySettingValue[] getMissingPrivacySettings() {
+    public List<MissingPrivacySettingValue> getMissingPrivacySettings() {
         checkCached();
-        return this.missingPrivacySettings.toArray(new MissingPrivacySettingValue[this.missingPrivacySettings.size()]);
+        return new ArrayList<MissingPrivacySettingValue>(this.missingPrivacySettings);
     }
     
     
     @Override
-    public MissingApp[] getMissingApps() {
+    public List<MissingApp> getMissingApps() {
         checkCached();
-        return this.missingApps.toArray(new MissingApp[this.missingApps.size()]);
+        return new ArrayList<MissingApp>(this.missingApps);
     }
     
     
@@ -311,15 +326,15 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IContextAnnotation[] getContextAnnotations(IPrivacySetting privacySetting) {
+    public List<IContextAnnotation> getContextAnnotations(IPrivacySetting privacySetting) {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         
         List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
         if (psList == null) {
-            return new IContextAnnotation[0];
+            return new ArrayList<IContextAnnotation>();
         }
-        return psList.toArray(new IContextAnnotation[psList.size()]);
+        return new ArrayList<IContextAnnotation>(psList);
     }
     
     
@@ -332,6 +347,15 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(contextCondition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextCondition",
                 contextCondition);
         Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
+        
+        FileLog.get()
+                .logWithForward(
+                        this,
+                        null,
+                        FileLog.GRANULARITY_SETTING_CHANGES,
+                        Level.FINE,
+                        "Requested to assign context '%s' under condition '%s' onto privacy setting '%s' to override value '%s' to preset '%s'.",
+                        context.getName(), contextCondition, privacySetting.getName(), overrideValue, getName());
         
         // the cA are linked to the cache directly
         List<ContextAnnotation> psList = this.contextAnnotations.get(privacySetting);
@@ -375,7 +399,7 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset) {
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
         Set<IContextAnnotation> result = new HashSet<IContextAnnotation>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
@@ -386,23 +410,23 @@ public class Preset extends ModelElement implements IPreset {
             }
         }
         
-        return result.toArray(new IContextAnnotation[result.size()]);
+        return new ArrayList<IContextAnnotation>(result);
     }
     
     
     @Override
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset) {
+    public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset) {
         Set<IPrivacySetting> result = new HashSet<IPrivacySetting>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
             for (ContextAnnotation ca : psCA) {
-                for (IPrivacySetting conflictPS : ca.getConflictingPrivacySettings(preset)) {
-                    result.add(conflictPS);
+                if (ca.isPrivacySettingConflicting(preset)) {
+                    result.add(ca.getPrivacySetting());
                 }
             }
         }
         
-        return result.toArray(new IPrivacySetting[result.size()]);
+        return new ArrayList<IPrivacySetting>(result);
     }
     
     

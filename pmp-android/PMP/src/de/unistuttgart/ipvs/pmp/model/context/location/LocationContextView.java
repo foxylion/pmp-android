@@ -5,17 +5,25 @@ import java.util.List;
 
 import android.R.attr;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.google.android.maps.GeoPoint;
+
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 
@@ -26,6 +34,9 @@ import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
  * 
  */
 public class LocationContextView extends LinearLayout implements IContextView {
+    
+    public static final String LATITUDE_EXTRA = "lat";
+    public static final String LONGITUDE_EXTRA = "lon";
     
     class ExpandableGeoPointList extends BaseExpandableListAdapter {
         
@@ -129,25 +140,62 @@ public class LocationContextView extends LinearLayout implements IContextView {
     /**
      * Value currently in the view
      */
-    private LocationContextCondition value;
+    protected LocationContextCondition value;
     
     /**
      * List of the coordinates
      */
     private ExpandableListView points;
-    private ExpandableGeoPointList pointsList;
+    protected ExpandableGeoPointList pointsList;
+    private Button changeBtn;
+    
+    /**
+     * Thread reading chances from the {@link LocationContextMapView}.
+     */
+    protected Thread readerThread = new Thread() {
+        
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                synchronized (LocationContextMapView.DIRTY_FLAG) {
+                    if (LocationContextMapView.DIRTY_FLAG.get()) {
+                        // load data back
+                        LocationContextView.this.value.getPolygon().clear();
+                        for (GeoPoint gp : LocationContextMapView.GEO_POINTS) {
+                            LocationContextView.this.value.getPolygon().add(
+                                    new LocationContextGeoPoint(gp.getLatitudeE6() / 1E6, gp.getLongitudeE6() / 1E6));
+                        }
+                        // update view
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                LocationContextView.this.pointsList.update(LocationContextView.this.value.getPolygon());
+                            }
+                        });
+                        
+                    }
+                }
+                
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+    };
     
     /**
      * Uncertainty
      */
-    private SeekBar uncertaintySeek;
-    private TextView uncertaintyText;
+    protected SeekBar uncertaintySeek;
+    protected TextView uncertaintyText;
     
     /**
      * Hysteresis
      */
-    private SeekBar hysteresisSeek;
-    private TextView hysteresisText;
+    protected SeekBar hysteresisSeek;
+    protected TextView hysteresisText;
     
     
     public LocationContextView(Context context, AttributeSet attrs) {
@@ -169,8 +217,6 @@ public class LocationContextView extends LinearLayout implements IContextView {
         initialList.add(new LocationContextGeoPoint(48.745161, 9.106774));
         
         this.value = new LocationContextCondition(1000.0, 100.0, initialList);
-        //this.value = new TimeContextCondition(false, new TimeContextTime(), new TimeContextTime(),
-        //TimeContextIntervalType.REPEAT_DAILY, new ArrayList<Integer>());
         
         inflate(context, R.layout.contexts_location_view, this);
         
@@ -182,6 +228,8 @@ public class LocationContextView extends LinearLayout implements IContextView {
         l.add(new LocationContextGeoPoint(-10, 10));
         this.pointsList.update(l);
         
+        this.changeBtn = (Button) findViewById(R.id.changeCoordsBtn);
+        
         this.uncertaintySeek = (SeekBar) findViewById(R.id.uncertaintySeekBar);
         this.uncertaintyText = (TextView) findViewById(R.id.uncertaintyTextView);
         
@@ -192,6 +240,26 @@ public class LocationContextView extends LinearLayout implements IContextView {
     
     
     private void addListeners() {
+        /*
+         * start MapActivity
+         */
+        this.changeBtn.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LocationContextMapView.class);
+                intent.putExtra(LATITUDE_EXTRA, LocationContextView.this.value.getPolygonLatitudeArray());
+                intent.putExtra(LONGITUDE_EXTRA, LocationContextView.this.value.getPolygonLongitudeArray());
+                GUITools.startIntent(intent);
+                if (!LocationContextView.this.readerThread.isAlive()) {
+                    LocationContextView.this.readerThread.start();
+                }
+            }
+        });
+        
+        /*
+         * hysteresis & uncertainty
+         */
         OnSeekBarChangeListener seekBarListener = new OnSeekBarChangeListener() {
             
             @Override
@@ -246,7 +314,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
         this.value.setUncertainty(seekBarValueToMeters(this.uncertaintySeek.getProgress()));
         this.value.setHysteresis(seekBarValueToMeters(this.hysteresisSeek.getProgress()));
         
-        // TODO polygon
+        // polygon via MapView
         
         return this.value.toString();
     }
@@ -257,7 +325,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
         this.uncertaintySeek.setProgress(metersToSeekBarValue(this.value.getUncertainty()));
         this.hysteresisSeek.setProgress(metersToSeekBarValue(this.value.getHysteresis()));
         
-        // TODO polygon
+        // polygon via MapView
         
         this.value = LocationContextCondition.parse(condition);
     }
@@ -281,5 +349,13 @@ public class LocationContextView extends LinearLayout implements IContextView {
         double mantissa = meters / Math.pow(10.0, log);
         int modulo = (int) Math.round(mantissa - 10.0);
         return modulo + 90 * log;
+    }
+    
+    
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        
+        this.readerThread.interrupt();
     }
 }

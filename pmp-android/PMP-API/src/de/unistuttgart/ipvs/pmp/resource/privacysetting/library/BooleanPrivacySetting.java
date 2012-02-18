@@ -33,41 +33,21 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.BooleanView;
  */
 public class BooleanPrivacySetting extends DefaultPrivacySetting<Boolean> {
     
-    private BooleanView view = null;
-    
-    
     @Override
     public Boolean parseValue(String value) throws PrivacySettingValueException {
-        if (value == null) {
-            return false;
-        }
-        
-        boolean result = Boolean.valueOf(value);
-        
-        if (!result && !value.equalsIgnoreCase(Boolean.FALSE.toString())) {
-            throw new PrivacySettingValueException();
-        }
-        
-        return result;
+        return StringConverter.forBooleanSafe.valueOf(value);
     }
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Boolean)) {
-            return null;
-        }
-        Boolean b = (Boolean) value;
-        return b.toString();
+    public String valueToString(Boolean value) {
+        return StringConverter.forBooleanSafe.toString(value);
     }
     
     
     @Override
-    public IPrivacySettingView<Boolean> getView(Context context) {
-        if (this.view == null) {
-            this.view = new BooleanView(context);
-        }
-        return this.view;
+    public IPrivacySettingView<Boolean> makeView(Context context) {
+        return new BooleanView(context);
     }
     
 }

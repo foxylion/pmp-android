@@ -330,36 +330,44 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         Cursor cursor = builder.query(db, new String[] { PRESET_CREATOR, PRESET_IDENTIFIER,
                 PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER }, null, null, null, null, null);
         
+        // keep a list of all the missing CAs
+        List<String[]> missing = new ArrayList<String[]>();
+        
         if (cursor.moveToFirst()) {
             do {
                 // find the data, translate it
-                // preset
                 String pCreator = cursor.getString(cursor.getColumnIndex(PRESET_CREATOR));
+                String pIdentifier = cursor.getString(cursor.getColumnIndex(PRESET_IDENTIFIER));
+                String psRGPackage = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
+                String psIdentifier = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+                
+                // preset                              
                 IModelElement pCreatorElement = this.cache.getApps().get(pCreator);
                 if (pCreatorElement == null) {
                     pCreatorElement = this.cache.getResourceGroups().get(pCreator);
                 }
-                String pIdentifier = cursor.getString(cursor.getColumnIndex(PRESET_IDENTIFIER));
+                
                 // translate
                 Map<String, Preset> creatorPresets = this.cache.getPresets().get(pCreatorElement);
                 if (creatorPresets == null) {
+                    missing.add(new String[] { pCreator, pIdentifier, psRGPackage, psIdentifier });
                     continue;
                 }
                 Preset preset = creatorPresets.get(pIdentifier);
                 if (preset == null) {
+                    missing.add(new String[] { pCreator, pIdentifier, psRGPackage, psIdentifier });
                     continue;
                 }
                 
-                // ps
-                String psRGPackage = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
-                String psIdentifier = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
-                // translate
+                // translate ps
                 ResourceGroup psRG = this.cache.getResourceGroups().get(psRGPackage);
                 if (psRG == null) {
+                    missing.add(new String[] { pCreator, pIdentifier, psRGPackage, psIdentifier });
                     continue;
                 }
                 PrivacySetting ps = this.cache.getPrivacySettings().get(psRG).get(psIdentifier);
                 if (ps == null) {
+                    missing.add(new String[] { pCreator, pIdentifier, psRGPackage, psIdentifier });
                     continue;
                 }
                 
@@ -382,6 +390,15 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
             } while (cursor.moveToNext());
         }
         cursor.close();
+        
+        // remove CAs where objects where missing
+        SQLiteDatabase wdb = this.doh.getWritableDatabase();
+        for (String[] ids : missing) {
+            wdb.execSQL("DELETE FROM " + TBL_CONTEXT_ANNOTATIONS + " WHERE " + PRESET_CREATOR + " = ? AND "
+                    + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND "
+                    + PRIVACYSETTING_IDENTIFIER + " = ?", ids);
+        }
+        wdb.close();
         
     }
     

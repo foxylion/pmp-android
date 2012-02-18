@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.service;
 
+import java.util.logging.Level;
+
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -29,6 +31,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * Implementation of the {@link IPMPServiceApp.Stub} stub.
@@ -44,6 +47,10 @@ public class PMPServiceImplementation extends IPMPService.Stub {
         if (app == null) {
             return false;
         } else {
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_REQUESTS, Level.FINE,
+                    "%s requested service features verification, results will be directly published to the app.",
+                    app.getName());
+            
             app.verifyServiceFeatures();
             return true;
         }

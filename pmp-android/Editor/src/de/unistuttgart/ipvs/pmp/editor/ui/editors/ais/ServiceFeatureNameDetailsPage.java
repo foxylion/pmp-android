@@ -6,6 +6,8 @@ import java.util.Locale;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -57,7 +59,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      * Given form
      */
     private IManagedForm form;
-    
+
     /**
      * {@link Shell} of the parent
      */
@@ -112,7 +114,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
     @Override
     public void createContents(Composite parent) {
 	parentShell = parent.getShell();
-	
+
 	// Set parent's layout
 	GridData parentLayout = new GridData();
 	parentLayout.verticalAlignment = GridData.FILL;
@@ -140,6 +142,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionSection.setLayout(new GridLayout(1, false));
 	descriptionSection.setExpanded(true);
 	descriptionSection.setLayoutData(parentLayout);
+	createDescriptionSectionAttributeToolbar(descriptionSection);
 
 	// Composite that is display in the description section
 	Composite descriptionComposite = toolkit
@@ -213,6 +216,51 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionTable.setHeaderVisible(true);
 	descriptionTable.setLinesVisible(true);
 
+	// Add the double click listener
+	nameTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+
+	    @Override
+	    public void doubleClick(DoubleClickEvent arg0) {
+		if (nameTableViewer.getTable().getSelectionCount() == 1) {
+		    Name oldName = (Name) nameTableViewer.getTable()
+			    .getSelection()[0].getData();
+
+		    // Show the dialog
+		    HashMap<String, String> values = new HashMap<String, String>();
+		    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+			    parentShell, oldName.getLocale().toString(),
+			    oldName.getName(), values, "Name", "Change");
+		    if (dialog.open() == Window.OK) {
+			String newName = values.get("Name");
+			String newLocale = values.get("locale");
+
+			// Sth. has changed
+			if (!(newName.equals(oldName.getName()) && newLocale
+				.equals(oldName.getLocale().toString()))) {
+			    nameTableViewer.getTable().setRedraw(false);
+
+			    Locale locale = new Locale(newLocale);
+
+			    oldName.setLocale(locale);
+			    oldName.setName(newName);
+
+			    Model.getInstance().setAISDirty(true);
+			    nameTableViewer.refresh();
+
+			    // Redraw the table
+			    ServiceFeatureNameDetailsPage.this.nameColumn
+				    .pack();
+			    localeNameColumn.pack();
+
+			    nameTableViewer.getTable().redraw();
+			    nameTableViewer.getTable().setRedraw(true);
+			}
+		    }
+		}
+
+	    }
+	});
+
 	return nameTableViewer;
     }
 
@@ -272,7 +320,269 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionTable.setHeaderVisible(true);
 	descriptionTable.setLinesVisible(true);
 
+	// Add the double click listener
+	descriptionTableViewer
+		.addDoubleClickListener(new IDoubleClickListener() {
+
+		    @Override
+		    public void doubleClick(DoubleClickEvent arg0) {
+			if (descriptionTableViewer.getTable()
+				.getSelectionCount() == 1) {
+			    Description oldDesc = (Description) descriptionTableViewer
+				    .getTable().getSelection()[0].getData();
+
+			    // Show the dialog
+			    HashMap<String, String> values = new HashMap<String, String>();
+			    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+				    parentShell,
+				    oldDesc.getLocale().toString(), oldDesc
+					    .getDescription(), values,
+				    "Description", "Change");
+			    if (dialog.open() == Window.OK) {
+				String newDesc = values.get("Description");
+				String newLocale = values.get("locale");
+
+				// Sth. has changed
+				if (!(newDesc.equals(oldDesc.getDescription()) && newLocale
+					.equals(oldDesc.getLocale().toString()))) {
+				    descriptionTableViewer.getTable()
+					    .setRedraw(false);
+
+				    Locale locale = new Locale(newLocale);
+
+				    oldDesc.setLocale(locale);
+				    oldDesc.setDescription(newDesc);
+
+				    Model.getInstance().setAISDirty(true);
+				    descriptionTableViewer.refresh();
+
+				    // Redraw the table
+				    ServiceFeatureNameDetailsPage.this.descColumn
+					    .pack();
+				    localeDescColumn.pack();
+
+				    descriptionTableViewer.getTable()
+					    .setRedraw(true);
+				    descriptionTableViewer.getTable().redraw();
+				}
+			    }
+			}
+		    }
+		});
+
 	return descriptionTableViewer;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.ui.forms.IPartSelectionListener#selectionChanged(org.eclipse
+     * .ui.forms.IFormPart, org.eclipse.jface.viewers.ISelection)
+     */
+    @Override
+    public void selectionChanged(IFormPart arg0, ISelection selection) {
+	// Disable redrawing of the table
+	nameTableViewer.getTable().setRedraw(false);
+	descriptionTableViewer.getTable().setRedraw(false);
+
+	// Get the selected service feature and set the name
+	TreePath[] path = ((TreeSelection) selection).getPaths();
+	displayed = (AISServiceFeature) path[0].getFirstSegment();
+	nameTableViewer.setInput(displayed);
+	localeNameColumn.pack();
+	nameColumn.pack();
+
+	// Set the description
+	descriptionTableViewer.setInput(displayed);
+	descColumn.pack();
+	localeDescColumn.pack();
+
+	// Enable redrawing
+	nameTableViewer.getTable().setRedraw(true);
+	descriptionTableViewer.getTable().setRedraw(true);
+    }
+
+    /**
+     * Adds the toolbar with the remove and add buttons to the name section
+     * 
+     * @param section
+     *            {@link Section} to set the toolbar
+     */
+    private void createNameSectionAttributeToolbar(Section section) {
+	// Create the toolbar
+	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+	ToolBar toolbar = toolBarManager.createControl(section);
+
+	final Cursor handCursor = new Cursor(Display.getCurrent(),
+		SWT.CURSOR_HAND);
+	toolbar.setCursor(handCursor);
+	toolbar.addDisposeListener(new DisposeListener() {
+	    public void widgetDisposed(DisposeEvent e) {
+		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+		    handCursor.dispose();
+		}
+	    }
+	});
+
+	// Picture can be added also to the actions
+	Action add = new Action("Add") {
+
+	    @Override
+	    public void run() {
+		HashMap<String, String> values = new HashMap<String, String>();
+		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+			parentShell, null, null, values, "Name", "Add");
+		if (dialog.open() == Window.OK) {
+		    nameTableViewer.getTable().setRedraw(false);
+
+		    // Get the values
+		    String stringLocale = values.get("locale");
+		    String stringName = values.get("Name");
+
+		    // Create the things for the model
+		    Locale locale = new Locale(stringLocale);
+
+		    Name name = new Name();
+		    name.setLocale(locale);
+		    name.setName(stringName);
+
+		    displayed.addName(name);
+
+		    Model.getInstance().setAISDirty(true);
+		    nameTableViewer.refresh();
+
+		    nameColumn.pack();
+		    localeNameColumn.pack();
+
+		    nameTableViewer.getTable().redraw();
+		    nameTableViewer.getTable().setRedraw(true);
+		}
+	    }
+	};
+	add.setToolTipText("Add a new name for the Service Feature");
+
+	// The remove action
+	Action remove = new Action("Remove") {
+
+	    @Override
+	    public void run() {
+		nameTableViewer.getTable().setRedraw(false);
+		TableItem[] selection = nameTableViewer.getTable()
+			.getSelection();
+
+		// Delete it out of the model
+		for (TableItem item : selection) {
+		    displayed.removeName((Name) item.getData());
+		}
+		nameColumn.pack();
+		localeNameColumn.pack();
+
+		nameTableViewer.getTable().setRedraw(true);
+		nameTableViewer.refresh();
+		Model.getInstance().setAISDirty(true);
+	    }
+	};
+	remove.setToolTipText("Remove the selected names");
+
+	// Add the actions to the toolbar
+	toolBarManager.add(add);
+	toolBarManager.add(remove);
+
+	toolBarManager.update(true);
+	section.setTextClient(toolbar);
+    }
+
+    /**
+     * Adds the toolbar with the remove and add buttons to the description
+     * section
+     * 
+     * @param section
+     *            {@link Section} to set the toolbar
+     */
+    private void createDescriptionSectionAttributeToolbar(Section section) {
+	// Create the toolbar
+	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+	ToolBar toolbar = toolBarManager.createControl(section);
+
+	final Cursor handCursor = new Cursor(Display.getCurrent(),
+		SWT.CURSOR_HAND);
+	toolbar.setCursor(handCursor);
+	toolbar.addDisposeListener(new DisposeListener() {
+	    public void widgetDisposed(DisposeEvent e) {
+		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+		    handCursor.dispose();
+		}
+	    }
+	});
+
+	// Picture can be added also to the actions
+	Action add = new Action("Add") {
+
+	    @Override
+	    public void run() {
+		HashMap<String, String> values = new HashMap<String, String>();
+		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+			parentShell, null, null, values, "Description", "Add");
+		if (dialog.open() == Window.OK) {
+		    descriptionTableViewer.getTable().setRedraw(false);
+
+		    // Get the values
+		    String stringLocale = values.get("locale");
+		    String stringDesc = values.get("Description");
+
+		    // Create the things for the model
+		    Locale locale = new Locale(stringLocale);
+
+		    Description desc = new Description();
+		    desc.setLocale(locale);
+		    desc.setDescription(stringDesc);
+
+		    displayed.addDescription(desc);
+
+		    Model.getInstance().setAISDirty(true);
+		    descriptionTableViewer.refresh();
+
+		    descColumn.pack();
+		    localeDescColumn.pack();
+
+		    descriptionTableViewer.getTable().redraw();
+		    descriptionTableViewer.getTable().setRedraw(true);
+		}
+	    }
+	};
+	add.setToolTipText("Add a new description for the Service Feature");
+
+	// The remove action
+	Action remove = new Action("Remove") {
+
+	    @Override
+	    public void run() {
+		descriptionTableViewer.getTable().setRedraw(false);
+		TableItem[] selections = descriptionTableViewer.getTable()
+			.getSelection();
+
+		// Delete it out of the model
+		for (TableItem item : selections) {
+		    displayed.removeDescription((Description) item.getData());
+		}
+
+		descColumn.pack();
+		localeDescColumn.pack();
+
+		descriptionTableViewer.getTable().setRedraw(true);
+		descriptionTableViewer.refresh();
+		Model.getInstance().setAISDirty(true);
+	    }
+	};
+	remove.setToolTipText("Remove the selected descriptions");
+
+	// Add the actions to the toolbar
+	toolBarManager.add(add);
+	toolBarManager.add(remove);
+
+	toolBarManager.update(true);
+	section.setTextClient(toolbar);
     }
 
     /*
@@ -340,125 +650,4 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
     public boolean setFormInput(Object arg0) {
 	return false;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.forms.IPartSelectionListener#selectionChanged(org.eclipse
-     * .ui.forms.IFormPart, org.eclipse.jface.viewers.ISelection)
-     */
-    @Override
-    public void selectionChanged(IFormPart arg0, ISelection selection) {
-	// Disable redrawing of the table
-	nameTableViewer.getTable().setRedraw(false);
-	descriptionTableViewer.getTable().setRedraw(false);
-
-	// Get the selected service feature and set the name
-	TreePath[] path = ((TreeSelection) selection).getPaths();
-	displayed = (AISServiceFeature) path[0].getFirstSegment();
-	nameTableViewer.setInput(displayed);
-	localeNameColumn.pack();
-	nameColumn.pack();
-
-	// Set the description
-	descriptionTableViewer.setInput(displayed);
-	descColumn.pack();
-	localeDescColumn.pack();
-
-	// Enable redrawing
-	nameTableViewer.getTable().setRedraw(true);
-	descriptionTableViewer.getTable().setRedraw(true);
-    }
-    
-    /**
-     * Adds the toolbar with the remove and add buttons to the given section
-     * 
-     * @param section
-     *            {@link Section} to set the toolbar
-     */
-    private void createNameSectionAttributeToolbar(Section section) {
-	// Create the toolbar
-	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-	ToolBar toolbar = toolBarManager.createControl(section);
-
-	final Cursor handCursor = new Cursor(Display.getCurrent(),
-		SWT.CURSOR_HAND);
-	toolbar.setCursor(handCursor);
-	toolbar.addDisposeListener(new DisposeListener() {
-	    public void widgetDisposed(DisposeEvent e) {
-		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-		    handCursor.dispose();
-		}
-	    }
-	});
-
-	// Picture can be added also to the actions
-	Action add = new Action("Add") {
-
-	    @Override
-	    public void run() {
-		HashMap<String, String> values = new HashMap<String, String>();
-		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Name");
-		if (dialog.open() == Window.OK) {
-		    nameTableViewer.getTable().setRedraw(false);
-
-		    // Get the values
-		    String stringLocale = values.get("locale");
-		    String stringName = values.get("Name");
-
-		    // Create the things for the model
-		    Locale locale = new Locale(stringLocale);
-
-		    Name name = new Name();
-		    name.setLocale(locale);
-		    name.setName(stringName);
-
-		    displayed.addName(name);
-
-		    Model.getInstance().setAISDirty(true);
-		    nameTableViewer.refresh();
-		    
-		    nameColumn.pack();
-		    localeNameColumn.pack();
-		    
-		    nameTableViewer.getTable().redraw();
-		    nameTableViewer.getTable().setRedraw(true);		    
-		}
-	    }
-	};
-	add.setToolTipText("Add a new name for the Service Feature");
-
-	// The remove action
-	Action remove = new Action("Remove") {
-
-	    @Override
-	    public void run() {
-		nameTableViewer.getTable().setRedraw(false);
-		int[] selections = nameTableViewer.getTable().getSelectionIndices();
-
-		// Delete it reverse out of the model
-		for (int itr = selections.length - 1; itr >= 0; itr--) {
-		    displayed.getDescriptions().remove(selections[itr]);
-		    displayed.getNames().remove(selections[itr]);
-		}
-		nameColumn.pack();
-		localeNameColumn.pack();
-
-		nameTableViewer.getTable().setRedraw(true);
-		nameTableViewer.refresh();
-		Model.getInstance().setAISDirty(true);
-	    }
-	};
-	remove.setToolTipText("Remove the selected names");
-
-	// Add the actions to the toolbar
-	toolBarManager.add(add);
-	toolBarManager.add(remove);
-
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
-    }
-
 }

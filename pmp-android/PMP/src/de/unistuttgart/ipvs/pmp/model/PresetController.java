@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -18,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * Calculates all the preset or service feature (de)active, etc. stuff optimized in one place.
@@ -26,6 +27,9 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
  * 
  */
 public class PresetController {
+    
+    private static final String TAG = "PresetController";
+    
     
     /**
      * Finds the actually granted privacy setting value for privacy setting <code>ps</code> in preset <code>p</code>.
@@ -58,6 +62,11 @@ public class PresetController {
                     
                 }
             }
+        }
+        
+        if (usingContexts) {
+            FileLog.get().logWithForward(TAG, null, FileLog.GRANULARITY_CONTEXT_CHANGES, Level.FINER,
+                    "Contexts overrode the set value for %s, it is now '%s'.", ps.getName(), lastValue);
         }
         
         return lastValue;
@@ -175,7 +184,7 @@ public class PresetController {
      */
     public static boolean verifyServiceFeature(ServiceFeature serviceFeature) throws PrivacySettingValueException {
         Map<IPrivacySetting, String> granted = findGranted(serviceFeature.getApp(),
-                Arrays.asList(serviceFeature.getRequiredPrivacySettings()));
+                serviceFeature.getRequiredPrivacySettings());
         return verifyServiceFeature(granted, serviceFeature);
     }
     

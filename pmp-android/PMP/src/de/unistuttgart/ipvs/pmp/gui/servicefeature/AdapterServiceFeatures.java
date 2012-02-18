@@ -9,6 +9,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
@@ -61,10 +62,10 @@ public class AdapterServiceFeatures extends BaseAdapter {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
         ListItemServiceFeature entryView = this.serviceFeatureViews.get(serviceFeature);
-        if (entryView == null) {
-            entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
-            this.serviceFeatureViews.put(serviceFeature, entryView);
-        }
+        entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
+        this.serviceFeatureViews.put(serviceFeature, entryView);
+        
+        Log.v(this, "Returned view for " + serviceFeature.getIdentifier());
         
         return entryView;
     }
@@ -76,6 +77,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
     public void refreshAllViews() {
         for (Entry<IServiceFeature, ListItemServiceFeature> view : this.serviceFeatureViews.entrySet()) {
             view.getValue().refresh(false);
+            Log.v(this, "Refreshed ServiceFeatureView for SF " + view.getKey().getIdentifier());
         }
     }
 }

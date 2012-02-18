@@ -42,6 +42,6 @@ public class LocationResourceGroup extends ResourceGroup {
 				UseLocationDescriptionEnum.class));
 		registerPrivacySetting(PS_USE_ACCURACY, new BooleanPrivacySetting());
 		registerPrivacySetting(PS_USE_SPEED, new BooleanPrivacySetting());
-		registerPrivacySetting(PS_LOCATION_PRECISION, new IntegerPrivacySetting(true));
+		registerPrivacySetting(PS_LOCATION_PRECISION, new IntegerPrivacySetting(Integer.MAX_VALUE, 0));
 	}
 }

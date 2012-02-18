@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource.privacysetting.library;
 
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.ISafeStringConverter;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.IStringConverter;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.IStringConverterWithExceptions;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -17,6 +17,7 @@ public final class StringConverter {
      */
     
     public static final IStringConverter<String> forString = new StringConverter2();
+    public static final IStringConverter<Boolean> forBoolean = new BooleanConverter();
     public static final IStringConverter<Long> forLong = new LongConverter();
     public static final IStringConverter<Integer> forInteger = new IntegerConverter();
     public static final IStringConverter<Double> forDouble = new DoubleConverter();
@@ -37,6 +38,24 @@ public final class StringConverter {
         @Override
         public String toString(String value) {
             return value;
+        }
+    }
+    
+    static class BooleanConverter implements IStringConverter<Boolean> {
+        
+        @Override
+        public Boolean valueOf(String string) {
+            boolean result = Boolean.valueOf(string);
+            if (!result && !string.equalsIgnoreCase(Boolean.FALSE.toString())) {
+                throw new IllegalArgumentException();
+            }
+            return result;
+        }
+        
+        
+        @Override
+        public String toString(Boolean value) {
+            return value.toString();
         }
     }
     
@@ -100,25 +119,32 @@ public final class StringConverter {
      * PS library wrapped converters
      */
     
-    protected static final IStringConverterWithExceptions<String> forStringWrap = wrapExceptions(forString);
-    protected static final IStringConverterWithExceptions<Long> forLongWrap = wrapExceptions(forLong);
-    protected static final IStringConverterWithExceptions<Integer> forIntegerWrap = wrapExceptions(forInteger);
-    protected static final IStringConverterWithExceptions<Double> forDoubleWrap = wrapExceptions(forDouble);
-    protected static final IStringConverterWithExceptions<Float> forFloatWrap = wrapExceptions(forFloat);
+    public static final ISafeStringConverter<String> forStringSafe = wrapSafe(forString, "");
+    public static final ISafeStringConverter<Boolean> forBooleanSafe = wrapSafe(forBoolean, Boolean.FALSE);
+    public static final ISafeStringConverter<Long> forLongSafe = wrapSafe(forLong, 0L);
+    public static final ISafeStringConverter<Integer> forIntegerSafe = wrapSafe(forInteger, 0);
+    public static final ISafeStringConverter<Double> forDoubleSafe = wrapSafe(forDouble, 0.0);
+    public static final ISafeStringConverter<Float> forFloatSafe = wrapSafe(forFloat, 0f);
     
     
     /**
      * Wraps a converter into another one and catches all exceptions, so {@link PrivacySettingValueException}s are
-     * thrown.
+     * thrown. Handles default values via null and empty strings.
      * 
      * @param converter
-     * @return <code>converter</code> wrapped so that only {@link PrivacySettingValueException} will be thrown
+     * @param defaultValue
+     * @return <code>converter</code> wrapped so that only {@link PrivacySettingValueException} will be thrown and
+     *         default null values are handled
      */
-    public static <T> IStringConverterWithExceptions<T> wrapExceptions(final IStringConverter<T> converter) {
-        return new IStringConverterWithExceptions<T>() {
+    public static <T> ISafeStringConverter<T> wrapSafe(final IStringConverter<T> converter, final T defaultValue) {
+        return new ISafeStringConverter<T>() {
             
             @Override
             public T valueOf(String string) throws PrivacySettingValueException {
+                if (string == null || string.equals("")) {
+                    return defaultValue;
+                }
+                
                 try {
                     return converter.valueOf(string);
                 } catch (Throwable t) {
@@ -128,12 +154,12 @@ public final class StringConverter {
             
             
             @Override
-            public String toString(T value) throws PrivacySettingValueException {
-                try {
-                    return converter.toString(value);
-                } catch (Throwable t) {
-                    throw new PrivacySettingValueException(t.getMessage(), t);
+            public String toString(T value) {
+                if (value == null) {
+                    return "";
                 }
+                
+                return converter.toString(value);
             }
         };
     }

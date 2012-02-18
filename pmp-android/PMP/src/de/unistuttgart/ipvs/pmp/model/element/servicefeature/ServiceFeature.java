@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.servicefeature;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -94,10 +94,9 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     
     @Override
-    public IPrivacySetting[] getRequiredPrivacySettings() {
+    public List<IPrivacySetting> getRequiredPrivacySettings() {
         checkCached();
-        Collection<PrivacySetting> result = this.privacySettingValues.keySet();
-        return result.toArray(new IPrivacySetting[result.size()]);
+        return new ArrayList<IPrivacySetting>(this.privacySettingValues.keySet());
     }
     
     
@@ -117,9 +116,9 @@ public class ServiceFeature extends ModelElement implements IServiceFeature {
     
     
     @Override
-    public MissingPrivacySettingValue[] getMissingPrivacySettings() {
+    public List<MissingPrivacySettingValue> getMissingPrivacySettings() {
         checkCached();
-        return this.missingPrivacySettings.toArray(new MissingPrivacySettingValue[this.missingPrivacySettings.size()]);
+        return new ArrayList<MissingPrivacySettingValue>(this.missingPrivacySettings);
     }
     
     

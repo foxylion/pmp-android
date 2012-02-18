@@ -168,7 +168,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      * @param filename
      *            Filename of the SQL file.
      * 
-     * @return String represented SQL query from the file. null if the file could not be read.
+     * @return String represented SQL query from the file. null if the file could not be READ.
      */
     public String readSqlFile(String filename) {
         String sqlQuery = null;

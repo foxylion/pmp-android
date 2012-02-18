@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.gui.servicefeature;
 
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Dialog;
@@ -35,9 +34,9 @@ public class DialogAddSFtoPreset extends Dialog {
         setContentView(R.layout.dialog_add_sf_to_preset);
         
         ListView lv = (ListView) findViewById(R.id.ListView_Presets);
-        final List<IPreset> presets = Arrays.asList(ModelProxy.get().getPresets());
+        final List<IPreset> presets = ModelProxy.get().getPresets();
         
-        if (ModelProxy.get().getPresets().length == 0) {
+        if (presets.size() == 0) {
             ((TextView) findViewById(R.id.Presets_Text_View_No_Presets_Existing)).setVisibility(View.VISIBLE);
         } else {
             lv.setAdapter(new AdapterPresets(context, presets));
@@ -57,7 +56,7 @@ public class DialogAddSFtoPreset extends Dialog {
                 
                 /* Close the Dialog and close the underlying one as well */
                 dismiss();
-                dialog.refresh();
+                dialog.refresh(); // Refresh before dismiss to update main list
                 dialog.dismiss();
             }
         });

@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.resourcegroup;
 
+import java.util.List;
+
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
@@ -32,20 +34,20 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 public interface IResourceGroup extends IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IResourceGroup}.
+     * @return the <b>unique</b> identifier of the {@link IResourceGroup}.
      */
     @Override
     public String getIdentifier();
     
     
     /**
-     * @return Returns the localized name of the {@link IResourceGroup}.
+     * @return the localized name of the {@link IResourceGroup}.
      */
     public String getName();
     
     
     /**
-     * @return Returns the localized description of the {@link IResourceGroup}.
+     * @return the localized description of the {@link IResourceGroup}.
      */
     public String getDescription();
     
@@ -63,9 +65,9 @@ public interface IResourceGroup extends IModelElement {
     
     
     /**
-     * @return Returns all {@link IPrivacySetting}s contained in this {@link IResourceGroup}.
+     * @return all {@link IPrivacySetting}s contained in this {@link IResourceGroup}.
      */
-    public IPrivacySetting[] getPrivacySettings();
+    public List<IPrivacySetting> getPrivacySettings();
     
     
     /**
@@ -73,7 +75,7 @@ public interface IResourceGroup extends IModelElement {
      * 
      * @param privacySettingIdentifier
      *            Identifier of the {@link IPrivacySetting} which should be returned.
-     * @return Returns the requested {@link IPrivacySetting} or null, if no {@link IPrivacySetting} is available
+     * @return the requested {@link IPrivacySetting} or null, if no {@link IPrivacySetting} is available
      *         with that identifier.
      */
     public IPrivacySetting getPrivacySetting(String privacySettingIdentifier);

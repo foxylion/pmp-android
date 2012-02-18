@@ -16,8 +16,13 @@ public class MainActivity extends Activity {
 		tv.setText("You can now add the Widget to one of your home screens.");
 		
 		addContentView(tv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		
-		Intent broadcast = new Intent();
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    
+	    Intent broadcast = new Intent();
         broadcast.setAction("PMP_APP.CALENDAR_MODIFIED");
         sendBroadcast(broadcast);
 	}

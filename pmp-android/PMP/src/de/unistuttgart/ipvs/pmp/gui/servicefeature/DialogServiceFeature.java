@@ -236,11 +236,9 @@ public class DialogServiceFeature extends Dialog {
                 preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
                 preset.endUpdate();
                 
-                if (DialogServiceFeature.this.serviceFeatureView != null) {
-                    DialogServiceFeature.this.serviceFeatureView.refresh();
-                }
+                refresh();
                 
-                DialogServiceFeature.this.cancel();
+                DialogServiceFeature.this.dismiss();
             }
         });
         

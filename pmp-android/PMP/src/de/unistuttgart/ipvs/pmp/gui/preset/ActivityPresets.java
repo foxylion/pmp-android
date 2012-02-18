@@ -51,7 +51,7 @@ public class ActivityPresets extends Activity {
     /**
      * Array of all Presets
      */
-    private IPreset[] presets;
+    private List<IPreset> presets;
     
     /**
      * ListView of all Presets

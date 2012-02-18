@@ -21,7 +21,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
@@ -127,9 +129,19 @@ public class AISCompiler extends BasicISCompiler {
         for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
             XMLNode rrgNode = new XMLNode(XMLConstants.RRG);
             
-            // Add identifier and minRevision
+            // Add identifier
             rrgNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rrg.getIdentifier()));
-            rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTR, rrg.getMinRevision()));
+            
+            // Add minRevision and use the simple date formatter
+            String minRevision = rrg.getMinRevision();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            try {
+                Date date = new Date(Long.valueOf(minRevision) * 1000);
+                minRevision = sdf.format(date);
+            } catch (NumberFormatException nfe) {
+                // Ignore it. Something went wrong and the min revision was not an integer.
+            }
+            rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTR, minRevision));
             
             // Add required privacy settings
             for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {

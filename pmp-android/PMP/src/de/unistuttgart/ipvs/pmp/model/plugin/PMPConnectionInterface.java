@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.plugin;
 
+import java.util.logging.Level;
+
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -10,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * A singleton for the PMP model to connect to the RG plugins.
@@ -57,7 +60,13 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
      */
     private String getPrivacySettingValue(IResourceGroup rg, IPrivacySetting ps, IApp a) {
         try {
-            return PresetController.findBestValue(a, ps);
+            String result = PresetController.findBestValue(a, ps);
+            
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_REQUESTS, Level.FINE,
+                    "%s requested privacy setting value for '%s' for app '%s', returned '%s'.", rg.getName(),
+                    ps.getName(), a.getName(), result);
+            
+            return result;
             
         } catch (PrivacySettingValueException plve) {
             Log.e(this, "Error while calculating privacy setting value.", plve);

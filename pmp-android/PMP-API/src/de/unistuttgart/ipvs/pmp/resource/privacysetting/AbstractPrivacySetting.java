@@ -43,6 +43,11 @@ public abstract class AbstractPrivacySetting<T> {
      */
     private String identifier;
     
+    /**
+     * The view to display and change values
+     */
+    private IPrivacySettingView<T> view = null;
+    
     
     /**
      * Assigns the resource group during registration.
@@ -128,7 +133,7 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * Should create the representation of the string value for this {@link AbstractPrivacySetting} based on a given
-     * String value.
+     * String value that can later be recognized by {@link AbstractPrivacySetting#valueToString(Object)}.
      * If value is null, it should create an object that corresponds to "no privacy setting value set".
      * 
      * @param value
@@ -143,15 +148,14 @@ public abstract class AbstractPrivacySetting<T> {
     
     /**
      * Should create the string representation for an actual object for this {@link AbstractPrivacySetting} that can
-     * later be
-     * recognized by {@link AbstractPrivacySetting#parseValue(String)}.
-     * If value is null or not the desired input type, it should return null.
+     * later be recognized by {@link AbstractPrivacySetting#parseValue(String)}.
+     * If value is null, it should return null.
      * 
      * @param value
      *            the value requested to be translated to string
      * @return a string corresponding to value, null, if value is null or not the desired input type
      */
-    public abstract String valueToString(Object value);
+    public abstract String valueToString(T value);
     
     
     /**
@@ -174,7 +178,24 @@ public abstract class AbstractPrivacySetting<T> {
      * 
      * @return an {@link IPrivacySettingView} that can display and change privacy setting values
      */
-    public abstract IPrivacySettingView<T> getView(Context context);
+    public IPrivacySettingView<T> getView(Context context) {
+        if (this.view == null) {
+            this.view = makeView(context);
+        }
+        return this.view;
+    }
+    
+    
+    /**
+     * Must create a new {@link IPrivacySettingView} that can be stored for further edits. Note that there is only 1
+     * View for each {@link AbstractPrivacySetting}.
+     * 
+     * @param context
+     *            context to use for the view
+     * @return an instance of {@link IPrivacySettingView} that can display and change privacy setting values and can be
+     *         stored for further use
+     */
+    public abstract IPrivacySettingView<T> makeView(Context context);
     
     
     /**
@@ -189,5 +210,19 @@ public abstract class AbstractPrivacySetting<T> {
      */
     public void setViewValue(Context context, String value) throws PrivacySettingValueException {
         getView(context).setViewValue(parseValue(value));
+    }
+    
+    
+    /**
+     * Convenience method for {@link IPrivacySettingView#getViewValue(Object)} if you only want a string.
+     * 
+     * @param context
+     *            context to use for the view
+     * @return the compiled string
+     * @throws PrivacySettingValueException
+     *             if the privacy setting rejected the value
+     */
+    public String getViewValue(Context context) {
+        return valueToString(getView(context).getViewValue());
     }
 }

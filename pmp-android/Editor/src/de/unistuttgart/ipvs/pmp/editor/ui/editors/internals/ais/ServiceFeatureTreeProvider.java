@@ -47,10 +47,12 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getChildren(Object parent) {
+	// If it's an AIS then return the ServiceFeatures of this AIS
 	if (parent instanceof AIS) {
 	    return ((AIS) parent).getServiceFeatures().toArray();
 	}
 
+	// If it's a service feature return the Required Rescource Groups
 	if (parent instanceof AISServiceFeature) {
 	    return ((AISServiceFeature) parent).getRequiredResourceGroups()
 		    .toArray();
@@ -67,10 +69,12 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getElements(Object input) {
+	// AIS elemtents are the Service Features
 	if (input instanceof AIS) {
 	    return ((AIS) input).getServiceFeatures().toArray();
 	}
 
+	// Elements of the Service Features are the Required Resource Groups
 	if (input instanceof AISServiceFeature) {
 	    return ((AISServiceFeature) input).getRequiredResourceGroups()
 		    .toArray();
@@ -108,6 +112,7 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
 		    .isEmpty();
 	}
 
+	// Resource Groups has no children, they will be display in a table
 	if (input instanceof AISRequiredResourceGroup) {
 	    return false;
 	}

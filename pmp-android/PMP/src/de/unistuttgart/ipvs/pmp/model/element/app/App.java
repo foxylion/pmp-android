@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.element.app;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -94,10 +93,9 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
-    public IServiceFeature[] getServiceFeatures() {
+    public List<IServiceFeature> getServiceFeatures() {
         checkCached();
-        Collection<ServiceFeature> result = this.serviceFeatures.values();
-        return result.toArray(new IServiceFeature[result.size()]);
+        return new ArrayList<IServiceFeature>(this.serviceFeatures.values());
     }
     
     
@@ -111,15 +109,15 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
-    public IServiceFeature[] getActiveServiceFeatures() {
+    public List<IServiceFeature> getActiveServiceFeatures() {
         checkCached();
-        List<ServiceFeature> actives = new ArrayList<ServiceFeature>();
-        for (ServiceFeature sf : this.serviceFeatures.values()) {
+        List<IServiceFeature> actives = new ArrayList<IServiceFeature>();
+        for (IServiceFeature sf : this.serviceFeatures.values()) {
             if (sf.isActive()) {
                 actives.add(sf);
             }
         }
-        return actives.toArray(new IServiceFeature[actives.size()]);
+        return actives;
     }
     
     
@@ -139,9 +137,9 @@ public class App extends ModelElement implements IApp {
     
     
     @Override
-    public IPreset[] getAssignedPresets() {
+    public List<IPreset> getAssignedPresets() {
         checkCached();
-        return this.assignedPresets.toArray(new IPreset[this.assignedPresets.size()]);
+        return new ArrayList<IPreset>(this.assignedPresets);
     }
     
     

@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Dialog;
@@ -98,8 +97,8 @@ public class DialogAppsAssign extends Dialog {
      * @return Apps to display
      */
     public List<IApp> calcDisplayApps() {
-        List<IApp> allAppsList = Arrays.asList(ModelProxy.get().getApps());
-        List<IApp> allAssignedAppsList = Arrays.asList(this.preset.getAssignedApps());
+        List<IApp> allAppsList = ModelProxy.get().getApps();
+        List<IApp> allAssignedAppsList = this.preset.getAssignedApps();
         List<IApp> displayList = new ArrayList<IApp>();
         
         AllAppsLoop: for (IApp app : allAppsList) {

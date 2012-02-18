@@ -29,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -103,6 +104,15 @@ public class RGISCompiler extends BasicISCompiler {
             // Add the name and description nodes
             for (XMLNode nameDescrNode : createNameDescriptionNodes(ps)) {
                 psNode.addChild(nameDescrNode);
+            }
+            
+            // Compile the change descriptions
+            for (RGISPSChangeDescription changeDescr : ps.getChangeDescriptions()) {
+                XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION);
+                changeDescrNode.setContent(changeDescr.getChangeDescription());
+                changeDescrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, changeDescr.getLocale()
+                        .getLanguage()));
+                psNode.addChild(changeDescrNode);
             }
             
             // Add PS to nodeList

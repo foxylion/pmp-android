@@ -16,54 +16,45 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
  */
 public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
-    private IntegerView view = null;
+    private int worstValue;
+    private int bestValue;
     
     
-    public IntegerPrivacySetting() {
-        this(false);
-    }
-    
-    
-    public IntegerPrivacySetting(final boolean smallerIsBetter) {
+    public IntegerPrivacySetting(final int worstValue, final int bestValue) {
         super(new Comparator<Integer>() {
             
             @Override
             public int compare(Integer object1, Integer object2) {
-                if (!smallerIsBetter) {
+                if (worstValue < bestValue) {
                     return object1.compareTo(object2);
                 } else {
                     return object2.compareTo(object1);
                 }
             }
         });
-    }
-    
-    
-    @Override
-    public IPrivacySettingView<Integer> getView(Context context) {
-        if (this.view == null) {
-            this.view = new IntegerView(context);
-        }
-        return this.view;
+        
+        this.worstValue = worstValue;
+        this.bestValue = bestValue;
     }
     
     
     @Override
     public Integer parseValue(String value) throws PrivacySettingValueException {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException nfe) {
-            throw new PrivacySettingValueException();
+        if (value == null || value.equals("")) {
+            return (this.worstValue < this.bestValue ? this.worstValue : this.bestValue);
         }
+        return StringConverter.forIntegerSafe.valueOf(value);
     }
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Integer)) {
-            return null;
-        }
-        Integer i = (Integer) value;
-        return i.toString();
+    public String valueToString(Integer value) {
+        return StringConverter.forIntegerSafe.toString(value);
+    }
+    
+    
+    @Override
+    public IPrivacySettingView<Integer> makeView(Context context) {
+        return new IntegerView(context);
     }
 }

@@ -52,8 +52,8 @@ public class ActivityMain extends Activity {
         
         checkExpertMode();
         
-        updateStatistics(ModelProxy.get().getApps().length, ModelProxy.get().getResourceGroups().length, ModelProxy
-                .get().getPresets().length);
+        updateStatistics(ModelProxy.get().getApps().size(), ModelProxy.get().getResourceGroups().size(), ModelProxy
+                .get().getPresets().size());
     }
     
     

@@ -103,7 +103,7 @@ public class IPCConnection implements ServiceConnection {
     
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        Log.v(this, this + " onServiceConnected(" + name.flattenToString() + ")");
+        Log.v(this, " onServiceConnected(" + name.flattenToString() + ")");
         this.connected = true;
         this.lastBinder = service;
         this.waitForBinder.release();
@@ -112,7 +112,7 @@ public class IPCConnection implements ServiceConnection {
     
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        Log.v(this, this + " onServiceDisconnected(" + name.flattenToString() + ")");
+        Log.v(this, " onServiceDisconnected(" + name.flattenToString() + ")");
         disconnect();
     }
     
@@ -127,13 +127,13 @@ public class IPCConnection implements ServiceConnection {
     public IBinder getBinder() {
         // check the cached one
         if (this.connected) {
-            Log.d(this, this + " has binder still cached");
+            Log.d(this, " has binder still cached");
             return this.lastBinder;
         }
         
         // try connecting
         if (!connect()) {
-            Log.e(this, this + " failed connection attempt");
+            Log.e(this, " failed connection attempt");
             return null;
         }
         
@@ -142,7 +142,7 @@ public class IPCConnection implements ServiceConnection {
             this.waitForBinder.acquire();
             return this.lastBinder;
         } catch (InterruptedException ie) {
-            Log.e(this, this + " interrupted while waiting for binder");
+            Log.e(this, " interrupted while waiting for binder");
             return null;
         }
     }
@@ -154,7 +154,7 @@ public class IPCConnection implements ServiceConnection {
      * @return true, if successfully bound to the service; false, if the connection is not made
      */
     private boolean connect() {
-        Log.d(this, this + " connecting to " + this.destinationService);
+        Log.d(this, " connecting to " + this.destinationService);
         Intent service = new Intent(this.destinationService);
         return this.context.bindService(service, this, Context.BIND_AUTO_CREATE);
     }
@@ -164,7 +164,7 @@ public class IPCConnection implements ServiceConnection {
      * Disconnects this connection from any service.
      */
     public void disconnect() {
-        Log.d(this, this + " disconnect");
+        Log.d(this, " disconnect");
         this.context.unbindService(this);
         this.connected = false;
     }

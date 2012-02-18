@@ -55,6 +55,8 @@ public class WidgetUpdateService extends Service {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         views.setOnClickPendingIntent(R.id.header, pendingIntent);
         
+        views.removeAllViews(R.id.widget_items);
+        
         if (entries == null) {
             if (pmpFailed) {
                 views.setViewVisibility(R.id.pmp_view, View.VISIBLE);
@@ -66,8 +68,6 @@ public class WidgetUpdateService extends Service {
                 views.setViewVisibility(R.id.loading_view, View.VISIBLE);
             }
         } else {
-            views.removeAllViews(R.id.widget_items);
-            
             views.setViewVisibility(R.id.loading_view, View.GONE);
             views.setViewVisibility(R.id.pmp_view, View.GONE);
             

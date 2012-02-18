@@ -26,8 +26,6 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     private static final String SEPARATOR_REGEX = "\\;";
     private static final String ESCAPE_SEPARATOR = "\\;";
     
-    private SetView<T> view = null;
-    
     private IStringConverter<T> converter;
     
     private Constructor<? extends IPrivacySettingView<T>> childViewConstructor;
@@ -60,19 +58,22 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     
     
     @Override
-    public String valueToString(Object value) {
-        if (value == null || !(value instanceof Set<?>)) {
+    public String valueToString(Set<T> value) {
+        if (value == null) {
             return null;
         }
-        @SuppressWarnings("unchecked")
-        Set<T> set = (Set<T>) value;
         
         StringBuilder sb = new StringBuilder();
-        for (T item : set) {
+        for (T item : value) {
             sb.append(this.converter.toString(item).replace(SEPARATOR, ESCAPE_SEPARATOR));
             sb.append(SEPARATOR);
         }
-        return sb.toString();
+        
+        if (sb.length() > 0) {
+            return sb.toString().substring(0, sb.length() - SEPARATOR.length());
+        } else {
+            return "";
+        }
         
     }
     
@@ -100,11 +101,8 @@ public class SetPrivacySetting<T> extends AbstractPrivacySetting<Set<T>> {
     
     
     @Override
-    public IPrivacySettingView<Set<T>> getView(Context context) {
-        if (this.view == null) {
-            this.view = new SetView<T>(context, this.childViewConstructor, this.childViewConstructorInvocation);
-        }
-        return this.view;
+    public IPrivacySettingView<Set<T>> makeView(Context context) {
+        return new SetView<T>(context, this.childViewConstructor, this.childViewConstructorInvocation);
     }
     
 }

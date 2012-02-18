@@ -12,6 +12,8 @@ import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
+import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -138,9 +140,14 @@ public class DialogPrivacySettingAssign extends Dialog {
             
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                DialogPrivacySettingAssign.this.presetPSsTab
-                        .showChangeValueDialog(DialogPrivacySettingAssign.this.psList.get(groupPosition).get(
-                                childPosition));
+                new DialogPrivacySettingEdit(getContext(), DialogPrivacySettingAssign.this.preset,
+                        DialogPrivacySettingAssign.this.psList.get(groupPosition).get(childPosition), new ICallback() {
+                            
+                            @Override
+                            public void callback(Object... paramteres) {
+                                DialogPrivacySettingAssign.this.presetPSsTab.updateList();
+                            }
+                        }).show();
                 dismiss();
                 return true;
             }

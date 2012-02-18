@@ -115,7 +115,7 @@ public class MockupControl {
             p1.assignApp(app1);
             p1.assignApp(app2);
             p1.assignApp(app3);
-            p1.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p1.assignPrivacySetting(rg1.getPrivacySetting("READ"), "true");
             p1.assignPrivacySetting(rg1.getPrivacySetting("modify"), "true");
             p1.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
             p1.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
@@ -135,7 +135,7 @@ public class MockupControl {
         if ((app3 != null) && (app4 != null) && (rg1 != null)) {
             p2.assignApp(app3);
             p2.assignApp(app4);
-            p2.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p2.assignPrivacySetting(rg1.getPrivacySetting("READ"), "true");
             p2.assignPrivacySetting(rg1.getPrivacySetting("create"), "true");
             p2.assignPrivacySetting(rg2.getPrivacySetting("findloc"), "true");
             p2.assignPrivacySetting(rg2.getPrivacySetting("missiles"), "true");
@@ -165,7 +165,7 @@ public class MockupControl {
             p4.assignApp(app1);
             p4.assignApp(app3);
             p4.setDeleted(true);
-            p4.assignPrivacySetting(rg1.getPrivacySetting("read"), "true");
+            p4.assignPrivacySetting(rg1.getPrivacySetting("READ"), "true");
             p4.assignPrivacySetting(rg3.getPrivacySetting("kk"), "true");
         } else {
             Log.e(TAG, "app1, app3 or rg1 was null. Could not assign the preset 4.");

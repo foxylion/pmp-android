@@ -15,10 +15,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -98,14 +96,32 @@ public class GeneralPage extends FormPage {
 		Section section = createSection(parent, "Localization", toolkit);
 
 		// Create elements stored inside this section
-		Composite client = toolkit.createComposite(section, SWT.None);
+		Composite client = toolkit.createComposite(section);
 
-		client.setLayout(new GridLayout(1, true));
-
+		client.setLayout(new GridLayout(2, false));
+		
 		GridData layoutData = new GridData();
 		layoutData.horizontalAlignment = GridData.FILL;
+		layoutData.verticalAlignment = GridData.FILL;
 		layoutData.grabExcessHorizontalSpace = true;
+		layoutData.grabExcessVerticalSpace = true;
+		
+		client.setLayoutData(layoutData);
+		section.setLayoutData(layoutData);
+		section.setRedraw(true);
+		
+		RGIS rgis = Model.getInstance().getRgis();
+		LocaleTable nameTable = new LocaleTable(client,rgis,Type.NAME,toolkit);
+		nameTable.getComposite().setLayoutData(layoutData);
+		//section.setClient(nameTable.getComposite());
 
+		LocaleTable descTable = new LocaleTable(client,rgis,Type.DESCRIPTION,toolkit);
+		descTable.getComposite().setLayoutData(layoutData);
+		
+		
+		section.setClient(client);
+		
+/*
 		// Prepare table
 		RGIS rgis = Model.getInstance().getRgis();
 		StoredInformation loc = new StoredInformation();
@@ -121,6 +137,7 @@ public class GeneralPage extends FormPage {
 		InformationTable table = new InformationTable(section, loc, toolkit);
 
 		section.setClient(table.getControl());
+		*/
 	}
 
 	/**

@@ -25,8 +25,8 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
 	return (String) input;
     }
 
-//    @Override
-//    public Image getImage(Object element) {
-//	// Check for errors and return the correct image
-//    }
+    // @Override
+    // public Image getImage(Object element) {
+    // // Check for errors and return the correct image
+    // }
 }

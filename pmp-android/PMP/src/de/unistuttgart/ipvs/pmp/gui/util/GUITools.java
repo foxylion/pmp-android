@@ -44,7 +44,7 @@ public class GUITools {
     
     
     /**
-     * @return Returns the action as a String, or an empty String if no action is given.
+     * @return the action as a String, or an empty String if no action is given.
      */
     public static String handleIntentAction(Intent intent) {
         /* Intent should never be null */
@@ -67,7 +67,7 @@ public class GUITools {
     
     
     /**
-     * @return Returns the RGs filter as a String, or an empty String if no filter is given.
+     * @return the RGs filter as a String, or an empty String if no filter is given.
      */
     public static String getAvailableRGsFilter(Intent intent) {
         /* Intent should never be null */

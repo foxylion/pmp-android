@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.model.element.preset;
 
+import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -40,7 +42,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 public interface IPreset extends IModelElement {
     
     /**
-     * @return Returns the <b>unique</b> identifier of the {@link IPreset}.
+     * @return the <b>unique</b> identifier of the {@link IPreset}.
      */
     @Override
     public String getIdentifier();
@@ -75,7 +77,7 @@ public interface IPreset extends IModelElement {
     
     
     /**
-     * @return Returns the name of the {@link IPreset}.
+     * @return the name of the {@link IPreset}.
      */
     public String getName();
     
@@ -89,7 +91,7 @@ public interface IPreset extends IModelElement {
     
     
     /**
-     * @return Returns the description of the {@link IPreset}.
+     * @return the description of the {@link IPreset}.
      */
     public String getDescription();
     
@@ -103,9 +105,9 @@ public interface IPreset extends IModelElement {
     
     
     /**
-     * @return Returns the used {@link IPrivacySetting}s by this preset.
+     * @return the used {@link IPrivacySetting}s by this preset.
      */
-    public IPrivacySetting[] getGrantedPrivacySettings();
+    public List<IPrivacySetting> getGrantedPrivacySettings();
     
     
     /**
@@ -117,13 +119,13 @@ public interface IPreset extends IModelElement {
     
     
     /**
-     * @return Returns the assigned {@link IApp}s to this {@link IPreset}.
+     * @return the assigned {@link IApp}s to this {@link IPreset}.
      */
-    public IApp[] getAssignedApps();
+    public List<IApp> getAssignedApps();
     
     
     /**
-     * @return Returns true if the {@link IApp} is assigned, false otherwise.
+     * @return true if the {@link IApp} is assigned, false otherwise.
      */
     public boolean isAppAssigned(IApp app);
     
@@ -239,17 +241,17 @@ public interface IPreset extends IModelElement {
     
     
     /**
-     * @return an array containing all the {@link MissingPrivacySettingValue}s that are missing for this preset
+     * @return a list containing all the {@link MissingPrivacySettingValue}s that are missing for this preset
      *         to be available
      */
-    public MissingPrivacySettingValue[] getMissingPrivacySettings();
+    public List<MissingPrivacySettingValue> getMissingPrivacySettings();
     
     
     /**
-     * @return an array containing all the {@link MissingApp}s that are missing for this preset
+     * @return a list containing all the {@link MissingApp}s that are missing for this preset
      *         to be available
      */
-    public MissingApp[] getMissingApps();
+    public List<MissingApp> getMissingApps();
     
     
     /**
@@ -269,7 +271,7 @@ public interface IPreset extends IModelElement {
      *            annotated {@link IPrivacySetting}
      * @return a list of all {@link IContextAnnotation} that annotate privacySetting
      */
-    public IContextAnnotation[] getContextAnnotations(IPrivacySetting privacySetting);
+    public List<IContextAnnotation> getContextAnnotations(IPrivacySetting privacySetting);
     
     
     /**
@@ -302,17 +304,17 @@ public interface IPreset extends IModelElement {
     /**
      * @param preset
      *            the preset which shall be checked for conflicts
-     * @return an array of {@link IContextAnnotation} from the preset <code>preset</code> where each entry of the array
+     * @return a list of {@link IContextAnnotation}s from the preset <code>preset</code> where each entry of the list
      *         could possibly override this preset's context annotations' values.
      */
-    public IContextAnnotation[] getConflictingContextAnnotations(IPreset preset);
+    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset);
     
     
     /**
      * @param preset
      *            the preset which shall be checked for conflicts
-     * @return an array of {@link IPrivacySetting} from the preset <code>preset</code> where each entry of the array
+     * @return a list of {@link IPrivacySetting} from the preset <code>preset</code> where each entry of the list
      *         could possibly override this preset's context annotations' values.
      */
-    public IPrivacySetting[] getConflictingPrivacySettings(IPreset preset);
+    public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset);
 }

@@ -97,10 +97,10 @@ public class TabDetails extends Activity {
         
         ((TextView) findViewById(R.id.TextView_Description)).setText(this.preset.getDescription());
         ((TextView) findViewById(R.id.TextView_Statistics)).setText(Html.fromHtml("<html><b>Assigned Apps:</b> "
-                + this.preset.getAssignedApps().length + "<br/>" + "<b>Assigned Privacy Settings:</b> "
-                + this.preset.getGrantedPrivacySettings().length + "<br/><br/>" + "<b>Used Contexts:</b> nyi<br/>"
+                + this.preset.getAssignedApps().size() + "<br/>" + "<b>Assigned Privacy Settings:</b> "
+                + this.preset.getGrantedPrivacySettings().size() + "<br/><br/>" + "<b>Used Contexts:</b> nyi<br/>"
                 + "<b>Active Contexts:</b> nyi<br/><br/>" + "<b>Missing Apps:</b> "
-                + this.preset.getMissingApps().length + "<br/>" + "<b>Missing Resource Groups:</b> "
+                + this.preset.getMissingApps().size() + "<br/>" + "<b>Missing Resource Groups:</b> "
                 + RGInstaller.getMissingResourceGroups(this.preset).length + "</html>"));
         
         // TODO Implement the context count.
@@ -109,11 +109,11 @@ public class TabDetails extends Activity {
         Button oneClickInstall = (Button) findViewById(R.id.Button_OneClickInstall);
         Button viewMissingRGs = (Button) findViewById(R.id.Button_ViewMissingRGs);
         Button removeMissingApps = (Button) findViewById(R.id.Button_RemoveMissingApps);
-        if (this.preset.getMissingApps().length > 0 || RGInstaller.getMissingResourceGroups(this.preset).length > 0) {
+        if (this.preset.getMissingApps().size() > 0 || RGInstaller.getMissingResourceGroups(this.preset).length > 0) {
             
             buttonContainer.setVisibility(View.VISIBLE);
             
-            if (this.preset.getMissingApps().length > 0) {
+            if (this.preset.getMissingApps().size() > 0) {
                 removeMissingApps.setEnabled(true);
             } else {
                 removeMissingApps.setEnabled(false);

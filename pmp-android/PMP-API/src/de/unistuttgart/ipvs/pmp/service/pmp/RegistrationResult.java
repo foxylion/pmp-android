@@ -57,7 +57,7 @@ public class RegistrationResult implements Parcelable {
     
     
     /**
-     * @return Returns the success of the registration, true means successful, false means registration failed.
+     * @return the success of the registration, true means successful, false means registration failed.
      */
     public boolean getSuccess() {
         return this.success;
@@ -65,7 +65,7 @@ public class RegistrationResult implements Parcelable {
     
     
     /**
-     * @return Returns a message which describes what exactly is the reason for a failed registration.
+     * @return a message which describes what exactly is the reason for a failed registration.
      */
     public String getMessage() {
         return this.message;
