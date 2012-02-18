@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.jpmpps.server;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
@@ -36,7 +37,7 @@ public class ResponseHasher {
     public static byte[] hash(long revision) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(new Long(revision).toString().getBytes(), 0, new Long(revision).toString().length());
+            md.update(Long.toString(revision).getBytes(), 0, new Long(revision).toString().length());
             return md.digest();
         } catch (NoSuchAlgorithmException e) {
             System.out.println("Do not know the MD5-Hashing alogrithm.");
@@ -60,6 +61,6 @@ public class ResponseHasher {
     public static boolean checkHash(ResourceGroup rg, byte[] cacheHash) {
         byte[] checkHash = hash(rg.getRevision());
         
-        return new String(checkHash).equals(cacheHash);
+        return Arrays.equals(checkHash, cacheHash);
     }
 }
