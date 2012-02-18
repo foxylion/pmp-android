@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
@@ -11,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
  * @see IContextAnnotation
@@ -32,6 +34,11 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     protected String condition;
     protected String overrideValue;
     
+    /**
+     * State before the last state, primarily needed for logging purposes
+     */
+    protected boolean lastState;
+    
     
     /* organizational */
     
@@ -40,6 +47,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
                 + privacySetting.getIdentifier());
         this.preset = preset;
         this.privacySetting = privacySetting;
+        this.lastState = false;
     }
     
     
@@ -89,7 +97,16 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     @Override
     public boolean isActive() {
         checkCached();
-        return this.context.getLastState(this.condition);
+        boolean newState = this.context.getLastState(this.condition);
+        
+        if (newState != this.lastState) {
+            FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_CONTEXT_CHANGES, Level.FINE,
+                    "Context Annotation '%s' is now %s.", this.condition.toString(),
+                    newState ? "active" : "deactivated");
+            
+            this.lastState = newState;
+        }
+        return newState;
     }
     
     
