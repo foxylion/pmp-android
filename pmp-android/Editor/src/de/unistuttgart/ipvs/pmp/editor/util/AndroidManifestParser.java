@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.editor.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -131,10 +132,11 @@ public class AndroidManifestParser {
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
-     * @throws AppIdentifierNotFoundException 
+     * @throws AppIdentifierNotFoundException
      */
     protected String getAppIdentifier(InputStream xmlStream)
-	    throws ParserConfigurationException, SAXException, IOException, AppIdentifierNotFoundException {
+	    throws ParserConfigurationException, SAXException, IOException,
+	    AppIdentifierNotFoundException {
 	if (doc == null) {
 	    instantiate(xmlStream);
 	}
@@ -168,12 +170,13 @@ public class AndroidManifestParser {
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
      * @throws NoMainActivityException
-     * @throws AppIdentifierNotFoundException 
+     * @throws AppIdentifierNotFoundException
      */
     protected void addPMPActivity(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    TransformerFactoryConfigurationError, TransformerException,
-	    PMPActivityAlreadyExistsException, NoMainActivityException, AppIdentifierNotFoundException {
+	    PMPActivityAlreadyExistsException, NoMainActivityException,
+	    AppIdentifierNotFoundException {
 	instantiate(xmlStream);
 
 	isPMPActivityExisting();
@@ -411,13 +414,14 @@ public class AndroidManifestParser {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPServiceAlreadyExists
-     * @throws AppIdentifierNotFoundException 
-     * @throws DOMException 
+     * @throws AppIdentifierNotFoundException
+     * @throws DOMException
      */
     protected void addPMPServiceToManifest(InputStream xmlStream, File file)
 	    throws ParserConfigurationException, SAXException, IOException,
 	    AndroidApplicationException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPServiceAlreadyExists, DOMException, AppIdentifierNotFoundException {
+	    TransformerException, PMPServiceAlreadyExists, DOMException,
+	    AppIdentifierNotFoundException {
 	instantiate(xmlStream);
 
 	NodeList application = doc.getElementsByTagName(ANDROID_APPLICATION);
@@ -484,7 +488,7 @@ public class AndroidManifestParser {
 	    TransformerException {
 	// Write back the changes
 	Transformer transformer = TransformerFactory.newInstance()
-		.newTransformer();
+		.newTransformer(new StreamSource(getXSLStream()));
 
 	// Format the XML document
 	transformer.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -497,5 +501,21 @@ public class AndroidManifestParser {
 	FileOutputStream os = new FileOutputStream(file);
 	StreamResult result = new StreamResult(os);
 	transformer.transform(source, result);
+    }
+
+    /**
+     * XSL stylesheet to remove the whitespaces out of the xml file
+     * 
+     * @return {@link InputStream} of the stylesheet
+     */
+    private InputStream getXSLStream() {
+	String xsd = "<xsl:stylesheet version=\"1.0\" "
+		+ "xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">"
+		+ "<xsl:output method=\"xml\" omit-xml-declaration=\"yes\"/>"
+		+ "<xsl:strip-space elements=\"*\"/>"
+		+ "<xsl:template match=\"@*|node()\">" + "<xsl:copy>"
+		+ "<xsl:apply-templates select=\"@*|node()\"/>" + "</xsl:copy>"
+		+ "</xsl:template>" + "</xsl:stylesheet>";
+	return new ByteArrayInputStream(xsd.getBytes());
     }
 }

@@ -110,7 +110,7 @@ public class DELETELATERServiceFeatureTable implements IDoubleClickListener {
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
 			"Enter the identifier of the Service Feature", null,
-			new ServiceFeatureInputValidator());
+			new InputNotEmptyValidator());
 
 		if (dialog.open() == Window.OK) {
 		    
@@ -174,7 +174,7 @@ public class DELETELATERServiceFeatureTable implements IDoubleClickListener {
 	InputDialog dialog = new InputDialog(parentShell,
 		"Add Service Feature",
 		"Enter the identifier of the Service Feature", item.getText(),
-		new ServiceFeatureInputValidator());
+		new InputNotEmptyValidator());
 
 	if (dialog.open() == Window.OK) {
 	    String result = dialog.getValue();

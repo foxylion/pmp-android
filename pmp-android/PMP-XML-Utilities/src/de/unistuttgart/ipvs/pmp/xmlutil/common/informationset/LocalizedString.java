@@ -19,42 +19,72 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
+import java.util.Locale;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class Description extends AbstractLocale {
+public class LocalizedString extends IssueLocation {
     
     /**
      * Serial
      */
-    private static final long serialVersionUID = 6700484679837000135L;
+    private static final long serialVersionUID = -8792729039613615548L;
     
     /**
-     * Description
+     * The name
      */
-    private String description = "";
+    private String string = "";
+    
+    /**
+     * Locale
+     */
+    private Locale locale;
     
     
     /**
-     * Get the description
+     * Get the name
      * 
-     * @return description
+     * @return name
      */
-    public String getDescription() {
-        return this.description;
+    public String getString() {
+        return this.string;
     }
     
     
     /**
-     * Set the description
+     * Set the name
      * 
-     * @param description
-     *            description to set
+     * @param name
+     *            name to set
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setString(String name) {
+        this.string = name;
+    }
+    
+    
+    /**
+     * Get the locale
+     * 
+     * @return locale
+     */
+    public Locale getLocale() {
+        return this.locale;
+    }
+    
+    
+    /**
+     * Set the locale
+     * 
+     * @param locale
+     *            locale to set
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
     
     

@@ -13,12 +13,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
 
 /**
  * The editor for App-Information-Sets that contains the {@link AISGeneralPage}
@@ -57,24 +54,19 @@ public class AisEditor extends FormEditor {
 		AIS ais = XMLUtilityProxy.getAppUtil().parse(
 			input.getFile().getContents());
 
+		// Get the path to the project
+		String[] split = input.getFile().getFullPath().toString()
+			.split("/");
+		String project = "/" + split[1];
+
 		// Store ais in the Model
 		Model.getInstance().setAis(ais);
 
 		// Create the pages
-		generalPage = new AISGeneralPage(this);
+		generalPage = new AISGeneralPage(this, project);
 		sfPage = new AISServiceFeaturesPage(this);
-
-		// Add names and descriptions to table
-		StoredInformation loc = generalPage.getLocalization();
-		for (Name name : ais.getNames()) {
-		    loc.addName(name.getLocale().getLanguage(), name.getName());
-		}
-		for (Description desc : ais.getDescriptions()) {
-		    loc.addDescription(desc.getLocale().getLanguage(),
-			    desc.getDescription());
-		}
 	    } catch (ParserException e) {
-		generalPage = new AISGeneralPage(this);
+		generalPage = new AISGeneralPage(this, null);
 	    }
 	    /*
 	     * Reset the dirty flag in the model and store this instance of this

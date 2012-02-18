@@ -108,8 +108,7 @@ public class Model {
      */
     public List<RGIS> getRgisList() throws IOException {
 	if (rgisList == null) {
-	    ServerProvider server = new ServerProvider();
-	    rgisList = server.getAvailableRessourceGroups();
+	    updateServerList();
 	}
 	return rgisList;
     }
@@ -123,6 +122,19 @@ public class Model {
 	ServerProvider server = new ServerProvider();
 	server.updateResourceGroupList();
 	rgisList = server.getAvailableRessourceGroups();
+    }
+
+    /**
+     * Checks if the {@link RGIS} list of the server is cached locally
+     * 
+     * @return true if available
+     */
+    public Boolean isRGListAvailable() {
+	if (rgisList == null) {
+	    return false;
+	} else {
+	    return true;
+	}
     }
 
     /**

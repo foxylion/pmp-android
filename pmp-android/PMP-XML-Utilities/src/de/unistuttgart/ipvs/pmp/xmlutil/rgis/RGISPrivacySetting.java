@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
     /**
      * List of change descriptions
      */
-    private List<RGISPSChangeDescription> changeDescriptions = new ArrayList<RGISPSChangeDescription>();
+    private List<LocalizedString> changeDescriptions = new ArrayList<LocalizedString>();
     
     
     /**
@@ -96,7 +97,7 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      * @param changeDescription
      *            change description to add
      */
-    public void addChangeDescription(RGISPSChangeDescription changeDescription) {
+    public void addChangeDescription(LocalizedString changeDescription) {
         this.changeDescriptions.add(changeDescription);
     }
     
@@ -106,7 +107,7 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      * 
      * @return list with change descriptions
      */
-    public List<RGISPSChangeDescription> getChangeDescriptions() {
+    public List<LocalizedString> getChangeDescriptions() {
         return this.changeDescriptions;
     }
     
@@ -117,7 +118,7 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      * @param changeDescription
      *            change description to remove
      */
-    public void removeChangeDescription(RGISPSChangeDescription changeDescription) {
+    public void removeChangeDescription(LocalizedString changeDescription) {
         this.changeDescriptions.remove(changeDescription);
     }
     
@@ -131,9 +132,9 @@ public class RGISPrivacySetting extends BasicIdentifierIS {
      *         given locale exists.
      */
     public String getChangeDescriptionForLocale(Locale locale) {
-        for (RGISPSChangeDescription changeDescr : this.changeDescriptions) {
+        for (LocalizedString changeDescr : this.changeDescriptions) {
             if (changeDescr.getLocale().getLanguage().equals(locale.getLanguage())) {
-                return changeDescr.getChangeDescription();
+                return changeDescr.getString();
             }
         }
         return null;

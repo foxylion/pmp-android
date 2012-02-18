@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
@@ -218,7 +218,7 @@ public class RGISValidator extends AbstractValidator {
         boolean englishLocaleExists = false;
         List<String> localesOccurred = new ArrayList<String>();
         
-        for (RGISPSChangeDescription changeDescription : privacySetting.getChangeDescriptions()) {
+        for (LocalizedString changeDescription : privacySetting.getChangeDescriptions()) {
             
             // Instantiate possible issues
             Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, changeDescription);
@@ -269,7 +269,7 @@ public class RGISValidator extends AbstractValidator {
             }
             
             // Check, if the change description is set
-            if (!checkValueSet(changeDescription.getChangeDescription())) {
+            if (!checkValueSet(changeDescription.getString())) {
                 issueList.add(changeDescriptionEmpty);
                 // Add the information of the locale to the name issue
                 if (localeAvailable) {
@@ -277,7 +277,7 @@ public class RGISValidator extends AbstractValidator {
                 }
             } else {
                 // Add the information of the change description to the locale issue
-                localeMissing.addParameter(changeDescription.getChangeDescription());
+                localeMissing.addParameter(changeDescription.getString());
             }
         }
         
