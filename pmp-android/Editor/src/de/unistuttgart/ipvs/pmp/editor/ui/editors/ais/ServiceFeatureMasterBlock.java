@@ -137,8 +137,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		}
 	    }
 	});
-	
-	treeViewer.expandAll();
 
 	section.setClient(compo);
     }
