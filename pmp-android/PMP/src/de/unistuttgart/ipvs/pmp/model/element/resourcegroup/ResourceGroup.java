@@ -13,7 +13,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * @see IResourceGroup
@@ -25,7 +25,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     /**
      * localized values
      */
-    protected RGIS rgis;
+    protected IRGIS rgis;
     
     /**
      * internal data & links
@@ -121,7 +121,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     /* inter-model communication */
-    public RGIS getRgis() {
+    public IRGIS getRgis() {
         checkCached();
         return this.rgis;
     }

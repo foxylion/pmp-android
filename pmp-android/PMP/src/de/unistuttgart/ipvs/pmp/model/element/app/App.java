@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
  * @see IApp
@@ -152,7 +153,7 @@ public class App extends ModelElement implements IApp {
     
     /* inter-model communication */
     
-    public AIS getAis() {
+    public IAIS getAis() {
         checkCached();
         return this.ais;
     }

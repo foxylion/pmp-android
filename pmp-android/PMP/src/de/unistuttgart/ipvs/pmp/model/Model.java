@@ -49,12 +49,12 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 
 /**
  * <p>
@@ -157,7 +157,7 @@ public class Model implements IModel, Observer {
             InputStream xmlStream = PMPApplication.getContext().getPackageManager()
                     .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
-            AIS ais = XMLUtilityProxy.getAppUtil().parse(xmlStream);
+            IAIS ais = XMLUtilityProxy.getAppUtil().parse(xmlStream);
             
             // check service availability
             IPCConnection ipcc = new IPCConnection(PMPApplication.getContext());
@@ -174,8 +174,8 @@ public class Model implements IModel, Observer {
             }
             
             // verify RG revision availability
-            for (AISServiceFeature aissf : ais.getServiceFeatures()) {
-                for (AISRequiredResourceGroup aisrrg : aissf.getRequiredResourceGroups()) {
+            for (IAISServiceFeature aissf : ais.getServiceFeatures()) {
+                for (IAISRequiredResourceGroup aisrrg : aissf.getRequiredResourceGroups()) {
                     IResourceGroup rg = getResourceGroup(aisrrg.getIdentifier());
                     
                     if ((rg != null) && (rg.getRevision() < new Long(aisrrg.getMinRevision()))) {
@@ -201,7 +201,7 @@ public class Model implements IModel, Observer {
             this.cache.getServiceFeatures().put(newApp, new HashMap<String, ServiceFeature>());
             
             // apply new SF to DB, then model
-            for (AISServiceFeature sf : ais.getServiceFeatures()) {
+            for (IAISServiceFeature sf : ais.getServiceFeatures()) {
                 ServiceFeature newSF = new ServiceFeaturePersistenceProvider(null).createElementData(newApp,
                         sf.getIdentifier(), sf.getRequiredResourceGroups());
                 Assert.nonNull(newSF, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newSF", newSF);
@@ -351,7 +351,7 @@ public class Model implements IModel, Observer {
             PluginProvider.getInstance().install(rgPackage);
             
             // get the RGIS
-            RGIS rgis = PluginProvider.getInstance().getRGIS(rgPackage);
+            IRGIS rgis = PluginProvider.getInstance().getRGIS(rgPackage);
             
             // check it is valid
             de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
@@ -369,7 +369,7 @@ public class Model implements IModel, Observer {
                 throw new InvalidXMLException("ResourceGroup package (XML, object)", rgis.getIdentifier(),
                         rg.getRgPackage());
             }
-            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 AbstractPrivacySetting<?> aps = rg.getPrivacySetting(ps.getIdentifier());
                 if (aps == null) {
                     FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
@@ -387,7 +387,7 @@ public class Model implements IModel, Observer {
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
             // apply new PS to DB, then model
-            for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
                         ps.getIdentifier());
                 Assert.nonNull(newPS, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newPS", newPS);
