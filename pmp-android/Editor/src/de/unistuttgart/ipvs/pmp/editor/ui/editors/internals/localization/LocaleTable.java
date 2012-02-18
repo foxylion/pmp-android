@@ -2,17 +2,26 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization;
 
 import java.util.Locale;
 
+import org.eclipse.jface.bindings.keys.IKeyLookup;
+import org.eclipse.jface.bindings.keys.KeyLookupFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.FocusCellHighlighter;
+import org.eclipse.jface.viewers.FocusCellOwnerDrawHighlighter;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TableViewerEditor;
+import org.eclipse.jface.viewers.TableViewerFocusCellManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -73,6 +82,27 @@ public class LocaleTable {
 		table.setLinesVisible(true);
 		
 		createColumns(columnLayout);
+		
+		// Add keyboard navigation
+		ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(tableViewer) {
+			protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {				
+				// Editing is enabled as before but also by pressing enter
+				boolean activateByKey = event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED
+						&& event.keyCode == KeyLookupFactory.getDefault().formalKeyLookup(IKeyLookup.ENTER_NAME);
+				return super.isEditorActivationEvent(event) || activateByKey;
+			}
+				
+		};
+		
+		activationStrategy.setEnableEditorActivationWithKeyboard(true);
+			
+		FocusCellHighlighter highlighter = new FocusCellOwnerDrawHighlighter(tableViewer);
+		TableViewerFocusCellManager focusManager = new TableViewerFocusCellManager(tableViewer, highlighter);
+		
+		TableViewerEditor.create(tableViewer, focusManager, activationStrategy, ColumnViewerEditor.TABBING_HORIZONTAL
+				| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
+				| ColumnViewerEditor.KEYBOARD_ACTIVATION);
+				
 		
 		tableViewer.setContentProvider(new ListContentProvider());
 		if (type == Type.NAME) {
@@ -170,7 +200,6 @@ public class LocaleTable {
 			
 			@Override
 			protected void setValue(Object element, Object value) {
-				System.out.println("setValue("+value+")");
 				AbstractLocale al = ((AbstractLocale)element);
 				String input = ((String)value).toLowerCase();
 				

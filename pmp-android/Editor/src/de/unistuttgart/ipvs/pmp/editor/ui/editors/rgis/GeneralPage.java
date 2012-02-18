@@ -29,10 +29,12 @@ public class GeneralPage extends FormPage {
 
 	private IManagedForm managedForm;
 	public static final String ID = "rgis_general";
+	private boolean dirty = false;
 
 	public GeneralPage(FormEditor parent) {
 		super(parent, ID, "General");
 	}
+	
 	
 	
 
@@ -66,6 +68,7 @@ public class GeneralPage extends FormPage {
 		toolkit.createLabel(client, "Identifier");
 		Text identifier = toolkit.createText(client, Model.getInstance()
 				.getRgis().getIdentifier());
+		
 		identifier.addFocusListener(new FocusListener() {
 			
 			@Override
@@ -108,7 +111,6 @@ public class GeneralPage extends FormPage {
 		
 		client.setLayoutData(layoutData);
 		section.setLayoutData(layoutData);
-		section.setRedraw(true);
 		
 		RGIS rgis = Model.getInstance().getRgis();
 		LocaleTable nameTable = new LocaleTable(client,rgis,Type.NAME,toolkit);
@@ -162,6 +164,11 @@ public class GeneralPage extends FormPage {
 		section.setLayoutData(layoutData);
 
 		return section;
+	}
+	
+	@Override
+	public boolean isDirty() {
+		return dirty;
 	}
 
 }
