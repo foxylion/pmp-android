@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.BasicIS;
 
 /**
  * This is a service feature, which is assigned to an app and contains all

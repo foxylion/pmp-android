@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public abstract class IssueLocation implements Serializable, IIssueLocation {
+public abstract class IssueLocation implements IIssueLocation {
     
     /**
      * Serial

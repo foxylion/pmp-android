@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IdentifierIS;
 
 /**
  * This is a representation of a resource group, which is required for a

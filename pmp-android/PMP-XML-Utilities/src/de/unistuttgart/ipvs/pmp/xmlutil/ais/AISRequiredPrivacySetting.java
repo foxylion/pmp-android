@@ -19,7 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IdentifierIS;
 
 /**
  * 

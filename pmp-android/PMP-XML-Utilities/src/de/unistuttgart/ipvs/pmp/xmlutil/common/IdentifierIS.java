@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
+package de.unistuttgart.ipvs.pmp.xmlutil.common;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 

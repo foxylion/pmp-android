@@ -67,11 +67,7 @@ public interface IPluginProvider {
      * @throws InvalidPluginException
      *             if the supplied plugin is somehow corrupt
      */
-<<<<<<< HEAD
-    public abstract IRGIS getRGIS(String rgPackage);
-=======
-    public abstract RGIS getRGIS(String rgPackage) throws InvalidPluginException;
->>>>>>> a27e966704526cd5f88d33715bd72ca777cf2d55
+    public abstract IRGIS getRGIS(String rgPackage) throws InvalidPluginException;
     
     
     /**

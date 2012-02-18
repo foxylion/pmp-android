@@ -25,7 +25,6 @@ import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -394,11 +393,7 @@ public class PluginProvider implements IPluginProvider {
     
     
     @Override
-<<<<<<< HEAD
-    public IRGIS getRGIS(String rgPackage) {
-=======
     public RGIS getRGIS(String rgPackage) throws InvalidPluginException {
->>>>>>> a27e966704526cd5f88d33715bd72ca777cf2d55
         Assert.nonNull(rgPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "rgPackage", rgPackage);
         checkCached(rgPackage);
         return this.cacheRGIS.get(rgPackage);

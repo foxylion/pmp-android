@@ -17,47 +17,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
+package de.unistuttgart.ipvs.pmp.xmlutil.common;
 
-import java.io.Serializable;
-import java.util.List;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public interface IIssueLocation extends Serializable {
+public interface IIdentifierIS extends IIssueLocation {
     
     /**
-     * Get the issues
+     * Get the identifier
      * 
-     * @return list of issues
+     * @return identifier
      */
-    public abstract List<IIssue> getIssues();
+    public abstract String getIdentifier();
     
     
     /**
-     * Add an issue
+     * Set the identifier
      * 
-     * @param issue
-     *            issue to add
+     * @param identifier
+     *            identifier to set
      */
-    public abstract void addIssue(IIssue issue);
-    
-    
-    /**
-     * Remove an issue
-     * 
-     * @param issue
-     *            issue to remove
-     */
-    public abstract void removeIssue(IIssue issue);
-    
-    
-    /**
-     * Clear all issues and clear also all issues of linked data
-     */
-    public abstract void clearIssuesAndPropagate();
+    public abstract void setIdentifier(String identifier);
     
 }
