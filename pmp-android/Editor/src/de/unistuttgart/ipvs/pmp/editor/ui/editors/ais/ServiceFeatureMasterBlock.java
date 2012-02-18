@@ -30,7 +30,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureInputValidator;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeLabelProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -137,6 +137,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		}
 	    }
 	});
+	
+	treeViewer.expandAll();
 
 	section.setClient(compo);
     }
@@ -185,7 +187,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		InputDialog dialog = new InputDialog(parentShell,
 			"Change Service Feature",
 			"Enter the new identifier of the Service Feature",
-			sf.getIdentifier(), new ServiceFeatureInputValidator());
+			sf.getIdentifier(), new InputNotEmptyValidator());
 
 		if (dialog.open() == Window.OK) {
 		    String result = dialog.getValue();
@@ -226,7 +228,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	});
 
 	// Picture can be added also to the actions
-	Action add = new Action("Add") {
+	Action add = new Action("Add Service Feature") {
 
 	    @Override
 	    public void run() {
@@ -234,7 +236,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
 			"Enter the identifier of the Service Feature", null,
-			new ServiceFeatureInputValidator());
+			new InputNotEmptyValidator());
 
 		if (dialog.open() == Window.OK) {
 		    // Add the service feature and set the dirty flag
