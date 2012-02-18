@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
 import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPresets;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
-import de.unistuttgart.ipvs.pmp.gui.settings.ActivitySettings;
+import de.unistuttgart.ipvs.pmp.gui.setting.ActivitySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;

@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.settings;
+package de.unistuttgart.ipvs.pmp.gui.setting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +20,6 @@ import de.unistuttgart.ipvs.pmp.util.FileLog;
  * @author Jakob Jarosch, Marcus Vetter
  */
 public class ActivitySettings extends Activity {
-    
-    private static final class PresetTrashBinSettingEvaluator implements ISettingEvaluator<Boolean> {
-        
-        @Override
-        public void setValue(Boolean newValue) {
-            PMPPreferences.getInstance().setPresetTrashBinVisible(newValue);
-        }
-        
-        
-        @Override
-        public Boolean getValue() {
-            return PMPPreferences.getInstance().isPresetTrashBinVisible();
-        }
-    }
     
     private final class ExpertModeSettingEvaluator implements ISettingEvaluator<Boolean> {
         
@@ -146,11 +132,6 @@ public class ActivitySettings extends Activity {
         // add the ExpertMode-SettingCheckBox
         this.settingsList.add(new SettingCheckBox(R.string.expert_mode, R.string.settings_expertmode_description,
                 R.drawable.icon_expertmode, new ExpertModeSettingEvaluator()));
-        
-        // add the preset trash bin SettingCheckBox 
-        this.settingsList.add(new SettingCheckBox(R.string.settings_preset_trash_bin_visible,
-                R.string.settings_preset_trash_bin_description, R.drawable.icon_expertmode,
-                new PresetTrashBinSettingEvaluator()));
         
         // add the log granularities
         this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_component_change,

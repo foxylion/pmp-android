@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.settings;
+package de.unistuttgart.ipvs.pmp.gui.setting;
 
 /**
  * Interface to define ways to get and set values of a {@link SettingAbstract}.

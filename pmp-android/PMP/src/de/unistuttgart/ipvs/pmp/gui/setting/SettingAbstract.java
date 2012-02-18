@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.settings;
+package de.unistuttgart.ipvs.pmp.gui.setting;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
