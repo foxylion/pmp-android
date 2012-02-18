@@ -27,11 +27,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
@@ -191,11 +191,11 @@ public class Printer {
      * @param presetSet
      *            the presetSet set for printing
      */
-    public static void printPresetSet(PresetSet presetSet) {
+    public static void printPresetSet(IPresetSet presetSet) {
         p("------------------------------------");
         p("- Printout of the PresetSet --------");
         p("------------------------------------");
-        for (Preset preset : presetSet.getPresets()) {
+        for (IPreset preset : presetSet.getPresets()) {
             p("Preset information:");
             p("> Identifier: " + preset.getIdentifier());
             p("> Creator: " + preset.getCreator());
@@ -203,16 +203,16 @@ public class Printer {
             p("> Description: " + preset.getDescription());
             p("");
             p("Assigned Apps:");
-            for (PresetAssignedApp app : preset.getAssignedApps()) {
+            for (IPresetAssignedApp app : preset.getAssignedApps()) {
                 p("> " + app.getIdentifier());
             }
             p("");
-            for (PresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
+            for (IPresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
                 p("Assigned Privacy Setting:");
                 p("> RG: " + ps.getRgIdentifier() + " (Revision: " + ps.getRgRevision() + ")");
                 p("> PS: " + ps.getPsIdentifier());
                 p("> Value: " + ps.getValue());
-                for (PresetPSContext context : ps.getContexts()) {
+                for (IPresetPSContext context : ps.getContexts()) {
                     p("> Context:");
                     p("   > Type: " + context.getType());
                     p("   > Condition: " + context.getCondition());

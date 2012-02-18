@@ -9,7 +9,7 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignedPrivacySetting implements Serializable {
+public class PresetAssignedPrivacySetting implements Serializable, IPresetAssignedPrivacySetting {
     
     /**
      * Serial
@@ -39,7 +39,7 @@ public class PresetAssignedPrivacySetting implements Serializable {
     /**
      * List of contexts
      */
-    private List<PresetPSContext> contexts = new ArrayList<PresetPSContext>();
+    private List<IPresetPSContext> contexts = new ArrayList<IPresetPSContext>();
     
     
     /**
@@ -62,118 +62,101 @@ public class PresetAssignedPrivacySetting implements Serializable {
     }
     
     
-    /**
-     * Get the resource group identifier
-     * 
-     * @return the rgIdentifier
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getRgIdentifier()
      */
+    @Override
     public String getRgIdentifier() {
         return this.rgIdentifier;
     }
     
     
-    /**
-     * Set the resource group identifier
-     * 
-     * @param rgIdentifier
-     *            the rgIdentifier to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setRgIdentifier(java.lang.String)
      */
+    @Override
     public void setRgIdentifier(String rgIdentifier) {
         this.rgIdentifier = rgIdentifier;
     }
     
     
-    /**
-     * Get the resource group revision
-     * 
-     * @return the rgRevision
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getRgRevision()
      */
+    @Override
     public String getRgRevision() {
         return this.rgRevision;
     }
     
     
-    /**
-     * Set the resource group revision
-     * 
-     * @param rgRevision
-     *            the rgRevision to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setRgRevision(java.lang.String)
      */
+    @Override
     public void setRgRevision(String rgRevision) {
         this.rgRevision = rgRevision;
     }
     
     
-    /**
-     * Get the privacy setting identifier
-     * 
-     * @return the psIdentifier
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getPsIdentifier()
      */
+    @Override
     public String getPsIdentifier() {
         return this.psIdentifier;
     }
     
     
-    /**
-     * Set the privacy setting identifier
-     * 
-     * @param psIdentifier
-     *            the psIdentifier to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setPsIdentifier(java.lang.String)
      */
+    @Override
     public void setPsIdentifier(String psIdentifier) {
         this.psIdentifier = psIdentifier;
     }
     
     
-    /**
-     * Get the value
-     * 
-     * @return the value
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getValue()
      */
+    @Override
     public String getValue() {
         return this.value;
     }
     
     
-    /**
-     * Set the value
-     * 
-     * @param value
-     *            the value to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setValue(java.lang.String)
      */
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
     
     
-    /**
-     * Get the list of contexts
-     * 
-     * @return the contexts
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getContexts()
      */
-    public List<PresetPSContext> getContexts() {
+    @Override
+    public List<IPresetPSContext> getContexts() {
         return this.contexts;
     }
     
     
-    /**
-     * Add a context
-     * 
-     * @param context
-     *            Context to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#addContext(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext)
      */
-    public void addContext(PresetPSContext context) {
+    @Override
+    public void addContext(IPresetPSContext context) {
         this.contexts.add(context);
     }
     
     
-    /**
-     * Remove a context
-     * 
-     * @param context
-     *            Context to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#removeContext(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext)
      */
-    public void removeContext(PresetPSContext context) {
+    @Override
+    public void removeContext(IPresetPSContext context) {
         this.contexts.remove(context);
     }
     
