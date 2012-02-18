@@ -31,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredResourceGroup extends IdentifierIS {
+public class AISRequiredResourceGroup extends IdentifierIS implements IAISRequiredResourceGroup {
     
     /**
      * Serial
@@ -47,7 +47,7 @@ public class AISRequiredResourceGroup extends IdentifierIS {
      * This list contains all required privacy settings of the required resource
      * group.
      */
-    private List<AISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<AISRequiredPrivacySetting>();
+    private List<IAISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<IAISRequiredPrivacySetting>();
     
     
     /**
@@ -71,70 +71,57 @@ public class AISRequiredResourceGroup extends IdentifierIS {
     }
     
     
-    /**
-     * Get the min revision
-     * 
-     * @return the min revision
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getMinRevision()
      */
+    @Override
     public String getMinRevision() {
         return this.minRevision;
     }
     
     
-    /**
-     * Set the min revision
-     * 
-     * @param minRevision
-     *            min revision to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#setMinRevision(java.lang.String)
      */
+    @Override
     public void setMinRevision(String minRevision) {
         this.minRevision = minRevision;
     }
     
     
-    /**
-     * Get all privacy settings of the required resource group
-     * 
-     * @return list of privacy settings
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getRequiredPrivacySettings()
      */
-    public List<AISRequiredPrivacySetting> getRequiredPrivacySettings() {
+    @Override
+    public List<IAISRequiredPrivacySetting> getRequiredPrivacySettings() {
         return this.requiredPrivacySettings;
     }
     
     
-    /**
-     * Add a privacy setting to the required resource group
-     * 
-     * @param privacySetting
-     *            privacySetting to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#addRequiredPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting)
      */
-    public void addRequiredPrivacySetting(AISRequiredPrivacySetting privacySetting) {
+    @Override
+    public void addRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting) {
         this.requiredPrivacySettings.add(privacySetting);
     }
     
     
-    /**
-     * Remove a privacy setting from the required resource group
-     * 
-     * @param privacySetting
-     *            privacySetting to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#removeRequiredPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting)
      */
-    public void removeRequiredPrivacySetting(AISRequiredPrivacySetting privacySetting) {
+    @Override
+    public void removeRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting) {
         this.requiredPrivacySettings.remove(privacySetting);
     }
     
     
-    /**
-     * Get a required privacy setting for a given identifier. Null, if no
-     * required privacy setting exists for the given identifier.
-     * 
-     * @param identifier
-     *            identifier of the required privacy setting
-     * @return required privacy setting with given identifier, null if none
-     *         exists.
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getRequiredPrivacySettingForIdentifier(java.lang.String)
      */
-    public AISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(String identifier) {
-        for (AISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
+    @Override
+    public IAISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(String identifier) {
+        for (IAISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
             if (rps.getIdentifier().equals(identifier)) {
                 return rps;
             }
@@ -146,7 +133,7 @@ public class AISRequiredResourceGroup extends IdentifierIS {
     @Override
     public void clearIssuesAndPropagate() {
         super.getIssues().clear();
-        for (AISRequiredPrivacySetting rps : this.getRequiredPrivacySettings()) {
+        for (IAISRequiredPrivacySetting rps : this.getRequiredPrivacySettings()) {
             rps.clearIssuesAndPropagate();
         }
     }

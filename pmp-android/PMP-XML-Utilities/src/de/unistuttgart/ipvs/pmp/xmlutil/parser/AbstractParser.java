@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -143,7 +143,7 @@ public abstract class AbstractParser {
      * @param is
      *            add results to this basic information set
      */
-    protected void parseNameDescriptionNodes(Element rootElement, BasicIS is) {
+    protected void parseNameDescriptionNodes(Element rootElement, IBasicIS is) {
         // Create results
         List<ParsedNode> nameList = parseNodes(rootElement, XMLConstants.NAME, XMLConstants.LANGUAGE_ATTR);
         List<ParsedNode> descriptionList = parseNodes(rootElement, XMLConstants.DESCRIPTION, XMLConstants.LANGUAGE_ATTR);

@@ -22,7 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 
 /**
  * This is a service feature, which is assigned to an app and contains all
@@ -31,7 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
  * @author Marcus Vetter
  * 
  */
-public class AISServiceFeature extends BasicIdentifierIS {
+public class AISServiceFeature extends BasicIS implements IAISServiceFeature {
     
     /**
      * Serial
@@ -39,9 +39,14 @@ public class AISServiceFeature extends BasicIdentifierIS {
     private static final long serialVersionUID = -3279934293726339125L;
     
     /**
+     * The identifier
+     */
+    private String identifier = "";
+    
+    /**
      * This list contains all required resource groups of the service feature.
      */
-    private List<AISRequiredResourceGroup> requiredResourceGroups = new ArrayList<AISRequiredResourceGroup>();
+    private List<IAISRequiredResourceGroup> requiredResourceGroups = new ArrayList<IAISRequiredResourceGroup>();
     
     
     /**
@@ -62,49 +67,39 @@ public class AISServiceFeature extends BasicIdentifierIS {
     }
     
     
-    /**
-     * Get all required resource groups of the service feature
-     * 
-     * @return list with required resource groups
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#getRequiredResourceGroups()
      */
-    public List<AISRequiredResourceGroup> getRequiredResourceGroups() {
+    @Override
+    public List<IAISRequiredResourceGroup> getRequiredResourceGroups() {
         return this.requiredResourceGroups;
     }
     
     
-    /**
-     * Add a required resource group to the service feature
-     * 
-     * @param rrg
-     *            the required Resourcegroup to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#addRequiredResourceGroup(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup)
      */
-    public void addRequiredResourceGroup(AISRequiredResourceGroup rrg) {
+    @Override
+    public void addRequiredResourceGroup(IAISRequiredResourceGroup rrg) {
         this.requiredResourceGroups.add(rrg);
     }
     
     
-    /**
-     * Remove a required resource group from the service feature
-     * 
-     * @param rrg
-     *            required resource group to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#removeRequiredResourceGroup(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup)
      */
-    public void removeRequiredResourceGroup(AISRequiredResourceGroup rrg) {
+    @Override
+    public void removeRequiredResourceGroup(IAISRequiredResourceGroup rrg) {
         this.requiredResourceGroups.remove(rrg);
     }
     
     
-    /**
-     * Get a required resource group for a given identifier. Null, if no
-     * required resource group exists for the given identifier.
-     * 
-     * @param identifier
-     *            identifier of the required resource group
-     * @return required resource group with given identifier, null if none
-     *         exists.
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#getRequiredResourceGroupForIdentifier(java.lang.String)
      */
-    public AISRequiredResourceGroup getRequiredResourceGroupForIdentifier(String identifier) {
-        for (AISRequiredResourceGroup rrg : this.requiredResourceGroups) {
+    @Override
+    public IAISRequiredResourceGroup getRequiredResourceGroupForIdentifier(String identifier) {
+        for (IAISRequiredResourceGroup rrg : this.requiredResourceGroups) {
             if (rrg.getIdentifier().equals(identifier)) {
                 return rrg;
             }
@@ -118,9 +113,21 @@ public class AISServiceFeature extends BasicIdentifierIS {
         super.getIssues().clear();
         super.clearNameIssues();
         super.clearDescriptionIssues();
-        for (AISRequiredResourceGroup rrg : this.getRequiredResourceGroups()) {
+        for (IAISRequiredResourceGroup rrg : this.getRequiredResourceGroups()) {
             rrg.clearIssuesAndPropagate();
         }
+    }
+    
+    
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    @Override
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
     
 }

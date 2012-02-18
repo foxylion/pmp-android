@@ -22,12 +22,13 @@ package de.unistuttgart.ipvs.pmp.xmlutil.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
@@ -47,8 +48,8 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validateRGIS(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
@@ -73,8 +74,8 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validateRGInformation(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
@@ -119,8 +120,8 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validatePrivacySettings(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
@@ -130,12 +131,12 @@ public class RGISValidator extends AbstractValidator {
          * Validate the occurrences of identifier of privacy settings
          */
         // Convert
-        List<BasicIdentifierIS> superPSList = new ArrayList<BasicIdentifierIS>();
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        List<IIdentifierIS> superPSList = new ArrayList<IIdentifierIS>();
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             superPSList.add(ps);
         }
         // Validate
-        for (String identifierFail : validateOccurrenceOfIdentifierInBasicIdentifierIS(superPSList)) {
+        for (String identifierFail : validateOccurrenceOfIdentifier(superPSList)) {
             Issue issue = new Issue(IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN, rgis);
             issue.addParameter(identifierFail);
             issueList.add(issue);
@@ -155,7 +156,7 @@ public class RGISValidator extends AbstractValidator {
         /*
          * Validate all privacy settings
          */
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             issueList.addAll(validatePrivacySetting(ps, attachData));
         }
         
@@ -172,8 +173,8 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validatePrivacySetting(RGISPrivacySetting ps, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
@@ -212,13 +213,13 @@ public class RGISValidator extends AbstractValidator {
      *            the privacy setting
      * @return List with issues as result of the validation
      */
-    private List<Issue> validateChangeDescriptions(RGISPrivacySetting privacySetting) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    private List<IIssue> validateChangeDescriptions(IRGISPrivacySetting privacySetting) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         boolean englishLocaleExists = false;
         List<String> localesOccurred = new ArrayList<String>();
         
-        for (LocalizedString changeDescription : privacySetting.getChangeDescriptions()) {
+        for (ILocalizedString changeDescription : privacySetting.getChangeDescriptions()) {
             
             // Instantiate possible issues
             Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, changeDescription);
@@ -250,7 +251,7 @@ public class RGISValidator extends AbstractValidator {
                 } else {
                     // Check, if this issue is already added to the issuelist
                     boolean issueAlreadyExists = false;
-                    for (Issue issueExisting : issueList) {
+                    for (IIssue issueExisting : issueList) {
                         if (issueExisting.getType().equals(IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)
                                 && (issueExisting).getLocation().equals(privacySetting)
                                 && issueExisting.getParameters().size() > 0
@@ -298,7 +299,7 @@ public class RGISValidator extends AbstractValidator {
      * @param location
      *            issue location
      */
-    public void clearIssuesAndPropagate(IssueLocation location) {
+    public void clearIssuesAndPropagate(IIssueLocation location) {
         location.clearIssuesAndPropagate();
     }
     

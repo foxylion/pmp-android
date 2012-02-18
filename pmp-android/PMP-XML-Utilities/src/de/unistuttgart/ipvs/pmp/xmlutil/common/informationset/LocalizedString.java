@@ -28,7 +28,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
  * @author Marcus Vetter
  * 
  */
-public class LocalizedString extends IssueLocation {
+public class LocalizedString extends IssueLocation implements ILocalizedString {
     
     /**
      * Serial
@@ -46,43 +46,37 @@ public class LocalizedString extends IssueLocation {
     private Locale locale;
     
     
-    /**
-     * Get the name
-     * 
-     * @return name
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#getString()
      */
+    @Override
     public String getString() {
         return this.string;
     }
     
     
-    /**
-     * Set the name
-     * 
-     * @param name
-     *            name to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#setString(java.lang.String)
      */
+    @Override
     public void setString(String name) {
         this.string = name;
     }
     
     
-    /**
-     * Get the locale
-     * 
-     * @return locale
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#getLocale()
      */
+    @Override
     public Locale getLocale() {
         return this.locale;
     }
     
     
-    /**
-     * Set the locale
-     * 
-     * @param locale
-     *            locale to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#setLocale(java.util.Locale)
      */
+    @Override
     public void setLocale(Locale locale) {
         this.locale = locale;
     }

@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class RGISCompiler extends BasicISCompiler {
      *            RGIS to compile
      * @return xml input stream
      */
-    public InputStream compile(RGIS rgis) {
+    public InputStream compile(IRGIS rgis) {
         
         // Instantiate the root and two main child nodes
         XMLNode rgisNode = new XMLNode(XMLConstants.RGIS);
@@ -90,10 +90,10 @@ public class RGISCompiler extends BasicISCompiler {
      *            RGIS
      * @return privacy setting node list
      */
-    private List<XMLNode> createPSNodes(RGIS rgis) {
+    private List<XMLNode> createPSNodes(IRGIS rgis) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
         
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             XMLNode psNode = new XMLNode(XMLConstants.PRIVACY_SETTING);
             
             // Add identifier
@@ -107,7 +107,7 @@ public class RGISCompiler extends BasicISCompiler {
             }
             
             // Compile the change descriptions
-            for (LocalizedString changeDescr : ps.getChangeDescriptions()) {
+            for (ILocalizedString changeDescr : ps.getChangeDescriptions()) {
                 XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION);
                 changeDescrNode.setContent(changeDescr.getString());
                 changeDescrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, changeDescr.getLocale()

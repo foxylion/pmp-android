@@ -29,7 +29,7 @@ import java.util.List;
  * @author Marcus Vetter
  * 
  */
-public abstract class IssueLocation implements Serializable {
+public abstract class IssueLocation implements Serializable, IIssueLocation {
     
     /**
      * Serial
@@ -39,44 +39,33 @@ public abstract class IssueLocation implements Serializable {
     /**
      * This list contains all issues appeared in this object
      */
-    private List<Issue> issues = new ArrayList<Issue>();
+    private List<IIssue> issues = new ArrayList<IIssue>();
     
     
-    /**
-     * Get the issues
-     * 
-     * @return list of issues
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#getIssues()
      */
-    public List<Issue> getIssues() {
+    @Override
+    public List<IIssue> getIssues() {
         return issues;
     }
     
     
-    /**
-     * Add an issue
-     * 
-     * @param issue
-     *            issue to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#addIssue(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue)
      */
-    public void addIssue(Issue issue) {
+    @Override
+    public void addIssue(IIssue issue) {
         issues.add(issue);
     }
     
     
-    /**
-     * Remove an issue
-     * 
-     * @param issue
-     *            issue to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#removeIssue(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue)
      */
-    public void removeIssue(Issue issue) {
+    @Override
+    public void removeIssue(IIssue issue) {
         issues.remove(issue);
     }
-    
-    
-    /**
-     * Clear all issues and clear also all issues of linked data
-     */
-    public abstract void clearIssuesAndPropagate();
     
 }

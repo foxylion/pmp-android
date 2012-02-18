@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * Converts an old ResourceGroup RGIS to a new one.
@@ -26,8 +27,8 @@ public class Converter {
                 new FileInputStream(pathToRepositroy + "\\pmp-android\\pmp-android\\Resources\\" + rgFolderName
                         + "\\assets\\rgis.xml"));
         
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
-            for (LocalizedString description : ps.getDescriptions()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            for (ILocalizedString description : ps.getDescriptions()) {
                 LocalizedString changeDescription = new LocalizedString();
                 changeDescription.setLocale(description.getLocale());
                 changeDescription.setString(description.getString());

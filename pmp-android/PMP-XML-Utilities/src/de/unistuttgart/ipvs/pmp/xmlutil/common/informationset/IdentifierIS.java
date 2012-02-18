@@ -2,7 +2,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 
-public abstract class IdentifierIS extends IssueLocation {
+public abstract class IdentifierIS extends IssueLocation implements IIdentifierIS {
     
     /**
      * Serial
@@ -15,22 +15,19 @@ public abstract class IdentifierIS extends IssueLocation {
     private String identifier = "";
     
     
-    /**
-     * Get the identifier
-     * 
-     * @return identifier
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS#getIdentifier()
      */
+    @Override
     public String getIdentifier() {
         return this.identifier;
     }
     
     
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            identifier to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS#setIdentifier(java.lang.String)
      */
+    @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }

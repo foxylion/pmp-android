@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
@@ -33,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * 
  * @author Marcus Vetter
  */
-public class AIS extends BasicIS {
+public class AIS extends BasicIS implements IAIS {
     
     /**
      * Serial
@@ -43,7 +43,7 @@ public class AIS extends BasicIS {
     /**
      * This list contains all service features of the app.
      */
-    private List<AISServiceFeature> serviceFeatures;
+    private List<IAISServiceFeature> serviceFeatures;
     
     
     /**
@@ -51,52 +51,43 @@ public class AIS extends BasicIS {
      */
     public AIS() {
         super();
-        this.serviceFeatures = new ArrayList<AISServiceFeature>();
+        this.serviceFeatures = new ArrayList<IAISServiceFeature>();
     }
     
     
-    /**
-     * Add a service feature to the app
-     * 
-     * @param sf
-     *            service feature
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#addServiceFeature(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature)
      */
-    public void addServiceFeature(AISServiceFeature sf) {
+    @Override
+    public void addServiceFeature(IAISServiceFeature sf) {
         this.serviceFeatures.add(sf);
     }
     
     
-    /**
-     * Remove a service feature of the app
-     * 
-     * @param sf
-     *            service feature
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#removeServiceFeature(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature)
      */
-    public void removeServiceFeature(AISServiceFeature sf) {
+    @Override
+    public void removeServiceFeature(IAISServiceFeature sf) {
         this.serviceFeatures.remove(sf);
     }
     
     
-    /**
-     * Get the list which contains all service features
-     * 
-     * @return list with service features
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#getServiceFeatures()
      */
-    public List<AISServiceFeature> getServiceFeatures() {
+    @Override
+    public List<IAISServiceFeature> getServiceFeatures() {
         return this.serviceFeatures;
     }
     
     
-    /**
-     * Get a service feature for a given identifier. Null, if no service feature
-     * exists for the given identifier.
-     * 
-     * @param identifier
-     *            identifier of the service feature
-     * @return service feature with given identifier, null if none exists.
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#getServiceFeatureForIdentifier(java.lang.String)
      */
-    public AISServiceFeature getServiceFeatureForIdentifier(String identifier) {
-        for (AISServiceFeature sf : this.serviceFeatures) {
+    @Override
+    public IAISServiceFeature getServiceFeatureForIdentifier(String identifier) {
+        for (IAISServiceFeature sf : this.serviceFeatures) {
             if (sf.getIdentifier().equals(identifier)) {
                 return sf;
             }
@@ -112,35 +103,37 @@ public class AIS extends BasicIS {
     }
     
     
-    /**
-     * Clear only issues referring to the app information
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearAppInformationIssuesAndPropagate()
      */
+    @Override
     public void clearAppInformationIssuesAndPropagate() {
         clearNameIssues();
         clearDescriptionIssues();
-        List<Issue> removeList = new ArrayList<Issue>();
-        for (Issue issue : getIssues()) {
+        List<IIssue> removeList = new ArrayList<IIssue>();
+        for (IIssue issue : getIssues()) {
             if (!((issue.getType() == IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)
                     || (issue.getType() == IssueType.NO_SF_EXISTS) || (issue.getType() == IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN))) {
                 removeList.add(issue);
             }
         }
         // Remove issues
-        for (Issue issue : removeList) {
+        for (IIssue issue : removeList) {
             removeIssue(issue);
         }
     }
     
     
-    /**
-     * Clear only issues referring to the service features
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearServiceFeaturesIssuesAndPropagate()
      */
+    @Override
     public void clearServiceFeaturesIssuesAndPropagate() {
-        for (AISServiceFeature sf : this.getServiceFeatures()) {
+        for (IAISServiceFeature sf : this.getServiceFeatures()) {
             sf.clearIssuesAndPropagate();
         }
-        List<Issue> removeList = new ArrayList<Issue>();
-        for (Issue issue : getIssues()) {
+        List<IIssue> removeList = new ArrayList<IIssue>();
+        for (IIssue issue : getIssues()) {
             if ((issue.getType() == IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)
                     || (issue.getType() == IssueType.NO_SF_EXISTS)
                     || (issue.getType() == IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN)) {
@@ -148,7 +141,7 @@ public class AIS extends BasicIS {
             }
         }
         // Remove issues
-        for (Issue issue : removeList) {
+        for (IIssue issue : removeList) {
             removeIssue(issue);
         }
     }

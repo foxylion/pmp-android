@@ -24,9 +24,12 @@ import java.util.List;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -46,7 +49,7 @@ public class AbstractValidator {
      *            location of the issue
      * @return List with issues as result of the validation
      */
-    protected List<Issue> validateNames(IssueLocation location) {
+    protected List<Issue> validateNames(IIssueLocation location) {
         List<Issue> issueList = new ArrayList<Issue>();
         
         // Check, if this location has names and descriptions (extends from BasicIS)
@@ -54,7 +57,7 @@ public class AbstractValidator {
             boolean englishLocaleExists = false;
             List<String> localesOccurred = new ArrayList<String>();
             
-            for (LocalizedString name : ((BasicIS) location).getNames()) {
+            for (LocalizedString name : ((IBasicIS) location).getNames()) {
                 
                 // Instantiate possible issues
                 Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, name);
@@ -86,7 +89,7 @@ public class AbstractValidator {
                     } else {
                         // Check, if this issue is already added to the issuelist
                         boolean issueAlreadyExists = false;
-                        for (Issue issueExisting : issueList) {
+                        for (IIssue issueExisting : issueList) {
                             if (issueExisting.getType().equals(IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN)
                                     && (issueExisting).getLocation().equals(location)
                                     && issueExisting.getParameters().size() > 0
@@ -137,15 +140,15 @@ public class AbstractValidator {
      *            the IssueLocation
      * @return List with issues as result of the validation
      */
-    protected List<Issue> validateDescriptions(IssueLocation location) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    protected List<IIssue> validateDescriptions(IIssueLocation location) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Check, if this location has names and descriptions (extends from BasicIS)
         if (location instanceof BasicIS) {
             boolean englishLocaleExists = false;
             List<String> localesOccurred = new ArrayList<String>();
             
-            for (LocalizedString description : ((BasicIS) location).getDescriptions()) {
+            for (ILocalizedString description : ((IBasicIS) location).getDescriptions()) {
                 
                 // Instantiate possible issues
                 Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, description);
@@ -177,7 +180,7 @@ public class AbstractValidator {
                     } else {
                         // Check, if this issue is already added to the issuelist
                         boolean issueAlreadyExists = false;
-                        for (Issue issueExisting : issueList) {
+                        for (IIssue issueExisting : issueList) {
                             if (issueExisting.getType().equals(IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)
                                     && (issueExisting).getLocation().equals(location)
                                     && issueExisting.getParameters().size() > 0
@@ -228,34 +231,11 @@ public class AbstractValidator {
      *            the data to validate (with an identifier)
      * @return a list with all identifier, which occurred at least twice
      */
-    protected List<String> validateOccurrenceOfIdentifierInIdentifierIS(List<IdentifierIS> locationWithIdentifier) {
+    protected List<String> validateOccurrenceOfIdentifier(List<IIdentifierIS> locationWithIdentifier) {
         List<String> idList = new ArrayList<String>();
-        for (IdentifierIS identifier : locationWithIdentifier) {
+        for (IIdentifierIS identifier : locationWithIdentifier) {
             String id = identifier.getIdentifier();
-            for (IdentifierIS identifierCompare : locationWithIdentifier) {
-                String idCompare = identifierCompare.getIdentifier();
-                if ((!identifier.equals(identifierCompare)) && id.equals(idCompare) && !idList.contains(id)) {
-                    idList.add(id);
-                }
-            }
-        }
-        return idList;
-    }
-    
-    
-    /**
-     * Validate the occurrences of identifier.
-     * 
-     * @param locationWithIdentifier
-     *            the data to validate (with an identifier)
-     * @return a list with all identifier, which occurred at least twice
-     */
-    protected List<String> validateOccurrenceOfIdentifierInBasicIdentifierIS(
-            List<BasicIdentifierIS> locationWithIdentifier) {
-        List<String> idList = new ArrayList<String>();
-        for (BasicIdentifierIS identifier : locationWithIdentifier) {
-            String id = identifier.getIdentifier();
-            for (BasicIdentifierIS identifierCompare : locationWithIdentifier) {
+            for (IIdentifierIS identifierCompare : locationWithIdentifier) {
                 String idCompare = identifierCompare.getIdentifier();
                 if ((!identifier.equals(identifierCompare)) && id.equals(idCompare) && !idList.contains(id)) {
                     idList.add(id);
@@ -314,10 +294,10 @@ public class AbstractValidator {
      * @param attachData
      *            true, if the data should be attached with the issues
      */
-    protected void attachData(List<Issue> issueList, boolean attachData) {
+    protected void attachData(List<IIssue> issueList, boolean attachData) {
         if (attachData) {
-            for (Issue issue : issueList) {
-                IssueLocation location = issue.getLocation();
+            for (IIssue issue : issueList) {
+                IIssueLocation location = issue.getLocation();
                 location.addIssue(issue);
             }
         }

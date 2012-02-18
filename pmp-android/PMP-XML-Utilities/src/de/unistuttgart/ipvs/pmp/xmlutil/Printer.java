@@ -21,20 +21,21 @@ package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
  * This Class provides static methods to print a given AIS, RGIS and PresetSet.
@@ -63,8 +64,8 @@ public class Printer {
      * @param preString
      *            the string before the print out
      */
-    private static void printIssues(IssueLocation location, String preString) {
-        for (Issue issue : location.getIssues()) {
+    private static void printIssues(IIssueLocation location, String preString) {
+        for (IIssue issue : location.getIssues()) {
             StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
             if (issue.getParameters().size() > 0) {
                 sb.append(" (Parameter: ");
@@ -86,7 +87,7 @@ public class Printer {
      * @param ais
      *            the app information set for printing
      */
-    public static void printAIS(AIS ais) {
+    public static void printAIS(IAIS ais) {
         p("------------------------------------");
         p("- Printout of the AIS --------------");
         p("------------------------------------");
@@ -102,7 +103,7 @@ public class Printer {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
             printIssues(descr, "   > ");
         }
-        for (AISServiceFeature sf : ais.getServiceFeatures()) {
+        for (IAISServiceFeature sf : ais.getServiceFeatures()) {
             p("");
             p("Service Feature:");
             printIssues(sf, "> ");
@@ -117,13 +118,13 @@ public class Printer {
                 p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
                 printIssues(descr, "   > ");
             }
-            for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+            for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
                 p("> Required Resource Group:");
                 printIssues(rrg, "   > ");
                 p("   > Identifier: " + rrg.getIdentifier());
                 p("   > Min Revision: " + rrg.getMinRevision());
                 p("   > Privacy Settings:");
-                for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+                for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                     p("      > " + rps.getIdentifier() + ": " + rps.getValue());
                     printIssues(rps, "      > ");
                 }
@@ -139,7 +140,7 @@ public class Printer {
      * @param rgis
      *            the rg information set for printing
      */
-    public static void printRGIS(RGIS rgis) {
+    public static void printRGIS(IRGIS rgis) {
         p("------------------------------------");
         p("- Printout of the RGIS -------------");
         p("------------------------------------");
@@ -158,7 +159,7 @@ public class Printer {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
             printIssues(descr, "   > ");
         }
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             p("");
             p("Privacy Setting:");
             printIssues(ps, "> ");
@@ -175,7 +176,7 @@ public class Printer {
                 printIssues(descr, "   > ");
             }
             p("> Change descriptions: ");
-            for (LocalizedString changeDescr : ps.getChangeDescriptions()) {
+            for (ILocalizedString changeDescr : ps.getChangeDescriptions()) {
                 p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getString());
                 printIssues(changeDescr, "   > ");
             }
@@ -225,11 +226,11 @@ public class Printer {
     }
     
     
-    public static void printIssues(List<Issue> issueList) {
+    public static void printIssues(List<IIssue> issueList) {
         p("------------------------------------");
         p("- Printout of the issue list -------");
         p("------------------------------------");
-        for (Issue issue : issueList) {
+        for (IIssue issue : issueList) {
             p("> Location: " + issue.getLocation());
             p("> Type: " + issue.getType().toString());
             for (String parameter : issue.getParameters()) {
