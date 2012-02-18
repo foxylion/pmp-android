@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import org.eclipse.swt.SWT;
@@ -15,9 +12,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.InformationTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.StoredInformation;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 
 /**
  * Creates the "General" page for the {@link AisEditor}
@@ -97,23 +97,32 @@ public class AISGeneralPage extends FormPage {
      */
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
 	// Set the section's parameters
-	Section section = createSectionWithDescription(parent, "Localization",
-		toolkit, "Defines the localized informations about the ais.xml");
+	Section section = createSection(parent, "Localization", toolkit);
 
 	// Create elements stored inside this section
-	Composite client = toolkit.createComposite(section, SWT.None);
+	Composite client = toolkit.createComposite(section);
 
-	client.setLayout(new GridLayout(1, true));
+	client.setLayout(new GridLayout(2, false));
 
 	GridData layoutData = new GridData();
 	layoutData.horizontalAlignment = GridData.FILL;
+	layoutData.verticalAlignment = GridData.FILL;
 	layoutData.grabExcessHorizontalSpace = true;
+	layoutData.grabExcessVerticalSpace = true;
 
-	// Prepare table
-	InformationTable table = new InformationTable(section, localization,
+	client.setLayoutData(layoutData);
+	section.setLayoutData(layoutData);
+
+	AIS ais = Model.getInstance().getAis();
+	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
 		toolkit);
+	nameTable.getComposite().setLayoutData(layoutData);
 
-	section.setClient(table.getControl());
+	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
+		toolkit);
+	descTable.getComposite().setLayoutData(layoutData);
+
+	section.setClient(client);
     }
 
     /**
@@ -134,6 +143,30 @@ public class AISGeneralPage extends FormPage {
 	Section section = toolkit.createSection(parent, Section.TWISTIE
 		| Section.TITLE_BAR | Section.DESCRIPTION);
 	section.setDescription(desc);
+	section.setText(title);
+	section.setExpanded(true);
+
+	GridData layoutData = new GridData();
+	layoutData.horizontalAlignment = GridData.FILL;
+	layoutData.grabExcessHorizontalSpace = true;
+
+	section.setLayoutData(layoutData);
+
+	return section;
+    }
+
+    /**
+     * Creates a default section which spans over the whole editor
+     * 
+     * @param parent
+     * @param title
+     * @param toolkit
+     * @return
+     */
+    private Section createSection(Composite parent, String title,
+	    FormToolkit toolkit) {
+	Section section = toolkit.createSection(parent, Section.TWISTIE
+		| Section.TITLE_BAR);
 	section.setText(title);
 	section.setExpanded(true);
 
