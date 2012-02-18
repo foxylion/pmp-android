@@ -1,8 +1,9 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface IIssueLocation {
+public interface IIssueLocation extends Serializable {
     
     /**
      * Get the issues
