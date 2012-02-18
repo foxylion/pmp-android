@@ -146,12 +146,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     /* inter-model communication */
-<<<<<<< HEAD
     public IRGIS getRgis() {
-=======
-    
-    public RGIS getRgis() {
->>>>>>> a27e966704526cd5f88d33715bd72ca777cf2d55
         checkCached();
         return this.rgis;
     }
