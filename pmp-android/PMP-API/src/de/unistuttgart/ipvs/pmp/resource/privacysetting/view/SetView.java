@@ -51,7 +51,8 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         /* Create a new main Container */
         this.mainContainer = new LinearLayout(context);
         this.mainContainer.setOrientation(LinearLayout.VERTICAL);
-        this.mainContainer.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        this.mainContainer.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         addView(this.mainContainer);
         
         /* Create an Add-Icon */
@@ -62,7 +63,8 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         TextView addButtonText = new TextView(getContext());
         addButtonText.setText(getContext().getString(R.string.pmp_api_add_item));
         addButtonLayout.addView(addButtonText);
-        LayoutParams addButtonTextParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams addButtonTextParams = new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         addButtonTextParams.gravity = Gravity.CENTER_VERTICAL;
         addButtonText.setLayoutParams(addButtonTextParams);
         addButtonLayout.setOnClickListener(new View.OnClickListener() {
@@ -120,11 +122,13 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         
         /* Create a horizontal linear layout which will contain the new view and a remove button */
         LinearLayout container = new LinearLayout(getContext());
-        container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        container.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         
         /* Add the new view */
         View realView = newView.asView();
-        LayoutParams realViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams realViewParams = new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         realViewParams.weight = 1.0f;
         realView.setLayoutParams(realViewParams);
         
@@ -134,7 +138,8 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         ImageView removeIcon = new ImageView(getContext());
         removeIcon.setImageResource(R.drawable.pmp_api_icon_delete_small);
         removeIcon.setClickable(true);
-        LayoutParams removeIconParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams removeIconParams = new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         removeIconParams.weight = 1.0f;
         removeIconParams.gravity = Gravity.CENTER_VERTICAL;
         removeIcon.setLayoutParams(removeIconParams);
@@ -149,18 +154,18 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
         container.addView(removeIcon);
         
         /* Add the created elements to the SetView model */
-        views.add(newView);
-        viewContainers.put(newView, container);
+        this.views.add(newView);
+        this.viewContainers.put(newView, container);
         
         /* Add the new view to the mainContainer, to be displayed. */
-        mainContainer.addView(container);
+        this.mainContainer.addView(container);
     }
     
     
     private void removeView(IPrivacySettingView<T> view) {
-        mainContainer.removeView(viewContainers.get(view));
-        viewContainers.remove(view);
-        views.remove(view);
+        this.mainContainer.removeView(this.viewContainers.get(view));
+        this.viewContainers.remove(view);
+        this.views.remove(view);
     }
     
     
