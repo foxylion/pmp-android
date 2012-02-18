@@ -2,12 +2,14 @@ package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.io.Serializable;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignedApp implements Serializable, IPresetAssignedApp {
+public class PresetAssignedApp extends IssueLocation implements Serializable, IPresetAssignedApp {
     
     /**
      * 
@@ -45,6 +47,12 @@ public class PresetAssignedApp implements Serializable, IPresetAssignedApp {
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }

@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
-public interface IPresetPSContext {
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
+
+public interface IPresetPSContext extends IIssueLocation {
     
     /**
      * Get the type

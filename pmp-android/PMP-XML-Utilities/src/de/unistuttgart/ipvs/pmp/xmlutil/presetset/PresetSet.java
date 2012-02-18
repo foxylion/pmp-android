@@ -23,12 +23,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetSet implements Serializable, IPresetSet {
+public class PresetSet extends IssueLocation implements Serializable, IPresetSet {
     
     /**
      * Serial
@@ -65,6 +67,12 @@ public class PresetSet implements Serializable, IPresetSet {
     @Override
     public void removePreset(IPreset preset) {
         this.presets.remove(preset);
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }

@@ -2,7 +2,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.util.List;
 
-public interface IPresetAssignedPrivacySetting {
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
+
+public interface IPresetAssignedPrivacySetting extends IIssueLocation {
     
     /**
      * Get the resource group identifier

@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetAssignedPrivacySetting implements Serializable, IPresetAssignedPrivacySetting {
+public class PresetAssignedPrivacySetting extends IssueLocation implements Serializable, IPresetAssignedPrivacySetting {
     
     /**
      * Serial
@@ -158,6 +160,12 @@ public class PresetAssignedPrivacySetting implements Serializable, IPresetAssign
     @Override
     public void removeContext(IPresetPSContext context) {
         this.contexts.remove(context);
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }

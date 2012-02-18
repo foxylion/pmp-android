@@ -2,7 +2,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.util.List;
 
-public interface IPreset {
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
+
+public interface IPreset extends IIssueLocation {
     
     /**
      * Get the identifier

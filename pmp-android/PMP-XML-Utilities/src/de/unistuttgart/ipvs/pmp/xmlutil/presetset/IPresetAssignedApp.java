@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
-public interface IPresetAssignedApp {
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
+
+public interface IPresetAssignedApp extends IIssueLocation {
     
     /**
      * Get the identifier
