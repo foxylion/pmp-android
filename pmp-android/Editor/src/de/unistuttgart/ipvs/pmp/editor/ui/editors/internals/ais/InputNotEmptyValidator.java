@@ -10,7 +10,7 @@ import org.eclipse.jface.dialogs.InputDialog;
  * @author Thorsten Berberich
  * 
  */
-public class ServiceFeatureInputValidator implements IInputValidator {
+public class InputNotEmptyValidator implements IInputValidator {
 
     /*
      * (non-Javadoc)

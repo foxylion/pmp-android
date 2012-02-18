@@ -2,15 +2,24 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -23,6 +32,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -32,6 +42,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredRGContentProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
@@ -45,7 +56,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  * @author Thorsten Berberich
  * 
  */
-public class ServiceFeatureRGDetailsPage implements IDetailsPage {
+public class ServiceFeatureRGDetailsPage implements IDetailsPage,
+	IDoubleClickListener {
 
     /**
      * ID of this page
@@ -142,6 +154,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 	psTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION
 		| SWT.MULTI);
 	psTableViewer.setContentProvider(new RequiredRGContentProvider());
+	psTableViewer.addDoubleClickListener(this);
 
 	// The identifier column with the LabelProvider
 	TableViewerColumn identifierViewerColumn = new TableViewerColumn(
@@ -250,35 +263,40 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		RGIS resGroups = null;
+		RGIS resGroup = null;
 
-		// Get the resource groups from the server
+		// // Get the resource groups from the server
 		try {
-		    for (RGIS rgis : Model.getInstance().getRgisList()) {
-			if (rgis.getIdentifier().equals(
-				displayed.getIdentifier())) {
-			    resGroups = rgis;
+		    List<RGIS> rgList = Model.getInstance().getRgisList();
+		    if (rgList != null) {
+			for (RGIS rgis : rgList) {
+			    if (rgis.getIdentifier().equals(
+				    displayed.getIdentifier())) {
+				resGroup = rgis;
+			    }
 			}
 		    }
 		} catch (IOException e) {
-		    MessageDialog.openError(
-			    parentShell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server. \n\n "
-				    + "The error message was: \n \""
-				    + e.getMessage() + "\"");
+		    IStatus status = new Status(IStatus.ERROR, ID,
+			    "See details", e);
+		    ErrorDialog
+			    .openError(
+				    parentShell,
+				    "Error",
+				    "A error happend while downloading the Resource Groups from the server.",
+				    status);
 		}
 
 		// Build a custom RGIS with the privacy settings that are
 		// not set yet
-		RGIS customRGIS = resGroups;
+		RGIS customRGIS = resGroup;
 
 		// Check if there are RGs from the server
-		if (resGroups != null) {
+		if (resGroup != null) {
 		    HashMap<String, RGISPrivacySetting> privacySettings = new HashMap<String, RGISPrivacySetting>();
 
 		    // Iterate through all available PSs
-		    for (RGISPrivacySetting ps : resGroups.getPrivacySettings()) {
+		    for (RGISPrivacySetting ps : resGroup.getPrivacySettings()) {
 			privacySettings.put(ps.getIdentifier(), ps);
 		    }
 
@@ -298,21 +316,21 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 		    // If there are some PS to add
 		    if (!customRGIS.getPrivacySettings().isEmpty()) {
-			
+
 			// Open the dialog
 			SelectionDialog dialog = new RequiredPrivacySettingsDialog(
 				parentShell, customRGIS);
 			dialog.open();
-			
+
 			// Get the results
 			if (dialog.getResult().length > 0) {
-			    
+
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
 				AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) object;
 				displayed.addRequiredPrivacySetting(rps);
 			    }
-			    
+
 			    // Update the view
 			    psTableViewer.refresh();
 			    psTableViewer.getTable().setRedraw(false);
@@ -322,7 +340,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 			    psTableViewer.getTable().setRedraw(true);
 			    Model.getInstance().setAISDirty(true);
 			}
-			
+
 			// There are no PS to add to this service feature
 		    } else {
 			MessageDialog
@@ -341,7 +359,21 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		// TODO
+		TableItem[] selected = psTableViewer.getTable().getSelection();
+		for (TableItem item : selected) {
+		    AISRequiredPrivacySetting ps = (AISRequiredPrivacySetting) item
+			    .getData();
+		    displayed.removeRequiredPrivacySetting(ps);
+		}
+		// Update the view
+		psTableViewer.refresh();
+		psTableViewer.getTable().setRedraw(false);
+		identifierColumn.pack();
+		valueColumn.pack();
+		psTableViewer.getTable().redraw();
+		psTableViewer.getTable().setRedraw(true);
+
+		Model.getInstance().setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected required Privacy Setting");
@@ -352,6 +384,92 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage {
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse
+     * .jface.viewers.DoubleClickEvent)
+     */
+    @Override
+    public void doubleClick(DoubleClickEvent arg0) {
+	int selectionCount = psTableViewer.getTable().getSelectionCount();
+	if (selectionCount == 1) {
+	    RGIS resGroup = null;
+
+	    if (Model.getInstance().isRGListAvailable()) {
+		// Get the resource groups from the server
+		try {
+		    List<RGIS> rgList = Model.getInstance().getRgisList();
+		    if (rgList != null) {
+			for (RGIS rgis : rgList) {
+			    if (rgis.getIdentifier().equals(
+				    displayed.getIdentifier())) {
+				resGroup = rgis;
+			    }
+			}
+		    }
+		} catch (IOException e) {
+		    IStatus status = new Status(IStatus.ERROR, ID,
+			    "See details", e);
+		    ErrorDialog
+			    .openError(
+				    parentShell,
+				    "Error",
+				    "A error happend while downloading the Resource Groups from the server.",
+				    status);
+		}
+	    }
+	    AISRequiredPrivacySetting selected = (AISRequiredPrivacySetting) psTableViewer
+		    .getTable().getSelection()[0].getData();
+
+	    String requiredValues = null;
+
+	    if (resGroup != null) {
+		for (RGISPrivacySetting ps : resGroup.getPrivacySettings()) {
+		    if (ps.getIdentifier().equals(selected.getIdentifier())) {
+			requiredValues = ps.getValidValueDescription();
+			break;
+		    }
+		}
+	    }
+
+	    String message;
+	    if (requiredValues != null) {
+		message = "Enter the value of the required Privacy Setting \""
+			+ selected.getIdentifier() + "\" \n Valid values are:"
+			+ requiredValues;
+	    } else {
+		message = "Enter the value of the required Privacy Setting \""
+			+ selected.getIdentifier() + "\"";
+	    }
+
+	    // Show the input dialog
+	    InputDialog dialog = new InputDialog(parentShell,
+		    "Change the value of the required Privacy Setting",
+		    message, selected.getValue(), new InputNotEmptyValidator());
+
+	    if (dialog.open() == Window.OK) {
+		String result = dialog.getValue();
+
+		if (!result.equals(selected.getValue())) {
+		    selected.setValue(result);
+
+		    // Update the view
+		    psTableViewer.refresh();
+		    psTableViewer.getTable().setRedraw(false);
+		    identifierColumn.pack();
+		    valueColumn.pack();
+		    psTableViewer.getTable().redraw();
+		    psTableViewer.getTable().setRedraw(true);
+
+		    Model.getInstance().setAISDirty(true);
+		}
+	    }
+	}
+
     }
 
     /*
