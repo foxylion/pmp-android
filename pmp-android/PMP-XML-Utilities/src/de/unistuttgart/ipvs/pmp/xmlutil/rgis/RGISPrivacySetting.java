@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 
 /**
  * 

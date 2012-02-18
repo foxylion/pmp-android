@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;

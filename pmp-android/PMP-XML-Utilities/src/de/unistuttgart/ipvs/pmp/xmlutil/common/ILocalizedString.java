@@ -1,9 +1,14 @@
-package de.unistuttgart.ipvs.pmp.xmlutil.common.informationset;
+package de.unistuttgart.ipvs.pmp.xmlutil.common;
 
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
+/**
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public interface ILocalizedString extends IIssueLocation {
     
     /**

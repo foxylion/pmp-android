@@ -26,8 +26,8 @@ import java.util.Locale;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
