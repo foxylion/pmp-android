@@ -25,15 +25,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
@@ -95,13 +93,13 @@ public class Printer {
         printIssues(ais, "> ");
         p("App information:");
         p("> Names:");
-        for (Name name : ais.getNames()) {
-            p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+        for (LocalizedString name : ais.getNames()) {
+            p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
             printIssues(name, "   > ");
         }
         p("> Descriptions:");
-        for (Description descr : ais.getDescriptions()) {
-            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+        for (LocalizedString descr : ais.getDescriptions()) {
+            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
             printIssues(descr, "   > ");
         }
         for (AISServiceFeature sf : ais.getServiceFeatures()) {
@@ -110,13 +108,13 @@ public class Printer {
             printIssues(sf, "> ");
             p("> Identifier: " + sf.getIdentifier());
             p("> Names:");
-            for (Name name : sf.getNames()) {
-                p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            for (LocalizedString name : sf.getNames()) {
+                p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
                 printIssues(name, "   > ");
             }
             p("> Descriptions:");
-            for (Description descr : sf.getDescriptions()) {
-                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            for (LocalizedString descr : sf.getDescriptions()) {
+                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
                 printIssues(descr, "   > ");
             }
             for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
@@ -151,13 +149,13 @@ public class Printer {
         p("> IconLocation: " + rgis.getIconLocation());
         p("> Class Name: " + rgis.getClassName());
         p("> Names:");
-        for (Name name : rgis.getNames()) {
-            p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+        for (LocalizedString name : rgis.getNames()) {
+            p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
             printIssues(name, "   > ");
         }
         p("> Descriptions:");
-        for (Description descr : rgis.getDescriptions()) {
-            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+        for (LocalizedString descr : rgis.getDescriptions()) {
+            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
             printIssues(descr, "   > ");
         }
         for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
@@ -167,18 +165,18 @@ public class Printer {
             p("> Identifier: " + ps.getIdentifier());
             p("> Valid value description: " + ps.getValidValueDescription());
             p("> Names:");
-            for (Name name : ps.getNames()) {
-                p("   > " + name.getLocale().getLanguage() + ": " + name.getName());
+            for (LocalizedString name : ps.getNames()) {
+                p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
                 printIssues(name, "   > ");
             }
             p("> Descriptions: ");
-            for (Description descr : ps.getDescriptions()) {
-                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getDescription());
+            for (LocalizedString descr : ps.getDescriptions()) {
+                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
                 printIssues(descr, "   > ");
             }
             p("> Change descriptions: ");
-            for (RGISPSChangeDescription changeDescr : ps.getChangeDescriptions()) {
-                p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getChangeDescription());
+            for (LocalizedString changeDescr : ps.getChangeDescriptions()) {
+                p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getString());
                 printIssues(changeDescr, "   > ");
             }
         }

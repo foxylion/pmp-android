@@ -41,12 +41,12 @@ public abstract class BasicIS extends IssueLocation {
     /**
      * This list contains all names.
      */
-    protected List<Name> names = new ArrayList<Name>();
+    protected List<LocalizedString> names = new ArrayList<LocalizedString>();
     
     /**
      * This list contains all descriptions.
      */
-    protected List<Description> descriptions = new ArrayList<Description>();
+    protected List<LocalizedString> descriptions = new ArrayList<LocalizedString>();
     
     
     /**
@@ -54,7 +54,7 @@ public abstract class BasicIS extends IssueLocation {
      * 
      * @return list with names
      */
-    public List<Name> getNames() {
+    public List<LocalizedString> getNames() {
         return this.names;
     }
     
@@ -68,9 +68,9 @@ public abstract class BasicIS extends IssueLocation {
      *         given locale exists.
      */
     public String getNameForLocale(Locale locale) {
-        for (Name name : this.names) {
+        for (LocalizedString name : this.names) {
             if (name.getLocale().getLanguage().equals(locale.getLanguage())) {
-                return name.getName();
+                return name.getString();
             }
         }
         return null;
@@ -83,7 +83,7 @@ public abstract class BasicIS extends IssueLocation {
      * @param name
      *            name to add
      */
-    public void addName(Name name) {
+    public void addName(LocalizedString name) {
         this.names.add(name);
     }
     
@@ -94,7 +94,7 @@ public abstract class BasicIS extends IssueLocation {
      * @param name
      *            name to remove
      */
-    public void removeName(Name name) {
+    public void removeName(LocalizedString name) {
         this.names.remove(name);
     }
     
@@ -104,7 +104,7 @@ public abstract class BasicIS extends IssueLocation {
      * 
      * @return list with descriptions
      */
-    public List<Description> getDescriptions() {
+    public List<LocalizedString> getDescriptions() {
         return this.descriptions;
     }
     
@@ -118,9 +118,9 @@ public abstract class BasicIS extends IssueLocation {
      *         given locale exists.
      */
     public String getDescriptionForLocale(Locale locale) {
-        for (Description descr : this.descriptions) {
+        for (LocalizedString descr : this.descriptions) {
             if (descr.getLocale().getLanguage().equals(locale.getLanguage())) {
-                return descr.getDescription();
+                return descr.getString();
             }
         }
         return null;
@@ -133,7 +133,7 @@ public abstract class BasicIS extends IssueLocation {
      * @param description
      *            description to add
      */
-    public void addDescription(Description description) {
+    public void addDescription(LocalizedString description) {
         this.descriptions.add(description);
     }
     
@@ -144,7 +144,7 @@ public abstract class BasicIS extends IssueLocation {
      * @param description
      *            description to remove
      */
-    public void removeDescription(Description description) {
+    public void removeDescription(LocalizedString description) {
         this.descriptions.remove(description);
     }
     
@@ -153,7 +153,7 @@ public abstract class BasicIS extends IssueLocation {
      * Clear all issues of the names
      */
     public void clearNameIssues() {
-        for (Name name : this.getNames()) {
+        for (LocalizedString name : this.getNames()) {
             name.clearIssuesAndPropagate();
         }
     }
@@ -163,7 +163,7 @@ public abstract class BasicIS extends IssueLocation {
      * Clear all issues of the descriptions
      */
     public void clearDescriptionIssues() {
-        for (Description descr : this.getDescriptions()) {
+        for (LocalizedString descr : this.getDescriptions()) {
             descr.clearIssuesAndPropagate();
         }
     }

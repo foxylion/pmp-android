@@ -27,11 +27,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPSChangeDescription;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -142,10 +142,10 @@ public class RGISParser extends AbstractParser {
             List<ParsedNode> changeDescriptionList = parseNodes(privacySettingElement, XMLConstants.CHANGE_DESCRIPTION,
                     XMLConstants.LANGUAGE_ATTR);
             for (ParsedNode changeDescriptionNode : changeDescriptionList) {
-                RGISPSChangeDescription changeDescr = new RGISPSChangeDescription();
+                LocalizedString changeDescr = new LocalizedString();
                 changeDescr.setLocale(new Locale(changeDescriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-                changeDescr.setChangeDescription(changeDescriptionNode.getValue().replaceAll("\t", "")
-                        .replaceAll("\n", " ").trim());
+                changeDescr.setString(changeDescriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ")
+                        .trim());
                 ps.addChangeDescription(changeDescr);
             }
             

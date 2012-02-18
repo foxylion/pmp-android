@@ -25,9 +25,8 @@ import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -55,7 +54,7 @@ public class AbstractValidator {
             boolean englishLocaleExists = false;
             List<String> localesOccurred = new ArrayList<String>();
             
-            for (Name name : ((BasicIS) location).getNames()) {
+            for (LocalizedString name : ((BasicIS) location).getNames()) {
                 
                 // Instantiate possible issues
                 Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, name);
@@ -106,7 +105,7 @@ public class AbstractValidator {
                 }
                 
                 // Check, if the name is set
-                if (!checkValueSet(name.getName())) {
+                if (!checkValueSet(name.getString())) {
                     issueList.add(nameEmpty);
                     // Add the information of the locale to the name issue
                     if (localeAvailable) {
@@ -114,7 +113,7 @@ public class AbstractValidator {
                     }
                 } else {
                     // Add the information of the name to the locale issue
-                    localeMissing.addParameter(name.getName());
+                    localeMissing.addParameter(name.getString());
                 }
             }
             
@@ -146,7 +145,7 @@ public class AbstractValidator {
             boolean englishLocaleExists = false;
             List<String> localesOccurred = new ArrayList<String>();
             
-            for (Description description : ((BasicIS) location).getDescriptions()) {
+            for (LocalizedString description : ((BasicIS) location).getDescriptions()) {
                 
                 // Instantiate possible issues
                 Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, description);
@@ -197,7 +196,7 @@ public class AbstractValidator {
                 }
                 
                 // Check, if the description is set
-                if (!checkValueSet(description.getDescription())) {
+                if (!checkValueSet(description.getString())) {
                     issueList.add(descriptionEmpty);
                     // Add the information of the locale to the name issue
                     if (localeAvailable) {
@@ -205,7 +204,7 @@ public class AbstractValidator {
                     }
                 } else {
                     // Add the information of the description to the locale issue
-                    localeMissing.addParameter(description.getDescription());
+                    localeMissing.addParameter(description.getString());
                 }
             }
             

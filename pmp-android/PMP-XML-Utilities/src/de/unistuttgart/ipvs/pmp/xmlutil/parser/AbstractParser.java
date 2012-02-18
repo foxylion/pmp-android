@@ -37,8 +37,7 @@ import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
@@ -151,15 +150,15 @@ public abstract class AbstractParser {
         
         // Add to the app information set
         for (ParsedNode nameNode : nameList) {
-            Name name = new Name();
+            LocalizedString name = new LocalizedString();
             name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            name.setName(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            name.setString(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addName(name);
         }
         for (ParsedNode descriptionNode : descriptionList) {
-            Description descr = new Description();
+            LocalizedString descr = new LocalizedString();
             descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            descr.setDescription(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            descr.setString(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addDescription(descr);
         }
     }
