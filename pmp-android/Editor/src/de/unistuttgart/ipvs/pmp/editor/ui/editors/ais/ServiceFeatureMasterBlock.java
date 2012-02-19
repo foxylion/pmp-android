@@ -375,7 +375,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			dialog.getResult();
 
 			// Get the results
-			if (dialog.getResult().length > 0) {
+			if (dialog.getResult() != null && dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {

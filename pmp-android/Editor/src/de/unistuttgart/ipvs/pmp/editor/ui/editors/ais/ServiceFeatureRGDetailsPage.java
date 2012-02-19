@@ -328,7 +328,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			dialog.open();
 
 			// Get the results
-			if (dialog.getResult().length > 0) {
+			if (dialog.getResult() != null
+				& dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
@@ -454,7 +455,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    // Show the input dialog
 	    InputDialog dialog = new InputDialog(parentShell,
 		    "Change the value of the required Privacy Setting",
-		    message, selected.getValue(), new InputNotEmptyValidator("Value"));
+		    message, selected.getValue(), new InputNotEmptyValidator(
+			    "Value"));
 
 	    if (dialog.open() == Window.OK) {
 		String result = dialog.getValue();
