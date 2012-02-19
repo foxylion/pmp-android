@@ -141,6 +141,7 @@ public class DialogContextChange extends Dialog {
             
             @Override
             public void onClick(View v) {
+                contextCondition = usedView.getViewCondition();
                 preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
                 dismiss();
             }
