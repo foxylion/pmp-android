@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
 import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
@@ -28,6 +29,8 @@ public class Model {
      * Indicates if the ais file has unsaved changes
      */
     private Boolean isAISDirty = false;
+    
+    private boolean rgisDirty = false;
 
     /**
      * The stored {@link AIS}
@@ -45,6 +48,8 @@ public class Model {
     private List<RGIS> rgisList = null;
 
     private AisEditor aisEditor;
+    
+    private RgisEditor rgisEditor;
 
     /**
      * Private constructor because of singleton
@@ -100,6 +105,19 @@ public class Model {
      */
     public void setRgis(IRGIS rgis) {
 	this.rgis = rgis;
+    }
+    
+    public void setRgisEditor(RgisEditor editor) {
+    	rgisEditor = editor;
+    	
+    }
+    public void setRgisDirty(boolean dirty) {
+    	rgisDirty = dirty;
+    	rgisEditor.firePropertyChangedDirty();
+    }
+    
+    public boolean isRgisDirty() {
+    	return rgisDirty;
     }
 
     /**
