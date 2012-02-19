@@ -22,23 +22,23 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  * @author Patrick Strobel
  */
 public class PrivacySettingDetailsPage implements IDetailsPage {
-	
+
 	private final PrivacySettingsBlock block;
 	private IManagedForm form;
 	private Text identifier;
 	private Text values;
 	private boolean dirty = false;
 	private RGISPrivacySetting privacySetting;
-	
+
 	public PrivacySettingDetailsPage(PrivacySettingsBlock block) {
 		this.block = block;
 	}
 
 	@Override
 	public void initialize(IManagedForm form) {
-		this.form = form;		
+		this.form = form;
 	}
-	
+
 	@Override
 	public void createContents(Composite parent) {
 		// Set parent's layout
@@ -48,16 +48,17 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		parentLayout.horizontalAlignment = GridData.FILL;
 		parentLayout.grabExcessHorizontalSpace = true;
 		parent.setLayout(new GridLayout());
-		//parent.setLayoutData(parentLayout);
-		
+		// parent.setLayoutData(parentLayout);
+
 		// Build view
-		//System.out.println("Draw");
+		// System.out.println("Draw");
 		FormToolkit toolkit = form.getToolkit();
-		Section section = toolkit.createSection(parent, Section.TWISTIE | Section.TITLE_BAR);
+		Section section = toolkit.createSection(parent, Section.TWISTIE
+				| Section.TITLE_BAR);
 		section.setText("Privacy Setting");
 		section.setExpanded(true);
 		section.setLayoutData(parentLayout);
-		
+
 		// Add Textfields
 		Composite compo = toolkit.createComposite(section);
 		compo.setLayout(new GridLayout(2, false));
@@ -68,18 +69,18 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		identifier = toolkit.createText(compo, "Value");
 		identifier.setLayoutData(textLayout);
 		identifier.addFocusListener(new FocusListener() {
-			
+
 			private String before;
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Mark as dirty and staled when text has been changed
 				if (!before.equals(identifier.getText())) {
 					dirty = true;
-					//isStaled = true;
+					// isStaled = true;
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				before = identifier.getText();
@@ -89,31 +90,31 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		values = toolkit.createText(compo, "True/False");
 		values.setLayoutData(textLayout);
 		values.addFocusListener(new FocusListener() {
-			
+
 			private String before;
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Mark as dirty and staled when text has been changed
 				if (!before.equals(values.getText())) {
 					dirty = true;
-					//isStaled = true;
+					// isStaled = true;
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				before = values.getText();
 			}
 		});
 		section.setClient(compo);
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -129,10 +130,10 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		privacySetting.setValidValueDescription(values.getText());
 		block.refresh();
 		dirty = false;
-		
+
 		// Mark page as dirty
 		block.setDirty(true);
-		
+
 	}
 
 	@Override
@@ -145,7 +146,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -161,14 +162,14 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
 	@Override
 	public void selectionChanged(IFormPart part, ISelection selection) {
-		privacySetting = (RGISPrivacySetting)((TreeSelection)selection).getFirstElement();
+		privacySetting = (RGISPrivacySetting) ((TreeSelection) selection)
+				.getFirstElement();
 		update();
 	}
-	
+
 	private void update() {
 		identifier.setText(privacySetting.getIdentifier());
-		values.setText(privacySetting.getValidValueDescription());	
+		values.setText(privacySetting.getValidValueDescription());
 	}
-
 
 }

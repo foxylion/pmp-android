@@ -21,7 +21,6 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
@@ -34,7 +33,7 @@ public class App extends ModelElement implements IApp {
     /**
      * localized values
      */
-    protected AIS ais;
+    protected IAIS ais;
     
     /**
      * internal data & links

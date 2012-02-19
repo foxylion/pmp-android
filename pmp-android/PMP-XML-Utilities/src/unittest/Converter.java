@@ -8,8 +8,8 @@ import java.io.InputStream;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * Converts an old ResourceGroup RGIS to a new one.
@@ -23,7 +23,7 @@ public class Converter {
         String pathToRepositroy = "D:\\Daten\\Repositories";
         String rgFolderName = "FileSystemResourcesGroup";
         
-        RGIS rgis = XMLUtilityProxy.getRGUtil().parse(
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(
                 new FileInputStream(pathToRepositroy + "\\pmp-android\\pmp-android\\Resources\\" + rgFolderName
                         + "\\assets\\rgis.xml"));
         

@@ -7,6 +7,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -15,9 +16,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * General-Page of the RGIS-Editor
@@ -29,14 +31,10 @@ public class GeneralPage extends FormPage {
 
 	private IManagedForm managedForm;
 	public static final String ID = "rgis_general";
-	private boolean dirty = false;
 
 	public GeneralPage(FormEditor parent) {
 		super(parent, ID, "General");
 	}
-	
-	
-	
 
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
@@ -49,7 +47,7 @@ public class GeneralPage extends FormPage {
 
 		addPropertiesSection(form.getBody(), toolkit);
 		addLocalizationSection(form.getBody(), toolkit);
-		
+
 	}
 
 	private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
@@ -66,21 +64,24 @@ public class GeneralPage extends FormPage {
 		textLayout.grabExcessHorizontalSpace = true;
 
 		toolkit.createLabel(client, "Identifier");
-		Text identifier = toolkit.createText(client, Model.getInstance()
+		final Text identifier = toolkit.createText(client, Model.getInstance()
 				.getRgis().getIdentifier());
-		
+
 		identifier.addFocusListener(new FocusListener() {
 			
+			private String before;
+
 			@Override
 			public void focusLost(FocusEvent e) {
-				System.out.println("D: "+managedForm.isDirty());
-				
+				if (!identifier.getText().equals(before)) {
+					setDirty(true);
+				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
+				before = identifier.getText();
+
 			}
 		});
 		identifier.setLayoutData(textLayout);
@@ -102,44 +103,35 @@ public class GeneralPage extends FormPage {
 		Composite client = toolkit.createComposite(section);
 
 		client.setLayout(new GridLayout(2, false));
-		
+
 		GridData layoutData = new GridData();
 		layoutData.horizontalAlignment = GridData.FILL;
 		layoutData.verticalAlignment = GridData.FILL;
 		layoutData.grabExcessHorizontalSpace = true;
 		layoutData.grabExcessVerticalSpace = true;
-		
+
 		client.setLayoutData(layoutData);
 		section.setLayoutData(layoutData);
-		
-		RGIS rgis = Model.getInstance().getRgis();
-		LocaleTable nameTable = new LocaleTable(client,rgis,Type.NAME,toolkit);
+
+		// Defines action that should be done when tables are dirty
+		ISetDirtyAction dirtyAction = new ISetDirtyAction() {
+			
+			@Override
+			public void doSetDirty(boolean dirty) {
+				doSetDirty(true);
+			}
+		};
+		IRGIS rgis = Model.getInstance().getRgis();
+		LocaleTable nameTable = new LocaleTable(client, rgis, Type.NAME,
+				dirtyAction, toolkit);
 		nameTable.getComposite().setLayoutData(layoutData);
-		//section.setClient(nameTable.getComposite());
+		// section.setClient(nameTable.getComposite());
 
-		LocaleTable descTable = new LocaleTable(client,rgis,Type.DESCRIPTION,toolkit);
+		LocaleTable descTable = new LocaleTable(client, rgis, Type.DESCRIPTION,
+				dirtyAction, toolkit);
 		descTable.getComposite().setLayoutData(layoutData);
-		
-		
+
 		section.setClient(client);
-		
-/*
-		// Prepare table
-		RGIS rgis = Model.getInstance().getRgis();
-		StoredInformation loc = new StoredInformation();
-
-		// Add names and descriptions to table
-		for (Name name : rgis.getNames()) {
-			loc.addName(name.getLocale().getLanguage(), name.getName());
-		}
-		for (Description desc : rgis.getDescriptions()) {
-			loc.addDescription(desc.getLocale().getLanguage(),
-					desc.getDescription());
-		}
-		InformationTable table = new InformationTable(section, loc, toolkit);
-
-		section.setClient(table.getControl());
-		*/
 	}
 
 	/**
@@ -166,9 +158,8 @@ public class GeneralPage extends FormPage {
 		return section;
 	}
 	
-	@Override
-	public boolean isDirty() {
-		return dirty;
+	private void setDirty(boolean dirty) {
+		Model.getInstance().setRgisDirty(dirty);
 	}
 
 }

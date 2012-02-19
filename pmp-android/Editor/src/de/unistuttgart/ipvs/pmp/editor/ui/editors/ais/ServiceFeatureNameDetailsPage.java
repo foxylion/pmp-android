@@ -35,12 +35,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.DescriptionContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.NameContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 /**
  * Shows the lists for the names and the descriptions of a service feature
@@ -185,12 +186,15 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	localeColumn.setLabelProvider(new ColumnLabelProvider() {
 	    @Override
 	    public String getText(Object element) {
-		return ((Name) element).getLocale().toString();
+		return ((LocalizedString) element).getLocale().toString();
 	    }
 
 	    @Override
 	    public Image getImage(Object element) {
-		// Add the check if the entry is correct
+		ILocalizedString item = (LocalizedString) element;
+		if (!item.getIssues().isEmpty()) {
+		    return Images.ERROR16;
+		}
 		return null;
 	    }
 	});
@@ -204,7 +208,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	nameColumn.setLabelProvider(new ColumnLabelProvider() {
 	    @Override
 	    public String getText(Object element) {
-		return ((Name) element).getName();
+		return ((LocalizedString) element).getString();
 	    }
 	});
 
@@ -222,27 +226,27 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    @Override
 	    public void doubleClick(DoubleClickEvent arg0) {
 		if (nameTableViewer.getTable().getSelectionCount() == 1) {
-		    Name oldName = (Name) nameTableViewer.getTable()
-			    .getSelection()[0].getData();
+		    LocalizedString oldName = (LocalizedString) nameTableViewer
+			    .getTable().getSelection()[0].getData();
 
 		    // Show the dialog
 		    HashMap<String, String> values = new HashMap<String, String>();
 		    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
 			    parentShell, oldName.getLocale().toString(),
-			    oldName.getName(), values, "Name", "Change");
+			    oldName.getString(), values, "Name", "Change");
 		    if (dialog.open() == Window.OK) {
 			String newName = values.get("Name");
 			String newLocale = values.get("locale");
 
 			// Sth. has changed
-			if (!(newName.equals(oldName.getName()) && newLocale
+			if (!(newName.equals(oldName.getString()) && newLocale
 				.equals(oldName.getLocale().toString()))) {
 			    nameTableViewer.getTable().setRedraw(false);
 
 			    Locale locale = new Locale(newLocale);
 
 			    oldName.setLocale(locale);
-			    oldName.setName(newName);
+			    oldName.setString(newName);
 
 			    Model.getInstance().setAISDirty(true);
 			    nameTableViewer.refresh();
@@ -289,7 +293,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	localeColumn.setLabelProvider(new ColumnLabelProvider() {
 	    @Override
 	    public String getText(Object element) {
-		return ((Description) element).getLocale().toString();
+		return ((LocalizedString) element).getLocale().toString();
 	    }
 
 	    @Override
@@ -308,7 +312,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descColumn.setLabelProvider(new ColumnLabelProvider() {
 	    @Override
 	    public String getText(Object element) {
-		return ((Description) element).getDescription();
+		return ((LocalizedString) element).getString();
 	    }
 	});
 
@@ -328,7 +332,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    public void doubleClick(DoubleClickEvent arg0) {
 			if (descriptionTableViewer.getTable()
 				.getSelectionCount() == 1) {
-			    Description oldDesc = (Description) descriptionTableViewer
+			    LocalizedString oldDesc = (LocalizedString) descriptionTableViewer
 				    .getTable().getSelection()[0].getData();
 
 			    // Show the dialog
@@ -336,14 +340,14 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 			    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
 				    parentShell,
 				    oldDesc.getLocale().toString(), oldDesc
-					    .getDescription(), values,
+					    .getString(), values,
 				    "Description", "Change");
 			    if (dialog.open() == Window.OK) {
 				String newDesc = values.get("Description");
 				String newLocale = values.get("locale");
 
 				// Sth. has changed
-				if (!(newDesc.equals(oldDesc.getDescription()) && newLocale
+				if (!(newDesc.equals(oldDesc.getString()) && newLocale
 					.equals(oldDesc.getLocale().toString()))) {
 				    descriptionTableViewer.getTable()
 					    .setRedraw(false);
@@ -351,7 +355,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 				    Locale locale = new Locale(newLocale);
 
 				    oldDesc.setLocale(locale);
-				    oldDesc.setDescription(newDesc);
+				    oldDesc.setString(newDesc);
 
 				    Model.getInstance().setAISDirty(true);
 				    descriptionTableViewer.refresh();
@@ -443,9 +447,9 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    // Create the things for the model
 		    Locale locale = new Locale(stringLocale);
 
-		    Name name = new Name();
+		    LocalizedString name = new LocalizedString();
 		    name.setLocale(locale);
-		    name.setName(stringName);
+		    name.setString(stringName);
 
 		    displayed.addName(name);
 
@@ -473,7 +477,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		// Delete it out of the model
 		for (TableItem item : selection) {
-		    displayed.removeName((Name) item.getData());
+		    displayed.removeName((LocalizedString) item.getData());
 		}
 		nameColumn.pack();
 		localeNameColumn.pack();
@@ -534,9 +538,9 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    // Create the things for the model
 		    Locale locale = new Locale(stringLocale);
 
-		    Description desc = new Description();
+		    LocalizedString desc = new LocalizedString();
 		    desc.setLocale(locale);
-		    desc.setDescription(stringDesc);
+		    desc.setString(stringDesc);
 
 		    displayed.addDescription(desc);
 
@@ -564,7 +568,8 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		// Delete it out of the model
 		for (TableItem item : selections) {
-		    displayed.removeDescription((Description) item.getData());
+		    displayed.removeDescription((LocalizedString) item
+			    .getData());
 		}
 
 		descColumn.pack();

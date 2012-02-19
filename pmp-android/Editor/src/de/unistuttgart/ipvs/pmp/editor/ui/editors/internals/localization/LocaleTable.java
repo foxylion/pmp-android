@@ -34,33 +34,40 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.part.EditorPart;
+
+import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleEditingSupport;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TextEditingSupport;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.AbstractLocale;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 public class LocaleTable {
-	
-	private final BasicIS data;
-	private final Composite parent;
+
+	private final IBasicIS data;
 	private final Composite outerCompo;
 	private final Type type;
 	private final TableViewer tableViewer;
 	private boolean dirty = false;
-	public enum Type {NAME, DESCRIPTION};
-	
-	public LocaleTable(Composite parent, BasicIS data, Type type, FormToolkit toolkit) {
-		this.parent = parent;
+	private final ISetDirtyAction dirtyAction;
+
+	public enum Type {
+		NAME, DESCRIPTION
+	};
+
+	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
+			FormToolkit toolkit) {
 		this.data = data;
 		this.type = type;
-		
+		this.dirtyAction = dirtyAction;
+
 		// Create grid for storing the table and buttons
 		outerCompo = toolkit.createComposite(parent);
 		outerCompo.setLayout(new GridLayout(2, false));
-		
+
 		// Set layout so that the table uses the whole width
 		GridData tableLayout = new GridData();
 		tableLayout.horizontalAlignment = GridData.FILL;
@@ -71,44 +78,50 @@ public class LocaleTable {
 		// Workaround for SWT-Bug
 		// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
 		tableLayout.widthHint = 1;
-		
+
 		Composite tableCompo = toolkit.createComposite(outerCompo);
 		tableCompo.setLayoutData(tableLayout);
 		TableColumnLayout columnLayout = new TableColumnLayout();
 		tableCompo.setLayout(columnLayout);
-		
-		tableViewer = new TableViewer(tableCompo, SWT.BORDER | SWT.FULL_SELECTION);
+
+		tableViewer = new TableViewer(tableCompo, SWT.BORDER
+				| SWT.FULL_SELECTION);
 		Table table = tableViewer.getTable();
 		table.setLayoutData(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		createColumns(columnLayout);
-		
+
 		// Add keyboard navigation
-		ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(tableViewer) {
-			protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {				
+		ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(
+				tableViewer) {
+			protected boolean isEditorActivationEvent(
+					ColumnViewerEditorActivationEvent event) {
 				// Editing is enabled as before but also by pressing enter
 				boolean activateByKey = event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED
-						&& event.keyCode == KeyLookupFactory.getDefault().formalKeyLookup(IKeyLookup.ENTER_NAME);
+						&& event.keyCode == KeyLookupFactory.getDefault()
+								.formalKeyLookup(IKeyLookup.ENTER_NAME);
 				return super.isEditorActivationEvent(event) || activateByKey;
 			}
-				
+
 		};
-		
+
 		activationStrategy.setEnableEditorActivationWithKeyboard(true);
-			
-		FocusCellHighlighter highlighter = new FocusCellOwnerDrawHighlighter(tableViewer);
-		TableViewerFocusCellManager focusManager = new TableViewerFocusCellManager(tableViewer, highlighter);
-		
-		TableViewerEditor.create(tableViewer, focusManager, activationStrategy, ColumnViewerEditor.TABBING_HORIZONTAL
-				| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
-				| ColumnViewerEditor.KEYBOARD_ACTIVATION);
-		
+
+		FocusCellHighlighter highlighter = new FocusCellOwnerDrawHighlighter(
+				tableViewer);
+		TableViewerFocusCellManager focusManager = new TableViewerFocusCellManager(
+				tableViewer, highlighter);
+
+		TableViewerEditor.create(tableViewer, focusManager, activationStrategy,
+				ColumnViewerEditor.TABBING_HORIZONTAL
+						| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
+						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
+
 		// Add table sorter
 		tableViewer.setSorter(new ViewerSorter());
-				
-		
+
 		// But data into table
 		tableViewer.setContentProvider(new ListContentProvider());
 		if (type == Type.NAME) {
@@ -116,15 +129,15 @@ public class LocaleTable {
 		} else {
 			tableViewer.setInput(data.getDescriptions());
 		}
-		
+
 		// Add buttons
 		createButtons(toolkit);
-		
-		
+
 	}
-	
+
 	/**
 	 * Create the add and remove button
+	 * 
 	 * @param toolkit
 	 */
 	private void createButtons(FormToolkit toolkit) {
@@ -133,258 +146,244 @@ public class LocaleTable {
 		GridData buttonLayout = new GridData();
 		buttonLayout.verticalAlignment = SWT.BEGINNING;
 		buttonCompo.setLayoutData(buttonLayout);
-		
+
 		Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
-		final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+		final Button removeButton = toolkit.createButton(buttonCompo, "Remove",
+				SWT.PUSH);
 		removeButton.setEnabled(false);
-		
+
 		addButton.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
+				LocalizedString ls = new LocalizedString();
 				
 				if (type == Type.NAME) {
-					Name name = new Name();
-					name.setLocale(new Locale("-"));
-					name.setName("-");
-					data.addName(name);
+					data.addName(ls);
 				} else {
-					Description desc = new Description();
-					desc.setLocale(new Locale("-"));
-					desc.setDescription("-");
-					data.addDescription(desc);
+					data.addDescription(ls);
 				}
+				setDirty(true);
 				refresh();
-				
+
 			}
 		});
-		
+
 		removeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				StructuredSelection sl = (StructuredSelection)tableViewer.getSelection();
+				StructuredSelection sl = (StructuredSelection) tableViewer
+						.getSelection();
 
 				if (type == Type.NAME) {
-					data.removeName((Name)sl.getFirstElement());
+					data.removeName((LocalizedString) sl.getFirstElement());
 				} else {
-					data.removeDescription((Description)sl.getFirstElement());
+					data.removeDescription((LocalizedString) sl
+							.getFirstElement());
 				}
+				setDirty(true);
 				refresh();
-				
+
 			}
 		});
-		
-		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				removeButton.setEnabled(!event.getSelection().isEmpty());
-				
-			}
-		});
+
+		tableViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						removeButton
+								.setEnabled(!event.getSelection().isEmpty());
+
+					}
+				});
 	}
-	
+
 	/**
 	 * Creates the table's columns
+	 * 
 	 * @param columnLayout
 	 */
 	private void createColumns(TableColumnLayout columnLayout) {
-		
+
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((AbstractLocale) element).getLocale().getLanguage();
+				LocalizedString ls = (LocalizedString) element;
+				
+				if (ls.getLocale() == null) {
+					return "-";
+				} else {
+					return ls.getLocale().getLanguage();
+				}
 			}
 		};
-		
+
 		EditingSupport localeEditing = new LocaleEditingSupport(tableViewer) {
-			
+
 			@Override
 			protected Object getValue(Object element) {
-				return ((AbstractLocale)element).getLocale().getLanguage();
+				LocalizedString ls = (LocalizedString) element;
+				
+				if (ls.getLocale() == null) {
+					return "";
+				} else {
+					return ls.getLocale().getLanguage();
+				}
 			}
-			
+
 			@Override
 			protected void setValue(Object element, Object value) {
-				AbstractLocale al = ((AbstractLocale)element);
-				String input = ((String)value).toLowerCase();
+				LocalizedString ls = (LocalizedString) element;
+				String input = ((String) value).toUpperCase();
 				
-				// Mark as dirty, when the locale has been edited
-				if (!al.getLocale().getLanguage().equals(input)) {
+				// Save input when input has changed
+				if (ls.getLocale() == null && !input.isEmpty() ||
+						ls.getLocale() != null && !ls.getLocale().getLanguage().equalsIgnoreCase(input)) {
+					// Mark as dirty, when the locale has been edited
 					Locale locale = new Locale(input);
-					((AbstractLocale)element).setLocale(locale);
-					dirty = true;
+					ls.setLocale(locale);
+					setDirty(true);
 					tableViewer.update(element, null);
 				}
 			}
 		};
-		
-		TableViewerColumn localeColumn = buildColumn("Locale", 100, localeLabel, localeEditing, columnLayout);
+
+		TableViewerColumn localeColumn = buildColumn("Locale", 100,
+				localeLabel, localeEditing, columnLayout);
 		new ColumnViewerSorter(tableViewer, localeColumn) {
 
 			@Override
 			public int doCompare(Viewer viewer, Object e1, Object e2) {
-				Locale locale1 = ((AbstractLocale)e1).getLocale();
-				Locale locale2 = ((AbstractLocale)e2).getLocale();
-				return locale1.getLanguage().compareToIgnoreCase(locale2.getLanguage());
+				Locale locale1 = ((LocalizedString) e1).getLocale();
+				Locale locale2 = ((LocalizedString) e2).getLocale();
+				
+				if (locale1 == null && locale2 == null) {
+					return 0;
+				}
+				if (locale1 == null) {
+					return -1;
+				}
+				if (locale2 == null) {
+					return 1;
+				}
+				
+				return locale1.getLanguage().compareToIgnoreCase(
+						locale2.getLanguage());
 			}
-			
+
 		};
-		
+
+		// Value column
 		ColumnLabelProvider valueLabel = new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (type == Type.NAME) {
-					return ((Name)element).getName();
+				LocalizedString ls = (LocalizedString) element;
+				if (ls.getString().isEmpty()) {
+					return "-";
 				} else {
-					return ((Description)element).getDescription();
+					return ls.getString();
 				}
 			}
 		};
-		
+
 		EditingSupport valueEditing = new TextEditingSupport(tableViewer) {
 
 			@Override
 			protected Object getValue(Object element) {
-				if (type == Type.NAME) {
-					return ((Name)element).getName();
-				} else {
-					return ((Description)element).getDescription();
-				}
+				LocalizedString ls = (LocalizedString) element;
+				return ls.getString();
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				String input = (String)value;
+				LocalizedString ls = ((LocalizedString) element);
+				String input = (String) value;
 				
-				if (type == Type.NAME) {
-					Name name = (Name)element;
-					if (!name.getName().equals(input)) {
-						name.setName(input);
-						dirty = true;
-						tableViewer.update(element, null);
-					}
-				} else {
-					Description desc = (Description)element;
-					if (!desc.equals(desc)) {
-						desc.setDescription(input);
-						dirty = true;
-						tableViewer.update(element, null);
-					}
+				if (!ls.getString().equals(input)) {
+					ls.setString(input);
+					setDirty(true);
+					tableViewer.update(element, null);
 				}
 			}
-			
+
 		};
-		
+
 		String valueTitle;
 		if (type == Type.NAME) {
 			valueTitle = "Name";
 		} else {
 			valueTitle = "Description";
 		}
-		
-		TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel, valueEditing, columnLayout);
+
+		TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel,
+				valueEditing, columnLayout);
 		new ColumnViewerSorter(tableViewer, valueColumn) {
 
 			@Override
 			public int doCompare(Viewer viewer, Object e1, Object e2) {
 				String value1, value2;
-				if (type == Type.NAME) {
-					value1 = ((Name)e1).getName();
-					value2 = ((Name)e2).getName();
-				} else {
-					value1 = ((Description)e1).getDescription();
-					value2 = ((Description)e2).getDescription();					
-				}
+				value1 = ((LocalizedString) e1).getString();
+				value2 = ((LocalizedString) e2).getString();
 				return value1.compareToIgnoreCase(value2);
 			}
-			
+
 		};
 	}
-	
+
 	/**
 	 * Build a column using the given data
-	 * @param text	Title of the column
-	 * @param width	Width of the column in pixel. 
-	 * 				If set to 0 or a negative value, the column will use all available width
+	 * 
+	 * @param text
+	 *            Title of the column
+	 * @param width
+	 *            Width of the column in pixel. If set to 0 or a negative value,
+	 *            the column will use all available width
 	 * @param labelProvider
 	 * @param editingSupport
 	 * @param columnLayout
 	 */
-	private TableViewerColumn buildColumn(String text, int width, CellLabelProvider labelProvider, EditingSupport editingSupport, TableColumnLayout columnLayout) {
-		TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.BORDER);
+	private TableViewerColumn buildColumn(String text, int width,
+			CellLabelProvider labelProvider, EditingSupport editingSupport,
+			TableColumnLayout columnLayout) {
+		TableViewerColumn column = new TableViewerColumn(tableViewer,
+				SWT.BORDER);
+		
 		final TableColumn control = column.getColumn();
 		if (width <= 0) {
-			columnLayout.setColumnData(control,	new ColumnWeightData(1,true));			
+			columnLayout.setColumnData(control, new ColumnWeightData(1, true));
 		} else {
-			columnLayout.setColumnData(control,	new ColumnPixelData(width,true));
+			columnLayout.setColumnData(control,
+					new ColumnPixelData(width, true));
 		}
+		
 		control.setText(text);
 		column.setLabelProvider(labelProvider);
 		column.setEditingSupport(editingSupport);
-		
+
 		return column;
-		
-		// Add sorter
-		/*control.addSelectionListener(new SelectionAdapter() {
-			private int direction = SWT.NONE;
-			public void widgetSelected(SelectionEvent e) {
-				
-				switch (direction) {
-					case SWT.NONE:
-						direction = SWT.DOWN;
-						break;
-					case SWT.DOWN:
-						direction = SWT.UP;
-						break;
-					case SWT.UP:
-						direction = SWT.None;
-						break;
-					
-				}
-				control.getParent().setSortColumn(control);
-				control.getParent().setSortDirection(direction);
-				tableViewer.setSorter(new ViewerSorter());
-				tableViewer.setComparator(new ViewerComparator() {
-					public int compare(Viewer viewer, Object e1, Object e2) {
-						System.out.println("e1"+ e1);
-						int compared = 0;
-						switch (direction) {
-							case SWT.NONE:
-								compared = 0;
-								break;
-							case SWT.DOWN:
-								break;
-							case SWT.UP:
-								compared *= -1;
-								break;						
-					}
-						System.out.println("compare");
-						return compared;
-					}
-				});
-				System.out.println("click");
-				refresh();
-			}
-		});*/
-		
+
 	}
 	
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+		dirtyAction.doSetDirty(dirty);
+	}
+
 	public boolean isDirty() {
 		return dirty;
 	}
-	
+
 	public Composite getComposite() {
 		return outerCompo;
 	}
-	
+
 	/**
 	 * Refreshes the table so that current values from the model will be shown
 	 */
 	public void refresh() {
 		tableViewer.refresh();
-	//parent.getParent().getParent().getParent().getParent().layout(true, true);
-	
 	}
 
 }

@@ -14,6 +14,7 @@ public class MapContentProvider implements IContentProvider, IStructuredContentP
 
 	@Override
 	public Object[] getElements(Object inputElement) {
+		@SuppressWarnings("unchecked")
 		Map<Object,Object> inputMap = (Map<Object,Object>)inputElement;
 		return inputMap.values().toArray();
 	}

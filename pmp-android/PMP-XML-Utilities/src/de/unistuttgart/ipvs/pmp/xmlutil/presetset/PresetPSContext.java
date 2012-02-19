@@ -2,12 +2,14 @@ package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.io.Serializable;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetPSContext implements Serializable, IPresetPSContext {
+public class PresetPSContext extends IssueLocation implements Serializable, IPresetPSContext {
     
     /**
      * Serial
@@ -98,6 +100,12 @@ public class PresetPSContext implements Serializable, IPresetPSContext {
     @Override
     public void setOverrideValue(String overrideValue) {
         this.overrideValue = overrideValue;
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }

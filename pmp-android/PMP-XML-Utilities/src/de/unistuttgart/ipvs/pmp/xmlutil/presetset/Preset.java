@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class Preset implements Serializable, IPreset {
+public class Preset extends IssueLocation implements Serializable, IPreset {
     
     /**
      * Serial
@@ -190,6 +192,12 @@ public class Preset implements Serializable, IPreset {
     @Override
     public void removeAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting) {
         assignedPrivacySettings.remove(assignedPrivacySetting);
+    }
+    
+    
+    @Override
+    public void clearIssuesAndPropagate() {
+        super.getIssues().clear();
     }
     
 }
