@@ -161,11 +161,4 @@ public class PresetAssignedPrivacySetting extends IssueLocation implements Seria
     public void removeContext(IPresetPSContext context) {
         this.contexts.remove(context);
     }
-    
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

@@ -194,10 +194,4 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
         assignedPrivacySettings.remove(assignedPrivacySetting);
     }
     
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

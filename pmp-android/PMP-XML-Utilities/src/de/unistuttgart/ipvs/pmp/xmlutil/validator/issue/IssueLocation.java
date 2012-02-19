@@ -67,4 +67,10 @@ public abstract class IssueLocation implements IIssueLocation {
         issues.remove(issue);
     }
     
+    
+    @Override
+    public void clearIssues() {
+        this.issues.clear();
+    }
+    
 }

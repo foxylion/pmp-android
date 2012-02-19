@@ -25,6 +25,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -51,7 +52,7 @@ public class RGISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearIssuesAndPropagate();
+            rgis.clearIssues();
         
         /*
          * Validate the app information and the service features 
@@ -77,7 +78,7 @@ public class RGISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearRGInformationIssuesAndPropagate();
+            rgis.clearRGInformationIssues();
         
         /*
          * Validate names and descriptions
@@ -123,7 +124,7 @@ public class RGISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearPSIssuesAndPropagate();
+            rgis.clearPSIssues();
         
         /*
          * Validate the occurrences of identifier of privacy settings
@@ -176,7 +177,7 @@ public class RGISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            ps.clearIssuesAndPropagate();
+            ps.clearIssues();
         
         /*
          * Validate names, descriptions and change descriptions
@@ -201,6 +202,20 @@ public class RGISValidator extends AbstractValidator {
         attachData(issueList, attachData);
         
         return issueList;
+    }
+    
+    
+    /**
+     * Clear all issues, begin at the given rgis and propagate
+     * 
+     * @param rgis
+     *            the IRGIS
+     */
+    public void clearIssuesAndPropagate(RGIS rgis) {
+        rgis.clearIssues();
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            ps.clearIssues();
+        }
     }
     
 }

@@ -158,8 +158,10 @@ public class Printer {
         p("------------------------------------");
         p("- Printout of the PresetSet --------");
         p("------------------------------------");
+        printIssues(presetSet, "> ");
         for (IPreset preset : presetSet.getPresets()) {
             p("Preset information:");
+            printIssues(preset, "> ");
             p("> Identifier: " + preset.getIdentifier());
             p("> Creator: " + preset.getCreator());
             p("> Name: " + preset.getName());
@@ -168,15 +170,18 @@ public class Printer {
             p("Assigned Apps:");
             for (IPresetAssignedApp app : preset.getAssignedApps()) {
                 p("> " + app.getIdentifier());
+                printIssues(app, "> ");
             }
             p("");
             for (IPresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
                 p("Assigned Privacy Setting:");
+                printIssues(ps, "> ");
                 p("> RG: " + ps.getRgIdentifier() + " (Revision: " + ps.getRgRevision() + ")");
                 p("> PS: " + ps.getPsIdentifier());
                 p("> Value: " + ps.getValue());
                 for (IPresetPSContext context : ps.getContexts()) {
                     p("> Context:");
+                    printIssues(context, "   > ");
                     p("   > Type: " + context.getType());
                     p("   > Condition: " + context.getCondition());
                     p("   > Override-Value: " + context.getOverrideValue());

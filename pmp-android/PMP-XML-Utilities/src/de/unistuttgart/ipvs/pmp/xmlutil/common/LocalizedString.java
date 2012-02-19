@@ -81,10 +81,4 @@ public class LocalizedString extends IssueLocation implements ILocalizedString {
         this.locale = locale;
     }
     
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

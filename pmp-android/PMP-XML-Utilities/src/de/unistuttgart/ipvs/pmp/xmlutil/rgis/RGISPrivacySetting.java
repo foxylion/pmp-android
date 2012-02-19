@@ -137,10 +137,13 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     
     
     @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
+    public void clearIssues() {
+        super.clearIssues();
         super.clearNameIssues();
         super.clearDescriptionIssues();
+        for (ILocalizedString changeDescr : getChangeDescriptions()) {
+            changeDescr.clearIssues();
+        }
     }
     
     

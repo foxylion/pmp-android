@@ -68,11 +68,4 @@ public class PresetSet extends IssueLocation implements Serializable, IPresetSet
     public void removePreset(IPreset preset) {
         this.presets.remove(preset);
     }
-    
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

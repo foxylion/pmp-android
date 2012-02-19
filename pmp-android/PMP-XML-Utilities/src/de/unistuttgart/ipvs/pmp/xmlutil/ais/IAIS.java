@@ -70,12 +70,12 @@ public interface IAIS extends IBasicIS {
     /**
      * Clear only issues referring to the app information
      */
-    public abstract void clearAppInformationIssuesAndPropagate();
+    public abstract void clearAppInformationIssues();
     
     
     /**
      * Clear only issues referring to the service features
      */
-    public abstract void clearServiceFeaturesIssuesAndPropagate();
+    public abstract void clearServiceFeaturesIssues();
     
 }

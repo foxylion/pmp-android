@@ -69,11 +69,4 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     public void setValue(String value) {
         this.value = value;
     }
-    
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }
