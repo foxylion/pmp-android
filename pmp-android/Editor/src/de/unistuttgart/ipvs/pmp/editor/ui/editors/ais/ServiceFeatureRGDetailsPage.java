@@ -325,10 +325,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			// Open the dialog
 			SelectionDialog dialog = new RequiredPrivacySettingsDialog(
 				parentShell, customRGIS);
-			dialog.open();
 
 			// Get the results
-			if (dialog.getResult() != null
+			if (dialog.open() == Window.OK
 				& dialog.getResult().length > 0) {
 
 			    // Store them at the model

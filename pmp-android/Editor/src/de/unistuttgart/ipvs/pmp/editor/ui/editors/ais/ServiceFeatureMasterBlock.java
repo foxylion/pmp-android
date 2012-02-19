@@ -48,6 +48,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
+ * Represents the {@link MasterDetailsBlock} with a tree of all service features
+ * and all containing required Resource Groups
+ * 
  * @author Thorsten Berberich
  * 
  */
@@ -371,11 +374,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 				resGroups.values());
 			RequiredResourceGroupsDialog dialog = new RequiredResourceGroupsDialog(
 				parentShell, list);
-			dialog.open();
-			dialog.getResult();
 
 			// Get the results
-			if (dialog.getResult() != null && dialog.getResult().length > 0) {
+			if (dialog.open() == Window.OK
+				&& dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
