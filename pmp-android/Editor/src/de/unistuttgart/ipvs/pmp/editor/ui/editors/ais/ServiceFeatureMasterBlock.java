@@ -1,8 +1,16 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -31,10 +39,13 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredResourceGroupsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeLabelProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @author Thorsten Berberich
@@ -57,6 +68,16 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
      * The remove action
      */
     private Action remove;
+
+    /**
+     * The add {@link AISRequiredResourceGroup} action
+     */
+    private Action addRG;
+
+    /**
+     * Id of this component
+     */
+    private String ID = "service_feature_masterblock";
 
     /*
      * (non-Javadoc)
@@ -117,19 +138,40 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		TreeItem[] selection = tree.getSelection();
 		int selectionCount = tree.getSelectionCount();
 
-		Boolean enable = true;
+		// Enable / disable the add rg button
+		if (selectionCount == 1) {
+		    TreeItem item = selection[0];
+		    if (item.getData() instanceof AISServiceFeature) {
+			addRG.setEnabled(true);
+		    } else {
+			addRG.setEnabled(false);
+		    }
+		} else {
+		    addRG.setEnabled(false);
+		}
+
+		Boolean enableSF = true;
+		Boolean enableRG = true;
 
 		// Check if all selections are on the service features
 		for (int itr = 0; itr < selectionCount; itr++) {
 		    TreeItem item = selection[itr];
 		    Object data = item.getData();
 		    if (!(data instanceof AISServiceFeature)) {
-			enable = false;
+			enableSF = false;
+		    }
+
+		    /*
+		     * Enable the remove button only if there are only Service
+		     * Features enabled or only required Resourcegroups
+		     */
+		    if (!(data instanceof AISRequiredResourceGroup)) {
+			enableRG = false;
 		    }
 		}
 
 		// If yes then enable the delete button
-		if (enable) {
+		if (enableSF ^ enableRG) {
 		    remove.setEnabled(true);
 		} else {
 		    // Else disable it
@@ -150,7 +192,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
      */
     @Override
     protected void createToolBarActions(IManagedForm arg0) {
-
     }
 
     /*
@@ -226,7 +267,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	});
 
 	// Picture can be added also to the actions
-	Action add = new Action("Add Service Feature") {
+	Action addSF = new Action("Add Service Feature") {
 
 	    @Override
 	    public void run() {
@@ -246,7 +287,87 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		}
 	    }
 	};
-	add.setToolTipText("Add a new Service Feature");
+	addSF.setToolTipText("Add a new Service Feature");
+
+	// Picture can be added also to the actions
+	addRG = new Action("Add Resource Group") {
+
+	    @Override
+	    public void run() {
+		List<RGIS> rgisList = null;
+		try {
+		    rgisList = Model.getInstance().getRgisList();
+		} catch (IOException e) {
+		    IStatus status = new Status(IStatus.ERROR, ID,
+			    "See details", e);
+		    ErrorDialog
+			    .openError(
+				    parentShell,
+				    "Error",
+				    "A error happend while downloading the Resource Groups from the server.",
+				    status);
+		}
+
+		if (rgisList != null) {
+		    HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();
+
+		    // Iterate through all set RGs of the Service Feature
+		    Tree tree = treeViewer.getTree();
+		    TreeItem[] selection = tree.getSelection();
+		    AISServiceFeature sf = (AISServiceFeature) selection[0]
+			    .getData();
+
+		    // Iterate through all available RGs of the server
+		    for (RGIS rgis : rgisList) {
+			Boolean found = false;
+			for (IAISRequiredResourceGroup sfRg : sf
+				.getRequiredResourceGroups()) {
+			    // Add the RGs that arent already at the SF
+			    if (rgis.getIdentifier().equals(
+				    sfRg.getIdentifier())) {
+				found = true;
+				break;
+			    }
+
+			}
+
+			// Didn't found the RG at the sf
+			if (!found) {
+			    resGroups.put(rgis.getIdentifier(), rgis);
+			}
+		    }
+
+		    // No RGs to add
+		    if (resGroups.isEmpty()) {
+			MessageDialog
+				.openInformation(parentShell,
+					"No Resource Groups to add",
+					"You already added all Resource Groups of that are available.");
+		    } else {
+			List<RGIS> list = new ArrayList<RGIS>(
+				resGroups.values());
+			RequiredResourceGroupsDialog dialog = new RequiredResourceGroupsDialog(
+				parentShell, list);
+			dialog.open();
+			dialog.getResult();
+
+			// Get the results
+			if (dialog.getResult().length > 0) {
+
+			    // Store them at the model
+			    for (Object object : dialog.getResult()) {
+				AISRequiredResourceGroup required = (AISRequiredResourceGroup) object;
+				sf.addRequiredResourceGroup(required);
+			    }
+			    Model.getInstance().setAISDirty(true);
+			    treeViewer.refresh();
+			}
+		    }
+		}
+	    }
+	};
+	addRG.setToolTipText("Add a new Resource Group");
+	addRG.setEnabled(false);
 
 	// The remove action
 	remove = new Action("Remove") {
@@ -271,6 +392,18 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			item.dispose();
 			deleted = true;
 		    }
+
+		    // Remove the resource group
+		    if (data instanceof IAISRequiredResourceGroup) {
+			IAISRequiredResourceGroup rg = (IAISRequiredResourceGroup) data;
+			TreeItem parent = item.getParentItem();
+			AISServiceFeature parentSf = (AISServiceFeature) parent
+				.getData();
+			parentSf.removeRequiredResourceGroup(rg);
+			item.dispose();
+			deleted = true;
+		    }
+
 		}
 		if (deleted) {
 		    detailsPart.selectionChanged(null, null);
@@ -284,12 +417,12 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	remove.setToolTipText("Remove the selected Service Features");
 
 	// Add the actions to the toolbar
-	toolBarManager.add(add);
+	toolBarManager.add(addSF);
+	toolBarManager.add(addRG);
 	remove.setEnabled(false);
 	toolBarManager.add(remove);
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
     }
-
 }

@@ -12,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
  * @author Thorsten Berberich
  * 
  */
-public class RequiredRGContentProvider implements IContentProvider,
+public class RequiredPSContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*

@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -23,24 +24,23 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
- * Shows a dialog where the user can check the {@link RGISPrivacySetting}s that
- * he wants to add to the Service Feature
+ * Shows a dialog where the user can check the required Resource Groups that he
+ * wants to add to the Service Feature
  * 
  * @author Thorsten Berberich
  * 
  */
-public class RequiredPrivacySettingsDialog extends SelectionDialog implements
+public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	ISelectionChangedListener, ICheckStateListener {
 
     /**
      * The {@link RGISPrivacySetting}s to display
      */
-    private RGIS toDisplay;
+    private List<RGIS> toDisplay;
 
     /**
      * The text that is display on the left hand side
@@ -68,15 +68,14 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
     private final static int SIZING_SELECTION_WIDGET_WIDTH = 300;
 
     /**
-     * Constructr
+     * Constructor
      * 
      * @param parentShell
      *            {@link Shell} to display the dialog
      * @param toDisplay
-     *            one {@link RGIS} to display the {@link RGISPrivacySetting} out
-     *            of
+     *            {@link List} with {@link RGIS} that are displayed
      */
-    public RequiredPrivacySettingsDialog(Shell parentShell, RGIS toDisplay) {
+    public RequiredResourceGroupsDialog(Shell parentShell, List<RGIS> toDisplay) {
 	super(parentShell);
 	this.toDisplay = toDisplay;
     }
@@ -84,7 +83,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
     @Override
     protected void configureShell(Shell shell) {
 	super.configureShell(shell);
-	shell.setText("Select the required Privacy Settings");
+	shell.setText("Select the required Resource Groups");
     }
 
     @Override
@@ -94,7 +93,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	composite.setLayout(new GridLayout(2, false));
 
 	Label psLabel = new Label(composite, SWT.NULL);
-	psLabel.setText("Choose the required Privacy Settings:");
+	psLabel.setText("Choose the required Resource Groups:");
 
 	Label descLabel = new Label(composite, SWT.NULL);
 	descLabel.setText("Information:");
@@ -106,9 +105,9 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	listViewer.addCheckStateListener(this);
 
 	// Set the content provider and the label provider
-	PrivacySettingsDialogContentProvider contentProvider = new PrivacySettingsDialogContentProvider();
-	listViewer.setContentProvider(contentProvider);
-	listViewer.setLabelProvider(new PrivacySettingsDialogLabelProvider());
+	listViewer
+		.setContentProvider(new ResourceGroupsDialogContentProvider());
+	listViewer.setLabelProvider(new ResourceGroupDialogLabelProvider());
 	listViewer.setInput(toDisplay);
 	listViewer.addSelectionChangedListener(this);
 
@@ -132,7 +131,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	valueComp.setLayoutData(data);
 
 	Label valueLabel = new Label(valueComp, SWT.NULL);
-	valueLabel.setText("Value:");
+	valueLabel.setText("Minimal revision:");
 	valueLabel.pack();
 
 	valueText = new Text(valueComp, SWT.BORDER);
@@ -147,8 +146,8 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	    public void focusLost(org.eclipse.swt.events.FocusEvent arg0) {
 
 		// Store the value out of the value field
-		RGISPrivacySetting ps = (RGISPrivacySetting) listViewer
-			.getTable().getSelection()[0].getData();
+		RGIS ps = (RGIS) listViewer.getTable().getSelection()[0]
+			.getData();
 		if (!valueText.getText().isEmpty()) {
 		    values.put(ps.getIdentifier(), valueText.getText());
 		}
@@ -160,7 +159,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	});
 
 	// Set the initial selection and update the text
-	if (toDisplay.getPrivacySettings().size() > 0) {
+	if (toDisplay.size() > 0) {
 	    listViewer.getTable().select(0);
 	    updateText();
 	}
@@ -175,10 +174,10 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 
 	// Build a list of selected children.
 	if (children != null) {
-	    ArrayList<AISRequiredPrivacySetting> list = new ArrayList<AISRequiredPrivacySetting>();
-	    for (int i = 0; i < children.length; ++i) {
+	    ArrayList<AISRequiredResourceGroup> list = new ArrayList<AISRequiredResourceGroup>();
 
-		RGISPrivacySetting element = (RGISPrivacySetting) children[i];
+	    for (int i = 0; i < children.length; ++i) {
+		RGIS element = (RGIS) children[i];
 		if (listViewer.getChecked(element)) {
 		    String value = "";
 		    // Add the entered values
@@ -187,8 +186,9 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 			    value = values.get(element.getIdentifier());
 			}
 		    }
-		    list.add(new AISRequiredPrivacySetting(element
-			    .getIdentifier(), value));
+		    AISRequiredResourceGroup required = new AISRequiredResourceGroup(
+			    element.getIdentifier(), value);
+		    list.add(required);
 		}
 	    }
 	    setResult(list);
@@ -212,43 +212,41 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
      * Updates the description and valid value {@link StyledText}
      */
     private void updateText() {
-	RGISPrivacySetting ps = (RGISPrivacySetting) listViewer.getTable()
-		.getSelection()[0].getData();
+	RGIS rg = (RGIS) listViewer.getTable().getSelection()[0].getData();
 	Locale enLocale = new Locale("en");
 
 	// Set the value text field
-	if (values.get(ps.getIdentifier()) != null) {
-	    valueText.setText(values.get(ps.getIdentifier()));
+	if (values.get(rg.getIdentifier()) != null) {
+	    valueText.setText(values.get(rg.getIdentifier()));
 	} else {
 	    valueText.setText("");
 	}
 
-	String descString = ps.getDescriptionForLocale(enLocale);
-	int descLength = 0;
-	if (descString == null) {
-	    descString = "No description available";
-	    descLength = descString.length();
+	String nameString = rg.getNameForLocale(enLocale);
+	int nameLength = 0;
+	if (nameString == null || nameString.isEmpty()) {
+	    nameString = "No name available";
+	    nameLength = nameString.length();
 	} else {
-	    descLength = ps.getDescriptionForLocale(enLocale).length();
+	    nameLength = nameString.length();
 	}
 
-	String validvalueString = ps.getValidValueDescription();
-	if (validvalueString.isEmpty()) {
-	    validvalueString = "No valid value description available";
+	String descString = rg.getDescriptionForLocale(enLocale);
+	if (descString == null || nameString.isEmpty()) {
+	    descString = "No description available";
 	}
 
-	text.setText("Description:\n" + descString + "\n\nValid Values:\n"
-		+ validvalueString);
+	text.setText("Name:\n" + nameString + "\n\nDescription:\n" + descString);
 
 	// Set the text styles
 	StyleRange style = new StyleRange();
 	style.start = 0;
-	style.length = 12;
+	style.length = 4;
 	style.fontStyle = SWT.BOLD;
 	text.setStyleRange(style);
 
 	style = new StyleRange();
-	style.start = 13 + descLength;
+	style.start = 6 + nameLength;
 	style.length = 15;
 	style.fontStyle = SWT.BOLD;
 	text.setStyleRange(style);
@@ -263,8 +261,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
      */
     @Override
     public void checkStateChanged(CheckStateChangedEvent event) {
-	RGISPrivacySetting checkedElement = (RGISPrivacySetting) event
-		.getElement();
+	RGIS checkedElement = (RGIS) event.getElement();
 
 	// Search the item at the list that was checked
 	for (int itr = 0; itr < listViewer.getTable().getItemCount(); itr++) {

@@ -14,4 +14,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.forms
 Bundle-ClassPath: .,
  lib/JPMPPS-V-3-1.jar,
- lib/PMP-XML-Utilities-V-3-8-source.jar
+ lib/PMP-XML-Utilities-V-3-9-source.jar

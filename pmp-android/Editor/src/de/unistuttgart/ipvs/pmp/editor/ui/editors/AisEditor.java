@@ -13,10 +13,10 @@ import org.eclipse.ui.part.FileEditorInput;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 
 /**
  * The editor for App-Information-Sets that contains the {@link AISGeneralPage}
@@ -63,7 +63,7 @@ public class AisEditor extends FormEditor {
 		// Store ais in the Model
 		Model.getInstance().setAis(ais);
 		
-		new AISValidator().validateAIS(Model.getInstance().getAis(), true);
+		AISValidatorWrapper.getInstance().validateAIS(Model.getInstance().getAis(), true);
 
 		// Create the pages
 		generalPage = new AISGeneralPage(this, project);

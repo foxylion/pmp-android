@@ -45,12 +45,10 @@ import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredPrivacySettingsDialog;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredRGContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredPSContentProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -157,7 +155,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	psTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION
 		| SWT.MULTI);
-	psTableViewer.setContentProvider(new RequiredRGContentProvider());
+	psTableViewer.setContentProvider(new RequiredPSContentProvider());
 	psTableViewer.addDoubleClickListener(this);
 
 	// The identifier column with the LabelProvider
@@ -172,7 +170,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	    @Override
 	    public Image getImage(Object element) {
-		ILocalizedString item = (LocalizedString) element;
+		AISRequiredPrivacySetting item = (AISRequiredPrivacySetting) element;
 		if (!item.getIssues().isEmpty()) {
 		    return Images.ERROR16;
 		}
