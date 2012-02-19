@@ -346,7 +346,6 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
         Assert.nonNull(contextCondition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextCondition",
                 contextCondition);
-        Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
         
         FileLog.get()
                 .logWithForward(
