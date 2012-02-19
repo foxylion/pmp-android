@@ -1,6 +1,9 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
 
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
+
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
@@ -25,8 +28,23 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
 	return (String) input;
     }
 
-    // @Override
-    // public Image getImage(Object element) {
-    // // Check for errors and return the correct image
-    // }
+    @Override
+    public Image getImage(Object element) {
+	// Check for errors and return the correct image
+	if (element instanceof AISServiceFeature) {
+	    AISServiceFeature sf =(AISServiceFeature) element;
+	    if (!sf.getIssues().isEmpty()){
+		return Images.ERROR16;
+	    }
+	}
+
+	if (element instanceof AISRequiredResourceGroup) {
+	    AISRequiredResourceGroup rg = (AISRequiredResourceGroup) element;
+	    if (!rg.getIssues().isEmpty()){
+		return Images.ERROR16;
+	    }
+	}
+	
+	return null;
+    }
 }

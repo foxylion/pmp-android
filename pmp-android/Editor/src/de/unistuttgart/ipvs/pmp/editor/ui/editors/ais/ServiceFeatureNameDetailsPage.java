@@ -35,10 +35,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.DescriptionContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.NameContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 /**
@@ -189,7 +191,10 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public Image getImage(Object element) {
-		// Add the check if the entry is correct
+		ILocalizedString item = (LocalizedString) element;
+		if (!item.getIssues().isEmpty()) {
+		    return Images.ERROR16;
+		}
 		return null;
 	    }
 	});
@@ -221,8 +226,8 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    @Override
 	    public void doubleClick(DoubleClickEvent arg0) {
 		if (nameTableViewer.getTable().getSelectionCount() == 1) {
-		    LocalizedString oldName = (LocalizedString) nameTableViewer.getTable()
-			    .getSelection()[0].getData();
+		    LocalizedString oldName = (LocalizedString) nameTableViewer
+			    .getTable().getSelection()[0].getData();
 
 		    // Show the dialog
 		    HashMap<String, String> values = new HashMap<String, String>();
@@ -563,7 +568,8 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		// Delete it out of the model
 		for (TableItem item : selections) {
-		    displayed.removeDescription((LocalizedString) item.getData());
+		    displayed.removeDescription((LocalizedString) item
+			    .getData());
 		}
 
 		descColumn.pack();
