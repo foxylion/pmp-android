@@ -108,13 +108,17 @@ public class DialogContextChange extends Dialog {
             }
             
             try {
-                usedView.setViewCondition(contextCondition);
+                if (contextCondition != null) {
+                    usedView.setViewCondition(contextCondition);
+                }
             } catch (InvalidConditionException e) {
                 Log.e(this, "The condition which should be assigned seems to be an invalid one.", e);
             }
             
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).addView(usedView.asView());
+            
+            ((Button) findViewById(R.id.Button_Save)).setEnabled(overrideValue != null);
         }
     }
     
@@ -131,6 +135,7 @@ public class DialogContextChange extends Dialog {
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
                                     overrideValue = newValue;
+                                    refresh();
                                 }
                             }
                         }).show();
