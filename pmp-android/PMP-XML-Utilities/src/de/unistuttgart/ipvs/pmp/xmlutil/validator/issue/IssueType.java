@@ -84,7 +84,7 @@ public enum IssueType {
     CHANGE_DESCRIPTION_LOCALE_EN_MISSING,
     
     /**
-     * PresetSet
+     * Preset
      */
     CREATOR_MISSING,
     NAME_MISSING,
