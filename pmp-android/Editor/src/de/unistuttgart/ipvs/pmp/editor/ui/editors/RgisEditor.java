@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.exception.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
