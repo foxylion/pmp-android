@@ -9,13 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.ViewPrivacySettingPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link AdapterPrivacySettings} is the list of Privacy Settings in the {@link PresetPSsTabTab}.
@@ -44,6 +42,8 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
      */
     private ArrayList<ArrayList<IPrivacySetting>> psList = new ArrayList<ArrayList<IPrivacySetting>>();
     
+    private TabPrivacySettings activity;
+    
     
     /**
      * Constructor to setup parameter
@@ -53,9 +53,10 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
      * @param preset
      *            the Preset
      */
-    public AdapterPrivacySettings(Context context, IPreset preset) {
+    public AdapterPrivacySettings(Context context, IPreset preset, TabPrivacySettings activity) {
         this.context = context;
         this.preset = preset;
+        this.activity = activity;
     }
     
     
@@ -75,28 +76,8 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
             ViewGroup parent) {
         
-        // Get the Privacy Setting
-        IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
-        
-        // Inflate the layout
-        LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View entryView = infalInflater.inflate(R.layout.listitem_preset_ps, null);
-        
-        // Set name and value of one Privacy Setting
-        TextView name = (TextView) entryView.findViewById(R.id.TextView_Name_PS);
-        name.setText(ps.getName());
-        
-        TextView value = (TextView) entryView.findViewById(R.id.TextView_Value);
-        try {
-            value.setText(this.context.getString(R.string.value) + ": "
-                    + ps.getHumanReadableValue(this.preset.getGrantedPrivacySettingValue(ps)));
-        } catch (PrivacySettingValueException e) {
-            Log.e(this, "The Privacy Setting value is invalid and is beeing marked red in the GUI", e);
-            value.setText(this.context.getString(R.string.value) + ": " + this.preset.getGrantedPrivacySettingValue(ps));
-            value.setTextColor(GUIConstants.COLOR_BG_RED);
-        }
-        
-        return entryView;
+        return new ViewPrivacySettingPreset(this.context, this.preset, (IPrivacySetting) getChild(groupPosition,
+                childPosition), this);
     }
     
     
@@ -153,7 +134,7 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     
     @Override
     public boolean isChildSelectable(int arg0, int arg1) {
-        return true;
+        return false;
     }
     
     
@@ -184,4 +165,8 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
         this.psList = psList;
     }
     
+    
+    public void reactOnItemClick(View item) {
+        this.activity.openContextMenu(item);
+    }
 }

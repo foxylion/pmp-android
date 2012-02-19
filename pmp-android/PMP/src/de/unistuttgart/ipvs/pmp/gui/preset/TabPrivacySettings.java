@@ -16,12 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySetting;
+import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingRemove;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
@@ -33,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 /**
  * The "Assigned Privacy Settings" tab of a Preset
  * 
- * @author Marcus Vetter
+ * @author Marcus Vetter, Jakob Jarosch
  * 
  */
 public class TabPrivacySettings extends Activity {
@@ -145,7 +145,7 @@ public class TabPrivacySettings extends Activity {
         // Handle
         switch (item.getItemId()) {
             case 0:
-                new DialogPrivacySetting(this, ps).show();
+                new DialogPrivacySettingInformation(this, ps).show();
                 
                 return true;
             case 1:
@@ -158,7 +158,12 @@ public class TabPrivacySettings extends Activity {
                 }).show();
                 
                 return true;
+                
             case 2:
+                new DialogContextChange(TabPrivacySettings.this, preset, ps, null).show();
+                return true;
+                
+            case 3:
                 new DialogPrivacySettingRemove(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this)
                         .show();
                 
@@ -220,25 +225,15 @@ public class TabPrivacySettings extends Activity {
                     menu.setHeaderTitle(R.string.choose_your_action);
                     menu.add(0, 0, 0, R.string.show_details);
                     menu.add(1, 1, 1, R.string.change_value);
-                    menu.add(2, 2, 2, R.string.remove);
+                    menu.add(2, 2, 2, R.string.add_context);
+                    menu.add(3, 3, 3, R.string.remove);
                 }
             }
         });
         
-        // React on clicked Privacy Setting (child)
-        this.psExpandableListView.setOnChildClickListener(new OnChildClickListener() {
-            
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                openContextMenu(v);
-                return true;
-            }
-        });
-        
         // Add the adapter
-        this.ppsAdapter = new AdapterPrivacySettings(this, this.preset);
+        this.ppsAdapter = new AdapterPrivacySettings(this, this.preset, this);
         this.psExpandableListView.setAdapter(this.ppsAdapter);
-        
     }
     
     

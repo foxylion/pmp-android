@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySetting;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
@@ -118,7 +118,7 @@ public class PrivacySettingView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySetting(getContext(), PrivacySettingView.this.privacySetting).show();
+                new DialogPrivacySettingInformation(getContext(), PrivacySettingView.this.privacySetting).show();
             }
         });
     }

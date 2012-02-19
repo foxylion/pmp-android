@@ -8,12 +8,12 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 
-public class PrivacySettingView extends LinearLayout {
+public class ViewPrivacySettingBasicInformation extends LinearLayout {
     
     protected IPrivacySetting privacySetting;
     
     
-    public PrivacySettingView(Context context, IPrivacySetting privacySetting) {
+    public ViewPrivacySettingBasicInformation(Context context, IPrivacySetting privacySetting) {
         super(context);
         
         this.privacySetting = privacySetting;
@@ -34,7 +34,7 @@ public class PrivacySettingView extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySetting(getContext(), PrivacySettingView.this.privacySetting).show();
+                new DialogPrivacySettingInformation(getContext(), ViewPrivacySettingBasicInformation.this.privacySetting).show();
             }
         });
     }

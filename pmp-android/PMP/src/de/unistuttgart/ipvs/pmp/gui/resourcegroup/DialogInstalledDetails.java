@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.PrivacySettingView;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.ViewPrivacySettingBasicInformation;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
@@ -53,7 +53,7 @@ public class DialogInstalledDetails extends Dialog {
         
         LinearLayout psList = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
         for (IPrivacySetting privacySetting : resourcegroup.getPrivacySettings()) {
-            psList.addView(new PrivacySettingView(getContext(), privacySetting));
+            psList.addView(new ViewPrivacySettingBasicInformation(getContext(), privacySetting));
         }
         
         addListener();
