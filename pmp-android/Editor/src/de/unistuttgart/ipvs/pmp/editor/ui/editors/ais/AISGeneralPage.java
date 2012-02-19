@@ -18,6 +18,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -34,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActiv
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.IDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
@@ -139,10 +141,18 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	section.setLayoutData(layoutData);
 
 	IAIS ais = Model.getInstance().getAis();
-	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, toolkit);
+	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
+	IDirtyAction dirtyAction = new IDirtyAction() {
+		
+		@Override
+		public void setDirty(boolean dirty) {
+			firePropertyChange(IEditorPart.PROP_DIRTY);
+		}
+	};
+	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
 	nameTable.getComposite().setLayoutData(layoutData);
 
-	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
+	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION, dirtyAction,
 		toolkit);
 	descTable.getComposite().setLayoutData(layoutData);
 

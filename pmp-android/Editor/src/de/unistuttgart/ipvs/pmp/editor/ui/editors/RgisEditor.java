@@ -16,29 +16,32 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * Editor, that allow the user to interactively change their RIS.
+ * 
  * @author Patrick Strobel
- *
+ * 
  */
 public class RgisEditor extends FormEditor {
-	
-	private RGUtil rgutil = new RGUtil();
 
-    @Override
-    protected void addPages() {
-    	try {    		
-    		// Parse XML-File 
-    		FileEditorInput input = (FileEditorInput)this.getEditorInput();
-    		try {
-    			// Synchronize if out of sync (better: show message)
-    			if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
-    				input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
-    			}
-    			IRGIS rgis = rgutil.parse(input.getFile().getContents());
-    			Model.getInstance().setRgis(rgis);
-    			
- 
-    		} catch (ParserException e) {
-    		}
+	private RGUtil rgutil = new RGUtil();
+	private Model model = Model.getInstance();
+
+	@Override
+	protected void addPages() {
+		try {
+			model.setRgisEditor(this);
+			
+			// Parse XML-File
+			FileEditorInput input = (FileEditorInput) this.getEditorInput();
+			try {
+				// Synchronize if out of sync (better: show message)
+				if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
+					input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
+				}
+				IRGIS rgis = rgutil.parse(input.getFile().getContents());
+				model.setRgis(rgis);
+
+			} catch (ParserException e) {
+			}
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
@@ -48,26 +51,35 @@ public class RgisEditor extends FormEditor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
-   
-    
-    @Override
-    public void doSave(IProgressMonitor arg0) {
-	// TODO Auto-generated method stub
+	public void firePropertyChangedDirty() {
+		firePropertyChange(FormEditor.PROP_DIRTY);
+	}
 	
-    }
-
-    @Override
-    public void doSaveAs() {
-	// TODO Auto-generated method stub
+	@Override
+	public boolean isDirty() {
+		return model.isRgisDirty();
+	}
 	
-    }
 
-    @Override
-    public boolean isSaveAsAllowed() {
-	// TODO Auto-generated method stub
-	return false;
-    }
+	@Override
+	public void doSave(IProgressMonitor arg0) {
+		// TODO Auto-generated method stub
+		model.setRgisDirty(false);
+
+	}
+
+	@Override
+	public void doSaveAs() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isSaveAsAllowed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
