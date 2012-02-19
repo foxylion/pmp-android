@@ -1,8 +1,9 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**

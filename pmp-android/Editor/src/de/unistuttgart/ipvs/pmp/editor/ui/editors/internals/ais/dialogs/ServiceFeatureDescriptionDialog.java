@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs;
 
 import java.util.HashMap;
 import java.util.Locale;

@@ -39,9 +39,9 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredResourceGroupsDialog;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeLabelProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureTreeProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.ServiceFeatureTreeProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredResourceGroupsDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider.ServiceFeatureTreeLabelProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;

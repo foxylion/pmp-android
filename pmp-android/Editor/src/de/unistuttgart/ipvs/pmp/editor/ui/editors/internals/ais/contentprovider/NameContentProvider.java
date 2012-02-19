@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
 
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -7,12 +7,12 @@ import org.eclipse.jface.viewers.Viewer;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
- * Provides the description table with data
+ * Provides the name table with data
  * 
  * @author Thorsten Berberich
  * 
  */
-public class DescriptionContentProvider implements IContentProvider,
+public class NameContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*
@@ -24,7 +24,7 @@ public class DescriptionContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISServiceFeature) arg0).getDescriptions().toArray();
+	return ((AISServiceFeature) arg0).getNames().toArray();
     }
 
     /*

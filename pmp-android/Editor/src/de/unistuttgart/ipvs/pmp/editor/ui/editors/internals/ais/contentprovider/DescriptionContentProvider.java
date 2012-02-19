@@ -1,20 +1,18 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
-
-import java.util.List;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
 
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
- * Provides the {@link RequiredResourceGroupsDialog} with the contents
+ * Provides the description table with data
  * 
  * @author Thorsten Berberich
  * 
  */
-public class ResourceGroupsDialogContentProvider implements IContentProvider,
+public class DescriptionContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*
@@ -26,9 +24,7 @@ public class ResourceGroupsDialogContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	@SuppressWarnings("unchecked")
-	List<RGIS> list = (List<RGIS>) arg0;
-	return (RGIS[]) list.toArray(new RGIS[list.size()]);
+	return ((AISServiceFeature) arg0).getDescriptions().toArray();
     }
 
     /*
@@ -50,4 +46,5 @@ public class ResourceGroupsDialogContentProvider implements IContentProvider,
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
     }
+
 }

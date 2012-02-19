@@ -32,7 +32,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureDescriptionDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;

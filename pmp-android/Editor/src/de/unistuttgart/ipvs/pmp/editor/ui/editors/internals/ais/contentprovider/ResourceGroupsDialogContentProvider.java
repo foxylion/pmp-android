@@ -1,18 +1,21 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
+
+import java.util.List;
 
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredResourceGroupsDialog;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
- * Provides the required privacy settings table with content
+ * Provides the {@link RequiredResourceGroupsDialog} with the contents
  * 
  * @author Thorsten Berberich
  * 
  */
-public class RequiredPSContentProvider implements IContentProvider,
+public class ResourceGroupsDialogContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*
@@ -24,8 +27,9 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISRequiredResourceGroup) arg0).getRequiredPrivacySettings()
-		.toArray();
+	@SuppressWarnings("unchecked")
+	List<RGIS> list = (List<RGIS>) arg0;
+	return (RGIS[]) list.toArray(new RGIS[list.size()]);
     }
 
     /*
@@ -35,8 +39,6 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void dispose() {
-	// TODO Auto-generated method stub
-
     }
 
     /*
@@ -48,8 +50,5 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-	// TODO Auto-generated method stub
-
     }
-
 }
