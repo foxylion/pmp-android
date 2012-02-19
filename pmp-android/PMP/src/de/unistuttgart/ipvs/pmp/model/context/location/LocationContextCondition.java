@@ -22,7 +22,7 @@ public class LocationContextCondition {
     
     private static Map<String, LocationContextCondition> cache = new HashMap<String, LocationContextCondition>();
     
-    private static Pattern CONDITION_PATTERN = Pattern.compile("([0-9\\.]+);([0-9\\.]+);([0-9\\.]~[0-9\\.]--)+");
+    private static Pattern CONDITION_PATTERN = Pattern.compile("([0-9\\.]+);([0-9\\.]+);(1|0);([0-9\\.]~[0-9\\.]--)+");
     
     
     /**
@@ -41,13 +41,13 @@ public class LocationContextCondition {
             }
             
             List<LocationContextGeoPoint> poly = new ArrayList<LocationContextGeoPoint>();
-            for (int group = 3; group < match.groupCount(); group++) {
+            for (int group = 4; group < match.groupCount(); group++) {
                 String[] coords = match.group(group).split("--")[0].split("~");
                 poly.add(new LocationContextGeoPoint(Double.valueOf(coords[0]), Double.valueOf(coords[1])));
             }
             
             result = new LocationContextCondition(Double.parseDouble(match.group(1)),
-                    Double.parseDouble(match.group(2)), poly);
+                    Double.parseDouble(match.group(2)), match.group(3).equals("1"), poly);
             cache.put(condition, result);
         }
         
@@ -73,13 +73,19 @@ public class LocationContextCondition {
     private double hysteresis;
     
     /**
+     * Whether this means the inside of the polygon or the outside.
+     */
+    private boolean negate;
+    
+    /**
      * We save the result of the last check for this {@link LocationContextCondition} so that hysteresis is possible.
      * We can do this because the {@link LocationContextCondition} are actually cached (see static methods).
      */
     private boolean lastCheck;
     
     
-    public LocationContextCondition(double uncertainty, double hysteresis, List<LocationContextGeoPoint> polygon) {
+    public LocationContextCondition(double uncertainty, double hysteresis, boolean negate,
+            List<LocationContextGeoPoint> polygon) {
         if (hysteresis >= uncertainty) {
             throw new IllegalArgumentException("Hysteresis must not be equal or larger than uncertainty.");
         }
@@ -95,6 +101,7 @@ public class LocationContextCondition {
         
         this.uncertainty = uncertainty;
         this.hysteresis = hysteresis;
+        this.negate = negate;
         this.polygon = polygon;
         this.lastCheck = false;
     }
@@ -110,7 +117,8 @@ public class LocationContextCondition {
             pointList.append("--");
         }
         
-        return String.format("%f;%f;%s", this.uncertainty, this.hysteresis, pointList.toString());
+        return String.format("%f;%f;%s;%s", this.uncertainty, this.hysteresis, this.negate ? "1" : "0",
+                pointList.toString());
     }
     
     
@@ -229,7 +237,7 @@ public class LocationContextCondition {
          * imagine a ray cast from p in direction (1,1) for simplicity's sake
          */
         
-        int intersections = 0;
+        int intersections = this.negate ? 1 : 0;
         
         // for each line in the polygon
         for (int i = 0; i < this.polygon.size() - 1; i++) {
@@ -306,6 +314,35 @@ public class LocationContextCondition {
         }
         
         return result;
+    }
+    
+    
+    public String toHumanReadable() {
+        StringBuilder result = new StringBuilder();
+        
+        for (LocationContextGeoPoint point : this.polygon) {
+            result.append(point.toString());
+            result.append(", ");
+        }
+        
+        result.append("Uncertainty ");
+        result.append(this.uncertainty);
+        result.append("m, ");
+        result.append("Hysteresis ");
+        result.append(this.hysteresis);
+        result.append("m");
+        
+        return result.toString();
+    }
+    
+    
+    public boolean isNegated() {
+        return this.negate;
+    }
+    
+    
+    public void setNegated(boolean negate) {
+        this.negate = negate;
     }
     
 }

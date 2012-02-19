@@ -23,10 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -40,180 +42,131 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 public class AbstractValidator {
     
     /**
+     * Validates names
+     * 
+     * @param location
+     *            IBasicIS
+     * @return List with issues as result of the validation
+     */
+    protected List<IIssue> validateNames(IBasicIS location) {
+        return validateLocalizedStrings(location.getNames(), location, IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
+                IssueType.NAME_LOCALE_EN_MISSING);
+    }
+    
+    
+    /**
+     * Validates descriptions
+     * 
+     * @param location
+     *            IBasicIS
+     * @return List with issues as result of the validation
+     */
+    protected List<IIssue> validateDescriptions(IBasicIS location) {
+        return validateLocalizedStrings(location.getDescriptions(), location,
+                IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN, IssueType.DESCRIPTION_LOCALE_EN_MISSING);
+    }
+    
+    
+    /**
+     * Validates change descriptions
+     * 
+     * @param location
+     *            IRGISPrivacySettings
+     * @return List with issues as result of the validation
+     */
+    protected List<IIssue> validateChangeDescriptions(IRGISPrivacySetting location) {
+        return validateLocalizedStrings(location.getChangeDescriptions(), location,
+                IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN, IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING);
+    }
+    
+    
+    /**
      * Validate the names of a given {@link IssueLocation}
      * 
+     * @param lStrings
+     *            the list of localized string to validate
      * @param location
      *            location of the issue
+     * @param localeOccurredTooOftenIssueType
+     *            the issue type for "locale occurred too often"
+     * @param localeEnMissingIssueType
+     *            the issue type for "locale en missing"
+     * 
      * @return List with issues as result of the validation
      */
-    protected List<Issue> validateNames(IssueLocation location) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    private List<IIssue> validateLocalizedStrings(List<ILocalizedString> lStrings, IIssueLocation location,
+            IssueType localeOccurredTooOftenIssueType, IssueType localeEnMissingIssueType) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
-        // Check, if this location has names and descriptions (extends from BasicIS)
-        if (location instanceof BasicIS) {
-            boolean englishLocaleExists = false;
-            List<String> localesOccurred = new ArrayList<String>();
+        boolean englishLocaleExists = false;
+        List<String> localesOccurred = new ArrayList<String>();
+        
+        for (ILocalizedString lString : lStrings) {
             
-            for (LocalizedString name : ((BasicIS) location).getNames()) {
+            // Instantiate possible issues
+            Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, lString);
+            Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, lString);
+            Issue nameEmpty = new Issue(IssueType.EMPTY_VALUE, lString);
+            
+            // Flag, if the locale is missing
+            boolean localeAvailable = true;
+            
+            // Check, if the locale is set
+            if (lString.getLocale() == null || !checkValueSet(lString.getLocale().getLanguage())) {
+                issueList.add(localeMissing);
+                localeAvailable = false;
                 
-                // Instantiate possible issues
-                Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, name);
-                Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, name);
-                Issue nameEmpty = new Issue(IssueType.EMPTY_VALUE, name);
-                
-                // Flag, if the locale is missing
-                boolean localeAvailable = true;
-                
-                // Check, if the locale is set
-                if (name.getLocale() == null || !checkValueSet(name.getLocale().getLanguage())) {
-                    issueList.add(localeMissing);
-                    localeAvailable = false;
-                    
-                } else if (!checkLocale(name.getLocale())) {
-                    // if the locale is invalid
-                    issueList.add(localeInvalid);
-                    // Add the information of the locale to the name issue
-                    localeInvalid.addParameter(name.getLocale().getLanguage());
-                } else {
-                    // Check, if its the english attribute
-                    if (checkLocaleAttributeEN(name.getLocale())) {
-                        englishLocaleExists = true;
-                    }
-                    
-                    String locale = name.getLocale().getLanguage();
-                    if (!localesOccurred.contains(locale)) {
-                        localesOccurred.add(locale);
-                    } else {
-                        // Check, if this issue is already added to the issuelist
-                        boolean issueAlreadyExists = false;
-                        for (Issue issueExisting : issueList) {
-                            if (issueExisting.getType().equals(IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN)
-                                    && (issueExisting).getLocation().equals(location)
-                                    && issueExisting.getParameters().size() > 0
-                                    && issueExisting.getParameters().get(0).equals(locale)) {
-                                issueAlreadyExists = true;
-                            }
-                        }
-                        if (!issueAlreadyExists) {
-                            Issue localesOccurredTooOften = new Issue(IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
-                                    location);
-                            localesOccurredTooOften.addParameter(locale);
-                            issueList.add(localesOccurredTooOften);
-                        }
-                        
-                    }
+            } else if (!checkLocale(lString.getLocale())) {
+                // if the locale is invalid
+                issueList.add(localeInvalid);
+                // Add the information of the locale to the name issue
+                localeInvalid.addParameter(lString.getLocale().getLanguage());
+            } else {
+                // Check, if its the english attribute
+                if (checkLocaleAttributeEN(lString.getLocale())) {
+                    englishLocaleExists = true;
                 }
                 
-                // Check, if the name is set
-                if (!checkValueSet(name.getString())) {
-                    issueList.add(nameEmpty);
-                    // Add the information of the locale to the name issue
-                    if (localeAvailable) {
-                        nameEmpty.addParameter(name.getLocale().getLanguage());
-                    }
+                String locale = lString.getLocale().getLanguage();
+                if (!localesOccurred.contains(locale)) {
+                    localesOccurred.add(locale);
                 } else {
-                    // Add the information of the name to the locale issue
-                    localeMissing.addParameter(name.getString());
+                    // Check, if this issue is already added to the issuelist
+                    boolean issueAlreadyExists = false;
+                    for (IIssue issueExisting : issueList) {
+                        if (issueExisting.getType().equals(localeOccurredTooOftenIssueType)
+                                && (issueExisting).getLocation().equals(location)
+                                && issueExisting.getParameters().size() > 0
+                                && issueExisting.getParameters().get(0).equals(locale)) {
+                            issueAlreadyExists = true;
+                        }
+                    }
+                    if (!issueAlreadyExists) {
+                        Issue localesOccurredTooOften = new Issue(localeOccurredTooOftenIssueType, location);
+                        localesOccurredTooOften.addParameter(locale);
+                        issueList.add(localesOccurredTooOften);
+                    }
+                    
                 }
             }
             
-            // Add an issue: the English locale is missing
-            if (!englishLocaleExists) {
-                Issue localeEnMissing = new Issue(IssueType.NAME_LOCALE_EN_MISSING, location);
-                issueList.add(localeEnMissing);
+            // Check, if the name is set
+            if (!checkValueSet(lString.getString())) {
+                issueList.add(nameEmpty);
+                // Add the information of the locale to the name issue
+                if (localeAvailable) {
+                    nameEmpty.addParameter(lString.getLocale().getLanguage());
+                }
+            } else {
+                // Add the information of the name to the locale issue
+                localeMissing.addParameter(lString.getString());
             }
-            
         }
         
-        return issueList;
-        
-    }
-    
-    
-    /**
-     * Validate the description of a given {@link IssueLocation}
-     * 
-     * @param location
-     *            the IssueLocation
-     * @return List with issues as result of the validation
-     */
-    protected List<Issue> validateDescriptions(IssueLocation location) {
-        List<Issue> issueList = new ArrayList<Issue>();
-        
-        // Check, if this location has names and descriptions (extends from BasicIS)
-        if (location instanceof BasicIS) {
-            boolean englishLocaleExists = false;
-            List<String> localesOccurred = new ArrayList<String>();
-            
-            for (LocalizedString description : ((BasicIS) location).getDescriptions()) {
-                
-                // Instantiate possible issues
-                Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, description);
-                Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, description);
-                Issue descriptionEmpty = new Issue(IssueType.EMPTY_VALUE, description);
-                
-                // Flag, if the locale is missing
-                boolean localeAvailable = true;
-                
-                // Check, if the locale is set
-                if (description.getLocale() == null || !checkValueSet(description.getLocale().getLanguage())) {
-                    issueList.add(localeMissing);
-                    localeAvailable = false;
-                    
-                } else if (!checkLocale(description.getLocale())) {
-                    // if the locale is invalid
-                    issueList.add(localeInvalid);
-                    // Add the information of the locale to the name issue
-                    localeInvalid.addParameter(description.getLocale().getLanguage());
-                } else {
-                    // Check, if its the english attribute
-                    if (checkLocaleAttributeEN(description.getLocale())) {
-                        englishLocaleExists = true;
-                    }
-                    
-                    String locale = description.getLocale().getLanguage();
-                    if (!localesOccurred.contains(locale)) {
-                        localesOccurred.add(locale);
-                    } else {
-                        // Check, if this issue is already added to the issuelist
-                        boolean issueAlreadyExists = false;
-                        for (Issue issueExisting : issueList) {
-                            if (issueExisting.getType().equals(IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)
-                                    && (issueExisting).getLocation().equals(location)
-                                    && issueExisting.getParameters().size() > 0
-                                    && issueExisting.getParameters().get(0).equals(locale)) {
-                                issueAlreadyExists = true;
-                            }
-                        }
-                        if (!issueAlreadyExists) {
-                            Issue localesOccurredTooOften = new Issue(IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-                                    location);
-                            localesOccurredTooOften.addParameter(locale);
-                            issueList.add(localesOccurredTooOften);
-                        }
-                        
-                    }
-                }
-                
-                // Check, if the description is set
-                if (!checkValueSet(description.getString())) {
-                    issueList.add(descriptionEmpty);
-                    // Add the information of the locale to the name issue
-                    if (localeAvailable) {
-                        descriptionEmpty.addParameter(description.getLocale().getLanguage());
-                    }
-                } else {
-                    // Add the information of the description to the locale issue
-                    localeMissing.addParameter(description.getString());
-                }
-            }
-            
-            // Add an issue: the English locale is missing
-            if (!englishLocaleExists) {
-                Issue localeEnMissing = new Issue(IssueType.DESCRIPTION_LOCALE_EN_MISSING, location);
-                issueList.add(localeEnMissing);
-            }
-            
+        // Add an issue: the English locale is missing
+        if (!englishLocaleExists) {
+            Issue localeEnMissing = new Issue(localeEnMissingIssueType, location);
+            issueList.add(localeEnMissing);
         }
         
         return issueList;
@@ -228,34 +181,11 @@ public class AbstractValidator {
      *            the data to validate (with an identifier)
      * @return a list with all identifier, which occurred at least twice
      */
-    protected List<String> validateOccurrenceOfIdentifierInIdentifierIS(List<IdentifierIS> locationWithIdentifier) {
+    protected List<String> validateOccurrenceOfIdentifier(List<IIdentifierIS> locationWithIdentifier) {
         List<String> idList = new ArrayList<String>();
-        for (IdentifierIS identifier : locationWithIdentifier) {
+        for (IIdentifierIS identifier : locationWithIdentifier) {
             String id = identifier.getIdentifier();
-            for (IdentifierIS identifierCompare : locationWithIdentifier) {
-                String idCompare = identifierCompare.getIdentifier();
-                if ((!identifier.equals(identifierCompare)) && id.equals(idCompare) && !idList.contains(id)) {
-                    idList.add(id);
-                }
-            }
-        }
-        return idList;
-    }
-    
-    
-    /**
-     * Validate the occurrences of identifier.
-     * 
-     * @param locationWithIdentifier
-     *            the data to validate (with an identifier)
-     * @return a list with all identifier, which occurred at least twice
-     */
-    protected List<String> validateOccurrenceOfIdentifierInBasicIdentifierIS(
-            List<BasicIdentifierIS> locationWithIdentifier) {
-        List<String> idList = new ArrayList<String>();
-        for (BasicIdentifierIS identifier : locationWithIdentifier) {
-            String id = identifier.getIdentifier();
-            for (BasicIdentifierIS identifierCompare : locationWithIdentifier) {
+            for (IIdentifierIS identifierCompare : locationWithIdentifier) {
                 String idCompare = identifierCompare.getIdentifier();
                 if ((!identifier.equals(identifierCompare)) && id.equals(idCompare) && !idList.contains(id)) {
                     idList.add(id);
@@ -314,10 +244,10 @@ public class AbstractValidator {
      * @param attachData
      *            true, if the data should be attached with the issues
      */
-    protected void attachData(List<Issue> issueList, boolean attachData) {
+    protected void attachData(List<IIssue> issueList, boolean attachData) {
         if (attachData) {
-            for (Issue issue : issueList) {
-                IssueLocation location = issue.getLocation();
+            for (IIssue issue : issueList) {
+                IIssueLocation location = issue.getLocation();
                 location.addIssue(issue);
             }
         }

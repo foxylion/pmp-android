@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil;
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.AISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.AISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
@@ -49,7 +50,7 @@ public class AppUtil {
      *            url to the xml file
      * @return app information set
      */
-    public AIS parse(InputStream xmlStream) {
+    public IAIS parse(InputStream xmlStream) {
         return aisParser.parse(xmlStream);
     }
     
@@ -61,7 +62,7 @@ public class AppUtil {
      *            AIS to compile
      * @return compiled xml file
      */
-    public InputStream compile(AIS ais) {
+    public InputStream compile(IAIS ais) {
         return aisCompiler.compile(ais);
     }
     
@@ -81,7 +82,7 @@ public class AppUtil {
      * 
      * @return blank AIS-Object
      */
-    public AIS createBlankAIS() {
+    public IAIS createBlankAIS() {
         return new AIS();
     }
     
@@ -92,7 +93,7 @@ public class AppUtil {
      * @param ais
      *            AIS to print
      */
-    public void print(AIS ais) {
+    public void print(IAIS ais) {
         Printer.printAIS(ais);
     }
     

@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.TCPServer;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * Java Privacy Management Platform Package Server Class for Connection handling
@@ -152,7 +152,7 @@ public class JPMPPS {
         for (File pack : path.listFiles()) {
             try {
                 ResourceGroup rg = new ResourceGroup(pack);
-                RGIS rgis = rg.getRGIS();
+                IRGIS rgis = rg.getRGIS();
                 if (rgis == null) {
                     System.out.println("[E] Skipping package " + pack.getName());
                 } else {

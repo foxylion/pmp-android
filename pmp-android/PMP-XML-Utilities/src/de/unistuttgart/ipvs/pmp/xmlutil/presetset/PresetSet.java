@@ -23,12 +23,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class PresetSet implements Serializable {
+public class PresetSet extends IssueLocation implements Serializable, IPresetSet {
     
     /**
      * Serial
@@ -38,38 +40,32 @@ public class PresetSet implements Serializable {
     /**
      * All presets
      */
-    private List<Preset> presets = new ArrayList<Preset>();
+    private List<IPreset> presets = new ArrayList<IPreset>();
     
     
-    /**
-     * Get all Presets
-     * 
-     * @return list with all Presets
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#getPresets()
      */
-    public List<Preset> getPresets() {
+    @Override
+    public List<IPreset> getPresets() {
         return this.presets;
     }
     
     
-    /**
-     * Add a Preset
-     * 
-     * @param preset
-     *            Preset to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#addPreset(de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset)
      */
-    public void addPreset(Preset preset) {
+    @Override
+    public void addPreset(IPreset preset) {
         this.presets.add(preset);
     }
     
     
-    /**
-     * Remove a Preset
-     * 
-     * @param preset
-     *            Preset to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#removePreset(de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset)
      */
-    public void removePreset(Preset preset) {
+    @Override
+    public void removePreset(IPreset preset) {
         this.presets.remove(preset);
     }
-    
 }

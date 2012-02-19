@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 
 /**
@@ -25,9 +26,13 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
     
     @Override
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
-        this.element.link = PluginProvider.getInstance()
-                .getResourceGroupObject(this.element.getResourceGroup().getIdentifier())
-                .getPrivacySetting(this.element.getLocalIdentifier());
+        try {
+            this.element.link = PluginProvider.getInstance()
+                    .getResourceGroupObject(this.element.getResourceGroup().getIdentifier())
+                    .getPrivacySetting(this.element.getLocalIdentifier());
+        } catch (InvalidPluginException ipe) {
+            this.element.resourceGroup.deactivate(ipe);
+        }
     }
     
     

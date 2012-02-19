@@ -17,8 +17,8 @@ import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 
 /**
  * The persistence provider for {@link ServiceFeature}s.
@@ -111,7 +111,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
      *         {@link ServiceFeaturePersistenceProvider}, or null, if the creation was not possible
      */
     public ServiceFeature createElementData(App app, String identifier,
-            List<AISRequiredResourceGroup> requiredResourceGroups) {
+            List<IAISRequiredResourceGroup> requiredResourceGroups) {
         // store in db
         SQLiteDatabase sqldb = getDoh().getWritableDatabase();
         try {
@@ -125,8 +125,8 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
             }
             
             // refer to all the required resource groups
-            for (AISRequiredResourceGroup rrg : requiredResourceGroups) {
-                for (AISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
+            for (IAISRequiredResourceGroup rrg : requiredResourceGroups) {
+                for (IAISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
                     cv = new ContentValues();
                     cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, rrg.getIdentifier());
                     cv.put(PRIVACYSETTING_IDENTIFIER, ps.getIdentifier());

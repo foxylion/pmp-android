@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,9 +106,9 @@ public class TimeContextCondition {
     public boolean satisfiedIn(long state) {
         Calendar cal;
         if (this.isUTC) {
-            cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("GMT"));
         } else {
-            cal = Calendar.getInstance();
+            cal = GregorianCalendar.getInstance();
         }
         cal.setTimeInMillis(state);
         
@@ -193,5 +194,41 @@ public class TimeContextCondition {
     
     public boolean representsWholeDay() {
         return this.begin.getDifferenceInSeconds(this.end, true) >= TimeContextTime.SECONDS_PER_DAY - 1;
+    }
+    
+    
+    public String getHumanReadable() {
+        StringBuilder result = new StringBuilder();
+        result.append(this.begin.toString());
+        result.append(" - ");
+        result.append(this.end.toString());
+        result.append(" ");
+        
+        if (this.isUTC) {
+            result.append("(UTC) ");
+        }
+        
+        switch (this.interval) {
+            case REPEAT_DAILY:
+                result.append("repeating daily");
+                break;
+            case REPEAT_WEEKLY:
+                result.append("repeating weekly on days of week ");
+                result.append(this.interval.makeList(this.days));
+                break;
+            case REPEAT_MONTHLY:
+                result.append("repeating monthly on days of month ");
+                result.append(this.interval.makeList(this.days));
+                break;
+            case REPEAT_YEARLY:
+                result.append("repeating yearly on ");
+                result.append(this.days.get(1));
+                result.append(".");
+                result.append(this.days.get(0));
+                result.append(".");
+                break;
+        }
+        
+        return result.toString();
     }
 }

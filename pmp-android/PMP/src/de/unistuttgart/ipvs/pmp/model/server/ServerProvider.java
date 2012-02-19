@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -329,4 +330,17 @@ public class ServerProvider implements IServerProvider {
         
     }
     
+    
+    @Override
+    public Date getFindResourceGroupsCacheDate(String searchPattern) {
+        Assert.nonNull(searchPattern, ModelMisuseError.class, Assert.ILLEGAL_NULL, "searchPattern", searchPattern);
+        
+        String cacheHash = String.valueOf(searchPattern.hashCode());
+        File cacheFile = new File(TEMPORARY_PATH + cacheHash);
+        if (!cacheFile.exists()) {
+            return new Date();
+        } else {
+            return new Date(cacheFile.lastModified());
+        }
+    }
 }

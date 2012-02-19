@@ -26,6 +26,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
      */
     protected IPreset preset;
     protected IPrivacySetting privacySetting;
+    protected int id;
     
     /**
      * internal data & links
@@ -42,11 +43,12 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     /* organizational */
     
-    public ContextAnnotation(IPreset preset, IPrivacySetting privacySetting) {
+    public ContextAnnotation(IPreset preset, IPrivacySetting privacySetting, int id) {
         super(preset.getIdentifier() + PersistenceConstants.PACKAGE_SEPARATOR + PersistenceConstants.PACKAGE_SEPARATOR
-                + privacySetting.getIdentifier());
+                + privacySetting.getIdentifier() + Integer.toString(id));
         this.preset = preset;
         this.privacySetting = privacySetting;
+        this.id = id;
         this.lastState = false;
     }
     
@@ -88,6 +90,13 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
+    public String getHumanReadableContextCondition() {
+        checkCached();
+        return this.context.makeHumanReadable(this.condition);
+    }
+    
+    
+    @Override
     public String getOverridePrivacySettingValue() {
         checkCached();
         return this.overrideValue;
@@ -101,8 +110,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         
         if (newState != this.lastState) {
             FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_CONTEXT_CHANGES, Level.FINE,
-                    "Context Annotation '%s' is now %s.", this.condition.toString(),
-                    newState ? "active" : "deactivated");
+                    "Context Annotation '%s' is now %s.", this.condition, newState ? "active" : "deactivated");
             
             this.lastState = newState;
         }
@@ -157,4 +165,5 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
             return false;
         }
     }
+    
 }

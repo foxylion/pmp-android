@@ -327,8 +327,9 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
         SQLiteQueryBuilder builder = this.doh.builder();
         builder.setTables(TBL_CONTEXT_ANNOTATIONS);
         
-        Cursor cursor = builder.query(db, new String[] { PRESET_CREATOR, PRESET_IDENTIFIER,
-                PRIVACYSETTING_RESOURCEGROUP_PACKAGE, PRIVACYSETTING_IDENTIFIER }, null, null, null, null, null);
+        Cursor cursor = builder
+                .query(db, new String[] { PRESET_CREATOR, PRESET_IDENTIFIER, PRIVACYSETTING_RESOURCEGROUP_PACKAGE,
+                        PRIVACYSETTING_IDENTIFIER, PRESET_PRIVACY_SETTING_ANNOTATION_ID }, null, null, null, null, null);
         
         // keep a list of all the missing CAs
         List<String[]> missing = new ArrayList<String[]>();
@@ -340,6 +341,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 String pIdentifier = cursor.getString(cursor.getColumnIndex(PRESET_IDENTIFIER));
                 String psRGPackage = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_RESOURCEGROUP_PACKAGE));
                 String psIdentifier = cursor.getString(cursor.getColumnIndex(PRIVACYSETTING_IDENTIFIER));
+                int presetPSAId = cursor.getInt(cursor.getColumnIndex(PRESET_PRIVACY_SETTING_ANNOTATION_ID));
                 
                 // preset                              
                 IModelElement pCreatorElement = this.cache.getApps().get(pCreator);
@@ -372,7 +374,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
                 }
                 
                 // create item
-                ContextAnnotation ca = new ContextAnnotation(preset, ps);
+                ContextAnnotation ca = new ContextAnnotation(preset, ps, presetPSAId);
                 ca.setPersistenceProvider(new ContextAnnotationPersistenceProvider(ca));
                 
                 // apply to cache

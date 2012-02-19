@@ -64,4 +64,10 @@ public class TimeContext implements IContext {
         TimeContextCondition tcc = TimeContextCondition.parse(condition);
         return tcc.satisfiedIn(this.lastState);
     }
+    
+    
+    @Override
+    public String makeHumanReadable(String condition) {
+        return TimeContextCondition.parse(condition).getHumanReadable();
+    }
 }

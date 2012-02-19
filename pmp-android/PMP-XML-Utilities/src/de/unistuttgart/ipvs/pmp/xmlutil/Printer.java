@@ -21,20 +21,20 @@ package de.unistuttgart.ipvs.pmp.xmlutil;
 
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
  * This Class provides static methods to print a given AIS, RGIS and PresetSet.
@@ -63,8 +63,8 @@ public class Printer {
      * @param preString
      *            the string before the print out
      */
-    private static void printIssues(IssueLocation location, String preString) {
-        for (Issue issue : location.getIssues()) {
+    private static void printIssues(IIssueLocation location, String preString) {
+        for (IIssue issue : location.getIssues()) {
             StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
             if (issue.getParameters().size() > 0) {
                 sb.append(" (Parameter: ");
@@ -86,44 +86,26 @@ public class Printer {
      * @param ais
      *            the app information set for printing
      */
-    public static void printAIS(AIS ais) {
+    public static void printAIS(IAIS ais) {
         p("------------------------------------");
         p("- Printout of the AIS --------------");
         p("------------------------------------");
         printIssues(ais, "> ");
         p("App information:");
-        p("> Names:");
-        for (LocalizedString name : ais.getNames()) {
-            p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
-            printIssues(name, "   > ");
-        }
-        p("> Descriptions:");
-        for (LocalizedString descr : ais.getDescriptions()) {
-            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
-            printIssues(descr, "   > ");
-        }
-        for (AISServiceFeature sf : ais.getServiceFeatures()) {
+        printNamesAndDescriptions(ais.getNames(), ais.getDescriptions());
+        for (IAISServiceFeature sf : ais.getServiceFeatures()) {
             p("");
             p("Service Feature:");
             printIssues(sf, "> ");
             p("> Identifier: " + sf.getIdentifier());
-            p("> Names:");
-            for (LocalizedString name : sf.getNames()) {
-                p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
-                printIssues(name, "   > ");
-            }
-            p("> Descriptions:");
-            for (LocalizedString descr : sf.getDescriptions()) {
-                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
-                printIssues(descr, "   > ");
-            }
-            for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+            printNamesAndDescriptions(sf.getNames(), sf.getDescriptions());
+            for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
                 p("> Required Resource Group:");
                 printIssues(rrg, "   > ");
                 p("   > Identifier: " + rrg.getIdentifier());
                 p("   > Min Revision: " + rrg.getMinRevision());
                 p("   > Privacy Settings:");
-                for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+                for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                     p("      > " + rps.getIdentifier() + ": " + rps.getValue());
                     printIssues(rps, "      > ");
                 }
@@ -139,7 +121,7 @@ public class Printer {
      * @param rgis
      *            the rg information set for printing
      */
-    public static void printRGIS(RGIS rgis) {
+    public static void printRGIS(IRGIS rgis) {
         p("------------------------------------");
         p("- Printout of the RGIS -------------");
         p("------------------------------------");
@@ -148,34 +130,16 @@ public class Printer {
         p("> Identifier: " + rgis.getIdentifier());
         p("> IconLocation: " + rgis.getIconLocation());
         p("> Class Name: " + rgis.getClassName());
-        p("> Names:");
-        for (LocalizedString name : rgis.getNames()) {
-            p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
-            printIssues(name, "   > ");
-        }
-        p("> Descriptions:");
-        for (LocalizedString descr : rgis.getDescriptions()) {
-            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
-            printIssues(descr, "   > ");
-        }
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        printNamesAndDescriptions(rgis.getNames(), rgis.getDescriptions());
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             p("");
             p("Privacy Setting:");
             printIssues(ps, "> ");
             p("> Identifier: " + ps.getIdentifier());
             p("> Valid value description: " + ps.getValidValueDescription());
-            p("> Names:");
-            for (LocalizedString name : ps.getNames()) {
-                p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
-                printIssues(name, "   > ");
-            }
-            p("> Descriptions: ");
-            for (LocalizedString descr : ps.getDescriptions()) {
-                p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
-                printIssues(descr, "   > ");
-            }
+            printNamesAndDescriptions(ps.getNames(), ps.getDescriptions());
             p("> Change descriptions: ");
-            for (LocalizedString changeDescr : ps.getChangeDescriptions()) {
+            for (ILocalizedString changeDescr : ps.getChangeDescriptions()) {
                 p("   > " + changeDescr.getLocale().getLanguage() + ": " + changeDescr.getString());
                 printIssues(changeDescr, "   > ");
             }
@@ -190,29 +154,34 @@ public class Printer {
      * @param presetSet
      *            the presetSet set for printing
      */
-    public static void printPresetSet(PresetSet presetSet) {
+    public static void printPresetSet(IPresetSet presetSet) {
         p("------------------------------------");
         p("- Printout of the PresetSet --------");
         p("------------------------------------");
-        for (Preset preset : presetSet.getPresets()) {
+        printIssues(presetSet, "> ");
+        for (IPreset preset : presetSet.getPresets()) {
             p("Preset information:");
+            printIssues(preset, "> ");
             p("> Identifier: " + preset.getIdentifier());
             p("> Creator: " + preset.getCreator());
             p("> Name: " + preset.getName());
             p("> Description: " + preset.getDescription());
             p("");
             p("Assigned Apps:");
-            for (PresetAssignedApp app : preset.getAssignedApps()) {
+            for (IPresetAssignedApp app : preset.getAssignedApps()) {
                 p("> " + app.getIdentifier());
+                printIssues(app, "> ");
             }
             p("");
-            for (PresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
+            for (IPresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
                 p("Assigned Privacy Setting:");
+                printIssues(ps, "> ");
                 p("> RG: " + ps.getRgIdentifier() + " (Revision: " + ps.getRgRevision() + ")");
                 p("> PS: " + ps.getPsIdentifier());
                 p("> Value: " + ps.getValue());
-                for (PresetPSContext context : ps.getContexts()) {
+                for (IPresetPSContext context : ps.getContexts()) {
                     p("> Context:");
+                    printIssues(context, "   > ");
                     p("   > Type: " + context.getType());
                     p("   > Condition: " + context.getCondition());
                     p("   > Override-Value: " + context.getOverrideValue());
@@ -225,11 +194,37 @@ public class Printer {
     }
     
     
-    public static void printIssues(List<Issue> issueList) {
+    /**
+     * Print names
+     * 
+     * @param names
+     * @param descriptions
+     */
+    private static void printNamesAndDescriptions(List<ILocalizedString> names, List<ILocalizedString> descriptions) {
+        p("> Names:");
+        for (ILocalizedString name : names) {
+            p("   > " + name.getLocale().getLanguage() + ": " + name.getString());
+            printIssues(name, "   > ");
+        }
+        p("> Descriptions: ");
+        for (ILocalizedString descr : descriptions) {
+            p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
+            printIssues(descr, "   > ");
+        }
+    }
+    
+    
+    /**
+     * Print issues
+     * 
+     * @param issueList
+     *            list of issues
+     */
+    public static void printIssues(List<IIssue> issueList) {
         p("------------------------------------");
         p("- Printout of the issue list -------");
         p("------------------------------------");
-        for (Issue issue : issueList) {
+        for (IIssue issue : issueList) {
             p("> Location: " + issue.getLocation());
             p("> Type: " + issue.getType().toString());
             for (String parameter : issue.getParameters()) {

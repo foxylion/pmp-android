@@ -19,14 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IdentifierIS;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class AISRequiredPrivacySetting extends IdentifierIS {
+public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequiredPrivacySetting {
     
     /**
      * Serial
@@ -53,30 +53,20 @@ public class AISRequiredPrivacySetting extends IdentifierIS {
     }
     
     
-    /**
-     * Get the value
-     * 
-     * @return value
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting#getValue()
      */
+    @Override
     public String getValue() {
         return this.value;
     }
     
     
-    /**
-     * Set the value
-     * 
-     * @param value
-     *            value to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting#setValue(java.lang.String)
      */
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
-    
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

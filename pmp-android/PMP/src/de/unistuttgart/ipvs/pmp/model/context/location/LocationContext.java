@@ -179,4 +179,10 @@ public class LocationContext implements IContext, LocationListener {
     public void onProviderDisabled(String provider) {
         // Don't need this
     }
+    
+    
+    @Override
+    public String makeHumanReadable(String condition) {
+        return LocationContextCondition.parse(condition).toHumanReadable();
+    }
 }

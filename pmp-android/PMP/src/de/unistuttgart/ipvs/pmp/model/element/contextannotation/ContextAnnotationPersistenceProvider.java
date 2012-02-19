@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.element.contextannotation;
 
+import java.util.Random;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,6 +22,9 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
  */
 public class ContextAnnotationPersistenceProvider extends ElementPersistenceProvider<ContextAnnotation> {
     
+    private static final Random rng = new Random();
+    
+    
     public ContextAnnotationPersistenceProvider(ContextAnnotation element) {
         super(element);
     }
@@ -32,19 +37,21 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 rdb,
                 new String[] { CONTEXT_TYPE, CONTEXT_CONDITION, OVERRIDE_GRANTED_VALUE },
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
-                        + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
+                        + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_PRIVACY_SETTING_ANNOTATION_ID
+                        + " = ?",
                 new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
                         this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
-                        this.element.privacySetting.getLocalIdentifier() }, null, null, null);
+                        this.element.privacySetting.getLocalIdentifier(), Integer.toString(this.element.id) }, null,
+                null, null);
         
-        if (c.moveToFirst()) {
-            this.element.context = PersistenceProvider.findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
-            this.element.condition = c.getString(c.getColumnIndex(CONTEXT_CONDITION));
-            this.element.overrideValue = c.getString(c.getColumnIndex(OVERRIDE_GRANTED_VALUE));
-        } else {
+        if (!c.moveToFirst()) {
             throw new ModelIntegrityError(Assert.format(Assert.ILLEGAL_DB, "ContextAnnotation", this));
         }
+        
+        this.element.context = PersistenceProvider.findContext(c.getString(c.getColumnIndex(CONTEXT_TYPE)));
+        this.element.condition = c.getString(c.getColumnIndex(CONTEXT_CONDITION));
+        this.element.overrideValue = c.getString(c.getColumnIndex(OVERRIDE_GRANTED_VALUE));
         c.close();
     }
     
@@ -60,11 +67,12 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
                 TBL_CONTEXT_ANNOTATIONS,
                 cv,
                 PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
-                        + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ?",
+                        + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_PRIVACY_SETTING_ANNOTATION_ID
+                        + " = ?",
                 new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
                         this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
-                        this.element.privacySetting.getLocalIdentifier() });
+                        this.element.privacySetting.getLocalIdentifier(), Integer.toString(this.element.id) });
     }
     
     
@@ -74,11 +82,11 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
         wdb.execSQL(
                 "DELETE FROM " + TBL_CONTEXT_ANNOTATIONS + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
                         + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND " + PRIVACYSETTING_IDENTIFIER
-                        + " = ?",
+                        + " = ? AND " + PRESET_PRIVACY_SETTING_ANNOTATION_ID + " = ?",
                 new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
                         this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
-                        this.element.privacySetting.getLocalIdentifier() });
+                        this.element.privacySetting.getLocalIdentifier(), Integer.toString(this.element.id) });
         
     }
     
@@ -102,6 +110,11 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
      */
     public ContextAnnotation createElementData(IPreset preset, IPrivacySetting privacySetting, IContext context,
             String condition, String overrideValue) {
+        
+        // generate unique id (hopefully)
+        int id = rng.nextInt();
+        int noTries = 1;
+        
         // store in db
         SQLiteDatabase sqldb = getDoh().getWritableDatabase();
         try {
@@ -110,19 +123,28 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
             cv.put(PRESET_IDENTIFIER, preset.getLocalIdentifier());
             cv.put(PRIVACYSETTING_RESOURCEGROUP_PACKAGE, privacySetting.getResourceGroup().getIdentifier());
             cv.put(PRIVACYSETTING_IDENTIFIER, privacySetting.getLocalIdentifier());
+            cv.put(PRESET_PRIVACY_SETTING_ANNOTATION_ID, id);
             cv.put(CONTEXT_TYPE, context.getIdentifier());
             cv.put(CONTEXT_CONDITION, condition);
             cv.put(OVERRIDE_GRANTED_VALUE, overrideValue);
             
-            if (sqldb.insert(TBL_PRESET, null, cv) == -1) {
+            long newRow = 0L;
+            while (((newRow = sqldb.insert(TBL_PRESET, null, cv)) == -1) && (noTries < 10)) {
+                id = rng.nextInt();
+                cv.put(PRESET_PRIVACY_SETTING_ANNOTATION_ID, id);
+                noTries++;
+            }
+            
+            if (newRow == -1) {
                 return null;
             }
+            
         } finally {
             sqldb.close();
         }
         
         // create associated object
-        ContextAnnotation result = new ContextAnnotation(preset, privacySetting);
+        ContextAnnotation result = new ContextAnnotation(preset, privacySetting, id);
         this.element = result;
         result.setPersistenceProvider(this);
         

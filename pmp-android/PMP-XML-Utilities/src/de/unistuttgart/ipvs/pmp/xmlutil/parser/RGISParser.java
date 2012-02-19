@@ -26,11 +26,12 @@ import java.util.Locale;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
@@ -46,7 +47,7 @@ public class RGISParser extends AbstractParser {
     /**
      * RgInformationSet
      */
-    private RGIS rgis;
+    private IRGIS rgis;
     
     
     /**
@@ -55,7 +56,7 @@ public class RGISParser extends AbstractParser {
      * 
      * @return created rg information set
      */
-    public RGIS parse(InputStream xmlStream) {
+    public IRGIS parse(InputStream xmlStream) {
         // Initialize
         initParser(xmlStream);
         

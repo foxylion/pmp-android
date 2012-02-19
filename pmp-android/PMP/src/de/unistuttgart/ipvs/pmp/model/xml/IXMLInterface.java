@@ -4,8 +4,8 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.model.Model;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 /**
  * Interface for the {@link Model} to the PMP-XML-UTILITIES
@@ -21,7 +21,7 @@ public interface IXMLInterface {
      * @param presets
      * @return
      */
-    public PresetSet exportPresets(List<IPreset> presets);
+    public IPresetSet exportPresets(List<IPreset> presets);
     
     
     /**

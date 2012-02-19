@@ -81,6 +81,28 @@ public enum IssueType {
      */
     VALID_VALUE_DESCRIPTION_MISSING,
     CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-    CHANGE_DESCRIPTION_LOCALE_EN_MISSING
+    CHANGE_DESCRIPTION_LOCALE_EN_MISSING,
+    
+    /**
+     * Preset
+     */
+    CREATOR_MISSING,
+    NAME_MISSING,
+    
+    /**
+     * PresetSetAssignedPrivacySetting
+     */
+    RG_IDENTIFIER_MISSING,
+    RG_REVISION_MISSING,
+    RG_REVISION_INVALID,
+    PS_IDENTIFIER_MISSING,
+    VALUE_MISSING,
+    
+    /**
+     * PresetPSContext
+     */
+    TYPE_MISSING,
+    CONDITION_MISSING,
+    OVERRIDE_VALUE_MISSING,
     
 }

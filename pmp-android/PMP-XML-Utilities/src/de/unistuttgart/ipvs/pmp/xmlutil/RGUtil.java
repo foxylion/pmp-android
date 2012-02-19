@@ -23,6 +23,7 @@ import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.RGISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 
@@ -49,7 +50,7 @@ public class RGUtil {
      *            url to the xml file
      * @return resourcegroup information set
      */
-    public RGIS parse(InputStream xmlStream) {
+    public IRGIS parse(InputStream xmlStream) {
         return rgisParser.parse(xmlStream);
     }
     
@@ -61,7 +62,7 @@ public class RGUtil {
      *            RGIS to compile
      * @return compiled xml file
      */
-    public InputStream compile(RGIS rgis) {
+    public InputStream compile(IRGIS rgis) {
         return rgisCompiler.compile(rgis);
     }
     
@@ -81,7 +82,7 @@ public class RGUtil {
      * 
      * @return blank RGIS-Object
      */
-    public RGIS createBlankRGIS() {
+    public IRGIS createBlankRGIS() {
         return new RGIS();
     }
     
@@ -92,7 +93,7 @@ public class RGUtil {
      * @param rgis
      *            RGIS to print
      */
-    public void print(RGIS rgis) {
+    public void print(IRGIS rgis) {
         Printer.printRGIS(rgis);
     }
     

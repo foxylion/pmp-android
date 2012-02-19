@@ -32,6 +32,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
@@ -49,7 +52,7 @@ public class PresetSetParser extends AbstractParser {
     /**
      * PresetSet
      */
-    private PresetSet presetSet;
+    private IPresetSet presetSet;
     
     
     /**
@@ -57,7 +60,7 @@ public class PresetSetParser extends AbstractParser {
      * 
      * @return created preset set
      */
-    public PresetSet parse(InputStream xmlStream) {
+    public IPresetSet parse(InputStream xmlStream) {
         // Initialize
         initParser(xmlStream);
         
@@ -134,7 +137,7 @@ public class PresetSetParser extends AbstractParser {
      * @param preset
      *            the preset
      */
-    private void parseAssignedApps(Element assignedAppElement, Preset preset) {
+    private void parseAssignedApps(Element assignedAppElement, IPreset preset) {
         // Get the list of all assigned apps
         List<ParsedNode> assignedAppsNodes = parseNodes(assignedAppElement, XMLConstants.APP,
                 XMLConstants.IDENTIFIER_ATTR);
@@ -154,7 +157,7 @@ public class PresetSetParser extends AbstractParser {
      * @param preset
      *            the preset
      */
-    private void parseAssignedPSs(Element assignedPSsElement, Preset preset) {
+    private void parseAssignedPSs(Element assignedPSsElement, IPreset preset) {
         // Get the list of all assigned privacy settings
         List<ParsedNode> assignedPSNodes = parseNodes(assignedPSsElement, XMLConstants.PRIVACY_SETTING,
                 XMLConstants.RG_IDENTIFIER_ATTR, XMLConstants.RG_REVISION_ATTR, XMLConstants.PS_IDENTIFIER_ATTR);
@@ -218,7 +221,7 @@ public class PresetSetParser extends AbstractParser {
      * @param assignedPS
      *            the assigned privacy setting object
      */
-    private int parseContexts(Element psElement, PresetAssignedPrivacySetting assignedPS) {
+    private int parseContexts(Element psElement, IPresetAssignedPrivacySetting assignedPS) {
         // Get the list of all assigned privacy settings
         List<ParsedNode> contextLists = parseNodes(psElement, XMLConstants.CONTEXT, XMLConstants.CONTEXT_TYPE_ATTR,
                 XMLConstants.CONTEXT_CONDITION_ATTR);

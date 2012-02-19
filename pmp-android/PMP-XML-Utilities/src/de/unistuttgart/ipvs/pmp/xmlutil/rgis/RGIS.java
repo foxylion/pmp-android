@@ -22,8 +22,8 @@ package de.unistuttgart.ipvs.pmp.xmlutil.rgis;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.BasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
@@ -34,12 +34,17 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * @author Marcus Vetter
  * 
  */
-public class RGIS extends BasicIdentifierIS {
+public class RGIS extends BasicIS implements IRGIS {
     
     /**
      * Serial
      */
     private static final long serialVersionUID = 8978212582601842275L;
+    
+    /**
+     * The identifier
+     */
+    private String identifier = "";
     
     /**
      * The icon of the resource group
@@ -54,51 +59,42 @@ public class RGIS extends BasicIdentifierIS {
     /**
      * This list contains all privacy settings of the resource group.
      */
-    private List<RGISPrivacySetting> privacySettings = new ArrayList<RGISPrivacySetting>();
+    private List<IRGISPrivacySetting> privacySettings = new ArrayList<IRGISPrivacySetting>();
     
     
-    /**
-     * Add a privacy setting to the resourcegroup
-     * 
-     * @param privacySetting
-     *            privacy setting to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#addPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting)
      */
-    public void addPrivacySetting(RGISPrivacySetting privacySetting) {
+    @Override
+    public void addPrivacySetting(IRGISPrivacySetting privacySetting) {
         this.privacySettings.add(privacySetting);
     }
     
     
-    /**
-     * Get the list which contains all privacy settings
-     * 
-     * @return list with privacy settings
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getPrivacySettings()
      */
-    public List<RGISPrivacySetting> getPrivacySettings() {
+    @Override
+    public List<IRGISPrivacySetting> getPrivacySettings() {
         return this.privacySettings;
     }
     
     
-    /**
-     * Remove a privacy setting from resource group
-     * 
-     * @param privacySetting
-     *            privacy setting to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#removePrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting)
      */
-    public void removePrivacySetting(RGISPrivacySetting privacySetting) {
+    @Override
+    public void removePrivacySetting(IRGISPrivacySetting privacySetting) {
         this.privacySettings.remove(privacySetting);
     }
     
     
-    /**
-     * Get a privacy setting for a given identifier. Null, if no privacy setting
-     * exists for the given identifier.
-     * 
-     * @param identifier
-     *            identifier of the privacy setting
-     * @return privacy setting with given identifier, null if none exists.
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getPrivacySettingForIdentifier(java.lang.String)
      */
-    public RGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
-        for (RGISPrivacySetting ps : this.privacySettings) {
+    @Override
+    public IRGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
+        for (IRGISPrivacySetting ps : this.privacySettings) {
             if (ps.getIdentifier().equals(identifier)) {
                 return ps;
             }
@@ -107,91 +103,97 @@ public class RGIS extends BasicIdentifierIS {
     }
     
     
-    /**
-     * Get the location of the icon of the resource group
-     * 
-     * @return location of the icon of the resource group
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getIconLocation()
      */
+    @Override
     public String getIconLocation() {
         return this.iconLocation;
     }
     
     
-    /**
-     * Set the location of the icon of the resource group
-     * 
-     * @param iconLocation
-     *            the location of the icon of the resource group
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#setIconLocation(java.lang.String)
      */
+    @Override
     public void setIconLocation(String iconLocation) {
         this.iconLocation = iconLocation;
     }
     
     
-    /**
-     * Get the class name of the resource group
-     * 
-     * @return class name of the resource group
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getClassName()
      */
+    @Override
     public String getClassName() {
         return this.className;
     }
     
     
-    /**
-     * Set the class name of the resource group
-     * 
-     * @param className
-     *            class name of the resource group
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#setClassName(java.lang.String)
      */
+    @Override
     public void setClassName(String className) {
         this.className = className;
     }
     
     
     @Override
-    public void clearIssuesAndPropagate() {
-        clearRGInformationIssuesAndPropagate();
-        clearPSIssuesAndPropagate();
+    public void clearIssues() {
+        clearRGInformationIssues();
+        clearPSIssues();
     }
     
     
-    /**
-     * Clear only issues referring to the resource group information
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearRGInformationIssuesAndPropagate()
      */
-    public void clearRGInformationIssuesAndPropagate() {
+    @Override
+    public void clearRGInformationIssues() {
         clearNameIssues();
         clearDescriptionIssues();
-        List<Issue> removeList = new ArrayList<Issue>();
-        for (Issue issue : getIssues()) {
+        List<IIssue> removeList = new ArrayList<IIssue>();
+        for (IIssue issue : getIssues()) {
             if (!((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) || (issue.getType() == IssueType.NO_PS_EXISTS))) {
                 removeList.add(issue);
             }
         }
         // Remove issues
-        for (Issue issue : removeList) {
+        for (IIssue issue : removeList) {
             removeIssue(issue);
         }
     }
     
     
-    /**
-     * Clear only issues referring to the privacy settings
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearPSIssuesAndPropagate()
      */
-    public void clearPSIssuesAndPropagate() {
-        for (RGISPrivacySetting ps : this.getPrivacySettings()) {
-            ps.clearIssuesAndPropagate();
-        }
-        List<Issue> removeList = new ArrayList<Issue>();
-        for (Issue issue : getIssues()) {
+    @Override
+    public void clearPSIssues() {
+        List<IIssue> removeList = new ArrayList<IIssue>();
+        for (IIssue issue : getIssues()) {
             if ((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN)
                     || (issue.getType() == IssueType.NO_PS_EXISTS)) {
                 removeList.add(issue);
             }
         }
         // Remove issues
-        for (Issue issue : removeList) {
+        for (IIssue issue : removeList) {
             removeIssue(issue);
         }
     }
+    
+    
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    @Override
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
 }

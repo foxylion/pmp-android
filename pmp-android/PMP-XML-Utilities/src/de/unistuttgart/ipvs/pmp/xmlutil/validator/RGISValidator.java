@@ -22,12 +22,12 @@ package de.unistuttgart.ipvs.pmp.xmlutil.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
@@ -47,12 +47,12 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validateRGIS(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearIssuesAndPropagate();
+            rgis.clearIssues();
         
         /*
          * Validate the app information and the service features 
@@ -73,12 +73,12 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validateRGInformation(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearRGInformationIssuesAndPropagate();
+            rgis.clearRGInformationIssues();
         
         /*
          * Validate names and descriptions
@@ -119,23 +119,23 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validatePrivacySettings(RGIS rgis, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rgis.clearPSIssuesAndPropagate();
+            rgis.clearPSIssues();
         
         /*
          * Validate the occurrences of identifier of privacy settings
          */
         // Convert
-        List<BasicIdentifierIS> superPSList = new ArrayList<BasicIdentifierIS>();
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        List<IIdentifierIS> superPSList = new ArrayList<IIdentifierIS>();
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             superPSList.add(ps);
         }
         // Validate
-        for (String identifierFail : validateOccurrenceOfIdentifierInBasicIdentifierIS(superPSList)) {
+        for (String identifierFail : validateOccurrenceOfIdentifier(superPSList)) {
             Issue issue = new Issue(IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN, rgis);
             issue.addParameter(identifierFail);
             issueList.add(issue);
@@ -155,7 +155,7 @@ public class RGISValidator extends AbstractValidator {
         /*
          * Validate all privacy settings
          */
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             issueList.addAll(validatePrivacySetting(ps, attachData));
         }
         
@@ -172,12 +172,12 @@ public class RGISValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<Issue> validatePrivacySetting(RGISPrivacySetting ps, boolean attachData) {
-        List<Issue> issueList = new ArrayList<Issue>();
+    public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            ps.clearIssuesAndPropagate();
+            ps.clearIssues();
         
         /*
          * Validate names, descriptions and change descriptions
@@ -206,100 +206,16 @@ public class RGISValidator extends AbstractValidator {
     
     
     /**
-     * Validate the change description of a given privacy setting
+     * Clear all issues, begin at the given rgis and propagate
      * 
-     * @param privacySetting
-     *            the privacy setting
-     * @return List with issues as result of the validation
+     * @param rgis
+     *            the IRGIS
      */
-    private List<Issue> validateChangeDescriptions(RGISPrivacySetting privacySetting) {
-        List<Issue> issueList = new ArrayList<Issue>();
-        
-        boolean englishLocaleExists = false;
-        List<String> localesOccurred = new ArrayList<String>();
-        
-        for (LocalizedString changeDescription : privacySetting.getChangeDescriptions()) {
-            
-            // Instantiate possible issues
-            Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, changeDescription);
-            Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, changeDescription);
-            Issue changeDescriptionEmpty = new Issue(IssueType.EMPTY_VALUE, changeDescription);
-            
-            // Flag, if the locale is missing
-            boolean localeAvailable = true;
-            
-            // Check, if the locale is set
-            if (changeDescription.getLocale() == null || !checkValueSet(changeDescription.getLocale().getLanguage())) {
-                issueList.add(localeMissing);
-                localeAvailable = false;
-                
-            } else if (!checkLocale(changeDescription.getLocale())) {
-                // if the locale is invalid
-                issueList.add(localeInvalid);
-                // Add the information of the locale to the name issue
-                localeInvalid.addParameter(changeDescription.getLocale().getLanguage());
-            } else {
-                // Check, if its the english attribute
-                if (checkLocaleAttributeEN(changeDescription.getLocale())) {
-                    englishLocaleExists = true;
-                }
-                
-                String locale = changeDescription.getLocale().getLanguage();
-                if (!localesOccurred.contains(locale)) {
-                    localesOccurred.add(locale);
-                } else {
-                    // Check, if this issue is already added to the issuelist
-                    boolean issueAlreadyExists = false;
-                    for (Issue issueExisting : issueList) {
-                        if (issueExisting.getType().equals(IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)
-                                && (issueExisting).getLocation().equals(privacySetting)
-                                && issueExisting.getParameters().size() > 0
-                                && issueExisting.getParameters().get(0).equals(locale)) {
-                            issueAlreadyExists = true;
-                        }
-                    }
-                    if (!issueAlreadyExists) {
-                        Issue localesOccurredTooOften = new Issue(
-                                IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN, privacySetting);
-                        localesOccurredTooOften.addParameter(locale);
-                        issueList.add(localesOccurredTooOften);
-                    }
-                    
-                }
-            }
-            
-            // Check, if the change description is set
-            if (!checkValueSet(changeDescription.getString())) {
-                issueList.add(changeDescriptionEmpty);
-                // Add the information of the locale to the name issue
-                if (localeAvailable) {
-                    changeDescriptionEmpty.addParameter(changeDescription.getLocale().getLanguage());
-                }
-            } else {
-                // Add the information of the change description to the locale issue
-                localeMissing.addParameter(changeDescription.getString());
-            }
+    public void clearIssuesAndPropagate(RGIS rgis) {
+        rgis.clearIssues();
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            ps.clearIssues();
         }
-        
-        // Add an issue: the English locale is missing
-        if (!englishLocaleExists) {
-            Issue localeEnMissing = new Issue(IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING, privacySetting);
-            issueList.add(localeEnMissing);
-        }
-        
-        return issueList;
-        
-    }
-    
-    
-    /**
-     * Clear all issues, begin at the given issue location and propagate
-     * 
-     * @param location
-     *            issue location
-     */
-    public void clearIssuesAndPropagate(IssueLocation location) {
-        location.clearIssuesAndPropagate();
     }
     
 }

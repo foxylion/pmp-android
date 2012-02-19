@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public class Preset implements Serializable {
+public class Preset extends IssueLocation implements Serializable, IPreset {
     
     /**
      * Serial
@@ -39,12 +41,12 @@ public class Preset implements Serializable {
     /**
      * The assigned apps
      */
-    private List<PresetAssignedApp> assignedApps = new ArrayList<PresetAssignedApp>();
+    private List<IPresetAssignedApp> assignedApps = new ArrayList<IPresetAssignedApp>();
     
     /**
      * The assigned privacy settings
      */
-    private List<PresetAssignedPrivacySetting> assignedPrivacySettings = new ArrayList<PresetAssignedPrivacySetting>();
+    private List<IPresetAssignedPrivacySetting> assignedPrivacySettings = new ArrayList<IPresetAssignedPrivacySetting>();
     
     
     /**
@@ -67,150 +69,128 @@ public class Preset implements Serializable {
     }
     
     
-    /**
-     * Get the identifier
-     * 
-     * @return the identifier
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getIdentifier()
      */
+    @Override
     public String getIdentifier() {
         return this.identifier;
     }
     
     
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            the identifier to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#setIdentifier(java.lang.String)
      */
+    @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
     
     
-    /**
-     * Get the creator
-     * 
-     * @return the creator
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getCreator()
      */
+    @Override
     public String getCreator() {
         return this.creator;
     }
     
     
-    /**
-     * Set the creator
-     * 
-     * @param creator
-     *            the creator to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#setCreator(java.lang.String)
      */
+    @Override
     public void setCreator(String creator) {
         this.creator = creator;
     }
     
     
-    /**
-     * Get the name
-     * 
-     * @return the name
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getName()
      */
+    @Override
     public String getName() {
         return this.name;
     }
     
     
-    /**
-     * Set the name
-     * 
-     * @param name
-     *            the name to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#setName(java.lang.String)
      */
+    @Override
     public void setName(String name) {
         this.name = name;
     }
     
     
-    /**
-     * Get the description
-     * 
-     * @return the description
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getDescription()
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
     
     
-    /**
-     * Set the description
-     * 
-     * @param description
-     *            the description to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#setDescription(java.lang.String)
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
     
     
-    /**
-     * Get all assigned apps
-     * 
-     * @return assigned apps
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getAssignedApps()
      */
-    public List<PresetAssignedApp> getAssignedApps() {
+    @Override
+    public List<IPresetAssignedApp> getAssignedApps() {
         return assignedApps;
     }
     
     
-    /**
-     * Add an assigned app
-     * 
-     * @param assignedApp
-     *            assigned app to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#addAssignedApp(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp)
      */
-    public void addAssignedApp(PresetAssignedApp assignedApp) {
+    @Override
+    public void addAssignedApp(IPresetAssignedApp assignedApp) {
         assignedApps.add(assignedApp);
     }
     
     
-    /**
-     * Remove an assigned app
-     * 
-     * @param assignedApp
-     *            assigned app to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#removeAssignedApp(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp)
      */
-    public void removeAssignedApp(PresetAssignedApp assignedApp) {
+    @Override
+    public void removeAssignedApp(IPresetAssignedApp assignedApp) {
         assignedApps.remove(assignedApp);
     }
     
     
-    /**
-     * Get all assigned privacy settings
-     * 
-     * @return assigned privacy settings
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#getAssignedPrivacySettings()
      */
-    public List<PresetAssignedPrivacySetting> getAssignedPrivacySettings() {
+    @Override
+    public List<IPresetAssignedPrivacySetting> getAssignedPrivacySettings() {
         return assignedPrivacySettings;
     }
     
     
-    /**
-     * Add an assigned privacy setting
-     * 
-     * @param assignedPrivacySetting
-     *            assigned privacy setting to add
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#addAssignedPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting)
      */
-    public void addAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+    @Override
+    public void addAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting) {
         assignedPrivacySettings.add(assignedPrivacySetting);
     }
     
     
-    /**
-     * Remove an assigned privacy setting
-     * 
-     * @param assignedPrivacySetting
-     *            assigned privacy setting to remove
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset#removeAssignedPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting)
      */
-    public void removeAssignedPrivacySetting(PresetAssignedPrivacySetting assignedPrivacySetting) {
+    @Override
+    public void removeAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting) {
         assignedPrivacySettings.remove(assignedPrivacySetting);
     }
     

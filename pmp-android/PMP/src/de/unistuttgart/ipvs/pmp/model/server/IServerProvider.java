@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.model.server;
 
 import java.io.File;
+import java.util.Date;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 
@@ -45,4 +46,14 @@ public interface IServerProvider {
      * Cleans the entire download cache.
      */
     public void cleanCache();
+    
+    
+    /**
+     * The time the last find RG request was cached on.
+     * 
+     * @param searchPattern
+     *            the string for which shall be searched
+     * @return the Date when the RG request for searchPattern was cached
+     */
+    public Date getFindResourceGroupsCacheDate(String searchPattern);
 }

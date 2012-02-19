@@ -11,6 +11,10 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotati
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
@@ -25,8 +29,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 public class XMLInterface implements IXMLInterface {
     
     @Override
-    public PresetSet exportPresets(List<IPreset> presets) {
-        PresetSet result = new PresetSet();
+    public IPresetSet exportPresets(List<IPreset> presets) {
+        IPresetSet result = new PresetSet();
         
         // each preset
         for (IPreset preset : presets) {
@@ -66,7 +70,7 @@ public class XMLInterface implements IXMLInterface {
         IModel m = Model.getInstance();
         
         // each preset
-        for (Preset preset : presets) {
+        for (de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset preset : presets) {
             IModelElement creator = m.getApp(preset.getCreator());
             if (creator == null) {
                 creator = m.getResourceGroup(preset.getCreator());
@@ -93,7 +97,7 @@ public class XMLInterface implements IXMLInterface {
             }
             
             // each app
-            for (PresetAssignedApp paa : preset.getAssignedApps()) {
+            for (IPresetAssignedApp paa : preset.getAssignedApps()) {
                 IApp app = m.getApp(paa.getIdentifier());
                 if (app == null) {
                     throw new InvalidPresetSetException();
@@ -102,7 +106,7 @@ public class XMLInterface implements IXMLInterface {
             }
             
             // each ps
-            for (PresetAssignedPrivacySetting pasp : preset.getAssignedPrivacySettings()) {
+            for (IPresetAssignedPrivacySetting pasp : preset.getAssignedPrivacySettings()) {
                 IResourceGroup rg = m.getResourceGroup(pasp.getRgIdentifier());
                 if (rg == null) {
                     throw new InvalidPresetSetException();
@@ -114,7 +118,7 @@ public class XMLInterface implements IXMLInterface {
                 toWrite.assignPrivacySetting(ps, pasp.getValue());
                 
                 // each ca
-                for (PresetPSContext ppsc : pasp.getContexts()) {
+                for (IPresetPSContext ppsc : pasp.getContexts()) {
                     
                     IResourceGroup rgc = m.getResourceGroup(pasp.getRgIdentifier());
                     if (rgc == null) {

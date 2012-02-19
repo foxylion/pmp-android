@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
@@ -49,7 +49,7 @@ public class AISCompiler extends BasicISCompiler {
      *            AIS to compile
      * @return xml input stream
      */
-    public InputStream compile(AIS ais) {
+    public InputStream compile(IAIS ais) {
         
         // Instantiate the root and two main child nodes
         XMLNode aisNode = new XMLNode(XMLConstants.AIS);
@@ -88,10 +88,10 @@ public class AISCompiler extends BasicISCompiler {
      *            AIS
      * @return service feature node list
      */
-    private List<XMLNode> createSFNodes(AIS ais) {
+    private List<XMLNode> createSFNodes(IAIS ais) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
         
-        for (AISServiceFeature sf : ais.getServiceFeatures()) {
+        for (IAISServiceFeature sf : ais.getServiceFeatures()) {
             XMLNode sfNode = new XMLNode(XMLConstants.SF);
             
             // Add identifier
@@ -123,10 +123,10 @@ public class AISCompiler extends BasicISCompiler {
      *            SF of the rrgs
      * @return node list of required resource groups
      */
-    private List<XMLNode> createRRGNodes(AISServiceFeature sf) {
+    private List<XMLNode> createRRGNodes(IAISServiceFeature sf) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
         
-        for (AISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+        for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
             XMLNode rrgNode = new XMLNode(XMLConstants.RRG);
             
             // Add identifier
@@ -144,7 +144,7 @@ public class AISCompiler extends BasicISCompiler {
             rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTR, minRevision));
             
             // Add required privacy settings
-            for (AISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+            for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                 XMLNode rpsNode = new XMLNode(XMLConstants.RPS);
                 rpsNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rps.getIdentifier()));
                 rpsNode.setCDATAContent(rps.getValue());

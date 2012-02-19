@@ -104,22 +104,35 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
             this.link.parseValue(value);
             return true;
         } catch (PrivacySettingValueException plve) {
-            return false;
+            // don't care here, that's expected
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
         }
+        return false;
     }
     
     
     @Override
     public String getHumanReadableValue(String value) throws PrivacySettingValueException {
         checkCached();
-        return this.link.getHumanReadableValue(value);
+        try {
+            return this.link.getHumanReadableValue(value);
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+            return "";
+        }
     }
     
     
     @Override
     public boolean permits(String reference, String value) throws PrivacySettingValueException {
         checkCached();
-        return this.link.permits(value, reference);
+        try {
+            return this.link.permits(value, reference);
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+            return false;
+        }
     }
     
     
@@ -127,7 +140,12 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     public View getView(Context context) {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        return this.link.getView(context).asView();
+        try {
+            return this.link.getView(context).asView();
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+            return new View(context);
+        }
     }
     
     
@@ -135,7 +153,11 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     public void setViewValue(Context context, String value) throws PrivacySettingValueException {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        this.link.setViewValue(context, value);
+        try {
+            this.link.setViewValue(context, value);
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+        }
     }
     
     
@@ -143,7 +165,23 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
     public String getViewValue(Context context) {
         checkCached();
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
-        return this.link.getViewValue(context);
+        try {
+            return this.link.getViewValue(context);
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+            return "";
+        }
+    }
+    
+    
+    /* inter-model communication */
+    
+    @Override
+    public boolean checkCached() {
+        if (this.resourceGroup.isDeactivated()) {
+            throw new IllegalStateException("ResourceGroup is deactivated.");
+        }
+        return super.checkCached();
     }
     
 }

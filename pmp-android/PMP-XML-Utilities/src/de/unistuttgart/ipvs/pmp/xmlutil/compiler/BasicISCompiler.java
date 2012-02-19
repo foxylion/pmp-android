@@ -22,9 +22,9 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.BasicIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 
@@ -42,12 +42,12 @@ public class BasicISCompiler {
      *            basicIS with data
      * @return list of XMLNodes
      */
-    public List<XMLNode> createNameDescriptionNodes(BasicIS basicIS) {
+    public List<XMLNode> createNameDescriptionNodes(IBasicIS basicIS) {
         
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
         
         // Compile the names
-        for (LocalizedString name : basicIS.getNames()) {
+        for (ILocalizedString name : basicIS.getNames()) {
             XMLNode nameNode = new XMLNode(XMLConstants.NAME);
             nameNode.setContent(name.getString());
             nameNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, name.getLocale().getLanguage()));
@@ -55,7 +55,7 @@ public class BasicISCompiler {
         }
         
         // Compile the descriptions
-        for (LocalizedString descr : basicIS.getDescriptions()) {
+        for (ILocalizedString descr : basicIS.getDescriptions()) {
             XMLNode descrNode = new XMLNode(XMLConstants.DESCRIPTION);
             descrNode.setContent(descr.getString());
             descrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, descr.getLocale().getLanguage()));

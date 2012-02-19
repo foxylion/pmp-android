@@ -7,6 +7,7 @@ import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 
 /**
@@ -26,10 +27,14 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
     protected void loadElementData(SQLiteDatabase rdb, SQLiteQueryBuilder qb) {
         
         // set RGIS via XML file        
-        this.element.rgis = PluginProvider.getInstance().getRGIS(this.element.getIdentifier());
-        this.element.link = PluginProvider.getInstance().getResourceGroupObject(this.element.getIdentifier());
-        this.element.icon = PluginProvider.getInstance().getIcon(this.element.getIdentifier());
-        this.element.revision = PluginProvider.getInstance().getRevision(this.element.getIdentifier());
+        try {
+            this.element.rgis = PluginProvider.getInstance().getRGIS(this.element.getIdentifier());
+            this.element.link = PluginProvider.getInstance().getResourceGroupObject(this.element.getIdentifier());
+            this.element.icon = PluginProvider.getInstance().getIcon(this.element.getIdentifier());
+            this.element.revision = PluginProvider.getInstance().getRevision(this.element.getIdentifier());
+        } catch (InvalidPluginException ipe) {
+            this.element.deactivate(ipe);
+        }
         
         this.element.privacySettings = getCache().getPrivacySettings().get(this.element);
     }

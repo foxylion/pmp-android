@@ -11,7 +11,7 @@ import java.util.zip.ZipFile;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * Class which holds the information about a resource group (identifier, name,
@@ -26,7 +26,7 @@ public class ResourceGroup {
     
     private File path;
     
-    private RGIS parsedRGIS = null;
+    private IRGIS parsedRGIS = null;
     
     private long revision = Long.MIN_VALUE;
     private long lastRevisionUpdate = 0;
@@ -66,7 +66,7 @@ public class ResourceGroup {
     }
     
     
-    public RGIS getRGIS() {
+    public IRGIS getRGIS() {
         long currentRevision = getRevision();
         
         if (parsedRGIS != null && revision == currentRevision) {

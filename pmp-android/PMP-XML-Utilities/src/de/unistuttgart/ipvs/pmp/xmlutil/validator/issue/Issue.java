@@ -25,12 +25,12 @@ import java.util.List;
 /**
  * @author Marcus Vetter
  */
-public class Issue {
+public class Issue implements IIssue {
     
     /**
      * The location of the issue
      */
-    private IssueLocation location;
+    private IIssueLocation location;
     
     /**
      * The type of the issue
@@ -51,70 +51,61 @@ public class Issue {
      * @param location
      *            location of the issue
      */
-    public Issue(IssueType type, IssueLocation location) {
+    public Issue(IssueType type, IIssueLocation location) {
         this.type = type;
         this.location = location;
     }
     
     
-    /**
-     * Get the location object for the issue
-     * 
-     * @return the location
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getLocation()
      */
-    public IssueLocation getLocation() {
+    @Override
+    public IIssueLocation getLocation() {
         return location;
     }
     
     
-    /**
-     * Set the location object for the issue
-     * 
-     * @param location
-     *            the location to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#setLocation(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation)
      */
-    public void setLocation(IssueLocation location) {
+    @Override
+    public void setLocation(IIssueLocation location) {
         this.location = location;
     }
     
     
-    /**
-     * Get the type of the issue
-     * 
-     * @return the type
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getType()
      */
+    @Override
     public IssueType getType() {
         return type;
     }
     
     
-    /**
-     * Set the type of the issue
-     * 
-     * @param type
-     *            the type to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#setType(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType)
      */
+    @Override
     public void setType(IssueType type) {
         this.type = type;
     }
     
     
-    /**
-     * Get the parameter
-     * 
-     * @return the parameter ("", if no parameter exists)
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getParameters()
      */
+    @Override
     public List<String> getParameters() {
         return parameters;
     }
     
     
-    /**
-     * Set the parameter
-     * 
-     * @param parameter
-     *            the parameter to set
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#addParameter(java.lang.String)
      */
+    @Override
     public void addParameter(String parameter) {
         this.parameters.add(parameter);
     }

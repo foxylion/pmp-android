@@ -13,7 +13,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * @see IResourceGroup
@@ -25,7 +25,7 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     /**
      * localized values
      */
-    protected RGIS rgis;
+    protected IRGIS rgis;
     
     /**
      * internal data & links
@@ -35,19 +35,26 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     protected de.unistuttgart.ipvs.pmp.resource.ResourceGroup link;
     protected long revision;
     
+    /**
+     * will be used when the linked resource fails somehow.
+     */
+    protected Throwable unexpectedThrowable;
+    
     
     /* organizational */
     
     public ResourceGroup(String rgPackage) {
         super(rgPackage);
+        this.unexpectedThrowable = null;
     }
     
     
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [rgis = %s, ps = %s, link = %s]", this.rgis,
-                        ModelElement.collapseMapToString(this.privacySettings), this.link);
+                + String.format(" [rgis = %s, ps = %s, link = %s, rev = %d, ut = %s]", this.rgis,
+                        ModelElement.collapseMapToString(this.privacySettings), this.link, this.revision,
+                        this.unexpectedThrowable);
     }
     
     
@@ -111,7 +118,13 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         Assert.nonNull(appPackage, ModelMisuseError.class, Assert.ILLEGAL_NULL, "appPackage", appPackage);
         Assert.nonNull(resource, ModelMisuseError.class, Assert.ILLEGAL_NULL, "resource", resource);
         
-        Resource res = this.link.getResource(resource);
+        Resource res = null;
+        try {
+            res = this.link.getResource(resource);
+        } catch (Throwable t) {
+            deactivate(t);
+        }
+        
         if (res != null) {
             return res.getAndroidInterface(appPackage);
         } else {
@@ -120,10 +133,36 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     }
     
     
+    @Override
+    public boolean isDeactivated() {
+        return this.unexpectedThrowable != null;
+    }
+    
+    
+    @Override
+    public Throwable getReasonForDeactivation() {
+        return this.unexpectedThrowable;
+    }
+    
+    
     /* inter-model communication */
-    public RGIS getRgis() {
+    public IRGIS getRgis() {
         checkCached();
         return this.rgis;
+    }
+    
+    
+    public void deactivate(Throwable t) {
+        this.unexpectedThrowable = t;
+    }
+    
+    
+    @Override
+    public boolean checkCached() {
+        if (this.unexpectedThrowable != null) {
+            throw new IllegalStateException("ResourceGroup is deactivated.");
+        }
+        return super.checkCached();
     }
     
 }

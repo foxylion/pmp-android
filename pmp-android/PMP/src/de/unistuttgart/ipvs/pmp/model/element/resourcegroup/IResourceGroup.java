@@ -92,4 +92,19 @@ public interface IResourceGroup extends IModelElement {
      */
     public IBinder getResource(String appPackage, String resource);
     
+    
+    /**
+     * 
+     * @return true, if the plugin somehow failed. Any further calls on this object are not permitted.
+     */
+    public boolean isDeactivated();
+    
+    
+    /**
+     * 
+     * @return the reason for the deactivation (i.e. the {@link Throwable} that the plugin threw), iff isDeactivated(),
+     *         else null.
+     */
+    public Throwable getReasonForDeactivation();
+    
 }

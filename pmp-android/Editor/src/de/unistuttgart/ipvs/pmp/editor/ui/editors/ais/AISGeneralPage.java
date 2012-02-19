@@ -34,10 +34,11 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActiv
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
  * Creates the "General" page for the {@link AisEditor}
@@ -138,11 +139,19 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	client.setLayoutData(layoutData);
 	section.setLayoutData(layoutData);
 
-	AIS ais = Model.getInstance().getAis();
-	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, toolkit);
+	IAIS ais = Model.getInstance().getAis();
+	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
+	ISetDirtyAction dirtyAction = new ISetDirtyAction() {
+		
+		@Override
+		public void doSetDirty(boolean dirty) {
+			Model.getInstance().setAISDirty(true);
+		}
+	};
+	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
 	nameTable.getComposite().setLayoutData(layoutData);
 
-	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
+	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION, dirtyAction,
 		toolkit);
 	descTable.getComposite().setLayoutData(layoutData);
 

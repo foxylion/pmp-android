@@ -21,13 +21,13 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 
 /**
  * 
@@ -179,7 +179,7 @@ public class MockupControl {
     private static void initApps(Context activityContext) {
         String ident;
         MockupApp app;
-        AIS ais;
+        IAIS ais;
         
         ident = "org.barcode.scanner";
         if ((ais = getAIS(activityContext, "barcode.xml")) != null) {
@@ -258,7 +258,7 @@ public class MockupControl {
      */
     private static void initRGs(Context activityContext) {
         String ident;
-        RGIS rgis;
+        IRGIS rgis;
         
         ident = "org.oracle.db";
         if ((rgis = getRGIS(activityContext, "db.xml")) != null) {
@@ -284,28 +284,28 @@ public class MockupControl {
     }
     
     
-    public static void createPS(RGIS rgis, MockupRG rg) {
+    public static void createPS(IRGIS rgis, MockupRG rg) {
         MockupPrivacySetting ps;
-        for (RGISPrivacySetting privacySetting : rgis.getPrivacySettings()) {
+        for (IRGISPrivacySetting privacySetting : rgis.getPrivacySettings()) {
             ps = new MockupPrivacySetting(rg, privacySetting.getIdentifier(), new BooleanPrivacySetting());
             rg.addPS(privacySetting.getIdentifier(), ps);
         }
     }
     
     
-    public static void createSF(AIS ais, MockupApp app) {
+    public static void createSF(IAIS ais, MockupApp app) {
         MockupServiceFeature sf;
-        for (AISServiceFeature serviceFeature : ais.getServiceFeatures()) {
+        for (IAISServiceFeature serviceFeature : ais.getServiceFeatures()) {
             
             boolean available = true;
-            for (AISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+            for (IAISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
                 IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg == null) {
                     available = false;
                     break;
                     
                 } else {
-                    for (AISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
+                    for (IAISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps == null) {
                             available = false;
@@ -316,10 +316,10 @@ public class MockupControl {
             }
             
             sf = new MockupServiceFeature(app, serviceFeature.getIdentifier(), available);
-            for (AISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
+            for (IAISRequiredResourceGroup rrg : serviceFeature.getRequiredResourceGroups()) {
                 IResourceGroup rg = MockupModel.instance.getResourceGroup(rrg.getIdentifier());
                 if (rg != null) {
-                    for (AISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
+                    for (IAISRequiredPrivacySetting privacySetting : rrg.getRequiredPrivacySettings()) {
                         IPrivacySetting ps = rg.getPrivacySetting(privacySetting.getIdentifier());
                         if (ps != null) {
                             sf.addPS((MockupPrivacySetting) ps, privacySetting.getValue());
@@ -332,8 +332,8 @@ public class MockupControl {
     }
     
     
-    public static RGIS getRGIS(Context context, String fileName) {
-        RGIS result = null;
+    public static IRGIS getRGIS(Context context, String fileName) {
+        IRGIS result = null;
         try {
             result = XMLUtilityProxy.getRGUtil().parse(context.getAssets().open("samples2/rg/" + fileName));
         } catch (Throwable t) {
@@ -344,8 +344,8 @@ public class MockupControl {
     }
     
     
-    public static AIS getAIS(Context context, String fileName) {
-        AIS result = null;
+    public static IAIS getAIS(Context context, String fileName) {
+        IAIS result = null;
         try {
             result = XMLUtilityProxy.getAppUtil().parse(context.getAssets().open("samples2/app/" + fileName));
         } catch (Throwable t) {

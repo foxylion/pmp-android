@@ -67,4 +67,13 @@ public interface IContext {
      */
     public boolean getLastState(String condition);
     
+    
+    /**
+     * Creates a human-readable representation for condition.
+     * 
+     * @param condition
+     * @return condition, in human-readable form
+     */
+    public String makeHumanReadable(String condition);
+    
 }

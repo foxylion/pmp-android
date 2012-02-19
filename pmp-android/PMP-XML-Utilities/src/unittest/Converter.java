@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 
 /**
  * Converts an old ResourceGroup RGIS to a new one.
@@ -22,12 +23,12 @@ public class Converter {
         String pathToRepositroy = "D:\\Daten\\Repositories";
         String rgFolderName = "FileSystemResourcesGroup";
         
-        RGIS rgis = XMLUtilityProxy.getRGUtil().parse(
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(
                 new FileInputStream(pathToRepositroy + "\\pmp-android\\pmp-android\\Resources\\" + rgFolderName
                         + "\\assets\\rgis.xml"));
         
-        for (RGISPrivacySetting ps : rgis.getPrivacySettings()) {
-            for (LocalizedString description : ps.getDescriptions()) {
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            for (ILocalizedString description : ps.getDescriptions()) {
                 LocalizedString changeDescription = new LocalizedString();
                 changeDescription.setLocale(description.getLocale());
                 changeDescription.setString(description.getString());

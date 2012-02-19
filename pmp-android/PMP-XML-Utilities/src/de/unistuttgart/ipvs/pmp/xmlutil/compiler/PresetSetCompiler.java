@@ -30,11 +30,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedApp;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetAssignedPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
-import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class PresetSetCompiler extends BasicISCompiler {
      *            presetSet to compile
      * @return xml input stream
      */
-    public InputStream compile(PresetSet presetSet) {
+    public InputStream compile(IPresetSet presetSet) {
         // Instantiate the root node
         XMLNode presetSetNode = new XMLNode(XMLConstants.PRESET_SET);
         
@@ -77,11 +77,11 @@ public class PresetSetCompiler extends BasicISCompiler {
      *            the PresetSet
      * @return created nodelist
      */
-    private List<XMLNode> createPresetNodes(PresetSet presetSet) {
+    private List<XMLNode> createPresetNodes(IPresetSet presetSet) {
         List<XMLNode> nodes = new ArrayList<XMLNode>();
         
         // Iterate through all presets
-        for (Preset preset : presetSet.getPresets()) {
+        for (IPreset preset : presetSet.getPresets()) {
             // Instantiate the XML-Node
             XMLNode presetNode = new XMLNode(XMLConstants.PRESET);
             
@@ -93,7 +93,7 @@ public class PresetSetCompiler extends BasicISCompiler {
             
             // Add the assigned apps
             XMLNode assignedApps = new XMLNode(XMLConstants.ASSIGNED_APPS);
-            for (PresetAssignedApp app : preset.getAssignedApps()) {
+            for (IPresetAssignedApp app : preset.getAssignedApps()) {
                 XMLNode appNode = new XMLNode(XMLConstants.APP);
                 appNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, app.getIdentifier()));
                 assignedApps.addChild(appNode);
@@ -123,11 +123,11 @@ public class PresetSetCompiler extends BasicISCompiler {
      *            the Preset
      * @return created nodelist
      */
-    private List<XMLNode> createPresetAssignedPSs(Preset preset) {
+    private List<XMLNode> createPresetAssignedPSs(IPreset preset) {
         List<XMLNode> nodes = new ArrayList<XMLNode>();
         
         // Iterate through all privacy settings
-        for (PresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
+        for (IPresetAssignedPrivacySetting ps : preset.getAssignedPrivacySettings()) {
             // Instantiate the XML-Node
             XMLNode privacySettingNode = new XMLNode(XMLConstants.PRIVACY_SETTING);
             
@@ -151,7 +151,7 @@ public class PresetSetCompiler extends BasicISCompiler {
             valueNode.setCDATAContent(ps.getValue());
             
             // Add the contexts
-            for (PresetPSContext context : ps.getContexts()) {
+            for (IPresetPSContext context : ps.getContexts()) {
                 XMLNode contextNode = new XMLNode(XMLConstants.CONTEXT);
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_TYPE_ATTR, context.getType()));
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_CONDITION_ATTR, context.getCondition()));

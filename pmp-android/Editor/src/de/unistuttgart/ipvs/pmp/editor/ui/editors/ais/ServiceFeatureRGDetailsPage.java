@@ -42,13 +42,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredPrivacySettingsDialog;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.RequiredRGContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.RequiredPSContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * Shows the table with the details to the resource groups
@@ -153,7 +155,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	psTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION
 		| SWT.MULTI);
-	psTableViewer.setContentProvider(new RequiredRGContentProvider());
+	psTableViewer.setContentProvider(new RequiredPSContentProvider());
 	psTableViewer.addDoubleClickListener(this);
 
 	// The identifier column with the LabelProvider
@@ -168,7 +170,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	    @Override
 	    public Image getImage(Object element) {
-		// Add the check if the entry is correct
+		AISRequiredPrivacySetting item = (AISRequiredPrivacySetting) element;
+		if (!item.getIssues().isEmpty()) {
+		    return Images.ERROR16;
+		}
 		return null;
 	    }
 	});
@@ -293,10 +298,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 		// Check if there are RGs from the server
 		if (resGroup != null) {
-		    HashMap<String, RGISPrivacySetting> privacySettings = new HashMap<String, RGISPrivacySetting>();
+		    HashMap<String, IRGISPrivacySetting> privacySettings = new HashMap<String, IRGISPrivacySetting>();
 
 		    // Iterate through all available PSs
-		    for (RGISPrivacySetting ps : resGroup.getPrivacySettings()) {
+		    for (IRGISPrivacySetting ps : resGroup.getPrivacySettings()) {
 			privacySettings.put(ps.getIdentifier(), ps);
 		    }
 
@@ -304,7 +309,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		     * Iterate through the set of required Privacy Settings and
 		     * delete the ones that are already added
 		     */
-		    for (AISRequiredPrivacySetting requiredPS : displayed
+		    for (IAISRequiredPrivacySetting requiredPS : displayed
 			    .getRequiredPrivacySettings()) {
 			if (privacySettings.containsKey(requiredPS
 				.getIdentifier())) {
@@ -320,10 +325,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			// Open the dialog
 			SelectionDialog dialog = new RequiredPrivacySettingsDialog(
 				parentShell, customRGIS);
-			dialog.open();
 
 			// Get the results
-			if (dialog.getResult().length > 0) {
+			if (dialog.open() == Window.OK
+				& dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
@@ -428,7 +433,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    String requiredValues = null;
 
 	    if (resGroup != null) {
-		for (RGISPrivacySetting ps : resGroup.getPrivacySettings()) {
+		for (IRGISPrivacySetting ps : resGroup.getPrivacySettings()) {
 		    if (ps.getIdentifier().equals(selected.getIdentifier())) {
 			requiredValues = ps.getValidValueDescription();
 			break;
@@ -449,7 +454,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    // Show the input dialog
 	    InputDialog dialog = new InputDialog(parentShell,
 		    "Change the value of the required Privacy Setting",
-		    message, selected.getValue(), new InputNotEmptyValidator());
+		    message, selected.getValue(), new InputNotEmptyValidator(
+			    "Value"));
 
 	    if (dialog.open() == Window.OK) {
 		String result = dialog.getValue();

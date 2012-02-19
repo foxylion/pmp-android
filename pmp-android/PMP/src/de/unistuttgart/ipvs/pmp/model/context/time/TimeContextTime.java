@@ -149,4 +149,10 @@ public class TimeContextTime implements Comparable<TimeContextTime> {
     public int compareTo(TimeContextTime another) {
         return (this.second - another.second) + (this.minute - another.minute) + (this.hour - another.hour);
     }
+    
+    
+    @Override
+    public String toString() {
+        return String.format("%2d:%2d:%2d", this.hour, this.minute, this.second);
+    }
 }
