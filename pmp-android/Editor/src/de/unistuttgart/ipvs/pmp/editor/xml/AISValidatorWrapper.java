@@ -17,12 +17,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Wrapper of the AISValidator. The following issues are also attached to the
- * subobjects: - NAME_LOCALE_OCCURRED_TOO_OFTEN -
- * DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN -
- * SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE -
- * SF_IDENTIFIER_OCCURRED_TOO_OFTEN - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN -
- * RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
- * 
+ * subobjects: 
+ * - NAME_LOCALE_OCCURRED_TOO_OFTEN 
+ * - DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN 
+ * - SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE
+ * - SF_IDENTIFIER_OCCURRED_TOO_OFTEN 
+ * - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN 
+ * - RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
  * 
  * @author Marcus Vetter
  * 
@@ -43,6 +44,13 @@ public class AISValidatorWrapper extends AISValidator {
 			instance = new AISValidatorWrapper();
 		}
 		return instance;
+	}
+	
+	@Override
+	public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
+		List<IIssue> issues = super.validateAIS(ais, attachData);
+		extendAttachments(issues, attachData);
+		return issues;
 	}
 
 	@Override
