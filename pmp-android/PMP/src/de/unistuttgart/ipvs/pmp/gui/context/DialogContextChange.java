@@ -159,6 +159,9 @@ public class DialogContextChange extends Dialog {
                             Toast.LENGTH_LONG).show();
                 } else {
                     contextCondition = usedView.getViewCondition();
+                    if (contextAnnotation != null) {
+                        preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                    }
                     preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
                     dismiss();
                 }
