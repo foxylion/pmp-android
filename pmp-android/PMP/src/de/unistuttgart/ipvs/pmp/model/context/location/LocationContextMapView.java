@@ -12,6 +12,7 @@ import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Region.Op;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -48,11 +49,13 @@ public class LocationContextMapView extends MapActivity {
      * The actual data. May only be changed within synchronized(GEO_POINTS).
      */
     public static final List<GeoPoint> GEO_POINTS = new ArrayList<GeoPoint>();
+    public static boolean NEGATE = false;
     
     private static final int CONTEXT_MENU_REMOVE_BUTTON_ID = 1;
     private static final int CONTEXT_MENU_MOVE_BUTTON_ID = 2;
     protected static final int CONTEXT_MENU_ADD_BUTTON_ID = 3;
     protected static final int CONTEXT_MENU_CLEAR_BUTTON_ID = 4;
+    protected static final int CONTEXT_MENU_NEGATE_BUTTON_ID = 5;
     
     class PointOverlays extends ItemizedOverlay<OverlayItem> {
         
@@ -150,7 +153,15 @@ public class LocationContextMapView extends MapActivity {
             paint.setColor(0xaafff06d);
             paint.setStyle(Style.FILL);
             
-            canvas.drawPath(path, paint);
+            if (NEGATE) {
+                canvas.save();
+                canvas.clipPath(path, Op.DIFFERENCE);
+                
+                canvas.drawRect(mapView.getLeft(), mapView.getTop(), mapView.getRight(), mapView.getBottom(), paint);
+                canvas.restore();
+            } else {
+                canvas.drawPath(path, paint);
+            }
             
             // lines
             paint.setColor(0x80ffd83c);
@@ -274,6 +285,8 @@ public class LocationContextMapView extends MapActivity {
                 GEO_POINTS.add(new GeoPoint((int) (1E6 * latitudes[i]), (int) (1E6 * longitudes[i])));
             }
             
+            NEGATE = getIntent().getBooleanExtra(LocationContextView.NEGATE_EXTRA, false);
+            
         }
         
         // add the overlays
@@ -321,6 +334,10 @@ public class LocationContextMapView extends MapActivity {
                 // clear
                 menu.add(Menu.NONE, CONTEXT_MENU_CLEAR_BUTTON_ID, 4,
                         de.unistuttgart.ipvs.pmp.R.string.contexts_location_clear);
+                
+                // negate
+                menu.add(Menu.NONE, CONTEXT_MENU_NEGATE_BUTTON_ID, 5,
+                        de.unistuttgart.ipvs.pmp.R.string.contexts_location_negate);
             }
         });
         
@@ -374,6 +391,15 @@ public class LocationContextMapView extends MapActivity {
                     }
                 }
                 break;
+            
+            // negate
+            case CONTEXT_MENU_NEGATE_BUTTON_ID:
+                synchronized (GEO_POINTS) {
+                    DIRTY_FLAG.set(true);
+                    NEGATE = !NEGATE;
+                }
+                this.map.invalidate();
+                break;
         
         }
         this.points.resetSelection();
@@ -382,11 +408,11 @@ public class LocationContextMapView extends MapActivity {
     
     
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         // fake ContextMenu on menu button 
         this.contextPoint = this.map.getMapCenter();
         openContextMenu(this.map);
-        return super.onCreateOptionsMenu(menu);
+        return super.onPrepareOptionsMenu(menu);
     }
     
 }

@@ -37,6 +37,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
     
     public static final String LATITUDE_EXTRA = "lat";
     public static final String LONGITUDE_EXTRA = "lon";
+    public static final String NEGATE_EXTRA = "neg";
     
     class ExpandableGeoPointList extends BaseExpandableListAdapter {
         
@@ -160,6 +161,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
                 synchronized (LocationContextMapView.GEO_POINTS) {
                     if (LocationContextMapView.DIRTY_FLAG.get()) {
                         // load data back
+                        LocationContextView.this.value.setNegated(LocationContextMapView.NEGATE);
                         LocationContextView.this.value.getPolygon().clear();
                         for (GeoPoint gp : LocationContextMapView.GEO_POINTS) {
                             LocationContextView.this.value.getPolygon().add(
@@ -216,7 +218,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
         List<LocationContextGeoPoint> initialList = new ArrayList<LocationContextGeoPoint>();
         initialList.add(new LocationContextGeoPoint(48.745161, 9.106774));
         
-        this.value = new LocationContextCondition(1000.0, 100.0, initialList);
+        this.value = new LocationContextCondition(1000.0, 100.0, false, initialList);
         
         inflate(context, R.layout.contexts_location_view, this);
         
@@ -250,6 +252,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
                 Intent intent = new Intent(getContext(), LocationContextMapView.class);
                 intent.putExtra(LATITUDE_EXTRA, LocationContextView.this.value.getPolygonLatitudeArray());
                 intent.putExtra(LONGITUDE_EXTRA, LocationContextView.this.value.getPolygonLongitudeArray());
+                intent.putExtra(NEGATE_EXTRA, LocationContextView.this.value.isNegated());
                 GUITools.startIntent(intent);
                 if (!LocationContextView.this.readerThread.isAlive()) {
                     LocationContextView.this.readerThread.start();
