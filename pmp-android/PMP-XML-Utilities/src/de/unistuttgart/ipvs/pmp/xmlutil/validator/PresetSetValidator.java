@@ -23,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * 
@@ -67,12 +71,129 @@ public class PresetSetValidator extends AbstractValidator {
      *            set this flag true, if the given data should be attached with the issues
      * @return List with issues as result of the validation
      */
-    public List<IIssue> validatePreset(IPreset preset, boolean attachData) {
+    private List<IIssue> validatePreset(IPreset preset, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
             preset.clearIssuesAndPropagate();
+        
+        /*
+         * Validate, if the identifier is set
+         */
+        if (!checkValueSet(preset.getIdentifier()))
+            issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, preset));
+        
+        /*
+         * Validate, if the creator is set
+         */
+        if (!checkValueSet(preset.getCreator()))
+            issueList.add(new Issue(IssueType.CREATOR_MISSING, preset));
+        
+        /*
+         * Validate, if the name is set
+         */
+        if (!checkValueSet(preset.getName()))
+            issueList.add(new Issue(IssueType.NAME_MISSING, preset));
+        
+        // Attach data
+        attachData(issueList, attachData);
+        
+        // Validate all assigned apps
+        issueList.addAll(validateAssignedApps(preset, attachData));
+        
+        // Validate all assigned privacy settings
+        issueList.addAll(validateAssignedPrivacySettings(preset, attachData));
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate the assigned apps
+     * 
+     * @param preset
+     *            the preset
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    private List<IIssue> validateAssignedApps(IPreset preset, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
+        
+        // Clear the attached issues, if the issues should be attached
+        if (attachData)
+            preset.clearIssuesAndPropagate();
+        
+        // Validate all assigned apps
+        for (IPresetAssignedApp app : preset.getAssignedApps()) {
+            // Validate, if the identifier is set
+            if (!checkValueSet(app.getIdentifier()))
+                issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, app));
+        }
+        
+        // Attach data
+        attachData(issueList, attachData);
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate the assigned privacy settings
+     * 
+     * @param preset
+     *            the preset
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    private List<IIssue> validateAssignedPrivacySettings(IPreset preset, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
+        
+        // Clear the attached issues, if the issues should be attached
+        if (attachData)
+            preset.clearIssuesAndPropagate();
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate one assigned privacy setting
+     * 
+     * @param assignedPS
+     *            the assigned privacy setting
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    private List<IIssue> validateAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPS, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
+        
+        // Clear the attached issues, if the issues should be attached
+        if (attachData)
+            assignedPS.clearIssuesAndPropagate();
+        
+        return issueList;
+    }
+    
+    
+    /**
+     * Validate the contexts of a assigned privacy setting
+     * 
+     * @param assignedPS
+     *            the assigned privacy setting
+     * @param attachData
+     *            set this flag true, if the given data should be attached with the issues
+     * @return List with issues as result of the validation
+     */
+    private List<IIssue> validatePSContexts(IPresetAssignedPrivacySetting assignedPS, boolean attachData) {
+        List<IIssue> issueList = new ArrayList<IIssue>();
+        
+        // Clear the attached issues, if the issues should be attached
+        if (attachData)
+            assignedPS.clearIssuesAndPropagate();
         
         return issueList;
     }

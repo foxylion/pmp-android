@@ -88,7 +88,6 @@ public enum IssueType {
      */
     CREATOR_MISSING,
     NAME_MISSING,
-    DESCRIPTION_MISSING,
     
     /**
      * PresetSetAssignedPrivacySetting
