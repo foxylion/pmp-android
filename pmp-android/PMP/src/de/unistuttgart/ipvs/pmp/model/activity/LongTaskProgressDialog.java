@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.util;
+package de.unistuttgart.ipvs.pmp.model.activity;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;

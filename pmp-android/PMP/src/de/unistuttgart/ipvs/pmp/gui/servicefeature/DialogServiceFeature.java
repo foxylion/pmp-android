@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -213,10 +212,10 @@ public class DialogServiceFeature extends Dialog {
             public void onClick(View v) {
                 String[] missingResourceGroup = RGInstaller
                         .getMissingResourceGroups(DialogServiceFeature.this.serviceFeature);
-                RGInstaller.installResourceGroups(getContext(), missingResourceGroup, new ICallback() {
+                RGInstaller.installResourceGroups(getContext(), missingResourceGroup, new RGInstaller.ICallback() {
                     
                     @Override
-                    public void callback(Object... paramteres) {
+                    public void callback() {
                         refresh();
                     }
                 });

@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
-import de.unistuttgart.ipvs.pmp.gui.util.LongRunningTaskDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogLongRunningTask;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
@@ -173,7 +173,7 @@ public class ListItemServiceFeature extends LinearLayout {
             }
         };
         
-        new LongRunningTaskDialog(getContext(), runnable).setTitle("Changing Service Feature")
+        new DialogLongRunningTask(getContext(), runnable).setTitle("Changing Service Feature")
                 .setMessage("Please wait a moment until the Service Feature has been changed.").start();
         
     }

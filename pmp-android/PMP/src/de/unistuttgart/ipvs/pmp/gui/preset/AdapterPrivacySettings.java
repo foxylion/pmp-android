@@ -10,7 +10,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingRemove;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.ViewPrivacySettingPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -172,7 +171,7 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     }
     
     
-    public void removePrivacySetting(IPrivacySetting privacySetting) {
-        new DialogPrivacySettingRemove(this.activity, this.preset, privacySetting, this.activity).show();
+    public void removePrivacySetting(final IPrivacySetting privacySetting) {
+        this.activity.removePrivacySetting(privacySetting);
     }
 }

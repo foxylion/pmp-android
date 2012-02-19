@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
-import de.unistuttgart.ipvs.pmp.gui.util.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.model.activity.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**

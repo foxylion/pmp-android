@@ -9,7 +9,7 @@ import android.os.Looper;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
-import de.unistuttgart.ipvs.pmp.gui.view.TwoRowProgressBar;
+import de.unistuttgart.ipvs.pmp.gui.util.view.TwoRowProgressBar;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
@@ -20,6 +20,12 @@ import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 
 public class RGInstaller {
+    
+    public interface ICallback {
+        
+        public void callback();
+    }
+    
     
     public static String[] getMissingResourceGroups(IPreset preset) {
         List<String> missingRGs = new ArrayList<String>();

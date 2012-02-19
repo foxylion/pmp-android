@@ -1,18 +1,18 @@
-package de.unistuttgart.ipvs.pmp.gui.util;
+package de.unistuttgart.ipvs.pmp.gui.util.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 /**
  * For my fellow team members a {@link Button} that can handle clicks even when disabled. To react on such clicks use
- * {@link AlwaysClickableImageButton#setDisabledClickListener(OnClickListener)}.
+ * {@link AlwaysClickableButton#setDisabledClickListener(OnClickListener)}.
  * 
  * @author Tobias Kuhn
  * 
  */
-public class AlwaysClickableImageButton extends ImageButton {
+public class AlwaysClickableButton extends Button {
     
     /**
      * Click listener for handling clicks when this button is disabled.
@@ -21,25 +21,25 @@ public class AlwaysClickableImageButton extends ImageButton {
     
     
     /**
-     * @see {@link ImageButton#ImageButton(Context)}
+     * @see {@link Button#Button(Context)}
      */
-    public AlwaysClickableImageButton(Context context) {
+    public AlwaysClickableButton(Context context) {
         super(context);
     }
     
     
     /**
-     * @see {@link ImageButton#ImageButton(Context, AttributeSet)}
+     * @see {@link Button#Button(Context, AttributeSet)}
      */
-    public AlwaysClickableImageButton(Context context, AttributeSet attrs) {
+    public AlwaysClickableButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
     
     
     /**
-     * @see {@link ImageButton#ImageButton(Context, AttributeSet, int)}
+     * @see {@link Button#Button(Context, AttributeSet, int)}
      */
-    public AlwaysClickableImageButton(Context context, AttributeSet attrs, int defStyle) {
+    public AlwaysClickableButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
     
@@ -49,7 +49,7 @@ public class AlwaysClickableImageButton extends ImageButton {
     }
     
     
-    public void setOnDisabledClickListener(OnClickListener disabledClickListener) {
+    public void setDisabledOnClickListener(OnClickListener disabledClickListener) {
         this.disabledClickListener = disabledClickListener;
     }
     

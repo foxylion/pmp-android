@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.gui.util;
+package de.unistuttgart.ipvs.pmp.gui.util.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,12 +9,12 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 
-public class LongRunningTaskDialog extends Dialog {
+public class DialogLongRunningTask extends Dialog {
     
     private Runnable runnable;
     
     
-    public LongRunningTaskDialog(Context context, Runnable runnable) {
+    public DialogLongRunningTask(Context context, Runnable runnable) {
         super(context);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -26,13 +26,13 @@ public class LongRunningTaskDialog extends Dialog {
     }
     
     
-    public LongRunningTaskDialog setTitle(String title) {
+    public DialogLongRunningTask setTitle(String title) {
         ((BasicTitleView) findViewById(R.id.Title)).setTitle(title);
         return this;
     }
     
     
-    public LongRunningTaskDialog setMessage(String message) {
+    public DialogLongRunningTask setMessage(String message) {
         ((TextView) findViewById(R.id.TextView_Description)).setText(message);
         return this;
     }
@@ -44,7 +44,7 @@ public class LongRunningTaskDialog extends Dialog {
             
             @Override
             public void run() {
-                LongRunningTaskDialog.this.runnable.run();
+                DialogLongRunningTask.this.runnable.run();
                 
                 taskCompleted();
             };

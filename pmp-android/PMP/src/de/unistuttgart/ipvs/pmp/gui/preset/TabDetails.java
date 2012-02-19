@@ -14,7 +14,6 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
@@ -139,10 +138,10 @@ public class TabDetails extends Activity {
             @Override
             public void onClick(View v) {
                 String[] missingRGs = RGInstaller.getMissingResourceGroups(TabDetails.this.preset);
-                RGInstaller.installResourceGroups(TabDetails.this, missingRGs, new ICallback() {
+                RGInstaller.installResourceGroups(TabDetails.this, missingRGs, new RGInstaller.ICallback() {
                     
                     @Override
-                    public void callback(Object... paramteres) {
+                    public void callback() {
                         refresh();
                     }
                 });
