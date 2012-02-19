@@ -60,6 +60,7 @@ public interface PersistenceConstants {
     static final String PACKAGE = "Package";
     static final String IDENTIFIER = "Identifier";
     static final String CREATOR = "Creator";
+    static final String PRESET_PRIVACY_SETTING_ANNOTATION_ID = "PresetPrivacySettingAnnotationID";
     
     /*
      * referencing, identifying columns

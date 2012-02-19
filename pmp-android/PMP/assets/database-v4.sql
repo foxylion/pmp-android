@@ -78,11 +78,13 @@ CREATE TABLE IF NOT EXISTS Context_AnnotatedPrivacySettingValue (
 	PrivacySettingIdentifier TEXT NOT NULL,
 	PresetCreator TEXT NOT NULL,
 	PresetIdentifier TEXT NOT NULL,
+	PresetPrivacySettingAnnotationID INT NOT NULL,
 	ContextType TEXT NOT NULL,
 	ContextCondition TEXT NOT NULL,
 	OverrideGrantedValue TEXT NOT NULL,
 	PRIMARY KEY(PrivacySettingResourceGroupPackage,
 	            PrivacySettingIdentifier,
 				PresetCreator,
-				PresetIdentifier)
+				PresetIdentifier,
+				PresetPrivacySettingAnnotationID)
 );

@@ -26,6 +26,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
      */
     protected IPreset preset;
     protected IPrivacySetting privacySetting;
+    protected int id;
     
     /**
      * internal data & links
@@ -42,11 +43,12 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     /* organizational */
     
-    public ContextAnnotation(IPreset preset, IPrivacySetting privacySetting) {
+    public ContextAnnotation(IPreset preset, IPrivacySetting privacySetting, int id) {
         super(preset.getIdentifier() + PersistenceConstants.PACKAGE_SEPARATOR + PersistenceConstants.PACKAGE_SEPARATOR
-                + privacySetting.getIdentifier());
+                + privacySetting.getIdentifier() + Integer.toString(id));
         this.preset = preset;
         this.privacySetting = privacySetting;
+        this.id = id;
         this.lastState = false;
     }
     
