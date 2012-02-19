@@ -7,18 +7,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
@@ -118,7 +116,7 @@ public class GeneralPage extends FormPage {
 			
 			@Override
 			public void doSetDirty(boolean dirty) {
-				doSetDirty(true);
+				setDirty(true);
 			}
 		};
 		IRGIS rgis = Model.getInstance().getRgis();

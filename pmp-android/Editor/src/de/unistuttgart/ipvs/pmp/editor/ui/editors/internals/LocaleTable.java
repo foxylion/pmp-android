@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import java.util.Locale;
 
@@ -39,15 +39,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.EditorPart;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleEditingSupport;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TextEditingSupport;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 public class LocaleTable {
 
-	private final IBasicIS data;
+	private IBasicIS data;
 	private final Composite outerCompo;
 	private final Type type;
 	private final TableViewer tableViewer;
@@ -58,6 +55,10 @@ public class LocaleTable {
 		NAME, DESCRIPTION
 	};
 
+	public LocaleTable(Composite parent, Type type, ISetDirtyAction dirtyAction,
+			FormToolkit toolkit) {
+		this(parent, null, type, dirtyAction, toolkit);
+	}
 	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
 			FormToolkit toolkit) {
 		this.data = data;
@@ -122,13 +123,9 @@ public class LocaleTable {
 		// Add table sorter
 		tableViewer.setSorter(new ViewerSorter());
 
-		// But data into table
+		// But data into table if set
 		tableViewer.setContentProvider(new ListContentProvider());
-		if (type == Type.NAME) {
-			tableViewer.setInput(data.getNames());
-		} else {
-			tableViewer.setInput(data.getDescriptions());
-		}
+		setData(data);
 
 		// Add buttons
 		createButtons(toolkit);
@@ -364,6 +361,17 @@ public class LocaleTable {
 
 		return column;
 
+	}
+	
+	public void setData(IBasicIS data) {
+		this.data = data;
+		if (data != null) {
+			if (type == Type.NAME) {
+				tableViewer.setInput(data.getNames());
+			} else {
+				tableViewer.setInput(data.getDescriptions());
+			}
+		}
 	}
 	
 	public void setDirty(boolean dirty) {

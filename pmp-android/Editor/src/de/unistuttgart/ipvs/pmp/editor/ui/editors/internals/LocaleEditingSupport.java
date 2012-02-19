@@ -21,15 +21,7 @@ public abstract class LocaleEditingSupport extends EditingSupport {
 	
 	public LocaleEditingSupport(TableViewer viewer) {
 		super(viewer);
-		/*editor = new ComboBoxViewerCellEditor((Composite) viewer.getControl());
-		editor.setContentProvider(new ArrayContentProvider());
-		editor.setInput(Locale.getISOLanguages());
-		*/
 		editor = new AutocompleteTextCellEditor(viewer.getTable(), Locale.getISOCountries());
-		/*SimpleContentProposalProvider contentProposalProvider = new SimpleContentProposalProvider(new String[] { "red",
-				"green", "blue" });
-		contentProposalProvider.setFiltering(true);
-		editor = new ContentProposalTextCellEditor(viewer.getTable(), contentProposalProvider, null, null);*/
 	}
 
 	@Override

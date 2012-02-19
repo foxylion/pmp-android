@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.old;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -25,6 +25,10 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleEditingSupport;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TextEditingSupport;
 
 /**
  * Creates a table with columns for the locale, name and description. It

@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.old;
 
 import java.util.Map;
 

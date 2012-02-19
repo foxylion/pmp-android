@@ -36,8 +36,8 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServi
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 

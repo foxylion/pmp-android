@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import java.util.List;
 

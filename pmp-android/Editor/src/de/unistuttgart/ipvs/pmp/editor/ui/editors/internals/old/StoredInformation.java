@@ -1,7 +1,8 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.old;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Stores all information provided in the information table

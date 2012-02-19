@@ -1,4 +1,5 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.old;
+
 
 /**
  * This class is a in-memory representation of a row in the information-table
