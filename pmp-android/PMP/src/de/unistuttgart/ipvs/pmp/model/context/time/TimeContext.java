@@ -6,6 +6,7 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 
 public class TimeContext implements IContext {
     
@@ -61,13 +62,17 @@ public class TimeContext implements IContext {
     
     @Override
     public boolean getLastState(String condition) {
-        TimeContextCondition tcc = TimeContextCondition.parse(condition);
-        return tcc.satisfiedIn(this.lastState);
+        try {
+            TimeContextCondition tcc = TimeContextCondition.parse(condition);
+            return tcc.satisfiedIn(this.lastState);
+        } catch (InvalidConditionException ice) {
+            return false;
+        }
     }
     
     
     @Override
-    public String makeHumanReadable(String condition) {
+    public String makeHumanReadable(String condition) throws InvalidConditionException {
         return TimeContextCondition.parse(condition).getHumanReadable();
     }
 }
