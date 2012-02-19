@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 
 /**
@@ -51,7 +51,7 @@ public class AisEditor extends FormEditor {
 		if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
 		    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 		}
-		AIS ais = XMLUtilityProxy.getAppUtil().parse(
+		IAIS ais = XMLUtilityProxy.getAppUtil().parse(
 			input.getFile().getContents());
 
 		// Get the path to the project

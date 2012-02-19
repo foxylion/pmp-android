@@ -6,6 +6,8 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
@@ -30,12 +32,12 @@ public class Model {
     /**
      * The stored {@link AIS}
      */
-    private AIS ais;
+    private IAIS ais;
 
     /**
      * The stored {@link RGIS}
      */
-    private RGIS rgis;
+    private IRGIS rgis;
 
     /**
      * The stored {@link RGIS} list that was downloaded from the server
@@ -67,7 +69,7 @@ public class Model {
      * 
      * @return the ais
      */
-    public AIS getAis() {
+    public IAIS getAis() {
 	return ais;
     }
 
@@ -77,7 +79,7 @@ public class Model {
      * @param ais
      *            the ais to set
      */
-    public void setAis(AIS ais) {
+    public void setAis(IAIS ais) {
 	this.ais = ais;
     }
 
@@ -86,7 +88,7 @@ public class Model {
      * 
      * @return the rgis
      */
-    public RGIS getRgis() {
+    public IRGIS getRgis() {
 	return rgis;
     }
 
@@ -96,7 +98,7 @@ public class Model {
      * @param rgis
      *            the rgis to set
      */
-    public void setRgis(RGIS rgis) {
+    public void setRgis(IRGIS rgis) {
 	this.rgis = rgis;
     }
 

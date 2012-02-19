@@ -12,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * Editor, that allow the user to interactively change their RIS.
@@ -33,7 +33,7 @@ public class RgisEditor extends FormEditor {
     			if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
     				input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
     			}
-    			RGIS rgis = rgutil.parse(input.getFile().getContents());
+    			IRGIS rgis = rgutil.parse(input.getFile().getContents());
     			Model.getInstance().setRgis(rgis);
     			
  

@@ -17,7 +17,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
  * General-Page of the RGIS-Editor
@@ -27,148 +27,142 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class GeneralPage extends FormPage {
 
-	private IManagedForm managedForm;
-	public static final String ID = "rgis_general";
-	private boolean dirty = false;
+    private IManagedForm managedForm;
+    public static final String ID = "rgis_general";
+    private boolean dirty = false;
 
-	public GeneralPage(FormEditor parent) {
-		super(parent, ID, "General");
-	}
-	
-	
-	
+    public GeneralPage(FormEditor parent) {
+	super(parent, ID, "General");
+    }
 
-	@Override
-	protected void createFormContent(IManagedForm managedForm) {
-		this.managedForm = managedForm;
-		ScrolledForm form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Defines general information");
+    @Override
+    protected void createFormContent(IManagedForm managedForm) {
+	this.managedForm = managedForm;
+	ScrolledForm form = managedForm.getForm();
+	FormToolkit toolkit = managedForm.getToolkit();
+	form.setText("Defines general information");
 
-		form.getBody().setLayout(new GridLayout(1, false));
+	form.getBody().setLayout(new GridLayout(1, false));
 
-		addPropertiesSection(form.getBody(), toolkit);
-		addLocalizationSection(form.getBody(), toolkit);
-		
-	}
+	addPropertiesSection(form.getBody(), toolkit);
+	addLocalizationSection(form.getBody(), toolkit);
 
-	private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
-		// Set the section's parameters
-		Section section = createSection(parent, "Preferences", toolkit);
+    }
 
-		// Create elements stored inside this section
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
+    private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
+	// Set the section's parameters
+	Section section = createSection(parent, "Preferences", toolkit);
 
-		client.setLayout(new GridLayout(2, false));
+	// Create elements stored inside this section
+	Composite client = toolkit.createComposite(section, SWT.WRAP);
 
-		GridData textLayout = new GridData();
-		textLayout.horizontalAlignment = GridData.FILL;
-		textLayout.grabExcessHorizontalSpace = true;
+	client.setLayout(new GridLayout(2, false));
 
-		toolkit.createLabel(client, "Identifier");
-		Text identifier = toolkit.createText(client, Model.getInstance()
-				.getRgis().getIdentifier());
-		
-		identifier.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println("D: "+managedForm.isDirty());
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		identifier.setLayoutData(textLayout);
+	GridData textLayout = new GridData();
+	textLayout.horizontalAlignment = GridData.FILL;
+	textLayout.grabExcessHorizontalSpace = true;
 
-		/*
-		 * toolkit.createLabel(client, "Revision"); Text revision =
-		 * toolkit.createText(client, "123");
-		 * revision.setLayoutData(textLayout);
-		 */
+	toolkit.createLabel(client, "Identifier");
+	Text identifier = toolkit.createText(client, Model.getInstance()
+		.getRgis().getIdentifier());
 
-		section.setClient(client);
-	}
+	identifier.addFocusListener(new FocusListener() {
 
-	private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
-		// Set the section's parameters
-		Section section = createSection(parent, "Localization", toolkit);
+	    @Override
+	    public void focusLost(FocusEvent e) {
+		System.out.println("D: " + managedForm.isDirty());
 
-		// Create elements stored inside this section
-		Composite client = toolkit.createComposite(section);
+	    }
 
-		client.setLayout(new GridLayout(2, false));
-		
-		GridData layoutData = new GridData();
-		layoutData.horizontalAlignment = GridData.FILL;
-		layoutData.verticalAlignment = GridData.FILL;
-		layoutData.grabExcessHorizontalSpace = true;
-		layoutData.grabExcessVerticalSpace = true;
-		
-		client.setLayoutData(layoutData);
-		section.setLayoutData(layoutData);
-		
-		RGIS rgis = Model.getInstance().getRgis();
-		LocaleTable nameTable = new LocaleTable(client,rgis,Type.NAME,toolkit);
-		nameTable.getComposite().setLayoutData(layoutData);
-		//section.setClient(nameTable.getComposite());
+	    @Override
+	    public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
 
-		LocaleTable descTable = new LocaleTable(client,rgis,Type.DESCRIPTION,toolkit);
-		descTable.getComposite().setLayoutData(layoutData);
-		
-		
-		section.setClient(client);
-		
-/*
-		// Prepare table
-		RGIS rgis = Model.getInstance().getRgis();
-		StoredInformation loc = new StoredInformation();
+	    }
+	});
+	identifier.setLayoutData(textLayout);
 
-		// Add names and descriptions to table
-		for (Name name : rgis.getNames()) {
-			loc.addName(name.getLocale().getLanguage(), name.getName());
-		}
-		for (Description desc : rgis.getDescriptions()) {
-			loc.addDescription(desc.getLocale().getLanguage(),
-					desc.getDescription());
-		}
-		InformationTable table = new InformationTable(section, loc, toolkit);
-
-		section.setClient(table.getControl());
-		*/
-	}
-
-	/**
-	 * Creates a default section which spans over the whole editor
-	 * 
-	 * @param parent
-	 * @param title
-	 * @param toolkit
-	 * @return
+	/*
+	 * toolkit.createLabel(client, "Revision"); Text revision =
+	 * toolkit.createText(client, "123");
+	 * revision.setLayoutData(textLayout);
 	 */
-	private Section createSection(Composite parent, String title,
-			FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR);
-		section.setText(title);
-		section.setExpanded(true);
 
-		GridData layoutData = new GridData();
-		layoutData.horizontalAlignment = GridData.FILL;
-		layoutData.grabExcessHorizontalSpace = true;
+	section.setClient(client);
+    }
 
-		section.setLayoutData(layoutData);
+    private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
+	// Set the section's parameters
+	Section section = createSection(parent, "Localization", toolkit);
 
-		return section;
-	}
-	
-	@Override
-	public boolean isDirty() {
-		return dirty;
-	}
+	// Create elements stored inside this section
+	Composite client = toolkit.createComposite(section);
+
+	client.setLayout(new GridLayout(2, false));
+
+	GridData layoutData = new GridData();
+	layoutData.horizontalAlignment = GridData.FILL;
+	layoutData.verticalAlignment = GridData.FILL;
+	layoutData.grabExcessHorizontalSpace = true;
+	layoutData.grabExcessVerticalSpace = true;
+
+	client.setLayoutData(layoutData);
+	section.setLayoutData(layoutData);
+
+	IRGIS rgis = Model.getInstance().getRgis();
+	LocaleTable nameTable = new LocaleTable(client, rgis, Type.NAME,
+		toolkit);
+	nameTable.getComposite().setLayoutData(layoutData);
+	// section.setClient(nameTable.getComposite());
+
+	LocaleTable descTable = new LocaleTable(client, rgis, Type.DESCRIPTION,
+		toolkit);
+	descTable.getComposite().setLayoutData(layoutData);
+
+	section.setClient(client);
+
+	/*
+	 * // Prepare table RGIS rgis = Model.getInstance().getRgis();
+	 * StoredInformation loc = new StoredInformation();
+	 * 
+	 * // Add names and descriptions to table for (Name name :
+	 * rgis.getNames()) { loc.addName(name.getLocale().getLanguage(),
+	 * name.getName()); } for (Description desc : rgis.getDescriptions()) {
+	 * loc.addDescription(desc.getLocale().getLanguage(),
+	 * desc.getDescription()); } InformationTable table = new
+	 * InformationTable(section, loc, toolkit);
+	 * 
+	 * section.setClient(table.getControl());
+	 */
+    }
+
+    /**
+     * Creates a default section which spans over the whole editor
+     * 
+     * @param parent
+     * @param title
+     * @param toolkit
+     * @return
+     */
+    private Section createSection(Composite parent, String title,
+	    FormToolkit toolkit) {
+	Section section = toolkit.createSection(parent, Section.TWISTIE
+		| Section.TITLE_BAR);
+	section.setText(title);
+	section.setExpanded(true);
+
+	GridData layoutData = new GridData();
+	layoutData.horizontalAlignment = GridData.FILL;
+	layoutData.grabExcessHorizontalSpace = true;
+
+	section.setLayoutData(layoutData);
+
+	return section;
+    }
+
+    @Override
+    public boolean isDirty() {
+	return dirty;
+    }
 
 }
