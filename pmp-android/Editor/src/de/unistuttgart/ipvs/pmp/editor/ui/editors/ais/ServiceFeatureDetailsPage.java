@@ -34,8 +34,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Description;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.Name;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 /**
  * @author Thorsten Berberich
@@ -342,17 +342,17 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 		    .getFirstSegment();
 	    displayed = serviceFeature;
 	    if (serviceFeature instanceof AISServiceFeature) {
-		for (Description desc : serviceFeature.getDescriptions()) {
+		for (ILocalizedString desc : serviceFeature.getDescriptions()) {
 		    Locale locale = desc.getLocale();
 		    TableItem item = new TableItem(descriptionTable, SWT.NONE);
 		    item.setText(new String[] { locale.toString(),
-			    desc.getDescription() });
+			    desc.getString() });
 		}
 		
-		for (Name name : serviceFeature.getNames()){
+		for (ILocalizedString name : serviceFeature.getNames()){
 		    Locale locale = name.getLocale();
 		    TableItem item = new TableItem(nameTable, SWT.NONE);
-		    item.setText(new String[] {locale.toString(), name.getName()});
+		    item.setText(new String[] {locale.toString(), name.getString()});
 		}
 		
 		// Pack all columns
@@ -415,9 +415,9 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 		    // Create the things for the model
 		    Locale locale = new Locale(stringLocale);
 
-		    Description description = new Description();
+		    LocalizedString description = new LocalizedString();
 		    description.setLocale(locale);
-		    description.setDescription(desc);
+		    description.setString(desc);
 
 		    displayed.addDescription(description);
 
@@ -499,7 +499,7 @@ public class ServiceFeatureDetailsPage implements IDetailsPage,
 		    selected.setText(new String[] { newLocale, newDesc });
 
 		    displayed.getDescriptions().get(index)
-			    .setDescription(newDesc);
+			    .setString(newDesc);
 		    displayed.getDescriptions().get(index)
 			    .setLocale(new Locale(newLocale));
 		    displayed.getNames().get(index)

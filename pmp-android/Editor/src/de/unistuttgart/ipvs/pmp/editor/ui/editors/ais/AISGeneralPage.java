@@ -37,7 +37,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
  * Creates the "General" page for the {@link AisEditor}
@@ -138,7 +138,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	client.setLayoutData(layoutData);
 	section.setLayoutData(layoutData);
 
-	AIS ais = Model.getInstance().getAis();
+	IAIS ais = Model.getInstance().getAis();
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, toolkit);
 	nameTable.getComposite().setLayoutData(layoutData);
 

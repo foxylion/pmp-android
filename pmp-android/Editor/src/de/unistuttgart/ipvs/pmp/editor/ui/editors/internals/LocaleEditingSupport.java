@@ -2,13 +2,10 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import java.util.Locale;
 
-import org.eclipse.jface.fieldassist.IContentProposalProvider;
-import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * Provides a cell editor that enables the user to put in a locale.

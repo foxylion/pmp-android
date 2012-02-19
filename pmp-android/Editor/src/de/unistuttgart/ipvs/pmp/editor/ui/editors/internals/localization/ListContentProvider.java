@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class ListContentProvider implements IContentProvider, IStructuredContentProvider {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getElements(Object inputElement) {
 		return ((List<Object>)inputElement).toArray();
