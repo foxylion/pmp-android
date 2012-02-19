@@ -129,7 +129,7 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
             cv.put(OVERRIDE_GRANTED_VALUE, overrideValue);
             
             long newRow = 0L;
-            while (((newRow = sqldb.insert(TBL_PRESET, null, cv)) == -1) && (noTries < 10)) {
+            while (((newRow = sqldb.insert(TBL_CONTEXT_ANNOTATIONS, null, cv)) == -1) && (noTries < 10)) {
                 id = rng.nextInt();
                 cv.put(PRESET_PRIVACY_SETTING_ANNOTATION_ID, id);
                 noTries++;
