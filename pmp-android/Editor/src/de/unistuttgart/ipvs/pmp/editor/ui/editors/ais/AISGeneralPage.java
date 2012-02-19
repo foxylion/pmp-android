@@ -18,7 +18,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -146,7 +145,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 		
 		@Override
 		public void doSetDirty(boolean dirty) {
-			firePropertyChange(IEditorPart.PROP_DIRTY);
+			Model.getInstance().setAISDirty(true);
 		}
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
