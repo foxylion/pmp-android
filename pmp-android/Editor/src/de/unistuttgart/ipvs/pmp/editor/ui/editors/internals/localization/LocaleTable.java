@@ -39,7 +39,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.EditorPart;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.IDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleEditingSupport;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TextEditingSupport;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
@@ -52,13 +52,13 @@ public class LocaleTable {
 	private final Type type;
 	private final TableViewer tableViewer;
 	private boolean dirty = false;
-	private final IDirtyAction dirtyAction;
+	private final ISetDirtyAction dirtyAction;
 
 	public enum Type {
 		NAME, DESCRIPTION
 	};
 
-	public LocaleTable(Composite parent, IBasicIS data, Type type, IDirtyAction dirtyAction,
+	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
 			FormToolkit toolkit) {
 		this.data = data;
 		this.type = type;
@@ -368,7 +368,7 @@ public class LocaleTable {
 	
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
-		dirtyAction.setDirty(dirty);
+		dirtyAction.doSetDirty(dirty);
 	}
 
 	public boolean isDirty() {

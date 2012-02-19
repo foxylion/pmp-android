@@ -35,7 +35,7 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActiv
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.IDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
@@ -142,10 +142,10 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 	IAIS ais = Model.getInstance().getAis();
 	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
-	IDirtyAction dirtyAction = new IDirtyAction() {
+	ISetDirtyAction dirtyAction = new ISetDirtyAction() {
 		
 		@Override
-		public void setDirty(boolean dirty) {
+		public void doSetDirty(boolean dirty) {
 			firePropertyChange(IEditorPart.PROP_DIRTY);
 		}
 	};

@@ -16,7 +16,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.IDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localization.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -114,11 +114,11 @@ public class GeneralPage extends FormPage {
 		section.setLayoutData(layoutData);
 
 		// Defines action that should be done when tables are dirty
-		IDirtyAction dirtyAction = new IDirtyAction() {
+		ISetDirtyAction dirtyAction = new ISetDirtyAction() {
 			
 			@Override
-			public void setDirty(boolean dirty) {
-				setDirty(true);
+			public void doSetDirty(boolean dirty) {
+				doSetDirty(true);
 			}
 		};
 		IRGIS rgis = Model.getInstance().getRgis();
