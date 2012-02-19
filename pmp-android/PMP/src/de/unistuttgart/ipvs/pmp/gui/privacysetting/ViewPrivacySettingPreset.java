@@ -87,6 +87,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     private void refresh() {
         if (preset.getContextAnnotations(privacySetting).size() == 0) {
             ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).setVisibility(View.GONE);
         } else {
             ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.VISIBLE);
         }
@@ -106,7 +107,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             value.setTextColor(GUIConstants.COLOR_BG_RED);
         }
         
-        ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).removeAllViews();
+        ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).removeAllViews();
         for (IContextAnnotation context : this.preset.getContextAnnotations(this.privacySetting)) {
             addContext(context);
         }
@@ -124,7 +125,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         ((ImageView) v.findViewById(R.id.ImageView_Context_State)).setVisibility(context.isActive() ? View.GONE
                 : View.VISIBLE);
         
-        v.setOnClickListener(new OnClickListener() {
+        ((LinearLayout) v.findViewById(R.id.LinearLayout_Context)).setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
@@ -139,7 +140,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             }
         });
         
-        ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).addView(v);
+        ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).addView(v);
     }
     
     
