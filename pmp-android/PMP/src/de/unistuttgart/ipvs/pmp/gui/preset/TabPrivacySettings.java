@@ -23,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingRemove;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.IPrivacySettingEditCallback;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
@@ -149,18 +150,28 @@ public class TabPrivacySettings extends Activity {
                 
                 return true;
             case 1:
-                new DialogPrivacySettingEdit(this, this.preset, ps, new ICallback() {
+                new DialogPrivacySettingEdit(this, ps, preset.getGrantedPrivacySettingValue(ps),
+                        new IPrivacySettingEditCallback() {
+                            
+                            @Override
+                            public void result(boolean changed, String newValue) {
+                                if (changed) {
+                                    preset.assignPrivacySetting(ps, newValue);
+                                    updateList();
+                                }
+                            }
+                        }).show();
+                
+                return true;
+                
+            case 2:
+                new DialogContextChange(TabPrivacySettings.this, preset, ps, null, new ICallback() {
                     
                     @Override
                     public void callback(Object... paramteres) {
                         updateList();
                     }
                 }).show();
-                
-                return true;
-                
-            case 2:
-                new DialogContextChange(TabPrivacySettings.this, preset, ps, null).show();
                 return true;
                 
             case 3:

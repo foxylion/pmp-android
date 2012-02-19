@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPrivacySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -64,6 +66,12 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     
     
     private void refresh() {
+        if (preset.getContextAnnotations(privacySetting).size() == 0) {
+            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
+        } else {
+            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.VISIBLE);
+        }
+        
         ((TextView) findViewById(R.id.TextView_Name_PS)).setText(this.privacySetting.getName());
         
         TextView value = (TextView) findViewById(R.id.TextView_Value);
@@ -100,7 +108,13 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, privacySetting, context).show();
+                new DialogContextChange(getContext(), preset, privacySetting, context, new ICallback() {
+                    
+                    @Override
+                    public void callback(Object... paramteres) {
+                        refresh();
+                    }
+                }).show();
             }
         });
         
@@ -113,9 +127,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                toggleMenuAndContexts();
+                if (preset.getContextAnnotations(privacySetting).size() > 0) {
+                    toggleMenuAndContexts();
+                } else {
+                    adapter.reactOnItemClick(ViewPrivacySettingPreset.this);
+                }
             }
         });
+        
         ((LinearLayout) findViewById(R.id.LinearLayout_BasicInformations))
                 .setOnLongClickListener(new OnLongClickListener() {
                     
@@ -126,5 +145,53 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                         return true;
                     }
                 });
+        
+        ((ImageButton) findViewById(R.id.ImageButton_Info)).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                new DialogPrivacySettingInformation(getContext(), privacySetting).show();
+            }
+        });
+        
+        ((ImageButton) findViewById(R.id.ImageButton_Edit)).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                new DialogPrivacySettingEdit(getContext(), privacySetting, preset
+                        .getGrantedPrivacySettingValue(privacySetting), new IPrivacySettingEditCallback() {
+                    
+                    @Override
+                    public void result(boolean changed, String newValue) {
+                        if (changed) {
+                            preset.assignPrivacySetting(privacySetting, newValue);
+                            refresh();
+                        }
+                    }
+                }).show();
+            }
+        });
+        
+        ((ImageButton) findViewById(R.id.ImageButton_AddContext)).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                new DialogContextChange(getContext(), preset, privacySetting, null, new ICallback() {
+                    
+                    @Override
+                    public void callback(Object... paramteres) {
+                        refresh();
+                    }
+                });
+            }
+        });
+        
+        ((ImageButton) findViewById(R.id.ImageButton_Delete)).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                adapter.removePrivacySetting(privacySetting);
+            }
+        });
     }
 }

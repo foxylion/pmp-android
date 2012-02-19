@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
@@ -24,10 +25,11 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
  */
 public class DialogPrivacySettingEdit extends Dialog {
     
-    private IPreset preset;
     private IPrivacySetting privacySetting;
     
-    private ICallback callback;
+    private IPrivacySettingEditCallback callback;
+    
+    private String value;
     
     
     /**
@@ -39,24 +41,28 @@ public class DialogPrivacySettingEdit extends Dialog {
      *            {@link IPreset} to which the {@link IPrivacySetting} is assigned.
      * @param privacySetting
      *            {@link IPrivacySetting} which should be edited.
+     * @param contextAnnotation
+     *            {@link IContextAnnotation} which refers to the Privacy Setting value. Can be null.
      * @param callback
      *            {@link ICallback} for informing about the dismiss() of the {@link Dialog}. Can be null.
      */
-    public DialogPrivacySettingEdit(Context context, IPreset preset, IPrivacySetting privacySetting, ICallback callback) {
+    public DialogPrivacySettingEdit(Context context, IPrivacySetting privacySetting, String value,
+            IPrivacySettingEditCallback callback) {
         super(context);
         
-        this.preset = preset;
         this.privacySetting = privacySetting;
         this.callback = callback;
+        this.value = value;
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_privacysetting_edit);
+        setCancelable(false);
         
         buildDialog();
         
         addListener();
         
-        setViewValue(this.preset.getGrantedPrivacySettingValue(this.privacySetting));
+        setViewValue(this.value);
     }
     
     
@@ -76,8 +82,7 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onClick(View v) {
-                DialogPrivacySettingEdit.this.preset.assignPrivacySetting(DialogPrivacySettingEdit.this.privacySetting,
-                        getViewValue());
+                callback.result(true, getViewValue());
                 dismiss();
             }
         });
@@ -85,6 +90,7 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onClick(View v) {
+                callback.result(false, getViewValue());
                 dismiss();
             }
         });
@@ -97,11 +103,6 @@ public class DialogPrivacySettingEdit extends Dialog {
         
         /* Remove the Privacy Setting view to allow a reuse of the view */
         ((LinearLayout) findViewById(R.id.LinearLayout_PrivacySetting)).removeAllViews();
-        
-        /* Inform callback if requested */
-        if (this.callback != null) {
-            this.callback.callback();
-        }
     }
     
     

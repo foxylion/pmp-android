@@ -13,7 +13,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.IPrivacySettingEditCallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -140,14 +140,19 @@ public class DialogPrivacySettingAssign extends Dialog {
             
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                new DialogPrivacySettingEdit(getContext(), DialogPrivacySettingAssign.this.preset,
-                        DialogPrivacySettingAssign.this.psList.get(groupPosition).get(childPosition), new ICallback() {
-                            
-                            @Override
-                            public void callback(Object... paramteres) {
-                                DialogPrivacySettingAssign.this.presetPSsTab.updateList();
-                            }
-                        }).show();
+                final IPrivacySetting privacySetting = DialogPrivacySettingAssign.this.psList.get(groupPosition).get(
+                        childPosition);
+                
+                new DialogPrivacySettingEdit(getContext(), privacySetting, null, new IPrivacySettingEditCallback() {
+                    
+                    @Override
+                    public void result(boolean changed, String newValue) {
+                        if (changed) {
+                            preset.assignPrivacySetting(privacySetting, newValue);
+                        }
+                        DialogPrivacySettingAssign.this.presetPSsTab.updateList();
+                    }
+                }).show();
                 dismiss();
                 return true;
             }

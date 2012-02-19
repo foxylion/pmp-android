@@ -25,25 +25,31 @@ import java.net.URL;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
+import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.PresetSetValidator;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public class TestXMLFiles {
     
     private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
-    //    private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
-    //    private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
+    private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
+    private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
     //    
     private static String presetSetDefectURL = "http://mvvt.de/presetset_defect.xml";
     
     //    
-    //    private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
-    //    private static String rgisDefectURL = "http://mvvt.de/rgis_defect.xml";
+    private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
+    private static String rgisDefectURL = "http://mvvt.de/rgis_defect.xml";
+    
+    
     //    
     
     /**
@@ -53,11 +59,11 @@ public class TestXMLFiles {
      */
     public static void main(String[] args) {
         AppUtil appUtil = XMLUtilityProxy.getAppUtil();
-        //RGUtil rgUtil = XMLUtilityProxy.getRGUtil();
-        //PresetUtil presetUtil = XMLUtilityProxy.getPresetUtil();
+        RGUtil rgUtil = XMLUtilityProxy.getRGUtil();
+        PresetUtil presetUtil = XMLUtilityProxy.getPresetUtil();
         
         AISValidator aisValidator = appUtil.getValidator();
-        // RGISValidator rgisValidator = rgUtil.getValidator();
+        RGISValidator rgisValidator = rgUtil.getValidator();
         PresetSetValidator presetSetValidator = presetUtil.getValidator();
         
         try {

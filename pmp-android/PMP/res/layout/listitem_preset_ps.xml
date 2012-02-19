@@ -57,7 +57,7 @@
             android:layout_gravity="right" >
 
             <ImageButton
-                android:id="@+id/ImageView_Info"
+                android:id="@+id/ImageButton_Info"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="top"
@@ -68,7 +68,7 @@
                 android:src="@drawable/icon_info" />
 
             <ImageButton
-                android:id="@+id/ImageView_Edit"
+                android:id="@+id/ImageButton_Edit"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="top"
@@ -79,7 +79,18 @@
                 android:src="@drawable/icon_edit" />
 
             <ImageButton
-                android:id="@+id/ImageView_Delete"
+                android:id="@+id/ImageButton_AddContext"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="top"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:paddingBottom="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_add" />
+            
+            <ImageButton
+                android:id="@+id/ImageButton_Delete"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="top"

@@ -12,13 +12,14 @@
         android:layout_height="wrap_content" >
 
         <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-            android:layout_width="fill_parent"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             pmp:icon="@drawable/icon_edit"
             pmp:title="Change context" />
 
         <Button
+            android:id="@+id/Button_ChangePS"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Change\nValue" />
