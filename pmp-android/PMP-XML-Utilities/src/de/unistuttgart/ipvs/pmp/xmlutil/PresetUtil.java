@@ -18,13 +18,14 @@
  * limitations under the License.
  */
 package de.unistuttgart.ipvs.pmp.xmlutil;
+
 import java.io.InputStream;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.PresetSetCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.PresetSetParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
-
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.PresetSetValidator;
 
 /**
  * Utility class for Presets
@@ -35,10 +36,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 public class PresetUtil {
     
     /**
-     * The PresetSetParser and -Compiler
+     * The PresetSetParser, -Compiler and -Validator
      */
     private PresetSetParser presetSetParser = new PresetSetParser();
     private PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
+    private PresetSetValidator presetSetValidator = new PresetSetValidator();
     
     
     /**
@@ -62,6 +64,16 @@ public class PresetUtil {
      */
     public InputStream compile(IPresetSet presetSet) {
         return presetSetCompiler.compile(presetSet);
+    }
+    
+    
+    /**
+     * Get the validator for PresetSet
+     * 
+     * @return PresetSetValidator
+     */
+    public PresetSetValidator getValidator() {
+        return presetSetValidator;
     }
     
     

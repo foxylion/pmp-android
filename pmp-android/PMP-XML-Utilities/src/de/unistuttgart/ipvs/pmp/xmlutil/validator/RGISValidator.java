@@ -26,7 +26,6 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
@@ -202,17 +201,6 @@ public class RGISValidator extends AbstractValidator {
         attachData(issueList, attachData);
         
         return issueList;
-    }
-    
-    
-    /**
-     * Clear all issues, begin at the given issue location and propagate
-     * 
-     * @param location
-     *            issue location
-     */
-    public void clearIssuesAndPropagate(IIssueLocation location) {
-        location.clearIssuesAndPropagate();
     }
     
 }
