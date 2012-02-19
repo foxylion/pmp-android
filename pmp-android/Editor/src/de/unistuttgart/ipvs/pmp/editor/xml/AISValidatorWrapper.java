@@ -1,3 +1,22 @@
+/*
+ * Copyright 2011 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.xml;
 
 import java.util.ArrayList;
@@ -9,7 +28,6 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
@@ -29,6 +47,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * 
  */
 public class AISValidatorWrapper extends AISValidator {
+	
+	/**
+	 * ValidatorWrapperHelper
+	 */
+	ValidatorWrapperHelper helper = ValidatorWrapperHelper.getInstance();
 
 	/**
 	 * Singleton stuff
@@ -118,7 +141,7 @@ public class AISValidatorWrapper extends AISValidator {
 						IBasicIS nameLocation = (IBasicIS) issue.getLocation();
 
 						// Attach names with issue
-						attachIBasicIS(nameLocation.getNames(),
+						helper.attachIBasicIS(nameLocation.getNames(),
 								IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -130,7 +153,7 @@ public class AISValidatorWrapper extends AISValidator {
 						IBasicIS descrLocation = (IBasicIS) issue.getLocation();
 
 						// Attach descriptions with issue
-						attachIBasicIS(
+						helper.attachIBasicIS(
 								descrLocation.getDescriptions(),
 								IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
 								parameters);
@@ -173,7 +196,7 @@ public class AISValidatorWrapper extends AISValidator {
 						for (IAISServiceFeature sf : ais.getServiceFeatures()) {
 							identifierISs.add(sf);
 						}
-						attachIIdentifierIS(identifierISs,
+						helper.attachIIdentifierIS(identifierISs,
 								IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -191,7 +214,7 @@ public class AISValidatorWrapper extends AISValidator {
 								.getRequiredResourceGroups()) {
 							iISs.add(rrg);
 						}
-						attachIIdentifierIS(iISs,
+						helper.attachIIdentifierIS(iISs,
 								IssueType.RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -209,7 +232,7 @@ public class AISValidatorWrapper extends AISValidator {
 								.getRequiredPrivacySettings()) {
 							identISs.add(ps);
 						}
-						attachIIdentifierIS(identISs,
+						helper.attachIIdentifierIS(identISs,
 								IssueType.RPS_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -226,55 +249,5 @@ public class AISValidatorWrapper extends AISValidator {
 		}
 	}
 
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of
-	 * "identifier occurred too often"
-	 * 
-	 * @param identifierISs
-	 *            list of identifier information sets
-	 * @param issueType
-	 *            the issue type
-	 * @param issueParameters
-	 *            the parameters of the issue
-	 */
-	private void attachIIdentifierIS(List<IIdentifierIS> identifierISs,
-			IssueType issueType, List<String> issueParameters) {
-		// Attach service features with issue
-		for (IIdentifierIS identifierIS : identifierISs) {
-			String ident = identifierIS.getIdentifier();
 
-			// if the identifier is the same, add the issue
-			if ((issueParameters.size() == 1 && ident.equals(issueParameters
-					.get(0)))
-					|| (issueParameters.size() == 0 && ident.equals(""))) {
-				identifierIS.addIssue(new Issue(issueType, identifierIS));
-			}
-		}
-	}
-
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of
-	 * "Name/Description/RGISChangeDescription occurred too often"
-	 * 
-	 * @param localizedStrings
-	 *            list of localized strings
-	 * @param issueType
-	 *            the issue type
-	 * @param issueParameters
-	 *            the parameters of the issue
-	 */
-	private void attachIBasicIS(List<ILocalizedString> localizedStrings,
-			IssueType issueType, List<String> issueParameters) {
-		// Attach localized strings with issue
-		for (ILocalizedString localizedString : localizedStrings) {
-			String locale = localizedString.getLocale().getLanguage();
-
-			// if the locale is the same
-			if ((issueParameters.size() == 1 && locale.equals(issueParameters
-					.get(0)))
-					|| (issueParameters.size() == 0 && locale.equals(""))) {
-				localizedString.addIssue(new Issue(issueType, localizedString));
-			}
-		}
-	}
 }
