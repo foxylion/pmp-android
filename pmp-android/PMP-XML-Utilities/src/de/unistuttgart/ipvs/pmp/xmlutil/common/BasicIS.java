@@ -64,6 +64,8 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public String getNameForLocale(Locale locale) {
         for (ILocalizedString name : this.names) {
+            if (name.getLocale() == null)
+                continue;
             if (name.getLocale().getLanguage().equals(locale.getLanguage())) {
                 return name.getString();
             }
@@ -105,6 +107,8 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public String getDescriptionForLocale(Locale locale) {
         for (ILocalizedString descr : this.descriptions) {
+            if (descr.getLocale() == null)
+                continue;
             if (descr.getLocale().getLanguage().equals(locale.getLanguage())) {
                 return descr.getString();
             }

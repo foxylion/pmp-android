@@ -228,6 +228,7 @@
     <string name="contexts_location_remove">Remove</string>
     <string name="contexts_location_move">Move location</string>
     <string name="contexts_location_clear">Clear all but one point</string>
+    <string name="contexts_location_negate">Negate</string>
     
     <string name="contexts_location_moving">Long tap somewhere to move the point</string>
 
