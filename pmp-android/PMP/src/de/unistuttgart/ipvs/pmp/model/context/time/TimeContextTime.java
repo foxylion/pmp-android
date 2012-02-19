@@ -153,6 +153,6 @@ public class TimeContextTime implements Comparable<TimeContextTime> {
     
     @Override
     public String toString() {
-        return String.format("%2d:%2d:%2d", this.hour, this.minute, this.second);
+        return String.format("%02d:%02d:%02d", this.hour, this.minute, this.second);
     }
 }

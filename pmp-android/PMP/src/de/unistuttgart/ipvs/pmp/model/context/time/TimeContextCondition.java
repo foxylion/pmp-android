@@ -96,7 +96,7 @@ public class TimeContextCondition {
     
     @Override
     public String toString() {
-        return String.format("%s%2d:%2d:%2d-%2d:%2d:%2d-%s%s", this.isUTC ? "utc" : "", this.begin.getHour(),
+        return String.format("%s%02d:%02d:%02d-%02d:%02d:%02d-%s%s", this.isUTC ? "utc" : "", this.begin.getHour(),
                 this.begin.getMinute(), this.begin.getSecond(), this.end.getHour(), this.end.getMinute(),
                 this.end.getSecond(), this.interval.getIdentifier(), this.interval.makeList(this.days));
     }
