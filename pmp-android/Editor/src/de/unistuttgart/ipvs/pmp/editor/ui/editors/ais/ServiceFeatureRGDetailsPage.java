@@ -454,7 +454,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    // Show the input dialog
 	    InputDialog dialog = new InputDialog(parentShell,
 		    "Change the value of the required Privacy Setting",
-		    message, selected.getValue(), new InputNotEmptyValidator());
+		    message, selected.getValue(), new InputNotEmptyValidator("Value"));
 
 	    if (dialog.open() == Window.OK) {
 		String result = dialog.getValue();

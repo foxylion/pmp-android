@@ -226,7 +226,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		InputDialog dialog = new InputDialog(parentShell,
 			"Change Service Feature",
 			"Enter the new identifier of the Service Feature",
-			sf.getIdentifier(), new InputNotEmptyValidator());
+			sf.getIdentifier(), new InputNotEmptyValidator(
+				"Identifier"));
 
 		if (dialog.open() == Window.OK) {
 		    String result = dialog.getValue();
@@ -237,6 +238,28 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			// Change the service feature and set the dirty flag
 			Model.getInstance().setAISDirty(true);
 			sf.setIdentifier(result);
+			treeViewer.refresh();
+		    }
+		}
+	    }
+
+	    if (data instanceof AISRequiredResourceGroup) {
+		AISRequiredResourceGroup rg = (AISRequiredResourceGroup) data;
+		InputDialog dialog = new InputDialog(
+			parentShell,
+			"Change minimal Revision",
+			"Change the minimal required revision of the Resource Group",
+			rg.getMinRevision(), new InputNotEmptyValidator(
+				"Minimal revision"));
+		if (dialog.open() == Window.OK) {
+		    String result = dialog.getValue();
+
+		    // The revision has changed
+		    if (!result.equals(rg.getMinRevision())) {
+
+			// Change the service feature and set the dirty flag
+			Model.getInstance().setAISDirty(true);
+			rg.setMinRevision(result);
 			treeViewer.refresh();
 		    }
 		}
@@ -275,7 +298,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
 			"Enter the identifier of the Service Feature", null,
-			new InputNotEmptyValidator());
+			new InputNotEmptyValidator("Identifier"));
 
 		if (dialog.open() == Window.OK) {
 		    // Add the service feature and set the dirty flag
