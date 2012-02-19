@@ -25,6 +25,7 @@ import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 
 /**
  * {@link IContextAnnotation} is the chain link between the {@link IContext} and the {@link IPreset}. It can override
@@ -74,7 +75,7 @@ public interface IContextAnnotation extends IModelElement {
      * 
      * @return the context condition in human-readable form
      */
-    public String getHumanReadableContextCondition();
+    public String getHumanReadableContextCondition() throws InvalidConditionException;
     
     
     /**

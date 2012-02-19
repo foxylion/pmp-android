@@ -9,6 +9,8 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+
 /**
  * The parsed condition for a {@link TimeContext}.
  * 
@@ -29,13 +31,16 @@ public class TimeContextCondition {
      * @param condition
      * @return
      */
-    public static TimeContextCondition parse(String condition) {
+    public static TimeContextCondition parse(String condition) throws InvalidConditionException {
+        if (condition == null) {
+            throw new InvalidConditionException("TimeContextCondition may not be null.");
+        }
         TimeContextCondition result = cache.get(condition);
         
         if (result == null) {
             Matcher match = CONDITION_PATTERN.matcher(condition);
             if (!match.matches()) {
-                throw new IllegalArgumentException("TimeContextCondition was not formatted properly: " + condition);
+                throw new InvalidConditionException("TimeContextCondition was not formatted properly: " + condition);
             }
             
             boolean utc = match.group(1).length() > 0;

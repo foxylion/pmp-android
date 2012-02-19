@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 
 public class LocationContext implements IContext, LocationListener {
     
@@ -132,10 +133,14 @@ public class LocationContext implements IContext, LocationListener {
     
     @Override
     public boolean getLastState(String condition) {
-        if (this.lastState.isSet()) {
-            LocationContextCondition lcc = LocationContextCondition.parse(condition);
-            return lcc.satisfiedIn(this.lastState);
-        } else {
+        try {
+            if (this.lastState.isSet()) {
+                LocationContextCondition lcc = LocationContextCondition.parse(condition);
+                return lcc.satisfiedIn(this.lastState);
+            } else {
+                return false;
+            }
+        } catch (InvalidConditionException ice) {
             return false;
         }
     }
@@ -182,7 +187,7 @@ public class LocationContext implements IContext, LocationListener {
     
     
     @Override
-    public String makeHumanReadable(String condition) {
+    public String makeHumanReadable(String condition) throws InvalidConditionException {
         return LocationContextCondition.parse(condition).toHumanReadable();
     }
 }

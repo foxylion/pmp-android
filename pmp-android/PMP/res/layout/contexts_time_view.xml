@@ -69,16 +69,6 @@
             android:text="@string/contexts_time_interval" />
     </LinearLayout>
 
-    <android.widget.GridLayout
-        android:id="@+id/gridLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <android.widget.GridLayout
-        android:id="@+id/gridLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
     <Spinner
         android:id="@+id/interval"
         android:layout_width="wrap_content"
@@ -87,11 +77,6 @@
 
         <!-- Preview: listitem=@android:layout/simple_spinner_item -->
     </Spinner>
-
-    <android.widget.GridLayout
-        android:id="@+id/gridLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/weeklyLayout"
