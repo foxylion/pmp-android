@@ -49,10 +49,4 @@ public class PresetAssignedApp extends IssueLocation implements Serializable, IP
         this.identifier = identifier;
     }
     
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

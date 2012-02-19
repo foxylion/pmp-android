@@ -140,9 +140,9 @@ public class RGIS extends BasicIS implements IRGIS {
     
     
     @Override
-    public void clearIssuesAndPropagate() {
-        clearRGInformationIssuesAndPropagate();
-        clearPSIssuesAndPropagate();
+    public void clearIssues() {
+        clearRGInformationIssues();
+        clearPSIssues();
     }
     
     
@@ -150,7 +150,7 @@ public class RGIS extends BasicIS implements IRGIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearRGInformationIssuesAndPropagate()
      */
     @Override
-    public void clearRGInformationIssuesAndPropagate() {
+    public void clearRGInformationIssues() {
         clearNameIssues();
         clearDescriptionIssues();
         List<IIssue> removeList = new ArrayList<IIssue>();
@@ -170,10 +170,7 @@ public class RGIS extends BasicIS implements IRGIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearPSIssuesAndPropagate()
      */
     @Override
-    public void clearPSIssuesAndPropagate() {
-        for (IRGISPrivacySetting ps : this.getPrivacySettings()) {
-            ps.clearIssuesAndPropagate();
-        }
+    public void clearPSIssues() {
         List<IIssue> removeList = new ArrayList<IIssue>();
         for (IIssue issue : getIssues()) {
             if ((issue.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN)

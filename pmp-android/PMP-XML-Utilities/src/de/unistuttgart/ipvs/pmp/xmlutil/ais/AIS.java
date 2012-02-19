@@ -97,9 +97,9 @@ public class AIS extends BasicIS implements IAIS {
     
     
     @Override
-    public void clearIssuesAndPropagate() {
-        clearAppInformationIssuesAndPropagate();
-        clearServiceFeaturesIssuesAndPropagate();
+    public void clearIssues() {
+        clearAppInformationIssues();
+        clearServiceFeaturesIssues();
     }
     
     
@@ -107,7 +107,7 @@ public class AIS extends BasicIS implements IAIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearAppInformationIssuesAndPropagate()
      */
     @Override
-    public void clearAppInformationIssuesAndPropagate() {
+    public void clearAppInformationIssues() {
         clearNameIssues();
         clearDescriptionIssues();
         List<IIssue> removeList = new ArrayList<IIssue>();
@@ -128,10 +128,7 @@ public class AIS extends BasicIS implements IAIS {
      * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearServiceFeaturesIssuesAndPropagate()
      */
     @Override
-    public void clearServiceFeaturesIssuesAndPropagate() {
-        for (IAISServiceFeature sf : this.getServiceFeatures()) {
-            sf.clearIssuesAndPropagate();
-        }
+    public void clearServiceFeaturesIssues() {
         List<IIssue> removeList = new ArrayList<IIssue>();
         for (IIssue issue : getIssues()) {
             if ((issue.getType() == IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)

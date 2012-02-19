@@ -102,10 +102,4 @@ public class PresetPSContext extends IssueLocation implements Serializable, IPre
         this.overrideValue = overrideValue;
     }
     
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-    }
-    
 }

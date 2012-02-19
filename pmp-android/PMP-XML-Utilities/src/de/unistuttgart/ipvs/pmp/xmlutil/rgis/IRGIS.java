@@ -105,12 +105,12 @@ public interface IRGIS extends IBasicIS, IIdentifierIS {
     /**
      * Clear only issues referring to the resource group information
      */
-    public abstract void clearRGInformationIssuesAndPropagate();
+    public abstract void clearRGInformationIssues();
     
     
     /**
      * Clear only issues referring to the privacy settings
      */
-    public abstract void clearPSIssuesAndPropagate();
+    public abstract void clearPSIssues();
     
 }

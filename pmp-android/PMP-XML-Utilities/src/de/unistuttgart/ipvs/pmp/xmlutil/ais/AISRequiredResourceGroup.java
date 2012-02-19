@@ -129,13 +129,4 @@ public class AISRequiredResourceGroup extends IdentifierIS implements IAISRequir
         return null;
     }
     
-    
-    @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-        for (IAISRequiredPrivacySetting rps : this.getRequiredPrivacySettings()) {
-            rps.clearIssuesAndPropagate();
-        }
-    }
-    
 }

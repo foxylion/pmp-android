@@ -141,7 +141,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public void clearNameIssues() {
         for (ILocalizedString name : this.getNames()) {
-            name.clearIssuesAndPropagate();
+            name.clearIssues();
         }
     }
     
@@ -152,7 +152,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public void clearDescriptionIssues() {
         for (ILocalizedString descr : this.getDescriptions()) {
-            descr.clearIssuesAndPropagate();
+            descr.clearIssues();
         }
     }
     

@@ -109,17 +109,6 @@ public class AISServiceFeature extends BasicIS implements IAISServiceFeature {
     
     
     @Override
-    public void clearIssuesAndPropagate() {
-        super.getIssues().clear();
-        super.clearNameIssues();
-        super.clearDescriptionIssues();
-        for (IAISRequiredResourceGroup rrg : this.getRequiredResourceGroups()) {
-            rrg.clearIssuesAndPropagate();
-        }
-    }
-    
-    
-    @Override
     public String getIdentifier() {
         return this.identifier;
     }
@@ -128,6 +117,14 @@ public class AISServiceFeature extends BasicIS implements IAISServiceFeature {
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+    
+    
+    @Override
+    public void clearIssues() {
+        super.clearIssues();
+        clearNameIssues();
+        clearDescriptionIssues();
     }
     
 }

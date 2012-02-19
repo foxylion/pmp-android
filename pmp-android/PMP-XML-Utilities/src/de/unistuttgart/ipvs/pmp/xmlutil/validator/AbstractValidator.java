@@ -253,15 +253,4 @@ public class AbstractValidator {
         }
     }
     
-    
-    /**
-     * Clear all issues, begin at the given issue location and propagate
-     * 
-     * @param location
-     *            issue location
-     */
-    public void clearIssuesAndPropagate(IIssueLocation location) {
-        location.clearIssuesAndPropagate();
-    }
-    
 }

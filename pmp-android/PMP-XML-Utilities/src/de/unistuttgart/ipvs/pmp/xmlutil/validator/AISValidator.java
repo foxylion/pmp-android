@@ -59,7 +59,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            ais.clearIssuesAndPropagate();
+            ais.clearIssues();
         
         /*
          * Validate the app information and the service features 
@@ -85,7 +85,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            ais.clearAppInformationIssuesAndPropagate();
+            ais.clearAppInformationIssues();
         
         /*
          * Validate names and descriptions
@@ -114,7 +114,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            ais.clearServiceFeaturesIssuesAndPropagate();
+            ais.clearServiceFeaturesIssues();
         
         /*
          * Validate the occurrences of identifier of service features
@@ -173,7 +173,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            sf.clearIssuesAndPropagate();
+            sf.clearIssues();
         
         /*
          * Validate names and descriptions
@@ -236,7 +236,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rrg.clearIssuesAndPropagate();
+            rrg.clearIssues();
         
         /*
          * Validate, if the identifier is set
@@ -311,7 +311,7 @@ public class AISValidator extends AbstractValidator {
         
         // Clear the attached issues, if the issues should be attached
         if (attachData)
-            rps.clearIssuesAndPropagate();
+            rps.clearIssues();
         
         /*
          * Validate, if the identifier is set
@@ -409,5 +409,25 @@ public class AISValidator extends AbstractValidator {
         }
         
         return issues;
+    }
+    
+    
+    /**
+     * Clear all issues, begin at the given IAIS and propagate
+     * 
+     * @param ais
+     *            the IAIS
+     */
+    public void clearIssuesAndPropagate(IAIS ais) {
+        ais.clearIssues();
+        for (IAISServiceFeature sf : ais.getServiceFeatures()) {
+            sf.clearIssues();
+            for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+                rrg.clearIssues();
+                for (IAISRequiredPrivacySetting ps : rrg.getRequiredPrivacySettings()) {
+                    ps.clearIssues();
+                }
+            }
+        }
     }
 }

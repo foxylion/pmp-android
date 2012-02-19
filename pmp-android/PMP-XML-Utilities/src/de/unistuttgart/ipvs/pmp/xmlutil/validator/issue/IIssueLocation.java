@@ -56,8 +56,8 @@ public interface IIssueLocation extends Serializable {
     
     
     /**
-     * Clear all issues and clear also all issues of linked data
+     * Clear all issues
      */
-    public abstract void clearIssuesAndPropagate();
+    public abstract void clearIssues();
     
 }

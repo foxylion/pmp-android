@@ -97,7 +97,6 @@ public enum IssueType {
     RG_REVISION_INVALID,
     PS_IDENTIFIER_MISSING,
     VALUE_MISSING,
-    VALUE_OCCURRED_TOO_OFTEN,
     
     /**
      * PresetPSContext
@@ -105,6 +104,5 @@ public enum IssueType {
     TYPE_MISSING,
     CONDITION_MISSING,
     OVERRIDE_VALUE_MISSING,
-    OVERRIDE_VALUE_OCCURRED_TOO_OFTEN
     
 }
