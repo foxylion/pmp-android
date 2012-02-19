@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/JPMPPS-V-3-1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/PMP-XML-Utilities-V-3-6-source.jar"/>
+	<classpathentry kind="lib" path="/JPMPPS-CommunicationLib/dist/jpmpps-lib-latest.jar"/>
+	<classpathentry kind="lib" path="/PMP-XML-UTILITIES/dist/xml-util-latest.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
