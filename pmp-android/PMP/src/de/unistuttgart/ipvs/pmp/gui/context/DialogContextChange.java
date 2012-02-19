@@ -84,7 +84,6 @@ public class DialogContextChange extends Dialog {
         }
         
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setCancelable(false);
         builder.setTitle("Select a context type");
         builder.setItems(contextStrings, new OnClickListener() {
             
@@ -93,6 +92,14 @@ public class DialogContextChange extends Dialog {
                 usedContext = contexts.get(which);
                 refresh();
                 showDialog();
+            }
+        });
+        builder.setOnCancelListener(new OnCancelListener() {
+            
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                dismiss();
             }
         });
         builder.create().show();

@@ -106,6 +106,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             value.setTextColor(GUIConstants.COLOR_BG_RED);
         }
         
+        ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).removeAllViews();
         for (IContextAnnotation context : this.preset.getContextAnnotations(this.privacySetting)) {
             addContext(context);
         }
