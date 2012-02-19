@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.context.location.LocationContext;
 import de.unistuttgart.ipvs.pmp.model.context.time.TimeContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
@@ -412,6 +413,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
      */
     private void cacheContexts(SQLiteDatabase db) {
         this.cache.getContexts().add(new TimeContext());
+        this.cache.getContexts().add(new LocationContext());
         
     }
     
