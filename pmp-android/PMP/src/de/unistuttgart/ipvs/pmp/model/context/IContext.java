@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.context;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.service.PMPService;
 
 /**
@@ -63,7 +64,7 @@ public interface IContext {
      * 
      * @param condition
      *            the condition String for this to check
-     * @return true, if and only if condition was true after the last state update
+     * @return true, if and only if condition was true after the last state update and the condition is valid
      */
     public boolean getLastState(String condition);
     
@@ -73,7 +74,9 @@ public interface IContext {
      * 
      * @param condition
      * @return condition, in human-readable form
+     * @throws InvalidConditionException
+     *             if the value was not supported by this {@link IContext}.
      */
-    public String makeHumanReadable(String condition);
+    public String makeHumanReadable(String condition) throws InvalidConditionException;
     
 }

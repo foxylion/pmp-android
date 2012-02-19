@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+
 /**
  * The parsed condition for a {@link LocationContext}.
  * 
@@ -31,13 +33,16 @@ public class LocationContextCondition {
      * @param condition
      * @return
      */
-    public static LocationContextCondition parse(String condition) {
+    public static LocationContextCondition parse(String condition) throws InvalidConditionException {
+        if (condition == null) {
+            throw new InvalidConditionException("LocationContextCondition may not be null.");
+        }
         LocationContextCondition result = cache.get(condition);
         
         if (result == null) {
             Matcher match = CONDITION_PATTERN.matcher(condition);
             if (!match.matches()) {
-                throw new IllegalArgumentException("LocationContextCondition was not formatted properly: " + condition);
+                throw new InvalidConditionException("LocationContextCondition was not formatted properly: " + condition);
             }
             
             List<LocationContextGeoPoint> poly = new ArrayList<LocationContextGeoPoint>();

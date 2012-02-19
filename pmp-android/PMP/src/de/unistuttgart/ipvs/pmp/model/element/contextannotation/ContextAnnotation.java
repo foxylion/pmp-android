@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
@@ -90,7 +91,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
-    public String getHumanReadableContextCondition() {
+    public String getHumanReadableContextCondition() throws InvalidConditionException {
         checkCached();
         return this.context.makeHumanReadable(this.condition);
     }
