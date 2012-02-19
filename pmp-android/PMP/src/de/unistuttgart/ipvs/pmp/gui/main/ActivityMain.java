@@ -17,9 +17,9 @@ import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPresets;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
 import de.unistuttgart.ipvs.pmp.gui.setting.ActivitySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
-import de.unistuttgart.ipvs.pmp.gui.util.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.view.AlwaysClickableButton;
 
 /**
  * The {@link ActivityMain} is the startup activity for PMP. It is also available in the App-Drawer.

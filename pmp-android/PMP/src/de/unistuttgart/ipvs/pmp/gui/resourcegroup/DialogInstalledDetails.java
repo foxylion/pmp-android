@@ -7,11 +7,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.ViewPrivacySettingBasicInformation;
+import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogConfirmDelete;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.Restarter;
 
 /**
  * The {@link DialogAvailableDetails} displays informations about an at PMP registered Resourcegroup.
@@ -68,9 +72,35 @@ public class DialogInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                new DialogConfirmDelete(DialogInstalledDetails.this.getContext(),
-                        DialogInstalledDetails.this.resourcegroup, DialogInstalledDetails.this,
-                        DialogInstalledDetails.this.parent).show();
+                new DialogConfirmDelete(getContext(), getContext().getString(R.string.rg_confirm_remove), getContext()
+                        .getString(R.string.rg_confirm_description), new DialogConfirmDelete.ICallback() {
+                    
+                    @Override
+                    public void callback(boolean confirmed) {
+                        if (confirmed) {
+                            ModelProxy.get().uninstallResourceGroup(resourcegroup.getIdentifier());
+                            
+                            Toast.makeText(getContext(), getContext().getString(R.string.rg_removed_success),
+                                    Toast.LENGTH_LONG).show();
+                            
+                            dismiss();
+                            parent.refreshList();
+                            
+                            /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
+                            new Thread() {
+                                
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                    }
+                                    Restarter.killAppAndRestartActivity(parent.getParent());
+                                };
+                            }.start();
+                        }
+                    }
+                });
             }
         });
         
@@ -82,5 +112,4 @@ public class DialogInstalledDetails extends Dialog {
             }
         });
     }
-    
 }

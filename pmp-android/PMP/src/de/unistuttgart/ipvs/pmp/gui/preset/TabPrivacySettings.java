@@ -22,10 +22,8 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingRemove;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.IPrivacySettingEditCallback;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogConfirmDelete;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -151,7 +149,7 @@ public class TabPrivacySettings extends Activity {
                 return true;
             case 1:
                 new DialogPrivacySettingEdit(this, ps, preset.getGrantedPrivacySettingValue(ps),
-                        new IPrivacySettingEditCallback() {
+                        new DialogPrivacySettingEdit.ICallback() {
                             
                             @Override
                             public void result(boolean changed, String newValue) {
@@ -165,18 +163,17 @@ public class TabPrivacySettings extends Activity {
                 return true;
                 
             case 2:
-                new DialogContextChange(TabPrivacySettings.this, preset, ps, null, new ICallback() {
+                new DialogContextChange(TabPrivacySettings.this, preset, ps, null, new DialogContextChange.ICallback() {
                     
                     @Override
-                    public void callback(Object... paramteres) {
+                    public void callback() {
                         updateList();
                     }
                 }).show();
                 return true;
                 
             case 3:
-                new DialogPrivacySettingRemove(TabPrivacySettings.this, this.preset, ps, TabPrivacySettings.this)
-                        .show();
+                removePrivacySetting(ps);
                 
                 return true;
         }
@@ -185,29 +182,38 @@ public class TabPrivacySettings extends Activity {
     }
     
     
-    public void removePrivacySetting(IPrivacySetting ps) {
-        /*
-         *  Remove PS
-         */
-        
-        // Save expanded states
-        ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
-        for (int groupID = 0; groupID < this.ppsAdapter.getGroupCount(); groupID++) {
-            expandedStates.add(this.psExpandableListView.isGroupExpanded(groupID));
-        }
-        // Save index of RG, if this RG will disappear later
-        int tmpIndexOfRG = this.rgList.indexOf(ps.getResourceGroup());
-        
-        // Remove the PS
-        this.preset.removePrivacySetting(ps);
-        
-        // Update the list
-        updateList();
-        
-        // Restore the expanded states of the groups
-        if (!this.rgList.contains(ps.getResourceGroup())) {
-            propagateExpandedGroups(expandedStates, tmpIndexOfRG);
-        }
+    public void removePrivacySetting(final IPrivacySetting privacySetting) {
+        new DialogConfirmDelete(this, getString(R.string.preset_confirm_remove_ps), getString(
+                R.string.preset_confirm_remove_ps_description, privacySetting.getResourceGroup().getName() + " - "
+                        + privacySetting.getName()), new DialogConfirmDelete.ICallback() {
+            
+            @Override
+            public void callback(boolean confirmed) {
+                if (confirmed) {
+                    // Save expanded states
+                    ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
+                    for (int groupID = 0; groupID < ppsAdapter.getGroupCount(); groupID++) {
+                        expandedStates.add(psExpandableListView.isGroupExpanded(groupID));
+                    }
+                    // Save index of RG, if this RG will disappear later
+                    int tmpIndexOfRG = rgList.indexOf(privacySetting.getResourceGroup());
+                    
+                    // Remove the PS
+                    preset.removePrivacySetting(privacySetting);
+                    
+                    // Update the list
+                    updateList();
+                    
+                    // Restore the expanded states of the groups
+                    if (!rgList.contains(privacySetting.getResourceGroup())) {
+                        propagateExpandedGroups(expandedStates, tmpIndexOfRG);
+                    }
+                    
+                    Toast.makeText(TabPrivacySettings.this, getString(R.string.preset_removed_ps_success),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        }).show();
     }
     
     

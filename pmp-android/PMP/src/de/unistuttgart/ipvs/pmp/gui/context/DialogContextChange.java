@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
-import de.unistuttgart.ipvs.pmp.gui.privacysetting.IPrivacySettingEditCallback;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
@@ -24,6 +22,11 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 
 public class DialogContextChange extends Dialog {
+    
+    public interface ICallback {
+        
+        public void callback();
+    }
     
     private IPreset preset;
     private IPrivacySetting privacySetting;
@@ -122,7 +125,7 @@ public class DialogContextChange extends Dialog {
             @Override
             public void onClick(View v) {
                 new DialogPrivacySettingEdit(getContext(), privacySetting, overrideValue,
-                        new IPrivacySettingEditCallback() {
+                        new DialogPrivacySettingEdit.ICallback() {
                             
                             @Override
                             public void result(boolean changed, String newValue) {
@@ -165,6 +168,8 @@ public class DialogContextChange extends Dialog {
     @Override
     public void dismiss() {
         super.dismiss();
+        
+        ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
         
         if (callback != null) {
             callback.callback();

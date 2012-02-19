@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,19 +14,34 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPrivacySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
-import de.unistuttgart.ipvs.pmp.gui.util.ICallback;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
+/**
+ * The {@link ViewPrivacySettingPreset} represents one assigned {@link IPrivacySetting}. Each view has an expandable
+ * list of all assigned {@link IContextAnnotation}s. If no annotations are assigned the list can't be expanded. So the
+ * context menu will be shown directly on a short touch.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ViewPrivacySettingPreset extends LinearLayout {
     
+    /**
+     * The {@link IPreset} to which the {@link IPrivacySetting} is assigned.
+     */
     private IPreset preset;
-    private IPrivacySetting privacySetting;
-    private AdapterPrivacySettings adapter;
     
-    private boolean expanded = false;
+    /**
+     * The {@link IPrivacySetting} which is represented by this view.
+     */
+    private IPrivacySetting privacySetting;
+    
+    /**
+     * The {@link Adapter} which holds all the {@link IPrivacySetting}s assigned to the {@link IPreset}.
+     */
+    private AdapterPrivacySettings adapter;
     
     
     public ViewPrivacySettingPreset(Context context, IPreset preset, IPrivacySetting privacySetting,
@@ -54,14 +70,17 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     }
     
     
+    private boolean isListExpanded() {
+        return (((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).getVisibility() == View.VISIBLE);
+    }
+    
+    
     public void toggleMenuAndContexts() {
-        LinearLayout menuAndContextsLayout = (LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts);
-        menuAndContextsLayout.setVisibility(expanded ? View.GONE : View.VISIBLE);
-        
         ImageView stateView = (ImageView) findViewById(R.id.ImageView_State);
-        stateView.setImageResource(expanded ? R.drawable.icon_expand_closed : R.drawable.icon_expand_opened);
+        stateView.setImageResource(isListExpanded() ? R.drawable.icon_expand_closed : R.drawable.icon_expand_opened);
         
-        expanded = !expanded;
+        LinearLayout menuAndContextsLayout = (LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts);
+        menuAndContextsLayout.setVisibility(isListExpanded() ? View.GONE : View.VISIBLE);
     }
     
     
@@ -108,13 +127,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, privacySetting, context, new ICallback() {
-                    
-                    @Override
-                    public void callback(Object... paramteres) {
-                        refresh();
-                    }
-                }).show();
+                new DialogContextChange(getContext(), preset, privacySetting, context,
+                        new DialogContextChange.ICallback() {
+                            
+                            @Override
+                            public void callback() {
+                                refresh();
+                            }
+                        }).show();
             }
         });
         
@@ -159,7 +179,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             @Override
             public void onClick(View v) {
                 new DialogPrivacySettingEdit(getContext(), privacySetting, preset
-                        .getGrantedPrivacySettingValue(privacySetting), new IPrivacySettingEditCallback() {
+                        .getGrantedPrivacySettingValue(privacySetting), new DialogPrivacySettingEdit.ICallback() {
                     
                     @Override
                     public void result(boolean changed, String newValue) {
@@ -176,13 +196,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, privacySetting, null, new ICallback() {
-                    
-                    @Override
-                    public void callback(Object... paramteres) {
-                        refresh();
-                    }
-                });
+                new DialogContextChange(getContext(), preset, privacySetting, null,
+                        new DialogContextChange.ICallback() {
+                            
+                            @Override
+                            public void callback() {
+                                refresh();
+                            }
+                        });
             }
         });
         
