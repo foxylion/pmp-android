@@ -113,6 +113,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
 		localizationTable.setDirty(false);
 		block.setDirty(true);
 		*/
+		block.refresh();
 	}
 
 	@Override
@@ -147,28 +148,10 @@ public class LocalizationDetailsPage implements IDetailsPage {
 		}
 		privacySetting = (RGISPrivacySetting) path[0].getFirstSegment();
 
-		update();
-	}
-
-	private void update() {
 		localeTable.setData(privacySetting);
 		localeTable.refresh();
-		/*StoredInformation localization = localizationTable
-				.getStoredInformation();
-		localization.clear();
-
-		// Fill table with data from ps-object
-		for (ILocalizedString name : privacySetting.getNames()) {
-			localization.addName(name.getLocale().getLanguage(),
-					name.getString());
-		}
-
-		for (ILocalizedString desc : privacySetting.getDescriptions()) {
-			localization.addDescription(desc.getLocale().getLanguage(),
-					desc.getString());
-		}
-
-		localizationTable.refresh();*/
 	}
+
+	
 
 }

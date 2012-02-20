@@ -1,15 +1,11 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
-public class DescriptionString implements IEncapsulatedString  {
-	
-	private final String desc;
-	
-	public DescriptionString(String desc) {
-		this.desc = desc;
-	}
-	
-	public String getString() {
-		return desc;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+
+public class DescriptionString extends EncapsulatedString {
+
+	public DescriptionString(String value, RGISPrivacySetting ps) {
+		super(value, ps);
 	}
 
 }

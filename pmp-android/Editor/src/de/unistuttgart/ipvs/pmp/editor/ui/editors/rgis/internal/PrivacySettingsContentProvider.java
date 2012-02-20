@@ -34,13 +34,6 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 			return rgis.getPrivacySettings().toArray();
 		}
 
-		// If the parent element is a privacy setting, return it's values
-		if (inputElement instanceof RGISPrivacySetting) {
-			RGISPrivacySetting ps = (RGISPrivacySetting) inputElement;
-			return new String[] { ps.getDescriptionForLocale(Locale.ENGLISH),
-					ps.getValidValueDescription(), "bla" };
-		}
-
 		return null;
 	}
 
@@ -50,10 +43,10 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 			RGISPrivacySetting ps = (RGISPrivacySetting) parentElement;
 
 			// Return default (English) name and description if set
-			NameString name = new NameString(ps.getNameForLocale(Locale.ENGLISH));
-			DescriptionString desc = new DescriptionString(ps.getDescriptionForLocale(Locale.ENGLISH));
-
-			return new Object[] { name, desc };
+			NameString name = new NameString(ps.getNameForLocale(Locale.ENGLISH), ps);
+			DescriptionString desc = new DescriptionString(ps.getDescriptionForLocale(Locale.ENGLISH), ps);
+			ChangeDescriptionString changeDesc = new ChangeDescriptionString(ps.getChangeDescriptionForLocale(Locale.ENGLISH), ps);
+			return new Object[] { name, desc, changeDesc };
 		}
 
 		return null;
