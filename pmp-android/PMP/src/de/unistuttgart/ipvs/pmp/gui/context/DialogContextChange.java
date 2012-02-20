@@ -25,23 +25,83 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
+/**
+ * The {@link DialogContextChange} provides an interface for changing a {@link IContextAnnotation}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class DialogContextChange extends Dialog {
     
+    /**
+     * Interface which is called on dialog dismiss.
+     * 
+     * @author Jakob Jarosch
+     */
     public interface ICallback {
         
+        /**
+         * Method is invoked on dialog dismiss.
+         */
         public void callback();
     }
     
+    /**
+     * The {@link IPreset} which contains the {@link IPrivacySetting}.
+     */
     private IPreset preset;
+    
+    /**
+     * The {@link IPrivacySetting} which contains the {@link IContextAnnotation}.
+     */
     private IPrivacySetting privacySetting;
+    
+    /**
+     * The {@link IContextAnnotation} which is represented with this dialog.
+     * When the variable is null a new {@link IContextAnnotation} is being created.
+     */
     private IContextAnnotation contextAnnotation;
+    
+    /**
+     * The context condition value which should be applied.
+     */
     private String contextCondition;
+    
+    /**
+     * The privacy setting value which overrides the original one when the context is active.
+     */
     private String overrideValue;
+    
+    /**
+     * The context which is used for the {@link IContextAnnotation}.
+     */
     private IContext usedContext;
+    
+    /**
+     * The view which provides an UI for changing the configuration.
+     */
     private IContextView usedView;
+    
+    /**
+     * The {@link ICallback} which is invoked on dismiss.
+     */
     private ICallback callback;
     
     
+    /**
+     * Creates a new {@link DialogContextChange}.
+     * 
+     * @param context
+     *            {@link Context} which is required for dialog creation.
+     * @param preset
+     *            {@link IPreset} which contains the {@link IPrivacySetting}.
+     * @param privacySetting
+     *            {@link IPrivacySetting} which contains the {@link IContextAnnotation}.
+     * @param contextAnnotation
+     *            {@link IContextAnnotation} which should be represented by this dialog. Can be null, then a new
+     *            {@link IContextAnnotation} is being created.
+     * @param callback
+     *            {@link ICallback} which is invoked on dialog dismiss. Can be null if not required.
+     */
     public DialogContextChange(Context context, IPreset preset, IPrivacySetting privacySetting,
             IContextAnnotation contextAnnotation, ICallback callback) {
         super(context);
@@ -54,13 +114,16 @@ public class DialogContextChange extends Dialog {
         this.contextAnnotation = contextAnnotation;
         this.callback = callback;
         
-        if (contextAnnotation != null) {
+        /*
+         * When context annotation is null create a context type selection dialog.
+         */
+        if (contextAnnotation == null) {
+            showContextTypeSelectionDialog();
+        } else {
             this.contextCondition = contextAnnotation.getContextCondition();
             this.overrideValue = contextAnnotation.getOverridePrivacySettingValue();
             this.usedContext = contextAnnotation.getContext();
             showDialog();
-        } else {
-            showContextTypeSelectionDialog();
         }
         
         refresh();
@@ -68,18 +131,30 @@ public class DialogContextChange extends Dialog {
     }
     
     
+    /**
+     * Show command does not do anything, dialog is being directly shown after creation.
+     */
     @Override
     public void show() {
         /* Ignore the show command... */
     }
     
     
+    /**
+     * Method wraps the {@link Dialog#show()} functionality.
+     */
     private void showDialog() {
         super.show();
     }
     
     
+    /**
+     * Creates a {@link Dialog} for selecting the type of the {@link IContextAnnotation}.
+     */
     private void showContextTypeSelectionDialog() {
+        /*
+         * Load the name of all different context types.
+         */
         final List<IContext> contexts = ModelProxy.get().getContexts();
         String[] contextStrings = new String[contexts.size()];
         
@@ -87,8 +162,11 @@ public class DialogContextChange extends Dialog {
             contextStrings[i] = contexts.get(i).getName();
         }
         
+        /*
+         * Create a new simple dialog for selecting the context type.
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Select a context type");
+        builder.setTitle(getContext().getString(R.string.context_select_context_type));
         builder.setItems(contextStrings, new OnClickListener() {
             
             @Override
@@ -98,6 +176,9 @@ public class DialogContextChange extends Dialog {
                 showDialog();
             }
         });
+        /*
+         * React on cancel the selection dialog; dismiss all dialogs.
+         */
         builder.setOnCancelListener(new OnCancelListener() {
             
             @Override
@@ -110,14 +191,26 @@ public class DialogContextChange extends Dialog {
     }
     
     
+    /**
+     * Updates all UI elements.
+     */
     private void refresh() {
+        /*
+         * Only make context annotation deletable when context annotation is not newly created.
+         */
         ((Button) findViewById(R.id.Button_Delete)).setEnabled((contextAnnotation != null));
         
+        /*
+         * Only display context when the type is already selected.
+         */
         if (usedContext != null) {
             if (usedView == null) {
                 usedView = usedContext.getView(getContext());
             }
             
+            /*
+             * Try to update the context view with the contextCondition.
+             */
             try {
                 if (contextCondition != null) {
                     usedView.setViewCondition(contextCondition);
@@ -126,13 +219,20 @@ public class DialogContextChange extends Dialog {
                 Log.e(this, "The condition which should be assigned seems to be an invalid one.", e);
             }
             
+            /* Add the view */
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).addView(usedView.asView());
         }
     }
     
     
+    /**
+     * Add listener to all clickable UI elements.
+     */
     private void addListener() {
+        /*
+         * React on a change privacy button click.
+         */
         ((Button) findViewById(R.id.Button_ChangePS)).setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -151,15 +251,22 @@ public class DialogContextChange extends Dialog {
             }
         });
         
+        /*
+         * React on a save button click.
+         */
         ((AlwaysClickableButton) findViewById(R.id.Button_Save)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
+                /*
+                 * When the override value is null the context can't be created, so inform the user.
+                 */
                 if (overrideValue == null) {
                     Toast.makeText(getContext(),
                             "Please first configure the Privacy Setting over the 'Change value' button.",
                             Toast.LENGTH_LONG).show();
                 } else {
+                    /* Try to create the context annotation. */
                     contextCondition = usedView.getViewCondition();
                     
                     try {
@@ -184,6 +291,9 @@ public class DialogContextChange extends Dialog {
             }
         });
         
+        /*
+         * React on a delete button click.
+         */
         ((Button) findViewById(R.id.Button_Delete)).setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -193,6 +303,9 @@ public class DialogContextChange extends Dialog {
             }
         });
         
+        /*
+         * React on a cancel button click.
+         */
         ((Button) findViewById(R.id.Button_Cancel)).setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -207,8 +320,10 @@ public class DialogContextChange extends Dialog {
     public void dismiss() {
         super.dismiss();
         
+        /* Remove the context view to make it reusable. */
         ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
         
+        /* Inform the callback. */
         if (callback != null) {
             callback.callback();
         }

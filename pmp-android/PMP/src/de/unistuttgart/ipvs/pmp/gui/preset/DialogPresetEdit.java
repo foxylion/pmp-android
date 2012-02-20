@@ -23,6 +23,28 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 public class DialogPresetEdit extends Dialog {
     
     /**
+     * The ICallback is invoked on dialog dismiss.
+     * 
+     * @author Jakob Jarosch
+     */
+    public interface ICallback {
+        
+        /**
+         * Method is invoked when a preset should be opened.
+         * 
+         * @param preset
+         *            The {@link IPreset} which should be opened.
+         */
+        public void openPreset(IPreset preset);
+        
+        
+        /**
+         * Method is invoked when the UI has to be refreshed.
+         */
+        public void refresh();
+    }
+    
+    /**
      * The TextView with the name
      */
     protected TextView name;
@@ -45,7 +67,7 @@ public class DialogPresetEdit extends Dialog {
     /**
      * The Callback instance
      */
-    protected DialogPresetEditCallback callback;
+    protected ICallback callback;
     
     /**
      * The Preset, if this dialog is used to modify the name and description of a Preset
@@ -68,7 +90,7 @@ public class DialogPresetEdit extends Dialog {
      *            if it's null, an empty dialog will be created (add a new Preset); if it's not null, a dialog with
      *            prefilled text areas will be created (edit a Preset)
      */
-    public DialogPresetEdit(Context context, DialogPresetEditCallback callback, IPreset preset) {
+    public DialogPresetEdit(Context context, ICallback callback, IPreset preset) {
         super(context);
         this.callback = callback;
         this.preset = preset;

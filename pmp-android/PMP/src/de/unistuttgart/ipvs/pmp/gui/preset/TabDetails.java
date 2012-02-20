@@ -23,7 +23,7 @@ public class TabDetails extends Activity {
     
     protected IPreset preset;
     
-    private DialogPresetEditCallback callback = new DialogPresetEditCallback() {
+    private DialogPresetEdit.ICallback callback = new DialogPresetEdit.ICallback() {
         
         @Override
         public void refresh() {

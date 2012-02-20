@@ -16,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPrivacySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
+import de.unistuttgart.ipvs.pmp.gui.util.OnShortLongClickListener;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -46,6 +47,18 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     private AdapterPrivacySettings adapter;
     
     
+    /**
+     * Creates a new view for a {@link IPrivacySetting} shown in a {@link IPreset}.
+     * 
+     * @param context
+     *            {@link Context} which is required for view creation.
+     * @param preset
+     *            {@link IPreset} which contains the {@link IPrivacySetting}.
+     * @param privacySetting
+     *            {@link IPrivacySetting} which should be represented by this view.
+     * @param adapter
+     *            {@link Adapter} which holds all {@link IPrivacySetting} of the {@link IPreset}.
+     */
     public ViewPrivacySettingPreset(Context context, IPreset preset, IPrivacySetting privacySetting,
             AdapterPrivacySettings adapter) {
         super(context);
@@ -72,21 +85,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     }
     
     
-    private boolean isListExpanded() {
-        return (((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).getVisibility() == View.VISIBLE);
-    }
-    
-    
-    public void toggleMenuAndContexts() {
-        ImageView stateView = (ImageView) findViewById(R.id.ImageView_State);
-        stateView.setImageResource(isListExpanded() ? R.drawable.icon_expand_closed : R.drawable.icon_expand_opened);
-        
-        LinearLayout menuAndContextsLayout = (LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts);
-        menuAndContextsLayout.setVisibility(isListExpanded() ? View.GONE : View.VISIBLE);
-    }
-    
-    
+    /**
+     * Updates the UI elements.
+     */
     private void refresh() {
+        /*
+         * Check whether the number of contexts is greater than 0.
+         * If not, hide the toggle indicator and hide the menu/empty context list.
+         */
         if (preset.getContextAnnotations(privacySetting).size() == 0) {
             ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
             ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).setVisibility(View.GONE);
@@ -94,14 +100,22 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.VISIBLE);
         }
         
+        /*
+         * Update the Privacy Setting name.
+         */
         ((TextView) findViewById(R.id.TextView_Name_PS)).setText(this.privacySetting.getName());
         
+        /*
+         * Update the Privacy Setting value. When the value which should be assigned is invalid,
+         * then show the plain text and mark it with red.
+         */
         TextView value = (TextView) findViewById(R.id.TextView_Value);
         try {
             value.setText(getContext().getString(R.string.value)
                     + ": "
                     + this.privacySetting.getHumanReadableValue(this.preset
                             .getGrantedPrivacySettingValue(this.privacySetting)));
+            value.setTextColor(GUIConstants.COLOR_TEXT_GRAYED_OUT);
         } catch (PrivacySettingValueException e) {
             Log.e(this, "The Privacy Setting value is invalid and is beeing marked red in the GUI", e);
             value.setText(getContext().getString(R.string.value) + ": "
@@ -109,6 +123,9 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             value.setTextColor(GUIConstants.COLOR_BG_RED);
         }
         
+        /*
+         * Update the list of contexts.
+         */
         ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).removeAllViews();
         for (IContextAnnotation context : this.preset.getContextAnnotations(this.privacySetting)) {
             addContext(context);
@@ -116,37 +133,15 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     }
     
     
-    private void addContext(final IContextAnnotation context) {
-        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.listitem_preset_ps_context, null);
-        
-        ((TextView) v.findViewById(R.id.TextView_Context_Name)).setText(context.getContext().getName());
-        ((TextView) v.findViewById(R.id.TextView_Context_Value)).setText("Value wehen active: "
-                + context.getOverridePrivacySettingValue());
-        ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
-        ((ImageView) v.findViewById(R.id.ImageView_Context_State)).setVisibility(context.isActive() ? View.GONE
-                : View.VISIBLE);
-        
-        ((LinearLayout) v.findViewById(R.id.LinearLayout_Context)).setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, privacySetting, context,
-                        new DialogContextChange.ICallback() {
-                            
-                            @Override
-                            public void callback() {
-                                refresh();
-                            }
-                        }).show();
-            }
-        });
-        
-        ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).addView(v);
-    }
-    
-    
+    /**
+     * Add listener to all clickable UI elements.
+     */
     private void addListener() {
+        /*
+         * Add a on click listener to the Privacy Setting linear layout.
+         * Opens menu directly when no context annotations are assigned,
+         * otherwise the menu and context linear layout will be toggled.
+         */
         ((LinearLayout) findViewById(R.id.LinearLayout_BasicInformations)).setOnClickListener(new OnClickListener() {
             
             @Override
@@ -159,6 +154,10 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             }
         });
         
+        /*
+         * Add a on long click listener to the Privacy Setting linear layout,
+         * which opens always a menu.
+         */
         ((LinearLayout) findViewById(R.id.LinearLayout_BasicInformations))
                 .setOnLongClickListener(new OnLongClickListener() {
                     
@@ -170,6 +169,9 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                     }
                 });
         
+        /*
+         * Add a listener for the info button.
+         */
         ((ImageButton) findViewById(R.id.ImageButton_Info)).setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -178,10 +180,16 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             }
         });
         
+        /*
+         * Add a listener for the edit button.
+         */
         ((ImageButton) findViewById(R.id.ImageButton_Edit)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
+                /*
+                 * Open the edit dialog and react on a change.
+                 */
                 new DialogPrivacySettingEdit(getContext(), privacySetting, preset
                         .getGrantedPrivacySettingValue(privacySetting), new DialogPrivacySettingEdit.ICallback() {
                     
@@ -204,10 +212,16 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             }
         });
         
+        /*
+         * Add a listener to the add context button.
+         */
         ((ImageButton) findViewById(R.id.ImageButton_AddContext)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
+                /*
+                 * Open a dialog for configuring the new context.
+                 */
                 new DialogContextChange(getContext(), preset, privacySetting, null,
                         new DialogContextChange.ICallback() {
                             
@@ -219,6 +233,9 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             }
         });
         
+        /*
+         * Add a listener to the delete button.
+         */
         ((ImageButton) findViewById(R.id.ImageButton_Delete)).setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -226,5 +243,69 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                 adapter.removePrivacySetting(privacySetting);
             }
         });
+    }
+    
+    
+    /**
+     * Adds a new {@link IContextAnnotation} to the view container.
+     * 
+     * @param context
+     *            {@link Context} which is required to create the new view.
+     */
+    private void addContext(final IContextAnnotation context) {
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = layoutInflater.inflate(R.layout.listitem_preset_ps_context, null);
+        
+        /*
+         * Load correct texts into the view elements.
+         */
+        ((TextView) v.findViewById(R.id.TextView_Context_Name)).setText(context.getContext().getName());
+        ((TextView) v.findViewById(R.id.TextView_Context_Value)).setText("Value wehen active: "
+                + context.getOverridePrivacySettingValue());
+        ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
+        ((ImageView) v.findViewById(R.id.ImageView_Context_State)).setVisibility(context.isActive() ? View.GONE
+                : View.VISIBLE);
+        
+        /*
+         * On click listener which reacts on shor and long clicks.
+         */
+        OnShortLongClickListener ocl = new OnShortLongClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                new DialogContextChange(getContext(), preset, privacySetting, context,
+                        new DialogContextChange.ICallback() {
+                            
+                            @Override
+                            public void callback() {
+                                refresh();
+                            }
+                        }).show();
+            }
+        };
+        ((LinearLayout) v.findViewById(R.id.LinearLayout_Context)).setOnClickListener(ocl);
+        ((LinearLayout) v.findViewById(R.id.LinearLayout_Context)).setOnLongClickListener(ocl);
+        
+        ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).addView(v);
+    }
+    
+    
+    /**
+     * Toggles the visibility of the menu and context container.
+     */
+    private void toggleMenuAndContexts() {
+        ImageView stateView = (ImageView) findViewById(R.id.ImageView_State);
+        stateView.setImageResource(isListExpanded() ? R.drawable.icon_expand_closed : R.drawable.icon_expand_opened);
+        
+        LinearLayout menuAndContextsLayout = (LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts);
+        menuAndContextsLayout.setVisibility(isListExpanded() ? View.GONE : View.VISIBLE);
+    }
+    
+    
+    /**
+     * @return Returns whether the menu and context container is visible or not.
+     */
+    private boolean isListExpanded() {
+        return (((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).getVisibility() == View.VISIBLE);
     }
 }

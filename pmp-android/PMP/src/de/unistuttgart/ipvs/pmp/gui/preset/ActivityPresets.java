@@ -71,7 +71,7 @@ public class ActivityPresets extends Activity {
     /**
      * Callback for the PresetEditDialog.
      */
-    DialogPresetEditCallback callback = new DialogPresetEditCallback() {
+    DialogPresetEdit.ICallback callback = new DialogPresetEdit.ICallback() {
         
         @Override
         public void openPreset(IPreset preset) {

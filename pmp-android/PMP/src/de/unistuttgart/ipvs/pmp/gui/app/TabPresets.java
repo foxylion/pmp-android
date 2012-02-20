@@ -18,7 +18,6 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
 import de.unistuttgart.ipvs.pmp.gui.preset.DialogPresetEdit;
-import de.unistuttgart.ipvs.pmp.gui.preset.DialogPresetEditCallback;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -73,7 +72,7 @@ public class TabPresets extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_app_add_preset:
-                DialogPresetEditCallback callback = new DialogPresetEditCallback() {
+                DialogPresetEdit.ICallback callback = new DialogPresetEdit.ICallback() {
                     
                     @Override
                     public void refresh() {

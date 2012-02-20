@@ -98,16 +98,12 @@
     <string name="settings_expertmode_description">Enables the presets feature in PMP</string>
     <string name="settings_preset_trash_bin_visible">Preset trash bin visible</string>
     <string name="settings_preset_trash_bin_description">Check to show the trashed presets.</string>
-    
     <string name="settings_log_granularity_component_change">Log component changes</string>
     <string name="settings_log_granularity_component_change_desc">Logs adding and removing of apps and resource groups.</string>
-    
     <string name="settings_log_granularity_setting_change">Log setting changes</string>
     <string name="settings_log_granularity_setting_change_desc">Logs the changes caused by the input of the user.</string>
-    
     <string name="settings_log_granularity_context_change">Log context changes</string>
     <string name="settings_log_granularity_context_change_desc">Logs the activity and influence of contexts.</string>
-    
     <string name="settings_log_granularity_setting_request">Log setting requests</string>
     <string name="settings_log_granularity_setting_request_desc">Logs requests for the current values from apps or resource groups.</string>
 
@@ -176,7 +172,10 @@
     <string name="preset_invalid_ps_value">The current value of the privacy setting is invalid, changing to the default one.</string>
     <string name="add_context">Add context</string>
     <string name="failure_invalid_ps_value">The new Privacy Setting value is an invalid one saving failed. Try again.</string>
-     <string name="failure_invalid_context_value">The new context value is an invalid one, saving failed. Try again.</string>
+    <string name="failure_invalid_context_value">The new context value is an invalid one, saving failed. Try again.</string>
+
+    <!-- Context Dialog -->
+	<string name="context_select_context_type">Select a context type</string>
 
     <!-- About the app -->
     <string name="about_text">The Privacy Management Platform is developed as a research project at the University Stuttgart.</string>
@@ -194,12 +193,12 @@
     <string name="dev_con_rgs_path">de.unistuttgart.ipvs.pmp.resourcegroups.</string>
     <string name="dev_con_table_of_contents">Table of Contents (Total debug)</string>
     <string name="dev_con_svc_nfc">Service Notification Switch</string>
-    
+
     <!-- Service Notification -->
     <string name="svc_nfc_title">PMP</string>
     <string name="svc_nfc_extended_title">PMP Service</string>
     <string name="svc_nfc_description">PMP</string>
-    
+
     <!-- Contexts -->
     <string name="contexts_time_name">Time context</string>
     <string name="contexts_time_desc">The time context allows to define context dependencies based on the current time.</string>
@@ -209,33 +208,34 @@
     <string name="contexts_time_time_with_phone">Keep time zone with phone</string>
     <string name="contexts_time_time_with_location">Keep time zone with location</string>
     <string name="contexts_time_interval">Interval:</string>
+
     <string-array name="contexts_time_intervals">
-        <item >Daily</item><item >Weekly</item><item >Monthly</item><item >Yearly</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
     </string-array>
-	<string name="contexts_time_mon">Mon</string>
-	<string name="contexts_time_tue">Tue</string>
-	<string name="contexts_time_wed">Wed</string>
-	<string name="contexts_time_thu">Thu</string>
-	<string name="contexts_time_fri">Fri</string>
-	<string name="contexts_time_sat">Sat</string>
-	<string name="contexts_time_sun">Sun</string>
-	<string name="contexts_time_this_year_on">This year on:</string>    
-	
-	<string name="contexts_location_name">Location context</string>
+
+    <string name="contexts_time_mon">Mon</string>
+    <string name="contexts_time_tue">Tue</string>
+    <string name="contexts_time_wed">Wed</string>
+    <string name="contexts_time_thu">Thu</string>
+    <string name="contexts_time_fri">Fri</string>
+    <string name="contexts_time_sat">Sat</string>
+    <string name="contexts_time_sun">Sun</string>
+    <string name="contexts_time_this_year_on">This year on:</string>
+    <string name="contexts_location_name">Location context</string>
     <string name="contexts_location_desc">The location context allows to define context dependencies based on the current location.</string>
     <string name="contexts_location_change_coordinates">Change coordinates on map</string>
     <string name="contexts_location_coordinates">Polygon coordinates</string>
     <string name="contexts_location_uncertainty">Enclosing Uncertainty:</string>
     <string name="contexts_location_hysteresis">Hysteresis:</string>
-    
     <string name="contexts_location_menu_header">Edit geo point</string>
     <string name="contexts_location_add">Add here</string>
     <string name="contexts_location_remove">Remove</string>
     <string name="contexts_location_move">Move location</string>
     <string name="contexts_location_clear">Clear all but one point</string>
     <string name="contexts_location_negate">Negate</string>
-    
     <string name="contexts_location_moving">Long tap somewhere to move the point</string>
-
 
 </resources>
