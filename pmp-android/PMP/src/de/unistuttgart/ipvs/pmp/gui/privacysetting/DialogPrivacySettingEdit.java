@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -82,7 +83,6 @@ public class DialogPrivacySettingEdit extends Dialog {
         /* Initiate basic dialog */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_privacysetting_edit);
-        setCancelable(false);
         
         refresh();
         addListener();
@@ -141,6 +141,18 @@ public class DialogPrivacySettingEdit extends Dialog {
             public void onClick(View v) {
                 callback.result(false, getViewValue());
                 dismiss();
+            }
+        });
+        
+        /*
+         * Add a on cancel listener to inform the users about a cancel via back button.
+         */
+        setOnCancelListener(new OnCancelListener() {
+            
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                callback.result(false, getViewValue());
+                dialog.dismiss();
             }
         });
     }

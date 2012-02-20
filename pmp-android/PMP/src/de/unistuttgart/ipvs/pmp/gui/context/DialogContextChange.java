@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.gui.util.view.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
@@ -124,8 +126,6 @@ public class DialogContextChange extends Dialog {
             
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).addView(usedView.asView());
-            
-            ((Button) findViewById(R.id.Button_Save)).setEnabled(overrideValue != null);
         }
     }
     
@@ -149,13 +149,22 @@ public class DialogContextChange extends Dialog {
             }
         });
         
-        ((Button) findViewById(R.id.Button_Save)).setOnClickListener(new View.OnClickListener() {
+        ((AlwaysClickableButton) findViewById(R.id.Button_Save)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                contextCondition = usedView.getViewCondition();
-                preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
-                dismiss();
+                if (overrideValue == null) {
+                    Toast.makeText(getContext(),
+                            "Please first configure the Privacy Setting over the 'Change value' button.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    contextCondition = usedView.getViewCondition();
+                    if (contextAnnotation != null) {
+                        preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                    }
+                    preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
+                    dismiss();
+                }
             }
         });
         

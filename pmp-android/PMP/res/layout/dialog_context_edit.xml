@@ -55,7 +55,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <Button
+        <de.unistuttgart.ipvs.pmp.gui.util.view.AlwaysClickableButton
             android:id="@+id/Button_Save"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
