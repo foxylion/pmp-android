@@ -77,12 +77,13 @@ public class TooltipTableListener implements Listener {
 	    // Get the tree item where the mouse is
 	    TableItem item = tableViewer.getTable().getItem(
 		    new Point(event.x, event.y));
-	    if (item != null) {
 
-		// Dispose a old tip if there is one
-		if (tip != null && !tip.isDisposed()) {
-		    tip.dispose();
-		}
+	    // Dispose a old tip if there is one
+	    if (tip != null && !tip.isDisposed()) {
+		tip.dispose();
+	    }
+
+	    if (item != null) {
 
 		// Create a new tool tip if there are issues
 		if (!((IIssueLocation) item.getData()).getIssues().isEmpty()) {
