@@ -336,7 +336,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 			// Get the results
 			if (dialog.open() == Window.OK
-				& dialog.getResult().length > 0) {
+				&& dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {

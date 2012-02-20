@@ -57,7 +57,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     /**
      * Path to the project that is opened
      */
-    private static String PROJECT_PATH;
+    private String PROJECT_PATH;
 
     /**
      * Android manifest file name
@@ -142,22 +142,24 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 	IAIS ais = Model.getInstance().getAis();
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
-		
-		@Override
-		public void doSetDirty(boolean dirty) {
-			Model.getInstance().setAISDirty(true);
-		}
 
-		@Override
-		public void doValidate() {
-			AISValidatorWrapper.getInstance().validateAppInformation(Model.getInstance().getAis(), true);
-		}
+	    @Override
+	    public void doSetDirty(boolean dirty) {
+		Model.getInstance().setAISDirty(true);
+	    }
+
+	    @Override
+	    public void doValidate() {
+		AISValidatorWrapper.getInstance().validateAppInformation(
+			Model.getInstance().getAis(), true);
+	    }
 	};
-	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
+	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
+		dirtyAction, toolkit);
 	nameTable.getComposite().setLayoutData(layoutData);
 
-	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION, dirtyAction,
-		toolkit);
+	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
+		dirtyAction, toolkit);
 	descTable.getComposite().setLayoutData(layoutData);
 
 	section.setClient(client);

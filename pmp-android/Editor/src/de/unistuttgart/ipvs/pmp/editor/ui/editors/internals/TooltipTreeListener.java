@@ -86,7 +86,7 @@ public class TooltipTreeListener implements Listener {
 
 		// Create a new tool tip if there are issues
 		if (!((IIdentifierIS) item.getData()).getIssues().isEmpty()) {
-		   Shell tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
+		    tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
 		    tip.setLayout(new FillLayout());
 
 		    // Create the label inside the tool tip
