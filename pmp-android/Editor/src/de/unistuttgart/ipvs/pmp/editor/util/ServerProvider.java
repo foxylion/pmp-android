@@ -128,7 +128,6 @@ public class ServerProvider implements IServerProvider {
 			if (response instanceof RGISResponse) {
 				RGISResponse rgisRes = (RGISResponse) response;
 				rgisList.add((RGIS) rgisRes.getRGIS());
-				RGIS set = (RGIS) rgisRes.getRGIS();
 			} else {
 				throw new IOException("Unsupported response from server.");
 			}

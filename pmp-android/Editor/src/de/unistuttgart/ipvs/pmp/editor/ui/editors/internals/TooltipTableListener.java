@@ -11,11 +11,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
- * Creates a listener that will display the tool tips for the {@link TableViewer}
+ * Creates a listener that will display the tool tips for the
+ * {@link TableViewer}
  * 
  * @author Thorsten Berberich
  * 
@@ -84,7 +86,7 @@ public class TooltipTableListener implements Listener {
 
 		// Create a new tool tip if there are issues
 		if (!((IIssueLocation) item.getData()).getIssues().isEmpty()) {
-		   Shell tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
+		    Shell tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
 		    tip.setLayout(new FillLayout());
 
 		    // Create the label inside the tool tip
@@ -96,14 +98,12 @@ public class TooltipTableListener implements Listener {
 		    label.setData("_TABLEITEM", item);
 
 		    // Build the IssueString
-		    String issues = "";
-		    for (IIssue issue : ((IIssueLocation) item.getData())
-			    .getIssues()) {
-			issues = issues + issue.getType() + "\n";
-		    }
-
+		    String issues = new IssueTranslator()
+			    .translateIssues(((IIssueLocation) item.getData())
+				    .getIssues());
 		    label.setText(issues);
-		    TooltipTableLabelListener labelListener = new TooltipTableLabelListener(tableViewer);
+		    TooltipTableLabelListener labelListener = new TooltipTableLabelListener(
+			    tableViewer);
 		    label.addListener(SWT.MouseExit, labelListener);
 		    label.addListener(SWT.MouseDown, labelListener);
 		    Point size = tip.computeSize(SWT.DEFAULT, SWT.DEFAULT);

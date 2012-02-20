@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
@@ -98,12 +98,9 @@ public class TooltipTreeListener implements Listener {
 		    label.setData("_TREEITEM", item);
 
 		    // Build the IssueString
-		    String issues = "";
-		    for (IIssue issue : ((IIssueLocation) item.getData())
-			    .getIssues()) {
-			issues = issues + issue.getType() + "\n";
-		    }
-
+		    String issues = new IssueTranslator()
+			    .translateIssues(((IIssueLocation) item.getData())
+				    .getIssues());
 		    label.setText(issues);
 		    TooltipTreeLabelListener labelListener = new TooltipTreeLabelListener(
 			    treeViewer);

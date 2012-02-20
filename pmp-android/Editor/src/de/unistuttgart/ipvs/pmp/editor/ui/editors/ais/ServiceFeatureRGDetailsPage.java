@@ -472,7 +472,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    String message;
 	    if (requiredValues != null) {
 		message = "Enter the value of the required Privacy Setting \""
-			+ selected.getIdentifier() + "\" \n Valid values are:"
+			+ selected.getIdentifier() + "\" \n Valid values are: "
 			+ requiredValues;
 	    } else {
 		message = "Enter the value of the required Privacy Setting \""
