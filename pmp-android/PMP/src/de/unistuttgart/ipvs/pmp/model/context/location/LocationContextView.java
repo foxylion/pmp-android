@@ -104,9 +104,9 @@ public class LocationContextView extends LinearLayout implements IContextView {
             if ((convertView != null) && (convertView instanceof TextView)) {
                 tv = (TextView) convertView;
             } else {
-                tv = new TextView(getContext());
+                tv = new TextView(parent.getContext());
             }
-            tv.setTextAppearance(getContext(), attr.textAppearanceLarge);
+            tv.setTextAppearance(parent.getContext(), attr.textAppearanceLarge);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setText(getGroup(groupPosition).toString());
             
@@ -121,9 +121,9 @@ public class LocationContextView extends LinearLayout implements IContextView {
             if ((convertView != null) && (convertView instanceof TextView)) {
                 tv = (TextView) convertView;
             } else {
-                tv = new TextView(getContext());
+                tv = new TextView(parent.getContext());
             }
-            tv.setTextAppearance(getContext(), attr.textAppearance);
+            tv.setTextAppearance(parent.getContext(), attr.textAppearance);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
             tv.setText(getChild(groupPosition, childPosition).toString());
             
