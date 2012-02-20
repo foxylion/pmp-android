@@ -1,18 +1,18 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider;
 
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 
 /**
- * Provides the required privacy settings table with content
+ * Provides the description table with data
  * 
  * @author Thorsten Berberich
  * 
  */
-public class RequiredPSContentProvider implements IContentProvider,
+public class DescriptionContentProvider implements IContentProvider,
 	IStructuredContentProvider {
 
     /*
@@ -24,8 +24,7 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISRequiredResourceGroup) arg0).getRequiredPrivacySettings()
-		.toArray();
+	return ((AISServiceFeature) arg0).getDescriptions().toArray();
     }
 
     /*
@@ -35,8 +34,6 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void dispose() {
-	// TODO Auto-generated method stub
-
     }
 
     /*
@@ -48,8 +45,6 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-	// TODO Auto-generated method stub
-
     }
 
 }

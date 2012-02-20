@@ -35,10 +35,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.DescriptionContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.NameContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.DescriptionContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.NameContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.ServiceFeatureDescriptionDialog;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
@@ -249,6 +250,9 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 			    oldName.setString(newName);
 
 			    Model.getInstance().setAISDirty(true);
+			    AISValidatorWrapper.getInstance()
+				    .validateServiceFeature(displayed, true);
+			    ServiceFeatureMasterBlock.refreshTree();
 			    nameTableViewer.refresh();
 
 			    // Redraw the table
@@ -294,12 +298,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    @Override
 	    public String getText(Object element) {
 		return ((LocalizedString) element).getLocale().toString();
-	    }
-
-	    @Override
-	    public Image getImage(Object element) {
-		// Add the check if the entry is correct
-		return null;
 	    }
 	});
 
@@ -358,6 +356,11 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 				    oldDesc.setString(newDesc);
 
 				    Model.getInstance().setAISDirty(true);
+				    AISValidatorWrapper.getInstance()
+					    .validateServiceFeature(displayed,
+						    true);
+				    ServiceFeatureMasterBlock.refreshTree();
+
 				    descriptionTableViewer.refresh();
 
 				    // Redraw the table
@@ -454,6 +457,10 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    displayed.addName(name);
 
 		    Model.getInstance().setAISDirty(true);
+		    AISValidatorWrapper.getInstance().validateServiceFeature(
+			    displayed, true);
+		    ServiceFeatureMasterBlock.refreshTree();
+
 		    nameTableViewer.refresh();
 
 		    nameColumn.pack();
@@ -481,6 +488,9 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		}
 		nameColumn.pack();
 		localeNameColumn.pack();
+		AISValidatorWrapper.getInstance().validateServiceFeature(
+			displayed, true);
+		ServiceFeatureMasterBlock.refreshTree();
 
 		nameTableViewer.getTable().setRedraw(true);
 		nameTableViewer.refresh();
@@ -545,6 +555,10 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		    displayed.addDescription(desc);
 
 		    Model.getInstance().setAISDirty(true);
+		    AISValidatorWrapper.getInstance().validateServiceFeature(
+			    displayed, true);
+		    ServiceFeatureMasterBlock.refreshTree();
+
 		    descriptionTableViewer.refresh();
 
 		    descColumn.pack();
@@ -576,6 +590,10 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		localeDescColumn.pack();
 
 		descriptionTableViewer.getTable().setRedraw(true);
+		AISValidatorWrapper.getInstance().validateServiceFeature(
+			displayed, true);
+		ServiceFeatureMasterBlock.refreshTree();
+
 		descriptionTableViewer.refresh();
 		Model.getInstance().setAISDirty(true);
 	    }

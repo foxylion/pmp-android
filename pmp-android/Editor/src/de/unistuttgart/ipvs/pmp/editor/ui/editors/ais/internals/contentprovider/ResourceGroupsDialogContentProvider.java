@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredResourceGroupsDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredResourceGroupsDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**

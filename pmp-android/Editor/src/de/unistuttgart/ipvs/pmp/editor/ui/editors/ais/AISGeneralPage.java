@@ -38,6 +38,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
@@ -95,7 +96,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
 	// Set the section's parameters
 	Section section = createSectionWithDescription(parent,
-		"AndridManifest.xml functions", toolkit,
+		"AndroidManifest.xml functions", toolkit,
 		"Add helpful parts to the AndroidManifest.xml of the project");
 
 	// Create elements stored inside this section
@@ -140,7 +141,6 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	section.setLayoutData(layoutData);
 
 	IAIS ais = Model.getInstance().getAis();
-	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 		
 		@Override
@@ -150,8 +150,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 		@Override
 		public void doValidate() {
-			// TODO Auto-generated method stub
-			
+			AISValidatorWrapper.getInstance().validateAppInformation(Model.getInstance().getAis(), true);
 		}
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);

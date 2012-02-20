@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
