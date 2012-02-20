@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
@@ -13,6 +14,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
@@ -21,6 +23,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.ChangeDescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.DescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.NameString;
@@ -71,6 +74,14 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		treeViewer.setContentProvider(new PrivacySettingsContentProvider());
 		treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
 		treeViewer.setInput(Model.getInstance().getRgis());
+		
+		// Add tooltip listener
+		TooltipTreeListener tooltipListener = new TooltipTreeListener(
+				treeViewer, parent.getShell());
+		treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
+		treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
+		treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
+		treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
 
 		GridData treeLayout = new GridData();
 		treeLayout.verticalAlignment = GridData.FILL;
